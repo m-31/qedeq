@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry path="src" kind="src"/>
+	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true" kind="con"/>
+	<classpathentry path="/QedeqKernelSe" exported="true" kind="src"/>
+	<classpathentry sourcepath="/QedeqLib/src/forms-1.1.0-src.jar" path="/QedeqLib/forms-1.1.0.jar" kind="lib"/>
+	<classpathentry sourcepath="/QedeqLib/src/looks-2.1.4-src.jar" path="/QedeqLib/looks-2.1.4.jar" kind="lib"/>
+	<classpathentry sourcepath="/QedeqLib/src/log4j-1.2.14_src.zip" path="/QedeqLib/log4j-1.2.14.jar" kind="lib"/>
+	<classpathentry path="bin" kind="output"/>
+</classpath>

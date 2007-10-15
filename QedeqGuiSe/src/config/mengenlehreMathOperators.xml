@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<parser 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_06/xml/parser.xsd">
+ 	<prefixOperator 
+ 		startSymbol	="neg"
+ 		qedeq		="NOT"
+ 		priority	="110"
+ 		min		="1"
+ 		max		="1"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="land"
+ 		qedeq		="AND"
+ 		priority	="100"
+ 		min		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="lor"
+ 		qedeq		="OR"
+ 		priority	="90"
+ 		min		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="impl"
+ 		qedeq		="IMPL"
+ 		priority	="80"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="rightarrow"
+ 		qedeq		="IMPL"
+ 		priority	="80"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="equi"
+ 		qedeq		="EQUI"
+ 		priority	="80"
+ 		min		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="leftrightarrow"
+ 		qedeq		="EQUI"
+ 		priority	="80"
+ 		min		="2"
+ 	/>
+ 	<prefixOperator 
+ 		startSymbol	="forall"
+ 		qedeq		="FORALL"
+ 		priority	="140"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<prefixOperator 
+ 		startSymbol	="exists!"
+ 		qedeq		="EXISTSU"
+ 		priority	="150"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<prefixOperator 
+ 		startSymbol	="exists"
+ 		qedeq		="EXISTS"
+ 		priority	="140"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="in"
+ 		qedeq		="PREDCON"
+ 		qedeqArgument   = "in"
+ 		priority	="200"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="notin"
+ 		qedeq		="PREDCON"
+ 		qedeqArgument   = "notIn"
+ 		priority	="200"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="="
+ 		qedeq		="PREDCON"
+ 		qedeqArgument   ="equal"
+ 		priority	="150"
+ 		min		="2"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	="isSet"
+ 		qedeq		="PREDCON"
+ 		qedeqArgument   ="isSet"
+ 		priority	="200"
+ 		min		="1"
+ 		max		="1"
+ 	/>
+ 	<complexOperator 
+ 		startSymbol	="{"
+ 		separatorSymbol =","
+ 		endSymbol	="}"
+ 		qedeq		="CLASSLIST"
+ 		priority	="10"
+ 		min		="0"
+ 	/>
+ 	<complexOperator 
+ 		startSymbol	    = "{"
+ 		separatorSymbol = "|"
+ 		endSymbol	    = "}"
+ 		qedeq		    = "CLASS"
+ 		priority	    = "10"
+ 		min		        = "2"
+ 		max		        = "2"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	    = "overline"
+ 		qedeq		  = "FUNCON"
+ 		qedeqArgument = "complement"
+ 		priority	    = "400"
+ 		min		        = "1"
+ 		max		        = "1"
+ 	/>
+ 	
+ 	<prefixOperator 
+ 		startSymbol	  = "phi"
+ 		qedeq		  = "PREDVAR"
+ 		qedeqArgument = "\phi"
+ 		priority	  = "200"
+ 		min		      = "1"
+ 		max		      = "1"
+ 	/>
+ 	<prefixOperator 
+ 		startSymbol	  = "psi"
+ 		qedeq		  = "PREDVAR"
+ 		qedeqArgument = "\psi"
+ 		priority	  = "200"
+ 		min		      = "1"
+ 		max		      = "1"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "alpha"
+ 		qedeq		  = "PREDVAR"
+ 		qedeqArgument = "\alpha"
+ 		priority	  = "200"
+ 		min		="0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "beta"
+ 		qedeq		  = "PREDVAR"
+ 		qedeqArgument = "\beta"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "P"
+ 		qedeq		  = "PREDVAR"
+ 		qedeqArgument = "P"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "Q"
+ 		qedeq		  = "PREDVAR"
+ 		qedeqArgument = "Q"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "A"
+ 		qedeq		  = "PREDVAR"
+ 		qedeqArgument = "A"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "B"
+ 		qedeq		  = "PREDVAR"
+ 		qedeqArgument = "B"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "C"
+ 		qedeq		  = "PREDVAR"
+ 		qedeqArgument 	= "C"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "top"
+ 		qedeq		  = "PREDCON"
+ 		qedeqArgument = "TRUE"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 		max		      = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "bot"
+ 		qedeq		  = "PREDCON"
+ 		qedeqArgument = "FALSE"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 		max		      = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "x_1"
+ 		qedeq		  = "VAR"
+ 		qedeqArgument = "x_1"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 		max           = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "x"
+ 		qedeq		  = "VAR"
+ 		qedeqArgument = "x"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 		max           = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "y"
+ 		qedeq		  = "VAR"
+ 		qedeqArgument = "y"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 		max           = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "z"
+ 		qedeq		  = "VAR"
+ 		qedeqArgument = "z"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 		max           = "0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "dmn"
+ 		qedeq		  = "PREDCON"
+ 		qedeqArgument = "dmn"
+ 		priority	  = "200"
+ 		min		      = "1"
+ 		max           = "1"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "rng"
+ 		qedeq		  = "PREDCON"
+ 		qedeqArgument = "rng"
+ 		priority	  = "200"
+ 		min		      = "1"
+ 		max           = "1"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	  = "cup"
+ 		qedeq		  = "FUNCON"
+ 		qedeqArgument = "union"
+ 		priority	  = "330"
+ 		min		      = "2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	  = "cap"
+ 		qedeq		  = "FUNCON"
+ 		qedeqArgument = "intersection"
+ 		priority	  = "340"
+ 		min		      = "2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	  = "defp"
+ 		qedeq		  = "DEFP"
+ 		priority	  = "10"
+ 		min		      = "2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	  = "deft"
+ 		qedeq		  = "DEFT"
+ 		priority	  = "10"
+ 		min		      = "2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	  = ":="
+ 		qedeq		  = "DEFT"
+ 		priority	  = "10"
+ 		min		      = "2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	  = "subset"
+ 		qedeq		  = "PREDCON"
+ 		qedeqArgument = "subset"
+ 		priority	  = "200"
+ 		min		      = "2"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	  = "power"
+ 		qedeq		  = "FUNCON"
+ 		qedeqArgument     = "power"
+ 		priority	  = "200"
+ 		min		  = "1"
+ 		max               = "1"
+ 	/>
+ 	
+ 	
+	<functionOperator 
+		startSymbol	  = "russell"
+		qedeq		  = "FUNCON"
+		qedeqArgument = "russell"
+		priority	  = "200"
+		min		      = "0"
+		max           = "0"
+	/>
+ 	<functionOperator 
+ 		startSymbol	  = "emptyset"
+ 		qedeq		  = "FUNCON"
+ 		qedeqArgument = "emptySet"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 		max           = "0"
+ 	/>
+
+ 	<functionOperator 
+ 		startSymbol	  = "allClass"
+ 		qedeq		  = "FUNCON"
+ 		qedeqArgument = "universalClass"
+ 		priority	  = "200"
+ 		min		      = "0"
+ 		max           = "0"
+ 	/>
+ 	
+ 	
+</parser>
