@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<jnlp spec="1.0" codebase="@QEDEQ_DIRECTORY@/webstart" href="qedeq.jnlp" >
+  <information>
+     <title>Hilbert II</title>
+     <vendor>Michael Meyling</vendor>
+     <homepage ref="index.html"/>
+     <description>Mathematical Documentation</description>
+     <icon href="qedeq.png"/>
+     <icon kind="splash" href="splash.png"/>
+    <offline-allowed/>
+  </information>
+  <security>
+     <all-permissions/>
+  </security>
+  
+  <resources>
+     <j2se version="1.4+" />
+     <jar href="qedeq_gui_se.jar" main="true" />
+     <jar href="commons-logging-1.1.jar" />
+     <jar href="log4j-1.2.14.jar" />
+     <jar href="forms-1.1.0.jar" />
+     <jar href="looks-2.1.4.jar" />
+     <jar href="xercesImpl.jar" />
+     <jar href="xml-apis.jar" />
+     <jar href="qedeq_kernel_se.jar" />
+  </resources>
+  <application-desc main-class="org.qedeq.gui.se.main.QedeqMainFrame" />
+</jnlp>

@@ -1,0 +1,1823 @@
+% -*- TeX:DE -*-
+%%% ====================================================================
+%%% @LaTeX-file $RCSfile: mengenlehre_1.tex,v $
+%%% $Revision: 1.1 $
+%%% ====================================================================
+
+%%% Permission is granted to copy, distribute and/or modify this document
+%%% under the terms of the GNU Free Documentation License, Version 1.2
+%%% or any later version published by the Free Software Foundation;
+%%% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+   \pdffalse			   % we are not running PDFLaTeX
+\else
+   \pdftrue				   % we assume that we will run PDFLaTeX
+\fi
+
+\documentclass[a4paper,german,10pt,twoside]{book}
+
+\usepackage[german]{babel}
+\usepackage{makeidx}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{color}
+\usepackage[bookmarks,bookmarksnumbered,bookmarksopen,
+	   colorlinks,linkcolor=webgreen,pagebackref]{hyperref}
+%%		 colorlinks,linkcolor=webgreen,filecolor=webbrown,citecolor=webgreen,
+\definecolor{webgreen}{rgb}{0,.5,0}
+%%\definecolor{webbrown}{rgb}{.6,0,0}
+%%\definecolor{webyellow}{rgb}{0.98,0.92,0.73}
+%%\definecolor{webgray}{rgb}{.753,.753,.753}
+%%\definecolor{webblue}{rgb}{0,0,.8}
+
+\ifpdf % pdf generation
+  \usepackage[pdftex]{graphicx}
+  \pdfcompresslevel=9
+  \pdfinfo{
+	/Author		  (Michael Meyling)
+	/Title		  (Mengenlehre I)
+	/Subject	  (Das Hilbert II Projekt)
+	/CreationDate (D:20031015230000)
+	/ModDate	  (D:20051228230000)
+	/Creator	  (TeX)						% default: "TeX"
+	/Producer	  (pdfTeX)					% default: "pdfTeX" + pdftex version
+	/Keywords	  (Qedeq, Hilbert II, Principia Mathematica II, Grobkonzept, Mathematik, Grundlagen,
+				   Axiome, Logik, Mengenlehre, Dokumentation)
+  }
+  \pdfcatalog{								% Catalog dictionary of PDF output.
+	/PageMode /UseOutlines					%
+	/URI (http://www.qedeq.org/)
+% pdfscreen-like setting might look like:
+%	  /PageMode /none
+%	  /ViewerPreferences <<
+%		  /HideToolbar true
+%		  /HideMenubar true
+%		  /HideWindowUI true
+%		  /FitWindow true
+%		  /CenterWindow true
+%	  >>
+}
+\else % no pdf generation
+  \usepackage{graphicx}
+\fi
+
+\usepackage{xr}
+\usepackage{epsfig,longtable}
+
+\addtolength{\textheight}{7\baselineskip}
+\addtolength{\topmargin}{-5\baselineskip}
+
+\setlength{\parindent}{0pt}					% Einrueckung 1. Zeile eines Absatzes
+\frenchspacing \sloppy
+
+
+% Theorem environments
+\newtheorem{thm}{Satz}[section]
+\newtheorem{cor}[thm]{Korollar}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{rem}[thm]{Bemerkung}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{ax}{Axiom}
+
+%\theoremstyle{definition}
+\newtheorem{idefn}{Initiale Definition}
+\newtheorem{defn}{Definition}
+\newtheorem{rul}{Regel}
+\newtheorem*{notation}{Schreibweise}
+\newtheorem*{prf}{Beweis}
+
+% Math definitions
+\newcommand{:=}{:=}
+\newcommand{\Leftrightarrow}{:\leftrightarrow}
+\newcommand{\rightarrow}{\rightarrow}
+\newcommand{\leftrightarrow}{\leftrightarrow}
+%\newcommand{\land}{\ \wedge \ }
+%\newcommand{\lor}{\ \vee \ }
+
+% Widerspruchszeichen
+\newcommand{\err}{
+  \begin{minipage}{\linewidth}
+  %$\underset{\swarrow}{\angle}$
+  $\hspace*{2.5pt} \angle \vspace*{-5.5pt} \\ \swarrow$
+  \end{minipage}
+}
+\newcommand{\stimes}{\stackrel{\rm S} \times}
+\newcommand{\mathbb{N}}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\class}[2]{\left\lfloor #1 \right\rfloor_{#2}}
+\newcommand{\successor}[1]{\successor(#1)}
+\newcommand{\isSet}[1]{\isSet(#1)}
+\newcommand{\russell}{\russell}
+\newcommand{\allClass}{\allClass}
+
+\newcommand{\lref}[1]{(\ref{#1})}
+
+\DeclareMathOperator{\id}{id} 
+\DeclareMathOperator{\power}{\mathfrak P}
+\DeclareMathOperator{\rel}{Rel} 
+\DeclareMathOperator{\fkt}{Fkt} 
+\DeclareMathOperator{\dmn}{Dmn}
+\DeclareMathOperator{\rng}{Rng}
+%\DeclareMathOperator{\isSet}{\isSet}
+
+
+\title{
+\textbf{Mengenlehre I} \\
+\vspace*{1cm} Formal korrektes mathematisches Wissen\\
+\vspace*{1cm} {\large Bestandteil des Projekts \\
+\textbf{Hilbert II}} \\
+\vspace*{0.1cm} {\large Dokumentversion 0.23}}
+\author{Michael Meyling}
+\date{28.~Dezember~2005}
+
+\makeindex
+
+
+\begin{document}
+
+\maketitle
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}  % Abstand zwischen Absaetzen
+Homepage von \textbf{Hilbert II}: \url{http://www.qedeq.org/index_de.html}
+\par
+\vfill
+\par
+Dieses Dokument ist in elektronischer und aktualisierter Form an dem folgenden Ort zu finden:
+\par
+\url{http://www.qedeq.org/current/doc/math/mengenlehre_1.pdf}
+\par
+Die vorliegende Publikation ist urheberrechtlich gesch{\"u}tzt:
+\par
+Copyright \copyright{} 2005 Michael Meyling. Permission is granted to copy, distribute and/or
+modify this document under the terms of the GNU Free Documentation License, Version 1.2 or any
+later version published by the Free Software Foundation; with no Invariant Sections, no Front-Cover
+Texts, and no Back-Cover Texts. A copy of the license is included in
+appendix~\ref{GNU_Free_Documentation_License} entitled \emph{GNU Free Documentation License}.
+\par
+Die Wiedergabe von Gebrauchsnamen, Handelsnamen, Warenbezeichnungen usw. in diesem Werk berechtigt
+auch ohne besondere Kennzeichnung nicht zu der Annahme, dass solche Namen im Sinne der
+Warenzeichen- und Markenschutz-Gesetzgebung als frei zu betrachten w{\"a}ren. Die in diesem Text
+erw{\"a}hnten Software- und Hardwarebezeichnungen sind in den meisten F{\"a}llen auch eingetragene
+Warenzeichen und unterliegen als solche den gesetzlichen Bestimmungen.
+
+\setlength{\parskip}{0pt}					  % Abstand zwischen Absaetzen
+\tableofcontents
+\setlength{\parskip}{5pt plus 2pt minus 1pt}  % Abstand zwischen Absaetzen
+
+
+\chapter*{Zusammenfassung\index{Zusammenfassung}}
+\addcontentsline{toc}{chapter}{Zusammenfassung} Das Projekt \textbf{Hilbert II}, besch{\"a}ftigt sich
+mit der formalen Darstellung und Dokumentation von mathematischem Wissen. Dazu stellt
+\textbf{Hilbert II} eine Programmsuite zur L{\"o}sung unterschiedlicher Aufgaben bereit. Auch die
+konkrete Dokumentation mathematischen Grundlagenwissens mit diesen Hilfsmitteln geh{\"o}rt zum Ziel
+dieses Projekts.
+\par
+Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die
+Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen
+Disziplinen ben{\"o}tigt werden. Zu Beginn werden die formal logischen Regeln aufgestellt, nach denen
+vorgegangen wird. Nach den Grundlagen wird die Boolsche Algebra der Klassen betrachtet. Es
+schliessen sich Betrachtungen {\"u}ber Relationen und Funktionen an. Ein weiteres wichtiges Ergebnis
+sind die Definition der nat{\"u}rlichen Zahlen und die Erf{\"u}llung der Peano-Axiome durch diese, auch auf
+den Begriff der Rekursion wird eingegangen.
+\par
+Die Darstellung erfolgt in axiomatischer Weise und in formaler Form. Dazu wird ein Kalk{\"u}l
+angegeben, der es gestattet alle wahren Formeln abzuleiten. Weitere abgeleitete Regeln,
+Definitionen, Abk{\"u}rzungen und Syntaxerweiterungen entsprechen im Wesentlichen der mathematischen
+Praxis. Daher wird auch das Axiomensystem der Mengenlehre von \emph{A.~P.~Morse} und
+\emph{J.~L.~Kelley} verwendet.
+\par
+W{\"a}hrend der Fertigstellung dieses Dokuments wird mit der Korrektur und Erg{\"a}nzung der formalen
+Qedeq-Syntax von \textbf{Hilbert II} begonnen, um eine {\"U}bertragung dieses Texts in die formale
+Sprache vorzunehmen. F{\"u}r weitere Information {\"u}ber das Projekt \textbf{Hilbert II} siehe auch unter
+\url{http://www.qedeq.org/index_de.html}.
+\par
+Dieses Dokument ist noch sehr in Arbeit und wird von Zeit zu Zeit aktualisiert. Insbesondere werden
+an den durch {\glqq+++\grqq} gekennzeichneten Stellen noch Erg{\"a}nzungen oder {\"A}nderungen vorgenommen.
+
+
+\chapter*{Vorwort}
+Das ganze Universium der Mathematik kann mit den Mitteln der Mengenlehre entfaltet werden. Au{\ss}er
+den Axiomen der Mengenlehre werden dazu nur noch logische Axiome und Regeln ben{\"o}tigt. Diese
+elementaren Grundlagen gen{\"u}gen, um die komplexesten mathematischen Strukturen zu definieren und
+S{\"a}tze {\"u}ber solche Strukturen beweisen zu k{\"o}nnen. Dieses Vorgehen l{\"a}sst sich vollst{\"a}ndig
+formalisieren und auf die einfache Manipulation von Zeichenketten zur{\"u}ckf{\"u}hren. Die inhaltliche
+Deutung der Zeichenfolgen stellt dann das mathematische Universum dar.
+
+Dabei ist es nat{\"u}rlich mehr als nur bequem, Abk{\"u}rzungen einzuf{\"u}hren und weitere abgeleitete Regeln
+zu verwenden. Diese Bequemlichkeiten k{\"o}nnen aber jederzeit\footnote{Zumindest ist eine solche
+R{\"u}ckf{\"u}hrung theoretisch immer m{\"o}glich. Praktisch kann sie jedoch an der Endlichkeit der zur
+	Verf{\"u}gung stehenden Zeit und des nutzbaren Raums scheitern. So wird es sicherlich nicht m{\"o}glich
+sein, die nat{\"u}rliche Zahl $1.000.000.000$ in Mengenschreibweise anzugeben.} eliminiert und durch
+die grundlegenden Begrifflichkeiten ersetzt werden.
+\par
+Dieses Projekt entspringt meinem Kindheitstraum eine solche Formalisierung konkret vorzunehmen.
+Inzwischen sind die technischen M{\"o}glichkeiten so weit entwickelt, dass eine Realisierung m{\"o}glich
+ist.
+\par
+Dank geb{\"u}hrt den Professoren \emph{W.~Kerby} und \emph{V.~G{\"u}nther} der Hamburger Universit{\"a}t f{\"u}r
+ihre inspirierenden Vorlesungen zu den Themen Logik und Axiomatische Mengenlehre. Ohne diese
+entscheidenden Impulse h{\"a}tte es dieses Projekt nie gegeben.
+\par
+Vielen Dank auch an \emph{F.~Fritsche} f{\"u}r einige Korrekturvorschl{\"a}ge und inhaltliche Anregungen.
+\par
+Besondere Dank geht an meine Frau \emph{Gesine~Dr{\"a}ger} und unseren Sohn \emph{Lennart} f{\"u}r ihre
+Unterst{\"u}tzung und ihr Verst{\"a}ndnis f{\"u}r ihnen fehlende Zeit -- wobei der Verst{\"a}ndnisgrad unseres
+S{\"a}uglings vielleicht noch nicht so stark ausgepr{\"a}gt ist.
+\par
+\vspace*{1cm} Hamburg, im August 2005 \\
+\hspace*{\fill} Michael Meyling
+
+
+\chapter*{Einleitung}
+An den Anfang sei ein Zitat aus einem von \emph{D. Hilbert} im September 1922 gehaltenen
+Vortrag\footnote{Vortrag, gehalten in der Deutschen Naturforscher-Gesellschaft. September 1922.}
+mit dem programmatischen Titel {\glqq Die logischen Grundlagen der Mathematik\grqq} gesetzt.
+\par
+\begin{quote} {
+\glqq Der Grundgedanke meiner Beweistheorie ist folgender:
+\par
+Alles, was im bisherigen Sinne die Mathematik
+ausmacht, wird streng formalisiert, so da{\ss} die eigentliche Mathematik oder die Mathematik in
+engerem Sinne zu einem Bestande an Formeln wird. Diese unterscheiden sich von den gew{\"o}hnlichen
+Formeln der Mathematik nur dadurch, da{\ss} au{\ss}er den gew{\"o}hnlichen Zeichen noch die logischen Zeichen,
+insbesondere die f{\"u}r {\glqq folgt\grqq} ($\rightarrow$) und f{\"u}r {\glqq nicht\grqq} ($\bar{\quad}$)
+darin vorkommen. Gewisse Formeln, die als Bausteine des formalen Geb{\"a}udes der Mathematik dienen,
+werden Axiome genannt. Ein Beweis ist die Figur, die uns als solche anschaulich vorliegen mu{\ss}; er
+besteht
+aus Schl{\"u}ssen verm{\"o}ge des Schlu{\ss}schemas\\
+\begin{eqnarray*}
+& A & \\
+& A \rightarrow B& \\
+\cline{2-3}
+ & B &
+\end{eqnarray*}
+wo jedesmal die Pr{\"a}missen, d.~h. die betreffenden Formeln $A$ und $A \rightarrow B$ jede entweder
+ein Axiom ist bzw. direkt durch Einsetzung aus einem Axiom entsteht oder mit der Endformel $B$
+eines Schlusses {\"u}bereinstimmt, der vorher im Beweise vorkommt bzw. durch Einsetzung aus einer
+solchen Endformel entsteht. Eine Formel soll beweisbar hei{\ss}en, wenn sie entweder ein Axiom ist bzw.
+durch Einsetzen aus einem Axiom entsteht oder die Endformel eines Beweises ist.\grqq}
+\end{quote}
+\par
+In dem 1928 erschienenen Buch \emph{Grundz{\"u}ge der theoretischen Logik} formulierten
+\emph{D.~Hilbert} und \emph{W.~Ackermann} ein axiomatisches System der Aussagenlogik, welches die
+Ausgangsbasis f{\"u}r das hier verwendete bildet. Durch das von \emph{P.~S.~Novikov} 1959 angegebene
+Axiomensystem und Regelwerk der Pr{\"a}dikatenlogik wird das System verfeinert.
+\par
+Die in diesem Dokument zur Darstellung verwendete formale Sprache erf{\"a}hrt bereits einige
+Vereinfachungen\footnote{Z.~B. die Ber{\"u}cksichtigung von Operatorpriorit{\"a}ten bei der Weglassung von
+Klammern.} und ist daher von der DV-technischen formalen Sprache verschieden. Das dort verwendete
+Qedeq-Format besitzt jedoch eine sehr grosse Affinit{\"a}t zur Darstellung in diesem Text. Die
+{\"U}berpr{\"u}fung der formalen Beweise erfolgt jedoch in dem elektronisch auswertbaren Qedeq-Format. F{\"u}r
+weitere Information {\"u}ber dieses Format siehe auch unter
+\url{http://www.qedeq.org/0_01_05/projektbeschreibung.pdf}.
+
+\chapter{Logik} \label{Logik}
+In diesem Kapitel wird der Pr{\"a}dikatenkalk{\"u}l erster Stufe mit Identit{\"a}t und Funktoren vorgestellt,
+der die Ausgangsbasis f{\"u}r die Entwicklung der mathematischen Theorie darstellt. Da dieses Dokument
+die Mengenlehre zum Schwerpunkt hat, werden hier nur die Ergebnisse ohne weitere Beweise und in
+knapper Form pr{\"a}sentiert.
+
+\section{Logische Axiome}\index{Logik}\index{Axiome!logische} \label{Logische_Grundlagen}
+Die Grundlagen der bei \textbf{Hilbert II} verwendeten Logik werden hier zusammengestellt. Die
+folgende Kalk{\"u}lsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert},
+\emph{W.~Ackermann}, \emph{P.~Bernays} und \emph{P.~S.~Novikov}. Aus den hier angegebenen logischen
+Axiomen und den elementaren Schlussregeln k{\"o}nnen weitere Gesetzm{\"a}{\ss}igkeiten abgeleitet werden. Erst
+diese neuen Metaregeln f{\"u}hren zu einer komfortablen logischen Argumentation.
+\par
+Als Symbole kommen die logischen Symbole $L = \{$ \mbox{`$\neg$'}, \mbox{`$\vee$'},
+\mbox{`$\wedge$'}, \mbox{`$\leftrightarrow$'}, \mbox{`$\rightarrow$'}, \mbox{`$\forall$'},
+\mbox{`$\exists$'} $\}$, die
+Pr{\"a}dikatenkonstanten\index{Pr{\"a}dikatenkonstante}\index{Konstante!Pr{\"a}dikaten-} $C = \{c^k_i~|~i, k
+\in \omega\}$, die
+Funktionsvariablen\index{Funktionsvariablen}\index{Variable!Funktions-}\footnote{Funktionsvariablen
+dienen der einfacheren Notation und werden beispielsweise zur Formulierung eines
+identit{\"a}tslogischen Satzes ben{\"o}tigt: $x = y \rightarrow f(x) = f(y)$. Ausserdem bereitet ihre Einf{\"u}hrung
+die sp{\"a}tere Syntaxerweiterung zur Anwendung von funktionalen Klassen vor.} $F = \{f^k_i~|~i, k \in
+\omega \land k
+> 0\}$, die
+Funktionskonstanten\index{Funktionskonstanten}\index{Konstante!Funktions-}\footnote{Funktionskonstanten
+dienen ebenfalls der Bequemlichkeit und werden sp{\"a}ter f{\"u}r direkt definierte Klassenfunktionen
+verwendet. So zum Beispiel zur Potenzklassenbildung, zur Vereinigungsklassenbildung und f{\"u}r die
+Nachfolgerfunktion. All diese Funktionskonstanten k{\"o}nnen auch als Abk{\"u}rzungen verstanden werden.}
+$H = \{h^k_i~|~i, k \in \omega\}$, die
+Subjektvariablen\index{Subjektvariable}\index{Variable!Subjekt-} V = $\{v_i~|~i \in \omega\}$,
+sowie die Pr{\"a}dikatenvariablen\index{Pr{\"a}dikatenvariable}\index{Variable!Pr{\"a}dikaten-} $P =
+\{p^k_i~|~i, k \in \omega\}$ vor.\footnote{Unter $\omega$ werden die nat{\"u}rlichen Zahlen, die Null
+eingeschlossen, verstanden. Alle bei den Mengenbildungen beteiligten Symbole werden als paarweise
+verschieden vorausgesetzt. Das bedeutet z.~B.: $f^k_i = f^{k'}_{i'} \rightarrow (k = k' \land i = i')$
+und $h^k_i \neq v_j$.} Unter der \emph{Stellenzahl} eines Operators wird der obere Index
+verstanden. Die Menge der nullstelligen Pr{\"a}dikatenvariablen wird auch als Menge der
+Aussagenvariablen\index{Aussagenvariable}\index{Variable!Aussagen-} bezeichnet: $A := \{p_i^0~|~i
+\in \omega \}$. F{\"u}r die Subjektvariablen werden abk{\"u}rzend auch bestimmte Kleinbuchstaben
+geschrieben. Die Kleinbuchstaben stehen f{\"u}r verschiedene Subjektvariablen: \mbox{$v_1 = $ `$u$'},
+\mbox{$v_2 = $ `$v$'}, \mbox{$v_3 = $ `$w$'}, \mbox{$v_4 = $ `$x$'}, \mbox{$v_5 = $ `$y$'},
+\mbox{$v_5 = $ `$z$'}. Weiter werden als Abk{\"u}rzungen verwendet: f{\"u}r die Pr{\"a}dikatenvariablen $p^n_1
+= $ `$\phi$' und $p^n_2 = $ `$\psi$', wobei die jeweilige Stellenanzahl $n$ aus der Anzahl der
+nachfolgenden Parameter ermittelt wird, f{\"u}r die Aussagenvariablen $a_1 = $ `$A$', $a_2 = $ `$B$'
+und $a_3 = $ `$C$'. Als Abk{\"u}rzungen f{\"u}r Funktionsvariablen wird festgelegt $f^n_1 = $ `$f$' und
+$f^n_2 = $ `$g$', wobei wiederum die jeweilige Stellenanzahl $n$ aus der Anzahl der nachfolgenden
+Parameter ermittelt wird. Bei allen aussagenlogischen zweistelligen Operatoren wird der leichteren
+Lesbarkeit wegen die Infixschreibweise benutzt, dabei werden die Symbole `(' und `)' verwandt.
+D.~h. f{\"u}r den Operator $\land$ mit den Argumenten $A$ und $B$ wird $(A \land B)$ geschrieben. Es
+gelten die {\"u}blichen Operatorpriorit{\"a}ten und die dazugeh{\"o}rigen Klammerregeln. Insbesondere die
+{\"a}u{\ss}eren Klammern werden in der Regel weggelassen.
+\par
+Nachfolgend werden die Operatoren mit absteigender Priorit{\"a}t aufgelistet.
+$$
+\begin{array}{c}
+  \neg, \forall, \exists  \\
+  \land \\
+  \lor \\
+  \rightarrow, \leftrightarrow \\
+\end{array}
+$$
+\par
+Der Begriff \emph{Term\index{Term}} wird im Folgenden rekursiv definiert:
+\begin{enumerate}
+\item Jede Subjektvariable ist ein Term. \item Seien $i, k \in \omega$ und $t_1$, \ldots, $t_k$
+Terme. Dann ist auch $h^k_i(t_1, \ldots, t_k)$ und falls $k > 0$, so auch $f^k_i(t_1, \ldots, t_k)$
+ein Term.
+\end{enumerate}
+Alle nullstelligen Funktionskonstanten $\{h^0_i~|~i, \in \omega\}$ sind demzufolge Terme, sie
+werden auch \emph{Individuenkonstanten} genannt.\footnote{Analog dazu k{\"o}nnten Subjektvariablen auch
+als nullstellige Funktionsvariablen definiert werden. Da die Subjektvariablen jedoch eine
+hervorgehobene Rolle spielen, werden sie auch gesondert bezeichnet.}
+\par
+Die Begriffe \emph{Formel\index{Formel}}, \emph{freie\index{freie
+Subjektvariable}\index{Subjektvariable!freie}} und \emph{gebundene\index{gebundene
+Subjektvariable}\index{Subjektvariable!gebundene}} Subjektvariable werden rekursiv wie folgt
+definiert:
+\begin{enumerate}
+\item Jede Aussagenvariable ist eine Formel, solche Formeln enthalten keine freien oder gebundenen
+Subjektvariablen. \item Ist $p^k$ eine $k$-stellige Pr{\"a}dikatenvariable und $c^k$ eine $k$-stellige
+Pr{\"a}dikatenkonstante und sind $t_1, t_2, \ldots, t_k$ Terme, so sind $p^k(t_1, t_2, \ldots t_k)$ und
+$c^k(t_1, t_2, \ldots, t_k)$ Formeln. Dabei gelten alle in $t_1, t_2, \ldots, t_k$ vorkommenden
+Subjektvariablen als freie Subjektvariablen, gebundene Subjektvariablen kommen nicht
+vor.\footnote{Dieser zweite Punkt umfasst den ersten, welcher nur der Anschaulichkeit wegen extra
+aufgef{\"u}hrt ist.} \item Falls die Formel $\alpha$ die freie Subjektvariable $x_1$ enth{\"a}lt (+++ ist
+das tats{\"a}chlich erforderlich, dass $x_1$ in $\alpha$ vorkommt?), dann sind auch $\forall
+x_1~\alpha$ und $\exists x_1~\alpha$ Formeln\footnote{Dabei wird $\forall$ als
+\emph{Allquantor}\index{Allquantor}\index{Quantor!All-} und $\exists$ als
+\emph{Existenzquantor}\index{Existenzquantor}\index{Quantor!Existenz-} bezeichnet}, und bis auf
+$x_1$ bleiben alle freien Subjektvariablen von $\alpha$ auch frei, und zu den gebundenen
+Subjektvariablen von $\alpha$ kommt $x_1$ hinzu. \item Es seien $\alpha, \beta$ Formeln, in denen
+keine Subjektvariablen vorkommen, die in einer Formel gebunden und in der anderen frei sind. Dann
+sind auch $\neg \alpha$, $(\alpha \land \beta)$, $(\alpha \lor \beta)$, $(\alpha \rightarrow \beta)$,
+$(\alpha \leftrightarrow \beta)$ Formeln. Subjektvariablen, welche in $\alpha$, $\beta$ frei (bzw. gebunden)
+vorkommen, bleiben frei (bzw. gebunden).
+\end{enumerate}
+\par
+Die folgenden Axiome\index{Axiome!logische} werden an den Anfang gestellt.
+\begin{ax}[Oder-K{\"u}rzung]
+$$(A \lor A) \rightarrow A$$
+\end{ax}
+
+\begin{ax}[Oder-Verd{\"u}nnung]
+$$A \rightarrow (A \lor B)$$
+\end{ax}
+
+\begin{ax}[Oder-Vertauschung]
+$$(A \lor B) \rightarrow (B \lor A)$$
+\end{ax}
+
+\begin{ax}[Oder-Vorsehung]
+$$(A \rightarrow B) \rightarrow ((C \lor A) \rightarrow (C \lor B))$$
+\end{ax}
+
+\begin{ax}
+$$(\forall x~\phi(x)) \rightarrow \phi(y)$$
+\end{ax}
+
+\begin{ax}
+$$\phi(y) \rightarrow (\exists x~\phi(x))$$
+\end{ax}
+
+Die Konjunktion, die Implikation und die {\"A}quivalenz werden als Abk{\"u}rzungen
+definiert.\footnote{Eigentlich werden die Abk{\"u}rzungssymbole $\wedge, \rightarrow, \leftrightarrow$
+erst an dieser Stelle definiert und erweitern die Sprachsyntax. Aus Bequemlichkeitsgr{\"u}nden wurden
+diese Symbole bereits als logische Symbole angegeben. Bei den bisher angegebenen Axiomen muss also
+strenggenommen die Implikation durch ihre Definition ersetzt werden.}
+
+\begin{defn}[Konjunktion]
+$$\alpha \land \beta \ \Leftrightarrow \ \neg(\neg\alpha \lor \neg\beta)$$
+\end{defn}
+
+\begin{defn}[Implikation]
+$$\alpha \rightarrow \beta \ \Leftrightarrow \ \neg\alpha \lor \beta$$
+\end{defn}
+
+\begin{defn}[{\"A}quivalenz]
+$$\alpha \leftrightarrow \beta \ \Leftrightarrow \ (\alpha \rightarrow \beta) \land (\beta \rightarrow \alpha)$$
+\end{defn}
+
+\begin{rul}[Abtrennung, Modus Ponens\index{Modus Ponens}\index{Abtrennungsregel}]
+Wenn $\alpha$ und $\alpha \rightarrow \beta$ wahre Formeln sind, dann ist auch $\beta$ eine wahre Formel.
+\end{rul}
+
+\begin{rul}[Einsetzung f{\"u}r Pr{\"a}dikatenvariablen]\label{predreplace}
+Es sei $\alpha$ eine Formel, die die $n$-stellige Pr{\"a}dikatenvariable $p$ enth{\"a}lt und $\beta(x_1,
+\ldots, x_n)$ eine beliebige Formel mit den freien Variablen $x_1$, \ldots, $x_n$, welche nicht in
+$\alpha$ vorkommen.\footnote{In der Formel $\beta(x_1, \ldots, x_n)$ k{\"o}nnen ausser den $n$
+Subjektvariablen $x_1$, \ldots, $x_n$ noch weitere Variablen frei vorkommen.} Wenn die folgenden
+Bedingungen erf{\"u}llt sind, dann kann durch die Ersetzung jedes Vorkommens von $p(t_1, \ldots, t_n)$
+mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\beta(t_1, \ldots, t_n)$ eine
+weitere wahre Formel gewonnen werden.
+\begin{itemize}
+\item $\alpha$ ist eine im Kalk{\"u}l wahre Formel \item die freien Variablen von $\alpha$ sind
+disjunkt zu den gebundenen Variablen von $\beta(x_1, \ldots, x_n)$ und die gebundenen Variablen von
+$\alpha$ disjunkt zu den freien Variablen von $\beta(x_1, \ldots, x_n)$ \item Liegt das zu
+ersetzende $p(t_1, \ldots, t_n)$ in $\alpha$ im Wirkungsbereich eines Quantors, so kommt die
+zugeh{\"o}rige Subjektvariable in $\beta(x_1, \ldots, x_n)$ nicht vor.\footnote{D.~h. nach dem
+Einsetzen werden -- au{\ss}er den in den f{\"u}r $x_1$, \ldots, $x_n$ eingesetzten Termen vorkommenden --
+keine weiteren Subjektvariablen gebunden.}
+\end{itemize}
+\end{rul}
+
+\begin{rul}[Einsetzung f{\"u}r Funktionsvariablen]\label{functreplace}
+Es sei $\alpha$ eine Formel, die die $n$-stellige Funktionsvariable $\sigma$ enth{\"a}lt und $\tau(x_1,
+\ldots, x_n)$ eine beliebiger Term mit den Subjektvariablen $x_1$, \ldots, $x_n$, welche nicht in
+$\alpha$ vorkommen.\footnote{In dem Term $\tau(x_1, \ldots, x_n)$ k{\"o}nnen ausser den $n$
+Subjektvariablen $x_1$, \ldots, $x_n$ noch weitere Variablen vorkommen.} Wenn die folgenden
+Bedingungen erf{\"u}llt sind, dann kann durch die Ersetzung jedes Vorkommens von $\sigma(t_1, \ldots,
+t_n)$ mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\tau(t_1, \ldots, t_n)$
+eine weitere wahre Formel gewonnen werden.
+\begin{itemize}
+\item $\alpha$ ist eine im Kalk{\"u}l wahre Formel \item die gebundenen Variablen von $\alpha$ sind
+disjunkt zu den Subjektvariablen von $\tau(x_1, \ldots, x_n)$ \item Liegt das zu ersetzende
+$\sigma(t_1, \ldots, t_n)$ in $\alpha$ im Wirkungsbereich eines Quantors, so kommt die zugeh{\"o}rige
+Subjektvariable in $\beta(x_1, \ldots, x_n)$ nicht vor, d.~h. nach dem Einsetzen werden -- au{\ss}er
+den f{\"u}r $x_1$, \ldots, $x_n$ eingesetzten -- keine weiteren Subjektvariablen gebunden.
+\end{itemize}
+\end{rul}
+
+\begin{rul}[Ersetzung f{\"u}r freie Subjektvariablen]
+Ausgehend von einer wahren Formel kann jede freie Subjektvariable durch einen Term ersetzt werden,
+der keine in der Formel bereits gebundenen Subjektvariablen enth{\"a}lt. Die Ersetzung muss durchg{\"a}ngig
+in der gesamten Formel erfolgen.
+\end{rul}
+
+\begin{rul}[Umbenennung f{\"u}r gebundene Subjektvariablen]
+Aus jeder im Kalk{\"u}l bereits gewonnenen Formel k{\"o}nnen weitere Formeln abgeleitet werden: Jede
+gebundene Subjektvariable kann in eine andere, nicht bereits frei vorkommende, Subjektvariable
+umbenannt werden. Die Umbenennung braucht nur im Wirkungsbereich eines bestimmten Quantors zu
+erfolgen.
+\end{rul}
+
+\begin{rul}[Generalisierung\index{Generalisierung}]
+Wenn $\alpha \rightarrow \beta(x_1)$ eine wahre Formel ist und $\alpha$ die Subjektvariable $x_1$ nicht
+enth{\"a}lt, dann ist auch $\alpha \rightarrow (\forall x_1~(\beta(x_1)))$ eine wahre Formel.
+\end{rul}
+
+\begin{rul}[Partikularisierung\index{Partikularisierung}]
+Wenn $\alpha(x_1) \rightarrow \beta$ eine wahre Formel ist und $\beta$ die Subjektvariable $x_1$ nicht
+enth{\"a}lt, dann ist auch $(\exists x_1~\alpha(x_1)) \rightarrow \beta$ eine wahre Formel.
+\end{rul}
+
+\par
+Die Aufl{\"o}sung und der Einsatz von Abk{\"u}rzungen ist auch mit der Anwendung von Regeln verbunden. In
+vielen Texten zur mathematischen Logik werden diese Regeln nicht explizit formuliert, auch dieser
+Text geht darauf nicht weiter ein. In dem exakten Qedeq-Format gibt es jedoch entsprechende Regeln
+zur Verwendung von Abk{\"u}rzungen.
+
+
+
+\section{Elementare aussagenlogische S{\"a}tze}
+Aus den logischen Axiomen und Regeln von Abschnitt~\ref{Logische_Grundlagen} lassen sich wichtige
+elementare S{\"a}tze ableiten.
+
+\begin{defn}
+Die Pr{\"a}dikatskonstanten $\top$ f{\"u}r \emph{true} oder \emph{wahr} und $\bot$ f{\"u}r \emph{false} oder
+\emph{falsch} werden wie folgt definiert:
+\begin{eqnarray}
+\top & \Leftrightarrow & A \lor \neg A \\
+\bot & \Leftrightarrow & \neg \top
+\end{eqnarray}
+\end{defn}
+
+Die folgenden Formeln lassen sich beweisen.
+\begin{thm}
+\begin{eqnarray}
+& \top & \\
+& \neg \bot & \\
+A & \rightarrow & A \\
+A & \leftrightarrow & A \\
+A \lor B & \leftrightarrow & B  \lor A \\
+A \land B & \leftrightarrow & B \land A \\
+(A \leftrightarrow B) & \leftrightarrow & (B \leftrightarrow A) \\
+A \lor (B \lor C) & \leftrightarrow & (A \lor B) \lor C \\
+A \land (B \land C) & \leftrightarrow & (A \land B) \land C \\
+A & \leftrightarrow & A \lor A \\
+A & \leftrightarrow & A \land A \\
+A & \leftrightarrow & \neg \neg A \\
+(A \rightarrow B) & \leftrightarrow & (\neg B \rightarrow \neg A) \\
+(A \rightarrow (B \rightarrow C)) & \leftrightarrow & (B \rightarrow (A \rightarrow C)) \\
+\neg (A \lor B) & \leftrightarrow & \neg A \land \neg B \\
+\neg (A \land B) & \leftrightarrow & \neg A \lor \neg B \\
+A \lor (B \land C) & \leftrightarrow & (A \lor B) \land (A \lor C) \\
+A \land (B \lor C) & \leftrightarrow & (A \land B) \lor (A \land C) \\
+A \land \top & \leftrightarrow & A \\
+A \land \bot & \leftrightarrow & \bot \\
+A \lor \top & \leftrightarrow & \top \\
+A \lor \bot & \leftrightarrow & A \\
+A \lor \neg A & \leftrightarrow & \top \\
+A \land \neg A & \leftrightarrow & \bot \\
+(\top \rightarrow A) & \leftrightarrow & A \\
+(\bot \rightarrow A) & \leftrightarrow & \top \\
+(A \rightarrow B) \land (B \rightarrow C) & \rightarrow & A \rightarrow C \\
+(A \leftrightarrow B) \land (B \leftrightarrow C) & \rightarrow & A \leftrightarrow C \label{andequi} \\
+((A \land B) \leftrightarrow (A \land C)) & \leftrightarrow & (A \rightarrow (B \leftrightarrow C))
+\end{eqnarray}
+\end{thm}
+
+\section{Elementare S{\"a}tze der Pr{\"a}dikatenlogik}
+Aus den logischen Axiomen und Regeln von Abschnitt~\ref{Logische_Grundlagen} lassen sich auch f{\"u}r
+die Pr{\"a}dikatenlogik elementare S{\"a}tze ableiten.
+
+\begin{thm}\label{elmpred}
+\begin{eqnarray}
+\forall x \ (\phi(x) \rightarrow \psi(x)) & \rightarrow & \forall x \ (\phi(x)) \rightarrow \forall x \ (\psi(x)) \\
+\forall x \ (\phi(x) \rightarrow \psi(x)) & \rightarrow & \exists x \ (\phi(x)) \rightarrow \exists x \ (\psi(x)) \\
+\exists x \ (\phi(x) \land \psi(x)) & \rightarrow & \exists x \ (\phi(x)) \land \exists x \ (\psi(x)) \\
+\forall x \ (\psi(x)) \lor \forall x \ (\psi(x)) & \rightarrow & \forall x \ (\phi(x) \lor \psi(x)) \\
+\exists x \ (\phi(x) \lor \psi(x))) & \leftrightarrow & \exists x \ (\phi(x)) \lor \exists x \ (\psi(x)) \\
+\forall x \ (\phi(x) \land \psi(x))) & \leftrightarrow & \forall x \ (\phi(x)) \land \forall x \ (\psi(x)) \label{allandpp}\\
+\forall x \ \forall y \ (\phi(x, y)) & \leftrightarrow & \forall y \ \forall x \ (\phi(x, y)) \\
+\exists x \ \exists y \ (\phi(x, y)) & \leftrightarrow & \exists y \ \exists x \ (\phi(x, y)) \\
+\forall x \ (\phi(x) \rightarrow A) & \leftrightarrow & (\forall x \ (\phi(x)) \rightarrow A) \\
+\forall x \ (A \rightarrow \phi(x)) & \leftrightarrow & (A \rightarrow \forall x \ (\phi(x))) \\
+\forall x \ (\phi(x) \land A) & \leftrightarrow & \forall x \ (\phi(x)) \land A \\
+\forall x \ (\phi(x) \lor A) & \leftrightarrow & (\forall x \ (\phi(x)) \lor A) \\
+\forall x \ (\phi(x) \leftrightarrow A) & \leftrightarrow & (\forall x \ (\phi(x)) \leftrightarrow A)
+\end{eqnarray}
++++ erg{\"a}nzen
+\end{thm}
+
+\section{Abgeleitete Regeln}
+Aus den logischen Grundlagen lassen sich logische S{\"a}tze und Metaregeln ableiten, die eine bequemere
+Argumentation erm{\"o}glichen. Erst mit diesem Regelwerk und zus{\"a}tzlichen Definitionen und Abk{\"u}rzungen
+wird die restliche Mathematik entwickelt. Dabei wird stets nur eine
+\emph{konservative}\index{konservativ} Erweiterung der bisherigen Syntax vorgenommen. D.~h. in dem
+erweiterten System lassen sich keine Formeln ableiten, die in der alten Syntax formuliert, aber
+dort nicht ableitbar sind. Im Folgenden werden solche Erweiterungen vorgestellt.
+
+\begin{rul}[Ersetzung durch logisch {\"a}quivalente Formeln]
+Sei die Aussage $\alpha \leftrightarrow \beta$ bereits bewiesen. Wird dann aus der Formel $\delta$ eine neue
+Formel $\gamma$ dadurch gewonnen, dass ein beliebiges Vorkommen von $\alpha$ durch $\beta$
+ersetzt\footnote{Bei dieser Ersetzung kann es erforderlich sein, dass gebundene Variablen von
+$\beta$ umbenannt werden m{\"u}ssen, damit sich wieder eine Formel ergibt.} wird und besitzt $\gamma$
+zumindest die freien Variablen (+++ unklar!) von $\delta$, dann gilt $\delta \leftrightarrow \gamma$.
+\end{rul}
+
+\begin{rul}[Allgemeine Assoziativit{\"a}t]
+Falls ein zweistelliger Operator das Assoziativit{\"a}tsgesetz erf{\"u}llt, so erf{\"u}llt er auch das
+allgemeine Assoziativit{\"a}tsgesetz. Dem Operator kann dann eine beliebige Stellenanzahl gr{\"o}{\ss}er eins
+zugeschrieben werden. So wird beispielsweise anstelle f{\"u}r $(a + b) + (c + d)$ einfach $a + b + c +
+d$ geschrieben.\footnote{Der $n$-stellig Operator wird mit einer bestimmten Klammerung definiert,
+jede andere Klammerreihenfolge liefert jedoch dasselbe Ergebnis.}
+\end{rul}
+
+\begin{rul}[Allgemeine Kommutativit{\"a}t]
+Falls ein Operator das allgemeine Assoziativit{\"a}tsgesetz erf{\"u}llt und kommutativ ist, so sind alle
+Permutationen von Parameterreihenfolgen einander gleich oder {\"a}quivalent.\footnote{Je nachdem ob es
+sich um einen Termoperator oder einen Formeloperator handelt.} So gilt beispielsweise $a + b + c +
+d  = c + a + d + b$.
+\end{rul}
+
+\begin{defn}[Ableitbarkeit\index{Ableitbarkeit}]
+Eine Formel $\beta$ hei{\ss}t \emph{aus der Formel $\alpha$ ableitbar}, wenn sich $\beta$ mit Hilfe
+aller Regeln des Pr{\"a}dikatenkalk{\"u}ls und der um $\alpha$ vermehrten Gesamtheit aller wahren Formeln
+des Pr{\"a}dikatenkalk{\"u}ls herleitbar und $\alpha \rightarrow \beta$ eine Formel ist. Dabei d{\"u}rfen die beiden
+Quantifizierungsregeln, die Einsetzungsregel f{\"u}r Pr{\"a}dikatenvariable und die Umbenennungsregel f{\"u}r
+freie Subjektvariable nur auf solche Variablen angewendet werden, die in der Formel $\alpha$ nicht
+auftreten.
+\par
+Schreibweise: $\alpha \vdash \beta$.
+\end{defn}
+Die Ableitbarkeit einer Formel $\beta$ aus der Formel $\alpha$ ist streng zu unterscheiden von der
+Ableitbarkeit einer wahren Formel aus den Axiomen des Kalk{\"u}ls, denn im zweiten Fall stehen mehr
+Ableitungsregeln zur Verf{\"u}gung. Falls beispielsweise die Formel $A$ als Axiom aufgenommen wird, so
+ist die Formel $A \rightarrow B$ herleitbar. Hingegen l{\"a}{\ss}t sich aus $A$ nicht $B$ ableiten.
+
+\begin{rul}[Deduktionstheorem\index{Deduktionstheorem}]
+Wenn eine Formel $\beta$ aus einer Formel $\alpha$ ableitbar ist, so ist die Formel $\alpha \rightarrow
+\beta$ im Pr{\"a}dikatenkalk{\"u}l herleitbar.
+\end{rul}
+
+\section{Identit{\"a}t}\index{Identit{\"a}t}\label{gleichheit}
+Es wird eine zweistellige Funktionskonstante festgelegt, welche in der Interpretation die Identit{\"a}t
+von Subjekten ausdr{\"u}cken soll.
+\begin{defn}[Gleichheit]
+$$x = y \ \Leftrightarrow \ c_1^2(x, y)$$
+\end{defn}
+
+Dazu werden zwei weitere Axiome, auch
+\emph{Gleichheitsaxiome}\index{Gleichheit}\index{Axiome!Gleichheits-} genannt, formuliert.
+\begin{ax}[Reflexivit{\"a}t der Gleichheit]
+$$x = x$$
+\end{ax}
+
+\begin{ax}[Leibnizsche Ersetzbarkeit]\index{Leibnizsche Ersetzbarkeit}\label{leibniz}
+$$x = y	 \rightarrow (\phi(x) \rightarrow \phi(y))$$
+\end{ax}
+
+\begin{thm}[Symmetrie der Gleichheit]\index{Gleichheit!Symmetrie der}
+\begin{equation}
+x = y \leftrightarrow y = x
+\end{equation}
+\end{thm}
+
+\begin{thm}[Transitivit{\"a}t der Gleichheit]\index{Gleichheit!Transitivit{\"a}t der}
+\begin{equation}
+x = y ~ \land ~ y = z \rightarrow x = z
+\end{equation}
+\end{thm}
+
+\begin{thm}
+\begin{equation}
+x = y \rightarrow (\phi(x) \leftrightarrow \phi(y))
+\end{equation}
+\end{thm}
+
+\begin{thm}
+\begin{equation}
+x = y \rightarrow f(x) = f(y)
+\end{equation}
+\end{thm}
+
+\section{Eingeschr{\"a}nkte Quantoren\index{Quantor!eingeschr{\"a}nkter}}
+Bei der folgenden Definition muss die f{\"u}r $\psi(x)$ eingesetzte Formel {\glqq erkennen
+lassen\grqq}, {\"u}ber welche Subjektvariable quantifiziert wird. Das ist in der Regel dar{\"u}ber zu
+entscheiden, welche freie Subjektvariable als erstes in der Formel
+vorkommt.\footnote{Beispielsweise ist in der folgenden Formel erkennbar, dass die zweite
+Quantifikation {\"u}ber die Subjektvariable $m$ l{\"a}uft: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n
+$.} In der exakten Syntax des Qedeq-Formats\footnote{Siehe unter
+\url{http://www.qedeq.org/0_01_05/projektbeschreibung.pdf}.} ist die Subjektvariable immer
+angegeben.
+\begin{defn}[Eingeschr{\"a}nkter Allquantor]\index{Allquantor!eingeschr{\"a}nkter}
+$$ \forall \ \psi(x) \ (\phi(x)) \ \Leftrightarrow \ \forall \ x \ (\psi(x) \rightarrow \phi(x))$$
+\end{defn}
+
+Dazu passt die folgende Definition f{\"u}r den eingeschr{\"a}nkten Existenzquantor.\footnote{Passend, da
+$\neg \forall \ \psi(x) \ (\phi(x)) \leftrightarrow \exists \ x \ \neg (\psi(x) \rightarrow \phi(x)) \leftrightarrow \exists
+\ x \ (\psi(x) \land \neg\phi(x)) \leftrightarrow \exists \ \psi(x) \ (\neg\phi(x))$.}
+\begin{defn}[Eingeschr{\"a}nkter Existenzquantor]\index{Existenzquantor!eingeschr{\"a}nkter}
+$$ \exists \ \psi(x) \ (\phi(x)) \ \Leftrightarrow \ \exists \ x \ (\psi(x) \land \phi(x))$$
+\end{defn}
+
+F{\"u}r die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird nun ein gesonderter
+Quantor eingef{\"u}hrt.
+\begin{defn}[Eingeschr{\"a}nkter Existenzquantor f{\"u}r genau ein Individuum]
+$$ \exists! \ \psi(x) \ (\phi(x)) \ \Leftrightarrow \ \exists \ \psi(x) \ (\phi(x) \land \forall \ \psi(y) \ (\phi(y) \rightarrow x = y))$$
+\end{defn}
+Durch die G{\"u}ltigkeit von $\exists! \ \psi(x) (\phi(x))$ kann daher eine Subjektkonstante definiert
+werden, wenn $\phi(x)$ und $\psi(x)$ durch Ausdr{\"u}cke ersetzt werden, die ausser $x$ keine freien
+Variablen, keine Pr{\"a}dikatsvariablen und keine Funktionsvariablen mehr enth{\"a}lt.
+
+
+\begin{rul}[Termdefinition durch Formel]\label{termdef}
+Falls die Formel $\exists! x \ \alpha(x)$ gilt, dann kann die Termsyntax durch $D(x, \alpha(x))$
+erweitert werden. Die Formel $alpha(x)$ m{\"o}ge die Variable $y$ nicht enthalten und $\beta(y)$ sei
+eine Formel, welche die Variable $x$ nicht enth{\"a}lt. Dann wird durch $\beta(D(x, \alpha(x)))$ eine
+Formel definiert durch $\beta(y) \land \exists! x \ (\alpha(x) \land x = y)$. Auch in der
+abk{\"u}rzenden Schreibweise gilt die Subjektvariable $x$ als gebunden, die Subjektvariable $y$ ist mit
+den obigen Einschr{\"a}nkungen frei w{\"a}hlbar und wird in der Abk{\"u}rzung nicht weiter beachtet.
+Ver{\"a}nderungen von $\alpha$ in eine andere Formel $\alpha'$, die eventuell erforderlich sind, damit
+keine Variablenkollisionen mit Variablen aus $\beta$ entstehen, m{\"u}ssen jedoch auch in der Abk{\"u}rzung
+durchgef{\"u}hrt werden. Alle Termbildungsregeln werden entsprechend erweitert. Der Ausdruck ist auch
+ersetzbar durch $\exists! y \ (\beta(y) \land \alpha(y)$ oder durch $\beta(y) \land \alpha(y)$.
+\end{rul}
+
+
+F{\"u}r eingeschr{\"a}nkte Quantoren gelten analog zu \ref{elmpred} entsprechende Formeln.
+\\
++++
+
+
+\chapter{Grundlagen}\index{Grundlagen}\index{Grundlagen!der Mengenlehre}
+Nach der Entwicklung der \emph{naiven Mengenlehre} (1895 - 1897) durch \emph{G.~Cantor} und der
+Entdeckung von Widerspr{\"u}chen durch \emph{B.~Russell} (1902) gab es verschiedene Versuche die
+Mengenlehre zu axiomatisieren. Zum einen in der \emph{Typentheorie}\footnote{In der Typentheorie
+k{\"o}nnen nur Mengen einer bestimmten Stufe zu Mengen der n{\"a}chsth{\"o}heren Stufe zusammengefa{\ss}t werden.}
+(1910) von \emph{A.~N.~Whitehead} und \emph{B.~Russell} in ihrem epochalen Werk {\glqq Principia
+Mathematica\grqq}. Zum anderen in der Zermeloschen axiomatischen Mengenlehre (1908) mit der
+Fraenkischen Verbesserung\footnote{Verwendung unendlich vieler Axiome, Aussonderungsschema.} (1921)
+und der skolemschen Pr{\"a}zisierung der mengentheoretischen Aussagen\footnote{Das Aussonderungsschema
+wird durch das Ersetzungsaxiomschema ersetzt.} (1922). Diese sogenannte Zermelo-Fraenkelsche
+Mengenlehre (\emph{ZF}) erfuhr durch \emph{K.~G{\"o}del} und \emph{P.~Bernays} eine Verbesserung, die
+h{\"a}ufig mit \emph{ZFG}\index{ZFG} abgek{\"u}rzt wird. Die Verwendung dieser f{\"u}r mengentheoretische
+Grundlagenforschung immer noch benutzten Theorie ist jedoch f{\"u}r die mathematische Praxis unbequem.
+Auch die Erg{\"a}nzungen von \emph{J.~v.~Neumann} und \emph{P.~Bernays} f{\"u}hrten zu einer neuen
+Formulierung, welche mit \emph{NBG}\index{NBG} bezeichnet wird. Eine Verallgemeinerung von NBG
+wurde von \emph{J.~L.~Kelley} (1955) vorgestellt. In der Tradition dieses auch
+\emph{MK}\index{MK}\footnote{Diese Abk{\"u}rzung ist nach \emph{A.~P.~Morse} und \emph{J.~L.~Kelley}
+benannt, das Axiomensystem wurde jedoch zuvor auch von anderen Mathematikern vorgestellt.}
+genannten Systems steht auch das hier verwendete Axiomensystem der Mengenlehre.
+\par
+In der naiven Mengenlehre wird der elementare Begriff von \emph{G.~Cantor} (1897) wie folgt erkl{\"a}rt: \\
+\emph{\glqq Unter einer {\glqq Menge\grqq} verstehen wir jede Zusammenfassung $M$ von bestimmten
+wohlunterscheidbaren Objekten unserer Anschaung oder unseres Denkens (welche die {\glqq
+Elemente\grqq} von $M$ genannt werden) zu einem Ganzen.\grqq}
+\par
+Der bekannte \emph{Russellsche Widerspruch} l{\"a}sst sich nun wie folgt konstruieren. Sei $M$ die
+Menge aller Mengen, die sich selbst als Element nicht enthalten: $M = \{X~|~X \not\in X\}$. Nun
+stellt sich die Frage, ob $M \in M$ gilt. Angenommen, diese Aussage ist richtig, dann folgt $M
+\not\in M$ aus der Eigenschaft die $M$ charakterisiert. Andererseits folgt aus $M \not\in M$ sofort
+$M \in M$ aus demselben Grund. Also gilt $M \in M \leftrightarrow M \not\in M$ und diese naive Mengenbildung
+f{\"u}hrt zu einem Widerspruch.
+\par
+Zur Aufl{\"o}sung dieses Widerspruchs muss die Mengenbildung eingeschr{\"a}nkt werden. Dazu wird in MK als
+Grundbegriff die \emph{Klasse} gew{\"a}hlt. Bestimmte Klassen zeichnen sich dadurch aus, dass sie das
+Pr{\"a}dikat \emph{ist eine Menge} erf{\"u}llen. Die Bildung neuer Klassen ist nur mit Mengen erlaubt:
+jedes Element einer Klasse muss eine Menge sein. Durch diese Einschr{\"a}nkung werden alle bekannten
+Widerspr{\"u}che vermieden. Die grundlegendsten Axiome und Definitionen der Mengenlehre werden in
+diesem Kapitel vorgestellt.
+
+\section{Komprehension und Extensionalit{\"a}t}
+\par
+Die Interpretationen der Subjektvariablen hei{\ss}en \emph{Klassen}\index{Klasse}.
+
+\par
+Als neue zweistellige Pr{\"a}dikatskonstante wird die Elementbeziehung $\in$ vorausgesetzt.
+\begin{idefn}[Elementbeziehung]\index{Elementbeziehung}
+$$x \in y \ \Leftrightarrow \ c_2^2(x, y)$$
+\end{idefn}
+
+Praktisch ist auch eine abk{\"u}rzende Schreibweise f{\"u}r die Negation dieser Relation.
+
+\begin{defn}[Negation der Elementbeziehung]
+$$x \not \in y \ \Leftrightarrow \ \neg(x \in y)$$
+\end{defn}
+
+\par
+Ist eine Klasse Element einer anderen Klasse, dann wird sie auch als \emph{Menge}\index{Menge}
+bezeichnet.
+\begin{defn}[Mengendefinition\index{Definition!Menge}]
+$$ \isSet(x) \ \Leftrightarrow \ \exists y \ ( x \in y)$$
+\end{defn}
+
+Der Gleichheitsbegriff\index{Gleichheit} wird durch das
+Extentsionalit{\"a}tsaxiom\index{Axiom!Extensionalit{\"a}ts-}\index{Extensionalit{\"a}t}
+festgeschrieben.\footnote{Die Umfangsgleichheit kann auch als Definition des Gleichheitspr{\"a}dikates
+verwendet werden. Das ist jedoch zum Nachweis der Leibnizschen Ersetzbarkeit nicht ausreichend.
+Daf{\"u}r muss die Extensionalit{\"a}t durch das folgende Axiom gesichert werden $(x = y ~ \land ~ x \in z
+\rightarrow y \in z$. Damit gen{\"u}gt dann das definierte Gleichheitspr{\"a}dikat allen Anforderungen an den in
+Abschnitt \ref{gleichheit} vorgestellten Identit{\"a}tsbegriff. Aus Gr{\"u}nden der formalen Vereinfachung
+wird hier jedoch von einem Pr{\"a}dikatenkalk{\"u}l mit Identit{\"a}t ausgegangen.} Die Gleichheit zweier
+Klassen soll dann gegeben sein, wenn sie dieselben Elemente besitzen.
+\begin{ax}[Extensionalit{\"a}tsaxiom]
+$$\forall z \ (z \in x \leftrightarrow z \in y) \rightarrow x = y$$
+\end{ax}
+\par
+Aus der Leibnizschen Ersetzbarkeit Axiom~\ref{leibniz} folgt auch die umgekehrte Richtung, so dass
+Folgendes gilt.
+\begin{thm}[Extensionalit{\"a}t]
+\begin{equation}
+x = y \leftrightarrow \forall z \ (z \in x \leftrightarrow z \in y)) \label{extensional}
+\end{equation}
+\end{thm}
+
+Zur Klassenbildung wird das Komprehensionsaxiom\index{Axiom!Komprehensions-}\index{Komprehension}
+ben{\"o}tigt.
+\begin{ax}[Komprehensionssaxiom]\label{kompax}
+$$\exists x \ \forall y \ ( y \in x \leftrightarrow \isSet(y) \land \phi(y))$$
+\end{ax}
+Werden an $\phi(y)$ zus{\"a}tzliche Anforderungen gestellt, so bilden die hier aufgelisteten Axiome ein
+NBG-System.\footnote{Dazu darf in $\phi(y)$ nur {\"u}ber Mengen quantifiziert werden, d.~h. alle in
+$\phi(y)$ vorkommenden Quantoren haben die Form $\forall \ \isSet(z) \ (\psi(z)))$ oder $\exists \
+\isSet(z) \ (\psi(z))$ mit entsprechenden $z$ und $\psi(z)$. Falls $\phi(y)$ diese Anforderung
+erf{\"u}llt, wird auch von einer \emph{pr{\"a}dikativen} Formel gesprochen.} In den herk{\"o}mmlichen
+Formulierungen dieses Axioms wird als zus{\"a}tzliche Einschr{\"a}nkung an $\phi(y)$ gefordert, dass in
+dieser Formel die Subjektvariable $x$ nicht vorkommen darf. Diese Forderung ist aufgrund des
+Verbots der mehrfachen Quantifizierung mit derselben Subjektvariablen und der
+Regel~\ref{predreplace} erf{\"u}llt.
+
+\par
+Durch die Extensionalit{\"a}t und das Komprehensionsaxiom wird nun der Zusammenhang zwischen einer
+Aussage $\phi(y)$ und der durch diese Aussage definierten Klasse festgelegt. Das
+Komprehensionsaxiom behauptet die Existenz mindestens einer durch die Aussage
+$\isSet(y)~\land~\phi(y)$ definierten Klasse. Das Extensionalit{\"a}tsaxiom und die Gleichheitsaxiome
+sichern ab, dass es h{\"o}chstens eine solche Klasse gibt: irgend zwei Klassen, welche dieselben
+Elemente besitzen, sind gleich im Sinne der Ersetzbarkeit in allen einschl{\"a}gigen Aussagen. Mit
+anderen Worten: es gibt nur genau eine solche Klasse.
+\begin{thm}
+\begin{equation}
+\exists! x \ \forall y \ (y \in x \leftrightarrow	 \isSet(y) \land \phi(y))
+\end{equation}
+\end{thm}
+\begin{proof}
+Zu zeigen ist:
+$$
+\begin{array}{rl}
+\exists x \forall y & (y \in x \leftrightarrow  \isSet(y) \land \phi(y)) \\
+\land \ \forall u \ \forall v  & (\forall y \ (y \in u \leftrightarrow \isSet(y) \land \phi(y)) \\
+\land & \ \forall y \ ( y \in v \leftrightarrow \isSet(y) \land \phi(y))) \rightarrow u = v)
+\end{array}
+$$
+Seien $u$ und $v$ beliebig. Es gelte weiterhin:\\
+$\forall y \ (y \in u \leftrightarrow \isSet(y) \land \phi(y)) \land \ \forall y \ ( y \in v \leftrightarrow \isSet(y)
+\land \phi(y)))$ \\
+Dann folgt mit \ref{allandpp}: $\forall y \ ((y \in u \leftrightarrow \isSet(y) \land \phi(y)) \land (y \in v \leftrightarrow \isSet(y) \land \phi(y)))$ \\
+Daraus erhalten wir mit \ref{andequi}: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit
+Satz~\ref{extensional} folgt nun $u = v$. Also haben wir gezeigt:\\
+$\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \isSet(y) \land \phi(y)) \land \ \forall y \ (
+y \in v \leftrightarrow \isSet(y) \land \phi(y))) \rightarrow u = v)$
+\par
+Zusammen mit Axiom~\ref{kompax} folgt nun die Behauptung.
+\end{proof}
+
+Deshalb k{\"o}nnen wir eine neue abk{\"u}rzende Schreibweise einf{\"u}hren. Siehe auch Regel~\ref{termdef}.
+
+\begin{rul}[Klassenschreibweise]\label{classcomp}
+Der Ausdruck $\{x~|~\phi(x) \}$ bezeichnet einen Term, alle Bildungsregeln werden entsprechend
+erweitert. Sei $\beta(x)$ eine Formel und $\beta(\{ x~|~\phi(x) \})$ eine mit diesem Term gebildete
+Formel, so wird diese Formel definiert durch $\beta(y) \land \forall x \ (x \in y \leftrightarrow \isSet(x)
+\land \phi(x))$ mit einer noch nicht in $\beta$ vorkommenden Subjektvariablen $y$.\footnote{Auch
+die Schreibweise $\exists! y \ (\beta(y) \land \forall x \ (x \in y \leftrightarrow \isSet(x) \land
+\phi(x)))$ ist m{\"o}glich.} Auch in der abk{\"u}rzenden Schreibweise gilt die Subjektvariable $x$ als
+gebunden, die Subjektvariable $y$ ist frei w{\"a}hlbar und wird in der Abk{\"u}rzung nicht weiter beachtet.
+Bei der Ersetzung von $\phi$ durch eine andere Formel muss auch in $\{ x~|~\phi(x) \}$ ersetzt
+werden.
+\end{rul}
+Im Folgenden kann diese abk{\"u}rzende Schreibweise in pr{\"a}dikativen Aussagen benutzt werden.
+
+\begin{thm}
+Die G{\"u}ltigkeit der Ausgangspr{\"a}dikate dr{\"u}ckt sich f{\"u}r diesen neuen Term wie folgt aus:
+\begin{eqnarray}
+y \in \{ x~|~\phi(x) \} & \leftrightarrow & \isSet(y) \land \phi(y) \label{inSetEqual} \\
+y = \{ x~|~ \phi(x) \} & \leftrightarrow & \forall z \ (z \in y \leftrightarrow z \in \{ x~|~\phi(x) \}) \\
+\{ x~|~\phi(x) \} = \{ x~|~\psi(x) \} & \leftrightarrow & \forall z \ (z \in \{ x~|~\phi(x) \} \nonumber \\
+  & & \ \leftrightarrow z \in \{x~|~\psi(x) \}) \\
+\{ x~|~\phi(x) \} \in \{ x~|~\psi(x) \} & \leftrightarrow & \forall u \ \forall
+v \ (u	= \{ x~|~\phi(x) \} \nonumber \\
+  & & \ \land \ v = \{ x~|~\psi(x) \}) \rightarrow u \in v \\
+\{ x~|~\phi(x) \} \in y & \leftrightarrow & \forall u \ u  = \{ x~|~\phi(x) \}	\rightarrow u \in y
+\end{eqnarray}
+\end{thm}
+
+%% Im Zweifel l{\"o}schen
+%%\begin{thm} \label{inSetEqual}
+%%\begin{equation}
+%%x \in \{y~|~\phi(y) \} ~\leftrightarrow~ \phi(x)
+%%\end{equation}
+%%\end{thm}
+
+\begin{thm}
+\begin{equation}
+\exists! x \ (x = \{y~|~\phi(y) \})
+\end{equation}
+\end{thm}
+
+\begin{thm}
+\begin{equation}
+(\phi(x) \leftrightarrow \psi(x)) ~\rightarrow~ (\{y~|~\phi(y)\} = \{y~|~\psi(y)\})
+\end{equation}
+\end{thm}
+
+Jede Klasse l{\"a}sst sich durch eine Aussage beschreiben, indem auf ihre Elemente Bezug genommen wird.
+
+\begin{thm}
+\begin{equation}
+\forall x \ (x = \{y~|~y \in x\})
+\end{equation}
+\end{thm}
+
+\section{Spezielle Klassen}
+Die Russellsche Klasse kann nun einfach definiert werden.
+\begin{defn}[Russellsche Klasse]
+$$ \russell \ := \ \{x~|~x \not\in x\}$$
+\end{defn}
+
+Die Russellsche Klasse ist eine \emph{echte} Klasse, d.~h. sie ist keine Menge.
+\begin{thm}
+\begin{equation}
+\neg \ \isSet(\russell)
+\end{equation}
+\end{thm}
+\par
+Die Allklasse soll alles m{\"o}gliche umfassen.
+\begin{defn}[Allklasse]
+$$ \allClass \ := \ \{x~|~x = x\}$$
+\end{defn}
+\par
+Die Allklasse umfasst alle Mengen.
+\begin{thm}
+\begin{equation}
+\allClass = \{x~|~\isSet(x)\}
+\end{equation}
+\end{thm}
+Eine Umformulierung dazu ist der folgende Satz.
+\begin{thm}
+\begin{equation}
+x \in \allClass \leftrightarrow \isSet(x)
+\end{equation}
+\end{thm}
+
+Entsprechend definieren wir die leere Klasse. Sp{\"a}ter werden wir feststellen, dass die leere Klasse
+eine Menge ist. Dazu ben{\"o}tigen wir jedoch weitere Mengenaxiome. Wir bezeichnen diese Klasse jedoch
+schon jetzt mit den Worten \emph{leere Menge}.
+\begin{defn}[Nullmenge]\index{Nullmenge}\index{Klasse!leere}\index{Menge!leere}
+$$ \emptyset \ := \ \{x~|~x \neq x\}$$
+\end{defn}
+
+\begin{thm}
+\begin{equation}
+\forall z \ z \notin \emptyset
+\end{equation}
+\end{thm}
+
+\begin{thm}
+\begin{equation}
+\forall z \ (z \notin x) \leftrightarrow	x = \emptyset
+\end{equation}
+\end{thm}
+
+\par
+
+
+\chapter{Boolesche Algebra der Klassen}
+Die elementaren Operationen von Klassen und ihre Eigenschaften werden nun beschrieben.
+
+Eine Boolesche Algebra, oft auch Boolescher Verband genannt, ist eine spezielle algebraische
+Struktur, die die Eigenschaften der logischen Operatoren \emph{und}, \emph{oder}, \emph{nicht}
+sowie die Eigenschaften der mengentheoretischen Verkn{\"u}pfungen \emph{Durchschnitt},
+\emph{Vereinigung} und \emph{Komplement} abstrahiert.
+
+Sie ist benannt nach \emph{G. Boole}, der sie in der Mitte des 19. Jahrhunderts definierte, um
+algebraische Methoden in der Aussagenlogik anwenden zu k{\"o}nnen.
+
+\section{Klassenoperatoren}
+Die Schreibweise bzw. Regel \ref{classcomp} erm{\"o}glicht die Definition von Klassenperatoren mithilfe
+der logischen Verkn{\"u}pfungen.
+\par
+Die Vereinigung zweier Klassen besteht aus den Elementen beider Klassen.
+\begin{defn}[Vereinigung]\index{Vereinigung}
+$$ x \cup y \ := \ \{z~|~z \in x \lor z \in y \}$$
+\end{defn}
+
+Entsprechend wird der Durchschnitt zweier Klassen definiert, als Klasse die aus den Elementen
+besteht, die in beiden Klassen vorhanden sind.
+\begin{defn}[Durchschnitt]\index{Durchschnitt}
+$$ x \cap y \ := \ \{z~|~z \in x \land z \in y \}$$
+\end{defn}
+
+Auch das Komplement einer Klasse kann einfach definiert werden.
+\begin{defn}[Komplement]\index{Komplement}
+$$ \overline{x} \ := \ \{z~|~z \not\in x\}$$
+\end{defn}
+
+Das relative Komplement einer Klasse wird analog definiert.
+\begin{defn}[relatives Komplement]\index{Komplement!relatives}
+$$x \setminus y \ := \ x \cap \overline{y}$$
+\end{defn}
+
+Ob eine Menge ein Element der Vereinigung zweier Klassen ist, kann nat{\"u}rlich auch direkt angegeben
+werden.
+\begin{thm}
+\begin{equation}
+z \in (x \cup y) \leftrightarrow z \in x \lor z \in y
+\end{equation}
+\end{thm}
+
+Entsprechendes gilt f{\"u}r den Durchschnitt zweier Klassen.
+\begin{thm}
+\begin{equation}
+z \in (x \cap y) \leftrightarrow z \in x \land z \in y
+\end{equation}
+\end{thm}
+
+Analoges gilt f{\"u}r das Komplement, dort muss jedoch die Mengeneigenschaft explizit abgepr{\"u}ft werden.
+\begin{thm}
+\begin{equation}
+z \in \overline{x} \leftrightarrow \isSet(z) \land z \not\in x
+\end{equation}
+\end{thm}
+
+F{\"u}r das relative Komplement gilt das Folgende.
+\begin{thm}
+\begin{equation}
+z \in (x \setminus y) \leftrightarrow z \in x \land z \not\in x
+\end{equation}
+\end{thm}
+
+\par
+Die vorherigen S{\"a}tze  zeigen die {\"U}bertragbarkeit der Eigenschaften der logischen Verkn{\"u}pfungen
+$\lor$, $\land$ und $\neg$ auf die Klassenverkn{\"u}pfungen $\cup$, $\cap$ und $\bar{~}$. Deshalb
+lassen sich die entsprechenden logischen Gesetzm{\"a}ssigkeiten direkt auf die Klassenverkn{\"u}pfungen
+{\"u}bertragen.
+
+\begin{thm}
+\begin{eqnarray}
+x \cup y  & = & y \cup x \\
+x \cap y  & = & y \cap x \\
+(x \cup y) \cup z & = & x \cup (y \cup z) \\
+(x \cap y) \cap z & = & x \cap (y \cap z) \\
+x & = & x \cup x \\
+x & = & x \cap x \\
+\overline{\overline{x}} & = & x\\
+\overline{(x \cup y)} & = & \overline{x} \cap \overline{y} \\
+\overline{(x \cap y)} & = & \overline{x} \cup \overline{y} \\
+x \cup (y \cap z) & = & (x \cup y) \cap (x \cup z) \\
+x \cap (y \cup z) & = & (x \cap y) \cup (x \cap z) \\
+\overline{\emptyset} = \allClass \\
+\overline{\allClass} = \emptyset \\
+x \cap \allClass & = & x \\
+x \cap \emptyset & = & \emptyset \\
+x \cup \allClass & = & \allClass \\
+x \cup \emptyset & = & x \\
+x \cup \overline{x} & = & \allClass \\
+x \cap \overline{x} & = & \emptyset
+\end{eqnarray}
+\end{thm}
+
+\section{Ordnung}
+
+Wir definieren die Teilklassenrelation wie {\"u}blich.
+\begin{defn}[Unterklasse]\index{Unterklasse}\index{Teilklasse}
+$$ x \subset y \ \Leftrightarrow \ \forall z \ ( z \in x \rightarrow z \in y)$$
+\end{defn}
+\par
+Diese Relation ist reflexiv, transitiv und antisymmetrisch, definiert also eine teilweise
+(partielle) Ordnung mit $\emptyset$ als kleinstem und $\allClass$ als gr{\"o}{\ss}tem Element.
+\begin{thm}
+\begin{eqnarray}
+x & \subset & x \\
+x \subset y \ \land y \ \subset z & \rightarrow & x \subset z\\
+x \subset y \ \land y \ \subset x & \rightarrow & x = y \\
+\emptyset & \subset & x \\
+x & \subset & \allClass \\
+x \subset \emptyset & \rightarrow & x = 0 \\
+\allClass \subset x & \rightarrow & x = \allClass
+\end{eqnarray}
+\end{thm}
+
+\begin{thm}
+\begin{eqnarray}
+x \cap y & \subset & x \\
+x \cap y & \subset & y
+\end{eqnarray}
+\end{thm}
+
+\begin{thm}
+\begin{eqnarray}
+x & \subset & x \cup y \\
+y & \subset & x \cup y
+\end{eqnarray}
+\end{thm}
+
+\begin{thm}
+\begin{eqnarray}
+x \subset z \ \land \ y \subset z & \leftrightarrow & x \cup y \subset z \\
+z \subset x \ \land \ z \subset y & \leftrightarrow & z \subset x \cap y
+\end{eqnarray}
+\end{thm}
+
+\begin{thm}
+\begin{eqnarray}
+x \subset y & \rightarrow & x \cup z \subset y \cup z \\
+x \subset y & \rightarrow & x \cap z \subset y \cap z
+\end{eqnarray}
+\end{thm}
+
+\begin{thm}
+\begin{equation}
+x \subset y \ \leftrightarrow \ \overline{y} \subset \overline{x}
+\end{equation}
+\end{thm}
+
+\begin{thm}
+\begin{eqnarray}
+x \subset y & \leftrightarrow & x \cap \overline{y} = \emptyset \\
+x \subset y & \leftrightarrow & \overline{x} \cup y = \allClass \\
+x \subset \overline{y} & \leftrightarrow & x \cap y = \emptyset \\
+x \cap y \subset z & \leftrightarrow & x \subset \overline{y} \cup z
+\end{eqnarray}
+\end{thm}
+
+\par
+Aus der Teilklassenrelation l{\"a}sst sich ein weiterer Klassenoperator gewinnen, die
+\emph{Potenzklassenbildung}.
+
+\begin{defn}[Potenzklasse]\index{Potenzklasse}\index{Potenzmenge}
+$$
+\power(x) \ := \ \{ z~|~z \subset x \}
+$$
+\end{defn}
+
+F{\"u}r diesen neuen Operator gelten die folgenden Aussagen.
+\begin{thm}
+\begin{eqnarray}
+z \in \power(x) & \leftrightarrow & \isSet(x) \land z \subset x \\
+\power(\emptyset) & = & \{\emptyset\} \\
+\power(\allClass) & = & \allClass \\
+\isSet(x) & \leftrightarrow & x \in \power(x) \\
+x \subset y & \rightarrow & \power(x) \subset \power(y) \\
+\isSet(x) \land \power(x) \subset \power(y) & \rightarrow & x \subset y \\
+\power(x \cap y) & = & \power(x) \cap \power(y) \\
+\power(x) \cup \power(y) & \subset & \power(x \cup y)
+\end{eqnarray}
+\end{thm}
+
+
+\section{Boolsche Algebra}
+Die Klassen bilden mit den Operatoren $\cap$, $\cup$, $\bar{~}$ und den Konstanten $\emptyset$,
+$\allClass$ eine boolesche Algebra.
+\par
++++ Kommutativit{\"a}t, Assoziativit{\"a}t, Distributivit{\"a}t Idempotenz.
+
+\section{Unendliche boolsche Operatoren}
+Es k{\"o}nnen auch beliebige Schnittklassen und Vereinigungsklassen gebildet werden. Dazu muss nur
+festgelegt werden, {\"u}ber welche Klassen jeweils geschnitten bzw. vereinigt wird. Das kann im
+allgemeinsten Fall durch die Angabe einer Eigenschaft $\phi$ geschehen. Alle Klassen, die diese
+Eigenschaft besitzen, werden dann zur Klassenbildung herangezogen.
+
+\begin{defn}[Allgemeiner Durchschnitt]\index{Durchschnitt!allgemeiner}\index{Schnitt!unendlicher}
+$$ \bigcap_{\phi(x)} x \ := \ \{y~|~\forall \phi(x) \ (y \in x)\}$$
+\end{defn}
+
+\begin{defn}[Allgemeine Vereinigung]\index{Vereinigung!allgemeine}\index{Vereinigung!unendliche}
+$$ \bigcup_{\phi(x)} x \ := \ \{y~|~\exists \phi(x) \ (y \in x) \}$$
+\end{defn}
+
+In Analogie zu \ref{inSetEqual} gilt nun:
+\begin{thm}
+\begin{eqnarray}
+y \in \bigcap_{\phi(x)} x & \leftrightarrow & \isSet(y) \land \forall \phi(x) \ (y \in x) \label{inUnionEqual}\\
+y \in \bigcup_{\phi(x)} x & \leftrightarrow & \exists \phi(x) \ (y \in x) \label{inIntersectionEqual}
+\end{eqnarray}
+\end{thm}
+Die Einschr{\"a}nkung auf Mengen in (\ref{inUnionEqual}) ist notwendig, da sonst bei einem nicht
+erf{\"u}llbaren $\phi$ auch alle Klassen $y$, die keine Mengen sind, die rechte Seite der {\"A}quivalenz
+erf{\"u}llen w{\"u}rden.
+\par
+\begin{thm}
+\begin{equation}
+\phi(x) \rightarrow x \subset \bigcup_{\phi(y)} y
+\end{equation}
+\end{thm}
+\begin{thm}
+\begin{equation}
+\forall \phi(x) \ (x \subset z) \leftrightarrow \bigcup_{\phi(y)} y \subset z
+\end{equation}
+\end{thm}
+\begin{thm}
+\begin{equation}
+\forall \phi(x) \ (\bigcap_{\phi(y)} y \subset x)
+\end{equation}
+\end{thm}
+\begin{thm}
+\begin{equation}
+\forall \phi(x) \ (z \subset x) \leftrightarrow z \subset \bigcap_{\phi(y)} y
+\end{equation}
+\end{thm}
+\begin{thm}
+\begin{eqnarray}
+x \cup y & = & \bigcup_{z = x ~\lor~ z = y} z \\
+x \cap y & = & \bigcap_{z = x ~\land~ z = y} z
+\end{eqnarray}
+\end{thm}
+\begin{thm}
+\begin{eqnarray}
+x & = & \bigcup_{z = x} z \\
+x & = & \bigcap_{z = x} z
+\end{eqnarray}
+\end{thm}
+
+\begin{thm}
+\begin{eqnarray}
+\forall x \ (\phi(x) \leftrightarrow \psi(x) & \rightarrow & \bigcup_{\phi(x)} x = \bigcup_{\psi(x)} x \\
+\forall x \ (\phi(x) \leftrightarrow \psi(x) & \rightarrow & \bigcap_{\phi(x)} x = \bigcap_{\psi(x)} x
+\end{eqnarray}
+\end{thm}
+
+\begin{thm}
+\begin{eqnarray}
+\forall x \ (\phi(x) \leftrightarrow x = z) & \rightarrow & z = \bigcap_{\phi(x)} x \\
+\forall x \ (\phi(x) \leftrightarrow x = z) & \rightarrow & z = \bigcup_{\phi(x)} x
+\end{eqnarray}
+\end{thm}
+
+\begin{thm}
+\begin{eqnarray}
+\forall x \ (\phi(x) \rightarrow \psi(x) & \rightarrow & \bigcup_{\phi(x)} x \subset \bigcup_{\psi(x)} x \\
+\forall x \ (\phi(x) \rightarrow \psi(x) & \rightarrow &\bigcap_{\phi(x)} x \subset \bigcap_{\psi(x)} x
+\end{eqnarray}
+\end{thm}
+
+\begin{thm}
+\begin{equation}
+\exists \phi(x) \ (\bigcap_{\phi(x)} x ) \subset \bigcup_{\phi(x)} x
+\end{equation}
+\end{thm}
+
+\begin{thm}
+\begin{eqnarray}
+x & \subset & \power(\bigcup_{z \in x} z) \\
+\bigcup_{z \in \power(x)} z & \subset & x \\
+\forall \, \isSet(x) \quad x & = & \bigcup_{z \in \power(x)} z
+\end{eqnarray}
+\end{thm}
+
++++ weitere Rechengesetze, de Morgan etc. \\
++++ muss eventuell in Relationen und Funktionen noch einmal f{\"u}r Indexmengen erg{\"a}nzt werden\\
+\par
+
+\section{Mengen}
+Zur Darstellung der Booleschen Klassenalgebra wurden noch keine mengentheoretischen Axiome ben{\"o}tigt
+Im Folgenden werden weitere Axiome vorgestellt, die Bedingungen daf{\"u}r angeben, wann eine Klasse
+eine Menge ist.
+
+\begin{ax}[Axiom der Potenzmenge\index{Axiom!Potenzmengen-}]
+$$\forall \isSet(x) \ \exists \isSet(y) \ \forall z \ ( z \subset x \rightarrow z \in y)$$
+\end{ax}
+
+\begin{ax}[Axiom der Paarmenge\index{Axiom!Paarmengen-}]
+$$\forall \isSet(x) \ \forall \isSet(y) \ \exists \isSet(z) \ ( x \in z \land y \in z)$$
+\end{ax}
+
+\begin{ax}[Axiom der Vereinigungsmenge\index{Axiom!Vereinigungsmengen-}]
+$$\forall \isSet(x) \ \exists \isSet(y) \ \forall z \ ( z \in x \rightarrow z \subset y)$$
+\end{ax}
+
+\par
+\begin{thm}
+\begin{eqnarray}
+\forall \, \isSet(x) & \isSet(\power(x)) \\
+\forall \, \isSet(x) \	\forall \, \isSet(y) & \isSet(\{x, y\}) \\
+\forall \, \isSet(x) & \isSet(\bigcup_{z \subset x} z) \\
+\forall \, \isSet(x) & \isSet(\power( x)) \\
+\forall \, \isSet(x) \	\forall \, y \subset x & \isSet(y)
+\end{eqnarray}
+\end{thm}
+
+\par
+\begin{thm}
+\begin{eqnarray}
+\neg \, \isSet(y) \land y \subset x & \rightarrow & \neg \, \isSet(x) \\			%%% T100
+\isSet(x) & \rightarrow & \isSet(\{x\}) \\										%%% T103
+\isSet(x) & \rightarrow & \isSet(x \cap y) \\										%%% T104
+\isSet(x) & \rightarrow & \neg \, \isSet(\overline{x}) \\							%%% T105
+x & = & \bigcup_{z \in \power(x)} z \\										%%% T106
+\isSet(x) & \leftrightarrow & \isSet(\bigcup_{z \subset x} z) \\						%%% T107
+\isSet(x) & \leftrightarrow & \isSet(\power(x)) \\									%%% T108
+\isSet(x \cup y) & \rightarrow & \isSet(x) \\										%%% T109
+\neg \, \isSet(x) \land \isSet(y) & \rightarrow & .\neg \, \isSet(x \setminus y)	%%% T110
+\end{eqnarray}
+\end{thm}
+
+
+\begin{thm}
+\begin{eqnarray}
+\isSet(\emptyset)\\
+\isSet(1) \\
+\isSet(2)
+\end{eqnarray}
+\end{thm}
+
+\section{Fundierung und Unendlichkeit}
+\begin{ax}[Regularit{\"a}tsaxiom]\index{Axiom!Regularit{\"a}ts-}\index{Regularit{\"a}t}\index{Axiom!Fundierungs-}
+$$\forall x \ (x \neq \emptyset \rightarrow \exists y \ (y \in x \land y \cap x = \emptyset))$$
+\end{ax}
+
+\begin{defn}[Nachfolger]\index{Nachfolger}
+$$ \successor(x) \ := \ \{y~|~y \in x \lor y = x \}$$
+\end{defn}
+
+\begin{ax}[Unendlichkeitsaxiom]\index{Unendlichkeitsaxiom}\index{Axiom!Unendlichkeits-}
+$$\exists \, \isSet(x) \ (\emptyset \in x \land \forall~y \ (y \in x \rightarrow \successor(y) \in x))$$
+\end{ax}
+
+
+\chapter{Relationen und Funktionen}
+Um Relationen definieren zu k{\"o}nnen, wird der Begriff des \emph{geordneten Klassenpaares} ben{\"o}tigt,
+der es erm{\"o}glicht das \emph{cartesische Produkt} von Klassen zu definieren. Relationen sind
+Teilklassen von cartesischen Produkten und bilden eine mit bestimmten Operationen eine
+\emph{universelle Algebra}. Spezielle Relationen sind die {\"A}quivalenzrelationen, die einen etwas
+weiter gefassten Gleichheitsbegriff erm{\"o}glichen. Funktionen sind ebenfalls spezielle Relationen,
+das Fraenkelsche Ersetzungsaxiom garantiert das Mengen auf Mengen abgebildet werden.
+
+\section{Klassenangabe durch Aufz{\"a}hlung}
+Eine Klasse kann auch durch Angabe ihrer Elemente definiert werden. Insbesondere kann durch Angabe
+eines Elements die sogenannte \emph{Einerklasse} festgelegt werden.
+\begin{defn}[Einerklasse]\index{Einerklasse}\index{Klasse!Einer-}
+$$
+\{x\} \ := \ \{u~|~\isSet(x) \rightarrow u = x \}
+$$
+\end{defn}
+Da der Ausdruck $\{x\}$ f{\"u}r jegliches $x$ definiert ist, kann er auch f{\"u}r den Fall, dass $x$ eine
+echte Klasse ist, gebildet werden. In diesem Fall erf{\"u}llen alle Mengen $u$ die Bedingung $\isSet(u)
+\land (\isSet(x) \rightarrow u = x)$ und die Einerklasse ist mit der Allklasse identisch. Das f{\"u}hrt zu
+einem technisch einfacheren Umgang mit der Einerklasse.\footnote{Andere Autoren wie z.~B. auch
+K.~G{\"o}del, definieren $\{x\}$ durch $\{u~|~u = x\}$.}
+\par
+\begin{thm}
+\begin{equation}
+\neg \, \isSet(x) \rightarrow x = \allClass
+\end{equation}
+\end{thm}
+
+\begin{thm}
+\begin{equation}
+\forall \, \isSet(x) \ \forall \, \isSet(y) \ \{x\} = \{y\} \leftrightarrow x = y
+\end{equation}
+\end{thm}
+
+\par
+\begin{defn}[Klassenangabe durch Aufz{\"a}hlung]\index{Klasse!Angabe durch Aufz{\"a}hlung}
+\begin{eqnarray}
+\{x, y\} & := & \{x\} \cup \{y\} \\
+\{x, y, z\} & := & \{x\} \cup \{y\} \cup \{z\} \\
+\end{eqnarray}
+\end{defn}
+
+\section{Geordnetes Klassenpaar}
+Die Definition eines geordneten Paares $\langle x, y\rangle$ erfolgt nach \emph{N.~Wiener} (1914)
+bzw. \emph{K.~Kuratowski} (1921).
+
+\begin{defn}[Geordnetes Klassenpaar]\index{Klassenpaar!geordnetes}
+$$
+\langle x, y\rangle \ := \ \{\{x\}, \{x, y\}\}
+$$
+\end{defn}
+
+\begin{thm}
+\begin{equation}
+\forall \, \isSet(x) \ \forall \, \isSet(y) \ \forall z \ z \in \{x, y\} \leftrightarrow z = x \lor z = y
+\end{equation}
+\end{thm}
+
+\begin{thm}
+\begin{equation}
+(\neg \, \isSet(x) \lor \neg \, \isSet(y)) \rightarrow \{x, y\} = \allClass
+\end{equation}
+\end{thm}
+
+\begin{thm}
+\begin{eqnarray}
+\{x, y\} & = & \{y, x\} \\
+\{x, x\} & = & \{x\}
+\end{eqnarray}
+\end{thm}
+
+
+\section{Kartesisches Produkt}
+Das Kartesische Produkt\footnote{Kartesisch oder kartesianisch nach der lateinischen Namensform
+\emph{Cartesius} des Philosophen und Mathematikers \emph{R. Descartes}.}, auch \emph{Kreuzprodukt}
+genannt ist die Klasse aller geordneter Paare, deren Elemente aus diesen Klassen stammen.
+\begin{defn}[Kartesisches Produkt]
+$$
+x \times y \ := \ \{z~|~\exists u \in x \ \exists v \in y \ (z = \langle u, v\rangle)\}
+$$
+\end{defn}
+
++++
+
+\section{Relationen}
+\begin{defn}[Relation]\index{Relation}
+$$\rel(x) \ \Leftrightarrow \ \forall y \in x \ \exists \isSet(u) \ \exists \isSet(v) \ y = \langle u, v\rangle$$
+\end{defn}
+
+\begin{defn}[Definitionsbereich]\index{Definitionsbereich}
+$$\dmn(x) \ := \ \{u~|~\isSet(u) \land \exists \isSet(v) \ \langle u, v\rangle \in x\}$$
+\end{defn}
+
+\begin{defn}[Wertebereich]\index{Wertebereich}
+$$\rng(x) \ := \ \{v~|~\isSet(v) \land \exists \isSet(u) \ \langle u, v\rangle \in x\}$$
+\end{defn}
+
++++
+
+\section{Relationenalgebra}
++++
+\section{{\"A}quivalenzrelationen}
++++
+\section{Abbildungen und Funktionen}
++++
+\par
+\begin{defn}[Funktionale Klasse]\index{Klasse!funktionale}
+$$\fkt(x) \ \Leftrightarrow \ \rel(x) \land \forall u \in \dmn(x) \ \exists! v \ \langle u, v\rangle \in x$$
+\end{defn}
+
+\begin{ax}[Fraenkelsches Ersetzungsaxiom]\index{Axiom!Fraenkelsches Ersetzungs-}\index{Substitutionsaxiom}
+$$\fkt(x) \land \isSet(\dmn(x)) \rightarrow \isSet(\rng(x))$$
+\end{ax}
+
+
+\chapter{Nat{\"u}rliche Zahlen}
++++
+\section{Definition und Grundeigenschaften}
++++
+\section{Induktion}
++++
+\section{Folgen und normale Funktionen}
++++
+\section{Rekursion}
++++
+\chapter{Auswahlaxiom}
++++
+\par
+\begin{ax}[Auswahlaxiom f{\"u}r Relationen]\index{Axiom!Auswahl-}
+$$\rel(x) \rightarrow \exists \fkt(y) \ y \subset x \land \dmn(x) = \dmn(y) $$
+\end{ax}
+
+\section{Wohlordnungen}
++++
+\section{Anwendungen des Auswahlaxioms}
+
+\chapter{Kontinuum}
++++
+
+
+%\backmatter	%% TODO what is that?
+
+\begin{appendix}
+\chapter{GNU Free Documentation License\index{GFDL}} \label{GNU_Free_Documentation_License}
+
+{ \small \sffamily
+\renewcommand{\LaTeX}{LaTeX}
+
+ \begin{flushleft}
+ Version 1.2, November 2002\\[.5ex]
+ Copyright \copyright\ 2000,2001,2002  Free Software Foundation, Inc.\\
+	 59~Temple Place, Suite~330, Boston, MA	 02111-1307	 USA\\[.5ex]
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+ \end{flushleft}
+
+
+\subsection*{PREAMBLE}
+
+The purpose of this License is to make a manual, textbook, or other functional and useful document
+``free'' in the sense of freedom: to assure everyone the effective freedom to copy and redistribute
+it, with or without modifying it, either commercially or noncommercially. Secondarily, this License
+preserves for the author and publisher a way to get credit for their work, while not being
+considered responsible for modifications made by others.
+
+This License is a kind of ``copyleft'', which means that derivative works of the document must
+themselves be free in the same sense.  It complements the GNU General Public License, which is a
+copyleft license designed for free software.
+
+We have designed this License in order to use it for manuals for free software, because free
+software needs free documentation: a free program should come with manuals providing the same
+freedoms that the software does.  But this License is not limited to software manuals; it can be
+used for any textual work, regardless of subject matter or whether it is published as a printed
+book.  We recommend this License principally for works whose purpose is instruction or reference.
+
+
+\subsection*{APPLICABILITY AND DEFINITIONS}
+\label{applicability}
+
+This License applies to any manual or other work, in any medium, that contains a notice placed by
+the copyright holder saying it can be distributed under the terms of this License.	Such a notice
+grants a world-wide, royalty-free license, unlimited in duration, to use that work under the
+conditions stated herein.  The ``Document'', below, refers to any such manual or work.	Any member
+of the public is a licensee, and is addressed as ``you''.  You accept the license if you copy,
+modify or distribute the work in a way requiring permission under copyright law.
+
+A ``Modified Version'' of the Document means any work containing the Document or a portion of it,
+either copied verbatim, or with modifications and/or translated into another language.
+
+A ``Secondary Section'' is a named appendix or a front-matter section of the Document that deals
+exclusively with the relationship of the publishers or authors of the Document to the Document's
+overall subject (or to related matters) and contains nothing that could fall directly within that
+overall subject.  (Thus, if the Document is in part a textbook of mathematics, a Secondary Section
+may not explain any mathematics.)  The relationship could be a matter of historical connection with
+the subject or with related matters, or of legal, commercial, philosophical, ethical or political
+position regarding them.
+
+The ``Invariant Sections'' are certain Secondary Sections whose titles are designated, as being
+those of Invariant Sections, in the notice that says that the Document is released under this
+License.  If a section does not fit the above definition of Secondary then it is not allowed to be
+designated as Invariant.  The Document may contain zero Invariant Sections.	 If the Document does
+not identify any Invariant Sections then there are none.
+
+The ``Cover Texts'' are certain short passages of text that are listed, as Front-Cover Texts or
+Back-Cover Texts, in the notice that says that the Document is released under this License.	 A
+Front-Cover Text may be at most 5 words, and a Back-Cover Text may be at most 25 words.
+
+A ``Transparent'' copy of the Document means a machine-readable copy, represented in a format whose
+specification is available to the general public, that is suitable for revising the document
+straightforwardly with generic text editors or (for images composed of pixels) generic paint
+programs or (for drawings) some widely available drawing editor, and that is suitable for input to
+text formatters or for automatic translation to a variety of formats suitable for input to text
+formatters.	 A copy made in an otherwise Transparent file format whose markup, or absence of
+markup, has been arranged to thwart or discourage subsequent modification by readers is not
+Transparent. An image format is not Transparent if used for any substantial amount of text.	 A copy
+that is not ``Transparent'' is called ``Opaque''.
+
+Examples of suitable formats for Transparent copies include plain ASCII without markup, Texinfo
+input format, \LaTeX\ input format, SGML or XML using a publicly available DTD, and
+standard-conforming simple HTML, PostScript or PDF designed for human modification.	 Examples of
+transparent image formats include PNG, XCF and JPG.	 Opaque formats include proprietary formats
+that can be read and edited only by proprietary word processors, SGML or XML for which the DTD
+and/or processing tools are not generally available, and the machine-generated HTML, PostScript or
+PDF produced by some word processors for output purposes only.
+
+The ``Title Page'' means, for a printed book, the title page itself, plus such following pages as
+are needed to hold, legibly, the material this License requires to appear in the title page.  For
+works in formats which do not have any title page as such, ``Title Page'' means the text near the
+most prominent appearance of the work's title, preceding the beginning of the body of the text.
+
+A section ``Entitled XYZ'' means a named subunit of the Document whose title either is precisely
+XYZ or contains XYZ in parentheses following text that translates XYZ in another language.	(Here
+XYZ stands for a specific section name mentioned below, such as ``Acknowledgements'',
+``Dedications'', ``Endorsements'', or ``History''.)	 To ``Preserve the Title'' of such a section
+when you modify the Document means that it remains a section ``Entitled XYZ'' according to this
+definition.
+
+The Document may include Warranty Disclaimers next to the notice which states that this License
+applies to the Document.  These Warranty Disclaimers are considered to be included by reference in
+this License, but only as regards disclaiming warranties: any other implication that these Warranty
+Disclaimers may have is void and has no effect on the meaning of this License.
+
+
+\subsection*{VERBATIM COPYING}
+\label{verbatim}
+
+You may copy and distribute the Document in any medium, either commercially or noncommercially,
+provided that this License, the copyright notices, and the license notice saying this License
+applies to the Document are reproduced in all copies, and that you add no other conditions
+whatsoever to those of this License.  You may not use technical measures to obstruct or control the
+reading or further copying of the copies you make or distribute.  However, you may accept
+compensation in exchange for copies.  If you distribute a large enough number of copies you must
+also follow the conditions in section ``COPYING IN QUANTITY''.
+
+You may also lend copies, under the same conditions stated above, and you may publicly display
+copies.
+
+
+\subsection*{COPYING IN QUANTITY}
+\label{copying}
+
+If you publish printed copies (or copies in media that commonly have printed covers) of the
+Document, numbering more than 100, and the Document's license notice requires Cover Texts, you must
+enclose the copies in covers that carry, clearly and legibly, all these Cover Texts: Front-Cover
+Texts on the front cover, and Back-Cover Texts on the back cover.  Both covers must also clearly
+and legibly identify you as the publisher of these copies.	The front cover must present the full
+title with all words of the title equally prominent and visible.  You may add other material on the
+covers in addition. Copying with changes limited to the covers, as long as they preserve the title
+of the Document and satisfy these conditions, can be treated as verbatim copying in other respects.
+
+If the required texts for either cover are too voluminous to fit legibly, you should put the first
+ones listed (as many as fit reasonably) on the actual cover, and continue the rest onto adjacent
+pages.
+
+If you publish or distribute Opaque copies of the Document numbering more than 100, you must either
+include a machine-readable Transparent copy along with each Opaque copy, or state in or with each
+Opaque copy a computer-network location from which the general network-using public has access to
+download using public-standard network protocols a complete Transparent copy of the Document, free
+of added material. If you use the latter option, you must take reasonably prudent steps, when you
+begin distribution of Opaque copies in quantity, to ensure that this Transparent copy will remain
+thus accessible at the stated location until at least one year after the last time you distribute
+an Opaque copy (directly or through your agents or retailers) of that edition to the public.
+
+It is requested, but not required, that you contact the authors of the Document well before
+redistributing any large number of copies, to give them a chance to provide you with an updated
+version of the Document.
+
+
+\subsection*{MODIFICATIONS}
+\label{modifications}
+
+You may copy and distribute a Modified Version of the Document under the conditions of sections
+``VERBATIM COPYING'' and ``COPYING IN QUANTITY'' above, provided that you release the Modified
+Version under precisely this License, with the Modified Version filling the role of the Document,
+thus licensing distribution and modification of the Modified Version to whoever possesses a copy of
+it.	 In addition, you must do these things in the Modified Version:
+
+\begin{enumerate}% [A.]
+\item Use in the Title Page (and on the covers, if any) a title distinct
+   from that of the Document, and from those of previous versions
+   (which should, if there were any, be listed in the History section
+   of the Document).  You may use the same title as a previous version
+   if the original publisher of that version gives permission.
+\item List on the Title Page, as authors, one or more persons or entities
+   responsible for authorship of the modifications in the Modified
+   Version, together with at least five of the principal authors of the
+   Document (all of its principal authors, if it has fewer than five),
+   unless they release you from this requirement.
+\item State on the Title page the name of the publisher of the
+   Modified Version, as the publisher.
+\item Preserve all the copyright notices of the Document. \item Add an appropriate copyright notice
+for your modifications
+   adjacent to the other copyright notices.
+\item Include, immediately after the copyright notices, a license notice
+   giving the public permission to use the Modified Version under the
+   terms of this License, in the form shown in the Addendum below.
+\item Preserve in that license notice the full lists of Invariant Sections
+   and required Cover Texts given in the Document's license notice.
+\item Include an unaltered copy of this License. \item Preserve the section Entitled ``History'',
+Preserve its Title, and add
+   to it an item stating at least the title, year, new authors, and
+   publisher of the Modified Version as given on the Title Page.  If
+   there is no section Entitled ``History'' in the Document, create one
+   stating the title, year, authors, and publisher of the Document as
+   given on its Title Page, then add an item describing the Modified
+   Version as stated in the previous sentence.
+\item Preserve the network location, if any, given in the Document for
+   public access to a Transparent copy of the Document, and likewise
+   the network locations given in the Document for previous versions
+   it was based on.	 These may be placed in the ``History'' section.
+   You may omit a network location for a work that was published at
+   least four years before the Document itself, or if the original
+   publisher of the version it refers to gives permission.
+\item For any section Entitled ``Acknowledgements'' or ``Dedications'',
+   Preserve the Title of the section, and preserve in the section all
+   the substance and tone of each of the contributor acknowledgements
+   and/or dedications given therein.
+\item Preserve all the Invariant Sections of the Document,
+   unaltered in their text and in their titles.	 Section numbers
+   or the equivalent are not considered part of the section titles.
+\item Delete any section Entitled ``Endorsements''.	 Such a section
+   may not be included in the Modified Version.
+\item Do not retitle any existing section to be Entitled ``Endorsements''
+   or to conflict in title with any Invariant Section.
+\item Preserve any Warranty Disclaimers.
+
+\end{enumerate}
+
+If the Modified Version includes new front-matter sections or appendices that qualify as Secondary
+Sections and contain no material copied from the Document, you may at your option designate some or
+all of these sections as invariant.	 To do this, add their titles to the list of Invariant Sections
+in the Modified Version's license notice. These titles must be distinct from any other section
+titles.
+
+You may add a section Entitled ``Endorsements'', provided it contains nothing but endorsements of
+your Modified Version by various parties--for example, statements of peer review or that the text
+has been approved by an organization as the authoritative definition of a standard.
+
+You may add a passage of up to five words as a Front-Cover Text, and a passage of up to 25 words as
+a Back-Cover Text, to the end of the list of Cover Texts in the Modified Version.  Only one passage
+of Front-Cover Text and one of Back-Cover Text may be added by (or through arrangements made by)
+any one entity.	 If the Document already includes a cover text for the same cover, previously added
+by you or by arrangement made by the same entity you are acting on behalf of, you may not add
+another; but you may replace the old one, on explicit permission from the previous publisher that
+added the old one.
+
+The author(s) and publisher(s) of the Document do not by this License give permission to use their
+names for publicity for or to assert or imply endorsement of any Modified Version.
+
+
+\subsection*{COMBINING DOCUMENTS}
+\label{combining}
+
+You may combine the Document with other documents released under this License, under the terms
+defined in section ``MODIFICATIONS'' above for modified versions, provided that you include in the
+combination all of the Invariant Sections of all of the original documents, unmodified, and list
+them all as Invariant Sections of your combined work in its license notice, and that you preserve
+all their Warranty Disclaimers.
+
+The combined work need only contain one copy of this License, and multiple identical Invariant
+Sections may be replaced with a single copy.  If there are multiple Invariant Sections with the
+same name but different contents, make the title of each such section unique by adding at the end
+of it, in parentheses, the name of the original author or publisher of that section if known, or
+else a unique number. Make the same adjustment to the section titles in the list of Invariant
+Sections in the license notice of the combined work.
+
+In the combination, you must combine any sections Entitled ``History'' in the various original
+documents, forming one section Entitled ``History''; likewise combine any sections Entitled
+``Acknowledgements'', and any sections Entitled ``Dedications''.  You must delete all sections
+Entitled ``Endorsements''.
+
+
+\subsection*{COLLECTIONS OF DOCUMENTS}
+\label{collections}
+
+You may make a collection consisting of the Document and other documents released under this
+License, and replace the individual copies of this License in the various documents with a single
+copy that is included in the collection, provided that you follow the rules of this License for
+verbatim copying of each of the documents in all other respects.
+
+You may extract a single document from such a collection, and distribute it individually under this
+License, provided you insert a copy of this License into the extracted document, and follow this
+License in all other respects regarding verbatim copying of that document.
+
+
+\subsection*{AGGREGATION WITH INDEPENDENT WORKS}
+\label{aggregation}
+
+A compilation of the Document or its derivatives with other separate and independent documents or
+works, in or on a volume of a storage or distribution medium, is called an ``aggregate'' if the
+copyright resulting from the compilation is not used to limit the legal rights of the compilation's
+users beyond what the individual works permit. When the Document is included in an aggregate, this
+License does not apply to the other works in the aggregate which are not themselves derivative
+works of the Document.
+
+If the Cover Text requirement of section ``COPYING IN QUANTITY'' is applicable to these copies of
+the Document, then if the Document is less than one half of the entire aggregate, the Document's
+Cover Texts may be placed on covers that bracket the Document within the aggregate, or the
+electronic equivalent of covers if the Document is in electronic form. Otherwise they must appear
+on printed covers that bracket the whole aggregate.
+
+
+\subsection*{TRANSLATION}
+\label{translation}
+
+Translation is considered a kind of modification, so you may distribute translations of the
+Document under the terms of section ``MODIFICATIONS''. Replacing Invariant Sections with
+translations requires special permission from their copyright holders, but you may include
+translations of some or all Invariant Sections in addition to the original versions of these
+Invariant Sections.	 You may include a translation of this License, and all the license notices in
+the Document, and any Warranty Disclaimers, provided that you also include the original English
+version of this License and the original versions of those notices and disclaimers.	 In case of a
+disagreement between the translation and the original version of this License or a notice or
+disclaimer, the original version will prevail.
+
+If a section in the Document is Entitled ``Acknowledgements'', ``Dedications'', or ``History'', the
+requirement (section ``MODIFICATIONS'') to Preserve its Title (section ``APPLICABILITY AND
+DEFINITIONS'') will typically require changing the actual title.
+
+
+\subsection*{TERMINATION}
+\label{termination}
+
+You may not copy, modify, sublicense, or distribute the Document except as expressly provided for
+under this License.	 Any other attempt to copy, modify, sublicense or distribute the Document is
+void, and will automatically terminate your rights under this License.	However, parties who have
+received copies, or rights, from you under this License will not have their licenses terminated so
+long as such parties remain in full compliance.
+
+
+\subsection*{FUTURE REVISIONS OF THIS LICENSE}
+\label{future}
+
+The Free Software Foundation may publish new, revised versions of the GNU Free Documentation
+License from time to time.	Such new versions will be similar in spirit to the present version, but
+may differ in detail to address new problems or concerns.  See \path{http://www.gnu.org/copyleft/}.
+
+Each version of the License is given a distinguishing version number. If the Document specifies
+that a particular numbered version of this License ``or any later version'' applies to it, you have
+the option of following the terms and conditions either of that specified version or of any later
+version that has been published (not as a draft) by the Free Software Foundation.  If the Document
+does not specify a version number of this License, you may choose any version ever published (not
+as a draft) by the Free Software Foundation.
+
+
+\subsection*{ADDENDUM: How to use this License for your documents}
+
+To use this License in a document you have written, include a copy of the License in the document
+and put the following copyright and license notices just after the title page:
+\begin{quote}
+	Copyright \copyright{} \textit{year}\quad \textit{your name}.\\
+	Permission is granted to copy, distribute and/or modify this document
+	under the terms of the GNU Free Documentation License, Version 1.2
+	or any later version published by the Free Software Foundation;
+	with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+	A copy of the license is included in the section entitled ``GNU
+	Free Documentation License''.
+\end{quote}
+If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts, replace the
+``with...Texts.'' line with this:
+\begin{quote}
+	with the Invariant Sections being \textit{list their titles}, with the
+	Front-Cover Texts being \textit{list}, and with the Back-Cover Texts being \textit{list}.
+\end{quote}
+If you have Invariant Sections without Cover Texts, or some other combination of the three, merge
+those two alternatives to suit the situation.
+
+If your document contains nontrivial examples of program code, we recommend releasing these
+examples in parallel under your choice of free software license, such as the GNU General Public
+License, to permit their use in free software.
+\par
+} % small sffamily
+
+\begin{thebibliography}{99}
+
+ % Logik
+ 
+ \bibitem{witheruss} \emph{A.N. Whitehead, B. Russell}, Principia Mathematica, Cambridge University Press, London 1910
+ 
+ \bibitem{bernays} \emph{P. Bernays}, Axiomatische Untersuchung des Aussagen-Kalkuls der {\glqq Principia Mathematica\grqq}, Math. Zeitschr. 25 (1926), 305-320
+ 
+ \bibitem{hilback} \emph{D. Hilbert, W. Ackermann}, Grundz{\"u}ge der theoretischen Logik, Springer, Berlin 1928
+ 
+ \bibitem{novikov} \emph{P.S. Novikov}, Grundz{\"u}ge der mathematischen Logik, VEB Deutscher Verlag der Wissenschaften, Berlin 1973
+ 
+ % Mengenlehre
+ 
+ \bibitem{monk} \emph{J.~D.~Monk}, Introduction to Set Theory, McGraw-Hill, New York 1969
+ 
+ \bibitem{schmidt} \emph{J.~Schmidt}, Mengenlehre I, Bibliographisches Institut, Mannheim 1966
+ 
+ \bibitem{friepres} \emph{U.~Friedrichsdorf, A.~Prestel}, Mengenlehre f{\"u}r den Mathematiker, Vieweg, Braunschweig 1985
+ 
+ \bibitem{takzar} \emph{G.~Takenti, W.~M.~Zaring}, Introduction to Axiomatic Set Theory, McGraw-Hill, New York 1971
+ 
+ \bibitem{kerby} \emph{W.~Kerby}, Vorlesung {\glqq Axiomatische Mengenlehre\grqq}, gehalten an der Universit{\"a}t Hamburg, Sommersemester 1992
+ 
+ \bibitem{guenter} \emph{V.~G{\"u}nther}, Vorlesung {\glqq Mathematik und Logik\grqq}, gehalten an der Universit{\"a}t Hamburg, Wintersemester 1994/1995
+ 
+ % Computer
+ 
+ \bibitem{meyling}\emph{M. Meyling}, Hilbert II, Darstellung von formal korrektem mathematischen Wissen, \url{http://www.qedeq.org/0_01_05/projektbeschreibung.pdf}
+ 
+
+\end{thebibliography}
+
+\end{appendix}
+
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+
+\addcontentsline{toc}{chapter}{\indexname} \printindex
+
+\end{document}

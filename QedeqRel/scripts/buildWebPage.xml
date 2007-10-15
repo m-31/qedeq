@@ -1,0 +1,67 @@
+<?xml version="1.0"?>
+<!-- $RCSfile: buildWebPage.xml,v $ -->
+<!-- $Revision: 1.2 $ -->
+<!-- author:    Michael Meyling -->
+<!-- project:   Hilbert II -->
+
+<!-- This is the Ant build file for building the web page -->
+<project name="Web Page for project Hilbert II" default="generate" basedir="../..">
+
+  <!-- set global properties for this build -->
+  <property file="${basedir}/QedeqRel/conf/build.properties" />
+  <property name="qedeqr.src"          value="${basedir}/QedeqDoc/web/src/" />
+  <property name="qedeqr.inc"          value="${basedir}/QedeqDoc/web/inc/" />
+  <property name="qedeqe.dist"         value="${basedir}/../release/release/${qedeq.release.version}" />
+  <property name="qedeqr.dest"         value="${basedir}/../web/page/" />
+  <property name="qedeqr.genDir"       value="${basedir}/QedeqRel/bin/" />
+  <property name="qedeqr.genMain"      value="com.meyling.qedeq.rel.web.PageGenerator" />
+
+  <path id="qedeqr.genclasspath">
+      <pathelement location="${qedeqr.genDir}"/>
+  </path>
+	
+  <target name="init">
+    <tstamp>
+      <format property="qedeqr.timestamp" pattern="yyyy-MM-dd HH:mm:ss"/>
+    </tstamp>
+  	<delete dir="${qedeqr.dest}"/>
+    <mkdir dir="${qedeqr.dest}"/>
+  </target>
+
+
+  <target name="generate" depends="init">
+    <copy todir="${qedeqr.dest}" >
+      <fileset dir="${qedeqr.inc}"
+	       excludes="CVS"
+       />
+    </copy>
+    <copy todir="${qedeqr.dest}" >
+      <fileset dir="${qedeqe.dist}"
+      		includes="**/*.class"
+       />
+    </copy>
+    <copy todir="${qedeqr.dest}/lib" >
+        <fileset dir="${qedeqe.dist}"
+        	includes="qedeq_*.jar"
+         />
+    </copy>
+  	<move tofile="${qedeqr.dest}/lib/qedeq.jar">
+        <fileset dir="${qedeqr.dest}/lib"
+        	includes="qedeq_*.jar"
+         />
+  	</move>
+    <java classname="${qedeqr.genMain}" classpathref="qedeqr.genclasspath" 
+       dir="${qedeqr.genDir}" fork="true">
+      <arg value="${qedeqr.src}" />
+      <arg value="${qedeqr.dest}" />
+    </java>
+
+  	<replace dir="${qedeqr.dest}" token="@QEDEQ_VERSION@" value="${qedeq.release.version}"/>
+  	<replace dir="${qedeqr.dest}" token="@QEDEQ_TIMESTAMP@" value="${qedeq.timestamp}"/>
+
+  </target>  
+
+
+</project>
+
+

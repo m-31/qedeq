@@ -1,0 +1,32 @@
+Code Name:   mongaga
+Version:     0.03.05
+Timestamp:   2007-09-02 03:39:06
+Subversion
+and CVS Tag: qedeq_unstable_0_03_05_2007-09-01
+
+This is an unstable development release of *Hilbert II*. 
+
+
+This release contains a program suite that can produce LaTeX files
+out of QEDEQ XML files. The QEDEQ files can be checked for 
+syntactic correctness. 
+
+Samples and a script with the beginning of axiomatic set theory
+are included. All formulas are written in the formal language. 
+Still no formal proofs are given. See  "Elements of Mathematical
+Logic" for the logical background of this project (parts in 
+German). 
+
+Other samples show the error handling for incorrect QEDEQ files. 
+Beside the XSD verification there are some semantical checks: 
+"are all defined labels different" and "are all formulas well
+formed"?
+
+Formal proofs are not yet integrated.
+
+Precondition to start the program is a Java Runtime Environment, at 
+least version 1.4.
+
+This release includes the source code and the JUnit test classes. 
+The code coverage results of these tests where produced by Clover.
+A library and necessary other libraries are also included.

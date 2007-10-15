@@ -1,0 +1,96 @@
+Hilbert II, Version @QEDEQ_VERSION@ (@QEDEQ_CODENAME@), @QEDEQ_TIMESTAMP@
+
+Version History
+
+@QEDEQ_VERSION@
+=======
+
+Functional Changes
+------------------  
+
+  Extensions
+  ----------
+  * application now also webstartable
+  * preferences window added
+  
+  Fixed Bugs
+  ----------
+  * if loading from web the "Ok" button is now default
+ 
+  Other Changes
+  -------------
+  * log window scrolls automatically if events occur
+  * formula parser integrated again
+  * buffered QEDEQ module files have an other naming convention
+  * trace file is now in XML format
+  * file "mengenlehreMathOperators.xml" now editable in config directory
+
+
+XML Files
+-----------
+
+  Extensions
+  ----------
+  none
+
+  Fixed Bugs
+  ----------
+  none
+
+  Other Changes
+  -------------
+  * qedeq_basic_logic_v1.xml: reworked
+  * qedeq_basic_concept.xml: reworked
+
+
+Source Code
+-----------
+
+  Extensions
+  ----------
+  * new GUI code introduced: now we have the two projects QedeqKernelSe and
+    QedeqGuiSe. The directories "kernel" and "gui" refer to those projects. 
+    The new GUI code uses the JGoodies libraries "looks" and "forms".
+  * Trace contains new "fatal" methods
+  * new ResourceLoaderUtility
+  
+  Fixed Bugs
+  ----------
+  * DefaultModuleFactory loads last modules only if configured
+
+  Other Changes
+  -------------
+  * Xml2Latex: changed method parameters, now the module is not loaded any
+    longer
+  * LogPane scrolls now automatically (if configured)
+  * some methods of QedeqConfig moved into the new class QedeqGuiConfig
+  * DefaultModuleAddress.localizeInFileSystem gets now URL parameter and
+    uses a new mechanism to generate the buffer file name
+  * QedeqMainFrame gets "log4j.properties" and "mengenlehreMathOperators.xml"
+    out of class path and stores them locally if they don't exist locally
+  * DefaultModuleAddress gives other localized path name
+  * DefaultModuleFactory returns now directories as File
+  * Exceptions in ModuleProperties are now of type XmlFileExceptionList
+  * ConfigAccess now without Trace references and need only a File for the
+    config file path
+  * QedeqConfig lost some methods that are now in QedeqGuiConfig and has now
+    a "basis directory" that is the basis for all relative paths
+  * KernelContext doesn't create a QedeqConfig itself any longer, now its
+    init method needs a QedeqConfig
+  * LoadXmlOperatorListUtility works with URL parameter
+
+
+XSD
+---
+
+  Extensions
+  ----------
+  none
+
+  Fixed Bugs
+  ----------
+  none
+
+  Other Changes
+  -------------
+  none

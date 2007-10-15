@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Main-class: org.qedeq.gui.se.main.QedeqMainFrame
+Created-By: Michael Meyling
+Specification-Title: Hilbert II
+Specification-Version: @QEDEQ_VERSION@
+Specification-Vendor: Michael Meyling
+Implementation-Version: @QEDEQ_VERSION@
+Implementation-Vendor: Michael Meyling
