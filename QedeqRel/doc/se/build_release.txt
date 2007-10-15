@@ -56,6 +56,10 @@ edit QedeqRel/inc/se/release.txt
 edit QedeqRel/inc/se/version.txt
 edit QedeqRel/inc/se/changes.txt
 
+copy xml-apis.jar and xercesImpl.jar from eclipse/webstart directory into
+release webstart directory (they are stripped of the original manifest.mf
+and are signed with jarsigner due to an java webstart bug)
+
 
 Update WebPage
 --------------
