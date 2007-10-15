@@ -1,0 +1,173 @@
+% -*- TeX:EN -*-
+%%% ====================================================================
+%%% @LaTeX-file  qedeq_sample1_en.tex
+%%% Generated at 2007-10-14 08:36:00,718
+%%% ====================================================================
+
+%%% Permission is granted to copy, distribute and/or modify this document
+%%% under the terms of the GNU Free Documentation License, Version 1.2
+%%% or any later version published by the Free Software Foundation;
+%%% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+\documentclass[a4paper,german,10pt,twoside]{book}
+\usepackage[english]{babel}
+\usepackage{makeidx}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{color}
+\usepackage[bookmarks,bookmarksnumbered,bookmarksopen,
+   colorlinks,linkcolor=webgreen,pagebackref]{hyperref}
+\definecolor{webgreen}{rgb}{0,.5,0}
+\usepackage{graphicx}
+\usepackage{xr}
+\usepackage{epsfig,longtable}
+\usepackage{tabularx}
+
+\newtheorem{thm}{Theorem}[chapter]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{ax}{Axiom}
+\newtheorem{rul}{Rule}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{idefn}[thm]{Initial Definition}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem*{notation}{Notation}
+
+\addtolength{\textheight}{7\baselineskip}
+\addtolength{\topmargin}{-5\baselineskip}
+
+\setlength{\parindent}{0pt}
+
+\frenchspacing \sloppy
+
+\makeindex
+
+
+\title{Mathematical Example Module}
+\author{
+Michael Meyling
+}
+
+\begin{document}
+
+\maketitle
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+\mbox{}
+\vfill
+
+\par
+The source for this document can be found here:
+\par
+\url{http://qedeq.org/0_03_06/sample/qedeq_sample1.xml}
+
+\par
+Copyright by the authors. All rights reserved.
+\par
+If you have any questions, suggestions or want to add something to the list of modules that use this one, please send an email to the address \url{mailto:mime@qedeq.org}
+
+\setlength{\parskip}{0pt}
+\tableofcontents
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+
+\chapter{Basics} \label{chapter0} \hypertarget{chapter0}{}
+
+In this chapter we start with the very basic axioms and definitions of set theory. We shall make no attempt to introduce a formal language but shall be content with the common logical operators. To be more precise: precondition is a first-order predicate calculus with identity.
+
+\par
+\emph{G.~Cantor}, who is considered the founder of set theory, gave in a publication in 1895 a description of the term \emph{set}.
+
+\begin{quote}
+ By a ``set'' we are to understand any collection into a whole $M$ of definite and separate objects $m$ of our intuition or our thought. These objects are called the ``elements'' of $M$.
+\end{quote}
+
+\par
+This collection can be specified by giving a \emph{condition for membership}. Around 1900 various paradoxes in this naive set theory were discovered. These paradoxes base on giving tricky conditions for membership.
+
+\par
+There exist different ways out of those contradictions. In this text we don't restrict the condition for membership but we call the result \emph{class}. Additional axioms allow us to call certain classes sets again. All sets are classes, but not all classes are sets. Sets are classes which are themselves members of classes, whilst a class which is not a set is a class which is not a member of any class.
+
+\section{Classes and Sets} \label{chapter0_section0} \hypertarget{chapter0_section0}{}
+Although we want to speak about \emph{sets} at the very beginning we have \emph{classes}. No formal definition of a class will be given. Informally, a class is a collection of objects, the involved objects are called the elements or members of the class. 
+Sets will be construed as a special kind of class. 
+The following definitions and axioms are due to a strengthened version of \emph{von~Neumann-Bernays-G{\"o}del's} set theory (\emph{NBG}). This version is called \emph{MK} which is short for \emph{Morse-Kelley}.
+
+\par
+The theory of sets introduced here has initial objects, called \emph{classes}. Furthermore the only predifined symbol is for a binary relation called \emph{membership}.
+
+\begin{idefn}[Initial Definition of Membership Operator]
+\label{in} \hypertarget{in}{}
+$$x \in y$$
+
+\end{idefn}
+
+We also say $x$ \emph{is element of} $y$, $x$ \emph{belongs to} $y$, $x$ \emph{is a member of} $y$, $x$ \emph{is in} $y$.
+Beside identity this is the only predicate we start with. All other will be defined.\footnote{One could also define the identity predicate within the set theory, but then another axiom is needed and the theory presentation is not so smooth for technical reasons (derivation of the equality axioms).} Also no function constants are initially given.
+
+
+\par
+Our first axiom states that, for any classes $x$ and $y$, if the membership of $x$ and $y$ are the same, then $x$ and $y$ are the same.\footnote{If identity were not part of our underlying logic, then we should need to take this as a definition of identity.}
+
+\begin{ax}[Axiom of Extensionality]
+\label{axiom:extensionality} \hypertarget{axiom:extensionality}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall z\ (z \in x\ \leftrightarrow \ z \in y)\ \rightarrow \ x \ =  \ y$
+\end{longtable}
+
+\end{ax}
+
+The classes $x$ and $y$ may be defined in entirely different ways, for example:
+\par
+\begin{tabularx}{\linewidth}{rcX}
+  $x$ & = & class of all nonnegative integers, \\
+  $y$ & = & class of all integers, that can be written as sum of four squares,
+\end{tabularx}
+\par
+but if they have the same members, they are the same class.
+
+
+\par
+Now we specify \emph{sets}.
+
+\begin{defn}[Set Definition]
+\label{isSet} \hypertarget{isSet}{}
+$$\mathfrak{M}(x)\ :\leftrightarrow \ \exists y\ x \in y$$
+
+\end{defn}
+
+So sets are nothing else than special classes. A class is a set iff it is a member of any class.
+
+
+\par
+As a consequence of the axiom of extensionality we have the following.\footnote{The quantification over $z$ is restricted to sets.}
+
+\begin{prop}
+\label{module1:theorem} \hypertarget{module1:theorem}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall \ \mathfrak{M}(z)\ \ (z \in x\ \leftrightarrow \ z \in y)\ \rightarrow \ x \ =  \ y$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $z$ be an arbitrary class. If $z \in x$ then $z$ is a set by definition~\ref{isSet}, and hence by the assumption, $z \in y$. Similarly $z \in y \ \rightarrow \ z \in x$. Since $z$ is arbitrary, it follows that $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Thus by the axiom of extensionality~\ref{axiom:extensionality}, $x = y$.
+\end{proof}
+
+
+
+
+
+%% end of chapter Basics
+
+\backmatter
+
+\addcontentsline{toc}{chapter}{\indexname} \printindex
+
+\end{document}
+

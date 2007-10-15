@@ -1,0 +1,174 @@
+% -*- TeX:DE -*-
+%%% ====================================================================
+%%% @LaTeX-file  qedeq_sample1_de.tex
+%%% Generated at 2007-10-14 08:36:00,765
+%%% ====================================================================
+
+%%% Permission is granted to copy, distribute and/or modify this document
+%%% under the terms of the GNU Free Documentation License, Version 1.2
+%%% or any later version published by the Free Software Foundation;
+%%% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+\documentclass[a4paper,german,10pt,twoside]{book}
+\usepackage[german]{babel}
+\usepackage{makeidx}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{color}
+\usepackage[bookmarks,bookmarksnumbered,bookmarksopen,
+   colorlinks,linkcolor=webgreen,pagebackref]{hyperref}
+\definecolor{webgreen}{rgb}{0,.5,0}
+\usepackage{graphicx}
+\usepackage{xr}
+\usepackage{epsfig,longtable}
+\usepackage{tabularx}
+
+\newtheorem{thm}{Theorem}[chapter]
+\newtheorem{cor}[thm]{Korollar}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{ax}{Axiom}
+\newtheorem{rul}{Regel}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{idefn}[thm]{Initiale Definition}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Bemerkung}
+\newtheorem*{notation}{Notation}
+
+\addtolength{\textheight}{7\baselineskip}
+\addtolength{\topmargin}{-5\baselineskip}
+
+\setlength{\parindent}{0pt}
+
+\frenchspacing \sloppy
+
+\makeindex
+
+
+\title{Mathematisches Beispielmodul}
+\author{
+Michael Meyling
+}
+
+\begin{document}
+
+\maketitle
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+\mbox{}
+\vfill
+
+\par
+Die Quelle f{"ur} dieses Dokument ist hier zu finden:
+\par
+\url{http://qedeq.org/0_03_06/sample/qedeq_sample1.xml}
+
+\par
+Die vorliegende Publikation ist urheberrechtlich gesch{"u}tzt.
+\par
+Bei Fragen, Anregungen oder Bitte um Aufnahme in die Liste der abh{"a}ngigen Module schicken Sie bitte eine EMail an die Addresse \url{mailto:mime@qedeq.org}
+
+\setlength{\parskip}{0pt}
+\tableofcontents
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+
+\chapter{Anfangsgr{\"u}nde} \label{chapter0} \hypertarget{chapter0}{}
+
+In diesem Kapitel beginnen wir mit den ganz elementaren Axiomen und Definitionen der Mengenlehre. Wir versuchen nicht eine formale Sprache einzuf{\"u}hren und setzen das Wissen um den Gebrauch von logischen Symbolen voraus. Noch genauer formuliert: wir arbeiten mit einer Pr{\"a}dikatenlogik erster Stufe mit Gleichheit.
+
+\par
+\emph{G.~Cantor}, der als Begr{\"u}nder der Mengenlehre gilt, hat in einer Ver{\"o}ffentlichung im Jahre 1895 eine Beschreibung des Begriffs \emph{Menge} gegeben.
+
+\begin{quote}
+ Unter einer {\glqq Menge\grqq} verstehen wir jede Zusammenfassung $M$ von bestimmten wohlunterscheidbaren Objekten $m$ unserer Anschauung oder unseres Denkens (welche die {\glqq Elemente\grqq} von $M$ genannt werden) zu einem Ganzen.
+\end{quote}
+
+\par
+Diese Zusammenfassung kann {\"u}ber die Angabe einer Eigenschaft dieser Elemente erfolgen. Um 1900 wurden verschiedene Widerspr{\"u}che dieser naiven Mengenlehre entdeckt. Diese Widerspr{\"u}che lassen sich auf trickreich gew{\"a}hlte Eigenschaften zur{\"u}ckf{\"u}hren.
+
+\par
+Es gibt verschiedene M{\"o}glichkeiten diese Widerspr{\"u}che zu verhindern. In diesem Text schr{\"a}nken wir zwar die Angabe von Eigenschaften in keiner Weise ein, aber wir nennen das Ergebnis der Zusammenfassung zun{\"a}chst einmal \emph{Klasse}. Zus{\"a}tzliche Axiome regeln dann, wann eine bestimmte Klasse auch eine Menge ist. Alle Mengen sind Klassen, aber nicht alle Klassen sind Mengen. Eine Menge ist eine Klasse, die selbst Element einer anderen Klasse ist. Eine Klasse, die keine Menge ist, ist nicht Element irgend einer anderen Klasse.
+
+\section{Klassen und Mengen} \label{chapter0_section0} \hypertarget{chapter0_section0}{}
+Obgleich wir im Wesentlichen {\"u}ber \emph{Mengen} sprechen wollen, haben wir am Anfang nur \emph{Klassen}. Dieser Begriff wird nicht formal definiert. Anschaulich gesprochen, ist eine Klasse eine Zusammenfassung von Objekten. Die beteiligten Objekte heissen auch Elemente der Klasse.
+Mengen werden dann als eine besondere Art von Klassen charakterisiert. 
+Die folgenden Definitionen und Axiome folgen dem Aufbau einer vereinfachten Version der Mengenlehre nach \emph{von~Neumann-Bernays-G{\"o}del}. Diese Version wird auch \emph{MK} nach \emph{Morse-Kelley} genannt.
+
+\par
+Die hier vorgestellte Mengenlehre hat als Ausgangsobjekte \emph{Klassen}.
+Weiterhin wird nur ein einziges Symbol f{\"u}r eine bin{\"a}re Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
+
+\begin{idefn}[Initiale Definition der Elementbeziehung]
+\label{in} \hypertarget{in}{}
+$$x \in y$$
+
+\end{idefn}
+
+Wir sagen auch $x$ \emph{ist Element von} $y$, $x$ \emph{geh{\"o}rt zu} $y$, $x$ \emph{liegt in} $y$, $x$ \emph{ist in} $y$.
+Neben der Gleichheit ist dies das einzige Pr{\"a}dikat welches wir zu Beginn haben. Alle anderen werden definiert.\footnote{Das Gleichheitspr{\"a}dikat k{\"o}nnte auch innerhalb der Mengenlehre definiert werden, aber dann wird auch ein weiters Axiom ben{\"o}tigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Gleichheitsaxiome.} Zu Anfang haben wir auch noch keine Funktionskonstanten.
+
+
+\par
+Unser erstes Axiom besagt, dass beliebige Klassen $x$ und $y$ genau dann gleich sind, wenn sie dieselben Elemente enthalten.\footnote{Falls wir das Gleichheitspr{\"a}dikat nicht als logisches Symbol voraussetzen w{\"u}rden, dann w{\"u}rden wir es hiermit definieren.}
+
+\begin{ax}[Extensionalit{\"a}tsaxiom]
+\label{axiom:extensionality} \hypertarget{axiom:extensionality}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall z\ (z \in x\ \leftrightarrow \ z \in y)\ \rightarrow \ x \ =  \ y$
+\end{longtable}
+
+\end{ax}
+
+Die Klassen $x$ and $y$ k{\"o}nnen verschieden definiert sein, beispielsweise:
+\par
+\begin{tabularx}{\linewidth}{rcX}
+  $x$ & = & Klasse aller nichtnegativen ganzen Zahlen, \\
+  $y$ & = & Klasse aller ganzen Zahlen, die als Summe von vier Quadraten geschreiben werden k{\"o}nnen,
+\end{tabularx}
+\par
+aber wenn sie dieselben Elemente besitzen, sind sie gleich.
+
+
+\par
+Jetzt legen wir fest, was eine \emph{Menge} ist.
+
+\begin{defn}[Mengendefinition]
+\label{isSet} \hypertarget{isSet}{}
+$$\mathfrak{M}(x)\ :\leftrightarrow \ \exists y\ x \in y$$
+
+\end{defn}
+
+Mengen sind also nichts anderes, als Klassen mit einer besonderen Eigenschaft. Eine Klasse ist genau dann eine Menge, wenn sie Element irgendeiner Klasse ist.
+
+
+\par
+Als erste Folgerung aus dem Extensionalit{\"a}tsaxiom erhalten wir das Folgende.\footnote{Es wird ein eingeschr{\"a}nkter Allquantor benutzt, $z$ l{\"a}uft nur {\"u}ber Mengen.}
+
+\begin{prop}
+\label{module1:theorem} \hypertarget{module1:theorem}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall \ \mathfrak{M}(z)\ \ (z \in x\ \leftrightarrow \ z \in y)\ \rightarrow \ x \ =  \ y$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $z$ eine beliebige Klasse. Falls $z \in x$ dann gilt $z$ ist eine Menge nach Definition~\ref{isSet}, und daraus folgt mit der Annahme $z \in y$. Analog folgt $z \in y \ \rightarrow \ z \in x$. Da $z$ beliebig, haben wir $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Und mit dem Extensionalit{\"a}tsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$.
+\end{proof}
+
+
+
+
+
+%% end of chapter Anfangsgr{\"u}nde
+
+\backmatter
+
+\addcontentsline{toc}{chapter}{\indexname} \printindex
+
+\end{document}
+

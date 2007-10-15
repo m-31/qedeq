@@ -1,0 +1,1718 @@
+% -*- TeX:EN -*-
+%%% ====================================================================
+%%% @LaTeX-file  qedeq_set_theory_v1_en.tex
+%%% Generated at 2007-10-14 08:36:07,906
+%%% ====================================================================
+
+%%% Permission is granted to copy, distribute and/or modify this document
+%%% under the terms of the GNU Free Documentation License, Version 1.2
+%%% or any later version published by the Free Software Foundation;
+%%% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+\documentclass[a4paper,german,10pt,twoside]{book}
+\usepackage[english]{babel}
+\usepackage{makeidx}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{color}
+\usepackage[bookmarks,bookmarksnumbered,bookmarksopen,
+   colorlinks,linkcolor=webgreen,pagebackref]{hyperref}
+\definecolor{webgreen}{rgb}{0,.5,0}
+\usepackage{graphicx}
+\usepackage{xr}
+\usepackage{epsfig,longtable}
+\usepackage{tabularx}
+
+\newtheorem{thm}{Theorem}[chapter]
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{ax}{Axiom}
+\newtheorem{rul}{Rule}
+
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{idefn}[thm]{Initial Definition}
+
+\theoremstyle{remark}
+\newtheorem{rem}[thm]{Remark}
+\newtheorem*{notation}{Notation}
+
+\addtolength{\textheight}{7\baselineskip}
+\addtolength{\topmargin}{-5\baselineskip}
+
+\setlength{\parindent}{0pt}
+
+\frenchspacing \sloppy
+
+\makeindex
+
+
+\title{Axiomatic Set Theory}
+\author{
+Michael Meyling
+}
+
+\begin{document}
+
+\maketitle
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+\mbox{}
+\vfill
+
+\par
+The source for this document can be found here:
+\par
+\url{http://qedeq.org/0_03_06/doc/math/qedeq_set_theory_v1.xml}
+
+\par
+Copyright by the authors. All rights reserved.
+\par
+If you have any questions, suggestions or want to add something to the list of modules that use this one, please send an email to the address \url{mailto:mime@qedeq.org}
+
+\setlength{\parskip}{0pt}
+\tableofcontents
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}
+
+\chapter*{Preface\label{ch:preface}} \label{chapter0} \hypertarget{chapter0}{}
+\addcontentsline{toc}{chapter}{Preface\label{ch:preface}}
+
+Mathematics is a science with a structure that achieved enormous dimensions in the course of time. This huge stronghold has only a small set theoretic foundation and its firmness rests upon simple predicate calculus mortar. In principle the assembly could be comprehended by any mathematician. From every newest turret of mathematical cognition each path of logical dependency could be followed all the way down to its set theoretic roots.
+
+\par
+This document wants to provide some help to accomplish this task. What we aim at is to get an understandable
+presentation of the set theoretic roots. But despite all comprehensibility it is possible to drill very deep into details. Even into the level of a formal proof. For that purpose this document exists in different detail levels. The original source of this document is written in a formal language. So it is possible to prove the propositions automatically with a computer program.
+
+\par
+Lets start by the roots\ldots
+
+\par
+This document is not finished and is updated from time to time. Especially at the locations marked with {\glqq+++\grqq} additions or changes will be made.
+
+\par
+I am deeply grateful to my wife \emph{Gesine~Dr{\"a}ger} and our son \emph{Lennart} for their support and patience.
+
+\par
+\vspace*{1cm} Hamburg, october 2006 \\
+\hspace*{\fill} Michael Meyling
+
+%% end of chapter Preface\label{ch:preface}
+
+\chapter*{Introduction\label{ch:introduction}} \label{chapter1} \hypertarget{chapter1}{}
+\addcontentsline{toc}{chapter}{Introduction\label{ch:introduction}}
+
+After mathematical logic has provided us with the methods of reasoning we start with a very basic theory. Set theory deals with objects and their collections. This theory is interesting for two reasons. First, nearly all mathematical fields use it. Second, every mathematical statement or proof could be cast into formulas within set theory. Number theory, algebra, analysis an all other theories could be constructed within.
+
+\par          
+This document contains the mathematical foundation of set theory. Goal is the presentation of elementary results which are needed in other mathematical disciplines. After the basics the {\emph boolean algebra of classes} is in focus. Next are some thoughts about \emph{relations} and \emph{functions}. An important achievement is the definition of the \emph{natural~ numbers} and their fulfillment of the \emph{Peano axioms}. Also the concept of \emph{recursion} is discussed.
+
+\par
+Although the presentation is axiomatic the results shall match the mathematical usage. Therefore the set theoretic axiom system of \emph{A.~P.~Morse} and \emph{J.~L.~Kelley} (MK\index{MK}) was chosen.
+
+%% end of chapter Introduction\label{ch:introduction}
+
+\chapter{Basics} \label{chapter2} \hypertarget{chapter2}{}
+
+In this chapter we start with the very basic axioms and definitions of set theory. We shall make no attempt to introduce a formal language\footnote{Despite of this, in the original text of this document the formulas of axioms, definitions and propositions are written in a formal language. The original text is a XML file with a syntax defined by the XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd}.} but shall be content with the common logical operators. To be more precise: precondition is a first-order predicate calculus with identity.
+
+\par\index{Cantor}\index{set!definition}
+\emph{G.~Cantor}, who is considered the founder of set theory, gave in a publication in 1895 a description of the term \emph{set}.
+
+\begin{quote}
+ By a ``set'' we are to understand any collection into a whole $M$ of definite and separate objects $m$ of our intuition or our thought. These objects are called the ``elements'' of $M$.
+\end{quote}
+
+\par
+This collection can be specified by giving a \emph{condition for membership}. Around 1900 various paradoxes in this naive set theory were discovered. These paradoxes base on giving tricky conditions for membership.
+
+\par
+There exist different ways out of those contradictions. In this text we don't restrict the condition for membership but we call the result a \emph{class}. Additional axioms allow us to call certain classes sets again. All sets are classes, but not all classes are sets. Sets are classes which are themselves members of classes, whilst a class which is not a set is a class which is not a member of any class.
+
+\section{Classes and Sets} \label{chapter2_section0} \hypertarget{chapter2_section0}{}
+Although we want to speak about \emph{sets}\index{set} at the very beginning we have \emph{classes}\index{classes}. No formal definition of a class will be given. Informally, a class is a collection of objects, the involved objects are called the \emph{elements}\index{element} or \emph{members}\index{member} of the class. 
+Sets will be construed as a special kind of class.
+
+\par
+The following definitions and axioms are due to a strengthened version of \emph{von~Neumann-Bernays-G{\"o}del's} set theory (\emph{NBG}\index{NBG}). This version is called \emph{MK}\index{MK} which is short for \emph{Morse-Kelley}.
+
+\par
+The theory of sets introduced here has initial objects, called \emph{classes}. Furthermore the only predefined symbol is for a binary relation called \emph{membership}.
+
+\begin{idefn}[Membership Operator]
+\label{definition:in} \hypertarget{definition:in}{}
+$$x \in y$$
+
+\end{idefn}
+
+We also say $x$ \emph{is element of} $y$, $x$ \emph{belongs to} $y$, $x$ \emph{is a member of} $y$, $x$ \emph{is in} $y$.
+Beside identity this is the only predicate we start with. All other will be defined.\footnote{One could also define the identity predicate within the set theory, but then another axiom is needed and the theory presentation is not so smooth for technical reasons (derivation of the equality axioms).} Also no function constants are initially given.
+
+
+\par
+Although we simply can negate the membership predicate we also want to define a shorthand notation for it.
+
+\begin{defn}[Non Membership Operator]
+\label{definition:notIn} \hypertarget{definition:notIn}{}
+$$x \notin y\ :\leftrightarrow \ \neg x \in y$$
+
+\end{defn}
+
+
+
+
+\par
+Our first axiom states that, for any classes $x$ and $y$, if the membership of $x$ and $y$ are the same, then $x$ and $y$ are the same.\footnote{If identity were not part of our underlying logic, then we should need to take this as a definition of identity.}
+
+\begin{ax}[Extensionality\index{axiom!of extensionality}]
+\label{axiom:extensionality} \hypertarget{axiom:extensionality}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall z\ (z \in x\ \leftrightarrow \ z \in y)\ \rightarrow \ x \ =  \ y$
+\end{longtable}
+
+\end{ax}
+
+The classes $x$ and $y$ may be defined in entirely different ways, for example:
+\par
+\begin{tabularx}{\linewidth}{rcX}
+  $x$ & = & class of all nonnegative integers, \\
+  $y$ & = & class of all integers, that can be written as sum of four squares,
+\end{tabularx}
+\par
+but if they have the same members, they are the same class.
+
+
+\par
+Now we specify \emph{sets}.
+
+\begin{defn}[Set\index{set!definition}]
+\label{definition:isSet} \hypertarget{definition:isSet}{}
+$$\mathfrak{M}(x)\ :\leftrightarrow \ \exists y\ x \in y$$
+
+\end{defn}
+
+So sets are nothing else than special classes. A class is a set iff it is a member of any class.
+
+
+\par
+As a consequence of the axiom of extensionality we have the following.\footnote{The quantification over $z$ is restricted to sets.}
+
+\begin{prop}
+\label{theorem:extensionalitySetRestricted} \hypertarget{theorem:extensionalitySetRestricted}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall \ \mathfrak{M}(z)\ \ (z \in x\ \leftrightarrow \ z \in y)\ \rightarrow \ x \ =  \ y$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $z$ be an arbitrary class. If $z \in x$ then $z$ is a set by definition~\ref{definition:isSet}, and hence by the assumption, $z \in y$. similarly $z \in y \ \rightarrow \ z \in x$. Since $z$ is arbitrary, it follows that $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Thus by    the axiom of extensionality~\ref{axiom:extensionality}, $x = y$.
+\end{proof}
+
+
+
+
+\par
+We can also reverse the implication in the axiom of extensionality.
+
+\begin{prop}
+\label{theorem:extensonalityEquivalence} \hypertarget{theorem:extensonalityEquivalence}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ =  \ y\ \leftrightarrow \ \forall z\ (z \in x\ \leftrightarrow \ z \in y)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+This a simple consequence of the second identity axiom.
+\end{proof}
+
+
+
+
+\par
+Our next set theoretic axiom makes it simple to create new classes. A class could be characterized by a predicate calculus formula.
+
+\begin{ax}[Comprehension]
+\label{axiom:comprehension} \hypertarget{axiom:comprehension}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\exists x\ \forall y\ (y \in x\ \leftrightarrow \ (\mathfrak{M}(y)\ \land \ \phi(y)))$
+\end{longtable}
+
+\end{ax}
+
+\index{NBG}By a small modification of the above axiom we could get a \emph{NBG} axiom system of set theory due to \emph{John von Neumann}, \emph{Isaak Bernays} and \emph{Kurt G{\"o}del}.\index{predicative}\index{Formula, predicative}
+For that purpose we call a formula \emph{predicative}, if all of its bound subject variables are restricted to sets.
+Therefore predicative formulas formalize `set properties'.\footnote{A little bit more formal: within a predicative formula all quantifier variables run over sets: $\forall \ \mathfrak{M}(x) \ \exists \ \mathfrak{M}(y) \ldots$}
+So if we postulate $\phi$ to be predicative we achieve a NBG system together with the following axioms.
+
+
+\par
+By the comprehension axiom and the axiom of extensionality a relationship between a formula $\phi(y)$ and the class defined by this formula is described. The comprehension axiom proposes the existence of at least one class, where the proposition $\mathfrak{M}(y) \land \phi(y)$ holds for all of its elements. The axiom of extensionality and the identity axioms make sure, that there is maximal one class of this kind: two classes with the same elements are equal in the sense of replacement in all appropriate propositions. In other words: there is one and only one such class.
+
+\begin{prop}
+\label{theorem:comprehension} \hypertarget{theorem:comprehension}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\exists! x\ \forall y\ (x \in y\ \leftrightarrow \ (\mathfrak{M}(y)\ \land \ \phi(y)))$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+We must show:
+$$
+\begin{array}{rl}
+\exists x                      & \forall y \ (y \in x \leftrightarrow  \ \mathfrak{M}(y) \land \phi(y)) \\
+\land \ \forall u \ \forall v  & (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \ \land  \ \forall y \ ( y \in v \leftrightarrow \ \mathfrak{M}(y) \land \phi(y))) \\
+       & \qquad \rightarrow u = v)
+\end{array}
+$$
+Let $u$ and $v$ be arbitrary. Furthermore let us assume:
+
+\par
+$\forall y \ (y \in u \leftrightarrow \ \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ ( y \in v \leftrightarrow \mathfrak{M}(y)
+\land \phi(y)))$
+
+\par
+Now with \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1.pdf}{}{allandpp}{allandpp}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
+
+\par
+With \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1.pdf}{}{andequi}{andequi} we derive: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. And with Proposition~\ref{theorem:extensonalityEquivalence} follows $u = v$. So we have shown:
+
+\par
+$\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
+
+\par
+Together with axiom~\ref{axiom:comprehension} we get the proposition.
+\end{proof}
+
+
+
+
+\par
+Starting with \ref{theorem:comprehension} we can extend the syntax and provide a new abbreviation.
+
+\begin{rul}[Class definition]
+\label{rule:classDefinition} \hypertarget{rule:classDefinition}{}
+For every formula $\alpha(x)$ we define the term expression $\{ x \ | \ \alpha(x)\}$ by
+$$
+  \exists y \ (y = \{x \ | \ \alpha(x) \} \ \land \ \forall x \ x \in y \ \leftrightarrow \mathfrak{M}(x) \ \land \alpha(x))
+$$
+
+\par
+The free variables from $\{ x \ | \ \alpha(x)\}$ are the free variables from $\alpha(x)$ without $\{ x \}$. The bound variables correspond to the bound variables of $\alpha(x)$. All deduction rules are accordingly extended.
+\end{rul}
+Based on: 
+ \ref{theorem:comprehension}
+
+In particular the substitution rules must be adapted.\footnote{Because now a term can have bound subject variables. Luckily we formulated the substitution rules with this extension already in our mind, so we have nothing to do.} This is a \emph{conservative} extension of our (not so) formal language. This means that no new mathematical content can be derived. It is just convenient to have an elegant new notation.\footnote{
+A conservative extension defined by the following.
+Let $\mathfrak{L}$ be a language and $\mathfrak{L'}$ an extension of $\mathfrak{L}$. Because $\mathfrak{L'} \supset \mathfrak{L}$ it follows $\mbox{Formula}_\mathfrak{L'} \supset \mbox{Formula}_\mathfrak{L}$. If now for every set of formulas $\Gamma \subseteq \mbox{Formula}_\mathfrak{L}$ and each formula $\alpha \in \mbox{Formula}_\mathfrak{L}$ this proposition holds: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, then $\mathfrak{L'}$ is called a \emph{conservative} extension of $\mathfrak{L}$.} 
+
+
+In the following this new notation is used.
+
+
+\par
+This new notation can be easily transformed in the old syntax. Using the new term type with the initial predicates can be expressed as follows.
+
+\begin{prop}
+\label{theorem:setNotation} \hypertarget{theorem:setNotation}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $y \in \{ x \ | \ \phi(x) \} \ \leftrightarrow \ (\mathfrak{M}(y)\ \land \ \phi(y))$ & \label{theorem:setNotation:a} \hypertarget{theorem:setNotation:a}{} \mbox{\emph{(a)}} \\
+\centering $y \ =  \ \{ x \ | \ \phi(x) \} \ \leftrightarrow \ \forall z\ (z \in y\ \leftrightarrow \ z \in \{ x \ | \ \phi(x) \} )$ & \label{theorem:setNotation:b} \hypertarget{theorem:setNotation:b}{} \mbox{\emph{(b)}} \\
+\centering $\{ x \ | \ \phi(x) \}  \ =  \ \{ x \ | \ \psi(x) \} \ \leftrightarrow \ \forall z\ (z \in \{ x \ | \ \phi(x) \} \ \leftrightarrow \ z \in \{ x \ | \ \psi(x) \} )$ & \label{theorem:setNotation:c} \hypertarget{theorem:setNotation:c}{} \mbox{\emph{(c)}} \\
+\centering $\{ x \ | \ \phi(x) \}  \in \{ x \ | \ \psi(x) \} \ \leftrightarrow \ \forall u\ \forall v\ ((u \ =  \ \{ x \ | \ \phi(x) \} \ \land \ v \ =  \ \{ x \ | \ \psi(x) \} )\ \rightarrow \ u \in v)$ & \label{theorem:setNotation:d} \hypertarget{theorem:setNotation:d}{} \mbox{\emph{(d)}} \\
+\centering $\{ x \ | \ \phi(x) \}  \in y\ \leftrightarrow \ \forall u\ (u \ =  \ \{ x \ | \ \phi(x) \} \ \rightarrow \ u \in y)$ & \label{theorem:setNotation:e} \hypertarget{theorem:setNotation:e}{} \mbox{\emph{(e)}} 
+\end{longtable}
++++ if the formula would be rendered correctly it should look like this: \\
+\begin{align}
+y \in \{ x~|~\phi(x) \} & \leftrightarrow  \mathfrak{M}(y) \land \phi(y) \tag{a} \\
+y = \{ x~|~ \phi(x) \} & \leftrightarrow  \forall z \ (z \in y \leftrightarrow z \in \{ x~|~\phi(x) \}) \tag{b} \\
+\{ x~|~\phi(x) \} = \{ x~|~\psi(x) \} & \leftrightarrow \forall z \ (z \in \{ x~|~\phi(x) \} \tag{c} \\
+\begin{split}
+  & \qquad \leftrightarrow z \in \{x~|~\psi(x) \}) \nonumber \\
+\{ x~|~\phi(x) \} \in \{ x~|~\psi(x) \} & \leftrightarrow  \forall u \ \forall
+v \ ((u  = \{ x~|~\phi(x) \} \\
+  & \qquad \land \ v = \{ x~|~\psi(x) \}) \rightarrow u \in v) 
+\end{split} \tag{d} \\
+\{ x~|~\phi(x) \} \in y & \leftrightarrow  \forall u \ (u  = \{ x~|~\phi(x) \}  \rightarrow u \in y) \tag{e} 
+\end{align}
+\end{prop}
+\begin{proof}
++++ missing.
+\end{proof}
+
+Therefore the new syntax can be eliminated by successive applying the above theorems.
+
+
+\par
+Because the new notation fixes a term completely the following must be true.
+
+\begin{prop}
+\label{theorem:setDefinitionUnique} \hypertarget{theorem:setDefinitionUnique}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\exists! x\ x \ =  \ \{ y \ | \ \phi(y) \} $
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+The equivalence of properties enables us to conclude the identy of the associated classes.
+
+\begin{prop}
+\label{theorem:propositionEqualImplClassEqual} \hypertarget{theorem:propositionEqualImplClassEqual}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall x\ (\phi(x)\ \leftrightarrow \ \psi(x))\ \rightarrow \ \{ y \ | \ \phi(y) \}  \ =  \ \{ y \ | \ \psi(y) \} $
+\end{longtable}
+
+\end{prop}
+
+We remark that the reverse implication is false.
+
+
+\par
+Every class can be described by a property: being a member of the class.
+
+\begin{prop}
+\label{theorem:classDescriptionPossible} \hypertarget{theorem:classDescriptionPossible}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ =  \ \{ y \ | \ y \in x \} $
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\section{Special Classes} \label{chapter2_section1} \hypertarget{chapter2_section1}{}
+In this section we define our first classes.
+
+\par
+Russells class can now be simply defined.
+
+\begin{defn}[Russell Class\index{Russell!class of}\index{class!Russell}]
+\label{definition:RussellClass} \hypertarget{definition:RussellClass}{}
+$$\mathfrak{Ru}\ := \ \{ x \ | \ x \notin x \} $$
+
+\end{defn}
+
+
+
+
+\par
+The Russell class is a \emph{proper}\index{proper}\index{class!proper} class. This means it is no set.
+
+\begin{prop}
+\label{theorem:RussellClassIsClass} \hypertarget{theorem:RussellClassIsClass}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\neg \mathfrak{M}(\mathfrak{Ru})$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+The \emph{universal class} should contain everything.
+
+\begin{defn}[Universal Class\index{class!universal}\index{universal class}]
+\label{definition:universalClass} \hypertarget{definition:universalClass}{}
+$$\mathfrak{V}\ := \ \{ x \ | \ x \ =  \ x \} $$
+
+\end{defn}
+
+
+
+
+\par
+At least the universal class contains all sets.
+
+\begin{prop}
+\label{theorem:universalClassContainsAllSets} \hypertarget{theorem:universalClassContainsAllSets}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{V} \ =  \ \{ x \ | \ \mathfrak{M}(x) \} $
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+Being in the universal class is therefore the same as being a set.
+
+\begin{prop}
+\label{theorem:isInUniversalClass} \hypertarget{theorem:isInUniversalClass}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \in \mathfrak{V}\ \leftrightarrow \ \mathfrak{M}(x)$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+Analogous we define the \emph{empty class}. Later on we will learn that the empty class
+is a set. To achieve this result we lack some other set axioms. Nevertheless we might already call this class \emph{empty set} sometime.
+
+\begin{defn}[Empty Class\index{empty class}\index{empty set}\index{class!empty}\index{set!empty}]
+\label{definition:emptySet} \hypertarget{definition:emptySet}{}
+$$\emptyset\ := \ \{ x \ | \ x \ \neq  \ x \} $$
+
+\end{defn}
+
+
+
+
+\par
+No class is element of the empty class.
+
+\begin{prop}
+\label{theorem:noClassIsMemberOfEmptySet} \hypertarget{theorem:noClassIsMemberOfEmptySet}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall z\ z \notin \emptyset$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+A class with no elements is the empty class.
+
+\begin{prop}
+\label{theorem:noClassIsMemberIsEmptySet} \hypertarget{theorem:noClassIsMemberIsEmptySet}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall z\ z \notin x\ \leftrightarrow \ x \ =  \ \emptyset$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+
+%% end of chapter Basics
+
+\chapter{Boolean Algebra of Classes\index{Boolean algebra!of classes}} \label{chapter3} \hypertarget{chapter3}{}
+
+Now the elementary class operations and their properties are described.
+
+A \emph{boolean algebra} is an algebraic structure that abstracts from the
+logical operators \emph{and}, \emph{or}, \emph{not} and their set theoretic
+connectives \emph{intersection}, \emph{union}, \emph{complement}.
+
+\par
+The name is due to \emph{G. Boole} who defined this structure to be able to
+use algebraic methods within propositional calculus.
+
+\section{Boolean Class Operators} \label{chapter3_section0} \hypertarget{chapter3_section0}{}
+With rule~\ref{rule:classDefinition} we can define new class operators with the
+help of logical connectives.
+
+\par
+The union of two classes contains exactly all elements of both classes.
+
+\begin{defn}[Union Operator\index{union}\index{class!union}]
+\label{definition:union} \hypertarget{definition:union}{}
+$$(x \cup y)\ := \ \{ z \ | \ (z \in x\ \lor \ z \in y) \} $$
+
+\end{defn}
+
+
+
+
+\par
+Analogous the intersection of two classes is defined as the class which 
+contains exactly those elements that are member of both classes.
+
+\begin{defn}[Intersection Operator\index{intersection}\index{class!intersection}]
+\label{definition:intersection} \hypertarget{definition:intersection}{}
+$$(x \cap y)\ := \ \{ z \ | \ (z \in x\ \land \ z \in y) \} $$
+
+\end{defn}
+
+
+
+
+\par
+Also the complement of a class can be simply defined.
+
+\begin{defn}[Complement Operator\index{complement}\index{class!complement}]
+\label{definition:complement} \hypertarget{definition:complement}{}
+$$\overline{x}\ := \ \{ z \ | \ z \notin x \} $$
+
+\end{defn}
+
+
+
+
+\par
+If a set is an element of the union of two classes can be checked directly.
+
+\begin{prop}
+\label{theorem:unionMember} \hypertarget{theorem:unionMember}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $z \in (x \cup y)\ \leftrightarrow \ (z \in x\ \lor \ z \in y)$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+Membership of an intersection can be written down directly too.
+
+\begin{prop}
+\label{theorem:intersectionMember} \hypertarget{theorem:intersectionMember}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $z \in (x \cap y)\ \leftrightarrow \ (z \in x\ \land \ z \in y)$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+For the membership of the complement we have a similar result but here we must check
+the property \emph{is a set} explicitly.
+
+\begin{prop}
+\label{theorem:complementMember} \hypertarget{theorem:complementMember}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $z \in \overline{x}\ \leftrightarrow \ (\mathfrak{M}(z)\ \land \ z \notin x)$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+By the previous propositions we learned how to transform the logical 
+operators $\lor$, $\land$ and $\neg$ into the class operators $\cup$, $\cap$ and $\bar{~}$. So we are now able to transform the logical laws into set theoretic
+propositions.
+
+\begin{prop}
+\label{theorem:unionIntersectionComplement} \hypertarget{theorem:unionIntersectionComplement}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $(x \cup y) \ =  \ (y \cup x)$ & \label{theorem:unionIntersectionComplement:a} \hypertarget{theorem:unionIntersectionComplement:a}{} \mbox{\emph{(a)}} \\
+\centering $(x \cap y) \ =  \ (y \cap x)$ & \label{theorem:unionIntersectionComplement:b} \hypertarget{theorem:unionIntersectionComplement:b}{} \mbox{\emph{(b)}} \\
+\centering $((x \cup y) \cup z) \ =  \ (x \cup (y \cup z))$ & \label{theorem:unionIntersectionComplement:c} \hypertarget{theorem:unionIntersectionComplement:c}{} \mbox{\emph{(c)}} \\
+\centering $((x \cap y) \cap z) \ =  \ (x \cap (y \cap z))$ & \label{theorem:unionIntersectionComplement:d} \hypertarget{theorem:unionIntersectionComplement:d}{} \mbox{\emph{(d)}} \\
+\centering $x \ =  \ (x \cup x)$ & \label{theorem:unionIntersectionComplement:e} \hypertarget{theorem:unionIntersectionComplement:e}{} \mbox{\emph{(e)}} \\
+\centering $x \ =  \ (x \cap x)$ & \label{theorem:unionIntersectionComplement:f} \hypertarget{theorem:unionIntersectionComplement:f}{} \mbox{\emph{(f)}} \\
+\centering $\overline{\overline{x}} \ =  \ x$ & \label{theorem:unionIntersectionComplement:g} \hypertarget{theorem:unionIntersectionComplement:g}{} \mbox{\emph{(g)}} \\
+\centering $\overline{(x \cup y)} \ =  \ (\overline{x} \cap \overline{y})$ & \label{theorem:unionIntersectionComplement:h} \hypertarget{theorem:unionIntersectionComplement:h}{} \mbox{\emph{(h)}} \\
+\centering $\overline{(x \cap y)} \ =  \ (\overline{x} \cup \overline{y})$ & \label{theorem:unionIntersectionComplement:i} \hypertarget{theorem:unionIntersectionComplement:i}{} \mbox{\emph{(i)}} \\
+\centering $(x \cup (y \cap z)) \ =  \ ((x \cup y) \cap (x \cup z))$ & \label{theorem:unionIntersectionComplement:j} \hypertarget{theorem:unionIntersectionComplement:j}{} \mbox{\emph{(j)}} \\
+\centering $(x \cap (y \cup z)) \ =  \ ((x \cap y) \cup (x \cap z))$ & \label{theorem:unionIntersectionComplement:k} \hypertarget{theorem:unionIntersectionComplement:k}{} \mbox{\emph{(k)}} \\
+\centering $\overline{\emptyset} \ =  \ \mathfrak{V}$ & \label{theorem:unionIntersectionComplement:l} \hypertarget{theorem:unionIntersectionComplement:l}{} \mbox{\emph{(l)}} \\
+\centering $\overline{\mathfrak{V}} \ =  \ \emptyset$ & \label{theorem:unionIntersectionComplement:m} \hypertarget{theorem:unionIntersectionComplement:m}{} \mbox{\emph{(m)}} \\
+\centering $(x \cap \mathfrak{V}) \ =  \ x$ & \label{theorem:unionIntersectionComplement:n} \hypertarget{theorem:unionIntersectionComplement:n}{} \mbox{\emph{(n)}} \\
+\centering $(x \cap \emptyset) \ =  \ \emptyset$ & \label{theorem:unionIntersectionComplement:o} \hypertarget{theorem:unionIntersectionComplement:o}{} \mbox{\emph{(o)}} \\
+\centering $(x \cup \mathfrak{V}) \ =  \ \mathfrak{V}$ & \label{theorem:unionIntersectionComplement:p} \hypertarget{theorem:unionIntersectionComplement:p}{} \mbox{\emph{(p)}} \\
+\centering $(x \cup \emptyset) \ =  \ x$ & \label{theorem:unionIntersectionComplement:q} \hypertarget{theorem:unionIntersectionComplement:q}{} \mbox{\emph{(q)}} \\
+\centering $(x \cup \overline{x}) \ =  \ \mathfrak{V}$ & \label{theorem:unionIntersectionComplement:r} \hypertarget{theorem:unionIntersectionComplement:r}{} \mbox{\emph{(r)}} \\
+\centering $(x \cap \overline{x}) \ =  \ \emptyset$ & \label{theorem:unionIntersectionComplement:s} \hypertarget{theorem:unionIntersectionComplement:s}{} \mbox{\emph{(s)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\section{Boolean Algebra\index{Boolean algebra}} \label{chapter3_section1} \hypertarget{chapter3_section1}{}
+The classes build together with the operators $\cap$, $\cup$, $\bar{~}$ and the
+constants $\emptyset$ a Boolean algebra\index{Boolean algebra},
+
+\par
++++
+References to commutative law, associative law, distributive law, idempotence, etc.
+
+\section{Order\index{order}} \label{chapter3_section2} \hypertarget{chapter3_section2}{}
+For a boolean algebra a \emph{partial order}\index{order!partial} relation can be defined. Therefore we can do 
+the same for the boolean class algebra.
+
+\par
+We define the \emph{subclass relation} (\emph{inclusion}) by an intersection.
+
+\begin{defn}[Subclass Predicate\index{subclass}\index{inclusion}]
+\label{definition:subclass} \hypertarget{definition:subclass}{}
+$$x \ \subseteq \ y\ :\leftrightarrow \ (x \cap y) \ =  \ x$$
+
+\end{defn}
+
+If $x$ and $y$ are sets we also say: $x$ is \emph{subset}\index{subset} of $y$.
+
+
+\par
+Now we get the common subclass definition as a proposition.
+
+\begin{prop}
+\label{theorem:subsetIfMemberschipImpl} \hypertarget{theorem:subsetIfMemberschipImpl}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ \subseteq \ y\ \leftrightarrow \ \forall z\ (z \in x\ \rightarrow \ z \in y)$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+This relation is reflexive, transitive and antisymmetric. As intended it is a partial order\index{order!partial} relation with $\emptyset$ as minimum and $\mathfrak{V}$ as maximum element.
+
+\begin{prop}
+\label{theorem:subsetIsPartialOrdered} \hypertarget{theorem:subsetIsPartialOrdered}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \ \subseteq \ x$ & \label{theorem:subsetIsPartialOrdered:a} \hypertarget{theorem:subsetIsPartialOrdered:a}{} \mbox{\emph{(a)}} \\
+\centering $(x \ \subseteq \ y\ \land \ y \ \subseteq \ z)\ \rightarrow \ x \ \subseteq \ z$ & \label{theorem:subsetIsPartialOrdered:b} \hypertarget{theorem:subsetIsPartialOrdered:b}{} \mbox{\emph{(b)}} \\
+\centering $(x \ \subseteq \ y\ \land \ y \ \subseteq \ x)\ \leftrightarrow \ x \ =  \ y$ & \label{theorem:subsetIsPartialOrdered:c} \hypertarget{theorem:subsetIsPartialOrdered:c}{} \mbox{\emph{(c)}} \\
+\centering $\emptyset \ \subseteq \ x$ & \label{theorem:subsetIsPartialOrdered:d} \hypertarget{theorem:subsetIsPartialOrdered:d}{} \mbox{\emph{(d)}} \\
+\centering $x \ \subseteq \ \mathfrak{V}$ & \label{theorem:subsetIsPartialOrdered:e} \hypertarget{theorem:subsetIsPartialOrdered:e}{} \mbox{\emph{(e)}} \\
+\centering $x \ \subseteq \ \emptyset\ \rightarrow \ x \ =  \ \emptyset$ & \label{theorem:subsetIsPartialOrdered:f} \hypertarget{theorem:subsetIsPartialOrdered:f}{} \mbox{\emph{(f)}} \\
+\centering $\mathfrak{V} \ \subseteq \ x\ \rightarrow \ x \ =  \ \mathfrak{V}$ & \label{theorem:subsetIsPartialOrdered:g} \hypertarget{theorem:subsetIsPartialOrdered:g}{} \mbox{\emph{(g)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+An intersection is always a subclass of its original classes.
+
+\begin{prop}
+\label{theorem:intersectionIsSubset} \hypertarget{theorem:intersectionIsSubset}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $(x \cap y) \ \subseteq \ x$ & \label{theorem:intersectionIsSubset:a} \hypertarget{theorem:intersectionIsSubset:a}{} \mbox{\emph{(a)}} \\
+\centering $(x \cap y) \ \subseteq \ y$ & \label{theorem:intersectionIsSubset:b} \hypertarget{theorem:intersectionIsSubset:b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+A union has its original classes as subclasses.
+
+\begin{prop}
+\label{theorem:unionIsSuperset} \hypertarget{theorem:unionIsSuperset}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \ \subseteq \ (x \cup y)$ & \label{theorem:unionIsSuperset:a} \hypertarget{theorem:unionIsSuperset:a}{} \mbox{\emph{(a)}} \\
+\centering $y \ \subseteq \ (x \cup y)$ & \label{theorem:unionIsSuperset:b} \hypertarget{theorem:unionIsSuperset:b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+With two classes the union of both is also subclass. And if a class is subclass of two other classes it is also subclass of their intersection. For both implications the reverse is also true.
+
+\begin{prop}
+\label{theorem:subsetAndAddition} \hypertarget{theorem:subsetAndAddition}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $(x \ \subseteq \ z\ \land \ y \ \subseteq \ z)\ \leftrightarrow \ (x \cup y) \ \subseteq \ z$ & \label{theorem:subsetAndAddition:a} \hypertarget{theorem:subsetAndAddition:a}{} \mbox{\emph{(a)}} \\
+\centering $(z \ \subseteq \ x\ \land \ z \ \subseteq \ y)\ \leftrightarrow \ z \ \subseteq \ (x \cap y)$ & \label{theorem:subsetAndAddition:b} \hypertarget{theorem:subsetAndAddition:b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+Intersection and union of a class does not change an existing subclass relation.
+
+\begin{prop}
+\label{theorem:subsetAddition} \hypertarget{theorem:subsetAddition}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \ \subseteq \ y\ \rightarrow \ (x \cup z) \ \subseteq \ (y \cup z)$ & \label{theorem:subsetAddition:a} \hypertarget{theorem:subsetAddition:a}{} \mbox{\emph{(a)}} \\
+\centering $x \ \subseteq \ y\ \rightarrow \ (x \cap z) \ \subseteq \ (y \cap z)$ & \label{theorem:subsetAddition:b} \hypertarget{theorem:subsetAddition:b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+Complement building inverts the subclass relation.
+
+\begin{prop}
+\label{theorem:subsetComplement} \hypertarget{theorem:subsetComplement}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ \subseteq \ y\ \leftrightarrow \ \overline{y} \ \subseteq \ \overline{x}$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+For the complement and subclass relation the following equivalences hold.
+
+\begin{prop}
+\label{theorem:subsetComplementEquations} \hypertarget{theorem:subsetComplementEquations}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \ \subseteq \ y\ \leftrightarrow \ (x \cap \overline{y}) \ =  \ \emptyset$ & \label{theorem:subsetComplementEquations:a} \hypertarget{theorem:subsetComplementEquations:a}{} \mbox{\emph{(a)}} \\
+\centering $x \ \subseteq \ y\ \leftrightarrow \ (\overline{x} \cup y) \ =  \ \mathfrak{V}$ & \label{theorem:subsetComplementEquations:b} \hypertarget{theorem:subsetComplementEquations:b}{} \mbox{\emph{(b)}} \\
+\centering $x \ \subseteq \ \overline{y}\ \leftrightarrow \ (x \cap y) \ =  \ \emptyset$ & \label{theorem:subsetComplementEquations:c} \hypertarget{theorem:subsetComplementEquations:c}{} \mbox{\emph{(c)}} \\
+\centering $(x \cap y) \ \subseteq \ z\ \leftrightarrow \ x \ \subseteq \ (\overline{y} \cup z)$ & \label{theorem:subsetComplementEquations:d} \hypertarget{theorem:subsetComplementEquations:d}{} \mbox{\emph{(d)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\section{Singletons and Class Pairs} \label{chapter3_section3} \hypertarget{chapter3_section3}{}
+A class can be defined by explicitly listing its members.
+
+\par
+Especially by saying that one element is inside the class we can define the so called \emph{singleton}.
+With rule \ref{theorem:comprehension} again we can extend the syntax and provide a new abbreviation.
+
+\begin{defn}[Singleton\index{singleton}]
+\label{definition:singleton} \hypertarget{definition:singleton}{}
+$$\{ x \}\ := \ \{ y \ | \ (\mathfrak{M}(x)\ \rightarrow \ y \ =  \ x) \} $$
+
+\end{defn}
+
+If $x$ is a proper class the term $\{x\}$ is also defined. In this case all sets
+$y$ fulfill the condition 
+$\mathfrak{M}(y) \land (\mathfrak{M}(x) \rightarrow y = x)$ and the singleton is
+identical with the universal class. This leads to a smother handling of the
+singleton.\footnote{Other authors as K.~G{\"o}del for example define 
+$\{x\} = \{y~|~y = x\}$.}
+
+
+\par
+For sets the singleton has only the set itself as a member.
+
+\begin{prop}
+\label{theorem:setSingletonHasSetAsOnlyElement} \hypertarget{theorem:setSingletonHasSetAsOnlyElement}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \rightarrow \ \forall z\ (z \in \{ x \}\ \leftrightarrow \ z \ =  \ x)$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+If we have a proper class the singleton is the universal class.
+
+\begin{prop}
+\label{theorem:properSingletonIsUniversalClass} \hypertarget{theorem:properSingletonIsUniversalClass}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\neg \mathfrak{M}(x)\ \rightarrow \ \{ x \} \ =  \ \mathfrak{V}$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+Beeing a set singleton is equivalent to be member of its singleton.
+
+\begin{prop}
+\label{theorem:setSingletonEqualHasItselfAsElement} \hypertarget{theorem:setSingletonEqualHasItselfAsElement}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \leftrightarrow \ x \in \{ x \}$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+Now we can simply define the \emph{pair} class as union of two singletons.
+
+\begin{defn}[Pair\index{pair}]
+\label{definition:pair} \hypertarget{definition:pair}{}
+$$\{ x, y \}\ := \ (\{ x \} \cup \{ y \})$$
+
+\end{defn}
+
+
+
+
+\par
+A class pair can be described directly without referencing singletons.
+
+\begin{prop}
+\label{theorem:classPairIsEqual} \hypertarget{theorem:classPairIsEqual}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\{ x, y \} \ =  \ \{ z \ | \ ((\mathfrak{M}(x)\ \land \ \mathfrak{M}(y))\ \rightarrow \ (z \ =  \ x\ \lor \ z \ =  \ y)) \} $
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+For set pairs beeing a member of a pair can canonically be simplified.
+
+\begin{prop}
+\label{theorem:membershipOfClassPair} \hypertarget{theorem:membershipOfClassPair}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land \ \mathfrak{M}(y))\ \rightarrow \ \forall z\ (z \in \{ x, y \}\ \leftrightarrow \ (z \ =  \ x\ \lor \ z \ =  \ y))$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+If one of the classes for building a class pair is proper the resulting pair
+is identical to the universal set.
+
+\begin{prop}
+\label{theorem:properClassPairIsUniversalClass} \hypertarget{theorem:properClassPairIsUniversalClass}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\neg \mathfrak{M}(x)\ \lor \ \neg \mathfrak{M}(y))\ \rightarrow \ \{ x, y \} \ =  \ \mathfrak{V}$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+We note that building a class pair is commutative.
+
+\begin{prop}
+\label{theorem:classPairBuildingIsCommutative} \hypertarget{theorem:classPairBuildingIsCommutative}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\{ x, y \} \ =  \ \{ y, x \}$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+The singleton can be expressed as a special case of a class pair.
+
+\begin{prop}
+\label{theorem:singletonIsClassPair} \hypertarget{theorem:singletonIsClassPair}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\{ x \} \ =  \ \{ x, x \}$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+Being a set is equivalent to being element of a class pair.
+
+\begin{prop}
+\label{theorem:setEquiInClassPair} \hypertarget{theorem:setEquiInClassPair}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \leftrightarrow \ x \in \{ x, y \}$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+For sets being an element is equal to being a subclass of its singleton.
+
+\begin{prop}
+\label{theorem:elementEquiSingletonSubclass} \hypertarget{theorem:elementEquiSingletonSubclass}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \rightarrow \ (x \in y\ \leftrightarrow \ x \ \subseteq \ \{ y \})$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+Identity of set pairs behaves as expected.
+
+\begin{prop}
+\label{theorem:pairIdentities} \hypertarget{theorem:pairIdentities}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land \ \mathfrak{M}(y)\ \land \ \mathfrak{M}(u)\ \land \ \mathfrak{M}(v))\ \rightarrow \ (\{ x, y \} \ =  \ \{ u, v \}\ \rightarrow \ ((x \ =  \ u\ \land \ y \ =  \ v)\ \lor \ (x \ =  \ v\ \land \ y \ =  \ u)))$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\section{Infinite Boolean Operators} \label{chapter3_section4} \hypertarget{chapter3_section4}{}
+It is also possible to build infinite intersections and unions. It must only be declared which classes
+are used to build the result.
+
+\par
+For a class of sets a \emph{product} is defined: all sets that are elements of each set
+are member of the product.
+
+\begin{defn}[Set Product\index{set product}\index{product!of sets}]
+\label{setProduct} \hypertarget{setProduct}{}
+$$\bigcap \ x\ := \ \{ z \ | \ \forall y\ (y \in x\ \rightarrow \ z \in y) \} $$
+
+\end{defn}
+
+This function can be viewed as a generalization of the intersection operation.
+See also proposition~\ref{theorem:setPairSetSumProduct}.
+
+\par
+We also say the class $x$ defines a \emph{family of sets}\index{family!of sets}\index{set!family}. 
+Any element of $x$ is a member of the family.
+
+
+\par
+As usual we can describe the membership of the set product as follows.
+
+\begin{prop}
+\label{theorem:setProductMembership} \hypertarget{theorem:setProductMembership}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $z \in \bigcap \ x\ \leftrightarrow \ (\mathfrak{M}(z)\ \land \ \forall y\ (y \in x\ \rightarrow \ z \in y))$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+We find for the special case of $x\,=\,\emptyset$.
+
+\begin{prop}
+\label{theorem:emptySetProduct} \hypertarget{theorem:emptySetProduct}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\bigcap \ \emptyset \ =  \ \mathfrak{V}$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+If we build the set product of a non empty class we can
+drop the set condition.
+
+\begin{prop}
+\label{theorem:nonEmptySetProductMembership} \hypertarget{theorem:nonEmptySetProductMembership}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ \neq  \ \emptyset\ \rightarrow \ (z \in \bigcap \ x\ \leftrightarrow \ \forall y\ (y \in x\ \rightarrow \ z \in y))$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+Analogous we  can define the \emph{set sum}.
+Exactly the elements, that are member of some set in the family, should be member of the set sum.
+
+\begin{defn}[Set Sum\index{set sum}\index{sum!of sets}]
+\label{definition:setSum} \hypertarget{definition:setSum}{}
+$$\bigcup \ x\ := \ \{ z \ | \ \exists y\ (y \in x\ \land \ z \in y) \} $$
+
+\end{defn}
+
+
+
+
+\par
+The set sum membership can be expressed by the following formula.
+
+\begin{prop}
+\label{theorem:setSumMembership} \hypertarget{theorem:setSumMembership}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $z \in \bigcup \ x\ \leftrightarrow \ \exists y\ (y \in x\ \land \ z \in y)$
+\end{longtable}
+
+\end{prop}
+
+Here we can drop the set condition $\mathfrak{M}(z)$.
+
+
+\par
+For the empty class we obtain.
+
+\begin{prop}
+\label{theorem:emptySetSum} \hypertarget{theorem:emptySetSum}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\bigcup \ \emptyset \ =  \ \mathfrak{V}$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+The subclass relation behaves to the set product and sum as follows.
+
+\begin{prop}
+\label{theorem:subsetSumProductImplication} \hypertarget{theorem:subsetSumProductImplication}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \ \subseteq \ y\ \rightarrow \ \bigcap \ y \ \subseteq \ \bigcap \ x$ & \label{theorem:subsetSumProductImplication:a} \hypertarget{theorem:subsetSumProductImplication:a}{} \mbox{\emph{(a)}} \\
+\centering $x \ \subseteq \ y\ \rightarrow \ \bigcup \ x \ \subseteq \ \bigcup \ y$ & \label{theorem:subsetSumProductImplication:b} \hypertarget{theorem:subsetSumProductImplication:b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+The membership relation induces subclass relations in the following way.
+
+\begin{prop}
+\label{theorem:membershipToSetProductAndSum} \hypertarget{theorem:membershipToSetProductAndSum}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $x \in y\ \rightarrow \ x \ \subseteq \ \bigcup \ y$ & \label{theorem:membershipToSetProductAndSum:a} \hypertarget{theorem:membershipToSetProductAndSum:a}{} \mbox{\emph{(a)}} \\
+\centering $x \in y\ \rightarrow \ \bigcap \ y \ \subseteq \ x$ & \label{theorem:membershipToSetProductAndSum:b} \hypertarget{theorem:membershipToSetProductAndSum:b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+The union and intersection operation match with the set sum and set product
+as follows.
+
+\begin{prop}
+\label{theorem:unionIntersectionSetSumProduct} \hypertarget{theorem:unionIntersectionSetSumProduct}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $\bigcap \ (x \cup y) \ =  \ (\bigcap \ x \cap \bigcap \ y)$ & \label{theorem:unionIntersectionSetSumProduct:a} \hypertarget{theorem:unionIntersectionSetSumProduct:a}{} \mbox{\emph{(a)}} \\
+\centering $\bigcup \ (x \cup y) \ =  \ (\bigcup \ x \cup \bigcup \ y)$ & \label{theorem:unionIntersectionSetSumProduct:b} \hypertarget{theorem:unionIntersectionSetSumProduct:b}{} \mbox{\emph{(b)}} \\
+\centering $\bigcup \ (x \cap y) \ \subseteq \ (\bigcup \ x \cap \bigcup \ y)$ & \label{theorem:unionIntersectionSetSumProduct:c} \hypertarget{theorem:unionIntersectionSetSumProduct:c}{} \mbox{\emph{(c)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+In case of a non empty set family we have this.
+
+\begin{prop}
+\label{theorem:nonEmptySumProductSubSet} \hypertarget{theorem:nonEmptySumProductSubSet}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall x\ (x \ \neq  \ \emptyset\ \rightarrow \ \bigcap \ x \ \subseteq \ \bigcup \ x)$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+For set pairs we get the expected results.
+
+\begin{prop}
+\label{theorem:setPairSetSumProduct} \hypertarget{theorem:setPairSetSumProduct}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $(\mathfrak{M}(x)\ \land \ \mathfrak{M}(y))\ \rightarrow \ \bigcap \ \{ x, y \} \ =  \ (x \cap y)$ & \label{theorem:setPairSetSumProduct:a} \hypertarget{theorem:setPairSetSumProduct:a}{} \mbox{\emph{(a)}} \\
+\centering $(\mathfrak{M}(x)\ \land \ \mathfrak{M}(y))\ \rightarrow \ \bigcup \ \{ x, y \} \ =  \ (x \cup y)$ & \label{theorem:setPairSetSumProduct:b} \hypertarget{theorem:setPairSetSumProduct:b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+For set singletons we get analogous statements.
+
+\begin{prop}
+\label{theorem:singletonSetSumProduct} \hypertarget{theorem:singletonSetSumProduct}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $\mathfrak{M}(x)\ \rightarrow \ \bigcap \ \{ x \} \ =  \ x$ & \label{theorem:singletonSetSumProduct:a} \hypertarget{theorem:singletonSetSumProduct:a}{} \mbox{\emph{(a)}} \\
+\centering $\mathfrak{M}(x)\ \rightarrow \ \bigcup \ \{ x \} \ =  \ x$ & \label{theorem:singletonSetSumProduct:b} \hypertarget{theorem:singletonSetSumProduct:b}{} \mbox{\emph{(b)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\section{Power Class Building} \label{chapter3_section5} \hypertarget{chapter3_section5}{}
+We can now introduce an important new class operator.
+
+\par
+The subset relation helps us to create another class operator: the \emph{power class operation}.
+
+\begin{defn}[Power Class\index{class!power}]
+\label{definition:power} \hypertarget{definition:power}{}
+$$\mathfrak{P}(x)\ := \ \{ z \ | \ z \ \subseteq \ x \} $$
+
+\end{defn}
+
+
+
+
+\par
+For this new operator the following propositions hold.
+
+\begin{prop}
+\label{theorem:powerPropositions} \hypertarget{theorem:powerPropositions}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $z \in \mathfrak{P}(x)\ \leftrightarrow \ (\mathfrak{M}(x)\ \land \ z \ \subseteq \ x)$ & \label{theorem:powerPropositions:a} \hypertarget{theorem:powerPropositions:a}{} \mbox{\emph{(a)}} \\
+\centering $\mathfrak{P}(\mathfrak{V}) \ =  \ \mathfrak{V}$ & \label{theorem:powerPropositions:b} \hypertarget{theorem:powerPropositions:b}{} \mbox{\emph{(b)}} \\
+\centering $\mathfrak{P}(\emptyset) \ =  \ \{ \emptyset \}$ & \label{theorem:powerPropositions:c} \hypertarget{theorem:powerPropositions:c}{} \mbox{\emph{(c)}} \\
+\centering $\mathfrak{M}(x)\ \leftrightarrow \ x \in \mathfrak{P}(x)$ & \label{theorem:powerPropositions:d} \hypertarget{theorem:powerPropositions:d}{} \mbox{\emph{(d)}} \\
+\centering $x \ \subseteq \ y\ \rightarrow \ \mathfrak{P}(x) \ \subseteq \ \mathfrak{P}(y)$ & \label{theorem:powerPropositions:e} \hypertarget{theorem:powerPropositions:e}{} \mbox{\emph{(e)}} \\
+\centering $(\mathfrak{M}(x)\ \land \ \mathfrak{P}(x) \ \subseteq \ \mathfrak{P}(y))\ \rightarrow \ x \ \subseteq \ y$ & \label{theorem:powerPropositions:f} \hypertarget{theorem:powerPropositions:f}{} \mbox{\emph{(f)}} \\
+\centering $\mathfrak{P}((x \cap y)) \ =  \ (\mathfrak{P}(x) \cap \mathfrak{P}(y))$ & \label{theorem:powerPropositions:g} \hypertarget{theorem:powerPropositions:g}{} \mbox{\emph{(g)}} \\
+\centering $(\mathfrak{P}(x) \cup \mathfrak{P}(y)) \ \subseteq \ \mathfrak{P}((x \cup y))$ & \label{theorem:powerPropositions:h} \hypertarget{theorem:powerPropositions:h}{} \mbox{\emph{(h)}} \\
+\centering $x \ \subseteq \ \mathfrak{P}(\bigcup \ x)$ & \label{theorem:powerPropositions:i} \hypertarget{theorem:powerPropositions:i}{} \mbox{\emph{(i)}} \\
+\centering $\bigcup \ \mathfrak{P}(x) \ \subseteq \ x$ & \label{theorem:powerPropositions:j} \hypertarget{theorem:powerPropositions:j}{} \mbox{\emph{(j)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+Especially for power sets the following proposition holds.
+
+\begin{prop}
+\label{theorem:powerSetPropositions} \hypertarget{theorem:powerSetPropositions}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \rightarrow \ x \ =  \ \bigcup \ \mathfrak{P}(x)$
+\end{longtable}
+
+\end{prop}
+
+Later on we can drop the set condition because of new axioms.
+
+
+
+%% end of chapter Boolean Algebra of Classes\index{Boolean algebra!of classes}
+
+\chapter{Sets, Relations and Functions} \label{chapter4} \hypertarget{chapter4}{}
+
+In this chapter we concentrate on the property \emph{is a set} and we introduce new axioms to assure
+the existence of sets.
+
+\par
+To be able to define relations within our theory we need the new class operator \emph{ordered pair}. 
+With this operator we can define \emph{Cartesian products} of classes. Relations are no other
+than subclasses of Cartesian products and fulfill the laws of an \emph{universal algebra}\index{algebra!universal}.
+
+\par
+A special kind of relations are the \emph{equivalence relations} which form a more abstract form of 
+equality. Functions are also a special kind of relations. The axiom of replacement guaranties that
+sets are mapped onto sets.
+
+\section{Sets} \label{chapter4_section0} \hypertarget{chapter4_section0}{}
+For the presentation of the boolean class algebra we needed no set theoretic axioms. In the following
+we get some more axioms that give conditions for being a set.
+
+\par
+The empty class should be a set.
+
+\begin{ax}[Empty Set Axiom\index{axiom!empty set}]
+\label{axiom:emptySet} \hypertarget{axiom:emptySet}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(\emptyset)$
+\end{longtable}
+
+\end{ax}
+
+This is the first time we know about the existence of a set.
+
+
+\par
+To ensure the set property for set pairs we have out next axiom.
+
+\begin{ax}[Pairing Set Axiom\index{axiom!pairing set}]
+\label{axiom:pairingSet} \hypertarget{axiom:pairingSet}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land \ \mathfrak{M}(y))\ \rightarrow \ \mathfrak{M}(\{ x, y \})$
+\end{longtable}
+
+\end{ax}
+
+
+
+
+\par
+The sum set of a set should be a set too.
+
+\begin{ax}[Axiom of the Sum Set\index{axiom!of the sum set}]
+\label{axiom:setSumSet} \hypertarget{axiom:setSumSet}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \rightarrow \ \mathfrak{M}(\bigcup \ x)$
+\end{longtable}
+
+\end{ax}
+
+
+
+
+\par
+´The power class of a set should also be a set.
+
+\begin{ax}[Power Set Axiom\index{axiom!power set}]
+\label{axiom:powerSet} \hypertarget{axiom:powerSet}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{M}(x)\ \rightarrow \ \mathfrak{M}(\mathfrak{P}(x))$
+\end{longtable}
+
+\end{ax}
+
+
+
+
+\par
+The subclass of a set should also be a set.
+
+\begin{ax}[Subset Axiom\index{axiom!subset}]
+\label{axiom:subset} \hypertarget{axiom:subset}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land \ y \ \subseteq \ x)\ \rightarrow \ \mathfrak{M}(y)$
+\end{longtable}
+
+\end{ax}
+
+
+
+
+The above set axioms enables us to construct sets. Starting with 
+axiom~\ref{axiom:emptySet} we have one first set $\emptyset$. By applying
+axiom~\ref{axiom:powerSet} we get the set $\{ \emptyset \}$. Building the
+power class again provides the set $\{ \emptyset, \{ \emptyset \} \}$. 
+By repeating this procedure we get an infinite number of 
+sets.\footnote{One can easily show that they are all different.}
+
+\par
+Furthermore we notice that our current axioms can show only the existence of
+sets with a finite number of members. These finite classes are `save' in
+the following sense: they alone can not lead to the contradictions as the 
+unrestricted set theory of Zermelo.
+
+
+\par
+The new axioms enable us to derive some more propositions.
+
+\begin{prop}
+\label{theorem:isSet} \hypertarget{theorem:isSet}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $(\neg \mathfrak{M}(y)\ \land \ y \ \subseteq \ x)\ \rightarrow \ \neg \mathfrak{M}(x)$ & \label{theorem:isSet:a} \hypertarget{theorem:isSet:a}{} \mbox{\emph{(a)}} \\
+\centering $\neg \mathfrak{M}(\mathfrak{V})$ & \label{theorem:isSet:b} \hypertarget{theorem:isSet:b}{} \mbox{\emph{(b)}} \\
+\centering $(\mathfrak{M}(x)\ \land \ \mathfrak{M}(y))\ \rightarrow \ \mathfrak{M}((x \cup y))$ & \label{theorem:isSet:c} \hypertarget{theorem:isSet:c}{} \mbox{\emph{(c)}} \\
+\centering $(\mathfrak{M}(x)\ \land \ \mathfrak{M}(y))\ \rightarrow \ \mathfrak{M}((x \cap y))$ & \label{theorem:isSet:d} \hypertarget{theorem:isSet:d}{} \mbox{\emph{(d)}} \\
+\centering $\mathfrak{M}(x)\ \rightarrow \ \mathfrak{M}(\{ x \})$ & \label{theorem:isSet:e} \hypertarget{theorem:isSet:e}{} \mbox{\emph{(e)}} \\
+\centering $\mathfrak{M}(x)\ \rightarrow \ \neg \mathfrak{M}(\overline{x})$ & \label{theorem:isSet:f} \hypertarget{theorem:isSet:f}{} \mbox{\emph{(f)}} \\
+\centering $x \ =  \ \bigcup \ \mathfrak{P}(x)$ & \label{theorem:isSet:g} \hypertarget{theorem:isSet:g}{} \mbox{\emph{(g)}} \\
+\centering $\mathfrak{M}(x)\ \leftrightarrow \ \mathfrak{M}(\bigcup \ x)$ & \label{theorem:isSet:h} \hypertarget{theorem:isSet:h}{} \mbox{\emph{(h)}} \\
+\centering $\bigcap \ \mathfrak{V} \ =  \ \emptyset$ & \label{theorem:isSet:i} \hypertarget{theorem:isSet:i}{} \mbox{\emph{(i)}} \\
+\centering $\bigcup \ \mathfrak{V} \ =  \ \mathfrak{V}$ & \label{theorem:isSet:j} \hypertarget{theorem:isSet:j}{} \mbox{\emph{(j)}} \\
+\centering $x \ \neq  \ \emptyset\ \rightarrow \ \mathfrak{M}(\bigcap \ x)$ & \label{theorem:isSet:k} \hypertarget{theorem:isSet:k}{} \mbox{\emph{(k)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\section{Ordered Pair} \label{chapter4_section1} \hypertarget{chapter4_section1}{}
+The concept of an ordered pair is vital for our further development.
+It enables us to arrange objects. Till now our object collections did not depend on the
+order of gathering. We wish to figure out which element was \emph{first} and which element
+was \emph{second} after wards.
+
+\par
+Our definition of an \emph{ordered pair} $\langle x, y\rangle$ is due to  \emph{N.~Wiener} (1914) and \emph{K.~Kuratowski} (1921).
+
+\begin{defn}[Ordered Pair\index{pair!ordered}\index{ordered pair}]
+\label{definition:orderedPair} \hypertarget{definition:orderedPair}{}
+$$\langle x, y \rangle\ := \ \{ \{ x \}, \{ x, y \} \}$$
+
+\end{defn}
+
+
+
+
+\par
+For an ordered pair of sets the order of the defining elements matters.
+Ordered pairs should only be identical if their first elements 
+are identical and their second elements are identical.
+
+\begin{prop}
+\label{theorem:orderedPairEquality} \hypertarget{theorem:orderedPairEquality}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land \ \mathfrak{M}(y)\ \land \ \mathfrak{M}(u)\ \land \ \mathfrak{M}(v))\ \rightarrow \ (\langle x, y \rangle \ =  \ \langle u, v \rangle\ \rightarrow \ (x \ =  \ u\ \land \ y \ =  \ v))$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+An ordered pair made of sets is also a set. The reverse is also true.
+
+\begin{prop}
+\label{theorem:orderedPairOfSets} \hypertarget{theorem:orderedPairOfSets}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{M}(x)\ \land \ \mathfrak{M}(y))\ \leftrightarrow \ \mathfrak{M}(\langle x, y \rangle)$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+If one of the classes is not a set the resulting ordered pair is 
+identical with the universal class.
+
+\begin{prop}
+\label{theorem:orderedPairWithNonSet} \hypertarget{theorem:orderedPairWithNonSet}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\neg \mathfrak{M}(x)\ \lor \ \neg \mathfrak{M}(y))\ \rightarrow \ \langle x, y \rangle \ =  \ \mathfrak{V}$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+To speak of ordered pairs we need a predicate that says `is an ordered pair'.
+
+\begin{defn}[Ordered Pair Property\index{ordered pair!property}\index{pair!ordered}]
+\label{definition:isOrderedPair} \hypertarget{definition:isOrderedPair}{}
+$$\mbox{isOrderedPair}(x)\ :\leftrightarrow \ \exists u\ \exists v\ x \ =  \ \langle u, v \rangle$$
+
+\end{defn}
+
+We notice that $\mathfrak{V}$ is also an ordered pair. But because we mostly speak
+about class members we must only deal with sets that might be ordered pairs.
+
+
+\section{Cartesian Product} \label{chapter4_section2} \hypertarget{chapter4_section2}{}
+For the ordered pairs we need a meta structure. We just assemble ordered pairs into a class.
+
+\par
+The \emph{Cartesian product}\footnote{Named after the the French philosopher and mathematician \emph{R.~Descartes} also known as \emph{Cartesius}.} also called \emph{direct product} is the class of all ordered pairs, which elements are members of the origin classes.
+
+\begin{defn}[Cartesian Product\index{product!Cartesian}\index{Cartesian product}\index{direct product}\index{product!direct}]
+\label{definition:cartesianProduct} \hypertarget{definition:cartesianProduct}{}
+$$( x \times y)\ := \ \{ z \ | \ \exists u\ \exists v\ (u \in x\ \land \ v \in y\ \land \ z \ =  \ \langle u, v \rangle) \} $$
+
+\end{defn}
+
+
+
+
+\section{Relations} \label{chapter4_section3} \hypertarget{chapter4_section3}{}
+It is important to be able to express relations between
+mathematical objects and to handle them as objects
+too. It turns out that we do not have to introduce new
+kinds of objects. Our current structures are sufficient.
+
+\par
+We are now able to define a \emph{relation} within our set theory.
+
+\begin{defn}[Relation\index{relation}]
+\label{definition:relation} \hypertarget{definition:relation}{}
+$$\mathfrak{Rel}(x)\ :\leftrightarrow \ \forall y\ (y \in x\ \rightarrow \ \mbox{isOrderedPair}(y))$$
+
+\end{defn}
+
+
+
+
+\par
+Some propositions about relations.
+
+\begin{prop}
+\label{theorem:relationProperties} \hypertarget{theorem:relationProperties}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $\mathfrak{Rel}(\emptyset)$ & \label{theorem:relationProperties:a} \hypertarget{theorem:relationProperties:a}{} \mbox{\emph{(a)}} \\
+\centering $\mathfrak{Rel}(( \mathfrak{V} \times \mathfrak{V}))$ & \label{theorem:relationProperties:b} \hypertarget{theorem:relationProperties:b}{} \mbox{\emph{(b)}} \\
+\centering $(\mathfrak{Rel}(x)\ \land \ \mathfrak{Rel}(y))\ \rightarrow \ \mathfrak{Rel}((x \cap y))$ & \label{theorem:relationProperties:c} \hypertarget{theorem:relationProperties:c}{} \mbox{\emph{(c)}} \\
+\centering $(\mathfrak{Rel}(x)\ \land \ \mathfrak{Rel}(y))\ \rightarrow \ \mathfrak{Rel}((x \cup y))$ & \label{theorem:relationProperties:d} \hypertarget{theorem:relationProperties:d}{} \mbox{\emph{(d)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+We now give an universal definition of the concept \emph{domain}.
+
+\begin{defn}[Domain\index{domain}]
+\label{definition:domain} \hypertarget{definition:domain}{}
+$$\mathfrak{Dom}(x)\ := \ \{ y \ | \ \exists z\ \langle y, z \rangle \in x \} $$
+
+\end{defn}
+
+
+
+
+\par
+Analogous to the domain we specify the \emph{range} of a class.
+
+\begin{defn}[Range\index{range}]
+\label{definition:range} \hypertarget{definition:range}{}
+$$\mathfrak{Rng}(x)\ := \ \{ y \ | \ \exists z\ \langle z, y \rangle \in x \} $$
+
+\end{defn}
+
+
+
+
+\section{Relation Algebra} \label{chapter4_section4} \hypertarget{chapter4_section4}{}
++++
+
+\section{Equivalence Relations} \label{chapter4_section5} \hypertarget{chapter4_section5}{}
++++
+
+\section{Maps and Functions} \label{chapter4_section6} \hypertarget{chapter4_section6}{}
++++
+
+\par
+A function is just a special sort of relation.
+
+\begin{defn}[Function\index{function}]
+\label{definition:function} \hypertarget{definition:function}{}
+$$\mathfrak{Funct}(x)\ :\leftrightarrow \ \mathfrak{Rel}(x)\ \land \ \forall y\ (y \in \mathfrak{Dom}(x)\ \rightarrow \ \exists! z\ \langle y, z \rangle \in x)$$
+
+\end{defn}
+
+
+
+
+\par
+If the domain of a function is a set so its range should be a set too.
+
+\begin{ax}[Fraenkel's Replacement Axiom\index{axiom!of replacement}\index{Fraenkel's replacement axiom}]
+\label{axiom:FraenkelsReplacement} \hypertarget{axiom:FraenkelsReplacement}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(\mathfrak{Funct}(f)\ \land \ \mathfrak{M}(\mathfrak{Dom}(f)))\ \rightarrow \ \mathfrak{M}(\mathfrak{Rng}(f))$
+\end{longtable}
+
+\end{ax}
+
+
+
+
+
+%% end of chapter Sets, Relations and Functions
+
+\chapter{Natural Numbers} \label{chapter5} \hypertarget{chapter5}{}
+
++++
+
+\section{Foundation and Infinity} \label{chapter5_section0} \hypertarget{chapter5_section0}{}
++++
+
+\par
+Sets $x$ should not contain itself as a member, or contain an element that contains $x$. 
+To avoid these and further membership circles we provide the following axiom.
+
+\begin{ax}[Axiom of Foundation\index{axiom!of foundation}\index{axiom!of regularity}]
+\label{axiom:foundation} \hypertarget{axiom:foundation}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x \ \neq  \ \emptyset\ \rightarrow \ \exists y\ (y \in x\ \land \ (y \cap x) \ =  \ \emptyset)$
+\end{longtable}
+
+\end{ax}
+
+This axiom is also called axiom of regularity.
+
+
+\par
+A canonical class extension is the union with its singleton.
+
+\begin{defn}[Successor\index{successor}]
+\label{definition:successor} \hypertarget{definition:successor}{}
+$$x'\ := \ (x \cup \{ x \})$$
+
+\end{defn}
+
+Because $x \notin x$ the successor function adds just one elment to
+the original class.
+
+
+\par
+We want to have a set with an infinite number of elements. So we just postulate its existence.
+
+\begin{ax}[Axiom of Infinity\index{infinity!axiom of}\index{axiom!of infinity}]
+\label{axiom:infinity} \hypertarget{axiom:infinity}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\exists x\ (\mathfrak{M}(x)\ \land \ \emptyset \in x\ \land \ \forall y\ (y \in x\ \rightarrow \ y' \in x))$
+\end{longtable}
+
+\end{ax}
+
+
+
+
+\section{Definition and Basic Properties} \label{chapter5_section1} \hypertarget{chapter5_section1}{}
++++
+
+\section{Induction} \label{chapter5_section2} \hypertarget{chapter5_section2}{}
++++
+
+\section{Sequences and Normal Functions} \label{chapter5_section3} \hypertarget{chapter5_section3}{}
++++
+
+\section{Recursion} \label{chapter5_section4} \hypertarget{chapter5_section4}{}
++++
+
+
+%% end of chapter Natural Numbers
+
+\chapter{Axiom of Choice} \label{chapter6} \hypertarget{chapter6}{}
+
++++
+
+\section{Well-Ordering} \label{chapter6_section0} \hypertarget{chapter6_section0}{}
+MISSING! OTHER: +++
+
+\par
+Now we come to the famous axiom of choice. We write it down for relations.
+
+\begin{ax}[Axiom of Choice\index{axiom!of foundation}]
+\label{axiom:choice} \hypertarget{axiom:choice}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{Rel}(x)\ \rightarrow \ \exists y\ (\mathfrak{Funct}(y)\ \rightarrow \ (y \ \subseteq \ x\ \land \ \mathfrak{Dom}(x) \ =  \ \mathfrak{Dom}(y)))$
+\end{longtable}
+
+\end{ax}
+
+
+
+
+\section{Applications of the Axiom of Choice} \label{chapter6_section1} \hypertarget{chapter6_section1}{}
+
+
+
+%% end of chapter Axiom of Choice
+
+\chapter{Continuum} \label{chapter7} \hypertarget{chapter7}{}
+
+MISSING! OTHER: 
+
+%% end of chapter Continuum
+
+\begin{thebibliography}{99}
+\addcontentsline{toc}{chapter}{Bibliography}
+
+
+%% Used other QEDEQ modules:
+\bibitem{qedeq_logic_v1} qedeq\_logic\_v1 \url{http://qedeq.org/0_03_06/doc/math}
+
+
+%% Other references:
+
+\bibitem{lemmon} \emph{E. J. Lemmon}, Introduction to Axiomatic Set Theory, Routledge \& Kegan Paul Ltd, London 1968
+
+\bibitem{monk} \emph{J. D. Monk}, Introduction to Set Theory, McGraw-Hill, New York 1996
+
+\bibitem{schmidt} \emph{J. Schmidt}, Mengenlehre I, BI, Mannheim 1966
+
+\end{thebibliography}
+\backmatter
+
+\addcontentsline{toc}{chapter}{\indexname} \printindex
+
+\end{document}
+
