@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<QEDEQ 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_06/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="qedeq_error_sample_02" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="http://qedeq.org/0_03_06/sample"/>
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE><LATEX>Mathematical Error Example Module</LATEX></TITLE>
+    <ABSTRACT>
+      <LATEX>
+         With this QEDEQ module error handling is demonstrated.
+         Subject variable is already bound in sub formula. See line 36.
+      </LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME><LATEX>Michael Meyling</LATEX></NAME>
+      </AUTHOR>
+    </AUTHORS>
+  </HEADER>
+  <CHAPTER>
+    <TITLE><LATEX>Error Example</LATEX></TITLE>
+    <SECTION>
+      <TITLE><LATEX>Errors</LATEX></TITLE>
+      <SUBSECTIONS>
+        <NODE id="axiom:subjectVariableAlreadyBound">
+          <NAME><LATEX>second quantification over same variable</LATEX></NAME>
+          <TITLE><LATEX>Second Quantification</LATEX></TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <PREDVAR id="A" />
+                <FORALL>
+                  <VAR id="x" />
+                  <FORALL>
+                    <VAR id="x" />
+                    <PREDVAR id="B" />
+                  </FORALL>
+                </FORALL>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>

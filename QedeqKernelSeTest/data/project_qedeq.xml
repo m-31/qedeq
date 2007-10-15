@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml-stylesheet type="text/xsl" href="qedeq.xsl"?>
+<QEDEQ 
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_06/xml/qedeq.xsd">
+	<HEADER email="mime@qedeq.org">
+		<SPECIFICATION name="project_qedeq" ruleVersion="0.00.00">
+			<LOCATIONS>
+				<LOCATION value="http://qedeq.org/0_03_06"/>
+			</LOCATIONS>
+		</SPECIFICATION>
+		<TITLE>
+			<LATEX>
+			   \textbf{Hilbert~II} \\
+			   \vspace*{1cm} 
+			   Presentation of \\ 
+			   Formal Correct \\
+			   Mathematical Knowledge \\
+			   \vspace*{1cm} Basic Concept
+			</LATEX>
+		</TITLE>
+		<ABSTRACT>
+			<LATEX>
+			   TODO
+			</LATEX>
+		</ABSTRACT>
+		<AUTHORS>
+			<AUTHOR email="michael@meyling.com">
+				<NAME>
+					<LATEX>
+					 	Michael Meyling
+					</LATEX>
+				</NAME>
+			</AUTHOR>
+		</AUTHORS>
+	</HEADER>
+	<CHAPTER noNumber="true">
+		<TITLE>
+			<LATEX>
+				Executive Summary
+			</LATEX>
+		</TITLE>
+		<INTRODUCTION>
+			<LATEX>
+			  <![CDATA[
+					The project \textbf{Hilbert~II} deals with presentation and documentation of mathematical knowledge. Therefore \textbf{Hilbert~II} supplies a program suite for the realization of the related tasks. Also the documentation of basic mathematical theories is a main purpose of this project.
+					\par
+					This document is a service description of the program suite and its main features. This roughly concept should enable a mathematician to understand the vision and the contents of \textbf{Hilbert~II}. The goals of this project are as follows.
+					\par
+					\emph{Formal correct} but \emph{readable} mathematical knowledge should be made \emph{freely accessible} in \emph{decentralized} manner within the internet.
+					\begin{itemize}
+					\item
+					\emph{Formal correct} means checkable by a proof verifier. For this reason the mathematical formulas are written in a formal language that includes a first order predicate calculus. This makes a mechanical analysis possible. For example the enquiry if a theorem depends from a certain axiom could be answered automatically.
+					\item
+					The presentation shall be \emph{readable} like an ordinary mathematical textbook. This means text and common informal proofs. There are even different detail levels possible. One of the most detailed form of a proof is a formal proof.
+					\item
+					Manifestations of these textbooks in \LaTeX{} files or HTML pages are \emph{freely accessible} in the world wide web. It also stands for ``free'' in the sense of freedom: to assure everyone the effective freedom to copy and redistribute it, with or without modifying it, either commercially or noncommercially.
+					\item
+					The knowledge is \emph{decentralized} because it is spread over the internet with or without cross references to each other. So already proven theorems could be used elsewhere.
+					\end{itemize}
+					To achieve these objectives the mathematical knowledge is organized in so called \emph{qedeq modules}. Such a module is a XML file that is in principle already structured like a common \LaTeX{} file. It contains \LaTeX{} text for different detail levels, \LaTeX{} templates to display the formal contents and the formal contents itself. The proof checker only address the formal content. Other programs could generate \LaTeX{} and HTML files for given detail levels out of the qedeq modules. 
+					\par
+					There should be also a \emph{qedeq viewer} that can directly view qedeq modules and switch between the different explanation levels. It can also analyze the dependencies between the theorems and show the derivation of a proposition to its axomatic roots.
+					\par
+					This is still a ``living document'' and is permanently updated. Especially at the locations marked with ``+++'' additions and improvements are planed.
+				]]>
+			</LATEX>
+		</INTRODUCTION>
+	</CHAPTER>
+	<CHAPTER noNumber="true">
+		<TITLE>
+			<LATEX>
+				Preface
+			</LATEX>
+		</TITLE>
+		<INTRODUCTION>
+			<LATEX>
+			  <![CDATA[
+					This document is the result of a lifelong dream. No more insecurity about the correctness of mathematical proofs. 
+					The goal of \textbf{Hilbert~II} is decentralised access to verified and readable mathematical knowledge. As it's name already suggests, this project is in the tradition of Hilbert's program.
+					
+					\par
+					During my mathematical education I found it difficult to balance the detail deepness of my proofs. Sometimes I needed even for simple steps several lemmata. Occasionally my argumentation was too short and from time to time even incorrect. 
+
+					\par
+					Once in a while I tried to write down nearly formal proofs. That often had the high danger of not seeing the wood for the trees. Formal proofs kill the mathematical spirit and dry mathematics out into a dead skeleton.
+
+					\par
+					But living flesh needs a strong skeleton to give you stability and to make the muscles work. Even if the skeleton is essential it must not be directly visible.
+					So only the combination of lively mathematical texts with absolutely reliable formal background develops the full potential of mathematical knowledge.
+
+					\par
+					I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their their support and patience.
+					\par
+					\vspace*{1cm} Hamburg, December 2004 \\
+					\hspace*{\fill} Michael Meyling
+				]]>
+			</LATEX>
+		</INTRODUCTION>
+	</CHAPTER>
+	<CHAPTER>
+		<TITLE>
+			<LATEX>
+				Introduction
+			</LATEX>
+		</TITLE>
+		<INTRODUCTION>
+			<LATEX>
+			  This chapter gives an overview of the project purpose and goals.
+			</LATEX>
+		</INTRODUCTION>
+		<SECTION>
+			<TITLE>
+				<LATEX>
+					Motivation
+				</LATEX>
+			</TITLE>
+			<INTRODUCTION>
+				<LATEX>
+					<![CDATA[
+						Mathematics is a science with a structure that achieved enormous dimensions in the course of time. This huge stronghold has only a small set theoretic foundation and its firmness rests upon simple predicate calculus mortar. In principle the assembly could be comprehended by any mathematician. From every newest turret of mathematical cognition each path of logical dependency could be followed all the way down to the set theoretic roots.
+
+						\par
+						But this is practically impossible. It simply costs too much time to follow every single step in all it's details. Common practice for a mathematician is the use of references to more or less basic theorems that are proved elsewhere. Hopefully all of these referencing chains will end at axioms. The large number of referencing chains together with the experience that even standard works contain mistakes increase the error probability. Furthermore top level results are often verified by few people only.
+
+						\par
+						One must be even more confident that all references match, that every single precondition is fulfilled to apply the theorem. Often preconditions are well hidden, e.g. that ``every \emph{ring} in this book is \emph{commutative}'' as mentioned in the first chapter. This increases the difficulties for a mathematician who crosses the boarder of her discipline or a student to use mathematical results. The understanding can also be aggravated by unknown nomenclature, field specific conventions and definitions and special proof techniques. One has to acquire their meanings. It simply costs a lot of time to be cocksure.
+
+						\par
+						Another aspect is the question of free access to mathematical knowledge. If mathematical textbooks are still buyable their price is heigh and access to a relevant library is often limited. But mathematical knowledge belongs to the worldwide cultural assets. This knowledge should be freely available.
+					]]>
+				</LATEX>
+			</INTRODUCTION>
+		</SECTION>
+
+		<SECTION>
+			<TITLE>
+				<LATEX>
+					Goals
+				</LATEX>
+			</TITLE>
+			<INTRODUCTION>
+				<LATEX>
+					<![CDATA[
+						What demands can be derived from the above?
+
+						\begin{itemize}
+						\item
+						Proposition formulas should be written in a standardized language.
+						\item
+						References should be easily resolvable.
+						\item
+						Theorems should be checked by a proof verifier.
+						\item
+						Mathematical standard works should be freely accessible.
+						\end{itemize}
+						
+						Students and professional mathematicians could benefit from \textbf{Hilbert~II}. First of all this project provides a compilation of common mathematical textbooks. These textbooks are available for free and are easily accessible by internet. They come in different formats like \LaTeX{}, PDF and HTML. They are highly linked and enable effortless 
+					  reference resolution.
+					  \par
+					  Furthermore there will be additional textbooks which contain formal proofs for the theorems. There could also be supplementary texts and documents in other languages. 
+					  \par
+					  So you could start with a mathematical theorem and read a short non formal proof. If you are puzzled with that proof there might be a more detailed version and even a formal proof to support your comprehension.
+					  \par
+					  Needless to say \textbf{Hilbert~II} offers a publishing framework for mathematical texts. Starting with a common \LaTeX{} text file the mathematical contents is transfered step by step into a formal language. In the first phase it is not neccessary to provide a formal proof, only a formal notation for formulas is required. The resulting XML file contains theorems and definitions written in a formal language and their \LaTeX{} visualisation. An equivalent to the original textbook could be generated. Additionaly it is pössible to analyze the formulas, even a theorem proofer could be attached.
+					  \par
+					  The addition of formal proofs in the second phase might be a little bit painfull. In principle a formal proof is a sequence of formulas which follow logially from previous proved theorems or proof lines. The last proof line is equal with the theorem to prove. To make the derivation easily checkable by a proof verifier these steps mus be very small. A common mathematical proof technique is the usage of assumptions. The so called \emph{deduction theorem} is a new meta rule. Therre are many others and the more are understood by the proof checker the easier writing formal proofs gets.
+					  +++ reference to mathematical goals
+					]]>
+				</LATEX>
+			</INTRODUCTION>
+		</SECTION>
+
+	</CHAPTER>
+	<CHAPTER>
+		<TITLE>
+			<LATEX>
+				Functional Specification
+			</LATEX>
+		</TITLE>
+
+		<INTRODUCTION>
+			<LATEX>
+			  <![CDATA[
+					Description of what a \textbf{Hilbert~II} does or should do.
+					A functional specification describes how a product will work entirely from the user's perspective. It doesn't care how the thing is implemented. It talks about features.
+				]]>
+			</LATEX>
+		</INTRODUCTION>
+
+		<SECTION>
+			<TITLE>
+				<LATEX>
+					Use cases
+				</LATEX>
+			</TITLE>
+			<INTRODUCTION>
+				<LATEX>
+				  <![CDATA[
+						Students and professional mathematicians are the intended audience of \textbf{Hilbert~II}. This project wants present mathematical knowledge in formal correct but readable form. In this section the system is described by
+						\emph{use cases}. Such a use case gives an example how the system is going to be used.
+					]]>
+				</LATEX>
+			</INTRODUCTION>
+			<SUBSECTIONS>
+
+				<SUBSECTION>
+					<NAME>
+						<LATEX>
+							Reading mathematical text.
+						</LATEX>
+					</NAME>
+					<TEXT>
+						<LATEX>
+
+							User reads mathematical textbook.
+						</LATEX>
+					</TEXT>
+				</SUBSECTION>
+
+				<SUBSECTION>
+					<NAME>
+						<LATEX>
+							Check preconditions for applying.
+						</LATEX>
+					</NAME>
+					<TEXT>
+						<LATEX>
+							User checks preconditions to apply a theorem.
+						</LATEX>
+					</TEXT>
+				</SUBSECTION>
+
+				<SUBSECTION>
+					<NAME>
+						<LATEX>
+							Generation of HTML files.
+						</LATEX>
+					</NAME>
+					<TEXT>
+						<LATEX>
+							User generates HTML presentation.
+						</LATEX>
+					</TEXT>
+				</SUBSECTION>
+				
+				<SUBSECTION>
+					<NAME>
+						<LATEX>
+							Formal verification of theorem.
+						</LATEX>
+					</NAME>
+					<TEXT>
+						<LATEX>
+							User checks if a theorem if formal correct.
+						</LATEX>
+					</TEXT>
+				</SUBSECTION>
+
+				<SUBSECTION>
+					<NAME>
+						<LATEX>
+							Search for mathematical phrase.
+						</LATEX>
+					</NAME>
+					<TEXT>
+						<LATEX>
+							User searches for mathematical phrase.
+						</LATEX>
+					</TEXT>
+				</SUBSECTION>
+
+
+				</SUBSECTIONS>
+		</SECTION>
+
+
+		<SECTION>
+			<TITLE>
+				<LATEX>
+					Functional and Data Requirements		
+				</LATEX>
+			</TITLE>
+			<INTRODUCTION>
+				<LATEX>
+					+++ A specification for each individual functional requirement.
+				</LATEX>
+			</INTRODUCTION>
+		</SECTION>
+		
+		<SECTION>
+			<TITLE>
+				<LATEX>
+					Non Goals
+				</LATEX>
+			</TITLE>
+			<INTRODUCTION>
+				<LATEX>
+					\textbf{Hilbert~II} is no proof finder.
+					proof finder
+				</LATEX>
+			</INTRODUCTION>
+		</SECTION>
+
+
+	</CHAPTER>
+
+	<CHAPTER>
+		<TITLE>
+			<LATEX>
+				Non-functional requirements		
+			</LATEX>
+		</TITLE>
+		<INTRODUCTION>
+			<LATEX>
+			  Although English is the the project language and many mathematicians can read English texts about their special subject \textbf{Hilbert~II} supports different text languages.
+				\par
+				The data of \textbf{Hilbert~II} can be completely presented in XML documents. The data access works with the common internet protocols \textbf{http} and \textbf{ftp}. This defines platform independency that enables different software implementations. The reference software is written in Java and should run on most operating systems.
+				\par
+				As time goes by \textbf{Hilbert~II} should expand. This includes the format of data presentations. The old format must be supported further on.
+			</LATEX>
+		</INTRODUCTION>
+
+
+	</CHAPTER>
+
+	<CHAPTER>
+		<TITLE>
+			<LATEX>
+				Technical Specification
+			</LATEX>
+		</TITLE>
+		<INTRODUCTION>
+			<LATEX>
+				describes the internal implementation of the program. It talks about data structures, choice of programming languages and tools, algorithms, etc.
+				+++
+				Software interfaces \\
+				Development enviroment \\
+				Operating system \\
+				Application overview \\
+				\par
+				\par				
+				Third party tools and libraries
+			</LATEX>
+		</INTRODUCTION>
+		
+		<SECTION>
+			<TITLE>
+				<LATEX>
+					Software architecture
+				</LATEX>
+			</TITLE>
+			<INTRODUCTION>
+				<LATEX>
+					+++
+				</LATEX>
+			</INTRODUCTION>
+		</SECTION>
+	</CHAPTER>
+	<CHAPTER>
+		<TITLE>
+			<LATEX>
+				Project Plan
+			</LATEX>
+		</TITLE>
+		<INTRODUCTION>
+			<LATEX>
+			  <![CDATA[
+					In contrast to the well developed prototype the main project has not reached alpha stage, but the mathematical grounding of set theory has made good progress. Only the derivation of elementary propositions and definition of necessary notations will be done. The propositions are always written as formulas, the proofs are informal as usual. The outcome of this is a script of axiomatic set theory. \par
+					With common mathematical practice in mind, the set theory used in \textbf{Hilbert~II} is not ZFC but MK (by J.~L.~Kelley (1955), also called extended NBG).
+					\par
+					For the current stage see (text still in German): \url{http://www.qedeq.org/0_01_05/mengenlehre_1.pdf}.
+					\par
+					During the  completion of the set theory script the prototype qedeq format will be extended to be suitable for  formal correct notations and proofs of that script. The syntax of this formal language should be very near to the common symbolic mathematical language. The script will be translated into this new formal language and will be complemented with formal proofs. After this process an automatic proof verification for the newly created qedeq module is possible. The old informal proofs are also part of the qedeq module and enable a human access to the mathematical contents.
+					\par
+					The next major milestone is the release of the version 1.00 which has the following specification:
+					\begin{itemize}
+					\item
+					The syntax of qedeq module files is so rich, that the notations and formulas of \url{http://www.qedeq.org/0_01_05/mengenlehre_1.pdf} could be expressed.
+					\item
+					There is a kernel, which could check qedeq module files on a syntactic basis. For example it should recognize, that a formula is not well formed if it was quantified twice over the same subject variable. The kernel still couldn't check a proof (that means it couldn't decide if a formula derives logically from others).
+					\item
+					The generation of LaTeX files out of qedeq modules is possible.
+					\item
+					The transfer of basic set theory from script into qedeq module files is finished. Starting with the
+					elementary axioms, definitions and notations (as mentioned in \url{http://www.qedeq.org/0_01_05/mengenlehre_1.pdf}) the beginning of axiomatic set theory is fully formalized. Ideally the mathematical description texts are written in different detail levels and in the languages English and German.
+					\end{itemize}
+				]]>
+			</LATEX>
+		</INTRODUCTION>
+	</CHAPTER>
+</QEDEQ>
