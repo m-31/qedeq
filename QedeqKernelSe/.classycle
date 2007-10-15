@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<section name="classcycle">
+	<section name="properties">
+		<section name="reflection_pattern">
+			<list key="list">
+			</list>
+		</section>
+		<section name="exclude">
+			<list key="list">
+			</list>
+		</section>
+		<section name="include">
+			<item key="output" value="true"/>
+			<list key="list">
+			</list>
+		</section>
+	</section>
+</section>

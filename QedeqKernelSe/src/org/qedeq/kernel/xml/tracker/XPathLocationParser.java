@@ -1,0 +1,368 @@
+/* $Id: XPathLocationParser.java,v 1.20 2007/10/07 16:40:13 m31 Exp $
+ *
+ * This file is part of the project "Hilbert II" - http://www.qedeq.org
+ *
+ * Copyright 2000-2007,  Michael Meyling <mime@qedeq.org>.
+ *
+ * "Hilbert II" is free software; you can redistribute
+ * it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ */
+package org.qedeq.kernel.xml.tracker;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.qedeq.kernel.common.SourcePosition;
+import org.qedeq.kernel.dto.list.Enumerator;
+import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.TextInput;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.InputSource;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.XMLReader;
+
+/**
+ * Parser for XML files. This class uses features specific for Xerces.
+ *
+ * @version $Revision: 1.20 $
+ * @author Michael Meyling
+ */
+public class XPathLocationParser implements ContentHandler {
+
+    /** Namespaces feature id (http://xml.org/sax/features/namespaces). */
+    private static final String NAMESPACES_FEATURE_ID = "http://xml.org/sax/features/namespaces";
+
+    /** Validation feature id (http://xml.org/sax/features/validation). */
+    private static final String VALIDATION_FEATURE_ID = "http://xml.org/sax/features/validation";
+
+    /** SAX parser. */
+    private XMLReader reader;
+
+    /** Position locator during parsing. */
+    private Locator locator;
+
+    /** Search for this simple XPath expression. */
+    private final SimpleXPath find;
+
+    /** We are currently at this position. */
+    private SimpleXPath current;
+
+    /**
+     * We are currently at this position if we count only occurrences and take every element. The
+     * elements are all named "*".
+     */
+    private SimpleXPath summary;
+
+    /** This object is parsed. */
+    private TextInput xml;
+
+    /** Element stack. */
+    private final List elements;
+
+    /** Current stack level. */
+    private int level;
+
+    /**
+     * Constructor.
+     *
+     * @param   xpath XML file path.
+     * @throws  ParserConfigurationException Severe parser configuration problem.
+     * @throws  SAXException
+     */
+    public XPathLocationParser(final String xpath) throws ParserConfigurationException,
+            SAXException {
+        super();
+
+        find = new SimpleXPath(xpath);
+        elements = new ArrayList(20);
+        level = 0;
+
+        final String factoryImpl = System.getProperty("javax.xml.parsers.SAXParserFactory");
+        if (factoryImpl == null) {
+            System.setProperty("javax.xml.parsers.SAXParserFactory",
+                "org.apache.xerces.jaxp.SAXParserFactoryImpl");
+        }
+        SAXParserFactory factory = SAXParserFactory.newInstance();
+        factory.setNamespaceAware(false);
+        factory.setValidating(false);
+
+        factory.setFeature(NAMESPACES_FEATURE_ID, false);
+        factory.setFeature(VALIDATION_FEATURE_ID, false);
+
+        final SAXParser parser = factory.newSAXParser();
+
+        reader = parser.getXMLReader();
+
+        // set parser features
+        reader.setFeature(NAMESPACES_FEATURE_ID, false);
+        reader.setFeature(VALIDATION_FEATURE_ID, false);
+    }
+
+    /**
+     * Parses XML file.
+     *
+     * @param fileName Parse this input.
+     * @throws SAXException Syntactical or semantical problem occurred.
+     * @throws IOException Technical problem occurred.
+     */
+    public final void parse(final String fileName) throws SAXException, IOException {
+        final File file = new File(fileName);
+        parse(file);
+    }
+
+    /**
+     * Parses XML file.
+     *
+     * @param file Parse this input.
+     * @throws SAXException Syntactical or semantical problem occurred.
+     * @throws IOException Technical problem occurred.
+     */
+    public final void parse(final File file) throws SAXException, IOException {
+        final TextInput source = new TextInput(file);
+        parse(source);
+    }
+
+    /**
+     * Parses XML file.
+     *
+     * @param input Parse this input.
+     * @throws SAXException Syntactical or semantical problem occurred.
+     * @throws IOException Technical problem occurred.
+     */
+    public final void parse(final TextInput input) throws SAXException, IOException {
+        xml = input;
+        elements.clear();
+        level = 0;
+        try {
+            current = new SimpleXPath();
+            summary = new SimpleXPath();
+            reader.setContentHandler(this);
+            // TODO mime 20060609: what if input has no local address (e.g. == null)?
+            reader.parse(new InputSource(input.getLocalAddress().openStream()));
+            xml = null;
+        } catch (SAXException e) {
+            Trace.trace(this, "parse", e);
+            throw e;
+        }
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.xml.sax.ContentHandler#endDocument()
+     */
+    public void endDocument() throws SAXException {
+        elements.clear();
+        level = 0;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.xml.sax.ContentHandler#startDocument()
+     */
+    public void startDocument() throws SAXException {
+        elements.clear();
+        level = 0;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.xml.sax.ContentHandler#characters(char[], int, int)
+     */
+    public void characters(final char[] ch, final int start, final int length) throws SAXException {
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.xml.sax.ContentHandler#ignorableWhitespace(char[], int, int)
+     */
+    public void ignorableWhitespace(final char[] ch, final int start, final int length)
+            throws SAXException {
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.xml.sax.ContentHandler#endPrefixMapping(java.lang.String)
+     */
+    public void endPrefixMapping(final String prefix) throws SAXException {
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.xml.sax.ContentHandler#skippedEntity(java.lang.String)
+     */
+    public void skippedEntity(final String name) throws SAXException {
+    }
+
+    /**
+     * Receive a Locator object for document events. Store the locator for use with other document
+     * events.
+     *
+     * @param locator A locator for all SAX document events.
+     * @see org.xml.sax.ContentHandler#setDocumentLocator
+     * @see org.xml.sax.Locator
+     */
+    public final void setDocumentLocator(final Locator locator) {
+        this.locator = locator;
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.xml.sax.ContentHandler#processingInstruction(java.lang.String, java.lang.String)
+     */
+    public void processingInstruction(final String target, final String data) throws SAXException {
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String, java.lang.String)
+     */
+    public void startPrefixMapping(final String prefix, final String uri) throws SAXException {
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String,
+     *      java.lang.String, org.xml.sax.Attributes)
+     */
+    public void startElement(final String namespaceURI, final String localName, final String qName,
+            final Attributes atts) throws SAXException {
+        final String method = "startElement(String, String, Attributes)";
+        level++;
+        summary.addElement("*", addOccurence("*"));
+        current.addElement(qName, addOccurence(qName));
+
+        // LATER mime 20070109: just for testing is the next if
+/*
+        if (find.matchesElementsBegining(current, summary)) {
+            System.out.println("part match " + qName);
+            xml.setRow(locator.getLineNumber());
+            xml.setColumn(locator.getColumnNumber());
+            try {
+                xml.skipBackToBeginOfXmlTag();
+            } catch (RuntimeException e) {
+                Trace.trace(this, method, e);
+            }
+            find.setStartLocation(new SourcePosition(xml.getLocalAddress(), xml.getRow(), xml
+                .getColumn()));
+        }
+*/
+        if (find.matchesElements(current, summary)) {
+            Trace.trace(this, method, "matching elements");
+            Trace.param(this, method, qName, current);
+            xml.setRow(locator.getLineNumber());
+            xml.setColumn(locator.getColumnNumber());
+
+            try {
+                xml.skipBackToBeginOfXmlTag();
+            } catch (RuntimeException e) {
+                Trace.trace(this, method, e);
+            }
+            find.setStartLocation(new SourcePosition(xml.getLocalAddress(), xml.getRow(), xml
+                .getColumn()));
+            if (find.getAttribute() != null) {
+                xml.read(); // skip <
+                xml.readNextXmlName(); // must be element name
+                String tag;
+                do {
+                    xml.skipWhiteSpace();
+                    int row = xml.getRow();
+                    int col = xml.getColumn();
+                    try {
+                        tag = xml.readNextXmlName();
+                    } catch (IllegalArgumentException e) {
+                        break; // TODO mime 20050621: create named exception in readNextXmlName
+                    }
+                    if (tag.equals(find.getAttribute())) {
+                        find.setStartLocation(new SourcePosition(xml.getLocalAddress(), row, col));
+                        xml.readNextAttributeValue();
+                        find.setEndLocation(new SourcePosition(xml.getLocalAddress(), xml.getRow(),
+                            xml.getColumn()));
+                        break;
+                    }
+                    xml.readNextAttributeValue();
+                } while (true);
+            }
+        }
+    }
+
+    /**
+     * Add element occurrence.
+     *
+     * @param name Element that occurred.
+     * @return Number of occurrences including this one.
+     */
+    private int addOccurence(final String name) {
+        while (level < elements.size()) {
+            elements.remove(elements.size() - 1);
+        }
+        while (level > elements.size()) {
+            elements.add(new HashMap());
+        }
+        final Map levelMap = (Map) elements.get(level - 1);
+        final Enumerator counter;
+        if (levelMap.containsKey(name)) {
+            counter = (Enumerator) levelMap.get(name);
+            counter.increaseNumber();
+        } else {
+            counter = new Enumerator(1);
+            levelMap.put(name, counter);
+        }
+        return counter.getNumber();
+    }
+
+    /*
+     * (non-Javadoc)
+     *
+     * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String,
+     *      java.lang.String)
+     */
+    public void endElement(final String namespaceURI, final String localName, final String qName)
+            throws SAXException {
+        level--;
+        if (find.matchesElements(current, summary) && find.getAttribute() == null) {
+            xml.setRow(locator.getLineNumber());
+            xml.setColumn(locator.getColumnNumber());
+            // xml.skipForwardToEndOfXmlTag(); // TODO mime 20050810: remove? comment in?
+            find.setEndLocation(new SourcePosition(xml.getLocalAddress(), xml.getRow(), xml
+                .getColumn()));
+        }
+        current.deleteLastElement();
+        summary.deleteLastElement();
+    }
+
+    /**
+     * Get searched XPath. Possibly the start and end location are set.
+     *
+     * @return Searched XPath.
+     */
+    public SimpleXPath getFind() {
+        return find;
+    }
+
+}
