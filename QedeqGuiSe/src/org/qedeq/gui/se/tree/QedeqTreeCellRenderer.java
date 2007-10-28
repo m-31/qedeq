@@ -42,50 +42,56 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRenderer {
 
+    /** Status icon. */
     private static ImageIcon webLoadingIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_web_loading.gif"));
 
+    /** Status icon. */
     private static ImageIcon webLoadingErrorIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_web_loading_error.gif"));
 
+    /** Status icon. */
     private static ImageIcon bufferLoadingIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_buffer_loading.gif"));
 
+    /** Status icon. */
     private static ImageIcon bufferLoadingErrorIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_buffer_loading_error.gif"));
 
+    /** Status icon. */
     private static ImageIcon memoryLoadingIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_memory_loading.gif"));
 
+    /** Status icon. */
     private static ImageIcon memoryLoadingErrorIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_memory_loading_error.gif"));
 
+    /** Status icon. */
     private static ImageIcon loadedIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_loaded.gif"));
 
+    /** Status icon. */
     private static ImageIcon checkingIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_checking.gif"));
 
+    /** Status icon. */
     private static ImageIcon checkingErrorIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_checking_error.gif"));
 
+    /** Status icon. */
     private static ImageIcon checkedIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_checked.gif"));
 
-    /** Whether or not the item that was last configured is selected. */
-    private boolean selected;
-
-    // Colors
     /** Color to use for the foreground for selected nodes. */
     private Color textSelectionColor = UIManager.getColor("Tree.selectionForeground");
 
@@ -97,8 +103,6 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
 
     /** Color to use for the background when the node isn't selected. */
     private Color backgroundNonSelectionColor = UIManager.getColor("Tree.textBackground");
-
-    private boolean visible;
 
     public QedeqTreeCellRenderer() {
         super();
@@ -126,7 +130,7 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
                 unit = (ModuleElement) ((DefaultMutableTreeNode)
                     value).getUserObject();
                 setText(unit.getName());
-                setToolTipText("here should stand a tool tip");  // TODO
+                setToolTipText("here should stand a tool tip"); // LATER mime 20071022: add tool tip
             } else {
                 prop = (ModuleProperties) ((DefaultMutableTreeNode)
                     value).getUserObject();
@@ -153,8 +157,14 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
                 } else if (state == LoadingState.STATE_LOADING_INTO_MEMORY_FAILED) {
                     setIcon(memoryLoadingErrorIcon);
                 } else if (state == LoadingState.STATE_LOADED) {
+                    setIcon(loadedIcon);
+                } else if (state == LoadingState.STATE_LOADING_REQUIRED_MODULES) {
+                    setIcon(checkingIcon);
+                } else if (state == LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED) {
+                    setIcon(checkingErrorIcon);
+                } else if (state == LoadingState.STATE_LOADED_REQUIRED_MODULES) {
                     if (prop.getLogicalState() == LogicalState.STATE_UNCHECKED) {
-                        setIcon(loadedIcon);
+                        setIcon(checkingIcon);
                     } else if (prop.getLogicalState() == LogicalState.STATE_EXTERNAL_CHECKING
                             || prop.getLogicalState() == LogicalState.STATE_INTERNAL_CHECKING) {
                         setIcon(checkingIcon);
@@ -179,24 +189,14 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
             }
         }
         if (isSelected) {
+            setBackground(backgroundSelectionColor);
             setForeground(textSelectionColor);
         } else {
+            setBackground(backgroundNonSelectionColor);
             setForeground(textNonSelectionColor);
         }
 
-        /* Update the selected flag for the next paint. */
-        this.selected = isSelected;
-
-        /* Update visibility flag for the next paint. This is a hack that works for certain
-         * tree parameters (no visible root, just leafs in the root node). */
-        visible = tree.getPathForRow(row) != null;
-        if (visible) {
-            final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getModel().getRoot();
-            if (row < 0 || row >= node.getChildCount()) {
-                visible = false;
-            }
-        }
-
+/*
         Trace.trace(this, method, "-- global info");
         final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getModel().getRoot();
         Trace.param(this, method, "-- child", node.getChildCount());
@@ -204,43 +204,31 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
             Trace.param(this, method, "--- node" + i,  node.getChildAt(i));
             Trace.param(this, method, "--- child count" + i,  node.getChildAt(i).getChildCount());
         }
+*/
         return this;
     }
 
     /**
      * paint is subclassed to draw the background correctly.  JLabel
      * currently does not allow backgrounds other than white, and it
-     * will also fill behind the icon.  Something that isn't desirable.
+     * will also fill behind the icon. Something that isn't desirable.
      */
    public void paint(final Graphics g) {
        final String method = "paint";
-       Trace.param(this, method, "selected", selected);
        Trace.param(this, method, "label", getText());
-       Trace.param(this, method, "visible", visible);
-       Color bColor;
        Icon currentI = getIcon();
-
-        if (visible) {
-            if (selected) {
-                bColor = backgroundSelectionColor;
-                setForeground(textSelectionColor);
-            } else {
-                bColor = backgroundNonSelectionColor;
-                setForeground(textNonSelectionColor);
-            }
-            g.setColor(bColor);
-            if (currentI != null && getText() != null) {
-                int offset = (currentI.getIconWidth() + getIconTextGap());
-                if (getComponentOrientation().isLeftToRight()) {
-                    g.fillRect(offset, 0, getWidth() - 1 - offset, getHeight() - 1);
-                } else {
-                    g.fillRect(0, 0, getWidth() - 1 - offset, getHeight() - 1);
-                }
-            } else {
-                g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
-            }
-            super.paint(g);
-        }
+       if (currentI != null && getText() != null) {
+           int offset = (currentI.getIconWidth() + getIconTextGap());
+           g.setColor(getBackground());
+           if (getComponentOrientation().isLeftToRight()) {
+                g.fillRect(offset, 0, getWidth() - 1 - offset, getHeight() - 1);
+           } else {
+                g.fillRect(0, 0, getWidth() - 1 - offset, getHeight() - 1);
+           }
+       } else {
+           g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
+       }
+       super.paint(g);
     }
 
 }
