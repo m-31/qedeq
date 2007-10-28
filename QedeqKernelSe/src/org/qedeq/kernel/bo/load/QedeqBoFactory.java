@@ -81,6 +81,7 @@ import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
 import org.qedeq.kernel.dto.module.ProofListVo;
 import org.qedeq.kernel.dto.module.ProofVo;
 import org.qedeq.kernel.dto.module.PropositionVo;
+import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.dto.module.RuleVo;
 import org.qedeq.kernel.dto.module.SectionListVo;
 import org.qedeq.kernel.dto.module.SectionVo;
@@ -109,7 +110,7 @@ import org.qedeq.kernel.dto.module.VariableListVo;
 public class QedeqBoFactory {
 
     /** QEDEQ module business object. */
-    private DefaultQedeqBo qedeq;
+    private DefaultQedeqBo qedeqBo;
 
     /** QEDEQ module input object. */
     private Qedeq original;
@@ -171,10 +172,12 @@ public class QedeqBoFactory {
         this.original = original;
         getCurrentContext().setLocationWithinModule("");
         if (original == null) {
-            qedeq = null;
-            return qedeq;
+            qedeqBo = null;
+            return qedeqBo;
         }
-        qedeq = new DefaultQedeqBo();
+        qedeqBo = new DefaultQedeqBo();
+        QedeqVo qedeq = new QedeqVo();
+        qedeqBo.setQedeq(qedeq);
         final String context = getCurrentContext().getLocationWithinModule();
         if (original.getHeader() != null) {
             getCurrentContext().setLocationWithinModule(context + "getHeader()");
@@ -188,7 +191,7 @@ public class QedeqBoFactory {
             getCurrentContext().setLocationWithinModule(context + "getLiteratureItemList()");
             qedeq.setLiteratureItemList(create(original.getLiteratureItemList()));
         }
-        return qedeq;
+        return qedeqBo;
     }
 
     /**
@@ -935,7 +938,7 @@ public class QedeqBoFactory {
      * @return  Currently created QEDEQ module.
      */
     protected final QedeqBo getQedeqCreated() {
-        return qedeq;
+        return qedeqBo;
     }
 
 }
