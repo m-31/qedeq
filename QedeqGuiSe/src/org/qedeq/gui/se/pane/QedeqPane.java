@@ -232,7 +232,7 @@ public class QedeqPane extends JPanel {
         Trace.begin(this, "updateView");
         if (prop != null) {
             try {
-                final File file = new File(KernelContext.getInstance().getLocalName(
+                final File file = new File(KernelContext.getInstance().getLocalFilePath(
                     prop.getModuleAddress()));
                 if (file.canRead()) {
                     final StringBuffer buffer = new StringBuffer();
