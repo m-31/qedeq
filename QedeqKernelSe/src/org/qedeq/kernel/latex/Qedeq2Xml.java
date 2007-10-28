@@ -72,18 +72,18 @@ public final class Qedeq2Xml extends AbstractModuleVisitor {
     private TextOutput printer;
 
     /** QEDEQ BO object to work on. */
-    private QedeqBo qedeq;
+    private QedeqBo qedeqBo;
 
     /**
      * Constructor.
      *
-     * @param   qedeq               QEDEQ BO object.
+     * @param   qedeqBo               QEDEQ BO object.
      * @param   globalContext       Module location information.
      * @param   printer             Print herein.
      */
-    private Qedeq2Xml(final QedeqBo qedeq, final String globalContext,
+    private Qedeq2Xml(final QedeqBo qedeqBo, final String globalContext,
             final TextOutput printer) {
-        this.qedeq = qedeq;
+        this.qedeqBo = qedeqBo;
         transverser = new QedeqNotNullTransverser(globalContext, this);
         this.printer = printer;
     }
@@ -111,7 +111,7 @@ public final class Qedeq2Xml extends AbstractModuleVisitor {
      * @throws  ModuleDataException Exception during transversion.
      */
     private final void printXml() throws IOException, ModuleDataException {
-        transverser.accept(qedeq);
+        transverser.accept(qedeqBo.getQedeq());
         printer.flush();
         if (printer.checkError()) {
             throw printer.getError();

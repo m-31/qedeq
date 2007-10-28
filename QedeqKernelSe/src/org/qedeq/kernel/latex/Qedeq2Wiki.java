@@ -39,7 +39,6 @@ import org.qedeq.kernel.base.module.Node;
 import org.qedeq.kernel.base.module.NodeType;
 import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
-import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.base.module.Section;
 import org.qedeq.kernel.base.module.SectionList;
@@ -76,7 +75,7 @@ public final class Qedeq2Wiki {
     private PrintStream printer;
 
     /** QEDEQ module to transfer into WIKI form. */
-    private Qedeq qedeq;
+    private QedeqBo qedeqBo;
 
     /** Filter text to get and produce text in this language. */
     private String language;
@@ -94,11 +93,11 @@ public final class Qedeq2Wiki {
      * Constructor.
      *
      * @param   context Context within this module is created.
-     * @param   qedeq   Work with this QEDEQ module.
+     * @param   qedeqBo   Work with this QEDEQ module.
      * @throws  ModuleDataException
      */
-    public Qedeq2Wiki(final String context, final QedeqBo qedeq) throws ModuleDataException {
-        this.qedeq = qedeq;
+    public Qedeq2Wiki(final String context, final QedeqBo qedeqBo) throws ModuleDataException {
+        this.qedeqBo = qedeqBo;
         final PredicateDefinitionVo equal = new PredicateDefinitionVo();
         // LATER mime 20050224: quick hack to have the logical identity operator
         equal.setArgumentNumber("2");
@@ -145,9 +144,10 @@ public final class Qedeq2Wiki {
      * @throws IOException  Writing failed.
      */
     private void printQedeqChapters() throws IOException {
-        final ChapterList chapters = qedeq.getChapterList();
+        final ChapterList chapters = qedeqBo.getQedeq().getChapterList();
         for (int i = 0; i < chapters.size(); i++) {
-            final String label = qedeq.getHeader().getSpecification().getName() + "_ch_" + i;
+            final String label = qedeqBo.getQedeq().getHeader().getSpecification().getName()
+            + "_ch_" + i;
             final OutputStream outputStream = new FileOutputStream(new File(outputDirectory,
                 label + "_" + language + ".wiki"));
             this.printer = new PrintStream(outputStream);
@@ -179,7 +179,7 @@ public final class Qedeq2Wiki {
      * Print bibliography (if any).
      */
     private void printQedeqBibliography() {
-        final LiteratureItemList items = qedeq.getLiteratureItemList();
+        final LiteratureItemList items = qedeqBo.getQedeq().getLiteratureItemList();
         if (items == null) {
             return;
         }
