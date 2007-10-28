@@ -92,6 +92,10 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
+        public void removeModule(final String address) {
+            throw new IllegalStateException("Kernel not initialized");
+        }
+
         public void clearLocalBuffer() throws IOException {
             throw new IllegalStateException("Kernel not initialized");
         }
@@ -129,7 +133,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public String getLocalName(final ModuleAddress address) {
+        public String getLocalFilePath(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
     };
@@ -166,6 +170,10 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
+        public void removeModule(final String address) {
+            throw new IllegalStateException("Kernel not started");
+        }
+
         public void clearLocalBuffer() throws IOException {
             throw new IllegalStateException("Kernel not started");
         }
@@ -203,7 +211,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public String getLocalName(final ModuleAddress address) {
+        public String getLocalFilePath(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
     };
@@ -246,6 +254,10 @@ public final class KernelContext implements Kernel {
             moduleFactory.removeAllModules();
         }
 
+        public void removeModule(final String address) throws IOException {
+            moduleFactory.removeModule(address);
+        }
+
         public void clearLocalBuffer() throws IOException {
             moduleFactory.clearLocalBuffer();
         }
@@ -283,8 +295,8 @@ public final class KernelContext implements Kernel {
             return moduleFactory.getModuleProperties(address);
         }
 
-        public String getLocalName(final ModuleAddress address) {
-            return moduleFactory.getLocalName(address);
+        public String getLocalFilePath(final ModuleAddress address) {
+            return moduleFactory.getLocalFilePath(address);
         }
 
     };
@@ -385,6 +397,10 @@ public final class KernelContext implements Kernel {
         currentState.removeAllModules();
     }
 
+    public void removeModule(final String address) throws IOException {
+        currentState.removeModule(address);
+    }
+
     public void clearLocalBuffer() throws IOException {
         currentState.clearLocalBuffer();
     }
@@ -422,8 +438,8 @@ public final class KernelContext implements Kernel {
         return currentState.getModuleProperties(address);
     }
 
-    public String getLocalName(final ModuleAddress address) {
-        return currentState.getLocalName(address);
+    public String getLocalFilePath(final ModuleAddress address) {
+        return currentState.getLocalFilePath(address);
     }
 
 }
