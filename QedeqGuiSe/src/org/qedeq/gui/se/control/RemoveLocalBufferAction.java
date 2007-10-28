@@ -55,7 +55,7 @@ class RemoveLocalBufferAction extends AbstractAction {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "Local buffer was cleared.");
                 } catch (IOException e) {
-                    Trace.trace(controller, "actionPerformed", e);
+                    Trace.fatal(controller, "actionPerformed", "IO access problem", e);
                     QedeqLog.getInstance().logFailureReply(
                         "IO access problem", e.getMessage());
                 }
