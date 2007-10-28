@@ -52,6 +52,4 @@ public final class QedeqTreeNode extends DefaultMutableTreeNode {
         }
     }
 
-
-
 }
