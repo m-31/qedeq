@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import org.qedeq.gui.se.tree.NothingSelectedException;
+import org.qedeq.kernel.bo.control.LoadRequiredModules;
 import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
 import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.LogicalState;
@@ -33,6 +34,7 @@ import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
+import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
 
 /**
  * Check logical correctness of modules.
@@ -68,32 +70,50 @@ class CheckLogicAction extends AbstractAction {
             final Thread thread = new Thread() {
                 public void run() {
                     for (int i = 0; i < props.length; i++) {
-                        if (LoadingState.STATE_LOADED != props[i].getLoadingState()) {
+                        if (LoadingState.STATE_LOADED.getCode()
+                                > props[i].getLoadingState().getCode()) {
                             break;
                         }
                         try {
-                            // TODO mime 20070830: checking should be a method of KernelContext
+                            // FIXME mime 20070830: checking should be a method of KernelContext
                             //      also all conversion jobs to get an XmlFileExceptionList
                             //      should be made there!!!
                             QedeqLog.getInstance().logRequest("Check logical correctness for \""
                                 + props[i].getAddress() + "\"");
+
+                            // FIXME mime 20071024: testing:
+                            LoadRequiredModules.loadRequired(props[i].getModule());
+
                             props[i].setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
                             ModuleEventLog.getInstance().stateChanged(props[i]);
                             QedeqBoFormalLogicChecker.check(KernelContext.getInstance()
-                                .getLocalName(props[i].getModuleAddress()), props[i].getModule());
+                                .getLocalFilePath(props[i].getModuleAddress()),
+                                props[i].getModule());
+
+
                             props[i].setLogicalProgressState(LogicalState.STATE_CHECKED);
                             ModuleEventLog.getInstance().stateChanged(props[i]);
                             QedeqLog.getInstance().logSuccessfulReply(
                                 "Check of logical correctness successful for \""
                                 + props[i].getAddress() + "\"");
-                        } catch (ModuleDataException e) {
+                        } catch (final ModuleDataException e) {
                             final String msg = "Check of logical correctness failed for \""
                                 + props[i].getAddress() + "\"";
                             Trace.fatal(this, method, msg, e);
 
                             final XmlFileExceptionList xl =
                                 ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                                props[i].getModule());
+                                props[i].getModule().getQedeq());
+                            props[i].setLogicalFailureState(
+                                LogicalState.STATE_INTERNAL_CHECK_FAILED, xl);
+                            ModuleEventLog.getInstance().stateChanged(props[i]);
+                            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+                        } catch (final RuntimeException e) {
+                            final String msg = "Check of logical correctness failed for \""
+                                + props[i].getAddress() + "\"";
+                            Trace.fatal(this, method, msg, e);
+                            final XmlFileExceptionList xl =
+                                new DefaultXmlFileExceptionList(e);
                             props[i].setLogicalFailureState(
                                 LogicalState.STATE_INTERNAL_CHECK_FAILED, xl);
                             ModuleEventLog.getInstance().stateChanged(props[i]);
