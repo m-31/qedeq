@@ -18,48 +18,29 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.dto.module.ChapterListVo;
-import org.qedeq.kernel.dto.module.ChapterVo;
-import org.qedeq.kernel.dto.module.HeaderVo;
-import org.qedeq.kernel.dto.module.LiteratureItemListVo;
 
 /**
  * A complete QEDEQ module. This describes the root business object.
  *
- * TODO mime 20070704: should include the Qedeq DTO - and not have the same methods
- *
  * @version $Revision: 1.13 $
  * @author  Michael Meyling
  */
-public interface QedeqBo extends Qedeq {
+public interface QedeqBo {
+
 
     /**
-     * Set header of module.
+     * Set data transfer object of this BO.
      *
-     * @param   header   Module header.
+     * @param   qedeq   QEDEQ module data.
      */
-    public void setHeader(final HeaderVo header);
+    public void setQedeq(final Qedeq qedeq);
 
     /**
-     * Set chapter list of this module.
+     * Get data transfer object of this BO.
      *
-     * @param   chapters    Chapter list.
+     * @return  QEDEQ module data.
      */
-    public void setChapterList(final ChapterListVo chapters);
-
-    /**
-     * Add chapter to this module.
-     *
-     * @param   chapter Chapter to add.
-     */
-    public void addChapter(final ChapterVo chapter);
-
-    /**
-     * Set bibliography.
-     *
-     * @param   literatureItemList  Bibliography.
-     */
-    public void setLiteratureItemList(final LiteratureItemListVo literatureItemList);
+    public Qedeq getQedeq();
 
     /**
      * Get module label associations for this module.
@@ -69,7 +50,7 @@ public interface QedeqBo extends Qedeq {
     public ModuleLabels getModuleLabels();
 
     /**
-     * Get physical addresses of this module.
+     * Get physical address of this module.
      *
      * @return  Module address..
      */
