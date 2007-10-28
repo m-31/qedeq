@@ -409,9 +409,10 @@ public final class IoUtility {
      * Delete file directory recursive.
      *
      * @param   directory   Directory to delete.
+     * @param   deleteDir   Delete directory itself too?
      * @return  Was deletion successful?
      */
-    public static boolean deleteDir(final File directory) {
+    public static boolean deleteDir(final File directory, final boolean deleteDir) {
         // to see if this directory is actually a symbolic link to a directory,
         // we want to get its canonical path - that is, we follow the link to
         // the file it's actually linked to
@@ -433,6 +434,7 @@ public final class IoUtility {
 
         // now we go through all of the files and subdirectories in the
         // directory and delete them one by one
+        boolean success = true;
         File[] files = candir.listFiles();
         if (files != null) {
             for (int i = 0; i < files.length; i++) {
@@ -446,17 +448,21 @@ public final class IoUtility {
                     // deleting the file failed, so maybe it's a non-empty
                     // directory
                     if (file.isDirectory()) {
-                        deleteDir(file);
+                        deleted = deleteDir(file, true);
                     }
 
                     // otherwise, there's nothing else we can do
                 }
+                success = success && deleted;
             }
         }
 
         // now that we tried to clear the directory out, we can try to delete it
         // again
-        return directory.delete();
+        if (deleteDir) {
+            return directory.delete();
+        }
+        return success;
     }
 
     /**
@@ -698,7 +704,7 @@ public final class IoUtility {
         final String webStart = (String) System.getProperties().get("javawebstart.version");
         return webStart != null;
     }
-    
+
     /**
      * Loads a property file from given URL.
      *
