@@ -57,10 +57,11 @@ public final class ModuleLabels {
             throws IllegalModuleDataException {
         if (null == node.getId()) {
             throw new IllegalModuleDataException(10001, "An id was not defined.", context, null,
-                null);
+                null);  // LATER mime 20071026: organize exception codes
         }
         if (label2Bo.containsKey(node.getId())) {
-            throw new IllegalModuleDataException(10001, "Id \"" + node.getId()
+            // LATER mime 20071026: organize exception codes
+            throw new IllegalModuleDataException(10002, "Id \"" + node.getId()
                 + "\" defined more than once.", context,
                 (ModuleContext) label2Context.get(node.getId()), null);
         }
