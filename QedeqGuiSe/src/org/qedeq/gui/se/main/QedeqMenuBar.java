@@ -83,6 +83,16 @@ public class QedeqMenuBar extends JMenuBar {
         item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/document-open.png"));
         menu.add(item);
 
+        item = MenuHelper.createMenuItem("Load all from QEDEQ", 'Q');
+        item.addActionListener(controller.getAddAllModulesFromQedeqAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/go-home.png"));
+        menu.add(item);
+
+        item = MenuHelper.createMenuItem("Clear Buffer", 'C');
+        item.addActionListener(controller.getRemoveLocalBufferAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-delete.png"));
+        menu.add(item);
+
         if (!MenuHelper.isQuitInOSMenu()) {
             menu.addSeparator();
             item = MenuHelper.createMenuItem("Exit", 'E');
