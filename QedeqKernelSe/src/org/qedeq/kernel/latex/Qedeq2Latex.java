@@ -85,7 +85,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     private final TextOutput printer;
 
     /** QEDEQ BO object to work on. */
-    private final QedeqBo qedeq;
+    private final QedeqBo qedeqBo;
 
     /** Filter text to get and produce text in this language. */
     private final String language;
@@ -125,7 +125,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
      */
     private Qedeq2Latex(final QedeqBo qedeq, final String globalContext,
             final TextOutput printer, final String language, final String level) {
-        this.qedeq = qedeq;
+        this.qedeqBo = qedeq;
         this.transverser = new QedeqNotNullTransverser(globalContext, this);
         this.printer = printer;
         if (language == null) {
@@ -153,7 +153,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     }
 
     /**
-     * Prints a XML representation of given QEDEQ module into a given output stream.
+     * Prints a LaTeX representation of given QEDEQ module into a given output stream.
      *
      * @param   globalContext   Module location information.
      * @param   qedeq           Basic QEDEQ module object.
@@ -172,14 +172,13 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     }
 
     /**
-     * Prints a XML file into a given output stream.
-     * Constructs a {@link QedeqBo} first.
+     * Prints a LaTeX file into a given output stream.
      *
      * @throws  IOException         Writing failed.
      * @throws  ModuleDataException Exception during transversion.
      */
     private final void printLatex() throws IOException, ModuleDataException {
-        transverser.accept(qedeq);
+        transverser.accept(qedeqBo.getQedeq());
         printer.flush();
         if (printer.checkError()) {
             throw printer.getError();
@@ -282,7 +281,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         printer.print(getLatexListEntry(title));
         printer.println("}");
         printer.println("\\author{");
-        final AuthorList authors = qedeq.getHeader().getAuthorList();
+        final AuthorList authors = qedeqBo.getQedeq().getHeader().getAuthorList();
         for (int i = 0; i < authors.size(); i++) {
             if (i > 0) {
                 printer.println(", ");
@@ -630,7 +629,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
             }
             printer.println("\\addcontentsline{toc}{chapter}{Bibliography}");
         }
-        final ImportList imports = qedeq.getHeader().getImportList();
+        final ImportList imports = qedeqBo.getQedeq().getHeader().getImportList();
         if (imports != null && imports.size() > 0) {
             printer.println();
             printer.println();
@@ -658,7 +657,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     }
 
     public void visitLeave(final LiteratureItemList list) {
-        final UsedByList usedby = qedeq.getHeader().getUsedByList();
+        final UsedByList usedby = qedeqBo.getQedeq().getHeader().getUsedByList();
         if (usedby != null && usedby.size() > 0) {
             printer.println();
             printer.println();
