@@ -17,16 +17,10 @@
 
 package org.qedeq.kernel.bo.load;
 
-import org.qedeq.kernel.base.module.ChapterList;
-import org.qedeq.kernel.base.module.Header;
-import org.qedeq.kernel.base.module.LiteratureItemList;
+import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.dto.module.ChapterListVo;
-import org.qedeq.kernel.dto.module.ChapterVo;
-import org.qedeq.kernel.dto.module.HeaderVo;
-import org.qedeq.kernel.dto.module.LiteratureItemListVo;
 import org.qedeq.kernel.utility.EqualsUtility;
 
 
@@ -40,17 +34,11 @@ import org.qedeq.kernel.utility.EqualsUtility;
  */
 public class DefaultQedeqBo implements QedeqBo {
 
-    /** Header of module. */
-    private HeaderVo header;
-
-    /** All module chapters. */
-    private ChapterListVo chapterList;
+    /** QEDEQ data transfer object. */
+    private Qedeq qedeq;
 
     /** All module labels and their business objects. */
     private final ModuleLabels moduleLabels;
-
-    /** Bibliography. */
-    private LiteratureItemList literatureItemList;
 
     /** Module address information. */
     private ModuleAddress moduleAddress;
@@ -62,55 +50,12 @@ public class DefaultQedeqBo implements QedeqBo {
         moduleLabels = new ModuleLabels();
     }
 
-    /**
-     * Set header of module.
-     *
-     * @param   header   Module header.
-     */
-    public final void setHeader(final HeaderVo header) {
-        this.header = header;
+    public void setQedeq(final Qedeq qedeq) {
+        this.qedeq = qedeq;
     }
 
-    public final Header getHeader() {
-        return header;
-    }
-
-    /**
-     * Set chapter list of this module.
-     *
-     * @param   chapters    Chapter list.
-     */
-    public final void setChapterList(final ChapterListVo chapters) {
-        this.chapterList = chapters;
-    }
-
-    public final ChapterList getChapterList() {
-        return chapterList;
-    }
-
-    /**
-     * Add chapter to this module.
-     *
-     * @param   chapter Chapter to add.
-     */
-    public final void addChapter(final ChapterVo chapter) {
-        if (chapterList == null) {
-            chapterList = new ChapterListVo();
-        }
-        chapterList.add(chapter);
-    }
-
-    /**
-     * Set bibliography.
-     *
-     * @param   literatureItemList  Bibliography.
-     */
-    public void setLiteratureItemList(final LiteratureItemListVo literatureItemList) {
-        this.literatureItemList = literatureItemList;
-    }
-
-    public LiteratureItemList getLiteratureItemList() {
-        return literatureItemList;
+    public Qedeq getQedeq() {
+        return qedeq;
     }
 
     /**
@@ -145,25 +90,19 @@ public class DefaultQedeqBo implements QedeqBo {
             return false;
         }
         final DefaultQedeqBo other = (DefaultQedeqBo) obj;
-        return  EqualsUtility.equals(getHeader(), other.getHeader())
-            &&  EqualsUtility.equals(getChapterList(), other.getChapterList())
-            &&  EqualsUtility.equals(getLiteratureItemList(), other.getLiteratureItemList())
+        return  EqualsUtility.equals(getQedeq(), other.getQedeq())
             &&  EqualsUtility.equals(getModuleAddress(), other.getModuleAddress());
     }
 
     public int hashCode() {
-        return (getHeader() != null ? getHeader().hashCode() : 0)
-            ^ (getChapterList() != null ? 1 ^ getChapterList().hashCode() : 0)
-            ^ (getLiteratureItemList() != null ? 2 ^ getLiteratureItemList().hashCode() : 0)
-            ^ (getModuleAddress() != null ? 3 ^ getModuleAddress().hashCode() : 0);
+        return (getQedeq() != null ? getQedeq().hashCode() : 0)
+            ^ (getModuleAddress() != null ? 1 ^ getModuleAddress().hashCode() : 0);
     }
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
         buffer.append(getModuleAddress() + "\n");
-        buffer.append(getHeader() + "\n\n");
-        buffer.append(getChapterList() + "\n\n");
-        buffer.append(getLiteratureItemList());
+        buffer.append(getQedeq() + "\n\n");
         return buffer.toString();
     }
 
