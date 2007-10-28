@@ -354,8 +354,8 @@ public class QedeqBoTest extends AbstractBoModuleTest {
         removeMethodToCheck("setState");
         removeMethodToCheck("hashCode");
         removeMethodToCheck("toString");
-        removeMethodToCheck("getModuleAddress");
-        removeMethodToCheck("getModuleLabels");
+        removeMethodToCheck("getModuleAddress");    // TODO mime 20071026: check this
+        removeMethodToCheck("getModuleLabels");     // TODO mime 20071026: check this
         super.checkAllChecked();
     }
 
