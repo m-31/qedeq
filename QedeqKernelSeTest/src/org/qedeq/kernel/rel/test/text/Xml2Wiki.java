@@ -228,7 +228,8 @@ public final class Xml2Wiki  {
         } catch (ModuleDataException e) {
             Trace.trace(Xml2Latex.class, method, e);
             Trace.param(Xml2Latex.class, method, "context", e.getContext());
-            throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e, qedeqBo);
+            throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
+                qedeqBo.getQedeq());
         } finally {
             Trace.end(Xml2Wiki.class, method);
         }
