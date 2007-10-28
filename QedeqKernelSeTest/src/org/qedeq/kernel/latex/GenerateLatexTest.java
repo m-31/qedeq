@@ -262,13 +262,13 @@ public final class GenerateLatexTest extends QedeqTestCase {
         IoUtility.copyFile(texFile, texCopy);
         ModuleProperties prop = KernelContext.getInstance().getModuleProperties(IoUtility.toUrl(
             xmlFile.getAbsoluteFile().getCanonicalFile()).toExternalForm());
-        QedeqBo qedeq = prop.getModule();
+        QedeqBo qedeqBo = prop.getModule();
         try {
             QedeqLog.getInstance().logRequest("Check logical correctness of \""
                 + prop.getAddress() + "\"");
             prop.setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
             ModuleEventLog.getInstance().stateChanged(prop);
-            QedeqBoFormalLogicChecker.check(KernelContext.getInstance().getLocalName(
+            QedeqBoFormalLogicChecker.check(KernelContext.getInstance().getLocalFilePath(
                 prop.getModuleAddress()), prop.getModule());
             QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful for \""
@@ -281,10 +281,11 @@ public final class GenerateLatexTest extends QedeqTestCase {
             prop.setLogicalFailureState(
                 LogicalState.STATE_INTERNAL_CHECK_FAILED, 
                     ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                    qedeq));
+                    qedeqBo.getQedeq()));
             ModuleEventLog.getInstance().stateChanged(prop);
             QedeqLog.getInstance().logFailureReply(e.getMessage(), msg);
-            throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e, qedeq);
+            throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
+                qedeqBo.getQedeq());
         }
     }
 
