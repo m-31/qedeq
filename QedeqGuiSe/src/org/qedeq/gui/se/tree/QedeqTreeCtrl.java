@@ -20,6 +20,7 @@ package org.qedeq.gui.se.tree;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,6 +39,7 @@ import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.main.LowerTabbedView;
 import org.qedeq.gui.se.main.UpperTabbedView;
 import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 
 
@@ -54,6 +56,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
     private final QedeqTreeView treeView;
 
+    /** Tree model. */
     private final QedeqTreeModel treeModel;
 
     private final UpperTabbedView pane;
@@ -70,12 +73,13 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         this.treeView = treeView;
         this.treeModel = treeModel;
         this.treeModel.addTreeModelListener(this);
-        this.treeView.addActionCommandToContextMenus(new PmiiActionCommand());
-        this.treeView.treeAddMouseListener(new PmiiMouseListener());
+        this.treeView.addActionCommandToContextMenus(new QedeqActionCommand());
+        this.treeView.treeAddMouseListener(new QedeqMouseListener());
         this.treeView.addTreeSelectionListener(new SelectionChangedCommand());
+        this.removeAction = new RemoveAction();
+        // TODO mime 20071024: inform others per listener about this event
         this.pane = pane;
         this.lower = lowerView;
-        this.removeAction = new RemoveAction();
     }
 
 
@@ -146,6 +150,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         }
 
         public void valueChanged(final TreeSelectionEvent event) {
+            // TODO mime 20071024: inform others per listener about this event
             Trace.trace(this, "valueChanged", event);
             TreePath path = event.getPath();
             QedeqTreeNode treeNode = (QedeqTreeNode) path.getLastPathComponent();
@@ -163,7 +168,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
     }
 
 
-    private class PmiiActionCommand implements ActionListener {
+    private class QedeqActionCommand implements ActionListener {
 
         public void actionPerformed(final ActionEvent event) {
             final String method = "actionPerformed";
@@ -185,13 +190,39 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         }
     }
 
+    /**
+     * RemoveAction removes the selected node from the tree.  If
+     * The root or nothing is selected nothing is removed.
+     */
+    class RemoveAction extends Object implements ActionListener {
+
+        /**
+         * Removes the selected item as long as it isn't root.
+         */
+       public void actionPerformed(final ActionEvent e) {
+           try {
+               ModuleProperties[] moduleProperties = getSelected();
+               for (int i = 0; i < moduleProperties.length; i++) {
+                   KernelContext.getInstance().removeModule(moduleProperties[i].getAddress());
+               }
+        } catch (NothingSelectedException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+        } catch (IOException io) {
+            // TODO Auto-generated catch block
+            io.printStackTrace();
+        }
+       }
+
+    }
+
 
 
     /**
      * RemoveAction removes the selected node from the tree.  If
      * The root or nothing is selected nothing is removed.
      */
-    class RemoveAction extends Object implements ActionListener {
+    class RemoveAction2 extends Object implements ActionListener {
 
         /**
           * Removes the selected item as long as it isn't root.
@@ -336,10 +367,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
 
 
-
-
-
-    private class PmiiMouseListener extends MouseAdapter {
+    private class QedeqMouseListener extends MouseAdapter {
 
         public void mousePressed(final java.awt.event.MouseEvent evt) {
 
@@ -357,10 +385,6 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
     }
 
-
-    /* (non-Javadoc)
-     * @see javax.swing.event.TreeModelListener#treeNodesChanged(javax.swing.event.TreeModelEvent)
-     */
     public void treeNodesChanged(final TreeModelEvent e) {
         DefaultMutableTreeNode node;
         node = (DefaultMutableTreeNode)
