@@ -249,7 +249,7 @@ public class QedeqController {
     }
 
     /**
-     * Get action for removing all QEDEQ modules from memory and local buffer.
+     * Get action for loading all QEDEQ modules for the current release from the QEDEQ web site.
      *
      * @return  Action.
      */
@@ -315,7 +315,7 @@ public class QedeqController {
     String[] getSupportedLanguages(final ModuleProperties prop) {
         // TODO mime 20070704: there should be a better way to
         // get all supported languages. Time for a new visitor?
-        final LatexList list = prop.getModule().getHeader().getTitle();
+        final LatexList list = prop.getModule().getQedeq().getHeader().getTitle();
         final String[] result = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             result[i] = list.get(i).getLanguage();
