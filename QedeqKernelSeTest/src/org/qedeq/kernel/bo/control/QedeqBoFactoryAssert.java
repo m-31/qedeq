@@ -23,8 +23,9 @@ import java.lang.reflect.InvocationTargetException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.load.QedeqBoFactory;
+import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.load.DefaultQedeqBo;
+import org.qedeq.kernel.bo.load.QedeqBoFactory;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
@@ -67,6 +68,11 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
             throws ModuleDataException {
         final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(globalContext);
         final DefaultQedeqBo bo = creator.create(original);
+        try {
+            bo.setModuleAddress(new DefaultModuleAddress(globalContext));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         QedeqBoFormalLogicChecker.check(globalContext, bo); // TODO mime 20061105: just for testing
         QedeqBoDuplicateLanguageChecker.check(globalContext, bo); // TODO mime 20070301: just for testing
         return bo;

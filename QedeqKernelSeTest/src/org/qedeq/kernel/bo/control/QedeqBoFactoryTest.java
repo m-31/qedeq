@@ -27,6 +27,7 @@ import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.module.IllegalModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.trace.Trace;
@@ -68,6 +69,16 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
         error = null;
     }
 
+    public QedeqBoFactoryTest() {
+        super();
+        KernelFacade.getKernelContext();
+    }
+    
+    public QedeqBoFactoryTest(final String name) {
+        super(name);
+        KernelFacade.getKernelContext();
+    }
+    
     /**
      * Class under test for QedeqBo create(String, Qedeq).
      * 
