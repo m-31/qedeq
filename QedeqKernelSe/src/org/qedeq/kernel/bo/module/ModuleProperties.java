@@ -160,4 +160,19 @@ public interface ModuleProperties {
      */
     public QedeqBo getModule();
 
+
+    /**
+     * Get labels and URLs of all referenced modules.
+     *
+     * @return  URLs of all referenced modules.
+     */
+    public ModuleReferenceList getRequiredModules();
+
+    /**
+     * Set loaded required modules state. Also set labels and URLs for all referenced modules.
+     *
+     * @param   list  URLs of all referenced modules.
+     */
+    public void setLoadedRequiredModules(ModuleReferenceList list);
+
 }
