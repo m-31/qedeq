@@ -86,6 +86,7 @@ public final class QedeqTreeView extends JPanel {
         this.add(theTree);
         this.setMinimumSize(new Dimension(150, 100));
 
+        // TODO mime 20071022: check the following items
         refreshItem = new JMenuItem("Refresh");
         refreshItem.setActionCommand(REFRESH_ACTION);
         refreshItem.setEnabled(false);
@@ -93,7 +94,7 @@ public final class QedeqTreeView extends JPanel {
 
         deleteItem = new JMenuItem("Delete");
         deleteItem.setActionCommand(DELETE_ACTION);
-        deleteItem.setEnabled(false);
+        deleteItem.setEnabled(true);
         contextMenu.add(deleteItem);
 
         addItem = new JMenuItem("Add");
