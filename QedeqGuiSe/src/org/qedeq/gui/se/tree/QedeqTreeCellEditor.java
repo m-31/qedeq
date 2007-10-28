@@ -59,7 +59,6 @@ public final class QedeqTreeCellEditor extends DefaultCellEditor {
 
     }
 
-
     public boolean stopCellEditing() {
         try {
             editorValue.setName(editor.getText());
@@ -72,7 +71,6 @@ public final class QedeqTreeCellEditor extends DefaultCellEditor {
         //TODO Error handling
         return super.stopCellEditing();
     }
-
 
     public Object getCellEditorValue() {
         return editorValue;
