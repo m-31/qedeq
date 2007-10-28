@@ -139,17 +139,31 @@ public class DefaultModuleFactory implements ModuleFactory {
 
     }
 
+    /**
+     * Remove a QEDEQ module from memory.
+     *
+     * @param   address     Remove module identified by this address.
+     * @throws  IOException Module is not known to the kernel.
+     */
+    public final void removeModule(final String address) throws IOException {
+        final ModuleProperties prop = getModuleProperties(address);
+        if (prop != null) {
+            removeModule(getModuleProperties(address));
+        } else  {
+            throw new IOException("Module not known: " + address);
+        }
+    }
 
     /**
      * Remove a QEDEQ module from memory.
      *
      * @param   prop    Remove module identified by this property.
      */
-    public final void removeModuleAndDependents(final ModuleProperties prop) {
+    public final void removeModule(final ModuleProperties prop) {
         do {
             synchronized (syncToken) {
                 if (processCounter == 0) {
-                    getModules().removeModuleAndDependents(prop);
+                    getModules().removeModule(prop);
                     return;
                 }
             }
@@ -171,9 +185,9 @@ public class DefaultModuleFactory implements ModuleFactory {
     public final void clearLocalBuffer()
             throws IOException {
         removeAllModules();
-        final File bufferDir = getBufferDirectory();
-        if (bufferDir.exists() && !IoUtility.deleteDir(bufferDir)) {
-            throw new IOException("buffer could not be deleted");
+        final File bufferDir = getBufferDirectory().getCanonicalFile();
+        if (bufferDir.exists() && !IoUtility.deleteDir(bufferDir, false)) {
+            throw new IOException("buffer could not be deleted: " + bufferDir);
         }
     }
 
@@ -393,7 +407,7 @@ public class DefaultModuleFactory implements ModuleFactory {
         }
     }
 
-    public final String getLocalName(final ModuleAddress moduleAddress) {
+    public final String getLocalFilePath(final ModuleAddress moduleAddress) {
         if (moduleAddress.isFileAddress()) {
             return moduleAddress.getPath() + moduleAddress.getFileName();
         }
@@ -414,7 +428,7 @@ public class DefaultModuleFactory implements ModuleFactory {
             final ModuleAddress moduleAddress)
             throws ModuleFileNotFoundException, XmlFileExceptionList {
         final String method = "loadLocalModule";
-        final String localName = getLocalName(moduleAddress);
+        final String localName = getLocalFilePath(moduleAddress);
         final File file;
         try {
             file = new File(localName).getCanonicalFile();
@@ -423,7 +437,7 @@ public class DefaultModuleFactory implements ModuleFactory {
             throw new ModuleFileNotFoundException("file path not correct: " + localName);
         }
         if (!file.canRead()) {
-            Trace.trace(this, method, "file not readablee=" + file);
+            Trace.trace(this, method, "file not readable=" + file);
             throw new ModuleFileNotFoundException("file not found: " + file);
         }
         ModuleProperties prop = getModules().getModuleProperties(moduleAddress);
@@ -519,12 +533,12 @@ public class DefaultModuleFactory implements ModuleFactory {
                     + "\" from server");
             }
             {   // assure existence of directories
-                final String localName = getLocalName(moduleAddress);
+                final String localName = getLocalFilePath(moduleAddress);
                 System.out.println(localName);
                 final File f = new File(localName).getParentFile();
                 f.mkdirs();
             }
-            out = new FileOutputStream(getLocalName(moduleAddress));
+            out = new FileOutputStream(getLocalFilePath(moduleAddress));
             final byte[] buffer = new byte[4096];
             int bytesRead;  // bytes read during one buffer read
             int position = 0;   // current reading position within the whole document
@@ -549,7 +563,7 @@ public class DefaultModuleFactory implements ModuleFactory {
             } catch (Exception ex) {
             }
             try {
-                new File(getLocalName(moduleAddress)).delete();
+                new File(getLocalFilePath(moduleAddress)).delete();
             } catch (Exception ex) {
                 Trace.trace(this, method, ex);
             }
