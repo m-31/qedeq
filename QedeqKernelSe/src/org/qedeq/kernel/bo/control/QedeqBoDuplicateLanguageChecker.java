@@ -70,7 +70,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
     }
 
     private final void check() throws ModuleDataException {
-        transverser.accept(original);
+        transverser.accept(original.getQedeq());
     }
 
     public final void visitEnter(final LatexList list) throws ModuleDataException {
@@ -145,7 +145,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
      * @return  Original QEDEQ module.
      */
     protected final Qedeq getQedeqOriginal() {
-        return original;
+        return original.getQedeq();
     }
 
 }
