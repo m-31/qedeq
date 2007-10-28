@@ -160,7 +160,7 @@ public class LogPane extends JPanel implements LogListener {
     public void logFailureReply(final String text, final String description) {
         try {
             this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
-                text + "\n", this.errorAttrs);
+                text +  "\n\t" + description + "\n", this.errorAttrs);
         } catch (BadLocationException e) {
             Trace.trace(this, "logFailureReply", e);
         }
