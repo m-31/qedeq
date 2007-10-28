@@ -111,12 +111,12 @@ class Modules {
      *
      * @param   prop    Defines the module.
      */
-    final void removeModuleAndDependents(final ModuleProperties prop) {
-        final String method = "removeModuleAndDependents";
+    final void removeModule(final ModuleProperties prop) {
+        final String method = "removeModule";
         Trace.begin(this, method);
         try {
             synchronized (moduleProperties) {
-                Trace.trace(this, method, "remove module and dependents of "
+                Trace.trace(this, method, "remove module "
                     +  prop.getAddress());
                 if (!prop.isLoaded()) {
                     Trace.trace(this, method, "removing " +  prop.getAddress());
@@ -153,7 +153,7 @@ class Modules {
                         iterator.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) iterator.next();
                     final ModuleProperties prop = (ModuleProperties) entry.getValue();
-                    if (prop.getLoadingState() == LoadingState.STATE_LOADED) {
+                    if (prop.getLoadingState().getCode() >= LoadingState.STATE_LOADED.getCode()) {
                         list.add(prop.getAddress());
                     }
                 }
