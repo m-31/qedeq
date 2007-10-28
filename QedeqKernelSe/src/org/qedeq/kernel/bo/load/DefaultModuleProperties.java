@@ -23,6 +23,7 @@ import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.bo.module.ModuleReferenceList;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.common.XmlFileExceptionList;
 
@@ -41,17 +42,20 @@ public class DefaultModuleProperties implements ModuleProperties {
     /** Completeness during loading from web. */
     private int loadingCompleteness;
 
-    /** describes QEDEQ module loading state. */
+    /** Describes QEDEQ module loading state. */
     private LoadingState loadingState;
 
-    /** describes QEDEQ module logical state. */
+    /** Describes QEDEQ module logical state. */
     private LogicalState logicalState;
 
-    /** loaded QEDEQ module. */
+    /** Loaded QEDEQ module. */
     private QedeqBo module;
 
-    /** failure exception. */
+    /** Failure exception. */
     private XmlFileExceptionList exception;
+
+    /** Required QEDEQ modules. */
+    private ModuleReferenceList required;
 
 
     /**
@@ -91,9 +95,13 @@ public class DefaultModuleProperties implements ModuleProperties {
     public final void setLoadingProgressState(final LoadingState state) {
         if (state == LoadingState.STATE_LOADED) {
             throw new IllegalArgumentException(
-                "this state could only be set by calling method setCheckedAndLoaded");
+                "this state could only be set by calling method setLoaded");
         }
-        if (this.loadingState == LoadingState.STATE_LOADED) {
+        if (state == LoadingState.STATE_LOADED_REQUIRED_MODULES) {
+            throw new IllegalArgumentException(
+                "this state could only be set by calling method setLoadedRequiredModules");
+        }
+        if (this.loadingState.getCode() < LoadingState.STATE_LOADED.getCode()) {
             this.module = null;
         }
         if (state.isFailure()) {
@@ -110,7 +118,7 @@ public class DefaultModuleProperties implements ModuleProperties {
             throw new IllegalArgumentException(
                 "this is no failure state, call setProgressState");
         }
-        if (this.loadingState == LoadingState.STATE_LOADED) {
+        if (this.loadingState.getCode() < LoadingState.STATE_LOADED.getCode()) {
             this.module = null;
         }
         this.loadingState = state;
@@ -125,9 +133,10 @@ public class DefaultModuleProperties implements ModuleProperties {
     //  ModuleEventLog.getInstance().stateChanged(props[i]);
     //  and not in DefaultModuleFactory?
     public final void setLogicalProgressState(final LogicalState state) {
-        if (state != LogicalState.STATE_UNCHECKED && loadingState != LoadingState.STATE_LOADED) {
+        if (state != LogicalState.STATE_UNCHECKED
+                && loadingState.getCode() < LoadingState.STATE_LOADED_REQUIRED_MODULES.getCode()) {
             throw new IllegalArgumentException(
-                "this state could only be set for loaded modules");
+                "this state could only be set if all required modules are loaded ");
         }
         if (state.isFailure()) {
             throw new IllegalArgumentException(
@@ -139,9 +148,10 @@ public class DefaultModuleProperties implements ModuleProperties {
 
     public final void setLogicalFailureState(final LogicalState state,
             final XmlFileExceptionList e) {
-        if (state != LogicalState.STATE_UNCHECKED && loadingState != LoadingState.STATE_LOADED) {
+        if (state != LogicalState.STATE_UNCHECKED
+                && loadingState.getCode() < LoadingState.STATE_LOADED_REQUIRED_MODULES.getCode()) {
             throw new IllegalArgumentException(
-                "this state could only be set for loaded modules");
+            "this state could only be set if all required modules are loaded ");
         }
         if (!state.isFailure()) {
             throw new IllegalArgumentException(
@@ -179,12 +189,13 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     public final String getRuleVersion() {
-        if (address == null || module == null || module.getHeader() == null
-                || module.getHeader().getSpecification() == null
-                || module.getHeader().getSpecification().getRuleVersion() == null) {
+        if (address == null || module == null || module.getQedeq() == null
+                || module.getQedeq().getHeader() == null
+                || module.getQedeq().getHeader().getSpecification() == null
+                || module.getQedeq().getHeader().getSpecification().getRuleVersion() == null) {
             return "";
         }
-        return module.getHeader().getSpecification().getRuleVersion();
+        return module.getQedeq().getHeader().getSpecification().getRuleVersion();
     }
 
     public final URL getUrl() {
@@ -195,21 +206,41 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     public final boolean isLoaded() {
-        return (this.loadingState == LoadingState.STATE_LOADED);
+        return (loadingState.getCode() >= LoadingState.STATE_LOADED.getCode());
     }
 
     public final void setLoaded(final QedeqBo module) {
-        this.loadingState = LoadingState.STATE_LOADED;
+        loadingState = LoadingState.STATE_LOADED;
         this.module = module;
     }
 
     public final QedeqBo getModule() {
-        if (this.loadingState != LoadingState.STATE_LOADED) {
+        if (loadingState.getCode() < LoadingState.STATE_LOADED.getCode()) {
             throw new IllegalStateException(
                 "module exists only if state is \"" + LoadingState.STATE_LOADED.getText()
                 +   "\"");
         }
         return this.module;
+    }
+
+    public final ModuleReferenceList getRequiredModules() {
+        if (loadingState != LoadingState.STATE_LOADED_REQUIRED_MODULES) {
+            throw new IllegalStateException(
+                "module exists only if state is \"" + LoadingState.STATE_LOADED_REQUIRED_MODULES
+                .getText() + "\"");
+        }
+        return required;
+    }
+
+    public final void setLoadedRequiredModules(final ModuleReferenceList list) {
+        if (!isLoaded()) {
+            throw new IllegalStateException(
+                "Required modules can only be set if module is loaded."
+                + "\"\nCurrently the status for the module"
+                + "\"" + getName() + "\" is \"" + getLoadingState() + "\"");
+        }
+        loadingState = LoadingState.STATE_LOADED_REQUIRED_MODULES;
+        required = list;
     }
 
     public final String toString() {
