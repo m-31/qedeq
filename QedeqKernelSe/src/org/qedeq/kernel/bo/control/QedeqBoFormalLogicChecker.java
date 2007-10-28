@@ -89,26 +89,26 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
         checker.check();
     }
 
-    private final void check() throws ModuleDataException {
+    private void check() throws ModuleDataException {
         predicateDefinitions.clear();
         functionDefinitions.clear();
         setDefinitionByFormula = false;
         final PredicateDefinitionVo equal = new PredicateDefinitionVo();
-        // TODO mime 20070102: quick hack to have the logical identity operator
+        // FIXME mime 20070102: quick hack to have the logical identity operator
         equal.setArgumentNumber("2");
         equal.setName("equal");
         equal.setLatexPattern("#1 \\ =  \\ #2");
         predicateDefinitions.put(equal.getName() + "_" + equal.getArgumentNumber(), equal);
-        // TODO mime 20070102: quick hack to get the negation of the logical identity operator
+        // FIXME mime 20070102: quick hack to get the negation of the logical identity operator
         final PredicateDefinitionVo notEqual = new PredicateDefinitionVo();
         notEqual.setArgumentNumber("2");
         notEqual.setName("notEqual");
         notEqual.setLatexPattern("#1 \\ \\neq  \\ #2");
         predicateDefinitions.put(notEqual.getName() + "_" + notEqual.getArgumentNumber(), notEqual);
-        transverser.accept(original);
+        transverser.accept(original.getQedeq());
     }
 
-    public final void visitEnter(final Axiom axiom) throws ModuleDataException {
+    public void visitEnter(final Axiom axiom) throws ModuleDataException {
         if (axiom == null) {
             return;
         }
@@ -122,11 +122,11 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
         transverser.setBlocked(true);
     }
 
-    public final void visitLeave(final Axiom axiom) {
+    public void visitLeave(final Axiom axiom) {
         transverser.setBlocked(false);
     }
 
-    public final void visitEnter(final PredicateDefinition definition)
+    public void visitEnter(final PredicateDefinition definition)
             throws ModuleDataException {
         if (definition == null) {
             return;
@@ -147,11 +147,11 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
         transverser.setBlocked(true);
     }
 
-    public final void visitLeave(final PredicateDefinition definition) {
+    public void visitLeave(final PredicateDefinition definition) {
         transverser.setBlocked(false);
     }
 
-    public final void visitEnter(final FunctionDefinition definition)
+    public void visitEnter(final FunctionDefinition definition)
             throws ModuleDataException {
         if (definition == null) {
             return;
@@ -172,11 +172,11 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
         transverser.setBlocked(true);
     }
 
-    public final void visitLeave(final FunctionDefinition definition) {
+    public void visitLeave(final FunctionDefinition definition) {
         transverser.setBlocked(false);
     }
 
-    public final void visitEnter(final Proposition proposition)
+    public void visitEnter(final Proposition proposition)
             throws ModuleDataException {
         if (proposition == null) {
             return;
@@ -191,11 +191,11 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
         transverser.setBlocked(true);
     }
 
-    public final void visitLeave(final Proposition definition) {
+    public void visitLeave(final Proposition definition) {
         transverser.setBlocked(false);
     }
 
-    public final void visitEnter(final Rule rule) throws ModuleDataException {
+    public void visitEnter(final Rule rule) throws ModuleDataException {
         if (rule == null) {
             return;
         }
@@ -207,7 +207,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
         transverser.setBlocked(true);
     }
 
-    public final void visitLeave(final Rule rule) {
+    public void visitLeave(final Rule rule) {
         transverser.setBlocked(false);
     }
 
@@ -235,7 +235,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
      * @return  Original QEDEQ module.
      */
     protected final Qedeq getQedeqOriginal() {
-        return original;
+        return original.getQedeq();
     }
 
     public boolean predicateExists(final String name, final int arguments) {
