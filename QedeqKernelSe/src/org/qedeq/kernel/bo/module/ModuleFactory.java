@@ -90,6 +90,14 @@ public interface ModuleFactory {
     public boolean loadAllModulesFromQedeq();
 
     /**
+     * Remove a certain module.
+     *
+     * @param   address     Address of module.
+     * @throws  IOException    Module could not be successfully removed.
+     */
+    public void removeModule(final String address) throws IOException;
+
+    /**
      * Get list of all currently loaded QEDEQ modules.
      *
      * @return  All currently loaded QEDEQ modules.
@@ -125,6 +133,6 @@ public interface ModuleFactory {
      * @param   moduleAddress   Get local address for this QEDEQ module address.
      * @return  Local file path for that <code>address</code>.
      */
-    public String getLocalName(ModuleAddress moduleAddress);
+    public String getLocalFilePath(ModuleAddress moduleAddress);
 
 }
