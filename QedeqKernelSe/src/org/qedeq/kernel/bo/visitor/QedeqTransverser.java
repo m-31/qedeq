@@ -67,7 +67,7 @@ public interface QedeqTransverser {
     /**
      * Start with the top structure of a QEDEQ module.
      *
-     * @param   qedeq          Traverse this element.
+     * @param   qedeq          Traverse this element. Must not be <code>null</code>.
      * @throws  ModuleDataException     Severe error during occurred.
      */
     public void accept(final Qedeq qedeq) throws ModuleDataException;
