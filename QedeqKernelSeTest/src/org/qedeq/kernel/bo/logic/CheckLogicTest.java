@@ -24,17 +24,19 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
+import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.load.QedeqBoFactory;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.common.SyntaxException;
 import org.qedeq.kernel.common.XmlFileException;
 import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
+import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxParser;
-import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
 import org.xml.sax.SAXException;
 
 /**
@@ -45,6 +47,17 @@ import org.xml.sax.SAXException;
  */
 public final class CheckLogicTest extends QedeqTestCase {
 
+    public CheckLogicTest() {
+        super();
+        KernelFacade.getKernelContext();
+    }
+    
+    public CheckLogicTest(final String name) {
+        super(name);
+        KernelFacade.getKernelContext();
+    }
+    
+    
     public void testNegative00() throws Exception {
         try {
             generate(new File("."), "data/qedeq_error_sample_00.xml");
