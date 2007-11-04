@@ -104,8 +104,15 @@ class CheckLogicAction extends AbstractAction {
                             final XmlFileExceptionList xl =
                                 ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
                                 props[i].getModule().getQedeq());
-                            props[i].setLogicalFailureState(
-                                LogicalState.STATE_INTERNAL_CHECK_FAILED, xl);
+                            // TODO mime 20071031: every state must be able to change into
+                            // a failure state, here we only assume two cases
+                            if (props[i].isLoaded()) {
+                                props[i].setLoadingFailureState(
+                                    LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                            } else {
+                                props[i].setLogicalFailureState(
+                                    LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
+                            }
                             ModuleEventLog.getInstance().stateChanged(props[i]);
                             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
                         } catch (final RuntimeException e) {
@@ -114,10 +121,34 @@ class CheckLogicAction extends AbstractAction {
                             Trace.fatal(this, method, msg, e);
                             final XmlFileExceptionList xl =
                                 new DefaultXmlFileExceptionList(e);
-                            props[i].setLogicalFailureState(
-                                LogicalState.STATE_INTERNAL_CHECK_FAILED, xl);
+                            // TODO mime 20071031: every state must be able to change into
+                            // a failure state, here we only assume two cases
+                            if (props[i].isLoaded()) {
+                                props[i].setLoadingFailureState(
+                                    LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                            } else {
+                                props[i].setLogicalFailureState(
+                                    LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
+                            }
                             ModuleEventLog.getInstance().stateChanged(props[i]);
-                            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+                            QedeqLog.getInstance().logFailureReply(msg, e.toString());
+                        } catch (final Throwable e) {
+                            final String msg = "Check of logical correctness failed for \""
+                                + props[i].getAddress() + "\"";
+                            Trace.fatal(this, method, msg, e);
+                            final XmlFileExceptionList xl =
+                                new DefaultXmlFileExceptionList(e);
+                            // TODO mime 20071031: every state must be able to change into
+                            // a failure state, here we only assume two cases
+                            if (props[i].isLoaded()) {
+                                props[i].setLoadingFailureState(
+                                    LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                            } else {
+                                props[i].setLogicalFailureState(
+                                    LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
+                            }
+                            ModuleEventLog.getInstance().stateChanged(props[i]);
+                            QedeqLog.getInstance().logFailureReply(msg, e.toString());
                         }
                     }
                 }
