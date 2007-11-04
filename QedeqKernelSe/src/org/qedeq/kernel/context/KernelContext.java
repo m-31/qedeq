@@ -117,6 +117,10 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
+        public void loadRequiredModules(final String address) {
+            throw new IllegalStateException("Kernel not initialized");
+        }
+
         public String[] getAllLoadedModules() {
             throw new IllegalStateException("Kernel not initialized");
         }
@@ -192,6 +196,10 @@ public final class KernelContext implements Kernel {
         }
 
         public boolean loadAllModulesFromQedeq() {
+            throw new IllegalStateException("Kernel not started");
+        }
+
+        public void loadRequiredModules(final String address) {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -277,6 +285,10 @@ public final class KernelContext implements Kernel {
 
         public boolean loadAllModulesFromQedeq() {
             return moduleFactory.loadAllModulesFromQedeq();
+        }
+
+        public void loadRequiredModules(final String address) throws XmlFileExceptionList {
+            moduleFactory.loadRequiredModules(address);
         }
 
         public String[] getAllLoadedModules() {
@@ -420,6 +432,10 @@ public final class KernelContext implements Kernel {
 
     public boolean loadAllModulesFromQedeq() {
         return currentState.loadAllModulesFromQedeq();
+    }
+
+    public void loadRequiredModules(final String address) throws XmlFileExceptionList {
+        currentState.loadRequiredModules(address);
     }
 
     public String[] getAllLoadedModules() {
