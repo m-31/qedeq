@@ -279,7 +279,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
             final String msg = "Check of logical correctness failed for \""
                 + prop.getAddress() + "\"";
             prop.setLogicalFailureState(
-                LogicalState.STATE_INTERNAL_CHECK_FAILED, 
+                LogicalState.STATE_INTERNAL_CHECKING_FAILED, 
                     ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
                     qedeqBo.getQedeq()));
             ModuleEventLog.getInstance().stateChanged(prop);
