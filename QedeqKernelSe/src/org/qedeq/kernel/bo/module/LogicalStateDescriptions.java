@@ -41,10 +41,10 @@ public interface LogicalStateDescriptions {
     public static final String STATE_STRING_EXTERNAL_CHECKING = "checking imports";
 
     /** Code for external check failure. */
-    public static final int STATE_CODE_EXTERNAL_CHECK_FAILED = 2;
+    public static final int STATE_CODE_EXTERNAL_CHECKING_FAILED = 2;
 
     /** Description for external check failure. */
-    public static final String STATE_STRING_EXTERNAL_CHECK_FAILED = "import check failed";
+    public static final String STATE_STRING_EXTERNAL_CHECKING_FAILED = "import check failed";
 
     /** Code for internal checking phase. */
     public static final int STATE_CODE_INTERNAL_CHECKING = 3;
@@ -53,10 +53,10 @@ public interface LogicalStateDescriptions {
     public static final String STATE_STRING_INTERNAL_CHECKING = "checking";
 
     /** Code for check failure. */
-    public static final int STATE_CODE_INTERNAL_CHECK_FAILED = 4;
+    public static final int STATE_CODE_INTERNAL_CHECKING_FAILED = 4;
 
     /** Description for check failure. */
-    public static final String STATE_STRING_INTERNAL_CHECK_FAILED = "check failed";
+    public static final String STATE_STRING_INTERNAL_CHECKING_FAILED = "check failed";
 
     /** Code for successfully completely checked state. */
     public static final int STATE_CODE_COMPLETELY_CHECKED = 5;
