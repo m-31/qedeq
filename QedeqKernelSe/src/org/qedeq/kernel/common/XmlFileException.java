@@ -123,6 +123,18 @@ public final class XmlFileException extends Exception {
      *
      * @param   exception   Exception to wrap.
      */
+    public XmlFileException(final Throwable exception) {
+        super(exception);
+        this.errorCode = 10000;
+        errorArea = null;
+        referenceArea = null;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param   exception   Exception to wrap.
+     */
     public XmlFileException(final IOException exception) {
         super(exception);
         this.errorCode = 9997;
