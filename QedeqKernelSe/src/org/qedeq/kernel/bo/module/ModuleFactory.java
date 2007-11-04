@@ -82,6 +82,16 @@ public interface ModuleFactory {
             throws XmlFileExceptionList;
 
     /**
+     * Get a certain module.
+     *
+     * @param   address  Address of module.
+     * @throws  XmlFileExceptionList    Required modules could not be successfully loaded.
+     *                                  This can also happen if the required modules references
+     *                                  form a circle.
+     */
+    public void loadRequiredModules(final String address) throws XmlFileExceptionList;
+
+    /**
      * Load all QEDEQ modules from project web directory for current kernel.
      * LATER mime 20070326: dynamic loading from web page directory
      *
