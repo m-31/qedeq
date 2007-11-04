@@ -25,12 +25,12 @@ import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 import javax.swing.filechooser.FileFilter;
 
+import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.common.XmlFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.IoUtility;
 
 /**
  * Load new module from local file.
@@ -45,8 +45,12 @@ class AddFileAction extends AbstractAction {
 
     // LATER: remember last location in cofiguration file
     /** Start directory for file load. */
-    private File file = (IoUtility.isWebStarted() ? KernelContext.getInstance().getConfig()
-        .getBasisDirectory() : new File("./sample"));
+
+// FIXME remove me:
+//    private File file = (IoUtility.isWebStarted() ? KernelContext.getInstance().getConfig()
+//        .getBasisDirectory() : new File("./sample"));
+
+    private File file = QedeqGuiConfig.getInstance().getFileBrowserStartDirecty();
 
     /**
      * Constructor.
@@ -91,6 +95,7 @@ class AddFileAction extends AbstractAction {
 
             // remember directory
             file = chooser.getSelectedFile().getParentFile();
+            QedeqGuiConfig.getInstance().setFileBrowserStartDirecty(file);
         } catch (MalformedURLException ex) {
             Trace.trace(this, "actionPerformed", ex);
             return;
