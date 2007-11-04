@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.kernel.config.QedeqConfig;
+import org.qedeq.kernel.context.KernelContext;
+import org.qedeq.kernel.utility.IoUtility;
 
 /**
  * This class gives a type save access to the GUI properties of the application.
@@ -130,6 +132,31 @@ public final class QedeqGuiConfig extends QedeqConfig {
      */
     public final void setDirectResponse(final boolean mode) {
         setKeyValue("directResponse", (mode ? "true" : "false"));
+    }
+
+    /**
+     * Get start directory for file browser.
+     *
+     * @return  Directory.
+     */
+    public final File getFileBrowserStartDirecty() {
+        final File dflt = (IoUtility.isWebStarted() ? KernelContext.getInstance().getConfig()
+            .getBasisDirectory() : new File("./sample"));
+
+        final String dir = getKeyValue("fileBrowserStartDirectory");
+        if (dir == null || dir.length() <= 0) {
+            return dflt;
+        }
+        return new File(dir);
+    }
+
+    /**
+     * Set start directory for file browser.
+     *
+     * @param  directory    Start directory.
+     */
+    public final void setFileBrowserStartDirecty(final File directory) {
+        setKeyValue("fileBrowserStartDirectory", directory.toString());
     }
 
 
