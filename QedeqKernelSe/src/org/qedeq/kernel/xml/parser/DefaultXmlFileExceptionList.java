@@ -80,6 +80,16 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
     /**
      * Constructor.
      *
+     * @param   e   Wrap me.
+     */
+    public DefaultXmlFileExceptionList(final Throwable e) {
+        initCause(e);
+        add(new XmlFileException(e));
+    }
+
+    /**
+     * Constructor.
+     *
      * @param   exceptionList   Syntax exceptions that are wrapped into {@link XmlFileException}.
      */
     public DefaultXmlFileExceptionList(final SyntaxExceptionList exceptionList) {
