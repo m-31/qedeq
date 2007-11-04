@@ -66,6 +66,15 @@ public final class ModuleEventLog implements ModuleEventListener {
     }
 
     /**
+     * Remove listener.
+     *
+     * @param   log Remove this listener.
+     */
+    public final void removeLog(final ModuleEventListener log) {
+        loggers.remove(log);
+    }
+
+    /**
      * Add stream listener.
      *
      * @param   out Put messages into this stream.

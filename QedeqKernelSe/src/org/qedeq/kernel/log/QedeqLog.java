@@ -17,7 +17,6 @@
 
 package org.qedeq.kernel.log;
 
-import java.io.PrintStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,13 +66,13 @@ public final class QedeqLog implements LogListener {
     }
 
     /**
-     * Add stream listener.
+     * Remove listener.
      *
-     * @param   out Put messages into this stream.
+     * @param   log Remove this listener.
      */
-    public final void addLog(final PrintStream out) {
-        final LogListener log = new LogListenerImpl(out);
-        loggers.add(log);
+    public final void removeLog(final LogListener log) {
+        loggers.remove(log);
+        Trace.paramInfo(this, "removeLog(LogListener)", "log", log.getClass());
     }
 
     public void logMessageState(final String text, final URL url) {
