@@ -28,8 +28,10 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.base.module.Specification;
+import org.qedeq.kernel.bo.control.LoadRequiredModules;
 import org.qedeq.kernel.bo.module.Kernel;
 import org.qedeq.kernel.bo.module.LoadingState;
+import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleFactory;
@@ -81,7 +83,7 @@ public class DefaultModuleFactory implements ModuleFactory {
         this.kernel = kernel;
     }
 
-    public final void startup() {
+    public void startup() {
         if (kernel.getConfig().isAutoReloadLastSessionChecked()) {
             autoReloadLastSessionChecked();
         }
@@ -90,7 +92,7 @@ public class DefaultModuleFactory implements ModuleFactory {
     /**
      * If configured load all QEDEQ modules that where successfully loaded the last time.
      */
-    public final void autoReloadLastSessionChecked() {
+    public void autoReloadLastSessionChecked() {
         if (kernel.getConfig().isAutoReloadLastSessionChecked()) {
             final Thread thread = new Thread() {
                 public void run() {
@@ -121,7 +123,7 @@ public class DefaultModuleFactory implements ModuleFactory {
         }
     }
 
-    public final void removeAllModules() {
+    public void removeAllModules() {
         do {
             synchronized (syncToken) {
                 if (processCounter == 0) {
@@ -145,7 +147,7 @@ public class DefaultModuleFactory implements ModuleFactory {
      * @param   address     Remove module identified by this address.
      * @throws  IOException Module is not known to the kernel.
      */
-    public final void removeModule(final String address) throws IOException {
+    public void removeModule(final String address) throws IOException {
         final ModuleProperties prop = getModuleProperties(address);
         if (prop != null) {
             removeModule(getModuleProperties(address));
@@ -159,7 +161,7 @@ public class DefaultModuleFactory implements ModuleFactory {
      *
      * @param   prop    Remove module identified by this property.
      */
-    public final void removeModule(final ModuleProperties prop) {
+    public void removeModule(final ModuleProperties prop) {
         do {
             synchronized (syncToken) {
                 if (processCounter == 0) {
@@ -182,7 +184,7 @@ public class DefaultModuleFactory implements ModuleFactory {
      *
      * @throws  IOException Deletion of all buffered file was not successful.
      */
-    public final void clearLocalBuffer()
+    public void clearLocalBuffer()
             throws IOException {
         removeAllModules();
         final File bufferDir = getBufferDirectory().getCanonicalFile();
@@ -198,7 +200,7 @@ public class DefaultModuleFactory implements ModuleFactory {
      * @return  Wanted module.
      * @throws  XmlFileExceptionList    Module could not be successfully loaded.
      */
-    public final QedeqBo loadModule(final String address)
+    public QedeqBo loadModule(final String address)
             throws XmlFileExceptionList {
         processInc();
         try {
@@ -215,7 +217,7 @@ public class DefaultModuleFactory implements ModuleFactory {
     }
 
 
-    public final QedeqBo loadModule(
+    public QedeqBo loadModule(
             final ModuleAddress moduleAddress)
             throws XmlFileExceptionList {
         final String method = "loadModule(ModuleAddress)";
@@ -270,7 +272,7 @@ public class DefaultModuleFactory implements ModuleFactory {
          }
     }
 
-    public final QedeqBo loadModule(final QedeqBo module,
+    public QedeqBo loadModule(final QedeqBo module,
             final Specification spec) throws XmlFileExceptionList {
 
         final String method = "loadModule(Module, Specification)";
@@ -342,8 +344,25 @@ public class DefaultModuleFactory implements ModuleFactory {
         }
     }
 
-    public final String[] getAllLoadedModules() {
+    public String[] getAllLoadedModules() {
         return getModules().getAllLoadedModules();
+    }
+
+
+    public void loadRequiredModules(final String address) throws XmlFileExceptionList {
+        final QedeqBo qedeqBo  = loadModule(address);
+        final ModuleProperties prop = getModuleProperties(address);
+        try {
+            LoadRequiredModules.loadRequired(loadModule(address));
+        } catch (ModuleDataException e) {
+            final XmlFileExceptionList xl =
+                ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
+                qedeqBo.getQedeq());
+            // TODO mime 20071031: every state must be able to change into
+            // a failure state, here we only assume two cases
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+            throw xl;
+        }
     }
 
     /**
@@ -351,7 +370,7 @@ public class DefaultModuleFactory implements ModuleFactory {
      *
      * @return  Successfully reloaded all modules.
      */
-    public final boolean loadPreviouslySuccessfullyLoadedModules() {
+    public boolean loadPreviouslySuccessfullyLoadedModules() {
         processInc();
         try {
             final String[] list = kernel.getConfig().getPreviouslyCheckedModules();
@@ -370,7 +389,7 @@ public class DefaultModuleFactory implements ModuleFactory {
     }
 
     // LATER mime 20070326: dynamic loading from web page directory
-    public final boolean loadAllModulesFromQedeq() {
+    public boolean loadAllModulesFromQedeq() {
         processInc();
         try {
             final String prefix = "http://www.qedeq.org/"
@@ -407,7 +426,7 @@ public class DefaultModuleFactory implements ModuleFactory {
         }
     }
 
-    public final String getLocalFilePath(final ModuleAddress moduleAddress) {
+    public String getLocalFilePath(final ModuleAddress moduleAddress) {
         if (moduleAddress.isFileAddress()) {
             return moduleAddress.getPath() + moduleAddress.getFileName();
         }
@@ -604,15 +623,15 @@ public class DefaultModuleFactory implements ModuleFactory {
         }
     }
 
-    public final File getBufferDirectory() {
+    public File getBufferDirectory() {
         return kernel.getConfig().getRelativeToBasis(kernel.getConfig().getBufferDirectory());
     }
 
-    public final File getGenerationDirectory() {
+    public File getGenerationDirectory() {
         return kernel.getConfig().getRelativeToBasis(kernel.getConfig().getGenerationDirectory());
     }
 
-    public final ModuleProperties getModuleProperties(final String address) {
+    public ModuleProperties getModuleProperties(final String address) {
         try {
             final ModuleProperties prop = getModules().getModuleProperties(address);
             return prop;
