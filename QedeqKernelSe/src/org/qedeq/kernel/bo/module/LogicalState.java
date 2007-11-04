@@ -37,9 +37,9 @@ public final class LogicalState {
             false, LogicalStateDescriptions.STATE_CODE_EXTERNAL_CHECKING);
 
     /** Successfully created. */
-    public static final LogicalState STATE_EXTERNAL_CHECK_FAILED
-        =  new LogicalState(LogicalStateDescriptions.STATE_STRING_EXTERNAL_CHECK_FAILED,
-            true, LogicalStateDescriptions.STATE_CODE_EXTERNAL_CHECK_FAILED);
+    public static final LogicalState STATE_EXTERNAL_CHECKING_FAILED
+        =  new LogicalState(LogicalStateDescriptions.STATE_STRING_EXTERNAL_CHECKING_FAILED,
+            true, LogicalStateDescriptions.STATE_CODE_EXTERNAL_CHECKING_FAILED);
 
     /** Internal checking phase. */
     public static final LogicalState STATE_INTERNAL_CHECKING
@@ -47,9 +47,9 @@ public final class LogicalState {
             false, LogicalStateDescriptions.STATE_CODE_INTERNAL_CHECKING);
 
     /** Internal check failed. */
-    public static final LogicalState STATE_INTERNAL_CHECK_FAILED
-        =  new LogicalState(LogicalStateDescriptions.STATE_STRING_INTERNAL_CHECK_FAILED,
-            true, LogicalStateDescriptions.STATE_CODE_INTERNAL_CHECK_FAILED);
+    public static final LogicalState STATE_INTERNAL_CHECKING_FAILED
+        =  new LogicalState(LogicalStateDescriptions.STATE_STRING_INTERNAL_CHECKING_FAILED,
+            true, LogicalStateDescriptions.STATE_CODE_INTERNAL_CHECKING_FAILED);
 
 
     /** Successfully completely checked. */
