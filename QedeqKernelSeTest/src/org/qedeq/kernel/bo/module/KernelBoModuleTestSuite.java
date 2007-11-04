@@ -22,7 +22,7 @@ import junit.framework.Test;
 import org.qedeq.kernel.test.QedeqTestSuite;
 
 /**
- * Run all junit tests for package org.qedeq.kernel.bo.module.
+ * Run all JUnit tests for package org.qedeq.kernel.bo.module.
  *
  * @version $Revision: 1.6 $
  * @author    Michael Meyling
