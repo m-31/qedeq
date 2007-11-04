@@ -53,14 +53,14 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
             "/images/qedeq/16x16/module_web_loading_error.gif"));
 
     /** Status icon. */
-    private static ImageIcon bufferLoadingIcon = new ImageIcon(
+    private static ImageIcon fileLoadingIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_buffer_loading.gif"));
+            "/images/qedeq/16x16/module_file_loading.gif"));
 
     /** Status icon. */
-    private static ImageIcon bufferLoadingErrorIcon = new ImageIcon(
+    private static ImageIcon fileLoadingErrorIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
-            "/images/qedeq/16x16/module_buffer_loading_error.gif"));
+            "/images/qedeq/16x16/module_file_loading_error.gif"));
 
     /** Status icon. */
     private static ImageIcon memoryLoadingIcon = new ImageIcon(
@@ -76,6 +76,31 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
     private static ImageIcon loadedIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_loaded.gif"));
+
+    /** Status icon. */
+    private static ImageIcon loadingRequiredIcon = new ImageIcon(
+        QedeqTreeCellRenderer.class.getResource(
+            "/images/qedeq/16x16/module_loading_required.gif"));
+
+    /** Status icon. */
+    private static ImageIcon loadingRequiredErrorIcon = new ImageIcon(
+        QedeqTreeCellRenderer.class.getResource(
+            "/images/qedeq/16x16/module_loading_required_error.gif"));
+
+    /** Status icon. */
+    private static ImageIcon loadedRequiredIcon = new ImageIcon(
+        QedeqTreeCellRenderer.class.getResource(
+            "/images/qedeq/16x16/module_loaded_required.gif"));
+
+    /** Status icon. */
+    private static ImageIcon checkingRequiredIcon = new ImageIcon(
+        QedeqTreeCellRenderer.class.getResource(
+            "/images/qedeq/16x16/module_checking_required.gif"));
+
+    /** Status icon. */
+    private static ImageIcon checkingRequiredErrorIcon = new ImageIcon(
+        QedeqTreeCellRenderer.class.getResource(
+            "/images/qedeq/16x16/module_checking_required_error.gif"));
 
     /** Status icon. */
     private static ImageIcon checkingIcon = new ImageIcon(
@@ -149,9 +174,9 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
                 } else if (state == LoadingState.STATE_LOADING_FROM_WEB_FAILED) {
                     setIcon(webLoadingErrorIcon);
                 } else if (state == LoadingState.STATE_LOADING_FROM_BUFFER) {
-                    setIcon(bufferLoadingIcon);
+                    setIcon(fileLoadingIcon);
                 } else if (state == LoadingState.STATE_LOADING_FROM_BUFFER_FAILED) {
-                    setIcon(bufferLoadingErrorIcon);
+                    setIcon(fileLoadingErrorIcon);
                 } else if (state == LoadingState.STATE_LOADING_INTO_MEMORY) {
                     setIcon(memoryLoadingIcon);
                 } else if (state == LoadingState.STATE_LOADING_INTO_MEMORY_FAILED) {
@@ -159,17 +184,21 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
                 } else if (state == LoadingState.STATE_LOADED) {
                     setIcon(loadedIcon);
                 } else if (state == LoadingState.STATE_LOADING_REQUIRED_MODULES) {
-                    setIcon(checkingIcon);
+                    setIcon(loadingRequiredIcon);
                 } else if (state == LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED) {
-                    setIcon(checkingErrorIcon);
+                    setIcon(loadingRequiredErrorIcon);
                 } else if (state == LoadingState.STATE_LOADED_REQUIRED_MODULES) {
                     if (prop.getLogicalState() == LogicalState.STATE_UNCHECKED) {
+                        setIcon(loadedRequiredIcon);
+                    } else if (prop.getLogicalState() == LogicalState.STATE_EXTERNAL_CHECKING) {
+                         setIcon(checkingRequiredIcon);
+                    } else if (prop.getLogicalState()
+                            == LogicalState.STATE_EXTERNAL_CHECKING_FAILED) {
+                        setIcon(checkingRequiredErrorIcon);
+                    } else if (prop.getLogicalState() == LogicalState.STATE_INTERNAL_CHECKING) {
                         setIcon(checkingIcon);
-                    } else if (prop.getLogicalState() == LogicalState.STATE_EXTERNAL_CHECKING
-                            || prop.getLogicalState() == LogicalState.STATE_INTERNAL_CHECKING) {
-                        setIcon(checkingIcon);
-                    } else if (prop.getLogicalState() == LogicalState.STATE_EXTERNAL_CHECK_FAILED
-                            || prop.getLogicalState() == LogicalState.STATE_INTERNAL_CHECK_FAILED) {
+                    } else if (prop.getLogicalState()
+                            == LogicalState.STATE_INTERNAL_CHECKING_FAILED) {
                         setIcon(checkingErrorIcon);
                     } else if (prop.getLogicalState() == LogicalState.STATE_CHECKED) {
                         setIcon(checkedIcon);
