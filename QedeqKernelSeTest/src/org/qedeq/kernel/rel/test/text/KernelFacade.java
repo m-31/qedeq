@@ -30,6 +30,9 @@ import org.qedeq.kernel.log.QedeqLog;
 
 
 /**
+ * FIXME mime 20071102: this class should <b>not</b> be used in test classes: it
+ * registers listeners and never shuts down the kernel. Refactoring!!! 
+ * 
  * This class provides static access methods for basic informations.
  *
  * @version $Revision: 1.1 $
