@@ -68,11 +68,10 @@ public class KernelTestSuite extends QedeqTestSuite {
         super(withTest, withPest);
         addTestSuite(SchemaTest.class);
         addTestSuite(QedeqParserTest.class);
-        addTestSuite(QedeqBoFactoryTest.class);
+        addTest(KernelBoLogicTestSuite.suite());
         addTestSuite(CheckLogicTest.class);
         addTestSuite(GenerateLatexTest.class);
         addTestSuite(GenerateXmlTest.class);
-        addTestSuite(ListTraverserQedeqNotNullTransverserTest.class);
         addTest(KernelXmlTrackerTestSuite.suite());
         addTest(KernelVoModuleTestSuite.suite());
         addTest(KernelBoModuleTestSuite.suite());
