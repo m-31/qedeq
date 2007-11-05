@@ -83,7 +83,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
             assertEquals(1, ex.size());
             XmlFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof ModuleDataException);
-            assertEquals(10001, e.getErrorCode());
+            assertEquals(10002, e.getErrorCode());
             assertEquals(221, e.getSourceArea().getStartPosition().getLine());
             assertEquals(9, e.getSourceArea().getStartPosition().getColumn());
         }
@@ -264,6 +264,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
             xmlFile.getAbsoluteFile().getCanonicalFile()).toExternalForm());
         QedeqBo qedeqBo = prop.getModule();
         try {
+            prop.setLoadedRequiredModules(null);
             QedeqLog.getInstance().logRequest("Check logical correctness of \""
                 + prop.getAddress() + "\"");
             prop.setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
