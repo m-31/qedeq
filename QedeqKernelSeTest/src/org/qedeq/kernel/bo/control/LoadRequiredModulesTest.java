@@ -166,12 +166,10 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * Load following dependencies:
      * <pre>
      * 051 -> 052 -> 053 -> 056
-     * 051 -> 052 -> 053 -> 055
      * 051 -> 052 -> 054 -> 056
      * 051 -> 052 -> 055 -> 053 -> 056
      * 051 -> 052 -> 055 -> 057
      * 051 -> 053 -> 056
-     * 051 -> 053 -> 055 -> 057
      * 051 -> 054 -> 056   
      * 051 -> 055 -> 057 
      * </pre>
@@ -179,8 +177,114 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * @throws Exception
      */
     public void testLoadRequiredModules_05() throws Exception {
-        final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM011.xml"));
+        final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM051.xml"));
         KernelContext.getInstance().loadRequiredModules(url.toString());
+    }
+
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 061 -> 062 -> 063 -> 066 -> 067
+     * 061 -> 062 -> 064 -> 066 -> 067
+     * 061 -> 062 -> 065 -> 063 -> 066 -> 067
+     * 061 -> 062 -> 065 -> 067
+     * 061 -> 063 -> 066 -> 067
+     * 061 -> 064 -> 066 -> 067  
+     * 061 -> 065 -> 067 
+     * </pre>
+     * 
+     * @throws Exception
+     */
+    public void testLoadRequiredModules_06() throws Exception {
+        final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM061.xml"));
+        KernelContext.getInstance().loadRequiredModules(url.toString());
+    }
+
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 071 -> 072 -> 073 -> 076 -> 077
+     * 071 -> 072 -> 073 -> 076 -> 071             c
+     * 071 -> 072 -> 073 -> 075 -> 073             c
+     * 071 -> 072 -> 073 -> 075 -> 077
+     * 071 -> 072 -> 074 -> 076 -> 077
+     * 071 -> 072 -> 074 -> 076 -> 071             c
+     * 071 -> 072 -> 075 -> 073 -> 076 -> 077
+     * 071 -> 072 -> 075 -> 073 -> 075             c
+     * 071 -> 072 -> 075 -> 077
+     * 071 -> 073 -> 076 -> 077
+     * 071 -> 073 -> 076 -> 071                    c
+     * 071 -> 073 -> 075 -> 073                    c
+     * 071 -> 074 -> 076 -> 077  
+     * 071 -> 074 -> 076 -> 071                    c
+     * 071 -> 075 -> 073 -> 076 -> 077
+     * 071 -> 075 -> 073 -> 076 -> 071             c
+     * 071 -> 075 -> 073 -> 075 - >073             c
+     * </pre>
+     * 
+     * @throws Exception
+     */
+    public void testLoadRequiredModules_07() throws Exception {
+        try {
+            final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM071.xml"));
+            KernelContext.getInstance().loadRequiredModules(url.toString());
+            fail("see test method description");
+        } catch (XmlFileExceptionList e) {
+            assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(9, e.size());
+            assertEquals(38, e.get(1).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(45, e.get(1).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(52, e.get(1).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(59, e.get(1).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(66, e.get(1).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(73, e.get(1).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(80, e.get(1).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(87, e.get(1).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            // TODO mime 20071105: check if exception code and description is ok
+        }
+    }
+
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 081 -> 082 -> 083 -> 084 -> 085 -> 086 -> 087 -> 089
+     * </pre>
+     * 
+     * @throws Exception
+     */
+    public void testLoadRequiredModules_08() throws Exception {
+        final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM081.xml"));
+        KernelContext.getInstance().loadRequiredModules(url.toString());
+    }
+
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 099 -> 091
+     * </pre>
+     * 
+     * @throws Exception
+     */
+    public void testLoadRequiredModules_09() throws Exception {
+        try {
+            final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM091.xml"));
+            KernelContext.getInstance().loadRequiredModules(url.toString());
+            fail("091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 098 -> 099 -> 091 cycle\n");
+        } catch (XmlFileExceptionList e) {
+            assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(1, e.size());
+            // TODO mime 20071105: check if exception code and description is ok
+        }
     }
 
 }
