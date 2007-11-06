@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_06/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
-    <SPECIFICATION name="LRM053" ruleVersion="1.00.00">
+    <SPECIFICATION name="LRM061" ruleVersion="1.00.00">
       <LOCATIONS>
         <LOCATION value="file:///."/>
       </LOCATIONS>
@@ -28,8 +28,29 @@
       </AUTHOR>
     </AUTHORS>
     <IMPORTS>
-      <IMPORT label="LRM056">
-        <SPECIFICATION name="LRM056" ruleVersion="1.00.00">
+      <IMPORT label="LRM062">
+        <SPECIFICATION name="LRM062" ruleVersion="1.00.00">
+          <LOCATIONS>
+            <LOCATION value="."/>
+          </LOCATIONS>
+        </SPECIFICATION>
+      </IMPORT>
+      <IMPORT label="LRM063">
+        <SPECIFICATION name="LRM063" ruleVersion="1.00.00">
+          <LOCATIONS>
+            <LOCATION value="."/>
+          </LOCATIONS>
+        </SPECIFICATION>
+      </IMPORT>
+      <IMPORT label="LRM064">
+        <SPECIFICATION name="LRM064" ruleVersion="1.00.00">
+          <LOCATIONS>
+            <LOCATION value="."/>
+          </LOCATIONS>
+        </SPECIFICATION>
+      </IMPORT>
+      <IMPORT label="LRM065">
+        <SPECIFICATION name="LRM065" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
           </LOCATIONS>
