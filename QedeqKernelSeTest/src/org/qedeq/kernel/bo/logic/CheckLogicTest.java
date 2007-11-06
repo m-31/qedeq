@@ -24,7 +24,6 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
-import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.load.QedeqBoFactory;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
