@@ -33,6 +33,8 @@ import org.qedeq.kernel.utility.IoUtility;
  */
 public final class GenerateXmlTest extends QedeqTestCase {
 
+    // FIXME 20071105: wrong class is tested!
+    
     /**
      * Start main process.
      * 

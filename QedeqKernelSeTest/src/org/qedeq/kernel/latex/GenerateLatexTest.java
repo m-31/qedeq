@@ -47,6 +47,8 @@ import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
  */
 public final class GenerateLatexTest extends QedeqTestCase {
 
+    // FIXME 20071105: wrong class is tested!
+    
     /**
      * Start main process.
      * 
