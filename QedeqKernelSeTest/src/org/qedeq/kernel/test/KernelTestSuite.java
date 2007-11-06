@@ -19,15 +19,14 @@ package org.qedeq.kernel.test;
 
 import junit.framework.Test;
 
-import org.qedeq.kernel.bo.control.ListTraverserQedeqNotNullTransverserTest;
-import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
-import org.qedeq.kernel.bo.logic.CheckLogicTest;
+import org.qedeq.kernel.bo.control.KernelBoControlTestSuite;
 import org.qedeq.kernel.bo.logic.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
-import org.qedeq.kernel.dto.module.KernelVoModuleTestSuite;
+import org.qedeq.kernel.dto.module.KernelDtoModuleTestSuite;
 import org.qedeq.kernel.latex.GenerateLatexTest;
 import org.qedeq.kernel.latex.GenerateXmlTest;
 import org.qedeq.kernel.parser.AsciiMathParserTest;
+import org.qedeq.kernel.parser.KernelParserTestSuite;
 import org.qedeq.kernel.parser.SimpleMathParserTest;
 import org.qedeq.kernel.utility.KernelUtilityTestSuite;
 import org.qedeq.kernel.xml.parser.QedeqParserTest;
@@ -66,19 +65,20 @@ public class KernelTestSuite extends QedeqTestSuite {
      */
     public KernelTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
-        addTestSuite(SchemaTest.class);
-        addTestSuite(QedeqParserTest.class);
+        addTest(KernelBoControlTestSuite.suite());
         addTest(KernelBoLogicTestSuite.suite());
-        addTestSuite(CheckLogicTest.class);
+        addTest(KernelBoModuleTestSuite.suite());
+        addTest(KernelDtoModuleTestSuite.suite());
+
+        // FIXME mime 20071105: following 2 tests test wrong classes
         addTestSuite(GenerateLatexTest.class);
         addTestSuite(GenerateXmlTest.class);
-        addTest(KernelXmlTrackerTestSuite.suite());
-        addTest(KernelVoModuleTestSuite.suite());
-        addTest(KernelBoModuleTestSuite.suite());
+
+        addTest(KernelParserTestSuite.suite());
         addTest(KernelUtilityTestSuite.suite());
-        addTestSuite(SimpleMathParserTest.class);
-        addTestSuite(AsciiMathParserTest.class);
-        addTest(KernelBoLogicTestSuite.suite());
+        addTestSuite(QedeqParserTest.class);
+        addTestSuite(SchemaTest.class);
+        addTest(KernelXmlTrackerTestSuite.suite());
     }
 
 }
