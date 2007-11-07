@@ -55,6 +55,8 @@ public final class Xml2Xml  {
      *                  {@link #printProgramInformation()}.
      */
     public static void main(final String[] args) {
+
+        KernelFacade.startup();
         String from = null;
         String to = null;
 
@@ -104,6 +106,7 @@ public final class Xml2Xml  {
         } catch (RuntimeException e) {
             System.out.println(e);
         }
+        KernelFacade.shutdown();
     }
 
     /**

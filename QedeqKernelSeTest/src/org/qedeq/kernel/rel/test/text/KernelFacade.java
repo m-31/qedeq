@@ -23,7 +23,9 @@ import java.io.IOException;
 import org.qedeq.kernel.bo.load.DefaultModuleFactory;
 import org.qedeq.kernel.config.QedeqConfig;
 import org.qedeq.kernel.context.KernelContext;
+import org.qedeq.kernel.log.LogListener;
 import org.qedeq.kernel.log.LogListenerImpl;
+import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.log.ModuleEventListenerLog;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
@@ -39,32 +41,43 @@ import org.qedeq.kernel.log.QedeqLog;
  * @author  Michael Meyling
  */
 public final class KernelFacade {
+    
+    private static KernelContext context;
+    private static LogListener log;
+    private static ModuleEventListener mod;
 
-    static {
+    public static void startup() {
+        log = new LogListenerImpl();
+        QedeqLog.getInstance().addLog(log);
         try {
-            QedeqLog.getInstance().addLog(new LogListenerImpl());
             final QedeqConfig config = new QedeqConfig(
                 new File(new File("../../../qedeq_gen/test"), "config/org.qedeq.properties"),
                 "This file is part of the project *Hilbert II* - http://www.qedeq.org",
                 new File("../../../qedeq_gen/test"));
             KernelContext.getInstance().init(new DefaultModuleFactory(KernelContext.getInstance()), 
                 config);
-            ModuleEventLog.getInstance().addLog(new ModuleEventListenerLog());
-            KernelContext.getInstance().startup();
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        final Thread shutdown = new Thread() {
-            public void run() {
-                KernelContext.getInstance().shutdown();
-            }
-        };
-        Runtime.getRuntime().addShutdownHook(shutdown);
+        mod = new ModuleEventListenerLog();
+        ModuleEventLog.getInstance().addLog(mod);
+        KernelContext.getInstance().startup();
+        context = KernelContext.getInstance();
     }
-
+    
+    public static void shutdown() {
+        KernelContext.getInstance().shutdown();
+        QedeqLog.getInstance().removeLog(log);
+        ModuleEventLog.getInstance().removeLog(mod);
+        context = null;
+        log = null;
+        mod = null;
+    }
+    
+    
     public static KernelContext getKernelContext() {
-        return KernelContext.getInstance();
+        return context;
     }
 
 }

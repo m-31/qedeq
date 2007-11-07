@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.rel.test.text.Xml2Xml;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.utility.IoUtility;
@@ -34,6 +35,16 @@ import org.qedeq.kernel.utility.IoUtility;
 public final class GenerateXmlTest extends QedeqTestCase {
 
     // FIXME 20071105: wrong class is tested!
+    
+    public void setUp() throws Exception{
+        super.setUp();
+        KernelFacade.startup();
+    }
+    
+    public void tearDown() throws Exception{
+        KernelFacade.shutdown();
+        super.tearDown();
+    }
     
     /**
      * Start main process.

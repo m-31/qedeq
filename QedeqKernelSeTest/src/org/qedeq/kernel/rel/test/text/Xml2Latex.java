@@ -54,6 +54,7 @@ public final class Xml2Latex  {
      * @param   args    Various parameters. See implementation of {@link #printProgramInformation()}.
      */
     public static void main(final String[] args) {
+        KernelFacade.startup();
         String language = null;
         String level = null;
         String from = null;
@@ -118,6 +119,8 @@ public final class Xml2Latex  {
         } catch (RuntimeException e) {
             System.out.println(e);
         }
+        KernelFacade.shutdown();
+
     }
 
     /**

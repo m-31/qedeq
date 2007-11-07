@@ -42,25 +42,25 @@ public class XPathLocationFinderTest extends QedeqTestCase {
      */
     public final void testGetXPathLocation() throws Exception {
         checkPosition("./data/xpathLocationFinder.xml", 
-                "QEDEQ", 
+                "/QEDEQ", 
                 2, 1, 304, 9);
         checkPosition("./data/xpathLocationFinder.xml", 
-                "QEDEQ[1]", 
+                "/QEDEQ[1]", 
                 2, 1, 304, 9);
         checkPosition("./data/xpathLocationFinder.xml", 
-                "QEDEQ/CHAPTER/SECTION/NODE", 
+                "/QEDEQ/CHAPTER/SECTION/NODE", 
                 100, 7, 139, 14);
         checkPosition("./data/xpathLocationFinder.xml", 
-                "QEDEQ/CHAPTER[1]/SECTION/NODE[1]", 
+                "/QEDEQ/CHAPTER[1]/SECTION/NODE[1]", 
                 100, 7, 139, 14);
         checkPosition("./data/xpathLocationFinder.xml", 
-                "QEDEQ/CHAPTER/SECTION/NODE@label", 
+                "/QEDEQ/CHAPTER/SECTION/NODE@label", 
                 100, 13, 100, 23);
         checkPosition("./data/xpathLocationFinder.xml", 
-                "QEDEQ/CHAPTER/SECTION/NODE[2]", 
+                "/QEDEQ/CHAPTER/SECTION/NODE[2]", 
                 140, 7, 212, 14);
         checkPosition("./data/xpathLocationFinder.xml",
-                "QEDEQ/CHAPTER/SECTION/NODE[2]/AXIOM/FORMULA/FORALL/FORALL/IMPL/FORALL/VAR@id",
+                "/QEDEQ/CHAPTER/SECTION/NODE[2]/AXIOM/FORMULA/FORALL/FORALL/IMPL/FORALL/VAR@id",
                 165, 26, 165, 32);
     }
 

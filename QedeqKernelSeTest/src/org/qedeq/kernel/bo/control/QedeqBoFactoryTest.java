@@ -57,6 +57,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
+        KernelFacade.startup();
         ok = (Qedeq) QedeqProxy.createProxy(createQedeqFromFile(okFile));
         ok.getHeader().getAuthorList().get(0);
         assertTrue(DynamicGetter.get(ok, "getHeader().getAuthorList().get(0)") instanceof Author);
@@ -65,19 +66,18 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
     }
 
     protected void tearDown() throws Exception {
-        super.tearDown();
+        KernelFacade.shutdown();
         ok = null;
         error = null;
+        super.tearDown();
     }
 
     public QedeqBoFactoryTest() {
         super();
-        KernelFacade.getKernelContext();
     }
     
     public QedeqBoFactoryTest(final String name) {
         super(name);
-        KernelFacade.getKernelContext();
     }
     
     /**

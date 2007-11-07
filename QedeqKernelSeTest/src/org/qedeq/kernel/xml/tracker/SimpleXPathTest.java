@@ -73,7 +73,7 @@ public class SimpleXPathTest extends QedeqTestCase {
     /**
      * Test constructor.
      */
-    public void pestSimpleXPath() {
+    public void testSimpleXPath() {
         try {
             new SimpleXPath("");
             fail("empty XPath is forbidden");

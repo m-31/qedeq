@@ -33,6 +33,7 @@ import org.qedeq.kernel.common.XmlFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
+import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.rel.test.text.Xml2Latex;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.utility.IoUtility;
@@ -48,6 +49,16 @@ import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
 public final class GenerateLatexTest extends QedeqTestCase {
 
     // FIXME 20071105: wrong class is tested!
+    
+    public void setUp() throws Exception{
+        super.setUp();
+        KernelFacade.startup();
+    }
+    
+    public void tearDown() throws Exception{
+        super.tearDown();
+        KernelFacade.shutdown();
+    }
     
     /**
      * Start main process.
