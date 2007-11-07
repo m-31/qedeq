@@ -104,11 +104,29 @@ public class SimpleXPath {
      *                  RuntimeExceptions may occur.
      */
     private void init(final String xpath) {
+        if (xpath == null) {
+            throw new NullPointerException();
+        }
+        if (xpath.length() <= 0) {
+            throw new RuntimeException("XPath must not be empty");
+        }
+        if (xpath.charAt(0) != '/') {
+            throw new RuntimeException("XPath must start with '/': " + xpath);
+        }
+        if (xpath.indexOf("//") >= 0) {
+            throw new RuntimeException("empty tag not permitted: " + xpath);
+        }
+        if (xpath.endsWith("/")) {
+            throw new RuntimeException("XPath must not end with '/': " + xpath);
+        }
         final StringTokenizer tokenizer = new StringTokenizer(xpath, "/");
         while (tokenizer.hasMoreTokens()) {
             String token = tokenizer.nextToken();
             if (!tokenizer.hasMoreTokens() && token.indexOf('@') >= 0) {
                 attribute = token.substring(token.indexOf('@') + 1);
+                if (attribute.length() <= 0) {
+                    throw new RuntimeException("empty attribute not permitted: " + xpath);
+                }
                 token = token.substring(0, token.indexOf('@'));
             }
             if (token.indexOf('[') < 0) {
@@ -117,7 +135,16 @@ public class SimpleXPath {
             } else {
                 final StringTokenizer getnu = new StringTokenizer(token, "[]");
                 elements.add(getnu.nextToken());
-                numbers.add(new Integer(getnu.nextToken()));
+                final Integer i;
+                try {
+                    i = new Integer(getnu.nextToken());
+                } catch (RuntimeException e) {
+                    throw new RuntimeException("not an integer: " + xpath, e);
+                }
+                if (i.intValue() <= 0) {
+                    throw new RuntimeException("integer must be greater zero: " + xpath);
+                }
+                numbers.add(i);
             }
         }
     }
@@ -392,9 +419,7 @@ public class SimpleXPath {
     public final String toString() {
         final StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < size(); i++) {
-            if (i != 0) {
-                buffer.append("/");
-            }
+            buffer.append("/");
             buffer.append(getElementName(i));
             if (getElementOccurrence(i) != 1) {
                 buffer.append("[");
