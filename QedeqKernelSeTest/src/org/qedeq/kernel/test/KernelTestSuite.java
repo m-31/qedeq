@@ -22,9 +22,9 @@ import junit.framework.Test;
 import org.qedeq.kernel.bo.control.KernelBoControlTestSuite;
 import org.qedeq.kernel.bo.logic.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
+import org.qedeq.kernel.bo.save.GenerateXmlTest;
 import org.qedeq.kernel.dto.module.KernelDtoModuleTestSuite;
 import org.qedeq.kernel.latex.GenerateLatexTest;
-import org.qedeq.kernel.latex.GenerateXmlTest;
 import org.qedeq.kernel.parser.KernelParserTestSuite;
 import org.qedeq.kernel.utility.KernelUtilityTestSuite;
 import org.qedeq.kernel.xml.parser.QedeqParserTest;
@@ -68,7 +68,6 @@ public class KernelTestSuite extends QedeqTestSuite {
         addTest(KernelBoModuleTestSuite.suite());
         addTest(KernelDtoModuleTestSuite.suite());
 
-        // FIXME mime 20071105: following 2 tests test wrong classes
         addTestSuite(GenerateLatexTest.class);
         addTestSuite(GenerateXmlTest.class);
 
