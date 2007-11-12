@@ -88,13 +88,11 @@ public class QedeqNotNullTransverser implements QedeqTransverser {
         this.visitor = visitor;
     }
 
-
     public void accept(final Qedeq qedeq) throws ModuleDataException {
         getCurrentContext().setLocationWithinModule("");
         blocked = false;
         if (qedeq == null) {
-            throw new NullPointerException("null QEDEQ module"); // FIXME mime 20071025: ok?
-//            return;
+            throw new NullPointerException("null QEDEQ module");
         }
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(qedeq);
