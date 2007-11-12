@@ -54,6 +54,7 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class QedeqTreeCtrl implements TreeModelListener {
 
+    /** Tree view. */
     private final QedeqTreeView treeView;
 
     /** Tree model. */
