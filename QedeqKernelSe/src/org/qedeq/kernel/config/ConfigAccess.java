@@ -48,9 +48,6 @@ final class ConfigAccess {
     /** Config file description. */
     private final String description;
 
-    /** Trace config write access? */
-    private boolean noTrace = true;
-
     /**
      * Get access for a config file.
      *
