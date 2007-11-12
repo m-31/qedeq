@@ -209,7 +209,7 @@ public final class Xml2Wiki  {
                 destination = source.getParentFile().getCanonicalFile();
             }
         } catch (IOException e) {
-            Trace.trace(Xml2Latex.class, method, e);
+            Trace.trace(Xml2Wiki.class, method, e);
             throw new DefaultXmlFileExceptionList(e);
         }
         try {
@@ -222,14 +222,14 @@ public final class Xml2Wiki  {
             IoUtility.createNecessaryDirectories(destination);
             converter.printWiki(language, level, destination);
         } catch (IOException e) {
-            Trace.trace(Xml2Latex.class, method, e);
+            Trace.trace(Xml2Wiki.class, method, e);
             throw new DefaultXmlFileExceptionList(e);
         } catch (RuntimeException e) {
-            Trace.trace(Xml2Latex.class, method, e);
+            Trace.trace(Xml2Wiki.class, method, e);
             throw new DefaultXmlFileExceptionList(e);
         } catch (ModuleDataException e) {
-            Trace.trace(Xml2Latex.class, method, e);
-            Trace.param(Xml2Latex.class, method, "context", e.getContext());
+            Trace.trace(Xml2Wiki.class, method, e);
+            Trace.param(Xml2Wiki.class, method, "context", e.getContext());
             throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
                 qedeqBo.getQedeq());
         } finally {
