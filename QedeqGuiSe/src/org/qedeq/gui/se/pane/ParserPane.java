@@ -63,7 +63,7 @@ public class ParserPane extends JFrame {
 
     private CPTextArea source = new CPTextArea(SAMPLE);
 
-    private CPTextArea result = new CPTextArea();
+    private CPTextArea resultField = new CPTextArea();
 
     private CPTextArea error = new CPTextArea();
 
@@ -115,12 +115,12 @@ public class ParserPane extends JFrame {
         source.setWrapStyleWord(true);
         source.setFocusable(true);
 
-        result.setFont(new Font("monospaced", Font.PLAIN, pane.getFont().getSize()));
-        result.setAutoscrolls(true);
-        result.setCaretPosition(0);
-        result.setEditable(false);
-        result.getCaret().setVisible(false);
-        result.setFocusable(true);
+        resultField.setFont(new Font("monospaced", Font.PLAIN, pane.getFont().getSize()));
+        resultField.setAutoscrolls(true);
+        resultField.setCaretPosition(0);
+        resultField.setEditable(false);
+        resultField.getCaret().setVisible(false);
+        resultField.setFocusable(true);
 
         error.setFont(new Font("monospaced", Font.PLAIN, pane.getFont().getSize()));
         error.setForeground(Color.RED);
@@ -141,7 +141,7 @@ public class ParserPane extends JFrame {
 
         final JScrollPane resultScroller = new JScrollPane();
         final JViewport resultPort = resultScroller.getViewport();
-        resultPort.add(result);
+        resultPort.add(resultField);
 
         final JScrollPane errorScroller = new JScrollPane();
         final JViewport errorPort = errorScroller.getViewport();
@@ -202,7 +202,7 @@ public class ParserPane extends JFrame {
             transform.setMnemonic('Q');
             transform.addActionListener(new AbstractAction() {
                 public final void actionPerformed(final ActionEvent action) {
-                    result.setText(printMath(source.getText()));
+                    resultField.setText(printMath(source.getText()));
                     updateView();
                 }
             });
@@ -230,8 +230,8 @@ public class ParserPane extends JFrame {
             doSwitch.addActionListener(new AbstractAction() {
                 public final void actionPerformed(final ActionEvent action) {
                     final String text = source.getText();
-                    source.setText(result.getText());
-                    result.setText(text);
+                    source.setText(resultField.getText());
+                    resultField.setText(text);
                     updateView();
                 }
             });
