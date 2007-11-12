@@ -46,12 +46,12 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 
+import org.qedeq.kernel.bo.save.Xml2Xml;
 import org.qedeq.kernel.common.XmlFileException;
 import org.qedeq.kernel.common.XmlFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.rel.test.text.Xml2Latex;
 import org.qedeq.kernel.rel.test.text.Xml2Wiki;
-import org.qedeq.kernel.rel.test.text.Xml2Xml;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 
