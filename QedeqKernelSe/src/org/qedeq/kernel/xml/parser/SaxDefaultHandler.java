@@ -161,6 +161,7 @@ public class SaxDefaultHandler extends DefaultHandler {
                 currentHandler.init();
             }
             level++;
+            Trace.param(this, method, "level", level);
             sendCharacters();
             currentElementName = localName;
             final SimpleAttributes attributes = new SimpleAttributes();
@@ -206,6 +207,7 @@ public class SaxDefaultHandler extends DefaultHandler {
         try {
             currentElementName = null;
             level--;
+            Trace.param(this, method, "level", level);
             if (level <= 0) {
                 restoreHandler(localName);
             }
@@ -243,11 +245,11 @@ public class SaxDefaultHandler extends DefaultHandler {
                 }
             }
         } catch (SyntaxException e) {
-            Trace.trace(this, "startElement", e);
+            Trace.trace(this, "sendCharacters", e);
             setLocationInformation(e);
             errorList.add(e);
         } catch (RuntimeException e) {
-            Trace.trace(this, "startElement", e);
+            Trace.trace(this, "sendCharacters", e);
             final SyntaxException ex = SyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
             errorList.add(ex);
@@ -289,6 +291,7 @@ public class SaxDefaultHandler extends DefaultHandler {
         currentHandler = newHandler;
         level = 0;
         level++;
+        Trace.param(this, "changeHandler", "level", level);
         currentHandler.init();
         currentHandler.startElement(elementName, attributes);
     }
@@ -303,12 +306,13 @@ public class SaxDefaultHandler extends DefaultHandler {
     private final void restoreHandler(final String elementName) throws SyntaxException {
         while (level <= 0 && !handlerStack.empty()) {
             currentHandler = (AbstractSimpleHandler) handlerStack.pop();
+            Trace.param(this, "restoreHandler", "currentHandler", currentHandler);
             level = ((Integer) levelStack.pop()).intValue();
             currentHandler.endElement(elementName);
             level--;
+            Trace.param(this, "restoreHandler", "level", level);
         }
         if (handlerStack.empty()) {
-            // TODO mime 20050205: is this occurrence an error???
             Trace.trace(this, "restoreHandler", "no handler to restore");
         }
     }
