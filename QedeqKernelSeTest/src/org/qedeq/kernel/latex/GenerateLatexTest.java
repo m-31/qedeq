@@ -34,7 +34,6 @@ import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
-import org.qedeq.kernel.rel.test.text.Xml2Latex;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
@@ -48,8 +47,6 @@ import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
  */
 public final class GenerateLatexTest extends QedeqTestCase {
 
-    // FIXME 20071105: wrong class is tested!
-    
     public void setUp() throws Exception{
         super.setUp();
         KernelFacade.startup();
@@ -78,11 +75,11 @@ public final class GenerateLatexTest extends QedeqTestCase {
                 throw new IOException("unknown source directory for qedeq modules");
             }
         }
-        generate(docDir, "math/qedeq_sample1.xml", genDir);
-        generate(docDir, "math/qedeq_set_theory_v1.xml", genDir);
-        generate(docDir, "math/qedeq_logic_v1.xml", genDir);
-        generate(docDir, "project/qedeq_basic_concept.xml", genDir);
-        generate(docDir, "project/qedeq_logic_language.xml", genDir);
+        generate(docDir, "math/qedeq_sample1.xml", genDir, false);
+        generate(docDir, "math/qedeq_set_theory_v1.xml", genDir, false);
+        generate(docDir, "math/qedeq_logic_v1.xml", genDir, false);
+        generate(docDir, "project/qedeq_basic_concept.xml", genDir, false);
+        generate(docDir, "project/qedeq_logic_language.xml", genDir, true);
     }
 
     public void testNegative02() throws IOException {
@@ -244,12 +241,15 @@ public final class GenerateLatexTest extends QedeqTestCase {
      * @param   dir         Start directory.
      * @param   xml         Relative path to XML file. Must not be <code>null</code>.
      * @param   destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
+     * @param   onlyEn      Generate only for language "en".
      * @throws  Exception   Failure.
      */
     private final static void generate(final File dir, final String xml, 
-            final File destinationDirectory) throws Exception {
+            final File destinationDirectory, final boolean onlyEn) throws Exception {
         generate(dir, xml, "en", destinationDirectory);
-        generate(dir, xml, "de", destinationDirectory);
+        if (!onlyEn) {
+            generate(dir, xml, "de", destinationDirectory);
+        }
         QedeqBoFactoryTest.loadQedeqAndAssertContext(new File(dir, xml));
     }
 
@@ -266,16 +266,16 @@ public final class GenerateLatexTest extends QedeqTestCase {
     private static void generate(final File dir, final String xml, final String language,
             final File destinationDirectory) throws IOException, XmlFileExceptionList {
         final File xmlFile = new File(dir, xml);
-        final File texFile = new File(Xml2Latex.generate(xmlFile.getAbsolutePath(), null, language, 
-            "1"));
+        final QedeqBo qedeqBo = KernelFacade.getKernelContext().loadModule(IoUtility.toUrl(xmlFile)
+            .toExternalForm());
+        final ModuleProperties prop = KernelFacade.getKernelContext().getModuleProperties(
+            IoUtility.toUrl(xmlFile).toExternalForm());
+        final File texFile = new File(Xml2Latex.generate(prop, null, language, "1"));
         final File texCopy = new File(destinationDirectory, new File(new File(xml).getParent(), 
             texFile.getName()).getPath());
         final File xmlCopy = new File(destinationDirectory, xml);
         IoUtility.copyFile(xmlFile, xmlCopy);
         IoUtility.copyFile(texFile, texCopy);
-        ModuleProperties prop = KernelContext.getInstance().getModuleProperties(IoUtility.toUrl(
-            xmlFile.getAbsoluteFile().getCanonicalFile()).toExternalForm());
-        QedeqBo qedeqBo = prop.getModule();
         try {
             prop.setLoadedRequiredModules(null);
             QedeqLog.getInstance().logRequest("Check logical correctness of \""
