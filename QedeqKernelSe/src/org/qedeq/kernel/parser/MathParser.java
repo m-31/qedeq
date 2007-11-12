@@ -424,17 +424,17 @@ public abstract class MathParser {
                 Trace.trace(this, method, "no operators found");
                 return null;
             }
-            final List operators = getOperators(token);
-            if (operators == null || operators.size() == 0) {
+            final List ops = getOperators(token);
+            if (ops == null || ops.size() == 0) {
                 rewindPosition();
                 Trace.trace(this, method, "no operators found");
                 return null;
             }
             clearMark();
-            for (int i = 0; i < operators.size(); i++) {
-                Trace.param(this, method, "operator[" + i + "]", operators.get(i));
+            for (int i = 0; i < ops.size(); i++) {
+                Trace.param(this, method, "operator[" + i + "]", ops.get(i));
             }
-            return operators;
+            return ops;
         } finally {
             Trace.end(this, method);
         }
