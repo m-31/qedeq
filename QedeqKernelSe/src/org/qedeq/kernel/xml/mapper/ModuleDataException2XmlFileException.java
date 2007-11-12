@@ -50,6 +50,13 @@ public final class ModuleDataException2XmlFileException {
         // nothing to do
     }
 
+    /**
+     * Create exception out of {@link ModuleDataException}.
+     *
+     * @param   exception   Take this exception.
+     * @param   qedeq       Take this QEDEQ module.
+     * @return  Newly created instance.
+     */
     public static final XmlFileExceptionList createXmlFileExceptionList(final ModuleDataException
             exception, final Qedeq qedeq) {
         final DefaultXmlFileExceptionList list = new DefaultXmlFileExceptionList();
