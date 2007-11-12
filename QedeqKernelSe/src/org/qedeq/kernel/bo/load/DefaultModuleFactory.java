@@ -31,7 +31,6 @@ import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.control.LoadRequiredModules;
 import org.qedeq.kernel.bo.module.Kernel;
 import org.qedeq.kernel.bo.module.LoadingState;
-import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleFactory;
