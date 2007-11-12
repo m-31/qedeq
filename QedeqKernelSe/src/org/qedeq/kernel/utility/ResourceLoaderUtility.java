@@ -207,10 +207,11 @@ public final class ResourceLoaderUtility {
     /**
      * Get resource URL. The resource is loaded from the file
      *
-     * @param startDirectory
-     * @param resourceDirectoryName
-     * @param resourceName
-     * @return
+     * @param   startDirectory          Start looking from this directory.
+     * @param   resourceDirectoryName   Within this directory
+     *                                  (relative to <code>startDirectory</code>).
+     * @param   resourceName            Look for this resource file.
+     * @return  Resource URL.
      */
     public static URL getResourceUrl(final File startDirectory, final String resourceDirectoryName,
             final String resourceName) {
