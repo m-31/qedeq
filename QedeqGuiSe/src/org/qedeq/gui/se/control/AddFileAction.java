@@ -43,13 +43,7 @@ class AddFileAction extends AbstractAction {
     /** Controller. */
     private final QedeqController controller;
 
-    // LATER: remember last location in cofiguration file
     /** Start directory for file load. */
-
-// FIXME remove me:
-//    private File file = (IoUtility.isWebStarted() ? KernelContext.getInstance().getConfig()
-//        .getBasisDirectory() : new File("./sample"));
-
     private File file = QedeqGuiConfig.getInstance().getFileBrowserStartDirecty();
 
     /**
