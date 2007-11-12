@@ -121,7 +121,7 @@ public class ModuleReferenceList {
         final int index = labels.indexOf(label);
         if (index < 0) {
             throw new IllegalModuleDataException(10005, "This module label \"" + label
-                + "\"was not found.", context, null, null); 
+                + "\"was not found.", context, null, null);
                 // LATER mime 20071026: organize exception codes
         }
         return (URL) addresses.get(index);
