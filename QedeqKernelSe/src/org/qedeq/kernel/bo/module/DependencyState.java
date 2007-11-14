@@ -36,10 +36,21 @@ public final class DependencyState {
         DependencyStateDescriptions.STATE_STRING_LOADING_REQUIRED_MODULES, false,
         DependencyStateDescriptions.STATE_CODE_LOADING_REQUIRED_MODULES);
 
-    /** Loading into memory failed. */
+    /** Loading required modules failed. */
     public static final DependencyState STATE_LOADING_REQUIRED_MODULES_FAILED = new DependencyState(
         DependencyStateDescriptions.STATE_STRING_LOADING_REQUIRED_MODULES_FAILED, true,
         DependencyStateDescriptions.STATE_CODE_LOADING_REQUIRED_MODULES_FAILED);
+
+    /** Loading required modules of required modules. */
+    public static final DependencyState STATE_LOADING_REQUIRED_REQUIREMENTS = new DependencyState(
+        DependencyStateDescriptions.STATE_STRING_LOADING_REQUIRED_REQUIREMENTS, false,
+        DependencyStateDescriptions.STATE_CODE_LOADING_REQUIRED_REQUIREMENTS);
+
+    /** Loading required modules of required modules failed. */
+    public static final DependencyState STATE_LOADING_REQUIRED_REQUIREMENTS_FAILED
+            = new DependencyState(
+        DependencyStateDescriptions.STATE_STRING_LOADING_REQUIRED_REQUIREMENTS_FAILED, true,
+        DependencyStateDescriptions.STATE_CODE_LOADING_REQUIRED_REQUIREMENTS_FAILED);
 
     /** Completely loaded. */
     public static final DependencyState STATE_LOADED_REQUIRED_MODULES = new DependencyState(
