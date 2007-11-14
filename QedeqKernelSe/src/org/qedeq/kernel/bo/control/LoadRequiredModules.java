@@ -84,7 +84,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
                 ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
                     qedeqBo.getQedeq()));
             throw e;
-        } catch (final RuntimeException e) {
+        } catch (final RuntimeException e) {    // last catch
             Trace.fatal(LoadRequiredModules.class, method, "programming error", e);
             ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
                 converter.transverser.getCurrentContext());
@@ -94,7 +94,50 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
                 DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
             ModuleEventLog.getInstance().stateChanged(prop);
             throw me;
-        } catch (final Throwable e) {
+        } catch (final Throwable e) {           // last catch
+            ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
+                converter.transverser.getCurrentContext());
+            final XmlFileExceptionList xl =
+                new DefaultXmlFileExceptionList(e);
+            prop.setDependencyFailureState(
+                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+            ModuleEventLog.getInstance().stateChanged(prop);
+            throw me;
+        }
+    }
+
+    /**
+     * Load all required QEDEQ modules for a given QEDEQ module.
+     *
+     * @param   qedeqBo     Basic QEDEQ module object.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public static void loadRequired(final String qedeqUrl)
+            throws ModuleDataException {
+        final String method = "loadRequired(QedeqBo)";
+        final ModuleProperties prop = KernelContext.getInstance().getModuleProperties(
+            qedeqBo.getModuleAddress().getAddress());   // TODO mime 20071026: this is no good code!
+        prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
+        final LoadRequiredModules converter = new LoadRequiredModules(qedeqBo);
+        try {
+            converter.loadRequired();
+            prop.setLoadedRequiredModules(converter.required);
+        } catch (ModuleDataException e) {
+            prop.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
+                ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
+                    qedeqBo.getQedeq()));
+            throw e;
+        } catch (final RuntimeException e) {    // last catch
+            Trace.fatal(LoadRequiredModules.class, method, "programming error", e);
+            ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
+                converter.transverser.getCurrentContext());
+            final XmlFileExceptionList xl =
+                new DefaultXmlFileExceptionList(e);
+            prop.setDependencyFailureState(
+                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+            ModuleEventLog.getInstance().stateChanged(prop);
+            throw me;
+        } catch (final Throwable e) {           // last catch
             ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
                 converter.transverser.getCurrentContext());
             final XmlFileExceptionList xl =
