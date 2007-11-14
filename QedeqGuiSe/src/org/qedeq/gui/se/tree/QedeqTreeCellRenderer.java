@@ -29,6 +29,7 @@ import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeCellRenderer;
 
+import org.qedeq.kernel.bo.module.DependencyState;
 import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleProperties;
@@ -161,59 +162,66 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
                     value).getUserObject();
                 String text = prop.getName();
                 setText(text);
-                final LoadingState state = prop.getLoadingState();
+                final LoadingState loadingState = prop.getLoadingState();
+                final DependencyState dependencyState = prop.getDependencyState();
+                final LogicalState logicalState = prop.getLogicalState();
 
-                if (state == LoadingState.STATE_LOADED) {
+                if (loadingState == LoadingState.STATE_LOADED) {
                     setToolTipText(prop.getAddress());
                 } else {
                     setToolTipText(prop.getStateDescription());
                 }
 
-                if (state == LoadingState.STATE_LOADING_FROM_WEB) {
+                setIcon(null);
+                if (loadingState == LoadingState.STATE_LOADING_FROM_WEB) {
                     setIcon(webLoadingIcon);
-                } else if (state == LoadingState.STATE_LOADING_FROM_WEB_FAILED) {
+                } else if (loadingState == LoadingState.STATE_LOADING_FROM_WEB_FAILED) {
                     setIcon(webLoadingErrorIcon);
-                } else if (state == LoadingState.STATE_LOADING_FROM_BUFFER) {
+                } else if (loadingState == LoadingState.STATE_LOADING_FROM_BUFFER) {
                     setIcon(fileLoadingIcon);
-                } else if (state == LoadingState.STATE_LOADING_FROM_BUFFER_FAILED) {
+                } else if (loadingState == LoadingState.STATE_LOADING_FROM_BUFFER_FAILED) {
                     setIcon(fileLoadingErrorIcon);
-                } else if (state == LoadingState.STATE_LOADING_INTO_MEMORY) {
+                } else if (loadingState == LoadingState.STATE_LOADING_INTO_MEMORY) {
                     setIcon(memoryLoadingIcon);
-                } else if (state == LoadingState.STATE_LOADING_INTO_MEMORY_FAILED) {
+                } else if (loadingState == LoadingState.STATE_LOADING_INTO_MEMORY_FAILED) {
                     setIcon(memoryLoadingErrorIcon);
-                } else if (state == LoadingState.STATE_LOADED) {
+                } else if (loadingState == LoadingState.STATE_LOADED) {
                     setIcon(loadedIcon);
-                } else if (state == LoadingState.STATE_LOADING_REQUIRED_MODULES) {
-                    setIcon(loadingRequiredIcon);
-                } else if (state == LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED) {
-                    setIcon(loadingRequiredErrorIcon);
-                } else if (state == LoadingState.STATE_LOADED_REQUIRED_MODULES) {
-                    if (prop.getLogicalState() == LogicalState.STATE_UNCHECKED) {
-                        setIcon(loadedRequiredIcon);
-                    } else if (prop.getLogicalState() == LogicalState.STATE_EXTERNAL_CHECKING) {
-                         setIcon(checkingRequiredIcon);
-                    } else if (prop.getLogicalState()
-                            == LogicalState.STATE_EXTERNAL_CHECKING_FAILED) {
-                        setIcon(checkingRequiredErrorIcon);
-                    } else if (prop.getLogicalState() == LogicalState.STATE_INTERNAL_CHECKING) {
-                        setIcon(checkingIcon);
-                    } else if (prop.getLogicalState()
-                            == LogicalState.STATE_INTERNAL_CHECKING_FAILED) {
-                        setIcon(checkingErrorIcon);
-                    } else if (prop.getLogicalState() == LogicalState.STATE_CHECKED) {
-                        setIcon(checkedIcon);
-                    } else {
-                        setIcon(null);
-                        Trace.trace(this, "getTreeCellRendererComponent",
-                            "unknown module state: " + prop.getLogicalState().getText());
-                        throw new IllegalStateException("unknown module state: "
-                           + prop.getLogicalState().getText());
+                    if (dependencyState != DependencyState.STATE_UNDEFINED) {
+                        if (dependencyState == DependencyState.STATE_LOADING_REQUIRED_MODULES) {
+                            setIcon(loadingRequiredIcon);
+                        } else if (dependencyState
+                                == DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED) {
+                            setIcon(loadingRequiredErrorIcon);
+                        } else if (dependencyState
+                                == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
+                            setIcon(loadedRequiredIcon);
+                            if (logicalState != LogicalState.STATE_UNCHECKED) {
+                                if (logicalState == LogicalState.STATE_EXTERNAL_CHECKING) {
+                                 setIcon(checkingRequiredIcon);
+                                } else if (logicalState
+                                        == LogicalState.STATE_EXTERNAL_CHECKING_FAILED) {
+                                    setIcon(checkingRequiredErrorIcon);
+                                } else if (logicalState == LogicalState.STATE_INTERNAL_CHECKING) {
+                                    setIcon(checkingIcon);
+                                } else if (logicalState
+                                        == LogicalState.STATE_INTERNAL_CHECKING_FAILED) {
+                                    setIcon(checkingErrorIcon);
+                                } else if (logicalState == LogicalState.STATE_CHECKED) {
+                                    setIcon(checkedIcon);
+                                } else {    // unknown logical state
+                                    throw new IllegalStateException("unknown module state: "
+                                        + logicalState.getText());
+                                }
+                            }
+                        } else {    // unknown dependency state
+                            throw new IllegalStateException("unknown module state: "
+                                + dependencyState.getText());
+                        }
                     }
-                } else {
-                    setIcon(null);
-                    Trace.trace(this, "getTreeCellRendererComponent",
-                        "unknown module state: " + prop.getLogicalState().getText());
-                    throw new IllegalStateException("unknown module state: " + state.getText());
+                } else {    // unknown loading state
+                    throw new IllegalStateException("unknown module state: "
+                        + loadingState.getText());
                 }
             }
         }
