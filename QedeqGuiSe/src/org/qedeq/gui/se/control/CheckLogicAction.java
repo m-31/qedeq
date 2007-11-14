@@ -24,6 +24,7 @@ import javax.swing.AbstractAction;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.bo.control.LoadRequiredModules;
 import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
+import org.qedeq.kernel.bo.module.DependencyState;
 import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleDataException;
@@ -106,9 +107,9 @@ class CheckLogicAction extends AbstractAction {
                                 props[i].getModule().getQedeq());
                             // TODO mime 20071031: every state must be able to change into
                             // a failure state, here we only assume two cases
-                            if (props[i].isLoaded()) {
-                                props[i].setLoadingFailureState(
-                                    LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                            if (props[i].isLoaded()) {  // FIXME this is wrong!!! must differ
+                                props[i].setDependencyFailureState(
+                                    DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
                             } else {
                                 props[i].setLogicalFailureState(
                                     LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
@@ -123,9 +124,9 @@ class CheckLogicAction extends AbstractAction {
                                 new DefaultXmlFileExceptionList(e);
                             // TODO mime 20071031: every state must be able to change into
                             // a failure state, here we only assume two cases
-                            if (props[i].isLoaded()) {
-                                props[i].setLoadingFailureState(
-                                    LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                            if (props[i].isLoaded()) {  // FIXME must differ
+                                props[i].setDependencyFailureState(
+                                    DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
                             } else {
                                 props[i].setLogicalFailureState(
                                     LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
@@ -140,9 +141,9 @@ class CheckLogicAction extends AbstractAction {
                                 new DefaultXmlFileExceptionList(e);
                             // TODO mime 20071031: every state must be able to change into
                             // a failure state, here we only assume two cases
-                            if (props[i].isLoaded()) {
-                                props[i].setLoadingFailureState(
-                                    LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                            if (props[i].isLoaded()) {  // FIXME wrong
+                                props[i].setDependencyFailureState(
+                                    DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
                             } else {
                                 props[i].setLogicalFailureState(
                                     LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
