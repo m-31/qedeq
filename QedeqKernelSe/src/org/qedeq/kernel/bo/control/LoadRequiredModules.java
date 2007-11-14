@@ -19,7 +19,7 @@ package org.qedeq.kernel.bo.control;
 
 import org.qedeq.kernel.base.module.Import;
 import org.qedeq.kernel.base.module.ImportList;
-import org.qedeq.kernel.bo.module.LoadingState;
+import org.qedeq.kernel.bo.module.DependencyState;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.ModuleReferenceList;
@@ -74,13 +74,13 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
         final String method = "loadRequired(QedeqBo)";
         final ModuleProperties prop = KernelContext.getInstance().getModuleProperties(
             qedeqBo.getModuleAddress().getAddress());   // TODO mime 20071026: this is no good code!
-        prop.setLoadingProgressState(LoadingState.STATE_LOADING_REQUIRED_MODULES);
+        prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
         final LoadRequiredModules converter = new LoadRequiredModules(qedeqBo);
         try {
             converter.loadRequired();
             prop.setLoadedRequiredModules(converter.required);
         } catch (ModuleDataException e) {
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED,
+            prop.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
                 ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
                     qedeqBo.getQedeq()));
             throw e;
@@ -90,8 +90,8 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
                 converter.transverser.getCurrentContext());
             final XmlFileExceptionList xl =
                 new DefaultXmlFileExceptionList(e);
-            prop.setLoadingFailureState(
-                LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+            prop.setDependencyFailureState(
+                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
             ModuleEventLog.getInstance().stateChanged(prop);
             throw me;
         } catch (final Throwable e) {
@@ -99,8 +99,8 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
                 converter.transverser.getCurrentContext());
             final XmlFileExceptionList xl =
                 new DefaultXmlFileExceptionList(e);
-            prop.setLoadingFailureState(
-                LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+            prop.setDependencyFailureState(
+                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
             ModuleEventLog.getInstance().stateChanged(prop);
             throw me;
         }

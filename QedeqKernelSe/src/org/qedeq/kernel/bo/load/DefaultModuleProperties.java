@@ -19,6 +19,7 @@ package org.qedeq.kernel.bo.load;
 
 import java.net.URL;
 
+import org.qedeq.kernel.bo.module.DependencyState;
 import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleAddress;
@@ -45,6 +46,9 @@ public class DefaultModuleProperties implements ModuleProperties {
     /** Describes QEDEQ module loading state. */
     private LoadingState loadingState;
 
+    /** Describes QEDEQ module dependency state. */
+    private DependencyState dependencyState;
+
     /** Describes QEDEQ module logical state. */
     private LogicalState logicalState;
 
@@ -67,6 +71,7 @@ public class DefaultModuleProperties implements ModuleProperties {
         this.address = address;
         this.loadingState = LoadingState.STATE_UNDEFINED;
         this.loadingCompleteness = 0;
+        this.dependencyState = DependencyState.STATE_UNDEFINED;
         this.logicalState = LogicalState.STATE_UNCHECKED;
     }
 
@@ -97,31 +102,30 @@ public class DefaultModuleProperties implements ModuleProperties {
             throw new IllegalArgumentException(
                 "this state could only be set by calling method setLoaded");
         }
-        if (state == LoadingState.STATE_LOADED_REQUIRED_MODULES) {
-            throw new IllegalArgumentException(
-                "this state could only be set by calling method setLoadedRequiredModules");
-        }
-        if (this.loadingState.getCode() < LoadingState.STATE_LOADED.getCode()) {
-            this.module = null;
-        }
         if (state.isFailure()) {
             throw new IllegalArgumentException(
                 "this is a failure state, call setLoadingFailureState");
         }
-        this.exception = null;
+// FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules? 
         this.loadingState = state;
+        this.module = null;
+        this.dependencyState = DependencyState.STATE_UNDEFINED;
+        this.logicalState = LogicalState.STATE_UNCHECKED;
+        this.exception = null;
     }
 
     public final void setLoadingFailureState(final LoadingState state,
             final XmlFileExceptionList e) {
         if (!state.isFailure()) {
             throw new IllegalArgumentException(
-                "this is no failure state, call setProgressState");
+                "this is no failure state, call setLoadingProgressState");
         }
-        if (this.loadingState.getCode() < LoadingState.STATE_LOADED.getCode()) {
-            this.module = null;
-        }
+//          FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules? 
+//          they must be killed too!
+        this.module = null;
         this.loadingState = state;
+        this.dependencyState = DependencyState.STATE_UNDEFINED;
+        this.logicalState = LogicalState.STATE_UNCHECKED;
         this.exception = e;
     }
 
@@ -129,12 +133,96 @@ public class DefaultModuleProperties implements ModuleProperties {
         return this.loadingState;
     }
 
+    public final boolean isLoaded() {
+        return loadingState == LoadingState.STATE_LOADED;
+    }
+
+    public final void setLoaded(final QedeqBo module) {
+        loadingState = LoadingState.STATE_LOADED;
+        this.module = module;
+    }
+
+    public final QedeqBo getModule() {
+        if (loadingState != LoadingState.STATE_LOADED) {
+            throw new IllegalStateException(
+                "module exists only if state is \"" + LoadingState.STATE_LOADED.getText()
+                +   "\"");
+        }
+        return this.module;
+    }
+
+    public final void setDependencyProgressState(final DependencyState state) {
+        if (!isLoaded() && state != DependencyState.STATE_UNDEFINED) {
+            throw new IllegalArgumentException("module is not yet loaded");
+        }
+        if (state.isFailure()) {
+            throw new IllegalArgumentException(
+                "this is a failure state, call setDependencyFailureState");
+        }
+        if (state == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
+            throw new IllegalArgumentException(
+                "this state could only be set by calling method setLoadedRequiredModules");
+        }
+        if (state != DependencyState.STATE_LOADED_REQUIRED_MODULES) {
+//          FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
+//          they must be killed too!
+            this.logicalState = LogicalState.STATE_UNCHECKED;
+        }
+        this.exception = null;
+        this.dependencyState = state;
+    }
+
+    public final void setDependencyFailureState(final DependencyState state,
+            final XmlFileExceptionList e) {
+        if (!isLoaded()) {
+            throw new IllegalArgumentException("module is not yet loaded");
+        }
+        if (!state.isFailure()) {
+            throw new IllegalArgumentException(
+                "this is no failure state, call setLoadingProgressState");
+        }
+//  FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
+//              they must be killed too!
+        this.logicalState = LogicalState.STATE_UNCHECKED;
+        this.dependencyState = state;
+        this.exception = e;
+    }
+
+    public final DependencyState getDependencyState() {
+        return this.dependencyState;
+    }
+
+    public final void setLoadedRequiredModules(final ModuleReferenceList list) {
+        if (!isLoaded()) {
+            throw new IllegalStateException(
+                "Required modules can only be set if module is loaded."
+                + "\"\nCurrently the status for the module"
+                + "\"" + getName() + "\" is \"" + getLoadingState() + "\"");
+        }
+        dependencyState = DependencyState.STATE_LOADED_REQUIRED_MODULES;
+        required = list;
+    }
+
+    public final ModuleReferenceList getRequiredModules() {
+        if (!hasLoadedRequired()) {
+            throw new IllegalStateException(
+                "module reference list exists only if state is \""
+                + DependencyState.STATE_LOADED_REQUIRED_MODULES.getText() + "\"");
+        }
+        return required;
+    }
+
+    public final boolean hasLoadedRequired() {
+        return loadingState == LoadingState.STATE_LOADED
+            && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES;
+    }
+
     // TODO mime 20070704: shouldn't stand here:
     //  ModuleEventLog.getInstance().stateChanged(props[i]);
     //  and not in DefaultModuleFactory?
     public final void setLogicalProgressState(final LogicalState state) {
-        if (state != LogicalState.STATE_UNCHECKED
-                && loadingState.getCode() < LoadingState.STATE_LOADED_REQUIRED_MODULES.getCode()) {
+        if (dependencyState.getCode() < DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode()
+                && state != LogicalState.STATE_UNCHECKED) {
             throw new IllegalArgumentException(
                 "this state could only be set if all required modules are loaded ");
         }
@@ -148,14 +236,13 @@ public class DefaultModuleProperties implements ModuleProperties {
 
     public final void setLogicalFailureState(final LogicalState state,
             final XmlFileExceptionList e) {
-        if (state != LogicalState.STATE_UNCHECKED
-                && loadingState.getCode() < LoadingState.STATE_LOADED_REQUIRED_MODULES.getCode()) {
+        if ((!isLoaded() || !hasLoadedRequired()) && state != LogicalState.STATE_UNCHECKED) {
             throw new IllegalArgumentException(
-            "this state could only be set if all required modules are loaded ");
+                "this state could only be set if all required modules are loaded ");
         }
         if (!state.isFailure()) {
             throw new IllegalArgumentException(
-                "this is no failure state, call setProgressState");
+                "this is no failure state, call setLogicalProgressState");
         }
         this.logicalState = state;
         this.exception = e;
@@ -174,10 +261,10 @@ public class DefaultModuleProperties implements ModuleProperties {
             return loadingState.getText() + " (" + loadingCompleteness + "%)";
         } else if (!isLoaded()) {
             return loadingState.getText();
-        } else if (getLogicalState() != LogicalState.STATE_UNCHECKED) {
-            return logicalState.getText();
+        } else if (!hasLoadedRequired()) {
+            return dependencyState.getText();
         } else {
-            return loadingState.getText();
+            return logicalState.getText();
         }
     }
 
@@ -203,44 +290,6 @@ public class DefaultModuleProperties implements ModuleProperties {
             return null;
         }
         return address.getURL();
-    }
-
-    public final boolean isLoaded() {
-        return (loadingState.getCode() >= LoadingState.STATE_LOADED.getCode());
-    }
-
-    public final void setLoaded(final QedeqBo module) {
-        loadingState = LoadingState.STATE_LOADED;
-        this.module = module;
-    }
-
-    public final QedeqBo getModule() {
-        if (loadingState.getCode() < LoadingState.STATE_LOADED.getCode()) {
-            throw new IllegalStateException(
-                "module exists only if state is \"" + LoadingState.STATE_LOADED.getText()
-                +   "\"");
-        }
-        return this.module;
-    }
-
-    public final ModuleReferenceList getRequiredModules() {
-        if (loadingState != LoadingState.STATE_LOADED_REQUIRED_MODULES) {
-            throw new IllegalStateException(
-                "module exists only if state is \"" + LoadingState.STATE_LOADED_REQUIRED_MODULES
-                .getText() + "\"");
-        }
-        return required;
-    }
-
-    public final void setLoadedRequiredModules(final ModuleReferenceList list) {
-        if (!isLoaded()) {
-            throw new IllegalStateException(
-                "Required modules can only be set if module is loaded."
-                + "\"\nCurrently the status for the module"
-                + "\"" + getName() + "\" is \"" + getLoadingState() + "\"");
-        }
-        loadingState = LoadingState.STATE_LOADED_REQUIRED_MODULES;
-        required = list;
     }
 
     public final String toString() {

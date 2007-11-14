@@ -88,23 +88,4 @@ public interface LoadingStateDescriptions {
     /** Completely loaded description. */
     public static final String STATE_STRING_LOADED = "loaded";
 
-    /** Loading into memory code. */
-    public static final int STATE_CODE_LOADING_REQUIRED_MODULES = 11;
-
-    /** Loading into memory description. */
-    public static final String STATE_STRING_LOADING_REQUIRED_MODULES = "loading required modules";
-
-    /** Loading into memory failed code. */
-    public static final int STATE_CODE_LOADING_REQUIRED_MODULES_FAILED = 12;
-
-    /** Loading into memory failed description. */
-    public static final String STATE_STRING_LOADING_REQUIRED_MODULES_FAILED
-        = "loading required modules failed";
-
-    /** Completely loaded code. */
-    public static final int STATE_CODE_LOADED_REQUIRED_MODULES = 13;
-
-    /** Completely loaded description. */
-    public static final String STATE_STRING_LOADED_REQUIRED_MODULES = "loaded required modules";
-
 }

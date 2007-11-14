@@ -24,7 +24,7 @@ import org.qedeq.kernel.dto.module.NodeVo;
 
 
 /**
- * Maps labels of an module to their elements.
+ * Maps labels of an QEDEQ module to their elements.
  *
  * @version $Revision: 1.3 $
  * @author  Michael Meyling

@@ -29,6 +29,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.control.LoadRequiredModules;
+import org.qedeq.kernel.bo.module.DependencyState;
 import org.qedeq.kernel.bo.module.Kernel;
 import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.ModuleAddress;
@@ -354,12 +355,13 @@ public class DefaultModuleFactory implements ModuleFactory {
         try {
             LoadRequiredModules.loadRequired(loadModule(address));
         } catch (ModuleDataException e) {
-            final XmlFileExceptionList xl =
-                ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
+            final XmlFileExceptionList xl
+                = ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
                 qedeqBo.getQedeq());
             // TODO mime 20071031: every state must be able to change into
             // a failure state, here we only assume two cases
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+            prop.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
+                xl);
             throw xl;
         }
     }

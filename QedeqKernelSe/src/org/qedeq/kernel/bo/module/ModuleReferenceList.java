@@ -157,7 +157,7 @@ public class ModuleReferenceList {
     }
 
     public String toString() {
-        final StringBuffer buffer = new StringBuffer("module list:\n");
+        final StringBuffer buffer = new StringBuffer("module reference list:\n");
         for (int i = 0; i < size(); i++) {
             if (i != 0) {
                 buffer.append("\n");

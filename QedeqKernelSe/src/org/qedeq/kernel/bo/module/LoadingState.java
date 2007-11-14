@@ -76,21 +76,6 @@ public final class LoadingState {
         LoadingStateDescriptions.STATE_STRING_LOADED, false,
         LoadingStateDescriptions.STATE_CODE_LOADED);
 
-    /** Loading required modules. */
-    public static final LoadingState STATE_LOADING_REQUIRED_MODULES = new LoadingState(
-        LoadingStateDescriptions.STATE_STRING_LOADING_REQUIRED_MODULES, false,
-        LoadingStateDescriptions.STATE_CODE_LOADING_REQUIRED_MODULES);
-
-    /** Loading into memory failed. */
-    public static final LoadingState STATE_LOADING_REQUIRED_MODULES_FAILED = new LoadingState(
-        LoadingStateDescriptions.STATE_STRING_LOADING_REQUIRED_MODULES_FAILED, true,
-        LoadingStateDescriptions.STATE_CODE_LOADING_REQUIRED_MODULES_FAILED);
-
-    /** Completely loaded. */
-    public static final LoadingState STATE_LOADED_REQUIRED_MODULES = new LoadingState(
-        LoadingStateDescriptions.STATE_STRING_LOADED_REQUIRED_MODULES, false,
-        LoadingStateDescriptions.STATE_CODE_LOADED_REQUIRED_MODULES);
-
     /** meaning of this state. */
     private final String text;
 

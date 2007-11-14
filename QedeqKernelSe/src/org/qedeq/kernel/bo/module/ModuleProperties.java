@@ -82,6 +82,29 @@ public interface ModuleProperties {
     public LoadingState getLoadingState();
 
     /**
+     * Set dependency progress module state.
+     *
+     * @param   state   module state
+     */
+    public void setDependencyProgressState(final DependencyState state);
+
+   /**
+    * Set failure module state.
+    *
+    * @param   state   module state
+    * @param   e       Exception that occurred during loading.
+    * @throws  IllegalArgumentException    <code>state</code> is no failure state
+    */
+   public void setDependencyFailureState(final DependencyState state, final XmlFileExceptionList e);
+
+   /**
+    * Get module dependency state.
+    *
+    * @return  module state.
+    */
+   public DependencyState getDependencyState();
+
+   /**
      * Set loading progress module state.
      *
      * @param   state   module state
@@ -98,7 +121,7 @@ public interface ModuleProperties {
     public void setLogicalFailureState(final LogicalState state, final XmlFileExceptionList e);
 
     /**
-     * Get module loading state.
+     * Get module logical state.
      *
      * @return  module state.
      */
