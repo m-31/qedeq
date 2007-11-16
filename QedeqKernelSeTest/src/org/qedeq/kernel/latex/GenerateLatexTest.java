@@ -267,9 +267,9 @@ public final class GenerateLatexTest extends QedeqTestCase {
             final File destinationDirectory) throws IOException, XmlFileExceptionList {
         final File xmlFile = new File(dir, xml);
         final QedeqBo qedeqBo = KernelFacade.getKernelContext().loadModule(IoUtility.toUrl(xmlFile)
-            .toExternalForm());
+            );
         final ModuleProperties prop = KernelFacade.getKernelContext().getModuleProperties(
-            IoUtility.toUrl(xmlFile).toExternalForm());
+            IoUtility.toUrl(xmlFile));
         final File texFile = new File(Xml2Latex.generate(prop, null, language, "1"));
         final File texCopy = new File(destinationDirectory, new File(new File(xml).getParent(), 
             texFile.getName()).getPath());

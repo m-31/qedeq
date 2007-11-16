@@ -214,7 +214,7 @@ public final class Xml2Wiki  {
         }
         try {
             qedeqBo = KernelFacade.getKernelContext().loadModule(
-                IoUtility.toUrl(source.getCanonicalFile()).toExternalForm());
+                IoUtility.toUrl(source.getCanonicalFile()));
 
             // System.out.println(simple.getQedeq().toString());
             final Qedeq2Wiki converter;

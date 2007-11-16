@@ -227,7 +227,7 @@ public final class Xml2Latex  {
         TextOutput printer = null;
         try {
             qedeqBo = KernelFacade.getKernelContext().loadModule(
-                IoUtility.toUrl(source.getCanonicalFile()).toExternalForm());
+                IoUtility.toUrl(source.getCanonicalFile()));
             IoUtility.createNecessaryDirectories(destination);
             final OutputStream outputStream = new FileOutputStream(destination);
             printer = new TextOutput(destination.getName(), outputStream);
