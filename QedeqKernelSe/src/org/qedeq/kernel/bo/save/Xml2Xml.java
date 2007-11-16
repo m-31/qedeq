@@ -97,7 +97,7 @@ public final class Xml2Xml  {
         TextOutput printer = null;
         try {
             qedeqBo = KernelContext.getInstance().loadModule(
-                IoUtility.toUrl(source.getCanonicalFile()).toExternalForm());
+                IoUtility.toUrl(source.getCanonicalFile()));
 
             IoUtility.createNecessaryDirectories(destination);
             final OutputStream outputStream = new FileOutputStream(destination);

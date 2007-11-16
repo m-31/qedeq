@@ -19,6 +19,7 @@ package org.qedeq.kernel.context;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.module.Kernel;
@@ -92,7 +93,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public void removeModule(final String address) {
+        public void removeModule(final URL address) {
             throw new IllegalStateException("Kernel not initialized");
         }
 
@@ -100,7 +101,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public QedeqBo loadModule(final String address) throws XmlFileExceptionList {
+        public QedeqBo loadModule(final URL address) throws XmlFileExceptionList {
             throw new IllegalStateException("Kernel not initialized");
         }
 
@@ -117,11 +118,11 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public void loadRequiredModules(final String address) {
+        public void loadRequiredModules(final URL address) {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public String[] getAllLoadedModules() {
+        public URL[] getAllLoadedModules() {
             throw new IllegalStateException("Kernel not initialized");
         }
 
@@ -133,7 +134,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public ModuleProperties getModuleProperties(final String address) {
+        public ModuleProperties getModuleProperties(final URL address) {
             throw new IllegalStateException("Kernel not initialized");
         }
 
@@ -174,7 +175,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public void removeModule(final String address) {
+        public void removeModule(final URL address) {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -182,7 +183,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public QedeqBo loadModule(final String address) throws XmlFileExceptionList {
+        public QedeqBo loadModule(final URL address) throws XmlFileExceptionList {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -199,11 +200,11 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public void loadRequiredModules(final String address) {
+        public void loadRequiredModules(final URL address) {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public String[] getAllLoadedModules() {
+        public URL[] getAllLoadedModules() {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -215,7 +216,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public ModuleProperties getModuleProperties(final String address) {
+        public ModuleProperties getModuleProperties(final URL address) {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -262,7 +263,7 @@ public final class KernelContext implements Kernel {
             moduleFactory.removeAllModules();
         }
 
-        public void removeModule(final String address) throws IOException {
+        public void removeModule(final URL address) throws IOException {
             moduleFactory.removeModule(address);
         }
 
@@ -270,7 +271,7 @@ public final class KernelContext implements Kernel {
             moduleFactory.clearLocalBuffer();
         }
 
-        public QedeqBo loadModule(final String address) throws XmlFileExceptionList {
+        public QedeqBo loadModule(final URL address) throws XmlFileExceptionList {
             return moduleFactory.loadModule(address);
         }
 
@@ -287,11 +288,11 @@ public final class KernelContext implements Kernel {
             return moduleFactory.loadAllModulesFromQedeq();
         }
 
-        public void loadRequiredModules(final String address) throws XmlFileExceptionList {
+        public void loadRequiredModules(final URL address) throws XmlFileExceptionList {
             moduleFactory.loadRequiredModules(address);
         }
 
-        public String[] getAllLoadedModules() {
+        public URL[] getAllLoadedModules() {
             return moduleFactory.getAllLoadedModules();
         }
 
@@ -303,7 +304,7 @@ public final class KernelContext implements Kernel {
             return moduleFactory.getGenerationDirectory();
         }
 
-        public ModuleProperties getModuleProperties(final String address) {
+        public ModuleProperties getModuleProperties(final URL address) {
             return moduleFactory.getModuleProperties(address);
         }
 
@@ -409,7 +410,7 @@ public final class KernelContext implements Kernel {
         currentState.removeAllModules();
     }
 
-    public void removeModule(final String address) throws IOException {
+    public void removeModule(final URL address) throws IOException {
         currentState.removeModule(address);
     }
 
@@ -417,7 +418,7 @@ public final class KernelContext implements Kernel {
         currentState.clearLocalBuffer();
     }
 
-    public QedeqBo loadModule(final String address) throws XmlFileExceptionList {
+    public QedeqBo loadModule(final URL address) throws XmlFileExceptionList {
         return currentState.loadModule(address);
     }
 
@@ -434,11 +435,11 @@ public final class KernelContext implements Kernel {
         return currentState.loadAllModulesFromQedeq();
     }
 
-    public void loadRequiredModules(final String address) throws XmlFileExceptionList {
+    public void loadRequiredModules(final URL address) throws XmlFileExceptionList {
         currentState.loadRequiredModules(address);
     }
 
-    public String[] getAllLoadedModules() {
+    public URL[] getAllLoadedModules() {
         return currentState.getAllLoadedModules();
     }
 
@@ -450,7 +451,7 @@ public final class KernelContext implements Kernel {
         return currentState.getGenerationDirectory();
     }
 
-    public ModuleProperties getModuleProperties(final String address) {
+    public ModuleProperties getModuleProperties(final URL address) {
         return currentState.getModuleProperties(address);
     }
 

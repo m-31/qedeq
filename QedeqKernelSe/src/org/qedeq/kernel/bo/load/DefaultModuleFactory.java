@@ -22,6 +22,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLConnection;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -147,7 +149,7 @@ public class DefaultModuleFactory implements ModuleFactory {
      * @param   address     Remove module identified by this address.
      * @throws  IOException Module is not known to the kernel.
      */
-    public void removeModule(final String address) throws IOException {
+    public void removeModule(final URL address) throws IOException {
         final ModuleProperties prop = getModuleProperties(address);
         if (prop != null) {
             removeModule(getModuleProperties(address));
@@ -200,7 +202,7 @@ public class DefaultModuleFactory implements ModuleFactory {
      * @return  Wanted module.
      * @throws  XmlFileExceptionList    Module could not be successfully loaded.
      */
-    public QedeqBo loadModule(final String address)
+    public QedeqBo loadModule(final URL address)
             throws XmlFileExceptionList {
         processInc();
         try {
@@ -344,16 +346,16 @@ public class DefaultModuleFactory implements ModuleFactory {
         }
     }
 
-    public String[] getAllLoadedModules() {
+    public URL[] getAllLoadedModules() {
         return getModules().getAllLoadedModules();
     }
 
 
-    public void loadRequiredModules(final String address) throws XmlFileExceptionList {
+    public void loadRequiredModules(final URL address) throws XmlFileExceptionList {
         final QedeqBo qedeqBo  = loadModule(address);
         final ModuleProperties prop = getModuleProperties(address);
         try {
-            LoadRequiredModules.loadRequired(loadModule(address));
+            LoadRequiredModules.loadRequired(address);
         } catch (ModuleDataException e) {
             final XmlFileExceptionList xl
                 = ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
@@ -377,9 +379,18 @@ public class DefaultModuleFactory implements ModuleFactory {
             final String[] list = kernel.getConfig().getPreviouslyCheckedModules();
             boolean errors = false;
             for (int i = 0; i < list.length; i++) {
+                final URL url;
                 try {
-                    loadModule(list[i]);
-                } catch (XmlFileExceptionList e) {
+                    url = new URL(list[i]);
+                    try {
+                        loadModule(url);
+                    } catch (XmlFileExceptionList e) {
+                        errors = true;
+                    }
+                } catch (MalformedURLException e) {
+                    Trace.fatal(this, "loadPreviouslySuccessfullyLoadedModules", "internal error: "
+                        + "saved URLs are malformed",
+                        e);
                     errors = true;
                 }
             }
@@ -415,9 +426,18 @@ public class DefaultModuleFactory implements ModuleFactory {
             };
             boolean errors = false;
             for (int i = 0; i < list.length; i++) {
+                final URL url;
                 try {
-                    loadModule((String) list[i]);
-                } catch (XmlFileExceptionList e) {
+                    url = new URL(list[i]);
+                    try {
+                        loadModule(url);
+                    } catch (XmlFileExceptionList e) {
+                        errors = true;
+                    }
+                } catch (MalformedURLException e) {
+                    Trace.fatal(this, "loadPreviouslySuccessfullyLoadedModules", "internal error: "
+                        + "saved URLs are malformed",
+                        e);
                     errors = true;
                 }
             }
@@ -632,7 +652,7 @@ public class DefaultModuleFactory implements ModuleFactory {
         return kernel.getConfig().getRelativeToBasis(kernel.getConfig().getGenerationDirectory());
     }
 
-    public ModuleProperties getModuleProperties(final String address) {
+    public ModuleProperties getModuleProperties(final URL address) {
         try {
             final ModuleProperties prop = getModules().getModuleProperties(address);
             return prop;

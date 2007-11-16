@@ -18,6 +18,7 @@
 package org.qedeq.kernel.bo.load;
 
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -47,7 +48,7 @@ class Modules {
      * @return  module properties
      * @throws  IOException     url is mailformed
      */
-    final ModuleProperties getModuleProperties(final String url) throws IOException {
+    final ModuleProperties getModuleProperties(final URL url) throws IOException {
         synchronized (moduleProperties) {
             final ModuleAddress address = new DefaultModuleAddress(url);
             if (moduleProperties.containsKey(address)) {
@@ -142,7 +143,7 @@ class Modules {
      *
      * @return  list of all successfully loaded modules.
      */
-    final String[] getAllLoadedModules() {
+    final URL[] getAllLoadedModules() {
         final String method = "getAllModules";
         Trace.begin(this, method);
         try {
@@ -154,11 +155,11 @@ class Modules {
                     Map.Entry entry = (Map.Entry) iterator.next();
                     final ModuleProperties prop = (ModuleProperties) entry.getValue();
                     if (prop.getLoadingState().getCode() >= LoadingState.STATE_LOADED.getCode()) {
-                        list.add(prop.getAddress());
+                        list.add(prop.getUrl());
                     }
                 }
             }
-            return (String[]) list.toArray(new String[] {});
+            return (URL[]) list.toArray(new URL[] {});
         } finally {
             Trace.end(this, method);
         }

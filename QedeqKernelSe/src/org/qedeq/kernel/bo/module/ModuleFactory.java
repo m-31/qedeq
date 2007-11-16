@@ -19,6 +19,7 @@ package org.qedeq.kernel.bo.module;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.common.XmlFileExceptionList;
@@ -59,7 +60,7 @@ public interface ModuleFactory {
      * @return  Wanted module.
      * @throws  XmlFileExceptionList    Module could not be successfully loaded.
      */
-    public QedeqBo loadModule(final String address) throws XmlFileExceptionList;
+    public QedeqBo loadModule(URL address) throws XmlFileExceptionList;
 
     /**
      * Get a certain module.
@@ -68,7 +69,7 @@ public interface ModuleFactory {
      * @return  Wanted module.
      * @throws  XmlFileExceptionList    Module could not be successfully loaded.
      */
-    public QedeqBo loadModule(final ModuleAddress moduleAddress) throws XmlFileExceptionList;
+    public QedeqBo loadModule(ModuleAddress moduleAddress) throws XmlFileExceptionList;
 
     /**
      * Load a certain module.
@@ -78,7 +79,7 @@ public interface ModuleFactory {
      * @return wanted module
      * @throws XmlFileExceptionList     Module could not be successfully loaded.
      */
-    public QedeqBo loadModule(final QedeqBo module, final Specification spec)
+    public QedeqBo loadModule(QedeqBo module, final Specification spec)
             throws XmlFileExceptionList;
 
     /**
@@ -89,7 +90,7 @@ public interface ModuleFactory {
      *                                  This can also happen if the required modules references
      *                                  form a circle.
      */
-    public void loadRequiredModules(final String address) throws XmlFileExceptionList;
+    public void loadRequiredModules(final URL address) throws XmlFileExceptionList;
 
     /**
      * Load all QEDEQ modules from project web directory for current kernel.
@@ -105,14 +106,14 @@ public interface ModuleFactory {
      * @param   address     Address of module.
      * @throws  IOException    Module could not be successfully removed.
      */
-    public void removeModule(final String address) throws IOException;
+    public void removeModule(URL address) throws IOException;
 
     /**
      * Get list of all currently loaded QEDEQ modules.
      *
      * @return  All currently loaded QEDEQ modules.
      */
-    public String[] getAllLoadedModules();
+    public URL[] getAllLoadedModules();
 
      /**
      * Get buffer directory for QEDEQ module files.
@@ -135,7 +136,7 @@ public interface ModuleFactory {
      * @return  Existing or new {@link ModuleProperties}, if address is maleformed
      *          <code>null</code> is returned.
      */
-    public ModuleProperties getModuleProperties(final String address);
+    public ModuleProperties getModuleProperties(final URL address);
 
     /**
      * Transform an URL address into a local file path where the QEDEQ module is buffered.
