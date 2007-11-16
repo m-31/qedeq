@@ -83,7 +83,7 @@ class CheckLogicAction extends AbstractAction {
                                 + props[i].getAddress() + "\"");
 
                             // FIXME mime 20071024: testing:
-                            LoadRequiredModules.loadRequired(props[i].getModule());
+                            LoadRequiredModules.loadRequired(props[i].getUrl());
 
                             props[i].setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
                             ModuleEventLog.getInstance().stateChanged(props[i]);

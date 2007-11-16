@@ -20,6 +20,7 @@ package org.qedeq.gui.se.control;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
@@ -78,14 +79,14 @@ class AddFileAction extends AbstractAction {
         if (returnVal != JFileChooser.APPROVE_OPTION) {
             return;
         }
-        final String url;
+        final URL url;
 
         try {
 //              TODO causes problems: leads to "%20" entries for spaces
 //                url = chooser.getSelectedFile().toURI().toURL().toString();
 //              these must be converted like:
 //                "URI File=" + new File(new URI(this.address)).getAbsoluteFile()
-            url = chooser.getSelectedFile().toURL().toString();
+            url = chooser.getSelectedFile().toURL();
 
             // remember directory
             file = chooser.getSelectedFile().getParentFile();
@@ -95,7 +96,7 @@ class AddFileAction extends AbstractAction {
             return;
         }
 
-        controller.addToModuleHistory(url);
+        controller.addToModuleHistory(url.toExternalForm());
         final Thread thread = new Thread() {
             public void run() {
                 try {

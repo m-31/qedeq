@@ -18,6 +18,8 @@
 package org.qedeq.gui.se.control;
 
 import java.awt.event.ActionEvent;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
@@ -76,11 +78,22 @@ class AddAction extends AbstractAction {
             options,                         // options string array, will be made into buttons
             options[0]                       // option that should be made into a default button
         );
-        final String url;
+        final URL url;
         switch(result) {
         case 0:     // ok
-            url = (String) cb.getSelectedItem();
-            controller.addToModuleHistory(url);
+            try {
+                url = new URL((String) cb.getSelectedItem());
+                controller.addToModuleHistory(url.toExternalForm());
+            } catch (MalformedURLException e1) {
+                Trace.trace(this, "actionPerformed", "no correct URL", e1);
+                JOptionPane.showMessageDialog(
+                    controller.getMainFrame(),       // the parent that the dialog blocks
+                    "this is no valid URL: " + cb.getSelectedItem(), // message
+                    "Error",                         // title
+                    JOptionPane.ERROR_MESSAGE        // message type
+                );
+                return;
+            }
             break;
         case 1:     // cancel, fall through default
         default:

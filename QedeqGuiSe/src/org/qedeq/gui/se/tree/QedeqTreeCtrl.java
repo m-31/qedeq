@@ -204,7 +204,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
            try {
                ModuleProperties[] moduleProperties = getSelected();
                for (int i = 0; i < moduleProperties.length; i++) {
-                   KernelContext.getInstance().removeModule(moduleProperties[i].getAddress());
+                   KernelContext.getInstance().removeModule(moduleProperties[i].getUrl());
                }
         } catch (NothingSelectedException e1) {
             // TODO Auto-generated catch block
