@@ -89,7 +89,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      */
     public void testLoadRequiredModules_01() throws Exception {
         final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM011.xml"));
-        KernelContext.getInstance().loadRequiredModules(url.toString());
+        KernelContext.getInstance().loadRequiredModules(url);
     }
 
     /**
@@ -103,7 +103,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
     public void testLoadRequiredModules_02() throws Exception {
         try {
             final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM021.xml"));
-            KernelContext.getInstance().loadRequiredModules(url.toString());
+            KernelContext.getInstance().loadRequiredModules(url);
             fail("021 -> 021 cycle");
         } catch (XmlFileExceptionList e) {
             assertEquals(1, e.size());
@@ -124,7 +124,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
     public void testLoadRequiredModules_03() throws Exception {
         try {
             final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM031.xml"));
-            KernelContext.getInstance().loadRequiredModules(url.toString());
+            KernelContext.getInstance().loadRequiredModules(url);
             fail("031 -> 032 -> 031 cycle");
         } catch (XmlFileExceptionList e) {
             assertEquals(1, e.size());
@@ -147,7 +147,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
     public void pestLoadRequiredModules_04() throws Exception {
         try {
             final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM041.xml"));
-            KernelContext.getInstance().loadRequiredModules(url.toString());
+            KernelContext.getInstance().loadRequiredModules(url);
             fail("041 -> 042 -> 043 -> 044 -> 042 cycle\n"
                + "041 -> 043 -> 044 -> 042 -> 043 cycle\n"
                + "041 -> 044 -> 042 -> 043 -> 044 cycle");
@@ -179,7 +179,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      */
     public void testLoadRequiredModules_05() throws Exception {
         final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM051.xml"));
-        KernelContext.getInstance().loadRequiredModules(url.toString());
+        KernelContext.getInstance().loadRequiredModules(url);
     }
 
     /**
@@ -198,7 +198,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      */
     public void testLoadRequiredModules_06() throws Exception {
         final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM061.xml"));
-        KernelContext.getInstance().loadRequiredModules(url.toString());
+        KernelContext.getInstance().loadRequiredModules(url);
     }
 
     /**
@@ -228,7 +228,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
     public void pestLoadRequiredModules_07() throws Exception {
         try {
             final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM071.xml"));
-            KernelContext.getInstance().loadRequiredModules(url.toString());
+            KernelContext.getInstance().loadRequiredModules(url);
             fail("see test method description");
         } catch (XmlFileExceptionList e) {
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
@@ -264,7 +264,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      */
     public void testLoadRequiredModules_08() throws Exception {
         final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM081.xml"));
-        KernelContext.getInstance().loadRequiredModules(url.toString());
+        KernelContext.getInstance().loadRequiredModules(url);
     }
 
     /**
@@ -278,7 +278,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
     public void testLoadRequiredModules_09() throws Exception {
         try {
             final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM091.xml"));
-            KernelContext.getInstance().loadRequiredModules(url.toString());
+            KernelContext.getInstance().loadRequiredModules(url);
             fail("091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 098 -> 099 -> 091 cycle\n");
         } catch (XmlFileExceptionList e) {
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
