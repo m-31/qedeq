@@ -2134,32 +2134,367 @@
         </LATEX>
       </TITLE>
       <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            For predicate calculus we achieve the following propositions.
+          ]]>
+        </LATEX>
         <LATEX language="de">
           <![CDATA[
             Für die Prädikatenlogik ergeben sich die folgenden Sätze.
-
-\begin{thm}\hypertarget{elmpred}{}
-\begin{eqnarray}
-\forall x \ (\phi(x) \rightarrow \psi(x)) & \rightarrow & \forall x \ (\phi(x)) \rightarrow \forall x \ (\psi(x)) \\
-\forall x \ (\phi(x) \rightarrow \psi(x)) & \rightarrow & \exists x \ (\phi(x)) \rightarrow \exists x \ (\psi(x)) \\
-\exists x \ (\phi(x) \land \psi(x)) & \rightarrow & \exists x \ (\phi(x)) \land \exists x \ (\psi(x)) \\
-\forall x \ (\psi(x)) \lor \forall x \ (\psi(x)) & \rightarrow & \forall x \ (\phi(x) \lor \psi(x)) \\
-\exists x \ (\phi(x) \lor \psi(x))) & \leftrightarrow & \exists x \ (\phi(x)) \lor \exists x \ (\psi(x)) \\
-\forall x \ (\phi(x) \land \psi(x))) & \leftrightarrow & \forall x \ (\phi(x)) \land \forall x \ (\psi(x)) \hypertarget{allandpp}{}\\
-\forall x \ \forall y \ (\phi(x, y)) & \leftrightarrow & \forall y \ \forall x \ (\phi(x, y)) \\
-\exists x \ \exists y \ (\phi(x, y)) & \leftrightarrow & \exists y \ \exists x \ (\phi(x, y)) \\
-\forall x \ (\phi(x) \rightarrow A) & \leftrightarrow & (\forall x \ (\phi(x)) \rightarrow A) \\
-\forall x \ (A \rightarrow \phi(x)) & \leftrightarrow & (A \rightarrow \forall x \ (\phi(x))) \\
-\forall x \ (\phi(x) \land A) & \leftrightarrow & \forall x \ (\phi(x)) \land A \\
-\forall x \ (\phi(x) \lor A) & \leftrightarrow & (\forall x \ (\phi(x)) \lor A) \\
-\forall x \ (\phi(x) \leftrightarrow A) & \leftrightarrow & (\forall x \ (\phi(x)) \leftrightarrow A)
-\end{eqnarray}
-+++ ergänzen
-\end{thm}
-
           ]]>
         </LATEX>
       </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE id="theorem:predicateCalculus">
+          <NAME>
+            <LATEX language="en">basic propositions</LATEX>
+            <LATEX language="de">Elementare Sätze</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Basic Propositions\index{propositions!of predicate calculus}</LATEX>
+            <LATEX language="de">Elementare Sätze\index{Sätze!der Prädikaten}</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                We have the following basic propositions.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Wir haben die folgenden elementaren Aussagen.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <THEOREM>
+            <FORMULA>
+              <AND>
+      
+                <IMPL>
+                  <FORALL>
+                    <VAR id="x" />
+                    <IMPL>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </IMPL>
+                  </FORALL>
+                  <IMPL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                  </IMPL>
+                </IMPL>
+
+                <IMPL>
+                  <FORALL>
+                    <VAR id="x" />
+                    <IMPL>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </IMPL>
+                  </FORALL>
+                  <IMPL>
+                    <EXISTS>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EXISTS>
+                    <EXISTS>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EXISTS>
+                  </IMPL>
+                </IMPL>
+
+                <IMPL>
+                  <EXISTS>
+                    <VAR id="x" />
+                    <AND>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </AND>
+                  </EXISTS>
+                  <AND>
+                    <EXISTS>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EXISTS>
+                    <EXISTS>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EXISTS>
+                  </AND>
+                </IMPL>
+
+                <IMPL>
+                  <OR>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                  </OR>
+                  <FORALL>
+                    <VAR id="x" />
+                    <OR>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </OR>
+                  </FORALL>
+                </IMPL>
+
+                <EQUI>
+                  <EXISTS>
+                    <VAR id="x" />
+                    <OR>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </OR>
+                  </EXISTS>
+                  <OR>
+                    <EXISTS>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EXISTS>
+                    <EXISTS>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EXISTS>
+                  </OR>
+                </EQUI>
+
+                <EQUI>
+                  <FORALL>
+                    <VAR id="x" />
+                    <AND>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </AND>
+                  </FORALL>
+                  <AND>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                  </AND>
+                </EQUI>
+
+                <EQUI>
+                  <FORALL>
+                    <VAR id="x" />
+                    <FORALL>
+                      <VAR id="y" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                        <VAR id="y" />
+                      </PREDVAR>
+                    </FORALL>
+                  </FORALL>
+                  <FORALL>
+                    <VAR id="y" />
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                        <VAR id="y" />
+                      </PREDVAR>
+                    </FORALL>
+                  </FORALL>
+                </EQUI>
+
+                <EQUI>
+                  <EXISTS>
+                    <VAR id="x" />
+                    <EXISTS>
+                      <VAR id="y" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                        <VAR id="y" />
+                      </PREDVAR>
+                    </EXISTS>
+                  </EXISTS>
+                  <EXISTS>
+                    <VAR id="y" />
+                    <EXISTS>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                        <VAR id="y" />
+                      </PREDVAR>
+                    </EXISTS>
+                  </EXISTS>
+                </EQUI>
+
+                <EQUI>
+                  <FORALL>
+                    <VAR id="x" />
+                    <IMPL>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="A" />
+                    </IMPL>
+                  </FORALL>
+                  <IMPL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <PREDVAR id="A" />
+                  </IMPL>
+                </EQUI>
+
+                <EQUI>
+                  <FORALL>
+                    <VAR id="x" />
+                    <IMPL>
+                      <PREDVAR id="A" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </IMPL>
+                  </FORALL>
+                  <IMPL>
+                    <PREDVAR id="A" />
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                  </IMPL>
+                </EQUI>
+
+                <EQUI>
+                  <FORALL>
+                    <VAR id="x" />
+                    <AND>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="A" />
+                    </AND>
+                  </FORALL>
+                  <AND>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <PREDVAR id="A" />
+                  </AND>
+                </EQUI>
+
+                <EQUI>
+                  <FORALL>
+                    <VAR id="x" />
+                    <OR>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="A" />
+                    </OR>
+                  </FORALL>
+                  <OR>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <PREDVAR id="A" />
+                  </OR>
+                </EQUI>
+
+                <EQUI>
+                  <FORALL>
+                    <VAR id="x" />
+                    <EQUI>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="A" />
+                    </EQUI>
+                  </FORALL>
+                  <EQUI>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <PREDVAR id="A" />
+                  </EQUI>
+                </EQUI>
+
+              </AND>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
+      </SUBSECTIONS>
     </SECTION>
     <SECTION>
       <TITLE>
