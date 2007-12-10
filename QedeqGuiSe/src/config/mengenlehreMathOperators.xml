@@ -125,21 +125,21 @@
  		max		        = "1"
  	/>
  	
- 	<prefixOperator 
+ 	<functionOperator 
  		startSymbol	  = "phi"
  		qedeq		  = "PREDVAR"
  		qedeqArgument = "\phi"
  		priority	  = "200"
  		min		      = "1"
- 		max		      = "1"
+ 		max		      = "2"
  	/>
- 	<prefixOperator 
+ 	<functionOperator 
  		startSymbol	  = "psi"
  		qedeq		  = "PREDVAR"
  		qedeqArgument = "\psi"
  		priority	  = "200"
  		min		      = "1"
- 		max		      = "1"
+ 		max		      = "2"
  	/>
  	<functionOperator 
  		startSymbol	  = "alpha"
@@ -273,18 +273,21 @@
  		qedeq		  = "DEFP"
  		priority	  = "10"
  		min		      = "2"
+ 		max		      = "2"
  	/>
  	<infixOperator 
  		startSymbol	  = "deft"
  		qedeq		  = "DEFT"
  		priority	  = "10"
  		min		      = "2"
+ 		max		      = "2"
  	/>
  	<infixOperator 
  		startSymbol	  = ":="
  		qedeq		  = "DEFT"
  		priority	  = "10"
  		min		      = "2"
+ 		max		      = "2"
  	/>
  	<infixOperator 
  		startSymbol	  = "subset"
