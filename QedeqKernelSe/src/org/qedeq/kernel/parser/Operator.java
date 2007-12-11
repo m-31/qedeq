@@ -318,12 +318,29 @@ public final class Operator {
 
     public final String toString() {
         final StringBuffer buffer = new StringBuffer(getStartSymbol());
+        buffer.append("[" + getMin() + ", ");
+        if (getMax() == -1) {
+            buffer.append("..");
+        } else {
+            buffer.append(getMax());
+        }
+        buffer.append("]");
         if (getSeparatorSymbol() != null) {
             buffer.append(" ").append(getSeparatorSymbol());
         }
         if (getEndSymbol() != null) {
             buffer.append(" ").append(getEndSymbol());
         }
+        if (isFunction()) {
+            buffer.append(", is function");
+        }
+        if (isPrefix()) {
+            buffer.append(", is prefix");
+        }
+        if (isInfix()) {
+            buffer.append(", is infix");
+        }
+        
         return buffer.toString();
     }
 
