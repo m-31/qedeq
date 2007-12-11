@@ -38,7 +38,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JViewport;
 
 import org.qedeq.gui.se.element.CPTextArea;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.parser.LatexMathParser;
 import org.qedeq.kernel.parser.ParserException;
@@ -80,7 +80,7 @@ public class ParserPane extends JFrame {
     private JSplitPane globalPane;
 
 
-    public ParserPane() throws XmlFileExceptionList, FileNotFoundException {
+    public ParserPane() throws SourceFileExceptionList, FileNotFoundException {
         // TODO mime: hard coded window, change to FormLayout
         super("QEDEQ LaTeX Parser Sample");
         final String resourceDirectoryName = "config";
@@ -329,7 +329,18 @@ public class ParserPane extends JFrame {
             result.append(pointer);
             System.out.println(result.toString());
             error.setText(result.toString());
-
+        } catch (Exception e) {
+            e.printStackTrace(System.out);
+            final StringBuffer result = new StringBuffer();
+            errorPosition = input.getPosition();
+            result.append(input.getRow() + ":" + input.getColumn() + ":" + "\n");
+            result.append(e.getMessage() + "\n");
+            result.append(input.getLine().replace('\t', ' ').replace('\015', ' ') + "\n");
+            final StringBuffer pointer = IoUtility.getSpaces(input.getColumn());
+            pointer.append('^');
+            result.append(pointer);
+            System.out.println(result.toString());
+            error.setText(result.toString());
         }
         return out.toString();
     }
