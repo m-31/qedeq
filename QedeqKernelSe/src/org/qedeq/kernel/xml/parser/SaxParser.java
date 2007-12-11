@@ -27,9 +27,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import org.qedeq.kernel.common.SyntaxExceptionList;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.IoUtility;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
@@ -70,7 +71,7 @@ public final class SaxParser {
     private final DefaultHandler deflt;
 
     /** Saved errors of parsing. */
-    private SyntaxExceptionList exceptionList;
+    private DefaultSourceFileExceptionList exceptionList;
 
     /**
      * Constructor.
@@ -144,11 +145,13 @@ public final class SaxParser {
      * Parse input source.
      *
      * @param   url             Parse data from this source.
+     * @param   original        Original URL for the file. If this is <code>null</code> same as
+     *                          file name.
      * @param   validateOnly    validate with {@link #deflt} or parse with {@link #handler}.
-     * @throws  XmlFileExceptionList    Loading failed.
+     * @throws  SourceFileExceptionList    Loading failed.
      */
-    private void parse(final URL url, final boolean validateOnly)
-            throws XmlFileExceptionList {
+    private void parse(final URL url, final URL original, final boolean validateOnly)
+            throws SourceFileExceptionList {
         final String method = "parse(URL, boolean)";
         Trace.param(this, method, "url", url);
 
@@ -156,7 +159,7 @@ public final class SaxParser {
         try {
             in = url.openStream();
         } catch (IOException e) {
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         }
         try {
             parse(url, validateOnly, in);
@@ -174,41 +177,39 @@ public final class SaxParser {
     /**
      * Parse input source.
      *
-     * @param   url             Source URL. Only for information.
+     * @param   original        Original URL for the file. If this is <code>null</code> same as
+     *                          file name.
      * @param   validateOnly    validate with {@link #deflt} or parse with {@link #handler}.
      * @param   in              Parse data from this source.
-     * @throws  XmlFileExceptionList    Loading failed.
+     * @throws  SourceFileExceptionList    Loading failed.
      */
-    private void parse(final URL url, final boolean validateOnly, final InputStream in)
-            throws XmlFileExceptionList {
+    private void parse(final URL original, final boolean validateOnly, final InputStream in)
+            throws SourceFileExceptionList {
         final String method = "parse(URL, boolean, InputStream)";
         BufferedReader dis = null;
         try {
             dis = new BufferedReader(new InputStreamReader(in));
             final InputSource input = new InputSource(dis);
-            exceptionList = new SyntaxExceptionList();
-            reader.setErrorHandler(new SaxErrorHandler(url, exceptionList));
+            exceptionList = new DefaultSourceFileExceptionList();
+            reader.setErrorHandler(new SaxErrorHandler(original, exceptionList));
             if (validateOnly) {
                 reader.setContentHandler(deflt);
                 reader.parse(input);
             } else {
                 handler.setExceptionList(exceptionList);
                 reader.setContentHandler(handler);
-                handler.setUrl(url);
+                handler.setUrl(original);
                 reader.parse(input);
             }
         } catch (SAXException e) {
-            final DefaultXmlFileExceptionList list
-                = new DefaultXmlFileExceptionList(exceptionList);
+            final SourceFileException ex = new SourceFileException(e);
             if (exceptionList.size() <= 0) {
-                list.add(e);
+                exceptionList.add(ex);
             }
-            throw list;
+            throw exceptionList;
         } catch (IOException e) {
-            final DefaultXmlFileExceptionList list
-                = new DefaultXmlFileExceptionList(exceptionList);
-            list.add(e);
-            throw list;
+            exceptionList.add(e);
+            throw exceptionList;
         } finally {
             if (dis != null) {
                 try {
@@ -219,7 +220,7 @@ public final class SaxParser {
             }
         }
         if (exceptionList.size() > 0) {
-            throw new DefaultXmlFileExceptionList(exceptionList);
+            throw exceptionList;
         }
     }
 
@@ -227,42 +228,41 @@ public final class SaxParser {
      * Parses XML file.
      *
      * @param   fileName        File name.
-     * @throws  XmlFileExceptionList    Loading failed.
+     * @param   original        Original URL for the file. If this is <code>null</code> same as
+     *                          file name.
+     * @throws  SourceFileExceptionList    Loading failed.
      */
-    public final void parse(final String fileName) throws XmlFileExceptionList {
+    public final void parse(final String fileName, final URL original)
+            throws SourceFileExceptionList {
         final File file = new File(fileName);
-        parse(file.getAbsoluteFile());
+        parse(file.getAbsoluteFile(), original);
     }
 
     /**
      * Parses the XML file.
      *
      * @param   file            File to parse.
-     * @throws  XmlFileExceptionList    Loading failed.
+     * @param   original        Original URL for the file. If this is <code>null</code> same as
+     *                          file.
+     * @throws  SourceFileExceptionList    Loading failed.
      */
-    public final void parse(final File file) throws XmlFileExceptionList {
-        final URL url;
-        try {
-            url = file.getAbsoluteFile().toURI().toURL();
-        } catch (IOException e) {
-            final DefaultXmlFileExceptionList list
-                = new DefaultXmlFileExceptionList();
-            list.add(e);
-            throw list;
-        }
-        parse(url, true);
-        parse(url, false);
+    public final void parse(final File file, final URL original) throws SourceFileExceptionList {
+        final URL url = IoUtility.toUrl(file.getAbsoluteFile());
+        parse(url, original);
     }
 
     /**
      * Parses the XML file.
      *
      * @param   url             URL with File to parse.
-     * @throws  XmlFileExceptionList    Loading failed.
+     * @param   original        Original URL for the file. If this is <code>null</code> same as
+     *                          file.
+     * @throws  SourceFileExceptionList    Loading failed.
      */
-    public final void parse(final URL url) throws XmlFileExceptionList {
-        parse(url, true);
-        parse(url, false);
+    public final void parse(final URL url, final URL original) throws SourceFileExceptionList {
+        final URL org = (original != null ? original : url);
+        parse(url, org, true);
+        parse(url, org, false);
     }
 
     /**
@@ -270,10 +270,10 @@ public final class SaxParser {
      *
      * @param   in              Parse data from this source.
      * @param   validateOnly    Validate or parse with handler.
-     * @throws  XmlFileExceptionList    Loading failed.
+     * @throws  SourceFileExceptionList    Loading failed.
      */
     public void parse(final InputStream in, final boolean validateOnly)
-            throws XmlFileExceptionList {
+            throws SourceFileExceptionList {
 
         // validateOnly    validate with {@link #deflt} or parse with {@link #handler}.
         parse(null, validateOnly, in);
@@ -284,7 +284,7 @@ public final class SaxParser {
      *
      * @return  List with collected Exceptions.
      */
-    public SyntaxExceptionList getExceptionList() {
+    public DefaultSourceFileExceptionList getExceptionList() {
         return exceptionList;
     }
 
