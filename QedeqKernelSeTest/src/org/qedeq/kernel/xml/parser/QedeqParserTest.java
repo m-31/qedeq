@@ -81,7 +81,7 @@ public class QedeqParserTest extends QedeqTestCase {
      */
     public void testParse1() throws Exception {
         try {
-            parser1.parse("data/qedeq.xml");
+            parser1.parse("data/qedeq.xml", null);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             throw e;
@@ -95,7 +95,7 @@ public class QedeqParserTest extends QedeqTestCase {
      */
     public void testParse2() throws Exception {
         try {
-            parser2.parse("data/qedeq.xml");
+            parser2.parse("data/qedeq.xml", null);
         } catch (Exception e) {
             System.err.println(e.getMessage());
             throw e;
