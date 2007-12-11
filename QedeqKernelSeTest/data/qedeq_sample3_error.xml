@@ -41,6 +41,7 @@
       <IMPORT label="predlogic">
         <SPECIFICATION name="predlogic" ruleVersion="1.00.00">
           <LOCATIONS>
+            <LOCATION value="."/>
             <LOCATION value="http://qedeq.org/0_03_06/sample"/>
           </LOCATIONS>
         </SPECIFICATION>
@@ -48,6 +49,7 @@
       <IMPORT label="proplogic">
         <SPECIFICATION name="proplogic" ruleVersion="1.00.00">
           <LOCATIONS>
+            <LOCATION value="."/>
             <LOCATION value="http://qedeq.org/0_03_06/sample"/>
           </LOCATIONS>
         </SPECIFICATION>

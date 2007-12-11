@@ -35,8 +35,9 @@
     </AUTHORS>
     <IMPORTS>
       <IMPORT label="predlogic">
-        <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
+        <SPECIFICATION name="predlogic" ruleVersion="1.00.00">
           <LOCATIONS>
+            <LOCATION value="."/>
             <LOCATION value="http://qedeq.org/0_03_06/sample"/>
           </LOCATIONS>
         </SPECIFICATION>
@@ -44,6 +45,7 @@
       <IMPORT label="proplogic">
         <SPECIFICATION name="proplogic" ruleVersion="1.00.00">
           <LOCATIONS>
+            <LOCATION value="."/>
             <LOCATION value="http://qedeq.org/0_03_06/sample"/>
           </LOCATIONS>
         </SPECIFICATION>
