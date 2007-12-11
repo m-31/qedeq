@@ -27,9 +27,8 @@ import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.common.SyntaxException;
-import org.qedeq.kernel.common.XmlFileException;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
@@ -37,7 +36,8 @@ import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
-import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
+import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
+import org.xml.sax.SAXParseException;
 
 /**
  * Test generating LaTeX files for all known samples.
@@ -87,11 +87,11 @@ public final class GenerateLatexTest extends QedeqTestCase {
             generate(new File("."), "data/qedeq_sample2_error.xml", "de",
                 new File("."));
             fail("IllegalModuleDataException expected");
-        } catch (XmlFileExceptionList list) {
-            DefaultXmlFileExceptionList ex = (DefaultXmlFileExceptionList) list;
+        } catch (SourceFileExceptionList list) {
+            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
             System.out.println(ex);
             assertEquals(1, ex.size());
-            XmlFileException e = ex.get(0);
+            SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof ModuleDataException);
             assertEquals(10002, e.getErrorCode());
             assertEquals(221, e.getSourceArea().getStartPosition().getLine());
@@ -104,15 +104,15 @@ public final class GenerateLatexTest extends QedeqTestCase {
             generate(new File("."), "data/qedeq_sample3_error.xml", "en",
                 new File("."));
             fail("IllegalModuleDataException expected");
-        } catch (XmlFileExceptionList list) {
-            DefaultXmlFileExceptionList ex = (DefaultXmlFileExceptionList) list;
+        } catch (SourceFileExceptionList list) {
+            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
             System.out.println(ex);
             assertEquals(1, ex.size());
-            XmlFileException e = ex.get(0);
+            SourceFileException e = ex.get(0);
             System.out.println(e.getCause().getClass().getName());
-            assertTrue(e.getCause() instanceof SyntaxException);
+            assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
-            assertEquals(311, e.getSourceArea().getStartPosition().getLine());
+            assertEquals(313, e.getSourceArea().getStartPosition().getLine());
             assertEquals(30, e.getSourceArea().getStartPosition().getColumn());
         }
     }
@@ -122,41 +122,41 @@ public final class GenerateLatexTest extends QedeqTestCase {
             generate(new File("."), "data/qedeq_sample4_error.xml", "en",
                 new File("."));
             fail("IllegalModuleDataException expected");
-        } catch (XmlFileExceptionList list) {
-            DefaultXmlFileExceptionList ex = (DefaultXmlFileExceptionList) list;
+        } catch (SourceFileExceptionList list) {
+            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
             assertEquals(7, ex.size());
-            XmlFileException e = ex.get(0);
-            assertTrue(e.getCause() instanceof SyntaxException);
+            SourceFileException e = ex.get(0);
+            assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(13, e.getSourceArea().getStartPosition().getLine());
             assertEquals(13, e.getSourceArea().getStartPosition().getColumn());
             e = ex.get(1);
-            assertTrue(e.getCause() instanceof SyntaxException);
+            assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(16, e.getSourceArea().getStartPosition().getLine());
             assertEquals(16, e.getSourceArea().getStartPosition().getColumn());
             e = ex.get(2);
-            assertTrue(e.getCause() instanceof SyntaxException);
+            assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(19, e.getSourceArea().getStartPosition().getLine());
             assertEquals(15, e.getSourceArea().getStartPosition().getColumn());
             e = ex.get(3);
-            assertTrue(e.getCause() instanceof SyntaxException);
+            assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(22, e.getSourceArea().getStartPosition().getLine());
             assertEquals(15, e.getSourceArea().getStartPosition().getColumn());
             e = ex.get(4);
-            assertTrue(e.getCause() instanceof SyntaxException);
+            assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(26, e.getSourceArea().getStartPosition().getLine());
             assertEquals(23, e.getSourceArea().getStartPosition().getColumn());
             e = ex.get(5);
-            assertTrue(e.getCause() instanceof SyntaxException);
+            assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(69, e.getSourceArea().getStartPosition().getLine());
             assertEquals(47, e.getSourceArea().getStartPosition().getColumn());
             e = ex.get(6);
-            assertTrue(e.getCause() instanceof SyntaxException);
+            assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(98, e.getSourceArea().getStartPosition().getLine());
             assertEquals(47, e.getSourceArea().getStartPosition().getColumn());
@@ -168,14 +168,14 @@ public final class GenerateLatexTest extends QedeqTestCase {
             generate(new File("."), "data/qedeq_sample5_error.xml", "en",
                 new File("."));
             fail("IllegalModuleDataException expected");
-        } catch (XmlFileExceptionList list) {
-            DefaultXmlFileExceptionList ex = (DefaultXmlFileExceptionList) list;
+        } catch (SourceFileExceptionList list) {
+            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
             assertEquals(1, ex.size());
-            XmlFileException e = ex.get(0);
+            SourceFileException e = ex.get(0);
             System.out.println(e.getCause().getClass().getName());
             assertTrue(e.getCause() instanceof LogicalCheckException);
             assertEquals(30550, e.getErrorCode());
-            assertEquals(166, e.getSourceArea().getStartPosition().getLine());
+            assertEquals(168, e.getSourceArea().getStartPosition().getLine());
             assertEquals(15, e.getSourceArea().getStartPosition().getColumn());
         }
     }
@@ -185,14 +185,14 @@ public final class GenerateLatexTest extends QedeqTestCase {
             generate(new File("."), "data/qedeq_sample6_error.xml", "en",
                 new File("."));
             fail("IllegalModuleDataException expected");
-        } catch (XmlFileExceptionList list) {
-            DefaultXmlFileExceptionList ex = (DefaultXmlFileExceptionList) list;
+        } catch (SourceFileExceptionList list) {
+            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
             assertEquals(1, ex.size());
-            XmlFileException e = ex.get(0);
+            SourceFileException e = ex.get(0);
             System.out.println(e.getCause().getClass().getName());
             assertTrue(e.getCause() instanceof LogicalCheckException);
             assertEquals(30590, e.getErrorCode());
-            assertEquals(284, e.getSourceArea().getStartPosition().getLine());
+            assertEquals(286, e.getSourceArea().getStartPosition().getLine());
             assertEquals(21, e.getSourceArea().getStartPosition().getColumn());
         }
     }
@@ -202,14 +202,14 @@ public final class GenerateLatexTest extends QedeqTestCase {
             generate(new File("."), "data/qedeq_sample7_error.xml", "en",
                 new File("."));
             fail("IllegalModuleDataException expected");
-        } catch (XmlFileExceptionList list) {
-            DefaultXmlFileExceptionList ex = (DefaultXmlFileExceptionList) list;
+        } catch (SourceFileExceptionList list) {
+            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
             assertEquals(1, ex.size());
-            XmlFileException e = ex.get(0);
+            SourceFileException e = ex.get(0);
             System.out.println(e.getCause().getClass().getName());
             assertTrue(e.getCause() instanceof LogicalCheckException);
             assertEquals(30780, e.getErrorCode());
-            assertEquals(294, e.getSourceArea().getStartPosition().getLine());
+            assertEquals(296, e.getSourceArea().getStartPosition().getLine());
             assertEquals(17, e.getSourceArea().getStartPosition().getColumn());
         }
     }
@@ -219,14 +219,14 @@ public final class GenerateLatexTest extends QedeqTestCase {
             generate(new File("."), "data/qedeq_sample8_error.xml", "en",
                 new File("."));
             fail("IllegalModuleDataException expected");
-        } catch (XmlFileExceptionList list) {
-            DefaultXmlFileExceptionList ex = (DefaultXmlFileExceptionList) list;
+        } catch (SourceFileExceptionList list) {
+            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
             assertEquals(1, ex.size());
-            XmlFileException e = ex.get(0);
+            SourceFileException e = ex.get(0);
             System.out.println(e.getCause().getClass().getName());
             assertTrue(e.getCause() instanceof ModuleDataException);
             assertEquals(1001, e.getErrorCode());
-            assertEquals(304, e.getSourceArea().getStartPosition().getLine());
+            assertEquals(306, e.getSourceArea().getStartPosition().getLine());
             assertEquals(15, e.getSourceArea().getStartPosition().getColumn());
         }
     }
@@ -264,7 +264,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
      * @throws  XmlFilePositionException File data is invalid.
      */
     private static void generate(final File dir, final String xml, final String language,
-            final File destinationDirectory) throws IOException, XmlFileExceptionList {
+            final File destinationDirectory) throws IOException, SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
         final QedeqBo qedeqBo = KernelFacade.getKernelContext().loadModule(IoUtility.toUrl(xmlFile)
             );
