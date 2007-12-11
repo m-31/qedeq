@@ -29,9 +29,10 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.common.SyntaxExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.handler.list.ElementHandler;
+import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxErrorHandler;
 import org.xml.sax.InputSource;
@@ -82,7 +83,7 @@ public class TestParser {
             throws IOException, SAXException {
         final String method = "parse(URL, boolean, InputStream)";
         BufferedReader dis = null;
-        SyntaxExceptionList exceptionList = new SyntaxExceptionList();;
+        DefaultSourceFileExceptionList exceptionList = new DefaultSourceFileExceptionList();;
         try {
             dis = new BufferedReader(new InputStreamReader(in));
             final InputSource input = new InputSource(dis);

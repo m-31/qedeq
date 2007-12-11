@@ -27,13 +27,12 @@ import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
 import org.qedeq.kernel.bo.load.QedeqBoFactory;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.common.SyntaxException;
-import org.qedeq.kernel.common.XmlFileException;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
-import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
+import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxParser;
 import org.xml.sax.SAXException;
@@ -60,32 +59,29 @@ public final class CheckLogicTest extends QedeqTestCase {
     public void testNegative00() throws Exception {
         try {
             generate(new File("."), "data/qedeq_error_sample_00.xml");
-            fail("SAXException expected");
-        } catch (DefaultXmlFileExceptionList ex) {
+            fail("DefaultSourceFileExceptionList expected");
+        } catch (DefaultSourceFileExceptionList ex) {
             System.out.println(ex);
             assertEquals(1, ex.size());
-            final XmlFileException e = ex.get(0);
-            assertTrue(e.getCause() instanceof SyntaxException);
-            final SyntaxException check = (SyntaxException) e.getCause();
+            final SourceFileException check = ex.get(0);
+            check.printStackTrace();
             assertEquals(9001, check.getErrorCode());
-            assertEquals(36, check.getErrorPosition().getLine());
-            assertEquals(20, check.getErrorPosition().getColumn());
+            assertEquals(36, check.getSourceArea().getStartPosition().getLine());
+            assertEquals(20, check.getSourceArea().getStartPosition().getColumn());
         }
     }
     
     public void testNegative01() throws Exception {
         try {
             generate(new File("."), "data/qedeq_error_sample_01.xml");
-            fail("SAXException expected");
-        } catch (DefaultXmlFileExceptionList ex) {
+            fail("DefaultSourceFileExceptionList expected");
+        } catch (DefaultSourceFileExceptionList ex) {
             System.out.println(ex);
             assertEquals(1, ex.size());
-            final XmlFileException e = ex.get(0);
-            assertTrue(e.getCause() instanceof SyntaxException);
-            final SyntaxException check = (SyntaxException) e.getCause();
+            final SourceFileException check = ex.get(0);
             assertEquals(9001, check.getErrorCode());
-            assertEquals(39, check.getErrorPosition().getLine());
-            assertEquals(35, check.getErrorPosition().getColumn());
+            assertEquals(39, check.getSourceArea().getStartPosition().getLine());
+            assertEquals(35, check.getSourceArea().getStartPosition().getColumn());
         }
     }
     
@@ -139,7 +135,7 @@ public final class CheckLogicTest extends QedeqTestCase {
      */
     private static void generate(final File dir, final String xml) throws IOException, 
             ParserConfigurationException, SAXException, ModuleDataException,
-            XmlFileExceptionList {
+            SourceFileExceptionList {
         final File xmlFile = new File(dir, xml).getAbsoluteFile();
         
         final String context = xmlFile.getAbsolutePath();
@@ -147,7 +143,7 @@ public final class CheckLogicTest extends QedeqTestCase {
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
         SaxParser parser = new SaxParser(handler);
-        parser.parse(xmlFile);
+        parser.parse(xmlFile, null);
         Qedeq qedeq = simple.getQedeq();
         final QedeqBo qedeqBo = QedeqBoFactory.createQedeq(context, qedeq);
         QedeqBoFormalLogicChecker.check(context, qedeqBo);
