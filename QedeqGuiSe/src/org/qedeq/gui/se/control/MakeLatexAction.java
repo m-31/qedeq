@@ -24,7 +24,7 @@ import javax.swing.AbstractAction;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.ModuleProperties;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.latex.Xml2Latex;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
@@ -71,13 +71,14 @@ class MakeLatexAction extends AbstractAction {
                                 + props[i].getAddress() + "\"");
                             final String[] languages = controller.getSupportedLanguages(props[i]);
                             for (int j = 0; j < languages.length; j++) {
-                                Xml2Latex.generate(props[i], null, languages[j], null);
+                                final String result =
+                                    Xml2Latex.generate(props[i], null, languages[j], null);
                                 QedeqLog.getInstance().logSuccessfulReply(
                                     "LaTeX for language \"" + languages[j]
                                     + "\" was generated from \""
-                                    + props[i].getAddress() + "\"");
+                                    + props[i].getAddress() + "\" into \"" + result + "\"");
                             }
-                        } catch (final XmlFileExceptionList e) {
+                        } catch (final SourceFileExceptionList e) {
                             final String msg = "Generation failed for \""
                                 + props[i].getAddress() + "\"";
                             Trace.fatal(this, method, msg, e);
