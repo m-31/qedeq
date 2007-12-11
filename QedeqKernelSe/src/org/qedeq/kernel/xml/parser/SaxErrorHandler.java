@@ -19,8 +19,10 @@ package org.qedeq.kernel.xml.parser;
 
 import java.net.URL;
 
-import org.qedeq.kernel.common.SyntaxException;
-import org.qedeq.kernel.common.SyntaxExceptionList;
+import org.qedeq.kernel.common.SourceArea;
+import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.common.SourcePosition;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -34,11 +36,14 @@ import org.xml.sax.SAXParseException;
  */
 public class SaxErrorHandler implements ErrorHandler {
 
+    /** Error code for Exceptions thrown by the SAXParser. */
+    public static final int SAX_PARSER_EXCEPTION = 9001;
+
     /** File that is parsed. */
     private final URL url;
 
     /** Collects errors. */
-    private final SyntaxExceptionList list;
+    private final DefaultSourceFileExceptionList list;
 
     /**
      * Constructor.
@@ -46,7 +51,7 @@ public class SaxErrorHandler implements ErrorHandler {
      * @param   url     URL that is parsed.
      * @param   list    Collector for the SAX exceptions.
      */
-    public SaxErrorHandler(final URL url, final SyntaxExceptionList list) {
+    public SaxErrorHandler(final URL url, final DefaultSourceFileExceptionList list) {
         super();
         this.url = url;
         this.list = list;
@@ -56,21 +61,30 @@ public class SaxErrorHandler implements ErrorHandler {
      * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
      */
     public final void warning(final SAXParseException e) throws SAXException {
-        list.add(SyntaxException.createBySAXParseException(e, url));
+        final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
+            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
+                e.getColumnNumber()), null), null);
+        list.add(sf);
     }
 
     /* (non-Javadoc)
      * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
      */
     public final void error(final SAXParseException e) throws SAXException {
-        list.add(SyntaxException.createBySAXParseException(e, url));
+        final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
+            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
+                e.getColumnNumber()), null), null);
+        list.add(sf);
     }
 
     /* (non-Javadoc)
      * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
      */
     public final void fatalError(final SAXParseException e) throws SAXException {
-        list.add(SyntaxException.createBySAXParseException(e, url));
+        final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
+            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
+                e.getColumnNumber()), null), null);
+        list.add(sf);
     }
 
 }
