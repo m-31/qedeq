@@ -24,13 +24,13 @@ import java.io.OutputStream;
 
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.latex.Qedeq2Latex;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.TextOutput;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
-import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
+import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
 /**
@@ -114,7 +114,7 @@ public final class Xml2Latex  {
             + KernelFacade.getKernelContext().getDescriptiveKernelVersion());
         try {
             System.out.println("Successfully generated:\n" + generate(from, to, language, level));
-        } catch (XmlFileExceptionList e) {
+        } catch (SourceFileExceptionList e) {
             System.out.println(e);  // TODO mime 20070323: better: iterate through errors
         } catch (RuntimeException e) {
             System.out.println(e);
@@ -180,7 +180,7 @@ public final class Xml2Latex  {
      * @throws  XmlFilePositionException 
      */
     public static String generate(final String from, final String to, final String language, 
-            final String level) throws XmlFileExceptionList {
+            final String level) throws SourceFileExceptionList {
         return generate((from != null ? new File(from) : null), (to != null ? new File(to) : null), 
             language, level);
     }
@@ -196,7 +196,7 @@ public final class Xml2Latex  {
      * @throws  XmlFilePositionException 
      */
     public static String generate(final File from, final File to, final String language, final String level)
-            throws XmlFileExceptionList {
+            throws SourceFileExceptionList {
         final String method = "generate(String, String, String, String)";
         File destination = null;
         File source = null;
@@ -222,7 +222,7 @@ public final class Xml2Latex  {
             }
         } catch (IOException e) {
             Trace.trace(Xml2Latex.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         }
         TextOutput printer = null;
         try {
@@ -238,10 +238,10 @@ public final class Xml2Latex  {
             return destination.getCanonicalPath();
         } catch (IOException e) {
             Trace.trace(Xml2Latex.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         } catch (RuntimeException e) {
             Trace.trace(Xml2Latex.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         } catch (ModuleDataException e) {
             Trace.trace(Xml2Latex.class, method, e);
             Trace.param(Xml2Latex.class, method, "context", e.getContext());

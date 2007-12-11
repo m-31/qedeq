@@ -22,12 +22,12 @@ import java.io.IOException;
 
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.latex.Qedeq2Wiki;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
-import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
+import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
 /**
@@ -112,7 +112,7 @@ public final class Xml2Wiki  {
         try {
             generate(from, to, language, level);
             System.out.println("Successfully generated files.");
-        } catch (XmlFileExceptionList e) {
+        } catch (SourceFileExceptionList e) {
             // LATER mime 20070323: print all errors in list
             System.out.println(e);
         } catch (RuntimeException e) {
@@ -177,7 +177,7 @@ public final class Xml2Wiki  {
      * @throws  XmlFilePositionException 
      */
     public static void generate(final String from, final String to, final String language, 
-            final String level) throws XmlFileExceptionList {
+            final String level) throws SourceFileExceptionList {
         generate((from != null ? new File(from) : null), (to != null ? new File(to) : null), 
             language, level);
     }
@@ -191,7 +191,7 @@ public final class Xml2Wiki  {
      * @param   level           Resulting detail level. Could be <code>null</code>.
      */
     public static void generate(final File from, final File to, final String language, final String level)
-            throws XmlFileExceptionList {
+            throws SourceFileExceptionList {
         final String method = "generate(String, String, String, String)";
         File source = null;
         File destination = null;
@@ -210,7 +210,7 @@ public final class Xml2Wiki  {
             }
         } catch (IOException e) {
             Trace.trace(Xml2Wiki.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         }
         try {
             qedeqBo = KernelFacade.getKernelContext().loadModule(
@@ -223,10 +223,10 @@ public final class Xml2Wiki  {
             converter.printWiki(language, level, destination);
         } catch (IOException e) {
             Trace.trace(Xml2Wiki.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         } catch (RuntimeException e) {
             Trace.trace(Xml2Wiki.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         } catch (ModuleDataException e) {
             Trace.trace(Xml2Wiki.class, method, e);
             Trace.param(Xml2Wiki.class, method, "context", e.getContext());
