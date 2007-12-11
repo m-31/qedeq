@@ -25,13 +25,13 @@ import java.io.OutputStream;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.TextOutput;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
-import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
+import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
 /**
@@ -57,10 +57,10 @@ public final class Xml2Latex  {
      * @param   language        Resulting language. Could be <code>null</code>.
      * @param   level           Resulting detail level. Could be <code>null</code>.
      * @return  File name of generated LaTeX file.
-     * @throws  XmlFileExceptionList    Something went wrong.
+     * @throws  SourceFileExceptionList    Something went wrong.
      */
     public static String generate(final ModuleProperties prop, final File to, final String language,
-            final String level) throws XmlFileExceptionList {
+            final String level) throws SourceFileExceptionList {
         final String method = "generate(String, String, String, String)";
         File destination = null;
         QedeqBo qedeqBo = null;
@@ -88,7 +88,7 @@ public final class Xml2Latex  {
             }
         } catch (IOException e) {
             Trace.trace(Xml2Latex.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         }
         TextOutput printer = null;
         try {
@@ -103,10 +103,10 @@ public final class Xml2Latex  {
             return destination.getCanonicalPath();
         } catch (IOException e) {
             Trace.trace(Xml2Latex.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         } catch (RuntimeException e) {
             Trace.trace(Xml2Latex.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         } catch (ModuleDataException e) {
             Trace.trace(Xml2Latex.class, method, e);
             Trace.param(Xml2Latex.class, method, "context", e.getContext());
