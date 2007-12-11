@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<QEDEQ 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_06/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="proplogic" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="http://qedeq.org/0_03_06/sample"/>
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE>
+      <LATEX language="en">
+         Mathematical Example Module
+      </LATEX>
+      <LATEX language="de">
+         Mathematisches Beispielmodul
+      </LATEX>
+    </TITLE>
+    <ABSTRACT>
+      <LATEX language="en">
+         This should contain propositional logic formulas.
+      </LATEX>
+      <LATEX language="de">
+         Hier sollen aussagenlogische Formeln stehen.
+      </LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME>
+          <LATEX language="de">
+            Michael Meyling
+          </LATEX>
+        </NAME>
+      </AUTHOR>
+    </AUTHORS>
+  </HEADER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">
+        Propositional Logic
+      </LATEX>
+      <LATEX language="de">
+        Aussagenlogik
+      </LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        <![CDATA[
+          Here are some propositional logic propositions.
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          Hier sind ein paar aussagenlogische Formeln.
+        ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Simple Formulas</LATEX>
+        <LATEX language="de">Einfache Formeln</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            These are the first ones.
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Das sind die ersten.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE id="first:theorem" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <AND>
+                <IMPL>
+                  <FORALL>
+                    <VAR id="x" />
+                    <IMPL>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </IMPL>
+                  </FORALL>
+                  <IMPL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                  </IMPL>
+                </IMPL>
+                <IMPL>
+                  <FORALL>
+                    <VAR id="x" />
+                    <IMPL>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </IMPL>
+                  </FORALL>
+                  <IMPL>
+                    <EXISTS>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EXISTS>
+                    <EXISTS>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EXISTS>
+                  </IMPL>
+                </IMPL>
+              </AND>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>
