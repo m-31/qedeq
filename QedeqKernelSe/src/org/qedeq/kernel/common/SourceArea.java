@@ -22,7 +22,7 @@ import java.net.URL;
 
 
 /**
- * Describes a file area.
+ * Describes an area of an URL contents.
  *
  * @version $Revision: 1.1 $
  * @author  Michael Meyling
@@ -32,9 +32,6 @@ public final class SourceArea implements Serializable {
     /** Address of input, for identifying source. */
     private final URL address;
 
-    /** Local address of input, for loading source. */
-    private final URL localAddress;
-
     /** Start position. */
     private final SourcePosition startPosition;
 
@@ -42,29 +39,15 @@ public final class SourceArea implements Serializable {
     private final SourcePosition endPosition;
 
     /**
-     * Constructs source area object.
-     *
-     * @param   localAddress    source address
-     * @param   startPosition   Start position.
-     * @param   endPosition     Start position.
-     */
-    public SourceArea(final URL localAddress, final SourcePosition startPosition,
-            final SourcePosition endPosition) {
-        this(localAddress, localAddress, startPosition, endPosition);
-    }
-
-    /**
      * Constructs file position object.
      *
      * @param   address         For identifying source.
-     * @param   localAddress    Source address.
      * @param   startPosition   Start position.
      * @param   endPosition     Start position.
      */
-    public SourceArea(final URL address, final URL localAddress,
-            final SourcePosition startPosition, final SourcePosition endPosition) {
+    public SourceArea(final URL address, final SourcePosition startPosition,
+            final SourcePosition endPosition) {
         this.address = address;
-        this.localAddress = localAddress;
         this.startPosition = startPosition;
         this.endPosition = endPosition;
     }
@@ -76,15 +59,6 @@ public final class SourceArea implements Serializable {
      */
     public final URL getAddress() {
         return this.address;
-    }
-
-    /**
-     * Get local address (or something to identify it) of input source.
-     *
-     * @return  local address of input source
-     */
-    public final URL getLocalAddress() {
-        return this.localAddress;
     }
 
     /**
