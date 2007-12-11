@@ -17,10 +17,10 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.common.SyntaxException;
 import org.qedeq.kernel.dto.module.LocationListVo;
 import org.qedeq.kernel.dto.module.LocationVo;
 import org.qedeq.kernel.dto.module.SpecificationVo;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
@@ -72,7 +72,7 @@ public class SpecificationHandler extends AbstractSimpleHandler {
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             locations = new LocationListVo();
             moduleName = attributes.getString("name");
@@ -82,11 +82,11 @@ public class SpecificationHandler extends AbstractSimpleHandler {
         } else if ("LOCATION".equals(name)) {
             locations.add(new LocationVo(attributes.getString("value")));
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
-    public final void endElement(final String name) throws SyntaxException {
+    public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             specification = new SpecificationVo(moduleName, ruleVersion, locations);
         } else if ("LOCATIONS".equals(name)) {
@@ -94,7 +94,7 @@ public class SpecificationHandler extends AbstractSimpleHandler {
         } else if ("LOCATION".equals(name)) {
             // ignore
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 

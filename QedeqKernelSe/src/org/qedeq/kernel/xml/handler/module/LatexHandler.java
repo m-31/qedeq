@@ -17,8 +17,8 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.common.SyntaxException;
 import org.qedeq.kernel.dto.module.LatexVo;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
@@ -65,34 +65,34 @@ public class LatexHandler extends AbstractSimpleHandler {
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // ignore
         } else if ("LATEX".equals(name)) {
             this.data = null;
             language = attributes.getString("language");
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
-    public void endElement(final String name) throws SyntaxException {
+    public void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // ignore
         } else if ("LATEX".equals(name)) {
             latex = new LatexVo(language, data);
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
-    public void characters(final String name, final String data) throws SyntaxException {
+    public void characters(final String name, final String data) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // ignore
         } else if ("LATEX".equals(name)) {
             this.data = data;
         } else {
-            throw SyntaxException.createUnexpectedTextDataException(name, data);
+            throw XmlSyntaxException.createUnexpectedTextDataException(name, data);
         }
     }
 

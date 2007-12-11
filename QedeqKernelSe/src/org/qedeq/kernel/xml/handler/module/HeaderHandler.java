@@ -17,8 +17,8 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.common.SyntaxException;
 import org.qedeq.kernel.dto.module.HeaderVo;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
@@ -82,7 +82,7 @@ public class HeaderHandler extends AbstractSimpleHandler {
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             header = new HeaderVo();
             header.setEmail(attributes.getString("email"));
@@ -99,11 +99,11 @@ public class HeaderHandler extends AbstractSimpleHandler {
         } else if (usedbyListHandler.getStartTag().equals(name)) {
             changeHandler(usedbyListHandler, name, attributes);
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
-    public final void endElement(final String name) throws SyntaxException {
+    public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // nothing to do
         } else if (specificationHandler.getStartTag().equals(name)) {
@@ -119,7 +119,7 @@ public class HeaderHandler extends AbstractSimpleHandler {
         } else if (usedbyListHandler.getStartTag().equals(name)) {
             header.setUsedByList(usedbyListHandler.getUsedByList());
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 

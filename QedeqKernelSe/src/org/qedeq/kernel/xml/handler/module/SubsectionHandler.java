@@ -18,8 +18,8 @@
 package org.qedeq.kernel.xml.handler.module;
 
 import org.qedeq.kernel.base.module.Subsection;
-import org.qedeq.kernel.common.SyntaxException;
 import org.qedeq.kernel.dto.module.SubsectionVo;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
@@ -68,7 +68,7 @@ public class SubsectionHandler extends AbstractSimpleHandler {
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             subsection = new SubsectionVo();
             subsection.setId(attributes.getString("label"));
@@ -78,11 +78,11 @@ public class SubsectionHandler extends AbstractSimpleHandler {
         } else if (latexHandler.getStartTag().equals(name)) {
             changeHandler(latexHandler, name, attributes);
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
-    public final void endElement(final String name) throws SyntaxException {
+    public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // thats why we handle it
         } else if (titleHandler.getStartTag().equals(name)) {
@@ -90,7 +90,7 @@ public class SubsectionHandler extends AbstractSimpleHandler {
         } else if (latexHandler.getStartTag().equals(name)) {
             subsection.setLatex(latexHandler.getLatexList());
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 

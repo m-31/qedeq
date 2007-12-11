@@ -17,8 +17,8 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.common.SyntaxException;
 import org.qedeq.kernel.dto.module.SubsectionListVo;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
@@ -65,7 +65,7 @@ public class SubsectionListHandler extends AbstractSimpleHandler {
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // nothing to do
         } else if (subsectionHandler.getStartTag().equals(name)) {
@@ -73,11 +73,11 @@ public class SubsectionListHandler extends AbstractSimpleHandler {
         } else if (nodeHandler.getStartTag().equals(name)) {
             changeHandler(nodeHandler, name, attributes);
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
-    public final void endElement(final String name) throws SyntaxException {
+    public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // nothing to do
         } else if (subsectionHandler.getStartTag().equals(name)) {
@@ -85,7 +85,7 @@ public class SubsectionListHandler extends AbstractSimpleHandler {
         } else if (nodeHandler.getStartTag().equals(name)) {
             list.add(nodeHandler.getNode());
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 }

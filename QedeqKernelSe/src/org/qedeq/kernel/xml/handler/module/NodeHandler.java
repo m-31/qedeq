@@ -18,8 +18,8 @@
 package org.qedeq.kernel.xml.handler.module;
 
 import org.qedeq.kernel.base.module.Node;
-import org.qedeq.kernel.common.SyntaxException;
 import org.qedeq.kernel.dto.module.NodeVo;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
@@ -96,7 +96,7 @@ public class NodeHandler extends AbstractSimpleHandler {
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             node = new NodeVo();
             node.setId(attributes.getString("id"));
@@ -120,11 +120,11 @@ public class NodeHandler extends AbstractSimpleHandler {
         } else if (ruleHandler.getStartTag().equals(name)) {
             changeHandler(ruleHandler, name, attributes);
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
-    public void endElement(final String name) throws SyntaxException {
+    public void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // thats why we handle it
         } else if (nameHandler.getStartTag().equals(name)) {
@@ -146,7 +146,7 @@ public class NodeHandler extends AbstractSimpleHandler {
         } else if (ruleHandler.getStartTag().equals(name)) {
             node.setNodeType(ruleHandler.getRule());
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
        }
     }
 

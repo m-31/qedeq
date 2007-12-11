@@ -17,9 +17,9 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.common.SyntaxException;
 import org.qedeq.kernel.dto.module.ImportListVo;
 import org.qedeq.kernel.dto.module.ImportVo;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
@@ -66,7 +66,7 @@ public class ImportListHandler extends AbstractSimpleHandler {
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             list = new ImportListVo();
         } else if ("IMPORT".equals(name)) {
@@ -74,11 +74,11 @@ public class ImportListHandler extends AbstractSimpleHandler {
         } else if (specificationHandler.getStartTag().equals(name)) {
             changeHandler(specificationHandler, name, attributes);
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
-    public final void endElement(final String name) throws SyntaxException {
+    public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // nothing to do
         } else if (specificationHandler.getStartTag().equals(name)) {
@@ -86,7 +86,7 @@ public class ImportListHandler extends AbstractSimpleHandler {
         } else if ("IMPORT".equals(name)) {
             list.add(new ImportVo(label, specificationHandler.getSpecification()));
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 }

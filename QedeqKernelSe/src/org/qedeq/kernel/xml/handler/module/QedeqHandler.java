@@ -18,8 +18,8 @@
 package org.qedeq.kernel.xml.handler.module;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.common.SyntaxException;
 import org.qedeq.kernel.dto.module.QedeqVo;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
@@ -72,7 +72,7 @@ public class QedeqHandler extends AbstractSimpleHandler {
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             qedeq = new QedeqVo();
         } else if (headerHandler.getStartTag().equals(name)) {
@@ -82,11 +82,11 @@ public class QedeqHandler extends AbstractSimpleHandler {
         } else if (bibliographyHandler.getStartTag().equals(name)) {
             changeHandler(bibliographyHandler, name, attributes);
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
-    public final void endElement(final String name) throws SyntaxException {
+    public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // nothing to do
         } else if (headerHandler.getStartTag().equals(name)) {
@@ -96,7 +96,7 @@ public class QedeqHandler extends AbstractSimpleHandler {
         } else if (bibliographyHandler.getStartTag().equals(name)) {
             qedeq.setLiteratureItemList(bibliographyHandler.getLiteratureItemList());
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
