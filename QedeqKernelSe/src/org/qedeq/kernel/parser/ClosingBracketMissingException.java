@@ -30,8 +30,11 @@ public class ClosingBracketMissingException extends ParserException {
      *
      * @param   position    Error position.
      * @param   bracket     Expected bracket.
+     * @param   foundToken  Found token.
      */
-    public ClosingBracketMissingException(final long position, final String bracket) {
-        super(position, "Closing bracket for \"" + bracket + "\" expected.");
+    public ClosingBracketMissingException(final long position, final String bracket,
+            final String foundToken) {
+        super(position, "Closing bracket for \"" + bracket + "\" expected. Found: \"" + foundToken
+            + "\"");
     }
 }
