@@ -17,9 +17,6 @@
 
 package org.qedeq.kernel.bo.load;
 
-import org.qedeq.kernel.common.XmlFileException;
-import org.qedeq.kernel.common.XmlFileExceptionList;
-import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
 
 /**
  * QEDEQ module file was not found in local file buffer.
@@ -36,12 +33,6 @@ class ModuleFileNotFoundException extends Exception {
      */
     ModuleFileNotFoundException(final String message) {
         super(message);
-    }
-
-    XmlFileExceptionList createXmlFileExceptionList() {
-        final DefaultXmlFileExceptionList list = new DefaultXmlFileExceptionList();
-        list.add(new XmlFileException(this));
-        return list;
     }
 
 }
