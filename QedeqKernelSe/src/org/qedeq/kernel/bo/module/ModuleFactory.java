@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.qedeq.kernel.base.module.Specification;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
  * Access to QEDEQ modules.
@@ -58,18 +58,18 @@ public interface ModuleFactory {
      *
      * @param   address     Address of module.
      * @return  Wanted module.
-     * @throws  XmlFileExceptionList    Module could not be successfully loaded.
+     * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public QedeqBo loadModule(URL address) throws XmlFileExceptionList;
+    public QedeqBo loadModule(URL address) throws SourceFileExceptionList;
 
     /**
      * Get a certain module.
      *
      * @param   moduleAddress  Address of module.
      * @return  Wanted module.
-     * @throws  XmlFileExceptionList    Module could not be successfully loaded.
+     * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public QedeqBo loadModule(ModuleAddress moduleAddress) throws XmlFileExceptionList;
+    public QedeqBo loadModule(ModuleAddress moduleAddress) throws SourceFileExceptionList;
 
     /**
      * Load a certain module.
@@ -77,20 +77,20 @@ public interface ModuleFactory {
      * @param  module   this is the current module.
      * @param  spec     specification of wanted module.
      * @return wanted module
-     * @throws XmlFileExceptionList     Module could not be successfully loaded.
+     * @throws SourceFileExceptionList     Module could not be successfully loaded.
      */
     public QedeqBo loadModule(QedeqBo module, final Specification spec)
-            throws XmlFileExceptionList;
+            throws SourceFileExceptionList;
 
     /**
      * Get a certain module.
      *
      * @param   address  Address of module.
-     * @throws  XmlFileExceptionList    Required modules could not be successfully loaded.
+     * @throws  SourceFileExceptionList    Required modules could not be successfully loaded.
      *                                  This can also happen if the required modules references
      *                                  form a circle.
      */
-    public void loadRequiredModules(final URL address) throws XmlFileExceptionList;
+    public void loadRequiredModules(final URL address) throws SourceFileExceptionList;
 
     /**
      * Load all QEDEQ modules from project web directory for current kernel.
