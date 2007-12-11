@@ -21,6 +21,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -32,9 +36,13 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.IoUtility;
 
 /**
  * Shows QEDEQ module specific error pane.
@@ -118,7 +126,30 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
         try {
             error.getDocument().remove(0, error.getDocument().getLength());
             if (prop != null && prop.getException() != null) {
-                error.getDocument().insertString(0, prop.getException().getMessage(), errorAttrs);
+                SourceFileExceptionList list = prop.getException();
+                for (int i = 0; i < list.size(); i++) {
+                    if (list.get(i).getSourceArea() != null) {
+                        final URL url = list.get(i).getSourceArea().getAddress();
+                        // TODO mime 20071128: must be refactored:
+                        URL local = null;
+                        try {
+                            local = IoUtility.toUrl(new File(KernelContext.getInstance()
+                                .getLocalFilePath(new DefaultModuleAddress(url))));
+                        } catch (IOException e) {
+                            // TODO Auto-generated catch block
+                            e.printStackTrace();
+                        }
+                        error.getDocument().insertString(error.getDocument().getLength(),
+                            list.get(i).getDescription(local),
+                            errorAttrs);
+                    } else {
+                        error.getDocument().insertString(error.getDocument().getLength(),
+                            list.get(i).getMessage(),
+                            errorAttrs);
+                    }
+                    error.getDocument().insertString(error.getDocument().getLength(),
+                        "\n", errorAttrs);
+                }
             }
         } catch (BadLocationException e) {
             Trace.trace(this, "updateView", e);
