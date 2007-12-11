@@ -135,6 +135,7 @@
  		qedeq		="DEFP"
  		priority	="10"
  		min		="2"
+ 		max		="2"
  	/>
 </parser>
 <!--
