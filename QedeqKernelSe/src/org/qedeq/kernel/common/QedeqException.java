@@ -37,7 +37,7 @@ public abstract class QedeqException extends Exception {
      * @param   cause       Detailed exception information.
      */
     public QedeqException(final int errorCode, final String message,
-            final Exception cause) {
+            final Throwable cause) {
         super(message, cause);
         this.errorCode = errorCode;
     }
