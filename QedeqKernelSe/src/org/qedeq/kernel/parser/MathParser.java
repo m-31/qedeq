@@ -191,27 +191,30 @@ public abstract class MathParser {
             } else { // no operator found
                 Trace.trace(this, method, "no operators found");
                 final String token;
-                token = readToken();
+                token = getToken();
                 if (token == null) {
                     Trace.param(this, method, "read term", "null");
                     return null;
                 }
                 if ("(".equals(token)) {
+                    readToken();
                     Trace.trace(this, method, "start bracket found: " + token);
                     term = readMaximalTerm(0);
                     final String lastToken = readToken();
                     if (!")".equals(lastToken)) {
-                        throw new ClosingBracketMissingException(getPosition(), ")");
+                        throw new ClosingBracketMissingException(getPosition(), "(", lastToken);
                     }
 
                 } else if ("[".equals(token)) {
+                    readToken();
                     Trace.trace(this, method, "start bracket found: " + token);
                     term = readMaximalTerm(0);
                     final String lastToken = readToken();
                     if (!"]".equals(lastToken)) {
-                        throw new ClosingBracketMissingException(getPosition(), "]");
+                        throw new ClosingBracketMissingException(getPosition(), "[", lastToken);
                     }
                 } else {
+                    readToken();
                     Trace.param(this, method, "atom", token);
                     term = new Term(new TermAtom(token));
                 }
@@ -239,27 +242,36 @@ public abstract class MathParser {
             rewindPosition();
             markPosition();
             Operator operator = (Operator) operators.get(number);
+
             if (!operator.isPrefix()) {
                 clearMark();
                 throw new UnexpectedOperatorException(getPosition(), operator);
             }
+
             term = new Term(operator);
+
             if (operator.isFunction()) {
+                // constants should have no argument list
+                if (operator.getMax() == 0) {
+                    break;
+                }
                 List list = readTupel();
                 if (list == null) {     // here we don't distinguish between "a()" and "a"
                     list = new ArrayList();
                 }
+                // doesn't have enough arguments
                 if (list.size() < operator.getMin()) {
                     if (number + 1 < operators.size()) {
-                        continue;
+                        continue;   // try again
                     }
                     clearMark();
                     throw new TooFewArgumentsException(getPosition(),
                         operator.getMin());
                 }
+                // has to much arguments
                 if (operator.getMax() != -1 && list.size() > operator.getMax()) {
                     if (number + 1 < operators.size()) {
-                        continue;
+                        continue;   // try again
                     }
                     clearMark();
                     throw new TooMuchArgumentsException(getPosition(), operator,
@@ -270,6 +282,7 @@ public abstract class MathParser {
                 }
                 break;
             }
+
             int i = 0;
             while (i < operator.getMin()) {
                 if (i > 0 && operator.getSeparatorSymbol() != null) {
@@ -309,7 +322,14 @@ public abstract class MathParser {
                         break;
                     }
                 }
-                final Term add = readMaximalTerm(operator.getPriority());
+                Term add = null;
+                markPosition();
+                try {
+                    add = readMaximalTerm(operator.getPriority());
+                    clearMark();
+                } catch (Exception e) {
+                    rewindPosition();
+                }
                 if (add == null) {
                     break;
                 }
@@ -364,7 +384,7 @@ public abstract class MathParser {
             }
             final String lastToken = readToken();
             if (!")".equals(lastToken)) {
-                throw new ClosingBracketMissingException(getPosition(), ")");
+                throw new ClosingBracketMissingException(getPosition(), ")", lastToken);
             }
             return list;
         } finally {
