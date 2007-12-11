@@ -19,10 +19,12 @@ package org.qedeq.kernel.xml.parser;
 import java.net.URL;
 import java.util.Stack;
 
+import org.qedeq.kernel.common.SourceArea;
+import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.common.SourcePosition;
-import org.qedeq.kernel.common.SyntaxException;
-import org.qedeq.kernel.common.SyntaxExceptionList;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.xml.sax.Attributes;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -36,8 +38,8 @@ import org.xml.sax.helpers.DefaultHandler;
  * which could also delegate events to other
  * {@link org.qedeq.kernel.xml.parser.AbstractSimpleHandler}s.
  * <p>
- * Before anything is parsed the method {@link #setExceptionList(SyntaxExceptionList)} must be
- * called.
+ * Before anything is parsed the method {@link #setExceptionList(DefaultSourceFileExceptionList)}
+ * must be called.
  *
  * @version $Revision: 1.27 $
  * @author  Michael Meyling
@@ -54,7 +56,7 @@ public class SaxDefaultHandler extends DefaultHandler {
     private AbstractSimpleHandler basisHandler;
 
     /** Collect errors in this object. */
-    private SyntaxExceptionList errorList;
+    private DefaultSourceFileExceptionList errorList;
 
     /** Buffer for combining character events. */
     private StringBuffer buffer = new StringBuffer(2000);
@@ -87,7 +89,7 @@ public class SaxDefaultHandler extends DefaultHandler {
      *
      * @param   errorList  Collect errors here.
      */
-    public void setExceptionList(final SyntaxExceptionList errorList) {
+    public void setExceptionList(final DefaultSourceFileExceptionList errorList) {
         this.errorList = errorList;
     }
 
@@ -96,7 +98,7 @@ public class SaxDefaultHandler extends DefaultHandler {
      *
      * @return  Collected errors.
      */
-    public SyntaxExceptionList getExceptionList() {
+    public SourceFileExceptionList getExceptionList() {
         return errorList;
     }
 
@@ -170,13 +172,13 @@ public class SaxDefaultHandler extends DefaultHandler {
             }
             Trace.param(this, method, "attributes", attributes);
             currentHandler.startElement(qName, attributes);
-        } catch (SyntaxException e) {
+        } catch (XmlSyntaxException e) {
             Trace.trace(this, method, e);
             setLocationInformation(e);
-            errorList.add(e);
+            errorList.add(new SourceFileException(e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(this, method, e);
-            final SyntaxException ex = SyntaxException.createByRuntimeException(e);
+            final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
             errorList.add(ex);
         }
@@ -194,15 +196,15 @@ public class SaxDefaultHandler extends DefaultHandler {
             Trace.param(this, method, "currentHandler", currentHandler.getClass().getName());
             Trace.param(this, method, "localName", localName);
             currentHandler.endElement(localName);
-        } catch (SyntaxException e) {
+        } catch (XmlSyntaxException e) {
             Trace.trace(this, method, e);
             setLocationInformation(e);
-            errorList.add(e);
+            errorList.add(new SourceFileException(e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(this, method, e);
-            final SyntaxException ex = SyntaxException.createByRuntimeException(e);
+            final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            errorList.add(ex);
+            errorList.add(new SourceFileException(ex, createSourceArea(), null));
         }
         try {
             currentElementName = null;
@@ -211,15 +213,15 @@ public class SaxDefaultHandler extends DefaultHandler {
             if (level <= 0) {
                 restoreHandler(localName);
             }
-        } catch (SyntaxException e) {
+        } catch (XmlSyntaxException e) {
             Trace.trace(this, method, e);
             setLocationInformation(e);
             errorList.add(e);
         } catch (RuntimeException e) {
             Trace.trace(this, method, e);
-            final SyntaxException ex = SyntaxException.createByRuntimeException(e);
+            final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            errorList.add(ex);
+            errorList.add(new SourceFileException(ex, createSourceArea(), null));
         }
     }
 
@@ -232,10 +234,8 @@ public class SaxDefaultHandler extends DefaultHandler {
 
     /**
      * Sends <code>characters</code> event to current handler.
-     *
-     * @throws  SAXException    Caused by overrun of {@link SyntaxExceptionList}.
      */
-    private void sendCharacters() throws SAXException {
+    private void sendCharacters() {
         try  {
             if (buffer.length() > 0) {
                 final String str = buffer.toString().trim();
@@ -244,15 +244,15 @@ public class SaxDefaultHandler extends DefaultHandler {
                     currentHandler.characters(currentElementName, str);
                 }
             }
-        } catch (SyntaxException e) {
+        } catch (XmlSyntaxException e) {
             Trace.trace(this, "sendCharacters", e);
             setLocationInformation(e);
-            errorList.add(e);
+            errorList.add(new SourceFileException(e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(this, "sendCharacters", e);
-            final SyntaxException ex = SyntaxException.createByRuntimeException(e);
+            final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            errorList.add(ex);
+            errorList.add(new SourceFileException(ex, createSourceArea(), null));
         }
     }
 
@@ -281,11 +281,11 @@ public class SaxDefaultHandler extends DefaultHandler {
      * @param  newHandler  This handler gets the new events.
      * @param  elementName Element name.
      * @param  attributes  Element attributes.
-     * @throws SyntaxException   New Handler detected a semantic problem.
+     * @throws XmlSyntaxException   New Handler detected a semantic problem.
      */
     public final void changeHandler(final AbstractSimpleHandler newHandler,
             final String elementName, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         handlerStack.push(currentHandler);
         levelStack.push(new Integer(level));
         currentHandler = newHandler;
@@ -301,9 +301,9 @@ public class SaxDefaultHandler extends DefaultHandler {
      * handler.
      *
      * @param   elementName
-     * @throws  SyntaxException
+     * @throws  XmlSyntaxException
      */
-    private final void restoreHandler(final String elementName) throws SyntaxException {
+    private final void restoreHandler(final String elementName) throws XmlSyntaxException {
         while (level <= 0 && !handlerStack.empty()) {
             currentHandler = (AbstractSimpleHandler) handlerStack.pop();
             Trace.param(this, "restoreHandler", "currentHandler", currentHandler);
@@ -347,15 +347,28 @@ public class SaxDefaultHandler extends DefaultHandler {
     }
 
     /**
-     * Set current location information within an {@link SyntaxException}.
+     * Set current location information within an {@link XmlSyntaxException}.
      *
      * @param   e   Set location information within this exception.
      */
-    private final void setLocationInformation(final SyntaxException e) {
+    private final void setLocationInformation(final XmlSyntaxException e) {
         if (locator != null && url != null) {
             e.setErrorPosition(new SourcePosition(url, locator.getLineNumber(),
                 locator.getColumnNumber()));
         }
+    }
+
+    /**
+     * Get current source area.
+     *
+     * @return  Current area.
+     */
+    private final SourceArea createSourceArea() {
+        if (locator != null && url != null) {
+            return new SourceArea(url, new SourcePosition(url, locator.getLineNumber(),
+                locator.getColumnNumber()), null);
+        }
+        return new SourceArea(url, null, null);
     }
 
     /**
