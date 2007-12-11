@@ -17,7 +17,7 @@
 
 package org.qedeq.kernel.xml.parser;
 
-import org.qedeq.kernel.common.SyntaxException;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 
 
 /**
@@ -88,18 +88,18 @@ public abstract class AbstractSimpleHandler {
      *
      * @param   elementName Tag name.
      * @param   attributes  Tag attributes.
-     * @throws  SyntaxException   There is a semantic error in this event occurrence.
+     * @throws  XmlSyntaxException   There is a semantic error in this event occurrence.
      */
     public abstract void startElement(final String elementName, final SimpleAttributes attributes)
-        throws SyntaxException;
+        throws XmlSyntaxException;
 
     /**
      * Called at end of element <code>elementName</code>. Must be overwritten.
      *
      * @param   elementName Tag name.
-     * @throws  SyntaxException   There is a semantic error in this event occurrence.
+     * @throws  XmlSyntaxException   There is a semantic error in this event occurrence.
      */
-    public abstract void endElement(final String elementName) throws SyntaxException;
+    public abstract void endElement(final String elementName) throws XmlSyntaxException;
 
     /**
      * Called at end of element <code>elementName</code>. Must be overwritten if you expect
@@ -107,11 +107,11 @@ public abstract class AbstractSimpleHandler {
      *
      * @param   elementName Tag name.
      * @param   value   String value.
-     * @throws  SyntaxException   There is a semantic error in this event occurrence.
+     * @throws  XmlSyntaxException   There is a semantic error in this event occurrence.
      */
-    public void characters(final String elementName, final String value) throws SyntaxException {
+    public void characters(final String elementName, final String value) throws XmlSyntaxException {
         // default implementation
-        throw SyntaxException.createUnexpectedTextDataException(elementName, value);
+        throw XmlSyntaxException.createUnexpectedTextDataException(elementName, value);
     }
 
     /**
@@ -121,11 +121,11 @@ public abstract class AbstractSimpleHandler {
      * @param   newHandler  Handler that gets all the events now.
      * @param   elementName Current element name.
      * @param   attributes  Current element attributes.
-     * @throws  SyntaxException   New handler detected semantical problems.
+     * @throws  XmlSyntaxException   New handler detected semantical problems.
      */
     public final void changeHandler(final AbstractSimpleHandler newHandler,
             final String elementName, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         if (newHandler.getStartTag() != null && !newHandler.getStartTag().equals(elementName)) {
             throw new RuntimeException(newHandler.getClass().getName() + " has start tag \""
                 + newHandler.getStartTag() + "\", but should start with tag \""
