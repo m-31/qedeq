@@ -47,8 +47,8 @@ import javax.swing.event.DocumentListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.qedeq.kernel.bo.save.Xml2Xml;
-import org.qedeq.kernel.common.XmlFileException;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.rel.test.text.Xml2Latex;
 import org.qedeq.kernel.rel.test.text.Xml2Wiki;
@@ -91,7 +91,7 @@ public final class StarterDialog extends JFrame {
 
     private File configFile;
 
-    private XmlFileException errorPosition;
+    private SourceFileException errorPosition;
 
     private JButton edit;
 
@@ -223,7 +223,7 @@ public final class StarterDialog extends JFrame {
                 final ParserPane parserPane;
                 try {
                     parserPane = new ParserPane();
-                } catch (XmlFileExceptionList e) {
+                } catch (SourceFileExceptionList e) {
                     Trace.trace(this, "actionPerformed", e);
                     return;
                 } catch (FileNotFoundException e) {
@@ -280,19 +280,22 @@ public final class StarterDialog extends JFrame {
                         setResultMessage(false, "format not yet supported:\n\t" 
                             + kind.getCurrentStringValue());
                     }
-                } catch (final XmlFileExceptionList e) {
+                } catch (final SourceFileExceptionList e) {
                     Trace.trace(this, method, e);
                     if (e.size() > 0) {
                         errorPosition = e.get(0);   // TODO mime 20070323: handle other positions too
-                        setResultMessage(false, errorPosition.getDescription());
+                        setResultMessage(false, errorPosition.getDescription(IoUtility.toUrl(
+                            from.getFileValue())));
                     } else {
-                        errorPosition = new XmlFileException(from.getFileValue(), e);
-                        setResultMessage(false, errorPosition.getDescription());
+                        errorPosition = new SourceFileException(from.getFileValue(), e);
+                        setResultMessage(false, errorPosition.getDescription(IoUtility.toUrl(
+                            from.getFileValue())));
                     }
                 } catch (final Exception e) {
                     Trace.trace(this, method, e);
-                    errorPosition = new XmlFileException(from.getFileValue(), e);
-                    setResultMessage(false, errorPosition.getDescription());
+                    errorPosition = new SourceFileException(from.getFileValue(), e);
+                    setResultMessage(false, errorPosition.getDescription(IoUtility.toUrl(
+                        from.getFileValue())));
                 } catch (final Error e) {
                     Trace.trace(this, method, e);
                     shutdown();
