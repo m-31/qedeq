@@ -29,13 +29,13 @@ import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
-import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
+import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 /**
  * Check logical correctness of modules.
@@ -102,7 +102,7 @@ class CheckLogicAction extends AbstractAction {
                                 + props[i].getAddress() + "\"";
                             Trace.fatal(this, method, msg, e);
 
-                            final XmlFileExceptionList xl =
+                            final SourceFileExceptionList xl =
                                 ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
                                 props[i].getModule().getQedeq());
                             // TODO mime 20071031: every state must be able to change into
@@ -120,8 +120,8 @@ class CheckLogicAction extends AbstractAction {
                             final String msg = "Check of logical correctness failed for \""
                                 + props[i].getAddress() + "\"";
                             Trace.fatal(this, method, msg, e);
-                            final XmlFileExceptionList xl =
-                                new DefaultXmlFileExceptionList(e);
+                            final SourceFileExceptionList xl =
+                                new DefaultSourceFileExceptionList(e);
                             // TODO mime 20071031: every state must be able to change into
                             // a failure state, here we only assume two cases
                             if (props[i].isLoaded()) {  // FIXME must differ
@@ -137,8 +137,8 @@ class CheckLogicAction extends AbstractAction {
                             final String msg = "Check of logical correctness failed for \""
                                 + props[i].getAddress() + "\"";
                             Trace.fatal(this, method, msg, e);
-                            final XmlFileExceptionList xl =
-                                new DefaultXmlFileExceptionList(e);
+                            final SourceFileExceptionList xl =
+                                new DefaultSourceFileExceptionList(e);
                             // TODO mime 20071031: every state must be able to change into
                             // a failure state, here we only assume two cases
                             if (props[i].isLoaded()) {  // FIXME wrong
