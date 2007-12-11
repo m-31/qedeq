@@ -19,7 +19,7 @@ package org.qedeq.kernel.bo.module;
 
 import java.net.URL;
 
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
 /**
@@ -72,7 +72,7 @@ public interface ModuleProperties {
      * @param   e       Exception that occurred during loading.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public void setLoadingFailureState(final LoadingState state, final XmlFileExceptionList e);
+    public void setLoadingFailureState(final LoadingState state, final SourceFileExceptionList e);
 
     /**
      * Get module loading state.
@@ -95,7 +95,8 @@ public interface ModuleProperties {
     * @param   e       Exception that occurred during loading.
     * @throws  IllegalArgumentException    <code>state</code> is no failure state
     */
-   public void setDependencyFailureState(final DependencyState state, final XmlFileExceptionList e);
+   public void setDependencyFailureState(final DependencyState state,
+           final SourceFileExceptionList e);
 
    /**
     * Get module dependency state.
@@ -118,7 +119,7 @@ public interface ModuleProperties {
      * @param   e       Exception that occurred during loading.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public void setLogicalFailureState(final LogicalState state, final XmlFileExceptionList e);
+    public void setLogicalFailureState(final LogicalState state, final SourceFileExceptionList e);
 
     /**
      * Get module logical state.
@@ -132,7 +133,7 @@ public interface ModuleProperties {
      *
      * @return  exception.
      */
-    public XmlFileExceptionList getException();
+    public SourceFileExceptionList getException();
 
     /**
      * Get module state description.
