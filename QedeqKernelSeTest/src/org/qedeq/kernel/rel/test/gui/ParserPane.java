@@ -37,7 +37,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JViewport;
 
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.parser.LatexMathParser;
 import org.qedeq.kernel.parser.ParserException;
 import org.qedeq.kernel.parser.Term;
@@ -85,7 +85,7 @@ public class ParserPane extends JFrame {
      * @throws  XmlFileExceptionList    Parsing failed.
      * @throws  FileNotFoundException   Parser information missing.
      */
-    public ParserPane() throws XmlFileExceptionList, FileNotFoundException {
+    public ParserPane() throws SourceFileExceptionList, FileNotFoundException {
         super("QEDEQ LaTeX Parser Sample");
         operators = LoadXmlOperatorListUtility.getOperatorList(
             ResourceLoaderUtility.getResourceUrl(
