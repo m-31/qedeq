@@ -25,10 +25,10 @@ import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.common.SourceArea;
-import org.qedeq.kernel.common.XmlFileException;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
+import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
 import org.qedeq.kernel.xml.tracker.XPathLocationFinder;
 import org.xml.sax.SAXException;
@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
 
 /**
  * Converts a {@link org.qedeq.kernel.bo.module.ModuleDataException} into a
- * {@link org.qedeq.kernel.common.XmlFileException}.
+ * {@link org.qedeq.kernel.common.SourceFileException}.
  *
  * @version $Revision: 1.2 $
  * @author  Michael Meyling
@@ -57,10 +57,10 @@ public final class ModuleDataException2XmlFileException {
      * @param   qedeq       Take this QEDEQ module.
      * @return  Newly created instance.
      */
-    public static final XmlFileExceptionList createXmlFileExceptionList(final ModuleDataException
+    public static final SourceFileExceptionList createXmlFileExceptionList(final ModuleDataException
             exception, final Qedeq qedeq) {
-        final DefaultXmlFileExceptionList list = new DefaultXmlFileExceptionList();
-        final XmlFileException e = new XmlFileException(exception, createSourceArea(qedeq,
+        final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList();
+        final SourceFileException e = new SourceFileException(exception, createSourceArea(qedeq,
             exception.getContext()),
             createSourceArea(qedeq, exception.getReferenceContext()));
         list.add(e);
@@ -83,7 +83,7 @@ public final class ModuleDataException2XmlFileException {
         try {
             xpath = Context2SimpleXPath.getXPath(context, qedeq).toString();
         } catch (ModuleDataException e) {
-            Trace.trace(XmlFileException.class, method, e);
+            Trace.trace(SourceFileException.class, method, e);
             return null;
         };
 
@@ -94,15 +94,14 @@ public final class ModuleDataException2XmlFileException {
             if (find.getStartLocation() == null) {
                 return null;
             }
-            return new SourceArea(find.getStartLocation().getAddress(),
-                find.getStartLocation().getLocalAddress(), find.getStartLocation(),
+            return new SourceArea(find.getStartLocation().getAddress(), find.getStartLocation(),
                 find.getEndLocation());
         } catch (ParserConfigurationException e) {
-            Trace.trace(XmlFileException.class, method, e);
+            Trace.trace(SourceFileException.class, method, e);
         } catch (SAXException e) {
-            Trace.trace(XmlFileException.class, method, e);
+            Trace.trace(SourceFileException.class, method, e);
         } catch (IOException e) {
-            Trace.trace(XmlFileException.class, method, e);
+            Trace.trace(SourceFileException.class, method, e);
         }
         return null;
     }
