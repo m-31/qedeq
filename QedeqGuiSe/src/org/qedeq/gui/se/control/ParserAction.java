@@ -24,7 +24,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import org.qedeq.gui.se.pane.ParserPane;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.trace.Trace;
 
 /**
@@ -56,7 +56,7 @@ class ParserAction extends AbstractAction {
                 controller.getMainFrame(), "Parser Window can not be opened" + "\n"
                     + ex.toString(), "Error",
                     JOptionPane.ERROR_MESSAGE);;
-        } catch (XmlFileExceptionList xl) {
+        } catch (SourceFileExceptionList xl) {
             Trace.fatal(this, "actionPerformed", "Parser Window can not be opened", xl);
             JOptionPane.showMessageDialog(
                 controller.getMainFrame(), "Parser Window can not be opened" + "\n"
