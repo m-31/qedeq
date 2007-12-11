@@ -20,8 +20,8 @@ package org.qedeq.kernel.xml.handler.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.kernel.common.SyntaxException;
 import org.qedeq.kernel.parser.Operator;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
@@ -80,7 +80,7 @@ public final class ParserHandler extends AbstractSimpleHandler {
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // nothing todo
         } else if ("prefixOperator".equals(name)) {
@@ -96,17 +96,17 @@ public final class ParserHandler extends AbstractSimpleHandler {
             setBasisAttributes(name, attributes);
             final String separatorSymbol = attributes.getString("separatorSymbol");
             if (separatorSymbol == null) {
-                SyntaxException.createEmptyAttributeException(name, "separatorSymbol");
+                XmlSyntaxException.createEmptyAttributeException(name, "separatorSymbol");
             }
             if (separatorSymbol.length() == 0) {
-                SyntaxException.createMissingAttributeException(name, "separatorSymbol");
+                XmlSyntaxException.createMissingAttributeException(name, "separatorSymbol");
             }
             final String endSymbol = attributes.getString("endSymbol");
             if (endSymbol == null) {
-                SyntaxException.createEmptyAttributeException(name, "endSymbol");
+                XmlSyntaxException.createEmptyAttributeException(name, "endSymbol");
             }
             if (endSymbol.length() == 0) {
-                SyntaxException.createMissingAttributeException(name, "endSymbol");
+                XmlSyntaxException.createMissingAttributeException(name, "endSymbol");
             }
             if (max == null) {
                 operators.add(new Operator(startSymbol, separatorSymbol, endSymbol, qedeq,
@@ -116,7 +116,7 @@ public final class ParserHandler extends AbstractSimpleHandler {
                     qedeqArgument, priority.intValue(), min.intValue(), max.intValue()));
             }
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
@@ -131,25 +131,25 @@ public final class ParserHandler extends AbstractSimpleHandler {
     }
 
     private void setBasisAttributes(final String element, final SimpleAttributes attributes)
-            throws SyntaxException {
+            throws XmlSyntaxException {
         startSymbol = attributes.getString("startSymbol");
         if (startSymbol == null) {
-            throw SyntaxException.createMissingAttributeException(element, "startSymbol");
+            throw XmlSyntaxException.createMissingAttributeException(element, "startSymbol");
         }
         if (startSymbol.length() == 0) {
-            throw SyntaxException.createEmptyAttributeException(element, "startSymbol");
+            throw XmlSyntaxException.createEmptyAttributeException(element, "startSymbol");
         }
         qedeq = attributes.getString("qedeq");
         if (qedeq == null) {
-            throw SyntaxException.createMissingAttributeException(element, "qedeq");
+            throw XmlSyntaxException.createMissingAttributeException(element, "qedeq");
         }
         if (qedeq.length() == 0) {
-            throw SyntaxException.createEmptyAttributeException(element, "qedeq");
+            throw XmlSyntaxException.createEmptyAttributeException(element, "qedeq");
         }
         qedeqArgument = attributes.getString("qedeqArgument");
         priority = attributes.getInteger("priority");
         if (priority == null || priority.intValue() < 0) {
-            throw SyntaxException.createMissingAttributeException(element, "priority");
+            throw XmlSyntaxException.createMissingAttributeException(element, "priority");
         }
         min = attributes.getInteger("min");
         if (min == null) {
@@ -158,7 +158,7 @@ public final class ParserHandler extends AbstractSimpleHandler {
         max = attributes.getInteger("max");
     }
 
-    public final void endElement(final String name) throws SyntaxException {
+    public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // nothing to do
         } else if ("prefixOperator".equals(name)) {
@@ -170,7 +170,7 @@ public final class ParserHandler extends AbstractSimpleHandler {
         } else if ("complexOperator".equals(name)) {
             // nothing to do
         } else {
-            throw SyntaxException.createUnexpectedTagException(name);
+            throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
 
