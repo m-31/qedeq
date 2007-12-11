@@ -42,9 +42,11 @@ import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.text.BadLocationException;
 
+import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourcePosition;
-import org.qedeq.kernel.common.XmlFileException;
+import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 
@@ -67,7 +69,7 @@ public class QedeqPane extends JFrame {
 
     private JMenuBar menu = new JMenuBar();
     
-    private final XmlFileException errorPosition;
+    private final SourceFileException errorPosition;
 
     private File file;
 
@@ -77,7 +79,7 @@ public class QedeqPane extends JFrame {
      * 
      * @param   errorPosition   Error position. 
      */
-    public QedeqPane(final XmlFileException errorPosition) {
+    public QedeqPane(final SourceFileException errorPosition) {
         super("QEDEQ XML File Editor");
         this.errorPosition = errorPosition;
         setupView();
@@ -190,8 +192,9 @@ public class QedeqPane extends JFrame {
         Trace.begin(this, method);
         if (errorPosition != null) {
             try {
-                // TODO mime 20060609: assumes local file address in SourcePosition
-                file = new File(errorPosition.getSourceArea().getLocalAddress().getPath());
+                // TODO mime 20071128: add method to get file contents from kernel
+                file = new File(KernelContext.getInstance().getLocalFilePath(
+                    (new DefaultModuleAddress(errorPosition.getSourceArea().getAddress()))));
                 Trace.param(this, method, "file", file);
                 if (file.canRead()) {
                     final StringBuffer buffer = new StringBuffer();
@@ -203,7 +206,7 @@ public class QedeqPane extends JFrame {
                     } else {
                         qedeq.setEditable(false);
                     }
-                    error.setText(errorPosition.getDescription());
+                    error.setText(errorPosition.getDescription(IoUtility.toUrl(file)));
                     error.setCaretPosition(0);
                     highlightLine();
                     // reserve 3 text lines for error description
