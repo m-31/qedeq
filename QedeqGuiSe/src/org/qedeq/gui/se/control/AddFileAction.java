@@ -28,7 +28,7 @@ import javax.swing.filechooser.FileFilter;
 
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
@@ -106,7 +106,7 @@ class AddFileAction extends AbstractAction {
                     QedeqLog.getInstance().logSuccessfulReply("Module \""
                         + module.getModuleAddress().getFileName()
                         + "\" was successfully loaded and checked.");
-                } catch (final XmlFileExceptionList e) {
+                } catch (final SourceFileExceptionList e) {
                     Trace.trace(controller, "actionPerformed", e);
                     QedeqLog.getInstance().logFailureReply(
                         "Loading failed", e.getMessage());
