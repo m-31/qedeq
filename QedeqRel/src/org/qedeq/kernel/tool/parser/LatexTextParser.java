@@ -22,7 +22,7 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.util.List;
 
-import org.qedeq.kernel.common.XmlFileException;
+import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.parser.LatexMathParser;
 import org.qedeq.kernel.parser.MementoTextInput;
 import org.qedeq.kernel.parser.ParserException;
@@ -96,7 +96,7 @@ public final class LatexTextParser {
      */
     public LatexTextParser(final TextInput input, final TextOutput output,
             final boolean mathParsing, final List operators)
-            throws XmlFileException {
+            throws SourceFileException {
         this.input =  new MementoTextInput(input);
         this.output = output;
         this.operators = operators;
@@ -208,7 +208,7 @@ public final class LatexTextParser {
         println("</QEDEQ>");
     }
 
-    private void printMathTillEnd(final String curly) throws XmlFileException {
+    private void printMathTillEnd(final String curly) throws SourceFileException {
         final StringBuffer buffer = new StringBuffer();
         do {
             final String item = readToken();
@@ -229,7 +229,7 @@ public final class LatexTextParser {
         printMath(buffer);
     }
 
-    private void printMathTillToken(final String token) throws XmlFileException {
+    private void printMathTillToken(final String token) throws SourceFileException {
         final StringBuffer buffer = new StringBuffer();
         do {
             final String item = readToken();
@@ -245,7 +245,7 @@ public final class LatexTextParser {
         printMath(buffer);
     }
 
-    private void printMath(final StringBuffer buffer) throws XmlFileException {
+    private void printMath(final StringBuffer buffer) throws SourceFileException {
         output.println("%%QEDEQ BEGIN");
         final LatexMathParser parser = new LatexMathParser(buffer, operators);
         try {
