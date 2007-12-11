@@ -26,6 +26,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -36,7 +37,7 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.BadLocationException;
 
 import org.qedeq.kernel.bo.module.ModuleProperties;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
@@ -240,8 +241,8 @@ public class QedeqPane extends JPanel {
                     this.qedeqScroller.getViewport().setViewPosition(new Point(0, 0));
                     qedeq.setText(buffer.toString());
                     if (prop.getLoadingState().isFailure()
-                            && prop.getException() instanceof XmlFileExceptionList) {
-                        final XmlFileExceptionList pe = (XmlFileExceptionList) prop.getException();
+                            && prop.getException() instanceof SourceFileExceptionList) {
+                        final SourceFileExceptionList pe = (SourceFileExceptionList) prop.getException();
                         if (prop.getModuleAddress().isFileAddress()) {
                             qedeq.setEditable(true);
                         } else {
@@ -262,8 +263,13 @@ public class QedeqPane extends JPanel {
                                 .getStartPosition().getColumn() - 1));
                             pointer.append("^");
                         }
-                        error.setText(pe.get(0).getDescription() + "\n"
-                                + pe.get(0).getLine() + "\n"
+                        final URL local = (IoUtility.toUrl(
+                            new File(KernelContext.getInstance()
+                                .getLocalFilePath(prop.getModuleAddress()))));
+                        // TODO mime 20071128: the above code must be simpler!!!
+                        //      prop.getModuleAddress().localizeInFileSystem(prop.getUrl());
+                        error.setText(pe.get(0).getDescription(local) + "\n"
+                                + pe.get(0).getLine(local) + "\n"
                                 + pointer);
                     } else {    // TODO if file module is edited status must change
                         if (prop.getModuleAddress().isFileAddress()) {
