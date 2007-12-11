@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.kernel.bo.save.Xml2Xml;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.utility.IoUtility;
@@ -78,7 +78,7 @@ public final class GenerateXmlTest extends QedeqTestCase {
      * @throws  XmlFilePositionExceptionList File data is invalid.
      */
     private static void generate(final File dir, final String xml,
-            final File destinationDirectory) throws IOException, XmlFileExceptionList {
+            final File destinationDirectory) throws IOException, SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
         final File destination = new File(destinationDirectory, xml + "_").getAbsoluteFile();
         Xml2Xml.generate(xmlFile, destination);
