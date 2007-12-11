@@ -24,14 +24,14 @@ import java.io.OutputStream;
 
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.latex.Qedeq2Xml;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.TextOutput;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
-import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
+import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
 /**
@@ -54,11 +54,11 @@ public final class Xml2Xml  {
      *
      * @param   from            Read this XML file.
      * @param   to              Write to this file. Could be <code>null</code>.
-     * @throws  XmlFileExceptionList    Module could not be successfully loaded.
+     * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      * @return  File name of generated LaTeX file.
      */
     public static String generate(final String from, final String to)
-            throws XmlFileExceptionList {
+            throws SourceFileExceptionList {
         return generate((from != null ? new File(from) : null), (to != null ? new File(to) : null));
     }
 
@@ -67,11 +67,11 @@ public final class Xml2Xml  {
      *
      * @param   from            Read this XML file.
      * @param   to              Write to this file. Could be <code>null</code>.
-     * @throws  XmlFileExceptionList    Module could not be successfully loaded.
+     * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      * @return  File name of generated LaTeX file.
      */
     public static String generate(final File from, final File to)
-            throws XmlFileExceptionList {
+            throws SourceFileExceptionList {
         final String method = "generate(String, String, String, String)";
         File destination = null;
         File source = null;
@@ -92,7 +92,7 @@ public final class Xml2Xml  {
             }
         } catch (IOException e) {
             Trace.trace(Xml2Xml.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         }
         TextOutput printer = null;
         try {
@@ -106,10 +106,10 @@ public final class Xml2Xml  {
             return destination.getCanonicalPath();
         } catch (IOException e) {
             Trace.trace(Xml2Xml.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         } catch (RuntimeException e) {
             Trace.trace(Xml2Xml.class, method, e);
-            throw new DefaultXmlFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(e);
         } catch (ModuleDataException e) {
             Trace.trace(Xml2Xml.class, method, e);
             Trace.param(Xml2Xml.class, method, "context", e.getContext());
