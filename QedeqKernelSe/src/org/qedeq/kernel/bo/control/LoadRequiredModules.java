@@ -28,12 +28,12 @@ import org.qedeq.kernel.bo.module.ModuleReferenceList;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
-import org.qedeq.kernel.xml.parser.DefaultXmlFileExceptionList;
+import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
 /**
@@ -112,12 +112,12 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
     /**
      * Load all required QEDEQ modules for a given QEDEQ module.
      *
-     * @param   qedeqBo     Basic QEDEQ module object.
+     * @param   qedeqUrl    Basic QEDEQ module object.
      * @throws  ModuleDataException Major problem occurred.
-     * @throws XmlFileExceptionList 
+     * @throws  SourceFileExceptionList
      */
     public static void loadRequired(final URL qedeqUrl)
-            throws ModuleDataException, XmlFileExceptionList {
+            throws ModuleDataException, SourceFileExceptionList {
         final String method = "loadRequired(QedeqBo)";
         final ModuleProperties prop = KernelContext.getInstance().getModuleProperties(
             qedeqUrl);   // TODO mime 20071026: this is no good code!
@@ -136,8 +136,8 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
             Trace.fatal(LoadRequiredModules.class, method, "programming error", e);
             ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
                 converter.transverser.getCurrentContext());
-            final XmlFileExceptionList xl =
-                new DefaultXmlFileExceptionList(e);
+            final SourceFileExceptionList xl =
+                new DefaultSourceFileExceptionList(e);
             prop.setDependencyFailureState(
                 DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
             ModuleEventLog.getInstance().stateChanged(prop);
@@ -145,8 +145,8 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
         } catch (final Throwable e) {           // last catch
             ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
                 converter.transverser.getCurrentContext());
-            final XmlFileExceptionList xl =
-                new DefaultXmlFileExceptionList(e);
+            final SourceFileExceptionList xl =
+                new DefaultSourceFileExceptionList(e);
             prop.setDependencyFailureState(
                 DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
             ModuleEventLog.getInstance().stateChanged(prop);
@@ -170,7 +170,9 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
             required.add(transverser.getCurrentContext(), imp.getLabel(),
                 other.getModuleAddress().getURL());
             loadRequired(other.getModuleAddress().getURL());
-        } catch (XmlFileExceptionList e) {
+        } catch (SourceFileExceptionList e) {
+            // FIXME
+            e.printStackTrace();
             throw new LoadRequiredModuleException(e.get(0).getErrorCode(), e.get(0).getMessage(),
                 transverser.getCurrentContext());
         }
