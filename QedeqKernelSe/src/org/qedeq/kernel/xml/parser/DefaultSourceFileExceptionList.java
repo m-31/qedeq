@@ -23,20 +23,20 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.qedeq.kernel.common.SyntaxException;
-import org.qedeq.kernel.common.SyntaxExceptionList;
-import org.qedeq.kernel.common.XmlFileException;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceArea;
+import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.xml.sax.SAXException;
 
 
 /**
- * Type save {@link org.qedeq.kernel.common.XmlFileException} list.
+ * Type save {@link org.qedeq.kernel.common.SourceFileException} list.
  *
  * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
-public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
+public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
 
     /** List with parse exceptions. */
     private final List exceptions = new ArrayList();
@@ -44,7 +44,7 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
     /**
      * Constructor.
      */
-    public DefaultXmlFileExceptionList() {
+    public DefaultSourceFileExceptionList() {
     }
 
     /**
@@ -52,9 +52,9 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      *
      * @param   e   Wrap me.
      */
-    public DefaultXmlFileExceptionList(final IOException e) {
+    public DefaultSourceFileExceptionList(final IOException e) {
         initCause(e);
-        add(new XmlFileException(e));
+        add(new SourceFileException(e));
     }
 
     /**
@@ -62,9 +62,9 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      *
      * @param   e   Wrap me.
      */
-    public DefaultXmlFileExceptionList(final SAXException e) {
+    public DefaultSourceFileExceptionList(final SAXException e) {
         initCause(e);
-        add(new XmlFileException(e));
+        add(new SourceFileException(e));
     }
 
     /**
@@ -72,9 +72,9 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      *
      * @param   e   Wrap me.
      */
-    public DefaultXmlFileExceptionList(final RuntimeException e) {
+    public DefaultSourceFileExceptionList(final RuntimeException e) {
         initCause(e);
-        add(new XmlFileException(e));
+        add(new SourceFileException(e));
     }
 
     /**
@@ -82,23 +82,9 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      *
      * @param   e   Wrap me.
      */
-    public DefaultXmlFileExceptionList(final Throwable e) {
+    public DefaultSourceFileExceptionList(final Throwable e) {
         initCause(e);
-        add(new XmlFileException(e));
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   exceptionList   Syntax exceptions that are wrapped into {@link XmlFileException}.
-     */
-    public DefaultXmlFileExceptionList(final SyntaxExceptionList exceptionList) {
-        for (int i = 0; i < exceptionList.size(); i++) {
-            if (i == 0) {
-                initCause(exceptionList.get(0));
-            }
-            add(exceptionList.get(i));
-        }
+        add(new SourceFileException(e));
     }
 
     /**
@@ -106,7 +92,7 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      *
      * @param   e   Exception to add.
      */
-    public void add(final XmlFileException e) {
+    public void add(final SourceFileException e) {
         exceptions.add(e);
     }
 
@@ -115,8 +101,11 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      *
      * @param   e   Exception to add.
      */
-    public final void add(final SyntaxException e) {
-        exceptions.add(new XmlFileException(e));
+    public final void add(final XmlSyntaxException e) {
+        final SourceFileException sfe = new SourceFileException(e.getErrorCode(), e.getMessage(), e,
+            new SourceArea(e.getErrorPosition().getAddress(), e.getErrorPosition(), null), null);
+
+        exceptions.add(sfe);
     }
 
     /**
@@ -125,7 +114,7 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      * @param   e   Exception to add.
      */
     public final void add(final SAXException e) {
-        exceptions.add(new XmlFileException(e));
+        exceptions.add(new SourceFileException(e));
     }
 
     /**
@@ -134,7 +123,7 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      * @param   e   Exception to add.
      */
     public final void add(final IOException e) {
-        exceptions.add(new XmlFileException(e));
+        exceptions.add(new SourceFileException(e));
     }
 
     /**
@@ -143,7 +132,7 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      * @param   e   Exception to add.
      */
     public void add(final ParserConfigurationException e) {
-        exceptions.add(new XmlFileException(e));
+        exceptions.add(new SourceFileException(e));
     }
 
     /**
@@ -152,7 +141,7 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      * @param   e   Exception to add.
      */
     public void add(final RuntimeException e) {
-        exceptions.add(new XmlFileException(e));
+        exceptions.add(new SourceFileException(e));
     }
 
     /**
@@ -170,8 +159,8 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      * @param   i   Starts with 0 and must be smaller than {@link #size()}.
      * @return  Wanted exception.
      */
-    public final XmlFileException get(final int i) {
-        return (XmlFileException) exceptions.get(i);
+    public final SourceFileException get(final int i) {
+        return (SourceFileException) exceptions.get(i);
     }
 
     /**
@@ -179,8 +168,8 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
      *
      * @return  All exceptions.
      */
-    public final XmlFileException[] toArray() {
-        return (XmlFileException[]) exceptions.toArray(new XmlFileException[0]);
+    public final SourceFileException[] toArray() {
+        return (SourceFileException[]) exceptions.toArray(new SourceFileException[0]);
     }
 
     public String getMessage() {
@@ -189,7 +178,7 @@ public class DefaultXmlFileExceptionList extends XmlFileExceptionList {
             if (i != 0) {
                 buffer.append("\n");
             }
-            final XmlFileException e = get(i);
+            final SourceFileException e = get(i);
             buffer.append(i).append(": ");
             buffer.append(e.toString());
         }
