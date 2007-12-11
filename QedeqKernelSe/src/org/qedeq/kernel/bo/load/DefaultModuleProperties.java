@@ -26,7 +26,7 @@ import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.ModuleReferenceList;
 import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
 /**
@@ -56,7 +56,7 @@ public class DefaultModuleProperties implements ModuleProperties {
     private QedeqBo module;
 
     /** Failure exception. */
-    private XmlFileExceptionList exception;
+    private SourceFileExceptionList exception;
 
     /** Required QEDEQ modules. */
     private ModuleReferenceList required;
@@ -106,7 +106,7 @@ public class DefaultModuleProperties implements ModuleProperties {
             throw new IllegalArgumentException(
                 "this is a failure state, call setLoadingFailureState");
         }
-// FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules? 
+// FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
         this.loadingState = state;
         this.module = null;
         this.dependencyState = DependencyState.STATE_UNDEFINED;
@@ -115,7 +115,7 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     public final void setLoadingFailureState(final LoadingState state,
-            final XmlFileExceptionList e) {
+            final SourceFileExceptionList e) {
         if (!state.isFailure()) {
             throw new IllegalArgumentException(
                 "this is no failure state, call setLoadingProgressState");
@@ -173,7 +173,7 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     public final void setDependencyFailureState(final DependencyState state,
-            final XmlFileExceptionList e) {
+            final SourceFileExceptionList e) {
         if (!isLoaded()) {
             throw new IllegalArgumentException("module is not yet loaded");
         }
@@ -235,7 +235,7 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     public final void setLogicalFailureState(final LogicalState state,
-            final XmlFileExceptionList e) {
+            final SourceFileExceptionList e) {
         if ((!isLoaded() || !hasLoadedRequired()) && state != LogicalState.STATE_UNCHECKED) {
             throw new IllegalArgumentException(
                 "this state could only be set if all required modules are loaded ");
@@ -252,7 +252,7 @@ public class DefaultModuleProperties implements ModuleProperties {
         return this.logicalState;
     }
 
-    public final XmlFileExceptionList getException() {
+    public final SourceFileExceptionList getException() {
         return this.exception;
     }
 
