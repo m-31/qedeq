@@ -26,7 +26,7 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
@@ -110,7 +110,7 @@ class AddAction extends AbstractAction {
                         + module.getModuleAddress().getFileName()
                         + "\" was successfully loaded.");
 
-                } catch (final XmlFileExceptionList e) {
+                } catch (final SourceFileExceptionList e) {
                     Trace.trace(controller, "actionPerformed", e);
                     QedeqLog.getInstance().logFailureReply(
                         "Loading failed", e.getMessage());
