@@ -28,7 +28,7 @@ import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleFactory;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.config.QedeqConfig;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
@@ -101,16 +101,17 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public QedeqBo loadModule(final URL address) throws XmlFileExceptionList {
+        public QedeqBo loadModule(final URL address) throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public QedeqBo loadModule(final ModuleAddress moduleAddress) throws XmlFileExceptionList {
+        public QedeqBo loadModule(final ModuleAddress moduleAddress)
+                throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not initialized");
         }
 
         public QedeqBo loadModule(final QedeqBo module, final Specification spec)
-                throws XmlFileExceptionList {
+                throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not initialized");
         }
 
@@ -183,16 +184,17 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public QedeqBo loadModule(final URL address) throws XmlFileExceptionList {
+        public QedeqBo loadModule(final URL address) throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public QedeqBo loadModule(final ModuleAddress moduleAddress) throws XmlFileExceptionList {
+        public QedeqBo loadModule(final ModuleAddress moduleAddress)
+                throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not started");
         }
 
         public QedeqBo loadModule(final QedeqBo module, final Specification spec)
-                throws XmlFileExceptionList {
+                throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -271,16 +273,17 @@ public final class KernelContext implements Kernel {
             moduleFactory.clearLocalBuffer();
         }
 
-        public QedeqBo loadModule(final URL address) throws XmlFileExceptionList {
+        public QedeqBo loadModule(final URL address) throws SourceFileExceptionList {
             return moduleFactory.loadModule(address);
         }
 
-        public QedeqBo loadModule(final ModuleAddress moduleAddress) throws XmlFileExceptionList {
+        public QedeqBo loadModule(final ModuleAddress moduleAddress)
+                throws SourceFileExceptionList {
             return moduleFactory.loadModule(moduleAddress);
         }
 
         public QedeqBo loadModule(final QedeqBo module, final Specification spec)
-                throws XmlFileExceptionList {
+                throws SourceFileExceptionList {
             return moduleFactory.loadModule(module, spec);
         }
 
@@ -288,7 +291,7 @@ public final class KernelContext implements Kernel {
             return moduleFactory.loadAllModulesFromQedeq();
         }
 
-        public void loadRequiredModules(final URL address) throws XmlFileExceptionList {
+        public void loadRequiredModules(final URL address) throws SourceFileExceptionList {
             moduleFactory.loadRequiredModules(address);
         }
 
@@ -418,16 +421,16 @@ public final class KernelContext implements Kernel {
         currentState.clearLocalBuffer();
     }
 
-    public QedeqBo loadModule(final URL address) throws XmlFileExceptionList {
+    public QedeqBo loadModule(final URL address) throws SourceFileExceptionList {
         return currentState.loadModule(address);
     }
 
-    public QedeqBo loadModule(final ModuleAddress moduleAddress) throws XmlFileExceptionList {
+    public QedeqBo loadModule(final ModuleAddress moduleAddress) throws SourceFileExceptionList {
         return currentState.loadModule(moduleAddress);
     }
 
     public QedeqBo loadModule(final QedeqBo module, final Specification spec)
-            throws XmlFileExceptionList {
+            throws SourceFileExceptionList {
         return currentState.loadModule(module, spec);
     }
 
@@ -435,7 +438,7 @@ public final class KernelContext implements Kernel {
         return currentState.loadAllModulesFromQedeq();
     }
 
-    public void loadRequiredModules(final URL address) throws XmlFileExceptionList {
+    public void loadRequiredModules(final URL address) throws SourceFileExceptionList {
         currentState.loadRequiredModules(address);
     }
 
