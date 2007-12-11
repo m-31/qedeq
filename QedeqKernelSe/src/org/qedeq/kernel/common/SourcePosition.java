@@ -32,9 +32,6 @@ public final class SourcePosition implements Serializable {
     /** Address of input, for identifying source. */
     private final URL address;
 
-    /** Local address of input, for loading source. */
-    private final URL localAddress;
-
     /** Line number, starting with 1. */
     private int line;
 
@@ -44,13 +41,12 @@ public final class SourcePosition implements Serializable {
     /**
      * Constructs source position object.
      *
-     * @param   localAddress    source address
+     * @param   address    source address
      * @param   line            Line number.
      * @param   column          Column number.
      */
-    public SourcePosition(final URL localAddress, final int line, final int column) {
-        this.address = localAddress;
-        this.localAddress = localAddress;
+    public SourcePosition(final URL address, final int line, final int column) {
+        this.address = address;
         this.line = line;
         this.column = column;
     }
@@ -66,7 +62,6 @@ public final class SourcePosition implements Serializable {
     public SourcePosition(final URL address, final URL localAddress,
             final int line, final int column) {
         this.address = address;
-        this.localAddress = localAddress;
         this.line = line;
         this.column = column;
     }
@@ -78,15 +73,6 @@ public final class SourcePosition implements Serializable {
      */
     public final URL getAddress() {
         return this.address;
-    }
-
-    /**
-     * Get local address (or something to identify it) of input source.
-     *
-     * @return  local address of input source
-     */
-    public final URL getLocalAddress() {
-        return this.localAddress;
     }
 
     /**
