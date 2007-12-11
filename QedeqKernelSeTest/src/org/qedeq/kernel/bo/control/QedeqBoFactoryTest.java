@@ -26,7 +26,7 @@ import org.qedeq.kernel.base.module.Author;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.module.IllegalModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.test.QedeqTestCase;
@@ -156,37 +156,37 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
 
     public static final void loadQedeqAndAssertContext(final String name) throws IOException,
             ModuleDataException, ParserConfigurationException, SAXException,
-            XmlFileExceptionList {
+            SourceFileExceptionList {
         loadQedeqAndAssertContext(getQedeqFile(name));
     }
         
     public static final void loadQedeqAndAssertContext(final File file) throws IOException,
             ModuleDataException, ParserConfigurationException, SAXException,
-            XmlFileExceptionList {
+            SourceFileExceptionList {
         QedeqBoFactoryAssert.createQedeq(file.getAbsolutePath(),
             createQedeqFromFile(file));
     }
     
     public static final Qedeq loadQedeq(final String name) throws IOException,
             IllegalModuleDataException, ParserConfigurationException, SAXException,
-            XmlFileExceptionList {
+            SourceFileExceptionList {
         return loadQedeq(getQedeqFile(name));
     }
     
     public static final Qedeq loadQedeq(final File file) throws IOException,
             ParserConfigurationException, SAXException,
-            XmlFileExceptionList {
+            SourceFileExceptionList {
         return createQedeqFromFile(file);
     }
     
     public static final Qedeq createQedeqFromFile(final File file)
             throws ParserConfigurationException, SAXException, IOException,
-            XmlFileExceptionList {
+            SourceFileExceptionList {
         SaxDefaultHandler handler = new SaxDefaultHandler();
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
         SaxParser parser = new SaxParser(handler);
-        parser.parse(file);
+        parser.parse(file, null);
         return simple.getQedeq();
     }
 

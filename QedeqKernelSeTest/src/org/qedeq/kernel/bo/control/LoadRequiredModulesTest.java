@@ -20,7 +20,7 @@ import java.io.File;
 import java.net.URL;
 
 import org.qedeq.kernel.bo.load.DefaultModuleFactory;
-import org.qedeq.kernel.common.XmlFileExceptionList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.config.QedeqConfig;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.LogListenerImpl;
@@ -105,7 +105,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM021.xml"));
             KernelContext.getInstance().loadRequiredModules(url);
             fail("021 -> 021 cycle");
-        } catch (XmlFileExceptionList e) {
+        } catch (SourceFileExceptionList e) {
             assertEquals(1, e.size());
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
@@ -126,7 +126,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM031.xml"));
             KernelContext.getInstance().loadRequiredModules(url);
             fail("031 -> 032 -> 031 cycle");
-        } catch (XmlFileExceptionList e) {
+        } catch (SourceFileExceptionList e) {
             assertEquals(1, e.size());
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
@@ -151,7 +151,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             fail("041 -> 042 -> 043 -> 044 -> 042 cycle\n"
                + "041 -> 043 -> 044 -> 042 -> 043 cycle\n"
                + "041 -> 044 -> 042 -> 043 -> 044 cycle");
-        } catch (XmlFileExceptionList e) {
+        } catch (SourceFileExceptionList e) {
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
             assertEquals(3, e.size());
@@ -230,7 +230,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM071.xml"));
             KernelContext.getInstance().loadRequiredModules(url);
             fail("see test method description");
-        } catch (XmlFileExceptionList e) {
+        } catch (SourceFileExceptionList e) {
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
             assertEquals(9, e.size());
@@ -280,7 +280,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             final URL url = IoUtility.toUrl(new File("data/loadRequired/LRM091.xml"));
             KernelContext.getInstance().loadRequiredModules(url);
             fail("091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 098 -> 099 -> 091 cycle\n");
-        } catch (XmlFileExceptionList e) {
+        } catch (SourceFileExceptionList e) {
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
             assertEquals(1, e.size());
