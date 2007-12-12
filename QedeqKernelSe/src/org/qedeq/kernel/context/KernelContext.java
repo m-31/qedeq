@@ -43,7 +43,7 @@ import org.qedeq.kernel.trace.Trace;
 public final class KernelContext implements Kernel {
 
     /** Version of this kernel. */
-    private static final String KERNEL_VERSION = "0.03.06";
+    private static final String KERNEL_VERSION = "0.03.07";
 
     /** Version dependent directory of this kernel. */
     private static final String KERNEL_VERSION_DIRECTORY = KERNEL_VERSION.replace('.', '_');
