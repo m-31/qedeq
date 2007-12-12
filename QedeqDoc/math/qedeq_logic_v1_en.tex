@@ -1,7 +1,7 @@
 % -*- TeX:EN -*-
 %%% ====================================================================
 %%% @LaTeX-file  qedeq_logic_v1_en.tex
-%%% Generated at 2007-10-14 08:48:42,546
+%%% Generated at 2007-12-12 13:49:44,006
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -63,7 +63,7 @@ Michael Meyling
 \par
 The source for this document can be found here:
 \par
-\url{http://qedeq.org/0_03_06/doc/math/qedeq_logic_v1.xml}
+\url{http://qedeq.org/0_03_07/doc/math/qedeq_logic_v1.xml}
 
 \par
 Copyright by the authors. All rights reserved.
@@ -684,26 +684,34 @@ We have the following basic propositions.
 
 
 \section{Predicate Calculus} \label{chapter5_section1} \hypertarget{chapter5_section1}{}
-MISSING! OTHER: F{\"u}r die Pr{\"a}dikatenlogik ergeben sich die folgenden S{\"a}tze.
+For predicate calculus we achieve the following propositions.
 
-\begin{thm}\hypertarget{elmpred}{}
-\begin{eqnarray}
-\forall x \ (\phi(x) \rightarrow \psi(x)) & \rightarrow & \forall x \ (\phi(x)) \rightarrow \forall x \ (\psi(x)) \\
-\forall x \ (\phi(x) \rightarrow \psi(x)) & \rightarrow & \exists x \ (\phi(x)) \rightarrow \exists x \ (\psi(x)) \\
-\exists x \ (\phi(x) \land \psi(x)) & \rightarrow & \exists x \ (\phi(x)) \land \exists x \ (\psi(x)) \\
-\forall x \ (\psi(x)) \lor \forall x \ (\psi(x)) & \rightarrow & \forall x \ (\phi(x) \lor \psi(x)) \\
-\exists x \ (\phi(x) \lor \psi(x))) & \leftrightarrow & \exists x \ (\phi(x)) \lor \exists x \ (\psi(x)) \\
-\forall x \ (\phi(x) \land \psi(x))) & \leftrightarrow & \forall x \ (\phi(x)) \land \forall x \ (\psi(x)) \hypertarget{allandpp}{}\\
-\forall x \ \forall y \ (\phi(x, y)) & \leftrightarrow & \forall y \ \forall x \ (\phi(x, y)) \\
-\exists x \ \exists y \ (\phi(x, y)) & \leftrightarrow & \exists y \ \exists x \ (\phi(x, y)) \\
-\forall x \ (\phi(x) \rightarrow A) & \leftrightarrow & (\forall x \ (\phi(x)) \rightarrow A) \\
-\forall x \ (A \rightarrow \phi(x)) & \leftrightarrow & (A \rightarrow \forall x \ (\phi(x))) \\
-\forall x \ (\phi(x) \land A) & \leftrightarrow & \forall x \ (\phi(x)) \land A \\
-\forall x \ (\phi(x) \lor A) & \leftrightarrow & (\forall x \ (\phi(x)) \lor A) \\
-\forall x \ (\phi(x) \leftrightarrow A) & \leftrightarrow & (\forall x \ (\phi(x)) \leftrightarrow A)
-\end{eqnarray}
-+++ erg{\"a}nzen
-\end{thm}
+\par
+We have the following basic propositions.
+
+\begin{prop}[Basic Propositions\index{propositions!of predicate calculus}]
+\label{theorem:predicateCalculus} \hypertarget{theorem:predicateCalculus}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{0.9\linewidth}l}}
+\centering $\forall x\ (\phi(x)\ \rightarrow \ \psi(x))\ \rightarrow \ (\forall x\ \phi(x)\ \rightarrow \ \forall x\ \psi(x))$ & \label{theorem:predicateCalculus:a} \hypertarget{theorem:predicateCalculus:a}{} \mbox{\emph{(a)}} \\
+\centering $\forall x\ (\phi(x)\ \rightarrow \ \psi(x))\ \rightarrow \ (\exists x\ \phi(x)\ \rightarrow \ \exists x\ \psi(x))$ & \label{theorem:predicateCalculus:b} \hypertarget{theorem:predicateCalculus:b}{} \mbox{\emph{(b)}} \\
+\centering $\exists x\ (\phi(x)\ \land \ \psi(x))\ \rightarrow \ (\exists x\ \phi(x)\ \land \ \exists x\ \psi(x))$ & \label{theorem:predicateCalculus:c} \hypertarget{theorem:predicateCalculus:c}{} \mbox{\emph{(c)}} \\
+\centering $(\forall x\ \psi(x)\ \lor \ \forall x\ \psi(x))\ \rightarrow \ \forall x\ (\phi(x)\ \lor \ \psi(x))$ & \label{theorem:predicateCalculus:d} \hypertarget{theorem:predicateCalculus:d}{} \mbox{\emph{(d)}} \\
+\centering $\exists x\ (\phi(x)\ \lor \ \psi(x))\ \leftrightarrow \ (\exists x\ \phi(x)\ \lor \ \exists x\ \psi(x))$ & \label{theorem:predicateCalculus:e} \hypertarget{theorem:predicateCalculus:e}{} \mbox{\emph{(e)}} \\
+\centering $\forall x\ (\phi(x)\ \land \ \psi(x))\ \leftrightarrow \ (\forall x\ \phi(x)\ \land \ \forall x\ \psi(x))$ & \label{theorem:predicateCalculus:f} \hypertarget{theorem:predicateCalculus:f}{} \mbox{\emph{(f)}} \\
+\centering $\forall x\ \forall y\ \phi(x, y)\ \leftrightarrow \ \forall y\ \forall x\ \phi(x, y)$ & \label{theorem:predicateCalculus:g} \hypertarget{theorem:predicateCalculus:g}{} \mbox{\emph{(g)}} \\
+\centering $\exists x\ \exists y\ \phi(x, y)\ \leftrightarrow \ \exists y\ \exists x\ \phi(x, y)$ & \label{theorem:predicateCalculus:h} \hypertarget{theorem:predicateCalculus:h}{} \mbox{\emph{(h)}} \\
+\centering $\forall x\ (\phi(x)\ \rightarrow \ A)\ \leftrightarrow \ (\forall x\ \phi(x)\ \rightarrow \ A)$ & \label{theorem:predicateCalculus:i} \hypertarget{theorem:predicateCalculus:i}{} \mbox{\emph{(i)}} \\
+\centering $\forall x\ (A\ \rightarrow \ \phi(x))\ \leftrightarrow \ (A\ \rightarrow \ \forall x\ \phi(x))$ & \label{theorem:predicateCalculus:j} \hypertarget{theorem:predicateCalculus:j}{} \mbox{\emph{(j)}} \\
+\centering $\forall x\ (\phi(x)\ \land \ A)\ \leftrightarrow \ (\forall x\ \phi(x)\ \land \ A)$ & \label{theorem:predicateCalculus:k} \hypertarget{theorem:predicateCalculus:k}{} \mbox{\emph{(k)}} \\
+\centering $\forall x\ (\phi(x)\ \lor \ A)\ \leftrightarrow \ (\forall x\ \phi(x)\ \lor \ A)$ & \label{theorem:predicateCalculus:l} \hypertarget{theorem:predicateCalculus:l}{} \mbox{\emph{(l)}} \\
+\centering $\forall x\ (\phi(x)\ \leftrightarrow \ A)\ \leftrightarrow \ (\forall x\ \phi(x)\ \leftrightarrow \ A)$ & \label{theorem:predicateCalculus:m} \hypertarget{theorem:predicateCalculus:m}{} \mbox{\emph{(m)}} 
+\end{longtable}
+
+\end{prop}
+
+
+
 
 \section{Derived Rules} \label{chapter5_section2} \hypertarget{chapter5_section2}{}
 MISSING! OTHER: Aus den logischen Grundlagen lassen sich logische S{\"a}tze und Metaregeln ableiten, die eine bequemere
