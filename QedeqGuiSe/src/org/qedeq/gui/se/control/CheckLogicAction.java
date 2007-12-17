@@ -107,7 +107,7 @@ class CheckLogicAction extends AbstractAction {
                                 props[i].getModule().getQedeq());
                             // TODO mime 20071031: every state must be able to change into
                             // a failure state, here we only assume two cases
-                            if (props[i].isLoaded()) {  // FIXME this is wrong!!! must differ
+                            if (!props[i].hasLoadedRequiredModules()) {
                                 props[i].setDependencyFailureState(
                                     DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
                             } else {
@@ -124,12 +124,27 @@ class CheckLogicAction extends AbstractAction {
                                 new DefaultSourceFileExceptionList(e);
                             // TODO mime 20071031: every state must be able to change into
                             // a failure state, here we only assume two cases
-                            if (props[i].isLoaded()) {  // FIXME must differ
+                            if (!props[i].hasLoadedRequiredModules()) {
                                 props[i].setDependencyFailureState(
                                     DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
                             } else {
                                 props[i].setLogicalFailureState(
                                     LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
+                            }
+                            ModuleEventLog.getInstance().stateChanged(props[i]);
+                            QedeqLog.getInstance().logFailureReply(msg, e.toString());
+                        } catch (SourceFileExceptionList e) {
+                            final String msg = "Check of logical correctness failed for \""
+                                + props[i].getAddress() + "\"";
+                            Trace.fatal(this, method, msg, e);
+                            // TODO mime 20071031: every state must be able to change into
+                            // a failure state, here we only assume two cases
+                            if (!props[i].hasLoadedRequiredModules()) {
+                                props[i].setDependencyFailureState(
+                                    DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, e);
+                            } else {
+                                props[i].setLogicalFailureState(
+                                    LogicalState.STATE_EXTERNAL_CHECKING_FAILED, e);
                             }
                             ModuleEventLog.getInstance().stateChanged(props[i]);
                             QedeqLog.getInstance().logFailureReply(msg, e.toString());
@@ -151,6 +166,7 @@ class CheckLogicAction extends AbstractAction {
                             ModuleEventLog.getInstance().stateChanged(props[i]);
                             QedeqLog.getInstance().logFailureReply(msg, e.toString());
                         }
+
                     }
                 }
             };
