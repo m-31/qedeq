@@ -103,6 +103,15 @@ public final class DependencyState {
     }
 
     /**
+     * Are all required modules loaded?
+     *
+     * @return  Are all required modules loaded?
+     */
+    public final boolean areAllRequiredLoaded() {
+        return this.code == STATE_LOADED_REQUIRED_MODULES.getCode();
+    }
+
+    /**
      * Get module state code.
      *
      * @return  Module state.
