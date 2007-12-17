@@ -204,7 +204,7 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     public final ModuleReferenceList getRequiredModules() {
-        if (!hasLoadedRequired()) {
+        if (!hasLoadedRequiredModules()) {
             throw new IllegalStateException(
                 "module reference list exists only if state is \""
                 + DependencyState.STATE_LOADED_REQUIRED_MODULES.getText() + "\"");
@@ -212,7 +212,7 @@ public class DefaultModuleProperties implements ModuleProperties {
         return required;
     }
 
-    public final boolean hasLoadedRequired() {
+    public final boolean hasLoadedRequiredModules() {
         return loadingState == LoadingState.STATE_LOADED
             && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES;
     }
@@ -236,7 +236,7 @@ public class DefaultModuleProperties implements ModuleProperties {
 
     public final void setLogicalFailureState(final LogicalState state,
             final SourceFileExceptionList e) {
-        if ((!isLoaded() || !hasLoadedRequired()) && state != LogicalState.STATE_UNCHECKED) {
+        if ((!isLoaded() || !hasLoadedRequiredModules()) && state != LogicalState.STATE_UNCHECKED) {
             throw new IllegalArgumentException(
                 "this state could only be set if all required modules are loaded ");
         }
@@ -261,7 +261,7 @@ public class DefaultModuleProperties implements ModuleProperties {
             return loadingState.getText() + " (" + loadingCompleteness + "%)";
         } else if (!isLoaded()) {
             return loadingState.getText();
-        } else if (!hasLoadedRequired()) {
+        } else if (!hasLoadedRequiredModules()) {
             return dependencyState.getText();
         } else {
             return logicalState.getText();
