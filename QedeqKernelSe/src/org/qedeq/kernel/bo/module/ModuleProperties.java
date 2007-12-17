@@ -186,6 +186,13 @@ public interface ModuleProperties {
 
 
     /**
+     * Are all required modules loaded?
+     *
+     * @return  Are all required modules loaded?
+     */
+    public boolean hasLoadedRequiredModules();
+
+    /**
      * Get labels and URLs of all referenced modules.
      *
      * @return  URLs of all referenced modules.
