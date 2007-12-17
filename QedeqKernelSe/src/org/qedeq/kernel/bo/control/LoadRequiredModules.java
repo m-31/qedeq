@@ -22,6 +22,7 @@ import java.net.URL;
 import org.qedeq.kernel.base.module.Import;
 import org.qedeq.kernel.base.module.ImportList;
 import org.qedeq.kernel.bo.module.DependencyState;
+import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.ModuleReferenceList;
@@ -121,6 +122,11 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
         final String method = "loadRequired(QedeqBo)";
         final ModuleProperties prop = KernelContext.getInstance().getModuleProperties(
             qedeqUrl);   // TODO mime 20071026: this is no good code!
+
+        // did we check this already?
+        if (prop.getDependencyState().areAllRequiredLoaded()) {
+            return;
+        }
         final QedeqBo bo = KernelContext.getInstance().loadModule(qedeqUrl);
         prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
         final LoadRequiredModules converter = new LoadRequiredModules(bo);
