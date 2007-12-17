@@ -374,7 +374,7 @@ public class SaxDefaultHandler extends DefaultHandler {
     /**
      * Set file that is parsed.
      *
-     * @param   url     This file is parsed.
+     * @param   url     This source is parsed.
      */
     public final void setUrl(final URL url) {
         this.url = url;
