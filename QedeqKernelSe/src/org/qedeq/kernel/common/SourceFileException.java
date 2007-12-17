@@ -120,7 +120,7 @@ public class SourceFileException extends QedeqException {
      * @param   exception   Exception to wrap.
      */
     public SourceFileException(final Throwable exception) {
-        super(1000, exception.getMessage(), exception);     // TODO mime 20071116: error code refac
+        super(1000, exception.toString(), exception);     // TODO mime 20071116: error code refac
         errorArea = null;
         referenceArea = null;
     }
