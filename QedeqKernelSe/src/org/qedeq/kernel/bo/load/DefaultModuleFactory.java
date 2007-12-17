@@ -411,7 +411,8 @@ public class DefaultModuleFactory implements ModuleFactory {
     public boolean loadAllModulesFromQedeq() {
         processInc();
         try {
-            final String prefix = "http://www.qedeq.org/"
+// FIXME mime 20071214 change:            final String prefix = "http://www.qedeq.org/"
+            final String prefix = "http://qedeq.org/"
                 + kernel.getKernelVersionDirectory() + "/";
             final String[] list = new String[] {
                 prefix + "doc/math/qedeq_logic_v1.xml",
