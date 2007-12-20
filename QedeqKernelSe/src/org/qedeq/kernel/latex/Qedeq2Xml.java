@@ -18,6 +18,7 @@
 package org.qedeq.kernel.latex;
 
 import java.io.IOException;
+import java.net.URL;
 
 import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.base.module.Author;
@@ -77,11 +78,11 @@ public final class Qedeq2Xml extends AbstractModuleVisitor {
     /**
      * Constructor.
      *
-     * @param   qedeqBo               QEDEQ BO object.
+     * @param   qedeqBo             QEDEQ BO object.
      * @param   globalContext       Module location information.
      * @param   printer             Print herein.
      */
-    private Qedeq2Xml(final QedeqBo qedeqBo, final String globalContext,
+    private Qedeq2Xml(final QedeqBo qedeqBo, final URL globalContext,
             final TextOutput printer) {
         this.qedeqBo = qedeqBo;
         transverser = new QedeqNotNullTransverser(globalContext, this);
@@ -97,7 +98,7 @@ public final class Qedeq2Xml extends AbstractModuleVisitor {
      * @throws  ModuleDataException Major problem occurred.
      * @throws  IOException
      */
-    public static void print(final String globalContext, final QedeqBo qedeq,
+    public static void print(final URL globalContext, final QedeqBo qedeq,
             final TextOutput printer) throws ModuleDataException, IOException {
         final Qedeq2Xml converter = new Qedeq2Xml(qedeq, globalContext, printer);
         converter.printXml();
