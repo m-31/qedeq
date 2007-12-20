@@ -162,7 +162,7 @@ public final class SaxParser {
             throw new DefaultSourceFileExceptionList(e);
         }
         try {
-            parse(url, validateOnly, in);
+            parse(original, validateOnly, in);
         } finally {
             if (in != null) {
                 try {
