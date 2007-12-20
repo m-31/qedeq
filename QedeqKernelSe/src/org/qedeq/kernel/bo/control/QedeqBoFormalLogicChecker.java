@@ -17,6 +17,7 @@
 
 package org.qedeq.kernel.bo.control;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -70,7 +71,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
      * @param   globalContext     Module location information.
      * @param   qedeq             BO QEDEQ module object.
      */
-    private QedeqBoFormalLogicChecker(final String globalContext, final QedeqBo qedeq) {
+    private QedeqBoFormalLogicChecker(final URL globalContext, final QedeqBo qedeq) {
         transverser = new QedeqNotNullTransverser(globalContext, this);
         original = qedeq;
     }
@@ -82,7 +83,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
      * @param   qedeq               Basic QEDEQ module object.
      * @throws  ModuleDataException      Major problem occured.
      */
-    public static void check(final String globalContext, final QedeqBo qedeq)
+    public static void check(final URL globalContext, final QedeqBo qedeq)
             throws ModuleDataException {
         final QedeqBoFormalLogicChecker checker = new QedeqBoFormalLogicChecker(globalContext,
             qedeq);
