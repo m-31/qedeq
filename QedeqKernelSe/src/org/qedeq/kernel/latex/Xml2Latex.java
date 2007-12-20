@@ -98,7 +98,7 @@ public final class Xml2Latex  {
             printer = new TextOutput(destination.getName(), outputStream);
 
             // System.out.println(simple.getQedeq().toString());
-            Qedeq2Latex.print(prop.getModuleAddress().getAddress(), qedeqBo, printer,
+            Qedeq2Latex.print(prop.getUrl(), qedeqBo, printer,
                 language, level);
             return destination.getCanonicalPath();
         } catch (IOException e) {
