@@ -17,16 +17,19 @@
 
 package org.qedeq.kernel.xml.mapper;
 
+import java.io.File;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
+import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
@@ -90,11 +93,16 @@ public final class ModuleDataException2XmlFileException {
         SimpleXPath find = null;
         try {
             find = XPathLocationFinder.getXPathLocation(
-                context.getModuleLocation(), xpath);
+                new File(KernelContext.getInstance().getLocalFilePath(
+                // FIXME mime 20071218: getLocalFilePath(URL) is missing
+                // FIXME mime 20071218: getLocalFilePath(URL) should return String
+                new DefaultModuleAddress(context.getModuleLocation()))),
+                xpath,
+                context.getModuleLocation());
             if (find.getStartLocation() == null) {
                 return null;
             }
-            return new SourceArea(find.getStartLocation().getAddress(), find.getStartLocation(),
+            return new SourceArea(context.getModuleLocation(), find.getStartLocation(),
                 find.getEndLocation());
         } catch (ParserConfigurationException e) {
             Trace.trace(SourceFileException.class, method, e);
