@@ -17,6 +17,8 @@
 
 package org.qedeq.kernel.bo.load;
 
+import java.net.URL;
+
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
@@ -123,7 +125,7 @@ public class QedeqBoFactory {
      *
      * @param   globalContext     Module location information.
      */
-    protected QedeqBoFactory(final String globalContext) {
+    protected QedeqBoFactory(final URL globalContext) {
         currentContext = new ModuleContext(globalContext);
     }
 
@@ -141,7 +143,7 @@ public class QedeqBoFactory {
      * @return  Filled QEDEQ business object. Is equal to the parameter <code>qedeq</code>.
      * @throws  ModuleDataException     Invalid data found.
      */
-    public static DefaultQedeqBo createQedeq(final String globalContext, final Qedeq original)
+    public static DefaultQedeqBo createQedeq(final URL globalContext, final Qedeq original)
             throws ModuleDataException {
         final QedeqBoFactory creator = new QedeqBoFactory(globalContext);
         DefaultQedeqBo bo = creator.create(original);
