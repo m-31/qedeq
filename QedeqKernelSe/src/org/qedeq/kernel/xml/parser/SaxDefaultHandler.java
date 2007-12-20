@@ -372,18 +372,20 @@ public class SaxDefaultHandler extends DefaultHandler {
     }
 
     /**
-     * Set file that is parsed.
+     * Set original file URL.
      *
-     * @param   url     This source is parsed.
+     * @param   url     Data from this source is parsed. This URL is only for information. The
+     *                  actual parsed data might be a local copy.
      */
     public final void setUrl(final URL url) {
         this.url = url;
     }
 
     /**
-     * Get file that is parsed.
+     * Get original file URL.
      *
-     * @return  url     This file is parsed.
+     * @return  Data from this source is parsed. This URL is only for information. The
+     *          actual parsed data might be a local copy.
      */
     public final URL getUrl() {
         return url;
