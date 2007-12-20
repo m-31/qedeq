@@ -30,7 +30,6 @@ import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
@@ -82,15 +81,12 @@ class CheckLogicAction extends AbstractAction {
                             QedeqLog.getInstance().logRequest("Check logical correctness for \""
                                 + props[i].getAddress() + "\"");
 
-                            // FIXME mime 20071024: testing:
                             LoadRequiredModules.loadRequired(props[i].getUrl());
 
                             props[i].setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
                             ModuleEventLog.getInstance().stateChanged(props[i]);
-                            QedeqBoFormalLogicChecker.check(KernelContext.getInstance()
-                                .getLocalFilePath(props[i].getModuleAddress()),
+                            QedeqBoFormalLogicChecker.check(props[i].getUrl(),
                                 props[i].getModule());
-
 
                             props[i].setLogicalProgressState(LogicalState.STATE_CHECKED);
                             ModuleEventLog.getInstance().stateChanged(props[i]);
