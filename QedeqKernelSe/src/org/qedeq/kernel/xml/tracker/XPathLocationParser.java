@@ -18,6 +18,7 @@ package org.qedeq.kernel.xml.tracker;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -118,24 +119,27 @@ public class XPathLocationParser implements ContentHandler {
     /**
      * Parses XML file.
      *
-     * @param fileName Parse this input.
+     * @param   fileName    Parse this input.
+     * @param   original    Original file location.
      * @throws SAXException Syntactical or semantical problem occurred.
-     * @throws IOException Technical problem occurred.
+     * @throws IOException  Technical problem occurred.
      */
-    public final void parse(final String fileName) throws SAXException, IOException {
+    public final void parse(final String fileName, final URL original) throws SAXException,
+            IOException {
         final File file = new File(fileName);
-        parse(file);
+        parse(file, original);
     }
 
     /**
      * Parses XML file.
      *
-     * @param file Parse this input.
+     * @param   file        Parse this input.
+     * @param   original    Original file location.
      * @throws SAXException Syntactical or semantical problem occurred.
      * @throws IOException Technical problem occurred.
      */
-    public final void parse(final File file) throws SAXException, IOException {
-        final TextInput source = new TextInput(file);
+    public final void parse(final File file, final URL original) throws SAXException, IOException {
+        final TextInput source = new TextInput(file, original);
         parse(source);
     }
 
@@ -283,7 +287,7 @@ public class XPathLocationParser implements ContentHandler {
             } catch (RuntimeException e) {
                 Trace.trace(this, method, e);
             }
-            find.setStartLocation(new SourcePosition(xml.getLocalAddress(), xml.getRow(), xml
+            find.setStartLocation(new SourcePosition(xml.getAddress(), xml.getRow(), xml
                 .getColumn()));
             if (find.getAttribute() != null) {
                 xml.read(); // skip <
@@ -299,9 +303,9 @@ public class XPathLocationParser implements ContentHandler {
                         break; // TODO mime 20050621: create named exception in readNextXmlName
                     }
                     if (tag.equals(find.getAttribute())) {
-                        find.setStartLocation(new SourcePosition(xml.getLocalAddress(), row, col));
+                        find.setStartLocation(new SourcePosition(xml.getAddress(), row, col));
                         xml.readNextAttributeValue();
-                        find.setEndLocation(new SourcePosition(xml.getLocalAddress(), xml.getRow(),
+                        find.setEndLocation(new SourcePosition(xml.getAddress(), xml.getRow(),
                             xml.getColumn()));
                         break;
                     }
