@@ -17,6 +17,8 @@
 
 package org.qedeq.kernel.bo.module;
 
+import java.net.URL;
+
 import org.qedeq.kernel.trace.Trace;
 
 
@@ -36,7 +38,7 @@ import org.qedeq.kernel.trace.Trace;
 public class ModuleContext {
 
     /** Module location. */
-    private String moduleLocation;
+    private URL moduleLocation;
 
     /** Location within the module. */
     private String locationWithinModule;
@@ -47,7 +49,7 @@ public class ModuleContext {
      * @param   moduleLocation  Module location information.
      * @param   locationWithinModule    Location within module.
      */
-    public ModuleContext(final String moduleLocation, final String locationWithinModule) {
+    public ModuleContext(final URL moduleLocation, final String locationWithinModule) {
         this.moduleLocation = moduleLocation;
         this.locationWithinModule = locationWithinModule;
     }
@@ -57,7 +59,7 @@ public class ModuleContext {
      *
      * @param   moduleLocation  Module location information.
      */
-    public ModuleContext(final String moduleLocation) {
+    public ModuleContext(final URL moduleLocation) {
         this(moduleLocation, "");
     }
 
@@ -85,7 +87,7 @@ public class ModuleContext {
      *
      * @return  Module location information.
      */
-    public final String getModuleLocation() {
+    public final URL getModuleLocation() {
         return moduleLocation;
     }
 
@@ -94,7 +96,7 @@ public class ModuleContext {
      *
      * @param   moduleLocation  Module location information.
      */
-    public final void setModuleLocation(final String moduleLocation) {
+    public final void setModuleLocation(final URL moduleLocation) {
         this.moduleLocation = moduleLocation;
     }
 
