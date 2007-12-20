@@ -22,7 +22,7 @@ import java.net.URL;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourcePosition;
-import org.qedeq.kernel.xml.common.XmlSyntaxException;
+import org.qedeq.kernel.trace.Trace;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
@@ -53,6 +53,7 @@ public class SaxErrorHandler implements ErrorHandler {
      */
     public SaxErrorHandler(final URL url, final DefaultSourceFileExceptionList list) {
         super();
+        Trace.param(this, "SaxErrorHandler", "url", url);
         this.url = url;
         this.list = list;
     }
@@ -64,6 +65,8 @@ public class SaxErrorHandler implements ErrorHandler {
         final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
             e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
                 e.getColumnNumber()), null), null);
+        Trace.trace(this, "warning", e);
+        Trace.trace(this, "warning", sf);
         list.add(sf);
     }
 
@@ -74,6 +77,8 @@ public class SaxErrorHandler implements ErrorHandler {
         final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
             e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
                 e.getColumnNumber()), null), null);
+        Trace.trace(this, "error", e);
+        Trace.trace(this, "error", sf);
         list.add(sf);
     }
 
@@ -84,6 +89,8 @@ public class SaxErrorHandler implements ErrorHandler {
         final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
             e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
                 e.getColumnNumber()), null), null);
+        Trace.trace(this, "fatalError", e);
+        Trace.trace(this, "fatalError", sf);
         list.add(sf);
     }
 
