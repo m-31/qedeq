@@ -17,6 +17,7 @@
 
 package org.qedeq.kernel.bo.control;
 
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +51,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
      * @param   globalContext     Module location information.
      * @param   qedeq             BO QEDEQ module object.
      */
-    private QedeqBoDuplicateLanguageChecker(final String globalContext, final QedeqBo qedeq) {
+    private QedeqBoDuplicateLanguageChecker(final URL globalContext, final QedeqBo qedeq) {
         transverser = new QedeqNotNullTransverser(globalContext, this);
         original = qedeq;
     }
@@ -62,7 +63,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
      * @param   qedeq               Basic QEDEQ module object.
      * @throws  ModuleDataException      Major problem occurred.
      */
-    public static void check(final String globalContext, final QedeqBo qedeq)
+    public static void check(final URL globalContext, final QedeqBo qedeq)
             throws ModuleDataException {
         final QedeqBoDuplicateLanguageChecker checker
             = new QedeqBoDuplicateLanguageChecker(globalContext, qedeq);
