@@ -57,8 +57,10 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class QedeqPane extends JPanel {
 
+    /** Reference to module properties. */
     private ModuleProperties prop;
 
+    /** Here is the QEDEQ module source. */
     private JTextArea qedeq = new JTextArea();
 
     private JTextArea error = new JTextArea();
@@ -266,7 +268,7 @@ public class QedeqPane extends JPanel {
                         final URL local = (IoUtility.toUrl(
                             new File(KernelContext.getInstance()
                                 .getLocalFilePath(prop.getModuleAddress()))));
-                        // TODO mime 20071128: the above code must be simpler!!!
+                        // FIXME mime 20071128: the above code must be simpler!!!
                         //      prop.getModuleAddress().localizeInFileSystem(prop.getUrl());
                         error.setText(pe.get(0).getDescription(local) + "\n"
                                 + pe.get(0).getLine(local) + "\n"
