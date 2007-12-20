@@ -18,6 +18,8 @@
 package org.qedeq.kernel.bo.control;
 
 import java.io.ByteArrayOutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Stack;
 
 import org.qedeq.kernel.base.list.Atom;
@@ -47,6 +49,16 @@ public class ListTraverserQedeqNotNullTransverserTest extends QedeqTestCase {
     private final TextOutput text = new TextOutput("local", out);
     
     private final Stack stack = new Stack();
+    
+    private static URL url;
+    
+    static {
+        try {
+            url = new URL("http://memory.org");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
     
     private final QedeqVisitor visitor = new AbstractModuleVisitor() {
         
@@ -84,7 +96,8 @@ public class ListTraverserQedeqNotNullTransverserTest extends QedeqTestCase {
 
     };
     
-    private final QedeqNotNullTransverser trans = new QedeqNotNullTransverser("memory", visitor);
+    private final QedeqNotNullTransverser trans = new QedeqNotNullTransverser(url, 
+        visitor);
     
     
     /**

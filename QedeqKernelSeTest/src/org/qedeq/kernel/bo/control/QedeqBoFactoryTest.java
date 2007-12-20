@@ -31,6 +31,7 @@ import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
@@ -91,14 +92,14 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             SAXException, ModuleDataException {
         final String method = "testCreateStringQedeq()";
         try {
-            QedeqBoFactoryAssert.createQedeq(errorFile.getCanonicalPath(), error);
+            QedeqBoFactoryAssert.createQedeq(IoUtility.toUrl(errorFile.getCanonicalFile()), error);
             fail("IllegalModuleDataException expected");
         } catch (IllegalModuleDataException e) {
             System.err.println(e);
             System.err.println(e.getContext());
-            final String file = e.getContext().getModuleLocation();
             final SimpleXPath xpath = Context2SimpleXPath.getXPath(e.getContext(), error);
-            final SimpleXPath find = XPathLocationFinder.getXPathLocation(file, xpath);
+            final SimpleXPath find = XPathLocationFinder.getXPathLocation(
+                errorFile.getCanonicalFile(), xpath, IoUtility.toUrl(errorFile.getCanonicalFile()));
             System.out.println("found: " + find.getStartLocation());
             System.out.println("found: " + find.getEndLocation());
             assertEquals(221, find.getStartLocation().getLine());
@@ -163,7 +164,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
     public static final void loadQedeqAndAssertContext(final File file) throws IOException,
             ModuleDataException, ParserConfigurationException, SAXException,
             SourceFileExceptionList {
-        QedeqBoFactoryAssert.createQedeq(file.getAbsolutePath(),
+        QedeqBoFactoryAssert.createQedeq(IoUtility.toUrl(file.getAbsoluteFile()),
             createQedeqFromFile(file));
     }
     

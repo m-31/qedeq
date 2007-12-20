@@ -17,8 +17,10 @@
 
 package org.qedeq.kernel.bo.control;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -27,6 +29,7 @@ import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.load.DefaultQedeqBo;
 import org.qedeq.kernel.bo.load.QedeqBoFactory;
 import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
@@ -46,7 +49,7 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
      * 
      * @param   globalContext     Module location information.
      */
-    public QedeqBoFactoryAssert(final String globalContext) {
+    public QedeqBoFactoryAssert(final URL globalContext) {
         super(globalContext);
     }
 
@@ -64,7 +67,7 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
      * @return  Filled QEDEQ business object. Is equal to the parameter <code>qedeq</code>.
      * @throws  ModuleDataException  Semantic or syntactic error occurred.
      */
-    public static DefaultQedeqBo createQedeq(final String globalContext, final Qedeq original)
+    public static DefaultQedeqBo createQedeq(final URL globalContext, final Qedeq original)
             throws ModuleDataException {
         final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(globalContext);
         final DefaultQedeqBo bo = creator.create(original);
@@ -106,8 +109,10 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
         }
         System.out.println("###< " + xpath);
         try {
-            final SimpleXPath find = XPathLocationFinder.getXPathLocation(getCurrentContext()
-                .getModuleLocation(), xpath);
+            final SimpleXPath find = XPathLocationFinder.getXPathLocation(
+                new File(KernelFacade.getKernelContext().getLocalFilePath(
+                new DefaultModuleAddress(getCurrentContext().getModuleLocation()))), xpath,
+                getCurrentContext().getModuleLocation());
             if (find.getStartLocation() == null) {
                 System.out.println(getCurrentContext());
                 throw new RuntimeException("start not found: " + find + "\ncontext: " 
