@@ -19,6 +19,7 @@ package org.qedeq.kernel.bo.logic;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -31,6 +32,7 @@ import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
+import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
 import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
@@ -138,7 +140,7 @@ public final class CheckLogicTest extends QedeqTestCase {
             SourceFileExceptionList {
         final File xmlFile = new File(dir, xml).getAbsoluteFile();
         
-        final String context = xmlFile.getAbsolutePath();
+        final URL context = IoUtility.toUrl(xmlFile.getAbsoluteFile());
         SaxDefaultHandler handler = new SaxDefaultHandler();
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);

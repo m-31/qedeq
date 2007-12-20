@@ -29,7 +29,6 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.handler.list.ElementHandler;
 import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
