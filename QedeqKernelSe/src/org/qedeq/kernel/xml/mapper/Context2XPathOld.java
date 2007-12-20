@@ -66,7 +66,7 @@ public final class Context2XPathOld {
      * @deprecated
      */
     public static final String getFileName(final ModuleContext context) {
-        return context.getModuleLocation();
+        return context.getModuleLocation().toString();
     }
 
     /**
