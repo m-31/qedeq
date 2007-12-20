@@ -18,6 +18,7 @@
 package org.qedeq.kernel.latex;
 
 import java.io.IOException;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -123,7 +124,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
      * @param   language        Filter text to get and produce text in this language only.
      * @param   level           Filter for this detail level. TODO mime 20050205: not supported yet.
      */
-    private Qedeq2Latex(final QedeqBo qedeq, final String globalContext,
+    private Qedeq2Latex(final QedeqBo qedeq, final URL globalContext,
             final TextOutput printer, final String language, final String level) {
         this.qedeqBo = qedeq;
         this.transverser = new QedeqNotNullTransverser(globalContext, this);
@@ -163,7 +164,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
      * @throws  ModuleDataException Major problem occurred.
      * @throws  IOException
      */
-    public static void print(final String globalContext, final QedeqBo qedeq,
+    public static void print(final URL globalContext, final QedeqBo qedeq,
             final TextOutput printer, final String language, final String level)
             throws ModuleDataException, IOException {
         final Qedeq2Latex converter = new Qedeq2Latex(qedeq, globalContext, printer,
