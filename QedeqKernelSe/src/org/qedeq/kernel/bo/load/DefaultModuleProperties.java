@@ -120,7 +120,7 @@ public class DefaultModuleProperties implements ModuleProperties {
             throw new IllegalArgumentException(
                 "this is no failure state, call setLoadingProgressState");
         }
-//          FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules? 
+//          FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
 //          they must be killed too!
         this.module = null;
         this.loadingState = state;
