@@ -69,14 +69,14 @@ public class DefaultModuleProperties implements ModuleProperties {
      */
     public DefaultModuleProperties(final ModuleAddress address) {
         this.address = address;
-        this.loadingState = LoadingState.STATE_UNDEFINED;
-        this.loadingCompleteness = 0;
-        this.dependencyState = DependencyState.STATE_UNDEFINED;
-        this.logicalState = LogicalState.STATE_UNCHECKED;
+        loadingState = LoadingState.STATE_UNDEFINED;
+        loadingCompleteness = 0;
+        dependencyState = DependencyState.STATE_UNDEFINED;
+        logicalState = LogicalState.STATE_UNCHECKED;
     }
 
     public final boolean hasFailures() {
-        return this.loadingState.isFailure();
+        return loadingState.isFailure() || dependencyState.isFailure() || logicalState.isFailure();
     }
 
     public final String getAddress() {
