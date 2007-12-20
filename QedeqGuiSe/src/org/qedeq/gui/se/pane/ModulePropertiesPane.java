@@ -44,16 +44,22 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class ModulePropertiesPane extends JPanel {
 
+    /** Reference to module properties. */
     private ModuleProperties prop;
 
+    /** State of module. */
     private JTextField state;
 
+    /** Module name. */
     private JTextField name;
 
+    /** Module rule version. */
     private JTextField ruleVersion;
 
+    /** URL of module. */
     private JTextArea url;
 
+    /** Failure message. */
     private JTextArea failure;
 
 
