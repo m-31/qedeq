@@ -143,7 +143,7 @@ public class QedeqPane extends JPanel {
     builder.setDefaultDialogBorder();
 
         qedeq.setDragEnabled(true);
-        qedeq.setFont(new Font("monospaced", Font.PLAIN, 12));
+        qedeq.setFont(new Font("monospaced", Font.PLAIN, 12));  // TODO mime 20071220: hard coded
         qedeq.setAutoscrolls(true);
         qedeq.setCaretPosition(0);
         qedeq.setEditable(false);
@@ -212,6 +212,7 @@ public class QedeqPane extends JPanel {
     public void setModel(final ModuleProperties prop) {
         Trace.trace(this, "setModel", prop);
         this.prop = prop;
+        updateView();
     }
 
 
@@ -240,11 +241,10 @@ public class QedeqPane extends JPanel {
                 if (file.canRead()) {
                     final StringBuffer buffer = new StringBuffer();
                         IoUtility.loadFile(file, buffer);
-                    this.qedeqScroller.getViewport().setViewPosition(new Point(0, 0));
+//                    this.qedeqScroller.getViewport().setViewPosition(new Point(0, 0));
                     qedeq.setText(buffer.toString());
-                    if (prop.getLoadingState().isFailure()
-                            && prop.getException() instanceof SourceFileExceptionList) {
-                        final SourceFileExceptionList pe = (SourceFileExceptionList) prop.getException();
+                    if (prop.hasFailures()) {
+                        final SourceFileExceptionList pe = prop.getException();
                         if (prop.getModuleAddress().isFileAddress()) {
                             qedeq.setEditable(true);
                         } else {
@@ -334,7 +334,7 @@ public class QedeqPane extends JPanel {
     }
 
 
-// not used any longer
+// TODO not used any longer
 /*
     private final int findCaretPosition(final int i) {
         if (i == 1) {
@@ -355,44 +355,25 @@ public class QedeqPane extends JPanel {
     }
 */
     private final void highlightLine(final int line) {
-/*
-    private final void highlightLine(final int i) {
-        Trace.trace(this, "highlightLine", "position=" + i);
-        int line;
-        try {
-            line = qedeq.getLineOfOffset(i);
-        } catch (BadLocationException e) {
-            Trace.trace(this, "highlightLine", e);
-            line = 0;
-        }
-*/
+        Trace.param(this, "highlightLine", "line", line);
         int j;
         try {
-            j = qedeq.getLineStartOffset(line);
+            j = qedeq.getLineStartOffset(line - 1);
         } catch (BadLocationException e) {
             Trace.trace(this, "highlightLine", e);
             j = 0;
         }
         int k;
         try {
-            k = qedeq.getLineEndOffset(line);
+            k = qedeq.getLineEndOffset(line - 1);
         } catch (BadLocationException e) {
             Trace.trace(this, "highlightLine", e);
             k = qedeq.getText().length();
         }
         Trace.trace(this, "highlightLine", "from " + j + " to " + k);
 
-//// old, but working code:
-//        final String s = qedeq.getText();
-//        int j = i;
-//        for (; j > 0 && s.charAt(j) != '\n'; j--) {
-//        }
-//        int k = i;
-//        for (; k < s.length() && s.charAt(k) != '\n'; k++) {
-//        }
-//
-//        qedeq.setCaretPosition(j);
-//        qedeq.moveCaretPosition(k);
+        qedeq.setCaretPosition(j);
+        qedeq.moveCaretPosition(k);
     }
 
 
