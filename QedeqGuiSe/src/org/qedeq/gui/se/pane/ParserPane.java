@@ -58,25 +58,35 @@ import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
  */
 public class ParserPane extends JFrame {
 
+    /** TODO Example string. */
     private static final String SAMPLE = "x \\land (y \\lor z) \\leftrightarrow (x \\land y) \\lor "
         + "(x \\land z)\n\n\\{ x | y \\in x \\} = \\{ z | y \\in x \\}";
 
+    /** Source to parse. */
     private CPTextArea source = new CPTextArea(SAMPLE);
 
+    /** Parse result. */
     private CPTextArea resultField = new CPTextArea();
 
+    /** Error messages. */
     private CPTextArea error = new CPTextArea();
 
+    /** Make source scrollable. */
     private JScrollPane sourceScroller = new JScrollPane();
 
+    /** Split between source and result. */
     private JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
 
+    /** Menu for copy and paste. */
     private JMenuBar menu = new JMenuBar();
 
+    /** List of {@link org.qedeq.kernel.parser.Operator}s. */
     private final List operators;
 
+    /** Error position within source file. */
     private int errorPosition = -1;
 
+    /** Split between previous split and error pane. */
     private JSplitPane globalPane;
 
 
