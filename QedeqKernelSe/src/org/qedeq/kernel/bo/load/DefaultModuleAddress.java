@@ -202,7 +202,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      * @return  Module address as {@link ModuleContext}.
      */
     public final ModuleContext createModuleContext() {
-        return new ModuleContext(getAddress());
+        return new ModuleContext(getURL());
     }
 
     /**
@@ -277,6 +277,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      */
     public final String localizeInFileSystem(final URL url) {
         final String method = "localizeInFileSystem(URL)";
+        Trace.traceStack(this, method); // FIXME mime 20071218: remove me
         Trace.param(this, method, "protocoll", url.getProtocol());
         Trace.param(this, method, "host", url.getHost());
         Trace.param(this, method, "port", url.getPort());
