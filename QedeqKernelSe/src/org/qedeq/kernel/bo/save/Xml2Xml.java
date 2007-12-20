@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.URL;
 
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
@@ -57,53 +58,50 @@ public final class Xml2Xml  {
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      * @return  File name of generated LaTeX file.
      */
-    public static String generate(final String from, final String to)
-            throws SourceFileExceptionList {
-        return generate((from != null ? new File(from) : null), (to != null ? new File(to) : null));
-    }
-
-    /**
-     * Generate LaTeX file out of XML file. Also initializes trace file.
-     *
-     * @param   from            Read this XML file.
-     * @param   to              Write to this file. Could be <code>null</code>.
-     * @throws  SourceFileExceptionList    Module could not be successfully loaded.
-     * @return  File name of generated LaTeX file.
-     */
     public static String generate(final File from, final File to)
             throws SourceFileExceptionList {
-        final String method = "generate(String, String, String, String)";
-        File destination = null;
-        File source = null;
-        QedeqBo qedeqBo = null;
+        final String method = "generate(File, File)";
+        File destination;
         try {
-            Trace.begin(Xml2Xml.class, method);
-            Trace.param(Xml2Xml.class, method, "from", from);
-            Trace.param(Xml2Xml.class, method, "to", to);
-            source = from;
             if (to != null) {
                 destination = to.getCanonicalFile();
             } else {
-                String xml = source.getName();
+                String xml = from.getName();
                 if (xml.toLowerCase().endsWith(".xml")) {
                     xml = xml.substring(0, xml.length() - 4);
                 }
-                destination = new File(source.getParentFile(), xml + "_.xml").getCanonicalFile();
+                destination = new File(from.getParentFile(), xml + "_.xml").getCanonicalFile();
             }
         } catch (IOException e) {
             Trace.trace(Xml2Xml.class, method, e);
             throw new DefaultSourceFileExceptionList(e);
         }
+        return generate(IoUtility.toUrl(from), destination);
+    }
+
+    /**
+     * Generate LaTeX file out of XML file.
+     *
+     * @param   from            Read this XML file.
+     * @param   to              Write to this file. Could not be <code>null</code>.
+     * @throws  SourceFileExceptionList    Module could not be successfully loaded.
+     * @return  File name of generated LaTeX file.
+     */
+    public static String generate(final URL from, final File to)
+            throws SourceFileExceptionList {
+        final String method = "generate(URL, File)";
+        Trace.begin(Xml2Xml.class, method);
+        Trace.param(Xml2Xml.class, method, "from", from);
+        Trace.param(Xml2Xml.class, method, "to", to);
+        QedeqBo qedeqBo = null;
         TextOutput printer = null;
         try {
-            qedeqBo = KernelContext.getInstance().loadModule(
-                IoUtility.toUrl(source.getCanonicalFile()));
-
-            IoUtility.createNecessaryDirectories(destination);
-            final OutputStream outputStream = new FileOutputStream(destination);
-            printer = new TextOutput(destination.getName(), outputStream);
-            Qedeq2Xml.print(source.getCanonicalPath(), qedeqBo, printer);
-            return destination.getCanonicalPath();
+            qedeqBo = KernelContext.getInstance().loadModule(from);
+            IoUtility.createNecessaryDirectories(to);
+            final OutputStream outputStream = new FileOutputStream(to);
+            printer = new TextOutput(to.getName(), outputStream);
+            Qedeq2Xml.print(from, qedeqBo, printer);
+            return to.getCanonicalPath();
         } catch (IOException e) {
             Trace.trace(Xml2Xml.class, method, e);
             throw new DefaultSourceFileExceptionList(e);
