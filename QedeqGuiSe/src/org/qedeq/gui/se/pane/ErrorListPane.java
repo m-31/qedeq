@@ -19,6 +19,7 @@ package org.qedeq.gui.se.pane;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
@@ -83,6 +84,8 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
         error.setEditable(false);
         error.getCaret().setVisible(false);
         error.setFocusable(true);
+        error.setFont(new Font("monospaced", Font.PLAIN, 12));
+
         final JScrollPane scroller = new JScrollPane();
         final JViewport vp = scroller.getViewport();
         vp.add(error);
