@@ -45,14 +45,19 @@ import org.qedeq.kernel.trace.Trace;
 
 public class LogPane extends JPanel implements LogListener {
 
+    /** The log panel. */
     private JTextPane textPane = new JTextPane();
 
+    /** Text attributes for errors. */
     private final SimpleAttributeSet errorAttrs = new SimpleAttributeSet();
 
+    /** Text attributes for success messages. */
     private final SimpleAttributeSet successAttrs = new SimpleAttributeSet();
 
+    /** Text attributes for information messages. */
     private final SimpleAttributeSet messageAttrs = new SimpleAttributeSet();
 
+    /** Text attributes for requests. */
     private final SimpleAttributeSet requestAttrs = new SimpleAttributeSet();
 
 
