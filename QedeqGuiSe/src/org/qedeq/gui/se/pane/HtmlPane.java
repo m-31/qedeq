@@ -54,13 +54,16 @@ public class HtmlPane extends JPanel {
 
 //    private JEditorPane html = new JEditorPane();
 // TODO test example:
+    /** The HTML pane. */
     private JEditorPane html = new JEditorPane("text/html", "\u1200");
 
-
+    /** View blocked? */
     private boolean blocked = false;
 
+    /** Current module address. */
     private ModuleAddress currentAddress = null;
 
+    /** Current loading state. */
     private LoadingState currentState;
 
 
