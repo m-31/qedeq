@@ -17,7 +17,10 @@
 
 package org.qedeq.kernel.xml.tracker;
 
+import java.io.File;
+
 import org.qedeq.kernel.test.QedeqTestCase;
+import org.qedeq.kernel.utility.IoUtility;
 
 /**
  * Test {@link org.qedeq.kernel.xml.tracker.XPathLocationFinder}.
@@ -75,7 +78,9 @@ public class XPathLocationFinderTest extends QedeqTestCase {
      */
     private void checkPosition(String fileName, String xpath, int startRow, int startCol,
             int endRow, int endCol) throws Exception {
-        final SimpleXPath result = XPathLocationFinder.getXPathLocation(fileName, xpath);
+        final File file = new File(fileName);
+        final SimpleXPath result = XPathLocationFinder.getXPathLocation(file, xpath,
+            IoUtility.toUrl(file));
         System.out.println("Start position: " + result.getStartLocation());
         assertEquals(startRow, result.getStartLocation().getLine());
         assertEquals(startCol, result.getStartLocation().getColumn());

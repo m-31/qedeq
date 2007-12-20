@@ -233,7 +233,7 @@ public final class Xml2Latex  {
             printer = new TextOutput(destination.getName(), outputStream);
             
             // System.out.println(simple.getQedeq().toString());
-            Qedeq2Latex.print(source.getAbsolutePath(), qedeqBo, printer, 
+            Qedeq2Latex.print(IoUtility.toUrl(source.getCanonicalFile()), qedeqBo, printer, 
                 language, level); 
             return destination.getCanonicalPath();
         } catch (IOException e) {
