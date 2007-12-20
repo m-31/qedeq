@@ -20,6 +20,7 @@ package org.qedeq.kernel.bo.module;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -63,6 +64,7 @@ import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
 import org.qedeq.kernel.bo.visitor.QedeqVisitor;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.test.QedeqTestCase;
+import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
 import org.qedeq.kernel.xml.tracker.XPathLocationFinder;
@@ -83,10 +85,12 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
     
     private Qedeq qedeq;
 
+    private File moduleFile;
+
     public void testContext() throws Exception {
-        final File file = QedeqBoFactoryTest.getQedeqFile("math/qedeq_set_theory_v1.xml");
-        final String globalContext = file.getCanonicalPath();
-        qedeq = QedeqBoFactoryTest.loadQedeq(file);
+        moduleFile = QedeqBoFactoryTest.getQedeqFile("math/qedeq_set_theory_v1.xml");
+        final URL globalContext = IoUtility.toUrl(moduleFile);
+        qedeq = QedeqBoFactoryTest.loadQedeq(moduleFile);
         transverser = new QedeqNotNullTransverser(globalContext, this);
         transverser.accept(qedeq);
     }
@@ -392,8 +396,8 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
         SimpleXPath xpath = Context2SimpleXPath.getXPath(transverser.getCurrentContext(), qedeq);
         System.out.println("###< " + xpath);
         try {
-            final SimpleXPath find = XPathLocationFinder.getXPathLocation(
-                transverser.getCurrentContext().getModuleLocation(), xpath.toString());
+            final SimpleXPath find = XPathLocationFinder.getXPathLocation(moduleFile, 
+                xpath.toString(), IoUtility.toUrl(moduleFile));
             if (find.getStartLocation() == null) {
                 System.out.println(transverser.getCurrentContext());
                 throw new RuntimeException("start not found: " + find + "\ncontext: " 

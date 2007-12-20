@@ -284,8 +284,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
                 + prop.getAddress() + "\"");
             prop.setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
             ModuleEventLog.getInstance().stateChanged(prop);
-            QedeqBoFormalLogicChecker.check(KernelContext.getInstance().getLocalFilePath(
-                prop.getModuleAddress()), prop.getModule());
+            QedeqBoFormalLogicChecker.check(prop.getUrl(), prop.getModule());
             QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful for \""
                 + prop.getAddress() + "\"");
