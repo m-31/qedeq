@@ -22,7 +22,6 @@ import java.net.URL;
 import org.qedeq.kernel.base.module.Import;
 import org.qedeq.kernel.base.module.ImportList;
 import org.qedeq.kernel.bo.module.DependencyState;
-import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.ModuleReferenceList;
@@ -61,8 +60,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
      */
     private LoadRequiredModules(final QedeqBo qedeq) {
         this.qedeq = qedeq;
-        this.transverser = new QedeqNotNullTransverser(
-            KernelContext.getInstance().getLocalFilePath(qedeq.getModuleAddress()), this);
+        this.transverser = new QedeqNotNullTransverser(qedeq.getModuleAddress().getURL(), this);
         required = new ModuleReferenceList();
     }
 
@@ -72,7 +70,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
      * @param   qedeqBo     Basic QEDEQ module object.
      * @throws  ModuleDataException Major problem occurred.
      */
-/*    
+/*
     public static void loadRequired(final QedeqBo qedeqBo)
             throws ModuleDataException {
         final String method = "loadRequired(QedeqBo)";
