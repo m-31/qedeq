@@ -43,44 +43,65 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class Preferences extends JFrame {
 
+    /** Automatic scroll of log pane. */
     private JCheckBox automaticLogScrollCB;
 
+    /** Automatic reload of all modules that were successfully checked in last session. */
     private JCheckBox autoReloadLastSessionCheckedCB;
 
+    /** Response with a message box. */
     private JCheckBox directResponseCB;
 
+    /** Automatic start of default HTML browser after HTML generation. */
     private JCheckBox autoStartHtmlBrowserCB;
 
+    /** Generate old HTML code. */
     private JCheckBox oldHtmlCodeCB;
 
+    /** Label for QEDEQ module buffer directory. */
     private JLabel moduleBufferLabel;
 
+    /** QEDEQ module buffer directory. */
     private JTextField moduleBufferTextField;
 
+    /** Label for generation directory. */
     private JLabel generationPathLabel;
 
+    /** Generation directory. */
     private JTextField generationPathTextField;
 
+    /** Label for directory for new local modules. */
     private JLabel localModulesPathLabel;
 
+    /** Directory for new local modules. */
     private JTextField localModulesPathTextField;
 
+    /** Local QEDEQ module buffer directory. */
     private File bufferDirectory;
 
+    /** Generation directory. */
     private File generationDirectory;
 
+    /** Directory for new local modules. */
     private File localModulesDirectory;
 
+    /** Flag for automatic scroll of log window. */
     private boolean automaticLogScroll;
 
+    /** Flag for automatic reload of all QEDEQ modules that were successfully loaded in the last
+     * session. */
     private boolean autoReloadLastSessionChecked;
 
+    /** Flag for automatic start of the default HTML browser after HTML generation. */
     private boolean autoStartHtmlBrowser;
 
+    /** Flag for direct message box response mode. */
     private boolean directResponse;
 
+    /** Flag for generating old HTML code. */
     private boolean oldHtmlCode;
 
+    /** Internal flag for remembering if any value changed. */
     private boolean changed;
 
 
@@ -299,7 +320,9 @@ public final class Preferences extends JFrame {
         localModulesPathTextField.setBounds(33, 340 + y, 600, 21);
 
         final JButton chooselocalModulesLocation = new JButton("Choose");
-        chooselocalModulesLocation.setEnabled(false); //TODO mime 200700903: setting still unsupported
+
+//      TODO mime 200700903: setting still unsupported
+        chooselocalModulesLocation.setEnabled(false);
         contents.add(chooselocalModulesLocation);
         chooselocalModulesLocation.setBounds(33 + 600 - 90, 310 + y, 90, 21);
 
