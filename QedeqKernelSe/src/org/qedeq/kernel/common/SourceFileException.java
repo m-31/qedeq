@@ -142,7 +142,8 @@ public class SourceFileException extends QedeqException {
      * @param   exception   Exception to wrap.
      */
     public SourceFileException(final SAXException exception) {
-        super(XmlSyntaxException.SAX_PARSER_EXCEPTION, exception.getMessage(), exception);     // TODO mime 20071116: error code refac
+        // TODO mime 20071116: error code refac
+        super(XmlSyntaxException.SAX_PARSER_EXCEPTION, exception.getMessage(), exception);
         errorArea = null;
         referenceArea = null;
     }
@@ -168,6 +169,7 @@ public class SourceFileException extends QedeqException {
     /**
      * Get line that is referenced by {@link #getSourceArea()}.
      *
+     * @param   localAddress    Source URL for getting the line.
      * @return  Referenced line.
      */
     public final String getLine(final URL localAddress) {
@@ -199,11 +201,13 @@ public class SourceFileException extends QedeqException {
      * Get detailed error description.
      * The first line contains {@link #getErrorCode()} and {@link #getMessage()}.
      * The second line contains the local address, the line and column.
-     * Third line is the result or {@link #getLine()}.
+     * Third line is the result or {@link #getLine(URL)}.
      * In the fourth line the row position for the third line is marked.
      *
      * <p>TODO mime 20070219: rework description: add end (and perhaps reference) information
      * <p>TODO mime 20071128: move this method into another class!!!
+     *
+     * @param   localAddress    Lookup source here.
      *
      * @return  Error description.
      */
