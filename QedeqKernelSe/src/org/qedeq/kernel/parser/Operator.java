@@ -340,7 +340,6 @@ public final class Operator {
         if (isInfix()) {
             buffer.append(", is infix");
         }
-        
         return buffer.toString();
     }
 
