@@ -463,7 +463,6 @@ public class DefaultModuleFactory implements ModuleFactory {
             + moduleAddress.localizeInFileSystem(moduleAddress.getURL());
     }
 
-
     /**
      * Load a local QEDEQ module.
      *
@@ -530,7 +529,7 @@ public class DefaultModuleFactory implements ModuleFactory {
         ModuleEventLog.getInstance().stateChanged(prop);
         final QedeqBo qedeqBo;
         try {
-            qedeqBo = QedeqBoFactory.createQedeq(file.getPath(), qedeq);
+            qedeqBo = QedeqBoFactory.createQedeq(moduleAddress.getURL(), qedeq);
             qedeqBo.setModuleAddress(prop.getModuleAddress());
         } catch (ModuleDataException e) {
             Trace.trace(this, method, e);
