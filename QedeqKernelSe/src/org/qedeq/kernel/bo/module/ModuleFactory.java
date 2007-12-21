@@ -1,4 +1,4 @@
-/* $Id: ModuleFactory.java,v 1.5 2007/10/07 16:40:13 m31 Exp $
+/* $Id: ModuleFactory.java,v 1.6 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -27,7 +27,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * Access to QEDEQ modules.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public interface ModuleFactory {

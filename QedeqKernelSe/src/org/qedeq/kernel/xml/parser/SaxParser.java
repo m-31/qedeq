@@ -1,4 +1,4 @@
-/* $Id: SaxParser.java,v 1.21 2007/08/28 21:10:15 m31 Exp $
+/* $Id: SaxParser.java,v 1.22 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -41,7 +41,7 @@ import org.xml.sax.helpers.DefaultHandler;
 /**
  * Parser for XML files. This class uses features specific for Xerces.
  *
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.22 $
  * @author Michael Meyling
  */
 public final class SaxParser {

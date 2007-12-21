@@ -1,4 +1,4 @@
-/* $Id: ModuleLabels.java,v 1.3 2007/04/12 23:50:04 m31 Exp $
+/* $Id: ModuleLabels.java,v 1.4 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.dto.module.NodeVo;
 /**
  * Maps labels of an QEDEQ module to their elements.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class ModuleLabels {

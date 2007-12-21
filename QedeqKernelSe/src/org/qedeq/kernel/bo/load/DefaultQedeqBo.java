@@ -1,4 +1,4 @@
-/* $Id: DefaultQedeqBo.java,v 1.1 2007/05/10 00:37:51 m31 Exp $
+/* $Id: DefaultQedeqBo.java,v 1.2 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import org.qedeq.kernel.utility.EqualsUtility;
  *
  * TODO mime 20070131: shouldn't be a globalContext also an attribute of this class?
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public class DefaultQedeqBo implements QedeqBo {

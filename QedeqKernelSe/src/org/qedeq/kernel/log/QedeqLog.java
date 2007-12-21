@@ -1,4 +1,4 @@
-/* $Id: QedeqLog.java,v 1.3 2007/09/02 00:13:41 m31 Exp $
+/* $Id: QedeqLog.java,v 1.4 2007/12/21 23:33:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -27,7 +27,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * This class organizes the logging.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class QedeqLog implements LogListener {

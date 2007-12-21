@@ -1,4 +1,4 @@
-/* $Id: MathParser.java,v 1.5 2007/05/10 00:37:51 m31 Exp $
+/* $Id: MathParser.java,v 1.6 2007/12/21 23:33:48 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * Parse term or formula data into {@link org.qedeq.kernel.parser.Term}s.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public abstract class MathParser {

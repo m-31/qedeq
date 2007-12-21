@@ -1,4 +1,4 @@
-/* $Id: SourcePosition.java,v 1.1 2007/04/12 23:50:10 m31 Exp $
+/* $Id: SourcePosition.java,v 1.2 2007/12/21 23:33:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import java.net.URL;
 /**
  * Describes a file position.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public final class SourcePosition implements Serializable {

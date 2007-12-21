@@ -1,4 +1,4 @@
-/* $Id: LiteratureItemListHandler.java,v 1.5 2007/05/10 00:37:50 m31 Exp $
+/* $Id: LiteratureItemListHandler.java,v 1.6 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Parse literature list.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public class LiteratureItemListHandler extends AbstractSimpleHandler {

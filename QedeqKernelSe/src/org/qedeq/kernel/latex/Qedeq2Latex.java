@@ -1,4 +1,4 @@
-/* $Id: Qedeq2Latex.java,v 1.47 2007/05/10 00:37:53 m31 Exp $
+/* $Id: Qedeq2Latex.java,v 1.48 2007/12/21 23:33:48 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -74,7 +74,7 @@ import org.qedeq.kernel.utility.TextOutput;
  * A business object is not yet required.
  *
  *
- * @version $Revision: 1.47 $
+ * @version $Revision: 1.48 $
  * @author  Michael Meyling
  */
 public final class Qedeq2Latex extends AbstractModuleVisitor {

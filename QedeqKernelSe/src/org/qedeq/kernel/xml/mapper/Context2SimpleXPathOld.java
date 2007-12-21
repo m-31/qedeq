@@ -1,4 +1,4 @@
-/* $Id: Context2SimpleXPathOld.java,v 1.2 2007/04/12 23:50:10 m31 Exp $
+/* $Id: Context2SimpleXPathOld.java,v 1.3 2007/12/21 23:33:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -35,7 +35,7 @@ import org.xml.sax.SAXException;
  * <p>
  * Not in use any more.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author Michael Meyling
  * @deprecated
  */

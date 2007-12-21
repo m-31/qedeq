@@ -1,4 +1,4 @@
-/* $Id: Qedeq2Xml.java,v 1.4 2007/04/01 07:59:49 m31 Exp $
+/* $Id: Qedeq2Xml.java,v 1.5 2007/12/21 23:33:48 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -61,7 +61,7 @@ import org.qedeq.kernel.utility.TextOutput;
 /**
  * This class prints a QEDEQ module in XML format in an output stream.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public final class Qedeq2Xml extends AbstractModuleVisitor {

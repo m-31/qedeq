@@ -1,4 +1,4 @@
-/* $Id: Xml2Latex.java,v 1.3 2007/10/09 04:13:28 m31 Exp $
+/* $Id: Xml2Latex.java,v 1.11 2007/12/21 23:33:48 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -37,7 +37,7 @@ import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 /**
  * TODO mime 20070704: this content must be called by the KernelContext!
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.11 $
  * @author  Michael Meyling
  */
 public final class Xml2Latex  {

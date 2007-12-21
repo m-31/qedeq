@@ -1,4 +1,4 @@
-/* $Id: Qedeq2Latex.java,v 1.47 2007/05/10 00:37:53 m31 Exp $
+/* $Id: LoadRequiredModules.java,v 1.1 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -39,7 +39,7 @@ import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 /**
  * Load all required QEDEQ modules.
  *
- * @version $Revision: 1.47 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class LoadRequiredModules extends AbstractModuleVisitor {

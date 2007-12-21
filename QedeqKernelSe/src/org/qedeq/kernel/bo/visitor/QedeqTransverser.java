@@ -1,4 +1,4 @@
-/* $Id: QedeqTransverser.java,v 1.2 2007/02/25 20:05:36 m31 Exp $
+/* $Id: QedeqTransverser.java,v 1.3 2007/12/21 23:33:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -59,7 +59,7 @@ import org.qedeq.kernel.bo.module.ModuleDataException;
  * All contained elements are called recursively.
  * See {@link org.qedeq.kernel.bo.visitor.QedeqVisitor}.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author Michael Meyling
  */
 public interface QedeqTransverser {

@@ -1,4 +1,4 @@
-/* $Id: QedeqBo.java,v 1.13 2007/08/21 21:03:30 m31 Exp $
+/* $Id: QedeqBo.java,v 1.14 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ import org.qedeq.kernel.base.module.Qedeq;
 /**
  * A complete QEDEQ module. This describes the root business object.
  *
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  * @author  Michael Meyling
  */
 public interface QedeqBo {

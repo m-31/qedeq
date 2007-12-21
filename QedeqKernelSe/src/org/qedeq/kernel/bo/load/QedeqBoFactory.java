@@ -1,4 +1,4 @@
-/* $Id: QedeqBoFactory.java,v 1.5 2007/10/07 16:40:12 m31 Exp $
+/* $Id: QedeqBoFactory.java,v 1.6 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -106,7 +106,7 @@ import org.qedeq.kernel.dto.module.VariableListVo;
  * LATER mime 20050707: use director pattern or transfer creation methods
  *  into BOs or use visitor pattern
  *
- * @version   $Revision: 1.5 $
+ * @version   $Revision: 1.6 $
  * @author    Michael Meyling
  */
 public class QedeqBoFactory {

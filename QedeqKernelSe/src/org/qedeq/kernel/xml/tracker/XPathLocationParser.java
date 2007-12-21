@@ -1,4 +1,4 @@
-/* $Id: XPathLocationParser.java,v 1.20 2007/10/07 16:40:13 m31 Exp $
+/* $Id: XPathLocationParser.java,v 1.21 2007/12/21 23:33:48 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -42,7 +42,7 @@ import org.xml.sax.XMLReader;
 /**
  * Parser for XML files. This class uses features specific for Xerces.
  *
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  * @author Michael Meyling
  */
 public class XPathLocationParser implements ContentHandler {

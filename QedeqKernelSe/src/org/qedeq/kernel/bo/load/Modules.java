@@ -1,4 +1,4 @@
-/* $Id: Modules.java,v 1.3 2007/05/10 00:37:51 m31 Exp $
+/* $Id: Modules.java,v 1.4 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

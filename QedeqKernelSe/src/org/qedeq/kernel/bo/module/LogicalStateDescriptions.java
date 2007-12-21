@@ -1,4 +1,4 @@
-/* $Id: LogicalStateDescriptions.java,v 1.2 2007/08/21 21:03:30 m31 Exp $
+/* $Id: LogicalStateDescriptions.java,v 1.3 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -23,7 +23,7 @@ package org.qedeq.kernel.bo.module;
  * TODO mime 20070312: what about exception lists? e.g. not all can be imported, but
  *                     we have only some checking errors within the module directly
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author Michael Meyling
  */
 public interface LogicalStateDescriptions {

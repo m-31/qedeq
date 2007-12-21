@@ -1,4 +1,4 @@
-/* $Id: DefaultXmlFileExceptionList.java,v 1.4 2007/10/07 16:40:12 m31 Exp $
+/* $Id: DefaultSourceFileExceptionList.java,v 1.1 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -33,7 +33,7 @@ import org.xml.sax.SAXException;
 /**
  * Type save {@link org.qedeq.kernel.common.SourceFileException} list.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class DefaultSourceFileExceptionList extends SourceFileExceptionList {

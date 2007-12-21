@@ -1,4 +1,4 @@
-/* $Id: ConfigAccess.java,v 1.4 2007/10/07 16:40:13 m31 Exp $
+/* $Id: ConfigAccess.java,v 1.5 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -34,7 +34,7 @@ import java.util.Properties;
  * This class reads entries from property files. This class should not
  * be used outside this package.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 final class ConfigAccess {

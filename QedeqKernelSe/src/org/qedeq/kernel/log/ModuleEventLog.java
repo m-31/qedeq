@@ -1,4 +1,4 @@
-/* $Id: ModuleEventLog.java,v 1.5 2007/10/07 16:40:13 m31 Exp $
+/* $Id: ModuleEventLog.java,v 1.6 2007/12/21 23:33:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * This class organizes the logging of module events.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public final class ModuleEventLog implements ModuleEventListener {

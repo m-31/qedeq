@@ -1,4 +1,4 @@
-/* $Id: LogicalState.java,v 1.2 2007/08/21 21:03:30 m31 Exp $
+/* $Id: DependencyState.java,v 1.1 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.bo.module;
 /**
  * Represents a mathematical module state.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class DependencyState {

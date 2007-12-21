@@ -1,4 +1,4 @@
-/* $Id: IoUtility.java,v 1.12 2007/10/09 04:14:01 m31 Exp $
+/* $Id: IoUtility.java,v 1.13 2007/12/21 23:33:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -46,7 +46,7 @@ import java.util.Properties;
  *
  * FIXME mime 20070926: load* and loadBinary are mixed. loarUrl should be binary load!
  *
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  * @author  Michael Meyling
  */
 public final class IoUtility {

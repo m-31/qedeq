@@ -1,4 +1,4 @@
-/* $Id: ModuleDataException2XmlFileException.java,v 1.2 2007/05/10 00:37:52 m31 Exp $
+/* $Id: ModuleDataException2XmlFileException.java,v 1.3 2007/12/21 23:33:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -41,7 +41,7 @@ import org.xml.sax.SAXException;
  * Converts a {@link org.qedeq.kernel.bo.module.ModuleDataException} into a
  * {@link org.qedeq.kernel.common.SourceFileException}.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public final class ModuleDataException2XmlFileException {

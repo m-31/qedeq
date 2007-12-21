@@ -1,4 +1,4 @@
-/* $Id: LatexListDataException.java,v 1.2 2007/04/12 23:50:11 m31 Exp $
+/* $Id: LoadRequiredModuleException.java,v 1.1 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.bo.module.ModuleDataException;
  * Data validation error for an {@link org.qedeq.kernel.base.module.LatexList} element of a
  * QEDEQ module.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class LoadRequiredModuleException extends ModuleDataException {

@@ -1,4 +1,4 @@
-/* $Id: NodeHandler.java,v 1.14 2007/05/10 00:37:50 m31 Exp $
+/* $Id: NodeHandler.java,v 1.15 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -27,7 +27,7 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Handles node data.
  *
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  * @author  Michael Meyling
  */
 public class NodeHandler extends AbstractSimpleHandler {

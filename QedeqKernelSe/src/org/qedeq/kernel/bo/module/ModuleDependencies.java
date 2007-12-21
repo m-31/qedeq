@@ -1,4 +1,4 @@
-/* $Id: QedeqBo.java,v 1.13 2007/08/21 21:03:30 m31 Exp $
+/* $Id: ModuleDependencies.java,v 1.1 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ import java.net.URL;
 /**
  * A QEDEQ module URL and the URLs of the modules it requires and its dependents.
  *
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface ModuleDependencies {

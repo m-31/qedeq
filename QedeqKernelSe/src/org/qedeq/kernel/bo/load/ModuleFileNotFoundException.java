@@ -1,4 +1,4 @@
-/* $Id: ModuleFileNotFoundException.java,v 1.3 2007/05/10 00:37:51 m31 Exp $
+/* $Id: ModuleFileNotFoundException.java,v 1.4 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.bo.load;
 /**
  * QEDEQ module file was not found in local file buffer.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 class ModuleFileNotFoundException extends Exception {

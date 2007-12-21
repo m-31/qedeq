@@ -1,4 +1,4 @@
-/* $Id: SaxErrorHandler.java,v 1.14 2007/05/10 00:37:52 m31 Exp $
+/* $Id: SaxErrorHandler.java,v 1.15 2007/12/21 23:33:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -31,7 +31,7 @@ import org.xml.sax.SAXParseException;
 /**
  * Error handler for XML parsing.
  *
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  * @author  Michael Meyling
  */
 public class SaxErrorHandler implements ErrorHandler {

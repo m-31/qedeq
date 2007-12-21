@@ -1,4 +1,4 @@
-/* $Id: Operator.java,v 1.4 2007/02/25 20:05:35 m31 Exp $
+/* $Id: Operator.java,v 1.5 2007/12/21 23:33:48 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -23,7 +23,7 @@ package org.qedeq.kernel.parser;
  * prefix, infix or postfix type and has a minimum and maximum number of operands.
  * It has a symbol or token that enables to recognize it and a QEDEQ representation.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public final class Operator {
