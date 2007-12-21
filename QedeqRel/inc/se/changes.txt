@@ -10,21 +10,20 @@ Functional Changes
 
   Extensions
   ----------
-  * application now also webstartable
-  * preferences window added
+  * during logical checking all referenced modules are loaded and
+    checked too
   
   Fixed Bugs
   ----------
-  * if loading from web the "Ok" button is now default
+  * "phi" and "psi" in file "mengenlehreMathOperators.xml" are now 
+    no longer "prefixOperator" but "functionOperator" (if you already
+    webstarted an older version you must delete this file manually)
+  * error description references now to original URL
+  * the QEDEQ source window shows now the first error position
+    marked
  
   Other Changes
   -------------
-  * log window scrolls automatically if events occur
-  * formula parser integrated again
-  * buffered QEDEQ module files have an other naming convention
-  * trace file is now in XML format
-  * file "mengenlehreMathOperators.xml" now editable in config directory
-
 
 XML Files
 -----------
@@ -39,8 +38,7 @@ XML Files
 
   Other Changes
   -------------
-  * qedeq_basic_logic_v1.xml: reworked
-  * qedeq_basic_concept.xml: reworked
+  * qedeq_basic_logic_v1.xml is now more formal
 
 
 Source Code
@@ -48,36 +46,29 @@ Source Code
 
   Extensions
   ----------
-  * new GUI code introduced: now we have the two projects QedeqKernelSe and
-    QedeqGuiSe. The directories "kernel" and "gui" refer to those projects. 
-    The new GUI code uses the JGoodies libraries "looks" and "forms".
-  * Trace contains new "fatal" methods
-  * new ResourceLoaderUtility
+  * loading of required modules is now possible, for that reason
+    there is a new state "DependencyState"
+  * to make the kernel more independent of the save format details
+    references to XML are isolated so
+    - no XmlFileExceptionList exists any more
+    - DefaultXmlFileExceptionList is now DefaultSourceFileExceptionList
+    - SyntaxException is now XmlSyntaxException
+  * global context is now an URL instead of String
+  * SourceArea and SourcePosition have now no local reference any more
+  * SourceFileException has the local file reference as parameter for
+    "getDescription(URL)"
+  * QEDEQ modules are identified by their URLs
+  * SimpleXPath fulfills more tests
   
   Fixed Bugs
   ----------
-  * DefaultModuleFactory loads last modules only if configured
+  * log listeners can now be removed (so after a shutdown the old
+    listeners can be removed)
+  * SourceFileException holds now original QEDEQ module URL
 
   Other Changes
   -------------
-  * Xml2Latex: changed method parameters, now the module is not loaded any
-    longer
-  * LogPane scrolls now automatically (if configured)
-  * some methods of QedeqConfig moved into the new class QedeqGuiConfig
-  * DefaultModuleAddress.localizeInFileSystem gets now URL parameter and
-    uses a new mechanism to generate the buffer file name
-  * QedeqMainFrame gets "log4j.properties" and "mengenlehreMathOperators.xml"
-    out of class path and stores them locally if they don't exist locally
-  * DefaultModuleAddress gives other localized path name
-  * DefaultModuleFactory returns now directories as File
-  * Exceptions in ModuleProperties are now of type XmlFileExceptionList
-  * ConfigAccess now without Trace references and need only a File for the
-    config file path
-  * QedeqConfig lost some methods that are now in QedeqGuiConfig and has now
-    a "basis directory" that is the basis for all relative paths
-  * KernelContext doesn't create a QedeqConfig itself any longer, now its
-    init method needs a QedeqConfig
-  * LoadXmlOperatorListUtility works with URL parameter
+  *
 
 
 XSD
