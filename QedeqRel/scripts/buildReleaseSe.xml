@@ -15,6 +15,7 @@
   <property name="qedeq.se.test.src"     value="${basedir}/QedeqKernelSeTest/src" />
   <property name="qedeq.se.test.data"    value="${basedir}/QedeqKernelSeTest/data" />
   <property name="qedeq.lib"             value="${basedir}/QedeqLib" />
+  <property name="qedeq.gen"             value="${basedir}/../../qedeq_gen" />
   <property name="qedeq.se.gen"          value="${basedir}/../../qedeq_gen/release/se" />
   <property name="qedeq.se.dest"         value="${basedir}/../../qedeq_gen/release/se/dest/qedeq" />
   <property name="qedeq.se.dist"         value="${basedir}/../../qedeq_gen/release/se/dist" />
@@ -141,6 +142,7 @@
 
   
   <target name="doc" depends="init">
+  	<antcall target="makePdf" />
     <mkdir dir="${qedeq.se.dest}/doc" />
     <mkdir dir="${qedeq.se.dest}/doc/project" />
     <copy todir="${qedeq.se.dest}/doc/project">
@@ -175,6 +177,7 @@
     <copy todir="${qedeq.se.dest}/doc">
       <fileset dir="${qedeq.gen.doc}"
         includes="math/**.xml,math/**.tex,math/**.pdf,project/**.xml,project/**.tex,project/**.pdf"
+      	excludes="**/qedeq_sample1*"
       >
       </fileset>
     </copy>
@@ -292,6 +295,50 @@
 	    doctitle="XML QEDEQ Schema "
 	     verbose="true"/>
   </target>	
+
+  <target name="makePdf">
+	<antcall target="makePdfCall">
+		<param name="pdfdir" value="${qedeq.gen}/math"/>
+		<param name="pdffile" value="qedeq_logic_v1_en.tex"/>
+	</antcall>
+	<antcall target="makePdfCall">
+		<param name="pdfdir" value="${qedeq.gen}/math"/>
+		<param name="pdffile" value="qedeq_logic_v1_de.tex"/>
+	</antcall>
+	<antcall target="makePdfCall">
+		<param name="pdfdir" value="${qedeq.gen}/math"/>
+		<param name="pdffile" value="qedeq_set_theory_v1_en.tex"/>
+	</antcall>
+	<antcall target="makePdfCall">
+		<param name="pdfdir" value="${qedeq.gen}/math"/>
+		<param name="pdffile" value="qedeq_set_theory_v1_de.tex"/>
+	</antcall>
+	<antcall target="makePdfCall">
+		<param name="pdfdir" value="${qedeq.gen}/project"/>
+		<param name="pdffile" value="qedeq_basic_concept_en.tex"/>
+	</antcall>
+	<antcall target="makePdfCall">
+		<param name="pdfdir" value="${qedeq.gen}/project"/>
+		<param name="pdffile" value="qedeq_basic_concept_de.tex"/>
+	</antcall>
+	<antcall target="makePdfCall">
+		<param name="pdfdir" value="${qedeq.gen}/project"/>
+		<param name="pdffile" value="qedeq_logic_language_en.tex"/>
+	</antcall>
+  </target>
+	
+  <target name="makePdfCall">
+  	<exec executable="pdflatex">
+  		<arg value="-output-directory" />
+  	    <arg value="${pdfdir}" />
+  	    <arg value="${pdfdir}/${pdffile}" />
+  	</exec>
+  	<exec executable="pdflatex">
+  		<arg value="-output-directory" />
+  	    <arg value="${pdfdir}" />
+  	    <arg value="${pdfdir}/${pdffile}" />
+  	</exec>
+  </target>
 	
   <target name="assemble" depends="compileKernel,sourceKernel,sourceTest,compileGui,sourceGui,doc,xsddoc">
     <delete dir="${qedeq.se.dest}/lib" />
