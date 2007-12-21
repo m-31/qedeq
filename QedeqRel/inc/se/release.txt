@@ -1,8 +1,8 @@
 Code Name:   mongaga
-Version:     0.03.06
-Timestamp:   2007-10-14 09:26:45
+Version:     0.03.07
+Timestamp:   2007-12-22 09:26:45
 Subversion
-and CVS Tag: qedeq_unstable_0_03_06_2007-10-14
+and CVS Tag: qedeq_unstable_0_03_07_2007-12-22
 
 This is an unstable development release of *Hilbert II*. 
 
