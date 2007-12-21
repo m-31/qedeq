@@ -1,4 +1,4 @@
-/* $Id: QedeqTreeCtrl.java,v 1.3 2007/10/07 16:39:59 m31 Exp $
+/* $Id: QedeqTreeCtrl.java,v 1.4 2007/12/21 23:34:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -49,7 +49,7 @@ import org.qedeq.kernel.trace.Trace;
  * A Controller, which represents the classes connecting the model and the view, and is used to
  * communicate between classes in the model and view.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class QedeqTreeCtrl implements TreeModelListener {

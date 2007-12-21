@@ -1,4 +1,4 @@
-// $Id: Preferences.java,v 1.1 2007/10/07 16:39:59 m31 Exp $
+// $Id: Preferences.java,v 1.2 2007/12/21 23:34:47 m31 Exp $
 //
 // This file is part of the program suite "Principia Mathematica II"
 // which is a working prototype for the main project:
@@ -38,7 +38,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * Show and edit preferences of this application.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public final class Preferences extends JFrame {

@@ -1,4 +1,4 @@
-/* $Id: ModulePropertiesPane.java,v 1.2 2007/10/07 16:39:59 m31 Exp $
+/* $Id: ModulePropertiesPane.java,v 1.3 2007/12/21 23:34:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -38,7 +38,7 @@ import com.jgoodies.forms.layout.FormLayout;
 /**
  * View for {@link ModuleProperties}.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 
