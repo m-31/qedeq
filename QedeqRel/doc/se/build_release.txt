@@ -5,6 +5,26 @@ Test Release
 including compiling sources and test sources and running the main test suite
 
 
+Qedeq XSD Release and Documentation
+-----------------------------------
+start QedeqMime/scripts/build.xml 
+
+
+Update "readme"s and Generate Release
+-------------------------------------
+edit QedeqRel/inc/se/packagelist
+edit QedeqRel/inc/se/index.html
+generate release with build script QedeqRel/scripts/buildQedeqReleaseSe.xml
+transfer release to WebPage, indide FireFox run checky to validate the HTML
+
+edit QedeqRel/inc/se/release.txt
+edit QedeqRel/inc/se/version.txt
+edit QedeqRel/inc/se/changes.txt
+
+copy xml-apis.jar and xercesImpl.jar from eclipse/webstart directory into
+release webstart directory (they are stripped of the original manifest.mf
+and are signed with jarsigner due to an java webstart bug)
+
 Update CVS tags
 ---------------
 Commit all changes to subversion. Nothing must remain marked as
@@ -26,39 +46,6 @@ save report with source code to qedeq_gen/release/se/dest/doc/clover
  (be shure it is empty)
 
 
-Qedeq XSD Release and Documentation
------------------------------------
-start QedeqMime/scripts/build.xml 
-
-
-Generate PDF
-------------
-Go to qedeq_gen:
-generate qedeq_basic_concept_en.pdf out of qedeq_basic_concept_en.tex
-generate qedeq_basic_concept_de.pdf out of qedeq_basic_concept_de.tex
-generate qedeq_sample1_en.pdf out of qedeq_sample1_en.tex
-generate qedeq_sample1_de.pdf out of qedeq_sample1_de.tex
-generate qedeq_set_theory_v1_en.pdf out of set_theory_v1_en.tex
-generate qedeq_set_theory_v1_de.pdf out of set_theory_v1_de.tex
-generate qedeq_logic_v1_en.pdf
-generate qedeq_logic_v1_de.pdf
-generate qedeq_logic_language_en.pdf
-
-
-Update "readme"s and Generate Release
--------------------------------------
-edit QedeqRel/inc/se/packagelist
-edit QedeqRel/inc/se/index.html
-generate release with build script QedeqRel/scripts/buildQedeqReleaseSe.xml
-transfer release to WebPage, indide FireFox run checky to validate the HTML
-
-edit QedeqRel/inc/se/release.txt
-edit QedeqRel/inc/se/version.txt
-edit QedeqRel/inc/se/changes.txt
-
-copy xml-apis.jar and xercesImpl.jar from eclipse/webstart directory into
-release webstart directory (they are stripped of the original manifest.mf
-and are signed with jarsigner due to an java webstart bug)
 
 
 Update WebPage
