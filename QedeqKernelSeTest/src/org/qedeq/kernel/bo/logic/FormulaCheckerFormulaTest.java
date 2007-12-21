@@ -1,4 +1,4 @@
-/* $Id: FormulaCheckerFormulaTest.java,v 1.5 2007/04/12 23:56:37 m31 Exp $
+/* $Id: FormulaCheckerFormulaTest.java,v 1.6 2007/12/21 23:35:17 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.bo.module.ModuleContext;
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
  * Testing formulas.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public class FormulaCheckerFormulaTest extends AbstractFormulaChecker {

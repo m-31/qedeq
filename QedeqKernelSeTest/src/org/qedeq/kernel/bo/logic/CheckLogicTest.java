@@ -1,4 +1,4 @@
-/* $Id: CheckLogicTest.java,v 1.4 2007/05/10 00:38:08 m31 Exp $
+/* $Id: CheckLogicTest.java,v 1.5 2007/12/21 23:35:17 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -42,7 +42,7 @@ import org.xml.sax.SAXException;
 /**
  * Test generating LaTeX files for all known samples.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author Michael Meyling
  */
 public final class CheckLogicTest extends QedeqTestCase {

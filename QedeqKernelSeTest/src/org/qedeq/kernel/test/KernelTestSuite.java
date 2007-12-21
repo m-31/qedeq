@@ -1,4 +1,4 @@
-/* $Id: KernelTestSuite.java,v 1.18 2007/04/01 08:00:24 m31 Exp $
+/* $Id: KernelTestSuite.java,v 1.19 2007/12/21 23:35:18 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -34,7 +34,7 @@ import org.qedeq.kernel.xml.tracker.KernelXmlTrackerTestSuite;
 /**
  * Run all tests for the project.
  * 
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  * @author Michael Meyling
  */
 public class KernelTestSuite extends QedeqTestSuite {

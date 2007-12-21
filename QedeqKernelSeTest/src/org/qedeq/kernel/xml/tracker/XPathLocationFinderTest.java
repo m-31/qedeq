@@ -1,4 +1,4 @@
-/* $Id: XPathLocationFinderTest.java,v 1.5 2007/02/25 20:04:33 m31 Exp $
+/* $Id: XPathLocationFinderTest.java,v 1.6 2007/12/21 23:35:18 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.utility.IoUtility;
 /**
  * Test {@link org.qedeq.kernel.xml.tracker.XPathLocationFinder}.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author Michael Meyling
  */
 public class XPathLocationFinderTest extends QedeqTestCase {

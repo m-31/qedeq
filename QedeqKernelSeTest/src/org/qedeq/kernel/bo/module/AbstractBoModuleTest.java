@@ -1,4 +1,4 @@
-/* $Id: AbstractBoModuleTest.java,v 1.6 2007/05/10 00:38:08 m31 Exp $
+/* $Id: AbstractBoModuleTest.java,v 1.7 2007/12/21 23:35:16 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -89,7 +89,7 @@ import org.qedeq.kernel.test.AbstractValueObjectTest;
 /**
  * Test helper. Gives concrete class for an interface.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author    Michael Meyling
  */
 public abstract class AbstractBoModuleTest extends AbstractValueObjectTest {

@@ -1,4 +1,4 @@
-/* $Id: LoadRequiredModulesTest.java,v 1.3 2007/05/10 00:38:08 m31 Exp $
+/* $Id: LoadRequiredModulesTest.java,v 1.1 2007/12/21 23:35:17 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -33,7 +33,7 @@ import org.qedeq.kernel.utility.IoUtility;
 /**
  * For testing of loading required QEDEQ modules.
  *
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class LoadRequiredModulesTest extends QedeqTestCase{

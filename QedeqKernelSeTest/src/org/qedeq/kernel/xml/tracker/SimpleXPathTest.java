@@ -1,4 +1,4 @@
-/* $Id: SimpleXPathTest.java,v 1.6 2007/02/25 20:04:33 m31 Exp $
+/* $Id: SimpleXPathTest.java,v 1.7 2007/12/21 23:35:18 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ import org.qedeq.kernel.test.QedeqTestCase;
 /**
  * Test {@link org.qedeq.kernel.xml.tracker.SimpleXPath}.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public class SimpleXPathTest extends QedeqTestCase {

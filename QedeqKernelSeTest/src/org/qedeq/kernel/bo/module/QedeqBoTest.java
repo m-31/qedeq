@@ -1,4 +1,4 @@
-/* $Id: QedeqBoTest.java,v 1.8 2007/05/10 00:38:08 m31 Exp $
+/* $Id: QedeqBoTest.java,v 1.9 2007/12/21 23:35:16 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import org.qedeq.kernel.bo.load.DefaultQedeqBo;
 /**
  * Test class {@link org.qedeq.kernel.bo.module.QedeqBo}.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  * @author    Michael Meyling
  */
 public class QedeqBoTest extends AbstractBoModuleTest {

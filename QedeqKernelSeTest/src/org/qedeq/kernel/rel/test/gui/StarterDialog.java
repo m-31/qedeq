@@ -1,4 +1,4 @@
-/* $Id: StarterDialog.java,v 1.2 2007/10/09 04:14:47 m31 Exp $
+/* $Id: StarterDialog.java,v 1.3 2007/12/21 23:35:17 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -59,7 +59,7 @@ import org.qedeq.kernel.utility.IoUtility;
 /**
  * Show and edit preferences of this application.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public final class StarterDialog extends JFrame {

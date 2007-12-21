@@ -1,4 +1,4 @@
-/* $Id: GenerateXmlTest.java,v 1.5 2007/10/14 05:58:36 m31 Exp $
+/* $Id: GenerateXmlTest.java,v 1.1 2007/12/21 23:35:16 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import org.qedeq.kernel.utility.IoUtility;
 /**
  * Test generating LaTeX files for all known samples.
  * 
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public final class GenerateXmlTest extends QedeqTestCase {
