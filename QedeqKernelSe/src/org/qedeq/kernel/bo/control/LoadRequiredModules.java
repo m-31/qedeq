@@ -175,10 +175,10 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
                 other.getModuleAddress().getURL());
             loadRequired(other.getModuleAddress().getURL());
         } catch (SourceFileExceptionList e) {
-            // FIXME
-            e.printStackTrace();
-            throw new LoadRequiredModuleException(e.get(0).getErrorCode(), e.get(0).getMessage(),
-                transverser.getCurrentContext());
+            Trace.trace(this, "visitEnter(Import)", e);
+            throw new LoadRequiredModuleException(e.get(0).getErrorCode(),
+                "import of module labeled \"" + imp.getLabel() + "\" failed: "
+                + e.get(0).getMessage(), transverser.getCurrentContext());
         }
     }
 
