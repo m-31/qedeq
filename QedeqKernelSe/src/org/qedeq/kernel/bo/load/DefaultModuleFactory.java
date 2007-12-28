@@ -652,11 +652,11 @@ public class DefaultModuleFactory implements ModuleFactory {
     }
 
     public File getBufferDirectory() {
-        return kernel.getConfig().getRelativeToBasis(kernel.getConfig().getBufferDirectory());
+        return kernel.getConfig().getBufferDirectory();
     }
 
     public File getGenerationDirectory() {
-        return kernel.getConfig().getRelativeToBasis(kernel.getConfig().getGenerationDirectory());
+        return kernel.getConfig().getGenerationDirectory();
     }
 
     public ModuleProperties getModuleProperties(final URL address) {
