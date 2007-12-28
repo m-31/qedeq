@@ -29,7 +29,6 @@ import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
@@ -47,8 +46,23 @@ import org.xml.sax.SAXParseException;
  */
 public final class GenerateLatexTest extends QedeqTestCase {
 
+    private File genDir;
+    private File docDir;
+
     public void setUp() throws Exception{
         super.setUp();
+        docDir = new File("../QedeqDoc");
+        genDir = new File("../../../qedeq_gen");
+        // test if we are in the normal development environment, where a project with name
+        //  "../QedeqDoc" exists, otherwise we assume to run within the release directory
+        //  structure where the docs are in the directory ../doc
+        if (!docDir.exists()) {
+            docDir = new File("../doc");
+            genDir = new File("../doc");
+            if (!docDir.exists()) {
+                throw new IOException("unknown source directory for qedeq modules");
+            }
+        }
         KernelFacade.startup();
     }
     
@@ -63,18 +77,6 @@ public final class GenerateLatexTest extends QedeqTestCase {
      * @throws Exception
      */
     public void testGeneration() throws Exception {
-        File docDir = new File("../QedeqDoc");
-        File genDir = new File("../../../qedeq_gen");
-        // test if we are in the normal development environment, where a project with name
-        //  "../QedeqDoc" exists, otherwise we assume to run within the release directory
-        //  structure where the docs are in the directory ../doc
-        if (!docDir.exists()) {
-            docDir = new File("../doc");
-            genDir = new File("../doc");
-            if (!docDir.exists()) {
-                throw new IOException("unknown source directory for qedeq modules");
-            }
-        }
         generate(docDir, "math/qedeq_sample1.xml", genDir, false);
         generate(docDir, "math/qedeq_set_theory_v1.xml", genDir, false);
         generate(docDir, "math/qedeq_logic_v1.xml", genDir, false);
@@ -85,7 +87,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
     public void testNegative02() throws IOException {
         try {
             generate(new File("."), "data/qedeq_sample2_error.xml", "de",
-                new File("."));
+                new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -102,7 +104,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
     public void testNegative03() throws IOException {
         try {
             generate(new File("."), "data/qedeq_sample3_error.xml", "en",
-                new File("."));
+                new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -120,7 +122,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
     public void testNegative04() throws IOException {
         try {
             generate(new File("."), "data/qedeq_sample4_error.xml", "en",
-                new File("."));
+                new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -166,7 +168,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
     public void testNegative05() throws IOException {
         try {
             generate(new File("."), "data/qedeq_sample5_error.xml", "en",
-                new File("."));
+                new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -183,7 +185,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
     public void testNegative06() throws IOException {
         try {
             generate(new File("."), "data/qedeq_sample6_error.xml", "en",
-                new File("."));
+                new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -200,7 +202,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
     public void testNegative07() throws IOException {
         try {
             generate(new File("."), "data/qedeq_sample7_error.xml", "en",
-                new File("."));
+                new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -217,7 +219,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
     public void testNegative08() throws IOException {
         try {
             generate(new File("."), "data/qedeq_sample8_error.xml", "en",
-                new File("."));
+                new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -276,6 +278,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
         final File texCopy = new File(destinationDirectory, new File(new File(xml).getParent(), 
             texFile.getName()).getPath());
         final File xmlCopy = new File(destinationDirectory, xml);
+        IoUtility.createNecessaryDirectories(xmlCopy);
         IoUtility.copyFile(xmlFile, xmlCopy);
         IoUtility.copyFile(texFile, texCopy);
         try {
