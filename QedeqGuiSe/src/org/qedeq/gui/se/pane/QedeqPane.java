@@ -18,19 +18,11 @@
 package org.qedeq.gui.se.pane;
 
 import java.awt.Color;
-import java.awt.Component;
-import java.awt.Font;
-import java.awt.Insets;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
-import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.BadLocationException;
@@ -42,7 +34,6 @@ import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.factories.Borders;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.RowSpec;
@@ -62,25 +53,20 @@ public class QedeqPane extends JPanel {
     /** Here is the QEDEQ module source. */
     private JTextArea qedeq = new JTextArea();
 
-    private JTextArea error = new JTextArea();
-
-    private JScrollPane qedeqScroller = new JScrollPane();
-
-    private JSplitPane splitPane = new JSplitPane(JSplitPane
-        .VERTICAL_SPLIT);
-
-
     /**
      * Creates new Panel.
      */
     public QedeqPane(final ModuleProperties prop) {
         super(false);
         this.prop = prop;
-        setupView3();
+        setupView();
         updateView();
     }
 
-    public void setupView3() {
+    /**
+     * Assembles the GUI components of the panel.
+     */
+    public void setupView() {
         FormLayout layout = new FormLayout(
                 "min:grow",
                 "0:grow");
@@ -97,111 +83,6 @@ public class QedeqPane extends JPanel {
             cc.xywh(builder.getColumn(), builder.getRow(), 1, 2, "fill, fill"));
 
     }
-
-    private void setupView2() {
-        qedeq.setMargin(new Insets(6, 10, 4, 6));
-        // Non-editable but shall use the editable background.
-        qedeq.setEditable(false);
-
-        qedeq.setDragEnabled(true);
-        qedeq.setFont(new Font("monospaced", Font.PLAIN, 12));
-        qedeq.setAutoscrolls(true);
-        qedeq.setCaretPosition(0);
-        qedeq.setEditable(false);
-        qedeq.getCaret().setVisible(false);
-        qedeq.setLineWrap(true);
-        qedeq.setWrapStyleWord(true);
-        qedeq.setFocusable(true);
-
-        qedeq.putClientProperty("JTextArea.infoBackground", Boolean.TRUE);
-        Component textPane = new JScrollPane(qedeq);
-
-        FormLayout layout = new FormLayout(
-                "fill:300dlu:grow",
-                "fill:default:grow");
-//                        "fill:100dlu:grow",
-//                        "fill:56dlu:grow, 4dlu, p");
-        JPanel panel = new JPanel(layout);
-        CellConstraints cc = new CellConstraints();
-        panel.setBorder(Borders.DIALOG_BORDER);
-        panel.add(textPane, cc.xy(1, 1));
-        this.add(panel);
-    }
-
-    /**
-     * Assembles the gui components of the panel.
-     */
-    private final void setupView() {
-        FormLayout layout = new FormLayout(
-        "fill:50dlu:grow");    // columns
-//        + "pref, 3dlu, pref");                  // rows
-
-    DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-    builder.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-    builder.getPanel().setOpaque(false);
-    builder.setDefaultDialogBorder();
-
-        qedeq.setDragEnabled(true);
-        qedeq.setFont(new Font("monospaced", Font.PLAIN, 12));  // TODO mime 20071220: hard coded
-        qedeq.setAutoscrolls(true);
-        qedeq.setCaretPosition(0);
-        qedeq.setEditable(false);
-        qedeq.getCaret().setVisible(false);
-        qedeq.setLineWrap(true);
-        qedeq.setWrapStyleWord(true);
-        qedeq.setFocusable(true);
-
-        builder.append(qedeq);
-
-        add(builder.getPanel());
-
-
-        error.setFont(new Font("monospaced", Font.PLAIN, 12));
-        error.setAutoscrolls(true);
-        error.setCaretPosition(0);
-        error.setEditable(false);
-        error.getCaret().setVisible(false);
-        qedeq.setLineWrap(true); // TODO mime ????
-        error.setFocusable(true);
-        error.setForeground(Color.RED);
-        error.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(final MouseEvent e) {
-                updateView();
-            }
-
-        });
-
-/*
-        final JViewport port = this.qedeqScroller.getViewport();
-        port.add(qedeq);
-
-        final JScrollPane errorScroller = new JScrollPane();
-        final JViewport port2 = errorScroller.getViewport();
-        port2.add(error);
-
-        this.setLayout(new BorderLayout(1, 1));
-
-        splitPane.setTopComponent(qedeqScroller);
-        splitPane.setBottomComponent(errorScroller);
-        splitPane.setResizeWeight(1);
-        splitPane.setOneTouchExpandable(true);
-
-        this.add(splitPane);
-        splitPane.setDividerLocation(this.getHeight());
-
-        this.addComponentListener(new ComponentAdapter() {
-            public void componentHidden(ComponentEvent e) {
-                Trace.trace(this, "componentHidden", e);
-            }
-            public void componentShown(ComponentEvent e) {
-                Trace.trace(this, "componentHidden", e);
-            }
-        });
-
-        this.add(qedeq);
-*/
-    }
-
 
     /**
      * Set new model. To make the new model visible {@link #updateView} must be called.
@@ -253,25 +134,9 @@ public class QedeqPane extends JPanel {
                         qedeq.getCaret().setSelectionVisible(true);
                         qedeq.setSelectedTextColor(Color.RED);
                         qedeq.setSelectionColor(Color.YELLOW);
-                        StringBuffer pointer = new StringBuffer();
                         if (pe.get(0).getSourceArea() != null) {
                             highlightLine(pe.get(0).getSourceArea().getStartPosition().getLine());
-                            // reserve 3 text lines for error description
-                            splitPane.setDividerLocation(splitPane.getHeight()
-                                - splitPane.getDividerSize()
-                                - error.getFontMetrics(error.getFont()).getHeight() * 3 - 4);
-                            pointer.append(IoUtility.getSpaces(pe.get(0).getSourceArea()
-                                .getStartPosition().getColumn() - 1));
-                            pointer.append("^");
                         }
-                        final URL local = (IoUtility.toUrl(
-                            new File(KernelContext.getInstance()
-                                .getLocalFilePath(prop.getModuleAddress()))));
-                        // FIXME mime 20071128: the above code must be simpler!!!
-                        //      prop.getModuleAddress().localizeInFileSystem(prop.getUrl());
-                        error.setText(pe.get(0).getDescription(local) + "\n"
-                                + pe.get(0).getLine(local) + "\n"
-                                + pointer);
                     } else {    // TODO if file module is edited status must change
                         if (prop.getModuleAddress().isFileAddress()) {
                             qedeq.setEditable(true);
@@ -283,8 +148,6 @@ public class QedeqPane extends JPanel {
                         // TODO is this a valid setting for the default colors?
                         qedeq.setSelectedTextColor(MetalLookAndFeel.getHighlightedTextColor());
                         qedeq.setSelectionColor(MetalLookAndFeel.getTextHighlightColor());
-                        error.setText("");
-                        splitPane.setDividerLocation(this.getHeight());
                     }
                     Trace.trace(this, "updateView", "Text updated");
                 } else {
@@ -293,15 +156,11 @@ public class QedeqPane extends JPanel {
             } catch (IOException ioException) {
                 qedeq.setEditable(false);
                 qedeq.setText("");
-                error.setText("");
-                splitPane.setDividerLocation(this.getHeight());
                 Trace.trace(this, "updateView", ioException);
             }
         } else {
             qedeq.setEditable(false);
             qedeq.setText("");
-            error.setText("");
-            splitPane.setDividerLocation(this.getHeight());
             Trace.end(this, "updateView");
         }
         this.repaint();
