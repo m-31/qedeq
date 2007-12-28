@@ -143,7 +143,7 @@ public class QedeqMainFrame extends JFrame {
                     }
                     final StringBuffer buffer = new StringBuffer();
                     IoUtility.loadFile(url, buffer);
-                    File traceFile = config.getRelativeToBasis("log/trace.xml");
+                    File traceFile = config.createAbsolutePath("log/trace.xml");
                     ReplaceUtility.replace(buffer, "@@trace_file_path@@",
                         IoUtility.escapeProperty(traceFile.toString().replace('\\', '/')));
                     IoUtility.saveFile(resource, buffer);
