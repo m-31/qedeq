@@ -549,12 +549,15 @@ public final class IoUtility {
             }
             try {
                 String org = orgin.getCanonicalPath().replace('\\', '/');
-                if (orgin.isDirectory() && !org.endsWith("/")) {
-                    org += "/";
+                if (!org.endsWith("/")) {
+                    org += ('/');
                 }
                 String nex = next.getCanonicalPath().replace('\\', '/');
-                if (next.isDirectory() && !nex.endsWith("/")) {
-                    nex += "/";
+                if (!nex.endsWith("/")) {
+                    nex += ('/');
+                }
+                if (org.equals(nex)) {
+                    return "";
                 }
                 int i = -1; // position of next '/'
                 int j = 0;  // position of last '/'
@@ -569,20 +572,20 @@ public final class IoUtility {
                 }
                 if (j > 0) {
                     i = j;
-                    StringBuffer result = new StringBuffer(nex.length());
+                    final StringBuffer result = new StringBuffer(nex.length());
                     while (0 <= (i = org.indexOf("/", i))) {
                         i++;
                         result.append("../");
                     }
-                    result.append(nex.substring(j));
+                    result.append(nex.substring(j, nex.length() - 1));
                     return result.toString();
                 }
-                return "/" + nex;
+                return nex.substring(0, nex.length() - 1);
             } catch (RuntimeException e) {
                 return next.toString();
             }
         } catch (IOException e) {
-            return next.toString();
+            return new File(orgin, next.getPath()).getPath();
         }
     }
 
