@@ -44,5 +44,6 @@ public class KernelUtilityTestSuite extends QedeqTestSuite {
     public KernelUtilityTestSuite() {
         super();
         addTestSuite(TextInputTest.class);
+        addTestSuite(IoUtilityTest.class);
     }
 }
