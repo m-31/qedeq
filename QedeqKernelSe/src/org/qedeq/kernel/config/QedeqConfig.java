@@ -22,6 +22,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 
+import org.qedeq.kernel.utility.IoUtility;
+
 
 /**
  * This class gives a type save access to properties of the application.
@@ -82,12 +84,12 @@ public class QedeqConfig {
      *
      * @return  Generation directory.
      */
-    public final String getGenerationDirectory() {
-        final String location = getKeyValue("generationLocation");
+    public final File getGenerationDirectory() {
+        String location = getKeyValue("generationLocation");
         if (location == null) {
-            return QedeqConfig.DEFAULT_GENERATED;
+            location = QedeqConfig.DEFAULT_GENERATED;
         }
-        return location;
+        return createAbsolutePath(location);
     }
 
     /**
@@ -95,8 +97,9 @@ public class QedeqConfig {
      *
      * @param   location    generation directory.
      */
-    public final void setGenerationDirectory(final String location) {
-        setKeyValue("generationLocation", location);
+    public final void setGenerationDirectory(final File location) {
+        final String relative = createRelativePath(location);
+        setKeyValue("generationLocation", relative);
     }
 
     /**
@@ -104,12 +107,12 @@ public class QedeqConfig {
      *
      * @return  Buffer directory.
      */
-    public final String getBufferDirectory() {
-        final String location = getKeyValue("bufferLocation");
+    public final File getBufferDirectory() {
+        String location = getKeyValue("bufferLocation");
         if (location == null) {
-            return QedeqConfig.DEFAULT_LOCAL_BUFFER;
+            location = QedeqConfig.DEFAULT_LOCAL_BUFFER;
         }
-        return location;
+        return createAbsolutePath(location);
     }
 
 
@@ -119,8 +122,34 @@ public class QedeqConfig {
      *
      * @param   location    buffer directory.
      */
-    public final void setBufferDirectory(final String location) {
-        setKeyValue("bufferLocation", location);
+    public final void setBufferDirectory(final File location) {
+        final String relative = createRelativePath(location);
+        setKeyValue("bufferLocation", relative);
+    }
+
+    /**
+     * Get directory for newly created QEDEQ module files.
+     *
+     * @return  Directory for newly created QEDEQ modules.
+     */
+    public final File getLocalModulesDirectory() {
+        String location = getKeyValue("localModulesDirectory");
+        if (location == null) {
+            location = QedeqConfig.DEFAULT_LOCAL_MODULES_DIRECTORY;
+        }
+        return createAbsolutePath(location);
+    }
+
+
+    /**
+     * Set directory for newly created module files.
+     * After changing this location the buffer should eventually be cleared.
+     *
+     * @param   location    Buffer directory.
+     */
+    public final void setLocalModulesDirectory(final File location) {
+        final String relative = createRelativePath(location);
+        setKeyValue("localModulesDirectory", relative);
     }
 
     /**
@@ -194,8 +223,18 @@ public class QedeqConfig {
      * @param   path    Go to this path starting from basis directory.
      * @return  File path resolved against basis application directory.
      */
-    public final File getRelativeToBasis(final String path) {
+    public final File createAbsolutePath(final String path) {
         return new File(getBasisDirectory(), path);
+    }
+
+    /**
+     * Create relative file path starting from basis directory of this application.
+     *
+     * @param   path    Reach this path starting from basis directory.
+     * @return  File path relative to basis application directory.
+     */
+    private final String createRelativePath(final File path) {
+        return IoUtility.createRelativePath(getBasisDirectory(), path);
     }
 
     /**
@@ -208,7 +247,6 @@ public class QedeqConfig {
             getKeyValue("sessionAutoReload", "true"));
     }
 
-
     /**
      * Set auto reload checked modules of last session mode.
      *
@@ -218,48 +256,22 @@ public class QedeqConfig {
         setKeyValue("sessionAutoReload", (mode ? "true" : "false"));
     }
 
-
     /**
-     * Should old html code be generated?
+     * Should old HTML code be generated?
      *
-     * @return  old html code?
+     * @return  Old HTML code?
      */
     public final boolean isOldHtml() {
         return "true".equals(getKeyValue("oldHtml", "true"));
     }
 
     /**
-     * Set old html code generation flag.
+     * Set old HTML code generation flag.
      *
-     * @param  mode     set old html code generation?
+     * @param  mode     Set old HTML code generation?
      */
     public final void setOldHtml(final boolean mode) {
         setKeyValue("oldHtml", (mode ? "true" : "false"));
-    }
-
-
-    /**
-     * Get directory for newly created QEDEQ module files.
-     *
-     * @return  Directory for newly created QEDEQ modules.
-     */
-    public final String getLocalModulesDirectory() {
-        final String location = getKeyValue("localModulesDirectory");
-        if (location == null) {
-            return QedeqConfig.DEFAULT_LOCAL_MODULES_DIRECTORY;
-        }
-        return location;
-    }
-
-
-    /**
-     * Set directory for newly created module files.
-     * After changing this location the buffer should eventually be cleared.
-     *
-     * @param   location    Buffer directory.
-     */
-    public final void setLocalModulesDirectory(final String location) {
-        setKeyValue("localModulesDirectory", location);
     }
 
     /**
