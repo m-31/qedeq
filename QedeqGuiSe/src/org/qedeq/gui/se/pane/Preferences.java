@@ -22,6 +22,7 @@ import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -37,6 +38,7 @@ import org.qedeq.kernel.trace.Trace;
 
 /**
  * Show and edit preferences of this application.
+ * TODO mime 20071228: this frame is pixel hardcoded, replace by non pixel layouted version
  *
  * @version $Revision: 1.2 $
  * @author  Michael Meyling
@@ -209,7 +211,7 @@ public final class Preferences extends JFrame {
         contents.add(moduleBufferLabel);
         moduleBufferLabel.setBounds(33, 180 + y, 400, 17);
 
-        bufferDirectory = new File(QedeqGuiConfig.getInstance().getBufferDirectory());
+        bufferDirectory = QedeqGuiConfig.getInstance().getBufferDirectory();
         moduleBufferTextField = new JTextField(bufferDirectory.getAbsolutePath());
         moduleBufferTextField.setEditable(false);
         contents.add(moduleBufferTextField);
@@ -261,7 +263,7 @@ public final class Preferences extends JFrame {
         contents.add(generationPathLabel);
         generationPathLabel.setBounds(33, 250 + y, 400, 17);
 
-        generationDirectory = new File(QedeqGuiConfig.getInstance().getGenerationDirectory());
+        generationDirectory = QedeqGuiConfig.getInstance().getGenerationDirectory();
         generationPathTextField = new JTextField(generationDirectory.getAbsolutePath());
         generationPathTextField.setEditable(false);
         contents.add(generationPathTextField);
@@ -313,7 +315,7 @@ public final class Preferences extends JFrame {
         contents.add(localModulesPathLabel);
         localModulesPathLabel.setBounds(33, 310 + y, 400, 17);
 
-        localModulesDirectory = new File(QedeqGuiConfig.getInstance().getLocalModulesDirectory());
+        localModulesDirectory = QedeqGuiConfig.getInstance().getLocalModulesDirectory();
         localModulesPathTextField = new JTextField(localModulesDirectory.getAbsolutePath());
         localModulesPathTextField.setEditable(false);
         contents.add(localModulesPathTextField);
@@ -388,15 +390,20 @@ public final class Preferences extends JFrame {
     final void save() {
         if (changed) {
 // TODO mime 20070903: setting still unsupported
-//            QedeqGuiConfig.getInstance().setBufferDirectory(bufferDirectory);
-//            QedeqGuiConfig.getInstance().setGenerationDirectory(generationDirectory);
-//            QedeqGuiConfig.getInstance().setLocalModulesDirectory(localModulesDirectory);
+            QedeqGuiConfig.getInstance().setBufferDirectory(bufferDirectory);
+            QedeqGuiConfig.getInstance().setGenerationDirectory(generationDirectory);
+            QedeqGuiConfig.getInstance().setLocalModulesDirectory(localModulesDirectory);
             QedeqGuiConfig.getInstance().setAutomaticLogScroll(automaticLogScroll);
             QedeqGuiConfig.getInstance().setDirectResponse(directResponse);
             QedeqGuiConfig.getInstance().setAutoReloadLastSessionChecked(
                 autoReloadLastSessionChecked);
             QedeqGuiConfig.getInstance().setAutoStartHtmlBrowser(autoStartHtmlBrowser);
             QedeqGuiConfig.getInstance().setOldHtml(oldHtmlCode);
+            try {
+                QedeqGuiConfig.getInstance().store();
+            } catch (IOException e) {
+                Trace.fatal(this, "save", "couldn't save preferences", e);
+            }
         }
     }
 
