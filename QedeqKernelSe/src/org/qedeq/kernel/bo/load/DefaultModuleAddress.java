@@ -19,10 +19,8 @@ package org.qedeq.kernel.bo.load;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 
 import org.qedeq.kernel.base.module.LocationList;
 import org.qedeq.kernel.base.module.Specification;
@@ -31,7 +29,6 @@ import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
-import org.qedeq.kernel.utility.ReplaceUtility;
 
 
 /**
@@ -41,9 +38,6 @@ import org.qedeq.kernel.utility.ReplaceUtility;
  * @author  Michael Meyling
  */
 public class DefaultModuleAddress implements ModuleAddress {
-
-    /** Address. */
-    private final String address;
 
     /** URL form of this address. */
     private final URL url;
@@ -60,6 +54,9 @@ public class DefaultModuleAddress implements ModuleAddress {
     /** Is module address relative? */
     private final boolean relativeAddress;
 
+    /** Is module address a file? */
+    private final boolean fileAddress;
+
     /** Module name. That is file name without <code>.xml</code> */
     private final String name;
 
@@ -67,13 +64,12 @@ public class DefaultModuleAddress implements ModuleAddress {
      * Constructor.
      *
      * @param   u       Address of module.
-     * @param   parent  Address of parent module
      * @throws  IOException if address is formally incorrect
      */
-    public DefaultModuleAddress(final URL u, final DefaultModuleAddress parent)
+    public DefaultModuleAddress(final String u)
             throws IOException {
 
-        this(u.toExternalForm(), parent);
+        this(u, (DefaultModuleAddress) null);
     }
 
     /**
@@ -94,30 +90,18 @@ public class DefaultModuleAddress implements ModuleAddress {
      */
     public DefaultModuleAddress(final File file)
             throws IOException {
-        this(IoUtility.toUrl(file), (DefaultModuleAddress) null);
+        this(IoUtility.toUrl(file));
     }
 
     /**
      * Constructor.
      *
      * @param   address  Address of module.
-     * @throws  IOException     Address is formally incorrect
-     */
-    public DefaultModuleAddress(final String address)
-            throws IOException {
-        this(address, (DefaultModuleAddress) null);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   address  address of module
-     * @param   parent  address of parent module
-     * @throws  IOException if address is formally incorrect
+     * @param   parent   Address of parent module.
+     * @throws  MalformedURLException     Address is formally incorrect.
      */
     public DefaultModuleAddress(final String address, final DefaultModuleAddress parent)
-            throws IOException {
-
+            throws MalformedURLException {
         final String method = "ModuleAddress(String, ModuleAddress)";
         if (address == null) {
             throw new NullPointerException();
@@ -146,8 +130,7 @@ public class DefaultModuleAddress implements ModuleAddress {
         }
         Trace.trace(this, method, "protocol=" + urmel.getProtocol());
         url = urmel;
-        this.address = urmel.toExternalForm();
-        Trace.trace(this, method, "address=" + this.address);
+        fileAddress = url.getProtocol().equalsIgnoreCase("file");
 /*
         Trace.trace(this, METHOD, "url.getFile=" + this.url.getFile());
         Trace.trace(this, METHOD, "url.getPath=" + this.url.getPath());
@@ -171,29 +154,20 @@ public class DefaultModuleAddress implements ModuleAddress {
         Trace.trace(this, method, "fileName=" + this.fileName);
         this.relativeAddress = !this.path.startsWith("/");
         if (!this.fileName.endsWith(".xml")) {
-            throw new IOException("file name doesn't end with \".xml\": "
+            throw new MalformedURLException("file name doesn't end with \".xml\": "
                 + this.fileName);
         }
         final int positionBefore = this.fileName.lastIndexOf(".");
         final String mname = this.fileName.substring(0, positionBefore);
         this.name = mname;
         final int positionPath
-            = this.address.lastIndexOf(this.path + this.fileName);
+            = url.toString().lastIndexOf(this.path + this.fileName);
         if (positionPath < 0) {
             throw new IllegalArgumentException(
                 "couldn't determine begin of file path: "
-                + this.address);
+                + url.toString());
         }
-        this.header = this.address.substring(0, positionPath);
-    }
-
-    /**
-     * Get module address.
-     *
-     * @return module address
-     */
-    public final String getAddress() {
-        return address;
+        this.header = url.toString().substring(0, positionPath);
     }
 
     /**
@@ -202,7 +176,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      * @return  Module address as {@link ModuleContext}.
      */
     public final ModuleContext createModuleContext() {
-        return new ModuleContext(getURL());
+        return new ModuleContext(this);
     }
 
     /**
@@ -266,83 +240,28 @@ public class DefaultModuleAddress implements ModuleAddress {
      * @return  Is the QEDEQ module a local file?
      */
     public final boolean isFileAddress() {
-        return getAddress().indexOf("file:") == 0;
-    }
-
-    /**
-     * Transform an URL address into a local file path.
-     *
-     * @param   url transform this URL
-     * @return  result of transformation
-     */
-    public final String localizeInFileSystem(final URL url) {
-        final String method = "localizeInFileSystem(URL)";
-        Trace.traceStack(this, method); // FIXME mime 20071218: remove me
-        Trace.param(this, method, "protocoll", url.getProtocol());
-        Trace.param(this, method, "host", url.getHost());
-        Trace.param(this, method, "port", url.getPort());
-        Trace.param(this, method, "path", url.getPath());
-        Trace.param(this, method, "file", url.getFile());
-        StringBuffer file = new StringBuffer(url.getFile());
-        ReplaceUtility.replace(file, "_", "__");    // remember all '_'
-        ReplaceUtility.replace(file, "/", "_1");    // preserve all '/'
-        String encoded = file.toString();           // fallback file name
-        try {
-            encoded = URLEncoder.encode(file.toString(), "UTF-8");
-        } catch (UnsupportedEncodingException e) {
-            // should not occur
-            Trace.trace(DefaultModuleAddress.class, "localizeInFileSystem(String)", e);
-        }
-        file.setLength(0);
-        file.append(encoded);
-        ReplaceUtility.replace(file, "#", "##");    // escape all '#'
-        ReplaceUtility.replace(file, "_1", "#");    // from '/' into '#'
-        ReplaceUtility.replace(file, "__", "_");    // from '_' into '_'
-        StringBuffer adr = new StringBuffer(url.toExternalForm());
-        try {
-            adr = new  StringBuffer(new URL(url.getProtocol(), url.getHost(),
-                url.getPort(), file.toString()).toExternalForm());
-        } catch (MalformedURLException e) {
-            Trace.fatal(this, "localizeInFileSystem(URL)", "unexpected", e);
-            e.printStackTrace();
-        }
-        // escape characters:
-        ReplaceUtility.replace(adr, "://", "_");    // before host
-        ReplaceUtility.replace(adr, ":", "_");      // before protocol
-        return adr.toString();
-    }
-
-    /**
-     * Create relative address from <code>this</code> to <code>reference</code>.
-     *
-     * @param   reference    this should be the next location
-     * @return  relative (or if necessary absolute) address
-     */
-    public final String createRelativeAddress(
-            final ModuleAddress reference) {
-        return createRelativeAddress(getAddress(),
-            reference.getAddress());
+        return fileAddress;
     }
 
     public final String toString() {
-        return this.address;
+        return url.toString();
     }
 
     public final int hashCode() {
-        return this.address.hashCode();
+        return url.hashCode();
     }
 
     public final boolean equals(final Object object) {
         if (object == null || !(object instanceof DefaultModuleAddress)) {
             return false;
         }
-        return address.equals(((DefaultModuleAddress) object).address);
+        return url.equals(((DefaultModuleAddress) object).url);
     }
 
     /**
      * Get the file name of the specified module.
      *
-     * TODO mime 20070326: is this function really neccessary?
+     * TODO mime 20070326: is this function really necessary?
      *
      * @param   spec    here are the (perhaps relative) addresses to
      *                  another module
