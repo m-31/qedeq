@@ -25,6 +25,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.qedeq.kernel.base.module.Author;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.module.IllegalModuleDataException;
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
@@ -37,7 +38,7 @@ import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxParser;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
-import org.qedeq.kernel.xml.tracker.XPathLocationFinder;
+import org.qedeq.kernel.xml.tracker.XPathLocationParser;
 import org.xml.sax.SAXException;
 
 /**
@@ -91,14 +92,16 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
     public final void testCreateStringQedeq1() throws IOException, ParserConfigurationException,
             SAXException, ModuleDataException {
         final String method = "testCreateStringQedeq()";
+        final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
+            IoUtility.toUrl(errorFile.getCanonicalFile()));
         try {
-            QedeqBoFactoryAssert.createQedeq(IoUtility.toUrl(errorFile.getCanonicalFile()), error);
+            QedeqBoFactoryAssert.createQedeq(address, error);
             fail("IllegalModuleDataException expected");
         } catch (IllegalModuleDataException e) {
             System.err.println(e);
             System.err.println(e.getContext());
             final SimpleXPath xpath = Context2SimpleXPath.getXPath(e.getContext(), error);
-            final SimpleXPath find = XPathLocationFinder.getXPathLocation(
+            final SimpleXPath find = XPathLocationParser.getXPathLocation(
                 errorFile.getCanonicalFile(), xpath, IoUtility.toUrl(errorFile.getCanonicalFile()));
             System.out.println("found: " + find.getStartLocation());
             System.out.println("found: " + find.getEndLocation());
@@ -164,8 +167,9 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
     public static final void loadQedeqAndAssertContext(final File file) throws IOException,
             ModuleDataException, ParserConfigurationException, SAXException,
             SourceFileExceptionList {
-        QedeqBoFactoryAssert.createQedeq(IoUtility.toUrl(file.getAbsoluteFile()),
-            createQedeqFromFile(file));
+        final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
+            IoUtility.toUrl(file.getCanonicalFile()));
+        QedeqBoFactoryAssert.createQedeq(address, createQedeqFromFile(file));
     }
     
     public static final Qedeq loadQedeq(final String name) throws IOException,

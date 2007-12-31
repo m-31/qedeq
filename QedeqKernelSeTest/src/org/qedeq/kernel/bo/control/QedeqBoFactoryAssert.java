@@ -17,23 +17,21 @@
 
 package org.qedeq.kernel.bo.control;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.load.DefaultQedeqBo;
 import org.qedeq.kernel.bo.load.QedeqBoFactory;
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
-import org.qedeq.kernel.xml.tracker.XPathLocationFinder;
+import org.qedeq.kernel.xml.tracker.XPathLocationParser;
 import org.xml.sax.SAXException;
 
 /**
@@ -49,7 +47,7 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
      * 
      * @param   globalContext     Module location information.
      */
-    public QedeqBoFactoryAssert(final URL globalContext) {
+    public QedeqBoFactoryAssert(final ModuleAddress globalContext) {
         super(globalContext);
     }
 
@@ -67,15 +65,11 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
      * @return  Filled QEDEQ business object. Is equal to the parameter <code>qedeq</code>.
      * @throws  ModuleDataException  Semantic or syntactic error occurred.
      */
-    public static DefaultQedeqBo createQedeq(final URL globalContext, final Qedeq original)
-            throws ModuleDataException {
+    public static DefaultQedeqBo createQedeq(final ModuleAddress globalContext,
+            final Qedeq original) throws ModuleDataException {
         final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(globalContext);
         final DefaultQedeqBo bo = creator.create(original);
-        try {
-            bo.setModuleAddress(new DefaultModuleAddress(globalContext));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        bo.setModuleAddress(globalContext);
         QedeqBoFormalLogicChecker.check(globalContext, bo); // TODO mime 20061105: just for testing
         QedeqBoDuplicateLanguageChecker.check(globalContext, bo); // TODO mime 20070301: just for testing
         return bo;
@@ -109,10 +103,10 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
         }
         System.out.println("###< " + xpath);
         try {
-            final SimpleXPath find = XPathLocationFinder.getXPathLocation(
-                new File(KernelFacade.getKernelContext().getLocalFilePath(
-                new DefaultModuleAddress(getCurrentContext().getModuleLocation()))), xpath,
-                getCurrentContext().getModuleLocation());
+            final SimpleXPath find = XPathLocationParser.getXPathLocation(
+                KernelFacade.getKernelContext().getLocalFilePath(
+                    getCurrentContext().getModuleLocation()), xpath,
+                getCurrentContext().getModuleLocation().getURL());
             if (find.getStartLocation() == null) {
                 System.out.println(getCurrentContext());
                 throw new RuntimeException("start not found: " + find + "\ncontext: " 

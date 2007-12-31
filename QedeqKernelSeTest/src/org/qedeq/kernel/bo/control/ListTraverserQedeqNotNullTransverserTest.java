@@ -18,13 +18,14 @@
 package org.qedeq.kernel.bo.control;
 
 import java.io.ByteArrayOutputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
 import java.util.Stack;
 
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
+import org.qedeq.kernel.bo.load.DefaultModuleAddress;
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
 import org.qedeq.kernel.bo.visitor.QedeqVisitor;
@@ -50,12 +51,12 @@ public class ListTraverserQedeqNotNullTransverserTest extends QedeqTestCase {
     
     private final Stack stack = new Stack();
     
-    private static URL url;
+    private static ModuleAddress address;
     
     static {
         try {
-            url = new URL("http://memory.org");
-        } catch (MalformedURLException e) {
+            address = new DefaultModuleAddress("http://memory.org/sample.xml");
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -96,7 +97,7 @@ public class ListTraverserQedeqNotNullTransverserTest extends QedeqTestCase {
 
     };
     
-    private final QedeqNotNullTransverser trans = new QedeqNotNullTransverser(url, 
+    private final QedeqNotNullTransverser trans = new QedeqNotNullTransverser(address, 
         visitor);
     
     
