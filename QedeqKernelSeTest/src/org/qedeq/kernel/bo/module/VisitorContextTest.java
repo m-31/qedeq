@@ -20,7 +20,6 @@ package org.qedeq.kernel.bo.module;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -60,6 +59,7 @@ import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
+import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
 import org.qedeq.kernel.bo.visitor.QedeqVisitor;
 import org.qedeq.kernel.test.DynamicGetter;
@@ -67,7 +67,7 @@ import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
-import org.qedeq.kernel.xml.tracker.XPathLocationFinder;
+import org.qedeq.kernel.xml.tracker.XPathLocationParser;
 import org.xml.sax.SAXException;
 
 
@@ -89,7 +89,7 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
 
     public void testContext() throws Exception {
         moduleFile = QedeqBoFactoryTest.getQedeqFile("math/qedeq_set_theory_v1.xml");
-        final URL globalContext = IoUtility.toUrl(moduleFile);
+        final ModuleAddress globalContext = new DefaultModuleAddress(moduleFile);
         qedeq = QedeqBoFactoryTest.loadQedeq(moduleFile);
         transverser = new QedeqNotNullTransverser(globalContext, this);
         transverser.accept(qedeq);
@@ -396,7 +396,7 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
         SimpleXPath xpath = Context2SimpleXPath.getXPath(transverser.getCurrentContext(), qedeq);
         System.out.println("###< " + xpath);
         try {
-            final SimpleXPath find = XPathLocationFinder.getXPathLocation(moduleFile, 
+            final SimpleXPath find = XPathLocationParser.getXPathLocation(moduleFile, 
                 xpath.toString(), IoUtility.toUrl(moduleFile));
             if (find.getStartLocation() == null) {
                 System.out.println(transverser.getCurrentContext());
