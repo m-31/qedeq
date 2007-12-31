@@ -45,7 +45,7 @@ import org.qedeq.kernel.trace.Trace;
 public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEventListener {
 
     /**
-     * Properties of modules.
+     * Maps {@link org.qedeq.kernel.bo.module.ModuleAddress}es to {@link TreeNode}s..
      */
     private final Map module2Path = new HashMap();
 
@@ -74,7 +74,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
                 final QedeqTreeNode root = (QedeqTreeNode) getRoot();
                 final QedeqTreeNode node = new QedeqTreeNode(prop, false);
                 Trace.trace(this, "addModule", "calls insertNodeInto=" + node);
-                module2Path.put(prop.getAddress(), new TreePath(node.getPath()));
+                module2Path.put(prop.getModuleAddress(), new TreePath(node.getPath()));
                 for (int i = 0; i < root.getChildCount(); i++) {
                     final QedeqTreeNode n = (QedeqTreeNode) root.getChildAt(i);
                     final ModuleProperties p = (ModuleProperties) n.getUserObject();
@@ -95,7 +95,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
     public void stateChanged(final ModuleProperties prop) {
         Runnable stateChanged = new Runnable() {
             public void run() {
-                final TreePath path = (TreePath) module2Path.get(prop.getAddress());
+                final TreePath path = (TreePath) module2Path.get(prop.getModuleAddress());
                 if (path == null) {
                     throw new IllegalArgumentException("unknown property");
                 }
@@ -115,7 +115,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
     public void removeModule(final ModuleProperties prop) {
         Runnable removeModule = new Runnable() {
             public void run() {
-                final TreePath path = (TreePath) module2Path.get(prop.getAddress());
+                final TreePath path = (TreePath) module2Path.get(prop.getModuleAddress());
                 if (path == null) {
                     throw new IllegalArgumentException("unknown property");
                 }
@@ -124,7 +124,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
                 if (!prop.equals(sameProp)) {
                     throw new IllegalStateException("should not happen");
                 }
-                module2Path.remove(prop.getAddress());
+                module2Path.remove(prop.getModuleAddress());
                 Trace.trace(this, "removeModule", "nodeRemoved=" + node);
                 removeNodeFromParent(node);
             }
@@ -134,7 +134,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
     }
 
     public TreePath getSelectionPath(final ModuleProperties prop) {
-        final TreePath path = (TreePath) module2Path.get(prop.getAddress());
+        final TreePath path = (TreePath) module2Path.get(prop.getModuleAddress());
         if (path == null) {
             throw new IllegalArgumentException("unknown property");
         }
