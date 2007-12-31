@@ -18,13 +18,13 @@
 package org.qedeq.gui.se.control;
 
 import java.awt.event.ActionEvent;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
@@ -78,17 +78,19 @@ class AddAction extends AbstractAction {
             options,                         // options string array, will be made into buttons
             options[0]                       // option that should be made into a default button
         );
-        final URL url;
+        final ModuleAddress address;
         switch(result) {
         case 0:     // ok
             try {
-                url = new URL((String) cb.getSelectedItem());
-                controller.addToModuleHistory(url.toExternalForm());
-            } catch (MalformedURLException e1) {
-                Trace.trace(this, "actionPerformed", "no correct URL", e1);
+                address = KernelContext.getInstance().getModuleAddress(
+                    (String) cb.getSelectedItem());
+                controller.addToModuleHistory(address.toString());
+            } catch (IOException ie) {
+                Trace.trace(this, "actionPerformed", "no correct URL", ie);
                 JOptionPane.showMessageDialog(
                     controller.getMainFrame(),       // the parent that the dialog blocks
-                    "this is no valid URL: " + cb.getSelectedItem(), // message
+                    "this is no valid URL: " + cb.getSelectedItem()
+                    + "\n" + ie.getMessage(), // message
                     "Error",                         // title
                     JOptionPane.ERROR_MESSAGE        // message type
                 );
@@ -102,9 +104,10 @@ class AddAction extends AbstractAction {
         final Thread thread = new Thread() {
             public void run() {
                 try {
-                    QedeqLog.getInstance().logRequest("Load module \"" + url + "\"");
+               // FIXME mime 20071231: move logging out of gui!
+                    QedeqLog.getInstance().logRequest("Load module \"" + address + "\"");
                     final QedeqBo module
-                        = KernelContext.getInstance().loadModule(url);
+                        = KernelContext.getInstance().loadModule(address);
 
                     QedeqLog.getInstance().logSuccessfulReply("Module \""
                         + module.getModuleAddress().getFileName()
