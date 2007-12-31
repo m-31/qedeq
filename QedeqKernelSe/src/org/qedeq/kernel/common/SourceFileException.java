@@ -169,10 +169,10 @@ public class SourceFileException extends QedeqException {
     /**
      * Get line that is referenced by {@link #getSourceArea()}.
      *
-     * @param   localAddress    Source URL for getting the line.
+     * @param   localAddress    Source file for getting the line.
      * @return  Referenced line.
      */
-    public final String getLine(final URL localAddress) {
+    public final String getLine(final File localAddress) {
         if (line == null) {
             line = "";
             try {
@@ -201,7 +201,7 @@ public class SourceFileException extends QedeqException {
      * Get detailed error description.
      * The first line contains {@link #getErrorCode()} and {@link #getMessage()}.
      * The second line contains the local address, the line and column.
-     * Third line is the result or {@link #getLine(URL)}.
+     * Third line is the result or {@link #getLine(File)}.
      * In the fourth line the row position for the third line is marked.
      *
      * <p>TODO mime 20070219: rework description: add end (and perhaps reference) information
@@ -211,7 +211,7 @@ public class SourceFileException extends QedeqException {
      *
      * @return  Error description.
      */
-    public final String getDescription(final URL localAddress) {
+    public final String getDescription(final File localAddress) {
         final StringBuffer buffer = new StringBuffer();
         buffer.append(getErrorCode() + ": " + getMessage());
         if (errorArea != null && errorArea.getStartPosition() != null) {
