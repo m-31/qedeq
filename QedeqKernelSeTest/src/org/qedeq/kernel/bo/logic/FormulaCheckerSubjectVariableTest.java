@@ -17,9 +17,8 @@
 
 package org.qedeq.kernel.bo.logic;
 
-import java.net.URL;
-
 import org.qedeq.kernel.base.list.Element;
+import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleContext;
 
 /**
@@ -33,7 +32,7 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
     private ModuleContext context;
     
     protected void setUp() throws Exception {
-        context = new ModuleContext(new URL("http://memory.org"), "getElement()");
+        context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
     }
 
     protected void tearDown() throws Exception {

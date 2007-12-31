@@ -19,13 +19,13 @@ package org.qedeq.kernel.bo.logic;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
 import org.qedeq.kernel.bo.load.QedeqBoFactory;
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.common.SourceFileException;
@@ -49,14 +49,19 @@ public final class CheckLogicTest extends QedeqTestCase {
 
     public CheckLogicTest() {
         super();
-        KernelFacade.getKernelContext();
     }
     
     public CheckLogicTest(final String name) {
         super(name);
-        KernelFacade.getKernelContext();
+    }
+
+    public void setUp() {
+       KernelFacade.startup(); 
     }
     
+    public void tearDown() {
+        KernelFacade.shutdown();
+    }
     
     public void testNegative00() throws Exception {
         try {
@@ -139,8 +144,8 @@ public final class CheckLogicTest extends QedeqTestCase {
             ParserConfigurationException, SAXException, ModuleDataException,
             SourceFileExceptionList {
         final File xmlFile = new File(dir, xml).getAbsoluteFile();
-        
-        final URL context = IoUtility.toUrl(xmlFile.getAbsoluteFile());
+        final ModuleAddress context = KernelFacade.getKernelContext().getModuleAddress(
+            IoUtility.toUrl(xmlFile.getAbsoluteFile()));
         SaxDefaultHandler handler = new SaxDefaultHandler();
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);

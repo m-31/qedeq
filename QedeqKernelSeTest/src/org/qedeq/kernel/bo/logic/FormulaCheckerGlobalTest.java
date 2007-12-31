@@ -17,12 +17,12 @@
 
 package org.qedeq.kernel.bo.logic;
 
-import java.net.URL;
 import java.util.List;
 
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
+import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.dto.list.DefaultAtom;
 import org.qedeq.kernel.dto.list.DefaultElementList;
@@ -38,7 +38,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     private ModuleContext context;
     
     protected void setUp() throws Exception {
-        context = new ModuleContext(new URL("http://memory.org"), "getElement()");
+        context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
     }
 
     protected void tearDown() throws Exception {
