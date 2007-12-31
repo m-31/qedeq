@@ -93,7 +93,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public void removeModule(final URL address) {
+        public void removeModule(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
 
@@ -101,16 +101,11 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public QedeqBo loadModule(final URL address) throws SourceFileExceptionList {
+        public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public QedeqBo loadModule(final ModuleAddress moduleAddress)
-                throws SourceFileExceptionList {
-            throw new IllegalStateException("Kernel not initialized");
-        }
-
-        public QedeqBo loadModule(final QedeqBo module, final Specification spec)
+        public ModuleProperties loadModule(final QedeqBo module, final Specification spec)
                 throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not initialized");
         }
@@ -119,11 +114,11 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public void loadRequiredModules(final URL address) {
+        public void loadRequiredModules(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public URL[] getAllLoadedModules() {
+        public ModuleAddress[] getAllLoadedModules() {
             throw new IllegalStateException("Kernel not initialized");
         }
 
@@ -135,11 +130,23 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public ModuleProperties getModuleProperties(final URL address) {
+        public ModuleProperties getModuleProperties(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public String getLocalFilePath(final ModuleAddress address) {
+        public ModuleAddress getModuleAddress(final URL url) {
+            throw new IllegalStateException("Kernel not initialized");
+        }
+
+        public ModuleAddress getModuleAddress(final String url) {
+            throw new IllegalStateException("Kernel not initialized");
+        }
+
+        public ModuleAddress getModuleAddress(final File file) {
+            throw new IllegalStateException("Kernel not initialized");
+        }
+
+        public File getLocalFilePath(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
     };
@@ -176,7 +183,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public void removeModule(final URL address) {
+        public void removeModule(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -184,16 +191,11 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public QedeqBo loadModule(final URL address) throws SourceFileExceptionList {
+        public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public QedeqBo loadModule(final ModuleAddress moduleAddress)
-                throws SourceFileExceptionList {
-            throw new IllegalStateException("Kernel not started");
-        }
-
-        public QedeqBo loadModule(final QedeqBo module, final Specification spec)
+        public ModuleProperties loadModule(final QedeqBo module, final Specification spec)
                 throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not started");
         }
@@ -202,11 +204,11 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public void loadRequiredModules(final URL address) {
+        public void loadRequiredModules(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public URL[] getAllLoadedModules() {
+        public ModuleAddress[] getAllLoadedModules() {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -218,11 +220,23 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public ModuleProperties getModuleProperties(final URL address) {
+        public ModuleProperties getModuleProperties(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public String getLocalFilePath(final ModuleAddress address) {
+        public ModuleAddress getModuleAddress(final URL url) {
+            throw new IllegalStateException("Kernel not started");
+        }
+
+        public ModuleAddress getModuleAddress(final String url) {
+            throw new IllegalStateException("Kernel not started");
+        }
+
+        public ModuleAddress getModuleAddress(final File file) {
+            throw new IllegalStateException("Kernel not started");
+        }
+
+        public File getLocalFilePath(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
     };
@@ -265,7 +279,7 @@ public final class KernelContext implements Kernel {
             moduleFactory.removeAllModules();
         }
 
-        public void removeModule(final URL address) throws IOException {
+        public void removeModule(final ModuleAddress address) throws IOException {
             moduleFactory.removeModule(address);
         }
 
@@ -273,16 +287,11 @@ public final class KernelContext implements Kernel {
             moduleFactory.clearLocalBuffer();
         }
 
-        public QedeqBo loadModule(final URL address) throws SourceFileExceptionList {
+        public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
             return moduleFactory.loadModule(address);
         }
 
-        public QedeqBo loadModule(final ModuleAddress moduleAddress)
-                throws SourceFileExceptionList {
-            return moduleFactory.loadModule(moduleAddress);
-        }
-
-        public QedeqBo loadModule(final QedeqBo module, final Specification spec)
+        public ModuleProperties loadModule(final QedeqBo module, final Specification spec)
                 throws SourceFileExceptionList {
             return moduleFactory.loadModule(module, spec);
         }
@@ -291,11 +300,12 @@ public final class KernelContext implements Kernel {
             return moduleFactory.loadAllModulesFromQedeq();
         }
 
-        public void loadRequiredModules(final URL address) throws SourceFileExceptionList {
+        public void loadRequiredModules(final ModuleAddress address)
+                throws SourceFileExceptionList {
             moduleFactory.loadRequiredModules(address);
         }
 
-        public URL[] getAllLoadedModules() {
+        public ModuleAddress[] getAllLoadedModules() {
             return moduleFactory.getAllLoadedModules();
         }
 
@@ -307,11 +317,23 @@ public final class KernelContext implements Kernel {
             return moduleFactory.getGenerationDirectory();
         }
 
-        public ModuleProperties getModuleProperties(final URL address) {
+        public ModuleProperties getModuleProperties(final ModuleAddress address) {
             return moduleFactory.getModuleProperties(address);
         }
 
-        public String getLocalFilePath(final ModuleAddress address) {
+        public ModuleAddress getModuleAddress(final URL url) throws IOException {
+            return moduleFactory.getModuleAddress(url);
+        }
+
+        public ModuleAddress getModuleAddress(final String url) throws IOException {
+            return moduleFactory.getModuleAddress(url);
+        }
+
+        public ModuleAddress getModuleAddress(final File file) throws IOException {
+            return moduleFactory.getModuleAddress(file);
+        }
+
+        public File getLocalFilePath(final ModuleAddress address) {
             return moduleFactory.getLocalFilePath(address);
         }
 
@@ -413,7 +435,7 @@ public final class KernelContext implements Kernel {
         currentState.removeAllModules();
     }
 
-    public void removeModule(final URL address) throws IOException {
+    public void removeModule(final ModuleAddress address) throws IOException {
         currentState.removeModule(address);
     }
 
@@ -421,15 +443,11 @@ public final class KernelContext implements Kernel {
         currentState.clearLocalBuffer();
     }
 
-    public QedeqBo loadModule(final URL address) throws SourceFileExceptionList {
+    public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
         return currentState.loadModule(address);
     }
 
-    public QedeqBo loadModule(final ModuleAddress moduleAddress) throws SourceFileExceptionList {
-        return currentState.loadModule(moduleAddress);
-    }
-
-    public QedeqBo loadModule(final QedeqBo module, final Specification spec)
+    public ModuleProperties loadModule(final QedeqBo module, final Specification spec)
             throws SourceFileExceptionList {
         return currentState.loadModule(module, spec);
     }
@@ -438,11 +456,11 @@ public final class KernelContext implements Kernel {
         return currentState.loadAllModulesFromQedeq();
     }
 
-    public void loadRequiredModules(final URL address) throws SourceFileExceptionList {
+    public void loadRequiredModules(final ModuleAddress address) throws SourceFileExceptionList {
         currentState.loadRequiredModules(address);
     }
 
-    public URL[] getAllLoadedModules() {
+    public ModuleAddress[] getAllLoadedModules() {
         return currentState.getAllLoadedModules();
     }
 
@@ -454,11 +472,23 @@ public final class KernelContext implements Kernel {
         return currentState.getGenerationDirectory();
     }
 
-    public ModuleProperties getModuleProperties(final URL address) {
+    public ModuleProperties getModuleProperties(final ModuleAddress address) {
         return currentState.getModuleProperties(address);
     }
 
-    public String getLocalFilePath(final ModuleAddress address) {
+    public ModuleAddress getModuleAddress(final URL url) throws IOException {
+        return currentState.getModuleAddress(url);
+    }
+
+    public ModuleAddress getModuleAddress(final String url) throws IOException {
+        return currentState.getModuleAddress(url);
+    }
+
+    public ModuleAddress getModuleAddress(final File file) throws IOException {
+        return currentState.getModuleAddress(file);
+    }
+
+    public File getLocalFilePath(final ModuleAddress address) {
         return currentState.getLocalFilePath(address);
     }
 
