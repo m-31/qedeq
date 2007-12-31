@@ -65,17 +65,17 @@ public class DefaultModuleEventListener implements ModuleEventListener {
 
     public void addModule(final ModuleProperties prop) {
         out.println(getTimestamp() + " Module added. "
-            + prop.getStateDescription() + "\n\t" + prop.getAddress());
+            + prop.getStateDescription() + "\n\t" + prop.getUrl());
     }
 
     public void stateChanged(final ModuleProperties prop) {
         out.println(getTimestamp() + " Module state changed. "
-            + prop.getStateDescription() + "\n\t" + prop.getAddress());
+            + prop.getStateDescription() + "\n\t" + prop.getUrl());
     }
 
     public void removeModule(final ModuleProperties prop) {
         out.println(getTimestamp() + " Module removed. "
-            + prop.getStateDescription() + "\n\t" + prop.getAddress());
+            + prop.getStateDescription() + "\n\t" + prop.getUrl());
     }
 
     private static final String getTimestamp() {
