@@ -31,16 +31,12 @@ import org.qedeq.gui.se.pane.Preferences;
  */
 class PreferencesAction extends AbstractAction {
 
-    /** Controller reference. */
-    private final QedeqController controller;
-
     /**
      * Constructor.
      *
      * @param   controller  Controller.
      */
-    PreferencesAction(final QedeqController controller) {
-        this.controller = controller;
+    PreferencesAction() {
     }
 
     public void actionPerformed(final ActionEvent e) {
