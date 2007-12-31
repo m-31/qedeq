@@ -158,7 +158,7 @@ public final class IoUtility {
 
     /**
      * Reads contents of an URL into a string buffer. The filling is character set dependent.
-     *
+     * FIXME mime 20071230: what about binary load?
      * @param   url         This URL will be loaded.
      * @param   buffer      Buffer to fill with file contents.
      * @throws  IOException Reading failed.
