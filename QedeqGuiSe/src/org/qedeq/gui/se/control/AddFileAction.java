@@ -19,14 +19,15 @@ package org.qedeq.gui.se.control;
 
 import java.awt.event.ActionEvent;
 import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
@@ -79,33 +80,41 @@ class AddFileAction extends AbstractAction {
         if (returnVal != JFileChooser.APPROVE_OPTION) {
             return;
         }
-        final URL url;
+        final ModuleAddress address;
 
         try {
 //              TODO causes problems: leads to "%20" entries for spaces
 //                url = chooser.getSelectedFile().toURI().toURL().toString();
 //              these must be converted like:
 //                "URI File=" + new File(new URI(this.address)).getAbsoluteFile()
-            url = chooser.getSelectedFile().toURL();
-
             // remember directory
             file = chooser.getSelectedFile().getParentFile();
+
             QedeqGuiConfig.getInstance().setFileBrowserStartDirecty(file);
-        } catch (MalformedURLException ex) {
-            Trace.trace(this, "actionPerformed", ex);
+            address = KernelContext.getInstance().getModuleAddress(chooser.getSelectedFile());
+        } catch (IOException ie) {
+            Trace.trace(this, "actionPerformed", "no correct URL", ie);
+            JOptionPane.showMessageDialog(
+                controller.getMainFrame(),       // the parent that the dialog blocks
+                "this is no valid QEDEQ file: " + chooser.getSelectedFile()
+                + "\n" + ie.getMessage(), // message
+                "Error",                         // title
+                JOptionPane.ERROR_MESSAGE        // message type
+            );
             return;
         }
 
-        controller.addToModuleHistory(url.toExternalForm());
+        controller.addToModuleHistory(address.getURL().toString());
         final Thread thread = new Thread() {
             public void run() {
                 try {
-                    QedeqLog.getInstance().logRequest("Load module \"" + url + "\"");
+               // FIXME mime 20071231: move logging out of gui!
+                    QedeqLog.getInstance().logRequest("Load module \"" + address + "\"");
                     final QedeqBo module
-                        = KernelContext.getInstance().loadModule(url);
+                        = KernelContext.getInstance().loadModule(address);
                     QedeqLog.getInstance().logSuccessfulReply("Module \""
                         + module.getModuleAddress().getFileName()
-                        + "\" was successfully loaded and checked.");
+                        + "\" was successfully loaded.");
                 } catch (final SourceFileExceptionList e) {
                     Trace.trace(controller, "actionPerformed", e);
                     QedeqLog.getInstance().logFailureReply(
