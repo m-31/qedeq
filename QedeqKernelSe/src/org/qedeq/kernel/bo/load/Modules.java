@@ -42,31 +42,10 @@ class Modules {
 
 
     /**
-     * Get module properties for an URL. If it is unkown it will be created.
+     * Get module properties for an module address. If it is unknown it will be created.
      *
-     * @param   url     location of module
-     * @return  module properties
-     * @throws  IOException     url is mailformed
-     */
-    final ModuleProperties getModuleProperties(final URL url) throws IOException {
-        synchronized (moduleProperties) {
-            final ModuleAddress address = new DefaultModuleAddress(url);
-            if (moduleProperties.containsKey(address)) {
-                return (ModuleProperties) moduleProperties.get(address);
-            } else {
-                final ModuleProperties prop = new DefaultModuleProperties(address);
-                moduleProperties.put(address, prop);
-                return prop;
-            }
-        }
-    }
-
-
-    /**
-     * Get module properties for an module address. If it is unkown it will be created.
-     *
-     * @param   address     module address
-     * @return  module properties
+     * @param   address     Module address.
+     * @return  Module properties for module.
      */
     final ModuleProperties getModuleProperties(final ModuleAddress address) {
         synchronized (moduleProperties) {
@@ -118,14 +97,14 @@ class Modules {
         try {
             synchronized (moduleProperties) {
                 Trace.trace(this, method, "remove module "
-                    +  prop.getAddress());
+                    +  prop.getUrl());
                 if (!prop.isLoaded()) {
-                    Trace.trace(this, method, "removing " +  prop.getAddress());
+                    Trace.trace(this, method, "removing " +  prop.getUrl());
                     ModuleEventLog.getInstance().removeModule(prop);
                     moduleProperties.remove(prop.getModuleAddress());
                 } else {
                     Trace.trace(this, method, "module number=" + moduleProperties.size());
-                    Trace.trace(this, method, "removing module itself: " +  prop.getAddress());
+                    Trace.trace(this, method, "removing module itself: " +  prop.getUrl());
                     ModuleEventLog.getInstance().removeModule(prop);
                     moduleProperties.remove(prop.getModuleAddress());
                     Trace.trace(this, method, "module number=" + moduleProperties.size());
@@ -143,7 +122,7 @@ class Modules {
      *
      * @return  list of all successfully loaded modules.
      */
-    final URL[] getAllLoadedModules() {
+    final ModuleAddress[] getAllLoadedModules() {
         final String method = "getAllModules";
         Trace.begin(this, method);
         try {
@@ -155,11 +134,11 @@ class Modules {
                     Map.Entry entry = (Map.Entry) iterator.next();
                     final ModuleProperties prop = (ModuleProperties) entry.getValue();
                     if (prop.getLoadingState().getCode() >= LoadingState.STATE_LOADED.getCode()) {
-                        list.add(prop.getUrl());
+                        list.add(prop.getModuleAddress());
                     }
                 }
             }
-            return (URL[]) list.toArray(new URL[] {});
+            return (ModuleAddress[]) list.toArray(new ModuleAddress[] {});
         } finally {
             Trace.end(this, method);
         }
