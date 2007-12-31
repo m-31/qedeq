@@ -17,6 +17,7 @@
 package org.qedeq.kernel.xml.tracker;
 
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -40,7 +41,17 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 /**
- * Parser for XML files. This class uses features specific for Xerces.
+ * Parser for XML files. Search simple XPath within an XML file.
+ * Usage:
+ * <pre>
+ *      final XPathLocationParser parser = new XPathLocationParser(xpath);
+ *      parser.parse(xmlFile, original);
+ *      return parser.getFind();
+ *
+ * </pre>
+ *
+ * <p>
+ * This class uses features specific for Xerces.
  *
  * @version $Revision: 1.21 $
  * @author Michael Meyling
@@ -65,10 +76,8 @@ public class XPathLocationParser implements ContentHandler {
     /** We are currently at this position. */
     private SimpleXPath current;
 
-    /**
-     * We are currently at this position if we count only occurrences and take every element. The
-     * elements are all named "*".
-     */
+    /** We are currently at this position if we count only occurrences and take every element. The
+     * elements are all named "*". */
     private SimpleXPath summary;
 
     /** This object is parsed. */
@@ -79,6 +88,45 @@ public class XPathLocationParser implements ContentHandler {
 
     /** Current stack level. */
     private int level;
+
+    /** Original file location. */
+    private URL original;
+
+    /**
+     * Search simple XPath within an XML file.
+     *
+     * @param   xmlFile Search this file.
+     * @param   xpath   Search for this simple XPath.
+     * @param   original    Original file location.
+     * @return  Source position information.
+     * @throws  ParserConfigurationException
+     * @throws  SAXException
+     * @throws  IOException
+     */
+    public static final SimpleXPath getXPathLocation(final File xmlFile, final String xpath,
+            final URL original)
+            throws ParserConfigurationException, SAXException, IOException {
+        final XPathLocationParser parser = new XPathLocationParser(xpath);
+        parser.parse(xmlFile, original);
+        return parser.getFind();
+    }
+
+    /**
+     * Search simple XPath within an XML file.
+     *
+     * @param   xmlFile Search this file.
+     * @param   xpath   Search for this simple XPath.
+     * @param   original    Original file location.
+     * @return  Source position information.
+     * @throws  ParserConfigurationException
+     * @throws  SAXException
+     * @throws  IOException
+     */
+    public static final SimpleXPath getXPathLocation(final File xmlFile, final SimpleXPath xpath,
+            final URL original)
+            throws ParserConfigurationException, SAXException, IOException {
+        return getXPathLocation(xmlFile, xpath.toString(), original);
+    }
 
     /**
      * Constructor.
@@ -139,27 +187,15 @@ public class XPathLocationParser implements ContentHandler {
      * @throws IOException Technical problem occurred.
      */
     public final void parse(final File file, final URL original) throws SAXException, IOException {
-        final TextInput source = new TextInput(file, original);
-        parse(source);
-    }
-
-    /**
-     * Parses XML file.
-     *
-     * @param input Parse this input.
-     * @throws SAXException Syntactical or semantical problem occurred.
-     * @throws IOException Technical problem occurred.
-     */
-    public final void parse(final TextInput input) throws SAXException, IOException {
-        xml = input;
+        xml = new TextInput(file);
+        this.original = original;
         elements.clear();
         level = 0;
         try {
             current = new SimpleXPath();
             summary = new SimpleXPath();
             reader.setContentHandler(this);
-            // TODO mime 20060609: what if input has no local address (e.g. == null)?
-            reader.parse(new InputSource(input.getLocalAddress().openStream()));
+            reader.parse(new InputSource(new FileReader(file)));
             xml = null;
         } catch (SAXException e) {
             Trace.trace(this, "parse", e);
@@ -353,7 +389,7 @@ public class XPathLocationParser implements ContentHandler {
             xml.setRow(locator.getLineNumber());
             xml.setColumn(locator.getColumnNumber());
             // xml.skipForwardToEndOfXmlTag(); // TODO mime 20050810: remove? comment in?
-            find.setEndLocation(new SourcePosition(xml.getLocalAddress(), xml.getRow(), xml
+            find.setEndLocation(new SourcePosition(original, xml.getRow(), xml
                 .getColumn()));
         }
         current.deleteLastElement();
@@ -361,7 +397,7 @@ public class XPathLocationParser implements ContentHandler {
     }
 
     /**
-     * Get searched XPath. Possibly the start and end location are set.
+     * Get searched XPath. Hopefully the start and end location are set.
      *
      * @return Searched XPath.
      */

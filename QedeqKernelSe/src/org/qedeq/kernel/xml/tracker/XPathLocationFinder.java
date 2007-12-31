@@ -18,7 +18,6 @@ package org.qedeq.kernel.xml.tracker;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -98,43 +97,8 @@ public final class XPathLocationFinder {
         }
         System.out.println(IoUtility.getClassName(XPathLocationFinder.class) + ", running on: "
             + KernelContext.getInstance().getDescriptiveKernelVersion());
-        getXPathLocation(new File(from), xpath, IoUtility.toUrl(new File(from)));
-    }
-
-    /**
-     * Search simple XPath within an XML file.
-     *
-     * @param   xmlFile Search this file.
-     * @param   xpath   Search for this simple XPath.
-     * @param   original    Original file location.
-     * @return  Source position information.
-     * @throws  ParserConfigurationException
-     * @throws  SAXException
-     * @throws  IOException
-     */
-    public static final SimpleXPath getXPathLocation(final File xmlFile, final SimpleXPath xpath,
-            final URL original)
-            throws ParserConfigurationException, SAXException, IOException {
-        return getXPathLocation(xmlFile, xpath.toString(), original);
-    }
-
-    /**
-     * Search simple XPath within an XML file.
-     *
-     * @param   xmlFile Search this file.
-     * @param   xpath   Search for this simple XPath.
-     * @param   original    Original file location.
-     * @return  Source position information.
-     * @throws  ParserConfigurationException
-     * @throws  SAXException
-     * @throws  IOException
-     */
-    public static final SimpleXPath getXPathLocation(final File xmlFile, final String xpath,
-            final URL original)
-            throws ParserConfigurationException, SAXException, IOException {
-        final XPathLocationParser parser = new XPathLocationParser(xpath);
-        parser.parse(xmlFile, original);
-        return parser.getFind();
+        XPathLocationParser.getXPathLocation(new File(from), xpath,
+            IoUtility.toUrl(new File(from)));
     }
 
     /**
