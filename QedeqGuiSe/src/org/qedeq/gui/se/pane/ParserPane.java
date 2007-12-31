@@ -218,7 +218,7 @@ public class ParserPane extends JFrame {
             });
             transformMenu.add(transform);
         }
-//*******************
+//** LATER mime 20071230: add conversion from QEDEQ into LaTeX
         /*
         {
             final JMenuItem transform = new JMenuItem("QEDEQ to LaTeX");
