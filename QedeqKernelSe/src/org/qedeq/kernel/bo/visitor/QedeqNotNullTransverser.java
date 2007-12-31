@@ -17,8 +17,6 @@
 
 package org.qedeq.kernel.bo.visitor;
 
-import java.net.URL;
-
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
@@ -54,6 +52,7 @@ import org.qedeq.kernel.base.module.SubsectionList;
 import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 
@@ -85,8 +84,8 @@ public class QedeqNotNullTransverser implements QedeqTransverser {
      * @param   globalContext   Module location information.
      * @param   visitor         These methods are called if a node is visited.
      */
-    public QedeqNotNullTransverser(final URL globalContext, final QedeqVisitor visitor) {
-        currentContext = new ModuleContext(globalContext);
+    public QedeqNotNullTransverser(final ModuleAddress globalContext, final QedeqVisitor visitor) {
+        currentContext = globalContext.createModuleContext();
         this.visitor = visitor;
     }
 
