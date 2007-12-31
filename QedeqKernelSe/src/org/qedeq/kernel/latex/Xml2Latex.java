@@ -71,8 +71,8 @@ public final class Xml2Latex  {
             Trace.param(Xml2Latex.class, method, "language", language);
             Trace.param(Xml2Latex.class, method, "level", level);
             if (to == null) {
-                String tex = prop.getModuleAddress().localizeInFileSystem(prop.getModuleAddress()
-                    .getURL());
+                String tex = KernelContext.getInstance().getLocalFilePath(
+                    prop.getModuleAddress()).toString();
                 if (tex.toLowerCase().endsWith(".xml")) {
                     tex = tex.substring(0, tex.length() - 4);
                 }
@@ -98,7 +98,7 @@ public final class Xml2Latex  {
             printer = new TextOutput(destination.getName(), outputStream);
 
             // System.out.println(simple.getQedeq().toString());
-            Qedeq2Latex.print(prop.getUrl(), qedeqBo, printer,
+            Qedeq2Latex.print(prop.getModuleAddress(), qedeqBo, printer,
                 language, level);
             return destination.getCanonicalPath();
         } catch (IOException e) {
