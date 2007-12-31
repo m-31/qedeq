@@ -131,13 +131,42 @@ public final class Preferences extends JFrame {
      * Assembles the GUI components of the panel.
      */
     public final void setupView() {
-        final String method = "setupView";
         final Container contents = getContentPane();
-
         contents.setLayout(null);
 
         int y = 0;
+        y = addCheckButtons(y);
+        y = addDirectorySettings(y);
 
+        final JButton cancel = new JButton("Cancel");
+        contents.add(cancel);
+        cancel.setBounds(33 + 600 - 190, y, 90, 21);
+        cancel.addActionListener(new  ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                Preferences.this.dispose();
+            }
+        });
+
+        final JButton ok = new JButton("OK");
+        contents.add(ok);
+        ok.setBounds(33 + 600 - 90, y, 90, 21);
+        ok.addActionListener(new  ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                Preferences.this.save();
+                Preferences.this.dispose();
+            }
+        });
+    }
+
+    /**
+     * Add all check boxes to GUI.
+     *
+     * @param   ystart  Starting y position.
+     * @return  Y Position for next control elements.
+     */
+    private int addCheckButtons(final int ystart) {
+        int y = ystart;
+        final Container contents = getContentPane();
         automaticLogScroll
             = QedeqGuiConfig.getInstance().isAutomaticLogScroll();
         automaticLogScrollCB
@@ -206,7 +235,18 @@ public final class Preferences extends JFrame {
                 Preferences.this.changed = true;
             }
         });
+        return y;
+    }
 
+    /**
+     * Add directory setting controls to GUI.
+     *
+     * @param   y   Starting y position.
+     * @return  Y Position for next control elements.
+     */
+    private int addDirectorySettings(final int y) {
+        final String method = "addDirectorySettings";
+        final Container contents = getContentPane();
         moduleBufferLabel = new JLabel("Local file path for QEDEQ module buffer");
         contents.add(moduleBufferLabel);
         moduleBufferLabel.setBounds(33, 180 + y, 400, 17);
@@ -221,7 +261,6 @@ public final class Preferences extends JFrame {
         chooseBufferLocation.setEnabled(false); // TODO mime 200700903: setting still unsupported
         contents.add(chooseBufferLocation);
         chooseBufferLocation.setBounds(33 + 600 - 90, 180 + y, 90, 21);
-
         chooseBufferLocation.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 try {
@@ -258,11 +297,9 @@ public final class Preferences extends JFrame {
             }
         });
 
-
         generationPathLabel = new JLabel("Path for generated files");
         contents.add(generationPathLabel);
         generationPathLabel.setBounds(33, 250 + y, 400, 17);
-
         generationDirectory = QedeqGuiConfig.getInstance().getGenerationDirectory();
         generationPathTextField = new JTextField(generationDirectory.getAbsolutePath());
         generationPathTextField.setEditable(false);
@@ -273,7 +310,6 @@ public final class Preferences extends JFrame {
         chooseGenerationLocation.setEnabled(false); //TODO mime 200700903: setting still unsupported
         contents.add(chooseGenerationLocation);
         chooseGenerationLocation.setBounds(33 + 600 - 90, 250 + y, 90, 21);
-
         chooseGenerationLocation.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 try {
@@ -293,7 +329,6 @@ public final class Preferences extends JFrame {
                             return "Directory";
                         }
                     };
-
                     chooser.setFileFilter(filter);
                     chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                     final int returnVal = chooser.showOpenDialog(Preferences.this);
@@ -310,11 +345,9 @@ public final class Preferences extends JFrame {
             }
         });
 
-
         localModulesPathLabel = new JLabel("Path for newly created module files");
         contents.add(localModulesPathLabel);
         localModulesPathLabel.setBounds(33, 310 + y, 400, 17);
-
         localModulesDirectory = QedeqGuiConfig.getInstance().getLocalModulesDirectory();
         localModulesPathTextField = new JTextField(localModulesDirectory.getAbsolutePath());
         localModulesPathTextField.setEditable(false);
@@ -322,12 +355,10 @@ public final class Preferences extends JFrame {
         localModulesPathTextField.setBounds(33, 340 + y, 600, 21);
 
         final JButton chooselocalModulesLocation = new JButton("Choose");
-
 //      TODO mime 200700903: setting still unsupported
         chooselocalModulesLocation.setEnabled(false);
         contents.add(chooselocalModulesLocation);
         chooselocalModulesLocation.setBounds(33 + 600 - 90, 310 + y, 90, 21);
-
         chooselocalModulesLocation.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 try {
@@ -341,17 +372,14 @@ public final class Preferences extends JFrame {
                             }
                             return false;
                         }
-
                         // description of this filter
                         public String getDescription() {
                             return "Directory";
                         }
                     };
-
                     chooser.setFileFilter(filter);
                     chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
                     final int returnVal = chooser.showOpenDialog(Preferences.this);
-
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         localModulesPathTextField.setText(chooser.getSelectedFile().getPath());
                         Preferences.this.localModulesDirectory = chooser.getSelectedFile();
@@ -363,29 +391,8 @@ public final class Preferences extends JFrame {
                 }
             }
         });
-
-
-        final JButton cancel = new JButton("Cancel");
-        contents.add(cancel);
-        cancel.setBounds(33 + 600 - 190, 390 + y, 90, 21);
-        cancel.addActionListener(new  ActionListener() {
-            public void actionPerformed(final ActionEvent actionEvent) {
-                Preferences.this.dispose();
-            }
-        });
-
-        final JButton ok = new JButton("OK");
-        contents.add(ok);
-        ok.setBounds(33 + 600 - 90, 390  + y, 90, 21);
-        ok.addActionListener(new  ActionListener() {
-            public void actionPerformed(final ActionEvent actionEvent) {
-                Preferences.this.save();
-                Preferences.this.dispose();
-            }
-        });
-
+        return y + 390;
     }
-
 
     final void save() {
         if (changed) {
