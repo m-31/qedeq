@@ -17,16 +17,14 @@
 
 package org.qedeq.kernel.xml.mapper;
 
-import java.io.File;
 import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
-import org.qedeq.kernel.xml.tracker.XPathLocationFinder;
+import org.qedeq.kernel.xml.tracker.XPathLocationParser;
 import org.xml.sax.SAXException;
 
 /**
@@ -59,10 +57,10 @@ public final class Context2SimpleXPathOld {
     public static final SimpleXPath getXPath(final ModuleContext context) {
         String xpath = Context2XPathOld.getXPath(context);
         try {
-            final SimpleXPath find = XPathLocationFinder.getXPathLocation(
+            final SimpleXPath find = XPathLocationParser.getXPathLocation(
                 // FIXME mime 20071218: hard coded transformation of context into file location
-                new File(KernelContext.getInstance().getLocalFilePath(new DefaultModuleAddress(
-                    context.getModuleLocation()))), xpath, context.getModuleLocation());
+                KernelContext.getInstance().getLocalFilePath(
+                    context.getModuleLocation()), xpath, context.getModuleLocation().getURL());
             if (find.getStartLocation() == null) {
                 System.out.println(context);
                 throw new RuntimeException("start not found: " + find);
