@@ -79,13 +79,6 @@ public class DefaultModuleProperties implements ModuleProperties {
         return loadingState.isFailure() || dependencyState.isFailure() || logicalState.isFailure();
     }
 
-    public final String getAddress() {
-        if (address == null) {
-            return "null";
-        }
-        return address.getAddress();
-    }
-
     public final ModuleAddress getModuleAddress() {
         return address;
     }
