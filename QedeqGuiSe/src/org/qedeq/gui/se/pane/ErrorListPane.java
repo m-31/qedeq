@@ -36,13 +36,12 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import org.qedeq.kernel.bo.load.DefaultModuleAddress;
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.IoUtility;
 
 /**
  * Shows QEDEQ module specific error pane.
@@ -124,7 +123,8 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
      * Update from model.
      */
     public synchronized void updateView() {
-        Trace.begin(this, "updateView");
+        final String method = "updateView";
+        Trace.begin(this, method);
         try {
             error.getDocument().remove(0, error.getDocument().getLength());
             if (prop != null && prop.getException() != null) {
@@ -132,18 +132,20 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
                 for (int i = 0; i < list.size(); i++) {
                     if (list.get(i).getSourceArea() != null) {
                         final URL url = list.get(i).getSourceArea().getAddress();
-                        // TODO mime 20071128: must be refactored:
-                        URL local = null;
+                        final ModuleAddress address;
                         try {
-                            local = IoUtility.toUrl(new File(KernelContext.getInstance()
-                                .getLocalFilePath(new DefaultModuleAddress(url))));
+                            address = KernelContext.getInstance().getModuleAddress(url);
+                            final File local = KernelContext.getInstance()
+                                .getLocalFilePath(address);
+                            error.getDocument().insertString(error.getDocument().getLength(),
+                                list.get(i).getDescription(local),
+                                errorAttrs);
                         } catch (IOException e) {
-                            // TODO Auto-generated catch block
-                            e.printStackTrace();
+                            Trace.fatal(this, method, "unexpected problem", e);
+                            error.getDocument().insertString(error.getDocument().getLength(),
+                                list.get(i).getMessage(),
+                                errorAttrs);
                         }
-                        error.getDocument().insertString(error.getDocument().getLength(),
-                            list.get(i).getDescription(local),
-                            errorAttrs);
                     } else {
                         error.getDocument().insertString(error.getDocument().getLength(),
                             list.get(i).getMessage(),
@@ -162,13 +164,13 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
     public void addModule(final ModuleProperties prop) {
         // TODO mime 20070829: what identifies a ModuleProperties, the moduleAddress? why not
         // use equals?
-        if (this.prop != null && prop.getAddress().equals(this.prop.getAddress())) {
+        if (this.prop != null && prop.getUrl().equals(this.prop.getUrl())) {
             updateView();
         }
     }
 
     public void stateChanged(final ModuleProperties prop) {
-        if (this.prop != null && prop.getAddress().equals(this.prop.getAddress())) {
+        if (this.prop != null && prop.getUrl().equals(this.prop.getUrl())) {
             updateView();
         }
     }
