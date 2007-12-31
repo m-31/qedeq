@@ -103,7 +103,7 @@ public class QedeqController {
         this.main = main;
         aboutAction = new AboutAction(this);
         helpAction = new HelpAction(this);
-        preferencesAction = new PreferencesAction(this);
+        preferencesAction = new PreferencesAction();
         parserAction = new ParserAction(this);
         exitAction = new ExitAction();
         addAction = new AddAction(this);
