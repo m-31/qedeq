@@ -68,7 +68,7 @@ class MakeLatexAction extends AbstractAction {
                                 break;
                             }
                             QedeqLog.getInstance().logRequest("Generate Latex from \""
-                                + props[i].getAddress() + "\"");
+                                + props[i].getUrl() + "\"");
                             final String[] languages = controller.getSupportedLanguages(props[i]);
                             for (int j = 0; j < languages.length; j++) {
                                 final String result =
@@ -76,11 +76,11 @@ class MakeLatexAction extends AbstractAction {
                                 QedeqLog.getInstance().logSuccessfulReply(
                                     "LaTeX for language \"" + languages[j]
                                     + "\" was generated from \""
-                                    + props[i].getAddress() + "\" into \"" + result + "\"");
+                                    + props[i].getUrl() + "\" into \"" + result + "\"");
                             }
                         } catch (final SourceFileExceptionList e) {
                             final String msg = "Generation failed for \""
-                                + props[i].getAddress() + "\"";
+                                + props[i].getUrl() + "\"";
                             Trace.fatal(this, method, msg, e);
                             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
                         }
