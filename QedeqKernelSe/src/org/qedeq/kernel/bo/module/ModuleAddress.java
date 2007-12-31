@@ -28,13 +28,6 @@ import java.net.URL;
 public interface ModuleAddress {
 
     /**
-     * Get module address.
-     *
-     * @return module address
-     */
-    public String getAddress();
-
-    /**
      * Get module address as {@link ModuleContext}. Creates a new object.
      *
      * @return  Module address as {@link ModuleContext}.
@@ -90,21 +83,5 @@ public interface ModuleAddress {
      * @return  Is the QEDEQ module a local file?
      */
     public boolean isFileAddress();
-
-    /**
-     * Transform an URL address into a relative local file path. This can also change the file name.
-     *
-     * @param   url transform this URL
-     * @return  result of transformation
-     */
-    public String localizeInFileSystem(final URL url);
-
-    /**
-     * Create relative address from <code>this</code> to <code>reference</code>.
-     *
-     * @param   reference    this should be the next location
-     * @return  relative (or if neccessary absolute) address
-     */
-    public String createRelativeAddress(final ModuleAddress reference);
 
 }
