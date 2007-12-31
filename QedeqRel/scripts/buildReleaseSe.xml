@@ -371,7 +371,7 @@
       >
       </fileset>
 	  <fileset dir="${qedeq.se.test.data}"
-	    includes="*_error.xml,qedeq_error_sample_*.xml"
+	    includes="*_error.xml,qedeq_error_sample_*.xml,predlogic.xml,proplogic.xml"
 	  >
 	  </fileset>
     </copy>
