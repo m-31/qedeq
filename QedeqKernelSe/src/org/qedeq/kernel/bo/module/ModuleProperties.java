@@ -38,13 +38,6 @@ public interface ModuleProperties {
     public boolean hasFailures();
 
     /**
-     * Get address of module.
-     *
-     * @return  address of module.
-     */
-    public String getAddress();
-
-    /**
      * Get {@link ModuleAddress} of module. Maybe <code>null</code>.
      *
      * @return  address of module.
