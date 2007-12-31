@@ -62,7 +62,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
     private final UpperTabbedView pane;
 
-    private final LowerTabbedView  lower;
+    private final LowerTabbedView lower;
 
     private final ActionListener removeAction;
 
@@ -204,7 +204,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
            try {
                ModuleProperties[] moduleProperties = getSelected();
                for (int i = 0; i < moduleProperties.length; i++) {
-                   KernelContext.getInstance().removeModule(moduleProperties[i].getUrl());
+                   KernelContext.getInstance().removeModule(moduleProperties[i].getModuleAddress());
                }
         } catch (NothingSelectedException e1) {
             // TODO Auto-generated catch block
