@@ -79,23 +79,23 @@ class CheckLogicAction extends AbstractAction {
                             //      also all conversion jobs to get an XmlFileExceptionList
                             //      should be made there!!!
                             QedeqLog.getInstance().logRequest("Check logical correctness for \""
-                                + props[i].getAddress() + "\"");
+                                + props[i].getUrl() + "\"");
 
-                            LoadRequiredModules.loadRequired(props[i].getUrl());
+                            LoadRequiredModules.loadRequired(props[i]);
 
                             props[i].setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
                             ModuleEventLog.getInstance().stateChanged(props[i]);
-                            QedeqBoFormalLogicChecker.check(props[i].getUrl(),
+                            QedeqBoFormalLogicChecker.check(props[i].getModuleAddress(),
                                 props[i].getModule());
 
                             props[i].setLogicalProgressState(LogicalState.STATE_CHECKED);
                             ModuleEventLog.getInstance().stateChanged(props[i]);
                             QedeqLog.getInstance().logSuccessfulReply(
                                 "Check of logical correctness successful for \""
-                                + props[i].getAddress() + "\"");
+                                + props[i].getUrl() + "\"");
                         } catch (final ModuleDataException e) {
                             final String msg = "Check of logical correctness failed for \""
-                                + props[i].getAddress() + "\"";
+                                + props[i].getUrl() + "\"";
                             Trace.fatal(this, method, msg, e);
 
                             final SourceFileExceptionList xl =
@@ -114,7 +114,7 @@ class CheckLogicAction extends AbstractAction {
                             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
                         } catch (final RuntimeException e) {
                             final String msg = "Check of logical correctness failed for \""
-                                + props[i].getAddress() + "\"";
+                                + props[i].getUrl() + "\"";
                             Trace.fatal(this, method, msg, e);
                             final SourceFileExceptionList xl =
                                 new DefaultSourceFileExceptionList(e);
@@ -131,7 +131,7 @@ class CheckLogicAction extends AbstractAction {
                             QedeqLog.getInstance().logFailureReply(msg, e.toString());
                         } catch (SourceFileExceptionList e) {
                             final String msg = "Check of logical correctness failed for \""
-                                + props[i].getAddress() + "\"";
+                                + props[i].getUrl() + "\"";
                             Trace.fatal(this, method, msg, e);
                             // TODO mime 20071031: every state must be able to change into
                             // a failure state, here we only assume two cases
@@ -146,7 +146,7 @@ class CheckLogicAction extends AbstractAction {
                             QedeqLog.getInstance().logFailureReply(msg, e.toString());
                         } catch (final Throwable e) {
                             final String msg = "Check of logical correctness failed for \""
-                                + props[i].getAddress() + "\"";
+                                + props[i].getUrl() + "\"";
                             Trace.fatal(this, method, msg, e);
                             final SourceFileExceptionList xl =
                                 new DefaultSourceFileExceptionList(e);
