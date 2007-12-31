@@ -42,7 +42,7 @@ import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.text.BadLocationException;
 
-import org.qedeq.kernel.bo.load.DefaultModuleAddress;
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourcePosition;
@@ -192,9 +192,9 @@ public class QedeqPane extends JFrame {
         Trace.begin(this, method);
         if (errorPosition != null) {
             try {
-                // TODO mime 20071128: add method to get file contents from kernel
-                file = new File(KernelContext.getInstance().getLocalFilePath(
-                    (new DefaultModuleAddress(errorPosition.getSourceArea().getAddress()))));
+                final ModuleAddress address = KernelContext.getInstance().getModuleAddress(
+                    errorPosition.getSourceArea().getAddress());
+                file = KernelContext.getInstance().getLocalFilePath(address);
                 Trace.param(this, method, "file", file);
                 if (file.canRead()) {
                     final StringBuffer buffer = new StringBuffer();
@@ -206,7 +206,7 @@ public class QedeqPane extends JFrame {
                     } else {
                         qedeq.setEditable(false);
                     }
-                    error.setText(errorPosition.getDescription(IoUtility.toUrl(file)));
+                    error.setText(errorPosition.getDescription(file));
                     error.setCaretPosition(0);
                     highlightLine();
                     // reserve 3 text lines for error description
