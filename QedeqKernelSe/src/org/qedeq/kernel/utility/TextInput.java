@@ -59,42 +59,6 @@ public class TextInput extends InputStream {
     /** Address of input, for identifying source. */
     private final URL address;
 
-    /** Local address of input, for loading source. */
-    private final URL localAddress;
-
-
-    /**
-     * Constructor using <code>File</code> source.
-     *
-     * @param   file            Data source.
-     * @throws  IOException     File reading failed.
-     * @throws  NullPointerException    One argument was a null pointer.
-     */
-    public TextInput(final File file) throws IOException {
-        this(file, file.getAbsoluteFile().toURI().toURL());
-    }
-
-
-    /**
-     * Constructor using <code>StringBuffer</code> source.
-     *
-     * @param   file            Data source.
-     * @param   address         For identifying source.
-     * @throws  IOException     File reading failed.
-     * @throws  NullPointerException    Argument was a null pointer.
-     */
-    public TextInput(final File file, final URL address) throws IOException {
-        if (file == null || address == null) {
-            throw new NullPointerException(
-                "no null pointer as argument accepted");
-        }
-        this.source = new StringBuffer();
-        IoUtility.loadFile(file, source);
-        this.address = address;
-        this.localAddress = file.getAbsoluteFile().toURI().toURL();
-    }
-
-
     /**
      * Constructor using <code>StringBuffer</code> source.
      *
@@ -108,7 +72,6 @@ public class TextInput extends InputStream {
         }
         this.source = source;
         this.address = null;
-        this.localAddress = null;
     }
 
     /**
@@ -124,7 +87,6 @@ public class TextInput extends InputStream {
         }
         this.source = new StringBuffer(source);
         this.address = null;
-        this.localAddress = null;
     }
 
     /**
@@ -139,12 +101,29 @@ public class TextInput extends InputStream {
             throw new NullPointerException(
                 "no null pointer as argument accepted");
         }
+        // FIXME mime 20071230: load binary?
         this.source = new StringBuffer();
-        IoUtility.loadFile(url, source);    // TODO mime 20070222: give also charset!!!
+        IoUtility.loadFile(url, source);    // FIXME mime 20070222: give also charset!!!
         this.address = url;
-        this.localAddress = url;
     }
 
+    /**
+     * Constructor using <code>FILE</code> source.
+     *
+     * @param   file             Data source.
+     * @throws  IOException     File reading failed.
+     * @throws  NullPointerException    One argument was a null pointer.
+     */
+    public TextInput(final File file) throws IOException {
+        if (file == null) {
+            throw new NullPointerException(
+                "no null pointer as argument accepted");
+        }
+        // FIXME mime 20071230: load binary?
+        this.source = new StringBuffer();
+        IoUtility.loadFile(file, source);    // FIXME mime 20070222: give also charset!!!
+        this.address = IoUtility.toUrl(file);
+    }
 
     /**
      * Reads a single character and increments the reading position
@@ -636,15 +615,6 @@ public class TextInput extends InputStream {
      */
     public final URL getAddress() {
         return this.address;
-    }
-
-    /**
-     * Get local address (or something to identify it) of input source.
-     *
-     * @return  Local address of input source.
-     */
-    public final URL getLocalAddress() {
-        return this.localAddress;
     }
 
     /**
