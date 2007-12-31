@@ -17,8 +17,6 @@
 
 package org.qedeq.kernel.bo.control;
 
-import java.net.URL;
-
 import org.qedeq.kernel.base.module.Import;
 import org.qedeq.kernel.base.module.ImportList;
 import org.qedeq.kernel.bo.module.DependencyState;
@@ -60,7 +58,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
      */
     private LoadRequiredModules(final QedeqBo qedeq) {
         this.qedeq = qedeq;
-        this.transverser = new QedeqNotNullTransverser(qedeq.getModuleAddress().getURL(), this);
+        this.transverser = new QedeqNotNullTransverser(qedeq.getModuleAddress(), this);
         required = new ModuleReferenceList();
     }
 
@@ -111,21 +109,18 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
     /**
      * Load all required QEDEQ modules for a given QEDEQ module.
      *
-     * @param   qedeqUrl    Basic QEDEQ module object.
+     * @param   prop    Module properties.
      * @throws  ModuleDataException Major problem occurred.
      * @throws  SourceFileExceptionList
      */
-    public static void loadRequired(final URL qedeqUrl)
+    public static void loadRequired(final ModuleProperties prop)
             throws ModuleDataException, SourceFileExceptionList {
-        final String method = "loadRequired(QedeqBo)";
-        final ModuleProperties prop = KernelContext.getInstance().getModuleProperties(
-            qedeqUrl);   // TODO mime 20071026: this is no good code!
-
+        final String method = "loadRequired(ModuleProperties)";
         // did we check this already?
         if (prop.getDependencyState().areAllRequiredLoaded()) {
             return;
         }
-        final QedeqBo bo = KernelContext.getInstance().loadModule(qedeqUrl);
+        final QedeqBo bo = KernelContext.getInstance().loadModule(prop.getModuleAddress());
         prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
         final LoadRequiredModules converter = new LoadRequiredModules(bo);
         try {
@@ -169,11 +164,10 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
 
     public void visitEnter(final Import imp) throws ModuleDataException {
         try {
-            final QedeqBo other = KernelContext.getInstance().loadModule(qedeq,
+            final ModuleProperties prop = KernelContext.getInstance().loadModule(qedeq,
                 imp.getSpecification());
-            required.add(transverser.getCurrentContext(), imp.getLabel(),
-                other.getModuleAddress().getURL());
-            loadRequired(other.getModuleAddress().getURL());
+            required.add(transverser.getCurrentContext(), imp.getLabel(), prop.getModuleAddress());
+            loadRequired(prop);
         } catch (SourceFileExceptionList e) {
             Trace.trace(this, "visitEnter(Import)", e);
             throw new LoadRequiredModuleException(e.get(0).getErrorCode(),
