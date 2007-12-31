@@ -79,7 +79,7 @@ public class XPathLocationFinderTest extends QedeqTestCase {
     private void checkPosition(String fileName, String xpath, int startRow, int startCol,
             int endRow, int endCol) throws Exception {
         final File file = new File(fileName);
-        final SimpleXPath result = XPathLocationFinder.getXPathLocation(file, xpath,
+        final SimpleXPath result = XPathLocationParser.getXPathLocation(file, xpath,
             IoUtility.toUrl(file));
         System.out.println("Start position: " + result.getStartLocation());
         assertEquals(startRow, result.getStartLocation().getLine());
