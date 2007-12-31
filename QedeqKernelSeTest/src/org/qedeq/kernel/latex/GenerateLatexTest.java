@@ -24,6 +24,7 @@ import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
 import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
 import org.qedeq.kernel.bo.logic.LogicalCheckException;
 import org.qedeq.kernel.bo.module.LogicalState;
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.QedeqBo;
@@ -268,10 +269,11 @@ public final class GenerateLatexTest extends QedeqTestCase {
     private static void generate(final File dir, final String xml, final String language,
             final File destinationDirectory) throws IOException, SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
-        final QedeqBo qedeqBo = KernelFacade.getKernelContext().loadModule(IoUtility.toUrl(xmlFile)
-            );
-        final ModuleProperties prop = KernelFacade.getKernelContext().getModuleProperties(
+        final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(xmlFile));
+        final QedeqBo qedeqBo = KernelFacade.getKernelContext().loadModule(address);
+        final ModuleProperties prop = KernelFacade.getKernelContext().getModuleProperties(
+            address);
         final File texFile = new File(dir, xml.substring(0, xml.lastIndexOf('.')) + "_"
             + language + ".tex");
         Xml2Latex.generate(prop, texFile, language, "1");
@@ -284,18 +286,18 @@ public final class GenerateLatexTest extends QedeqTestCase {
         try {
             prop.setLoadedRequiredModules(null);
             QedeqLog.getInstance().logRequest("Check logical correctness of \""
-                + prop.getAddress() + "\"");
+                + prop.getUrl() + "\"");
             prop.setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
             ModuleEventLog.getInstance().stateChanged(prop);
-            QedeqBoFormalLogicChecker.check(prop.getUrl(), prop.getModule());
+            QedeqBoFormalLogicChecker.check(prop.getModuleAddress(), prop.getModule());
             QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful for \""
-                + prop.getAddress() + "\"");
+                + prop.getUrl() + "\"");
             prop.setLogicalProgressState(LogicalState.STATE_CHECKED);
             ModuleEventLog.getInstance().stateChanged(prop);
         } catch (ModuleDataException e) {
             final String msg = "Check of logical correctness failed for \""
-                + prop.getAddress() + "\"";
+                + prop.getUrl() + "\"";
             prop.setLogicalFailureState(
                 LogicalState.STATE_INTERNAL_CHECKING_FAILED, 
                     ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
