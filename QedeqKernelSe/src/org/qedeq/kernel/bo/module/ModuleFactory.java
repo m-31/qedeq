@@ -60,41 +60,31 @@ public interface ModuleFactory {
      * @return  Wanted module.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public QedeqBo loadModule(URL address) throws SourceFileExceptionList;
-
-    /**
-     * Get a certain module.
-     *
-     * @param   moduleAddress  Address of module.
-     * @return  Wanted module.
-     * @throws  SourceFileExceptionList    Module could not be successfully loaded.
-     */
-    public QedeqBo loadModule(ModuleAddress moduleAddress) throws SourceFileExceptionList;
+    public QedeqBo loadModule(ModuleAddress address) throws SourceFileExceptionList;
 
     /**
      * Load a certain module.
      *
-     * @param  module   this is the current module.
-     * @param  spec     specification of wanted module.
-     * @return wanted module
-     * @throws SourceFileExceptionList     Module could not be successfully loaded.
+     * @param   module   This is the current module.
+     * @param   spec     Specification of wanted module.
+     * @return  Wanted module properties.
+     * @throws  SourceFileExceptionList     Module could not be successfully loaded.
      */
-    public QedeqBo loadModule(QedeqBo module, final Specification spec)
+    public ModuleProperties loadModule(QedeqBo module, final Specification spec)
             throws SourceFileExceptionList;
 
     /**
      * Get a certain module.
      *
      * @param   address  Address of module.
-     * @throws  SourceFileExceptionList    Required modules could not be successfully loaded.
+     * @throws  SourceFileExceptionList Required modules could not be successfully loaded.
      *                                  This can also happen if the required modules references
      *                                  form a circle.
      */
-    public void loadRequiredModules(final URL address) throws SourceFileExceptionList;
+    public void loadRequiredModules(final ModuleAddress address) throws SourceFileExceptionList;
 
     /**
      * Load all QEDEQ modules from project web directory for current kernel.
-     * LATER mime 20070326: dynamic loading from web page directory
      *
      * @return  Successful loading.
      */
@@ -106,14 +96,14 @@ public interface ModuleFactory {
      * @param   address     Address of module.
      * @throws  IOException    Module could not be successfully removed.
      */
-    public void removeModule(URL address) throws IOException;
+    public void removeModule(final ModuleAddress address) throws IOException;
 
     /**
      * Get list of all currently loaded QEDEQ modules.
      *
      * @return  All currently loaded QEDEQ modules.
      */
-    public URL[] getAllLoadedModules();
+    public ModuleAddress[] getAllLoadedModules();
 
      /**
      * Get buffer directory for QEDEQ module files.
@@ -136,14 +126,42 @@ public interface ModuleFactory {
      * @return  Existing or new {@link ModuleProperties}, if address is maleformed
      *          <code>null</code> is returned.
      */
-    public ModuleProperties getModuleProperties(final URL address);
+    public ModuleProperties getModuleProperties(ModuleAddress address);
 
     /**
      * Transform an URL address into a local file path where the QEDEQ module is buffered.
+     * If the module is not buffered <code>null</code> is returned.
      *
-     * @param   moduleAddress   Get local address for this QEDEQ module address.
+     * @param   address     Get local address for this QEDEQ module address.
      * @return  Local file path for that <code>address</code>.
      */
-    public String getLocalFilePath(ModuleAddress moduleAddress);
+    public File getLocalFilePath(ModuleAddress address);
+
+    /**
+     * Get module address from URL.
+     *
+     * @param   url     URL for QEDEQ module.
+     * @return  Module address.
+     * @throws  IOException     URL has not the correct format for referencing a QEDEQ module.
+     */
+    public ModuleAddress getModuleAddress(URL url) throws  IOException;
+
+    /**
+     * Get module address from URL.
+     *
+     * @param   url     URL for QEDEQ module.
+     * @return  Module address.
+     * @throws  IOException     URL has not the correct format for referencing a QEDEQ module.
+     */
+    public ModuleAddress getModuleAddress(String url) throws  IOException;
+
+    /**
+     * Get module address from URL.
+     *
+     * @param   file    Local QEDEQ module.
+     * @return  Module address.
+     * @throws  IOException     URL has not the correct format for referencing a QEDEQ module.
+     */
+    public ModuleAddress getModuleAddress(File file) throws  IOException;
 
 }
