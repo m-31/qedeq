@@ -59,12 +59,12 @@ public class ModuleReferenceList {
      *
      * @param   context Within this context.
      * @param   label   Referenced module gets this label. Must not be <code>null</code> or empty.
-     * @param   address Referenced module has this URL. Must not be <code>null</code>.
+     * @param   address Referenced module has this address. Must not be <code>null</code>.
      * @throws  IllegalModuleDataException  The <code>id</code> already exists or is
      *          <code>null</code>.
      */
-    public final void add(final ModuleContext context, final String label, final URL address)
-            throws IllegalModuleDataException {
+    public final void add(final ModuleContext context, final String label, final ModuleAddress
+                address) throws IllegalModuleDataException {
         if (label == null || label.length() <= 0 || address == null) {
             throw new IllegalModuleDataException(10003, "An label was not defined.", context, null,
                 null);  // LATER mime 20071026: organize exception codes
@@ -104,8 +104,8 @@ public class ModuleReferenceList {
      * @param   index   Entry index.
      * @return  URL for that module.
      */
-    public final URL getUrl(final int index) {
-        return (URL) addresses.get(index);
+    public final ModuleAddress getAddress(final int index) {
+        return (ModuleAddress) addresses.get(index);
     }
 
     /**
@@ -137,7 +137,7 @@ public class ModuleReferenceList {
         }
         for (int i = 0; i < size(); i++) {
             if (!EqualsUtility.equals(getLabel(i), otherList.getLabel(i))
-                    || !EqualsUtility.equals(getUrl(i), otherList.getUrl(i))) {
+                    || !EqualsUtility.equals(getAddress(i), otherList.getAddress(i))) {
                 return false;
             }
         }
@@ -150,7 +150,7 @@ public class ModuleReferenceList {
             hash = hash ^ (i + 1);
             if (getLabel(i) != null) {
                 hash = hash ^ getLabel(i).hashCode();
-                hash = hash ^ getUrl(i).hashCode();
+                hash = hash ^ getAddress(i).hashCode();
             }
         }
         return hash;
@@ -163,7 +163,7 @@ public class ModuleReferenceList {
                 buffer.append("\n");
             }
             buffer.append((i + 1) + ":\t");
-            buffer.append(getLabel(i)).append(": ").append(getUrl(i)).append("\n");
+            buffer.append(getLabel(i)).append(": ").append(getAddress(i)).append("\n");
         }
         return buffer.toString();
     }
