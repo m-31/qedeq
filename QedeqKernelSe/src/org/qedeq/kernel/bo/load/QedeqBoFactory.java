@@ -17,8 +17,6 @@
 
 package org.qedeq.kernel.bo.load;
 
-import java.net.URL;
-
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
@@ -56,6 +54,7 @@ import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.module.IllegalModuleDataException;
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
@@ -125,7 +124,7 @@ public class QedeqBoFactory {
      *
      * @param   globalContext     Module location information.
      */
-    protected QedeqBoFactory(final URL globalContext) {
+    protected QedeqBoFactory(final ModuleAddress globalContext) {
         currentContext = new ModuleContext(globalContext);
     }
 
@@ -143,10 +142,11 @@ public class QedeqBoFactory {
      * @return  Filled QEDEQ business object. Is equal to the parameter <code>qedeq</code>.
      * @throws  ModuleDataException     Invalid data found.
      */
-    public static DefaultQedeqBo createQedeq(final URL globalContext, final Qedeq original)
-            throws ModuleDataException {
+    public static DefaultQedeqBo createQedeq(final ModuleAddress globalContext,
+            final Qedeq original) throws ModuleDataException {
         final QedeqBoFactory creator = new QedeqBoFactory(globalContext);
         DefaultQedeqBo bo = creator.create(original);
+        bo.setModuleAddress(globalContext);
 
         // TODO mime 20070325: just for testing purpose the following two checks are
         // integrated here in the BO creation. The checking results should be maintained
@@ -873,7 +873,6 @@ public class QedeqBoFactory {
         if (atom == null) {
             return null;
         }
-        final String context = getCurrentContext().getLocationWithinModule();
         return new DefaultAtom(atom.getString());
     }
 
