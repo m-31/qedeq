@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -226,14 +227,15 @@ public final class Xml2Latex  {
         }
         TextOutput printer = null;
         try {
-            qedeqBo = KernelFacade.getKernelContext().loadModule(
+            final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
                 IoUtility.toUrl(source.getCanonicalFile()));
+            qedeqBo = KernelFacade.getKernelContext().loadModule(address);
             IoUtility.createNecessaryDirectories(destination);
             final OutputStream outputStream = new FileOutputStream(destination);
             printer = new TextOutput(destination.getName(), outputStream);
             
             // System.out.println(simple.getQedeq().toString());
-            Qedeq2Latex.print(IoUtility.toUrl(source.getCanonicalFile()), qedeqBo, printer, 
+            Qedeq2Latex.print(address, qedeqBo, printer, 
                 language, level); 
             return destination.getCanonicalPath();
         } catch (IOException e) {

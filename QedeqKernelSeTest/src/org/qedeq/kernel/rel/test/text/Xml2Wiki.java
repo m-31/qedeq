@@ -20,6 +20,7 @@ package org.qedeq.kernel.rel.test.text;
 import java.io.File;
 import java.io.IOException;
 
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -213,8 +214,9 @@ public final class Xml2Wiki  {
             throw new DefaultSourceFileExceptionList(e);
         }
         try {
-            qedeqBo = KernelFacade.getKernelContext().loadModule(
+            final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
                 IoUtility.toUrl(source.getCanonicalFile()));
+            qedeqBo = KernelFacade.getKernelContext().loadModule(address);
 
             // System.out.println(simple.getQedeq().toString());
             final Qedeq2Wiki converter;
