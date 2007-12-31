@@ -167,7 +167,7 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
                 final LogicalState logicalState = prop.getLogicalState();
 
                 if (loadingState == LoadingState.STATE_LOADED) {
-                    setToolTipText(prop.getAddress());
+                    setToolTipText(prop.getUrl().toString());
                 } else {
                     setToolTipText(prop.getStateDescription());
                 }
