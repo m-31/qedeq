@@ -207,19 +207,20 @@ public class DefaultModuleFactory implements ModuleFactory {
      * @return  Wanted module.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
+    public ModuleProperties loadModule(final ModuleAddress address) throws SourceFileExceptionList {
         final String method = "loadModule(URL)";
         processInc();
         try {
             final ModuleProperties prop = getModules().getModuleProperties(address);
             synchronized (prop) {
                 if (prop.isLoaded()) {
-                    return prop.getModule();
+                    return prop;
                 }
 
                 // search in local file buffer
                 try {
-                    return loadLocalModule(prop);
+                    loadLocalModule(prop);
+                    return prop;
                 } catch (ModuleFileNotFoundException e) {     // file not found
                     // nothing to do, we will continue by creating a local copy
                 } catch (SourceFileExceptionList e) {
@@ -236,9 +237,8 @@ public class DefaultModuleFactory implements ModuleFactory {
                         address.getURL(), e.toString());
                     throw createXmlFileExceptionList(e);
                 }
-                final QedeqBo mod;
                 try {
-                    mod = loadLocalModule(prop);
+                    loadLocalModule(prop);
                 } catch (ModuleFileNotFoundException e) {
                     // TODO mime 20070415: This should not occur because a local copy was
                     // at least created a few lines above
@@ -258,7 +258,7 @@ public class DefaultModuleFactory implements ModuleFactory {
                     address.getURL(), e.getMessage());
                     throw e;
                 }
-                return mod;
+                return prop;
              }
          } finally {
              processDec();
@@ -343,14 +343,13 @@ public class DefaultModuleFactory implements ModuleFactory {
 
 
     public void loadRequiredModules(final ModuleAddress address) throws SourceFileExceptionList {
-        final QedeqBo qedeqBo  = loadModule(address);
-        final ModuleProperties prop = getModuleProperties(address);
+        final ModuleProperties prop = loadModule(address);
         try {
             LoadRequiredModules.loadRequired(prop);
         } catch (ModuleDataException e) {
             final SourceFileExceptionList xl
                 = ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                qedeqBo.getQedeq());
+                prop.getModule().getQedeq());
             // TODO mime 20071031: every state must be able to change into
             // a failure state, here we only assume two cases
             prop.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
@@ -436,11 +435,10 @@ public class DefaultModuleFactory implements ModuleFactory {
      * Load a local QEDEQ module.
      *
      * @param   prop   Module properties.
-     * @return  Loaded module.
      * @throws  ModuleFileNotFoundException    Local file was not found.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    private final QedeqBo loadLocalModule(final ModuleProperties prop)
+    private final void loadLocalModule(final ModuleProperties prop)
             throws ModuleFileNotFoundException, SourceFileExceptionList {
         final String method = "loadLocalModule";
         final File localFile = getLocalFilePath(prop.getModuleAddress());
@@ -507,7 +505,6 @@ public class DefaultModuleFactory implements ModuleFactory {
         }
         prop.setLoaded(qedeqBo);
         ModuleEventLog.getInstance().stateChanged(prop);
-        return qedeqBo;
     }
 
     /**
