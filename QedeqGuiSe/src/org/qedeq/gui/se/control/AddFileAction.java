@@ -28,7 +28,7 @@ import javax.swing.filechooser.FileFilter;
 
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.QedeqBo;
+import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.QedeqLog;
@@ -110,10 +110,10 @@ class AddFileAction extends AbstractAction {
                 try {
                // FIXME mime 20071231: move logging out of gui!
                     QedeqLog.getInstance().logRequest("Load module \"" + address + "\"");
-                    final QedeqBo module
+                    final ModuleProperties prop
                         = KernelContext.getInstance().loadModule(address);
                     QedeqLog.getInstance().logSuccessfulReply("Module \""
-                        + module.getModuleAddress().getFileName()
+                        + prop.getModuleAddress().getFileName()
                         + "\" was successfully loaded.");
                 } catch (final SourceFileExceptionList e) {
                     Trace.trace(controller, "actionPerformed", e);
