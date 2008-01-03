@@ -24,7 +24,7 @@ import java.io.OutputStream;
 
 import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.QedeqBo;
+import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.latex.Qedeq2Latex;
 import org.qedeq.kernel.trace.Trace;
@@ -201,7 +201,7 @@ public final class Xml2Latex  {
         final String method = "generate(String, String, String, String)";
         File destination = null;
         File source = null;
-        QedeqBo qedeqBo = null;
+        ModuleProperties prop = null;
         try {
             Trace.begin(Xml2Latex.class, method);
             Trace.param(Xml2Latex.class, method, "from", from);
@@ -229,14 +229,13 @@ public final class Xml2Latex  {
         try {
             final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
                 IoUtility.toUrl(source.getCanonicalFile()));
-            qedeqBo = KernelFacade.getKernelContext().loadModule(address);
+            prop = KernelFacade.getKernelContext().loadModule(address);
             IoUtility.createNecessaryDirectories(destination);
             final OutputStream outputStream = new FileOutputStream(destination);
             printer = new TextOutput(destination.getName(), outputStream);
             
             // System.out.println(simple.getQedeq().toString());
-            Qedeq2Latex.print(address, qedeqBo, printer, 
-                language, level); 
+            Qedeq2Latex.print(prop, printer, language, level); 
             return destination.getCanonicalPath();
         } catch (IOException e) {
             Trace.trace(Xml2Latex.class, method, e);
@@ -248,7 +247,7 @@ public final class Xml2Latex  {
             Trace.trace(Xml2Latex.class, method, e);
             Trace.param(Xml2Latex.class, method, "context", e.getContext());
             throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e, 
-                qedeqBo.getQedeq());
+                prop.getModule().getQedeq());
         } finally {
             if (printer != null) {
                 printer.close();

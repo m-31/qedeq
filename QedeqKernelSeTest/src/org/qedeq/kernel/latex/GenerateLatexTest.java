@@ -271,9 +271,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(xmlFile));
-        final QedeqBo qedeqBo = KernelFacade.getKernelContext().loadModule(address);
-        final ModuleProperties prop = KernelFacade.getKernelContext().getModuleProperties(
-            address);
+        final ModuleProperties prop = KernelFacade.getKernelContext().loadModule(address);
         final File texFile = new File(dir, xml.substring(0, xml.lastIndexOf('.')) + "_"
             + language + ".tex");
         Xml2Latex.generate(prop, texFile, language, "1");
@@ -301,11 +299,11 @@ public final class GenerateLatexTest extends QedeqTestCase {
             prop.setLogicalFailureState(
                 LogicalState.STATE_INTERNAL_CHECKING_FAILED, 
                     ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                    qedeqBo.getQedeq()));
+                    prop.getModule().getQedeq()));
             ModuleEventLog.getInstance().stateChanged(prop);
             QedeqLog.getInstance().logFailureReply(e.getMessage(), msg);
             throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                qedeqBo.getQedeq());
+                prop.getModule().getQedeq());
         }
     }
 

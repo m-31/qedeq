@@ -22,7 +22,7 @@ import java.io.IOException;
 
 import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.QedeqBo;
+import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.latex.Qedeq2Wiki;
 import org.qedeq.kernel.trace.Trace;
@@ -196,7 +196,7 @@ public final class Xml2Wiki  {
         final String method = "generate(String, String, String, String)";
         File source = null;
         File destination = null;
-        QedeqBo qedeqBo = null;
+        ModuleProperties prop = null;
         try {
             Trace.begin(Xml2Wiki.class, method);
             Trace.param(Xml2Wiki.class, method, "from", from);
@@ -216,11 +216,11 @@ public final class Xml2Wiki  {
         try {
             final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
                 IoUtility.toUrl(source.getCanonicalFile()));
-            qedeqBo = KernelFacade.getKernelContext().loadModule(address);
+            prop = KernelFacade.getKernelContext().loadModule(address);
 
             // System.out.println(simple.getQedeq().toString());
             final Qedeq2Wiki converter;
-            converter = new Qedeq2Wiki(source.getCanonicalPath(), qedeqBo);
+            converter = new Qedeq2Wiki(source.getCanonicalPath(), prop.getModule());
             IoUtility.createNecessaryDirectories(destination);
             converter.printWiki(language, level, destination);
         } catch (IOException e) {
@@ -233,7 +233,7 @@ public final class Xml2Wiki  {
             Trace.trace(Xml2Wiki.class, method, e);
             Trace.param(Xml2Wiki.class, method, "context", e.getContext());
             throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                qedeqBo.getQedeq());
+                prop.getModule().getQedeq());
         } finally {
             Trace.end(Xml2Wiki.class, method);
         }
