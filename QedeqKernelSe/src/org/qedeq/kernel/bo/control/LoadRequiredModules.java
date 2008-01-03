@@ -23,7 +23,6 @@ import org.qedeq.kernel.bo.module.DependencyState;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.ModuleReferenceList;
-import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -45,8 +44,8 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
     /** Transverse QEDEQ module with this transverser. */
     private final QedeqNotNullTransverser transverser;
 
-    /** QEDEQ BO object to work on. */
-    private final QedeqBo qedeq;
+    /** QEDEQ module properties object to work on. */
+    private final ModuleProperties prop;
 
     /** List of required QEDEQ modules. */
     private final ModuleReferenceList required;
@@ -54,11 +53,11 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
     /**
      * Constructor.
      *
-     * @param   qedeq           QEDEQ BO object.
+     * @param   prop    QEDEQ odule properties object.
      */
-    private LoadRequiredModules(final QedeqBo qedeq) {
-        this.qedeq = qedeq;
-        this.transverser = new QedeqNotNullTransverser(qedeq.getModuleAddress(), this);
+    private LoadRequiredModules(final ModuleProperties prop) {
+        this.prop = prop;
+        this.transverser = new QedeqNotNullTransverser(prop.getModuleAddress(), this);
         required = new ModuleReferenceList();
     }
 
@@ -120,16 +119,16 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
         if (prop.getDependencyState().areAllRequiredLoaded()) {
             return;
         }
-        final QedeqBo bo = KernelContext.getInstance().loadModule(prop.getModuleAddress());
+        KernelContext.getInstance().loadModule(prop.getModuleAddress());
         prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
-        final LoadRequiredModules converter = new LoadRequiredModules(bo);
+        final LoadRequiredModules converter = new LoadRequiredModules(prop);
         try {
             converter.loadRequired();
             prop.setLoadedRequiredModules(converter.required);
         } catch (ModuleDataException e) {
             prop.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
                 ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                    bo.getQedeq()));
+                    prop.getModule().getQedeq()));
             throw e;
         } catch (final RuntimeException e) {    // last catch
             Trace.fatal(LoadRequiredModules.class, method, "programming error", e);
@@ -159,15 +158,16 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
      * @throws  ModuleDataException Exception during transversion.
      */
     private final void loadRequired() throws ModuleDataException {
-        transverser.accept(qedeq.getQedeq());
+        transverser.accept(prop.getModule().getQedeq());
     }
 
     public void visitEnter(final Import imp) throws ModuleDataException {
         try {
-            final ModuleProperties prop = KernelContext.getInstance().loadModule(qedeq,
-                imp.getSpecification());
-            required.add(transverser.getCurrentContext(), imp.getLabel(), prop.getModuleAddress());
-            loadRequired(prop);
+            final ModuleProperties propNew = KernelContext.getInstance()
+                .loadModule(prop.getModule(), imp.getSpecification());
+            required.add(transverser.getCurrentContext(), imp.getLabel(),
+                propNew.getModuleAddress());
+            loadRequired(propNew);
         } catch (SourceFileExceptionList e) {
             Trace.trace(this, "visitEnter(Import)", e);
             throw new LoadRequiredModuleException(e.get(0).getErrorCode(),
