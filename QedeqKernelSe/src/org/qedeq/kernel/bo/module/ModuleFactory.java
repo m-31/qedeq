@@ -60,7 +60,7 @@ public interface ModuleFactory {
      * @return  Wanted module.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public QedeqBo loadModule(ModuleAddress address) throws SourceFileExceptionList;
+    public ModuleProperties loadModule(ModuleAddress address) throws SourceFileExceptionList;
 
     /**
      * Load a certain module.
