@@ -85,7 +85,7 @@ public class SourceFileException extends QedeqException {
      * @param   exception   Exception to wrap.
      */
     public SourceFileException(final URL url, final Exception exception) {
-        super(9997, exception.getMessage(), exception);     // TODO mime 20071116: error code refac
+        super(9997, exception.toString(), exception);     // TODO mime 20071116: error code refac
         errorArea = new SourceArea(url, new SourcePosition(url, 1, 1), null);
         referenceArea = null;
     }
@@ -189,6 +189,9 @@ public class SourceFileException extends QedeqException {
 
     public final String getMessage() {
         if (getCause() != null) {
+            if (getCause() instanceof IOException) {
+                return getCause().toString();
+            }
             if (getCause().getCause() != null) {
                 return getCause().getCause().getMessage();
             }
