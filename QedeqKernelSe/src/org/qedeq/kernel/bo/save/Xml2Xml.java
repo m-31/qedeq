@@ -25,7 +25,7 @@ import java.net.URL;
 
 import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.QedeqBo;
+import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.latex.Qedeq2Xml;
@@ -94,15 +94,21 @@ public final class Xml2Xml  {
         Trace.begin(Xml2Xml.class, method);
         Trace.param(Xml2Xml.class, method, "from", from);
         Trace.param(Xml2Xml.class, method, "to", to);
-        QedeqBo qedeqBo = null;
         TextOutput printer = null;
         try {
             final ModuleAddress address = KernelContext.getInstance().getModuleAddress(from);
-            qedeqBo = KernelContext.getInstance().loadModule(address);
+            final ModuleProperties prop = KernelContext.getInstance().loadModule(address);
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream);
-            Qedeq2Xml.print(address, qedeqBo, printer);
+            try {
+                Qedeq2Xml.print(address, prop.getModule(), printer);
+            } catch (ModuleDataException e) {
+                Trace.trace(Xml2Xml.class, method, e);
+                Trace.param(Xml2Xml.class, method, "context", e.getContext());
+                throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
+                    prop.getModule().getQedeq());
+            }
             return to.getCanonicalPath();
         } catch (IOException e) {
             Trace.trace(Xml2Xml.class, method, e);
@@ -110,11 +116,6 @@ public final class Xml2Xml  {
         } catch (RuntimeException e) {
             Trace.trace(Xml2Xml.class, method, e);
             throw new DefaultSourceFileExceptionList(e);
-        } catch (ModuleDataException e) {
-            Trace.trace(Xml2Xml.class, method, e);
-            Trace.param(Xml2Xml.class, method, "context", e.getContext());
-            throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                qedeqBo.getQedeq());
         } finally {
             if (printer != null) {
                 printer.close();
