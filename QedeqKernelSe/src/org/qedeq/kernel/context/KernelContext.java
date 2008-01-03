@@ -101,7 +101,8 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
+        public ModuleProperties loadModule(final ModuleAddress address)
+                throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not initialized");
         }
 
@@ -191,7 +192,8 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
+        public ModuleProperties loadModule(final ModuleAddress address)
+                throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -287,7 +289,8 @@ public final class KernelContext implements Kernel {
             moduleFactory.clearLocalBuffer();
         }
 
-        public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
+        public ModuleProperties loadModule(final ModuleAddress address)
+                throws SourceFileExceptionList {
             return moduleFactory.loadModule(address);
         }
 
@@ -443,7 +446,7 @@ public final class KernelContext implements Kernel {
         currentState.clearLocalBuffer();
     }
 
-    public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
+    public ModuleProperties loadModule(final ModuleAddress address) throws SourceFileExceptionList {
         return currentState.loadModule(address);
     }
 
