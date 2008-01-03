@@ -51,9 +51,8 @@ import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.QedeqBo;
+import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
 import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
@@ -85,8 +84,8 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     /** Output goes here. */
     private final TextOutput printer;
 
-    /** QEDEQ BO object to work on. */
-    private final QedeqBo qedeqBo;
+    /** QEDEQ module properties object to work on. */
+    private final ModuleProperties prop;
 
     /** Filter text to get and produce text in this language. */
     private final String language;
@@ -118,16 +117,15 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     /**
      * Constructor.
      *
-     * @param   qedeq           QEDEQ BO object.
-     * @param   globalContext   Module location information.
+     * @param   prop            QEDEQ module properties object.
      * @param   printer         Print herein.
      * @param   language        Filter text to get and produce text in this language only.
      * @param   level           Filter for this detail level. TODO mime 20050205: not supported yet.
      */
-    private Qedeq2Latex(final QedeqBo qedeq, final ModuleAddress globalContext,
-            final TextOutput printer, final String language, final String level) {
-        this.qedeqBo = qedeq;
-        this.transverser = new QedeqNotNullTransverser(globalContext, this);
+    private Qedeq2Latex(final ModuleProperties prop, final TextOutput printer,
+            final String language, final String level) {
+        this.prop = prop;
+        this.transverser = new QedeqNotNullTransverser(prop.getModuleAddress(), this);
         this.printer = printer;
         if (language == null) {
             this.language = "en";
@@ -145,7 +143,8 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         equal.setName("equal");
         equal.setLatexPattern("#1 \\ =  \\ #2");
         predicateDefinitions.put("equal_2", equal);
-        // TODO mime 20060822: quick hack to get the negation of the logical identity operator
+        // TODO mime 20060822: quick hack to get the negation of the negation of the
+        //                     logical identity operator
         final PredicateDefinitionVo notEqual = new PredicateDefinitionVo();
         notEqual.setArgumentNumber("2");
         notEqual.setName("notEqual");
@@ -156,18 +155,17 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     /**
      * Prints a LaTeX representation of given QEDEQ module into a given output stream.
      *
-     * @param   globalContext   Module location information.
-     * @param   qedeq           Basic QEDEQ module object.
+     * @param   prop            QEDEQ module properties object.
      * @param   printer         Print herein.
      * @param   language        Filter text to get and produce text in this language only.
      * @param   level           Filter for this detail level. TODO mime 20050205: not supported yet.
      * @throws  ModuleDataException Major problem occurred.
      * @throws  IOException
      */
-    public static void print(final ModuleAddress globalContext, final QedeqBo qedeq,
+    public static void print(final ModuleProperties prop,
             final TextOutput printer, final String language, final String level)
             throws ModuleDataException, IOException {
-        final Qedeq2Latex converter = new Qedeq2Latex(qedeq, globalContext, printer,
+        final Qedeq2Latex converter = new Qedeq2Latex(prop, printer,
             language, level);
         converter.printLatex();
     }
@@ -179,7 +177,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
      * @throws  ModuleDataException Exception during transversion.
      */
     private final void printLatex() throws IOException, ModuleDataException {
-        transverser.accept(qedeqBo.getQedeq());
+        transverser.accept(prop.getModule().getQedeq());
         printer.flush();
         if (printer.checkError()) {
             throw printer.getError();
@@ -189,8 +187,9 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     public final void visitEnter(final Qedeq qedeq) {
         printer.println("% -*- TeX:" + language.toUpperCase() + " -*-");
         printer.println("%%% ====================================================================");
-        printer.println("%%% @LaTeX-file  " + printer.getName());
-        printer.println("%%% Generated at " + getTimestamp());
+        printer.println("%%% @LaTeX-file    " + printer.getName());
+        printer.println("%%% Generated from " + prop.getModuleAddress());
+        printer.println("%%% Generated at   " + getTimestamp());
         printer.println("%%% ====================================================================");
         printer.println();
         printer.println(
@@ -282,7 +281,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         printer.print(getLatexListEntry(title));
         printer.println("}");
         printer.println("\\author{");
-        final AuthorList authors = qedeqBo.getQedeq().getHeader().getAuthorList();
+        final AuthorList authors = prop.getModule().getQedeq().getHeader().getAuthorList();
         for (int i = 0; i < authors.size(); i++) {
             if (i > 0) {
                 printer.println(", ");
@@ -630,7 +629,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
             }
             printer.println("\\addcontentsline{toc}{chapter}{Bibliography}");
         }
-        final ImportList imports = qedeqBo.getQedeq().getHeader().getImportList();
+        final ImportList imports = prop.getModule().getQedeq().getHeader().getImportList();
         if (imports != null && imports.size() > 0) {
             printer.println();
             printer.println();
@@ -658,7 +657,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     }
 
     public void visitLeave(final LiteratureItemList list) {
-        final UsedByList usedby = qedeqBo.getQedeq().getHeader().getUsedByList();
+        final UsedByList usedby = prop.getModule().getQedeq().getHeader().getUsedByList();
         if (usedby != null && usedby.size() > 0) {
             printer.println();
             printer.println();
