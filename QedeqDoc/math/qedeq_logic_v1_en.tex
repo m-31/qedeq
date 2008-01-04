@@ -1,7 +1,8 @@
 % -*- TeX:EN -*-
 %%% ====================================================================
-%%% @LaTeX-file  qedeq_logic_v1_en.tex
-%%% Generated at 2007-12-21 23:12:48,015
+%%% @LaTeX-file    qedeq_logic_v1_en.tex
+%%% Generated from file:/C:/mime/projects/qedeq/qedeq/eclipse/QedeqKernelSeTest/../QedeqDoc/math/qedeq_logic_v1.xml
+%%% Generated at   2008-01-04 00:39:21,453
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -78,43 +79,31 @@ If you have any questions, suggestions or want to add something to the list of m
 \chapter*{Summary\index{summary}} \label{chapter0} \hypertarget{chapter0}{}
 \addcontentsline{toc}{chapter}{Summary\index{summary}}
 
-The project \textbf{Hilbert II} deals with the formal presentation and documentation of
-mathematical knowledge. For this reason \textbf{Hilbert II} provides a program suite to
-accomplish that tasks. The concrete documentation of mathematical basics is also a purpose
-of this project.   
-For further informations about the \textbf{Hilbert II} project see under
-\url{http://www.qedeq.org/index_de.html}.
+The project \textbf{Hilbert II} deals with the formal presentation and documentation of mathematical knowledge. For this reason \textbf{Hilbert II} provides a program suite to accomplish that tasks. The concrete documentation of mathematical basics is also a purpose of this project.   
+For further informations about the \textbf{Hilbert II} project see under \url{http://www.qedeq.org/index_de.html}.
 
 \par
-This document describes the logical axoims and the rules and meta rules that are used to
-derive new propositions.
+This document describes the logical axoims and the rules and meta rules that are used to derive new propositions.
 
 \par
-The presentation is axiomatic and in a formal form. A formal calculus is given that enables
-us to derive all true formulas. Additional derived rules, definitions, abbreviations and
-syntax extensions basically correspond with the mathematical practice.
+The presentation is axiomatic and in a formal form. A formal calculus is given that enables us to derive all true formulas. Additional derived rules, definitions, abbreviations and syntax extensions basically correspond with the mathematical practice.
 
 \par
-This document is also written in a formal language, the original text is a XML file with a syntax
-defined by the XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
+This document is also written in a formal language, the original text is a XML file with a syntax defined by the XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
 
 \par
-This document is work in progress and is updated from time to time. Especially at the locations
-marked by {\glqq+++\grqq} additions or changes will take place.
+This document is work in progress and is updated from time to time. Especially at the locations marked by {\glqq+++\grqq} additions or changes will take place.
 
 %% end of chapter Summary\index{summary}
 
 \chapter*{Foreword} \label{chapter1} \hypertarget{chapter1}{}
 \addcontentsline{toc}{chapter}{Foreword}
 
-The whole mathematical universe can be unfolded by set--theoretic means.
-Beside the set--theoretic axioms only logical axioms and rules are required.
-These elementary basics are sufficient to define the most complex mathematical structures and enable us to prove propositions for those structures.
-This approach can be fully formalized and can be reduced to simple manipulations
-of character strings. The semantical interpretation of these character strings represent the mathematical universum.
+The whole mathematical universe can be unfolded by set--theoretic means. Beside the set--theoretic axioms only logical axioms and rules are required. These elementary basics are sufficient to define the most complex mathematical structures and enable us to prove propositions for those structures. This approach can be fully formalized and can be reduced to simple manipulations of character strings. The semantical interpretation of these character strings represent the mathematical universum.
 
 \par
-It is more than convenient to introduce abbreviations and use further derivation rules. But these comforts could be eliminated and replaced by the basic terms at any time\footnote{At least this is theoretically possible. This transformation is not in each case practically realizable due to restrictions in time and space. For example it is not possible to write down the natural number $1,000,000,000$ completely in set notation.}.
+It is more than convenient to introduce abbreviations and use further derivation rules. But these comforts could be eliminated and replaced by the basic terms at any time\footnote{At least this is theoretically possible. This transformation is not in each case practically realizable due to restrictions in time and space. For example it is not possible to write down the
+natural number $1,000,000,000$ completely in set notation.}.
 
 \par
 This project has its source in a childhood dream to undertake a formalization of mathematics. In the meantime the technical possibilities are highly developed so that a realization seems within reach.
@@ -126,7 +115,7 @@ Special thanks go to the professors \emph{W.~Kerby} and \emph{V.~G{\"u}nther} of
 I am deeply grateful to my wife \emph{Gesine~Dr{\"a}ger} and our son \emph{Lennart} for their support and patience.          
 
 \par
-\vspace*{1cm} Hamburg, September, 2007 \\
+\vspace*{1cm} Hamburg, January, 2008 \\
 \hspace*{\fill} Michael Meyling
 
 %% end of chapter Foreword
@@ -134,16 +123,16 @@ I am deeply grateful to my wife \emph{Gesine~Dr{\"a}ger} and our son \emph{Lenna
 \chapter*{Introduction} \label{chapter2} \hypertarget{chapter2}{}
 \addcontentsline{toc}{chapter}{Introduction}
 
-At the beginning we quote \emph{D. Hilbert} from the lecture {\glqq The Logical Basis of Mathematics\grqq}, September 1922\footnote{Lecture given at the Deutsche Naturforscher-Gesellschaft, September 1922.}.
+At the beginning we quote \emph{D. Hilbert} from the lecture {\glqq The Logical Basis of Mathematics\grqq}, September 
+1922\footnote{Lecture given at the Deutsche Naturforscher-Gesellschaft, September 1922.}.
 
 \par
 \begin{quote} {
 \glqq The fundamental idea of my proof theory is the following:
 
 \par
-All the propositions that constitute in mathematics are converted into formulas, so that mathematics proper becomes all inventory of formulas. These differ from the ordinary formulas of mathematics only in that, besides the ordinary signs, the logical signs
-especially {\glqq implies\grqq} ($\rightarrow$) and for {\glqq not\grqq} 
-($\bar{\quad}$) occur in them. 
+All the propositions that constitute in mathematics are converted into formulas, so that mathematics proper becomes all inventory of formulas. These differ from the ordinary formulas of mathematics only in that, besides the ordinary signs, 
+the logical signs especially {\glqq implies\grqq} ($\rightarrow$) and for {\glqq not\grqq} ($\bar{\quad}$) occur in them. 
 Certain formulas, which serve as building blocks for the formal edifice of mathematics, are called axioms. A proof is an array that must be given as such to our perceptual intuition of it of inferences according to the schema\\
 \begin{eqnarray*}
 & A & \\
@@ -151,75 +140,39 @@ Certain formulas, which serve as building blocks for the formal edifice of mathe
 \cline{2-3}
  & B &
 \end{eqnarray*}
-where each of the premises, that is, the formulae, $A$ and 
-$A \rightarrow B$ in the array either is an axiom or directly from an axiom by substitution, or else coincides with the end formula $B$ of an inference occurring earlier in the proof or results from it by substitution. A formula is said to be provable if it is either an axiom or the end formula of a proof.\grqq}
+where each of the premises, that is, the formulae, $A$ and $A \rightarrow B$ in the array either is an axiom or directly from an axiom by substitution, or else coincides with the end formula $B$ of an inference occurring earlier in the proof or results from it by substitution. A formula is said to be provable if it is either an axiom or the end formula of a proof.\grqq}
 \end{quote}
 
 \par
 At the beginning there is logic. Logic is the analysis of methods of reasoning. It helps to derive new propositions from already given ones. Logic is universally applicable.
 
 \par
-In the 1928 published book \emph{Grundz{\"u}ge der theoretischen Logik} (Principles of Theoretical Logic) \emph{D.~Hilbert} and \emph{W.~Ackermann} formalized propositional calculus in a way that build the basis for the logical system used here. 
-1959 \emph{P.~S.~Novikov} specified a refined axiom and rule system for predicate calculus.
+In the 1928 published book \emph{Grundz{\"u}ge der theoretischen Logik} (Principles of Theoretical Logic) \emph{D.~Hilbert} and \emph{W.~Ackermann} formalized propositional calculus in a way that build the basis for the logical system used here. 1959 \emph{P.~S.~Novikov} specified a refined axiom and rule system for predicate calculus.
 
 \par
-In this text we present a first order predicate calculus with identity and functors
-that is the starting point for the development of the mathematical theory.
-Only the results without any proofs and in short form are given in the following.
+In this text we present a first order predicate calculus with identity and functors that is the starting point for the development of the mathematical theory. Only the results without any proofs and in short form are given in the following.
 
 %% end of chapter Introduction
 
 \chapter{Language} \label{chapter3} \hypertarget{chapter3}{}
 
-The logical foundation of \textbf{Hilbert II} will be introduced here.
-The language of our calculus bases on the formalizations of \emph{D.~Hilbert}, \emph{W.~Ackermann}, \emph{P.~Bernays} and \emph{P.~S.~Novikov}. New rules can be derived from the herein presented. Only these meta rules lead to a smooth flowing logical argumentation.
+The logical foundation of \textbf{Hilbert II} will be introduced here. The language of our calculus bases on the formalizations of \emph{D.~Hilbert}, \emph{W.~Ackermann}, \emph{P.~Bernays} and \emph{P.~S.~Novikov}. New rules 
+can be derived from the herein presented. Only these meta rules lead to a smooth flowing logical argumentation.
 
 \section{Terms\index{term} and Formulas\index{formula}} \label{chapter3_section0} \hypertarget{chapter3_section0}{}
 We use the \emph{logical symbols} 
-$L = \{$ \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, 
-\mbox{`$\leftrightarrow$'}, \mbox{`$\rightarrow$'}, \mbox{`$\forall$'},
-\mbox{`$\exists$'} $\}$, 
-the \emph{predicate constants}\index{predicate constant}\index{constant!predicate}
-$C = \{c^k_i~|~i, k \in \omega\}$, 
-the 
-\emph{function variables}\index{function variable}\index{variable!function}\footnote{Function variables are used for a shorter notation. For example writing an identity proposition
-$x = y \rightarrow f(x) = f(y)$. 
-Also this introduction prepares for the syntax extension for functional classes.} 
-$F = \{f^k_i~|~i, k \in \omega \land k > 0\}$, the 
-\emph{function constants}\index{function constant}\index{constant!function}\footnote{Function constants are also introduced for convenience and are used for direct defined class functions. For example to define building of the power class operator, the union and intersection operator and the successor function. All these function constants can be interpreted as abbreviations.}
-$H = \{h^k_i~|~i, k \in \omega\}$, the 
-\emph{subject variables}\index{subject variable}\index{variable!subject} 
-$V = \{v_i~|~i \in \omega\}$, as well as
-\emph{predicate variables}\index{predicate variable}\index{variable!predicate}
-$P = \{p^k_i~|~i, k \in \omega\}$.\footnote{By $\omega$ we understand 
-the natural numbers including zero. All involved symbols are pairwise disjoint. Therefore we can conclude for example:
-$f^k_i = f^{k'}_{i'} \rightarrow (k = k' \land i = i')$
-and $h^k_i \neq v_j$.} 
-For the \emph{arity}\index{arity} or \emph{rank}\index{rank} of an operator we take the
-upper index. The set of predicate variables with zero arity is also called set of
-\emph{proposition variables}\index{proposition variable}\index{variable!proposition} or \emph{sentence letters}\index{sentence letters}:
-$A := \{p_i^0~|~i \in \omega \}$.
-For subject variables we write short hand certain lower letters:
-\mbox{$v_1 = $ `$u$'}, \mbox{$v_2 = $ `$v$'}, 
-\mbox{$v_3 = $ `$w$'}, \mbox{$v_4 = $ `$x$'}, \mbox{$v_5 = $ `$y$'},
-\mbox{$v_5 = $ `$z$'}.
-Furthermore we use the following short notations:
-for the predicate variables
-$p^n_1 = $ `$\phi$' und $p^n_2 = $ `$\psi$', where the appropriate arity $n$
-is calculated by counting the subsequent parameters,
-for the proposition variables
-$a_1 = $ `$A$', $a_2 = $ `$B$' and 
-$a_3 = $ `$C$', 
-for the function variables:
-$f^n_1 = $ `$f$' und $f^n_2 = $ `$g$', where again the appropriate arity $n$ is calculated by counting the subsequent parameters.
-All binary propositional operators are written in infix notation.
-Parentheses surrounding groups of operands and operators are necessary to indicate the intended order in which operations are to be performed. 
-E.~g. for the operator $\land$ with the parameters $A$ and $B$ we write 
-$(A \land B)$. 
+$L = \{$ \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, \mbox{`$\leftrightarrow$'}, \mbox{`$\rightarrow$'}, \mbox{`$\forall$'}, \mbox{`$\exists$'} $\}$, the \emph{predicate constants}\index{predicate constant}\index{constant!predicate} $C = \{c^k_i~|~i, k \in \omega\}$, the \emph{function variables}\index{function variable}\index{variable!function}\footnote{Function variables are used for a shorter notation. For example writing an identity proposition $x = y \rightarrow f(x) = f(y)$. Also this introduction prepares for the syntax extension for functional classes.} $F = \{f^k_i~|~i, k \in \omega \land k > 0\}$, the \emph{function constants}\index{function constant}\index{constant!function}\footnote{Function constants are also introduced for convenience and are used for direct defined class functions. For example to define building of the power class operator, the union and intersection operator and the successor function. All these function constants can be interpreted as abbreviations.} $H = \{h^k_i~|~i, k \in \omega\}$, the \emph{subject variables}\index{subject variable}\index{variable!subject} $V = \{v_i~|~i \in \omega\}$, as well as
+\emph{predicate variables}\index{predicate variable}\index{variable!predicate} $P = \{p^k_i~|~i, k \in \omega\}$.\footnote{By $\omega$ we understand the natural numbers including zero. All involved symbols are pairwise disjoint. 
+Therefore we can conclude for example: $f^k_i = f^{k'}_{i'} \rightarrow (k = k' \land i = i')$ and $h^k_i \neq v_j$.} 
+For the \emph{arity}\index{arity} or \emph{rank}\index{rank} of an operator we take the upper index. The set of predicate variables with zero arity is also called set of \emph{proposition variables}\index{proposition variable}\index{variable!proposition} or \emph{sentence letters}\index{sentence letters}: $A := \{p_i^0~|~i \in \omega \}$.
+For subject variables we write short hand certain lower letters: \mbox{$v_1 = $ `$u$'}, \mbox{$v_2 = $ `$v$'}, 
+\mbox{$v_3 = $ `$w$'}, \mbox{$v_4 = $ `$x$'}, \mbox{$v_5 = $ `$y$'}, \mbox{$v_5 = $ `$z$'}.
+Furthermore we use the following short notations: for the predicate variables $p^n_1 = $ `$\phi$' und $p^n_2 = $ `$\psi$', where the appropriate arity $n$ is calculated by counting the subsequent parameters, for the proposition variables
+$a_1 = $ `$A$', $a_2 = $ `$B$' and $a_3 = $ `$C$', for the function variables: $f^n_1 = $ `$f$' und $f^n_2 = $ `$g$', where again the appropriate arity $n$ is calculated by counting the subsequent parameters.  All binary propositional operators are written in infix notation. Parentheses surrounding groups of operands and operators are necessary to indicate the 
+intended order in which operations are to be performed. E.~g. for the operator $\land$ with the parameters $A$ and $B$ we write $(A \land B)$. 
 
 
-In the absence of parentheses the usual precedence rules determine the order of operations.
-Especially outermost parentheses are omitted.
+In the absence of parentheses the usual precedence rules determine the order of operations. Especially outermost parentheses are omitted.
 
 \par
 The operators have the order of precedence described below (starting with the highest).
@@ -237,36 +190,23 @@ The term \emph{term\index{term}} is defined recursively as follows:
 
 \begin{enumerate}
 \item Every subject variable is a term. 
-\item Let $i, k \in \omega$ 
-and let $t_1$, \ldots, $t_k$ be terms. Then $h^k_i(t_1, \ldots, t_k)$ is a term
-and if $k > 0$, so $f^k_i(t_1, \ldots, t_k)$ is a term too.
+\item Let $i, k \in \omega$ and let $t_1$, \ldots, $t_k$ be terms. Then $h^k_i(t_1, \ldots, t_k)$ is a term and if $k > 0$, so $f^k_i(t_1, \ldots, t_k)$ is a term too.
 \end{enumerate}
 
 Therefore all zero arity function constants $\{h^0_i~|~i \in \omega\}$ are terms. They are called \emph{individual constants}\index{individual constant}\index{constant!individual}.\footnote{In an analogous manner subject variables might be defined as function variables of zero arity. Because subject variables play an important role they have their own notation.}
 
 \par
-We define a \emph{formula\index{formula}} and the relations \emph{free}\index{bound
-subject variable}\index{subject variable!free} and \emph{bound}\index{bound subject variable}\index{subject variable!bound} subject variable recursivly as follows:
+We define a \emph{formula\index{formula}} and the relations \emph{free}\index{bound subject variable}\index{subject variable!free} and \emph{bound}\index{bound subject variable}\index{subject variable!bound} subject variable recursivly as follows:
 
 \begin{enumerate}
 
 \item Every proposition variable is a formula. Such formulas contain no free or bound subject variables.
 
-\item If $p^k$ is a predicate variable with arity $k$ and $c^k$ is a 
-predicate constant with arity $k$ and $t_1, t_2, \ldots, t_k$ are terms, 
-then $p^k(t_1, t_2, \ldots t_k)$ and 
-$c^k(t_1, t_2, \ldots, t_k)$ are formulas.
-All subject variables that occur at least in one of $t_1, t_2, \ldots, t_k$ are free subject variables. Bound subject variables does not occur.\footnote{This second item includes the first one, which is only listed for clarity.} 
+\item If $p^k$ is a predicate variable with arity $k$ and $c^k$ is a predicate constant with arity $k$ and $t_1, t_2, \ldots, t_k$ are terms, then $p^k(t_1, t_2, \ldots t_k)$ and $c^k(t_1, t_2, \ldots, t_k)$ are formulas. All subject variables that occur at least in one of $t_1, t_2, \ldots, t_k$ are free subject variables. Bound subject variables does not occur.\footnote{This second item includes the first one, which is only listed for clarity.} 
 
-\item Let $\alpha, \beta$ be formulas in which no subject variables occur bound in one formula and free in the other. Then $\neg \alpha$, $(\alpha \land \beta)$, 
-$(\alpha \lor \beta)$, $(\alpha \rightarrow \beta)$ and
-$(\alpha \leftrightarrow \beta)$ are also formulas. Subject variables which occur free (respectively bound) in $\alpha$ or $\beta$ stay free (respectively bound).
+\item Let $\alpha, \beta$ be formulas in which no subject variables occur bound in one formula and free in the other. Then $\neg \alpha$, $(\alpha \land \beta)$, $(\alpha \lor \beta)$, $(\alpha \rightarrow \beta)$ and $(\alpha \leftrightarrow \beta)$ are also formulas. Subject variables which occur free (respectively bound) in $\alpha$ or $\beta$ stay free (respectively bound).
 
-\item If in the formula $\alpha$ the subject variable $x_1$ occurs not bound\footnote{This means that $x_1$ is free in the formula or does not occur at all.}, 
-then also $\forall x_1~\alpha$ and $\exists x_1~\alpha$ are 
-formulas. The symbol $\forall$ is called
-\emph{universal quantifier}\index{universal quantifier}\index{quantifier!universal} and $\exists$ 
-as
+\item If in the formula $\alpha$ the subject variable $x_1$ occurs not bound\footnote{This means that $x_1$ is free in the formula or does not occur at all.}, then also $\forall x_1~\alpha$ and $\exists x_1~\alpha$ are formulas. The symbol $\forall$ is called \emph{universal quantifier}\index{universal quantifier}\index{quantifier!universal} and $\exists$ as
 \emph{existential quantifier}\index{existential quantifier}\index{quantifier!existential}.
 
 Except for $x_1$ all free subject variables of $\alpha$ stay free. All bound subject variables are still bound and additionally $x_1$ is bound too.
@@ -276,15 +216,11 @@ Except for $x_1$ all free subject variables of $\alpha$ stay free. All bound sub
 All formulas that are only built by usage of 1. and 3. are called formulas of the \emph{propositional calculus}\index{propositional calculus}\index{calculus!propositional}.
 
 \par
-For each formula $\alpha$ the following proposition holds: the set of free subject variables is disjoint with the set of bound subject variables..\footnote{
-Other formalizations allow for example $\forall x_1~\alpha$ also if
-$x_1$ occurs already bound within $\alpha$. Also propositions like
-$\alpha(x) \land (\forall x_1 \beta)$ are allowed. In this formalizations
+For each formula $\alpha$ the following proposition holds: the set of free subject variables is disjoint with the set of bound subject variables..\footnote{Other formalizations allow for example $\forall x_1~\alpha$ also if $x_1$ occurs already bound within $\alpha$. Also propositions like $\alpha(x) \land (\forall x_1 \beta)$ are allowed. In this formalizations
 free and bound are defined for a single occurrence of a variable.}
 
 \par
-If a formula has the form $\forall x_1 ~ \alpha$ respectively
-$\exists x_1 ~ \alpha$ then the formula $\alpha$ is called the
+If a formula has the form $\forall x_1 ~ \alpha$ respectively $\exists x_1 ~ \alpha$ then the formula $\alpha$ is called the
 \emph{scope}\index{scope}\index{quantifier!scope} of the quantifier $\forall$ respectively $\exists$.
 
 \par
@@ -298,37 +234,29 @@ All formulas that are used to build up a formula by 1. to 4. are called \emph{pa
 We now state the system of axioms for the predicate calculus and present the rules for obtaining new formulas from them.
 
 \section{Axioms\index{axioms!of predicate calculus}\index{predicate calculus!axioms}} \label{chapter4_section0} \hypertarget{chapter4_section0}{}
-The logical operators of propositional calculus 
-\mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, 
-\mbox{`$\leftrightarrow$'} und \mbox{`$\rightarrow$'}
-combine arbitrary \emph{propositions} to new propositions.
-A proposition is a statement that affirms or denies something and is either {\glqq true\grqq} or {\glqq false\grqq} (but not both).\footnote{Later on we will define
-the symbols $\top$ and $\bot$ as truth values.}
+The logical operators of propositional calculus \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, \mbox{`$\leftrightarrow$'} und \mbox{`$\rightarrow$'} combine arbitrary \emph{propositions} to new propositions.
+A proposition is a statement that affirms or denies something and is either {\glqq true\grqq} or {\glqq false\grqq} (but not both).\footnote{Later on we will define the symbols $\top$ and $\bot$ as truth values.}
 
 The new ingredient of predicate calculus is quantification.
 
-\par
-The binary operator \mbox{`$\vee$'} (logical disjunction) combines the
-two propositions $\alpha$ and $\beta$ into the new proposition 
-$\alpha \vee \beta$. It results in true if at least one of its operands is true.
+The binary operator \mbox{`$\vee$'} (logical disjunction) combines the two propositions $\alpha$ and $\beta$ into the new proposition $\alpha \vee \beta$. It results in true if at least one of its operands is true.
 
 \par
-The unary operator \mbox{`$\neg$'} (logical negation) changes the truth
-value of a proposition $\alpha$. $\neg \alpha$ has a value of true when its operand is false and a value of false when its operand is true. 
+The unary operator \mbox{`$\neg$'} (logical negation) changes the truth value of a proposition $\alpha$. $\neg \alpha$ has a value of true when its operand is false and a value of false when its operand is true. 
 
 \par
-The \emph{logical implication} (\emph{if}) the, \emph{logical conjunction} (\emph{and}) and the \emph{logical equivalence} (\emph{biconditional}) are defined as abbreviations.
-\footnote{Actually the symbols $\wedge, \rightarrow, \leftrightarrow$ are defined later on and are a syntax extension. But for convenience these symbols are already part of the logical language.}
+The \emph{logical implication} (\emph{if}) the, \emph{logical conjunction} (\emph{and}) and the \emph{logical equivalence} (\emph{biconditional}) are defined as abbreviations.\footnote{Actually the symbols $\wedge, \rightarrow, 
+\leftrightarrow$ are defined later on and are a syntax extension. But for convenience these symbols are already part of the logical language.}
 
 
 \par
 The logical implication (`if') could be defined as follows.
 
-\begin{defn}[Implication\index{definition!of implication}]
+\begin{idefn}[Implication\index{definition!of implication}]
 \label{definition:implication} \hypertarget{definition:implication}{}
-$$\alpha \rightarrow \beta\ :\leftrightarrow \ \neg \alpha\ \lor \ \beta$$
+$$\sigma \rightarrow \tau$$
 
-\end{defn}
+\end{idefn}
 
 
 
@@ -374,8 +302,7 @@ enables us to get rid of an unnecessary disjunction.
 
 
 \par
-If a proposition is true, any alternative may be added without 
-making it false.
+If a proposition is true, any alternative may be added without making it false.
 
 \begin{ax}[Axiom of Weakening\index{axiom!of weakening}]
 \label{axiom:disjunction_weakening} \hypertarget{axiom:disjunction_weakening}{}
@@ -493,8 +420,7 @@ This last proposition is not valid in many models.
 
 \begin{rul}[Rename Bound Subject Variable]
 \label{rule:renameBound} \hypertarget{rule:renameBound}{}
-We may replace a bound subject variable occurring in a formula by any other subject variable, provided that the new variable occurs not free in the original formula.
-If the variable to be replaced occurs in more than one scope, then the replacement need be made in one scope only.
+We may replace a bound subject variable occurring in a formula by any other subject variable, provided that the new variable occurs not free in the original formula. If the variable to be replaced occurs in more than one scope, then the replacement needs to be made in one scope only.
 \end{rul}
 
 
@@ -505,8 +431,7 @@ If the variable to be replaced occurs in more than one scope, then the replaceme
 
 \begin{rul}[Replace Predicate Variable]
 \label{rule:replacePred} \hypertarget{rule:replacePred}{}
-Let $\alpha$ be a true formula that contains a predicate variable $p$ of arity $n$, let $x_1$, \ldots, $x_n$ be subject variables and let
-$\beta(x_1, \ldots, x_n)$ be a formula where $x_1$, \ldots, $x_n$ are not bound. The formula $\beta(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound.
+Let $\alpha$ be a true formula that contains a predicate variable $p$ of arity $n$, let $x_1$, \ldots, $x_n$ be subject variables and let $\beta(x_1, \ldots, x_n)$ be a formula where $x_1$, \ldots, $x_n$ are not bound. The formula $\beta(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound.
 
 If the following conditions are fulfilled, then a replacement of all occurrences of $p(t_1, \ldots, t_n)$ each with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\beta(t_1, \ldots, t_n)$ results in another true formula.
 
@@ -552,7 +477,8 @@ Analogous to rule~\ref{rule:replacePred} we can replace function variables too.
 
 \begin{rul}[Replace Function Variable]
 \label{rule:replaceFunct} \hypertarget{rule:replaceFunct}{}
-Let $\alpha$ be an already proved formula that contains a function variable $\sigma$ of arity $n$, let $x_1$, \ldots, $x_n$ be subject variables and let $\tau(x_1, \ldots, x_n)$ be an arbitrary term where $x_1$, \ldots, $x_n$ are not bound. The term $\tau(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$. as free subject variables. Furthermore it can also have other subject variables either free or bound. 
+Let $\alpha$ be an already proved formula that contains a function variable $\sigma$ of arity $n$, let $x_1$, \ldots, $x_n$ be subject variables and let $\tau(x_1, \ldots, x_n)$ be an arbitrary term where $x_1$, \ldots, $x_n$ are not bound. 
+The term $\tau(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$. as free subject variables. Furthermore it can also have other subject variables either free or bound. 
 
 If the following conditions are fulfilled we can obtain a new true formula by replacing each occurrence of $\sigma(t_1, \ldots, t_n)$ with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\tau(t_1, \ldots, t_n)$.
 
@@ -566,7 +492,6 @@ each occurrence of $\sigma(x_1, \ldots, x_n)$ in $\alpha$ contains no bound vari
 
 \item
 the result of the substitution is a well-formed formula
-
                   
 \end{itemize}
 \end{rul}
@@ -579,7 +504,8 @@ the result of the substitution is a well-formed formula
 
 \begin{rul}[Universal Quantifier Introduction]
 \label{rule:universalIntroduction} \hypertarget{rule:universalIntroduction}{}
-If $\alpha \rightarrow \beta(x_1)$ is a true formula and $\alpha$ does not contain the subject variable $x_1$, then $\alpha \rightarrow (\forall x_1~(\beta(x_1)))$ is a true formula too.
+If $\alpha \rightarrow \beta(x_1)$ is a true formula and $\alpha$ does not contain the subject variable $x_1$, then $\alpha \rightarrow (\forall x_1~(\beta(x_1)))$ is a true 
+formula too.
 \end{rul}
 
 
@@ -714,62 +640,73 @@ We have the following basic propositions.
 
 
 \section{Derived Rules} \label{chapter5_section2} \hypertarget{chapter5_section2}{}
-MISSING! OTHER: Aus den logischen Grundlagen lassen sich logische S{\"a}tze und Metaregeln ableiten, die eine bequemere
-Argumentation erm{\"o}glichen. Erst mit diesem Regelwerk und zus{\"a}tzlichen Definitionen und Abk{\"u}rzungen
-wird die restliche Mathematik entwickelt. Dabei wird stets nur eine
-\emph{konservative}\index{konservativ} Erweiterung der bisherigen Syntax vorgenommen. D.~h. in dem
-erweiterten System lassen sich keine Formeln ableiten, die in der alten Syntax formuliert, aber
-dort nicht ableitbar sind. Im Folgenden werden solche Erweiterungen vorgestellt.
+Beginning with the logical basis logical propositions and metarules can be derived an enable a convenient argumentation. Only with these metarules and additional definitions and abbreviations the mathematical world is unfolded. Every additional syntax is \emph{conservative}\index{conservativ}. That means:            within extended system no formulas can be derived, that are written in the old syntax but can not be derived in the old system. In the following such conservative extensions are introduced.
 
-\begin{rul}[Ersetzung durch logisch {\"a}quivalente Formeln]
-Sei die Aussage $\alpha \leftrightarrow \beta$ bereits bewiesen. Wird dann aus der Formel $\delta$ eine neue
-Formel $\gamma$ dadurch gewonnen, dass ein beliebiges Vorkommen von $\alpha$ durch $\beta$
-ersetzt\footnote{Bei dieser Ersetzung kann es erforderlich sein, dass gebundene Variablen von
-$\beta$ umbenannt werden m{\"u}ssen, damit sich wieder eine Formel ergibt.} wird und besitzt $\gamma$
-zumindest die freien Variablen (+++ unklar!) von $\delta$, dann gilt $\delta \leftrightarrow \gamma$.
-\end{rul}
-
-\begin{rul}[Allgemeine Assoziativit{\"a}t]
-Falls ein zweistelliger Operator das Assoziativit{\"a}tsgesetz erf{\"u}llt, so erf{\"u}llt er auch das
-allgemeine Assoziativit{\"a}tsgesetz. Dem Operator kann dann eine beliebige Stellenanzahl gr{\"o}{\ss}er eins
-zugeschrieben werden. So wird beispielsweise anstelle f{\"u}r $(a + b) + (c + d)$ einfach $a + b + c +
-d$ geschrieben.\footnote{Der $n$-stellig Operator wird mit einer bestimmten Klammerung definiert,
-jede andere Klammerreihenfolge liefert jedoch dasselbe Ergebnis.}
-\end{rul}
-
-\begin{rul}[Allgemeine Kommutativit{\"a}t]
-Falls ein Operator das allgemeine Assoziativit{\"a}tsgesetz erf{\"u}llt und kommutativ ist, so sind alle
-Permutationen von Parameterreihenfolgen einander gleich oder {\"a}quivalent.\footnote{Je nachdem ob es
-sich um einen Termoperator oder einen Formeloperator handelt.} So gilt beispielsweise $a + b + c +
-d  = c + a + d + b$.
-\end{rul}
-
-\begin{defn}[Ableitbarkeit\index{Ableitbarkeit}]
-Eine Formel $\beta$ hei{\ss}t \emph{aus der Formel $\alpha$ ableitbar}, wenn sich $\beta$ mit Hilfe
-aller Regeln des Pr{\"a}dikatenkalk{\"u}ls und der um $\alpha$ vermehrten Gesamtheit aller wahren Formeln
-des Pr{\"a}dikatenkalk{\"u}ls herleitbar und $\alpha \rightarrow \beta$ eine Formel ist. Dabei d{\"u}rfen die beiden
-Quantifizierungsregeln, die Einsetzungsregel f{\"u}r Pr{\"a}dikatenvariable und die Umbenennungsregel f{\"u}r
-freie Subjektvariable nur auf solche Variablen angewendet werden, die in der Formel $\alpha$ nicht
-auftreten.
 \par
-Schreibweise: $\alpha \vdash \beta$.
-\end{defn}
-Die Ableitbarkeit einer Formel $\beta$ aus der Formel $\alpha$ ist streng zu unterscheiden von der
-Ableitbarkeit einer wahren Formel aus den Axiomen des Kalk{\"u}ls, denn im zweiten Fall stehen mehr
-Ableitungsregeln zur Verf{\"u}gung. Falls beispielsweise die Formel $A$ als Axiom aufgenommen wird, so
-ist die Formel $A \rightarrow B$ herleitbar. Hingegen l{\"a}{\ss}t sich aus $A$ nicht $B$ ableiten.
 
-\begin{rul}[Deduktionstheorem\index{Deduktionstheorem}]
-Wenn eine Formel $\beta$ aus einer Formel $\alpha$ ableitbar ist, so ist die Formel $\alpha \rightarrow
-\beta$ im Pr{\"a}dikatenkalk{\"u}l herleitbar.
+
+\begin{rul}[Replace by Logical Equivalent Formula]
+\label{rule:replaceEquiFormula} \hypertarget{rule:replaceEquiFormula}{}
+Let the formula $\alpha \leftrightarrow \beta$ be true. If in a formula $\delta$ we replace an arbitrary occurence of $\alpha$ by $\beta$ and the result $\gamma$ is also a formula\footnote{During that substitution it might be necessary to rename bound variables of $\beta$.} and contains all the free subject variables of $\delta$, then $\delta \leftrightarrow \gamma$ is a true formula.
 \end{rul}
+
+
+
+
+\par
+
+
+\begin{rul}[General Associativity]
+\label{rule:generalAssociativity} \hypertarget{rule:generalAssociativity}{}
+If an operator of arity two fulfills the associative law it also fulfills the general associative law. The operator can be extended to an operator of arbitrary arity greater one. For example: instead of $(a + b) + (c + d)$ we simply write $a + b + c + d$.\footnote{The operator of arity $n$ is defined with a certain bracketing, but every other bracketing gives the same result.}
+\end{rul}
+
+
+
+
+\par
+
+
+\begin{rul}[General Commutativity]
+\label{rule:generalCommutativity} \hypertarget{rule:generalCommutativity}{}
+If an operator fulfills the general associative law and is commutative then all permutations of parameters are equal or equivalent.\footnote{That depends on the operator type: term or formula operator.} For example we have: $a + b + c + d  = c + a + d + b$.
+\end{rul}
+
+
+
+
+\par
+
+
+\begin{rul}[Deducible from Formula\index{deducible}]
+\label{rule:definitionDeductionFromFormula} \hypertarget{rule:definitionDeductionFromFormula}{}
+We shall say that the formula $\beta$ is \emph{deducible from the formula $\alpha$} if the formula $\beta$ from the totality of all true formulas of the predicate calculus and the formula $\alpha$ by means of application of all the rules of the predicate calculus, in which connection both rules for binding by a quantifier, the rules for substitution in place of predicate variables and in place of free subject variables must be applied only to predicate variables or subject variables which do not occur in the formula $\alpha$ and $\alpha \rightarrow \beta$ is a formula. 
+
+\par
+Notation: $\alpha \vdash \beta$.
+\end{rul}
+
+That a formula $\beta$ is deducible from th formula $\alpha$ must be strictly distinguished from the deduction of a true formula from the axioms of the predicate calculus. In the second case more derivation rules are available. For example if $A$ is added to the axioms then the formula $B$ can be derived. But $B$ is not deducible from $A$.
+
+
+\par
+
+
+\begin{rul}[Deduction Theorem\index{deduction theorem}]
+\label{rule:deductionTheorem} \hypertarget{rule:deductionTheorem}{}
+If the formula $\beta$ is deducible from the formula $\alpha$, then the formula $\alpha \rightarrow \beta$ can be derived from the predicate calculus.
+\end{rul}
+
+
+
 
 
 %% end of chapter Derived Propositions
 
 \chapter{Identity} \label{chapter6} \hypertarget{chapter6}{}
 
-MISSING! OTHER: +++ Fehlt noch
+Everything that exists has a specific nature. Each entity exists as something in particular and it has characteristics that are a part of what it is.
+Identity is whatever makes an entity definable and recognizable, in terms of possessing a set of qualities or characteristics that distinguish it from entities of a different type. An entity can have more than one characteristic, but any characteristic it has is a part of its identity.
 
 \section{Identity Axioms} \label{chapter6_section0} \hypertarget{chapter6_section0}{}
 MISSING! OTHER: \index{Identit{\"a}t}\hypertarget{gleichheit}{}
@@ -812,6 +749,18 @@ x = y \rightarrow (\phi(x) \leftrightarrow \phi(y))
 x = y \rightarrow f(x) = f(y)
 \end{equation}
 \end{thm}
+
+\par
+We define a predicate constant of arity two that shall stand for the identy of subjects.
+
+\begin{idefn}[Identity\index{identity}\index{definition!of identity}]
+\label{definition:identity} \hypertarget{definition:identity}{}
+$$\sigma = \tau$$
+
+\end{idefn}
+
+
+
 
 \section{++ TODO Quantifiers\index{Quantifiers!+++TODO}} \label{chapter6_section1} \hypertarget{chapter6_section1}{}
 MISSING! OTHER: Bei der folgenden Definition muss die f{\"u}r $\psi(x)$ eingesetzte Formel {\glqq erkennen
@@ -875,7 +824,7 @@ See also \url{http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert
 
 \bibitem{novikov} \emph{P.S. Novikov}, Elements of Mathematical Logic, Edinburgh: Oliver and Boyd, 1964.
 
-\bibitem{mendelson} \emph{E. Mendeslson}, Introduction to Mathematical Logic, 3rd. ed., Belmont, CA: Wadsworth, 1987.
+\bibitem{mendelson} \emph{E. Mendelson}, Introduction to Mathematical Logic, 3rd. ed., Belmont, CA: Wadsworth, 1987.
 
 \bibitem{guenter} \emph{V.~G{\"u}nther}, Lecture {\glqq Mathematik und Logik\grqq}, given at the University of Hamburg, 1994/1995.
 
