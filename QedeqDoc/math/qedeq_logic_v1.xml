@@ -489,6 +489,7 @@
         </SUBSECTION>
 
 
+<!-- TODO that node does define a predicate with terms var_alpha and var_beta as arguments but it is defined as "-predvar_alpha v predvar_beta" the latex result looks ok but the formal definition makes no sense -->
         <NODE id="definition:implication">
           <NAME>
             <LATEX language="en">implication definition</LATEX>
@@ -513,12 +514,21 @@
           <DEFINITION_PREDICATE arguments="2" name="implication">
             <LATEXPATTERN>#1 \rightarrow #2</LATEXPATTERN>
             <VARLIST>
-              <VAR id="\sigma"/>
-              <VAR id="\tau"/>
+              <VAR id="\alpha"/>
+              <VAR id="\beta"/>
             </VARLIST>
+            <FORMULA>
+              <OR>
+                <NOT>
+                  <PREDVAR id="\alpha" />
+                </NOT>
+                <PREDVAR id="\beta" />
+              </OR>
+            </FORMULA>
           </DEFINITION_PREDICATE>
         </NODE>
 
+<!-- TODO that node does define a predicate with terms var_alpha and var_beta as arguments but it is defined as "-(predvar_alpha v predvar_beta)" the latex result looks ok but the formal definition makes no sense -->
         <NODE id="definition:conjunction">
           <NAME>
             <LATEX language="en">conjunction definition</LATEX>
@@ -561,6 +571,7 @@
           </DEFINITION_PREDICATE>
         </NODE>
 
+<!-- TODO that node does define a predicate with terms var_alpha and var_beta as arguments but it is defined as "(predvar_alpha -> predvar_beta) n (predvar_beta -> predvar_alpha)" the latex result looks ok but the formal definition makes no sense -->
         <NODE id="definition:equivalence">
           <NAME>
             <LATEX language="en">equivalence definition</LATEX>
@@ -2464,7 +2475,7 @@ x = y \rightarrow f(x) = f(y)
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="identy">
+          <DEFINITION_PREDICATE arguments="2" name="equal">
             <LATEXPATTERN>#1 = #2</LATEXPATTERN>
             <VARLIST>
               <VAR id="\sigma"/>
@@ -2472,6 +2483,143 @@ x = y \rightarrow f(x) = f(y)
             </VARLIST>
           </DEFINITION_PREDICATE>
         </NODE>
+        
+        <NODE id="axiom:identityIsReflexive">
+          <NAME>
+            <LATEX language="en">reflexivity of identity</LATEX>
+            <LATEX language="de">Reflexivität der Identität</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Reflexivity of Identity\index{reflexivity!of identity}\index{identy!reflexivity of}</LATEX>
+            <LATEX language="de">Reflexivität der Identität\index{Reflexivität!der Identität}\index{Identität!Reflexivität der}</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <VAR id="x" />
+                <VAR id="y" />
+              </PREDCON>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+
+        <NODE id="axiom:leibnizReplacement">
+          <NAME>
+            <LATEX language="en">Leibniz' replacement</LATEX>
+            <LATEX language="de">Leibnizsche Ersetzbarkeit</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Leibniz' replacement\index{Leibniz' replacement}</LATEX>
+            <LATEX language="de">Leibnizsche Ersetzbarkeit\index{Leibnizsche Ersetzbarkeit}</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <PREDCON ref="equal">
+                  <VAR id="x" />
+                  <VAR id="y" />
+                </PREDCON>
+                <IMPL>
+                  <PREDVAR id="\phi">
+                    <VAR id="x" />
+                  </PREDVAR>
+                  <PREDVAR id="\phi">
+                    <VAR id="y" />
+                  </PREDVAR>
+                </IMPL>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+
+        <NODE id="axiom:symmetryOfIdentity">
+          <NAME>
+            <LATEX language="en">symmetry of identity</LATEX>
+            <LATEX language="de">Symmetrie der Identität</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Symmetrie of identity\index{identity!symmetry of}</LATEX>
+            <LATEX language="de">Symmetrie der Identität\index{Identität!Symmetrie der}</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <PREDCON ref="equal">
+                  <VAR id="x" />
+                  <VAR id="y" />
+                </PREDCON>
+                <PREDCON ref="equal">
+                  <VAR id="y" />
+                  <VAR id="x" />
+                </PREDCON>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+
+        <NODE id="axiom:transitivityOfIdentity">
+          <NAME>
+            <LATEX language="en">transetivity of identity</LATEX>
+            <LATEX language="de">Transitivität der Identität</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Transitivity of identity\index{identity!transetivity of}</LATEX>
+            <LATEX language="de">Transitivität der Identität\index{Identität!Transitivität der}</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <AND>
+                  <PREDCON ref="equal">
+                    <VAR id="x" />
+                    <VAR id="y" />
+                  </PREDCON>
+                  <PREDCON ref="equal">
+                    <VAR id="y" />
+                    <VAR id="z" />
+                  </PREDCON>
+                </AND>
+                <PREDCON ref="equal">
+                  <VAR id="x" />
+                  <VAR id="z" />
+                </PREDCON>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+        
+        <NODE id="theorem:leibnizEquivalence" level="formal">
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                We can reverse the second implication in the leibniz replacement.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Bei der Leibnizschen Ersetzbarkeit können wir die zweite Implikation umkehren.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <PREDCON ref="equal">
+                  <VAR id="x" />
+                  <VAR id="y" />
+                </PREDCON>
+                <EQUI>
+                  <PREDVAR id="\phi">
+                    <VAR id="x" />
+                  </PREDVAR>
+                  <PREDVAR id="\phi">
+                    <VAR id="y" />
+                  </PREDVAR>
+                </EQUI>
+              </IMPL>
+            </FORMULA>
+            <PROOF kind="informal" level="1">
+
 
       </SUBSECTIONS>
     </SECTION>
