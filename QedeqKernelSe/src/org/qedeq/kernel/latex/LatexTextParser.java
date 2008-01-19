@@ -29,6 +29,9 @@ import org.qedeq.kernel.utility.TextInput;
  */
 public final class LatexTextParser {
 
+    /** This class. */
+    private static final Class CLASS = LatexTextParser.class;
+
     /** These characters get a special treatment in LaTeX. */
     private static final String SPECIALCHARACTERS = "(),{}\\~%$&";
 
@@ -155,7 +158,7 @@ public final class LatexTextParser {
      */
     protected final String readToken() {
         final String method = "readToken()";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         StringBuffer token = new StringBuffer();
         try {
             do {
@@ -216,10 +219,10 @@ public final class LatexTextParser {
                 }
                 break;
             } while (!eof());
-            Trace.param(this, method, "Read token", token);
+            Trace.param(CLASS, this, method, "Read token", token);
             return (token != null ? token.toString() : null);
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -230,27 +233,27 @@ public final class LatexTextParser {
      */
     private String readBackslashToken() {
         final String method = "readBackslashToken()";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         if (getChar() != '\\') {
             throw new IllegalArgumentException("\\ expected");
         }
         readChar(); // read \
         if (eof()) {
-            Trace.param(this, method, "return", null);
-            Trace.end(this, method);
+            Trace.param(CLASS, this, method, "return", null);
+            Trace.end(CLASS, this, method);
             return null;
         }
         if (!Character.isLetter((char) getChar())) {
-            Trace.param(this, method, "return", (char) getChar());
-            Trace.end(this, method);
+            Trace.param(CLASS, this, method, "return", (char) getChar());
+            Trace.end(CLASS, this, method);
             return "\\" + ((char) readChar());
         }
         final StringBuffer buffer = new StringBuffer("\\");
         do {
             buffer.append((char) readChar());
         } while (!eof() && Character.isLetter((char) getChar()));
-        Trace.param(this, method, "return", buffer.toString());
-        Trace.end(this, method);
+        Trace.param(CLASS, this, method, "return", buffer.toString());
+        Trace.end(CLASS, this, method);
         return buffer.toString();
     }
 

@@ -53,7 +53,7 @@ import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
+import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.utility.TextOutput;
 
@@ -66,8 +66,8 @@ import org.qedeq.kernel.utility.TextOutput;
  */
 public final class Qedeq2Xml extends AbstractModuleVisitor {
 
-    /** Transverse QEDEQ module with this transverser. */
-    private QedeqNotNullTransverser transverser;
+    /** Transverse QEDEQ module with this traverser. */
+    private QedeqNotNullTraverser traverser;
 
     /** Output goes here. */
     private TextOutput printer;
@@ -85,7 +85,7 @@ public final class Qedeq2Xml extends AbstractModuleVisitor {
     private Qedeq2Xml(final QedeqBo qedeqBo, final ModuleAddress globalContext,
             final TextOutput printer) {
         this.qedeqBo = qedeqBo;
-        transverser = new QedeqNotNullTransverser(globalContext, this);
+        traverser = new QedeqNotNullTraverser(globalContext, this);
         this.printer = printer;
     }
 
@@ -112,7 +112,7 @@ public final class Qedeq2Xml extends AbstractModuleVisitor {
      * @throws  ModuleDataException Exception during transversion.
      */
     private final void printXml() throws IOException, ModuleDataException {
-        transverser.accept(qedeqBo.getQedeq());
+        traverser.accept(qedeqBo.getQedeq());
         printer.flush();
         if (printer.checkError()) {
             throw printer.getError();
@@ -165,7 +165,7 @@ public final class Qedeq2Xml extends AbstractModuleVisitor {
     }
 
     public void visitEnter(final LatexList latexList) {
-        final String last = transverser.getCurrentContext().getLocationWithinModule();
+        final String last = traverser.getCurrentContext().getLocationWithinModule();
         if (last.endsWith(".getTitle()")) {
             printer.levelPrintln("<TITLE>");
         } else if (last.endsWith(".getSummary()")) {
@@ -188,7 +188,7 @@ public final class Qedeq2Xml extends AbstractModuleVisitor {
 
     public void visitLeave(final LatexList latexList) {
         printer.popLevel();
-        final String last = transverser.getCurrentContext().getLocationWithinModule();
+        final String last = traverser.getCurrentContext().getLocationWithinModule();
         if (last.endsWith(".getTitle()")) {
             printer.levelPrintln("</TITLE>");
         } else if (last.endsWith(".getSummary()")) {

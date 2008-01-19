@@ -46,6 +46,7 @@ import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.SubsectionList;
 import org.qedeq.kernel.base.module.SubsectionType;
 import org.qedeq.kernel.base.module.VariableList;
+import org.qedeq.kernel.bo.logic.ExistenceChecker;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
@@ -67,6 +68,9 @@ import org.qedeq.kernel.utility.ReplaceUtility;
  * @author  Michael Meyling
  */
 public final class Qedeq2Wiki {
+
+    /** This class. */
+    private static final Class CLASS = Qedeq2Wiki.class;
 
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
@@ -102,7 +106,7 @@ public final class Qedeq2Wiki {
         // LATER mime 20050224: quick hack to have the logical identity operator
         equal.setArgumentNumber("2");
         equal.setLatexPattern("#1 \\ =  \\ #2");
-        definitions.put("equal", equal);
+        definitions.put(ExistenceChecker.NAME_EQUAL, equal);
         // LATER mime 20060822: quick hack to get the negation of the logical identity operator
         final PredicateDefinitionVo notEqual = new PredicateDefinitionVo();
         notEqual.setArgumentNumber("2");
@@ -333,7 +337,7 @@ public final class Qedeq2Wiki {
         final VariableList list = definition.getVariableList();
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
-                Trace.trace(this, "printDefinition", "replacing!");
+                Trace.trace(CLASS, this, "printDefinition", "replacing!");
                 ReplaceUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
             }
         }
@@ -348,7 +352,7 @@ public final class Qedeq2Wiki {
         }
         define.append("$$");
         definitions.put(id, definition);
-        Trace.param(this, "printDefinition", "define", define);
+        Trace.param(CLASS, this, "printDefinition", "define", define);
         printer.println(define);
         printer.println(getLatexListEntry(definition.getDescription()));
         if (definition.getFormula() != null) {
@@ -371,7 +375,7 @@ public final class Qedeq2Wiki {
         final VariableList list = definition.getVariableList();
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
-                Trace.trace(this, "printDefinition", "replacing!");
+                Trace.trace(CLASS, this, "printDefinition", "replacing!");
                 ReplaceUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
             }
         }
@@ -386,7 +390,7 @@ public final class Qedeq2Wiki {
         }
         define.append("$$");
         definitions.put(id, definition);
-        Trace.param(this, "printDefinition", "define", define);
+        Trace.param(CLASS, this, "printDefinition", "define", define);
         printer.println(define);
         printer.println(getLatexListEntry(definition.getDescription()));
         if (definition.getTerm() != null) {

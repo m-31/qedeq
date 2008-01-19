@@ -42,6 +42,9 @@ import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
  */
 public final class Xml2Latex  {
 
+    /** This class. */
+    private static final Class CLASS = Xml2Latex.class;
+
     /**
      * Constructor.
      */
@@ -65,11 +68,11 @@ public final class Xml2Latex  {
         File destination = null;
         QedeqBo qedeqBo = null;
         try {
-            Trace.begin(Xml2Latex.class, method);
-            Trace.param(Xml2Latex.class, method, "prop", prop);
-            Trace.param(Xml2Latex.class, method, "to", to);
-            Trace.param(Xml2Latex.class, method, "language", language);
-            Trace.param(Xml2Latex.class, method, "level", level);
+            Trace.begin(CLASS, method);
+            Trace.param(CLASS, method, "prop", prop);
+            Trace.param(CLASS, method, "to", to);
+            Trace.param(CLASS, method, "language", language);
+            Trace.param(CLASS, method, "level", level);
             if (to == null) {
                 String tex = prop.getModuleAddress().getFileName();
                 if (tex.toLowerCase().endsWith(".xml")) {
@@ -86,7 +89,7 @@ public final class Xml2Latex  {
                 destination = to;
             }
         } catch (IOException e) {
-            Trace.trace(Xml2Latex.class, method, e);
+            Trace.trace(CLASS, method, e);
             throw new DefaultSourceFileExceptionList(e);
         }
         TextOutput printer = null;
@@ -99,21 +102,21 @@ public final class Xml2Latex  {
             Qedeq2Latex.print(prop, printer, language, level);
             return destination.getCanonicalPath();
         } catch (IOException e) {
-            Trace.trace(Xml2Latex.class, method, e);
+            Trace.trace(CLASS, method, e);
             throw new DefaultSourceFileExceptionList(e);
         } catch (RuntimeException e) {
-            Trace.trace(Xml2Latex.class, method, e);
+            Trace.trace(CLASS, method, e);
             throw new DefaultSourceFileExceptionList(e);
         } catch (ModuleDataException e) {
-            Trace.trace(Xml2Latex.class, method, e);
-            Trace.param(Xml2Latex.class, method, "context", e.getContext());
+            Trace.trace(CLASS, method, e);
+            Trace.param(CLASS, method, "context", e.getContext());
             throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
                 qedeqBo.getQedeq());
         } finally {
             if (printer != null) {
                 printer.close();
             }
-            Trace.end(Xml2Latex.class, method);
+            Trace.end(CLASS, method);
         }
     }
 
