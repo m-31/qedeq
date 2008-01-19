@@ -42,6 +42,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 class AddFileAction extends AbstractAction {
 
+    /** This class. */
+    private static final Class CLASS = AddFileAction.class;
+
     /** Controller. */
     private final QedeqController controller;
 
@@ -58,7 +61,7 @@ class AddFileAction extends AbstractAction {
     }
 
     public void actionPerformed(final ActionEvent e) {
-        Trace.trace(this, "actionPerformed", e);
+        Trace.trace(CLASS, this, "actionPerformed", e);
         JFileChooser chooser = new JFileChooser(file);
         final FileFilter filter = new FileFilter() {
             public boolean accept(final File f) {
@@ -93,7 +96,7 @@ class AddFileAction extends AbstractAction {
             QedeqGuiConfig.getInstance().setFileBrowserStartDirecty(file);
             address = KernelContext.getInstance().getModuleAddress(chooser.getSelectedFile());
         } catch (IOException ie) {
-            Trace.trace(this, "actionPerformed", "no correct URL", ie);
+            Trace.trace(CLASS, this, "actionPerformed", "no correct URL", ie);
             JOptionPane.showMessageDialog(
                 controller.getMainFrame(),       // the parent that the dialog blocks
                 "this is no valid QEDEQ file: " + chooser.getSelectedFile()
@@ -116,7 +119,7 @@ class AddFileAction extends AbstractAction {
                         + prop.getModuleAddress().getFileName()
                         + "\" was successfully loaded.");
                 } catch (final SourceFileExceptionList e) {
-                    Trace.trace(controller, "actionPerformed", e);
+                    Trace.trace(CLASS, controller, "actionPerformed", e);
                     QedeqLog.getInstance().logFailureReply(
                         "Loading failed", e.getMessage());
                 }

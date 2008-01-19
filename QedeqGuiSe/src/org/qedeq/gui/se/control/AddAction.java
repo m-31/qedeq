@@ -39,6 +39,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 class AddAction extends AbstractAction {
 
+    /** This class. */
+    private static final Class CLASS = AddAction.class;
+
     /** Reference to controller. */
     private final QedeqController controller;
 
@@ -52,7 +55,7 @@ class AddAction extends AbstractAction {
     }
 
     public void actionPerformed(final ActionEvent e) {
-        Trace.trace(this, "actionPerformed", e);
+        Trace.trace(CLASS, this, "actionPerformed", e);
 
         // Messages
         final Object[] message = new Object[2];
@@ -86,7 +89,7 @@ class AddAction extends AbstractAction {
                     (String) cb.getSelectedItem());
                 controller.addToModuleHistory(address.toString());
             } catch (IOException ie) {
-                Trace.trace(this, "actionPerformed", "no correct URL", ie);
+                Trace.trace(CLASS, this, "actionPerformed", "no correct URL", ie);
                 JOptionPane.showMessageDialog(
                     controller.getMainFrame(),       // the parent that the dialog blocks
                     "this is no valid URL: " + cb.getSelectedItem()
@@ -114,7 +117,7 @@ class AddAction extends AbstractAction {
                         + "\" was successfully loaded.");
 
                 } catch (final SourceFileExceptionList e) {
-                    Trace.trace(controller, "actionPerformed", e);
+                    Trace.trace(CLASS, controller, "actionPerformed", e);
                     QedeqLog.getInstance().logFailureReply(
                         "Loading failed", e.getMessage());
                 }
