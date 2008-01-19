@@ -17,7 +17,6 @@
 
 package org.qedeq.gui.se.pane;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
@@ -29,7 +28,6 @@ import java.net.URL;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.JViewport;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
@@ -43,6 +41,11 @@ import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.trace.Trace;
 
+import com.jgoodies.forms.builder.DefaultFormBuilder;
+import com.jgoodies.forms.layout.CellConstraints;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.RowSpec;
+
 /**
  * Shows QEDEQ module specific error pane.
  *
@@ -52,8 +55,20 @@ import org.qedeq.kernel.trace.Trace;
 
 public class ErrorListPane extends JPanel implements ModuleEventListener {
 
+    /** This class. */
+    private static final Class CLASS = ErrorListPane.class;
+
     /** This text field holds the error descriptions. */
-    private JTextPane error = new JTextPane();
+    private JTextPane error = new JTextPane() {
+
+        /**
+         *  Because text shoudn't be wrapped we don't was to track the viewport width.
+         **/
+        public boolean getScrollableTracksViewportWidth() {
+            return false;
+        }
+
+    };
 
     /** Write with this font attributes. */
     private final SimpleAttributeSet errorAttrs = new SimpleAttributeSet();
@@ -68,40 +83,55 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
         super(false);
         setModel(prop);
         setupView();
+
         StyleContext sc = new StyleContext();
         DefaultStyledDocument doc = new DefaultStyledDocument(sc);
         error.setDocument(doc);
+
     }
 
     /**
      * Assembles the GUI components of the panel.
      */
     private final void setupView() {
-        error.setDragEnabled(true);
-        error.setAutoscrolls(true);
-        error.setCaretPosition(0);
-        error.setEditable(false);
-        error.getCaret().setVisible(false);
-        error.setFocusable(true);
-        error.setFont(new Font("monospaced", Font.PLAIN, 12));
+        FormLayout layout = new FormLayout(
+            "min:grow",
+            "0:grow");
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout, this);
+        builder.setDefaultDialogBorder();
+        builder.setRowGroupingEnabled(true);
 
-        final JScrollPane scroller = new JScrollPane();
-        final JViewport vp = scroller.getViewport();
-        vp.add(error);
-        this.setLayout(new BorderLayout(1, 1));
-        this.add(scroller);
+        CellConstraints cc = new CellConstraints();
+        builder.appendRow(new RowSpec("0:grow"));
+
+        error.setEditable(false);
+        error.setEnabled(true);
+        error.getCaret().setVisible(false);
+        error.setFont(new Font("monospaced", Font.PLAIN, 12));
+        error.setDragEnabled(true);
+        error.setCaretPosition(0);
+        error.setFocusable(true);
+        error.putClientProperty("JTextArea.infoBackground", Boolean.TRUE);
+
+        final JScrollPane scrollPane = new JScrollPane(error);
+        builder.add(scrollPane,
+            cc.xywh(builder.getColumn(), builder.getRow(), 1, 2, "fill, fill"));
+
+        StyleConstants.setForeground(this.errorAttrs, Color.red);
+        // because we override getScrollableTracksViewportWidth:
+        scrollPane.getViewport().setBackground(Color.white);
+        StyleConstants.setBackground(this.errorAttrs, Color.white);  //FIXME
 
         this.addComponentListener(new ComponentAdapter() {
             public void componentHidden(final ComponentEvent e) {
-                Trace.trace(this, "componentHidden", e);
+                Trace.trace(CLASS, this, "componentHidden", e);
             }
             public void componentShown(final ComponentEvent e) {
-                Trace.trace(this, "componentHidden", e);
+                Trace.trace(CLASS, this, "componentHidden", e);
             }
         });
 
-        StyleConstants.setForeground(
-            this.errorAttrs, Color.red);
+
     }
 
     /**
@@ -110,7 +140,7 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
      * @param   prop
      */
     public void setModel(final ModuleProperties prop) {
-        Trace.trace(this, "setModel", prop);
+        Trace.trace(CLASS, this, "setModel", prop);
         this.prop = prop;
     }
 
@@ -124,7 +154,7 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
      */
     public synchronized void updateView() {
         final String method = "updateView";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         try {
             error.getDocument().remove(0, error.getDocument().getLength());
             if (prop != null && prop.getException() != null) {
@@ -141,7 +171,7 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
                                 list.get(i).getDescription(local),
                                 errorAttrs);
                         } catch (IOException e) {
-                            Trace.fatal(this, method, "unexpected problem", e);
+                            Trace.fatal(CLASS, this, method, "unexpected problem", e);
                             error.getDocument().insertString(error.getDocument().getLength(),
                                 list.get(i).getMessage(),
                                 errorAttrs);
@@ -156,7 +186,7 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
                 }
             }
         } catch (BadLocationException e) {
-            Trace.trace(this, "updateView", e);
+            Trace.trace(CLASS, this, "updateView", e);
         }
         this.repaint();
     }
