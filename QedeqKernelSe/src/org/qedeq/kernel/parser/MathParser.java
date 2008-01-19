@@ -30,6 +30,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public abstract class MathParser {
 
+    /** This class. */
+    private static final Class CLASS = MathParser.class;
+
     /** Input source to parse. */
     private final MementoTextInput input;
 
@@ -59,7 +62,7 @@ public abstract class MathParser {
      */
     public final Term readTerm() throws ParserException {
         final String method = "Term readTerm()";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         try {
             final Term term = readMaximalTerm(0);
             if (eot(getToken())) {
@@ -67,7 +70,7 @@ public abstract class MathParser {
             }
             return term;
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -83,27 +86,27 @@ public abstract class MathParser {
      */
     private final Term readMaximalTerm(final int priority) throws ParserException {
         final String method = "readMaximalTerm(int)";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         Term term = null;
         try {
             if (eot(getToken())) {
-                Trace.param(this, method, "return term", "null");
+                Trace.param(CLASS, this, method, "return term", "null");
                 return null;
             }
             term = readPrefixTerm();
             term = addNextInfixTerms(priority, term);
-            Trace.param(this, method, "return term",
-                (term != null ? term.getQedeq() : "null"));
+            Trace.param(CLASS, this, method,
+                "return term", (term != null ? term.getQedeq() : "null"));
             return term;
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
     private Term addNextInfixTerms(final int priority, final Term initialTerm)
             throws ParserException {
         final String method = "Term addNextInfixTerms(int, Term)";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         Term term = initialTerm;
         try {
             Operator newOperator = null;
@@ -112,21 +115,21 @@ public abstract class MathParser {
             do {
                 markPosition();
                 newOperator = readOperator();  // we expect an unique infix operator
-                Trace.param(this, method, "newOperator",
-                    (newOperator != null ? newOperator.getQedeq() : "null"));
+                Trace.param(CLASS, this, method,
+                    "newOperator", (newOperator != null ? newOperator.getQedeq() : "null"));
                 if (newOperator == null || newOperator.getPriority() <= priority) {
-                    Trace.trace(this, method, "newOperator is null or of less priority");
+                    Trace.trace(CLASS, this, method, "newOperator is null or of less priority");
                     rewindPosition();
-                    Trace.param(this, method, "read term",
-                        (term != null ? term.getQedeq() : "null"));
+                    Trace.param(CLASS, this, method,
+                        "read term", (term != null ? term.getQedeq() : "null"));
                     return term;
                 }
                 if (newOperator.isPrefix()) {
-                    Trace.trace(this, method, "newOperator is prefix");
+                    Trace.trace(CLASS, this, method, "newOperator is prefix");
                     // TODO mime 20060313: try to read further arguments
                     rewindPosition();
-                    Trace.param(this, method, "read term",
-                        (term != null ? term.getQedeq() : "null"));
+                    Trace.param(CLASS, this, method,
+                        "read term", (term != null ? term.getQedeq() : "null"));
                     return term;
                 }
                 if (newOperator.isPostfix()) {
@@ -135,7 +138,8 @@ public abstract class MathParser {
                 }
                 clearMark();
                 if (oldOperator == null || oldOperator.getPriority() >= newOperator.getPriority()) {
-                    Trace.trace(this, method, "oldOperator is null or has more priority than new");
+                    Trace.trace(CLASS, this, method,
+                        "oldOperator is null or has more priority than new");
                     Term term2 = readMaximalTerm(newOperator.getPriority());
                     if (term2 == null) {
     //                      TODO mime 20060313: 2 could be false if newOperator == oldOperator
@@ -146,17 +150,18 @@ public abstract class MathParser {
                             throw new TooMuchArgumentsException(getPosition(), oldOperator,
                                 oldOperator.getMax());
                         }
-                        Trace.trace(this, method, "new term is added to old term");
+                        Trace.trace(CLASS, this, method, "new term is added to old term");
                         term.addArgument(term2);
                     } else {
                         // old term is first argument of new operator
-                        Trace.trace(this, method, "old term is first argument of new operator");
+                        Trace.trace(CLASS, this, method,
+                            "old term is first argument of new operator");
                         term = new Term(newOperator, term);
                         term.addArgument(term2);
                     }
                 } else {
-                    Trace.trace(this, method,
-                        "oldOperator is not null or has less priority than new");
+                    Trace.trace(CLASS, this,
+                        method, "oldOperator is not null or has less priority than new");
                     Term term2 = readMaximalTerm(newOperator.getPriority());
                     if (term2 == null) {
     //                      TODO mime 20060313: 2 could be false if newOperator == oldOperator
@@ -168,7 +173,7 @@ public abstract class MathParser {
                 oldOperator = newOperator;
             } while (true);
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -181,24 +186,24 @@ public abstract class MathParser {
      */
     private final Term readPrefixTerm() throws ParserException {
         final String method = "readPrefixTerm()";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         Term term = null;
         try {
             final List readOperators = readOperators();   // there might be several prefix operators
             if (readOperators != null && readOperators.size() > 0) {
-                Trace.trace(this, method, "operators found");
+                Trace.trace(CLASS, this, method, "operators found");
                 term = readPrefixOperator(readOperators);
             } else { // no operator found
-                Trace.trace(this, method, "no operators found");
+                Trace.trace(CLASS, this, method, "no operators found");
                 final String token;
                 token = getToken();
                 if (token == null) {
-                    Trace.param(this, method, "read term", "null");
+                    Trace.param(CLASS, this, method, "read term", "null");
                     return null;
                 }
                 if ("(".equals(token)) {
                     readToken();
-                    Trace.trace(this, method, "start bracket found: " + token);
+                    Trace.trace(CLASS, this, method, "start bracket found: " + token);
                     term = readMaximalTerm(0);
                     final String lastToken = readToken();
                     if (!")".equals(lastToken)) {
@@ -207,7 +212,7 @@ public abstract class MathParser {
 
                 } else if ("[".equals(token)) {
                     readToken();
-                    Trace.trace(this, method, "start bracket found: " + token);
+                    Trace.trace(CLASS, this, method, "start bracket found: " + token);
                     term = readMaximalTerm(0);
                     final String lastToken = readToken();
                     if (!"]".equals(lastToken)) {
@@ -215,15 +220,15 @@ public abstract class MathParser {
                     }
                 } else {
                     readToken();
-                    Trace.param(this, method, "atom", token);
+                    Trace.param(CLASS, this, method, "atom", token);
                     term = new Term(new TermAtom(token));
                 }
             }
-            Trace.param(this, method, "read term",
-                (term != null ? term.getQedeq() : "null"));
+            Trace.param(CLASS, this, method,
+                "read term", (term != null ? term.getQedeq() : "null"));
             return term;
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -363,12 +368,12 @@ public abstract class MathParser {
      */
     private final List readTupel() throws ParserException {
         final String method = "List readTupel()";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         try {
             final String firstToken;
             firstToken = getToken();
             if (!"(".equals(firstToken)) {
-                Trace.trace(this, method, "no start bracket found");
+                Trace.trace(CLASS, this, method, "no start bracket found");
                 return null;
             }
             readToken();    // read "("
@@ -388,7 +393,7 @@ public abstract class MathParser {
             }
             return list;
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -399,7 +404,7 @@ public abstract class MathParser {
      */
     private final Operator readOperator() {
         final String method = "Operator readOperator()";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
 
         try {
             markPosition();
@@ -407,20 +412,20 @@ public abstract class MathParser {
             token = readToken();
             if (token == null) {
                 rewindPosition();
-                Trace.trace(this, method, "no operator found");
+                Trace.trace(CLASS, this, method, "no operator found");
                 return null;
             }
             final Operator operator = getOperator(token);
             if (operator == null) {
                 rewindPosition();
-                Trace.trace(this, method, "no operator found");
+                Trace.trace(CLASS, this, method, "no operator found");
                 return null;
             }
             clearMark();
-            Trace.param(this, method, "operator", operator.getQedeq());
+            Trace.param(CLASS, this, method, "operator", operator.getQedeq());
             return operator;
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -433,7 +438,7 @@ public abstract class MathParser {
      */
     private final List readOperators() {
         final String method = "List readOperators()";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
 
         try {
             markPosition();
@@ -441,22 +446,22 @@ public abstract class MathParser {
             token = readToken();
             if (token == null) {
                 rewindPosition();
-                Trace.trace(this, method, "no operators found");
+                Trace.trace(CLASS, this, method, "no operators found");
                 return null;
             }
             final List ops = getOperators(token);
             if (ops == null || ops.size() == 0) {
                 rewindPosition();
-                Trace.trace(this, method, "no operators found");
+                Trace.trace(CLASS, this, method, "no operators found");
                 return null;
             }
             clearMark();
             for (int i = 0; i < ops.size(); i++) {
-                Trace.param(this, method, "operator[" + i + "]", ops.get(i));
+                Trace.param(CLASS, this, method, "operator[" + i + "]", ops.get(i));
             }
             return ops;
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 

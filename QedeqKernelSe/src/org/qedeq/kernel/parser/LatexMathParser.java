@@ -24,7 +24,7 @@ import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.TextInput;
 
 /*
- * TODO refactor
+ * TODO mime 20080118: refactor
  *
  * Whitespace   LaTeX form, could be eaten
  *              \t
@@ -77,6 +77,9 @@ import org.qedeq.kernel.utility.TextInput;
  */
 public class LatexMathParser extends MathParser {
 
+    /** This class. */
+    private static final Class CLASS = LatexMathParser.class;
+
     /** Characters with special LaTeX meaning. */
     private static final String SPECIALCHARACTERS = "(),{}\\~%$&";
 
@@ -106,7 +109,7 @@ public class LatexMathParser extends MathParser {
 
     protected final String readToken() {
         final String method = "readToken()";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         StringBuffer token = new StringBuffer();
         tokenWhiteSpaceLines = 0;
         try {
@@ -193,36 +196,36 @@ public class LatexMathParser extends MathParser {
                 }
 */
             } while (!eof());
-            Trace.param(this, method, "return token", token);
+            Trace.param(CLASS, this, method, "return token", token);
             return (token != null ? token.toString() : null);
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
     private String readBackslashToken() {
         final String method = "readBackslashToken()";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         if (getChar() != '\\') {
             throw new IllegalArgumentException("\\ expected");
         }
         readChar(); // read \
         if (eof()) {
-            Trace.param(this, method, "return", null);
-            Trace.end(this, method);
+            Trace.param(CLASS, this, method, "return", null);
+            Trace.end(CLASS, this, method);
             return null;
         }
         if (!Character.isLetter((char) getChar())) {
-            Trace.param(this, method, "return", (char) getChar());
-            Trace.end(this, method);
+            Trace.param(CLASS, this, method, "return", (char) getChar());
+            Trace.end(CLASS, this, method);
             return "" + ((char) readChar());
         }
         final StringBuffer buffer = new StringBuffer();
         do {
             buffer.append((char) readChar());
         } while (!eof() && Character.isLetter((char) getChar()));
-        Trace.param(this, method, "return", buffer.toString());
-        Trace.end(this, method);
+        Trace.param(CLASS, this, method, "return", buffer.toString());
+        Trace.end(CLASS, this, method);
         return buffer.toString();
     }
 

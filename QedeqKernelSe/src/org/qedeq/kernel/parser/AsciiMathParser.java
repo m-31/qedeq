@@ -37,6 +37,9 @@ import org.qedeq.kernel.utility.TextInput;
  */
 public final class AsciiMathParser extends MathParser {
 
+    /** This class. */
+    private static final Class CLASS = AsciiMathParser.class;
+
     /** Separators for tokens. */
     private static final String SEPARATORS = "()[],{}";
 
@@ -66,7 +69,7 @@ public final class AsciiMathParser extends MathParser {
             return null;
         }
         if (SEPARATORS.indexOf(getChar()) >= 0) {
-            Trace.param(this, method, "Read token", "" + (char) getChar());
+            Trace.param(CLASS, this, method, "Read token", "" + (char) getChar());
             return "" + (char) readChar();
         }
         final StringBuffer token = new StringBuffer();
@@ -88,7 +91,7 @@ public final class AsciiMathParser extends MathParser {
         } else {
             clearMark();
         }
-        Trace.param(this, method, "Read token", token);
+        Trace.param(CLASS, this, method, "Read token", token);
         return token.toString();
     }
 
