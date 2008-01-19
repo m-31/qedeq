@@ -1,4 +1,4 @@
-/* $Id: QedeqTransverser.java,v 1.3 2007/12/21 23:33:47 m31 Exp $
+/* $Id: QedeqTraverser.java,v 1.3 2007/12/21 23:33:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -62,7 +62,7 @@ import org.qedeq.kernel.bo.module.ModuleDataException;
  * @version $Revision: 1.3 $
  * @author Michael Meyling
  */
-public interface QedeqTransverser {
+public interface QedeqTraverser {
 
     /**
      * Start with the top structure of a QEDEQ module.

@@ -1,4 +1,4 @@
-/* $Id: QedeqNotNullTransverser.java,v 1.4 2007/12/21 23:33:47 m31 Exp $
+/* $Id: QedeqNotNullTraverser.java,v 1.4 2007/12/21 23:33:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -64,7 +64,7 @@ import org.qedeq.kernel.bo.module.ModuleDataException;
  * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
-public class QedeqNotNullTransverser implements QedeqTransverser {
+public class QedeqNotNullTraverser implements QedeqTraverser {
 
     /** Current context during creation. */
     private ModuleContext currentContext;
@@ -75,7 +75,7 @@ public class QedeqNotNullTransverser implements QedeqTransverser {
      */
     private QedeqVisitor visitor;
 
-    /** Is sub node traversion currently blocked? */
+    /** Is sub node traverse currently blocked? */
     private boolean blocked;
 
     /**
@@ -84,7 +84,7 @@ public class QedeqNotNullTransverser implements QedeqTransverser {
      * @param   globalContext   Module location information.
      * @param   visitor         These methods are called if a node is visited.
      */
-    public QedeqNotNullTransverser(final ModuleAddress globalContext, final QedeqVisitor visitor) {
+    public QedeqNotNullTraverser(final ModuleAddress globalContext, final QedeqVisitor visitor) {
         currentContext = globalContext.createModuleContext();
         this.visitor = visitor;
     }
@@ -755,7 +755,8 @@ public class QedeqNotNullTransverser implements QedeqTransverser {
     }
 
     /**
-     * Get current context within original.
+     * Get current context within original. Remember to use the copy constructor
+     * when trying to remember this context!
      *
      * @return  Current context.
      */
