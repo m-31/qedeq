@@ -30,7 +30,7 @@ public interface HigherLogicalErrors {
 
     /** Error message. */
     public static final String PREDICATE_ALREADY_DEFINED_TEXT
-        = "predicate was already defined for this argument number";
+        = "predicate was already defined for this argument number: ";
 
 
     /** Error code. */
@@ -38,7 +38,7 @@ public interface HigherLogicalErrors {
 
     /** Error message. */
     public static final String FUNCTION_ALREADY_DEFINED_TEXT
-        = "function was already defined for this argument number";
+        = "function was already defined for this argument number: ";
 
 
 
