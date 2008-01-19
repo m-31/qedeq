@@ -511,7 +511,7 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="implication">
+          <DEFINITION_PREDICATE arguments="2" name="definitionImplication">
             <LATEXPATTERN>#1 \rightarrow #2</LATEXPATTERN>
             <VARLIST>
               <VAR id="\alpha"/>
@@ -550,7 +550,7 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="conjunction">
+          <DEFINITION_PREDICATE arguments="2" name="definitionConjunction">
             <LATEXPATTERN>#1 \land #2</LATEXPATTERN>
             <VARLIST>
               <VAR id="\alpha"/>
@@ -594,7 +594,7 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="equivalence">
+          <DEFINITION_PREDICATE arguments="2" name="definitionEquivalence">
             <LATEXPATTERN>#1 \land #2</LATEXPATTERN>
             <VARLIST>
               <VAR id="\alpha"/>
@@ -2406,50 +2406,14 @@
         </LATEX>
       </TITLE>
       <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            We start with the identy axioms.
+          ]]>
+        </LATEX>
         <LATEX language="de">
           <![CDATA[
-
-\index{Identität}\hypertarget{gleichheit}{}
-Es wird eine zweistellige Funktionskonstante festgelegt, welche in der Interpretation die Identität
-von Subjekten ausdrücken soll.
-\begin{defn}[Gleichheit]
-$$x = y \ \Leftrightarrow \ c_1^2(x, y)$$
-\end{defn}
-
-Dazu werden zwei weitere Axiome, auch
-\emph{Gleichheitsaxiome}\index{Gleichheit}\index{Axiome!Gleichheits-} genannt, formuliert.
-\begin{ax}[Reflexivität der Gleichheit]
-$$x = x$$
-\end{ax}
-
-\begin{ax}[Leibnizsche Ersetzbarkeit]\index{Leibnizsche Ersetzbarkeit}\hypertarget{leibniz}{}
-$$x = y  \rightarrow (\phi(x) \rightarrow \phi(y))$$
-\end{ax}
-
-\begin{thm}[Symmetrie der Gleichheit]\index{Gleichheit!Symmetrie der}
-\begin{equation}
-x = y \leftrightarrow y = x
-\end{equation}
-\end{thm}
-
-\begin{thm}[Transitivität der Gleichheit]\index{Gleichheit!Transitivität der}
-\begin{equation}
-x = y ~ \land ~ y = z \rightarrow x = z
-\end{equation}
-\end{thm}
-
-\begin{thm}
-\begin{equation}
-x = y \rightarrow (\phi(x) \leftrightarrow \phi(y))
-\end{equation}
-\end{thm}
-
-\begin{thm}
-\begin{equation}
-x = y \rightarrow f(x) = f(y)
-\end{equation}
-\end{thm}
-
+            Wir starten mit den Identitätsaxiomen.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -2592,7 +2556,7 @@ x = y \rightarrow f(x) = f(y)
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                We can reverse the second implication in the leibniz replacement.
+                We can reverse the second implication in the Leibniz replacement.
               ]]>
             </LATEX>
             <LATEX language="de">
@@ -2618,43 +2582,194 @@ x = y \rightarrow f(x) = f(y)
                 </EQUI>
               </IMPL>
             </FORMULA>
-            <PROOF kind="informal" level="1">
+          </THEOREM>
+       </NODE>
 
+        <NODE id="theorem:identyImpliesFunctionalEquality" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <PREDCON ref="equal">
+                  <VAR id="x" />
+                  <VAR id="y" />
+                </PREDCON>
+                <PREDCON ref="equal">
+                  <FUNVAR id="f">
+                    <VAR id="x" />
+                  </FUNVAR>
+                  <FUNVAR id="f">
+                    <VAR id="y" />
+                  </FUNVAR>
+                </PREDCON>
+              </IMPL>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
 
       </SUBSECTIONS>
     </SECTION>
     <SECTION>
       <TITLE>
         <LATEX language="en">
-           ++ TODO Quantifiers\index{Quantifiers!+++TODO}
+           Restricted Quantifiers\index{quantifiers!restriced}
         </LATEX>
         <LATEX language="de">
            Eingeschränkte Quantoren\index{Quantor!eingeschränkter}
         </LATEX>
       </TITLE>
       <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            Every quantification involves one specific subject variable and a domain of discourse or range of quantification of that variable. Until now we assumed a fixed domain of discourse for every quantification. Specification of the range of quantification allows us to express that a predicate holds only for a restricted domain.
+          ]]>
+        </LATEX>
         <LATEX language="de">
           <![CDATA[
+            Jede Quantifizierung benötigt eine Subjektvariable und einen Bereich über den die Quantifizierung läuft. Bis jetzt haben wir eine festen Bereich für jede Quantifizierung vorausgesetzt. Die Angabe eines Bereichs ermöglicht uns auszudrücken, dass ein Prädikat nur für einen eingeschränkten Bereich gültig ist.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
 
-            Bei der folgenden Definition muss die für $\psi(x)$ eingesetzte Formel {\glqq erkennen
-            lassen\grqq}, über welche Subjektvariable quantifiziert wird. Das ist in der Regel darüber zu
-            entscheiden, welche freie Subjektvariable als erstes in der Formel
-            vorkommt.\footnote{Beispielsweise ist in der folgenden Formel erkennbar, dass die zweite
-            Quantifikation über die Subjektvariable $m$ läuft: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n
-            $.} In der exakten Syntax des Qedeq-Formats\footnote{Siehe unter
-            \url{http://www.qedeq.org/0_01_05/projektbeschreibung.pdf}.} ist die Subjektvariable immer
-            angegeben.
-            \begin{defn}[Eingeschränkter Allquantor]\index{Allquantor!eingeschränkter}
-            $$ \forall \ \psi(x) \ (\phi(x)) \ \Leftrightarrow \ \forall \ x \ (\psi(x) \rightarrow \phi(x))$$
-            \end{defn}
+<!-- TODO that node does define a predicate with terms var_x, var_phi and var_psi as arguments but it is defined as "FORALL var_x predvar_phi(var_x) -> predvar_psi(var_x)" the latex result looks ok but the formal definition makes no sense -->
+        <NODE id="definition:restrictedUniversalQuantifier">
+          <NAME>
+            <LATEX language="en">definition restricted universal quantifier</LATEX>
+            <LATEX language="de">Definition eingeschränker Allquantor</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Restricted Universal Quantifier\index{universal quantifier, restricted}</LATEX>
+            <LATEX language="de">Eingeschränkter Allquantor\index{Allquantor!eingeschränkter}</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                At the following definition the replacement formula for $\alpha(x)$ must {\glqq reveal\grqq} its quantification subject variable. This is usually the first following subject variable.\footnote{For example: in the following formula we identify the subject variable $m$ for the second quantification: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n $.} In the exakt syntax of the QEDEQ format\footnote{See \url{http://www.qedeq.org/current/xml/qedeq/}.} the quantification subject variable is always given.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Bei der folgenden Definition muss die für $\alpha(x)$ eingesetzte Formel {\glqq erkennen lassen\grqq}, über welche Subjektvariable quantifiziert wird. Das ist in der Regel darüber zu entscheiden, welche freie Subjektvariable als erstes in der Formel vorkommt.\footnote{Beispielsweise ist in der folgenden Formel erkennbar, dass die zweite Quantifikation über die Subjektvariable $m$ läuft: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n $.} In der exakten Syntax des QEDEQ-Formats\footnote{Siehe unter \url{http://www.qedeq.org/current/xml/qedeq/}.} ist die Subjektvariable immer angegeben.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="3" name="definitionRestrictedUniversalQuantifier">
+            <LATEXPATTERN>\forall \ #2(#1) \ (#3(#1))</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+              <VAR id="\alpha"/>
+              <VAR id="\beta"/>
+            </VARLIST>
+            <FORMULA>
+              <FORALL>
+                <VAR id="x"/>
+                <IMPL>
+                  <PREDVAR id="\phi">
+                    <VAR id="x"/>
+                  </PREDVAR>
+                  <PREDVAR id="\psi">
+                    <VAR id="x"/>
+                  </PREDVAR>
+                </IMPL>
+              </FORALL>
+            </FORMULA>
+          </DEFINITION_PREDICATE>
+        </NODE>
+        
+<!-- TODO that node does define a predicate with terms var_x, var_phi and var_psi as arguments but it is defined as "EXISTS var_x predvar_phi(var_x) n predvar_psi(var_x)" the latex result looks ok but the formal definition makes no sense -->
+        <NODE id="definition:restrictedExistentialQuantifier">
+          <NAME>
+            <LATEX language="en">definition restricted existential quantifier</LATEX>
+            <LATEX language="de">Definition eingeschränker Existenzquantor</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Restricted Existential Quantifier\index{existential quantifier, restricted}</LATEX>
+            <LATEX language="de">Eingeschränkter Existenz\index{Existenzquantor!eingeschränkter}</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                A matching definiton for the restricted existential quantifier is the following.\footnote{Matching because of $\neg \forall \ \psi(x) \ (\phi(x)) \leftrightarrow \exists \ x \ \neg (\psi(x) \rightarrow \phi(x)) \leftrightarrow \exists \ x \ (\psi(x) \land \neg\phi(x)) \leftrightarrow \exists \ \psi(x) \ (\neg\phi(x))$.}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Dazu passt die folgende Definition für den eingeschränkten Existenzquantor.\footnote{Passend, da $\neg \forall \ \psi(x) \ (\phi(x)) \leftrightarrow \exists \ x \ \neg (\psi(x) \rightarrow \phi(x)) \leftrightarrow \exists \ x \ (\psi(x) \land \neg\phi(x)) \leftrightarrow \exists \ \psi(x) \ (\neg\phi(x))$.}
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="3" name="definitionRestrictedExistentialQuantifier">
+            <LATEXPATTERN>\exists \ #2(#1) \ (#3(#1))</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+              <VAR id="\alpha"/>
+              <VAR id="\beta"/>
+            </VARLIST>
+            <FORMULA>
+              <EXISTS>
+                <VAR id="x"/>
+                <AND>
+                  <PREDVAR id="\alpha">
+                    <VAR id="x"/>
+                  </PREDVAR>
+                  <PREDVAR id="\beta">
+                    <VAR id="x"/>
+                  </PREDVAR>
+                </AND>
+              </EXISTS>
+            </FORMULA>
+          </DEFINITION_PREDICATE>
+        </NODE>
 
-            Dazu passt die folgende Definition für den eingeschränkten Existenzquantor.\footnote{Passend, da
-            $\neg \forall \ \psi(x) \ (\phi(x)) \leftrightarrow \exists \ x \ \neg (\psi(x) \rightarrow \phi(x)) \leftrightarrow \exists
-            \ x \ (\psi(x) \land \neg\phi(x)) \leftrightarrow \exists \ \psi(x) \ (\neg\phi(x))$.}
-            \begin{defn}[Eingeschränkter Existenzquantor]\index{Existenzquantor!eingeschränkter}
-            $$ \exists \ \psi(x) \ (\phi(x)) \ \Leftrightarrow \ \exists \ x \ (\psi(x) \land \phi(x))$$
-            \end{defn}
+<!-- TODO that node does define a predicate with terms var_x, var_phi and var_psi as arguments but it is defined as "EXISTS var_x predvar_phi(var_x) n predvar_psi(var_x)" the latex result looks ok but the formal definition makes no sense -->
+        <NODE id="definition:restrictedUniquenessQuantifier">
+          <NAME>
+            <LATEX language="en">definition restricted uniqueness quantifier</LATEX>
+            <LATEX language="de">Definition eingeschränker Existenzquantor für genau ein Individuum</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Restricted Uniqueness Quantifier\index{uniqueness quantifier, restricted}</LATEX>
+            <LATEX language="de">Eingeschränkter Existenz für genau ein Individuum\index{Existenzquantor!eingeschränkter für ein Individuum}</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                To express the existence of only one individuum with a certain property we introduce a new Quantor.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Für die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird nun ein gesonderter Quantor eingeführt.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="3" name="definitionRestrictedUniquenessQuantifier">
+            <LATEXPATTERN>\exists! \ #2(#1) \ (#3(#1))</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+              <VAR id="\alpha"/>
+              <VAR id="\beta"/>
+            </VARLIST>
+            <FORMULA>
+              <EXISTS>
+                <VAR id="x"/>
+                <AND>
+                  <PREDVAR id="\alpha">
+                    <VAR id="x"/>
+                  </PREDVAR>
+                  <PREDVAR id="\beta">
+                    <VAR id="x"/>
+                  </PREDVAR>
+                </AND>
+              </EXISTS>
+            </FORMULA>
+          </DEFINITION_PREDICATE>
+        </NODE>
 
+        <SUBSECTION>
+          <TEXT>
+        <LATEX language="de">
+          <![CDATA[
             Für die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird nun ein gesonderter
             Quantor eingeführt.
             \begin{defn}[Eingeschränkter Existenzquantor für genau ein Individuum]
@@ -2686,7 +2801,10 @@ x = y \rightarrow f(x) = f(y)
 
           ]]>
         </LATEX>
-      </INTRODUCTION>
+          </TEXT>
+        </SUBSECTION>
+        
+      </SUBSECTIONS>
     </SECTION>
   </CHAPTER>
   <BIBLIOGRAPHY>
