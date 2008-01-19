@@ -66,6 +66,6 @@ public interface Operators {
     public static final String FUNCTION_VARIABLE = "FUNVAR";
 
     /** Operator string for class operator. */
-    public static final String CLASS = "CLASS";
+    public static final String CLASS_OP = "CLASS";
 
 }
