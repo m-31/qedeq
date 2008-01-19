@@ -19,7 +19,7 @@ package org.qedeq.kernel.bo.module;
 
 
 /**
- * Represents a mathematical module state.
+ * Represents a mathematical module state. Every instance of this class is unique.
  *
  * @version $Revision: 1.3 $
  * @author  Michael Meyling
@@ -89,7 +89,7 @@ public final class LogicalState {
      *
      * @return  meaning of module state.
      */
-    public final String getText() {
+    public String getText() {
         return this.text;
     }
 
@@ -98,7 +98,7 @@ public final class LogicalState {
      *
      * @return  is this a failure state?
      */
-    public final boolean isFailure() {
+    public boolean isFailure() {
         return this.failure;
     }
 
@@ -107,32 +107,21 @@ public final class LogicalState {
      *
      * @return  Module state.
      */
-    public final int getCode() {
+    public int getCode() {
         return this.code;
     }
 
-    /*  (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
-    public final String toString() {
+    public String toString() {
         return this.text;
     }
 
-    /*  (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
-    public final int hashCode() {
+    public int hashCode() {
         return this.text.hashCode();
     }
 
-    /*  (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
-    public final boolean equals(final Object obj) {
-        if (obj == null || !(obj instanceof LogicalState)) {
-            return false;
-        }
-        return text.equals(((LogicalState) obj).text);
+    public boolean equals(final Object obj) {
+        // every instance is unique
+        return (this == obj);
     }
 
 }
