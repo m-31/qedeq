@@ -35,6 +35,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public class ModuleContext {
 
+    /** This class. */
+    private static final Class CLASS = ModuleContext.class;
+
     /** Module location. */
     private ModuleAddress moduleLocation;
 
@@ -115,7 +118,7 @@ public class ModuleContext {
     public final void setLocationWithinModule(final String locationWithinModule) {
         final String method = "setLocationWithinModule(String)";
         this.locationWithinModule = locationWithinModule;
-        Trace.param(this, method, "locationWithinModule", locationWithinModule);
+        Trace.param(CLASS, this, method, "locationWithinModule", locationWithinModule);
     }
 
     /* (non-Javadoc)
