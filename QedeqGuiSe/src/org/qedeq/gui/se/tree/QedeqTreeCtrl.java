@@ -54,6 +54,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class QedeqTreeCtrl implements TreeModelListener {
 
+    /** This class. */
+    private static final Class CLASS = QedeqTreeCtrl.class;
+
     /** Tree view. */
     private final QedeqTreeView treeView;
 
@@ -90,12 +93,13 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
     public final ModuleProperties[] getSelected() throws NothingSelectedException {
         final String method = "getSelected";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         try {
             TreePath[] selected = treeView.getSelectionPaths();
             final List list = new ArrayList();
             if (selected != null && selected.length > 0) {
-                Trace.trace(this, "actionPerformed", "selection=" + selected[selected.length - 1]);
+                Trace.trace(CLASS, this, "actionPerformed",
+                    "selection=" + selected[selected.length - 1]);
                 for (int i = 0; i < selected.length; i++) {
                     final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
                              (selected[i].getLastPathComponent());
@@ -110,23 +114,23 @@ public final class QedeqTreeCtrl implements TreeModelListener {
             }
             return (ModuleProperties[]) list.toArray(new ModuleProperties[0]);
         } catch (RuntimeException ex) {
-            Trace.trace(this, method, ex);
+            Trace.trace(CLASS, this, method, ex);
             throw new NothingSelectedException();
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
     public final void setSelected(final ModuleProperties prop) {
         final String method = "setSelected";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         try {
             treeView.setSelectionPath(treeModel.getSelectionPath(prop));
             treeView.setSelectionRow(2);
         } catch (RuntimeException ex) {
-            Trace.trace(this, method, ex);
+            Trace.trace(CLASS, this, method, ex);
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -152,7 +156,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
         public void valueChanged(final TreeSelectionEvent event) {
             // TODO mime 20071024: inform others per listener about this event
-            Trace.trace(this, "valueChanged", event);
+            Trace.trace(CLASS, this, "valueChanged", event);
             TreePath path = event.getPath();
             QedeqTreeNode treeNode = (QedeqTreeNode) path.getLastPathComponent();
             String pathStr = treeNode.toString();
@@ -173,7 +177,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
         public void actionPerformed(final ActionEvent event) {
             final String method = "actionPerformed";
-            Trace.param(this, method, "action", event);
+            Trace.param(CLASS, this, method, "action", event);
 
             if (event.getActionCommand() == QedeqTreeView.DELETE_ACTION)  {     // delete
                 getRemoveAction().actionPerformed(event);
@@ -404,7 +408,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         } catch (NullPointerException exc) {
         }
 
-        Trace.trace(this, "treeNodesChanged", node.getUserObject());
+        Trace.trace(CLASS, this, "treeNodesChanged", node.getUserObject());
 
         TreePath path = e.getTreePath();
         QedeqTreeNode treeNode = (QedeqTreeNode) path.getLastPathComponent();
@@ -426,27 +430,27 @@ public final class QedeqTreeCtrl implements TreeModelListener {
     }
 
     public void treeNodesInserted(final TreeModelEvent e) {
-        Trace.begin(this, "treeNodesInserted");
+        Trace.begin(CLASS, this, "treeNodesInserted");
         final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
             (e.getTreePath().getLastPathComponent());
         if (((DefaultMutableTreeNode) treeModel.getRoot()).getChildCount() == 1) {
             treeView.expandPath(new TreePath(treeModel.getRoot()));
         }
-        Trace.end(this, "treeNodesInserted");
+        Trace.end(CLASS, this, "treeNodesInserted");
     }
 
 
     public void treeNodesRemoved(final TreeModelEvent e) {
         final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
             (e.getTreePath().getLastPathComponent());
-        Trace.trace(this, "treeNodeRemoved", node.getUserObject());
+        Trace.trace(CLASS, this, "treeNodeRemoved", node.getUserObject());
     }
 
 
     public void treeStructureChanged(final TreeModelEvent e) {
         final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
             (e.getTreePath().getLastPathComponent());
-        Trace.trace(this, "treeStructureChanged", node.getUserObject());
+        Trace.trace(CLASS, this, "treeStructureChanged", node.getUserObject());
     }
 
 

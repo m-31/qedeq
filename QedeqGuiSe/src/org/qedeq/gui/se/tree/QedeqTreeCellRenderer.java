@@ -43,6 +43,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRenderer {
 
+    /** This class. */
+    private static final Class CLASS = QedeqTreeCellRenderer.class;
+
     /** Status icon. */
     private static ImageIcon webLoadingIcon = new ImageIcon(
         QedeqTreeCellRenderer.class.getResource(
@@ -140,13 +143,13 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
             final boolean hasFocus) {
 
         final String method = "getTreeCellRendererComponent";
-        Trace.param(this, method, row + " is selected", isSelected);
-        Trace.param(this, method, row + " hasFocus", hasFocus);
-        Trace.param(this, method, row + " leaf", leaf);
-        Trace.param(this, method, row + " maxSelectionRow", tree.getMaxSelectionRow());
-        Trace.param(this, method, row + " selectionCount", tree.getSelectionCount());
-        Trace.param(this, method, row + " rowCount", tree.getRowCount());
-        Trace.param(this, method, row + " tree path", tree.getPathForRow(row));
+        Trace.param(CLASS, this, method, row + " is selected", isSelected);
+        Trace.param(CLASS, this, method, row + " hasFocus", hasFocus);
+        Trace.param(CLASS, this, method, row + " leaf", leaf);
+        Trace.param(CLASS, this, method, row + " maxSelectionRow", tree.getMaxSelectionRow());
+        Trace.param(CLASS, this, method, row + " selectionCount", tree.getSelectionCount());
+        Trace.param(CLASS, this, method, row + " rowCount", tree.getRowCount());
+        Trace.param(CLASS, this, method, row + " tree path", tree.getPathForRow(row));
 
         ModuleElement unit;
         ModuleProperties prop;
@@ -252,7 +255,7 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
      */
    public void paint(final Graphics g) {
        final String method = "paint";
-       Trace.param(this, method, "label", getText());
+       Trace.param(CLASS, this, method, "label", getText());
        Icon currentI = getIcon();
        if (currentI != null && getText() != null) {
            int offset = (currentI.getIconWidth() + getIconTextGap());

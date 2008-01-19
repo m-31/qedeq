@@ -44,6 +44,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEventListener {
 
+    /** This class. */
+    private static final Class CLASS = QedeqTreeModel.class;
+
     /**
      * Maps {@link org.qedeq.kernel.bo.module.ModuleAddress}es to {@link TreeNode}s..
      */
@@ -64,7 +67,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
      * @see javax.swing.tree.TreeModel#addTreeModelListener(javax.swing.event.TreeModelListener)
      */
     public void addTreeModelListener(final TreeModelListener listener) {
-        Trace.trace(this, "addTreeModelListener", listener);
+        Trace.trace(CLASS, this, "addTreeModelListener", listener);
         super.addTreeModelListener(listener);
     }
 
@@ -73,7 +76,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
             public void run() {
                 final QedeqTreeNode root = (QedeqTreeNode) getRoot();
                 final QedeqTreeNode node = new QedeqTreeNode(prop, false);
-                Trace.trace(this, "addModule", "calls insertNodeInto=" + node);
+                Trace.trace(CLASS, this, "addModule", "calls insertNodeInto=" + node);
                 module2Path.put(prop.getModuleAddress(), new TreePath(node.getPath()));
                 for (int i = 0; i < root.getChildCount(); i++) {
                     final QedeqTreeNode n = (QedeqTreeNode) root.getChildAt(i);
@@ -104,7 +107,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
                 if (!prop.equals(sameProp)) {
                     throw new IllegalStateException("should not happen");
                 }
-                Trace.trace(this, "stateChanged", "nodeChanged=" + node);
+                Trace.trace(CLASS, this, "stateChanged", "nodeChanged=" + node);
                 nodeChanged(node);
             }
         };
@@ -117,7 +120,8 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
             public void run() {
                 final TreePath path = (TreePath) module2Path.get(prop.getModuleAddress());
                 if (path == null) {
-                    throw new IllegalArgumentException("unknown property");
+                    throw new IllegalArgumentException("unknown property: "
+                        + prop.getModuleAddress());
                 }
                 final QedeqTreeNode node = (QedeqTreeNode) path.getLastPathComponent();
                 ModuleProperties sameProp = (ModuleProperties) node.getUserObject();
@@ -125,7 +129,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
                     throw new IllegalStateException("should not happen");
                 }
                 module2Path.remove(prop.getModuleAddress());
-                Trace.trace(this, "removeModule", "nodeRemoved=" + node);
+                Trace.trace(CLASS, this, "removeModule", "nodeRemoved=" + node);
                 removeNodeFromParent(node);
             }
         };
