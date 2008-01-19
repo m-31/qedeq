@@ -46,7 +46,10 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     //             DynamicGetter.get(qedeq, getCurrentContext().getLocationWithinModule());
     // 4. modify the {@link #checkFormula(Element, ModuleContext, ExistenceChecker} by adding
     //    a Qedeq parameter;
-    // 5. modify {@link #checkTerm(Elment, ModuleContext, ExistenceChecker) analogous
+    // 5. modify {@link #checkTerm(Element, ModuleContext, ExistenceChecker) analogous
+
+    /** This class. */
+    private static final Class CLASS = FormulaChecker.class;
 
     /** Current context during creation. */
     private final ModuleContext currentContext;
@@ -67,22 +70,10 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             final ExistenceChecker existenceChecker) {
         this.existenceChecker = existenceChecker;
         if (existenceChecker.equalityOperatorExists()
-                && !existenceChecker.predicateExists(existenceChecker.getEqualityOperator(), 2)) {
+                && !existenceChecker.predicateExists(existenceChecker.getIdentityOperator(), 2)) {
             throw new IllegalArgumentException("equality predicate should exist, but it doesn't");
         }
         currentContext = new ModuleContext(context);
-    }
-
-    /**
-     * Is {@link Element} a formula?
-     *
-     * @param   element             Check this element.
-     * @param   context             For location information. Important for locating errors.
-     * @throws  LogicalCheckException  It is no formula.
-     */
-    public static final void checkFormula(final Element element, final ModuleContext context)
-            throws LogicalCheckException {
-        checkFormula(element, context, EverythingExists.getInstance());
     }
 
     /**
@@ -100,15 +91,17 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     }
 
     /**
-     * Is {@link Element} a term?
+     * Is {@link Element} a formula? All predicates and functions are assumed to exit.
+     * If the existence context is known you should use
+     * {@link #checkFormula(Element, ModuleContext, ExistenceChecker)}.
      *
-     * @param   element Check this element.
-     * @param   context For location information. Important for locating errors.
-     * @throws  LogicalCheckException  It is no term.
+     * @param   element             Check this element.
+     * @param   context             For location information. Important for locating errors.
+     * @throws  LogicalCheckException  It is no formula.
      */
-    public static final void checkTerm(final Element element, final ModuleContext context)
+    public static final void checkFormula(final Element element, final ModuleContext context)
             throws LogicalCheckException {
-        checkTerm(element, context, EverythingExists.getInstance());
+        checkFormula(element, context, EverythingExists.getInstance());
     }
 
     /**
@@ -126,6 +119,19 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     }
 
     /**
+     * Is {@link Element} a term?  If the existence context is known you should use
+     * {@link #checkTerm(Element, ModuleContext, ExistenceChecker)}.
+     *
+     * @param   element Check this element.
+     * @param   context For location information. Important for locating errors.
+     * @throws  LogicalCheckException  It is no term.
+     */
+    public static final void checkTerm(final Element element, final ModuleContext context)
+            throws LogicalCheckException {
+        checkTerm(element, context, EverythingExists.getInstance());
+    }
+
+    /**
      * Is {@link Element} a formula?
      *
      * @param   element    Check this element.
@@ -134,10 +140,10 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     private final void checkFormula(final Element element)
             throws LogicalCheckException {
         final String method = "checkFormula";
-        Trace.begin(this, method);
-        Trace.param(this, method, "element", element);
+        Trace.begin(CLASS, this, method);
+        Trace.param(CLASS, this, method, "element", element);
         final String context = getCurrentContext().getLocationWithinModule();
-        Trace.param(this, method, "context", context);
+        Trace.param(CLASS, this, method, "context", context);
         checkList(element);
         final ElementList list = element.getList();
         final String listContext = context + ".getList()";
@@ -147,7 +153,8 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
                 || operator.equals(DISJUNCTION_OPERATOR)
                 || operator.equals(IMPLICATION_OPERATOR)
                 || operator.equals(EQUIVALENCE_OPERATOR)) {
-            Trace.trace(this, method, "one of (and, or, implication, equivalence) operator found");
+            Trace.trace(CLASS, this, method,
+                "one of (and, or, implication, equivalence) operator found");
             if (list.size() <= 1) {
                 throw new FormulaCheckException(MORE_THAN_ONE_ARGUMENT_EXPECTED,
                     MORE_THAN_ONE_ARGUMENT_EXPECTED_TEXT + "\""
@@ -165,7 +172,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             setLocationWithinModule(listContext);
             checkFreeAndBoundDisjunct(0, list);
         } else if (operator.equals(NEGATION_OPERATOR)) {
-            Trace.trace(this, method, "negation operator found");
+            Trace.trace(CLASS, this, method, "negation operator found");
             setLocationWithinModule(listContext);
             if (list.size() != 1) {
                 throw new FormulaCheckException(EXACTLY_ONE_ARGUMENT_EXPECTED,
@@ -176,7 +183,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             checkFormula(list.getElement(0));
         } else if (operator.equals(PREDICATE_VARIABLE)
                 || operator.equals(PREDICATE_CONSTANT)) {
-            Trace.trace(this, method, "predicate operator found");
+            Trace.trace(CLASS, this, method, "predicate operator found");
             setLocationWithinModule(listContext);
             if (list.size() < 1) {
                 throw new FormulaCheckException(AT_LEAST_ONE_ARGUMENT_EXPECTED,
@@ -201,14 +208,14 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
                     list.getElement(0).getAtom().getString(), list.size() - 1)) {
                 throw new FormulaCheckException(UNKNOWN_PREDICATE_CONSTANT,
                     UNKNOWN_PREDICATE_CONSTANT_TEXT + "\""
-                    + list.getElement(0).getAtom().getString() + "\"", element,
-                    getCurrentContext());
+                    + list.getElement(0).getAtom().getString() + "\" [" + (list.size() - 1) + "]",
+                    element, getCurrentContext());
             }
 
         } else if (operator.equals(EXISTENTIAL_QUANTIFIER_OPERATOR)
                 || operator.equals(UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR)
                 || operator.equals(UNIVERSAL_QUANTIFIER_OPERATOR)) {
-            Trace.trace(this, method, "quantifier found");
+            Trace.trace(CLASS, this, method, "quantifier found");
             setLocationWithinModule(context);
             checkQuantifier(element);
         } else {
@@ -219,7 +226,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
         }
         // restore context
         setLocationWithinModule(context);
-        Trace.end(this, method);
+        Trace.end(CLASS, this, method);
     }
 
     /**
@@ -232,11 +239,11 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      */
     private void checkQuantifier(final Element element) throws LogicalCheckException {
         final String method = "checkQuantifier";
-        Trace.begin(this, method);
-        Trace.param(this, method, "element", element);
+        Trace.begin(CLASS, this, method);
+        Trace.param(CLASS, this, method, "element", element);
         // save context
         final String context = getCurrentContext().getLocationWithinModule();
-        Trace.param(this, method, "context", context);
+        Trace.param(CLASS, this, method, "context", context);
         checkList(element);
         final ElementList list = element.getList();
         final String listContext = context + ".getList()";
@@ -300,7 +307,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
         }
         // restore context
         setLocationWithinModule(context);
-        Trace.end(this, method);
+        Trace.end(CLASS, this, method);
     }
 
     /**
@@ -311,11 +318,11 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      */
     private void checkTerm(final Element element) throws LogicalCheckException {
         final String method = "checkTerm";
-        Trace.begin(this, method);
-        Trace.param(this, method, "element", element);
+        Trace.begin(CLASS, this, method);
+        Trace.param(CLASS, this, method, "element", element);
         // save current context
         final String context = getCurrentContext().getLocationWithinModule();
-        Trace.param(this, method, "context", context);
+        Trace.param(CLASS, this, method, "context", context);
         checkList(element);
         final ElementList list = element.getList();
         final String listContext = context + ".getList()";
@@ -362,7 +369,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
                     getCurrentContext());
             }
 
-        } else if (operator.equals(CLASS)) {
+        } else if (operator.equals(CLASS_OP)) {
 
             if (list.size() != 2) {
                 throw new TermCheckException(EXACTLY_TWO_ARGUMENTS_EXPECTED,
@@ -402,7 +409,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
         }
         // restore context
         setLocationWithinModule(context);
-        Trace.end(this, method);
+        Trace.end(CLASS, this, method);
     }
 
     /**
@@ -523,7 +530,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             if (operator.equals(EXISTENTIAL_QUANTIFIER_OPERATOR)
                 || operator.equals(UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR)
                 || operator.equals(UNIVERSAL_QUANTIFIER_OPERATOR)
-                || operator.equals(CLASS)) {
+                || operator.equals(CLASS_OP)) {
                 for (int i = 1; i < list.size(); i++) {
                     free.union(getFreeSubjectVariables(list.getElement(i)));
                 }
@@ -552,7 +559,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             if (operator.equals(EXISTENTIAL_QUANTIFIER_OPERATOR)
                     || operator.equals(UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR)
                     || operator.equals(UNIVERSAL_QUANTIFIER_OPERATOR)
-                    || operator.equals(CLASS)) {
+                    || operator.equals(CLASS_OP)) {
                 // add subject variable to bound list
                 bound.add(list.getElement(0));
                 // add all bound variables of sub-elements
