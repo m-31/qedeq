@@ -51,10 +51,11 @@ import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
+import org.qedeq.kernel.bo.logic.ExistenceChecker;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
+import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
@@ -78,8 +79,11 @@ import org.qedeq.kernel.utility.TextOutput;
  */
 public final class Qedeq2Latex extends AbstractModuleVisitor {
 
-    /** Transverse QEDEQ module with this transverser. */
-    private final QedeqNotNullTransverser transverser;
+    /** This class. */
+    private static final Class CLASS = Qedeq2Latex.class;
+
+    /** Traverse QEDEQ module with this traverser. */
+    private final QedeqNotNullTraverser traverser;
 
     /** Output goes here. */
     private final TextOutput printer;
@@ -125,7 +129,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     private Qedeq2Latex(final ModuleProperties prop, final TextOutput printer,
             final String language, final String level) {
         this.prop = prop;
-        this.transverser = new QedeqNotNullTransverser(prop.getModuleAddress(), this);
+        this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
         this.printer = printer;
         if (language == null) {
             this.language = "en";
@@ -137,19 +141,30 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         } else {
             this.level = level;
         }
-        final PredicateDefinitionVo equal = new PredicateDefinitionVo();
-        // LATER mime 20050224: quick hack to have the logical identity operator
-        equal.setArgumentNumber("2");
-        equal.setName("equal");
-        equal.setLatexPattern("#1 \\ =  \\ #2");
-        predicateDefinitions.put("equal_2", equal);
-        // TODO mime 20060822: quick hack to get the negation of the negation of the
-        //                     logical identity operator
-        final PredicateDefinitionVo notEqual = new PredicateDefinitionVo();
-        notEqual.setArgumentNumber("2");
-        notEqual.setName("notEqual");
-        notEqual.setLatexPattern("#1 \\ \\neq  \\ #2");
-        predicateDefinitions.put("notEqual_2", notEqual);
+
+        // LATER mime 20080107: quick hack to have the logical identity operator
+        final String nameEqual = ExistenceChecker.NAME_EQUAL;
+        final String argNumberEqual = "2";
+        final String keyEqual = nameEqual + "_" + argNumberEqual;
+        if (!predicateDefinitions.containsKey(keyEqual)) {
+            final PredicateDefinitionVo equal = new PredicateDefinitionVo();
+            equal.setArgumentNumber(argNumberEqual);
+            equal.setName(nameEqual);
+            equal.setLatexPattern("#1 \\ =  \\ #2");
+            predicateDefinitions.put(keyEqual, equal);
+        }
+
+        // LATER mime 20080107: quick hack to get the negation of the logical identity operator
+        final String nameNotEqual = "notEqual";
+        final String argNumberNotEqual = "2";
+        final String keyNotEqual = nameNotEqual + "_" + argNumberNotEqual;
+        if (!predicateDefinitions.containsKey(keyNotEqual)) {
+            final PredicateDefinitionVo notEqual = new PredicateDefinitionVo();
+            notEqual.setArgumentNumber("2");
+            notEqual.setName("notEqual");
+            notEqual.setLatexPattern("#1 \\ \\neq  \\ #2");
+            predicateDefinitions.put(keyNotEqual, notEqual);
+        }
     }
 
     /**
@@ -177,7 +192,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
      * @throws  ModuleDataException Exception during transversion.
      */
     private final void printLatex() throws IOException, ModuleDataException {
-        transverser.accept(prop.getModule().getQedeq());
+        traverser.accept(prop.getModule().getQedeq());
         printer.flush();
         if (printer.checkError()) {
             throw printer.getError();
@@ -276,9 +291,9 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     }
 
     public void visitEnter(final Header header) {
-        final LatexList title = header.getTitle();
+        final LatexList tit = header.getTitle();
         printer.print("\\title{");
-        printer.print(getLatexListEntry(title));
+        printer.print(getLatexListEntry(tit));
         printer.println("}");
         printer.println("\\author{");
         final AuthorList authors = prop.getModule().getQedeq().getHeader().getAuthorList();
@@ -506,7 +521,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         final VariableList list = definition.getVariableList();
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
-                Trace.trace(this, "printPredicateDefinition", "replacing!");
+                Trace.trace(CLASS, this, "printPredicateDefinition", "replacing!");
                 ReplaceUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
             }
         }
@@ -522,7 +537,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         define.append("$$");
         predicateDefinitions.put(definition.getName() + "_" + definition.getArgumentNumber(),
             definition);
-        Trace.param(this, "printPredicateDefinition", "define", define);
+        Trace.param(CLASS, this, "printPredicateDefinition", "define", define);
         printer.println(define);
         printer.println(getLatexListEntry(definition.getDescription()));
         if (definition.getFormula() != null) {
@@ -537,7 +552,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         final VariableList list = definition.getVariableList();
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
-                Trace.trace(this, "printFunctionDefinition", "replacing!");
+                Trace.trace(CLASS, this, "printFunctionDefinition", "replacing!");
                 ReplaceUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
             }
         }
@@ -553,7 +568,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         define.append("$$");
         functionDefinitions.put(definition.getName() + "_" + definition.getArgumentNumber(),
             definition);
-        Trace.param(this, "printFunctionDefinition", "define", define);
+        Trace.param(CLASS, this, "printFunctionDefinition", "define", define);
         printer.println(define);
         printer.println(getLatexListEntry(definition.getDescription()));
         if (definition.getTerm() != null) {
