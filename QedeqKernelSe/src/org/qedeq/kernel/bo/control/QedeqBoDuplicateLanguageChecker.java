@@ -28,7 +28,7 @@ import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
+import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 
 
 /**
@@ -43,7 +43,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
     private final QedeqBo original;
 
     /** Current context during creation. */
-    private final QedeqNotNullTransverser transverser;
+    private final QedeqNotNullTraverser traverser;
 
     /**
      * Constructor.
@@ -53,7 +53,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
      */
     private QedeqBoDuplicateLanguageChecker(final ModuleAddress globalContext,
             final QedeqBo qedeq) {
-        transverser = new QedeqNotNullTransverser(globalContext, this);
+        traverser = new QedeqNotNullTraverser(globalContext, this);
         original = qedeq;
     }
 
@@ -72,7 +72,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
     }
 
     private final void check() throws ModuleDataException {
-        transverser.accept(original.getQedeq());
+        traverser.accept(original.getQedeq());
     }
 
     public final void visitEnter(final LatexList list) throws ModuleDataException {
@@ -95,7 +95,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
             languages.put(list.get(i).getLanguage(), getCurrentContext());
         }
         setLocationWithinModule(context);
-        transverser.setBlocked(true);
+        traverser.setBlocked(true);
     }
 /*
             try {
@@ -120,7 +120,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
 
  */
     public final void visitLeave(final LatexList list) {
-        transverser.setBlocked(false);
+        traverser.setBlocked(false);
     }
 
     /**
@@ -138,7 +138,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
      * @return  Current context.
      */
     public final ModuleContext getCurrentContext() {
-        return transverser.getCurrentContext();
+        return traverser.getCurrentContext();
     }
 
     /**
