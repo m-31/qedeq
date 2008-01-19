@@ -19,7 +19,7 @@ package org.qedeq.kernel.bo.module;
 
 
 /**
- * Represents a module state.
+ * Represents a module state. Every instance of this class is unique.
  *
  * @version $Revision: 1.2 $
  * @author Michael Meyling
@@ -107,7 +107,7 @@ public final class LoadingState {
      *
      * @return meaning of module state.
      */
-    public final String getText() {
+    public String getText() {
         return this.text;
     }
 
@@ -116,7 +116,7 @@ public final class LoadingState {
      *
      * @return is this a failure state?
      */
-    public final boolean isFailure() {
+    public boolean isFailure() {
         return this.failure;
     }
 
@@ -125,23 +125,21 @@ public final class LoadingState {
      *
      * @return Module state.
      */
-    public final int getCode() {
+    public int getCode() {
         return this.code;
     }
 
-    public final String toString() {
+    public String toString() {
         return this.text;
     }
 
-    public final int hashCode() {
+    public int hashCode() {
         return this.text.hashCode();
     }
 
     public final boolean equals(final Object obj) {
-        if (obj == null || !(obj instanceof LoadingState)) {
-            return false;
-        }
-        return text.equals(((LoadingState) obj).text);
+        // every instance is unique
+        return (this == obj);
     }
 
 }
