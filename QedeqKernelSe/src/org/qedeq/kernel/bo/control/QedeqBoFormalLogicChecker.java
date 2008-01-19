@@ -17,9 +17,6 @@
 
 package org.qedeq.kernel.bo.control;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.qedeq.kernel.base.module.Axiom;
 import org.qedeq.kernel.base.module.Formula;
 import org.qedeq.kernel.base.module.FunctionDefinition;
@@ -30,14 +27,19 @@ import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.bo.logic.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.FormulaChecker;
+import org.qedeq.kernel.bo.logic.Function;
+import org.qedeq.kernel.bo.logic.Predicate;
 import org.qedeq.kernel.bo.module.IllegalModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleAddress;
+import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.QedeqBo;
+import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.bo.module.ModuleReferenceList;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
-import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
+import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.log.ModuleEventLog;
+import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
 
 
 /**
@@ -46,67 +48,83 @@ import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
  * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
-public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
-        implements ExistenceChecker {
+public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
 
-    /** QEDEQ module input object. */
-    private final QedeqBo original;
+    /** QEDEQ module properties. */
+    private final ModuleProperties prop;
 
     /** Current context during creation. */
-    private final QedeqNotNullTransverser transverser;
+    private final QedeqNotNullTraverser traverser;
 
-    /** Maps identifiers to {@link PredicateDefinition}s. */
-    private final Map predicateDefinitions = new HashMap();
-
-    /** Maps identifiers to {@link FunctionDefinition}s. */
-    private final Map functionDefinitions = new HashMap();
-
-    /** Is the class operator already defined? */
-    private boolean setDefinitionByFormula;
-
+    /** Existence checker for predicate and function constants. */
+    private ModuleConstantsExistenceChecker existence;
 
     /**
      * Constructor.
      *
-     * @param   globalContext     Module location information.
-     * @param   qedeq             BO QEDEQ module object.
+     * @param   prop              QEDEQ module properties object.
      */
-    private QedeqBoFormalLogicChecker(final ModuleAddress globalContext, final QedeqBo qedeq) {
-        transverser = new QedeqNotNullTransverser(globalContext, this);
-        original = qedeq;
+    private QedeqBoFormalLogicChecker(final ModuleProperties prop) {
+        this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
+        this.prop = prop;
     }
 
     /**
      * Checks if all formulas of a QEDEQ module are well formed.
      *
-     * @param   globalContext       Module location information.
-     * @param   qedeq               Basic QEDEQ module object.
-     * @throws  ModuleDataException      Major problem occured.
+     * @param   prop                QEDEQ module properties object.
+     * @throws  SourceFileExceptionList      Major problem occurred.
      */
-    public static void check(final ModuleAddress globalContext, final QedeqBo qedeq)
-            throws ModuleDataException {
-        final QedeqBoFormalLogicChecker checker = new QedeqBoFormalLogicChecker(globalContext,
-            qedeq);
-        checker.check();
+    public static void check(final ModuleProperties prop)
+            throws SourceFileExceptionList {
+        if (prop.isChecked()) {
+            return;
+        }
+        if (!prop.hasLoadedRequiredModules()) {
+            throw new IllegalStateException("QEDEQ module has not loaded with required files: "
+                + prop);
+        }
+        prop.setLogicalProgressState(LogicalState.STATE_EXTERNAL_CHECKING);
+        ModuleEventLog.getInstance().stateChanged(prop);
+        ModuleReferenceList list = prop.getRequiredModules();
+        if (list == null) {
+            list = new ModuleReferenceList();
+        }
+        for (int i = 0; i < list.size(); i++) {
+            try {
+                check(list.getModuleProperties(i));
+            } catch (SourceFileExceptionList e) {   // TODO mime 20080114: hard coded codes
+                ModuleDataException md = new CheckRequiredModuleException(11231,
+                    "import check failed: " + list.getModuleProperties(i).getModuleAddress(),
+                    list.getModuleContext(i));
+                final SourceFileExceptionList sfl =
+                    ModuleDataException2XmlFileException.createXmlFileExceptionList(md,
+                    prop.getModule().getQedeq());
+                prop.setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
+                ModuleEventLog.getInstance().stateChanged(prop);
+                throw e;
+            }
+        }
+        prop.setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
+        ModuleEventLog.getInstance().stateChanged(prop);
+        final QedeqBoFormalLogicChecker checker = new QedeqBoFormalLogicChecker(prop);
+        try {
+            checker.check();
+        } catch (ModuleDataException e) {
+            final SourceFileExceptionList sfl =
+                ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
+                prop.getModule().getQedeq());
+            prop.setLogicalFailureState(LogicalState.STATE_INTERNAL_CHECKING_FAILED, sfl);
+            ModuleEventLog.getInstance().stateChanged(prop);
+            throw sfl;
+        }
+        prop.setChecked(checker.existence);
+        ModuleEventLog.getInstance().stateChanged(prop);
     }
 
     private void check() throws ModuleDataException {
-        predicateDefinitions.clear();
-        functionDefinitions.clear();
-        setDefinitionByFormula = false;
-        final PredicateDefinitionVo equal = new PredicateDefinitionVo();
-        // FIXME mime 20070102: quick hack to have the logical identity operator
-        equal.setArgumentNumber("2");
-        equal.setName("equal");
-        equal.setLatexPattern("#1 \\ =  \\ #2");
-        predicateDefinitions.put(equal.getName() + "_" + equal.getArgumentNumber(), equal);
-        // FIXME mime 20070102: quick hack to get the negation of the logical identity operator
-        final PredicateDefinitionVo notEqual = new PredicateDefinitionVo();
-        notEqual.setArgumentNumber("2");
-        notEqual.setName("notEqual");
-        notEqual.setLatexPattern("#1 \\ \\neq  \\ #2");
-        predicateDefinitions.put(notEqual.getName() + "_" + notEqual.getArgumentNumber(), notEqual);
-        transverser.accept(original.getQedeq());
+        this.existence = new ModuleConstantsExistenceChecker(prop);
+        traverser.accept(prop.getModule().getQedeq());
     }
 
     public void visitEnter(final Axiom axiom) throws ModuleDataException {
@@ -117,14 +135,14 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
         if (axiom.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Formula formula = axiom.getFormula();
-            FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), this);
+            FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
         }
         setLocationWithinModule(context);
-        transverser.setBlocked(true);
+        traverser.setBlocked(true);
     }
 
     public void visitLeave(final Axiom axiom) {
-        transverser.setBlocked(false);
+        traverser.setBlocked(false);
     }
 
     public void visitEnter(final PredicateDefinition definition)
@@ -133,23 +151,29 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        final String key = definition.getName() + "_" + definition.getArgumentNumber();
-        if (predicateDefinitions.get(key) != null) {
+        final Predicate predicate = new Predicate(definition.getName(),
+            definition.getArgumentNumber());
+        if (existence.predicateExists(predicate)) {
             throw new IllegalModuleDataException(HigherLogicalErrors.PREDICATE_ALREADY_DEFINED,
-                HigherLogicalErrors.PREDICATE_ALREADY_DEFINED_TEXT, getCurrentContext());
+                HigherLogicalErrors.PREDICATE_ALREADY_DEFINED_TEXT + predicate,
+                getCurrentContext());
+        }
+        if ("2".equals(predicate.getArguments())
+                && ExistenceChecker.NAME_EQUAL.equals(predicate.getName())) {
+            existence.setIdentityOperatorDefined(true, predicate.getName());
         }
         if (definition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Formula formula = definition.getFormula();
-            FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), this);
+            FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
         }
-        predicateDefinitions.put(key, definition);
+        existence.add(definition);
         setLocationWithinModule(context);
-        transverser.setBlocked(true);
+        traverser.setBlocked(true);
     }
 
     public void visitLeave(final PredicateDefinition definition) {
-        transverser.setBlocked(false);
+        traverser.setBlocked(false);
     }
 
     public void visitEnter(final FunctionDefinition definition)
@@ -158,23 +182,25 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        final String key = definition.getName() + "_" + definition.getArgumentNumber();
-        if (functionDefinitions.get(key) != null) {
+        final Function function = new Function(definition.getName(),
+            definition.getArgumentNumber());
+        if (existence.functionExists(function)) {
             throw new IllegalModuleDataException(HigherLogicalErrors.FUNCTION_ALREADY_DEFINED,
-                HigherLogicalErrors.FUNCTION_ALREADY_DEFINED_TEXT, getCurrentContext());
+                HigherLogicalErrors.FUNCTION_ALREADY_DEFINED_TEXT + function,
+                getCurrentContext());
         }
         if (definition.getTerm() != null) {
             setLocationWithinModule(context + ".getTerm().getElement()");
             final Term term = definition.getTerm();
-            FormulaChecker.checkTerm(term.getElement(), getCurrentContext(), this);
+            FormulaChecker.checkTerm(term.getElement(), getCurrentContext(), existence);
         }
-        predicateDefinitions.put(key, definition);
+        existence.add(definition);
         setLocationWithinModule(context);
-        transverser.setBlocked(true);
+        traverser.setBlocked(true);
     }
 
     public void visitLeave(final FunctionDefinition definition) {
-        transverser.setBlocked(false);
+        traverser.setBlocked(false);
     }
 
     public void visitEnter(final Proposition proposition)
@@ -186,14 +212,14 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
         if (proposition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Formula formula = proposition.getFormula();
-            FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), this);
+            FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
         }
         setLocationWithinModule(context);
-        transverser.setBlocked(true);
+        traverser.setBlocked(true);
     }
 
     public void visitLeave(final Proposition definition) {
-        transverser.setBlocked(false);
+        traverser.setBlocked(false);
     }
 
     public void visitEnter(final Rule rule) throws ModuleDataException {
@@ -202,14 +228,15 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
         }
         if (rule.getName() != null) {
             if ("SET_DEFINION_BY_FORMULA".equals(rule.getName())) {
-                setDefinitionByFormula = true;
+                // LATER mime 20080114: check if this rule can be proposed
+                existence.setClassOperatorExists(true);
             }
         }
-        transverser.setBlocked(true);
+        traverser.setBlocked(true);
     }
 
     public void visitLeave(final Rule rule) {
-        transverser.setBlocked(false);
+        traverser.setBlocked(false);
     }
 
     /**
@@ -227,7 +254,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
      * @return  Current context.
      */
     public final ModuleContext getCurrentContext() {
-        return transverser.getCurrentContext();
+        return traverser.getCurrentContext();
     }
 
     /**
@@ -236,31 +263,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor
      * @return  Original QEDEQ module.
      */
     protected final Qedeq getQedeqOriginal() {
-        return original.getQedeq();
-    }
-
-    public boolean predicateExists(final String name, final int arguments) {
-        final PredicateDefinition definition = (PredicateDefinition) predicateDefinitions
-            .get(name + "_" + arguments);
-        return null != definition;
-    }
-
-    public boolean functionExists(final String name, final int arguments) {
-        final FunctionDefinition definition = (FunctionDefinition) predicateDefinitions
-            .get(name + "_" + arguments);
-        return null != definition;
-    }
-
-    public boolean classOperatorExists() {
-        return setDefinitionByFormula;
-    }
-
-    public boolean equalityOperatorExists() {
-        return true;
-    }
-
-    public String getEqualityOperator() {
-        return "equal";
+        return prop.getModule().getQedeq();
     }
 
 }
