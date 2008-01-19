@@ -23,13 +23,16 @@ package org.qedeq.kernel.bo.logic;
  * <p>
  * If {@link #equalityOperatorExists()} returns <code>true</code> then
  * the call to {@link #predicateExists(String, int)} with the arguments
- * {@link #getEqualityOperator()} and 2 must return <code>true</code>.
+ * {@link #getIdentityOperator()} and 2 must return <code>true</code>.
  *
  * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public interface ExistenceChecker extends PredicateExistenceChecker, FunctionExistenceChecker,
         ClassOperatorExistenceChecker, EqualityOperatorExistenceChecker {
+
+    /** Name of equal operator. */
+    public static final String NAME_EQUAL = "equal";
 
 
 }
