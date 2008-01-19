@@ -18,6 +18,7 @@
 package org.qedeq.kernel.bo.logic;
 
 
+
 /**
  * Check if the predicate for equality is already defined.
  *
@@ -39,6 +40,6 @@ public interface EqualityOperatorExistenceChecker {
      * @return  Equality operator. Should be <code>null</code>
      *          if !{@link #equalityOperatorExists()}.
      */
-    public String getEqualityOperator();
+    public String getIdentityOperator();
 
 }
