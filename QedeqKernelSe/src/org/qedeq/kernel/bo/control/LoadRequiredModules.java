@@ -20,11 +20,12 @@ package org.qedeq.kernel.bo.control;
 import org.qedeq.kernel.base.module.Import;
 import org.qedeq.kernel.base.module.ImportList;
 import org.qedeq.kernel.bo.module.DependencyState;
+import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.ModuleReferenceList;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
+import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventLog;
@@ -41,8 +42,11 @@ import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
  */
 public final class LoadRequiredModules extends AbstractModuleVisitor {
 
-    /** Transverse QEDEQ module with this transverser. */
-    private final QedeqNotNullTransverser transverser;
+    /** This class. */
+    private static final Class CLASS = LoadRequiredModules.class;
+
+    /** Traverse QEDEQ module with this traverser. */
+    private final QedeqNotNullTraverser traverser;
 
     /** QEDEQ module properties object to work on. */
     private final ModuleProperties prop;
@@ -53,131 +57,89 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
     /**
      * Constructor.
      *
-     * @param   prop    QEDEQ odule properties object.
+     * @param   prop    QEDEQ module properties object.
      */
     private LoadRequiredModules(final ModuleProperties prop) {
         this.prop = prop;
-        this.transverser = new QedeqNotNullTransverser(prop.getModuleAddress(), this);
+        this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
         required = new ModuleReferenceList();
     }
 
     /**
      * Load all required QEDEQ modules for a given QEDEQ module.
      *
-     * @param   qedeqBo     Basic QEDEQ module object.
-     * @throws  ModuleDataException Major problem occurred.
-     */
-/*
-    public static void loadRequired(final QedeqBo qedeqBo)
-            throws ModuleDataException {
-        final String method = "loadRequired(QedeqBo)";
-        final ModuleProperties prop = KernelContext.getInstance().getModuleProperties(
-            qedeqBo.getModuleAddress().getAddress());   // TODO mime 20071026: this is no good code!
-        prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
-        final LoadRequiredModules converter = new LoadRequiredModules(qedeqBo);
-        try {
-            converter.loadRequired();
-            prop.setLoadedRequiredModules(converter.required);
-        } catch (ModuleDataException e) {
-            prop.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
-                ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                    qedeqBo.getQedeq()));
-            throw e;
-        } catch (final RuntimeException e) {    // last catch
-            Trace.fatal(LoadRequiredModules.class, method, "programming error", e);
-            ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
-                converter.transverser.getCurrentContext());
-            final XmlFileExceptionList xl =
-                new DefaultXmlFileExceptionList(e);
-            prop.setDependencyFailureState(
-                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
-            ModuleEventLog.getInstance().stateChanged(prop);
-            throw me;
-        } catch (final Throwable e) {           // last catch
-            ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
-                converter.transverser.getCurrentContext());
-            final XmlFileExceptionList xl =
-                new DefaultXmlFileExceptionList(e);
-            prop.setDependencyFailureState(
-                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
-            ModuleEventLog.getInstance().stateChanged(prop);
-            throw me;
-        }
-    }
-*/
-    /**
-     * Load all required QEDEQ modules for a given QEDEQ module.
-     *
      * @param   prop    Module properties.
-     * @throws  ModuleDataException Major problem occurred.
-     * @throws  SourceFileExceptionList
+     * @throws  SourceFileExceptionList Failure(s).
      */
-    public static void loadRequired(final ModuleProperties prop)
-            throws ModuleDataException, SourceFileExceptionList {
+    public static void loadRequired(final ModuleProperties prop) throws SourceFileExceptionList {
         final String method = "loadRequired(ModuleProperties)";
         // did we check this already?
         if (prop.getDependencyState().areAllRequiredLoaded()) {
-            return;
+            return; // everything is OK
         }
         KernelContext.getInstance().loadModule(prop.getModuleAddress());
         prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
+        ModuleEventLog.getInstance().stateChanged(prop);
         final LoadRequiredModules converter = new LoadRequiredModules(prop);
         try {
             converter.loadRequired();
             prop.setLoadedRequiredModules(converter.required);
         } catch (ModuleDataException e) {
-            prop.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
+            final SourceFileExceptionList sfl =
                 ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                    prop.getModule().getQedeq()));
-            throw e;
+                    prop.getModule().getQedeq());
+            prop.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
+                sfl);
+            ModuleEventLog.getInstance().stateChanged(prop);
+            throw sfl;
         } catch (final RuntimeException e) {    // last catch
             Trace.fatal(LoadRequiredModules.class, method, "programming error", e);
             ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
-                converter.transverser.getCurrentContext());
-            final SourceFileExceptionList xl =
-                new DefaultSourceFileExceptionList(e);
+                converter.traverser.getCurrentContext());
+            final SourceFileExceptionList sfl =
+                new DefaultSourceFileExceptionList(me);
             prop.setDependencyFailureState(
-                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
             ModuleEventLog.getInstance().stateChanged(prop);
-            throw me;
+            throw sfl;
         } catch (final Throwable e) {           // last catch
             ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
-                converter.transverser.getCurrentContext());
-            final SourceFileExceptionList xl =
-                new DefaultSourceFileExceptionList(e);
+                converter.traverser.getCurrentContext());
+            final SourceFileExceptionList sfl =
+                new DefaultSourceFileExceptionList(me);
             prop.setDependencyFailureState(
-                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
             ModuleEventLog.getInstance().stateChanged(prop);
-            throw me;
+            throw sfl;
         }
     }
 
     /**
      * Load all required QEDEQ modules for a given QEDEQ module.
      *
-     * @throws  ModuleDataException Exception during transversion.
+     * @throws  ModuleDataException Exception during traverse.
      */
     private final void loadRequired() throws ModuleDataException {
-        transverser.accept(prop.getModule().getQedeq());
+        traverser.accept(prop.getModule().getQedeq());
     }
 
     public void visitEnter(final Import imp) throws ModuleDataException {
         try {
             final ModuleProperties propNew = KernelContext.getInstance()
                 .loadModule(prop.getModule(), imp.getSpecification());
-            required.add(transverser.getCurrentContext(), imp.getLabel(),
-                propNew.getModuleAddress());
+            required.add(new ModuleContext(traverser.getCurrentContext()), imp.getLabel(), propNew);
+            System.out.println("adding context: " + traverser.getCurrentContext()); // FIXME
             loadRequired(propNew);
         } catch (SourceFileExceptionList e) {
-            Trace.trace(this, "visitEnter(Import)", e);
+            Trace.trace(CLASS, this, "visitEnter(Import)", e);
             throw new LoadRequiredModuleException(e.get(0).getErrorCode(),
                 "import of module labeled \"" + imp.getLabel() + "\" failed: "
-                + e.get(0).getMessage(), transverser.getCurrentContext());
+                + e.get(0).getMessage(), traverser.getCurrentContext());
         }
     }
 
     public void visitLeave(final ImportList imports) {
-        transverser.setBlocked(true);
+        traverser.setBlocked(true);
     }
 
 }
