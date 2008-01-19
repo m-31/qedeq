@@ -27,19 +27,20 @@ import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
 import org.qedeq.kernel.bo.module.DependencyState;
 import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.LogicalState;
-import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
 import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 /**
  * Check logical correctness of modules.
  */
 class CheckLogicAction extends AbstractAction {
+
+    /** This class. */
+    private static final Class CLASS = CheckLogicAction.class;
 
     /** Controller reference. */
     private final QedeqController controller;
@@ -57,7 +58,7 @@ class CheckLogicAction extends AbstractAction {
      */
     public void actionPerformed(final ActionEvent e) {
         final String method = "actionPerformed";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         try {
             final ModuleProperties[] props;
             try {
@@ -83,39 +84,18 @@ class CheckLogicAction extends AbstractAction {
 
                             LoadRequiredModules.loadRequired(props[i]);
 
-                            props[i].setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
-                            ModuleEventLog.getInstance().stateChanged(props[i]);
-                            QedeqBoFormalLogicChecker.check(props[i].getModuleAddress(),
-                                props[i].getModule());
-
-                            props[i].setLogicalProgressState(LogicalState.STATE_CHECKED);
-                            ModuleEventLog.getInstance().stateChanged(props[i]);
+                            QedeqBoFormalLogicChecker.check(props[i]);
                             QedeqLog.getInstance().logSuccessfulReply(
                                 "Check of logical correctness successful for \""
                                 + props[i].getUrl() + "\"");
-                        } catch (final ModuleDataException e) {
+                        } catch (final SourceFileExceptionList e) {
                             final String msg = "Check of logical correctness failed for \""
                                 + props[i].getUrl() + "\"";
-                            Trace.fatal(this, method, msg, e);
-
-                            final SourceFileExceptionList xl =
-                                ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                                props[i].getModule().getQedeq());
-                            // TODO mime 20071031: every state must be able to change into
-                            // a failure state, here we only assume two cases
-                            if (!props[i].hasLoadedRequiredModules()) {
-                                props[i].setDependencyFailureState(
-                                    DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
-                            } else {
-                                props[i].setLogicalFailureState(
-                                    LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
-                            }
-                            ModuleEventLog.getInstance().stateChanged(props[i]);
                             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
                         } catch (final RuntimeException e) {
                             final String msg = "Check of logical correctness failed for \""
                                 + props[i].getUrl() + "\"";
-                            Trace.fatal(this, method, msg, e);
+                            Trace.fatal(CLASS, this, method, msg, e);
                             final SourceFileExceptionList xl =
                                 new DefaultSourceFileExceptionList(e);
                             // TODO mime 20071031: every state must be able to change into
@@ -129,25 +109,10 @@ class CheckLogicAction extends AbstractAction {
                             }
                             ModuleEventLog.getInstance().stateChanged(props[i]);
                             QedeqLog.getInstance().logFailureReply(msg, e.toString());
-                        } catch (SourceFileExceptionList e) {
-                            final String msg = "Check of logical correctness failed for \""
-                                + props[i].getUrl() + "\"";
-                            Trace.fatal(this, method, msg, e);
-                            // TODO mime 20071031: every state must be able to change into
-                            // a failure state, here we only assume two cases
-                            if (!props[i].hasLoadedRequiredModules()) {
-                                props[i].setDependencyFailureState(
-                                    DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, e);
-                            } else {
-                                props[i].setLogicalFailureState(
-                                    LogicalState.STATE_EXTERNAL_CHECKING_FAILED, e);
-                            }
-                            ModuleEventLog.getInstance().stateChanged(props[i]);
-                            QedeqLog.getInstance().logFailureReply(msg, e.toString());
                         } catch (final Throwable e) {
                             final String msg = "Check of logical correctness failed for \""
                                 + props[i].getUrl() + "\"";
-                            Trace.fatal(this, method, msg, e);
+                            Trace.fatal(CLASS, this, method, msg, e);
                             final SourceFileExceptionList xl =
                                 new DefaultSourceFileExceptionList(e);
                             // TODO mime 20071031: every state must be able to change into
@@ -169,7 +134,7 @@ class CheckLogicAction extends AbstractAction {
             thread.setDaemon(true);
             thread.start();
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
