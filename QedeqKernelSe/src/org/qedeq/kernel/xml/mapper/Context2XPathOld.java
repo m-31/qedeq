@@ -51,6 +51,9 @@ import org.qedeq.kernel.xml.tracker.SimpleXPath;
  */
 public final class Context2XPathOld {
 
+    /** This class. */
+    private static final Class CLASS = Context2XPathOld.class;
+
     /**
      * Constructor.
      */
@@ -79,7 +82,7 @@ public final class Context2XPathOld {
     public static final String getXPath(final ModuleContext context) {
         final String method = "getXPath(String)";
         String xpath = context.getLocationWithinModule();
-        Trace.param(Context2XPathOld.class, method, "context", xpath);
+        Trace.param(CLASS, method, "context", xpath);
         xpath = ReplaceUtility.replace(xpath, ".get(", "[");
         xpath = ReplaceUtility.replace(xpath, "()", "");
         xpath = ReplaceUtility.replace(xpath, ")", "]");
@@ -191,7 +194,7 @@ public final class Context2XPathOld {
         }
 
         xpath = sxp.toString();
-        Trace.param(Context2XPathOld.class, method, "xpath", xpath);
+        Trace.param(CLASS, method, "xpath", xpath);
         return xpath;
     }
 

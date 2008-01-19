@@ -44,6 +44,9 @@ import org.xml.sax.SAXException;
  */
 public final class ModuleDataException2XmlFileException {
 
+    /** This class. */
+    private static final Class CLASS = ModuleDataException2XmlFileException.class;
+
     /**
      * Constructor.
      */
@@ -62,8 +65,7 @@ public final class ModuleDataException2XmlFileException {
             exception, final Qedeq qedeq) {
         final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList();
         final SourceFileException e = new SourceFileException(exception, createSourceArea(qedeq,
-            exception.getContext()),
-            createSourceArea(qedeq, exception.getReferenceContext()));
+            exception.getContext()), createSourceArea(qedeq, exception.getReferenceContext()));
         list.add(e);
         return list;
     }
@@ -84,7 +86,7 @@ public final class ModuleDataException2XmlFileException {
         try {
             xpath = Context2SimpleXPath.getXPath(context, qedeq).toString();
         } catch (ModuleDataException e) {
-            Trace.trace(SourceFileException.class, method, e);
+            Trace.trace(CLASS, method, e);
             return null;
         };
 
@@ -100,11 +102,11 @@ public final class ModuleDataException2XmlFileException {
             return new SourceArea(context.getModuleLocation().getURL(), find.getStartLocation(),
                 find.getEndLocation());
         } catch (ParserConfigurationException e) {
-            Trace.trace(SourceFileException.class, method, e);
+            Trace.trace(CLASS, method, e);
         } catch (SAXException e) {
-            Trace.trace(SourceFileException.class, method, e);
+            Trace.trace(CLASS, method, e);
         } catch (IOException e) {
-            Trace.trace(SourceFileException.class, method, e);
+            Trace.trace(CLASS, method, e);
         }
         return null;
     }

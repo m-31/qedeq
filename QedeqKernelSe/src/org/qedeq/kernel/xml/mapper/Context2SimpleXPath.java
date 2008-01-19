@@ -58,7 +58,7 @@ import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
+import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.dto.list.Enumerator;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
@@ -86,8 +86,11 @@ import org.qedeq.kernel.xml.tracker.SimpleXPath;
  */
 public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
-    /** Transverse QEDEQ module with this transverser. */
-    private QedeqNotNullTransverser transverser;
+    /** This class. */
+    private static final Class CLASS = Context2SimpleXPath.class;
+
+    /** Traverse QEDEQ module with this traverser. */
+    private QedeqNotNullTraverser traverser;
 
     /** QEDEQ object to work on. */
     private Qedeq qedeq;
@@ -121,7 +124,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
      */
     private Context2SimpleXPath(final ModuleContext find, final Qedeq qedeq) {
         this.qedeq = qedeq;
-        transverser = new QedeqNotNullTransverser(find.getModuleLocation(), this);
+        traverser = new QedeqNotNullTraverser(find.getModuleLocation(), this);
         this.find = find;
         elements = new ArrayList(20);
     }
@@ -159,25 +162,25 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
     private final SimpleXPath find() throws ModuleDataException {
         final String method = "find()";
-        Trace.paramInfo(this, method, "find", find);
+        Trace.paramInfo(CLASS, this, method, "find", find);
         elements.clear();
         level = 0;
         current = new SimpleXPath();
         try {
-            transverser.accept(qedeq);
+            traverser.accept(qedeq);
         } catch (LocationFoundException e) {
-            Trace.paramInfo(this, method, "location found", current);
+            Trace.paramInfo(CLASS, this, method, "location found", current);
             return current;
         }
-        Trace.param(this, method, "level", level);  // level should be equal to zero now
-        Trace.info(this, method, "location was not found");
+        Trace.param(CLASS, this, method, "level", level);  // level should be equal to zero now
+        Trace.info(CLASS, this, method, "location was not found");
         throw new LocationNotFoundException(find);
     }
 
     public final void visitEnter(final Qedeq qedeq) throws ModuleDataException {
         enter("QEDEQ");
         final String method = "visitEnter(Qedeq)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
     }
 
@@ -188,11 +191,11 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Header header) throws ModuleDataException {
         enter("HEADER");
         final String method = "visitEnter(Header)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getEmail()");
+        traverser.setLocationWithinModule(context + ".getEmail()");
         current.setAttribute("email");
         checkIfFound();
     }
@@ -204,15 +207,15 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Specification specification) throws ModuleDataException {
         enter("SPECIFICATION");
         final String method = "visitEnter(Specification)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getName()");
+        traverser.setLocationWithinModule(context + ".getName()");
         current.setAttribute("name");
         checkIfFound();
 
-        transverser.setLocationWithinModule(context + ".getRuleVersion()");
+        traverser.setLocationWithinModule(context + ".getRuleVersion()");
         current.setAttribute("ruleVersion");
         checkIfFound();
     }
@@ -223,7 +226,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
     public final void visitEnter(final LatexList latexList) throws ModuleDataException {
         final String method = "visitEnter(LatexList)";
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         final String name;
         if (context.endsWith(".getTitle()")) {
             name = "TITLE";
@@ -248,17 +251,17 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         } else {    // programming error
             throw new IllegalArgumentException("unknown LatexList " + context);
         }
-        Trace.param(this, method, "name", name);
+        Trace.param(CLASS, this, method, "name", name);
         if (name != null) {
             enter(name);
         }
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
 
         checkMatching(method);
     }
 
     public final void visitLeave(final LatexList latexList) {
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         if (!context.endsWith(".getNonFormalProof()")       // no extra XSD element
                 && !context.endsWith(".getItem()")) {
             leave();
@@ -266,27 +269,27 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     public final void visitEnter(final Latex latex) throws ModuleDataException {
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         if (context.indexOf(".getAuthorList().get(") >= 0) {    // TODO mime 20070216: why is the
             enter("NAME");                                      // XSD so cruel???
         }
         enter("LATEX");
         final String method = "visitEnter(Latex)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getLanguage()");
+        traverser.setLocationWithinModule(context + ".getLanguage()");
         current.setAttribute("language");
         checkIfFound();
 
-        transverser.setLocationWithinModule(context + ".getLatex()");
+        traverser.setLocationWithinModule(context + ".getLatex()");
         current.setAttribute(null); // element character data of LATEX is LaTeX content
         checkIfFound();
     }
 
     public final void visitLeave(final Latex latex) {
         // because NAME of AUTHOR/NAME/LATEX has no equivalent in interfaces:
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         if (context.indexOf(".getAuthorList().get(") >= 0) {
             leave();
         }
@@ -296,7 +299,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final LocationList locationList) throws ModuleDataException {
         enter("LOCATIONS");
         final String method = "visitEnter(LocationList)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
 
     }
@@ -308,11 +311,11 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Location location) throws ModuleDataException {
         enter("LOCATION");
         final String method = "visitEnter(Location)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getLocation()");
+        traverser.setLocationWithinModule(context + ".getLocation()");
         current.setAttribute("value");
         checkIfFound();
     }
@@ -324,7 +327,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final AuthorList authorList) throws ModuleDataException {
         enter("AUTHORS");
         final String method = "visitEnter(AuthorList)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
     }
 
@@ -335,11 +338,11 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Author author) throws ModuleDataException {
         enter("AUTHOR");
         final String method = "visitEnter(Author)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getEmail()");
+        traverser.setLocationWithinModule(context + ".getEmail()");
         current.setAttribute("email");
         checkIfFound();
     }
@@ -351,7 +354,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final ImportList importList) throws ModuleDataException {
         enter("IMPORTS");
         final String method = "visitEnter(ImportList)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
     }
 
@@ -362,11 +365,11 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Import imp) throws ModuleDataException {
         enter("IMPORT");
         final String method = "visitEnter(Import)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getLabel()");
+        traverser.setLocationWithinModule(context + ".getLabel()");
         current.setAttribute("label");
         checkIfFound();
     }
@@ -378,7 +381,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final UsedByList usedByList) throws ModuleDataException {
         enter("USEDBY");
         final String method = "visitEnter(UsedByList)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
     }
 
@@ -394,17 +397,17 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     public final void visitLeave(final ChapterList chapterList) {
-        transverser.setBlocked(false);  // free sub node search
+        traverser.setBlocked(false);  // free sub node search
     }
 
     public final void visitEnter(final Chapter chapter) throws ModuleDataException {
         enter("CHAPTER");
         final String method = "visitEnter(Chapter)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getNoNumber()");
+        traverser.setLocationWithinModule(context + ".getNoNumber()");
         current.setAttribute("noNumber");
         checkIfFound();
     }
@@ -421,17 +424,17 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     public final void visitLeave(final SectionList sectionList) {
-        transverser.setBlocked(false);  // free sub node search
+        traverser.setBlocked(false);  // free sub node search
     }
 
     public final void visitEnter(final Section section) throws ModuleDataException {
         enter("SECTION");
         final String method = "visitEnter(Section)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getNoNumber()");
+        traverser.setLocationWithinModule(context + ".getNoNumber()");
         current.setAttribute("noNumber");
         checkIfFound();
     }
@@ -443,7 +446,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final SubsectionList subsectionList) throws ModuleDataException {
         enter("SUBSECTIONS");
         final String method = "visitEnter(SubsectionList)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
     }
 
@@ -454,15 +457,15 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Subsection subsection) throws ModuleDataException {
         enter("SUBSECTION");
         final String method = "visitEnter(Subsection)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getId()");
+        traverser.setLocationWithinModule(context + ".getId()");
         current.setAttribute("id");
         checkIfFound();
 
-        transverser.setLocationWithinModule(context + ".getLevel()");
+        traverser.setLocationWithinModule(context + ".getLevel()");
         current.setAttribute("level");
         checkIfFound();
     }
@@ -474,20 +477,20 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Node node) throws ModuleDataException {
         enter("NODE");
         final String method = "visitEnter(Node)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getId()");
+        traverser.setLocationWithinModule(context + ".getId()");
         current.setAttribute("id");
         checkIfFound();
 
-        transverser.setLocationWithinModule(context + ".getLevel()");
+        traverser.setLocationWithinModule(context + ".getLevel()");
         current.setAttribute("level");
         checkIfFound();
 
         // we dont't differentiate the different node types here and point to the parent element
-        transverser.setLocationWithinModule(context + ".getNodeType()");
+        traverser.setLocationWithinModule(context + ".getNodeType()");
         current.setAttribute(null);
         checkIfFound();
 
@@ -500,7 +503,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Axiom axiom) throws ModuleDataException {
         enter("AXIOM");
         final String method = "visitEnter(Axiom)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
     }
 
@@ -511,7 +514,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Proposition proposition) throws ModuleDataException {
         enter("THEOREM");
         final String method = "visitEnter(Proposition)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
     }
 
@@ -529,15 +532,15 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Proof proof) throws ModuleDataException {
         enter("PROOF");
         final String method = "visitEnter(Proof)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getKind()");
+        traverser.setLocationWithinModule(context + ".getKind()");
         current.setAttribute("kind");
         checkIfFound();
 
-        transverser.setLocationWithinModule(context + ".getLevel()");
+        traverser.setLocationWithinModule(context + ".getLevel()");
         current.setAttribute("level");
         checkIfFound();
     }
@@ -549,26 +552,26 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final PredicateDefinition definition) throws ModuleDataException {
         enter("DEFINITION_PREDICATE");
         final String method = "visitEnter(PredicateDefinition)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getArgumentNumber()");
+        traverser.setLocationWithinModule(context + ".getArgumentNumber()");
         current.setAttribute("arguments");
         checkIfFound();
 
-        transverser.setLocationWithinModule(context + ".getName()");
+        traverser.setLocationWithinModule(context + ".getName()");
         current.setAttribute("name");
         checkIfFound();
 
-        transverser.setLocationWithinModule(context + ".getLatexPattern()");
+        traverser.setLocationWithinModule(context + ".getLatexPattern()");
         enter("LATEXPATTERN");
-        if (find.getLocationWithinModule().equals(transverser.getCurrentContext()
+        if (find.getLocationWithinModule().equals(traverser.getCurrentContext()
                 .getLocationWithinModule())) {
             if (definition.getLatexPattern() == null) { // NOT FOUND
                 leave();
             }
-            throw new LocationFoundException(transverser.getCurrentContext());
+            throw new LocationFoundException(traverser.getCurrentContext());
         }
         leave();
     }
@@ -580,26 +583,26 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final FunctionDefinition definition) throws ModuleDataException {
         enter("DEFINITION_FUNCTION");
         final String method = "visitEnter(FunctionDefinition)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getArgumentNumber()");
+        traverser.setLocationWithinModule(context + ".getArgumentNumber()");
         current.setAttribute("arguments");
         checkIfFound();
 
-        transverser.setLocationWithinModule(context + ".getName()");
+        traverser.setLocationWithinModule(context + ".getName()");
         current.setAttribute("name");
         checkIfFound();
 
-        transverser.setLocationWithinModule(context + ".getLatexPattern()");
+        traverser.setLocationWithinModule(context + ".getLatexPattern()");
         enter("LATEXPATTERN");
-        if (find.getLocationWithinModule().equals(transverser.getCurrentContext()
+        if (find.getLocationWithinModule().equals(traverser.getCurrentContext()
                 .getLocationWithinModule())) {
             if (definition.getLatexPattern() == null) { // NOT FOUND
                 leave();
             }
-            throw new LocationFoundException(transverser.getCurrentContext());
+            throw new LocationFoundException(traverser.getCurrentContext());
         }
         leave();
     }
@@ -611,11 +614,11 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Rule rule) throws ModuleDataException {
         enter("RULE");
         final String method = "visitEnter(Rule)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getName()");
+        traverser.setLocationWithinModule(context + ".getName()");
         current.setAttribute("name");
         checkIfFound();
     }
@@ -626,14 +629,14 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
     public final void visitEnter(final LinkList linkList) throws ModuleDataException {
         final String method = "visitEnter(LinkList)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
         for (int i = 0; i < linkList.size(); i++) {
             enter("LINK");
             if (linkList.get(i) != null) {
-                transverser.setLocationWithinModule(context + ".get(" + i + ")");
+                traverser.setLocationWithinModule(context + ".get(" + i + ")");
                 current.setAttribute("id");
                 checkIfFound();
             }
@@ -647,7 +650,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Formula formula) throws ModuleDataException {
         enter("FORMULA");
         final String method = "visitEnter(Formula)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
     }
 
@@ -658,7 +661,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Term term) throws ModuleDataException {
         enter("TERM");
         final String method = "visitEnter(Term)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
     }
 
@@ -669,7 +672,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final VariableList variableList) throws ModuleDataException {
         enter("VARLIST");
         final String method = "visitEnter(VariableList)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
     }
 
@@ -681,8 +684,8 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         final String operator = list.getOperator();
         enter(operator);
         final String method = "visitEnter(ElementList)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
 
         // to find something like getElement(0).getList().getElement(0)
         if (context.startsWith(find.getLocationWithinModule())) {
@@ -691,12 +694,12 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getOperator()");
+        traverser.setLocationWithinModule(context + ".getOperator()");
         checkIfFound();
-        transverser.setLocationWithinModule(context);
+        traverser.setLocationWithinModule(context);
         final boolean firstIsAtom = list.size() > 0 && list.getElement(0).isAtom();
         if (firstIsAtom) {
-            transverser.setLocationWithinModule(context + ".getElement(0).getAtom()");
+            traverser.setLocationWithinModule(context + ".getElement(0).getAtom()");
             if ("VAR".equals(operator) || "PREDVAR".equals(operator)
                     || "FUNVAR".equals(operator)) {
                 current.setAttribute("id");
@@ -706,8 +709,8 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
                 checkIfFound();
             } else {    // should not occur, but just in case
                 current.setAttribute(null);
-                Trace.info(this, method, "unknown operator " + operator);
-                throw new LocationFoundException(transverser.getCurrentContext());
+                Trace.info(CLASS, this, method, "unknown operator " + operator);
+                throw new LocationFoundException(traverser.getCurrentContext());
             }
         }
     }
@@ -716,7 +719,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final Atom atom) throws ModuleDataException {
         final String method = "visitEnter(Atom)";
         Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         // mime 20070217: should never occur
         checkMatching(method);
     }
@@ -728,7 +731,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final LiteratureItemList list) throws ModuleDataException {
         enter("BIBLIOGRAPHY");
         final String method = "visitEnter(LiteratureItemList)";
-        Trace.param(this, method, "current", current);
+        Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
     }
 
@@ -739,11 +742,11 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     public final void visitEnter(final LiteratureItem item) throws ModuleDataException {
         enter("ITEM");
         final String method = "visitEnter(LiteratureItem)";
-        Trace.param(this, method, "current", current);
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
 
-        transverser.setLocationWithinModule(context + ".getLabel()");
+        traverser.setLocationWithinModule(context + ".getLabel()");
         current.setAttribute("label");
         checkIfFound();
     }
@@ -758,9 +761,9 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
      * @throws  LocationFoundException  We have found it.
      */
     private final void checkIfFound() throws LocationFoundException {
-        if (find.getLocationWithinModule().equals(transverser.getCurrentContext()
+        if (find.getLocationWithinModule().equals(traverser.getCurrentContext()
                 .getLocationWithinModule())) {
-            throw new LocationFoundException(transverser.getCurrentContext());
+            throw new LocationFoundException(traverser.getCurrentContext());
         }
     }
 
@@ -777,10 +780,10 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
      */
     private final void checkMatching(final String method)
             throws LocationNotFoundException, LocationFoundException {
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         if (find.getLocationWithinModule().startsWith(context)) {
-            Trace.info(this, method, "beginning matches");
-            Trace.paramInfo(this, method, "context", context);
+            Trace.info(CLASS, this, method, "beginning matches");
+            Trace.paramInfo(CLASS, this, method, "context", context);
             matching = true;
             matchingBegin = context;                    // remember matching context
             matchingPath = new SimpleXPath(current);    // remember last matching XPath
@@ -797,16 +800,16 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
                     // so what can we do? We just return the last matching location and hope
                     // it is close enough to the searched one. But at least we do some
                     // logging here:
-                    Trace.info(this, method, "matching lost");
-                    Trace.paramInfo(this, method, "last match     ", matchingBegin);
-                    Trace.paramInfo(this, method, "current context", context);
-                    Trace.paramInfo(this, method, "find context   ",
-                        find.getLocationWithinModule());
+                    Trace.info(CLASS, this, method, "matching lost");
+                    Trace.paramInfo(CLASS, this, method, "last match     ", matchingBegin);
+                    Trace.paramInfo(CLASS, this, method, "current context", context);
+                    Trace.paramInfo(CLASS, this, method,
+                        "find context   ", find.getLocationWithinModule());
 
                     // throw new LocationNotFoundException(find);  // when we really want to fail
 
-                    Trace.traceStack(this, method);
-                    Trace.info(this, method, "changing XPath to last matching one");
+                    Trace.traceStack(CLASS, this, method);
+                    Trace.info(CLASS, this, method, "changing XPath to last matching one");
                     // now we change the current XPath to the last matching one because the
                     // contents of "current" is used as the resulting XPath later on when
                     // catching the exception in {@link #find()}
@@ -815,7 +818,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
                         matchingBegin));
                 }
             }
-            transverser.setBlocked(true);   // block further search in sub nodes
+            traverser.setBlocked(true);   // block further search in sub nodes
         }
         checkIfFound();
     }
@@ -846,7 +849,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     private final void leave() {
         level--;
         current.deleteLastElement();
-        transverser.setBlocked(false);  //  enable further search in sub notes
+        traverser.setBlocked(false);  //  enable further search in sub notes
     }
 
     /**
