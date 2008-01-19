@@ -45,6 +45,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class Preferences extends JFrame {
 
+    /** This class. */
+    private static final Class CLASS = Preferences.class;
+
     /** Automatic scroll of log pane. */
     private JCheckBox automaticLogScrollCB;
 
@@ -113,16 +116,16 @@ public final class Preferences extends JFrame {
     public Preferences(final String title) {
         super(title);
         final String method = "Constructor";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         try {
             changed = false;
             setupView();
             pack();
             setSize(660, 490);
         } catch (Throwable e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -264,7 +267,7 @@ public final class Preferences extends JFrame {
         chooseBufferLocation.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 try {
-                    Trace.trace(this, method, "mkdirs="
+                    Trace.trace(CLASS, this, method, "mkdirs="
                         + new Boolean(Preferences.this.bufferDirectory.mkdirs()));
                     JFileChooser chooser = new JFileChooser(Preferences.this.bufferDirectory);
                     FileFilter filter = new FileFilter() {
@@ -313,7 +316,7 @@ public final class Preferences extends JFrame {
         chooseGenerationLocation.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 try {
-                    Trace.trace(this, method, "mkdirs="
+                    Trace.trace(CLASS, this, method, "mkdirs="
                         + new Boolean(Preferences.this.generationDirectory.mkdirs()));
                     JFileChooser chooser = new JFileChooser(Preferences.this.generationDirectory);
                     FileFilter filter = new FileFilter() {
@@ -362,7 +365,7 @@ public final class Preferences extends JFrame {
         chooselocalModulesLocation.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 try {
-                    Trace.trace(this, method, "mkdirs="
+                    Trace.trace(CLASS, this, method, "mkdirs="
                         + new Boolean(Preferences.this.localModulesDirectory.mkdirs()));
                     JFileChooser chooser = new JFileChooser(Preferences.this.localModulesDirectory);
                     FileFilter filter = new FileFilter() {
@@ -409,7 +412,7 @@ public final class Preferences extends JFrame {
             try {
                 QedeqGuiConfig.getInstance().store();
             } catch (IOException e) {
-                Trace.fatal(this, "save", "couldn't save preferences", e);
+                Trace.fatal(CLASS, this, "save", "couldn't save preferences", e);
             }
         }
     }

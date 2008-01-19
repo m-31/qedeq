@@ -45,6 +45,9 @@ import org.qedeq.kernel.trace.Trace;
 
 public class LogPane extends JPanel implements LogListener {
 
+    /** This class. */
+    private static final Class CLASS = LogPane.class;
+
     /** The log panel. */
     private JTextPane textPane = new JTextPane();
 
@@ -86,7 +89,6 @@ public class LogPane extends JPanel implements LogListener {
 //      final DefaultCaret caret = (DefaultCaret) text.getCaret();
 //      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);  // LATER mime JRE 1.5
         textPane.setFocusable(true);
-        textPane.setFocusable(true);
         final JScrollPane scroller = new JScrollPane();
         final JViewport vp = scroller.getViewport();
         vp.add(textPane);
@@ -95,10 +97,10 @@ public class LogPane extends JPanel implements LogListener {
 
         this.addComponentListener(new ComponentAdapter() {
             public void componentHidden(final ComponentEvent e) {
-                Trace.trace(this, "componentHidden", e);
+                Trace.trace(CLASS, this, "componentHidden", e);
             }
             public void componentShown(final ComponentEvent e) {
-                Trace.trace(this, "componentHidden", e);
+                Trace.trace(CLASS, this, "componentHidden", e);
             }
         });
 
@@ -117,7 +119,7 @@ public class LogPane extends JPanel implements LogListener {
             this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
                 text + "\n\t" + url + "\n", this.messageAttrs);
         } catch (BadLocationException e) {
-            Trace.trace(this, "logMessageState", e);
+            Trace.trace(CLASS, this, "logMessageState", e);
         }
         rework();
     }
@@ -127,7 +129,7 @@ public class LogPane extends JPanel implements LogListener {
             this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
                 text + "\n\t" + url + "\n", this.errorAttrs);
         } catch (BadLocationException e) {
-            Trace.trace(this, "logFailureState", e);
+            Trace.trace(CLASS, this, "logFailureState", e);
         }
         rework();
     }
@@ -137,7 +139,7 @@ public class LogPane extends JPanel implements LogListener {
             this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
                 text + "\n\t" + url + "\n", this.successAttrs);
         } catch (BadLocationException e) {
-            Trace.trace(this, "logSuccessfulState", e);
+            Trace.trace(CLASS, this, "logSuccessfulState", e);
         }
         rework();
     }
@@ -147,7 +149,7 @@ public class LogPane extends JPanel implements LogListener {
             this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
                 text + "\n", this.requestAttrs);
         } catch (BadLocationException e) {
-            Trace.trace(this, "logRequest", e);
+            Trace.trace(CLASS, this, "logRequest", e);
         }
         rework();
     }
@@ -157,7 +159,7 @@ public class LogPane extends JPanel implements LogListener {
             this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
                 text + "\n", this.successAttrs);
         } catch (BadLocationException e) {
-            Trace.trace(this, "logSuccessfulReply", e);
+            Trace.trace(CLASS, this, "logSuccessfulReply", e);
         }
         rework();
     }
@@ -167,7 +169,7 @@ public class LogPane extends JPanel implements LogListener {
             this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
                 text +  "\n\t" + description + "\n", this.errorAttrs);
         } catch (BadLocationException e) {
-            Trace.trace(this, "logFailureReply", e);
+            Trace.trace(CLASS, this, "logFailureReply", e);
         }
         rework();
     }
@@ -177,7 +179,7 @@ public class LogPane extends JPanel implements LogListener {
             this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
                 text + "\n", this.messageAttrs);
         } catch (BadLocationException e) {
-            Trace.trace(this, "logFailureReply", e);
+            Trace.trace(CLASS, this, "logFailureReply", e);
         }
         rework();
     }

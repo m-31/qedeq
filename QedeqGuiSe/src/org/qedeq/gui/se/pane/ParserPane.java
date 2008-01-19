@@ -58,7 +58,10 @@ import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
  */
 public class ParserPane extends JFrame {
 
-    /** TODO Example string. */
+    /** This class. */
+    private static final Class CLASS = ParserPane.class;
+
+    /** TODO mime 20080118: Only example string. */
     private static final String SAMPLE = "x \\land (y \\lor z) \\leftrightarrow (x \\land y) \\lor "
         + "(x \\land z)\n\n\\{ x | y \\in x \\} = \\{ z | y \\in x \\}";
 
@@ -181,10 +184,10 @@ public class ParserPane extends JFrame {
 
         addComponentListener(new ComponentAdapter() {
             public void componentHidden(final ComponentEvent e) {
-                Trace.trace(this, "componentHidden", e);
+                Trace.trace(CLASS, this, "componentHidden", e);
             }
             public void componentShown(final ComponentEvent e) {
-                Trace.trace(this, "componentShown", e);
+                Trace.trace(CLASS, this, "componentShown", e);
             }
         });
 
@@ -275,7 +278,7 @@ public class ParserPane extends JFrame {
      */
     public synchronized void updateView() {
         final String method = "updateView()";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
 
         if (errorPosition >= 0) {
             // reserve 3 text lines for error description

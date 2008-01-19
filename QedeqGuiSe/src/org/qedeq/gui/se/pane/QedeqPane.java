@@ -47,6 +47,9 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class QedeqPane extends JPanel {
 
+    /** This class. */
+    private static final Class CLASS = QedeqPane.class;
+
     /** Reference to module properties. */
     private ModuleProperties prop;
 
@@ -90,7 +93,7 @@ public class QedeqPane extends JPanel {
      * @param   prop
      */
     public void setModel(final ModuleProperties prop) {
-        Trace.trace(this, "setModel", prop);
+        Trace.trace(CLASS, this, "setModel", prop);
         this.prop = prop;
         updateView();
     }
@@ -113,7 +116,7 @@ public class QedeqPane extends JPanel {
      * Update from model.
      */
     public synchronized void updateView() {
-        Trace.begin(this, "updateView");
+        Trace.begin(CLASS, this, "updateView");
         if (prop != null) {
             try {
                 final File file = KernelContext.getInstance().getLocalFilePath(
@@ -149,19 +152,19 @@ public class QedeqPane extends JPanel {
                         qedeq.setSelectedTextColor(MetalLookAndFeel.getHighlightedTextColor());
                         qedeq.setSelectionColor(MetalLookAndFeel.getTextHighlightColor());
                     }
-                    Trace.trace(this, "updateView", "Text updated");
+                    Trace.trace(CLASS, this, "updateView", "Text updated");
                 } else {
                     throw new IOException("File " + file.getCanonicalPath() + " not readable!");
                 }
             } catch (IOException ioException) {
                 qedeq.setEditable(false);
                 qedeq.setText("");
-                Trace.trace(this, "updateView", ioException);
+                Trace.trace(CLASS, this, "updateView", ioException);
             }
         } else {
             qedeq.setEditable(false);
             qedeq.setText("");
-            Trace.end(this, "updateView");
+            Trace.end(CLASS, this, "updateView");
         }
         this.repaint();
     }
@@ -170,14 +173,14 @@ public class QedeqPane extends JPanel {
     /**
      * Get QEDEQ text, if QEDEQ text is editable.
      *
-     * @return  qedeq text
-     * @throws  IllegalStateException   qedeq text is not editable
+     * @return  QEDEQ text source.
+     * @throws  IllegalStateException   QEDEQ text is not editable.
      */
     public final String getEditedQedeq() {
         if (qedeq.isEditable()) {
             return this.qedeq.getText();
         } else {
-            throw new IllegalStateException("no editable qedeq text");
+            throw new IllegalStateException("no editable QEDEQ text");
         }
     }
 
@@ -213,22 +216,22 @@ public class QedeqPane extends JPanel {
     }
 */
     private final void highlightLine(final int line) {
-        Trace.param(this, "highlightLine", "line", line);
+        Trace.param(CLASS, this, "highlightLine", "line", line);
         int j;
         try {
             j = qedeq.getLineStartOffset(line - 1);
         } catch (BadLocationException e) {
-            Trace.trace(this, "highlightLine", e);
+            Trace.trace(CLASS, this, "highlightLine", e);
             j = 0;
         }
         int k;
         try {
             k = qedeq.getLineEndOffset(line - 1);
         } catch (BadLocationException e) {
-            Trace.trace(this, "highlightLine", e);
+            Trace.trace(CLASS, this, "highlightLine", e);
             k = qedeq.getText().length();
         }
-        Trace.trace(this, "highlightLine", "from " + j + " to " + k);
+        Trace.trace(CLASS, this, "highlightLine", "from " + j + " to " + k);
 
         qedeq.setCaretPosition(j);
         qedeq.moveCaretPosition(k);

@@ -49,6 +49,9 @@ import org.qedeq.kernel.trace.Trace;
 
 public class HtmlPane extends JPanel {
 
+    /** This class. */
+    private static final Class CLASS = HtmlPane.class;
+
     /** Module properties for selected module. */
     private ModuleProperties prop;
 
@@ -101,10 +104,10 @@ public class HtmlPane extends JPanel {
 
         this.addComponentListener(new ComponentAdapter() {
             public void componentHidden(final ComponentEvent e) {
-                Trace.trace(this, "componentHidden", e);
+                Trace.trace(CLASS, this, "componentHidden", e);
             }
             public void componentShown(final ComponentEvent e) {
-                Trace.trace(this, "componentHidden", e);
+                Trace.trace(CLASS, this, "componentHidden", e);
             }
         });
 
@@ -117,7 +120,7 @@ public class HtmlPane extends JPanel {
      * @param   prop
      */
     public void setModel(final ModuleProperties prop) {
-        Trace.trace(this, "setModel", prop);
+        Trace.trace(CLASS, this, "setModel", prop);
         this.prop = prop;
     }
 
@@ -132,7 +135,7 @@ public class HtmlPane extends JPanel {
      * Update from model.
      */
     public synchronized void updateView() {
-        Trace.begin(this, "updateView");
+        Trace.begin(CLASS, this, "updateView");
         boolean refresh = false;
         if (prop == null && this.currentAddress != null) {
             refresh = true;
@@ -160,7 +163,7 @@ public class HtmlPane extends JPanel {
 //                html.setText(converter.getText());
 
             } catch (Exception e) {
-                Trace.trace(this, "updateView", e);
+                Trace.trace(CLASS, this, "updateView", e);
                 html.setText("");
             }
             this.blocked = false;
@@ -168,7 +171,7 @@ public class HtmlPane extends JPanel {
             html.setText("");
         }
         this.repaint();
-        Trace.end(this, "updateView");
+        Trace.end(CLASS, this, "updateView");
     }
 
 
