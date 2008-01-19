@@ -39,6 +39,9 @@ import org.qedeq.kernel.utility.IoUtility;
  */
 public class DefaultModuleAddress implements ModuleAddress {
 
+    /** This class. */
+    private static final Class CLASS = DefaultModuleAddress.class;
+
     /** URL form of this address. */
     private final URL url;
 
@@ -114,9 +117,9 @@ public class DefaultModuleAddress implements ModuleAddress {
                 urmel = new URL(address);
             }
         } catch (MalformedURLException e) {
-            Trace.trace(this, method, "address=" + address);
-            Trace.trace(this, method, "parent=" + parent);
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, "address=" + address);
+            Trace.trace(CLASS, this, method, "parent=" + parent);
+            Trace.trace(CLASS, this, method, e);
             try {
                 final String newAddress = "file:" + address;
                 if (parent != null) {
@@ -128,7 +131,7 @@ public class DefaultModuleAddress implements ModuleAddress {
                 throw e;    // throw original exception
             }
         }
-        Trace.trace(this, method, "protocol=" + urmel.getProtocol());
+        Trace.trace(CLASS, this, method, "protocol=" + urmel.getProtocol());
         url = urmel;
         fileAddress = url.getProtocol().equalsIgnoreCase("file");
 /*
@@ -150,8 +153,8 @@ public class DefaultModuleAddress implements ModuleAddress {
             this.path = "";
             this.fileName = p;
         }
-        Trace.trace(this, method, "path=" + this.path);
-        Trace.trace(this, method, "fileName=" + this.fileName);
+        Trace.trace(CLASS, this, method, "path=" + this.path);
+        Trace.trace(CLASS, this, method, "fileName=" + this.fileName);
         this.relativeAddress = !this.path.startsWith("/");
         if (!this.fileName.endsWith(".xml")) {
             throw new MalformedURLException("file name doesn't end with \".xml\": "
