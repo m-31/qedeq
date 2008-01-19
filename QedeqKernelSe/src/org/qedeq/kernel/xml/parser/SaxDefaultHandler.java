@@ -21,7 +21,6 @@ import java.util.Stack;
 
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.common.SourcePosition;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
@@ -45,6 +44,9 @@ import org.xml.sax.helpers.DefaultHandler;
  * @author  Michael Meyling
  */
 public class SaxDefaultHandler extends DefaultHandler {
+
+    /** This class. */
+    private static final Class CLASS = SaxDefaultHandler.class;
 
     /** Delegate currently to this handler. */
     private AbstractSimpleHandler currentHandler;
@@ -91,15 +93,6 @@ public class SaxDefaultHandler extends DefaultHandler {
      */
     public void setExceptionList(final DefaultSourceFileExceptionList errorList) {
         this.errorList = errorList;
-    }
-
-    /**
-     * Get parse exception list. This list collects occurring parsing errors.
-     *
-     * @return  Collected errors.
-     */
-    public SourceFileExceptionList getExceptionList() {
-        return errorList;
     }
 
     /**
@@ -156,28 +149,28 @@ public class SaxDefaultHandler extends DefaultHandler {
             final Attributes amap) throws SAXException {
         final String method = "startElement";
         try {
-            Trace.param(this, method, "currentHandler", currentHandler.getClass().getName());
-            Trace.param(this, method, "localName", localName);
-            Trace.param(this, method, "qName", qName);
+            Trace.param(CLASS, this, method, "currentHandler", currentHandler.getClass().getName());
+            Trace.param(CLASS, this, method, "localName", localName);
+            Trace.param(CLASS, this, method, "qName", qName);
             if (handlerStack.empty() && level == 0) {
                 currentHandler.init();
             }
             level++;
-            Trace.param(this, method, "level", level);
+            Trace.param(CLASS, this, method, "level", level);
             sendCharacters();
             currentElementName = localName;
             final SimpleAttributes attributes = new SimpleAttributes();
             for (int i = 0; i < amap.getLength(); i++) {
                 attributes.add(amap.getQName(i), amap.getValue(i));
             }
-            Trace.param(this, method, "attributes", attributes);
+            Trace.param(CLASS, this, method, "attributes", attributes);
             currentHandler.startElement(qName, attributes);
         } catch (XmlSyntaxException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             setLocationInformation(e);
             errorList.add(new SourceFileException(e, createSourceArea(), null));
         } catch (RuntimeException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
             errorList.add(ex);
@@ -193,15 +186,15 @@ public class SaxDefaultHandler extends DefaultHandler {
         sendCharacters();
         final String method = "endElement";
         try {
-            Trace.param(this, method, "currentHandler", currentHandler.getClass().getName());
-            Trace.param(this, method, "localName", localName);
+            Trace.param(CLASS, this, method, "currentHandler", currentHandler.getClass().getName());
+            Trace.param(CLASS, this, method, "localName", localName);
             currentHandler.endElement(localName);
         } catch (XmlSyntaxException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             setLocationInformation(e);
             errorList.add(new SourceFileException(e, createSourceArea(), null));
         } catch (RuntimeException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
             errorList.add(new SourceFileException(ex, createSourceArea(), null));
@@ -209,16 +202,16 @@ public class SaxDefaultHandler extends DefaultHandler {
         try {
             currentElementName = null;
             level--;
-            Trace.param(this, method, "level", level);
+            Trace.param(CLASS, this, method, "level", level);
             if (level <= 0) {
                 restoreHandler(localName);
             }
         } catch (XmlSyntaxException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             setLocationInformation(e);
             errorList.add(e);
         } catch (RuntimeException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
             errorList.add(new SourceFileException(ex, createSourceArea(), null));
@@ -245,11 +238,11 @@ public class SaxDefaultHandler extends DefaultHandler {
                 }
             }
         } catch (XmlSyntaxException e) {
-            Trace.trace(this, "sendCharacters", e);
+            Trace.trace(CLASS, this, "sendCharacters", e);
             setLocationInformation(e);
             errorList.add(new SourceFileException(e, createSourceArea(), null));
         } catch (RuntimeException e) {
-            Trace.trace(this, "sendCharacters", e);
+            Trace.trace(CLASS, this, "sendCharacters", e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
             errorList.add(new SourceFileException(ex, createSourceArea(), null));
@@ -291,7 +284,7 @@ public class SaxDefaultHandler extends DefaultHandler {
         currentHandler = newHandler;
         level = 0;
         level++;
-        Trace.param(this, "changeHandler", "level", level);
+        Trace.param(CLASS, this, "changeHandler", "level", level);
         currentHandler.init();
         currentHandler.startElement(elementName, attributes);
     }
@@ -306,14 +299,14 @@ public class SaxDefaultHandler extends DefaultHandler {
     private final void restoreHandler(final String elementName) throws XmlSyntaxException {
         while (level <= 0 && !handlerStack.empty()) {
             currentHandler = (AbstractSimpleHandler) handlerStack.pop();
-            Trace.param(this, "restoreHandler", "currentHandler", currentHandler);
+            Trace.param(CLASS, this, "restoreHandler", "currentHandler", currentHandler);
             level = ((Integer) levelStack.pop()).intValue();
             currentHandler.endElement(elementName);
             level--;
-            Trace.param(this, "restoreHandler", "level", level);
+            Trace.param(CLASS, this, "restoreHandler", "level", level);
         }
         if (handlerStack.empty()) {
-            Trace.trace(this, "restoreHandler", "no handler to restore");
+            Trace.trace(CLASS, this, "restoreHandler", "no handler to restore");
         }
     }
 

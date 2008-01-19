@@ -36,6 +36,9 @@ import org.xml.sax.SAXParseException;
  */
 public class SaxEntityResolver implements EntityResolver {
 
+    /** This class. */
+    private static final Class CLASS = SaxEntityResolver.class;
+
     /** Handler that parses the document. */
     private final SaxDefaultHandler handler;
 
@@ -54,8 +57,8 @@ public class SaxEntityResolver implements EntityResolver {
     public InputSource resolveEntity(final String publicId, final String systemId)
             throws FileNotFoundException, SAXException {
         final String method = "resolveEntity";
-        Trace.param(this, method, "systemId", systemId);
-        Trace.param(this, method, "publicId", publicId);
+        Trace.param(CLASS, this, method, "systemId", systemId);
+        Trace.param(CLASS, this, method, "publicId", publicId);
         if ((systemId == null)) {
             return null;
         }
@@ -83,7 +86,7 @@ public class SaxEntityResolver implements EntityResolver {
             inputSource.setSystemId(systemId);
             return inputSource;
         }
-        Trace.trace(this, method, "unknown entity");
+        Trace.trace(CLASS, this, method, "unknown entity");
         SAXParseException sax = handler.createSAXParseException(
             "this kernel supports only the following XSDs:\n"
             + "http://www.qedeq.org/" + KernelContext.getInstance()

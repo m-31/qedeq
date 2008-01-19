@@ -58,6 +58,9 @@ import org.xml.sax.XMLReader;
  */
 public class XPathLocationParser implements ContentHandler {
 
+    /** This class. */
+    private static final Class CLASS = XPathLocationParser.class;
+
     /** Namespaces feature id (http://xml.org/sax/features/namespaces). */
     private static final String NAMESPACES_FEATURE_ID = "http://xml.org/sax/features/namespaces";
 
@@ -198,7 +201,7 @@ public class XPathLocationParser implements ContentHandler {
             reader.parse(new InputSource(new FileReader(file)));
             xml = null;
         } catch (SAXException e) {
-            Trace.trace(this, "parse", e);
+            Trace.trace(CLASS, this, "parse", e);
             throw e;
         }
     }
@@ -313,15 +316,15 @@ public class XPathLocationParser implements ContentHandler {
         }
 */
         if (find.matchesElements(current, summary)) {
-            Trace.trace(this, method, "matching elements");
-            Trace.param(this, method, qName, current);
+            Trace.trace(CLASS, this, method, "matching elements");
+            Trace.param(CLASS, this, method, qName, current);
             xml.setRow(locator.getLineNumber());
             xml.setColumn(locator.getColumnNumber());
 
             try {
                 xml.skipBackToBeginOfXmlTag();
             } catch (RuntimeException e) {
-                Trace.trace(this, method, e);
+                Trace.trace(CLASS, this, method, e);
             }
             find.setStartLocation(new SourcePosition(xml.getAddress(), xml.getRow(), xml
                 .getColumn()));

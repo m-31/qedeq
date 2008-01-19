@@ -46,6 +46,9 @@ import org.xml.sax.helpers.DefaultHandler;
  */
 public final class SaxParser {
 
+    /** This class. */
+    private static final Class CLASS = SaxParser.class;
+
     /** Namespaces feature id (http://xml.org/sax/features/namespaces). */
     private static final String NAMESPACES_FEATURE_ID = "http://xml.org/sax/features/namespaces";
 
@@ -101,13 +104,13 @@ public final class SaxParser {
         try {
             factory.setFeature(SCHEMA_VALIDATION_FEATURE_ID, true);
         } catch (SAXNotRecognizedException e) {
-            Trace.trace(this, "constructor", e);
+            Trace.trace(CLASS, this, "constructor", e);
             // ignore
         }
         try {
             factory.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
         } catch (SAXNotRecognizedException e) {
-            Trace.trace(this, "constructor", e);
+            Trace.trace(CLASS, this, "constructor", e);
             // ignore
         }
 
@@ -130,13 +133,13 @@ public final class SaxParser {
         try {
             reader.setFeature(SCHEMA_VALIDATION_FEATURE_ID, true);
         } catch (SAXNotRecognizedException e) {
-            Trace.trace(this, "constructor", e);
+            Trace.trace(CLASS, this, "constructor", e);
             // ignore
         }
         try {
             reader.setFeature(SCHEMA_FULL_CHECKING_FEATURE_ID, true);
         } catch (SAXNotRecognizedException e) {
-            Trace.trace(this, "constructor", e);
+            Trace.trace(CLASS, this, "constructor", e);
             // ignore
         }
     }
@@ -153,7 +156,7 @@ public final class SaxParser {
     private void parse(final URL url, final URL original, final boolean validateOnly)
             throws SourceFileExceptionList {
         final String method = "parse(URL, boolean)";
-        Trace.param(this, method, "url", url);
+        Trace.param(CLASS, this, method, "url", url);
 
         InputStream in = null;
         try {
@@ -168,7 +171,7 @@ public final class SaxParser {
                 try {
                     in.close();
                 } catch (Exception e) {
-                    Trace.trace(this, method, e);
+                    Trace.trace(CLASS, this, method, e);
                 }
             }
         }
@@ -215,7 +218,7 @@ public final class SaxParser {
                 try {
                     dis.close();
                 } catch (Exception e) {
-                    Trace.trace(this, method, e);
+                    Trace.trace(CLASS, this, method, e);
                 }
             }
         }

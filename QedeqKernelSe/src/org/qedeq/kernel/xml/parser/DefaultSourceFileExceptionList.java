@@ -26,17 +26,22 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.xml.sax.SAXException;
 
 
 /**
  * Type save {@link org.qedeq.kernel.common.SourceFileException} list.
+ * TODO mime 20080109: shouldn't this list have some informations about the source being parsed?
  *
  * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
+
+    /** This class. */
+    private static final Class CLASS = DefaultSourceFileExceptionList.class;
 
     /** List with parse exceptions. */
     private final List exceptions = new ArrayList();
@@ -85,6 +90,30 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
     public DefaultSourceFileExceptionList(final Throwable e) {
         initCause(e);
         add(new SourceFileException(e));
+        Trace.fatal(CLASS, "Constructor(Throwable)",
+            "Major unexpected problem", e);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param   e   Wrap me.
+     */
+    public DefaultSourceFileExceptionList(final Exception e) {
+        initCause(e);
+        Trace.fatal(CLASS, "Constructor(Exception)",
+            "Unexpected problem", e);
+        add(new SourceFileException(e));
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param   e   Wrap me.
+     */
+    public DefaultSourceFileExceptionList(final SourceFileException e) {
+        initCause(e);
+        add(e);
     }
 
     /**

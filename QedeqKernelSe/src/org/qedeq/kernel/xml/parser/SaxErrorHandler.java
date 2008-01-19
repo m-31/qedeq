@@ -36,6 +36,9 @@ import org.xml.sax.SAXParseException;
  */
 public class SaxErrorHandler implements ErrorHandler {
 
+    /** This class. */
+    private static final Class CLASS = SaxErrorHandler.class;
+
     /** Error code for Exceptions thrown by the SAXParser. */
     public static final int SAX_PARSER_EXCEPTION = 9001;
 
@@ -53,7 +56,7 @@ public class SaxErrorHandler implements ErrorHandler {
      */
     public SaxErrorHandler(final URL url, final DefaultSourceFileExceptionList list) {
         super();
-        Trace.param(this, "SaxErrorHandler", "url", url);
+        Trace.param(CLASS, this, "SaxErrorHandler", "url", url);
         this.url = url;
         this.list = list;
     }
@@ -65,8 +68,8 @@ public class SaxErrorHandler implements ErrorHandler {
         final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
             e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
                 e.getColumnNumber()), null), null);
-        Trace.trace(this, "warning", e);
-        Trace.trace(this, "warning", sf);
+        Trace.trace(CLASS, this, "warning", e);
+        Trace.trace(CLASS, this, "warning", sf);
         list.add(sf);
     }
 
@@ -77,8 +80,8 @@ public class SaxErrorHandler implements ErrorHandler {
         final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
             e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
                 e.getColumnNumber()), null), null);
-        Trace.trace(this, "error", e);
-        Trace.trace(this, "error", sf);
+        Trace.trace(CLASS, this, "error", e);
+        Trace.trace(CLASS, this, "error", sf);
         list.add(sf);
     }
 
@@ -89,8 +92,8 @@ public class SaxErrorHandler implements ErrorHandler {
         final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
             e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
                 e.getColumnNumber()), null), null);
-        Trace.trace(this, "fatalError", e);
-        Trace.trace(this, "fatalError", sf);
+        Trace.trace(CLASS, this, "fatalError", e);
+        Trace.trace(CLASS, this, "fatalError", sf);
         list.add(sf);
     }
 
