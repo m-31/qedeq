@@ -29,8 +29,11 @@ import org.qedeq.kernel.trace.Trace;
  */
 class RemoveAllAction extends AbstractAction {
 
+    /** This class. */
+    private static final Class CLASS = RemoveAllAction.class;
+
     public void actionPerformed(final ActionEvent e) {
-        Trace.trace(this, "actionPerformed", e);
+        Trace.trace(CLASS, this, "actionPerformed", e);
 
         final Thread thread = new Thread() {
             public void run() {

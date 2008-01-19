@@ -35,6 +35,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 class ParserAction extends AbstractAction {
 
+    /** This class. */
+    private static final Class CLASS = ParserAction.class;
+
     /** Controller reference. */
     private final QedeqController controller;
 
@@ -51,13 +54,13 @@ class ParserAction extends AbstractAction {
         try {
             new ParserPane().show();
         } catch (FileNotFoundException ex) {
-            Trace.fatal(this, "actionPerformed", "Parser Window can not be opened", ex);
+            Trace.fatal(CLASS, this, "actionPerformed", "Parser Window can not be opened", ex);
             JOptionPane.showMessageDialog(
                 controller.getMainFrame(), "Parser Window can not be opened" + "\n"
                     + ex.toString(), "Error",
                     JOptionPane.ERROR_MESSAGE);;
         } catch (SourceFileExceptionList xl) {
-            Trace.fatal(this, "actionPerformed", "Parser Window can not be opened", xl);
+            Trace.fatal(CLASS, this, "actionPerformed", "Parser Window can not be opened", xl);
             JOptionPane.showMessageDialog(
                 controller.getMainFrame(), "Parser Window can not be opened" + "\n"
                     + xl.toString(), "Error",

@@ -31,6 +31,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 class RemoveLocalBufferAction extends AbstractAction {
 
+    /** This class. */
+    private static final Class CLASS = RemoveLocalBufferAction.class;
+
     /** Controller. */
     private final QedeqController controller;
 
@@ -44,7 +47,7 @@ class RemoveLocalBufferAction extends AbstractAction {
     }
 
     public void actionPerformed(final ActionEvent e) {
-        Trace.trace(this, "actionPerformed", e);
+        Trace.trace(CLASS, this, "actionPerformed", e);
 
         final Thread thread = new Thread() {
             public void run() {
@@ -55,7 +58,7 @@ class RemoveLocalBufferAction extends AbstractAction {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "Local buffer was cleared.");
                 } catch (IOException e) {
-                    Trace.fatal(controller, "actionPerformed", "IO access problem", e);
+                    Trace.fatal(CLASS, controller, "actionPerformed", "IO access problem", e);
                     QedeqLog.getInstance().logFailureReply(
                         "IO access problem", e.getMessage());
                 }

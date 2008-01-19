@@ -34,6 +34,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 class MakeLatexAction extends AbstractAction {
 
+    /** This class. */
+    private static final Class CLASS = MakeLatexAction.class;
+
     /** Controller reference. */
     private final QedeqController controller;
 
@@ -50,7 +53,7 @@ class MakeLatexAction extends AbstractAction {
      */
     public void actionPerformed(final ActionEvent e) {
         final String method = "actionPerformed";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         try {
             final ModuleProperties[] props;
             try {
@@ -81,7 +84,7 @@ class MakeLatexAction extends AbstractAction {
                         } catch (final SourceFileExceptionList e) {
                             final String msg = "Generation failed for \""
                                 + props[i].getUrl() + "\"";
-                            Trace.fatal(this, method, msg, e);
+                            Trace.fatal(CLASS, this, method, msg, e);
                             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
                         }
                     }
@@ -90,7 +93,7 @@ class MakeLatexAction extends AbstractAction {
             thread.setDaemon(true);
             thread.start();
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
