@@ -34,6 +34,8 @@ import org.qedeq.kernel.trace.Trace;
  */
 class Modules {
 
+    /** This class. */
+    private static final Class CLASS = Modules.class;
 
     /** properties of modules; key: ModuleAddress, value: ModuleProperties.*/
     private final Map moduleProperties = new HashMap();
@@ -63,7 +65,7 @@ class Modules {
      */
     final void removeAllModules() {
         final String method = "removeAllModules";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         try {
             synchronized (moduleProperties) {
                 for (final Iterator iterator
@@ -71,15 +73,15 @@ class Modules {
                         iterator.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) iterator.next();
                     final ModuleProperties prop = (ModuleProperties) entry.getValue();
-                    Trace.trace(this, method, "remove " +  prop);
+                    Trace.trace(CLASS, this, method, "remove " +  prop);
                     ModuleEventLog.getInstance().removeModule(prop);
                 }
                 moduleProperties.clear();
             }
         } catch (RuntimeException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -91,27 +93,27 @@ class Modules {
      */
     final void removeModule(final ModuleProperties prop) {
         final String method = "removeModule";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         try {
             synchronized (moduleProperties) {
-                Trace.trace(this, method, "remove module "
+                Trace.trace(CLASS, this, method, "remove module "
                     +  prop.getUrl());
                 if (!prop.isLoaded()) {
-                    Trace.trace(this, method, "removing " +  prop.getUrl());
+                    Trace.trace(CLASS, this, method, "removing " +  prop.getUrl());
                     ModuleEventLog.getInstance().removeModule(prop);
                     moduleProperties.remove(prop.getModuleAddress());
                 } else {
-                    Trace.trace(this, method, "module number=" + moduleProperties.size());
-                    Trace.trace(this, method, "removing module itself: " +  prop.getUrl());
+                    Trace.trace(CLASS, this, method, "module number=" + moduleProperties.size());
+                    Trace.trace(CLASS, this, method, "removing module itself: " +  prop.getUrl());
                     ModuleEventLog.getInstance().removeModule(prop);
                     moduleProperties.remove(prop.getModuleAddress());
-                    Trace.trace(this, method, "module number=" + moduleProperties.size());
+                    Trace.trace(CLASS, this, method, "module number=" + moduleProperties.size());
                 }
             }
         } catch (RuntimeException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -122,7 +124,7 @@ class Modules {
      */
     final ModuleAddress[] getAllLoadedModules() {
         final String method = "getAllModules";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         try {
             final List list = new ArrayList();
             synchronized (moduleProperties) {
@@ -138,7 +140,7 @@ class Modules {
             }
             return (ModuleAddress[]) list.toArray(new ModuleAddress[] {});
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
