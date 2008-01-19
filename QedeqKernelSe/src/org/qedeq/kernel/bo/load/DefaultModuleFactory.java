@@ -33,7 +33,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.control.LoadRequiredModules;
-import org.qedeq.kernel.bo.module.DependencyState;
 import org.qedeq.kernel.bo.module.Kernel;
 import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.ModuleAddress;
@@ -64,6 +63,9 @@ import org.xml.sax.SAXException;
  * @author  Michael Meyling
  */
 public class DefaultModuleFactory implements ModuleFactory {
+
+    /** This class. */
+    private static final Class CLASS = DefaultModuleFactory.class;
 
     /** For synchronized waiting. */
     private final String monitor = new String();
@@ -105,7 +107,7 @@ public class DefaultModuleFactory implements ModuleFactory {
                 public void run() {
                     final String method = "start()";
                     try {
-                        Trace.begin(this, method);
+                        Trace.begin(CLASS, this, method);
                         QedeqLog.getInstance().logMessage(
                             "Trying to load previously successfully loaded modules.");
                         final int number = kernel.getConfig().getPreviouslyCheckedModules().length;
@@ -119,9 +121,9 @@ public class DefaultModuleFactory implements ModuleFactory {
                                 + number + " module" + (number != 1 ? "s" : "") + " were tried.");
                         }
                     } catch (Exception e) {
-                        Trace.trace(this, method, e);
+                        Trace.trace(CLASS, this, method, e);
                     } finally {
-                        Trace.begin(this, method);
+                        Trace.begin(CLASS, this, method);
                     }
                 }
             };
@@ -224,7 +226,9 @@ public class DefaultModuleFactory implements ModuleFactory {
                 } catch (ModuleFileNotFoundException e) {     // file not found
                     // nothing to do, we will continue by creating a local copy
                 } catch (SourceFileExceptionList e) {
-                    Trace.trace(this, method, e);
+                    Trace.trace(CLASS, this, method, e);
+                    QedeqLog.getInstance().logFailureState("Loading of module failed!",
+                        address.getURL(), e.toString());
                     throw e;
                 }
 
@@ -232,7 +236,7 @@ public class DefaultModuleFactory implements ModuleFactory {
                 try {
                     makeLocalCopy(prop);
                 } catch (IOException e) {
-                    Trace.trace(this, method, e);
+                    Trace.trace(CLASS, this, method, e);
                     QedeqLog.getInstance().logFailureState("Loading of module failed!",
                         address.getURL(), e.toString());
                     throw createXmlFileExceptionList(e);
@@ -242,18 +246,18 @@ public class DefaultModuleFactory implements ModuleFactory {
                 } catch (ModuleFileNotFoundException e) {
                     // TODO mime 20070415: This should not occur because a local copy was
                     // at least created a few lines above
-                    Trace.trace(this, method, e);
+                    Trace.trace(CLASS, this, method, e);
                     QedeqLog.getInstance().logFailureState("Loading of module failed!",
                         address.getURL(), e.getMessage());
-                    final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList();
+                    // TODO mime 20071125: refac codes
                     final SourceFileException sf = new SourceFileException(1021,
-// TODO mime 20071125: refac codes
                         "Loading of module \"" + address.getURL() +  "\"failed",
                         e, (SourceArea) null, (SourceArea) null);
-                    sfl.add(sf);
+                    final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(
+                        sf);
                     throw sfl;
                 } catch (SourceFileExceptionList e) {
-                    Trace.trace(this, method, e);
+                    Trace.trace(CLASS, this, method, e);
                     QedeqLog.getInstance().logFailureState("Loading of module failed!",
                     address.getURL(), e.getMessage());
                     throw e;
@@ -269,15 +273,15 @@ public class DefaultModuleFactory implements ModuleFactory {
             final Specification spec) throws SourceFileExceptionList {
 
         final String method = "loadModule(Module, Specification)";
-        Trace.begin(this, method);
-        Trace.trace(this, method, spec);
+        Trace.begin(CLASS, this, method);
+        Trace.trace(CLASS, this, method, spec);
         processInc();
         try {
             final ModuleAddress[] modulePaths;
             try {
                 modulePaths = DefaultModuleAddress.getModulePaths(module, spec);
             } catch (IOException e) {
-                Trace.trace(this, method, e);
+                Trace.trace(CLASS, this, method, e);
                 throw createXmlFileExceptionList(e);
             }
             // search in already loaded modules
@@ -292,12 +296,12 @@ public class DefaultModuleFactory implements ModuleFactory {
             }
 
             // search in local file buffer
-            Trace.trace(this, method, "searching file buffer");
+            Trace.trace(CLASS, this, method, "searching file buffer");
             for (int i = 0; i < modulePaths.length; i++) {
                 try {
                     final ModuleProperties prop
                         = getModules().getModuleProperties(modulePaths[i]);
-                    Trace.trace(this, method, "synchronizing at prop=" + prop);
+                    Trace.trace(CLASS, this, method, "synchronizing at prop=" + prop);
                     synchronized (prop) {
                         loadLocalModule(prop);
                         return prop;
@@ -320,10 +324,10 @@ public class DefaultModuleFactory implements ModuleFactory {
                  } catch (IOException e) {
                      QedeqLog.getInstance().logFailureState("Loading of module failed!",
                          modulePaths[i].getURL(), e.toString());
-                     Trace.trace(this, method, e);
+                     Trace.trace(CLASS, this, method, e);
                      throw createXmlFileExceptionList(e);
                  } catch (ModuleFileNotFoundException e) {
-                     Trace.trace(this, method, e);
+                     Trace.trace(CLASS, this, method, e);
                      QedeqLog.getInstance().logFailureState("Loading of module failed!",
                          modulePaths[i].getURL(), e.getMessage());
                      throw createXmlFileExceptionList(e);
@@ -333,7 +337,7 @@ public class DefaultModuleFactory implements ModuleFactory {
                 "no QEDEQ module found"));
         } finally {
             processDec();
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -344,18 +348,7 @@ public class DefaultModuleFactory implements ModuleFactory {
 
     public void loadRequiredModules(final ModuleAddress address) throws SourceFileExceptionList {
         final ModuleProperties prop = loadModule(address);
-        try {
-            LoadRequiredModules.loadRequired(prop);
-        } catch (ModuleDataException e) {
-            final SourceFileExceptionList xl
-                = ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                prop.getModule().getQedeq());
-            // TODO mime 20071031: every state must be able to change into
-            // a failure state, here we only assume two cases
-            prop.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
-                xl);
-            throw xl;
-        }
+        LoadRequiredModules.loadRequired(prop);
     }
 
     /**
@@ -375,9 +368,9 @@ public class DefaultModuleFactory implements ModuleFactory {
                 } catch (SourceFileExceptionList e) {
                     errors = true;
                 } catch (IOException e) {
-                    Trace.fatal(this, "loadPreviouslySuccessfullyLoadedModules", "internal error: "
-                        + "saved URLs are malformed",
-                        e);
+                    Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
+                        "internal error: "
+                            + "saved URLs are malformed", e);
                     errors = true;
                 }
             }
@@ -419,9 +412,9 @@ public class DefaultModuleFactory implements ModuleFactory {
                 } catch (SourceFileExceptionList e) {
                     errors = true;
                 } catch (IOException e) {
-                    Trace.fatal(this, "loadPreviouslySuccessfullyLoadedModules", "internal error: "
-                        + "saved URLs are malformed",
-                        e);
+                    Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
+                        "internal error: "
+                            + "saved URLs are malformed", e);
                     errors = true;
                 }
             }
@@ -446,11 +439,11 @@ public class DefaultModuleFactory implements ModuleFactory {
         try {
             file = localFile.getCanonicalFile();
         } catch (IOException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             throw new ModuleFileNotFoundException("file path not correct: " + localFile);
         }
         if (!file.canRead()) {
-            Trace.trace(this, method, "file not readable=" + file);
+            Trace.trace(CLASS, this, method, "file not readable=" + file);
             throw new ModuleFileNotFoundException("file not found: " + file);
         }
         if (prop.getLoadingState() == LoadingState.STATE_UNDEFINED) {
@@ -468,13 +461,13 @@ public class DefaultModuleFactory implements ModuleFactory {
         try {
             parser = new SaxParser(handler);
         } catch (SAXException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
                 new DefaultSourceFileExceptionList(e));
             ModuleEventLog.getInstance().stateChanged(prop);
             throw createXmlFileExceptionList(e);
         } catch (ParserConfigurationException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
                 new DefaultSourceFileExceptionList(new RuntimeException(
                     "XML parser configuration error", e)));
@@ -484,7 +477,7 @@ public class DefaultModuleFactory implements ModuleFactory {
         try {
             parser.parse(file, prop.getUrl());
         } catch (SourceFileExceptionList e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, e);
             ModuleEventLog.getInstance().stateChanged(prop);
             throw e;
@@ -496,7 +489,7 @@ public class DefaultModuleFactory implements ModuleFactory {
         try {
             qedeqBo = QedeqBoFactory.createQedeq(prop.getModuleAddress(), qedeq);
         } catch (ModuleDataException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             final SourceFileExceptionList xl
                 = ModuleDataException2XmlFileException.createXmlFileExceptionList(e, qedeq);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
@@ -517,7 +510,7 @@ public class DefaultModuleFactory implements ModuleFactory {
             final ModuleProperties prop)
             throws IOException {
         final String method = "makeLocalCopy";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
 
         if (prop.getLoadingState() == LoadingState.STATE_UNDEFINED) {
             prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
@@ -562,7 +555,7 @@ public class DefaultModuleFactory implements ModuleFactory {
             }
             prop.setLoadingCompleteness(100);
         } catch (IOException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             try {
                 out.close();
             } catch (Exception ex) {
@@ -570,12 +563,12 @@ public class DefaultModuleFactory implements ModuleFactory {
             try {
                 f.delete();
             } catch (Exception ex) {
-                Trace.trace(this, method, ex);
+                Trace.trace(CLASS, this, method, ex);
             }
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED,
                 new DefaultSourceFileExceptionList(e));
             ModuleEventLog.getInstance().stateChanged(prop);
-            Trace.trace(this, method, "Couldn't access " + prop.getUrl());
+            Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
             throw e;
         } finally {
             try {
@@ -586,7 +579,7 @@ public class DefaultModuleFactory implements ModuleFactory {
                 in.close();
             } catch (Exception e) {
             };
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -602,11 +595,11 @@ public class DefaultModuleFactory implements ModuleFactory {
             return new File(address.getURL().getFile());
         }
         final URL url = address.getURL();
-        Trace.param(this, method, "protocol", url.getProtocol());
-        Trace.param(this, method, "host", url.getHost());
-        Trace.param(this, method, "port", url.getPort());
-        Trace.param(this, method, "path", url.getPath());
-        Trace.param(this, method, "file", url.getFile());
+        Trace.param(CLASS, this, method, "protocol", url.getProtocol());
+        Trace.param(CLASS, this, method, "host", url.getHost());
+        Trace.param(CLASS, this, method, "port", url.getPort());
+        Trace.param(CLASS, this, method, "path", url.getPath());
+        Trace.param(CLASS, this, method, "file", url.getFile());
         StringBuffer file = new StringBuffer(url.getFile());
         ReplaceUtility.replace(file, "_", "__");    // remember all '_'
         ReplaceUtility.replace(file, "/", "_1");    // preserve all '/'
@@ -627,7 +620,7 @@ public class DefaultModuleFactory implements ModuleFactory {
             adr = new  StringBuffer(new URL(url.getProtocol(), url.getHost(),
                 url.getPort(), file.toString()).toExternalForm());
         } catch (MalformedURLException e) {
-            Trace.fatal(this, "localizeInFileSystem(URL)", "unexpected", e);
+            Trace.fatal(CLASS, this, "localizeInFileSystem(URL)", "unexpected", e);
             e.printStackTrace();
         }
         // escape characters:
@@ -699,17 +692,11 @@ public class DefaultModuleFactory implements ModuleFactory {
 
     private SourceFileExceptionList createXmlFileExceptionList(
             final ParserConfigurationException e) {
-        final DefaultSourceFileExceptionList list
-            = new DefaultSourceFileExceptionList();
-        list.add(e);
-        return list;
+        return new DefaultSourceFileExceptionList(e);
     }
 
     private DefaultSourceFileExceptionList createXmlFileExceptionList(final SAXException e) {
-        final DefaultSourceFileExceptionList list
-            = new DefaultSourceFileExceptionList();
-        list.add(e);
-        return list;
+        return new DefaultSourceFileExceptionList(e);
     }
 
 }
