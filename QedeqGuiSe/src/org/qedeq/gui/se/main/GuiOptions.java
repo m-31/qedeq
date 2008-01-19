@@ -36,6 +36,9 @@ import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
  */
 public final class GuiOptions {
 
+    /** This class. */
+    private static final Class CLASS = GuiOptions.class;
+
     /** JGoodies option .*/
     private boolean useNarrowButtons;
 
@@ -171,9 +174,9 @@ public final class GuiOptions {
             Class theClass = Class.forName(selectedLookAndFeelClassName);
             setSelectedLookAndFeel((LookAndFeel) theClass.newInstance());
         } catch (Exception e) {
-            Trace.trace(this, "setSelectedLookAndFeel", e);
-            Trace.info(this, "setSelectedLookAndFeel", "Can't create instance for "
-                + selectedLookAndFeelClassName);
+            Trace.trace(CLASS, this, "setSelectedLookAndFeel", e);
+            Trace.info(CLASS, this, "setSelectedLookAndFeel", "Can't create instance for "
+                    + selectedLookAndFeelClassName);
         }
     }
 

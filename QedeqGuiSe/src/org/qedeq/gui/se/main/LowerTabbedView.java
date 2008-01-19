@@ -29,8 +29,6 @@ import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
 
-import com.jgoodies.uif_lite.component.Factory;
-
 
 /**
  * Lower tabbed pane view.
@@ -39,6 +37,9 @@ import com.jgoodies.uif_lite.component.Factory;
  * @author  Michael Meyling
  */
 public final class LowerTabbedView extends JPanel {
+
+    /** This class. */
+    private static final Class CLASS = LowerTabbedView.class;
 
     /** Holds all panes. */
     private JTabbedPane tabbedPane = new JTabbedPane();
@@ -67,9 +68,9 @@ public final class LowerTabbedView extends JPanel {
 
 //            tabbedPane.add(Factory.createStrippedScrollPane(logPane), "Log");
             tabbedPane.add(logPane, "Log");
-            tabbedPane.add(Factory.createStrippedScrollPane(errorListPane), "Errors");
+            tabbedPane.add(errorListPane, "Errors");
         } catch (RuntimeException e) {
-            Trace.trace(this, "constructor", e);
+            Trace.trace(CLASS, this, "constructor", e);
             throw e;
         }
         add(tabbedPane);

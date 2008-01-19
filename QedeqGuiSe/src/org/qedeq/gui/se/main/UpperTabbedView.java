@@ -40,6 +40,9 @@ import com.jgoodies.uif_lite.component.Factory;
  */
 public final class UpperTabbedView extends JPanel {
 
+    /** This class. */
+    private static final Class CLASS = UpperTabbedView.class;
+
     /** Holds all tabs. */
     private JTabbedPane tabbedPane = new JTabbedPane();
 
@@ -79,7 +82,7 @@ public final class UpperTabbedView extends JPanel {
 */
             setBorder(new EmptyBorder(10, 10, 10 , 10));
         } catch (RuntimeException e) {
-            Trace.trace(this, "constructor", e);
+            Trace.trace(CLASS, this, "constructor", e);
             throw e;
         }
 //        setSelectedIndex(0);
