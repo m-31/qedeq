@@ -35,4 +35,12 @@ public interface FunctionExistenceChecker {
      */
     public boolean functionExists(String name, int arguments);
 
+    /**
+     * Check if a function is already defined.
+     *
+     * @param   function    Function.
+     * @return  Functions is defined.
+     */
+    public boolean functionExists(Function function);
+
 }

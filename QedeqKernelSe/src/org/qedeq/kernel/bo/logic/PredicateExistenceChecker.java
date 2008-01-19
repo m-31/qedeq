@@ -35,4 +35,12 @@ public interface PredicateExistenceChecker {
      */
     public boolean predicateExists(String name, int arguments);
 
+    /**
+     * Check if a predicate is already defined.
+     *
+     * @param   predicate   Predicate.
+     * @return  Predicate is defined.
+     */
+    public boolean predicateExists(Predicate predicate);
+
 }
