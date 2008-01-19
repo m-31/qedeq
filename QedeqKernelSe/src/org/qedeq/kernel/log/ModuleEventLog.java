@@ -33,6 +33,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class ModuleEventLog implements ModuleEventListener {
 
+    /** This class. */
+    private static final Class CLASS = ModuleEventLog.class;
+
     /** The one and only instance. */
     private static ModuleEventLog instance = new ModuleEventLog();
 
@@ -48,7 +51,6 @@ public final class ModuleEventLog implements ModuleEventListener {
     public static final ModuleEventLog getInstance() {
         return instance;
     }
-
 
     /**
      * Don't use me outside of this class.
@@ -89,7 +91,8 @@ public final class ModuleEventLog implements ModuleEventListener {
             try {   // we don't know if the ModuleEventListener is free of programming errors...
                 ((ModuleEventListener) loggers.get(i)).addModule(prop);
             } catch (RuntimeException e) {
-                Trace.fatal(this, "addModule", "ModuleEventListener throwed RuntimeException", e);
+                Trace.fatal(CLASS, this, "addModule",
+                    "ModuleEventListener throwed RuntimeException", e);
             }
         }
     }
@@ -99,8 +102,8 @@ public final class ModuleEventLog implements ModuleEventListener {
             try {   // we don't know if the ModuleEventListener is free of programming errors...
                 ((ModuleEventListener) loggers.get(i)).stateChanged(prop);
             } catch (RuntimeException e) {
-                Trace.fatal(this, "stateChanged", "ModuleEventListener throwed RuntimeException",
-                    e);
+                Trace.fatal(CLASS, this, "stateChanged",
+                    "ModuleEventListener throwed RuntimeException", e);
             }
         }
     }
@@ -110,8 +113,8 @@ public final class ModuleEventLog implements ModuleEventListener {
             try {   // we don't know if the ModuleEventListener is free of programming errors...
                 ((ModuleEventListener) loggers.get(i)).removeModule(prop);
             } catch (RuntimeException e) {
-                Trace.fatal(this, "removeModule", "ModuleEventListener throwed RuntimeException",
-                    e);
+                Trace.fatal(CLASS, this, "removeModule",
+                    "ModuleEventListener throwed RuntimeException", e);
             }
         }
     }

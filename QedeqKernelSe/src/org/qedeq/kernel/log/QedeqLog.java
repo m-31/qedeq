@@ -32,6 +32,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class QedeqLog implements LogListener {
 
+    /** This class. */
+    private static final Class CLASS = QedeqLog.class;
+
     /** The one and only instance. */
     private static QedeqLog instance = new QedeqLog();
 
@@ -62,7 +65,7 @@ public final class QedeqLog implements LogListener {
      */
     public final void addLog(final LogListener log) {
         loggers.add(log);
-        Trace.paramInfo(this, "addLog(LogListener)", "log", log.getClass());
+        Trace.paramInfo(CLASS, this, "addLog(LogListener)", "log", log.getClass());
     }
 
     /**
@@ -72,7 +75,7 @@ public final class QedeqLog implements LogListener {
      */
     public final void removeLog(final LogListener log) {
         loggers.remove(log);
-        Trace.paramInfo(this, "removeLog(LogListener)", "log", log.getClass());
+        Trace.paramInfo(CLASS, this, "removeLog(LogListener)", "log", log.getClass());
     }
 
     public void logMessageState(final String text, final URL url) {
@@ -80,7 +83,7 @@ public final class QedeqLog implements LogListener {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logMessageState(text, url);
             } catch (RuntimeException e) {
-                Trace.fatal(this, "logMessageState", "LogListener throwed RuntimeException", e);
+                Trace.fatal(CLASS, this, "logMessageState", "LogListener throwed RuntimeException", e);
             }
         }
     }
@@ -90,7 +93,7 @@ public final class QedeqLog implements LogListener {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logFailureState(text, url, description);
             } catch (RuntimeException e) {
-                Trace.fatal(this, "logFailureState", "LogListener throwed RuntimeException", e);
+                Trace.fatal(CLASS, this, "logFailureState", "LogListener throwed RuntimeException", e);
             }
         }
     }
@@ -100,7 +103,7 @@ public final class QedeqLog implements LogListener {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logSuccessfulState(text, url);
             } catch (RuntimeException e) {
-                Trace.fatal(this, "logSuccessfulState", "LogListener throwed RuntimeException", e);
+                Trace.fatal(CLASS, this, "logSuccessfulState", "LogListener throwed RuntimeException", e);
             }
         }
     }
@@ -110,7 +113,7 @@ public final class QedeqLog implements LogListener {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logRequest(text);
             } catch (RuntimeException e) {
-                Trace.fatal(this, "logRequest", "LogListener throwed RuntimeException", e);
+                Trace.fatal(CLASS, this, "logRequest", "LogListener throwed RuntimeException", e);
             }
         }
     }
@@ -121,7 +124,7 @@ public final class QedeqLog implements LogListener {
                 ((LogListener) loggers.get(i)).logSuccessfulReply(text);
             }
         } catch (RuntimeException e) {
-            Trace.fatal(this, "logSuccessfulReply", "LogListener throwed RuntimeException", e);
+            Trace.fatal(CLASS, this, "logSuccessfulReply", "LogListener throwed RuntimeException", e);
         }
     }
 
@@ -130,7 +133,7 @@ public final class QedeqLog implements LogListener {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logFailureReply(text, description);
             } catch (RuntimeException e) {
-                Trace.fatal(this, "logFailureReply", "LogListener throwed RuntimeException", e);
+                Trace.fatal(CLASS, this, "logFailureReply", "LogListener throwed RuntimeException", e);
             }
         }
     }
@@ -140,7 +143,7 @@ public final class QedeqLog implements LogListener {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logMessage(text);
             } catch (RuntimeException e) {
-                Trace.fatal(this, "logMessage", "LogListener throwed RuntimeException", e);
+                Trace.fatal(CLASS, this, "logMessage", "LogListener throwed RuntimeException", e);
             }
         }
     }
