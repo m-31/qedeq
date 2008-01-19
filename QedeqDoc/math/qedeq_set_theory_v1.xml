@@ -50,7 +50,7 @@
       </AUTHOR>
     </AUTHORS>
     <IMPORTS>
-      <IMPORT label="qedeq_logic_v1">
+      <IMPORT label="l">
         <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
@@ -349,7 +349,7 @@
                     </PREDCON>
                   </EQUI>
                 </FORALL>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x"/>
                   <VAR id="y"/>
                 </PREDCON>
@@ -460,7 +460,7 @@
                     </PREDCON>
                   </EQUI>
                 </FORALL>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x"/>
                   <VAR id="y"/>
                 </PREDCON>
@@ -497,7 +497,7 @@
           <THEOREM>
             <FORMULA>
               <EQUI>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x"/>
                   <VAR id="y"/>
                 </PREDCON>
@@ -807,7 +807,7 @@
                   </AND>
                 </EQUI>
                 <EQUI>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <VAR id="y"/>
                     <CLASS>
                       <VAR id="x"/>
@@ -836,7 +836,7 @@
                   </FORALL>
                 </EQUI>
                 <EQUI>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <CLASS>
                       <VAR id="x"/>
                       <PREDVAR id="\phi">
@@ -895,7 +895,7 @@
                       <VAR id="v"/>
                       <IMPL>
                         <AND>
-                          <PREDCON ref="equal">
+                          <PREDCON ref="l.equal">
                             <VAR id="u"/>
                             <CLASS>
                               <VAR id="x"/>
@@ -904,7 +904,7 @@
                               </PREDVAR>
                             </CLASS>
                           </PREDCON>
-                          <PREDCON ref="equal">
+                          <PREDCON ref="l.equal">
                             <VAR id="v"/>
                             <CLASS>
                               <VAR id="x"/>
@@ -935,7 +935,7 @@
                   <FORALL>
                     <VAR id="u"/>
                     <IMPL>
-                      <PREDCON ref="equal">
+                      <PREDCON ref="l.equal">
                         <VAR id="u"/>
                         <CLASS>
                           <VAR id="x"/>
@@ -1033,7 +1033,7 @@
             <FORMULA>
               <EXISTSU>
                 <VAR id="x" />
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x" />
                   <CLASS>
                     <VAR id="y" />
@@ -1078,7 +1078,7 @@
                     </PREDVAR>
                   </EQUI>
                 </FORALL>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <CLASS>
                     <VAR id="y" />
                     <PREDVAR id="\phi">
@@ -1132,7 +1132,7 @@
           </PRECEDING>
           <THEOREM>
             <FORMULA>
-              <PREDCON ref="equal">
+              <PREDCON ref="l.equal">
                  <VAR id="x" />
                  <CLASS>
                    <VAR id="y" />
@@ -1273,7 +1273,7 @@
             <TERM>
               <CLASS>
                 <VAR id="x" />
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x" />
                   <VAR id="x" />
                  </PREDCON>
@@ -1301,7 +1301,7 @@
           </PRECEDING>
           <THEOREM>
             <FORMULA>
-              <PREDCON ref="equal">
+              <PREDCON ref="l.equal">
                 <FUNCON ref="universalClass" />
                 <CLASS>
                   <VAR id="x" />
@@ -1446,7 +1446,7 @@
                     <VAR id="x" />
                   </PREDCON>
                 </FORALL>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x" />
                   <FUNCON ref="emptySet" />
                 </PREDCON>
@@ -1821,7 +1821,7 @@
             <FORMULA>
               <AND>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="union">
                     <VAR id="x" />
                     <VAR id="y" />
@@ -1832,7 +1832,7 @@
                   </FUNCON>
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="intersection">
                     <VAR id="x" />
                     <VAR id="y" />
@@ -1843,7 +1843,7 @@
                   </FUNCON>
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="union">
                     <FUNCON ref="union">
                       <VAR id="x" />
@@ -1860,7 +1860,7 @@
                   </FUNCON>
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="intersection">
                     <FUNCON ref="intersection">
                       <VAR id="x" />
@@ -1877,7 +1877,7 @@
                   </FUNCON>
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x" />
                   <FUNCON ref="union">
                     <VAR id="x" />
@@ -1885,7 +1885,7 @@
                   </FUNCON>
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x" />
                   <FUNCON ref="intersection">
                     <VAR id="x" />
@@ -1893,7 +1893,7 @@
                   </FUNCON>
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="complement">
                     <FUNCON ref="complement">
                       <VAR id="x" />
@@ -1902,7 +1902,7 @@
                   <VAR id="x" />
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="complement">
                     <FUNCON ref="union">
                       <VAR id="x" />
@@ -1919,7 +1919,7 @@
                   </FUNCON>
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="complement">
                     <FUNCON ref="intersection">
                       <VAR id="x" />
@@ -1936,7 +1936,7 @@
                   </FUNCON>
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="union">
                     <VAR id="x" />
                     <FUNCON ref="intersection">
@@ -1956,7 +1956,7 @@
                   </FUNCON>
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="intersection">
                     <VAR id="x" />
                     <FUNCON ref="union">
@@ -1976,21 +1976,21 @@
                   </FUNCON>
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="complement">
                     <FUNCON ref="emptySet" />
                   </FUNCON>
                   <FUNCON ref="universalClass" />
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="complement">
                     <FUNCON ref="universalClass" />
                   </FUNCON>
                   <FUNCON ref="emptySet" />
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="intersection">
                     <VAR id="x" />
                     <FUNCON ref="universalClass" />
@@ -1998,7 +1998,7 @@
                   <VAR id="x" />
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="intersection">
                     <VAR id="x" />
                     <FUNCON ref="emptySet" />
@@ -2006,7 +2006,7 @@
                   <FUNCON ref="emptySet" />
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="union">
                     <VAR id="x" />
                     <FUNCON ref="universalClass" />
@@ -2014,7 +2014,7 @@
                   <FUNCON ref="universalClass" />
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="union">
                     <VAR id="x" />
                     <FUNCON ref="emptySet" />
@@ -2022,7 +2022,7 @@
                   <VAR id="x" />
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="union">
                     <VAR id="x" />
                     <FUNCON ref="complement">
@@ -2032,7 +2032,7 @@
                   <FUNCON ref="universalClass" />
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="intersection">
                     <VAR id="x" />
                     <FUNCON ref="complement">
@@ -2148,7 +2148,7 @@
               <VAR id="y"/>
             </VARLIST>
             <FORMULA>
-              <PREDCON ref="equal">
+              <PREDCON ref="l.equal">
                 <FUNCON ref="intersection">
                   <VAR id="x" />
                   <VAR id="y" />
@@ -2271,7 +2271,7 @@
                       <VAR id="x" />
                     </PREDCON>
                   </AND>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <VAR id="x" />
                     <VAR id="y" />
                   </PREDCON>
@@ -2292,7 +2292,7 @@
                     <VAR id="x" />
                     <FUNCON ref="emptySet" />
                   </PREDCON>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <VAR id="x" />
                     <FUNCON ref="emptySet" />
                   </PREDCON>
@@ -2303,7 +2303,7 @@
                     <FUNCON ref="universalClass" />
                     <VAR id="x" />
                   </PREDCON>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <VAR id="x" />
                     <FUNCON ref="universalClass" />
                   </PREDCON>
@@ -2578,7 +2578,7 @@
                     <VAR id="x" />
                     <VAR id="y" />
                   </PREDCON>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <FUNCON ref="intersection">
                       <VAR id="x" />
                       <FUNCON ref="complement">
@@ -2594,7 +2594,7 @@
                     <VAR id="x" />
                     <VAR id="y" />
                   </PREDCON>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <FUNCON ref="union">
                       <FUNCON ref="complement">
                         <VAR id="x" />
@@ -2612,7 +2612,7 @@
                       <VAR id="y" />
                     </FUNCON>
                   </PREDCON>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <FUNCON ref="intersection">
                       <VAR id="x" />
                       <VAR id="y" />
@@ -2712,7 +2712,7 @@
                   <PREDCON ref="isSet">
                     <VAR id="x"/>
                   </PREDCON>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <VAR id="y"/>
                     <VAR id="x"/>
                   </PREDCON>
@@ -2781,7 +2781,7 @@
                         <VAR id="x" />
                       </FUNCON>
                     </PREDCON>
-                    <PREDCON ref="equal">
+                    <PREDCON ref="l.equal">
                       <VAR id="z" />
                       <VAR id="x" />
                     </PREDCON>
@@ -2817,7 +2817,7 @@
                     <VAR id="x" />
                   </PREDCON>
                 </NOT>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="classList">
                     <VAR id="x" />
                   </FUNCON>
@@ -2924,7 +2924,7 @@
           </PRECEDING>
           <THEOREM>
             <FORMULA>
-              <PREDCON ref="equal">
+              <PREDCON ref="l.equal">
                 <FUNCON ref="classList">
                   <VAR id="x" />
                   <VAR id="y" />
@@ -2941,11 +2941,11 @@
                       </PREDCON>
                     </AND>
                     <OR>
-                      <PREDCON ref="equal">
+                      <PREDCON ref="l.equal">
                         <VAR id="z" />
                         <VAR id="x" />
                       </PREDCON>
-                      <PREDCON ref="equal">
+                      <PREDCON ref="l.equal">
                         <VAR id="z" />
                         <VAR id="y" />
                       </PREDCON>
@@ -2997,11 +2997,11 @@
                       </FUNCON>
                     </PREDCON>
                     <OR>
-                      <PREDCON ref="equal">
+                      <PREDCON ref="l.equal">
                         <VAR id="z" />
                         <VAR id="x" />
                       </PREDCON>
-                      <PREDCON ref="equal">
+                      <PREDCON ref="l.equal">
                         <VAR id="z" />
                         <VAR id="y" />
                       </PREDCON>
@@ -3047,7 +3047,7 @@
                     </PREDCON>
                   </NOT>
                 </OR>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="classList">
                     <VAR id="x" />
                     <VAR id="y" />
@@ -3078,7 +3078,7 @@
           </PRECEDING>
           <THEOREM>
             <FORMULA>
-              <PREDCON ref="equal">
+              <PREDCON ref="l.equal">
                 <FUNCON ref="classList">
                   <VAR id="x" />
                   <VAR id="y" />
@@ -3111,7 +3111,7 @@
           </PRECEDING>
           <THEOREM>
             <FORMULA>
-              <PREDCON ref="equal">
+              <PREDCON ref="l.equal">
                 <FUNCON ref="classList">
                   <VAR id="x" />
                 </FUNCON>
@@ -3235,7 +3235,7 @@
                   </PREDCON>
                 </AND>
                 <IMPL>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <FUNCON ref="classList">
                       <VAR id="x" />
                       <VAR id="y" />
@@ -3247,21 +3247,21 @@
                   </PREDCON>
                   <OR>
                     <AND>
-                      <PREDCON ref="equal">
+                      <PREDCON ref="l.equal">
                         <VAR id="x" />
                         <VAR id="u" />
                       </PREDCON>
-                      <PREDCON ref="equal">
+                      <PREDCON ref="l.equal">
                         <VAR id="y" />
                         <VAR id="v" />
                       </PREDCON>
                     </AND>
                     <AND>
-                      <PREDCON ref="equal">
+                      <PREDCON ref="l.equal">
                         <VAR id="x" />
                         <VAR id="v" />
                       </PREDCON>
-                      <PREDCON ref="equal">
+                      <PREDCON ref="l.equal">
                         <VAR id="y" />
                         <VAR id="u" />
                       </PREDCON>
@@ -3452,7 +3452,7 @@
           </PRECEDING>
           <THEOREM>
             <FORMULA>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="setProduct">
                     <FUNCON ref="emptySet" />
                   </FUNCON>
@@ -3646,7 +3646,7 @@
           </PRECEDING>
           <THEOREM>
             <FORMULA>
-              <PREDCON ref="equal">
+              <PREDCON ref="l.equal">
                 <FUNCON ref="setSum" >
                   <FUNCON ref="emptySet" />
                 </FUNCON>
@@ -3780,7 +3780,7 @@
           <THEOREM>
             <FORMULA>
               <AND>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="setProduct">
                     <FUNCON ref="union">
                       <VAR id="x" />
@@ -3796,7 +3796,7 @@
                     </FUNCON>
                   </FUNCON>
                 </PREDCON>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="setSum">
                     <FUNCON ref="union">
                       <VAR id="x" />
@@ -3902,7 +3902,7 @@
                       <VAR id="y" />
                     </PREDCON>
                   </AND>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <FUNCON ref="setProduct">
                       <FUNCON ref="classList">
                         <VAR id="x" />
@@ -3924,7 +3924,7 @@
                       <VAR id="y" />
                     </PREDCON>
                   </AND>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <FUNCON ref="setSum">
                       <FUNCON ref="classList">
                         <VAR id="x" />
@@ -3966,7 +3966,7 @@
                   <PREDCON ref="isSet">
                     <VAR id="x" />
                   </PREDCON>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <FUNCON ref="setProduct">
                       <FUNCON ref="classList">
                         <VAR id="x" />
@@ -3979,7 +3979,7 @@
                   <PREDCON ref="isSet">
                     <VAR id="x" />
                   </PREDCON>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <FUNCON ref="setSum">
                       <FUNCON ref="classList">
                         <VAR id="x" />
@@ -4287,14 +4287,14 @@
                   </AND>
                 </EQUI>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="power">
                     <FUNCON ref="universalClass" />
                   </FUNCON>
                   <FUNCON ref="universalClass" />
                 </PREDCON>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="power">
                     <FUNCON ref="emptySet" />
                   </FUNCON>
@@ -4350,7 +4350,7 @@
                   </PREDCON>
                 </IMPL>
 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="power">
                     <FUNCON ref="intersection">
                       <VAR id="x" />
@@ -4430,7 +4430,7 @@
                 <PREDCON ref="isSet">
                   <VAR id="x" />
                 </PREDCON>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x" />
                   <FUNCON ref="setSum">
                     <FUNCON ref="power">
@@ -4897,7 +4897,7 @@
                     </PREDCON>
                   </NOT>
                 </IMPL>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x" />
                   <FUNCON ref="setSum">
                     <FUNCON ref="power">
@@ -4915,13 +4915,13 @@
                     </FUNCON>
                   </PREDCON>
                 </EQUI>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="setProduct">
                     <FUNCON ref="universalClass" />
                   </FUNCON>
                   <FUNCON ref="emptySet" />
                 </PREDCON>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="setSum">
                     <FUNCON ref="universalClass" />
                   </FUNCON>
@@ -5063,7 +5063,7 @@
                   </PREDCON>
                 </AND>
                 <IMPL>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <FUNCON ref="orderedPair">
                       <VAR id="x" />
                       <VAR id="y" />
@@ -5074,11 +5074,11 @@
                     </FUNCON>
                   </PREDCON>
                   <AND>
-                    <PREDCON ref="equal">
+                    <PREDCON ref="l.equal">
                       <VAR id="x" />
                       <VAR id="u" />
                     </PREDCON>
-                    <PREDCON ref="equal">
+                    <PREDCON ref="l.equal">
                       <VAR id="y" />
                       <VAR id="v" />
                     </PREDCON>
@@ -5163,7 +5163,7 @@
                     </PREDCON>
                   </NOT>
                 </OR>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <FUNCON ref="orderedPair">
                     <VAR id="x" />
                     <VAR id="y" />
@@ -5211,7 +5211,7 @@
                 <VAR id="u"/>
                 <EXISTS>
                   <VAR id="v"/>
-                  <PREDCON ref="equal">
+                  <PREDCON ref="l.equal">
                     <VAR id="x"/>
                     <FUNCON ref="orderedPair">
                       <VAR id="u" />
@@ -5322,7 +5322,7 @@
                           <VAR id="v" />
                           <VAR id="y" />
                         </PREDCON>
-                        <PREDCON ref="equal">
+                        <PREDCON ref="l.equal">
                           <VAR id="z" />
                           <FUNCON ref="orderedPair">
                             <VAR id="u" />
@@ -5831,7 +5831,7 @@
                       <VAR id="y" />
                       <VAR id="x" />
                     </PREDCON>
-                    <PREDCON ref="equal">
+                    <PREDCON ref="l.equal">
                       <FUNCON ref="intersection">
                         <VAR id="y" />
                         <VAR id="x" />
@@ -6140,7 +6140,7 @@
                         <VAR id="y" />
                         <VAR id="x" />
                       </PREDCON>
-                      <PREDCON ref="equal">
+                      <PREDCON ref="l.equal">
                         <FUNCON ref="domain">
                           <VAR id="x" />
                         </FUNCON>
