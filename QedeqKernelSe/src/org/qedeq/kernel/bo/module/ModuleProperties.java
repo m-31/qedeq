@@ -19,6 +19,7 @@ package org.qedeq.kernel.bo.module;
 
 import java.net.URL;
 
+import org.qedeq.kernel.bo.logic.ExistenceChecker;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
@@ -186,6 +187,13 @@ public interface ModuleProperties {
     public boolean hasLoadedRequiredModules();
 
     /**
+     * Set loaded required modules state. Also set labels and URLs for all referenced modules.
+     *
+     * @param   list  URLs of all referenced modules.
+     */
+    public void setLoadedRequiredModules(ModuleReferenceList list);
+
+    /**
      * Get labels and URLs of all referenced modules.
      *
      * @return  URLs of all referenced modules.
@@ -193,10 +201,25 @@ public interface ModuleProperties {
     public ModuleReferenceList getRequiredModules();
 
     /**
-     * Set loaded required modules state. Also set labels and URLs for all referenced modules.
+     * Set logic checked state. Also set the predicate and function existence checker.
      *
-     * @param   list  URLs of all referenced modules.
+     * @param   checker Checks if a predicate or function constant is defined.
      */
-    public void setLoadedRequiredModules(ModuleReferenceList list);
+    public void setChecked(ExistenceChecker checker);
+
+    /**
+     * Get the predicate and function existence checker. Is only not <code>null</code>
+     * if logic was successfully checked.
+     *
+     * @return   Checker. Checks if a predicate or function constant is defined.
+     */
+    public ExistenceChecker getExistenceChecker();
+
+    /**
+     * Was the module checked?
+     *
+     * @return  Module is checked?
+     */
+    public boolean isChecked();
 
 }
