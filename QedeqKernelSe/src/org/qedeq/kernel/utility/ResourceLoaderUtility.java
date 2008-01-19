@@ -35,6 +35,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class ResourceLoaderUtility {
 
+    /** This class. */
+    private static final Class CLASS = ResourceLoaderUtility.class;
+
     /**
      * Constructor, should never be called.
      */
@@ -198,8 +201,8 @@ public final class ResourceLoaderUtility {
 
     private static void checkResourceName(final String name) {
         if ((name != null) && name.startsWith("/")) {
-            Trace.info("ClassLoaderUtility", "checkResourceName", "resource name not portable: "
-                + name);
+            Trace.info(CLASS, "ClassLoaderUtility", "checkResourceName",
+                "resource name not portable: " + name);
 
         }
     }

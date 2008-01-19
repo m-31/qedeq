@@ -40,6 +40,9 @@ import org.xml.sax.SAXParseException;
  */
 public final class LoadXmlOperatorListUtility  {
 
+    /** This class. */
+    private static final Class CLASS = LoadXmlOperatorListUtility.class;
+
     /**
      * Constructor.
      */
@@ -57,8 +60,8 @@ public final class LoadXmlOperatorListUtility  {
     public static List getOperatorList(final URL from) throws SourceFileExceptionList {
         final String method = "List getOperatorList(String)";
         try {
-            Trace.begin(LoadXmlOperatorListUtility.class, method);
-            Trace.param(LoadXmlOperatorListUtility.class, method, "from", from);
+            Trace.begin(CLASS, method);
+            Trace.param(CLASS, method, "from", from);
             SaxDefaultHandler handler = new SaxDefaultHandler();
             ParserHandler simple = new ParserHandler(handler);
             handler.setBasisDocumentHandler(simple);
@@ -66,32 +69,32 @@ public final class LoadXmlOperatorListUtility  {
             parser.parse(from, null);
             return simple.getOperators();
         } catch (RuntimeException e) {
-            Trace.trace(LoadXmlOperatorListUtility.class, method, e);
+            Trace.trace(CLASS, method, e);
             throw new DefaultSourceFileExceptionList(e);
         } catch (ParserConfigurationException e) {
-            Trace.trace(LoadXmlOperatorListUtility.class, method, e);
+            Trace.trace(CLASS, method, e);
             final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList();
             list.add(e);
             throw list;
         } catch (final SAXParseException e) {
-            Trace.trace(LoadXmlOperatorListUtility.class, method, e);
+            Trace.trace(CLASS, method, e);
             final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList();
             list.add(e);
             throw list;
         } catch (SAXException e) {
-            Trace.trace(LoadXmlOperatorListUtility.class, method, e);
+            Trace.trace(CLASS, method, e);
             final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList();
             list.add(e);
             throw list;
         } catch (javax.xml.parsers.FactoryConfigurationError e) {
-            Trace.trace(LoadXmlOperatorListUtility.class, method, e);
+            Trace.trace(CLASS, method, e);
             final String msg = "SAX Parser not in classpath, "
                 + "add for example \"xercesImpl.jar\" and \"xml-apis.jar\".";
             final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList();
             list.add(new IOException(msg));
             throw list;
         } finally {
-            Trace.end(LoadXmlOperatorListUtility.class, method);
+            Trace.end(CLASS, method);
         }
     }
 
