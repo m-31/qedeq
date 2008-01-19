@@ -17,6 +17,7 @@
 
 package org.qedeq.kernel.bo.logic;
 
+
 /**
  * This implementation gives always the answer <code>true</code> to the question
  * <em>exists this predicate?</em>.
@@ -40,7 +41,15 @@ public final class EverythingExists implements ExistenceChecker {
         return true;
     }
 
+    public boolean predicateExists(final Predicate predicate) {
+        return true;
+    }
+
     public boolean functionExists(final String name, final int arguments) {
+        return true;
+    }
+
+    public boolean functionExists(final Function function) {
         return true;
     }
 
@@ -52,10 +61,9 @@ public final class EverythingExists implements ExistenceChecker {
         return true;
     }
 
-    public String getEqualityOperator() {
-        return "equal";
+    public String getIdentityOperator() {
+        return NAME_EQUAL;
     }
-
 
     /**
      * Get one instance of this class.
