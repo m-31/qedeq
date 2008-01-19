@@ -19,6 +19,7 @@ package org.qedeq.kernel.bo.load;
 
 import java.net.URL;
 
+import org.qedeq.kernel.bo.logic.ExistenceChecker;
 import org.qedeq.kernel.bo.module.DependencyState;
 import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.LogicalState;
@@ -60,6 +61,9 @@ public class DefaultModuleProperties implements ModuleProperties {
 
     /** Required QEDEQ modules. */
     private ModuleReferenceList required;
+
+    /** Predicate and function constant existence checker. */
+    private ExistenceChecker checker;
 
 
     /**
@@ -160,6 +164,7 @@ public class DefaultModuleProperties implements ModuleProperties {
 //          FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
 //          they must be killed too!
             this.logicalState = LogicalState.STATE_UNCHECKED;
+            this.required = null;
         }
         this.exception = null;
         this.dependencyState = state;
@@ -210,6 +215,32 @@ public class DefaultModuleProperties implements ModuleProperties {
             && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES;
     }
 
+    public final void setChecked(final ExistenceChecker checker) {
+        if (!hasLoadedRequiredModules()) {
+            throw new IllegalStateException(
+                "Checked can only be set if all required modules are loaded."
+                + "\"\nCurrently the status for the module"
+                + "\"" + getName() + "\" is \"" + getLoadingState() + "\"");
+        }
+        logicalState = LogicalState.STATE_CHECKED;
+        this.checker = checker;
+    }
+
+    public final ExistenceChecker getExistenceChecker() {
+        if (!hasLoadedRequiredModules()) {
+            throw new IllegalStateException(
+                "existence checker exists only if state is \""
+                + LogicalState.STATE_CHECKED.getText() + "\"");
+        }
+        return checker;
+    }
+
+    public final boolean isChecked() {
+        return loadingState == LoadingState.STATE_LOADED
+            && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES
+            && logicalState == LogicalState.STATE_CHECKED;
+    }
+
     // TODO mime 20070704: shouldn't stand here:
     //  ModuleEventLog.getInstance().stateChanged(props[i]);
     //  and not in DefaultModuleFactory?
@@ -222,6 +253,10 @@ public class DefaultModuleProperties implements ModuleProperties {
         if (state.isFailure()) {
             throw new IllegalArgumentException(
                 "this is a failure state, call setLogicalFailureState");
+        }
+        if (state == LogicalState.STATE_CHECKED) {
+            throw new IllegalArgumentException(
+                "set with setChecked(ExistenceChecker)");
         }
         this.exception = null;
         this.logicalState = state;
