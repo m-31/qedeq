@@ -42,6 +42,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class KernelContext implements Kernel {
 
+    /** This class. */
+    private static final Class CLASS = KernelContext.class;
+
     /** Version of this kernel. */
     private static final String KERNEL_VERSION = "0.03.07";
 
@@ -265,7 +268,7 @@ public final class KernelContext implements Kernel {
                 config.store();
                 QedeqLog.getInstance().logMessage("Current config file successfully saved.");
             } catch (IOException e) {
-                Trace.trace(this, "shutdown()", e);
+                Trace.trace(CLASS, this, "shutdown()", e);
                 QedeqLog.getInstance().logMessage("Saving current config file failed.");
             }
             currentState = initialState;
