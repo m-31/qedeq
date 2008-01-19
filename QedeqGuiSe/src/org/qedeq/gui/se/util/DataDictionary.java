@@ -33,6 +33,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class DataDictionary {
 
+    /** This class. */
+    private static final Class CLASS = DataDictionary.class;
+
     /** Resource access. */
     private final ResourceBundle bundle;
 
@@ -92,8 +95,8 @@ public final class DataDictionary {
         try {
             value = getResourceBundle().getString(key);
         } catch (MissingResourceException e) {
-            Trace.fatal(this, "getString", "Couldn't find value for: "
-                + key, e);
+            Trace.fatal(CLASS, this, "getString", "Couldn't find value for: "
+                    + key, e);
         }
         if (value == null) {
             value = "Could not find resource: " + key + "  ";

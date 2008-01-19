@@ -49,6 +49,9 @@ import com.jgoodies.looks.plastic.PlasticLookAndFeel;
  */
 public final class GuiHelper  {
 
+    /** This class. */
+    private static final Class CLASS = GuiHelper.class;
+
     /**
      * Hidden constructor.
      */
@@ -61,7 +64,7 @@ public final class GuiHelper  {
      * JGoodies Looks options from the launcher.
      */
     public static void configureUI(final GuiOptions options) {
-        UIManager.put("ClassLoader", GuiHelper.class.getClassLoader());
+        UIManager.put("ClassLoader", CLASS.getClassLoader());
 
         Options.setDefaultIconSize(new Dimension(18, 18));
         Options.setUseNarrowButtons(options.isUseNarrowButtons());
@@ -89,7 +92,7 @@ public final class GuiHelper  {
         try {
             UIManager.setLookAndFeel(selectedLaf);
         } catch (Exception e) {
-            Trace.trace(GuiHelper.class, "configureUI", "Can't change L&F", e);
+            Trace.trace(CLASS, "configureUI", "Can't change L&F", e);
         }
 
     }
