@@ -17,7 +17,6 @@
 
 package org.qedeq.kernel.bo.module;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,8 +38,11 @@ public class ModuleReferenceList {
     /** Contains all labels. */
     private final List labels;
 
-    /** Contains all module addresses. */
-    private final List addresses;
+    /** Contains all module props. */
+    private final List props;
+
+    /** Contains all module import contexts. */
+    private final List contexts;
 
     /** Maps labels to context. */
     private final Map label2Context;
@@ -50,7 +52,8 @@ public class ModuleReferenceList {
      */
     public ModuleReferenceList() {
         labels = new ArrayList();
-        addresses = new ArrayList();
+        props = new ArrayList();
+        contexts = new ArrayList();
         label2Context = new HashMap();
     }
 
@@ -59,13 +62,13 @@ public class ModuleReferenceList {
      *
      * @param   context Within this context.
      * @param   label   Referenced module gets this label. Must not be <code>null</code> or empty.
-     * @param   address Referenced module has this address. Must not be <code>null</code>.
+     * @param   prop    Referenced module has this properties. Must not be <code>null</code>.
      * @throws  IllegalModuleDataException  The <code>id</code> already exists or is
      *          <code>null</code>.
      */
-    public final void add(final ModuleContext context, final String label, final ModuleAddress
-                address) throws IllegalModuleDataException {
-        if (label == null || label.length() <= 0 || address == null) {
+    public final void add(final ModuleContext context, final String label, final ModuleProperties
+                prop) throws IllegalModuleDataException {
+        if (label == null || label.length() <= 0) {
             throw new IllegalModuleDataException(10003, "An label was not defined.", context, null,
                 null);  // LATER mime 20071026: organize exception codes
         }
@@ -76,7 +79,10 @@ public class ModuleReferenceList {
                 (ModuleContext) label2Context.get(label), null);
         }
         labels.add(label);
-        addresses.add(address);
+        label2Context.put(label, context);
+        contexts.add(context);
+        System.out.println("adding: " + context);   // FIXME
+        props.add(prop);
     }
 
     /**
@@ -99,32 +105,38 @@ public class ModuleReferenceList {
     }
 
     /**
-     * Get URL of referenced module.
+     * Get properties of referenced module.
      *
      * @param   index   Entry index.
-     * @return  URL for that module.
+     * @return  Module properties for that module.
      */
-    public final ModuleAddress getAddress(final int index) {
-        return (ModuleAddress) addresses.get(index);
+    public final ModuleProperties getModuleProperties(final int index) {
+        return (ModuleProperties) props.get(index);
     }
 
     /**
-     * Get URL of referenced module via label.
+     * Get import context of referenced module.
      *
-     * @param   context Within this context.
-     * @param   label   Label for referenced module.
-     * @return  URL for that module.
-     * @throws  IllegalModuleDataException  Label not found.
+     * @param   index   Entry index.
+     * @return  Context for that module.
      */
-    public final URL getUrl(final ModuleContext context, final String label)
-            throws IllegalModuleDataException {
+    public final ModuleContext getModuleContext(final int index) {
+        System.out.println("get: " + contexts.get(index));   // FIXME
+        return (ModuleContext) contexts.get(index);
+    }
+
+    /**
+     * Get ModuleProperties of referenced module via label. Might be <code>null</code>.
+     *
+     * @param   label   Label for referenced module or <code>null</code> if not found.
+     * @return  Module properties for that module.
+     */
+    public final ModuleProperties getModuleProperties(final String label) {
         final int index = labels.indexOf(label);
         if (index < 0) {
-            throw new IllegalModuleDataException(10005, "This module label \"" + label
-                + "\"was not found.", context, null, null);
-                // LATER mime 20071026: organize exception codes
+            return null;
         }
-        return (URL) addresses.get(index);
+        return (ModuleProperties) props.get(index);
     }
 
     public boolean equals(final Object obj) {
@@ -137,7 +149,8 @@ public class ModuleReferenceList {
         }
         for (int i = 0; i < size(); i++) {
             if (!EqualsUtility.equals(getLabel(i), otherList.getLabel(i))
-                    || !EqualsUtility.equals(getAddress(i), otherList.getAddress(i))) {
+                    || !EqualsUtility.equals(getModuleProperties(i),
+                        otherList.getModuleProperties(i))) {
                 return false;
             }
         }
@@ -150,7 +163,7 @@ public class ModuleReferenceList {
             hash = hash ^ (i + 1);
             if (getLabel(i) != null) {
                 hash = hash ^ getLabel(i).hashCode();
-                hash = hash ^ getAddress(i).hashCode();
+                hash = hash ^ getModuleProperties(i).hashCode();
             }
         }
         return hash;
@@ -163,7 +176,7 @@ public class ModuleReferenceList {
                 buffer.append("\n");
             }
             buffer.append((i + 1) + ":\t");
-            buffer.append(getLabel(i)).append(": ").append(getAddress(i)).append("\n");
+            buffer.append(getLabel(i)).append(": ").append(getModuleProperties(i)).append("\n");
         }
         return buffer.toString();
     }
