@@ -123,7 +123,7 @@ public class QedeqMainFrame extends JFrame {
      * @param   config  Configuration file.
      */
     private static void initLog4J(final QedeqGuiConfig config) {
-        final String resourceName = "log4j.properties";
+        final String resourceName = "log4j.xml";
         // TODO mime 20070927: hard coded entry "config":
         String resourceDirectoryName = "config";
         final File resourceDir = new File(config.getBasisDirectory(), resourceDirectoryName);
@@ -143,9 +143,11 @@ public class QedeqMainFrame extends JFrame {
                     }
                     final StringBuffer buffer = new StringBuffer();
                     IoUtility.loadFile(url, buffer);
-                    File traceFile = config.createAbsolutePath("log/trace.xml");
-                    ReplaceUtility.replace(buffer, "@@trace_file_path@@",
-                        IoUtility.escapeProperty(traceFile.toString().replace('\\', '/')));
+                    File traceFile = config.createAbsolutePath("log/trace.log");
+                    ReplaceUtility.replace(buffer, "@@trace_file_path@@", traceFile.toString()
+                        .replace('\\', '/'));
+// for a properties file:
+//                        IoUtility.escapeProperty(traceFile.toString().replace('\\', '/')));
                     IoUtility.saveFile(resource, buffer);
                     res = IoUtility.toUrl(resource).toString();
                 } catch (IOException e1) {
@@ -156,7 +158,6 @@ public class QedeqMainFrame extends JFrame {
         } else {
             res = IoUtility.toUrl(resource).toString();
         }
-        System.out.println("res=" + res);
         System.setProperty("log4j.configDebug", "true");
         System.setProperty("log4j.configuration", res);
     }
