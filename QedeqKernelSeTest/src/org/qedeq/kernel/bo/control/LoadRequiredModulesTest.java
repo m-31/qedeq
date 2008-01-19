@@ -100,12 +100,13 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 
      * @throws Exception
      */
-    public void testLoadRequiredModules_02() throws Exception {
+    public void pestLoadRequiredModules_02() throws Exception {
         try {
             final ModuleAddress address = new DefaultModuleAddress("data/loadRequired/LRM021.xml");
             KernelContext.getInstance().loadRequiredModules(address);
             fail("021 -> 021 cycle");
         } catch (SourceFileExceptionList e) {
+            e.printStackTrace();
             assertEquals(1, e.size());
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
@@ -121,7 +122,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 
      * @throws Exception
      */
-    public void testLoadRequiredModules_03() throws Exception {
+    public void pestLoadRequiredModules_03() throws Exception {
         try {
             final ModuleAddress address = new DefaultModuleAddress("data/loadRequired/LRM031.xml");
             KernelContext.getInstance().loadRequiredModules(address);
@@ -275,7 +276,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 
      * @throws Exception
      */
-    public void testLoadRequiredModules_09() throws Exception {
+    public void pestLoadRequiredModules_09() throws Exception {
         try {
             final ModuleAddress address = new DefaultModuleAddress("data/loadRequired/LRM091.xml");
             KernelContext.getInstance().loadRequiredModules(address);

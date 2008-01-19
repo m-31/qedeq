@@ -44,6 +44,6 @@ public class KernelXmlTrackerTestSuite extends QedeqTestSuite {
     public KernelXmlTrackerTestSuite() {
         super();
         addTestSuite(SimpleXPathTest.class);
-        addTestSuite(XPathLocationFinderTest.class);
+        addTestSuite(XPathLocationParserTest.class);
     }
 }

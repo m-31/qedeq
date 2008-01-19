@@ -27,8 +27,12 @@ import org.qedeq.kernel.bo.load.DefaultQedeqBo;
 import org.qedeq.kernel.bo.load.QedeqBoFactory;
 import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.bo.module.ModuleReferenceList;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
+import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
 import org.qedeq.kernel.xml.tracker.XPathLocationParser;
@@ -42,6 +46,9 @@ import org.xml.sax.SAXException;
  */
 public class QedeqBoFactoryAssert extends QedeqBoFactory {
 
+    /** This class. */
+    private static final Class CLASS = QedeqBoFactoryAssert.class;
+
     /**
      * Constructor.
      * 
@@ -54,7 +61,8 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
     /**
      * Create {@link QedeqBo} out of an {@link Qedeq} instance.
      * During that procedure some basic checking is done. E.g. the uniqueness of entries
-     * is tested. The resulting business object has no references to the original
+     * is tested. Also the logical correctness is checked. 
+     * The resulting business object has no references to the original
      * {@link Qedeq} instance.
      * <p>
      * During the creation process the caller must assert that no modifications are made
@@ -70,8 +78,16 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
         final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(globalContext);
         final DefaultQedeqBo bo = creator.create(original);
         bo.setModuleAddress(globalContext);
-        QedeqBoFormalLogicChecker.check(globalContext, bo); // TODO mime 20061105: just for testing
-        QedeqBoDuplicateLanguageChecker.check(globalContext, bo); // TODO mime 20070301: just for testing
+        final ModuleProperties prop = KernelFacade.getKernelContext().getModuleProperties(
+            globalContext);
+        prop.setLoaded(bo);
+        prop.setLoadedRequiredModules(new ModuleReferenceList());
+        try {
+            QedeqBoFormalLogicChecker.check(prop);
+        } catch (SourceFileExceptionList e) {
+            throw (ModuleDataException) e.get(0).getCause();
+        }
+        QedeqBoDuplicateLanguageChecker.check(globalContext, bo);
         return bo;
     }
 
@@ -81,10 +97,11 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
      * @param   locationWithinModule    Location within module.
      */
     protected void setLocationWithinModule(final String locationWithinModule) {
+        Trace.param(CLASS, "setLocationWithinModule(String)", 
+            "locationWithinModule > ", locationWithinModule);
         getCurrentContext().setLocationWithinModule(locationWithinModule);
 
         try {
-            System.out.println("###> "  + getCurrentContext().getLocationWithinModule());
             DynamicGetter.get(getQedeqOriginal(), getCurrentContext().getLocationWithinModule());
         } catch (RuntimeException e) {
             System.err.println(getCurrentContext().getLocationWithinModule()); 
@@ -101,7 +118,8 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
         } catch (ModuleDataException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("###< " + xpath);
+        Trace.param(CLASS, "setLocationWithinModule(String)", 
+            "xpath                < ", xpath);
         try {
             final SimpleXPath find = XPathLocationParser.getXPathLocation(
                 KernelFacade.getKernelContext().getLocalFilePath(

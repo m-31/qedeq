@@ -22,6 +22,7 @@ package org.qedeq.kernel.bo.logic;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleContext;
+import org.qedeq.kernel.trace.Trace;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -31,10 +32,14 @@ import org.qedeq.kernel.bo.module.ModuleContext;
  */
 public class FormulaCheckerTest extends AbstractFormulaChecker {
 
+    /** This class. */
+    private static final Class CLASS = FormulaCheckerTest.class;
+
     private ModuleContext context;
     
     protected void setUp() throws Exception {
-        context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
+        context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), 
+            "getElement()");
     }
 
     protected void tearDown() throws Exception {
@@ -50,7 +55,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      */
     public void testPositive1() throws Exception {
         final Element ele = TestParser.createElement("<AND><PREDVAR id=\"A\"/><PREDVAR id=\"A\"/></AND>");
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testPositive1", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
         FormulaChecker.checkFormula(ele, context, getChecker());
     }
@@ -88,7 +93,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "    <VAR id=\"y\"/>"
             + "  </PREDCON>"
             + "</IMPL>");
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testPositive2", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
         FormulaChecker.checkFormula(ele, context, getChecker());
         FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
@@ -125,7 +130,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "    <VAR id=\"y\"/>"
             + "  </PREDCON>"
             + "</IMPL>");
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testPositive3", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
         FormulaChecker.checkFormula(ele, context, getChecker());
         FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
@@ -165,7 +170,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "    <VAR id=\"y\"/>"
             + "  </PREDCON>"
             + "</IMPL>");
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testPositive4", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
         FormulaChecker.checkFormula(ele, context, getChecker());
         FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
@@ -214,7 +219,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "    </FORALL>"
             + "  </FORALL>"
             + "</IMPL>");
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testPositive5", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
         FormulaChecker.checkFormula(ele, context, getChecker());
         FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
@@ -265,7 +270,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "    </FORALL>"
             + "  </FORALL>"
             + "</IMPL>");
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testPositive6", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
         FormulaChecker.checkFormula(ele, context, getChecker());
         FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
@@ -310,7 +315,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "              </FORALL>"
             + "            </EQUI>"
         );
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testPositive7", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
         FormulaChecker.checkFormula(ele, context, getChecker());
     }
@@ -350,7 +355,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "    </PREDCON>"
             + "  </IMPL>"
             + "</FORALL>");
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testPositive8", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
         FormulaChecker.checkFormula(ele, context, getChecker());
     }
@@ -390,7 +395,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "    <VAR id=\"y\"/>"
             + "  </PREDCON>"
             + "</IMPL>");
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative1", "ele", ele);
         try {
             FormulaChecker.checkFormula(ele, context);
             fail("Exception expected");
@@ -434,7 +439,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "    <VAR id=\"y\"/>"
             + "  </PREDCON>"
             + "</IMPL>");
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testPositive9", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
     }
 
@@ -482,7 +487,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "    </FORALL>"
             + "  </FORALL>"
             + "</IMPL>");
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative3", "ele", ele);
         try {
             FormulaChecker.checkFormula(ele, context);
             fail("Exception expected");
@@ -527,7 +532,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </FORALL>"
             + "</FORALL>"
         );
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative4", "ele", ele);
         try {
             FormulaChecker.checkFormula(ele, context);
             fail("Exception expected");
@@ -572,7 +577,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </IMPL>"
             + "</FORALL>"
         );
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative5", "ele", ele);
         try {
             FormulaChecker.checkFormula(ele, context);
             fail("Exception expected");
@@ -617,7 +622,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </IMPL>"
             + "</FORALL>"
         );
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative6", "ele", ele);
         try {
             FormulaChecker.checkFormula(ele, context);
             fail("Exception expected");
@@ -643,7 +648,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </PREDCON>"
             + "</IMPL>"
         );
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative7", "ele", ele);
         try {
             FormulaChecker.checkFormula(ele, context);
             fail("Exception expected");
@@ -667,7 +672,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  <VAR id=\"y\"/>"
             + "</IMPL>"
         );
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative8", "ele", ele);
         try {
             FormulaChecker.checkFormula(ele, context);
             fail("Exception expected");
@@ -691,7 +696,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  <VAR id=\"y\"/>"
             + "</UIMPL>"
         );
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative9", "ele", ele);
         try {
             FormulaChecker.checkFormula(ele, context);
             fail("Exception expected");
@@ -715,7 +720,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  <unknown id=\"y\"/>"
             + "</PREDVAR>"
         );
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative10", "ele", ele);
         try {
             FormulaChecker.checkFormula(ele, context);
             fail("Exception expected");
@@ -741,7 +746,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </FUNCON>"
             + "</PREDCON>"
         );
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative11", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
         try {
             FormulaChecker.checkFormula(ele, context, getChecker());
@@ -768,7 +773,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </FUNCON>"
             + "</FUNCON>"
         );
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative12", "ele", ele);
         FormulaChecker.checkTerm(ele, context);
         try {
             FormulaChecker.checkTerm(ele, context, getChecker());
@@ -815,7 +820,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </IMPL>"
             + "</FORALL>"
         );
-        System.out.println(ele.toString());
+        Trace.param(CLASS, this, "testNegative13", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
         FormulaChecker.checkFormula(ele, context, getChecker());
         try {

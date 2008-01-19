@@ -36,7 +36,6 @@ import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.utility.IoUtility;
-import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
 import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 import org.xml.sax.SAXParseException;
 
@@ -290,7 +289,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
                 + prop.getUrl() + "\"");
             prop.setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
             ModuleEventLog.getInstance().stateChanged(prop);
-            QedeqBoFormalLogicChecker.check(prop.getModuleAddress(), prop.getModule());
+            QedeqBoFormalLogicChecker.check(prop);
             QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful for \""
                 + prop.getUrl() + "\"");
@@ -299,17 +298,11 @@ public final class GenerateLatexTest extends QedeqTestCase {
             IoUtility.createNecessaryDirectories(xmlCopy);
             IoUtility.copyFile(xmlFile, xmlCopy);
             IoUtility.copyFile(texFile, texCopy);
-        } catch (ModuleDataException e) {
+        } catch (SourceFileExceptionList e) {
             final String msg = "Check of logical correctness failed for \""
                 + prop.getUrl() + "\"";
-            prop.setLogicalFailureState(
-                LogicalState.STATE_INTERNAL_CHECKING_FAILED, 
-                    ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                    prop.getModule().getQedeq()));
-            ModuleEventLog.getInstance().stateChanged(prop);
             QedeqLog.getInstance().logFailureReply(e.getMessage(), msg);
-            throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                prop.getModule().getQedeq());
+            throw e;
         }
     }
 

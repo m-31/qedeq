@@ -64,6 +64,9 @@ import org.qedeq.kernel.utility.IoUtility;
  */
 public final class StarterDialog extends JFrame {
 
+    /** This class. */
+    private static final Class CLASS = StarterDialog.class;
+
     /** Width for big components inside this dialog. */
     private static final int CONTENTS_WIDTH = 600;
 
@@ -125,20 +128,20 @@ public final class StarterDialog extends JFrame {
         try {
             parameterList.fill(configFile);
         } catch (IOException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
         }
         try {
-            Trace.begin(this, method);
+            Trace.begin(CLASS, this, method);
             setupView();
             // the following statements are only here to enable a simple
             //  refresh for the parameter list, to reset default values
             pack();
             setSize(2 * MARGIN_X + CONTENTS_WIDTH, y);
         } catch (Throwable e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             e.printStackTrace();
         } finally {
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
     }
 
@@ -224,10 +227,10 @@ public final class StarterDialog extends JFrame {
                 try {
                     parserPane = new ParserPane();
                 } catch (SourceFileExceptionList e) {
-                    Trace.trace(this, "actionPerformed", e);
+                    Trace.trace(CLASS, this, "actionPerformed", e);
                     return;
                 } catch (FileNotFoundException e) {
-                    Trace.trace(this, "actionPerformed", e);
+                    Trace.trace(CLASS, this, "actionPerformed", e);
                     return;
                 }
                 parserPane.show();
@@ -262,26 +265,26 @@ public final class StarterDialog extends JFrame {
                         final String generated = Xml2Latex.generate(from.getFileValue(), null, 
                             language.getStringValue(),
                             level.getStringValue());
-                        Trace.trace(this, method, "successfully generated: " + generated);
+                        Trace.trace(CLASS, this, method, "successfully generated: " + generated);
                         setResultMessage(true, "successfully generated:\n\t" + generated);
                     } else if ("wiki".equals(kind.getStringValue())) {
                         Xml2Wiki.generate(from.getFileValue(), null, 
                             language.getStringValue(),
                             level.getStringValue());
-                        Trace.trace(this, method, "successfully generated files");
+                        Trace.trace(CLASS, this, method, "successfully generated files");
                         setResultMessage(true, "successfully generated files");
                     } else if ("xml".equals(kind.getStringValue())) {
                         Xml2Xml.generate(from.getFileValue(), null);
-                        Trace.trace(this, method, "successfully generated files");
+                        Trace.trace(CLASS, this, method, "successfully generated files");
                         setResultMessage(true, "successfully generated files");
                     } else {
-                        Trace.trace(this, method, "format not yet supported: " 
+                        Trace.trace(CLASS, this, method, "format not yet supported: " 
                             + kind.getCurrentStringValue());
                         setResultMessage(false, "format not yet supported:\n\t" 
                             + kind.getCurrentStringValue());
                     }
                 } catch (final SourceFileExceptionList e) {
-                    Trace.trace(this, method, e);
+                    Trace.trace(CLASS, this, method, e);
                     if (e.size() > 0) {
                         errorPosition = e.get(0);   // TODO mime 20070323: handle other positions too
                         setResultMessage(false, errorPosition.getDescription(
@@ -292,12 +295,12 @@ public final class StarterDialog extends JFrame {
                             from.getFileValue()));
                     }
                 } catch (final Exception e) {
-                    Trace.trace(this, method, e);
+                    Trace.trace(CLASS, this, method, e);
                     errorPosition = new SourceFileException(from.getFileValue(), e);
                     setResultMessage(false, errorPosition.getDescription(
                         from.getFileValue()));
                 } catch (final Error e) {
-                    Trace.trace(this, method, e);
+                    Trace.trace(CLASS, this, method, e);
                     shutdown();
                 }
     
@@ -512,7 +515,7 @@ public final class StarterDialog extends JFrame {
     private void shutdown() {
         final String method = "shutdown()";
         dispose();
-        Trace.trace(this, method, "calling System.exit");
+        Trace.trace(CLASS, this, method, "calling System.exit");
         System.exit(0);
     }
     

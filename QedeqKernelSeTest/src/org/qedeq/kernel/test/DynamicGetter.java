@@ -20,6 +20,8 @@ package org.qedeq.kernel.test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+import org.qedeq.kernel.trace.Trace;
+
 /**
  * Get result of getter expression chain. A string is interpreted as an getter call chain and
  * is called on a given object. The resulting object is returned.
@@ -28,6 +30,9 @@ import java.lang.reflect.Method;
  * @author Michael Meyling
  */
 public final class DynamicGetter {
+
+    /** This class. */
+    private static final Class CLASS = DynamicGetter.class;
 
     /**
      * Constructor.
@@ -55,12 +60,13 @@ public final class DynamicGetter {
         }
         // TODO mime 20050622: check parameter types and length, support string parameters
         if (obj == null) {
-            System.out.println("obj = null!");
+            Trace.trace(DynamicGetter.class, "getMethodResult(Object)", "obj = null!");
         }
         final Method[] method = obj.getClass().getDeclaredMethods();
         for (int i = 0; i < method.length; i++) {
             if (method[i].getName().equals(methodName)) {
-                System.out.println("invoking: " + method[i].getName());
+                Trace.trace(CLASS, "getMethodResult(Object)", "invoking:",
+                    method[i].getName());
                 return method[i].invoke(obj, param);
             }
         }
@@ -83,15 +89,15 @@ public final class DynamicGetter {
         int posOld = 0; // last found "." position
         int pos = 0;    // current "." position
 
-        System.out.println("methodParam " + methodParam);
+        Trace.param(CLASS, "get(Object, String)", "methodParam", methodParam);
         // iterate expressions
         while (0  <= (pos = methodParam.indexOf(".", posOld))) {
             String method = methodParam.substring(posOld, pos);
             posOld = pos + 1;
-            System.out.println("method=" + method + "*");
+            Trace.param(CLASS, "get(Object, String)", "method", method);
             Object result2 = getMethodResult(result, method);
             if (result2 == null) {
-                System.out.println("result = null");
+                Trace.trace(CLASS, "get(Object, String)", "result = null");
             }
             result = result2;
         }
@@ -99,7 +105,8 @@ public final class DynamicGetter {
 //        ????????????
 
         // last expression (must not be an getter)
-        System.out.println("lastMethod=" + methodParam.substring(posOld) + "*");
+        Trace.param(CLASS, "get(Object, String)", "method", 
+            methodParam.substring(posOld));
         return getMethodResult(result, methodParam.substring(posOld));
     }
 }

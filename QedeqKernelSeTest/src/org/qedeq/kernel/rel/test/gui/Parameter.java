@@ -41,6 +41,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public class Parameter {
 
+    /** This class. */
+    private static final Class CLASS = Parameter.class;
+
     /** Parameter name. Should be an valid java variable name. */
     private String name;
 
@@ -385,7 +388,7 @@ public class Parameter {
      * @param   value
      */
     public void setStringValue(final String value) {
-        Trace.param(this, "setStringValue", "value", value);
+        Trace.param(CLASS, this, "setStringValue", "value", value);
         this.value = null;
         if (Boolean.class.equals(type)) {
             if (value != null) {

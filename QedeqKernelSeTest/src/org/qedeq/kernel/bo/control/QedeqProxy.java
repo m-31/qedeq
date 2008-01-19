@@ -22,6 +22,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 
 /**
@@ -31,6 +32,9 @@ import org.qedeq.kernel.utility.IoUtility;
  * @author Michael Meyling
  */
 public class QedeqProxy implements InvocationHandler {
+
+    /** This class. */
+    private static final Class CLASS = QedeqProxy.class;
 
     private Object target;
 
@@ -53,10 +57,10 @@ public class QedeqProxy implements InvocationHandler {
             return null;
         }
         if (obj instanceof Proxy) {
-            System.out.println("object is already proxy!");
+            Trace.trace(CLASS, "createProxy", "object is already proxy!");
             return obj;
         }
-        System.out.println("instanciating");
+        Trace.trace(CLASS, "createProxy", "instanciating");
         return Proxy.newProxyInstance(obj.getClass().getClassLoader(), obj.getClass()
             .getInterfaces(), new QedeqProxy(obj, parent));
     }
@@ -64,7 +68,8 @@ public class QedeqProxy implements InvocationHandler {
     private QedeqProxy(Object obj, Object parent) {
         target = obj;
         if (parent != null) {
-            System.out.println(parent.getClass().getName());
+            Trace.trace(CLASS, "QedeqProxy(Object, Object)", 
+                parent.getClass().getName());
             history = ((QedeqProxy) Proxy.getInvocationHandler(parent)).history + "/"
                 + IoUtility.getClassName(obj.getClass());
         } else {
@@ -74,11 +79,12 @@ public class QedeqProxy implements InvocationHandler {
 
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
         level++;
+        final StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < level; i++) {
-            System.out.print("-");
+            buffer.append("-");
         }
-        System.out.println("> " + method.getName());
-        System.out.println("> " + history);
+        Trace.trace(CLASS, "invoke", buffer.toString() + "> " + method.getName());
+        Trace.trace(CLASS, "invoke", "> " + history);
         Object result = null;
         try {
             Object[] proxyArgs = null;
@@ -94,24 +100,25 @@ public class QedeqProxy implements InvocationHandler {
             }
             result = method.invoke(target, proxyArgs);
         } catch (InvocationTargetException e) {
-            System.out.println("exception: " + e);
+            Trace.trace(CLASS, "invoke", e);
             throw e.getCause();
         } catch (Throwable e) {
             e.printStackTrace();
             throw e;
         } finally {
-            for (int i = 0; i < level; i++) {
-                System.out.print("-");
-            }
-            System.out.println("< " + method.getName());
+            Trace.trace(CLASS, "invoke", buffer.toString() + "< " + method.getName());
             level--;
         }
-        if (method.getReturnType().getName().startsWith("java.") || method.getReturnType().isPrimitive() || method.getReturnType().equals(String.class)) {
-            System.out.println("creating no proxy for " + method.getReturnType());
-            System.out.println("result is: >" + result + "<");
-            return result;  // TODO determine interfaces, but other than by getReturnType.getInterfaces()
+        if (method.getReturnType().getName().startsWith("java.") 
+                || method.getReturnType().isPrimitive() 
+                || method.getReturnType().equals(String.class)) {
+            Trace.trace(CLASS, "invoke", "creating no proxy for "
+                + method.getReturnType());
+            Trace.trace(CLASS, "invoke", "result is: >" + result + "<");
+            return result;  
+            // TODO determine interfaces, but other than by getReturnType.getInterfaces()
         }
-        System.out.println("creating proxy for " + method.getReturnType());
+        Trace.trace(CLASS, "invoke", "creating proxy for " + method.getReturnType());
         return createProxy(result, proxy);
     }
 

@@ -33,7 +33,8 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
     private ModuleContext context;
     
     protected void setUp() throws Exception {
-        context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
+        context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"),
+            "getElement()");
     }
 
     protected void tearDown() throws Exception {

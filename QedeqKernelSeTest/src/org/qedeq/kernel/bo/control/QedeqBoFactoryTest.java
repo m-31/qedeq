@@ -49,6 +49,9 @@ import org.xml.sax.SAXException;
  */
 public class QedeqBoFactoryTest extends QedeqTestCase {
 
+    /** This class. */
+    private static final Class CLASS = QedeqBoFactoryTest.class;
+
     private Qedeq ok;
 
     private Qedeq error;
@@ -109,7 +112,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             assertEquals(9, find.getStartLocation().getColumn());
             assertEquals(265, find.getEndLocation().getLine());
             assertEquals(16, find.getEndLocation().getColumn());
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
         }
     }
 

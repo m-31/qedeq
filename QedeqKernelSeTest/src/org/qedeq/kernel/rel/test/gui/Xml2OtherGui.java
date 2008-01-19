@@ -30,6 +30,9 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class Xml2OtherGui  {
 
+    /** This class. */
+    private static final Class CLASS = Xml2OtherGui.class;
+
     /** Configuration file location. */
     private static final String CONFIG_XML2OTHER_PROPERTIES = "config/xml2other.properties";
 
@@ -49,22 +52,22 @@ public final class Xml2OtherGui  {
     public static final void main(final String[] args) {
         final String method = "main(String[])";
         try {
-            Trace.begin(Xml2OtherGui.class, method);
-            Trace.trace(Xml2OtherGui.class, method, "after initialization of trace");
+            Trace.begin(CLASS, method);
+            Trace.trace(CLASS, method, "after initialization of trace");
             final StarterDialog starterDialog = new StarterDialog(
                 KernelFacade.getKernelContext().getDescriptiveKernelVersion(), 
                 CONFIG_XML2OTHER_PROPERTIES);
-            Trace.trace(Xml2OtherGui.class, method, "before show of starter dialog");
+            Trace.trace(CLASS, method, "before show of starter dialog");
             starterDialog.show();
-            Trace.trace(Xml2OtherGui.class, method, "after show of starter dialog");
+            Trace.trace(CLASS, method, "after show of starter dialog");
         } catch (final Exception e) {
             e.printStackTrace();
-            Trace.trace(Xml2OtherGui.class, method, e);
+            Trace.trace(CLASS, method, e);
         } catch (final Error e) {
             e.printStackTrace();
-            Trace.trace(Xml2OtherGui.class, method, e);
+            Trace.trace(CLASS, method, e);
         } finally {
-            Trace.end(Xml2OtherGui.class, method);
+            Trace.end(CLASS, method);
         }
     }
 

@@ -40,6 +40,9 @@ import org.xml.sax.XMLReader;
 
 public class TestParser {
     
+    /** This class. */
+    private static final Class CLASS = TestParser.class;
+
     private SaxDefaultHandler handler;
     private XMLReader reader;
 
@@ -97,7 +100,7 @@ public class TestParser {
                 try {
                     dis.close();
                 } catch (Exception e) {
-                    Trace.trace(this, method, e);
+                    Trace.trace(CLASS, this, method, e);
                 }
             }
         }

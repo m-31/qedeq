@@ -59,6 +59,9 @@ import org.qedeq.kernel.utility.IoUtility;
 
 public class QedeqPane extends JFrame {
 
+    /** This class. */
+    private static final Class CLASS = QedeqPane.class;
+
     private JTextArea qedeq = new JTextArea();
 
     private JTextArea error = new JTextArea();
@@ -134,10 +137,10 @@ public class QedeqPane extends JFrame {
 
         addComponentListener(new ComponentAdapter() {
             public void componentHidden(ComponentEvent e) {
-                Trace.trace(this, "componentHidden", e);
+                Trace.trace(CLASS, this, "componentHidden", e);
             }
             public void componentShown(ComponentEvent e) {
-                Trace.trace(this, "componentShown", e);
+                Trace.trace(CLASS, this, "componentShown", e);
             }
         });
         
@@ -153,7 +156,7 @@ public class QedeqPane extends JFrame {
                     try {
                         saveQedeq();
                     } catch (IOException e) {
-                         Trace.trace(QedeqPane.this, "actionPerformed", e);
+                         Trace.trace(CLASS, QedeqPane.this, "actionPerformed", e);
                          JOptionPane.showMessageDialog(QedeqPane.this, e.getMessage(), "Alert",
                          JOptionPane.ERROR_MESSAGE);                     
                     }
@@ -189,13 +192,13 @@ public class QedeqPane extends JFrame {
      */
     final public synchronized void updateView() {
         final String method = "updateView()";
-        Trace.begin(this, method);
+        Trace.begin(CLASS, this, method);
         if (errorPosition != null) {
             try {
                 final ModuleAddress address = KernelContext.getInstance().getModuleAddress(
                     errorPosition.getSourceArea().getAddress());
                 file = KernelContext.getInstance().getLocalFilePath(address);
-                Trace.param(this, method, "file", file);
+                Trace.param(CLASS, this, method, "file", file);
                 if (file.canRead()) {
                     final StringBuffer buffer = new StringBuffer();
                         IoUtility.loadFile(file, buffer);
@@ -213,7 +216,7 @@ public class QedeqPane extends JFrame {
                     splitPane.setDividerLocation(splitPane.getHeight()
                         - splitPane.getDividerSize() -
                         error.getFontMetrics(error.getFont()).getHeight() * 3 - 4);
-                    Trace.trace(this, "updateView", "Text updated");
+                    Trace.trace(CLASS, this, "updateView", "Text updated");
                 } else {
                     throw new IOException("File " + file.getCanonicalPath() + " not readable!");
                 }
@@ -222,14 +225,14 @@ public class QedeqPane extends JFrame {
                 qedeq.setText("");
                 error.setText("");
                 splitPane.setDividerLocation(this.getHeight());
-                Trace.trace(this, method, ioException);
+                Trace.trace(CLASS, this, method, ioException);
             }
         } else {
             qedeq.setEditable(false);
             qedeq.setText("");
             error.setText("");
             splitPane.setDividerLocation(this.getHeight());
-            Trace.end(this, method);
+            Trace.end(CLASS, this, method);
         }
         this.repaint();
     }
@@ -302,22 +305,22 @@ public class QedeqPane extends JFrame {
         }
         final SourcePosition startPosition = errorPosition.getSourceArea().getStartPosition();
         final String method = "highlightLine()";
-        Trace.param(this, method, "position", startPosition);
+        Trace.param(CLASS, this, method, "position", startPosition);
         int j;
         try {
             j = qedeq.getLineStartOffset(startPosition.getLine() - 1);
         } catch (BadLocationException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             j = 0;
         }
         int k;
         try {
             k = qedeq.getLineEndOffset(startPosition.getLine() - 1);
         } catch (BadLocationException e) {
-            Trace.trace(this, method, e);
+            Trace.trace(CLASS, this, method, e);
             k = qedeq.getText().length();
         }
-        Trace.trace(this, method, "from " + j + " to " + k);
+        Trace.trace(CLASS, this, method, "from " + j + " to " + k);
 
 //// old, but working code:
 //        final String s = qedeq.getText();
@@ -351,7 +354,7 @@ public class QedeqPane extends JFrame {
         try {
             j = qedeq.getLineStartOffset(position.getLine() - 1) + position.getColumn() - 1;
         } catch (BadLocationException e) {
-            Trace.trace(this, "getAbsolutePosition(SourcePosition)", e);
+            Trace.trace(CLASS, this, "getAbsolutePosition(SourcePosition)", e);
             j = 0;
         }
         return j;

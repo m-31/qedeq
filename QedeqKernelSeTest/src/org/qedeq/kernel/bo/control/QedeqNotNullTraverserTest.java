@@ -1,4 +1,4 @@
-/* $Id: ListTraverserQedeqNotNullTransverserTest.java,v 1.4 2007/12/21 23:35:17 m31 Exp $
+/* $Id: ListTraverserQedeqNotNullTraverserTest.java,v 1.4 2007/12/21 23:35:17 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -27,24 +27,28 @@ import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.bo.load.DefaultModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
+import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.bo.visitor.QedeqVisitor;
 import org.qedeq.kernel.dto.list.DefaultAtom;
 import org.qedeq.kernel.dto.list.DefaultElementList;
 import org.qedeq.kernel.test.QedeqTestCase;
+import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.TextOutput;
 
 /**
  * Test visitor concept for {@link org.qedeq.kernel.bo.visitor.ListVisitor}. 
  * This class doesn't test much existing code directly, but checks that the
- * {@link org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser} works correctly for
+ * {@link org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser} works correctly for
  * the list part. 
  * 
  * @version $Revision: 1.4 $
  * @author Michael Meyling
  */
-public class ListTraverserQedeqNotNullTransverserTest extends QedeqTestCase {
+public class QedeqNotNullTraverserTest extends QedeqTestCase {
    
+    /** This class. */
+    private static final Class CLASS = QedeqNotNullTraverserTest.class;
+
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
     
     private final TextOutput text = new TextOutput("local", out);
@@ -97,14 +101,14 @@ public class ListTraverserQedeqNotNullTransverserTest extends QedeqTestCase {
 
     };
     
-    private final QedeqNotNullTransverser trans = new QedeqNotNullTransverser(address, 
+    private final QedeqNotNullTraverser trans = new QedeqNotNullTraverser(address, 
         visitor);
     
     
     /**
      * Constructor.
      */
-    public ListTraverserQedeqNotNullTransverserTest() {
+    public QedeqNotNullTraverserTest() {
         super();
     }
 
@@ -113,7 +117,7 @@ public class ListTraverserQedeqNotNullTransverserTest extends QedeqTestCase {
      * 
      * @param   name    Test case name.
      */
-    public ListTraverserQedeqNotNullTransverserTest(String name) {
+    public QedeqNotNullTraverserTest(String name) {
         super(name);
     }
 
@@ -132,7 +136,7 @@ public class ListTraverserQedeqNotNullTransverserTest extends QedeqTestCase {
         });
 
         trans.accept(el);
-        System.out.println(out.toString("ISO-8859-1"));
+        Trace.trace(CLASS, this, "testVisit", out.toString("ISO-8859-1"));
         assertEquals("myOperator(\"Hello\", \"Again\", again(\"one\", \"two\", \"three\"))",
             out.toString("ISO-8859-1"));
     }
@@ -194,12 +198,12 @@ public class ListTraverserQedeqNotNullTransverserTest extends QedeqTestCase {
             })
         });
         trans.accept(el);
-        System.out.println(out.toString("ISO-8859-1"));
+        Trace.trace(CLASS, this, "testGeneration", out.toString("ISO-8859-1"));
         assertEquals("EQUI(PREDCON(\"equal\", VAR(\"y\"), CLASS(VAR(\"x\"), PREDVAR(\"\\phi\","
             + " VAR(\"x\")))), FORALL(VAR(\"z\"), EQUI(PREDCON(\"in\", VAR(\"z\"), VAR(\"y\")),"
             + " PREDCON(\"in\", VAR(\"z\"), CLASS(VAR(\"x\"), PREDVAR(\"\\phi\", VAR(\"x\")))))))",
             out.toString("ISO-8859-1"));
-        System.out.println(el.toString());
+        Trace.trace(CLASS, this, "testGeneration", el.toString());
     }
     
     protected void setUp() throws Exception {

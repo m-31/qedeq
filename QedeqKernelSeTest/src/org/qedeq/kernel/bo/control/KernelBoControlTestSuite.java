@@ -45,6 +45,6 @@ public class KernelBoControlTestSuite extends QedeqTestSuite {
         super();
         addTestSuite(LoadRequiredModulesTest.class);
         addTestSuite(QedeqBoFactoryTest.class);
-        addTestSuite(ListTraverserQedeqNotNullTransverserTest.class);
+        addTestSuite(QedeqNotNullTraverserTest.class);
     }
 }

@@ -20,6 +20,7 @@ package org.qedeq.kernel.bo.logic;
 
 
 import org.qedeq.kernel.test.QedeqTestCase;
+import org.qedeq.kernel.trace.Trace;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -29,10 +30,15 @@ import org.qedeq.kernel.test.QedeqTestCase;
  */
 public abstract class AbstractFormulaChecker extends QedeqTestCase {
 
+    /** This class. */
+    private static final Class CLASS = AbstractFormulaChecker.class;
+
+    
     private ExistenceChecker checker = new ExistenceChecker() {
 
         public boolean predicateExists(String name, int arguments) {
-            System.out.println("name=" + name + "    arguments=" + arguments);
+            Trace.param(CLASS, this, "predicateExists(String, int)", "name", name);
+            Trace.param(CLASS, this, "predicateExists(String, int)", "arguments", arguments);
             if ("in".equals(name) && arguments == 2) {
                 return true;
             } else if ("isSet".equals(name) && arguments == 1) {
@@ -45,8 +51,13 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
+        public boolean predicateExists(Predicate predicate) {
+            return predicateExists(predicate.getName(), Integer.parseInt(predicate.getArguments()));
+        }
+
         public boolean functionExists(String name, int arguments) {
-            System.out.println("name=" + name + "    arguments=" + arguments);
+            Trace.param(CLASS, this, "functionExists(String, int)", "name", name);
+            Trace.param(CLASS, this, "functionExists(String, int)", "arguments", arguments);
             if ("power".equals(name) && arguments == 1) {
                 return true;
             } else if ("union".equals(name) && arguments == 2) {
@@ -59,6 +70,10 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
+        public boolean functionExists(Function function) {
+            return functionExists(function.getName(), Integer.parseInt(function.getArguments()));
+        }
+        
         public boolean classOperatorExists() {
             return true;
         }
@@ -67,16 +82,17 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return true;
         }
 
-        public String getEqualityOperator() {
+        public String getIdentityOperator() {
             return "equal";
         }
-        
+
     };
 
     private ExistenceChecker checkerWithoutClass = new ExistenceChecker() {
 
         public boolean predicateExists(String name, int arguments) {
-            System.out.println("name=" + name + "    arguments=" + arguments);
+            Trace.param(CLASS, this, "predicateExists(String, int)", "name", name);
+            Trace.param(CLASS, this, "predicateExists(String, int)", "arguments", arguments);
             if ("in".equals(name) && arguments == 2) {
                 return true;
             } else if ("isSet".equals(name) && arguments == 1) {
@@ -89,8 +105,13 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
+        public boolean predicateExists(Predicate predicate) {
+            return predicateExists(predicate.getName(), Integer.parseInt(predicate.getArguments()));
+        }
+
         public boolean functionExists(String name, int arguments) {
-            System.out.println("name=" + name + "    arguments=" + arguments);
+            Trace.param(CLASS, this, "functionExists(String, int)", "name", name);
+            Trace.param(CLASS, this, "functionExists(String, int)", "arguments", arguments);
             if ("power".equals(name) && arguments == 1) {
                 return true;
             } else if ("union".equals(name) && arguments == 2) {
@@ -103,6 +124,10 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
+        public boolean functionExists(Function function) {
+            return functionExists(function.getName(), Integer.parseInt(function.getArguments()));
+        }
+        
         public boolean classOperatorExists() {
             return false;
         }
@@ -111,7 +136,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return true;
         }
 
-        public String getEqualityOperator() {
+        public String getIdentityOperator() {
             return "equal";
         }
         

@@ -20,6 +20,7 @@ package org.qedeq.kernel.xml.tracker;
 import java.io.File;
 
 import org.qedeq.kernel.test.QedeqTestCase;
+import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 
 /**
@@ -28,7 +29,10 @@ import org.qedeq.kernel.utility.IoUtility;
  * @version $Revision: 1.6 $
  * @author Michael Meyling
  */
-public class XPathLocationFinderTest extends QedeqTestCase {
+public class XPathLocationParserTest extends QedeqTestCase {
+
+    /** This class. */
+    private static final Class CLASS = XPathLocationParserTest.class;
 
     protected void setUp() throws Exception {
         super.setUp();
@@ -81,10 +85,10 @@ public class XPathLocationFinderTest extends QedeqTestCase {
         final File file = new File(fileName);
         final SimpleXPath result = XPathLocationParser.getXPathLocation(file, xpath,
             IoUtility.toUrl(file));
-        System.out.println("Start position: " + result.getStartLocation());
+        Trace.param(CLASS, this, "checkPosition", "Start position", result.getStartLocation());
         assertEquals(startRow, result.getStartLocation().getLine());
         assertEquals(startCol, result.getStartLocation().getColumn());
-        System.out.println("End   position: " + result.getEndLocation());
+        Trace.param(CLASS, this, "checkPosition", "End   position", result.getEndLocation());
         assertEquals(endRow, result.getEndLocation().getLine());
         assertEquals(endCol, result.getEndLocation().getColumn());
     }

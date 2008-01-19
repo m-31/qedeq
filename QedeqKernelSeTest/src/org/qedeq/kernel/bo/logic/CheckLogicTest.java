@@ -27,11 +27,14 @@ import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
 import org.qedeq.kernel.bo.load.QedeqBoFactory;
 import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.bo.module.ModuleReferenceList;
 import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
+import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
 import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
@@ -46,6 +49,10 @@ import org.xml.sax.SAXException;
  * @author Michael Meyling
  */
 public final class CheckLogicTest extends QedeqTestCase {
+
+    /** This class. */
+    private static final Class CLASS = FormulaChecker.class;
+
 
     public CheckLogicTest() {
         super();
@@ -68,7 +75,7 @@ public final class CheckLogicTest extends QedeqTestCase {
             generate(new File("."), "data/qedeq_error_sample_00.xml");
             fail("DefaultSourceFileExceptionList expected");
         } catch (DefaultSourceFileExceptionList ex) {
-            System.out.println(ex);
+            Trace.trace(CLASS, this, "testNegative00", ex);
             assertEquals(1, ex.size());
             final SourceFileException check = ex.get(0);
             check.printStackTrace();
@@ -83,7 +90,7 @@ public final class CheckLogicTest extends QedeqTestCase {
             generate(new File("."), "data/qedeq_error_sample_01.xml");
             fail("DefaultSourceFileExceptionList expected");
         } catch (DefaultSourceFileExceptionList ex) {
-            System.out.println(ex);
+            Trace.trace(CLASS, this, "testNegative01", ex);
             assertEquals(1, ex.size());
             final SourceFileException check = ex.get(0);
             assertEquals(9001, check.getErrorCode());
@@ -96,7 +103,9 @@ public final class CheckLogicTest extends QedeqTestCase {
         try {
             generate(new File("."), "data/qedeq_error_sample_02.xml");
             fail("ModuleDataException expected");
-        } catch (ModuleDataException e) {
+        } catch (SourceFileExceptionList sfl) {
+            Trace.trace(CLASS, this, "testNegative02", sfl);
+            final Exception e = (Exception) sfl.get(0).getCause();
             System.out.println(e.getClass().getName());
             assertTrue(e instanceof LogicalCheckException);
             final LogicalCheckException check = (LogicalCheckException) e;
@@ -110,8 +119,9 @@ public final class CheckLogicTest extends QedeqTestCase {
         try {
             generate(new File("."), "data/qedeq_error_sample_03.xml");
             fail("ModuleDataException expected");
-        } catch (ModuleDataException e) {
-            System.out.println(e.getClass().getName());
+        } catch (SourceFileExceptionList sfl) {
+            Trace.trace(CLASS, this, "testNegative03", sfl);
+            final Exception e = (Exception) sfl.get(0).getCause();
             assertTrue(e instanceof LogicalCheckException);
             final LogicalCheckException check = (LogicalCheckException) e;
             assertEquals(30770, check.getErrorCode());
@@ -124,8 +134,9 @@ public final class CheckLogicTest extends QedeqTestCase {
         try {
             generate(new File("."), "data/qedeq_error_sample_04.xml");
             fail("ModuleDataException expected");
-        } catch (ModuleDataException e) {
-            System.out.println(e.getClass().getName());
+        } catch (SourceFileExceptionList sfl) {
+            Trace.trace(CLASS, this, "testNegative04", sfl);
+            final Exception e = (Exception) sfl.get(0).getCause();
             assertTrue(e instanceof LogicalCheckException);
             final LogicalCheckException check = (LogicalCheckException) e;
             assertEquals(30780, check.getErrorCode());
@@ -153,7 +164,10 @@ public final class CheckLogicTest extends QedeqTestCase {
         parser.parse(xmlFile, null);
         Qedeq qedeq = simple.getQedeq();
         final QedeqBo qedeqBo = QedeqBoFactory.createQedeq(context, qedeq);
-        QedeqBoFormalLogicChecker.check(context, qedeqBo);
+        final ModuleProperties prop = KernelFacade.getKernelContext().getModuleProperties(context);
+        prop.setLoaded(qedeqBo);
+        prop.setLoadedRequiredModules(new ModuleReferenceList());
+        QedeqBoFormalLogicChecker.check(prop);
     }
 
 }

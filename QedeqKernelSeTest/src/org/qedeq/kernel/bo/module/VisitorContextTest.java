@@ -60,10 +60,11 @@ import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
 import org.qedeq.kernel.bo.load.DefaultModuleAddress;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTransverser;
+import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.bo.visitor.QedeqVisitor;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.test.QedeqTestCase;
+import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
@@ -80,8 +81,11 @@ import org.xml.sax.SAXException;
  */
 public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
 
-    /** Transverse QEDEQ module with this transverser. */
-    private QedeqNotNullTransverser transverser;
+    /** This class. */
+    private static final Class CLASS = VisitorContextTest.class;
+
+    /** Traverse QEDEQ module with this traverser. */
+    private QedeqNotNullTraverser traverser;
     
     private Qedeq qedeq;
 
@@ -91,8 +95,8 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
         moduleFile = QedeqBoFactoryTest.getQedeqFile("math/qedeq_set_theory_v1.xml");
         final ModuleAddress globalContext = new DefaultModuleAddress(moduleFile);
         qedeq = QedeqBoFactoryTest.loadQedeq(moduleFile);
-        transverser = new QedeqNotNullTransverser(globalContext, this);
-        transverser.accept(qedeq);
+        traverser = new QedeqNotNullTraverser(globalContext, this);
+        traverser.accept(qedeq);
     }
     
     public void visitEnter(final Atom atom) throws ModuleDataException {
@@ -378,9 +382,10 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
     }
 
     private void checkContext() throws ModuleDataException {
-        final String context = transverser.getCurrentContext().getLocationWithinModule();
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         try {
-            System.out.println("###> "  + context);
+            Trace.param(CLASS, "checkContext()", 
+            "context > ", context);
             if (context.length() > 0) {
                 DynamicGetter.get(qedeq, context);
             }
@@ -393,18 +398,19 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
             throw new RuntimeException(e);
         }
 
-        SimpleXPath xpath = Context2SimpleXPath.getXPath(transverser.getCurrentContext(), qedeq);
-        System.out.println("###< " + xpath);
+        SimpleXPath xpath = Context2SimpleXPath.getXPath(traverser.getCurrentContext(), qedeq);
+        Trace.param(CLASS, "checkContext()", 
+            "xpath   < ", xpath);
         try {
             final SimpleXPath find = XPathLocationParser.getXPathLocation(moduleFile, 
                 xpath.toString(), IoUtility.toUrl(moduleFile));
             if (find.getStartLocation() == null) {
-                System.out.println(transverser.getCurrentContext());
+                System.out.println(traverser.getCurrentContext());
                 throw new RuntimeException("start not found: " + find + "\ncontext: " 
                     + context);
             }
             if (find.getEndLocation() == null) {
-                System.out.println(transverser.getCurrentContext());
+                System.out.println(traverser.getCurrentContext());
                 throw new RuntimeException("end not found: " + find + "\ncontext: " 
                     + context);
             }

@@ -42,6 +42,9 @@ import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
  */
 public final class Xml2Latex  {
 
+    /** This class. */
+    private static final Class CLASS = Xml2Latex.class;
+
     /**
      * Constructor.
      */
@@ -111,7 +114,7 @@ public final class Xml2Latex  {
             printArgumentError("XML file must be specified.");
             return;
         }
-        System.out.println(IoUtility.getClassName(Xml2Latex.class) + ", running on: "
+        System.out.println(IoUtility.getClassName(CLASS) + ", running on: "
             + KernelFacade.getKernelContext().getDescriptiveKernelVersion());
         try {
             System.out.println("Successfully generated:\n" + generate(from, to, language, level));
@@ -130,7 +133,7 @@ public final class Xml2Latex  {
     public static void printProgramInformation() {
         System.err.println("Name");
         System.err.println("----");
-        System.err.println(IoUtility.getClassName(Xml2Latex.class) + " - create LaTeX document");
+        System.err.println(IoUtility.getClassName(CLASS) + " - create LaTeX document");
         System.err.println();
         System.err.println("Synopsis");
         System.err.println("-------------------");
@@ -203,11 +206,11 @@ public final class Xml2Latex  {
         File source = null;
         ModuleProperties prop = null;
         try {
-            Trace.begin(Xml2Latex.class, method);
-            Trace.param(Xml2Latex.class, method, "from", from);
-            Trace.param(Xml2Latex.class, method, "to", to);
-            Trace.param(Xml2Latex.class, method, "language", language);
-            Trace.param(Xml2Latex.class, method, "level", level);
+            Trace.begin(CLASS, method);
+            Trace.param(CLASS, method, "from", from);
+            Trace.param(CLASS, method, "to", to);
+            Trace.param(CLASS, method, "language", language);
+            Trace.param(CLASS, method, "level", level);
             source = from.getCanonicalFile();
             if (to != null) {
                 destination = to.getCanonicalFile();
@@ -222,7 +225,7 @@ public final class Xml2Latex  {
                 destination = new File(source.getParentFile(), tex + ".tex").getCanonicalFile();
             }
         } catch (IOException e) {
-            Trace.trace(Xml2Latex.class, method, e);
+            Trace.trace(CLASS, method, e);
             throw new DefaultSourceFileExceptionList(e);
         }
         TextOutput printer = null;
@@ -238,21 +241,21 @@ public final class Xml2Latex  {
             Qedeq2Latex.print(prop, printer, language, level); 
             return destination.getCanonicalPath();
         } catch (IOException e) {
-            Trace.trace(Xml2Latex.class, method, e);
+            Trace.trace(CLASS, method, e);
             throw new DefaultSourceFileExceptionList(e);
         } catch (RuntimeException e) {
-            Trace.trace(Xml2Latex.class, method, e);
+            Trace.trace(CLASS, method, e);
             throw new DefaultSourceFileExceptionList(e);
         } catch (ModuleDataException e) {
-            Trace.trace(Xml2Latex.class, method, e);
-            Trace.param(Xml2Latex.class, method, "context", e.getContext());
+            Trace.trace(CLASS, method, e);
+            Trace.param(CLASS, method, "context", e.getContext());
             throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e, 
                 prop.getModule().getQedeq());
         } finally {
             if (printer != null) {
                 printer.close();
             }
-            Trace.end(Xml2Latex.class, method);
+            Trace.end(CLASS, method);
         }
     }
 
