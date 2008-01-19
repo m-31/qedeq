@@ -22,8 +22,7 @@ import org.qedeq.kernel.bo.module.ModuleDataException;
 
 
 /**
- * Data validation error for an {@link org.qedeq.kernel.base.module.LatexList} element of a
- * QEDEQ module.
+ * Loading an required QEDEQ module failed.
  *
  * @version $Revision: 1.1 $
  * @author  Michael Meyling
