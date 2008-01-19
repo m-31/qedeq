@@ -148,10 +148,9 @@ public class QedeqBoFactory {
         DefaultQedeqBo bo = creator.create(original);
         bo.setModuleAddress(globalContext);
 
-        // TODO mime 20070325: just for testing purpose the following two checks are
+        // TODO mime 20080111: just for testing purpose the following check is
         // integrated here in the BO creation. The checking results should be maintained
-        // later on as additional information to a module (e.g. globalContext?).
-//        QedeqBoFormalLogicChecker.check(globalContext, bo);
+        // later on as additional information to a module.
         QedeqBoDuplicateLanguageChecker.check(globalContext, bo);
         return bo;
     }
