@@ -44,6 +44,9 @@ import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
  */
 public final class Xml2Xml  {
 
+    /** This class. */
+    private static final Class CLASS = Xml2Xml.class;
+
     /**
      * Constructor.
      */
@@ -74,7 +77,7 @@ public final class Xml2Xml  {
                 destination = new File(from.getParentFile(), xml + "_.xml").getCanonicalFile();
             }
         } catch (IOException e) {
-            Trace.trace(Xml2Xml.class, method, e);
+            Trace.trace(CLASS, method, e);
             throw new DefaultSourceFileExceptionList(e);
         }
         return generate(IoUtility.toUrl(from), destination);
@@ -91,9 +94,9 @@ public final class Xml2Xml  {
     public static String generate(final URL from, final File to)
             throws SourceFileExceptionList {
         final String method = "generate(URL, File)";
-        Trace.begin(Xml2Xml.class, method);
-        Trace.param(Xml2Xml.class, method, "from", from);
-        Trace.param(Xml2Xml.class, method, "to", to);
+        Trace.begin(CLASS, method);
+        Trace.param(CLASS, method, "from", from);
+        Trace.param(CLASS, method, "to", to);
         TextOutput printer = null;
         try {
             final ModuleAddress address = KernelContext.getInstance().getModuleAddress(from);
@@ -104,23 +107,23 @@ public final class Xml2Xml  {
             try {
                 Qedeq2Xml.print(address, prop.getModule(), printer);
             } catch (ModuleDataException e) {
-                Trace.trace(Xml2Xml.class, method, e);
-                Trace.param(Xml2Xml.class, method, "context", e.getContext());
+                Trace.trace(CLASS, method, e);
+                Trace.param(CLASS, method, "context", e.getContext());
                 throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
                     prop.getModule().getQedeq());
             }
             return to.getCanonicalPath();
         } catch (IOException e) {
-            Trace.trace(Xml2Xml.class, method, e);
+            Trace.trace(CLASS, method, e);
             throw new DefaultSourceFileExceptionList(e);
         } catch (RuntimeException e) {
-            Trace.trace(Xml2Xml.class, method, e);
+            Trace.trace(CLASS, method, e);
             throw new DefaultSourceFileExceptionList(e);
         } finally {
             if (printer != null) {
                 printer.close();
             }
-            Trace.end(Xml2Xml.class, method);
+            Trace.end(CLASS, method);
         }
     }
 
