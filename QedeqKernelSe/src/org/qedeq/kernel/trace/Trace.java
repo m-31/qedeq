@@ -38,17 +38,16 @@ public final class Trace {
 
     /**
      * Trace object.
-     *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
      * @param   method          Method of that object.
      * @param   object          Object to trace.
      */
-    public static void trace(final Object tracingObject, final String method,
-            final Object object) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void trace(final Class tracingClass, final Object tracingObject,
+            final String method, final Object object) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(object);
+            log.debug("." + method + " " + object);
         }
     }
 
@@ -61,26 +60,25 @@ public final class Trace {
      */
     public static void trace(final Class tracingClass, final String method,
             final Object object) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(object);
+            log.debug("." + method + " " + object);
         }
     }
 
     /**
      * Trace throwable.
      *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
      * @param   method          Method of that object.
      * @param   throwable       Throwable to trace.
      */
-    public static void trace(final Object tracingObject, final String method,
-            final Throwable throwable) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void trace(final Class tracingClass, final Object tracingObject,
+            final String method, final Throwable throwable) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(throwable, throwable);
+            log.debug("." + method + " " + throwable, throwable);
         }
     }
 
@@ -93,26 +91,25 @@ public final class Trace {
      */
     public static void trace(final Class tracingClass, final String method,
             final Throwable throwable) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(throwable, throwable);
+            log.debug("." + method + " " + throwable, throwable);
         }
     }
 
     /**
      * Trace fatal throwable and extra description.
      *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
      * @param   method          Method of that object.
      * @param   description     Further information.
      * @param   throwable       Throwable to trace.
      */
-    public static void fatal(final Object tracingObject, final String method,
-            final String description, final Throwable throwable) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
-        log.fatal(description, throwable);
+    public static void fatal(final Class tracingClass, final Object tracingObject,
+            final String method, final String description, final Throwable throwable) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
+        log.fatal("." + method + " " + description, throwable);
     }
 
     /**
@@ -125,25 +122,24 @@ public final class Trace {
      */
     public static void fatal(final Class tracingClass, final String method,
             final String description, final Throwable throwable) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
-        log.fatal(description, throwable);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
+        log.fatal("." + method + " " + description, throwable);
     }
 
     /**
      * Trace throwable and extra description.
      *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
      * @param   method          Method of that object.
      * @param   description     Further information.
      * @param   throwable       Throwable to trace.
      */
-    public static void trace(final Object tracingObject, final String method,
-            final String description, final Throwable throwable) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void trace(final Class tracingClass, final Object tracingObject,
+            final String method, final String description, final Throwable throwable) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(description, throwable);
+            log.debug("." + method + " " + description, throwable);
         }
     }
 
@@ -157,25 +153,25 @@ public final class Trace {
      */
     public static void trace(final Class tracingClass, final String method,
             final String description, final Throwable throwable) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(description, throwable);
+            log.debug("." + method + " " + description, throwable);
         }
     }
 
     /**
      * Trace method begin. Should be followed by an analogous
-     * {@link #end(Object, String)} call.
+     * {@link #end(Class, Object, String)} call.
      *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
      * @param   method          Method of that object.
      */
-    public static void begin(final Object tracingObject, final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void begin(final Class tracingClass, final Object tracingObject,
+            final String method) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug("begin");
+            log.debug("." + method + " " + "begin");
         }
     }
 
@@ -186,24 +182,24 @@ public final class Trace {
      * @param   method          Method of that class.
      */
     public static void begin(final Class tracingClass, final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug("begin");
+            log.debug("." + method + " " + "begin");
         }
     }
 
     /**
      * Trace method end.
      *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
      * @param   method          Method of that object.
      */
-    public static void end(final Object tracingObject, final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void end(final Class tracingClass, final Object tracingObject,
+            final String method) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug("end");
+            log.debug("." + method + " " + "end");
         }
     }
 
@@ -214,26 +210,25 @@ public final class Trace {
      * @param   method          Method of that class.
      */
     public static void end(final Class tracingClass, final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug("end");
+            log.debug("." + method + " " + "end");
         }
     }
 
     /**
      * Trace message.
      *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
      * @param   method          Method of that object.
      * @param   message         Message.
      */
-    public static void info(final Object tracingObject, final String method,
-            final String message) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void info(final Class tracingClass, final Object tracingObject,
+            final String method, final String message) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isInfoEnabled()) {
-            log.info(message);
+            log.info("." + method + " " + message);
         }
     }
 
@@ -246,27 +241,26 @@ public final class Trace {
      */
     public static void info(final Class tracingClass, final String method,
             final String message) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isInfoEnabled()) {
-            log.info(message);
+            log.info("." + method + " " + message);
         }
     }
 
     /**
      * Trace parameter.
      *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
      * @param   method          Method of that object.
      * @param   param           Parameter to trace.
      * @param   value           Value of parameter.
      */
-    public static void param(final Object tracingObject, final String method,
-            final String param, final Object value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void param(final Class tracingClass, final Object tracingObject,
+            final String method, final String param, final Object value) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(param + "=" + value);
+            log.debug("." + method + " " + param + "=" + value);
         }
     }
 
@@ -280,27 +274,26 @@ public final class Trace {
      */
     public static void param(final Class tracingClass, final String method,
             final String param, final Object value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(param + "=" + value);
+            log.debug("." + method + " " + param + "=" + value);
         }
     }
 
     /**
      * Trace parameter.
      *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
      * @param   method          Method of that object.
      * @param   param           Parameter to trace.
      * @param   value           Value of parameter.
      */
-    public static void param(final Object tracingObject, final String method,
-            final String param, final int value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void param(final Class tracingClass, final Object tracingObject,
+            final String method, final String param, final int value) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(param + "=" + value);
+            log.debug("." + method + " " + param + "=" + value);
         }
     }
 
@@ -314,27 +307,26 @@ public final class Trace {
      */
     public static void param(final Class tracingClass, final String method,
             final String param, final int value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(param + "=" + value);
+            log.debug("." + method + " " + param + "=" + value);
         }
     }
 
     /**
      * Trace parameter.
      *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
      * @param   method          Method of that object.
      * @param   param           Parameter to trace.
      * @param   value           Value of parameter.
      */
-    public static void param(final Object tracingObject, final String method,
-            final String param, final boolean value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void param(final Class tracingClass, final Object tracingObject,
+            final String method, final String param, final boolean value) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(param + "=" + value);
+            log.debug("." + method + " " + param + "=" + value);
         }
     }
 
@@ -348,29 +340,29 @@ public final class Trace {
      */
     public static void param(final Class tracingClass, final String method,
             final String param, final boolean value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isDebugEnabled()) {
-            log.debug(param + "=" + value);
+            log.debug("." + method + " " + param + "=" + value);
         }
     }
 
     /**
      * Write stacktrace into trace.
      *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
      * @param   method          Method of that object.
      */
-    public static void traceStack(final Object tracingObject, final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void traceStack(final Class tracingClass, final Object tracingObject,
+            final String method) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (!log.isDebugEnabled()) {
             return;
         }
         try {
             throw new Exception("Stacktrace");
         } catch (Exception e) {
-            log.debug(e, e);
+            log.debug("." + method + " " + e, e);
         }
     }
 
@@ -381,32 +373,31 @@ public final class Trace {
      * @param   method          Method of that class.
      */
     public static final void traceStack(final Class tracingClass, final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (!log.isDebugEnabled()) {
             return;
         }
         try {
             throw new Exception("Stacktrace");
         } catch (Exception e) {
-            log.debug(e, e);
+            log.debug("." + method + " " + e, e);
         }
     }
 
     /**
      * Parameter information.
      *
+     * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make an info entry.
      * @param   method          Method of that object.
      * @param   param           Parameter to trace.
      * @param   value           Value of parameter.
      */
-    public static void paramInfo(final Object tracingObject, final String method,
-            final String param, final Object value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void paramInfo(final Class tracingClass, final Object tracingObject,
+            final String method, final String param, final Object value) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isInfoEnabled()) {
-            log.info(param + "=" + value);
+            log.info("." + method + " " + param + "=" + value);
         }
     }
 
@@ -420,27 +411,25 @@ public final class Trace {
      */
     public static void paramInfo(final Class tracingClass, final String method,
             final String param, final Object value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isInfoEnabled()) {
-            log.info(param + "=" + value);
+            log.info("." + method + " " + param + "=" + value);
         }
     }
 
     /**
      * Parameter information.
-     *
+     * @param tracingClass TODO
      * @param   tracingObject   Instance that wants to make an info entry.
      * @param   method          Method of that object.
      * @param   param           Parameter to trace.
      * @param   value           Value of parameter.
      */
-    public static void paramInfo(final Object tracingObject, final String method,
-            final String param, final int value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingObject.getClass()
-            + "." + method);
+    public static void paramInfo(final Class tracingClass, final Object tracingObject,
+            final String method, final String param, final int value) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isInfoEnabled()) {
-            log.info(param + "=" + value);
+            log.info("." + method + " " + param + "=" + value);
         }
     }
 
@@ -454,10 +443,9 @@ public final class Trace {
      */
     public static void paramInfo(final Class tracingClass, final String method,
             final String param, final int value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass
-            + "." + method);
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
         if (log.isInfoEnabled()) {
-            log.info(param + "=" + value);
+            log.info("." + method + " " + param + "=" + value);
         }
     }
 
