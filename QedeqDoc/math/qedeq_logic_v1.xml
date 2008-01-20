@@ -2430,7 +2430,7 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                We define a predicate constant of arity two that shall stand for the identy of subjects.
+                We define a predicate constant of arity two that shall stand for the identity of subjects.
               ]]>
             </LATEX>
             <LATEX language="de">
@@ -2440,11 +2440,49 @@
             </LATEX>
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="2" name="equal">
-            <LATEXPATTERN>#1 = #2</LATEXPATTERN>
+            <LATEXPATTERN>#1 \\ =  \\ #2</LATEXPATTERN>
             <VARLIST>
-              <VAR id="\sigma"/>
-              <VAR id="\tau"/>
+              <VAR id="x"/>
+              <VAR id="y"/>
             </VARLIST>
+          </DEFINITION_PREDICATE>
+        </NODE>
+        
+        <NODE id="definition:notEqual">
+          <NAME>
+            <LATEX language="en">not identical definition</LATEX>
+            <LATEX language="de">Definition der Verschiedenheit</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Not Identical\index{identical!is not}</LATEX>
+            <LATEX language="de">Verschiedenheit\index{Verschiedenheit}\index{Definition!der Verschiedenheit}</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                For convenience we also define the negation of the identity a predicate constant.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Aus Bequemlichkeit definieren wir auch die Negation der Identitätskonstante.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="2" name="notEqual">
+            <LATEXPATTERN>#1 \\ \\neq  \\ #2</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+              <VAR id="y"/>
+            </VARLIST>
+            <FORMULA>
+              <NOT>
+                <PREDCON ref="equal">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </PREDCON>
+               </NOT>
+            </FORMULA>
           </DEFINITION_PREDICATE>
         </NODE>
         
