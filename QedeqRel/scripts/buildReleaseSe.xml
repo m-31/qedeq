@@ -393,7 +393,7 @@
   	<delete dir="${qedeq.se.dest}/buffer"/>
     <mkdir dir="${qedeq.se.dest}/buffer"/>
     <copy todir="${qedeq.se.dest}/config">
-      <fileset file="${qedeq.se.rel}/log4j.properties" />
+      <fileset file="${qedeq.se.rel}/log4j.xml" />
     </copy>
     <copy todir="${qedeq.se.dest}/config">
       <fileset file="${qedeq.gui.se.src}/config/*" />
