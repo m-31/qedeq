@@ -2,7 +2,7 @@
 %%% ====================================================================
 %%% @LaTeX-file    qedeq_logic_v1_en.tex
 %%% Generated from http://qedeq.org/0_03_07/doc/math/qedeq_logic_v1.xml
-%%% Generated at   2008-01-09 20:54:43,046
+%%% Generated at   2008-01-20 13:40:30,913
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -712,13 +712,25 @@ Identity is whatever makes an entity definable and recognizable, in terms of pos
 We start with the identy axioms.
 
 \par
-We define a predicate constant of arity two that shall stand for the identy of subjects.
+We define a predicate constant of arity two that shall stand for the identity of subjects.
 
 \begin{idefn}[Identity\index{identity}\index{definition!of identity}]
 \label{definition:identity} \hypertarget{definition:identity}{}
-$$\sigma = \tau$$
+$$x \ =  \ y$$
 
 \end{idefn}
+
+
+
+
+\par
+For convenience we also define the negation of the identity a predicate constant.
+
+\begin{defn}[Not Identical\index{identical!is not}]
+\label{definition:notEqual} \hypertarget{definition:notEqual}{}
+$$x \ \neq \ y\ :\leftrightarrow \ \neg x \ =  \ y$$
+
+\end{defn}
 
 
 
@@ -730,7 +742,7 @@ $$\sigma = \tau$$
 \label{axiom:identityIsReflexive} \hypertarget{axiom:identityIsReflexive}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $x = y$
+\centering $x \ =  \ y$
 \end{longtable}
 
 \end{ax}
@@ -745,7 +757,7 @@ $$\sigma = \tau$$
 \label{axiom:leibnizReplacement} \hypertarget{axiom:leibnizReplacement}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $x = y\ \rightarrow \ (\phi(x)\ \rightarrow \ \phi(y))$
+\centering $x \ =  \ y\ \rightarrow \ (\phi(x)\ \rightarrow \ \phi(y))$
 \end{longtable}
 
 \end{ax}
@@ -760,7 +772,7 @@ $$\sigma = \tau$$
 \label{axiom:symmetryOfIdentity} \hypertarget{axiom:symmetryOfIdentity}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $x = y\ \rightarrow \ y = x$
+\centering $x \ =  \ y\ \rightarrow \ y \ =  \ x$
 \end{longtable}
 
 \end{ax}
@@ -775,7 +787,7 @@ $$\sigma = \tau$$
 \label{axiom:transitivityOfIdentity} \hypertarget{axiom:transitivityOfIdentity}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $(x = y\ \land \ y = z)\ \rightarrow \ x = z$
+\centering $(x \ =  \ y\ \land \ y \ =  \ z)\ \rightarrow \ x \ =  \ z$
 \end{longtable}
 
 \end{ax}
@@ -790,7 +802,7 @@ We can reverse the second implication in the Leibniz replacement.
 \label{theorem:leibnizEquivalence} \hypertarget{theorem:leibnizEquivalence}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $x = y\ \rightarrow \ (\phi(x)\ \leftrightarrow \ \phi(y))$
+\centering $x \ =  \ y\ \rightarrow \ (\phi(x)\ \leftrightarrow \ \phi(y))$
 \end{longtable}
 
 \end{prop}
@@ -805,7 +817,7 @@ We can reverse the second implication in the Leibniz replacement.
 \label{theorem:identyImpliesFunctionalEquality} \hypertarget{theorem:identyImpliesFunctionalEquality}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $x = y\ \rightarrow \ f(x) = f(y)$
+\centering $x \ =  \ y\ \rightarrow \ f(x) \ =  \ f(y)$
 \end{longtable}
 
 \end{prop}
@@ -905,7 +917,7 @@ See also \url{http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert
 
 
 %% QEDEQ modules that use this one:
-\bibitem{qedeq_set_theory_v1} qedeq\_set\_theory\_v1
+\bibitem{qedeq_set_theory_v1} qedeq\_set\_theory\_v1 \url{http://qedeq.org/0_03_07/doc/math/qedeq_set_theory_v1.xml}
 
 
 \end{thebibliography}
