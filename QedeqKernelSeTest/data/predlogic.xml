@@ -148,6 +148,37 @@
             </FORMULA>
           </THEOREM>
         </NODE>
+        
+        <NODE id="definition:identity">
+          <NAME>
+            <LATEX language="en">identity definition</LATEX>
+            <LATEX language="de">Definition der Identität</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Identity\index{identity}\index{definition!of identity}</LATEX>
+            <LATEX language="de">Identität\index{Identität}\index{Definition!der Identität}</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                We define a predicate constant of arity two that shall stand for the identity of subjects.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Es wird eine zweistellige Prädikatskonstante festgelegt, welche in der Interpretation die Identität von Subjekten ausdrücken soll.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="2" name="equal">
+            <LATEXPATTERN>#1 \\ =  \\ #2</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+              <VAR id="y"/>
+            </VARLIST>
+          </DEFINITION_PREDICATE>
+        </NODE>
+        
       </SUBSECTIONS>
     </SECTION>
   </CHAPTER>
