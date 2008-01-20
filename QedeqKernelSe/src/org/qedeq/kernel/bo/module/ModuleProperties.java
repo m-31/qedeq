@@ -39,7 +39,7 @@ public interface ModuleProperties {
     public boolean hasFailures();
 
     /**
-     * Get {@link ModuleAddress} of module. Maybe <code>null</code>.
+     * Get {@link ModuleAddress} of module.
      *
      * @return  address of module.
      */
