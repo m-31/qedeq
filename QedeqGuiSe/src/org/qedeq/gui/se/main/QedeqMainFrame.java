@@ -31,6 +31,8 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.gui.se.util.GuiHelper;
@@ -160,6 +162,18 @@ public class QedeqMainFrame extends JFrame {
         }
         System.setProperty("log4j.configDebug", "true");
         System.setProperty("log4j.configuration", res);
+
+        // init Log4J watchdog
+        try {
+            // set properties and watch file every 5 seconds
+            if (res.endsWith(".xml")) {
+                DOMConfigurator.configureAndWatch(resource.getCanonicalPath(), 5000);
+            } else {
+                PropertyConfigurator.configureAndWatch(resource.getCanonicalPath(), 5000);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
