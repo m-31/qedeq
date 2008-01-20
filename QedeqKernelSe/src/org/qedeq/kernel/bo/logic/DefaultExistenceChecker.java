@@ -109,6 +109,15 @@ public class DefaultExistenceChecker implements ExistenceChecker {
         predicateDefinitions.put(predicate, definition);
     }
 
+    public PredicateDefinition get(final Predicate predicate) {
+        return (PredicateDefinition) predicateDefinitions.get(predicate);
+    }
+
+    public PredicateDefinition getPredicate(final String name, final int arguments) {
+        final Predicate predicate = new Predicate(name, "" + arguments);
+        return get(predicate);
+    }
+
     /**
      * Check if a function constant is already defined.
      *
@@ -144,6 +153,15 @@ public class DefaultExistenceChecker implements ExistenceChecker {
                 + function);
         }
         functionDefinitions.put(function, definition);
+    }
+
+    public FunctionDefinition get(final Function function) {
+        return (FunctionDefinition) functionDefinitions.get(function);
+    }
+
+    public FunctionDefinition getFunction(final String name, final int arguments) {
+        final Function function = new Function(name, "" + arguments);
+        return get(function);
     }
 
     public boolean classOperatorExists() {
