@@ -86,6 +86,9 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
         final ModuleProperties newProp = ref.getModuleProperties(label);
+        if (newProp == null) {
+            return false;
+        }
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().predicateExists(shortName, arguments);
     }
