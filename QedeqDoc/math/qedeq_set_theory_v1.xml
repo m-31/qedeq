@@ -1380,7 +1380,7 @@
             <TERM>
               <CLASS>
                 <VAR id="x" />
-                  <PREDCON ref="notEqual">
+                  <PREDCON ref="l.notEqual">
                     <VAR id="x" />
                     <VAR id="x" />
                  </PREDCON>
@@ -3484,7 +3484,7 @@
           <THEOREM>
             <FORMULA>
               <IMPL>
-                <PREDCON ref="notEqual">
+                <PREDCON ref="l.notEqual">
                   <VAR id="x" />
                   <FUNCON ref="emptySet"/>
                 </PREDCON>
@@ -3855,7 +3855,7 @@
               <FORALL>
                 <VAR id="x" />
                 <IMPL>
-                  <PREDCON ref="notEqual">
+                  <PREDCON ref="l.notEqual">
                     <VAR id="x" />
                     <FUNCON ref="emptySet" />
                   </PREDCON>
@@ -4928,7 +4928,7 @@
                   <FUNCON ref="universalClass" />
                 </PREDCON>
                 <IMPL>
-                  <PREDCON ref="notEqual">
+                  <PREDCON ref="l.notEqual">
                     <VAR id="x" />
                     <FUNCON ref="emptySet" />
                   </PREDCON>
@@ -5820,7 +5820,7 @@
           <AXIOM>
             <FORMULA>
               <IMPL>
-                <PREDCON ref="notEqual">
+                <PREDCON ref="l.notEqual">
                   <VAR id="x" />
                   <FUNCON ref="emptySet" />
                 </PREDCON>
