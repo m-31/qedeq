@@ -272,11 +272,13 @@ public final class GenerateLatexTest extends QedeqTestCase {
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(xmlFile));
         final ModuleProperties prop = KernelFacade.getKernelContext().loadModule(address);
+        KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         final String web = "http://qedeq.org/" 
             + KernelFacade.getKernelContext().getKernelVersionDirectory() + "/doc/" + xml;
         final ModuleProperties fakeProp = new DefaultModuleProperties(
             new DefaultModuleAddress(web));
         fakeProp.setLoaded(prop.getModule());
+        fakeProp.setLoadedRequiredModules(prop.getRequiredModules());
         final File texFile = new File(destinationDirectory, 
             xml.substring(0, xml.lastIndexOf('.')) + "_" + language + ".tex");
         Xml2Latex.generate(fakeProp, texFile, language, "1");
@@ -284,17 +286,12 @@ public final class GenerateLatexTest extends QedeqTestCase {
             texFile.getName()).getPath());
         final File xmlCopy = new File(destinationDirectory, xml);
         try {
-            prop.setLoadedRequiredModules(null);
             QedeqLog.getInstance().logRequest("Check logical correctness of \""
                 + prop.getUrl() + "\"");
-            prop.setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
-            ModuleEventLog.getInstance().stateChanged(prop);
             QedeqBoFormalLogicChecker.check(prop);
             QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful for \""
                 + prop.getUrl() + "\"");
-            prop.setLogicalProgressState(LogicalState.STATE_CHECKED);
-            ModuleEventLog.getInstance().stateChanged(prop);
             IoUtility.createNecessaryDirectories(xmlCopy);
             IoUtility.copyFile(xmlFile, xmlCopy);
             IoUtility.copyFile(texFile, texCopy);
