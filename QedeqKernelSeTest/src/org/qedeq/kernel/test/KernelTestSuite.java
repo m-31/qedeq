@@ -17,8 +17,13 @@
 
 package org.qedeq.kernel.test;
 
+import java.net.URL;
+
 import junit.framework.Test;
 
+import org.apache.log4j.PropertyConfigurator;
+import org.apache.log4j.helpers.Loader;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.kernel.bo.control.KernelBoControlTestSuite;
 import org.qedeq.kernel.bo.logic.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
@@ -39,6 +44,18 @@ import org.qedeq.kernel.xml.tracker.KernelXmlTrackerTestSuite;
  */
 public class KernelTestSuite extends QedeqTestSuite {
 
+    static {
+        // init Log4J watchdog
+        try {
+            URL url = Loader.getResource("log4j.xml");
+            // set properties and watch file every 5 seconds
+            DOMConfigurator.configureAndWatch(url.getPath(), 5000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+    }
+    
     /**
      * Get a new <code>KernelTestSuite</code>.
      * 
