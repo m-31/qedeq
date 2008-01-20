@@ -81,8 +81,8 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
         final ModuleProperties prop = KernelFacade.getKernelContext().getModuleProperties(
             globalContext);
         prop.setLoaded(bo);
-        prop.setLoadedRequiredModules(new ModuleReferenceList());
         try {
+            KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
             QedeqBoFormalLogicChecker.check(prop);
         } catch (SourceFileExceptionList e) {
             throw (ModuleDataException) e.get(0).getCause();
