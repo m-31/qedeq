@@ -279,7 +279,7 @@ public class DefaultModuleFactory implements ModuleFactory {
         try {
             final ModuleAddress[] modulePaths;
             try {
-                modulePaths = DefaultModuleAddress.getModulePaths(module, spec);
+                modulePaths = DefaultModuleAddress.getModulePaths(module.getModuleAddress(), spec);
             } catch (IOException e) {
                 Trace.trace(CLASS, this, method, e);
                 throw createXmlFileExceptionList(e);
