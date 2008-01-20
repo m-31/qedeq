@@ -1,8 +1,8 @@
 % -*- TeX:DE -*-
 %%% ====================================================================
 %%% @LaTeX-file    qedeq_logic_v1_de.tex
-%%% Generated from file:/C:/mime/projects/qedeq/qedeq/eclipse/QedeqKernelSeTest/../QedeqDoc/math/qedeq_logic_v1.xml
-%%% Generated at   2008-01-04 00:39:26,219
+%%% Generated from http://qedeq.org/0_03_07/doc/math/qedeq_logic_v1.xml
+%%% Generated at   2008-01-09 20:54:45,546
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -245,11 +245,11 @@ Die Implikation, die Und-Verkn{\"u}pfung und die logische {\"A}quivalenz werden 
 \par
 Die logische Implikation kann wie folgt definiert werden.
 
-\begin{idefn}[Implikation\index{Definition!der Implikation}]
+\begin{defn}[Implikation\index{Definition!der Implikation}]
 \label{definition:implication} \hypertarget{definition:implication}{}
-$$\sigma \rightarrow \tau$$
+$$\alpha \rightarrow \beta\ :\leftrightarrow \ \neg \alpha\ \lor \ \beta$$
 
-\end{idefn}
+\end{defn}
 
 
 
@@ -702,46 +702,7 @@ Wenn eine Formel $\beta$ aus einer Formel $\alpha$ ableitbar ist, so ist die For
 Alles was existiert besitzt eine spezifische Natur. Jede Entit{\"a}t existiert als etwas besonderes und besitzt charakterisierende Merkmale. Identit{\"a}t ist etwas, das eine Entit{\"a}t definierbar und erkennbar macht im Sinne einer Menge von Eigenschaften oder Merkmalen, welche sie von anderen Entiti{\"a}ten unterscheiden. Eine Entit{\"a}t kann mehrere Merkmale besitzen, aber alle Merkmale die sie besitzt ist Teil ihrer Identit{\"a}t.
 
 \section{Axiome der Identit{\"a}t} \label{chapter6_section0} \hypertarget{chapter6_section0}{}
-\index{Identit{\"a}t}\hypertarget{gleichheit}{}
-Es wird eine zweistellige Funktionskonstante festgelegt, welche in der Interpretation die Identit{\"a}t
-von Subjekten ausdr{\"u}cken soll.
-\begin{defn}[Gleichheit]
-$$x = y \ \Leftrightarrow \ c_1^2(x, y)$$
-\end{defn}
-
-Dazu werden zwei weitere Axiome, auch
-\emph{Gleichheitsaxiome}\index{Gleichheit}\index{Axiome!Gleichheits-} genannt, formuliert.
-\begin{ax}[Reflexivit{\"a}t der Gleichheit]
-$$x = x$$
-\end{ax}
-
-\begin{ax}[Leibnizsche Ersetzbarkeit]\index{Leibnizsche Ersetzbarkeit}\hypertarget{leibniz}{}
-$$x = y  \rightarrow (\phi(x) \rightarrow \phi(y))$$
-\end{ax}
-
-\begin{thm}[Symmetrie der Gleichheit]\index{Gleichheit!Symmetrie der}
-\begin{equation}
-x = y \leftrightarrow y = x
-\end{equation}
-\end{thm}
-
-\begin{thm}[Transitivit{\"a}t der Gleichheit]\index{Gleichheit!Transitivit{\"a}t der}
-\begin{equation}
-x = y ~ \land ~ y = z \rightarrow x = z
-\end{equation}
-\end{thm}
-
-\begin{thm}
-\begin{equation}
-x = y \rightarrow (\phi(x) \leftrightarrow \phi(y))
-\end{equation}
-\end{thm}
-
-\begin{thm}
-\begin{equation}
-x = y \rightarrow f(x) = f(y)
-\end{equation}
-\end{thm}
+Wir starten mit den Identit{\"a}tsaxiomen.
 
 \par
 Es wird eine zweistellige Pr{\"a}dikatskonstante festgelegt, welche in der Interpretation die Identit{\"a}t von Subjekten ausdr{\"u}cken soll.
@@ -755,25 +716,134 @@ $$\sigma = \tau$$
 
 
 
+\par
+
+
+\begin{ax}[Reflexivit{\"a}t der Identit{\"a}t\index{Reflexivit{\"a}t!der Identit{\"a}t}\index{Identit{\"a}t!Reflexivit{\"a}t der}]
+\label{axiom:identityIsReflexive} \hypertarget{axiom:identityIsReflexive}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x = y$
+\end{longtable}
+
+\end{ax}
+
+
+
+
+\par
+
+
+\begin{ax}[Leibnizsche Ersetzbarkeit\index{Leibnizsche Ersetzbarkeit}]
+\label{axiom:leibnizReplacement} \hypertarget{axiom:leibnizReplacement}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x = y\ \rightarrow \ (\phi(x)\ \rightarrow \ \phi(y))$
+\end{longtable}
+
+\end{ax}
+
+
+
+
+\par
+
+
+\begin{ax}[Symmetrie der Identit{\"a}t\index{Identit{\"a}t!Symmetrie der}]
+\label{axiom:symmetryOfIdentity} \hypertarget{axiom:symmetryOfIdentity}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x = y\ \rightarrow \ y = x$
+\end{longtable}
+
+\end{ax}
+
+
+
+
+\par
+
+
+\begin{ax}[Transitivit{\"a}t der Identit{\"a}t\index{Identit{\"a}t!Transitivit{\"a}t der}]
+\label{axiom:transitivityOfIdentity} \hypertarget{axiom:transitivityOfIdentity}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $(x = y\ \land \ y = z)\ \rightarrow \ x = z$
+\end{longtable}
+
+\end{ax}
+
+
+
+
+\par
+Bei der Leibnizschen Ersetzbarkeit k{\"o}nnen wir die zweite Implikation umkehren.
+
+\begin{prop}
+\label{theorem:leibnizEquivalence} \hypertarget{theorem:leibnizEquivalence}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x = y\ \rightarrow \ (\phi(x)\ \leftrightarrow \ \phi(y))$
+\end{longtable}
+
+\end{prop}
+
+
+
+
+\par
+
+
+\begin{prop}
+\label{theorem:identyImpliesFunctionalEquality} \hypertarget{theorem:identyImpliesFunctionalEquality}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $x = y\ \rightarrow \ f(x) = f(y)$
+\end{longtable}
+
+\end{prop}
+
+
+
+
 \section{Eingeschr{\"a}nkte Quantoren\index{Quantor!eingeschr{\"a}nkter}} \label{chapter6_section1} \hypertarget{chapter6_section1}{}
-Bei der folgenden Definition muss die f{\"u}r $\psi(x)$ eingesetzte Formel {\glqq erkennen
-lassen\grqq}, {\"u}ber welche Subjektvariable quantifiziert wird. Das ist in der Regel dar{\"u}ber zu
-entscheiden, welche freie Subjektvariable als erstes in der Formel
-vorkommt.\footnote{Beispielsweise ist in der folgenden Formel erkennbar, dass die zweite
-Quantifikation {\"u}ber die Subjektvariable $m$ l{\"a}uft: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n
-$.} In der exakten Syntax des Qedeq-Formats\footnote{Siehe unter
-\url{http://www.qedeq.org/0_01_05/projektbeschreibung.pdf}.} ist die Subjektvariable immer
-angegeben.
-\begin{defn}[Eingeschr{\"a}nkter Allquantor]\index{Allquantor!eingeschr{\"a}nkter}
-$$ \forall \ \psi(x) \ (\phi(x)) \ \Leftrightarrow \ \forall \ x \ (\psi(x) \rightarrow \phi(x))$$
+Jede Quantifizierung ben{\"o}tigt eine Subjektvariable und einen Bereich {\"u}ber den die Quantifizierung l{\"a}uft. Bis jetzt haben wir eine festen Bereich f{\"u}r jede Quantifizierung vorausgesetzt. Die Angabe eines Bereichs erm{\"o}glicht uns auszudr{\"u}cken, dass ein Pr{\"a}dikat nur f{\"u}r einen eingeschr{\"a}nkten Bereich g{\"u}ltig ist.
+
+\par
+Bei der folgenden Definition muss die f{\"u}r $\alpha(x)$ eingesetzte Formel {\glqq erkennen lassen\grqq}, {\"u}ber welche Subjektvariable quantifiziert wird. Das ist in der Regel dar{\"u}ber zu entscheiden, welche freie Subjektvariable als erstes in der Formel vorkommt.\footnote{Beispielsweise ist in der folgenden Formel erkennbar, dass die zweite Quantifikation {\"u}ber die Subjektvariable $m$ l{\"a}uft: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n $.} In der exakten Syntax des QEDEQ-Formats\footnote{Siehe unter \url{http://www.qedeq.org/current/xml/qedeq/}.} ist die Subjektvariable immer angegeben.
+
+\begin{defn}[Eingeschr{\"a}nkter Allquantor\index{Allquantor!eingeschr{\"a}nkter}]
+\label{definition:restrictedUniversalQuantifier} \hypertarget{definition:restrictedUniversalQuantifier}{}
+$$\forall \ \alpha(x) \ (\beta(x))\ :\leftrightarrow \ \forall x\ (\phi(x)\ \rightarrow \ \psi(x))$$
+
 \end{defn}
 
-Dazu passt die folgende Definition f{\"u}r den eingeschr{\"a}nkten Existenzquantor.\footnote{Passend, da
-$\neg \forall \ \psi(x) \ (\phi(x)) \leftrightarrow \exists \ x \ \neg (\psi(x) \rightarrow \phi(x)) \leftrightarrow \exists
-\ x \ (\psi(x) \land \neg\phi(x)) \leftrightarrow \exists \ \psi(x) \ (\neg\phi(x))$.}
-\begin{defn}[Eingeschr{\"a}nkter Existenzquantor]\index{Existenzquantor!eingeschr{\"a}nkter}
-$$ \exists \ \psi(x) \ (\phi(x)) \ \Leftrightarrow \ \exists \ x \ (\psi(x) \land \phi(x))$$
+
+
+
+\par
+Dazu passt die folgende Definition f{\"u}r den eingeschr{\"a}nkten Existenzquantor.\footnote{Passend, da $\neg \forall \ \psi(x) \ (\phi(x)) \leftrightarrow \exists \ x \ \neg (\psi(x) \rightarrow \phi(x)) \leftrightarrow \exists \ x \ (\psi(x) \land \neg\phi(x)) \leftrightarrow \exists \ \psi(x) \ (\neg\phi(x))$.}
+
+\begin{defn}[Eingeschr{\"a}nkter Existenz\index{Existenzquantor!eingeschr{\"a}nkter}]
+\label{definition:restrictedExistentialQuantifier} \hypertarget{definition:restrictedExistentialQuantifier}{}
+$$\exists \ \alpha(x) \ (\beta(x))\ :\leftrightarrow \ \exists x\ (\alpha(x)\ \land \ \beta(x))$$
+
 \end{defn}
+
+
+
+
+\par
+F{\"u}r die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird nun ein gesonderter Quantor eingef{\"u}hrt.
+
+\begin{defn}[Eingeschr{\"a}nkter Existenz f{\"u}r genau ein Individuum\index{Existenzquantor!eingeschr{\"a}nkter f{\"u}r ein Individuum}]
+\label{definition:restrictedUniquenessQuantifier} \hypertarget{definition:restrictedUniquenessQuantifier}{}
+$$\exists! \ \alpha(x) \ (\beta(x))\ :\leftrightarrow \ \exists x\ (\alpha(x)\ \land \ \beta(x))$$
+
+\end{defn}
+
+
+
 
 F{\"u}r die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird nun ein gesonderter
 Quantor eingef{\"u}hrt.
@@ -802,6 +872,7 @@ ersetzbar durch $\exists! y \ (\beta(y) \land \alpha(y)$ oder durch $\beta(y) \l
 F{\"u}r eingeschr{\"a}nkte Quantoren gelten analog zu \hyperref{elmpred} entsprechende Formeln.
 \\
 +++
+
 
 
 %% end of chapter Identit{\"a}t
