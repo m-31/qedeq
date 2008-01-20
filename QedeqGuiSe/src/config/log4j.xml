@@ -21,9 +21,16 @@
         </layout>
     </appender>
     
-    <logger name="org.qedeq.kernel.xyz">
-      <level value="debug" /> 
+    <!-- examples for logging output of certain classes -->
+<!--
+    <logger name="org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker">
+        <level value="debug" /> 
     </logger>
+
+    <logger name="org.qedeq.kernel.bo.logic">
+        <level value="debug" /> 
+    </logger>
+-->
 
     <!-- log level for FileAppender and ConsoleAppender -->
     <root>
