@@ -39,6 +39,7 @@ import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.log.ModuleEventLog;
+import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
 
 
@@ -49,6 +50,9 @@ import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
  * @author  Michael Meyling
  */
 public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
+
+    /** This class. */
+    private static final Class CLASS = QedeqBoFormalLogicChecker.class;
 
     /** QEDEQ module properties. */
     private final ModuleProperties prop;
@@ -87,11 +91,10 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
         prop.setLogicalProgressState(LogicalState.STATE_EXTERNAL_CHECKING);
         ModuleEventLog.getInstance().stateChanged(prop);
         ModuleReferenceList list = prop.getRequiredModules();
-        if (list == null) {
-            list = new ModuleReferenceList();
-        }
         for (int i = 0; i < list.size(); i++) {
             try {
+                Trace.trace(CLASS, "check(ModuleProperties)", "checking label",
+                    list.getLabel(i));
                 check(list.getModuleProperties(i));
             } catch (SourceFileExceptionList e) {   // TODO mime 20080114: hard coded codes
                 ModuleDataException md = new CheckRequiredModuleException(11231,
