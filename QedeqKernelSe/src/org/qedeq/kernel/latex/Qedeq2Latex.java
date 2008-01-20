@@ -51,11 +51,17 @@ import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
+import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
+import org.qedeq.kernel.bo.load.DefaultModuleAddress;
+import org.qedeq.kernel.bo.logic.DefaultExistenceChecker;
 import org.qedeq.kernel.bo.logic.ExistenceChecker;
+import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleDataException;
 import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.bo.module.ModuleReferenceList;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
@@ -180,6 +186,14 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     public static void print(final ModuleProperties prop,
             final TextOutput printer, final String language, final String level)
             throws ModuleDataException, IOException {
+        // first we try to get more information about required modules and their predicates..
+        try {
+            KernelContext.getInstance().loadRequiredModules(prop.getModuleAddress());
+            QedeqBoFormalLogicChecker.check(prop);
+        } catch (Exception e) {
+            // we continue and ignore external predicates
+            Trace.trace(CLASS, "print(ModuleProperties, TextOutput, String, String)", e);
+        }
         final Qedeq2Latex converter = new Qedeq2Latex(prop, printer,
             language, level);
         converter.printLatex();
@@ -316,7 +330,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         printer.println("\\mbox{}");
         printer.println("\\vfill");
         printer.println();
-        final String url = getUrl(header.getSpecification());
+        final String url = prop.getUrl().toString();
         if (url != null && url.length() > 0) {
             printer.println("\\par");
             if ("de".equals(language)) {
@@ -328,7 +342,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
                 printer.println("The source for this document can be found here:");
             }
             printer.println("\\par");
-            printer.println("\\url{" + getUrl(header.getSpecification()) + "}");
+            printer.println("\\url{" + url + "}");
             printer.println();
         }
         {
@@ -370,22 +384,21 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     /**
      * Get URL for QEDEQ XML module.
      *
+     * @param   address         Current module address.
      * @param   specification   Find URL for this location list.
-     * @return  URL or <code>null</code> if none (valid?) was found.
+     * @return  URL or <code>""</code> if none (valid?) was found.
      */
-    private String getUrl(final Specification specification) {
+    private String getUrl(final ModuleAddress address, final Specification specification) {
         final LocationList list = specification.getLocationList();
-        if (list == null || list.size() <= 0
-                || list.get(0).getLocation().length() <= "http://a.b".length()) {
+        if (list == null || list.size() <= 0) {
             return "";
         }
-        String location = list.get(0).getLocation();
-        if (!location.endsWith("/")) {
-            location += "/";
+        try {
+            return DefaultModuleAddress.getModulePaths(address,
+                specification)[0].getURL().toString();
+        } catch (IOException e) {
+            return "";
         }
-        location += specification.getName();
-        location += ".xml";
-        return location;
     }
 
     public void visitEnter(final Chapter chapter) {
@@ -535,6 +548,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
         }
         define.append("$$");
+        // we always save the definition, even if there already exists an entry
         predicateDefinitions.put(definition.getName() + "_" + definition.getArgumentNumber(),
             definition);
         Trace.param(CLASS, this, "printPredicateDefinition", "define", define);
@@ -566,6 +580,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
         }
         define.append("$$");
+        // we always save the definition, even if there already exists an entry
         functionDefinitions.put(definition.getName() + "_" + definition.getArgumentNumber(),
             definition);
         Trace.param(CLASS, this, "printFunctionDefinition", "define", define);
@@ -660,7 +675,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
                     // TODO mime 20070205: later on here must stand the location that was used
                     //   to verify the document contents
                     // TODO mime 20070205: convert relative address into absolute
-                    printer.print("\\url{" + spec.getLocationList().get(0).getLocation() + "}");
+                    printer.print("\\url{" + getUrl(prop.getModuleAddress(), spec) + "}");
                 }
                 printer.println();
             }
@@ -681,7 +696,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
                 final Specification spec = usedby.get(i);
                 printer.print("\\bibitem{" + spec.getName() + "} ");
                 printer.print(getLatex(spec.getName()));
-                final String url = getUrl(spec);
+                final String url = getUrl(prop.getModuleAddress(), spec);
                 if (url != null && url.length() > 0) {
                     printer.print(" ");
                     printer.print("\\url{" + url + "}");
@@ -771,13 +786,37 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         }
         final ElementList list = element.getList();
         if (list.getOperator().equals("PREDCON")) {
-            final String identifier = list.getElement(0).getAtom().getString() + "_"
-                + (list.size() - 1);
+            final String name = list.getElement(0).getAtom().getString();
+            final int arguments = list.size() - 1;
+            final String identifier = name + "_" + (arguments);
             // TODO mime 20060922: is only working for definition name + argument number
             //  if argument length is dynamic this dosen't work
-            if (predicateDefinitions.containsKey(identifier)) {
-                final PredicateDefinition definition = (PredicateDefinition)
+            PredicateDefinition definition = (PredicateDefinition)
                 predicateDefinitions.get(identifier);
+            if (definition == null) {
+                // try external modules
+                try {
+                    final int external = name.indexOf(".");
+                    if (external >= 0) {
+                        final String label = name.substring(0, external);
+                        final ModuleReferenceList ref = prop.getRequiredModules();
+                        final ModuleProperties newProp = ref.getModuleProperties(label);
+                        if (newProp != null) {
+                            final String shortName = name.substring(external + 1);
+                            if (newProp.getExistenceChecker().predicateExists(shortName,
+                                    arguments)) {
+                                // FIXME 20080120: Quick and very dirty!
+                                DefaultExistenceChecker checker = (DefaultExistenceChecker)
+                                    newProp.getExistenceChecker();
+                                definition = checker.getPredicate(shortName, arguments);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    // try failed...
+                }
+            }
+            if (definition != null) {
                 final StringBuffer define = new StringBuffer(definition.getLatexPattern());
                 for (int i = list.size() - 1; i >= 1; i--) {
                     ReplaceUtility.replace(define, "#" + i, getLatex(list.getElement(i), false));
@@ -808,13 +847,37 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
                 buffer.append(")");
             }
         } else if (list.getOperator().equals("FUNCON")) {
-            final String identifier = list.getElement(0).getAtom().getString() + "_"
-                + (list.size() - 1);
+            final String name = list.getElement(0).getAtom().getString();
+            final int arguments = list.size() - 1;
+            final String identifier = name + "_" + (arguments);
             // TODO mime 20060922: is only working for definition name + argument number
             //  if argument length is dynamic this dosen't work
-            if (functionDefinitions.containsKey(identifier)) {
-                final FunctionDefinition definition = (FunctionDefinition)
-                    functionDefinitions.get(identifier);
+            FunctionDefinition definition = (FunctionDefinition)
+                functionDefinitions.get(identifier);
+            if (definition == null) {
+                // try external modules
+                try {
+                    final int external = name.indexOf(".");
+                    if (external >= 0) {
+                        final String label = name.substring(0, external);
+                        final ModuleReferenceList ref = prop.getRequiredModules();
+                        final ModuleProperties newProp = ref.getModuleProperties(label);
+                        if (newProp != null) {
+                            final String shortName = name.substring(external + 1);
+                            if (newProp.getExistenceChecker().functionExists(shortName,
+                                    arguments)) {
+                                // FIXME 20080120: Quick and very dirty!
+                                DefaultExistenceChecker checker = (DefaultExistenceChecker)
+                                    newProp.getExistenceChecker();
+                                definition = checker.getFunction(shortName, arguments);
+                            }
+                        }
+                    }
+                } catch (Exception e) {
+                    // try failed...
+                }
+            }
+            if (definition != null) {
                 final StringBuffer define = new StringBuffer(definition.getLatexPattern());
                 for (int i = list.size() - 1; i >= 1; i--) {
                     ReplaceUtility.replace(define, "#" + i, getLatex(list.getElement(i), false));
