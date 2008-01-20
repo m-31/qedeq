@@ -69,7 +69,7 @@ public class DefaultModuleProperties implements ModuleProperties {
     /**
      * Creates new module properties.
      *
-     * @param   address     module address
+     * @param   address     Module address (not <code>null</code>).
      */
     public DefaultModuleProperties(final ModuleAddress address) {
         this.address = address;
