@@ -38,7 +38,7 @@
       </AUTHOR>
     </AUTHORS>
     <IMPORTS>
-      <IMPORT label="predlogic">
+      <IMPORT label="l">
         <SPECIFICATION name="predlogic" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
@@ -184,7 +184,7 @@
                         </PREDCON>
                       </EQUI>
                     </FORALL>
-                    <PREDCON ref="equal">
+                    <PREDCON ref="l.equal">
                       <VAR id="x"/>
                       <VAR id="y"/>
                     </PREDCON>
@@ -293,7 +293,7 @@
                     </PREDCON>
                   </EQUI>
                 </FORALL>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x"/>
                   <VAR id="y"/>
                 </PREDCON>

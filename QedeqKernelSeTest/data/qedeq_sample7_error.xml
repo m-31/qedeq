@@ -38,7 +38,7 @@
       </AUTHOR>
     </AUTHORS>
     <IMPORTS>
-      <IMPORT label="predlogic">
+      <IMPORT label="l">
         <SPECIFICATION name="predlogic" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
@@ -183,7 +183,7 @@
                         </PREDCON>
                       </EQUI>
                     </FORALL>
-                    <PREDCON ref="equal">
+                    <PREDCON ref="l.equal">
                       <VAR id="x"/>
                       <VAR id="y"/>
                     </PREDCON>
@@ -293,7 +293,7 @@
                   </EQUI>
                 </FORALL>
 <!-- in the following formula occurs the variable z free, but in the previous formula it occured bound -->                 
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="z"/>
                   <VAR id="y"/>
                 </PREDCON>
