@@ -47,6 +47,7 @@
       <IMPORT label="l">
         <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
           <LOCATIONS>
+            <LOCATION value="." />
             <LOCATION value="http://qedeq.org/0_03_07/doc/math" />
           </LOCATIONS>
         </SPECIFICATION>
