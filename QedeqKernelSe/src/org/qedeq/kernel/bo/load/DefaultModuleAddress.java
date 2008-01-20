@@ -26,7 +26,6 @@ import org.qedeq.kernel.base.module.LocationList;
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.bo.module.ModuleContext;
-import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 
@@ -103,7 +102,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      * @param   parent   Address of parent module.
      * @throws  MalformedURLException     Address is formally incorrect.
      */
-    public DefaultModuleAddress(final String address, final DefaultModuleAddress parent)
+    public DefaultModuleAddress(final String address, final ModuleAddress parent)
             throws MalformedURLException {
         final String method = "ModuleAddress(String, ModuleAddress)";
         if (address == null) {
@@ -112,7 +111,7 @@ public class DefaultModuleAddress implements ModuleAddress {
         URL urmel;
         try {
             if (parent != null) {
-                urmel = new URL(parent.url, address);
+                urmel = new URL(parent.getURL(), address);
             } else {
                 urmel = new URL(address);
             }
@@ -123,7 +122,7 @@ public class DefaultModuleAddress implements ModuleAddress {
             try {
                 final String newAddress = "file:" + address;
                 if (parent != null) {
-                    urmel = new URL(parent.url, newAddress);
+                    urmel = new URL(parent.getURL(), newAddress);
                 } else {
                     urmel = new URL(newAddress);
                 }
@@ -280,14 +279,13 @@ public class DefaultModuleAddress implements ModuleAddress {
      *
      * TODO mime 20070326: add context information (for error case)
      *
-     * @param   module  Starting from that module (has an absolute
-     *                  address).
+     * @param   address Starting from that module address.
      * @param   spec    Here are the (perhaps relative) addresses to
      *                  another module.
      * @return  Array of absolute address strings.
      * @throws  IOException One address is not correctly formed.
      */
-    public static final ModuleAddress[] getModulePaths(final QedeqBo module,
+    public static final ModuleAddress[] getModulePaths(final ModuleAddress address,
             final Specification spec) throws IOException {
 
         final String fileNameEnd = getModuleFileName(spec);
@@ -303,8 +301,7 @@ public class DefaultModuleAddress implements ModuleAddress {
                 fileName += "/";
             }
             fileName += fileNameEnd;
-            result[i] = new DefaultModuleAddress(fileName,
-                (DefaultModuleAddress) module.getModuleAddress());
+            result[i] = new DefaultModuleAddress(fileName, address);
         }
         return result;
     }
