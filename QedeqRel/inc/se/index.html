@@ -81,8 +81,8 @@
   </p>
 
   <p>
-  This release contains a program suite that can produce LaTeX files out of QEDEQ XML files. The files can be checked for syntactic correctness. In <a href="doc/project/qedeq_logic_language_en.pdf">Logical Language</a> more formal details are explained.
-  Samples and a <a href="doc/math/qedeq_set_theory_v1_en.pdf">script with the beginning of axiomatic set theory</a> are included. All formulas are written in the formal language.  All the axioms, definitions and propositions written in a formal language in it. Still no formal proofs are given. See <a href="doc/math/qedeq_logic_v1_en.pdf">Elements of Mathematical Logic</a> for the logical background of this project (parts in German).
+  This release contains a program suite that can produce LaTeX files out of QEDEQ XML files. The QEDEQ files can be checked for syntactic correctness. In <a href="doc/project/qedeq_logic_language_en.pdf">Logical Language</a> more formal details are explained.
+  Samples and a <a href="doc/math/qedeq_set_theory_v1_en.pdf">script with the beginning of axiomatic set theory</a> are included. All formulas are written in the formal language.  All the axioms, definitions and propositions written in a formal language in it. Still no formal proofs are given. See <a href="doc/math/qedeq_logic_v1_en.pdf">Elements of Mathematical Logic</a> for the logical background of this project.
   </p>
 
   <p>
@@ -90,7 +90,7 @@
   </p>
 
   <p>
-  A convenient way to start this application is via Java Web Start. Just click on: <a href="@QEDEQ_DIRECTORY@/webstart/qedeq.jnlp">START</a>. There should be a splash screen for Java Web Start, asking you to trust the signature. Although it will be not recommended you must trust the signature of Hilbert II to start the application. If you already started an older program version via Web Start you should remove the entries in the <code>config</code> directory.
+  A convenient way to start this application is via Java Web Start. Just click on: <a href="@QEDEQ_DIRECTORY@/webstart/qedeq.jnlp">START</a>. There should be a splash screen for Java Web Start, asking you to trust the signature. Although it will be not recommended you must trust the signature of Hilbert II to start the application. If you already started an older program version via Web Start you should remove the files in the <code>config</code> directory.
   </p>
 
   <p>
@@ -141,12 +141,13 @@
   </p>
 
   <p>
-  This release contains also the beginning of a <a href="doc/math/qedeq_set_theory_v1_en.pdf">script about axiomatic set theory</a>. This script is also available in <a href="doc/math/qedeq_set_theory_v1_de.pdf">German</a> and has this <a href="sample/qedeq_set_theory_v1.xml">XML source</a>.
+  This release contains also the beginning of a <a href="doc/math/qedeq_set_theory_v1_en.pdf">script about axiomatic set theory</a>. This script is also available in <a href="doc/math/qedeq_set_theory_v1_de.pdf">German</a> and has this <a href="doc/math/qedeq_set_theory_v1.xml">XML source</a>.
   </p>
 
   <p>
   The XML files have a formal structure that is defined <a href="xml/qedeq.html#element_QEDEQ">here</a> or <a href="xml/qedeq/index.html">here</a>.
   The logical language is described in <a href="doc/project/qedeq_logic_language_en.pdf">qedeq_logic_language_en.pdf</a> (in development).
+  The mathematical logical propositions are noted in <a href="doc/math/qedeq_logic_v1_en.pdf">qedeq_logic_v1.pdf</a>.
   </p>
 
   <h2><a name="sitemap"></a>Release Contents</h2>
@@ -166,8 +167,8 @@
   <td>configuration files</td>
   </tr>
   <tr>
-  <td><a href="config/log4j.properties"><code>&nbsp;&nbsp;log4j.properties</code></a></td>
-  <td>log4j property file, change "FATAL" to "DEBUG" to get a log file</td>
+  <td><a href="config/log4j.xml"><code>&nbsp;&nbsp;log4j.xml</code></a></td>
+  <td>log4j property file, change "fatal" to "debug" to get a log file</td>
   </tr>
   <tr>
   <td><a href="config/mengenlehreMathOperators.xml"><code>&nbsp;&nbsp;mengenlehreMathOperators.xml</code></a></td>
@@ -215,7 +216,7 @@
   </tr>
   <tr>
   <td><a href="doc/math/qedeq_logic_v1_en.pdf"><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_logic_v1_en.pdf</code></a></td>
-  <td>logical background (parts in German)</td>
+  <td>logical background</td>
   </tr>
   <tr>
   <td><a href="javadoc/"><code>javadoc</code></a></td>
@@ -429,7 +430,7 @@
   <tr>
   <td>0.01<br>&nbsp;<font color="#555555">brigand</font></td>
   <td>First XSD releases. XML could be parsed and value objects are created.
-    Very simple generation of LaTeX files is possible. There are two QEDEQ modules: the project handbook and a mathematical example. Beside the XSD verification no checking is done. The latex generation works directly on the value objects.</td>
+    Very simple generation of LaTeX files is possible. There are two QEDEQ modules: the project handbook and a mathematical example. Beside the XSD verification no checking is done. The LaTeX generation works directly on the value objects.</td>
   </tr>
   <tr>
   <td>0.02<br>&nbsp;<font color="#555555">moster</font></td>

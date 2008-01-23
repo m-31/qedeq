@@ -1,8 +1,8 @@
 Code Name:   mongaga
-Version:     0.03.07
-Timestamp:   2007-12-22 09:26:45
+Version:     0.03.08
+Timestamp:   2008-01-24 09:26:45
 Subversion
-and CVS Tag: qedeq_unstable_0_03_07_2007-12-22
+and CVS Tag: qedeq_unstable_0_03_08_2008-01-24
 
 This is an unstable development release of *Hilbert II*. 
 
@@ -14,15 +14,17 @@ syntactic correctness.
 Samples and a script with the beginning of axiomatic set theory
 are included. All formulas are written in the formal language. 
 Still no formal proofs are given. See  "Elements of Mathematical
-Logic" for the logical background of this project (parts in 
-German). 
+Logic" for the logical background of this project. 
 
 Other samples show the error handling for incorrect QEDEQ files. 
 Beside the XSD verification there are some semantical checks: 
 "are all defined labels different" and "are all formulas well
 formed"?
 
-Formal proofs are not yet integrated.
+This is still a "mongaga" release however most points of
+"gaffsie" are already fulfilled but not accurately tested.
+
+Formal proofs and their verification are not yet integrated.
 
 Precondition to start the program is a Java Runtime Environment, at 
 least version 1.4.
@@ -30,3 +32,6 @@ least version 1.4.
 This release includes the source code and the JUnit test classes. 
 The code coverage results of these tests where produced by Clover.
 A library and necessary other libraries are also included.
+
+The program suite has a GUI (using JGoodies by Karsten Lentzsch) 
+for starting various actions and viewing the current status.

@@ -10,27 +10,35 @@ Functional Changes
 
   Extensions
   ----------
-  * during logical checking all referenced modules are loaded and
-    checked too
+  * checking resolves external function and predicate constants; for
+    example the predicate "equal" in QEDEQ module "qedeq_logic_v1.xml"
+    is used within module "qedeq_set_theory_v1.xml" where it is
+    referenced as "l.equal" where "l" is the import label for
+    "qedeq_logic_v1.xml"
+  * to resolve external references for the LaTeX generation the module 
+    is checked. However if checking errors occur the generation of
+    LaTeX is continued.
+  * log4j watchdog: if trace configuration file changes, logging
+    behaviour changes accordingly
   
   Fixed Bugs
   ----------
-  * "phi" and "psi" in file "mengenlehreMathOperators.xml" are now 
-    no longer "prefixOperator" but "functionOperator" (if you already
-    webstarted an older version you must delete this file manually)
-  * error description references now to original URL
-  * the QEDEQ source window shows now the first error position
-    marked
- 
+  * generation of LaTeX and checking of multiple QEDEQ modules doesn't
+    stop if a selected module is not loaded
+
   Other Changes
   -------------
+  * trace configuration now via log4j XML file and the default settings
+    doesn't use XMLLayout any longer
+
 
 XML Files
 -----------
 
   Extensions
   ----------
-  none
+  * "proplogic.xml" and "predlogic.xml" added because of external QEDEQ
+    module resolution
 
   Fixed Bugs
   ----------
@@ -38,7 +46,7 @@ XML Files
 
   Other Changes
   -------------
-  * qedeq_basic_logic_v1.xml is now more formal
+  * "qedeq_basic_logic_v1.xml" is now more formal
 
 
 Source Code
@@ -46,30 +54,30 @@ Source Code
 
   Extensions
   ----------
-  * loading of required modules is now possible, for that reason
-    there is a new state "DependencyState"
-  * to make the kernel more independent of the save format details
-    references to XML are isolated so
-    - no XmlFileExceptionList exists any more
-    - DefaultXmlFileExceptionList is now DefaultSourceFileExceptionList
-    - SyntaxException is now XmlSyntaxException
-  * global context is now an URL instead of String
-  * SourceArea and SourcePosition have now no local reference any more
-  * SourceFileException has the local file reference as parameter for
-    "getDescription(URL)"
-  * QEDEQ modules are identified by their URLs
-  * SimpleXPath fulfills more tests
+  * if a predicate was already defined for an argument number the error
+    message gives more information
+  * an "ExistenceChecker" is now an attribute of ModuleProperties (if
+    the QEDEQ module was successfully checked)
+  * new classes "Predicate" and "Function" to describe keys for
+    predicate and function constants
   
   Fixed Bugs
   ----------
-  * log listeners can now be removed (so after a shutdown the old
-    listeners can be removed)
-  * SourceFileException holds now original QEDEQ module URL
-
+  * trace methods have not only runtime object as parameter but also
+    the calling class (needed because "this.getClass()" gives the the
+    class of the runtime object; but we want to log the class the
+    code resides in
+  * for loading from QEDEQ home page: URL of "qedeq_sample1.xml" 
+    corrected
+  
   Other Changes
   -------------
-  *
-
+  * the kernel (outside and inside) uses now a "ModuleAddress"
+    instead of an QEDEQ module URL
+  * "transverse" changed into "traverse"
+  * "QedeqConfig" sets and gets file properties as files now
+  * "TextInput" has no local address any longer
+  * further work on Exception handling
 
 XSD
 ---
@@ -85,3 +93,4 @@ XSD
   Other Changes
   -------------
   none
+
