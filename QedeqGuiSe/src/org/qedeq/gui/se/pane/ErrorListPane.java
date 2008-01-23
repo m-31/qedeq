@@ -25,9 +25,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
+import javax.swing.border.Border;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
@@ -98,7 +100,8 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
             "min:grow",
             "0:grow");
         DefaultFormBuilder builder = new DefaultFormBuilder(layout, this);
-        builder.setDefaultDialogBorder();
+//        builder.setDefaultDialogBorder();
+        builder.setBorder(BorderFactory.createEmptyBorder());
         builder.setRowGroupingEnabled(true);
 
         CellConstraints cc = new CellConstraints();
