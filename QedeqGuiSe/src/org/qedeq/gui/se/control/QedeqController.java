@@ -315,6 +315,9 @@ public class QedeqController {
     String[] getSupportedLanguages(final ModuleProperties prop) {
         // TODO mime 20070704: there should be a better way to
         // get all supported languages. Time for a new visitor?
+        if (!prop.isLoaded()) {
+            return new String[]{};
+        }
         final LatexList list = prop.getModule().getQedeq().getHeader().getTitle();
         final String[] result = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {

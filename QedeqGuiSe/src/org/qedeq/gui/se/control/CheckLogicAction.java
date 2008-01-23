@@ -25,7 +25,6 @@ import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.bo.control.LoadRequiredModules;
 import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
 import org.qedeq.kernel.bo.module.DependencyState;
-import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -71,10 +70,6 @@ class CheckLogicAction extends AbstractAction {
             final Thread thread = new Thread() {
                 public void run() {
                     for (int i = 0; i < props.length; i++) {
-                        if (LoadingState.STATE_LOADED.getCode()
-                                > props[i].getLoadingState().getCode()) {
-                            break;
-                        }
                         try {
                             // FIXME mime 20070830: checking should be a method of KernelContext
                             //      also all conversion jobs to get an XmlFileExceptionList

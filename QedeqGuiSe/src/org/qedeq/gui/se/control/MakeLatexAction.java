@@ -67,19 +67,23 @@ class MakeLatexAction extends AbstractAction {
                 public void run() {
                     for (int i = 0; i < props.length; i++) {
                         try {
-                            if (LoadingState.STATE_LOADED != props[i].getLoadingState()) {
-                                break;
-                            }
                             QedeqLog.getInstance().logRequest("Generate Latex from \""
                                 + props[i].getUrl() + "\"");
                             final String[] languages = controller.getSupportedLanguages(props[i]);
                             for (int j = 0; j < languages.length; j++) {
                                 final String result =
                                     Xml2Latex.generate(props[i], null, languages[j], null);
-                                QedeqLog.getInstance().logSuccessfulReply(
-                                    "LaTeX for language \"" + languages[j]
-                                    + "\" was generated from \""
-                                    + props[i].getUrl() + "\" into \"" + result + "\"");
+                                if (languages[j] != null) {
+                                    QedeqLog.getInstance().logSuccessfulReply(
+                                        "LaTeX for language \"" + languages[j]
+                                        + "\" was generated from \""
+                                        + props[i].getUrl() + "\" into \"" + result + "\"");
+                                } else {
+                                    QedeqLog.getInstance().logSuccessfulReply(
+                                        "LaTeX for default language "
+                                        + "was generated from \""
+                                        + props[i].getUrl() + "\" into \"" + result + "\"");
+                                }
                             }
                         } catch (final SourceFileExceptionList e) {
                             final String msg = "Generation failed for \""
