@@ -29,7 +29,6 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
-import javax.swing.border.Border;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
@@ -64,7 +63,7 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
     private JTextPane error = new JTextPane() {
 
         /**
-         *  Because text shoudn't be wrapped we don't was to track the viewport width.
+         *  Because text shouldn't be wrapped we don't was to track the viewport width.
          **/
         public boolean getScrollableTracksViewportWidth() {
             return false;
@@ -123,7 +122,7 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
         StyleConstants.setForeground(this.errorAttrs, Color.red);
         // because we override getScrollableTracksViewportWidth:
         scrollPane.getViewport().setBackground(Color.white);
-        StyleConstants.setBackground(this.errorAttrs, Color.white);  //FIXME
+        StyleConstants.setBackground(this.errorAttrs, Color.white);  // TODO mime 20080124: testing
 
         this.addComponentListener(new ComponentAdapter() {
             public void componentHidden(final ComponentEvent e) {
