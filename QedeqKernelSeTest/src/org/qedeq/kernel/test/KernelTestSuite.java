@@ -21,7 +21,6 @@ import java.net.URL;
 
 import junit.framework.Test;
 
-import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.helpers.Loader;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.kernel.bo.control.KernelBoControlTestSuite;
