@@ -22,8 +22,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
@@ -46,10 +44,7 @@ import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.SubsectionList;
 import org.qedeq.kernel.base.module.SubsectionType;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.bo.logic.ExistenceChecker;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.QedeqBo;
-import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
+import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.ReplaceUtility;
 
@@ -75,20 +70,17 @@ public final class Qedeq2Wiki {
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
+    /** QEDEQ module properties object to work on. */
+    private final ModuleProperties prop;
+
     /** Output goes here. */
     private PrintStream printer;
-
-    /** QEDEQ module to transfer into WIKI form. */
-    private QedeqBo qedeqBo;
 
     /** Filter text to get and produce text in this language. */
     private String language;
 
-    /** Filter for this detail level. TODO mime 20050205: not used yet. */
-    private String level;
-
-    /** Maps identifiers to {@link PredicateDefinition}s. */
-    private Map definitions = new HashMap();
+    /** Transformer to get LaTeX out of {@link Element}s. */
+    private final Element2Latex elementConverter;
 
     /** Destination directory. */
     private File outputDirectory;
@@ -96,22 +88,12 @@ public final class Qedeq2Wiki {
     /**
      * Constructor.
      *
-     * @param   context Context within this module is created.
-     * @param   qedeqBo   Work with this QEDEQ module.
-     * @throws  ModuleDataException
+     * @param   prop            QEDEQ module properties object.
      */
-    public Qedeq2Wiki(final String context, final QedeqBo qedeqBo) throws ModuleDataException {
-        this.qedeqBo = qedeqBo;
-        final PredicateDefinitionVo equal = new PredicateDefinitionVo();
-        // LATER mime 20050224: quick hack to have the logical identity operator
-        equal.setArgumentNumber("2");
-        equal.setLatexPattern("#1 \\ =  \\ #2");
-        definitions.put(ExistenceChecker.NAME_EQUAL, equal);
-        // LATER mime 20060822: quick hack to get the negation of the logical identity operator
-        final PredicateDefinitionVo notEqual = new PredicateDefinitionVo();
-        notEqual.setArgumentNumber("2");
-        notEqual.setLatexPattern("#1 \\ \\neq  \\ #2");
-        definitions.put("notEqual", notEqual);
+    public Qedeq2Wiki(final ModuleProperties prop) {
+        this.prop = prop;
+        this.elementConverter = new Element2Latex((prop.hasLoadedRequiredModules()
+            ? prop.getRequiredModules() : null));
     }
 
     /**
@@ -129,11 +111,6 @@ public final class Qedeq2Wiki {
         } else {
             this.language = language;
         }
-        if (level == null) {
-            this.level = "1";
-        } else {
-            this.level = level;
-        }
         this.outputDirectory = outputDirectory;
         printQedeqChapters();
         printQedeqBibliography();
@@ -148,10 +125,10 @@ public final class Qedeq2Wiki {
      * @throws IOException  Writing failed.
      */
     private void printQedeqChapters() throws IOException {
-        final ChapterList chapters = qedeqBo.getQedeq().getChapterList();
+        final ChapterList chapters = prop.getModule().getQedeq().getChapterList();
         for (int i = 0; i < chapters.size(); i++) {
-            final String label = qedeqBo.getQedeq().getHeader().getSpecification().getName()
-            + "_ch_" + i;
+            final String label = prop.getModule().getQedeq().getHeader().getSpecification()
+                .getName() + "_ch_" + i;
             final OutputStream outputStream = new FileOutputStream(new File(outputDirectory,
                 label + "_" + language + ".wiki"));
             this.printer = new PrintStream(outputStream);
@@ -183,7 +160,7 @@ public final class Qedeq2Wiki {
      * Print bibliography (if any).
      */
     private void printQedeqBibliography() {
-        final LiteratureItemList items = qedeqBo.getQedeq().getLiteratureItemList();
+        final LiteratureItemList items = prop.getModule().getQedeq().getLiteratureItemList();
         if (items == null) {
             return;
         }
@@ -351,7 +328,7 @@ public final class Qedeq2Wiki {
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
         }
         define.append("$$");
-        definitions.put(id, definition);
+        elementConverter.addPredicate(definition);
         Trace.param(CLASS, this, "printDefinition", "define", define);
         printer.println(define);
         printer.println(getLatexListEntry(definition.getDescription()));
@@ -389,7 +366,7 @@ public final class Qedeq2Wiki {
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
         }
         define.append("$$");
-        definitions.put(id, definition);
+        elementConverter.addFunction(definition);
         Trace.param(CLASS, this, "printDefinition", "define", define);
         printer.println(define);
         printer.println(getLatexListEntry(definition.getDescription()));
@@ -468,223 +445,7 @@ public final class Qedeq2Wiki {
      * @return  LaTeX form of element.
      */
     private String getLatex(final Element element) {
-        return getLatex(element, true);
-    }
-
-    /**
-     * Get LaTeX element presentation.
-     *
-     * @param   element Print this element.
-     * @param   first   First level?
-     * @return  LaTeX form of element.
-     */
-    private String getLatex(final Element element, final boolean first) {
-        final StringBuffer buffer = new StringBuffer();
-        if (element.isAtom()) {
-            return element.getAtom().getString();
-        }
-        final ElementList list = element.getList();
-        if (list.getOperator().equals("PREDCON")) {
-            final String identifier = list.getElement(0).getAtom().getString();
-            if (definitions.containsKey(identifier)) {
-                final PredicateDefinition definition
-                    = (PredicateDefinition) definitions.get(identifier);
-                final StringBuffer define = new StringBuffer(definition.getLatexPattern());
-                for (int i = list.size() - 1; i >= 1; i--) {
-                    ReplaceUtility.replace(define, "#" + i, getLatex(list.getElement(i), false));
-                }
-                buffer.append(define);
-            } else {
-                buffer.append(identifier);
-                buffer.append("(");
-                for (int i = 1; i < list.size(); i++) {
-                    buffer.append(getLatex(list.getElement(i), false));
-                    if (i + 1 < list.size()) {
-                        buffer.append(", ");
-                    }
-                }
-                buffer.append(")");
-            }
-        } else if (list.getOperator().equals("PREDVAR")) {
-            final String identifier = list.getElement(0).getAtom().getString();
-            buffer.append(identifier);
-            if (list.size() > 1) {
-                buffer.append("(");
-                for (int i = 1; i < list.size(); i++) {
-                    buffer.append(getLatex(list.getElement(i), false));
-                    if (i + 1 < list.size()) {
-                        buffer.append(", ");
-                    }
-                }
-                buffer.append(")");
-            }
-        } else if (list.getOperator().equals("FUNCON")) {
-            final String identifier = list.getElement(0).getAtom().getString();
-            if (definitions.containsKey(identifier)) {
-                final FunctionDefinition definition
-                    = (FunctionDefinition) definitions.get(identifier);
-                final StringBuffer define = new StringBuffer(definition.getLatexPattern());
-                for (int i = list.size() - 1; i >= 1; i--) {
-                    ReplaceUtility.replace(define, "#" + i, getLatex(list.getElement(i), false));
-                }
-                buffer.append(define);
-            } else {
-                buffer.append(identifier);
-                buffer.append("(");
-                for (int i = 1; i < list.size(); i++) {
-                    buffer.append(getLatex(list.getElement(i), false));
-                    if (i + 1 < list.size()) {
-                        buffer.append(", ");
-                    }
-                }
-                buffer.append(")");
-            }
-        } else if (list.getOperator().equals("FUNVAR")) {
-            final String identifier = list.getElement(0).getAtom().getString();
-            buffer.append(identifier);
-            if (list.size() > 1) {
-                buffer.append("(");
-                for (int i = 1; i < list.size(); i++) {
-                    buffer.append(getLatex(list.getElement(i), false));
-                    if (i + 1 < list.size()) {
-                        buffer.append(", ");
-                    }
-                }
-                buffer.append(")");
-            }
-        } else if (list.getOperator().equals("VAR")) {
-            final String text = list.getElement(0).getAtom().getString();
-            try {
-                final int index = Integer.parseInt(text);
-                switch (index) {
-                case 1:
-                    return "x";
-                case 2:
-                    return "y";
-                case 3:
-                    return "z";
-                case 4:
-                    return "u";
-                case 5:
-                    return "v";
-                case 6:
-                    return "w";
-                default:
-                    return "x_" + (index - 6);
-                }
-            } catch (NumberFormatException e) {
-                return text;
-            }
-        } else if (list.getOperator().equals("AND") || list.getOperator().equals("OR")
-                || list.getOperator().equals("EQUI") || list.getOperator().equals("IMPL")) {
-            final String infix;
-            if (list.getOperator().equals("AND")) {
-                infix = "\\ \\land \\ ";
-            } else if (list.getOperator().equals("OR")) {
-                infix = "\\ \\lor \\ ";
-            } else if (list.getOperator().equals("EQUI")) {
-                infix = "\\ \\leftrightarrow \\ ";
-            } else {
-                infix = "\\ \\rightarrow \\ ";
-            }
-            if (!first) {
-                buffer.append("(");
-            }
-            for (int i = 0; i < list.size(); i++) {
-                buffer.append(getLatex(list.getElement(i), false));
-                if (i + 1 < list.size()) {
-                    buffer.append(infix);
-                }
-            }
-            if (!first) {
-                buffer.append(")");
-            }
-        } else if (list.getOperator().equals("FORALL") || list.getOperator().equals("EXISTS")
-                || list.getOperator().equals("EXISTSU")) {
-            final String prefix;
-            if (list.getOperator().equals("FORALL")) {
-                prefix = "\\forall ";
-            } else if (list.getOperator().equals("EXISTS")) {
-                prefix = "\\exists ";
-            } else {
-                prefix = "\\exists! ";
-            }
-            buffer.append(prefix);
-            for (int i = 0; i < list.size(); i++) {
-                if (i != 0 || (i == 0 && list.size() <= 2)) {
-                    buffer.append(getLatex(list.getElement(i), false));
-                }
-                if (i + 1 < list.size()) {
-                    buffer.append("\\ ");
-                }
-                if (list.size() > 2 && i == 1) {
-                    buffer.append("\\ ");
-                }
-            }
-        } else if (list.getOperator().equals("NOT")) {
-            final String prefix = "\\neg ";
-            buffer.append(prefix);
-            for (int i = 0; i < list.size(); i++) {
-                buffer.append(getLatex(list.getElement(i), false));
-            }
-        } else if (list.getOperator().equals("CLASS")) {
-            final String prefix = "\\{ ";
-            buffer.append(prefix);
-            for (int i = 0; i < list.size(); i++) {
-                buffer.append(getLatex(list.getElement(i), false));
-                if (i + 1 < list.size()) {
-                    buffer.append(" \\ | \\ ");
-                }
-            }
-            buffer.append(" \\} ");
-        } else if (list.getOperator().equals("CLASSLIST")) {
-            final String prefix = "\\{ ";
-            buffer.append(prefix);
-            for (int i = 0; i < list.size(); i++) {
-                buffer.append(getLatex(list.getElement(i), false));
-                if (i + 1 < list.size()) {
-                    buffer.append(", \\ ");
-                }
-            }
-            buffer.append(" \\} ");
-        } else if (list.getOperator().equals("QUANTOR_INTERSECTION")) {
-            final String prefix = "\\bigcap";
-            buffer.append(prefix);
-            if (0 < list.size()) {
-                buffer.append("{").append(getLatex(list.getElement(0), false)).append("}");
-            }
-            for (int i = 1; i < list.size(); i++) {
-                buffer.append(getLatex(list.getElement(i), false));
-                if (i + 1 < list.size()) {
-                    buffer.append(" \\ \\ ");
-                }
-            }
-            buffer.append(" \\} ");
-        } else if (list.getOperator().equals("QUANTOR_UNION")) {
-            final String prefix = "\\bigcup";
-            buffer.append(prefix);
-            if (0 < list.size()) {
-                buffer.append("{").append(getLatex(list.getElement(0), false)).append("}");
-            }
-            for (int i = 1; i < list.size(); i++) {
-                buffer.append(getLatex(list.getElement(i), false));
-                if (i + 1 < list.size()) {
-                    buffer.append(" \\ \\ ");
-                }
-            }
-            buffer.append(" \\} ");
-        } else {
-            buffer.append(list.getOperator());
-            buffer.append("(");
-            for (int i = 0; i < list.size(); i++) {
-                buffer.append(getLatex(list.getElement(i), false));
-                if (i + 1 < list.size()) {
-                    buffer.append(", ");
-                }
-            }
-            buffer.append(")");
-        }
-        return buffer.toString();
+        return elementConverter.getLatex(element);
     }
 
     /**
