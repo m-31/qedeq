@@ -25,6 +25,11 @@ Functional Changes
   ----------
   * generation of LaTeX and checking of multiple QEDEQ modules doesn't
     stop if a selected module is not loaded
+  * shows correct config file location if web started
+  * context menu entries for tree view corrected: now one can start any
+    enabled action ("delete" module can also be started but doesn't
+    respect dependencies yet) 
+  * status changed messages don't say "undefined" no more
 
   Other Changes
   -------------
@@ -78,6 +83,9 @@ Source Code
   * "QedeqConfig" sets and gets file properties as files now
   * "TextInput" has no local address any longer
   * further work on Exception handling
+  * "Qedeq2Latex" uses now new class "Element2Latex" for transforming
+    an element into LaTeX
+  * checkstyle problems reduced to a number of 6!
 
 XSD
 ---
