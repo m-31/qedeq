@@ -2763,14 +2763,14 @@
           <TEXT>
             <LATEX language="en">
               <![CDATA[
-                For restricted quantifiers we find formulas according to \hyperref{theorem:predicateCalculus}.
+                For restricted quantifiers we find formulas according to Proposition \ref{theorem:predicateCalculus}.
                 \\
                 +++
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für eingeschränkte Quantoren gelten analog zu \hyperref{theorem:predicateCalculus} entsprechende Formeln.
+                Für eingeschränkte Quantoren gelten analog zu Proposition \ref{theorem:predicateCalculus} entsprechende Formeln.
                 \\
                 +++
               ]]>
