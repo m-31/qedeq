@@ -1,4 +1,4 @@
-/* $Id: ErrorListPane.java,v 1.4 2007/12/21 23:34:47 m31 Exp $
+/* $Id: ErrorListPane.java,v 1.5 2008/01/26 12:38:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -50,7 +50,7 @@ import com.jgoodies.forms.layout.RowSpec;
 /**
  * Shows QEDEQ module specific error pane.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 

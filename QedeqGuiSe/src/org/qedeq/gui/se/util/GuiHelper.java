@@ -1,4 +1,4 @@
-/* $Id: GuiHelper.java,v 1.2 2007/10/07 16:39:59 m31 Exp $
+/* $Id: GuiHelper.java,v 1.3 2008/01/26 12:38:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -44,7 +44,7 @@ import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 /**
  * Various GUI utility methods.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public final class GuiHelper  {

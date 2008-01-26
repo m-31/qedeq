@@ -1,4 +1,4 @@
-/* $Id: QedeqController.java,v 1.3 2007/12/21 23:34:47 m31 Exp $
+/* $Id: QedeqController.java,v 1.4 2008/01/26 12:38:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -41,7 +41,7 @@ import org.qedeq.kernel.context.KernelContext;
  * TODO mime 20070605: encapsulate actions that need another thread
  *                     for later java versions: use Executor framework
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public class QedeqController {

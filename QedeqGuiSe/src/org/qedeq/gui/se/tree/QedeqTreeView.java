@@ -1,4 +1,4 @@
-/* $Id: QedeqTreeView.java,v 1.2 2007/12/21 23:34:47 m31 Exp $
+/* $Id: QedeqTreeView.java,v 1.3 2008/01/26 12:38:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -40,7 +40,7 @@ import javax.swing.tree.TreeSelectionModel;
  * (all of the things the user can see and respond to on the screen, such as buttons, display
  * boxes, and so forth).
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public final class QedeqTreeView extends JPanel {

@@ -1,4 +1,4 @@
-/* $Id: CheckLogicAction.java,v 1.4 2007/12/21 23:34:47 m31 Exp $
+/* $Id: CheckLogicAction.java,v 1.5 2008/01/26 12:38:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
