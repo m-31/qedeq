@@ -2,7 +2,7 @@
 %%% ====================================================================
 %%% @LaTeX-file    qedeq_logic_v1_en.tex
 %%% Generated from http://qedeq.org/0_03_08/doc/math/qedeq_logic_v1.xml
-%%% Generated at   2008-01-21 00:38:24,335
+%%% Generated at   2008-01-25 18:49:27,531
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -852,45 +852,26 @@ $$\exists \ \alpha(x) \ (\beta(x))\ :\leftrightarrow \ \exists x\ (\alpha(x)\ \l
 
 
 
+For restricted quantifiers we find formulas according to \hyperref{theorem:predicateCalculus}.
+\\
++++
+
+
 \par
-To express the existence of only one individuum with a certain property we introduce a new Quantor.
+To express the existence of only one individuum with a certain property we introduce a new quantifier.
 
 \begin{defn}[Restricted Uniqueness Quantifier\index{uniqueness quantifier, restricted}]
 \label{definition:restrictedUniquenessQuantifier} \hypertarget{definition:restrictedUniquenessQuantifier}{}
-$$\exists! \ \alpha(x) \ (\beta(x))\ :\leftrightarrow \ \exists x\ (\alpha(x)\ \land \ \beta(x))$$
+$$\exists! \ \alpha(x) \ (\beta(x))\ :\leftrightarrow \ \exists \ \alpha(x)\ \ (\beta(x)\ \land \ \forall \ \alpha(y)\ \ (\beta(y)\ \rightarrow \ x \ =  \ y))$$
 
 \end{defn}
 
 
 
 
-MISSING! OTHER: F{\"u}r die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird nun ein gesonderter
-Quantor eingef{\"u}hrt.
-\begin{defn}[Eingeschr{\"a}nkter Existenzquantor f{\"u}r genau ein Individuum]
-$$ \exists! \ \psi(x) \ (\phi(x)) \ \Leftrightarrow \ \exists \ \psi(x) \ (\phi(x) \land \forall \ \psi(y) \ (\phi(y) \rightarrow x = y))$$
-\end{defn}
-Durch die G{\"u}ltigkeit von $\exists! \ \psi(x) (\phi(x))$ kann daher eine Subjektkonstante definiert
-werden, wenn $\phi(x)$ und $\psi(x)$ durch Ausdr{\"u}cke ersetzt werden, die ausser $x$ keine freien
-Variablen, keine Pr{\"a}dikatsvariablen und keine Funktionsvariablen mehr enth{\"a}lt.
-
-
-\begin{rul}[Termdefinition durch Formel]\hypertarget{termdef}{}
-Falls die Formel $\exists! x \ \alpha(x)$ gilt, dann kann die Termsyntax durch $D(x, \alpha(x))$
-erweitert werden. Die Formel $alpha(x)$ m{\"o}ge die Variable $y$ nicht enthalten und $\beta(y)$ sei
-eine Formel, welche die Variable $x$ nicht enth{\"a}lt. Dann wird durch $\beta(D(x, \alpha(x)))$ eine
-Formel definiert durch $\beta(y) \land \exists! x \ (\alpha(x) \land x = y)$. Auch in der
-abk{\"u}rzenden Schreibweise gilt die Subjektvariable $x$ als gebunden, die Subjektvariable $y$ ist mit
-den obigen Einschr{\"a}nkungen frei w{\"a}hlbar und wird in der Abk{\"u}rzung nicht weiter beachtet.
-Ver{\"a}nderungen von $\alpha$ in eine andere Formel $\alpha'$, die eventuell erforderlich sind, damit
-keine Variablenkollisionen mit Variablen aus $\beta$ entstehen, m{\"u}ssen jedoch auch in der Abk{\"u}rzung
-durchgef{\"u}hrt werden. Alle Termbildungsregeln werden entsprechend erweitert. Der Ausdruck ist auch
-ersetzbar durch $\exists! y \ (\beta(y) \land \alpha(y)$ oder durch $\beta(y) \land \alpha(y)$.
+\begin{rul}[Term Definition by Formula]\hypertarget{rule:termdef}{}
+If the formula $\exists! x \ \alpha(x)$ holds, we can expand the term syntax by $D(x, \alpha(x))$. May the formula $alpha(x)$ doesn't contain the variable $y$ and let $\beta(y)$ be a formula that doesn't contain the variable $x$. Then we define a new formula $\beta(D(x, \alpha(x)))$ by $\beta(y) \land \exists! x \ (\alpha(x) \land x = y)$. Also in this abbreviate notation the subject variable $x$ counts as bound, the subject variable $y$ is arbitrary (if it fulfills the given conditions) and will be ignored in the abbreviation. Changes in $\alpha$ that lead to another formula $\alpha'$ because of variable collision with $\beta$ must also be done in the abbreviation. All term building rules are extended accordingly. The expression is also replaceble by $\exists! y \ (\beta(y) \land \alpha(y)$ or by $\beta(y) \land \alpha(y)$.
 \end{rul}
-
-
-F{\"u}r eingeschr{\"a}nkte Quantoren gelten analog zu \hyperref{elmpred} entsprechende Formeln.
-\\
-+++
 
 
 

@@ -2,7 +2,7 @@
 %%% ====================================================================
 %%% @LaTeX-file    qedeq_logic_v1_de.tex
 %%% Generated from http://qedeq.org/0_03_08/doc/math/qedeq_logic_v1.xml
-%%% Generated at   2008-01-21 00:38:24,616
+%%% Generated at   2008-01-25 18:49:27,921
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -819,7 +819,7 @@ Bei der Leibnizschen Ersetzbarkeit k{\"o}nnen wir die zweite Implikation umkehre
 
 
 \section{Eingeschr{\"a}nkte Quantoren\index{Quantor!eingeschr{\"a}nkter}} \label{chapter6_section1} \hypertarget{chapter6_section1}{}
-Jede Quantifizierung ben{\"o}tigt eine Subjektvariable und einen Bereich {\"u}ber den die Quantifizierung l{\"a}uft. Bis jetzt haben wir eine festen Bereich f{\"u}r jede Quantifizierung vorausgesetzt. Die Angabe eines Bereichs erm{\"o}glicht uns auszudr{\"u}cken, dass ein Pr{\"a}dikat nur f{\"u}r einen eingeschr{\"a}nkten Bereich g{\"u}ltig ist.
+Jede Quantifizierung ben{\"o}tigt eine Subjektvariable und einen Bereich {\"u}ber den die Quantifizierung l{\"a}uft. Bis jetzt haben wir einen festen Bereich f{\"u}r jede Quantifizierung vorausgesetzt. Die Angabe eines Bereichs erm{\"o}glicht uns auszudr{\"u}cken, dass ein Pr{\"a}dikat nur f{\"u}r einen eingeschr{\"a}nkten Bereich g{\"u}ltig ist.
 
 \par
 Bei der folgenden Definition muss die f{\"u}r $\alpha(x)$ eingesetzte Formel {\glqq erkennen lassen\grqq}, {\"u}ber welche Subjektvariable quantifiziert wird. Das ist in der Regel dar{\"u}ber zu entscheiden, welche freie Subjektvariable als erstes in der Formel vorkommt.\footnote{Beispielsweise ist in der folgenden Formel erkennbar, dass die zweite Quantifikation {\"u}ber die Subjektvariable $m$ l{\"a}uft: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n $.} In der exakten Syntax des QEDEQ-Formats\footnote{Siehe unter \url{http://www.qedeq.org/current/xml/qedeq/}.} ist die Subjektvariable immer angegeben.
@@ -845,45 +845,27 @@ $$\exists \ \alpha(x) \ (\beta(x))\ :\leftrightarrow \ \exists x\ (\alpha(x)\ \l
 
 
 
+F{\"u}r eingeschr{\"a}nkte Quantoren gelten analog zu \hyperref{theorem:predicateCalculus} entsprechende Formeln.
+\\
++++
+
+
 \par
 F{\"u}r die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird nun ein gesonderter Quantor eingef{\"u}hrt.
 
 \begin{defn}[Eingeschr{\"a}nkter Existenz f{\"u}r genau ein Individuum\index{Existenzquantor!eingeschr{\"a}nkter f{\"u}r ein Individuum}]
 \label{definition:restrictedUniquenessQuantifier} \hypertarget{definition:restrictedUniquenessQuantifier}{}
-$$\exists! \ \alpha(x) \ (\beta(x))\ :\leftrightarrow \ \exists x\ (\alpha(x)\ \land \ \beta(x))$$
+$$\exists! \ \alpha(x) \ (\beta(x))\ :\leftrightarrow \ \exists \ \alpha(x)\ \ (\beta(x)\ \land \ \forall \ \alpha(y)\ \ (\beta(y)\ \rightarrow \ x \ =  \ y))$$
 
 \end{defn}
 
 
 
 
-F{\"u}r die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird nun ein gesonderter
-Quantor eingef{\"u}hrt.
-\begin{defn}[Eingeschr{\"a}nkter Existenzquantor f{\"u}r genau ein Individuum]
-$$ \exists! \ \psi(x) \ (\phi(x)) \ \Leftrightarrow \ \exists \ \psi(x) \ (\phi(x) \land \forall \ \psi(y) \ (\phi(y) \rightarrow x = y))$$
-\end{defn}
-Durch die G{\"u}ltigkeit von $\exists! \ \psi(x) (\phi(x))$ kann daher eine Subjektkonstante definiert
-werden, wenn $\phi(x)$ und $\psi(x)$ durch Ausdr{\"u}cke ersetzt werden, die ausser $x$ keine freien
-Variablen, keine Pr{\"a}dikatsvariablen und keine Funktionsvariablen mehr enth{\"a}lt.
-
-
-\begin{rul}[Termdefinition durch Formel]\hypertarget{termdef}{}
-Falls die Formel $\exists! x \ \alpha(x)$ gilt, dann kann die Termsyntax durch $D(x, \alpha(x))$
-erweitert werden. Die Formel $alpha(x)$ m{\"o}ge die Variable $y$ nicht enthalten und $\beta(y)$ sei
-eine Formel, welche die Variable $x$ nicht enth{\"a}lt. Dann wird durch $\beta(D(x, \alpha(x)))$ eine
-Formel definiert durch $\beta(y) \land \exists! x \ (\alpha(x) \land x = y)$. Auch in der
-abk{\"u}rzenden Schreibweise gilt die Subjektvariable $x$ als gebunden, die Subjektvariable $y$ ist mit
-den obigen Einschr{\"a}nkungen frei w{\"a}hlbar und wird in der Abk{\"u}rzung nicht weiter beachtet.
-Ver{\"a}nderungen von $\alpha$ in eine andere Formel $\alpha'$, die eventuell erforderlich sind, damit
-keine Variablenkollisionen mit Variablen aus $\beta$ entstehen, m{\"u}ssen jedoch auch in der Abk{\"u}rzung
-durchgef{\"u}hrt werden. Alle Termbildungsregeln werden entsprechend erweitert. Der Ausdruck ist auch
-ersetzbar durch $\exists! y \ (\beta(y) \land \alpha(y)$ oder durch $\beta(y) \land \alpha(y)$.
+\begin{rul}[Termdefinition durch Formel]\hypertarget{rule:termdef}{}
+Falls die Formel $\exists! x \ \alpha(x)$ gilt, dann kann die Termsyntax durch $D(x, \alpha(x))$ erweitert werden. Die Formel $alpha(x)$ m{\"o}ge die Variable $y$ nicht enthalten und $\beta(y)$ sei eine Formel, welche die Variable $x$ nicht enth{\"a}lt. Dann wird durch $\beta(D(x, \alpha(x)))$ eine
+Formel definiert durch $\beta(y) \land \exists! x \ (\alpha(x) \land x = y)$. Auch in der abk{\"u}rzenden Schreibweise gilt die Subjektvariable $x$ als gebunden, die Subjektvariable $y$ ist mit den obigen Einschr{\"a}nkungen frei w{\"a}hlbar und wird in der Abk{\"u}rzung nicht weiter beachtet. Ver{\"a}nderungen von $\alpha$ in eine andere Formel $\alpha'$, die eventuell erforderlich sind, damit keine Variablenkollisionen mit Variablen aus $\beta$ entstehen, m{\"u}ssen jedoch auch in der Abk{\"u}rzung durchgef{\"u}hrt werden. Alle Termbildungsregeln werden entsprechend erweitert. Der Ausdruck ist auch ersetzbar durch $\exists! y \ (\beta(y) \land \alpha(y)$ oder durch $\beta(y) \land \alpha(y)$.
 \end{rul}
-
-
-F{\"u}r eingeschr{\"a}nkte Quantoren gelten analog zu \hyperref{elmpred} entsprechende Formeln.
-\\
-+++
 
 
 
