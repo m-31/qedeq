@@ -109,10 +109,23 @@ public class DefaultExistenceChecker implements ExistenceChecker {
         predicateDefinitions.put(predicate, definition);
     }
 
+    /**
+     * Get predicate constant definition.
+     *
+     * @param   predicate   Get definition of this predicate.
+     * @return  Definition.
+     */
     public PredicateDefinition get(final Predicate predicate) {
         return (PredicateDefinition) predicateDefinitions.get(predicate);
     }
 
+    /**
+     * Get predicate constant definition.
+     *
+     * @param   name        Name of predicate.
+     * @param   arguments   Arguments of predicate.
+     * @return  Definition.
+     */
     public PredicateDefinition getPredicate(final String name, final int arguments) {
         final Predicate predicate = new Predicate(name, "" + arguments);
         return get(predicate);
@@ -155,10 +168,23 @@ public class DefaultExistenceChecker implements ExistenceChecker {
         functionDefinitions.put(function, definition);
     }
 
+    /**
+     * Get function constant definition.
+     *
+     * @param   function    Get definition of this predicate.
+     * @return  Definition.
+     */
     public FunctionDefinition get(final Function function) {
         return (FunctionDefinition) functionDefinitions.get(function);
     }
 
+    /**
+     * Get function constant definition.
+     *
+     * @param   name        Name of function.
+     * @param   arguments   Arguments of function.
+     * @return  Definition.
+     */
     public FunctionDefinition getFunction(final String name, final int arguments) {
         final Function function = new Function(name, "" + arguments);
         return get(function);
@@ -182,6 +208,12 @@ public class DefaultExistenceChecker implements ExistenceChecker {
         return identityOperatorDefined;
     }
 
+    /**
+     * Set the identity operator.
+     *
+     * @param   defined             Is the operator defined?
+     * @param   identityOperator    Operator name.
+     */
     public void setIdentityOperatorDefined(final boolean defined, final String identityOperator) {
         Trace.param(CLASS, this, "setIdentityOperatorDefined", "defined", defined);
         this.identityOperatorDefined = defined;
