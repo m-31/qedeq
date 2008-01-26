@@ -1,4 +1,4 @@
-/* $Id: QedeqBoFactoryAssert.java,v 1.12 2007/12/21 23:35:17 m31 Exp $
+/* $Id: QedeqBoFactoryAssert.java,v 1.13 2008/01/26 12:39:50 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -40,7 +40,7 @@ import org.xml.sax.SAXException;
 /**
  * For testing QEDEQ BO generation.
  *
- * @version $Revision: 1.12 $
+ * @version $Revision: 1.13 $
  * @author Michael Meyling
  */
 public class QedeqBoFactoryAssert extends QedeqBoFactory {

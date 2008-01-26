@@ -1,4 +1,4 @@
-/* $Id: KernelXmlTrackerTestSuite.java,v 1.6 2007/02/25 20:04:33 m31 Exp $
+/* $Id: KernelXmlTrackerTestSuite.java,v 1.7 2008/01/26 12:39:51 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.kernel.test.QedeqTestSuite;
 /**
  * Run all junit tests for package org.qedeq.kernel.vo.module.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author    Michael Meyling
  */
 public class KernelXmlTrackerTestSuite extends QedeqTestSuite {

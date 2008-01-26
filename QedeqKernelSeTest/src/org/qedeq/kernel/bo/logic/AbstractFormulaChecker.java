@@ -1,4 +1,4 @@
-/* $Id: AbstractFormulaChecker.java,v 1.2 2007/02/25 20:04:32 m31 Exp $
+/* $Id: AbstractFormulaChecker.java,v 1.3 2008/01/26 12:39:49 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public abstract class AbstractFormulaChecker extends QedeqTestCase {

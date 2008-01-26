@@ -1,4 +1,4 @@
-/* $Id: KernelFacade.java,v 1.2 2007/12/21 23:35:18 m31 Exp $
+/* $Id: KernelFacade.java,v 1.3 2008/01/26 12:39:51 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -34,7 +34,7 @@ import org.qedeq.kernel.log.QedeqLog;
 /**
  * This class provides static access methods for basic informations.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public final class KernelFacade {

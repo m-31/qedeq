@@ -1,4 +1,4 @@
-/* $Id: KernelUtilityTestSuite.java,v 1.5 2007/02/25 20:04:32 m31 Exp $
+/* $Id: KernelUtilityTestSuite.java,v 1.6 2008/01/26 12:39:51 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.kernel.test.QedeqTestSuite;
 /**
  * Run all JUnit tests for package org.qedeq.kernel.utility.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author    Michael Meyling
  */
 public class KernelUtilityTestSuite extends QedeqTestSuite {

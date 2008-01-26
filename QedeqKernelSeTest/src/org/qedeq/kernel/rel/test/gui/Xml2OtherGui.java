@@ -1,4 +1,4 @@
-/* $Id: Xml2OtherGui.java,v 1.1 2007/10/07 16:43:10 m31 Exp $
+/* $Id: Xml2OtherGui.java,v 1.2 2008/01/26 12:39:50 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * Test application.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author    Michael Meyling
  */
 public final class Xml2OtherGui  {
