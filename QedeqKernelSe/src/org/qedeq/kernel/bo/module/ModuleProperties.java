@@ -194,7 +194,8 @@ public interface ModuleProperties {
     public void setLoadedRequiredModules(ModuleReferenceList list);
 
     /**
-     * Get labels and URLs of all referenced modules.
+     * Get labels and URLs of all referenced modules. Only available if module has loaded
+     * all required modules. Otherwise a runtime exception is thrown.
      *
      * @return  URLs of all referenced modules.
      */
