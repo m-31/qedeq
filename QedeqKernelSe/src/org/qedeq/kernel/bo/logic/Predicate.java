@@ -1,4 +1,4 @@
-/* $Id: EverythingExists.java,v 1.2 2007/02/25 20:05:35 m31 Exp $
+/* $Id: Predicate.java,v 1.1 2008/01/26 12:39:09 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ import org.qedeq.kernel.utility.EqualsUtility;
 /**
  * Predicate constant key, describing a predicate constant.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Predicate {

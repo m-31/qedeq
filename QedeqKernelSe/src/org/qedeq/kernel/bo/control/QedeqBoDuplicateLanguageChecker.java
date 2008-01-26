@@ -1,4 +1,4 @@
-/* $Id: QedeqBoDuplicateLanguageChecker.java,v 1.3 2007/12/21 23:33:46 m31 Exp $
+/* $Id: QedeqBoDuplicateLanguageChecker.java,v 1.4 2008/01/26 12:39:09 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -34,7 +34,7 @@ import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 /**
  * Checks if all formulas of a QEDEQ module are well formed.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor {

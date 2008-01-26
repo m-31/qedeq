@@ -1,4 +1,4 @@
-/* $Id: Qedeq2Wiki.java,v 1.8 2007/12/21 23:33:48 m31 Exp $
+/* $Id: Qedeq2Wiki.java,v 1.9 2008/01/26 12:39:09 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -59,7 +59,7 @@ import org.qedeq.kernel.utility.ReplaceUtility;
  * <p>
  * It should be compared with Qedeq2Latex and then refactored to reuse common functions.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public final class Qedeq2Wiki {

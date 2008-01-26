@@ -1,4 +1,4 @@
-/* $Id: TextInput.java,v 1.16 2007/05/10 00:37:50 m31 Exp $
+/* $Id: TextInput.java,v 1.17 2008/01/26 12:39:10 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import java.net.URL;
  * LATER mime 20050426: offer input stream constructor?
  * LATER mime 20060330: decorate normal java.io.InputStream or other???
  *
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.17 $
  * @author  Michael Meyling
  */
 public class TextInput extends InputStream {

@@ -1,4 +1,4 @@
-/* $Id: DefaultModuleFactory.java,v 1.6 2007/12/21 23:33:46 m31 Exp $
+/* $Id: DefaultModuleFactory.java,v 1.7 2008/01/26 12:39:08 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -59,7 +59,7 @@ import org.xml.sax.SAXException;
 /**
  * This class provides access methods for loading QEDEQ modules.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public class DefaultModuleFactory implements ModuleFactory {

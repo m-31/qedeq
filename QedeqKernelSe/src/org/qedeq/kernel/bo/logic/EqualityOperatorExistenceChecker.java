@@ -1,4 +1,4 @@
-/* $Id: EqualityOperatorExistenceChecker.java,v 1.2 2007/02/25 20:05:35 m31 Exp $
+/* $Id: EqualityOperatorExistenceChecker.java,v 1.3 2008/01/26 12:39:09 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ package org.qedeq.kernel.bo.logic;
 /**
  * Check if the predicate for equality is already defined.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public interface EqualityOperatorExistenceChecker {

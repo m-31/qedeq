@@ -1,4 +1,4 @@
-/* $Id: QedeqNotNullTraverser.java,v 1.4 2007/12/21 23:33:47 m31 Exp $
+/* $Id: QedeqNotNullTraverser.java,v 1.1 2008/01/26 12:39:10 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -61,7 +61,7 @@ import org.qedeq.kernel.bo.module.ModuleDataException;
  * Traverse QEDEQ module. Calls visitors of {@link org.qedeq.kernel.bo.visitor.QedeqVisitor}
  * for non <code>null</code> arguments.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class QedeqNotNullTraverser implements QedeqTraverser {

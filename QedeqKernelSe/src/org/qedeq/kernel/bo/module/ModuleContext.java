@@ -1,4 +1,4 @@
-/* $Id: ModuleContext.java,v 1.3 2007/12/21 23:33:46 m31 Exp $
+/* $Id: ModuleContext.java,v 1.4 2008/01/26 12:39:09 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import org.qedeq.kernel.trace.Trace;
  * context (at least the module location information) and if the called method
  * throws an exception a try/catch block can retrieve the context information.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public class ModuleContext {

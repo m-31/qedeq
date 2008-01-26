@@ -1,4 +1,4 @@
-/* $Id: ResourceLoaderUtility.java,v 1.2 2007/12/21 23:33:47 m31 Exp $
+/* $Id: ResourceLoaderUtility.java,v 1.3 2008/01/26 12:39:10 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import org.qedeq.kernel.trace.Trace;
  * Utility methods for accessing classes and resources using an appropriate class loader.
  * Adapted from org.apache.myfaces.trinidad.util.ClassLoaderUtils.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  *
  */

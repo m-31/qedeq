@@ -1,4 +1,4 @@
-/* $Id: DefaultModuleAddress.java,v 1.5 2007/12/21 23:33:46 m31 Exp $
+/* $Id: DefaultModuleAddress.java,v 1.6 2008/01/26 12:39:08 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -33,7 +33,7 @@ import org.qedeq.kernel.utility.IoUtility;
 /**
  * An object of this class represents an address for a QEDEQ module.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public class DefaultModuleAddress implements ModuleAddress {

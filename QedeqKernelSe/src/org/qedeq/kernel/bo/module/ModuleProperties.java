@@ -1,4 +1,4 @@
-/* $Id: ModuleProperties.java,v 1.5 2007/12/21 23:33:46 m31 Exp $
+/* $Id: ModuleProperties.java,v 1.6 2008/01/26 12:39:09 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * Represents a module and its states.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public interface ModuleProperties {

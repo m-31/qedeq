@@ -1,4 +1,4 @@
-/* $Id: SaxEntityResolver.java,v 1.22 2007/08/21 21:03:30 m31 Exp $
+/* $Id: SaxEntityResolver.java,v 1.23 2008/01/26 12:39:10 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -31,7 +31,7 @@ import org.xml.sax.SAXParseException;
 /**
  * Resolve QEDEQ module XML schema.
  *
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.23 $
  * @author Michael Meyling
  */
 public class SaxEntityResolver implements EntityResolver {

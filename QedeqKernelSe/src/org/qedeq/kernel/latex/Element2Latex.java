@@ -1,4 +1,4 @@
-/* $Id: Qedeq2Latex.java,v 1.48 2007/12/21 23:33:48 m31 Exp $
+/* $Id: Element2Latex.java,v 1.1 2008/01/26 12:39:09 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
