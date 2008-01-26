@@ -45,19 +45,41 @@ import javax.swing.tree.TreeSelectionModel;
  */
 public final class QedeqTreeView extends JPanel {
 
+    /** Refresh module contents. */
     public static final String REFRESH_ACTION = "Refresh";
-    public static final String DELETE_ACTION = "Delete";
-    public static final String ADD_ACTION = "Add";
-    public static final String HTML_ACTION = "Html";
 
+    /** Delete module .*/
+    public static final String DELETE_ACTION = "Delete";
+
+    /** Add new module. */
+    public static final String ADD_ACTION = "Add";
+
+    /** Convert module into LaTeX. */
+    public static final String LATEX_ACTION = "LaTeX";
+
+    /** Convert module into HTML. */
+    public static final String HTML_ACTION = "HTML";
+
+    /** Reference to JTree. */
     private final JTree theTree;
 
+    /** Context menu. */
     private final JPopupMenu contextMenu = new JPopupMenu();
 
+    /** Menu entry. */
     private final JMenuItem refreshItem;
+
+    /** Menu entry. */
     private final JMenuItem deleteItem;
+
+    /** Menu entry. */
     private final JMenuItem addItem;
+
+    /** Menu entry. */
     private final JMenuItem htmlItem;
+
+    /** Menu entry. */
+    private final JMenuItem latexItem;
 
 
     /**
@@ -87,22 +109,26 @@ public final class QedeqTreeView extends JPanel {
         this.setMinimumSize(new Dimension(150, 100));
 
         // TODO mime 20071022: check the following items
-        refreshItem = new JMenuItem("Refresh");
+        refreshItem = new JMenuItem(REFRESH_ACTION);
         refreshItem.setActionCommand(REFRESH_ACTION);
         refreshItem.setEnabled(false);
         contextMenu.add(refreshItem);
 
-        deleteItem = new JMenuItem("Delete");
+        deleteItem = new JMenuItem(DELETE_ACTION);
         deleteItem.setActionCommand(DELETE_ACTION);
-        deleteItem.setEnabled(true);
         contextMenu.add(deleteItem);
 
-        addItem = new JMenuItem("Add");
+        addItem = new JMenuItem(ADD_ACTION);
         addItem.setActionCommand(ADD_ACTION);
         contextMenu.add(addItem);
 
-        htmlItem = new JMenuItem("Html");
+        latexItem = new JMenuItem(LATEX_ACTION);
+        latexItem.setActionCommand(LATEX_ACTION);
+        contextMenu.add(latexItem);
+
+        htmlItem = new JMenuItem(HTML_ACTION);
         htmlItem.setActionCommand(HTML_ACTION);
+        htmlItem.setEnabled(false);
         contextMenu.add(htmlItem);
     }
 
@@ -131,6 +157,7 @@ public final class QedeqTreeView extends JPanel {
         deleteItem.addActionListener(listener);
         addItem.addActionListener(listener);
         htmlItem.addActionListener(listener);
+        latexItem.addActionListener(listener);
     }
 
     /* @see JTree#addTreeSelectionListener
