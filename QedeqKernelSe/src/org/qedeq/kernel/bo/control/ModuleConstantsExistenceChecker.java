@@ -45,10 +45,19 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
             throws  ModuleDataException {
         super();
         this.prop = prop;
-        initialCheck();
+        init();
     }
 
-    public void initialCheck() throws ModuleDataException {
+    /**
+     * Check if required QEDEQ modules mix without problems. If for example the identity operator
+     * is defined in two different modules in two different ways we have got a problem.
+     * Also the basic properties (for example
+     * {@link DefaultExistenceChecker#setIdentityOperatorDefined(boolean, String)} and
+     * {@link DefaultExistenceChecker#setClassOperatorExists(boolean)}) are set accordingly.
+     *
+     * @throws ModuleDataException  Required modules doesn't mix.
+     */
+    public void init() throws ModuleDataException {
         clear();
         boolean identityOperatorExists = false;
         boolean classOperatorExists = false;
