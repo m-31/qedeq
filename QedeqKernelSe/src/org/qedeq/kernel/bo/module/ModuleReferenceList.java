@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.EqualsUtility;
 
 
@@ -34,6 +35,9 @@ import org.qedeq.kernel.utility.EqualsUtility;
  * @author  Michael Meyling
  */
 public class ModuleReferenceList {
+
+    /** This class. */
+    private static final Class CLASS = ModuleReferenceList.class;
 
     /** Contains all labels. */
     private final List labels;
@@ -81,7 +85,7 @@ public class ModuleReferenceList {
         labels.add(label);
         label2Context.put(label, context);
         contexts.add(context);
-        System.out.println("adding: " + context);   // FIXME
+        Trace.param(CLASS, "add(ModuleContext, String, ModuleProperties)", "context", context);
         props.add(prop);
     }
 
@@ -121,7 +125,6 @@ public class ModuleReferenceList {
      * @return  Context for that module.
      */
     public final ModuleContext getModuleContext(final int index) {
-        System.out.println("get: " + contexts.get(index));   // FIXME
         return (ModuleContext) contexts.get(index);
     }
 
