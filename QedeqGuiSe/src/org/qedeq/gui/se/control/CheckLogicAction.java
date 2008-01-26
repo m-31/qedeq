@@ -25,6 +25,7 @@ import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.bo.control.LoadRequiredModules;
 import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
 import org.qedeq.kernel.bo.module.DependencyState;
+import org.qedeq.kernel.bo.module.LoadingState;
 import org.qedeq.kernel.bo.module.LogicalState;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -93,14 +94,23 @@ class CheckLogicAction extends AbstractAction {
                             Trace.fatal(CLASS, this, method, msg, e);
                             final SourceFileExceptionList xl =
                                 new DefaultSourceFileExceptionList(e);
-                            // TODO mime 20071031: every state must be able to change into
-                            // a failure state, here we only assume two cases
-                            if (!props[i].hasLoadedRequiredModules()) {
-                                props[i].setDependencyFailureState(
-                                    DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                            // TODO mime 20080124: every state must be able to change into
+                            // a failure state, here we only assume three cases
+                            if (!props[i].isLoaded()) {
+                                if (!props[i].getLoadingState().isFailure()) {
+                                    props[i].setLoadingFailureState(
+                                        LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
+                                }
+                            } else if (!props[i].hasLoadedRequiredModules()) {
+                                if (!props[i].getDependencyState().isFailure()) {
+                                    props[i].setDependencyFailureState(
+                                        DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                                }
                             } else {
-                                props[i].setLogicalFailureState(
-                                    LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
+                                if (!props[i].getLogicalState().isFailure()) {
+                                    props[i].setLogicalFailureState(
+                                        LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
+                                }
                             }
                             ModuleEventLog.getInstance().stateChanged(props[i]);
                             QedeqLog.getInstance().logFailureReply(msg, e.toString());
@@ -110,14 +120,23 @@ class CheckLogicAction extends AbstractAction {
                             Trace.fatal(CLASS, this, method, msg, e);
                             final SourceFileExceptionList xl =
                                 new DefaultSourceFileExceptionList(e);
-                            // TODO mime 20071031: every state must be able to change into
-                            // a failure state, here we only assume two cases
-                            if (props[i].isLoaded()) {  // FIXME wrong
-                                props[i].setDependencyFailureState(
-                                    DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                            // TODO mime 20080124: every state must be able to change into
+                            // a failure state, here we only assume three cases
+                            if (!props[i].isLoaded()) {
+                                if (!props[i].getLoadingState().isFailure()) {
+                                    props[i].setLoadingFailureState(
+                                        LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
+                                }
+                            } else if (!props[i].hasLoadedRequiredModules()) {
+                                if (!props[i].getDependencyState().isFailure()) {
+                                    props[i].setDependencyFailureState(
+                                        DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
+                                }
                             } else {
-                                props[i].setLogicalFailureState(
-                                    LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
+                                if (!props[i].getLogicalState().isFailure()) {
+                                    props[i].setLogicalFailureState(
+                                        LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
+                                }
                             }
                             ModuleEventLog.getInstance().stateChanged(props[i]);
                             QedeqLog.getInstance().logFailureReply(msg, e.toString());
