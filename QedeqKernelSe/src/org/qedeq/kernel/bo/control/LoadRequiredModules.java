@@ -84,6 +84,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
         try {
             converter.loadRequired();
             prop.setLoadedRequiredModules(converter.required);
+            ModuleEventLog.getInstance().stateChanged(prop);
         } catch (ModuleDataException e) {
             final SourceFileExceptionList sfl =
                 ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
@@ -128,7 +129,8 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
             final ModuleProperties propNew = KernelContext.getInstance()
                 .loadModule(prop.getModule(), imp.getSpecification());
             required.add(new ModuleContext(traverser.getCurrentContext()), imp.getLabel(), propNew);
-            System.out.println("adding context: " + traverser.getCurrentContext()); // FIXME
+            Trace.param(CLASS, "visitEnter(Import)", "adding context",
+                traverser.getCurrentContext());
             loadRequired(propNew);
         } catch (SourceFileExceptionList e) {
             Trace.trace(CLASS, this, "visitEnter(Import)", e);
