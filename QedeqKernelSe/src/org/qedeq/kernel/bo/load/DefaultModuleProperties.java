@@ -290,10 +290,17 @@ public class DefaultModuleProperties implements ModuleProperties {
         } else if (!isLoaded()) {
             return loadingState.getText();
         } else if (!hasLoadedRequiredModules()) {
+            if (dependencyState == DependencyState.STATE_UNDEFINED) {
+                return loadingState.getText();
+            }
             return dependencyState.getText();
-        } else {
+        } else if (!isChecked()) {
+            if (logicalState == LogicalState.STATE_UNCHECKED) {
+                return dependencyState.getText();
+            }
             return logicalState.getText();
         }
+        return logicalState.getText();
     }
 
     public final String getName() {
