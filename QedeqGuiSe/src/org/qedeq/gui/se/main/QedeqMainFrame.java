@@ -70,8 +70,9 @@ public class QedeqMainFrame extends JFrame {
         checkDirectoryExistenceAndOptionallyCreate(QedeqGuiConfig.getInstance());
 
         // add various loggers
-        QedeqLog.getInstance().addLog(new LogListenerImpl());               // System.out
-        QedeqLog.getInstance().addLog(new LogListenerImpl(new PrintStream(  // log file
+        QedeqLog.getInstance().addLog(new LogListenerImpl());   // System.out
+        QedeqLog.getInstance()                                  // log file
+            .addLog(new LogListenerImpl(new PrintStream(
             new FileOutputStream(new File(QedeqGuiConfig.getInstance().getBasisDirectory(),
                 QedeqGuiConfig.getInstance().getLogFile()), true), true)));
         ModuleEventLog.getInstance().addLog(new ModuleEventListenerLog());  // all loggers
