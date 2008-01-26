@@ -49,6 +49,8 @@ import org.qedeq.kernel.trace.Trace;
  * A Controller, which represents the classes connecting the model and the view, and is used to
  * communicate between classes in the model and view.
  *
+ * TODO mime 20080126: rather work with listeners than referencing other views
+ *
  * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
@@ -63,10 +65,16 @@ public final class QedeqTreeCtrl implements TreeModelListener {
     /** Tree model. */
     private final QedeqTreeModel treeModel;
 
+    /** Reference to basis controller. */
+    private final QedeqController controller;
+
+    /** Reference to view. */
     private final UpperTabbedView pane;
 
+    /** Reference to view. */
     private final LowerTabbedView lower;
 
+    /** Reference to view. */
     private final ActionListener removeAction;
 
 
@@ -77,6 +85,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         this.treeView = treeView;
         this.treeModel = treeModel;
         this.treeModel.addTreeModelListener(this);
+        this.controller = controller;
         this.treeView.addActionCommandToContextMenus(new QedeqActionCommand());
         this.treeView.treeAddMouseListener(new QedeqMouseListener());
         this.treeView.addTreeSelectionListener(new SelectionChangedCommand());
@@ -159,7 +168,6 @@ public final class QedeqTreeCtrl implements TreeModelListener {
             Trace.trace(CLASS, this, "valueChanged", event);
             TreePath path = event.getPath();
             QedeqTreeNode treeNode = (QedeqTreeNode) path.getLastPathComponent();
-            String pathStr = treeNode.toString();
             if (event.isAddedPath()
                     && treeNode.getUserObject() instanceof ModuleProperties) {
                 ModuleProperties prop = (ModuleProperties) treeNode.getUserObject();
@@ -172,7 +180,9 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         }
     }
 
-
+    /**
+     * Start menu actions.
+     */
     private class QedeqActionCommand implements ActionListener {
 
         public void actionPerformed(final ActionEvent event) {
@@ -181,6 +191,10 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
             if (event.getActionCommand() == QedeqTreeView.DELETE_ACTION)  {     // delete
                 getRemoveAction().actionPerformed(event);
+            } else if (event.getActionCommand() == QedeqTreeView.ADD_ACTION)  { // add
+                QedeqTreeCtrl.this.controller.getAddAction().actionPerformed(event);
+            } else if (event.getActionCommand() == QedeqTreeView.LATEX_ACTION)  { // add
+                QedeqTreeCtrl.this.controller.getLatexAction().actionPerformed(event);
 /*
             } else if (event.getActionCommand() == QedeqTreeView.REFRESH_ACTION)  {    // refresh
                 // TODO
@@ -272,7 +286,6 @@ public final class QedeqTreeCtrl implements TreeModelListener {
                 MutableTreeNode parentNode = (MutableTreeNode) parent.
                                 getLastPathComponent();
                 ArrayList toRemove = new ArrayList();
-                int depth = parent.getPathCount();
 
                 // First pass, find paths with a parent TreePath of parent
                 for (int counter = paths.length - 1; counter >= 0; counter--) {
@@ -370,26 +383,6 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
     }
 
-
-
-    private class QedeqMouseListener extends MouseAdapter {
-
-        public void mousePressed(final java.awt.event.MouseEvent evt) {
-
-            final TreePath path =  treeView.getPathForLocation(evt.getX(), evt.getY());
-
-            if (SwingUtilities.isRightMouseButton(evt)) {
-                if (path != null) {
-                    treeView.setSelectionPath(path);
-                } // TODO other ContextMenu if no selection was done
-                treeView.getContextMenu().show(evt.getComponent(),
-                    evt.getX(), evt.getY());
-            }
-//            super.mousePressed(evt);
-        }
-
-    }
-
     public void treeNodesChanged(final TreeModelEvent e) {
         DefaultMutableTreeNode node;
         node = (DefaultMutableTreeNode)
@@ -410,8 +403,8 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
         Trace.trace(CLASS, this, "treeNodesChanged", node.getUserObject());
 
-        TreePath path = e.getTreePath();
-        QedeqTreeNode treeNode = (QedeqTreeNode) path.getLastPathComponent();
+//        TreePath path = e.getTreePath();
+//      QedeqTreeNode treeNode = (QedeqTreeNode) path.getLastPathComponent();
 
         pane.updateView();      // TODO
 /*
@@ -431,8 +424,6 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
     public void treeNodesInserted(final TreeModelEvent e) {
         Trace.begin(CLASS, this, "treeNodesInserted");
-        final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-            (e.getTreePath().getLastPathComponent());
         if (((DefaultMutableTreeNode) treeModel.getRoot()).getChildCount() == 1) {
             treeView.expandPath(new TreePath(treeModel.getRoot()));
         }
@@ -453,6 +444,27 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         Trace.trace(CLASS, this, "treeStructureChanged", node.getUserObject());
     }
 
+
+    /**
+     * Handle mouse events.
+     */
+    private class QedeqMouseListener extends MouseAdapter {
+
+        public void mousePressed(final java.awt.event.MouseEvent evt) {
+
+            final TreePath path =  treeView.getPathForLocation(evt.getX(), evt.getY());
+
+            if (SwingUtilities.isRightMouseButton(evt)) {
+                if (path != null) {
+                    treeView.setSelectionPath(path);
+                } // TODO mime 20080126: other ContextMenu if no selection was done
+                treeView.getContextMenu().show(evt.getComponent(),
+                    evt.getX(), evt.getY());
+            }
+//            super.mousePressed(evt);
+        }
+
+    }
 
 }
 
