@@ -4040,12 +4040,12 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <RULE name="QUANTOR_INTERSECTION">
+          <RULE name="GENERALIZED_QUANTIFIER">
             <LINK id="rule:classDefinition"/>
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
-                  Each set which is member of all classes of a certain property is also member of the quantor intersection.
+                  Each set which is member of all classes of a certain property is also member of the generalized quantifier.
                   For every formula $\alpha(x)$ we define the term expression $\bigcap_{\alpha(x)} x$ by
                   $$
                     \bigcap_{\alpha(x)} x \ := \ \{y~|~\forall \alpha(x) \ (y \in x)\}
