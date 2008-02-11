@@ -30,11 +30,11 @@ import org.qedeq.kernel.config.QedeqConfig;
 public interface KernelState extends ModuleFactory {
 
     /**
-     * Kernel initialization.
+     * Kernel initialisation.
      *
      * @param   moduleFactory   Factory for loading QEDEQ modules.
-     * @param qedeqConfig TODO
-     * @throws  IOException     Initialization failed.
+     * @param   qedeqConfig     Configuration to work with.
+     * @throws  IOException     Initialisation failed.
      */
     public void init(ModuleFactory moduleFactory, QedeqConfig qedeqConfig) throws IOException;
 

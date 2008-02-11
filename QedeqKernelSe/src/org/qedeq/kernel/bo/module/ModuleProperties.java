@@ -223,4 +223,19 @@ public interface ModuleProperties {
      */
     public boolean isChecked();
 
+    /**
+     * In what encoding the module was parsed.
+     *
+     * @return  Encoding.
+     */
+    public String getEncoding();
+
+    /**
+     * Set character encoding for this module.
+     *
+     * @param   encoding    Encoding.
+     */
+    public void setEncoding(String encoding);
+
+
 }
