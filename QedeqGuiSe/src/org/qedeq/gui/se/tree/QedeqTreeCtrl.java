@@ -22,17 +22,15 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import org.qedeq.gui.se.control.QedeqController;
@@ -78,6 +76,15 @@ public final class QedeqTreeCtrl implements TreeModelListener {
     private final ActionListener removeAction;
 
 
+    /**
+     * Tree controller.
+     *
+     * @param   treeView    View.
+     * @param   treeModel   Model.
+     * @param   pane        Dependent view.
+     * @param   lowerView   Dependent view.
+     * @param   controller  Main controller.
+     */
     public QedeqTreeCtrl(final QedeqTreeView treeView, final QedeqTreeModel treeModel,
             final UpperTabbedView pane, final LowerTabbedView lowerView,
             final QedeqController controller) {
@@ -95,11 +102,21 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         this.lower = lowerView;
     }
 
-
+    /**
+     * Get remove action for this tree.
+     *
+     * @return  Remove action.
+     */
     public final ActionListener getRemoveAction() {
         return this.removeAction;
     }
 
+    /**
+     * Get all selected ModuleProperties.
+     *
+     * @return  Selected ModuleProperties.
+     * @throws  NothingSelectedException    Nothing was selected.
+     */
     public final ModuleProperties[] getSelected() throws NothingSelectedException {
         final String method = "getSelected";
         Trace.begin(CLASS, this, method);
@@ -130,20 +147,6 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         }
     }
 
-    public final void setSelected(final ModuleProperties prop) {
-        final String method = "setSelected";
-        Trace.begin(CLASS, this, method);
-        try {
-            treeView.setSelectionPath(treeModel.getSelectionPath(prop));
-            treeView.setSelectionRow(2);
-        } catch (RuntimeException ex) {
-            Trace.trace(CLASS, this, method, ex);
-        } finally {
-            Trace.end(CLASS, this, method);
-        }
-    }
-
-
     /**
      * Get edited QEDEQ text.
      *
@@ -152,6 +155,52 @@ public final class QedeqTreeCtrl implements TreeModelListener {
      */
     public final String getEditedQedeq() {
         return this.pane.getEditedQedeq();
+    }
+
+
+    public void treeNodesChanged(final TreeModelEvent e) {
+        DefaultMutableTreeNode node;
+        node = (DefaultMutableTreeNode)
+                 (e.getTreePath().getLastPathComponent());
+
+        /*
+         * If the event lists children, then the changed
+         * node is the child of the node we've already
+         * gotten.  Otherwise, the changed node and the
+         * specified node are the same.
+         */
+
+        try {
+            int index = e.getChildIndices()[0];
+            node = (DefaultMutableTreeNode) node.getChildAt(index);
+        } catch (NullPointerException exc) {
+        }
+
+        Trace.trace(CLASS, this, "treeNodesChanged", node.getUserObject());
+
+        pane.updateView();
+    }
+
+    public void treeNodesInserted(final TreeModelEvent e) {
+        Trace.begin(CLASS, this, "treeNodesInserted");
+        if (((DefaultMutableTreeNode) treeModel.getRoot()).getChildCount() == 1) {
+            treeView.expandPath(new TreePath(treeModel.getRoot()));
+        }
+        Trace.end(CLASS, this, "treeNodesInserted");
+    }
+
+
+    public void treeNodesRemoved(final TreeModelEvent e) {
+        final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+            (e.getTreePath().getLastPathComponent());
+        Trace.trace(CLASS, this, "treeNodeRemoved", node.getUserObject());
+    }
+
+
+    public void treeStructureChanged(final TreeModelEvent e) {
+        final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
+            (e.getTreePath().getLastPathComponent());
+        Trace.trace(CLASS, this, "treeStructureChanged", node.getUserObject());
     }
 
 
@@ -195,25 +244,21 @@ public final class QedeqTreeCtrl implements TreeModelListener {
                 QedeqTreeCtrl.this.controller.getAddAction().actionPerformed(event);
             } else if (event.getActionCommand() == QedeqTreeView.LATEX_ACTION)  { // add
                 QedeqTreeCtrl.this.controller.getLatexAction().actionPerformed(event);
-/*
+/*  LATER mime 20080131: implement other actions too
             } else if (event.getActionCommand() == QedeqTreeView.REFRESH_ACTION)  {    // refresh
-                // TODO
             } else if (event.getActionCommand() == PmiiTreeView.ADD_ACTION) {
                 getAddAction().actionPerformed(event);
-                // TODO
             } else if (event.getActionCommand() == PmiiTreeView.HTML_ACTION) {
                 getHtmlAction().actionPerformed(event);
-                // TODO
 */
             }
         }
     }
 
     /**
-     * RemoveAction removes the selected node from the tree.  If
-     * The root or nothing is selected nothing is removed.
+     * RemoveAction removes the selected node from the tree.
      */
-    class RemoveAction extends Object implements ActionListener {
+    private class RemoveAction extends Object implements ActionListener {
 
         /**
          * Removes the selected item as long as it isn't root.
@@ -224,226 +269,19 @@ public final class QedeqTreeCtrl implements TreeModelListener {
                for (int i = 0; i < moduleProperties.length; i++) {
                    KernelContext.getInstance().removeModule(moduleProperties[i].getModuleAddress());
                }
-        } catch (NothingSelectedException e1) {
-            // TODO Auto-generated catch block
-            e1.printStackTrace();
-        } catch (IOException io) {
-            // TODO Auto-generated catch block
-            io.printStackTrace();
-        }
+           } catch (NothingSelectedException e1) {
+               // nothing to do;
+               Trace.trace(QedeqTreeCtrl.RemoveAction.class, this, "actionPerformed(ActionEvent",
+                   e);
+           } catch (IOException io) {
+               JOptionPane.showMessageDialog(null, "Deletion in file system failed: " + io,
+                   "Error", JOptionPane.ERROR_MESSAGE);
+               Trace.fatal(QedeqTreeCtrl.RemoveAction.class, this, "actionPerformed(ActionEvent",
+                   "Deletion of local QEDEQ module copy in file system failed.", io);
+           }
        }
 
     }
-
-
-
-    /**
-     * RemoveAction removes the selected node from the tree.  If
-     * The root or nothing is selected nothing is removed.
-     */
-    class RemoveAction2 extends Object implements ActionListener {
-
-        /**
-          * Removes the selected item as long as it isn't root.
-          */
-        public void actionPerformed(final ActionEvent e) {
-            TreePath[] selected = treeView.getSelectionPaths();
-
-            if (selected != null && selected.length > 0) {
-                TreePath shallowest;
-
-                // The remove process consists of the following steps:
-                // 1 - find the shallowest selected TreePath, the shallowest
-                //     path is the path with the smallest number of path
-                //     components.
-                // 2 - Find the siblings of this TreePath
-                // 3 - Remove from selected the TreePaths that are descendants
-                //     of the paths that are going to be removed. They will
-                //     be removed as a result of their ancestors being
-                //     removed.
-                // 4 - continue until selected contains only null paths.
-                while ((shallowest = findShallowestPath(selected)) != null) {
-                    removeSiblings(shallowest, selected);
-                }
-            }
-        }
-
-        /**
-         * Removes the sibling TreePaths of <code>path</code>, that are
-         * located in <code>paths</code>.
-         */
-        private void removeSiblings(final TreePath path, final TreePath[] paths) {
-            // Find the siblings
-            if (path.getPathCount() == 1) {
-                // Special case, set the root to null
-                for (int counter = paths.length - 1; counter >= 0; counter--) {
-                    paths[counter] = null;
-                }
-                treeModel.setRoot(null);
-            } else {
-                // Find the siblings of path.
-                final TreePath parent = path.getParentPath();
-                MutableTreeNode parentNode = (MutableTreeNode) parent.
-                                getLastPathComponent();
-                ArrayList toRemove = new ArrayList();
-
-                // First pass, find paths with a parent TreePath of parent
-                for (int counter = paths.length - 1; counter >= 0; counter--) {
-                    if (paths[counter] != null && paths[counter].
-                              getParentPath().equals(parent)) {
-                        toRemove.add(paths[counter]);
-                        paths[counter] = null;
-                    }
-                }
-
-                // Second pass, remove any paths that are descendants of the
-                // paths that are going to be removed. These paths are
-                // implicitly removed as a result of removing the paths in
-                // toRemove
-                int rCount = toRemove.size();
-                for (int counter = paths.length - 1; counter >= 0; counter--) {
-                    if (paths[counter] != null) {
-                        for (int rCounter = rCount - 1; rCounter >= 0;
-                             rCounter--) {
-                            if (((TreePath) toRemove.get(rCounter)).
-                                           isDescendant(paths[counter])) {
-                                paths[counter] = null;
-                            }
-                        }
-                    }
-                }
-
-                // Sort the siblings based on position in the model
-                if (rCount > 1) {
-                    Collections.sort(toRemove, (Comparator) new PositionComparator());
-                }
-                int[] indices = new int[rCount];
-                Object[] removedNodes = new Object[rCount];
-                for (int counter = rCount - 1; counter >= 0; counter--) {
-                    removedNodes[counter] = ((TreePath) toRemove.get(counter))
-                        .getLastPathComponent();
-                    indices[counter] = treeModel.getIndexOfChild(
-                        parentNode, removedNodes[counter]);
-                    parentNode.remove(indices[counter]);
-                }
-                treeModel.nodesWereRemoved(parentNode, indices, removedNodes);
-            }
-        }
-
-
-        /**
-         * Returns the TreePath with the smallest path count in
-         * <code>paths</code>. Will return null if there is no non-null
-         * TreePath is <code>paths</code>.
-         */
-        private TreePath findShallowestPath(final TreePath[] paths) {
-            int shallowest = -1;
-            TreePath shallowestPath = null;
-
-            for (int counter = paths.length - 1; counter >= 0; counter--) {
-                if (paths[counter] != null) {
-                    if (shallowest != -1) {
-                        if (paths[counter].getPathCount() < shallowest) {
-                            shallowest = paths[counter].getPathCount();
-                            shallowestPath = paths[counter];
-                            if (shallowest == 1) {
-                                return shallowestPath;
-                            }
-                        }
-                    } else {
-                        shallowestPath = paths[counter];
-                        shallowest = paths[counter].getPathCount();
-                    }
-                }
-            }
-            return shallowestPath;
-        }
-
-
-        /**
-         * An Comparator that bases the return value on the index of the
-         * passed in objects in the TreeModel.
-         * <p>
-         * This is actually rather expensive, it would be more efficient
-         * to extract the indices and then do the comparision.
-         */
-        private class PositionComparator implements Comparator {
-
-            public int compare(final Object o1, final Object o2) {
-                final TreePath p1 = (TreePath) o1;
-                int o1Index = treeModel.getIndexOfChild(p1.getParentPath().
-                          getLastPathComponent(), p1.getLastPathComponent());
-                TreePath p2 = (TreePath) o2;
-                int o2Index = treeModel.getIndexOfChild(p2.getParentPath().
-                          getLastPathComponent(), p2.getLastPathComponent());
-                return o1Index - o2Index;
-            }
-
-        }
-
-    }
-
-    public void treeNodesChanged(final TreeModelEvent e) {
-        DefaultMutableTreeNode node;
-        node = (DefaultMutableTreeNode)
-                 (e.getTreePath().getLastPathComponent());
-
-        /*
-         * If the event lists children, then the changed
-         * node is the child of the node we've already
-         * gotten.  Otherwise, the changed node and the
-         * specified node are the same.
-         */
-
-        try {
-            int index = e.getChildIndices()[0];
-            node = (DefaultMutableTreeNode) node.getChildAt(index);
-        } catch (NullPointerException exc) {
-        }
-
-        Trace.trace(CLASS, this, "treeNodesChanged", node.getUserObject());
-
-//        TreePath path = e.getTreePath();
-//      QedeqTreeNode treeNode = (QedeqTreeNode) path.getLastPathComponent();
-
-        pane.updateView();      // TODO
-/*
-        if (treeNode.getUserObject() instanceof ModuleProperties) {
-            ModuleProperties prop = (ModuleProperties) treeNode.getUserObject();
-    //        pane.setModel(prop);
-            pane.updateView();      // TODO
-    //        if (pane.getModel() == prop) {
-    //            pane.updateView();
-    //        }
-        } else {
-//            pane.setModel(null);
-        }
-*/
-
-    }
-
-    public void treeNodesInserted(final TreeModelEvent e) {
-        Trace.begin(CLASS, this, "treeNodesInserted");
-        if (((DefaultMutableTreeNode) treeModel.getRoot()).getChildCount() == 1) {
-            treeView.expandPath(new TreePath(treeModel.getRoot()));
-        }
-        Trace.end(CLASS, this, "treeNodesInserted");
-    }
-
-
-    public void treeNodesRemoved(final TreeModelEvent e) {
-        final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-            (e.getTreePath().getLastPathComponent());
-        Trace.trace(CLASS, this, "treeNodeRemoved", node.getUserObject());
-    }
-
-
-    public void treeStructureChanged(final TreeModelEvent e) {
-        final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
-            (e.getTreePath().getLastPathComponent());
-        Trace.trace(CLASS, this, "treeStructureChanged", node.getUserObject());
-    }
-
 
     /**
      * Handle mouse events.

@@ -93,8 +93,8 @@ public final class QedeqTreeView extends JPanel {
         theTree = new JTree(treeModel);
         theTree.setEditable(false);
         theTree.setRootVisible(false);
-        theTree.setExpandsSelectedPaths(true);      // TODO new
-        theTree.setScrollsOnExpand(true);           // TODO new
+        theTree.setExpandsSelectedPaths(true);
+        theTree.setScrollsOnExpand(true);
         theTree.setShowsRootHandles(true);
         theTree.getSelectionModel().setSelectionMode(
             TreeSelectionModel.DISCONTIGUOUS_TREE_SELECTION);
@@ -108,7 +108,7 @@ public final class QedeqTreeView extends JPanel {
         this.add(theTree);
         this.setMinimumSize(new Dimension(150, 100));
 
-        // TODO mime 20071022: check the following items
+        // LATER mime 20071022: rework the following items
         refreshItem = new JMenuItem(REFRESH_ACTION);
         refreshItem.setActionCommand(REFRESH_ACTION);
         refreshItem.setEnabled(false);
