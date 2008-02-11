@@ -65,6 +65,9 @@ public class DefaultModuleProperties implements ModuleProperties {
     /** Predicate and function constant existence checker. */
     private ExistenceChecker checker;
 
+    /** Character encoding for this module. */
+    private String encoding;
+
 
     /**
      * Creates new module properties.
@@ -137,6 +140,14 @@ public class DefaultModuleProperties implements ModuleProperties {
     public final void setLoaded(final QedeqBo module) {
         loadingState = LoadingState.STATE_LOADED;
         this.module = module;
+    }
+
+    public final String getEncoding() {
+        return this.encoding;
+    }
+
+    public final void setEncoding(final String encoding) {
+        this.encoding = encoding;
     }
 
     public final QedeqBo getModule() {
@@ -321,10 +332,10 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     public final URL getUrl() {
-        if (address == null) {
+        if (this.address == null) {
             return null;
         }
-        return address.getURL();
+        return this.address.getURL();
     }
 
     public final String toString() {

@@ -47,7 +47,7 @@ import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
-import org.qedeq.kernel.utility.ReplaceUtility;
+import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
 import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
@@ -478,10 +478,12 @@ public class DefaultModuleFactory implements ModuleFactory {
             parser.parse(file, prop.getUrl());
         } catch (SourceFileExceptionList e) {
             Trace.trace(CLASS, this, method, e);
+            prop.setEncoding(parser.getEncoding());
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, e);
             ModuleEventLog.getInstance().stateChanged(prop);
             throw e;
         }
+        prop.setEncoding(parser.getEncoding());
         qedeq = simple.getQedeq();
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY);
         ModuleEventLog.getInstance().stateChanged(prop);
@@ -497,6 +499,7 @@ public class DefaultModuleFactory implements ModuleFactory {
             throw xl;
         }
         prop.setLoaded(qedeqBo);
+// FIXME        prop.setEncoding(handler.getEncoding());
         ModuleEventLog.getInstance().stateChanged(prop);
     }
 
@@ -601,8 +604,8 @@ public class DefaultModuleFactory implements ModuleFactory {
         Trace.param(CLASS, this, method, "path", url.getPath());
         Trace.param(CLASS, this, method, "file", url.getFile());
         StringBuffer file = new StringBuffer(url.getFile());
-        ReplaceUtility.replace(file, "_", "__");    // remember all '_'
-        ReplaceUtility.replace(file, "/", "_1");    // preserve all '/'
+        StringUtility.replace(file, "_", "__");    // remember all '_'
+        StringUtility.replace(file, "/", "_1");    // preserve all '/'
         String encoded = file.toString();           // fallback file name
         try {
             encoded = URLEncoder.encode(file.toString(), "UTF-8");
@@ -612,9 +615,9 @@ public class DefaultModuleFactory implements ModuleFactory {
         }
         file.setLength(0);
         file.append(encoded);
-        ReplaceUtility.replace(file, "#", "##");    // escape all '#'
-        ReplaceUtility.replace(file, "_1", "#");    // from '/' into '#'
-        ReplaceUtility.replace(file, "__", "_");    // from '_' into '_'
+        StringUtility.replace(file, "#", "##");    // escape all '#'
+        StringUtility.replace(file, "_1", "#");    // from '/' into '#'
+        StringUtility.replace(file, "__", "_");    // from '_' into '_'
         StringBuffer adr = new StringBuffer(url.toExternalForm());
         try {
             adr = new  StringBuffer(new URL(url.getProtocol(), url.getHost(),
@@ -624,8 +627,8 @@ public class DefaultModuleFactory implements ModuleFactory {
             e.printStackTrace();
         }
         // escape characters:
-        ReplaceUtility.replace(adr, "://", "_");    // before host
-        ReplaceUtility.replace(adr, ":", "_");      // before protocol
+        StringUtility.replace(adr, "://", "_");    // before host
+        StringUtility.replace(adr, ":", "_");      // before protocol
         return new File(kernel.getBufferDirectory(), adr.toString());
     }
 
