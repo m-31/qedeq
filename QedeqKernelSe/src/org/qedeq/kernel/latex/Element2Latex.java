@@ -30,7 +30,7 @@ import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.bo.module.ModuleReferenceList;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
-import org.qedeq.kernel.utility.ReplaceUtility;
+import org.qedeq.kernel.utility.StringUtility;
 
 
 /**
@@ -291,7 +291,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
             if (definition != null) {
                 final StringBuffer define = new StringBuffer(definition.getLatexPattern());
                 for (int i = list.size() - 1; i >= 1; i--) {
-                    ReplaceUtility.replace(define, "#" + i, Element2Latex.this.getLatex(
+                    StringUtility.replace(define, "#" + i, Element2Latex.this.getLatex(
                         list.getElement(i), false));
                 }
                 buffer.append(define);
@@ -351,7 +351,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
             if (definition != null) {
                 final StringBuffer define = new StringBuffer(definition.getLatexPattern());
                 for (int i = list.size() - 1; i >= 1; i--) {
-                    ReplaceUtility.replace(define, "#" + i, Element2Latex.this.
+                    StringUtility.replace(define, "#" + i, Element2Latex.this.
                         getLatex(list.getElement(i), false));
                 }
                 buffer.append(define);

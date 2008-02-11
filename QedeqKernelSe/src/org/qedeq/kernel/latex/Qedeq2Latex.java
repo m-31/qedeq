@@ -58,8 +58,7 @@ import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.IoUtility;
-import org.qedeq.kernel.utility.ReplaceUtility;
+import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.utility.TextOutput;
 
 
@@ -504,7 +503,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
                 Trace.trace(CLASS, this, "printPredicateDefinition", "replacing!");
-                ReplaceUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
+                StringUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
             }
         }
         if (definition.getFormula() != null) {
@@ -535,7 +534,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
                 Trace.trace(CLASS, this, "printFunctionDefinition", "replacing!");
-                ReplaceUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
+                StringUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
             }
         }
         if (definition.getTerm() != null) {
@@ -799,26 +798,26 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
      */
     private String getLatex(final String text) {
         final StringBuffer buffer = new StringBuffer(text);
-        IoUtility.deleteLineLeadingWhitespace(buffer);
-        ReplaceUtility.replace(buffer, "\\", "\\textbackslash");
-        ReplaceUtility.replace(buffer, "$", "\\$");
-        ReplaceUtility.replace(buffer, "&", "\\&");
-        ReplaceUtility.replace(buffer, "%", "\\%");
-        ReplaceUtility.replace(buffer, "#", "\\#");
-        ReplaceUtility.replace(buffer, "_", "\\_");
-        ReplaceUtility.replace(buffer, "{", "\\{");
-        ReplaceUtility.replace(buffer, "}", "\\}");
-        ReplaceUtility.replace(buffer, "~", "\\textasciitilde");
-        ReplaceUtility.replace(buffer, "^", "\\textasciicircum");
-        ReplaceUtility.replace(buffer, "<", "\\textless");
-        ReplaceUtility.replace(buffer, ">", "\\textgreater");
-        ReplaceUtility.replace(buffer, "\u00fc", "{\\\"u}");
-        ReplaceUtility.replace(buffer, "\u00f6", "{\\\"o}");
-        ReplaceUtility.replace(buffer, "\u00e4", "{\\\"a}");
-        ReplaceUtility.replace(buffer, "\u00dc", "{\\\"U}");
-        ReplaceUtility.replace(buffer, "\u00d6", "{\\\"O}");
-        ReplaceUtility.replace(buffer, "\u00c4", "{\\\"A}");
-        ReplaceUtility.replace(buffer, "\u00df", "{\\ss}");
+        StringUtility.deleteLineLeadingWhitespace(buffer);
+        StringUtility.replace(buffer, "\\", "\\textbackslash");
+        StringUtility.replace(buffer, "$", "\\$");
+        StringUtility.replace(buffer, "&", "\\&");
+        StringUtility.replace(buffer, "%", "\\%");
+        StringUtility.replace(buffer, "#", "\\#");
+        StringUtility.replace(buffer, "_", "\\_");
+        StringUtility.replace(buffer, "{", "\\{");
+        StringUtility.replace(buffer, "}", "\\}");
+        StringUtility.replace(buffer, "~", "\\textasciitilde");
+        StringUtility.replace(buffer, "^", "\\textasciicircum");
+        StringUtility.replace(buffer, "<", "\\textless");
+        StringUtility.replace(buffer, ">", "\\textgreater");
+        StringUtility.replace(buffer, "\u00fc", "{\\\"u}");
+        StringUtility.replace(buffer, "\u00f6", "{\\\"o}");
+        StringUtility.replace(buffer, "\u00e4", "{\\\"a}");
+        StringUtility.replace(buffer, "\u00dc", "{\\\"U}");
+        StringUtility.replace(buffer, "\u00d6", "{\\\"O}");
+        StringUtility.replace(buffer, "\u00c4", "{\\\"A}");
+        StringUtility.replace(buffer, "\u00df", "{\\ss}");
         return buffer.toString();
     }
 
@@ -834,14 +833,14 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
             return "";
         }
         final StringBuffer buffer = new StringBuffer(nearlyLatex);
-        IoUtility.deleteLineLeadingWhitespace(buffer);
-        ReplaceUtility.replace(buffer, "\u00fc", "{\\\"u}");
-        ReplaceUtility.replace(buffer, "\u00f6", "{\\\"o}");
-        ReplaceUtility.replace(buffer, "\u00e4", "{\\\"a}");
-        ReplaceUtility.replace(buffer, "\u00dc", "{\\\"U}");
-        ReplaceUtility.replace(buffer, "\u00d6", "{\\\"O}");
-        ReplaceUtility.replace(buffer, "\u00c4", "{\\\"A}");
-        ReplaceUtility.replace(buffer, "\u00df", "{\\ss}");
+        StringUtility.deleteLineLeadingWhitespace(buffer);
+        StringUtility.replace(buffer, "\u00fc", "{\\\"u}");
+        StringUtility.replace(buffer, "\u00f6", "{\\\"o}");
+        StringUtility.replace(buffer, "\u00e4", "{\\\"a}");
+        StringUtility.replace(buffer, "\u00dc", "{\\\"U}");
+        StringUtility.replace(buffer, "\u00d6", "{\\\"O}");
+        StringUtility.replace(buffer, "\u00c4", "{\\\"A}");
+        StringUtility.replace(buffer, "\u00df", "{\\ss}");
         return buffer.toString();
     }
 

@@ -46,7 +46,7 @@ import org.qedeq.kernel.base.module.SubsectionType;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.module.ModuleProperties;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.ReplaceUtility;
+import org.qedeq.kernel.utility.StringUtility;
 
 
 /**
@@ -315,7 +315,7 @@ public final class Qedeq2Wiki {
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
                 Trace.trace(CLASS, this, "printDefinition", "replacing!");
-                ReplaceUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
+                StringUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
             }
         }
         if (definition.getFormula() != null) {
@@ -353,7 +353,7 @@ public final class Qedeq2Wiki {
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
                 Trace.trace(CLASS, this, "printDefinition", "replacing!");
-                ReplaceUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
+                StringUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
             }
         }
         if (definition.getTerm() != null) {

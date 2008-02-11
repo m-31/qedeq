@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.qedeq.kernel.utility.IoUtility;
-import org.qedeq.kernel.utility.ReplaceUtility;
+import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.utility.TextInput;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.xml.sax.SAXException;
@@ -170,13 +170,14 @@ public class SourceFileException extends QedeqException {
      * Get line that is referenced by {@link #getSourceArea()}.
      *
      * @param   localAddress    Source file for getting the line.
+     * @param   encoding        Take this encoding for file.
      * @return  Referenced line.
      */
-    public final String getLine(final File localAddress) {
+    public final String getLine(final File localAddress, final String encoding) {
         if (line == null) {
             line = "";
             try {
-                final TextInput input = new TextInput(localAddress);
+                final TextInput input = new TextInput(localAddress, encoding);
                 input.setRow(errorArea.getStartPosition().getLine());
                 input.setColumn(errorArea.getStartPosition().getColumn());
                 line = input.getLine();
@@ -211,10 +212,11 @@ public class SourceFileException extends QedeqException {
      * <p>TODO mime 20071128: move this method into another class!!!
      *
      * @param   localAddress    Lookup source here.
+     * @param   encoding        Take this encoding for file.
      *
      * @return  Error description.
      */
-    public final String getDescription(final File localAddress) {
+    public final String getDescription(final File localAddress, final String encoding) {
         final StringBuffer buffer = new StringBuffer();
         buffer.append(getErrorCode() + ": " + getMessage());
         if (errorArea != null && errorArea.getStartPosition() != null) {
@@ -223,9 +225,9 @@ public class SourceFileException extends QedeqException {
             buffer.append(start.getAddress() + ":" + start.getLine() + ":"
                 + start.getColumn());
             buffer.append("\n");
-            buffer.append(ReplaceUtility.replace(getLine(localAddress), "\t", " "));
+            buffer.append(StringUtility.replace(getLine(localAddress, encoding), "\t", " "));
             buffer.append("\n");
-            final StringBuffer whitespace = IoUtility.getSpaces(start.getColumn() - 1);
+            final StringBuffer whitespace = StringUtility.getSpaces(start.getColumn() - 1);
             buffer.append(whitespace);
             buffer.append("^");
         }
