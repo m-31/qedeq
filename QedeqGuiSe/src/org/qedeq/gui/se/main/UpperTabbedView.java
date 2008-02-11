@@ -19,6 +19,7 @@ package org.qedeq.gui.se.main;
 
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.border.EmptyBorder;
@@ -70,9 +71,7 @@ public final class UpperTabbedView extends JPanel {
             propertiesPane = new ModulePropertiesPane(prop);
             qedeqPane = new QedeqPane(prop);
             htmlPane = new HtmlPane(prop);
-
-            tabbedPane.addTab("State", null, Factory.createStrippedScrollPane(propertiesPane),
-                "Shows Status of Module");
+            tabbedPane.addTab("State", null, propertiesPane, "Shows Status of Module");
             tabbedPane.addTab("QEDEQ", null, qedeqPane, "Shows Module in QEDEQ Syntax");
 /*
             if (viewHtml) {
@@ -80,7 +79,7 @@ public final class UpperTabbedView extends JPanel {
                     "Shows Module in Html-View");
             }
 */
-            setBorder(new EmptyBorder(10, 10, 10 , 10));
+            setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, "constructor", e);
             throw e;
@@ -113,11 +112,7 @@ public final class UpperTabbedView extends JPanel {
         if (prop != model) {
             prop = model;
             updateView();
-        } else {
-
         }
-
-        // TODO else
     }
 
     public ModuleProperties getQedeqModel() {

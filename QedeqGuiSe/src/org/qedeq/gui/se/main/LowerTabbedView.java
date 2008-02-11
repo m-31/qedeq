@@ -19,6 +19,7 @@ package org.qedeq.gui.se.main;
 
 import java.awt.GridLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
@@ -75,6 +76,7 @@ public final class LowerTabbedView extends JPanel {
         }
         add(tabbedPane);
         setLayout(new GridLayout(1, 1));
+        setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
     }
 
 
@@ -83,11 +85,7 @@ public final class LowerTabbedView extends JPanel {
         if (prop != model) {
             prop = model;
             updateView();
-        } else {
-
         }
-
-        // TODO else
     }
 
     public ModuleProperties getQedeqModel() {
