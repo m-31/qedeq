@@ -1,5 +1,6 @@
 package org.qedeq.kernel.parser;
 
+import java.io.File;
 import java.util.List;
 
 import org.qedeq.kernel.utility.ResourceLoaderUtility;
@@ -192,8 +193,9 @@ public class AsciiMathParserTest extends AbstractParserTest {
     }
     
     protected MathParser createParser(final TextInput input) throws Exception {
-        final List operators = LoadXmlOperatorListUtility.getOperatorList(
-            ResourceLoaderUtility.getResourceUrl("org/qedeq/kernel/parser/asciiMathOperators.xml"));
+        final List operators = LoadXmlOperatorListUtility.getOperatorList(new File(
+            ResourceLoaderUtility.getResourceUrl("org/qedeq/kernel/parser/asciiMathOperators.xml")
+            .getPath()));
         return new AsciiMathParser(input, operators);
     }
     

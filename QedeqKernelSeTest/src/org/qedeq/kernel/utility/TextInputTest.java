@@ -88,8 +88,8 @@ public class TextInputTest extends QedeqTestCase {
      */
     public void testTextInputFileString() throws Exception {
         final File file = new File(this.getClass().getName() + ".testTexFileInput.impl");
-        IoUtility.saveFile(file, XML_DATA);
-        TextInput ti = new TextInput(file);
+        IoUtility.saveFile(file, XML_DATA, IoUtility.getDefaultEncoding());
+        TextInput ti = new TextInput(file, IoUtility.getDefaultEncoding());
         while (!qedeqInput.isEmpty()) {
             assertEquals(qedeqInput.read(), ti.read());
         }

@@ -201,7 +201,7 @@ public class QedeqPane extends JFrame {
                 Trace.param(CLASS, this, method, "file", file);
                 if (file.canRead()) {
                     final StringBuffer buffer = new StringBuffer();
-                        IoUtility.loadFile(file, buffer);
+                        IoUtility.loadFile(file, buffer, IoUtility.getDefaultEncoding());
                     qedeqScroller.getViewport().setViewPosition(new Point(0, 0));
                     qedeq.setText(buffer.toString());
                     if (file.canWrite()) {
@@ -209,7 +209,8 @@ public class QedeqPane extends JFrame {
                     } else {
                         qedeq.setEditable(false);
                     }
-                    error.setText(errorPosition.getDescription(file));
+                    error.setText(errorPosition.getDescription(file,
+                        IoUtility.getDefaultEncoding()));
                     error.setCaretPosition(0);
                     highlightLine();
                     // reserve 3 text lines for error description
@@ -266,7 +267,7 @@ public class QedeqPane extends JFrame {
      * @throws  IOException Saving data failed.
      */
     public final void saveQedeq() throws IOException {
-        IoUtility.saveFile(file, qedeq.getText());
+        IoUtility.saveFile(file, qedeq.getText(), IoUtility.getDefaultEncoding());
     }
     
 

@@ -25,6 +25,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -42,8 +43,8 @@ import org.qedeq.kernel.parser.LatexMathParser;
 import org.qedeq.kernel.parser.ParserException;
 import org.qedeq.kernel.parser.Term;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.ResourceLoaderUtility;
+import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.utility.TextInput;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 
@@ -90,9 +91,9 @@ public class ParserPane extends JFrame {
      */
     public ParserPane() throws SourceFileExceptionList, FileNotFoundException {
         super("QEDEQ LaTeX Parser Sample");
-        operators = LoadXmlOperatorListUtility.getOperatorList(
+        operators = LoadXmlOperatorListUtility.getOperatorList(new File(
             ResourceLoaderUtility.getResourceUrl(
-                "org/qedeq/kernel/tool/parser/mengenlehreMathOperators.xml"));
+                "org/qedeq/kernel/tool/parser/mengenlehreMathOperators.xml").getPath()));
         setupView();
         updateView();
     }
@@ -329,7 +330,7 @@ public class ParserPane extends JFrame {
             result.append(input.getRow() + ":" + input.getColumn() + ":" + "\n");
             result.append(e.getMessage() + "\n");
             result.append(input.getLine().replace('\t', ' ').replace('\015', ' ') + "\n");
-            final StringBuffer pointer = IoUtility.getSpaces(input.getColumn());
+            final StringBuffer pointer = StringUtility.getSpaces(input.getColumn());
             pointer.append('^');
             result.append(pointer);
             System.out.println(result.toString());

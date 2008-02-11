@@ -29,6 +29,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.latex.Qedeq2Latex;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
+import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.utility.TextOutput;
 import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
 import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
@@ -114,7 +115,7 @@ public final class Xml2Latex  {
             printArgumentError("XML file must be specified.");
             return;
         }
-        System.out.println(IoUtility.getClassName(CLASS) + ", running on: "
+        System.out.println(StringUtility.getClassName(CLASS) + ", running on: "
             + KernelFacade.getKernelContext().getDescriptiveKernelVersion());
         try {
             System.out.println("Successfully generated:\n" + generate(from, to, language, level));
@@ -133,7 +134,7 @@ public final class Xml2Latex  {
     public static void printProgramInformation() {
         System.err.println("Name");
         System.err.println("----");
-        System.err.println(IoUtility.getClassName(CLASS) + " - create LaTeX document");
+        System.err.println(StringUtility.getClassName(CLASS) + " - create LaTeX document");
         System.err.println();
         System.err.println("Synopsis");
         System.err.println("-------------------");

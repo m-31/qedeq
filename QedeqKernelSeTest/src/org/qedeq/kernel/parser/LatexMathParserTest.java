@@ -1,5 +1,6 @@
 package org.qedeq.kernel.parser;
 
+import java.io.File;
 import java.util.List;
 
 import org.qedeq.kernel.utility.ResourceLoaderUtility;
@@ -59,8 +60,9 @@ public class LatexMathParserTest extends AbstractParserTest {
     }
     
     protected MathParser createParser(final TextInput input) throws Exception {
-        final List operators = LoadXmlOperatorListUtility.getOperatorList(
-            ResourceLoaderUtility.getResourceUrl("org/qedeq/kernel/parser/latexMathOperators.xml"));
+        final List operators = LoadXmlOperatorListUtility.getOperatorList(new File(
+            ResourceLoaderUtility.getResourceUrl("org/qedeq/kernel/parser/latexMathOperators.xml")
+            .getPath()));
         return new LatexMathParser(input, operators);
     }
     

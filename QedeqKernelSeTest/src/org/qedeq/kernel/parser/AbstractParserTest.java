@@ -1,7 +1,7 @@
 package org.qedeq.kernel.parser;
 
 import org.qedeq.kernel.test.QedeqTestCase;
-import org.qedeq.kernel.utility.IoUtility;
+import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.utility.TextInput;
 
 
@@ -39,7 +39,7 @@ public abstract class AbstractParserTest extends QedeqTestCase {
             System.out.println(input.getRow() + ":" + input.getColumn() + ":");
             System.out.println(e.getMessage());
             System.out.println(input.getLine().replace('\t', ' ').replace('\015', ' '));
-            final StringBuffer pointer = IoUtility.getSpaces(input.getColumn());
+            final StringBuffer pointer = StringUtility.getSpaces(input.getColumn());
             pointer.append('^');
             System.out.println(pointer);
             throw e;
@@ -71,7 +71,7 @@ public abstract class AbstractParserTest extends QedeqTestCase {
             System.out.println(input.getRow() + ":" + input.getColumn() + ":");
             System.out.println(e.getMessage());
             System.out.println(input.getLine().replace('\t', ' ').replace('\015', ' '));
-            final StringBuffer pointer = IoUtility.getSpaces(input.getColumn());
+            final StringBuffer pointer = StringUtility.getSpaces(input.getColumn());
             pointer.append('^');
             System.out.println(pointer);
             throw e;

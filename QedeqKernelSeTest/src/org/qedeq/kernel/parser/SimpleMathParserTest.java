@@ -1,5 +1,6 @@
 package org.qedeq.kernel.parser;
 
+import java.io.File;
 import java.util.List;
 
 import org.qedeq.kernel.utility.ResourceLoaderUtility;
@@ -117,8 +118,9 @@ public class SimpleMathParserTest extends AbstractParserTest {
     }
     
     protected MathParser createParser(final TextInput input) throws Exception {
-        final List operators = LoadXmlOperatorListUtility.getOperatorList(
-            ResourceLoaderUtility.getResourceUrl("org/qedeq/kernel/parser/simpleMathOperators.xml"));
+        final List operators = LoadXmlOperatorListUtility.getOperatorList(new File(
+            ResourceLoaderUtility.getResourceUrl("org/qedeq/kernel/parser/simpleMathOperators.xml")
+            .getPath()));
         return new SimpleMathParser(input, operators);
     }
     

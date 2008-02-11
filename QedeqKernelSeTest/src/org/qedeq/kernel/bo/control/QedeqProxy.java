@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.IoUtility;
+import org.qedeq.kernel.utility.StringUtility;
 
 /**
  * For testing QEDEQ modules.
@@ -71,9 +71,9 @@ public class QedeqProxy implements InvocationHandler {
             Trace.trace(CLASS, "QedeqProxy(Object, Object)", 
                 parent.getClass().getName());
             history = ((QedeqProxy) Proxy.getInvocationHandler(parent)).history + "/"
-                + IoUtility.getClassName(obj.getClass());
+                + StringUtility.getClassName(obj.getClass());
         } else {
-            history = IoUtility.getClassName(obj.getClass());
+            history = StringUtility.getClassName(obj.getClass());
         }
     }
 

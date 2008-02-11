@@ -288,17 +288,17 @@ public final class StarterDialog extends JFrame {
                     if (e.size() > 0) {
                         errorPosition = e.get(0);   // TODO mime 20070323: handle other positions too
                         setResultMessage(false, errorPosition.getDescription(
-                            from.getFileValue()));
+                            from.getFileValue(), IoUtility.getDefaultEncoding()));
                     } else {
                         errorPosition = new SourceFileException(from.getFileValue(), e);
                         setResultMessage(false, errorPosition.getDescription(
-                            from.getFileValue()));
+                            from.getFileValue(), IoUtility.getDefaultEncoding()));
                     }
                 } catch (final Exception e) {
                     Trace.trace(CLASS, this, method, e);
                     errorPosition = new SourceFileException(from.getFileValue(), e);
                     setResultMessage(false, errorPosition.getDescription(
-                        from.getFileValue()));
+                        from.getFileValue(), IoUtility.getDefaultEncoding()));
                 } catch (final Error e) {
                     Trace.trace(CLASS, this, method, e);
                     shutdown();
