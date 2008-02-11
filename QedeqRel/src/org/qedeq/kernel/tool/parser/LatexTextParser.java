@@ -30,6 +30,7 @@ import org.qedeq.kernel.parser.Term;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.ResourceLoaderUtility;
+import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.utility.TextInput;
 import org.qedeq.kernel.utility.TextOutput;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
@@ -58,31 +59,31 @@ public final class LatexTextParser {
         TextInput input = null;
         try {
             {
-                input = new TextInput(new File(args[0]));
+                input = new TextInput(new File(args[0]), IoUtility.getDefaultEncoding());
                 final String textName = "test_text.xml";
                 final PrintStream output = new PrintStream(new FileOutputStream(textName));
                 final TextOutput printer = new TextOutput(textName, output);
                 new LatexTextParser(input, printer, false,
-                    LoadXmlOperatorListUtility.getOperatorList(
+                    LoadXmlOperatorListUtility.getOperatorList(new File(
                         ResourceLoaderUtility.getResourceUrl(
-                        "org/qedeq/kernel/tool/parser/mengenlehreMathOperators.xml")));
+                        "org/qedeq/kernel/tool/parser/mengenlehreMathOperators.xml").getPath())));
             }
             {
-                input = new TextInput(new File(args[0]));
+                input = new TextInput(new File(args[0]), IoUtility.getDefaultEncoding());
                 final String mathName = "test_math.xml";
                 final PrintStream output = new PrintStream(new FileOutputStream(mathName));
                 final TextOutput printer = new TextOutput(mathName, output);
                 new LatexTextParser(input, printer, true,
-                    LoadXmlOperatorListUtility.getOperatorList(
+                    LoadXmlOperatorListUtility.getOperatorList(new File(
                         ResourceLoaderUtility.getResourceUrl(
-                        "org/qedeq/kernel/tool/parser/mengenlehreMathOperators.xml")));
+                        "org/qedeq/kernel/tool/parser/mengenlehreMathOperators.xml").getPath())));
             }
         } catch (Exception e) {
             e.printStackTrace(System.out);
             System.out.println(input.getRow() + ":" + input.getColumn() + ":");
             System.out.println(e.getMessage());
             System.out.println(input.getLine().replace('\t', ' ').replace('\015', ' '));
-            final StringBuffer pointer = IoUtility.getSpaces(input.getColumn());
+            final StringBuffer pointer = StringUtility.getSpaces(input.getColumn());
             pointer.append('^');
             System.out.println(pointer);
         }
@@ -268,7 +269,7 @@ public final class LatexTextParser {
             System.out.println(input.getRow() + ":" + input.getColumn() + ":");
             System.out.println(e.getMessage());
             System.out.println(input.getLine().replace('\t', ' ').replace('\015', ' '));
-            final StringBuffer pointer = IoUtility.getSpaces(input.getColumn());
+            final StringBuffer pointer = StringUtility.getSpaces(input.getColumn());
             pointer.append('^');
             System.out.println(pointer);
         } finally {
