@@ -19,7 +19,6 @@ package org.qedeq.gui.se.pane;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
@@ -59,9 +58,6 @@ public class ModulePropertiesPane extends JPanel {
     /** URL of module. */
     private JTextArea url;
 
-    /** Failure message. */
-    private JTextArea failure;
-
 
     /**
      * Creates new Panel.
@@ -79,7 +75,7 @@ public class ModulePropertiesPane extends JPanel {
 //            + "pref, 3dlu, pref");                  // rows
 
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-        builder.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         builder.getPanel().setOpaque(false);
         builder.setDefaultDialogBorder();
 
@@ -99,17 +95,9 @@ public class ModulePropertiesPane extends JPanel {
 //        url = createTextField("", false);
         url = new JTextArea();
         url.setEditable(false);
-        url.setLineWrap(true);
+        url.setLineWrap(false);
         builder.append(wrapWithScrollPane(url));
 //        builder.append(url);
-
-        builder.append("Failure");
-        failure = new JTextArea();
-        failure.setEditable(false);
-        failure.setFont(new Font("monospaced", Font.PLAIN, getFont().getSize()));
-        failure.setLineWrap(true);
-        failure.setWrapStyleWord(true);
-        builder.append(wrapWithScrollPane(failure));
 
         return builder.getPanel();
     }
@@ -220,14 +208,11 @@ public class ModulePropertiesPane extends JPanel {
             name.setText(prop.getName());
             ruleVersion.setText(prop.getRuleVersion());
             url.setText(prop.getUrl().toString());
-            failure.setText(prop.getException() == null ? ""
-                : prop.getException().getMessage());
         } else {
             state.setText("");
             name.setText("");
             ruleVersion.setText("");
             url.setText("");
-            failure.setText("");
         }
         invalidate();
         repaint();

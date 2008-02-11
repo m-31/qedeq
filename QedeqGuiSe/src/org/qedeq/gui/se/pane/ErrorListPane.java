@@ -170,7 +170,7 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
                             final File local = KernelContext.getInstance()
                                 .getLocalFilePath(address);
                             error.getDocument().insertString(error.getDocument().getLength(),
-                                list.get(i).getDescription(local),
+                                list.get(i).getDescription(local, prop.getEncoding()),
                                 errorAttrs);
                         } catch (IOException e) {
                             Trace.fatal(CLASS, this, method, "unexpected problem", e);

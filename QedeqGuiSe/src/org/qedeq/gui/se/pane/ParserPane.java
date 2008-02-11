@@ -44,8 +44,8 @@ import org.qedeq.kernel.parser.LatexMathParser;
 import org.qedeq.kernel.parser.ParserException;
 import org.qedeq.kernel.parser.Term;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.ResourceLoaderUtility;
+import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.utility.TextInput;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 
@@ -94,12 +94,12 @@ public class ParserPane extends JFrame {
 
 
     public ParserPane() throws SourceFileExceptionList, FileNotFoundException {
-        // TODO mime: hard coded window, change to FormLayout
+        // LATER mime 20080131: hard coded window, change to FormLayout
         super("QEDEQ LaTeX Parser Sample");
         final String resourceDirectoryName = "config";
         final String resourceName = "mengenlehreMathOperators.xml";
         operators = LoadXmlOperatorListUtility.getOperatorList(
-            ResourceLoaderUtility.getResourceUrl(
+            ResourceLoaderUtility.getResourceFile(
                 KernelContext.getInstance().getConfig().getBasisDirectory(), resourceDirectoryName,
                 resourceName));
         setupView();
@@ -165,14 +165,7 @@ public class ParserPane extends JFrame {
         splitPane.setResizeWeight(0.5);
         splitPane.setOneTouchExpandable(true);
 
-//        pane.setLayout(new BorderLayout(1, 1));
-//        pane.setLayout(new FlowLayout());
-//        pane.setLayout(new BorderLayout(1, 1));
-
         error.setText("");
-//        error.setBorder(LineBorder.createBlackLineBorder());
-//        pane.add(splitPane);
-//        pane.add(error);
 
         globalPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT);
         globalPane.setTopComponent(splitPane);
@@ -337,7 +330,7 @@ public class ParserPane extends JFrame {
             result.append(input.getRow() + ":" + input.getColumn() + ":" + "\n");
             result.append(e.getMessage() + "\n");
             result.append(input.getLine().replace('\t', ' ').replace('\015', ' ') + "\n");
-            final StringBuffer pointer = IoUtility.getSpaces(input.getColumn());
+            final StringBuffer pointer = StringUtility.getSpaces(input.getColumn());
             pointer.append('^');
             result.append(pointer);
             System.out.println(result.toString());
@@ -349,7 +342,7 @@ public class ParserPane extends JFrame {
             result.append(input.getRow() + ":" + input.getColumn() + ":" + "\n");
             result.append(e.getMessage() + "\n");
             result.append(input.getLine().replace('\t', ' ').replace('\015', ' ') + "\n");
-            final StringBuffer pointer = IoUtility.getSpaces(input.getColumn());
+            final StringBuffer pointer = StringUtility.getSpaces(input.getColumn());
             pointer.append('^');
             result.append(pointer);
             System.out.println(result.toString());

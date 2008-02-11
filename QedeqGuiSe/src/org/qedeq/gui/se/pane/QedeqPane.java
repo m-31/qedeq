@@ -17,13 +17,16 @@
 
 package org.qedeq.gui.se.pane;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JViewport;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.BadLocationException;
 
@@ -32,11 +35,6 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
-
-import com.jgoodies.forms.builder.DefaultFormBuilder;
-import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.RowSpec;
 
 /**
  * View source of QEDEQ module.
@@ -70,20 +68,15 @@ public class QedeqPane extends JPanel {
      * Assembles the GUI components of the panel.
      */
     public void setupView() {
-        FormLayout layout = new FormLayout(
-                "min:grow",
-                "0:grow");
-        DefaultFormBuilder builder = new DefaultFormBuilder(layout, this);
-        builder.setDefaultDialogBorder();
-        builder.setRowGroupingEnabled(true);
 
-        CellConstraints cc = new CellConstraints();
-        builder.appendRow(new RowSpec("0:grow"));
-
+        final JScrollPane scroller = new JScrollPane();
+        final JViewport vp = scroller.getViewport();
+        vp.add(qedeq);
+        this.setLayout(new BorderLayout(0, 0));
+        this.add(scroller);
+        setBorder(BorderFactory.createEmptyBorder());
         qedeq.setEditable(false);
         qedeq.putClientProperty("JTextArea.infoBackground", Boolean.TRUE);
-        builder.add(new JScrollPane(qedeq),
-            cc.xywh(builder.getColumn(), builder.getRow(), 1, 2, "fill, fill"));
 
     }
 
@@ -123,7 +116,8 @@ public class QedeqPane extends JPanel {
                     prop.getModuleAddress());
                 if (file.canRead()) {
                     final StringBuffer buffer = new StringBuffer();
-                        IoUtility.loadFile(file, buffer);
+                        IoUtility.loadFile(file, buffer, IoUtility.getWorkingEncoding(
+                            prop.getEncoding()));
 //                    this.qedeqScroller.getViewport().setViewPosition(new Point(0, 0));
                     qedeq.setText(buffer.toString());
                     if (prop.hasFailures()) {
@@ -148,7 +142,7 @@ public class QedeqPane extends JPanel {
                         }
                         qedeq.getCaret().setSelectionVisible(false);
                         qedeq.setCaretPosition(0);
-                        // TODO is this a valid setting for the default colors?
+                        // LATER mime 20080131: is this a valid setting for the default colors?
                         qedeq.setSelectedTextColor(MetalLookAndFeel.getHighlightedTextColor());
                         qedeq.setSelectionColor(MetalLookAndFeel.getTextHighlightColor());
                     }
