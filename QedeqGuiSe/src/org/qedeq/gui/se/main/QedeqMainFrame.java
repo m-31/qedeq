@@ -43,7 +43,7 @@ import org.qedeq.kernel.log.ModuleEventListenerLog;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.utility.IoUtility;
-import org.qedeq.kernel.utility.ReplaceUtility;
+import org.qedeq.kernel.utility.StringUtility;
 
 import com.jgoodies.looks.LookUtils;
 import com.jgoodies.looks.Options;
@@ -145,13 +145,13 @@ public class QedeqMainFrame extends JFrame {
                         }
                     }
                     final StringBuffer buffer = new StringBuffer();
-                    IoUtility.loadFile(url, buffer);
+                    IoUtility.loadFile(url.getPath(), buffer, "ISO-8859-1");
                     File traceFile = config.createAbsolutePath("log/trace.log");
-                    ReplaceUtility.replace(buffer, "@@trace_file_path@@", traceFile.toString()
+                    StringUtility.replace(buffer, "@@trace_file_path@@", traceFile.toString()
                         .replace('\\', '/'));
 // for a properties file:
 //                        IoUtility.escapeProperty(traceFile.toString().replace('\\', '/')));
-                    IoUtility.saveFile(resource, buffer);
+                    IoUtility.saveFile(resource, buffer, "ISO-8859-1");
                     res = IoUtility.toUrl(resource).toString();
                 } catch (IOException e1) {
                     errorPrintln("Resource can not be saved: " + resource.getAbsolutePath());
