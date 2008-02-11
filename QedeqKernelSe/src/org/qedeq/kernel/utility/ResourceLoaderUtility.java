@@ -64,7 +64,7 @@ public final class ResourceLoaderUtility {
      * the current thread's context is not set, or the caller is pre Java 2.
      *
      * @param   name  Resource name.
-     * @return  Rsulting <code>URL</code> object. Maybe <code>null</code>.
+     * @return  Resulting <code>URL</code> object. Maybe <code>null</code>.
      */
     public static URL getResourceUrl(final String name) {
         return getResourceUrl(name, ResourceLoaderUtility.class.getClassLoader());
@@ -208,16 +208,17 @@ public final class ResourceLoaderUtility {
     }
 
     /**
-     * Get resource URL. The resource is loaded from the file
+     * Get resource file. The resource is located within the file system if it exists already.
+     * If not it is loaded as resource and then saved as a file.
      *
      * @param   startDirectory          Start looking from this directory.
      * @param   resourceDirectoryName   Within this directory
      *                                  (relative to <code>startDirectory</code>).
      * @param   resourceName            Look for this resource file.
-     * @return  Resource URL.
+     * @return  Resource file.
      */
-    public static URL getResourceUrl(final File startDirectory, final String resourceDirectoryName,
-            final String resourceName) {
+    public static File getResourceFile(final File startDirectory,
+            final String resourceDirectoryName, final String resourceName) {
         final URL url;
         final File resourceDir = new File(startDirectory, resourceDirectoryName);
         final File resource = new File(resourceDir, resourceName);
@@ -238,7 +239,7 @@ public final class ResourceLoaderUtility {
                     "resource can not be saved", e);
             }
         }
-        return url;
+        return resource;
     }
 
 }

@@ -51,14 +51,13 @@ public final class Context2SimpleXPathOld {
      *
      * @param   context Abstract context description.
      * @return  Information where the context could be found.
-     * @throws  RuntimeException    Don't!
+     * @throws  RuntimeException    Unexpected problem.
      * @deprecated
      */
     public static final SimpleXPath getXPath(final ModuleContext context) {
         String xpath = Context2XPathOld.getXPath(context);
         try {
             final SimpleXPath find = XPathLocationParser.getXPathLocation(
-                // FIXME mime 20071218: hard coded transformation of context into file location
                 KernelContext.getInstance().getLocalFilePath(
                     context.getModuleLocation()), xpath, context.getModuleLocation().getURL());
             if (find.getStartLocation() == null) {

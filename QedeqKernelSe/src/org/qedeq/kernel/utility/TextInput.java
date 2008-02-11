@@ -89,39 +89,22 @@ public class TextInput extends InputStream {
         this.address = null;
     }
 
-    /**
-     * Constructor using <code>URL</code> source.
-     *
-     * @param   url             Data source.
-     * @throws  IOException     File reading failed.
-     * @throws  NullPointerException    One argument was a null pointer.
-     */
-    public TextInput(final URL url) throws IOException {
-        if (url == null) {
-            throw new NullPointerException(
-                "no null pointer as argument accepted");
-        }
-        // FIXME mime 20071230: load binary?
-        this.source = new StringBuffer();
-        IoUtility.loadFile(url, source);    // FIXME mime 20070222: give also charset!!!
-        this.address = url;
-    }
 
     /**
      * Constructor using <code>FILE</code> source.
      *
-     * @param   file             Data source.
+     * @param   file            Data source.
+     * @param   encoding        Take this encoding for file.
      * @throws  IOException     File reading failed.
      * @throws  NullPointerException    One argument was a null pointer.
      */
-    public TextInput(final File file) throws IOException {
+    public TextInput(final File file, final String encoding) throws IOException {
         if (file == null) {
             throw new NullPointerException(
                 "no null pointer as argument accepted");
         }
-        // FIXME mime 20071230: load binary?
         this.source = new StringBuffer();
-        IoUtility.loadFile(file, source);    // FIXME mime 20070222: give also charset!!!
+        IoUtility.loadFile(file, source, encoding);
         this.address = IoUtility.toUrl(file);
     }
 

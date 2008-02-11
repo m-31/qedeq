@@ -25,10 +25,8 @@ import org.qedeq.kernel.common.SourcePosition;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.xml.sax.Attributes;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-import org.xml.sax.helpers.DefaultHandler;
 
 
 /**
@@ -43,7 +41,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * @version $Revision: 1.29 $
  * @author  Michael Meyling
  */
-public class SaxDefaultHandler extends DefaultHandler {
+public class SaxDefaultHandler extends SimpleHandler {
 
     /** This class. */
     private static final Class CLASS = SaxDefaultHandler.class;
@@ -62,9 +60,6 @@ public class SaxDefaultHandler extends DefaultHandler {
 
     /** Buffer for combining character events. */
     private StringBuffer buffer = new StringBuffer(2000);
-
-    /** Locator for current row and column information. */
-    private Locator locator;
 
     /** Tag level for current handler. */
     private int level;
@@ -93,18 +88,6 @@ public class SaxDefaultHandler extends DefaultHandler {
      */
     public void setExceptionList(final DefaultSourceFileExceptionList errorList) {
         this.errorList = errorList;
-    }
-
-    /**
-     * Receive a Locator object for document events.
-     * Store the locator for use with other document events.
-     *
-     * @param   locator A locator for all SAX document events.
-     * @see     org.xml.sax.ContentHandler#setDocumentLocator
-     * @see     org.xml.sax.Locator
-     */
-    public void setDocumentLocator(final Locator locator) {
-        this.locator = locator;
     }
 
     /**
@@ -326,7 +309,7 @@ public class SaxDefaultHandler extends DefaultHandler {
      * @return  Exception to throw.
      */
     public final SAXParseException createSAXParseException(final Exception e) {
-        return new SAXParseException(null, locator, e);
+        return new SAXParseException(null, getLocator(), e);
     }
 
     /**
@@ -336,7 +319,7 @@ public class SaxDefaultHandler extends DefaultHandler {
      * @return  Exception to throw.
      */
     public final SAXParseException createSAXParseException(final String message) {
-        return new SAXParseException(message, locator);
+        return new SAXParseException(message, getLocator());
     }
 
     /**
@@ -345,9 +328,9 @@ public class SaxDefaultHandler extends DefaultHandler {
      * @param   e   Set location information within this exception.
      */
     private final void setLocationInformation(final XmlSyntaxException e) {
-        if (locator != null && url != null) {
-            e.setErrorPosition(new SourcePosition(url, locator.getLineNumber(),
-                locator.getColumnNumber()));
+        if (getLocator() != null && url != null) {
+            e.setErrorPosition(new SourcePosition(url, getLocator().getLineNumber(),
+                getLocator().getColumnNumber()));
         }
     }
 
@@ -357,9 +340,9 @@ public class SaxDefaultHandler extends DefaultHandler {
      * @return  Current area.
      */
     private final SourceArea createSourceArea() {
-        if (locator != null && url != null) {
-            return new SourceArea(url, new SourcePosition(url, locator.getLineNumber(),
-                locator.getColumnNumber()), null);
+        if (getLocator() != null && url != null) {
+            return new SourceArea(url, new SourcePosition(url, getLocator().getLineNumber(),
+                getLocator().getColumnNumber()), null);
         }
         return new SourceArea(url, null, null);
     }

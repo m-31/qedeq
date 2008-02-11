@@ -16,11 +16,10 @@
  */
 package org.qedeq.kernel.xml.parser;
 
-import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -30,7 +29,6 @@ import javax.xml.parsers.SAXParserFactory;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.IoUtility;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
@@ -70,8 +68,8 @@ public final class SaxParser {
     /** SAX parser. */
     private XMLReader reader;
 
-    /** Default handler for validation purpose only. */
-    private final DefaultHandler deflt;
+    /** Simple handler for validation purpose only. */
+    private final SimpleHandler deflt;
 
     /** Saved errors of parsing. */
     private DefaultSourceFileExceptionList exceptionList;
@@ -88,7 +86,7 @@ public final class SaxParser {
         super();
 
         this.handler = handler;
-        this.deflt = new DefaultHandler();
+        this.deflt = new SimpleHandler();
 
         final String factoryImpl = System.getProperty("javax.xml.parsers.SAXParserFactory");
         if (factoryImpl == null) {
@@ -101,6 +99,7 @@ public final class SaxParser {
 
         factory.setFeature(NAMESPACES_FEATURE_ID, true);
         factory.setFeature(VALIDATION_FEATURE_ID, true);
+
         try {
             factory.setFeature(SCHEMA_VALIDATION_FEATURE_ID, true);
         } catch (SAXNotRecognizedException e) {
@@ -142,39 +141,7 @@ public final class SaxParser {
             Trace.trace(CLASS, this, "constructor", e);
             // ignore
         }
-    }
 
-    /**
-     * Parse input source.
-     *
-     * @param   url             Parse data from this source.
-     * @param   original        Original URL for the file. If this is <code>null</code> same as
-     *                          file name.
-     * @param   validateOnly    validate with {@link #deflt} or parse with {@link #handler}.
-     * @throws  SourceFileExceptionList    Loading failed.
-     */
-    private void parse(final URL url, final URL original, final boolean validateOnly)
-            throws SourceFileExceptionList {
-        final String method = "parse(URL, boolean)";
-        Trace.param(CLASS, this, method, "url", url);
-
-        InputStream in = null;
-        try {
-            in = url.openStream();
-        } catch (IOException e) {
-            throw new DefaultSourceFileExceptionList(e);
-        }
-        try {
-            parse(original, validateOnly, in);
-        } finally {
-            if (in != null) {
-                try {
-                    in.close();
-                } catch (Exception e) {
-                    Trace.trace(CLASS, this, method, e);
-                }
-            }
-        }
     }
 
     /**
@@ -183,16 +150,16 @@ public final class SaxParser {
      * @param   original        Original URL for the file. If this is <code>null</code> same as
      *                          file name.
      * @param   validateOnly    validate with {@link #deflt} or parse with {@link #handler}.
-     * @param   in              Parse data from this source.
+     * @param   in              Parse data from this file source.
      * @throws  SourceFileExceptionList    Loading failed.
      */
-    private void parse(final URL original, final boolean validateOnly, final InputStream in)
+    private void parse(final URL original, final boolean validateOnly, final File in)
             throws SourceFileExceptionList {
         final String method = "parse(URL, boolean, InputStream)";
-        BufferedReader dis = null;
+        InputStream stream = null;
         try {
-            dis = new BufferedReader(new InputStreamReader(in));
-            final InputSource input = new InputSource(dis);
+            stream = new FileInputStream(in);
+            final InputSource input = new InputSource(stream);
             exceptionList = new DefaultSourceFileExceptionList();
             reader.setErrorHandler(new SaxErrorHandler(original, exceptionList));
             if (validateOnly) {
@@ -214,9 +181,9 @@ public final class SaxParser {
             exceptionList.add(e);
             throw exceptionList;
         } finally {
-            if (dis != null) {
+            if (stream != null) {
                 try {
-                    dis.close();
+                    stream.close();
                 } catch (Exception e) {
                     Trace.trace(CLASS, this, method, e);
                 }
@@ -250,36 +217,8 @@ public final class SaxParser {
      * @throws  SourceFileExceptionList    Loading failed.
      */
     public final void parse(final File file, final URL original) throws SourceFileExceptionList {
-        final URL url = IoUtility.toUrl(file.getAbsoluteFile());
-        parse(url, original);
-    }
-
-    /**
-     * Parses the XML file.
-     *
-     * @param   url             URL with File to parse.
-     * @param   original        Original URL for the file. If this is <code>null</code> same as
-     *                          file.
-     * @throws  SourceFileExceptionList    Loading failed.
-     */
-    public final void parse(final URL url, final URL original) throws SourceFileExceptionList {
-        final URL org = (original != null ? original : url);
-        parse(url, org, true);
-        parse(url, org, false);
-    }
-
-    /**
-     * Parse input source.
-     *
-     * @param   in              Parse data from this source.
-     * @param   validateOnly    Validate or parse with handler.
-     * @throws  SourceFileExceptionList    Loading failed.
-     */
-    public void parse(final InputStream in, final boolean validateOnly)
-            throws SourceFileExceptionList {
-
-        // validateOnly    validate with {@link #deflt} or parse with {@link #handler}.
-        parse(null, validateOnly, in);
+        parse(original, true, file);
+        parse(original, false, file);
     }
 
     /**
@@ -291,4 +230,12 @@ public final class SaxParser {
         return exceptionList;
     }
 
+    /**
+     * Get encoding of XML document. This value is set during parsing the document.
+     *
+     * @return  Encoding. Maybe <code>null</code>.
+     */
+    public String getEncoding() {
+        return deflt.getEncoding();
+    }
 }

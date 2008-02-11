@@ -20,7 +20,8 @@ package org.qedeq.kernel.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.kernel.utility.IoUtility;
+import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.StringUtility;
 
 /**
  * Parsed term.
@@ -29,6 +30,9 @@ import org.qedeq.kernel.utility.IoUtility;
  * @author  Michael Meyling
  */
 public class Term {
+
+    /** This class. */
+    private static final Class CLASS = Term.class;
 
     /** Operator, can be <code>null</code>. */
     private final Operator operator;
@@ -138,7 +142,7 @@ public class Term {
             final StringBuffer buffer = new StringBuffer();
             buffer.append(operator.getQedeq()).append('(');
             if (operator.getQedeqArgument() != null) {
-                buffer.append(IoUtility.quote(operator.getQedeqArgument()));
+                buffer.append(StringUtility.quote(operator.getQedeqArgument()));
             }
             for (int i = 0; i < arguments.size(); i++) {
                 if (i > 0 || operator.getQedeqArgument() != null) {
@@ -169,21 +173,19 @@ public class Term {
      */
     private final String getQedeqXml(final int level) {
         if (isAtom()) {
-            return IoUtility.getSpaces(level * 2) + atom.getValue() + "\n";
+            return StringUtility.getSpaces(level * 2) + atom.getValue() + "\n";
         } else {
             final StringBuffer buffer = new StringBuffer();
-            buffer.append(IoUtility.getSpaces(level * 2));
+            buffer.append(StringUtility.getSpaces(level * 2));
             buffer.append("<").append(operator.getQedeq());
             if (operator.getQedeq().endsWith("VAR")) {  // TODO mime 20060612: ok for all QEDEQ?
-                // TODO mime 20060612: quote text
-                buffer.append(" id=\"" + operator.getQedeqArgument() + "\"");
+                buffer.append(" id=" + quote(operator.getQedeqArgument()));
                 if (arguments == null || arguments.size() == 0) {
                     buffer.append(" />" + "\n");
                     return buffer.toString();
                 }
             } else if (operator.getQedeq().endsWith("CON")) {
-                // TODO mime 20060612: quote text
-                buffer.append(" ref=\"" + operator.getQedeqArgument() + "\"");
+                buffer.append(" ref=" + quote(operator.getQedeqArgument()));
                 if (arguments == null || arguments.size() == 0) {
                     buffer.append(" />" + "\n");
                     return buffer.toString();
@@ -192,17 +194,28 @@ public class Term {
 
             buffer.append(">\n");
             if (operator.getQedeqArgument() != null) {
-                // TODO error message
+                // no arguments expected!
+                Trace.fatal(CLASS, this, "getQedeqXml(int)", "operator argument is not null but:\n"
+                    + operator.getQedeqArgument(), new IllegalArgumentException());
             }
             for (int i = 0; i < arguments.size(); i++) {
                 buffer.append(((Term)
                     arguments.get(i)).getQedeqXml(level + 1));
             }
-            buffer.append(IoUtility.getSpaces(level * 2));
+            buffer.append(StringUtility.getSpaces(level * 2));
             buffer.append("</").append(operator.getQedeq()).append(">\n");
             return buffer.toString();
         }
     }
 
-    // TODO override toString
+    /**
+     * Quote attribute value.
+     *
+     * @param   text    Attribute text.
+     * @return  Quoted attribute.
+     */
+    private String quote(final String text) {
+        return "\"" + StringUtility.replace(text, "\"", "&quot;") + "\"";
+    }
+
 }

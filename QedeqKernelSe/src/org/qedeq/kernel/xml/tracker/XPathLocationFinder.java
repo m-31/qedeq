@@ -23,6 +23,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.utility.IoUtility;
+import org.qedeq.kernel.utility.StringUtility;
 import org.xml.sax.SAXException;
 
 
@@ -95,7 +96,7 @@ public final class XPathLocationFinder {
             System.err.println("XPath file must be specified.");
             return;
         }
-        System.out.println(IoUtility.getClassName(XPathLocationFinder.class) + ", running on: "
+        System.out.println(StringUtility.getClassName(XPathLocationFinder.class) + ", running on: "
             + KernelContext.getInstance().getDescriptiveKernelVersion());
         XPathLocationParser.getXPathLocation(new File(from), xpath,
             IoUtility.toUrl(new File(from)));
@@ -107,7 +108,7 @@ public final class XPathLocationFinder {
     public static final void printProgramInformation() {
         System.err.println("Name");
         System.err.println("----");
-        System.err.println(IoUtility.getClassName(XPathLocationFinder.class)
+        System.err.println(StringUtility.getClassName(XPathLocationFinder.class)
             + " - find simple XML paths");
         System.err.println();
         System.err.println("Synopsis");

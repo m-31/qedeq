@@ -17,8 +17,10 @@
 package org.qedeq.kernel.xml.tracker;
 
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,9 +34,10 @@ import javax.xml.parsers.SAXParserFactory;
 import org.qedeq.kernel.common.SourcePosition;
 import org.qedeq.kernel.dto.list.Enumerator;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.TextInput;
+import org.qedeq.kernel.xml.parser.SimpleHandler;
 import org.xml.sax.Attributes;
-import org.xml.sax.ContentHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
@@ -56,7 +59,7 @@ import org.xml.sax.XMLReader;
  * @version $Revision: 1.22 $
  * @author Michael Meyling
  */
-public class XPathLocationParser implements ContentHandler {
+public class XPathLocationParser extends SimpleHandler {
 
     /** This class. */
     private static final Class CLASS = XPathLocationParser.class;
@@ -70,9 +73,6 @@ public class XPathLocationParser implements ContentHandler {
     /** SAX parser. */
     private XMLReader reader;
 
-    /** Position locator during parsing. */
-    private Locator locator;
-
     /** Search for this simple XPath expression. */
     private final SimpleXPath find;
 
@@ -84,7 +84,7 @@ public class XPathLocationParser implements ContentHandler {
     private SimpleXPath summary;
 
     /** This object is parsed. */
-    private TextInput xml;
+    private File xmlFile;
 
     /** Element stack. */
     private final List elements;
@@ -190,7 +190,7 @@ public class XPathLocationParser implements ContentHandler {
      * @throws IOException Technical problem occurred.
      */
     public final void parse(final File file, final URL original) throws SAXException, IOException {
-        xml = new TextInput(file);
+        this.xmlFile = file;
         this.original = original;
         elements.clear();
         level = 0;
@@ -198,8 +198,9 @@ public class XPathLocationParser implements ContentHandler {
             current = new SimpleXPath();
             summary = new SimpleXPath();
             reader.setContentHandler(this);
-            reader.parse(new InputSource(new FileReader(file)));
-            xml = null;
+            InputStream stream = new FileInputStream(file);
+            reader.parse(new InputSource(stream));
+            xmlFile = null;
         } catch (SAXException e) {
             Trace.trace(CLASS, this, "parse", e);
             throw e;
@@ -259,18 +260,6 @@ public class XPathLocationParser implements ContentHandler {
     public void skippedEntity(final String name) throws SAXException {
     }
 
-    /**
-     * Receive a Locator object for document events. Store the locator for use with other document
-     * events.
-     *
-     * @param locator A locator for all SAX document events.
-     * @see org.xml.sax.ContentHandler#setDocumentLocator
-     * @see org.xml.sax.Locator
-     */
-    public final void setDocumentLocator(final Locator locator) {
-        this.locator = locator;
-    }
-
     /*
      * (non-Javadoc)
      *
@@ -318,8 +307,17 @@ public class XPathLocationParser implements ContentHandler {
         if (find.matchesElements(current, summary)) {
             Trace.trace(CLASS, this, method, "matching elements");
             Trace.param(CLASS, this, method, qName, current);
-            xml.setRow(locator.getLineNumber());
-            xml.setColumn(locator.getColumnNumber());
+            TextInput xml = null;
+            try {
+                xml = new TextInput(xmlFile, IoUtility.getWorkingEncoding(getEncoding()));
+            } catch (IOException e1) {
+                // FIXME
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            // FIXME what about locator == null?
+            xml.setRow(getLocator().getLineNumber());
+            xml.setColumn(getLocator().getColumnNumber());
 
             try {
                 xml.skipBackToBeginOfXmlTag();
@@ -389,8 +387,17 @@ public class XPathLocationParser implements ContentHandler {
             throws SAXException {
         level--;
         if (find.matchesElements(current, summary) && find.getAttribute() == null) {
-            xml.setRow(locator.getLineNumber());
-            xml.setColumn(locator.getColumnNumber());
+            TextInput xml = null;
+            try {
+                xml = new TextInput(xmlFile, IoUtility.getWorkingEncoding(getEncoding()));
+            } catch (IOException e1) {
+                // FIXME
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
+            // FIXME what about locator == null?
+            xml.setRow(getLocator().getLineNumber());
+            xml.setColumn(getLocator().getColumnNumber());
             // xml.skipForwardToEndOfXmlTag(); // TODO mime 20050810: remove? comment in?
             find.setEndLocation(new SourcePosition(original, xml.getRow(), xml
                 .getColumn()));

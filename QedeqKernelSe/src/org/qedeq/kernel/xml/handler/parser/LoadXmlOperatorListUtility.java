@@ -17,17 +17,17 @@
 
 package org.qedeq.kernel.xml.handler.parser;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxParser;
-import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
@@ -57,7 +57,7 @@ public final class LoadXmlOperatorListUtility  {
      * @return  Operator list.
      * @throws  SourceFileExceptionList    Loading failed.
      */
-    public static List getOperatorList(final URL from) throws SourceFileExceptionList {
+    public static List getOperatorList(final File from) throws SourceFileExceptionList {
         final String method = "List getOperatorList(String)";
         try {
             Trace.begin(CLASS, method);

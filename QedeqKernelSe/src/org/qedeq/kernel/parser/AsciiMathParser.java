@@ -24,13 +24,13 @@ import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.TextInput;
 
 /*
- * TODO refactor
+ * LATER mime 20080131: refactor
  *
  */
 
 /**
  * Parse term or formula data into {@link org.qedeq.kernel.parser.Term}s.
- * This parser uses simple ascii text operators.
+ * This parser uses simple ASCII text operators.
  *
  * @version $Revision: 1.5 $
  * @author  Michael Meyling

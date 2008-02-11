@@ -21,7 +21,7 @@ import java.util.StringTokenizer;
 
 import org.qedeq.kernel.bo.module.ModuleContext;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.ReplaceUtility;
+import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
 
 /**
@@ -83,54 +83,54 @@ public final class Context2XPathOld {
         final String method = "getXPath(String)";
         String xpath = context.getLocationWithinModule();
         Trace.param(CLASS, method, "context", xpath);
-        xpath = ReplaceUtility.replace(xpath, ".get(", "[");
-        xpath = ReplaceUtility.replace(xpath, "()", "");
-        xpath = ReplaceUtility.replace(xpath, ")", "]");
-        xpath = ReplaceUtility.replace(xpath, ".get", "/");
-        xpath = ReplaceUtility.replace(xpath, "get", "/Qedeq/");
+        xpath = StringUtility.replace(xpath, ".get(", "[");
+        xpath = StringUtility.replace(xpath, "()", "");
+        xpath = StringUtility.replace(xpath, ")", "]");
+        xpath = StringUtility.replace(xpath, ".get", "/");
+        xpath = StringUtility.replace(xpath, "get", "/Qedeq/");
 
         // mime 20050807: what if no Latex, Author, or other, exist? For regular files this is
         // ok, but if there is no element in the list?
         // mime 20050708: isn't a replacement only one element by one better?
-        xpath = ReplaceUtility.replace(xpath, "Title[", "Title/Latex[");
+        xpath = StringUtility.replace(xpath, "Title[", "Title/Latex[");
         // mime 20050708: definition in XML file only formula
-        xpath = ReplaceUtility.replace(xpath, "PredicateDefinition", "DEFINITION_PREDICATE");
-        xpath = ReplaceUtility.replace(xpath, "FunctionDefinition", "DEFINITION_FUNCTION");
-        xpath = ReplaceUtility.replace(xpath, "AuthorList[", "Authors/Author[");
-        xpath = ReplaceUtility.replace(xpath, "ImportList[", "Imports/Import[");
-        xpath = ReplaceUtility.replace(xpath, "LiteratureItemList[", "BIBLIOGRAPHY/ITEM[");
-        xpath = ReplaceUtility.replace(xpath, "LiteratureItemList", "BIBLIOGRAPHY");
-        xpath = ReplaceUtility.replace(xpath, "/Item[", "/Latex[");
-        xpath = ReplaceUtility.replace(xpath, "/Item", "/Latex");
-        xpath = ReplaceUtility.replace(xpath, "UsedByList[", "UsedBy/Specification[");
-        xpath = ReplaceUtility.replace(xpath, "ChapterList[", "Chapter[");
-        xpath = ReplaceUtility.replace(xpath, "AuthorList[", "Author[");
-        xpath = ReplaceUtility.replace(xpath, "AuthorList", "Authors");
-        xpath = ReplaceUtility.replace(xpath, "ImportList", "Imports");
-        xpath = ReplaceUtility.replace(xpath, "LocationList", "Locations");
-        xpath = ReplaceUtility.replace(xpath, "LinkList[", "Link[");
-        xpath = ReplaceUtility.replace(xpath, "SectionList[", "Section[");
-        xpath = ReplaceUtility.replace(xpath, "SubsectionList", "Subsections/*");
-        xpath = ReplaceUtility.replace(xpath, "VariableList", "VARLIST/*");
-        xpath = ReplaceUtility.replace(xpath, "ProofList[", "PROOF[");
-        xpath = ReplaceUtility.replace(xpath, "ProofList", "PROOF");
-        xpath = ReplaceUtility.replace(xpath, "/NodeType", "");
-        xpath = ReplaceUtility.replace(xpath, "Summary", "Abstract/Latex");
-        xpath = ReplaceUtility.replace(xpath, "Introduction", "Introduction/Latex");
-        xpath = ReplaceUtility.replace(xpath, "PrecedingText", "PRECEDING/Latex");
-        xpath = ReplaceUtility.replace(xpath, "SucceedingText", "SUCCEEDING/Latex");
-        xpath = ReplaceUtility.replace(xpath, "Description[", "Description/Latex[");
-        xpath = ReplaceUtility.replace(xpath, "Proposition", "Theorem");
-        xpath = ReplaceUtility.replace(xpath, "Formula/Element/", "Formula/*/");
-        xpath = ReplaceUtility.replace(xpath, "Element", "*");
+        xpath = StringUtility.replace(xpath, "PredicateDefinition", "DEFINITION_PREDICATE");
+        xpath = StringUtility.replace(xpath, "FunctionDefinition", "DEFINITION_FUNCTION");
+        xpath = StringUtility.replace(xpath, "AuthorList[", "Authors/Author[");
+        xpath = StringUtility.replace(xpath, "ImportList[", "Imports/Import[");
+        xpath = StringUtility.replace(xpath, "LiteratureItemList[", "BIBLIOGRAPHY/ITEM[");
+        xpath = StringUtility.replace(xpath, "LiteratureItemList", "BIBLIOGRAPHY");
+        xpath = StringUtility.replace(xpath, "/Item[", "/Latex[");
+        xpath = StringUtility.replace(xpath, "/Item", "/Latex");
+        xpath = StringUtility.replace(xpath, "UsedByList[", "UsedBy/Specification[");
+        xpath = StringUtility.replace(xpath, "ChapterList[", "Chapter[");
+        xpath = StringUtility.replace(xpath, "AuthorList[", "Author[");
+        xpath = StringUtility.replace(xpath, "AuthorList", "Authors");
+        xpath = StringUtility.replace(xpath, "ImportList", "Imports");
+        xpath = StringUtility.replace(xpath, "LocationList", "Locations");
+        xpath = StringUtility.replace(xpath, "LinkList[", "Link[");
+        xpath = StringUtility.replace(xpath, "SectionList[", "Section[");
+        xpath = StringUtility.replace(xpath, "SubsectionList", "Subsections/*");
+        xpath = StringUtility.replace(xpath, "VariableList", "VARLIST/*");
+        xpath = StringUtility.replace(xpath, "ProofList[", "PROOF[");
+        xpath = StringUtility.replace(xpath, "ProofList", "PROOF");
+        xpath = StringUtility.replace(xpath, "/NodeType", "");
+        xpath = StringUtility.replace(xpath, "Summary", "Abstract/Latex");
+        xpath = StringUtility.replace(xpath, "Introduction", "Introduction/Latex");
+        xpath = StringUtility.replace(xpath, "PrecedingText", "PRECEDING/Latex");
+        xpath = StringUtility.replace(xpath, "SucceedingText", "SUCCEEDING/Latex");
+        xpath = StringUtility.replace(xpath, "Description[", "Description/Latex[");
+        xpath = StringUtility.replace(xpath, "Proposition", "Theorem");
+        xpath = StringUtility.replace(xpath, "Formula/Element/", "Formula/*/");
+        xpath = StringUtility.replace(xpath, "Element", "*");
 
         // TODO mime 20050807: integrate non formal proofs
-        xpath = ReplaceUtility.replace(xpath, "/NonFormalProof[", "/Latex[");
-        xpath = ReplaceUtility.replace(xpath, "/NonFormalProof", "/Latex");
+        xpath = StringUtility.replace(xpath, "/NonFormalProof[", "/Latex[");
+        xpath = StringUtility.replace(xpath, "/NonFormalProof", "/Latex");
 
-        xpath = ReplaceUtility.replace(xpath, "/List", "");
-        xpath = ReplaceUtility.replace(xpath, "List", "");
-        xpath = ReplaceUtility.replace(xpath, "(", "[");
+        xpath = StringUtility.replace(xpath, "/List", "");
+        xpath = StringUtility.replace(xpath, "List", "");
+        xpath = StringUtility.replace(xpath, "(", "[");
         xpath = xpath.toUpperCase();
 
         xpath = incrementNumbers(xpath);

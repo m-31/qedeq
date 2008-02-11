@@ -419,7 +419,7 @@ public final class Trace {
 
     /**
      * Parameter information.
-     * @param tracingClass TODO
+     * @param   tracingClass    Class that wants to make an info entry.
      * @param   tracingObject   Instance that wants to make an info entry.
      * @param   method          Method of that object.
      * @param   param           Parameter to trace.
