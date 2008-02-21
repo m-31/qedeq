@@ -22,15 +22,12 @@ import java.awt.GridLayout;
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
-import javax.swing.border.EmptyBorder;
 
 import org.qedeq.gui.se.pane.HtmlPane;
 import org.qedeq.gui.se.pane.ModulePropertiesPane;
 import org.qedeq.gui.se.pane.QedeqPane;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.trace.Trace;
-
-import com.jgoodies.uif_lite.component.Factory;
 
 
 /**

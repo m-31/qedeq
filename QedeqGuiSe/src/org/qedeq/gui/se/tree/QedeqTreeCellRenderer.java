@@ -29,10 +29,10 @@ import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeCellRenderer;
 
-import org.qedeq.kernel.bo.module.DependencyState;
-import org.qedeq.kernel.bo.module.LoadingState;
-import org.qedeq.kernel.bo.module.LogicalState;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.DependencyState;
+import org.qedeq.kernel.common.LoadingState;
+import org.qedeq.kernel.common.LogicalState;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.trace.Trace;
 
 /**

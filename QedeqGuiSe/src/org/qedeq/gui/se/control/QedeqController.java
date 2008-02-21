@@ -27,7 +27,7 @@ import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.gui.se.tree.QedeqTreeCtrl;
 import org.qedeq.gui.se.util.DataDictionary;
 import org.qedeq.kernel.base.module.LatexList;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.context.KernelContext;
 
 
@@ -318,7 +318,7 @@ public class QedeqController {
         if (!prop.isLoaded()) {
             return new String[]{};
         }
-        final LatexList list = prop.getModule().getQedeq().getHeader().getTitle();
+        final LatexList list = prop.getQedeq().getHeader().getTitle();
         final String[] result = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             result[i] = list.get(i).getLanguage();

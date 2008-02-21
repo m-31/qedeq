@@ -25,7 +25,7 @@ import javax.swing.JTabbedPane;
 
 import org.qedeq.gui.se.pane.ErrorListPane;
 import org.qedeq.gui.se.pane.LogPane;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
