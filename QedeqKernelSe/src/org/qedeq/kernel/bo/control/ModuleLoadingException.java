@@ -15,10 +15,10 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.load;
+package org.qedeq.kernel.bo.control;
 
-import org.qedeq.kernel.bo.module.ModuleContext;
-import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleDataException;
 
 
 /**

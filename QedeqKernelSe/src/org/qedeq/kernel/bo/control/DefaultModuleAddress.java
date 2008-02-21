@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.load;
+package org.qedeq.kernel.bo.control;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +24,8 @@ import java.net.URL;
 
 import org.qedeq.kernel.base.module.LocationList;
 import org.qedeq.kernel.base.module.Specification;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleContext;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 

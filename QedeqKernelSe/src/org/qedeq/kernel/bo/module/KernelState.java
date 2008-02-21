@@ -22,12 +22,12 @@ import java.io.IOException;
 import org.qedeq.kernel.config.QedeqConfig;
 
 /**
- * State dependent methods for the kernel.
+ * State changing methods for the kernel.
  *
  * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
-public interface KernelState extends ModuleFactory {
+public interface KernelState extends KernelServices {
 
     /**
      * Kernel initialisation.
@@ -36,7 +36,7 @@ public interface KernelState extends ModuleFactory {
      * @param   qedeqConfig     Configuration to work with.
      * @throws  IOException     Initialisation failed.
      */
-    public void init(ModuleFactory moduleFactory, QedeqConfig qedeqConfig) throws IOException;
+    public void init(KernelServices moduleFactory, QedeqConfig qedeqConfig) throws IOException;
 
     /**
      * Start all kernel activity now.
@@ -49,13 +49,6 @@ public interface KernelState extends ModuleFactory {
      * @return  Is the kernel ready?
      */
     public boolean isReady();
-
-    /**
-     * Get access to configuration parameters.
-     *
-     * @return  Configuration access.
-     */
-    public QedeqConfig getConfig();
 
     /**
      * Closes the kernel.

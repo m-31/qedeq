@@ -18,9 +18,8 @@
 package org.qedeq.kernel.bo.control;
 
 import org.qedeq.kernel.bo.logic.DefaultExistenceChecker;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleProperties;
-import org.qedeq.kernel.bo.module.ModuleReferenceList;
+import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.ModuleReferenceList;
 
 
 /**
@@ -32,7 +31,7 @@ import org.qedeq.kernel.bo.module.ModuleReferenceList;
 public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
 
     /** QEDEQ module properties. */
-    private final ModuleProperties prop;
+    private final DefaultModuleProperties prop;
 
     /**
      * Constructor.
@@ -41,7 +40,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
      * @throws  ModuleDataException Referenced QEDEQ modules are already inconsistent: they doesn't
      *          mix.
      */
-    public ModuleConstantsExistenceChecker(final ModuleProperties prop)
+    public ModuleConstantsExistenceChecker(final DefaultModuleProperties prop)
             throws  ModuleDataException {
         super();
         this.prop = prop;
@@ -64,7 +63,9 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final ModuleReferenceList list = prop.getRequiredModules();
         String identityOperator = null;
         for (int i = 0; i < list.size(); i++) {
-            if (list.getModuleProperties(i).getExistenceChecker().equalityOperatorExists()) {
+            final DefaultModuleProperties prop = (DefaultModuleProperties) list
+                .getModuleProperties(i);
+            if (prop.getExistenceChecker().equalityOperatorExists()) {
                 if (identityOperatorExists) {
                     // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
                     throw new IdentityOperatorAlreadyExistsException(123476,
@@ -72,9 +73,9 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
                 }
                 identityOperatorExists = true;
                 identityOperator = list.getLabel(i) + "."
-                    + list.getModuleProperties(i).getExistenceChecker().getIdentityOperator();
+                    + prop.getExistenceChecker().getIdentityOperator();
             }
-            if (list.getModuleProperties(i).getExistenceChecker().classOperatorExists()) {
+            if (prop.getExistenceChecker().classOperatorExists()) {
                 if (classOperatorExists) {
                     // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
                     throw new ClassOperatorAlreadyExistsException(123478,
@@ -94,7 +95,9 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final ModuleProperties newProp = ref.getModuleProperties(label);
+
+        final DefaultModuleProperties newProp = (DefaultModuleProperties) ref
+            .getModuleProperties(label);
         if (newProp == null) {
             return false;
         }
@@ -109,7 +112,8 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final ModuleProperties newProp = ref.getModuleProperties(label);
+        final DefaultModuleProperties newProp = (DefaultModuleProperties) ref
+            .getModuleProperties(label);
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().functionExists(shortName, arguments);
     }

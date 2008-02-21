@@ -22,6 +22,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.qedeq.kernel.common.IllegalModuleDataException;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.ModuleReferenceList;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.EqualsUtility;
 
@@ -34,10 +38,10 @@ import org.qedeq.kernel.utility.EqualsUtility;
  * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
-public class ModuleReferenceList {
+public class DefaultModuleReferenceList implements ModuleReferenceList {
 
     /** This class. */
-    private static final Class CLASS = ModuleReferenceList.class;
+    private static final Class CLASS = DefaultModuleReferenceList.class;
 
     /** Contains all labels. */
     private final List labels;
@@ -54,7 +58,7 @@ public class ModuleReferenceList {
     /**
      * Constructs an empty list of module references.
      */
-    public ModuleReferenceList() {
+    public DefaultModuleReferenceList() {
         labels = new ArrayList();
         props = new ArrayList();
         contexts = new ArrayList();
@@ -70,8 +74,8 @@ public class ModuleReferenceList {
      * @throws  IllegalModuleDataException  The <code>id</code> already exists or is
      *          <code>null</code>.
      */
-    public final void add(final ModuleContext context, final String label, final ModuleProperties
-                prop) throws IllegalModuleDataException {
+    public final void add(final ModuleContext context, final String label,
+            final ModuleProperties prop) throws IllegalModuleDataException {
         if (label == null || label.length() <= 0) {
             throw new IllegalModuleDataException(10003, "An label was not defined.", context, null,
                 null);  // LATER mime 20071026: organize exception codes
@@ -89,51 +93,22 @@ public class ModuleReferenceList {
         props.add(prop);
     }
 
-    /**
-     * Get number of module references.
-     *
-     * @return  Number of module references.
-     */
     public final int size() {
         return labels.size();
     }
 
-    /**
-     * Get label for certain module.
-     *
-     * @param   index   Entry index.
-     * @return  Label of module.
-     */
     public final String getLabel(final int index) {
         return (String) labels.get(index);
     }
 
-    /**
-     * Get properties of referenced module.
-     *
-     * @param   index   Entry index.
-     * @return  Module properties for that module.
-     */
     public final ModuleProperties getModuleProperties(final int index) {
         return (ModuleProperties) props.get(index);
     }
 
-    /**
-     * Get import context of referenced module.
-     *
-     * @param   index   Entry index.
-     * @return  Context for that module.
-     */
     public final ModuleContext getModuleContext(final int index) {
         return (ModuleContext) contexts.get(index);
     }
 
-    /**
-     * Get ModuleProperties of referenced module via label. Might be <code>null</code>.
-     *
-     * @param   label   Label for referenced module or <code>null</code> if not found.
-     * @return  Module properties for that module.
-     */
     public final ModuleProperties getModuleProperties(final String label) {
         final int index = labels.indexOf(label);
         if (index < 0) {
@@ -143,7 +118,7 @@ public class ModuleReferenceList {
     }
 
     public boolean equals(final Object obj) {
-        if (!(obj instanceof ModuleReferenceList)) {
+        if (!(obj instanceof DefaultModuleReferenceList)) {
             return false;
         }
         final ModuleReferenceList otherList = (ModuleReferenceList) obj;

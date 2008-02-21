@@ -19,13 +19,12 @@ package org.qedeq.kernel.bo.control;
 
 import org.qedeq.kernel.base.module.Import;
 import org.qedeq.kernel.base.module.ImportList;
-import org.qedeq.kernel.bo.module.DependencyState;
-import org.qedeq.kernel.bo.module.ModuleContext;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleProperties;
-import org.qedeq.kernel.bo.module.ModuleReferenceList;
+import org.qedeq.kernel.bo.module.DefaultModuleReferenceList;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.common.DependencyState;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventLog;
@@ -49,29 +48,38 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
     private final QedeqNotNullTraverser traverser;
 
     /** QEDEQ module properties object to work on. */
-    private final ModuleProperties prop;
+    private final DefaultModuleProperties prop;
+
+    /** Kernel services. */
+    private final DefaultKernelServices services;
 
     /** List of required QEDEQ modules. */
-    private final ModuleReferenceList required;
+    private final DefaultModuleReferenceList required;
 
     /**
      * Constructor.
      *
      * @param   prop    QEDEQ module properties object.
+     * @param   services    Kernel services.
      */
-    private LoadRequiredModules(final ModuleProperties prop) {
+    private LoadRequiredModules(final DefaultModuleProperties prop,
+            final DefaultKernelServices services) {
         this.prop = prop;
+        this.services = services;
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
-        required = new ModuleReferenceList();
+        required = new DefaultModuleReferenceList();
     }
 
     /**
      * Load all required QEDEQ modules for a given QEDEQ module.
      *
-     * @param   prop    Module properties.
+     * @param   prop        Module properties.
+     * @param   services    Kernel services.
      * @throws  SourceFileExceptionList Failure(s).
      */
-    public static void loadRequired(final ModuleProperties prop) throws SourceFileExceptionList {
+    public static void loadRequired(final DefaultModuleProperties prop, final DefaultKernelServices
+            services)
+            throws SourceFileExceptionList {
         final String method = "loadRequired(ModuleProperties)";
         // did we check this already?
         if (prop.getDependencyState().areAllRequiredLoaded()) {
@@ -80,7 +88,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
         KernelContext.getInstance().loadModule(prop.getModuleAddress());
         prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
         ModuleEventLog.getInstance().stateChanged(prop);
-        final LoadRequiredModules converter = new LoadRequiredModules(prop);
+        final LoadRequiredModules converter = new LoadRequiredModules(prop, services);
         try {
             converter.loadRequired();
             prop.setLoadedRequiredModules(converter.required);
@@ -88,7 +96,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
         } catch (ModuleDataException e) {
             final SourceFileExceptionList sfl =
                 ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                    prop.getModule().getQedeq());
+                    prop.getQedeq());
             prop.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
                 sfl);
             ModuleEventLog.getInstance().stateChanged(prop);
@@ -121,17 +129,17 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
      * @throws  ModuleDataException Exception during traverse.
      */
     private final void loadRequired() throws ModuleDataException {
-        traverser.accept(prop.getModule().getQedeq());
+        traverser.accept(prop.getQedeq());
     }
 
     public void visitEnter(final Import imp) throws ModuleDataException {
         try {
-            final ModuleProperties propNew = KernelContext.getInstance()
-                .loadModule(prop.getModule(), imp.getSpecification());
+            final DefaultModuleProperties propNew = services.loadModule(prop,
+                imp.getSpecification());
             required.add(new ModuleContext(traverser.getCurrentContext()), imp.getLabel(), propNew);
             Trace.param(CLASS, "visitEnter(Import)", "adding context",
                 traverser.getCurrentContext());
-            loadRequired(propNew);
+            loadRequired(propNew, services);
         } catch (SourceFileExceptionList e) {
             Trace.trace(CLASS, this, "visitEnter(Import)", e);
             throw new LoadRequiredModuleException(e.get(0).getErrorCode(),

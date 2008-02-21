@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.load;
+package org.qedeq.kernel.bo.control;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,9 +23,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.qedeq.kernel.bo.module.LoadingState;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.LoadingState;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.trace.Trace;
 
@@ -37,7 +37,7 @@ class Modules {
     /** This class. */
     private static final Class CLASS = Modules.class;
 
-    /** properties of modules; key: ModuleAddress, value: ModuleProperties.*/
+    /** properties of modules; key: ModuleAddress, value: DefaultModuleProperties.*/
     private final Map moduleProperties = new HashMap();
 
 
@@ -47,12 +47,12 @@ class Modules {
      * @param   address     Module address.
      * @return  Module properties for module.
      */
-    final ModuleProperties getModuleProperties(final ModuleAddress address) {
+    final DefaultModuleProperties getModuleProperties(final ModuleAddress address) {
         synchronized (moduleProperties) {
             if (moduleProperties.containsKey(address)) {
-                return (ModuleProperties) moduleProperties.get(address);
+                return (DefaultModuleProperties) moduleProperties.get(address);
             } else {
-                final ModuleProperties prop = new DefaultModuleProperties(address);
+                final DefaultModuleProperties prop = new DefaultModuleProperties(address);
                 moduleProperties.put(address, prop);
                 return prop;
             }

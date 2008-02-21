@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.latex.Qedeq2Xml;
@@ -105,12 +105,12 @@ public final class Xml2Xml  {
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream);
             try {
-                Qedeq2Xml.print(address, prop.getModule(), printer);
+                Qedeq2Xml.print(address, prop.getQedeq(), printer);
             } catch (ModuleDataException e) {
                 Trace.trace(CLASS, method, e);
                 Trace.param(CLASS, method, "context", e.getContext());
                 throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                    prop.getModule().getQedeq());
+                    prop.getQedeq());
             }
             return to.getCanonicalPath();
         } catch (IOException e) {

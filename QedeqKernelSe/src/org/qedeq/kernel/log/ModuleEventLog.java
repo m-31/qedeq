@@ -21,7 +21,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.trace.Trace;
 
 

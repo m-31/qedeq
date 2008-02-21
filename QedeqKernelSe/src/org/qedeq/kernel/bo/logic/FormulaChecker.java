@@ -20,7 +20,7 @@ package org.qedeq.kernel.bo.logic;
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
-import org.qedeq.kernel.bo.module.ModuleContext;
+import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.dto.list.ElementSet;
 import org.qedeq.kernel.trace.Trace;
 

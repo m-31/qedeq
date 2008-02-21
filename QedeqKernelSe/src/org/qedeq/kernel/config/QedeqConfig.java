@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.qedeq.kernel.bo.module.ModuleAddress;
 import org.qedeq.kernel.utility.IoUtility;
 
 
@@ -201,10 +200,10 @@ public class QedeqConfig {
      *
      * @param   moduleAddresses     This modules were successfully checked.
      */
-    public final void setLoadedModules(final ModuleAddress[] moduleAddresses) {
+    public final void setLoadedModules(final String[] moduleAddresses) {
         configAccess.removeProperties("checkedModule.");
         for (int i = 0; i < moduleAddresses.length; i++) {
-            setKeyValue("checkedModule." + (i + 1), moduleAddresses[i].getURL().toString());
+            setKeyValue("checkedModule." + (i + 1), moduleAddresses[i]);
         }
     }
 

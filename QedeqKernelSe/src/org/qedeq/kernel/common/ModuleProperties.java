@@ -15,12 +15,11 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.common;
 
 import java.net.URL;
 
-import org.qedeq.kernel.bo.logic.ExistenceChecker;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.base.module.Qedeq;
 
 
 /**
@@ -46,51 +45,11 @@ public interface ModuleProperties {
     public ModuleAddress getModuleAddress();
 
     /**
-     * Set completeness percentage.
-     *
-     * @param   completeness    Completeness of loading into memory.
-     */
-    public void setLoadingCompleteness(final int completeness);
-
-    /**
-     * Set loading progress module state.
-     *
-     * @param   state   module state
-     */
-    public void setLoadingProgressState(final LoadingState state);
-
-    /**
-     * Set failure module state.
-     *
-     * @param   state   module state
-     * @param   e       Exception that occurred during loading.
-     * @throws  IllegalArgumentException    <code>state</code> is no failure state
-     */
-    public void setLoadingFailureState(final LoadingState state, final SourceFileExceptionList e);
-
-    /**
      * Get module loading state.
      *
      * @return  module state.
      */
     public LoadingState getLoadingState();
-
-    /**
-     * Set dependency progress module state.
-     *
-     * @param   state   module state
-     */
-    public void setDependencyProgressState(final DependencyState state);
-
-   /**
-    * Set failure module state.
-    *
-    * @param   state   module state
-    * @param   e       Exception that occurred during loading.
-    * @throws  IllegalArgumentException    <code>state</code> is no failure state
-    */
-   public void setDependencyFailureState(final DependencyState state,
-           final SourceFileExceptionList e);
 
    /**
     * Get module dependency state.
@@ -98,22 +57,6 @@ public interface ModuleProperties {
     * @return  module state.
     */
    public DependencyState getDependencyState();
-
-   /**
-     * Set loading progress module state.
-     *
-     * @param   state   module state
-     */
-    public void setLogicalProgressState(final LogicalState state);
-
-    /**
-     * Set failure module state.
-     *
-     * @param   state   module state
-     * @param   e       Exception that occurred during loading.
-     * @throws  IllegalArgumentException    <code>state</code> is no failure state
-     */
-    public void setLogicalFailureState(final LogicalState state, final SourceFileExceptionList e);
 
     /**
      * Get module logical state.
@@ -165,18 +108,11 @@ public interface ModuleProperties {
     public boolean isLoaded();
 
     /**
-     * Set checked and loaded state and module.
-     *
-     * @param  module   checked and loaded module.
-     */
-    public void setLoaded(final QedeqBo module);
-
-    /**
      * Get module. Works only if module is already completely loaded.
      *
      * @return  QEDEQ module if it is already loaded.
      */
-    public QedeqBo getModule();
+    public Qedeq getQedeq();
 
 
     /**
@@ -187,34 +123,12 @@ public interface ModuleProperties {
     public boolean hasLoadedRequiredModules();
 
     /**
-     * Set loaded required modules state. Also set labels and URLs for all referenced modules.
-     *
-     * @param   list  URLs of all referenced modules.
-     */
-    public void setLoadedRequiredModules(ModuleReferenceList list);
-
-    /**
      * Get labels and URLs of all referenced modules. Only available if module has loaded
      * all required modules. Otherwise a runtime exception is thrown.
      *
      * @return  URLs of all referenced modules.
      */
     public ModuleReferenceList getRequiredModules();
-
-    /**
-     * Set logic checked state. Also set the predicate and function existence checker.
-     *
-     * @param   checker Checks if a predicate or function constant is defined.
-     */
-    public void setChecked(ExistenceChecker checker);
-
-    /**
-     * Get the predicate and function existence checker. Is only not <code>null</code>
-     * if logic was successfully checked.
-     *
-     * @return   Checker. Checks if a predicate or function constant is defined.
-     */
-    public ExistenceChecker getExistenceChecker();
 
     /**
      * Was the module checked?
@@ -229,13 +143,5 @@ public interface ModuleProperties {
      * @return  Encoding.
      */
     public String getEncoding();
-
-    /**
-     * Set character encoding for this module.
-     *
-     * @param   encoding    Encoding.
-     */
-    public void setEncoding(String encoding);
-
 
 }

@@ -15,18 +15,19 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.load;
+package org.qedeq.kernel.bo.control;
 
 import java.net.URL;
 
+import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.logic.ExistenceChecker;
-import org.qedeq.kernel.bo.module.DependencyState;
-import org.qedeq.kernel.bo.module.LoadingState;
-import org.qedeq.kernel.bo.module.LogicalState;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleProperties;
-import org.qedeq.kernel.bo.module.ModuleReferenceList;
-import org.qedeq.kernel.bo.module.QedeqBo;
+import org.qedeq.kernel.common.DependencyState;
+import org.qedeq.kernel.common.LoadingState;
+import org.qedeq.kernel.common.LogicalState;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleLabels;
+import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.ModuleReferenceList;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
@@ -54,7 +55,7 @@ public class DefaultModuleProperties implements ModuleProperties {
     private LogicalState logicalState;
 
     /** Loaded QEDEQ module. */
-    private QedeqBo module;
+    private Qedeq qedeq;
 
     /** Failure exception. */
     private SourceFileExceptionList exception;
@@ -67,6 +68,9 @@ public class DefaultModuleProperties implements ModuleProperties {
 
     /** Character encoding for this module. */
     private String encoding;
+
+    /** Labels for this module. */
+    private ModuleLabels labels;
 
 
     /**
@@ -90,10 +94,20 @@ public class DefaultModuleProperties implements ModuleProperties {
         return address;
     }
 
+    /**
+     * Set completeness percentage.
+     *
+     * @param   completeness    Completeness of loading into memory.
+     */
     public final void setLoadingCompleteness(final int completeness) {
         this.loadingCompleteness = completeness;
     }
 
+    /**
+     * Set loading progress module state.
+     *
+     * @param   state   module state
+     */
     // TODO mime 20070704: shouldn't stand here:
     //  ModuleEventLog.getInstance().stateChanged(props[i]);
     //  and not in DefaultModuleFactory?
@@ -108,12 +122,19 @@ public class DefaultModuleProperties implements ModuleProperties {
         }
 // FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
         this.loadingState = state;
-        this.module = null;
+        this.qedeq = null;
         this.dependencyState = DependencyState.STATE_UNDEFINED;
         this.logicalState = LogicalState.STATE_UNCHECKED;
         this.exception = null;
     }
 
+    /**
+     * Set failure module state.
+     *
+     * @param   state   module state
+     * @param   e       Exception that occurred during loading.
+     * @throws  IllegalArgumentException    <code>state</code> is no failure state
+     */
     public final void setLoadingFailureState(final LoadingState state,
             final SourceFileExceptionList e) {
         if (!state.isFailure()) {
@@ -122,7 +143,7 @@ public class DefaultModuleProperties implements ModuleProperties {
         }
 //          FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
 //          they must be killed too!
-        this.module = null;
+        this.qedeq = null;
         this.loadingState = state;
         this.dependencyState = DependencyState.STATE_UNDEFINED;
         this.logicalState = LogicalState.STATE_UNCHECKED;
@@ -137,28 +158,43 @@ public class DefaultModuleProperties implements ModuleProperties {
         return loadingState == LoadingState.STATE_LOADED;
     }
 
-    public final void setLoaded(final QedeqBo module) {
+    /**
+     * Set checked and loaded state and module.
+     *
+     * @param  module   checked and loaded module.
+     */
+    public final void setLoaded(final Qedeq qedeq, final ModuleLabels labels) {
         loadingState = LoadingState.STATE_LOADED;
-        this.module = module;
+        this.qedeq = qedeq;
     }
 
     public final String getEncoding() {
         return this.encoding;
     }
 
+    /**
+     * Set character encoding for this module.
+     *
+     * @param   encoding    Encoding.
+     */
     public final void setEncoding(final String encoding) {
         this.encoding = encoding;
     }
 
-    public final QedeqBo getModule() {
+    public final Qedeq getQedeq() {
         if (loadingState != LoadingState.STATE_LOADED) {
             throw new IllegalStateException(
                 "module exists only if state is \"" + LoadingState.STATE_LOADED.getText()
                 +   "\"");
         }
-        return this.module;
+        return this.qedeq;
     }
 
+    /**
+     * Set dependency progress module state.
+     *
+     * @param   state   module state
+     */
     public final void setDependencyProgressState(final DependencyState state) {
         if (!isLoaded() && state != DependencyState.STATE_UNDEFINED) {
             throw new IllegalArgumentException("module is not yet loaded");
@@ -181,6 +217,13 @@ public class DefaultModuleProperties implements ModuleProperties {
         this.dependencyState = state;
     }
 
+   /**
+    * Set failure module state.
+    *
+    * @param   state   module state
+    * @param   e       Exception that occurred during loading.
+    * @throws  IllegalArgumentException    <code>state</code> is no failure state
+    */
     public final void setDependencyFailureState(final DependencyState state,
             final SourceFileExceptionList e) {
         if (!isLoaded()) {
@@ -201,6 +244,11 @@ public class DefaultModuleProperties implements ModuleProperties {
         return this.dependencyState;
     }
 
+    /**
+     * Set loaded required modules state. Also set labels and URLs for all referenced modules.
+     *
+     * @param   list  URLs of all referenced modules.
+     */
     public final void setLoadedRequiredModules(final ModuleReferenceList list) {
         if (!isLoaded()) {
             throw new IllegalStateException(
@@ -226,6 +274,11 @@ public class DefaultModuleProperties implements ModuleProperties {
             && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES;
     }
 
+    /**
+     * Set logic checked state. Also set the predicate and function existence checker.
+     *
+     * @param   checker Checks if a predicate or function constant is defined.
+     */
     public final void setChecked(final ExistenceChecker checker) {
         if (!hasLoadedRequiredModules()) {
             throw new IllegalStateException(
@@ -237,6 +290,12 @@ public class DefaultModuleProperties implements ModuleProperties {
         this.checker = checker;
     }
 
+    /**
+     * Get the predicate and function existence checker. Is only not <code>null</code>
+     * if logic was successfully checked.
+     *
+     * @return   Checker. Checks if a predicate or function constant is defined.
+     */
     public final ExistenceChecker getExistenceChecker() {
         if (!hasLoadedRequiredModules()) {
             throw new IllegalStateException(
@@ -255,6 +314,11 @@ public class DefaultModuleProperties implements ModuleProperties {
     // TODO mime 20070704: shouldn't stand here:
     //  ModuleEventLog.getInstance().stateChanged(props[i]);
     //  and not in DefaultModuleFactory?
+   /**
+     * Set loading progress module state.
+     *
+     * @param   state   module state
+     */
     public final void setLogicalProgressState(final LogicalState state) {
         if (dependencyState.getCode() < DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode()
                 && state != LogicalState.STATE_UNCHECKED) {
@@ -273,6 +337,13 @@ public class DefaultModuleProperties implements ModuleProperties {
         this.logicalState = state;
     }
 
+    /**
+     * Set failure module state.
+     *
+     * @param   state   module state
+     * @param   e       Exception that occurred during loading.
+     * @throws  IllegalArgumentException    <code>state</code> is no failure state
+     */
     public final void setLogicalFailureState(final LogicalState state,
             final SourceFileExceptionList e) {
         if ((!isLoaded() || !hasLoadedRequiredModules()) && state != LogicalState.STATE_UNCHECKED) {
@@ -322,13 +393,13 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     public final String getRuleVersion() {
-        if (address == null || module == null || module.getQedeq() == null
-                || module.getQedeq().getHeader() == null
-                || module.getQedeq().getHeader().getSpecification() == null
-                || module.getQedeq().getHeader().getSpecification().getRuleVersion() == null) {
+        if (address == null || qedeq == null
+                || qedeq.getHeader() == null
+                || qedeq.getHeader().getSpecification() == null
+                || qedeq.getHeader().getSpecification().getRuleVersion() == null) {
             return "";
         }
-        return module.getQedeq().getHeader().getSpecification().getRuleVersion();
+        return qedeq.getHeader().getSpecification().getRuleVersion();
     }
 
     public final URL getUrl() {
@@ -336,6 +407,14 @@ public class DefaultModuleProperties implements ModuleProperties {
             return null;
         }
         return this.address.getURL();
+    }
+
+    public void setLabels(final ModuleLabels labels) {
+        this.labels = labels;
+    }
+
+    public ModuleLabels getLabels() {
+        return labels;
     }
 
     public final String toString() {

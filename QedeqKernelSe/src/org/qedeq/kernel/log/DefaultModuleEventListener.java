@@ -21,7 +21,7 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleProperties;
 
 /**
  * Listener that writes events to a stream.

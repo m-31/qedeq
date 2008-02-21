@@ -15,13 +15,12 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.common;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.kernel.dto.module.NodeVo;
-
 
 /**
  * Maps labels of an QEDEQ module to their elements.

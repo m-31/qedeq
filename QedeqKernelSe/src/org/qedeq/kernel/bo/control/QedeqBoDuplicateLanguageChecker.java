@@ -23,12 +23,12 @@ import java.util.Map;
 import org.qedeq.kernel.base.module.Latex;
 import org.qedeq.kernel.base.module.LatexList;
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleContext;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.ModuleProperties;
 
 
 /**
@@ -40,7 +40,7 @@ import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor {
 
     /** QEDEQ module input object. */
-    private final QedeqBo original;
+    private final Qedeq original;
 
     /** Current context during creation. */
     private final QedeqNotNullTraverser traverser;
@@ -52,7 +52,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
      * @param   qedeq             BO QEDEQ module object.
      */
     private QedeqBoDuplicateLanguageChecker(final ModuleAddress globalContext,
-            final QedeqBo qedeq) {
+            final Qedeq qedeq) {
         traverser = new QedeqNotNullTraverser(globalContext, this);
         original = qedeq;
     }
@@ -60,19 +60,18 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
     /**
      * Checks if all formulas of a QEDEQ module are well formed.
      *
-     * @param   globalContext       Module location information.
-     * @param   qedeq               Basic QEDEQ module object.
+     * @param   prop              QEDEQ BO.
      * @throws  ModuleDataException      Major problem occurred.
      */
-    public static void check(final ModuleAddress globalContext, final QedeqBo qedeq)
+    public static void check(final ModuleProperties prop)
             throws ModuleDataException {
         final QedeqBoDuplicateLanguageChecker checker
-            = new QedeqBoDuplicateLanguageChecker(globalContext, qedeq);
+            = new QedeqBoDuplicateLanguageChecker(prop.getModuleAddress(),  prop.getQedeq());
         checker.check();
     }
 
     private final void check() throws ModuleDataException {
-        traverser.accept(original.getQedeq());
+        traverser.accept(original);
     }
 
     public final void visitEnter(final LatexList list) throws ModuleDataException {
@@ -147,7 +146,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
      * @return  Original QEDEQ module.
      */
     protected final Qedeq getQedeqOriginal() {
-        return original.getQedeq();
+        return original;
     }
 
 }

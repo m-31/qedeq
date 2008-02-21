@@ -22,9 +22,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleProperties;
-import org.qedeq.kernel.bo.module.QedeqBo;
+import org.qedeq.kernel.base.module.Qedeq;
+import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
@@ -66,7 +66,7 @@ public final class Xml2Latex  {
             final String level) throws SourceFileExceptionList {
         final String method = "generate(String, String, String, String)";
         File destination = null;
-        QedeqBo qedeqBo = null;
+        Qedeq qedeq = null;
         try {
             Trace.begin(CLASS, method);
             Trace.param(CLASS, method, "prop", prop);
@@ -94,7 +94,7 @@ public final class Xml2Latex  {
         }
         TextOutput printer = null;
         try {
-            qedeqBo = prop.getModule();
+            qedeq = prop.getQedeq();
             IoUtility.createNecessaryDirectories(destination);
             final OutputStream outputStream = new FileOutputStream(destination);
             printer = new TextOutput(destination.getName(), outputStream);
@@ -111,7 +111,7 @@ public final class Xml2Latex  {
             Trace.trace(CLASS, method, e);
             Trace.param(CLASS, method, "context", e.getContext());
             throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                qedeqBo.getQedeq());
+                qedeq);
         } finally {
             if (printer != null) {
                 printer.close();

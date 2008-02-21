@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.common;
 
 import org.qedeq.kernel.trace.Trace;
 

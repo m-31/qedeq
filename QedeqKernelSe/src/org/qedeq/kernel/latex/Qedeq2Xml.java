@@ -49,11 +49,10 @@ import org.qedeq.kernel.base.module.SubsectionList;
 import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.QedeqBo;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.utility.TextOutput;
 
@@ -72,19 +71,19 @@ public final class Qedeq2Xml extends AbstractModuleVisitor {
     /** Output goes here. */
     private TextOutput printer;
 
-    /** QEDEQ BO object to work on. */
-    private QedeqBo qedeqBo;
+    /** QEDEQ object to work on. */
+    private Qedeq qedeq;
 
     /**
      * Constructor.
      *
-     * @param   qedeqBo             QEDEQ BO object.
+     * @param   qedeq               QEDEQ module.
      * @param   globalContext       Module location information.
      * @param   printer             Print herein.
      */
-    private Qedeq2Xml(final QedeqBo qedeqBo, final ModuleAddress globalContext,
+    private Qedeq2Xml(final Qedeq qedeq, final ModuleAddress globalContext,
             final TextOutput printer) {
-        this.qedeqBo = qedeqBo;
+        this.qedeq = qedeq;
         traverser = new QedeqNotNullTraverser(globalContext, this);
         this.printer = printer;
     }
@@ -98,7 +97,7 @@ public final class Qedeq2Xml extends AbstractModuleVisitor {
      * @throws  ModuleDataException Major problem occurred.
      * @throws  IOException
      */
-    public static void print(final ModuleAddress globalContext, final QedeqBo qedeq,
+    public static void print(final ModuleAddress globalContext, final Qedeq qedeq,
             final TextOutput printer) throws ModuleDataException, IOException {
         final Qedeq2Xml converter = new Qedeq2Xml(qedeq, globalContext, printer);
         converter.printXml();
@@ -106,13 +105,13 @@ public final class Qedeq2Xml extends AbstractModuleVisitor {
 
     /**
      * Prints a XML file into a given output stream.
-     * Constructs a {@link org.qedeq.kernel.bo.module.QedeqBo} first.
+     * Constructs a {@link org.qedeq.kernel.common.QedeqBo} first.
      *
      * @throws  IOException         Writing failed.
      * @throws  ModuleDataException Exception during transversion.
      */
     private final void printXml() throws IOException, ModuleDataException {
-        traverser.accept(qedeqBo.getQedeq());
+        traverser.accept(qedeq);
         printer.flush();
         if (printer.checkError()) {
             throw printer.getError();

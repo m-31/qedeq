@@ -24,11 +24,11 @@ import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.base.module.FunctionDefinition;
 import org.qedeq.kernel.base.module.PredicateDefinition;
+import org.qedeq.kernel.bo.control.DefaultModuleProperties;
 import org.qedeq.kernel.bo.logic.DefaultExistenceChecker;
 import org.qedeq.kernel.bo.logic.ExistenceChecker;
-import org.qedeq.kernel.bo.module.ModuleProperties;
-import org.qedeq.kernel.bo.module.ModuleReferenceList;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
+import org.qedeq.kernel.common.ModuleReferenceList;
 import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
 import org.qedeq.kernel.utility.StringUtility;
 
@@ -271,8 +271,8 @@ public final class Element2Latex extends AbstractModuleVisitor {
                     if (external >= 0 && Element2Latex.this.getReferences() != null
                             && Element2Latex.this.getReferences().size() > 0) {
                         final String label = name.substring(0, external);
-                        final ModuleProperties newProp = Element2Latex.this.getReferences()
-                            .getModuleProperties(label);
+                        final DefaultModuleProperties newProp = (DefaultModuleProperties)
+                            Element2Latex.this.getReferences().getModuleProperties(label);
                         if (newProp != null) {
                             final String shortName = name.substring(external + 1);
                             if (newProp.getExistenceChecker().predicateExists(shortName,
@@ -331,8 +331,8 @@ public final class Element2Latex extends AbstractModuleVisitor {
                     if (external >= 0 && Element2Latex.this.getReferences() != null
                             && Element2Latex.this.getReferences().size() > 0) {
                         final String label = name.substring(0, external);
-                        final ModuleProperties newProp = Element2Latex.this.getReferences().
-                            getModuleProperties(label);
+                        final DefaultModuleProperties newProp = (DefaultModuleProperties)
+                            Element2Latex.this.getReferences().getModuleProperties(label);
                         if (newProp != null) {
                             final String shortName = name.substring(external + 1);
                             if (newProp.getExistenceChecker().functionExists(shortName,

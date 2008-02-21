@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.common;
 
 import org.qedeq.kernel.base.module.Qedeq;
 
@@ -27,40 +27,10 @@ import org.qedeq.kernel.base.module.Qedeq;
  */
 public interface QedeqBo {
 
-
-    /**
-     * Set data transfer object of this BO.
-     *
-     * @param   qedeq   QEDEQ module data.
-     */
-    public void setQedeq(final Qedeq qedeq);
-
     /**
      * Get data transfer object of this BO.
      *
      * @return  QEDEQ module data.
      */
     public Qedeq getQedeq();
-
-    /**
-     * Get module label associations for this module.
-     *
-     * @return  Label associations.
-     */
-    public ModuleLabels getModuleLabels();
-
-    /**
-     * Get physical address of this module.
-     *
-     * @return  Module address..
-     */
-    public ModuleAddress getModuleAddress();
-
-    /**
-     * Get physical addresses of this module.
-     *
-     * @param   address Module address.
-     */
-    public void setModuleAddress(final ModuleAddress address);
-
 }

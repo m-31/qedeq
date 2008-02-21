@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.reflect.Method;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,7 +38,6 @@ import org.qedeq.kernel.utility.TextInput;
 import org.qedeq.kernel.xml.parser.SimpleHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
-import org.xml.sax.Locator;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 

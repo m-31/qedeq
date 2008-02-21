@@ -21,13 +21,11 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.module.Kernel;
+import org.qedeq.kernel.bo.module.KernelServices;
 import org.qedeq.kernel.bo.module.KernelState;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleFactory;
-import org.qedeq.kernel.bo.module.ModuleProperties;
-import org.qedeq.kernel.bo.module.QedeqBo;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.config.QedeqConfig;
 import org.qedeq.kernel.log.QedeqLog;
@@ -64,7 +62,7 @@ public final class KernelContext implements Kernel {
     /** Initial kernel state. */
     private final KernelState initialState = new KernelState() {
 
-        public void init(final ModuleFactory moduleFactory, final QedeqConfig qedeqConfig)
+        public void init(final KernelServices moduleFactory, final QedeqConfig qedeqConfig)
                 throws IOException {
             QedeqLog.getInstance().logMessage("This is "
                 + KernelContext.getInstance().getDescriptiveKernelVersion());
@@ -73,16 +71,12 @@ public final class KernelContext implements Kernel {
             QedeqLog.getInstance().logMessage("  supports rules till version "
                 + KernelContext.getInstance().getMaximalRuleVersion());
             config = qedeqConfig;
-            KernelContext.this.moduleFactory = moduleFactory;
+            KernelContext.this.services = moduleFactory;
             currentState = initializedState;
         }
 
         public boolean isReady() {
             return false;
-        }
-
-        public QedeqConfig getConfig() {
-            throw new IllegalStateException("Kernel not initialized");
         }
 
         public void shutdown() {
@@ -105,11 +99,6 @@ public final class KernelContext implements Kernel {
         }
 
         public ModuleProperties loadModule(final ModuleAddress address)
-                throws SourceFileExceptionList {
-            throw new IllegalStateException("Kernel not initialized");
-        }
-
-        public ModuleProperties loadModule(final QedeqBo module, final Specification spec)
                 throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not initialized");
         }
@@ -153,12 +142,16 @@ public final class KernelContext implements Kernel {
         public File getLocalFilePath(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
+
+        public boolean checkModule(final ModuleAddress address) {
+            throw new IllegalStateException("Kernel not initialized");
+        }
     };
 
     /** Initial kernel state. */
     private final KernelState initializedState = new KernelState() {
 
-        public void init(final ModuleFactory moduleFactory, final QedeqConfig qedeqConfig)
+        public void init(final KernelServices moduleFactory, final QedeqConfig qedeqConfig)
                 throws IOException {
             throw new IllegalStateException("Kernel is already initialized");
         }
@@ -167,18 +160,14 @@ public final class KernelContext implements Kernel {
             return false;
         }
 
-        public QedeqConfig getConfig() {
-            return config;
-        }
-
         public void shutdown() {
             currentState = initialState;
-            KernelContext.this.moduleFactory = null;
+            KernelContext.this.services = null;
             QedeqLog.getInstance().logMessage("QEDEQ Kernel closed.");
         }
 
         public void startup() {
-            moduleFactory.startup();
+            services.startup();
             currentState = readyState;
             QedeqLog.getInstance().logMessage("QEDEQ kernel opened.");
         }
@@ -200,11 +189,6 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public ModuleProperties loadModule(final QedeqBo module, final Specification spec)
-                throws SourceFileExceptionList {
-            throw new IllegalStateException("Kernel not started");
-        }
-
         public boolean loadAllModulesFromQedeq() {
             throw new IllegalStateException("Kernel not started");
         }
@@ -244,12 +228,17 @@ public final class KernelContext implements Kernel {
         public File getLocalFilePath(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
+
+        public boolean checkModule(final ModuleAddress address) {
+            throw new IllegalStateException("Kernel not started");
+        }
+
     };
 
     /** State for ready kernel. */
     private final KernelState readyState = new KernelState() {
 
-        public void init(final ModuleFactory moduleFactory, final QedeqConfig qedeqConfig)
+        public void init(final KernelServices moduleFactory, final QedeqConfig qedeqConfig)
                 throws IOException {
             // we are already ready
         }
@@ -258,13 +247,14 @@ public final class KernelContext implements Kernel {
             return false;
         }
 
-        public QedeqConfig getConfig() {
-            return config;
-        }
-
         public void shutdown() {
             try {
-                config.setLoadedModules(moduleFactory.getAllLoadedModules());
+                final ModuleAddress[] addresses = services.getAllLoadedModules();
+                final String[] buffer = new String[addresses.length];
+                for (int i = 0; i < addresses.length; i++) {
+                    buffer[i] = addresses[i].toString();
+                }
+                config.setLoadedModules(buffer);
                 config.store();
                 QedeqLog.getInstance().logMessage("Current config file successfully saved.");
             } catch (IOException e) {
@@ -272,7 +262,7 @@ public final class KernelContext implements Kernel {
                 QedeqLog.getInstance().logMessage("Saving current config file failed.");
             }
             currentState = initialState;
-            KernelContext.this.moduleFactory = null;
+            KernelContext.this.services = null;
             QedeqLog.getInstance().logMessage("QEDEQ Kernel closed.");
         }
 
@@ -281,68 +271,65 @@ public final class KernelContext implements Kernel {
         }
 
         public void removeAllModules() {
-            moduleFactory.removeAllModules();
+            services.removeAllModules();
         }
 
         public void removeModule(final ModuleAddress address) throws IOException {
-            moduleFactory.removeModule(address);
+            services.removeModule(address);
         }
 
         public void clearLocalBuffer() throws IOException {
-            moduleFactory.clearLocalBuffer();
+            services.clearLocalBuffer();
         }
 
         public ModuleProperties loadModule(final ModuleAddress address)
                 throws SourceFileExceptionList {
-            return moduleFactory.loadModule(address);
-        }
-
-        public ModuleProperties loadModule(final QedeqBo module, final Specification spec)
-                throws SourceFileExceptionList {
-            return moduleFactory.loadModule(module, spec);
+            return services.loadModule(address);
         }
 
         public boolean loadAllModulesFromQedeq() {
-            return moduleFactory.loadAllModulesFromQedeq();
+            return services.loadAllModulesFromQedeq();
         }
 
         public void loadRequiredModules(final ModuleAddress address)
                 throws SourceFileExceptionList {
-            moduleFactory.loadRequiredModules(address);
+            services.loadRequiredModules(address);
         }
 
         public ModuleAddress[] getAllLoadedModules() {
-            return moduleFactory.getAllLoadedModules();
+            return services.getAllLoadedModules();
         }
 
         public File getBufferDirectory() {
-            return moduleFactory.getBufferDirectory();
+            return services.getBufferDirectory();
         }
 
         public File getGenerationDirectory() {
-            return moduleFactory.getGenerationDirectory();
+            return services.getGenerationDirectory();
         }
 
         public ModuleProperties getModuleProperties(final ModuleAddress address) {
-            return moduleFactory.getModuleProperties(address);
+            return services.getModuleProperties(address);
         }
 
         public ModuleAddress getModuleAddress(final URL url) throws IOException {
-            return moduleFactory.getModuleAddress(url);
+            return services.getModuleAddress(url);
         }
 
         public ModuleAddress getModuleAddress(final String url) throws IOException {
-            return moduleFactory.getModuleAddress(url);
+            return services.getModuleAddress(url);
         }
 
         public ModuleAddress getModuleAddress(final File file) throws IOException {
-            return moduleFactory.getModuleAddress(file);
+            return services.getModuleAddress(file);
         }
 
         public File getLocalFilePath(final ModuleAddress address) {
-            return moduleFactory.getLocalFilePath(address);
+            return services.getLocalFilePath(address);
         }
-
+        public boolean checkModule(final ModuleAddress address) {
+            return services.checkModule(address);
+        }
     };
 
     /** Initial kernel state. */
@@ -351,8 +338,8 @@ public final class KernelContext implements Kernel {
     /** For config access. */
     private QedeqConfig config;
 
-    /** This factory can produce QEDEQ modules. */
-    private ModuleFactory moduleFactory;
+    /** This object can service QEDEQ modules. */
+    private KernelServices services;
 
     /**
      * Constructor.
@@ -416,17 +403,17 @@ public final class KernelContext implements Kernel {
         return MAXIMAL_RULE_VERSION.equals(ruleVersion);
     }
 
-    public void init(final ModuleFactory moduleFactory, final QedeqConfig qedeqConfig)
+    public QedeqConfig getConfig() {
+        return config;
+    }
+
+    public void init(final KernelServices moduleFactory, final QedeqConfig qedeqConfig)
             throws IOException {
         currentState.init(moduleFactory, qedeqConfig);
     }
 
     public boolean isReady() {
         return currentState.isReady();
-    }
-
-    public QedeqConfig getConfig() {
-        return currentState.getConfig();
     }
 
     public void shutdown() {
@@ -451,11 +438,6 @@ public final class KernelContext implements Kernel {
 
     public ModuleProperties loadModule(final ModuleAddress address) throws SourceFileExceptionList {
         return currentState.loadModule(address);
-    }
-
-    public ModuleProperties loadModule(final QedeqBo module, final Specification spec)
-            throws SourceFileExceptionList {
-        return currentState.loadModule(module, spec);
     }
 
     public boolean loadAllModulesFromQedeq() {
@@ -496,6 +478,10 @@ public final class KernelContext implements Kernel {
 
     public File getLocalFilePath(final ModuleAddress address) {
         return currentState.getLocalFilePath(address);
+    }
+
+    public boolean checkModule(final ModuleAddress address) {
+        return currentState.checkModule(address);
     }
 
 }

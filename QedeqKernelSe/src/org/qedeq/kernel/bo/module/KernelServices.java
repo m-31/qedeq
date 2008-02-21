@@ -21,23 +21,25 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import org.qedeq.kernel.base.module.Specification;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
- * Access to QEDEQ modules.
+ * The main QEDEQ kernel methods are assembled here.
  *
  * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
-public interface ModuleFactory {
+public interface KernelServices {
 
     /**
-     * Initialisation of ModuleFactory. This method should be called from the {@link Kernel}
+     * Initialisation of services. This method should be called from the {@link Kernel}
      * directly after switching into ready state. Calling this method in ready state is not
      * supported.
      *
      * TODO mime 20070411: what about an appropriate closing method?
+     * FIXME mime 20080213: should not be here! Implemenatation detail!
      */
     public void startup();
 
@@ -61,17 +63,6 @@ public interface ModuleFactory {
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
     public ModuleProperties loadModule(ModuleAddress address) throws SourceFileExceptionList;
-
-    /**
-     * Load a certain module.
-     *
-     * @param   module   This is the current module.
-     * @param   spec     Specification of wanted module.
-     * @return  Wanted module properties.
-     * @throws  SourceFileExceptionList     Module could not be successfully loaded.
-     */
-    public ModuleProperties loadModule(QedeqBo module, final Specification spec)
-            throws SourceFileExceptionList;
 
     /**
      * Get a certain module.
@@ -163,5 +154,13 @@ public interface ModuleFactory {
      * @throws  IOException     URL has not the correct format for referencing a QEDEQ module.
      */
     public ModuleAddress getModuleAddress(File file) throws  IOException;
+
+    /**
+     * Checks if all formulas of a QEDEQ module and its required modules are well formed.
+     *
+     * @param   address Module to check.
+     * @return  Was check successful?
+     */
+    public boolean checkModule(ModuleAddress address);
 
 }

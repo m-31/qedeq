@@ -44,7 +44,7 @@ import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.SubsectionList;
 import org.qedeq.kernel.base.module.SubsectionType;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.StringUtility;
 
@@ -125,9 +125,9 @@ public final class Qedeq2Wiki {
      * @throws IOException  Writing failed.
      */
     private void printQedeqChapters() throws IOException {
-        final ChapterList chapters = prop.getModule().getQedeq().getChapterList();
+        final ChapterList chapters = prop.getQedeq().getChapterList();
         for (int i = 0; i < chapters.size(); i++) {
-            final String label = prop.getModule().getQedeq().getHeader().getSpecification()
+            final String label = prop.getQedeq().getHeader().getSpecification()
                 .getName() + "_ch_" + i;
             final OutputStream outputStream = new FileOutputStream(new File(outputDirectory,
                 label + "_" + language + ".wiki"));
@@ -160,7 +160,7 @@ public final class Qedeq2Wiki {
      * Print bibliography (if any).
      */
     private void printQedeqBibliography() {
-        final LiteratureItemList items = prop.getModule().getQedeq().getLiteratureItemList();
+        final LiteratureItemList items = prop.getQedeq().getLiteratureItemList();
         if (items == null) {
             return;
         }

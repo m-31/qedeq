@@ -15,12 +15,12 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.load;
+package org.qedeq.kernel.bo.control;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.bo.module.QedeqBo;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleLabels;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.utility.EqualsUtility;
 
 
@@ -67,41 +67,20 @@ public class DefaultQedeqBo implements QedeqBo {
         return moduleLabels;
     }
 
-    /**
-     * Get physical addresses of this module.
-     *
-     * @return  Module address..
-     */
-    public final ModuleAddress getModuleAddress() {
-        return moduleAddress;
-    }
-
-    /**
-     * Get physical addresses of this module.
-     *
-     * @param   address Module address.
-     */
-    public final void setModuleAddress(final ModuleAddress address) {
-        this.moduleAddress = address;
-    }
-
     public boolean equals(final Object obj) {
         if (!(obj instanceof DefaultQedeqBo)) {
             return false;
         }
         final DefaultQedeqBo other = (DefaultQedeqBo) obj;
-        return  EqualsUtility.equals(getQedeq(), other.getQedeq())
-            &&  EqualsUtility.equals(getModuleAddress(), other.getModuleAddress());
+        return  EqualsUtility.equals(getQedeq(), other.getQedeq());
     }
 
     public int hashCode() {
-        return (getQedeq() != null ? getQedeq().hashCode() : 0)
-            ^ (getModuleAddress() != null ? 1 ^ getModuleAddress().hashCode() : 0);
+        return (getQedeq() != null ? getQedeq().hashCode() : 0);
     }
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append(getModuleAddress() + "\n");
         buffer.append(getQedeq() + "\n\n");
         return buffer.toString();
     }

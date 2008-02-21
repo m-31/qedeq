@@ -15,8 +15,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
-
+package org.qedeq.kernel.common;
 
 /**
  * Represents a module state. Every instance of this class is unique.

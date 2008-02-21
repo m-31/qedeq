@@ -49,13 +49,12 @@ import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
-import org.qedeq.kernel.bo.load.DefaultModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.bo.control.DefaultModuleAddress;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.StringUtility;
@@ -157,7 +156,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         // first we try to get more information about required modules and their predicates..
         try {
             KernelContext.getInstance().loadRequiredModules(prop.getModuleAddress());
-            QedeqBoFormalLogicChecker.check(prop);
+            KernelContext.getInstance().checkModule(prop.getModuleAddress());
         } catch (Exception e) {
             // we continue and ignore external predicates
             Trace.trace(CLASS, "print(ModuleProperties, TextOutput, String, String)", e);
@@ -174,7 +173,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
      * @throws  ModuleDataException Exception during transversion.
      */
     private final void printLatex() throws IOException, ModuleDataException {
-        traverser.accept(prop.getModule().getQedeq());
+        traverser.accept(prop.getQedeq());
         printer.flush();
         if (printer.checkError()) {
             throw printer.getError();
@@ -278,7 +277,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         printer.print(getLatexListEntry(tit));
         printer.println("}");
         printer.println("\\author{");
-        final AuthorList authors = prop.getModule().getQedeq().getHeader().getAuthorList();
+        final AuthorList authors = prop.getQedeq().getHeader().getAuthorList();
         for (int i = 0; i < authors.size(); i++) {
             if (i > 0) {
                 printer.println(", ");
@@ -625,7 +624,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
             }
             printer.println("\\addcontentsline{toc}{chapter}{Bibliography}");
         }
-        final ImportList imports = prop.getModule().getQedeq().getHeader().getImportList();
+        final ImportList imports = prop.getQedeq().getHeader().getImportList();
         if (imports != null && imports.size() > 0) {
             printer.println();
             printer.println();
@@ -653,7 +652,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     }
 
     public void visitLeave(final LiteratureItemList list) {
-        final UsedByList usedby = prop.getModule().getQedeq().getHeader().getUsedByList();
+        final UsedByList usedby = prop.getQedeq().getHeader().getUsedByList();
         if (usedby != null && usedby.size() > 0) {
             printer.println();
             printer.println();

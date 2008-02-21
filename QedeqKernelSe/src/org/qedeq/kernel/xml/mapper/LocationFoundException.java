@@ -17,8 +17,8 @@
 
 package org.qedeq.kernel.xml.mapper;
 
-import org.qedeq.kernel.bo.module.ModuleContext;
-import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleDataException;
 
 /**
  * Thrown if the location was found.

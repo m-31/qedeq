@@ -24,8 +24,6 @@ import java.net.URL;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.utility.TextInput;
-import org.qedeq.kernel.xml.common.XmlSyntaxException;
-import org.xml.sax.SAXException;
 
 
 /**
@@ -137,18 +135,6 @@ public class SourceFileException extends QedeqException {
     }
 
     /**
-     * Constructor.
-     *
-     * @param   exception   Exception to wrap.
-     */
-    public SourceFileException(final SAXException exception) {
-        // TODO mime 20071116: error code refac
-        super(XmlSyntaxException.SAX_PARSER_EXCEPTION, exception.getMessage(), exception);
-        errorArea = null;
-        referenceArea = null;
-    }
-
-    /**
      * Get position information about error location.
      *
      * @return  Error location position.
@@ -205,7 +191,7 @@ public class SourceFileException extends QedeqException {
      * Get detailed error description.
      * The first line contains {@link #getErrorCode()} and {@link #getMessage()}.
      * The second line contains the local address, the line and column.
-     * Third line is the result or {@link #getLine(File)}.
+     * Third line is the result or {@link #getLine(File, String)}.
      * In the fourth line the row position for the third line is marked.
      *
      * <p>TODO mime 20070219: rework description: add end (and perhaps reference) information

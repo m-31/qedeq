@@ -19,7 +19,7 @@ package org.qedeq.kernel.bo.visitor;
 
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.ElementList;
-import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.common.ModuleDataException;
 
 
 /**

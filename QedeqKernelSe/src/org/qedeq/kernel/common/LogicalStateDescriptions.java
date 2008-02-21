@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.common;
 
 /**
  * This interface provides primitive constants for the {@link LogicalState}.

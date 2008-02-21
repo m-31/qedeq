@@ -52,12 +52,13 @@ import org.qedeq.kernel.base.module.SubsectionList;
 import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
+import org.qedeq.kernel.bo.control.DefaultModuleProperties;
+import org.qedeq.kernel.bo.control.DefaultQedeqBo;
 import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
-import org.qedeq.kernel.bo.module.IllegalModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleContext;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.QedeqBo;
+import org.qedeq.kernel.common.IllegalModuleDataException;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.ModuleLabels;
 import org.qedeq.kernel.dto.list.DefaultAtom;
 import org.qedeq.kernel.dto.list.DefaultElementList;
 import org.qedeq.kernel.dto.module.AuthorListVo;
@@ -95,7 +96,7 @@ import org.qedeq.kernel.dto.module.VariableListVo;
 
 
 /**
- * An factory for creating {@link org.qedeq.kernel.bo.load.DefaultQedeqBo}s. This factory takes
+ * An factory for creating {@link org.qedeq.kernel.bo.control.DefaultQedeqBo}s. This factory takes
  * something that implements the QEDEQ interfaces (beginning with
  * (@link org.qedeq.kernel.base.module.Qedeq} and makes copies that are out of the package
  * <code>org.qedeq.kernel.dto.*</code>. Only elements that are not <code>null</code> are
@@ -110,8 +111,8 @@ import org.qedeq.kernel.dto.module.VariableListVo;
  */
 public class QedeqBoFactory {
 
-    /** QEDEQ module business object. */
-    private DefaultQedeqBo qedeqBo;
+    /** QEDEQ module labels. */
+    private final ModuleLabels labels;
 
     /** QEDEQ module input object. */
     private Qedeq original;
@@ -122,37 +123,36 @@ public class QedeqBoFactory {
     /**
      * Constructor.
      *
-     * @param   globalContext     Module location information.
+     * @param   prop    QEDEQ BO.
      */
-    protected QedeqBoFactory(final ModuleAddress globalContext) {
-        currentContext = new ModuleContext(globalContext);
+    protected QedeqBoFactory(final DefaultModuleProperties prop) {
+        this.currentContext = prop.getModuleAddress().createModuleContext();
+        this.labels = new ModuleLabels();
     }
 
     /**
-     * Create {@link DefaultQedeqBo} out of an {@link Qedeq} instance.
+     * Create {@link QedeqVo} out of an {@link Qedeq} instance.
      * During that procedure some basic checking is done. E.g. the uniqueness of entries
-     * is tested. The resulting business object has no references to the original
+     * is tested. The resulting object has no references to the original
      * {@link Qedeq} instance.
      * <p>
      * During the creation process the caller must assert that no modifications are made
      * to the {@link Qedeq} instance including its referenced objects.
      *
-     * @param   globalContext     Module location information.
+     * @param   prop        Module informations.
      * @param   original    Basic QEDEQ module object.
-     * @return  Filled QEDEQ business object. Is equal to the parameter <code>qedeq</code>.
      * @throws  ModuleDataException     Invalid data found.
      */
-    public static DefaultQedeqBo createQedeq(final ModuleAddress globalContext,
+    public static void createQedeq(final DefaultModuleProperties prop,
             final Qedeq original) throws ModuleDataException {
-        final QedeqBoFactory creator = new QedeqBoFactory(globalContext);
-        DefaultQedeqBo bo = creator.create(original);
-        bo.setModuleAddress(globalContext);
+        final QedeqBoFactory creator = new QedeqBoFactory(prop);
+        QedeqVo vo = creator.create(original);
+        prop.setLoaded(vo, creator.getLabels());
 
         // TODO mime 20080111: just for testing purpose the following check is
         // integrated here in the BO creation. The checking results should be maintained
         // later on as additional information to a module.
-        QedeqBoDuplicateLanguageChecker.check(globalContext, bo);
-        return bo;
+        QedeqBoDuplicateLanguageChecker.check(prop);
     }
 
     /**
@@ -166,19 +166,18 @@ public class QedeqBoFactory {
      * to the {@link Qedeq} instance including its referenced objects.
      *
      * @param   original    Basic QEDEQ module object.
-     * @return  Filled header business object. Is equal to the parameter <code>header</code>.
+     * @return  Copied QEDEQ object.
      * @throws  IllegalModuleDataException  Basic semantic error occurred.
      */
-    protected final DefaultQedeqBo create(final Qedeq original) throws IllegalModuleDataException {
+    protected final QedeqVo create(final Qedeq original) throws IllegalModuleDataException {
         this.original = original;
         getCurrentContext().setLocationWithinModule("");
+        QedeqVo qedeq;
         if (original == null) {
-            qedeqBo = null;
-            return qedeqBo;
+            qedeq = null;
+            return qedeq;
         }
-        qedeqBo = new DefaultQedeqBo();
-        QedeqVo qedeq = new QedeqVo();
-        qedeqBo.setQedeq(qedeq);
+        qedeq = new QedeqVo();
         final String context = getCurrentContext().getLocationWithinModule();
         if (original.getHeader() != null) {
             getCurrentContext().setLocationWithinModule(context + "getHeader()");
@@ -192,7 +191,7 @@ public class QedeqBoFactory {
             getCurrentContext().setLocationWithinModule(context + "getLiteratureItemList()");
             qedeq.setLiteratureItemList(create(original.getLiteratureItemList()));
         }
-        return qedeqBo;
+        return qedeq;
     }
 
     /**
@@ -605,7 +604,7 @@ public class QedeqBoFactory {
             n.setSucceedingText(create(node.getSucceedingText()));
         }
         setLocationWithinModule(context);
-        getQedeqCreated().getModuleLabels().addNode(getCurrentContext(), n);
+        getLabels().addNode(getCurrentContext(), n);
         return n;
     }
 
@@ -932,13 +931,8 @@ public class QedeqBoFactory {
         return original;
     }
 
-    /**
-     * Get currently created QEDEQ module.
-     *
-     * @return  Currently created QEDEQ module.
-     */
-    protected final QedeqBo getQedeqCreated() {
-        return qedeqBo;
+    protected ModuleLabels getLabels() {
+        return labels;
     }
 
 }

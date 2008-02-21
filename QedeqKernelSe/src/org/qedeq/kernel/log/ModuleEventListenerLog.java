@@ -17,7 +17,7 @@
 
 package org.qedeq.kernel.log;
 
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleProperties;
 
 /**
  * Listener that writes events to the {@link org.qedeq.kernel.log.QedeqLog}.

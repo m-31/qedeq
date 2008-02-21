@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.load;
+package org.qedeq.kernel.bo.control;
 
 
 /**
@@ -24,14 +24,14 @@ package org.qedeq.kernel.bo.load;
  * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
-class ModuleFileNotFoundException extends Exception {
+public class ModuleFileNotFoundException extends Exception {
 
     /**
      * Constructor.
      *
      * @param   message Message.
      */
-    ModuleFileNotFoundException(final String message) {
+    public ModuleFileNotFoundException(final String message) {
         super(message);
     }
 

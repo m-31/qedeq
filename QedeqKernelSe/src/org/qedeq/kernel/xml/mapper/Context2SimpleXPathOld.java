@@ -21,7 +21,7 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.qedeq.kernel.bo.module.ModuleContext;
+import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
 import org.qedeq.kernel.xml.tracker.XPathLocationParser;

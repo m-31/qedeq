@@ -29,14 +29,13 @@ import org.qedeq.kernel.bo.logic.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.FormulaChecker;
 import org.qedeq.kernel.bo.logic.Function;
 import org.qedeq.kernel.bo.logic.Predicate;
-import org.qedeq.kernel.bo.module.IllegalModuleDataException;
-import org.qedeq.kernel.bo.module.LogicalState;
-import org.qedeq.kernel.bo.module.ModuleContext;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleProperties;
-import org.qedeq.kernel.bo.module.ModuleReferenceList;
+import org.qedeq.kernel.bo.module.DefaultModuleReferenceList;
 import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.common.IllegalModuleDataException;
+import org.qedeq.kernel.common.LogicalState;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.trace.Trace;
@@ -55,7 +54,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
     private static final Class CLASS = QedeqBoFormalLogicChecker.class;
 
     /** QEDEQ module properties. */
-    private final ModuleProperties prop;
+    private final DefaultModuleProperties prop;
 
     /** Current context during creation. */
     private final QedeqNotNullTraverser traverser;
@@ -68,7 +67,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
      *
      * @param   prop              QEDEQ module properties object.
      */
-    private QedeqBoFormalLogicChecker(final ModuleProperties prop) {
+    private QedeqBoFormalLogicChecker(final DefaultModuleProperties prop) {
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
         this.prop = prop;
     }
@@ -79,7 +78,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
      * @param   prop                QEDEQ module properties object.
      * @throws  SourceFileExceptionList      Major problem occurred.
      */
-    public static void check(final ModuleProperties prop)
+    public static void check(final DefaultModuleProperties prop)
             throws SourceFileExceptionList {
         if (prop.isChecked()) {
             return;
@@ -90,19 +89,19 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
         }
         prop.setLogicalProgressState(LogicalState.STATE_EXTERNAL_CHECKING);
         ModuleEventLog.getInstance().stateChanged(prop);
-        ModuleReferenceList list = prop.getRequiredModules();
+        DefaultModuleReferenceList list = (DefaultModuleReferenceList) prop.getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             try {
                 Trace.trace(CLASS, "check(ModuleProperties)", "checking label",
                     list.getLabel(i));
-                check(list.getModuleProperties(i));
+                check((DefaultModuleProperties) list.getModuleProperties(i));
             } catch (SourceFileExceptionList e) {   // TODO mime 20080114: hard coded codes
                 ModuleDataException md = new CheckRequiredModuleException(11231,
                     "import check failed: " + list.getModuleProperties(i).getModuleAddress(),
                     list.getModuleContext(i));
                 final SourceFileExceptionList sfl =
                     ModuleDataException2XmlFileException.createXmlFileExceptionList(md,
-                    prop.getModule().getQedeq());
+                    prop.getQedeq());
                 prop.setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
                 ModuleEventLog.getInstance().stateChanged(prop);
                 throw e;
@@ -116,7 +115,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
         } catch (ModuleDataException e) {
             final SourceFileExceptionList sfl =
                 ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                prop.getModule().getQedeq());
+                prop.getQedeq());
             prop.setLogicalFailureState(LogicalState.STATE_INTERNAL_CHECKING_FAILED, sfl);
             ModuleEventLog.getInstance().stateChanged(prop);
             throw sfl;
@@ -127,7 +126,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
 
     private void check() throws ModuleDataException {
         this.existence = new ModuleConstantsExistenceChecker(prop);
-        traverser.accept(prop.getModule().getQedeq());
+        traverser.accept(prop.getQedeq());
     }
 
     public void visitEnter(final Axiom axiom) throws ModuleDataException {
@@ -266,7 +265,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
      * @return  Original QEDEQ module.
      */
     protected final Qedeq getQedeqOriginal() {
-        return prop.getModule().getQedeq();
+        return prop.getQedeq();
     }
 
 }

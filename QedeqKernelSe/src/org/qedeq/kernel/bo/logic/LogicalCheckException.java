@@ -18,8 +18,8 @@
 package org.qedeq.kernel.bo.logic;
 
 import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.bo.module.ModuleContext;
-import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleDataException;
 
 /**
  * This is the basis for an exception for logical errors within a QEDEQ module.

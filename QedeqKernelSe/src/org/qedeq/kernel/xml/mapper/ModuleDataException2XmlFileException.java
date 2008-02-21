@@ -22,8 +22,8 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.module.ModuleContext;
-import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -36,7 +36,7 @@ import org.xml.sax.SAXException;
 
 
 /**
- * Converts a {@link org.qedeq.kernel.bo.module.ModuleDataException} into a
+ * Converts a {@link org.qedeq.kernel.common.ModuleDataException} into a
  * {@link org.qedeq.kernel.common.SourceFileException}.
  *
  * @version $Revision: 1.4 $

@@ -19,7 +19,7 @@ package org.qedeq.kernel.xml.mapper;
 
 import java.util.StringTokenizer;
 
-import org.qedeq.kernel.bo.module.ModuleContext;
+import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;

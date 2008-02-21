@@ -15,10 +15,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
-
-import org.qedeq.kernel.common.QedeqException;
-
+package org.qedeq.kernel.common;
 
 /**
  * Data validation error for a QEDEQ module. An error has always a reference to its

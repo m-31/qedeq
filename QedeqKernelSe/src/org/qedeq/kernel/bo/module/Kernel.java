@@ -17,6 +17,7 @@
 
 package org.qedeq.kernel.bo.module;
 
+import org.qedeq.kernel.config.QedeqConfig;
 
 
 /**
@@ -25,7 +26,7 @@ package org.qedeq.kernel.bo.module;
  * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public interface Kernel extends KernelState, ModuleFactory {
+public interface Kernel extends KernelState, KernelServices {
 
     /**
      * Get relative version directory of this kernel.
@@ -33,5 +34,12 @@ public interface Kernel extends KernelState, ModuleFactory {
      * @return  Version sub directory.
      */
     public String getKernelVersionDirectory();
+
+    /**
+     * Get access to configuration parameters.
+     *
+     * @return  Configuration access.
+     */
+    public QedeqConfig getConfig();
 
 }

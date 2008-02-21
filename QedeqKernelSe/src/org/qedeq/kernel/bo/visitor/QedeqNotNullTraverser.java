@@ -52,9 +52,9 @@ import org.qedeq.kernel.base.module.SubsectionList;
 import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleContext;
-import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleDataException;
 
 
 /**
