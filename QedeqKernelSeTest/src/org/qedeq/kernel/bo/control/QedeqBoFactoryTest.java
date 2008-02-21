@@ -24,9 +24,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Author;
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.module.IllegalModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.common.IllegalModuleDataException;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
@@ -97,8 +97,10 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
         final String method = "testCreateStringQedeq()";
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(errorFile.getCanonicalFile()));
+        final DefaultModuleProperties prop = (DefaultModuleProperties) KernelFacade
+            .getKernelContext().getModuleProperties(address);
         try {
-            QedeqBoFactoryAssert.createQedeq(address, error);
+            QedeqBoFactoryAssert.createQedeq(prop, error);
             fail("IllegalModuleDataException expected");
         } catch (IllegalModuleDataException e) {
             System.err.println(e);
@@ -172,7 +174,9 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             SourceFileExceptionList {
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(file.getCanonicalFile()));
-        QedeqBoFactoryAssert.createQedeq(address, createQedeqFromFile(file));
+        final DefaultModuleProperties prop = (DefaultModuleProperties) KernelFacade
+            .getKernelContext().getModuleProperties(address);
+        QedeqBoFactoryAssert.createQedeq(prop, createQedeqFromFile(file));
     }
     
     public static final Qedeq loadQedeq(final String name) throws IOException,

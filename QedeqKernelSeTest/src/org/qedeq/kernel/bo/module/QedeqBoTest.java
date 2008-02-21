@@ -21,8 +21,10 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.net.URL;
 
-import org.qedeq.kernel.bo.load.DefaultModuleAddress;
-import org.qedeq.kernel.bo.load.DefaultQedeqBo;
+import org.qedeq.kernel.bo.control.DefaultModuleAddress;
+import org.qedeq.kernel.bo.control.DefaultQedeqBo;
+import org.qedeq.kernel.common.LoadingState;
+import org.qedeq.kernel.common.ModuleAddress;
 
 
 

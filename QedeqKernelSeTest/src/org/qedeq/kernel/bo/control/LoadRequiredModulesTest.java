@@ -16,18 +16,10 @@
  */
 package org.qedeq.kernel.bo.control;
 
-import java.io.File;
-
-import org.qedeq.kernel.bo.load.DefaultModuleAddress;
-import org.qedeq.kernel.bo.load.DefaultModuleFactory;
-import org.qedeq.kernel.bo.module.ModuleAddress;
+import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.config.QedeqConfig;
 import org.qedeq.kernel.context.KernelContext;
-import org.qedeq.kernel.log.LogListenerImpl;
-import org.qedeq.kernel.log.ModuleEventListenerLog;
-import org.qedeq.kernel.log.ModuleEventLog;
-import org.qedeq.kernel.log.QedeqLog;
+import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
 
 /**
@@ -38,35 +30,13 @@ import org.qedeq.kernel.test.QedeqTestCase;
  */
 public class LoadRequiredModulesTest extends QedeqTestCase{
 
-    /** Kernel log. */
-    private LogListenerImpl log;
-    
-    /** Module event log. */
-    private ModuleEventListenerLog eventLog;
-
     protected void setUp() throws Exception {
         super.setUp();
-        // TODO mime 20071102: check if there are already listeners
-        // registered
-        log = new LogListenerImpl();
-        QedeqLog.getInstance().addLog(log);
-
-        final QedeqConfig config = new QedeqConfig(
-            new File(new File("../../../qedeq_gen/test"), "config/org.qedeq.properties"),
-            "This file is part of the project *Hilbert II* - http://www.qedeq.org",
-            new File("../../../qedeq_gen/test"));
-        KernelContext.getInstance().shutdown();
-        KernelContext.getInstance().init(new DefaultModuleFactory(KernelContext.getInstance()), 
-            config);
-        eventLog = new ModuleEventListenerLog();
-        ModuleEventLog.getInstance().addLog(eventLog);
-        KernelContext.getInstance().startup();
+        KernelFacade.startup();
     }
 
     protected void tearDown() throws Exception {
-        KernelContext.getInstance().shutdown();
-        ModuleEventLog.getInstance().removeLog(eventLog);
-        QedeqLog.getInstance().removeLog(log);
+        KernelFacade.shutdown();
         super.tearDown();
     }
 

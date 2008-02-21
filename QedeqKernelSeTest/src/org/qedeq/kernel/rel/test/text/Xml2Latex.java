@@ -22,9 +22,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.latex.Qedeq2Latex;
 import org.qedeq.kernel.trace.Trace;
@@ -251,7 +251,7 @@ public final class Xml2Latex  {
             Trace.trace(CLASS, method, e);
             Trace.param(CLASS, method, "context", e.getContext());
             throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e, 
-                prop.getModule().getQedeq());
+                prop.getQedeq());
         } finally {
             if (printer != null) {
                 printer.close();

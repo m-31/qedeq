@@ -20,7 +20,7 @@ package org.qedeq.kernel.rel.test.text;
 import java.io.File;
 import java.io.IOException;
 
-import org.qedeq.kernel.bo.load.DefaultModuleFactory;
+import org.qedeq.kernel.bo.control.DefaultKernelServices;
 import org.qedeq.kernel.config.QedeqConfig;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.LogListener;
@@ -29,6 +29,7 @@ import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.log.ModuleEventListenerLog;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
+import org.qedeq.kernel.xml.loader.XmlModuleLoader;
 
 
 /**
@@ -51,7 +52,8 @@ public final class KernelFacade {
                 new File(new File("../../../qedeq_gen/test"), "config/org.qedeq.properties"),
                 "This file is part of the project *Hilbert II* - http://www.qedeq.org",
                 new File("../../../qedeq_gen/test"));
-            KernelContext.getInstance().init(new DefaultModuleFactory(KernelContext.getInstance()), 
+            KernelContext.getInstance().init(new DefaultKernelServices(KernelContext.getInstance(),
+                new XmlModuleLoader()), 
                 config);
         } catch (IOException e) {
             e.printStackTrace();

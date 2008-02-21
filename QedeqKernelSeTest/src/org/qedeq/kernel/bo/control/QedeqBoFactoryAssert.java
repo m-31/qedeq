@@ -23,12 +23,10 @@ import java.lang.reflect.InvocationTargetException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.load.DefaultQedeqBo;
 import org.qedeq.kernel.bo.load.QedeqBoFactory;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.trace.Trace;
@@ -51,10 +49,10 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
     /**
      * Constructor.
      * 
-     * @param   globalContext     Module location information.
+     * @param   prop     QEDEDQ BO.
      */
-    public QedeqBoFactoryAssert(final ModuleAddress globalContext) {
-        super(globalContext);
+    public QedeqBoFactoryAssert(final DefaultModuleProperties prop) {
+        super(prop);
     }
 
     /**
@@ -67,27 +65,25 @@ public class QedeqBoFactoryAssert extends QedeqBoFactory {
      * During the creation process the caller must assert that no modifications are made
      * to the {@link Qedeq} instance including its referenced objects.
      *
-     * @param   globalContext   Module location information.
+     * @param   prop            Module informations.
      * @param   original        Basic qedeq module object.
-     * @return  Filled QEDEQ business object. Is equal to the parameter <code>qedeq</code>.
      * @throws  ModuleDataException  Semantic or syntactic error occurred.
      */
-    public static DefaultQedeqBo createQedeq(final ModuleAddress globalContext,
+    public static void createQedeq(final DefaultModuleProperties prop,
             final Qedeq original) throws ModuleDataException {
-        final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(globalContext);
-        final DefaultQedeqBo bo = creator.create(original);
-        bo.setModuleAddress(globalContext);
-        final ModuleProperties prop = KernelFacade.getKernelContext().getModuleProperties(
-            globalContext);
-        prop.setLoaded(bo);
+        final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(prop);
+        final QedeqVo qedeq = creator.create(original);
+        prop.setLoaded(qedeq, creator.getLabels());
         try {
             KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
-            QedeqBoFormalLogicChecker.check(prop);
-        } catch (SourceFileExceptionList e) {
-            throw (ModuleDataException) e.get(0).getCause();
+        } catch (SourceFileExceptionList sfel) {
+            throw (ModuleDataException) prop.getException().get(0).getCause(); // TODO mime 20080217 ok???
         }
-        QedeqBoDuplicateLanguageChecker.check(globalContext, bo);
-        return bo;
+        KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
+        if (!prop.isChecked()) {
+            throw (ModuleDataException) prop.getException().get(0).getCause();
+        }
+        QedeqBoDuplicateLanguageChecker.check(prop);
     }
 
     /**

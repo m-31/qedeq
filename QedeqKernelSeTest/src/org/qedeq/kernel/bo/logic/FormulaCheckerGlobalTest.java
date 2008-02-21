@@ -22,8 +22,8 @@ import java.util.List;
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
-import org.qedeq.kernel.bo.load.DefaultModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleContext;
+import org.qedeq.kernel.bo.control.DefaultModuleAddress;
+import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.dto.list.DefaultAtom;
 import org.qedeq.kernel.dto.list.DefaultElementList;
 

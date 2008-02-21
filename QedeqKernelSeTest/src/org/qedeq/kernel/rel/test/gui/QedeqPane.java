@@ -42,8 +42,8 @@ import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.text.BadLocationException;
 
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleDataException;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourcePosition;
 import org.qedeq.kernel.context.KernelContext;

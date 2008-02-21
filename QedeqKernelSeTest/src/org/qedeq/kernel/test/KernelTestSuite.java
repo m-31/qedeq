@@ -50,7 +50,7 @@ public class KernelTestSuite extends QedeqTestSuite {
             // set properties and watch file every 5 seconds
             DOMConfigurator.configureAndWatch(url.getPath(), 5000);
         } catch (Exception e) {
-            e.printStackTrace();
+            // we ignore this
         }
         
     }

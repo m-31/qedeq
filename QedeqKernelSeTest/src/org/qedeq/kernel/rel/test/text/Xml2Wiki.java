@@ -20,8 +20,8 @@ package org.qedeq.kernel.rel.test.text;
 import java.io.File;
 import java.io.IOException;
 
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.latex.Qedeq2Wiki;
 import org.qedeq.kernel.rel.test.gui.Xml2OtherGui;

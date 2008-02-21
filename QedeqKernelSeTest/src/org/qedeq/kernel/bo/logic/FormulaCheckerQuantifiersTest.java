@@ -18,8 +18,8 @@
 package org.qedeq.kernel.bo.logic;
 
 import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.bo.load.DefaultModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleContext;
+import org.qedeq.kernel.bo.control.DefaultModuleAddress;
+import org.qedeq.kernel.common.ModuleContext;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.

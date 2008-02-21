@@ -20,17 +20,15 @@ package org.qedeq.kernel.latex;
 import java.io.File;
 import java.io.IOException;
 
+import org.qedeq.kernel.bo.control.DefaultModuleAddress;
+import org.qedeq.kernel.bo.control.DefaultModuleProperties;
 import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
-import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
-import org.qedeq.kernel.bo.load.DefaultModuleAddress;
-import org.qedeq.kernel.bo.load.DefaultModuleProperties;
 import org.qedeq.kernel.bo.logic.LogicalCheckException;
-import org.qedeq.kernel.bo.module.ModuleAddress;
-import org.qedeq.kernel.bo.module.ModuleDataException;
-import org.qedeq.kernel.bo.module.ModuleProperties;
+import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.utility.IoUtility;
@@ -269,13 +267,14 @@ public final class GenerateLatexTest extends QedeqTestCase {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(xmlFile));
-        final ModuleProperties prop = KernelFacade.getKernelContext().loadModule(address);
+        final DefaultModuleProperties prop = (DefaultModuleProperties) KernelFacade
+            .getKernelContext().loadModule(address);
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         final String web = "http://qedeq.org/" 
             + KernelFacade.getKernelContext().getKernelVersionDirectory() + "/doc/" + xml;
-        final ModuleProperties fakeProp = new DefaultModuleProperties(
+        final DefaultModuleProperties fakeProp = new DefaultModuleProperties(
             new DefaultModuleAddress(web));
-        fakeProp.setLoaded(prop.getModule());
+        fakeProp.setLoaded(prop.getQedeq(), prop.getLabels());
         fakeProp.setLoadedRequiredModules(prop.getRequiredModules());
         final File texFile = new File(destinationDirectory, 
             xml.substring(0, xml.lastIndexOf('.')) + "_" + language + ".tex");
@@ -283,21 +282,15 @@ public final class GenerateLatexTest extends QedeqTestCase {
         final File texCopy = new File(dir, new File(new File(xml).getParent(), 
             texFile.getName()).getPath());
         final File xmlCopy = new File(destinationDirectory, xml);
-        try {
-            QedeqLog.getInstance().logRequest("Check logical correctness of \""
-                + prop.getUrl() + "\"");
-            QedeqBoFormalLogicChecker.check(prop);
-            QedeqLog.getInstance().logSuccessfulReply(
-                "Check of logical correctness successful for \""
-                + prop.getUrl() + "\"");
+        KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
+        if (prop.isChecked()) {
             IoUtility.createNecessaryDirectories(xmlCopy);
             IoUtility.copyFile(xmlFile, xmlCopy);
             IoUtility.copyFile(texFile, texCopy);
-        } catch (SourceFileExceptionList e) {
+        } else {
             final String msg = "Check of logical correctness failed for \""
                 + prop.getUrl() + "\"";
-            QedeqLog.getInstance().logFailureReply(e.getMessage(), msg);
-            throw e;
+            throw prop.getException();
         }
     }
 
