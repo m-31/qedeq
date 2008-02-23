@@ -32,10 +32,10 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * Encapsulates all modules.
  */
-class Modules {
+class QedeqBoFactory {
 
     /** This class. */
-    private static final Class CLASS = Modules.class;
+    private static final Class CLASS = QedeqBoFactory.class;
 
     /** properties of modules; key: ModuleAddress, value: DefaultModuleProperties.*/
     private final Map moduleProperties = new HashMap();

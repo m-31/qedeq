@@ -26,10 +26,9 @@ import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.control.DefaultModuleProperties;
 import org.qedeq.kernel.bo.control.ModuleFileNotFoundException;
 import org.qedeq.kernel.bo.control.ModuleLoader;
-import org.qedeq.kernel.bo.load.QedeqBoFactory;
+import org.qedeq.kernel.bo.load.QedeqVoBuilder;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.trace.Trace;
@@ -122,7 +121,7 @@ public class XmlModuleLoader implements ModuleLoader {
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY);
         ModuleEventLog.getInstance().stateChanged(prop);
         try {
-            QedeqBoFactory.createQedeq(prop, qedeq);
+            QedeqVoBuilder.createQedeq(prop, qedeq);
         } catch (ModuleDataException e) {
             Trace.trace(CLASS, this, method, e);
             final SourceFileExceptionList xl

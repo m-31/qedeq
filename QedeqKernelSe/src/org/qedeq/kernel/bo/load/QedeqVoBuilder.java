@@ -53,7 +53,6 @@ import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.control.DefaultModuleProperties;
-import org.qedeq.kernel.bo.control.DefaultQedeqBo;
 import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.ModuleContext;
@@ -96,7 +95,7 @@ import org.qedeq.kernel.dto.module.VariableListVo;
 
 
 /**
- * An factory for creating {@link org.qedeq.kernel.bo.control.DefaultQedeqBo}s. This factory takes
+ * An builder for creating {@link org.qedeq.kernel.dto.module.QedeqVo}s. This builder takes
  * something that implements the QEDEQ interfaces (beginning with
  * (@link org.qedeq.kernel.base.module.Qedeq} and makes copies that are out of the package
  * <code>org.qedeq.kernel.dto.*</code>. Only elements that are not <code>null</code> are
@@ -109,7 +108,7 @@ import org.qedeq.kernel.dto.module.VariableListVo;
  * @version   $Revision: 1.7 $
  * @author    Michael Meyling
  */
-public class QedeqBoFactory {
+public class QedeqVoBuilder {
 
     /** QEDEQ module labels. */
     private final ModuleLabels labels;
@@ -125,7 +124,7 @@ public class QedeqBoFactory {
      *
      * @param   prop    QEDEQ BO.
      */
-    protected QedeqBoFactory(final DefaultModuleProperties prop) {
+    protected QedeqVoBuilder(final DefaultModuleProperties prop) {
         this.currentContext = prop.getModuleAddress().createModuleContext();
         this.labels = new ModuleLabels();
     }
@@ -145,7 +144,7 @@ public class QedeqBoFactory {
      */
     public static void createQedeq(final DefaultModuleProperties prop,
             final Qedeq original) throws ModuleDataException {
-        final QedeqBoFactory creator = new QedeqBoFactory(prop);
+        final QedeqVoBuilder creator = new QedeqVoBuilder(prop);
         QedeqVo vo = creator.create(original);
         prop.setLoaded(vo, creator.getLabels());
 
@@ -156,7 +155,7 @@ public class QedeqBoFactory {
     }
 
     /**
-     * Create {@link DefaultQedeqBo} out of an {@link Qedeq} instance.
+     * Create {@linkQedeqVo} out of an {@link Qedeq} instance.
      * During that procedure some basic checking is done. E.g. the uniqueness of entries
      * is tested. The resulting business object has no references to the original
      * {@link Qedeq} instance.

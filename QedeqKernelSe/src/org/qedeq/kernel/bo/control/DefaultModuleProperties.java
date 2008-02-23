@@ -29,6 +29,7 @@ import org.qedeq.kernel.common.ModuleLabels;
 import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.common.ModuleReferenceList;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.utility.EqualsUtility;
 
 
 /**
@@ -103,6 +104,10 @@ public class DefaultModuleProperties implements ModuleProperties {
         this.loadingCompleteness = completeness;
     }
 
+    public int getLoadingCompleteness() {
+        return this.loadingCompleteness;
+    }
+
     /**
      * Set loading progress module state.
      *
@@ -161,7 +166,8 @@ public class DefaultModuleProperties implements ModuleProperties {
     /**
      * Set checked and loaded state and module.
      *
-     * @param  module   checked and loaded module.
+     * @param   qedeq   This module was loaded.
+     * @param   labels  Set this label references.
      */
     public final void setLoaded(final Qedeq qedeq, final ModuleLabels labels) {
         loadingState = LoadingState.STATE_LOADED;
@@ -315,10 +321,10 @@ public class DefaultModuleProperties implements ModuleProperties {
     //  ModuleEventLog.getInstance().stateChanged(props[i]);
     //  and not in DefaultModuleFactory?
    /**
-     * Set loading progress module state.
-     *
-     * @param   state   module state
-     */
+    * Set loading progress module state. Must not be <code>null</code>.
+    *
+    * @param   state   module state
+    */
     public final void setLogicalProgressState(final LogicalState state) {
         if (dependencyState.getCode() < DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode()
                 && state != LogicalState.STATE_UNCHECKED) {
@@ -409,16 +415,38 @@ public class DefaultModuleProperties implements ModuleProperties {
         return this.address.getURL();
     }
 
+    /**
+     * Set label references for QEDEQ module.
+     *
+     * @param   labels  Label references.
+     */
     public void setLabels(final ModuleLabels labels) {
         this.labels = labels;
     }
 
+    /**
+     * Get label references for QEDEQ module.
+     *
+     * @return  Label references.
+     */
     public ModuleLabels getLabels() {
         return labels;
     }
 
-    public final String toString() {
-       return super.toString() + ":" + address + ";" + loadingState;
+    public int hashCode() {
+        return (getModuleAddress() == null ? 0 : getModuleAddress().hashCode());
+    }
+
+    public boolean equals(final Object obj) {
+        if (obj instanceof DefaultModuleProperties) {
+            return EqualsUtility.equals(((DefaultModuleProperties) obj).getModuleAddress(),
+                this.getModuleAddress());
+        }
+        return false;
+    }
+
+    public String toString() {
+       return address + ";" + loadingState;
     }
 
 }

@@ -51,6 +51,13 @@ public interface ModuleProperties {
      */
     public LoadingState getLoadingState();
 
+    /**
+     * Set completeness percentage.
+     *
+     * @return  completeness    Completeness of loading into memory in percent.
+     */
+    public int getLoadingCompleteness();
+
    /**
     * Get module dependency state.
     *
