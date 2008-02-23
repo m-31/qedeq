@@ -613,6 +613,7 @@ public abstract class AbstractValueObjectTest extends QedeqTestCase {
      */
     protected Object getEmptyObject(Class clazz, final Class parent, final String attribute)
             throws Exception {
+
         if (abstractToConcreteClass(clazz) != null) {
             clazz = abstractToConcreteClass(clazz);
         }

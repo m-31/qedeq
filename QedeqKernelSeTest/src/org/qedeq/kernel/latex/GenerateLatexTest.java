@@ -26,7 +26,6 @@ import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
 import org.qedeq.kernel.bo.logic.LogicalCheckException;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.ModuleProperties;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
@@ -288,8 +287,6 @@ public final class GenerateLatexTest extends QedeqTestCase {
             IoUtility.copyFile(xmlFile, xmlCopy);
             IoUtility.copyFile(texFile, texCopy);
         } else {
-            final String msg = "Check of logical correctness failed for \""
-                + prop.getUrl() + "\"";
             throw prop.getException();
         }
     }

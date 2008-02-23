@@ -25,11 +25,10 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.control.DefaultModuleProperties;
 import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
-import org.qedeq.kernel.bo.load.QedeqBoFactory;
+import org.qedeq.kernel.bo.load.QedeqVoBuilder;
 import org.qedeq.kernel.bo.module.DefaultModuleReferenceList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
@@ -165,7 +164,7 @@ public final class CheckLogicTest extends QedeqTestCase {
         Qedeq qedeq = simple.getQedeq();
         final DefaultModuleProperties prop = (DefaultModuleProperties) KernelFacade
             .getKernelContext().getModuleProperties(context);
-        QedeqBoFactory.createQedeq(prop, qedeq);
+        QedeqVoBuilder.createQedeq(prop, qedeq);
         prop.setLoadedRequiredModules(new DefaultModuleReferenceList());
         QedeqBoFormalLogicChecker.check((DefaultModuleProperties) prop);
     }

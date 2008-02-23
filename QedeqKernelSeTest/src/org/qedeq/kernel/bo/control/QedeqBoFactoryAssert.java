@@ -23,7 +23,7 @@ import java.lang.reflect.InvocationTargetException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.load.QedeqBoFactory;
+import org.qedeq.kernel.bo.load.QedeqVoBuilder;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
@@ -41,7 +41,7 @@ import org.xml.sax.SAXException;
  * @version $Revision: 1.13 $
  * @author Michael Meyling
  */
-public class QedeqBoFactoryAssert extends QedeqBoFactory {
+public class QedeqBoFactoryAssert extends QedeqVoBuilder {
 
     /** This class. */
     private static final Class CLASS = QedeqBoFactoryAssert.class;

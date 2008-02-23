@@ -43,7 +43,7 @@ public class KernelBoModuleTestSuite extends QedeqTestSuite {
      */
     public KernelBoModuleTestSuite() {
         super();
-        addTestSuite(QedeqBoTest.class);
+        addTestSuite(DefaultModulePropertiesTest.class);
         addTestSuite(VisitorContextTest.class);
     }
 }
