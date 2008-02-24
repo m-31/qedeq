@@ -27,7 +27,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.trace.Trace;
 
@@ -71,7 +71,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
         super.addTreeModelListener(listener);
     }
 
-    public void addModule(final ModuleProperties prop) {
+    public void addModule(final QedeqBo prop) {
         Runnable addModule = new Runnable() {
             public void run() {
                 final QedeqTreeNode root = (QedeqTreeNode) getRoot();
@@ -80,7 +80,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
                 module2Path.put(prop.getModuleAddress(), new TreePath(node.getPath()));
                 for (int i = 0; i < root.getChildCount(); i++) {
                     final QedeqTreeNode n = (QedeqTreeNode) root.getChildAt(i);
-                    final ModuleProperties p = (ModuleProperties) n.getUserObject();
+                    final QedeqBo p = (QedeqBo) n.getUserObject();
                     if (p.getModuleAddress().getFileName().compareTo(prop.getModuleAddress()
                             .getFileName()) > 0) {
                         insertNodeInto(node, root, i);
@@ -95,7 +95,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
 
     }
 
-    public void stateChanged(final ModuleProperties prop) {
+    public void stateChanged(final QedeqBo prop) {
         Runnable stateChanged = new Runnable() {
             public void run() {
                 final TreePath path = (TreePath) module2Path.get(prop.getModuleAddress());
@@ -103,7 +103,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
                     throw new IllegalArgumentException("unknown property");
                 }
                 final QedeqTreeNode node = (QedeqTreeNode) path.getLastPathComponent();
-                ModuleProperties sameProp = (ModuleProperties) node.getUserObject();
+                QedeqBo sameProp = (QedeqBo) node.getUserObject();
                 if (!prop.equals(sameProp)) {
                     throw new IllegalStateException("should not happen");
                 }
@@ -115,7 +115,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
         SwingUtilities.invokeLater(stateChanged);
     }
 
-    public void removeModule(final ModuleProperties prop) {
+    public void removeModule(final QedeqBo prop) {
         Runnable removeModule = new Runnable() {
             public void run() {
                 final TreePath path = (TreePath) module2Path.get(prop.getModuleAddress());
@@ -124,7 +124,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
                         + prop.getModuleAddress());
                 }
                 final QedeqTreeNode node = (QedeqTreeNode) path.getLastPathComponent();
-                ModuleProperties sameProp = (ModuleProperties) node.getUserObject();
+                QedeqBo sameProp = (QedeqBo) node.getUserObject();
                 if (!prop.equals(sameProp)) {
                     throw new IllegalStateException("should not happen");
                 }
@@ -137,13 +137,13 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
         SwingUtilities.invokeLater(removeModule);
     }
 
-    public TreePath getSelectionPath(final ModuleProperties prop) {
+    public TreePath getSelectionPath(final QedeqBo prop) {
         final TreePath path = (TreePath) module2Path.get(prop.getModuleAddress());
         if (path == null) {
             throw new IllegalArgumentException("unknown property");
         }
         final QedeqTreeNode node = (QedeqTreeNode) path.getLastPathComponent();
-        ModuleProperties sameProp = (ModuleProperties) node.getUserObject();
+        QedeqBo sameProp = (QedeqBo) node.getUserObject();
         if (!prop.equals(sameProp)) {
             throw new IllegalStateException("should not happen");
         }

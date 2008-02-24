@@ -29,7 +29,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
@@ -44,7 +44,7 @@ import com.jgoodies.forms.layout.FormLayout;
 public class ModulePropertiesPane extends JPanel {
 
     /** Reference to module properties. */
-    private ModuleProperties prop;
+    private QedeqBo prop;
 
     /** State of module. */
     private JTextField state;
@@ -62,7 +62,7 @@ public class ModulePropertiesPane extends JPanel {
     /**
      * Creates new Panel.
      */
-    public ModulePropertiesPane(final ModuleProperties prop) {
+    public ModulePropertiesPane(final QedeqBo prop) {
         super();
         this.prop = prop;
         setupView();
@@ -187,12 +187,12 @@ public class ModulePropertiesPane extends JPanel {
         this.setPreferredSize(new Dimension(200, 200));
     }
 
-    public void setModel(final ModuleProperties prop) {
+    public void setModel(final QedeqBo prop) {
         this.prop = prop;
         updateView();
     }
 
-    public ModuleProperties getModel() {
+    public QedeqBo getModel() {
         return this.prop;
     }
 

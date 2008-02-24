@@ -36,7 +36,7 @@ import javax.swing.tree.TreePath;
 import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.main.LowerTabbedView;
 import org.qedeq.gui.se.main.UpperTabbedView;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 
@@ -117,7 +117,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
      * @return  Selected ModuleProperties.
      * @throws  NothingSelectedException    Nothing was selected.
      */
-    public final ModuleProperties[] getSelected() throws NothingSelectedException {
+    public final QedeqBo[] getSelected() throws NothingSelectedException {
         final String method = "getSelected";
         Trace.begin(CLASS, this, method);
         try {
@@ -130,7 +130,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
                     final DefaultMutableTreeNode node = (DefaultMutableTreeNode)
                              (selected[i].getLastPathComponent());
                     if (node instanceof QedeqTreeNode) {
-                        final ModuleProperties prop = (ModuleProperties) node.getUserObject();
+                        final QedeqBo prop = (QedeqBo) node.getUserObject();
                         list.add(prop);
                     }
                 }
@@ -138,7 +138,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
             if (list.size() <= 0) {
                 throw new NothingSelectedException();
             }
-            return (ModuleProperties[]) list.toArray(new ModuleProperties[0]);
+            return (QedeqBo[]) list.toArray(new QedeqBo[0]);
         } catch (RuntimeException ex) {
             Trace.trace(CLASS, this, method, ex);
             throw new NothingSelectedException();
@@ -218,8 +218,8 @@ public final class QedeqTreeCtrl implements TreeModelListener {
             TreePath path = event.getPath();
             QedeqTreeNode treeNode = (QedeqTreeNode) path.getLastPathComponent();
             if (event.isAddedPath()
-                    && treeNode.getUserObject() instanceof ModuleProperties) {
-                ModuleProperties prop = (ModuleProperties) treeNode.getUserObject();
+                    && treeNode.getUserObject() instanceof QedeqBo) {
+                QedeqBo prop = (QedeqBo) treeNode.getUserObject();
                 pane.setQedeqModel(prop);
                 lower.setQedeqModel(prop);
             } else {
@@ -265,7 +265,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
          */
        public void actionPerformed(final ActionEvent e) {
            try {
-               ModuleProperties[] moduleProperties = getSelected();
+               QedeqBo[] moduleProperties = getSelected();
                for (int i = 0; i < moduleProperties.length; i++) {
                    KernelContext.getInstance().removeModule(moduleProperties[i].getModuleAddress());
                }

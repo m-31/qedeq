@@ -26,7 +26,7 @@ import javax.swing.JTabbedPane;
 import org.qedeq.gui.se.pane.HtmlPane;
 import org.qedeq.gui.se.pane.ModulePropertiesPane;
 import org.qedeq.gui.se.pane.QedeqPane;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
 
 
@@ -51,7 +51,7 @@ public final class UpperTabbedView extends JPanel {
     private HtmlPane htmlPane;
 
     /** Currently active module properties. */
-    private ModuleProperties prop;
+    private QedeqBo prop;
 
     /** Show properties and status of QEDEQ module. */
     private ModulePropertiesPane propertiesPane;
@@ -102,7 +102,7 @@ public final class UpperTabbedView extends JPanel {
         return viewHtml;
     }
 
-    public void setQedeqModel(final ModuleProperties model) {
+    public void setQedeqModel(final QedeqBo model) {
         propertiesPane.setModel(model);
         qedeqPane.setModel(model);
         htmlPane.setModel(model);
@@ -112,7 +112,7 @@ public final class UpperTabbedView extends JPanel {
         }
     }
 
-    public ModuleProperties getQedeqModel() {
+    public QedeqBo getQedeqModel() {
         return prop;
     }
 

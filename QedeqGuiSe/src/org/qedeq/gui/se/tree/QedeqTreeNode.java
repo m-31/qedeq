@@ -19,7 +19,7 @@ package org.qedeq.gui.se.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 
 
 
@@ -35,7 +35,7 @@ public final class QedeqTreeNode extends DefaultMutableTreeNode {
         super(userObject, allowsChildren);
     }
 
-    public QedeqTreeNode(final ModuleProperties userObject, final boolean allowsChildren) {
+    public QedeqTreeNode(final QedeqBo userObject, final boolean allowsChildren) {
         super(userObject, allowsChildren);
     }
 
@@ -45,7 +45,7 @@ public final class QedeqTreeNode extends DefaultMutableTreeNode {
      */
     public final void setUserObject(final Object userObject) {
 
-        if (userObject instanceof ModuleProperties) {
+        if (userObject instanceof QedeqBo) {
             this.userObject = userObject;
         } else {
             throw new IllegalArgumentException("Only ModuleElements could be managed!");

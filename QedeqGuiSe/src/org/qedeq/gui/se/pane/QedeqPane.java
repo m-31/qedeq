@@ -30,7 +30,7 @@ import javax.swing.JViewport;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.BadLocationException;
 
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
@@ -49,7 +49,7 @@ public class QedeqPane extends JPanel {
     private static final Class CLASS = QedeqPane.class;
 
     /** Reference to module properties. */
-    private ModuleProperties prop;
+    private QedeqBo prop;
 
     /** Here is the QEDEQ module source. */
     private JTextArea qedeq = new JTextArea();
@@ -57,7 +57,7 @@ public class QedeqPane extends JPanel {
     /**
      * Creates new Panel.
      */
-    public QedeqPane(final ModuleProperties prop) {
+    public QedeqPane(final QedeqBo prop) {
         super(false);
         this.prop = prop;
         setupView();
@@ -85,14 +85,14 @@ public class QedeqPane extends JPanel {
      *
      * @param   prop
      */
-    public void setModel(final ModuleProperties prop) {
+    public void setModel(final QedeqBo prop) {
         Trace.trace(CLASS, this, "setModel", prop);
         this.prop = prop;
         updateView();
     }
 
 
-    public ModuleProperties getModel() {
+    public QedeqBo getModel() {
         return prop;
     }
 

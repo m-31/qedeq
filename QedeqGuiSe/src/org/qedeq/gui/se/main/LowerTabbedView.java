@@ -25,7 +25,7 @@ import javax.swing.JTabbedPane;
 
 import org.qedeq.gui.se.pane.ErrorListPane;
 import org.qedeq.gui.se.pane.LogPane;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
@@ -52,7 +52,7 @@ public final class LowerTabbedView extends JPanel {
     private ErrorListPane errorListPane;
 
     /** Selected module has this properties. */
-    private ModuleProperties prop;
+    private QedeqBo prop;
 
     /**
      * Constructor.
@@ -80,7 +80,7 @@ public final class LowerTabbedView extends JPanel {
     }
 
 
-    public void setQedeqModel(final ModuleProperties model) {
+    public void setQedeqModel(final QedeqBo model) {
         errorListPane.setModel(model);
         if (prop != model) {
             prop = model;
@@ -88,7 +88,7 @@ public final class LowerTabbedView extends JPanel {
         }
     }
 
-    public ModuleProperties getQedeqModel() {
+    public QedeqBo getQedeqModel() {
         return prop;
     }
 

@@ -35,7 +35,7 @@ import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
 
 /**
@@ -53,7 +53,7 @@ public class HtmlPane extends JPanel {
     private static final Class CLASS = HtmlPane.class;
 
     /** Module properties for selected module. */
-    private ModuleProperties prop;
+    private QedeqBo prop;
 
 //    private JEditorPane html = new JEditorPane();
 // TODO test example:
@@ -73,7 +73,7 @@ public class HtmlPane extends JPanel {
     /**
      * Creates new Panel.
      */
-    public HtmlPane(final ModuleProperties prop) {
+    public HtmlPane(final QedeqBo prop) {
         super(false);
         this.prop = prop;
         this.currentAddress = prop == null ? null : prop.getModuleAddress();
@@ -119,13 +119,13 @@ public class HtmlPane extends JPanel {
      *
      * @param   prop
      */
-    public void setModel(final ModuleProperties prop) {
+    public void setModel(final QedeqBo prop) {
         Trace.trace(CLASS, this, "setModel", prop);
         this.prop = prop;
     }
 
 
-    public ModuleProperties getModel() {
+    public QedeqBo getModel() {
         return this.prop;
     }
 

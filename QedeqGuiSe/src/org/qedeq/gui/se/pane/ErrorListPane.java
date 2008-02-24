@@ -36,7 +36,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventListener;
@@ -75,12 +75,12 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
     private final SimpleAttributeSet errorAttrs = new SimpleAttributeSet();
 
     /** For this module properties the errors are shown. */
-    private ModuleProperties prop;
+    private QedeqBo prop;
 
     /**
      * Creates new panel.
      */
-    public ErrorListPane(final ModuleProperties prop) {
+    public ErrorListPane(final QedeqBo prop) {
         super(false);
         setModel(prop);
         setupView();
@@ -141,13 +141,13 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
      *
      * @param   prop
      */
-    public void setModel(final ModuleProperties prop) {
+    public void setModel(final QedeqBo prop) {
         Trace.trace(CLASS, this, "setModel", prop);
         this.prop = prop;
     }
 
 
-    public ModuleProperties getModel() {
+    public QedeqBo getModel() {
         return this.prop;
     }
 
@@ -193,7 +193,7 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
         this.repaint();
     }
 
-    public void addModule(final ModuleProperties prop) {
+    public void addModule(final QedeqBo prop) {
         // TODO mime 20070829: what identifies a ModuleProperties, the moduleAddress? why not
         // use equals?
         if (this.prop != null && prop.getUrl().equals(this.prop.getUrl())) {
@@ -201,13 +201,13 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
         }
     }
 
-    public void stateChanged(final ModuleProperties prop) {
+    public void stateChanged(final QedeqBo prop) {
         if (this.prop != null && prop.getUrl().equals(this.prop.getUrl())) {
             updateView();
         }
     }
 
-    public void removeModule(final ModuleProperties prop) {
+    public void removeModule(final QedeqBo prop) {
         this.prop = null;
         updateView();
     }

@@ -32,7 +32,7 @@ import javax.swing.tree.TreeCellRenderer;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
 
 /**
@@ -152,7 +152,7 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
         Trace.param(CLASS, this, method, row + " tree path", tree.getPathForRow(row));
 
         ModuleElement unit;
-        ModuleProperties prop;
+        QedeqBo prop;
         if (value instanceof DefaultMutableTreeNode) {
             if (((DefaultMutableTreeNode) value).getUserObject()
                     instanceof ModuleElement) {
@@ -161,7 +161,7 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
                 setText(unit.getName());
                 setToolTipText("here should stand a tool tip"); // LATER mime 20071022: add tool tip
             } else {
-                prop = (ModuleProperties) ((DefaultMutableTreeNode)
+                prop = (QedeqBo) ((DefaultMutableTreeNode)
                     value).getUserObject();
                 String text = prop.getName();
                 setText(text);
