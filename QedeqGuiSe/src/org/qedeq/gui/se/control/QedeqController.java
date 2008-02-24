@@ -27,7 +27,7 @@ import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.gui.se.tree.QedeqTreeCtrl;
 import org.qedeq.gui.se.util.DataDictionary;
 import org.qedeq.kernel.base.module.LatexList;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.context.KernelContext;
 
 
@@ -145,7 +145,7 @@ public class QedeqController {
      * @return  Selected modules.
      * @throws  NothingSelectedException    No modules were selected.
      */
-    public ModuleProperties[] getSelected() throws NothingSelectedException {
+    public QedeqBo[] getSelected() throws NothingSelectedException {
         return treeCtrl.getSelected();
     }
 
@@ -312,7 +312,7 @@ public class QedeqController {
     }
 
     // TODO mime 20070704: this should be part of QedeqBo
-    String[] getSupportedLanguages(final ModuleProperties prop) {
+    String[] getSupportedLanguages(final QedeqBo prop) {
         // TODO mime 20070704: there should be a better way to
         // get all supported languages. Time for a new visitor?
         if (!prop.isLoaded()) {

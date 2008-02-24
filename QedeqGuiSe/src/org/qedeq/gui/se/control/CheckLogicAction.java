@@ -22,7 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import org.qedeq.gui.se.tree.NothingSelectedException;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 
@@ -52,7 +52,7 @@ class CheckLogicAction extends AbstractAction {
         final String method = "actionPerformed";
         Trace.begin(CLASS, this, method);
         try {
-            final ModuleProperties[] props;
+            final QedeqBo[] props;
             try {
                 props = controller.getSelected();
             } catch (NothingSelectedException ex) {
