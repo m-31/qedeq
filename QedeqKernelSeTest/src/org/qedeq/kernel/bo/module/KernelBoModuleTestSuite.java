@@ -19,6 +19,7 @@ package org.qedeq.kernel.bo.module;
 
 import junit.framework.Test;
 
+import org.qedeq.kernel.bo.control.DefaultQedeqBo2Test;
 import org.qedeq.kernel.test.QedeqTestSuite;
 
 /**

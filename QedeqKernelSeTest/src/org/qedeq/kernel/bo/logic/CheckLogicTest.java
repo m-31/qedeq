@@ -163,7 +163,7 @@ public final class CheckLogicTest extends QedeqTestCase {
         parser.parse(xmlFile, null);
         Qedeq qedeq = simple.getQedeq();
         final DefaultQedeqBo prop = (DefaultQedeqBo) KernelFacade
-            .getKernelContext().getModuleProperties(context);
+            .getKernelContext().getQedeqBo(context);
         QedeqVoBuilder.createQedeq(prop, qedeq);
         prop.setLoadedRequiredModules(new DefaultModuleReferenceList());
         QedeqBoFormalLogicChecker.check((DefaultQedeqBo) prop);

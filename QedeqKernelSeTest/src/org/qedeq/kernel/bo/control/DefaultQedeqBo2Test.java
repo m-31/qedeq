@@ -15,11 +15,10 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.bo.control;
 
-import org.qedeq.kernel.bo.control.DefaultModuleAddress;
-import org.qedeq.kernel.bo.control.DefaultQedeqBo;
 import org.qedeq.kernel.bo.logic.DefaultExistenceChecker;
+import org.qedeq.kernel.bo.module.DefaultModuleReferenceList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleLabels;
@@ -200,7 +199,97 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
         DefaultQedeqBo bo;
         bo = new DefaultQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasFailures());
-        assertEquals(LoadingState.STATE_UNDEFINED, bo.getLoadingState());
-        
+        assertNull(bo.getException());
+        bo.setLoaded(new QedeqVo(), new ModuleLabels());
+        assertTrue(bo.isLoaded());
+        assertNull(bo.getException());
+        try {
+            bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
+                null);
+            fail("NullPointerException expected");
+        } catch (NullPointerException e) {
+            // expected
+        }
+        final DefaultSourceFileExceptionList defaultSourceFileExceptionList
+            = new DefaultSourceFileExceptionList(new NullPointerException());
+        try {
+            bo.setLoadingFailureState(null, 
+                defaultSourceFileExceptionList);
+            fail("NullPointerException expected");
+        } catch (NullPointerException e) {
+            // expected
+        }
+        bo.setLoadingProgressState(LoadingState.STATE_UNDEFINED);
+        assertNull(bo.getException());
+        try {
+            bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
+                defaultSourceFileExceptionList);
+            fail("IllegalStateException expected");
+        } catch (IllegalStateException e) {
+            // expected
+        }
+        bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, 
+            defaultSourceFileExceptionList);
+        try {
+            bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
+                defaultSourceFileExceptionList);
+            fail("IllegalStateException expected");
+        } catch (IllegalStateException e) {
+            // expected
+        }
+        bo.setLoaded(new QedeqVo(), new ModuleLabels());
+        assertTrue(bo.isLoaded());
+        assertNull(bo.getException());
+        bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
+            defaultSourceFileExceptionList);
+        assertEquals(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
+            bo.getDependencyState());
+        assertEquals(defaultSourceFileExceptionList, bo.getException());
+        bo.setLoaded(new QedeqVo(), new ModuleLabels());
+        assertTrue(bo.isLoaded());
+        assertNull(bo.getException());
+        bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_REQUIREMENTS_FAILED,
+            defaultSourceFileExceptionList);
+        assertEquals(DependencyState.STATE_LOADING_REQUIRED_REQUIREMENTS_FAILED,
+            bo.getDependencyState());
+        assertEquals(defaultSourceFileExceptionList, bo.getException());
+        bo.setDependencyProgressState(DependencyState.STATE_UNDEFINED);
+        try {
+            bo.setDependencyFailureState(DependencyState.STATE_UNDEFINED,
+                defaultSourceFileExceptionList);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        assertEquals(DependencyState.STATE_UNDEFINED, bo.getDependencyState());
+        assertNull(bo.getException());
+        try {
+            bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES,
+                defaultSourceFileExceptionList);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        assertEquals(DependencyState.STATE_UNDEFINED, bo.getDependencyState());
+        assertNull(bo.getException());
+        try {
+            bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_REQUIREMENTS,
+                defaultSourceFileExceptionList);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        assertEquals(DependencyState.STATE_UNDEFINED, bo.getDependencyState());
+        assertNull(bo.getException());
+        try {
+            bo.setDependencyFailureState(DependencyState.STATE_LOADED_REQUIRED_MODULES,
+                defaultSourceFileExceptionList);
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        assertEquals(DependencyState.STATE_UNDEFINED, bo.getDependencyState());
+        assertNull(bo.getException());
     }
+
 }

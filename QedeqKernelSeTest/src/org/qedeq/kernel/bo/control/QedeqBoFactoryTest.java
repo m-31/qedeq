@@ -98,7 +98,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(errorFile.getCanonicalFile()));
         final DefaultQedeqBo prop = (DefaultQedeqBo) KernelFacade
-            .getKernelContext().getModuleProperties(address);
+            .getKernelContext().getQedeqBo(address);
         try {
             QedeqBoFactoryAssert.createQedeq(prop, error);
             fail("IllegalModuleDataException expected");
@@ -175,7 +175,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(file.getCanonicalFile()));
         final DefaultQedeqBo prop = (DefaultQedeqBo) KernelFacade
-            .getKernelContext().getModuleProperties(address);
+            .getKernelContext().getQedeqBo(address);
         QedeqBoFactoryAssert.createQedeq(prop, createQedeqFromFile(file));
     }
     
