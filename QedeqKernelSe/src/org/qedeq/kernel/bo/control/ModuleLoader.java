@@ -37,7 +37,7 @@ public interface ModuleLoader {
      * @throws  ModuleFileNotFoundException    Local file was not found.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public void loadLocalModule(final DefaultModuleProperties prop, final File localFile)
+    public void loadLocalModule(final DefaultQedeqBo prop, final File localFile)
             throws ModuleFileNotFoundException, SourceFileExceptionList;
 
 }

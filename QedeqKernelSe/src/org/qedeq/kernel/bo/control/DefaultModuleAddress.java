@@ -65,11 +65,12 @@ public class DefaultModuleAddress implements ModuleAddress {
     /**
      * Constructor.
      *
-     * @param   u       Address of module.
-     * @throws  IOException if address is formally incorrect
+     * @param   u       Address of module. Must not be <code>null</code>.
+     *                  Must be a URL with protocol "file" or "http" and address a file
+     *                  with extension ".xml".
+     * @throws  MalformedURLException    Address is formally incorrect.
      */
-    public DefaultModuleAddress(final String u)
-            throws IOException {
+    public DefaultModuleAddress(final String u) throws MalformedURLException {
 
         this(u, (DefaultModuleAddress) null);
     }
@@ -77,29 +78,34 @@ public class DefaultModuleAddress implements ModuleAddress {
     /**
      * Constructor.
      *
-     * @param   u       Address of module.
-     * @throws  IOException if address is formally incorrect
+     * @param   u       Address of module. Must not be <code>null</code>.
+     *                  Must be a URL with protocol "file" or "http" and address a file
+     *                  with extension ".xml".
+     * @throws  MalformedURLException    Address is formally incorrect.
      */
-    public DefaultModuleAddress(final URL u) throws IOException {
+    public DefaultModuleAddress(final URL u) throws MalformedURLException {
         this(u.toExternalForm(), (DefaultModuleAddress) null);
     }
 
     /**
      * Constructor.
      *
-     * @param   file    File path of module.
-     * @throws  IOException     Address is formally incorrect
+     * @param   file    File path of module. Must address a file
+     *                  with extension ".xml".
+     * @throws  MalformedURLException   Address is formally incorrect.
      */
-    public DefaultModuleAddress(final File file)
-            throws IOException {
+    public DefaultModuleAddress(final File file) throws MalformedURLException {
         this(IoUtility.toUrl(file));
     }
 
     /**
      * Constructor.
      *
-     * @param   address  Address of module.
-     * @param   parent   Address of parent module.
+     * @param   address  Address of module. Must not be <code>null</code>.
+     *                  Must be a URL with protocol "file" or "http" (if <code>parent</code> is
+     *                  <code>null</code>) and address a file
+     *                  with extension ".xml".
+     * @param   parent   Address of parent module. Can be <code>null</code>.
      * @throws  MalformedURLException     Address is formally incorrect.
      */
     public DefaultModuleAddress(final String address, final ModuleAddress parent)

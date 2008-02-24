@@ -25,7 +25,7 @@ import java.util.Map;
 
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.trace.Trace;
 
@@ -47,12 +47,12 @@ class QedeqBoFactory {
      * @param   address     Module address.
      * @return  Module properties for module.
      */
-    final DefaultModuleProperties getModuleProperties(final ModuleAddress address) {
+    final DefaultQedeqBo getModuleProperties(final ModuleAddress address) {
         synchronized (moduleProperties) {
             if (moduleProperties.containsKey(address)) {
-                return (DefaultModuleProperties) moduleProperties.get(address);
+                return (DefaultQedeqBo) moduleProperties.get(address);
             } else {
-                final DefaultModuleProperties prop = new DefaultModuleProperties(address);
+                final DefaultQedeqBo prop = new DefaultQedeqBo(address);
                 moduleProperties.put(address, prop);
                 return prop;
             }
@@ -72,7 +72,7 @@ class QedeqBoFactory {
                         = moduleProperties.entrySet().iterator();
                         iterator.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) iterator.next();
-                    final ModuleProperties prop = (ModuleProperties) entry.getValue();
+                    final QedeqBo prop = (QedeqBo) entry.getValue();
                     Trace.trace(CLASS, this, method, "remove " +  prop);
                     ModuleEventLog.getInstance().removeModule(prop);
                 }
@@ -91,7 +91,7 @@ class QedeqBoFactory {
      *
      * @param   prop    Defines the module.
      */
-    final void removeModule(final ModuleProperties prop) {
+    final void removeModule(final QedeqBo prop) {
         final String method = "removeModule";
         Trace.begin(CLASS, this, method);
         try {
@@ -132,7 +132,7 @@ class QedeqBoFactory {
                         = moduleProperties.entrySet().iterator();
                         iterator.hasNext(); ) {
                     Map.Entry entry = (Map.Entry) iterator.next();
-                    final ModuleProperties prop = (ModuleProperties) entry.getValue();
+                    final QedeqBo prop = (QedeqBo) entry.getValue();
                     if (prop.getLoadingState().getCode() >= LoadingState.STATE_LOADED.getCode()) {
                         list.add(prop.getModuleAddress());
                     }

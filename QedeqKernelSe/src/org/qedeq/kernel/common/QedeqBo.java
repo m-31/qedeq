@@ -28,7 +28,7 @@ import org.qedeq.kernel.base.module.Qedeq;
  * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
-public interface ModuleProperties {
+public interface QedeqBo {
 
     /**
      * Is this a failure state the module is in?
@@ -118,6 +118,7 @@ public interface ModuleProperties {
      * Get module. Works only if module is already completely loaded.
      *
      * @return  QEDEQ module if it is already loaded.
+     * @throws  IllegalStateException   Module is not loaded.
      */
     public Qedeq getQedeq();
 
@@ -134,6 +135,7 @@ public interface ModuleProperties {
      * all required modules. Otherwise a runtime exception is thrown.
      *
      * @return  URLs of all referenced modules.
+     * @throws  IllegalStateException   Module not yet loaded.
      */
     public ModuleReferenceList getRequiredModules();
 

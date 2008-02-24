@@ -17,7 +17,7 @@
 
 package org.qedeq.kernel.log;
 
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 
 /**
  * Listener that writes events to the {@link org.qedeq.kernel.log.QedeqLog}.
@@ -33,11 +33,11 @@ public final class ModuleEventListenerLog implements ModuleEventListener {
     public ModuleEventListenerLog() {
     }
 
-    public void addModule(final ModuleProperties prop) {
+    public void addModule(final QedeqBo prop) {
         QedeqLog.getInstance().logSuccessfulState("Module added", prop.getUrl());
     }
 
-    public void stateChanged(final ModuleProperties prop) {
+    public void stateChanged(final QedeqBo prop) {
         if (prop.getLoadingState().isFailure() || prop.getLogicalState().isFailure()) {
             QedeqLog.getInstance().logFailureState("Module state changed: "
                 + prop.getStateDescription(), prop.getUrl(), prop.getException().getMessage());
@@ -47,7 +47,7 @@ public final class ModuleEventListenerLog implements ModuleEventListener {
         }
     }
 
-    public void removeModule(final ModuleProperties prop) {
+    public void removeModule(final QedeqBo prop) {
         QedeqLog.getInstance().logSuccessfulState("Module removed", prop.getUrl());
     }
 

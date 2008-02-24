@@ -25,7 +25,7 @@ import org.qedeq.kernel.bo.module.Kernel;
 import org.qedeq.kernel.bo.module.KernelServices;
 import org.qedeq.kernel.bo.module.KernelState;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.config.QedeqConfig;
 import org.qedeq.kernel.log.QedeqLog;
@@ -98,7 +98,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public ModuleProperties loadModule(final ModuleAddress address)
+        public QedeqBo loadModule(final ModuleAddress address)
                 throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not initialized");
         }
@@ -123,7 +123,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public ModuleProperties getModuleProperties(final ModuleAddress address) {
+        public QedeqBo getModuleProperties(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
 
@@ -184,7 +184,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public ModuleProperties loadModule(final ModuleAddress address)
+        public QedeqBo loadModule(final ModuleAddress address)
                 throws SourceFileExceptionList {
             throw new IllegalStateException("Kernel not started");
         }
@@ -209,7 +209,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public ModuleProperties getModuleProperties(final ModuleAddress address) {
+        public QedeqBo getModuleProperties(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -282,7 +282,7 @@ public final class KernelContext implements Kernel {
             services.clearLocalBuffer();
         }
 
-        public ModuleProperties loadModule(final ModuleAddress address)
+        public QedeqBo loadModule(final ModuleAddress address)
                 throws SourceFileExceptionList {
             return services.loadModule(address);
         }
@@ -308,7 +308,7 @@ public final class KernelContext implements Kernel {
             return services.getGenerationDirectory();
         }
 
-        public ModuleProperties getModuleProperties(final ModuleAddress address) {
+        public QedeqBo getModuleProperties(final ModuleAddress address) {
             return services.getModuleProperties(address);
         }
 
@@ -436,7 +436,7 @@ public final class KernelContext implements Kernel {
         currentState.clearLocalBuffer();
     }
 
-    public ModuleProperties loadModule(final ModuleAddress address) throws SourceFileExceptionList {
+    public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
         return currentState.loadModule(address);
     }
 
@@ -460,7 +460,7 @@ public final class KernelContext implements Kernel {
         return currentState.getGenerationDirectory();
     }
 
-    public ModuleProperties getModuleProperties(final ModuleAddress address) {
+    public QedeqBo getModuleProperties(final ModuleAddress address) {
         return currentState.getModuleProperties(address);
     }
 

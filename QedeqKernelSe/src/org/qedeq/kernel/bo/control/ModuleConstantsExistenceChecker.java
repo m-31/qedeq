@@ -31,7 +31,7 @@ import org.qedeq.kernel.common.ModuleReferenceList;
 public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
 
     /** QEDEQ module properties. */
-    private final DefaultModuleProperties prop;
+    private final DefaultQedeqBo prop;
 
     /**
      * Constructor.
@@ -40,7 +40,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
      * @throws  ModuleDataException Referenced QEDEQ modules are already inconsistent: they doesn't
      *          mix.
      */
-    public ModuleConstantsExistenceChecker(final DefaultModuleProperties prop)
+    public ModuleConstantsExistenceChecker(final DefaultQedeqBo prop)
             throws  ModuleDataException {
         super();
         this.prop = prop;
@@ -63,7 +63,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final ModuleReferenceList list = prop.getRequiredModules();
         String identityOperator = null;
         for (int i = 0; i < list.size(); i++) {
-            final DefaultModuleProperties prop = (DefaultModuleProperties) list
+            final DefaultQedeqBo prop = (DefaultQedeqBo) list
                 .getModuleProperties(i);
             if (prop.getExistenceChecker().equalityOperatorExists()) {
                 if (identityOperatorExists) {
@@ -96,7 +96,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
 
-        final DefaultModuleProperties newProp = (DefaultModuleProperties) ref
+        final DefaultQedeqBo newProp = (DefaultQedeqBo) ref
             .getModuleProperties(label);
         if (newProp == null) {
             return false;
@@ -112,7 +112,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final DefaultModuleProperties newProp = (DefaultModuleProperties) ref
+        final DefaultQedeqBo newProp = (DefaultQedeqBo) ref
             .getModuleProperties(label);
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().functionExists(shortName, arguments);

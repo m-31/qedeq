@@ -17,7 +17,7 @@
 
 package org.qedeq.kernel.log;
 
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 
 
 /**
@@ -33,7 +33,7 @@ public interface ModuleEventListener {
      *
      * @param   prop    add module with this properties.
      */
-    void addModule(final ModuleProperties prop);
+    void addModule(final QedeqBo prop);
 
 
     /**
@@ -41,7 +41,7 @@ public interface ModuleEventListener {
      *
      * @param   prop
      */
-    void stateChanged(ModuleProperties prop);
+    void stateChanged(QedeqBo prop);
 
 
     /**
@@ -49,7 +49,7 @@ public interface ModuleEventListener {
      *
      * @param   prop    remove module with this properties.
      */
-    void removeModule(ModuleProperties prop);
+    void removeModule(QedeqBo prop);
 
 
 

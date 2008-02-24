@@ -35,7 +35,7 @@ import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -153,7 +153,7 @@ public class DefaultKernelServices implements KernelServices {
      * @throws  IOException Module is not known to the kernel.
      */
     public void removeModule(final ModuleAddress address) throws IOException {
-        final ModuleProperties prop = getModuleProperties(address);
+        final QedeqBo prop = getModuleProperties(address);
         if (prop != null) {
             removeModule(getModuleProperties(address));
         } else  {
@@ -166,7 +166,7 @@ public class DefaultKernelServices implements KernelServices {
      *
      * @param   prop    Remove module identified by this property.
      */
-    public void removeModule(final ModuleProperties prop) {
+    public void removeModule(final QedeqBo prop) {
         do {
             synchronized (syncToken) {
                 if (processCounter == 0) {
@@ -205,11 +205,11 @@ public class DefaultKernelServices implements KernelServices {
      * @return  Wanted module.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public ModuleProperties loadModule(final ModuleAddress address) throws SourceFileExceptionList {
+    public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
         final String method = "loadModule(URL)";
         processInc();
         try {
-            final DefaultModuleProperties prop = getModules().getModuleProperties(address);
+            final DefaultQedeqBo prop = getModules().getModuleProperties(address);
             synchronized (prop) {
                 if (prop.isLoaded()) {
                     return prop;
@@ -272,7 +272,7 @@ public class DefaultKernelServices implements KernelServices {
      * @throws  ModuleFileNotFoundException Local file not found.
      * @throws  SourceFileExceptionList     Loading failed.
      */
-    private void loadLocalModule(final DefaultModuleProperties prop)
+    private void loadLocalModule(final DefaultQedeqBo prop)
             throws ModuleFileNotFoundException, SourceFileExceptionList {
         final File localFile = kernel.getLocalFilePath(prop.getModuleAddress());
         loader.loadLocalModule(prop, localFile);
@@ -286,7 +286,7 @@ public class DefaultKernelServices implements KernelServices {
      * @return  Loaded module.
      * @throws  SourceFileExceptionList     Loading failed.
      */
-    public DefaultModuleProperties loadModule(final DefaultModuleProperties parent,
+    public DefaultQedeqBo loadModule(final DefaultQedeqBo parent,
             final Specification spec) throws SourceFileExceptionList {
 
         final String method = "loadModule(Module, Specification)";
@@ -303,7 +303,7 @@ public class DefaultKernelServices implements KernelServices {
             }
             // search in already loaded modules
             for (int i = 0; i < modulePaths.length; i++) {
-                final DefaultModuleProperties prop
+                final DefaultQedeqBo prop
                     = getModules().getModuleProperties(modulePaths[i]);
                 synchronized (prop) {
                     if (prop.isLoaded()) {
@@ -316,7 +316,7 @@ public class DefaultKernelServices implements KernelServices {
             Trace.trace(CLASS, this, method, "searching file buffer");
             for (int i = 0; i < modulePaths.length; i++) {
                 try {
-                    final DefaultModuleProperties prop
+                    final DefaultQedeqBo prop
                         = getModules().getModuleProperties(modulePaths[i]);
                     Trace.trace(CLASS, this, method, "synchronizing at prop=" + prop);
                     synchronized (prop) {
@@ -331,7 +331,7 @@ public class DefaultKernelServices implements KernelServices {
             // try loading url directly
             for (int i = 0; i < modulePaths.length; i++) {
                 try {
-                    final DefaultModuleProperties prop
+                    final DefaultQedeqBo prop
                         = getModules().getModuleProperties(modulePaths[i]);
                     synchronized (prop) {
                         makeLocalCopy(prop);
@@ -364,7 +364,7 @@ public class DefaultKernelServices implements KernelServices {
 
 
     public void loadRequiredModules(final ModuleAddress address) throws SourceFileExceptionList {
-        final DefaultModuleProperties prop = (DefaultModuleProperties) loadModule(address);
+        final DefaultQedeqBo prop = (DefaultQedeqBo) loadModule(address);
         LoadRequiredModules.loadRequired(prop, this);
     }
 
@@ -448,7 +448,7 @@ public class DefaultKernelServices implements KernelServices {
      * @throws  IOException    if address was malformed or the file can not be found
      */
     private final synchronized void makeLocalCopy(
-            final DefaultModuleProperties prop)
+            final DefaultQedeqBo prop)
             throws IOException {
         final String method = "makeLocalCopy";
         Trace.begin(CLASS, this, method);
@@ -597,11 +597,11 @@ public class DefaultKernelServices implements KernelServices {
         return kernel.getConfig().getGenerationDirectory();
     }
 
-    private DefaultModuleProperties getDefaultModuleProperties(final ModuleAddress address) {
+    private DefaultQedeqBo getDefaultModuleProperties(final ModuleAddress address) {
         return getModules().getModuleProperties(address);
     }
 
-    public ModuleProperties getModuleProperties(final ModuleAddress address) {
+    public QedeqBo getModuleProperties(final ModuleAddress address) {
         return getModules().getModuleProperties(address);
     }
 
@@ -620,7 +620,7 @@ public class DefaultKernelServices implements KernelServices {
     public boolean checkModule(final ModuleAddress address) {
 
         final String method = "checkModule(ModuleProperties)";
-        final DefaultModuleProperties prop = getDefaultModuleProperties(address);
+        final DefaultQedeqBo prop = getDefaultModuleProperties(address);
         try {
             QedeqLog.getInstance().logRequest("Check logical correctness for \""
                 + prop.getUrl() + "\"");

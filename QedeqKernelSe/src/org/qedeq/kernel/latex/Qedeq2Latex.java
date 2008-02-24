@@ -54,7 +54,7 @@ import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.StringUtility;
@@ -87,7 +87,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     private final TextOutput printer;
 
     /** QEDEQ module properties object to work on. */
-    private final ModuleProperties prop;
+    private final QedeqBo prop;
 
     /** Filter text to get and produce text in this language. */
     private final String language;
@@ -121,7 +121,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
      * @param   language        Filter text to get and produce text in this language only.
      * @param   level           Filter for this detail level. TODO mime 20050205: not supported yet.
      */
-    private Qedeq2Latex(final ModuleProperties prop, final TextOutput printer,
+    private Qedeq2Latex(final QedeqBo prop, final TextOutput printer,
             final String language, final String level) {
         this.prop = prop;
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
@@ -150,7 +150,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
      * @throws  ModuleDataException Major problem occurred.
      * @throws  IOException
      */
-    public static void print(final ModuleProperties prop,
+    public static void print(final QedeqBo prop,
             final TextOutput printer, final String language, final String level)
             throws ModuleDataException, IOException {
         // first we try to get more information about required modules and their predicates..

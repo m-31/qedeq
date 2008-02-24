@@ -73,18 +73,15 @@ public final class LoadXmlOperatorListUtility  {
             throw new DefaultSourceFileExceptionList(e);
         } catch (ParserConfigurationException e) {
             Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList();
-            list.add(e);
+            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
             throw list;
         } catch (final SAXParseException e) {
             Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList();
-            list.add(e);
+            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
             throw list;
         } catch (SAXException e) {
             Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList();
-            list.add(e);
+            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
             throw list;
         } catch (javax.xml.parsers.FactoryConfigurationError e) {
             Trace.trace(CLASS, method, e);

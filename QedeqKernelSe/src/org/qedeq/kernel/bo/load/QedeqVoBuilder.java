@@ -52,7 +52,7 @@ import org.qedeq.kernel.base.module.SubsectionList;
 import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.bo.control.DefaultModuleProperties;
+import org.qedeq.kernel.bo.control.DefaultQedeqBo;
 import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.ModuleContext;
@@ -124,7 +124,7 @@ public class QedeqVoBuilder {
      *
      * @param   prop    QEDEQ BO.
      */
-    protected QedeqVoBuilder(final DefaultModuleProperties prop) {
+    protected QedeqVoBuilder(final DefaultQedeqBo prop) {
         this.currentContext = prop.getModuleAddress().createModuleContext();
         this.labels = new ModuleLabels();
     }
@@ -142,7 +142,7 @@ public class QedeqVoBuilder {
      * @param   original    Basic QEDEQ module object.
      * @throws  ModuleDataException     Invalid data found.
      */
-    public static void createQedeq(final DefaultModuleProperties prop,
+    public static void createQedeq(final DefaultQedeqBo prop,
             final Qedeq original) throws ModuleDataException {
         final QedeqVoBuilder creator = new QedeqVoBuilder(prop);
         QedeqVo vo = creator.create(original);

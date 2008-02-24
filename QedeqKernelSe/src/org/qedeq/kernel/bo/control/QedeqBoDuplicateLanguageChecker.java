@@ -28,7 +28,7 @@ import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 
 
 /**
@@ -63,7 +63,7 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
      * @param   prop              QEDEQ BO.
      * @throws  ModuleDataException      Major problem occurred.
      */
-    public static void check(final ModuleProperties prop)
+    public static void check(final QedeqBo prop)
             throws ModuleDataException {
         final QedeqBoDuplicateLanguageChecker checker
             = new QedeqBoDuplicateLanguageChecker(prop.getModuleAddress(),  prop.getQedeq());

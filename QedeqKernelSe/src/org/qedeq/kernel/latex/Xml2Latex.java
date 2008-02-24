@@ -24,7 +24,7 @@ import java.io.OutputStream;
 
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
@@ -62,7 +62,7 @@ public final class Xml2Latex  {
      * @return  File name of generated LaTeX file.
      * @throws  SourceFileExceptionList    Something went wrong.
      */
-    public static String generate(final ModuleProperties prop, final File to, final String language,
+    public static String generate(final QedeqBo prop, final File to, final String language,
             final String level) throws SourceFileExceptionList {
         final String method = "generate(String, String, String, String)";
         File destination = null;

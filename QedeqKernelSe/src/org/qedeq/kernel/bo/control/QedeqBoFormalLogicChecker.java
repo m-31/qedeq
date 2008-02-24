@@ -54,7 +54,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
     private static final Class CLASS = QedeqBoFormalLogicChecker.class;
 
     /** QEDEQ module properties. */
-    private final DefaultModuleProperties prop;
+    private final DefaultQedeqBo prop;
 
     /** Current context during creation. */
     private final QedeqNotNullTraverser traverser;
@@ -67,7 +67,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
      *
      * @param   prop              QEDEQ module properties object.
      */
-    private QedeqBoFormalLogicChecker(final DefaultModuleProperties prop) {
+    private QedeqBoFormalLogicChecker(final DefaultQedeqBo prop) {
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
         this.prop = prop;
     }
@@ -78,7 +78,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
      * @param   prop                QEDEQ module properties object.
      * @throws  SourceFileExceptionList      Major problem occurred.
      */
-    public static void check(final DefaultModuleProperties prop)
+    public static void check(final DefaultQedeqBo prop)
             throws SourceFileExceptionList {
         if (prop.isChecked()) {
             return;
@@ -94,7 +94,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
             try {
                 Trace.trace(CLASS, "check(ModuleProperties)", "checking label",
                     list.getLabel(i));
-                check((DefaultModuleProperties) list.getModuleProperties(i));
+                check((DefaultQedeqBo) list.getModuleProperties(i));
             } catch (SourceFileExceptionList e) {   // TODO mime 20080114: hard coded codes
                 ModuleDataException md = new CheckRequiredModuleException(11231,
                     "import check failed: " + list.getModuleProperties(i).getModuleAddress(),

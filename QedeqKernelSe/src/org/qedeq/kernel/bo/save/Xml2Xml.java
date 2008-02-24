@@ -25,7 +25,7 @@ import java.net.URL;
 
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.latex.Qedeq2Xml;
@@ -100,7 +100,7 @@ public final class Xml2Xml  {
         TextOutput printer = null;
         try {
             final ModuleAddress address = KernelContext.getInstance().getModuleAddress(from);
-            final ModuleProperties prop = KernelContext.getInstance().loadModule(address);
+            final QedeqBo prop = KernelContext.getInstance().loadModule(address);
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream);

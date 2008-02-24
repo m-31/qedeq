@@ -21,7 +21,7 @@ import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
 
 
@@ -86,7 +86,7 @@ public final class ModuleEventLog implements ModuleEventListener {
         loggers.add(log);
     }
 
-    public void addModule(final ModuleProperties prop) {
+    public void addModule(final QedeqBo prop) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the ModuleEventListener is free of programming errors...
                 ((ModuleEventListener) loggers.get(i)).addModule(prop);
@@ -97,7 +97,7 @@ public final class ModuleEventLog implements ModuleEventListener {
         }
     }
 
-    public void stateChanged(final ModuleProperties prop) {
+    public void stateChanged(final QedeqBo prop) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the ModuleEventListener is free of programming errors...
                 ((ModuleEventListener) loggers.get(i)).stateChanged(prop);
@@ -108,7 +108,7 @@ public final class ModuleEventLog implements ModuleEventListener {
         }
     }
 
-    public void removeModule(final ModuleProperties prop) {
+    public void removeModule(final QedeqBo prop) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the ModuleEventListener is free of programming errors...
                 ((ModuleEventListener) loggers.get(i)).removeModule(prop);

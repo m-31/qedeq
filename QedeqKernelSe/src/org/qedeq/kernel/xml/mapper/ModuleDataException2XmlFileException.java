@@ -63,10 +63,9 @@ public final class ModuleDataException2XmlFileException {
      */
     public static final SourceFileExceptionList createXmlFileExceptionList(final ModuleDataException
             exception, final Qedeq qedeq) {
-        final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList();
         final SourceFileException e = new SourceFileException(exception, createSourceArea(qedeq,
             exception.getContext()), createSourceArea(qedeq, exception.getReferenceContext()));
-        list.add(e);
+        final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
         return list;
     }
 

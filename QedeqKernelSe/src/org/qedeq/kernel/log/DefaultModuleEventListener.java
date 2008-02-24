@@ -21,7 +21,7 @@ import java.io.PrintStream;
 import java.util.Date;
 import java.text.SimpleDateFormat;
 
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 
 /**
  * Listener that writes events to a stream.
@@ -63,17 +63,17 @@ public class DefaultModuleEventListener implements ModuleEventListener {
         this.out = stream;
     }
 
-    public void addModule(final ModuleProperties prop) {
+    public void addModule(final QedeqBo prop) {
         out.println(getTimestamp() + " Module added. "
             + prop.getStateDescription() + "\n\t" + prop.getUrl());
     }
 
-    public void stateChanged(final ModuleProperties prop) {
+    public void stateChanged(final QedeqBo prop) {
         out.println(getTimestamp() + " Module state changed. "
             + prop.getStateDescription() + "\n\t" + prop.getUrl());
     }
 
-    public void removeModule(final ModuleProperties prop) {
+    public void removeModule(final QedeqBo prop) {
         out.println(getTimestamp() + " Module removed. "
             + prop.getStateDescription() + "\n\t" + prop.getUrl());
     }

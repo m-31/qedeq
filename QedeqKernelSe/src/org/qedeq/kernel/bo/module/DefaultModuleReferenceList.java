@@ -24,7 +24,7 @@ import java.util.Map;
 
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.ModuleReferenceList;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.EqualsUtility;
@@ -75,7 +75,7 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
      *          <code>null</code>.
      */
     public final void add(final ModuleContext context, final String label,
-            final ModuleProperties prop) throws IllegalModuleDataException {
+            final QedeqBo prop) throws IllegalModuleDataException {
         if (label == null || label.length() <= 0) {
             throw new IllegalModuleDataException(10003, "An label was not defined.", context, null,
                 null);  // LATER mime 20071026: organize exception codes
@@ -101,20 +101,20 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
         return (String) labels.get(index);
     }
 
-    public final ModuleProperties getModuleProperties(final int index) {
-        return (ModuleProperties) props.get(index);
+    public final QedeqBo getModuleProperties(final int index) {
+        return (QedeqBo) props.get(index);
     }
 
     public final ModuleContext getModuleContext(final int index) {
         return (ModuleContext) contexts.get(index);
     }
 
-    public final ModuleProperties getModuleProperties(final String label) {
+    public final QedeqBo getModuleProperties(final String label) {
         final int index = labels.indexOf(label);
         if (index < 0) {
             return null;
         }
-        return (ModuleProperties) props.get(index);
+        return (QedeqBo) props.get(index);
     }
 
     public boolean equals(final Object obj) {

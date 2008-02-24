@@ -23,7 +23,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.control.DefaultModuleProperties;
+import org.qedeq.kernel.bo.control.DefaultQedeqBo;
 import org.qedeq.kernel.bo.control.ModuleFileNotFoundException;
 import org.qedeq.kernel.bo.control.ModuleLoader;
 import org.qedeq.kernel.bo.load.QedeqVoBuilder;
@@ -65,7 +65,7 @@ public class XmlModuleLoader implements ModuleLoader {
      * @throws  ModuleFileNotFoundException    Local file was not found.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public void loadLocalModule(final DefaultModuleProperties prop, final File localFile)
+    public void loadLocalModule(final DefaultQedeqBo prop, final File localFile)
             throws ModuleFileNotFoundException, SourceFileExceptionList {
         final String method = "loadLocalModule";
         final File file;

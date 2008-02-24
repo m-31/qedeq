@@ -48,7 +48,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
     private final QedeqNotNullTraverser traverser;
 
     /** QEDEQ module properties object to work on. */
-    private final DefaultModuleProperties prop;
+    private final DefaultQedeqBo prop;
 
     /** Kernel services. */
     private final DefaultKernelServices services;
@@ -62,7 +62,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
      * @param   prop    QEDEQ module properties object.
      * @param   services    Kernel services.
      */
-    private LoadRequiredModules(final DefaultModuleProperties prop,
+    private LoadRequiredModules(final DefaultQedeqBo prop,
             final DefaultKernelServices services) {
         this.prop = prop;
         this.services = services;
@@ -77,7 +77,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
      * @param   services    Kernel services.
      * @throws  SourceFileExceptionList Failure(s).
      */
-    public static void loadRequired(final DefaultModuleProperties prop, final DefaultKernelServices
+    public static void loadRequired(final DefaultQedeqBo prop, final DefaultKernelServices
             services)
             throws SourceFileExceptionList {
         final String method = "loadRequired(ModuleProperties)";
@@ -134,7 +134,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
 
     public void visitEnter(final Import imp) throws ModuleDataException {
         try {
-            final DefaultModuleProperties propNew = services.loadModule(prop,
+            final DefaultQedeqBo propNew = services.loadModule(prop,
                 imp.getSpecification());
             required.add(new ModuleContext(traverser.getCurrentContext()), imp.getLabel(), propNew);
             Trace.param(CLASS, "visitEnter(Import)", "adding context",

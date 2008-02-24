@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
@@ -62,7 +62,7 @@ public interface KernelServices {
      * @return  Wanted module.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public ModuleProperties loadModule(ModuleAddress address) throws SourceFileExceptionList;
+    public QedeqBo loadModule(ModuleAddress address) throws SourceFileExceptionList;
 
     /**
      * Get a certain module.
@@ -111,13 +111,13 @@ public interface KernelServices {
     public File getGenerationDirectory();
 
     /**
-     * Get {@link ModuleProperties} for an address.
+     * Get {@link QedeqBo} for an address.
      *
      * @param   address Look for this address.
-     * @return  Existing or new {@link ModuleProperties}, if address is maleformed
+     * @return  Existing or new {@link QedeqBo}, if address is maleformed
      *          <code>null</code> is returned.
      */
-    public ModuleProperties getModuleProperties(ModuleAddress address);
+    public QedeqBo getModuleProperties(ModuleAddress address);
 
     /**
      * Transform an URL address into a local file path where the QEDEQ module is buffered.

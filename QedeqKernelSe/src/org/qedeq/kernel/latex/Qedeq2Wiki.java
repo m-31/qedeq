@@ -44,7 +44,7 @@ import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.SubsectionList;
 import org.qedeq.kernel.base.module.SubsectionType;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.StringUtility;
 
@@ -71,7 +71,7 @@ public final class Qedeq2Wiki {
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
     /** QEDEQ module properties object to work on. */
-    private final ModuleProperties prop;
+    private final QedeqBo prop;
 
     /** Output goes here. */
     private PrintStream printer;
@@ -90,7 +90,7 @@ public final class Qedeq2Wiki {
      *
      * @param   prop            QEDEQ module properties object.
      */
-    public Qedeq2Wiki(final ModuleProperties prop) {
+    public Qedeq2Wiki(final QedeqBo prop) {
         this.prop = prop;
         this.elementConverter = new Element2Latex((prop.hasLoadedRequiredModules()
             ? prop.getRequiredModules() : null));

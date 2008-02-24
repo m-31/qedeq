@@ -26,7 +26,7 @@ import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleLabels;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.ModuleReferenceList;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.utility.EqualsUtility;
@@ -38,7 +38,7 @@ import org.qedeq.kernel.utility.EqualsUtility;
  * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
-public class DefaultModuleProperties implements ModuleProperties {
+public class DefaultQedeqBo implements QedeqBo {
 
     /** Address and module specification. */
     private final ModuleAddress address;
@@ -78,9 +78,13 @@ public class DefaultModuleProperties implements ModuleProperties {
      * Creates new module properties.
      *
      * @param   address     Module address (not <code>null</code>).
+     * @throws  NullPointerException    <code>address</code> is null.
      */
-    public DefaultModuleProperties(final ModuleAddress address) {
+    public DefaultQedeqBo(final ModuleAddress address) {
         this.address = address;
+        if (address == null) {
+            throw new NullPointerException("ModuleAddress must not be null");
+        }
         loadingState = LoadingState.STATE_UNDEFINED;
         loadingCompleteness = 0;
         dependencyState = DependencyState.STATE_UNDEFINED;
@@ -111,7 +115,8 @@ public class DefaultModuleProperties implements ModuleProperties {
     /**
      * Set loading progress module state.
      *
-     * @param   state   module state
+     * @param   state   Module loading state. Must not be <code>null</code>.
+     * @throws  IllegalStateException   State is a failure state or module loaded state.
      */
     // TODO mime 20070704: shouldn't stand here:
     //  ModuleEventLog.getInstance().stateChanged(props[i]);
@@ -136,8 +141,8 @@ public class DefaultModuleProperties implements ModuleProperties {
     /**
      * Set failure module state.
      *
-     * @param   state   module state
-     * @param   e       Exception that occurred during loading.
+     * @param   state   Module loading state. Must not be <code>null</code>.
+     * @param   e       Exception that occurred during loading. Must not be <code>null</code>.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
     public final void setLoadingFailureState(final LoadingState state,
@@ -153,6 +158,9 @@ public class DefaultModuleProperties implements ModuleProperties {
         this.dependencyState = DependencyState.STATE_UNDEFINED;
         this.logicalState = LogicalState.STATE_UNCHECKED;
         this.exception = e;
+        if (e == null) {
+            throw new NullPointerException("Exception must not be null");
+        }
     }
 
     public final LoadingState getLoadingState() {
@@ -164,14 +172,22 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     /**
-     * Set checked and loaded state and module.
+     * Set loading state to "loaded".
      *
-     * @param   qedeq   This module was loaded.
-     * @param   labels  Set this label references.
+     * @param   qedeq   This module was loaded. Must not be <code>null</code>.
+     * @param   labels  Set this label references. Must not be <code>null</code>.
+     * @throws  NullPointerException    One argument was <code>null</code>.
      */
     public final void setLoaded(final Qedeq qedeq, final ModuleLabels labels) {
+        if (qedeq == null) {
+            throw new NullPointerException("Qedeq is null");
+        }
+        if (labels == null) {
+            throw new NullPointerException("ModuleLabels is null");
+        }
         loadingState = LoadingState.STATE_LOADED;
         this.qedeq = qedeq;
+        this.labels = labels;
     }
 
     public final String getEncoding() {
@@ -179,7 +195,7 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     /**
-     * Set character encoding for this module.
+     * Set character encoding for this module. Can be <code>null</code>.
      *
      * @param   encoding    Encoding.
      */
@@ -199,11 +215,15 @@ public class DefaultModuleProperties implements ModuleProperties {
     /**
      * Set dependency progress module state.
      *
-     * @param   state   module state
+     * @param   state   Module state. Must not be <code>null</code>.
+     * @throws  IllegalStateException       Module is not yet loaded.
+     * @throws  IllegalArgumentException    <code>state</code> is failure state or loaded required
+     *                                      state.
+     * @throws  NullPointerException        <code>state</code> is <code>null</code>.
      */
     public final void setDependencyProgressState(final DependencyState state) {
         if (!isLoaded() && state != DependencyState.STATE_UNDEFINED) {
-            throw new IllegalArgumentException("module is not yet loaded");
+            throw new IllegalStateException("module is not yet loaded");
         }
         if (state.isFailure()) {
             throw new IllegalArgumentException(
@@ -226,14 +246,16 @@ public class DefaultModuleProperties implements ModuleProperties {
    /**
     * Set failure module state.
     *
-    * @param   state   module state
-    * @param   e       Exception that occurred during loading.
+    * @param   state   Module dependency state. Must not be <code>null</code>.
+    * @param   e       Exception that occurred during loading. Must not be <code>null</code>.
+    * @throws  IllegalStateException       Module is not yet loaded.
     * @throws  IllegalArgumentException    <code>state</code> is no failure state
+    * @throws  NullPointerException         <code>state</code> is <code>null</code>.
     */
     public final void setDependencyFailureState(final DependencyState state,
             final SourceFileExceptionList e) {
         if (!isLoaded()) {
-            throw new IllegalArgumentException("module is not yet loaded");
+            throw new IllegalStateException("module is not yet loaded");
         }
         if (!state.isFailure()) {
             throw new IllegalArgumentException(
@@ -244,6 +266,9 @@ public class DefaultModuleProperties implements ModuleProperties {
         this.logicalState = LogicalState.STATE_UNCHECKED;
         this.dependencyState = state;
         this.exception = e;
+        if (e == null) {
+            throw new NullPointerException("Exception must not be null");
+        }
     }
 
     public final DependencyState getDependencyState() {
@@ -253,7 +278,8 @@ public class DefaultModuleProperties implements ModuleProperties {
     /**
      * Set loaded required modules state. Also set labels and URLs for all referenced modules.
      *
-     * @param   list  URLs of all referenced modules.
+     * @param   list  URLs of all referenced modules. Must not be <code>null</code>.
+     * @throws  IllegalStateException   Module is not yet loaded.
      */
     public final void setLoadedRequiredModules(final ModuleReferenceList list) {
         if (!isLoaded()) {
@@ -276,8 +302,7 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     public final boolean hasLoadedRequiredModules() {
-        return loadingState == LoadingState.STATE_LOADED
-            && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES;
+        return isLoaded() && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES;
     }
 
     /**
@@ -300,10 +325,11 @@ public class DefaultModuleProperties implements ModuleProperties {
      * Get the predicate and function existence checker. Is only not <code>null</code>
      * if logic was successfully checked.
      *
-     * @return   Checker. Checks if a predicate or function constant is defined.
+     * @return  Checker. Checks if a predicate or function constant is defined.
+     * @throws  IllegalStateException   Module is not yet checked.
      */
     public final ExistenceChecker getExistenceChecker() {
-        if (!hasLoadedRequiredModules()) {
+        if (!isChecked()) {
             throw new IllegalStateException(
                 "existence checker exists only if state is \""
                 + LogicalState.STATE_CHECKED.getText() + "\"");
@@ -312,8 +338,7 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     public final boolean isChecked() {
-        return loadingState == LoadingState.STATE_LOADED
-            && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES
+        return isLoaded() && hasLoadedRequiredModules()
             && logicalState == LogicalState.STATE_CHECKED;
     }
 
@@ -438,8 +463,8 @@ public class DefaultModuleProperties implements ModuleProperties {
     }
 
     public boolean equals(final Object obj) {
-        if (obj instanceof DefaultModuleProperties) {
-            return EqualsUtility.equals(((DefaultModuleProperties) obj).getModuleAddress(),
+        if (obj instanceof DefaultQedeqBo) {
+            return EqualsUtility.equals(((DefaultQedeqBo) obj).getModuleAddress(),
                 this.getModuleAddress());
         }
         return false;
