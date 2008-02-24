@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.latex.Qedeq2Wiki;
 import org.qedeq.kernel.rel.test.gui.Xml2OtherGui;
@@ -199,7 +199,7 @@ public final class Xml2Wiki  {
         final String method = "generate(String, String, String, String)";
         File source = null;
         File destination = null;
-        ModuleProperties prop = null;
+        QedeqBo prop = null;
         try {
             Trace.begin(CLASS, method);
             Trace.param(CLASS, method, "from", from);

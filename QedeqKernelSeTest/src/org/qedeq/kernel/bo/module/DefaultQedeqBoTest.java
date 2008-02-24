@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
 import java.net.URL;
 
 import org.qedeq.kernel.bo.control.DefaultModuleAddress;
-import org.qedeq.kernel.bo.control.DefaultModuleProperties;
+import org.qedeq.kernel.bo.control.DefaultQedeqBo;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
@@ -36,10 +36,10 @@ import org.qedeq.kernel.common.ModuleAddress;
  * @version $Revision: 1.9 $
  * @author    Michael Meyling
  */
-public class DefaultModulePropertiesTest extends AbstractBoModuleTest {
+public class DefaultQedeqBoTest extends AbstractBoModuleTest {
 
     /** This class is tested. */
-    private Class clazz = DefaultModuleProperties.class;
+    private Class clazz = DefaultQedeqBo.class;
 
     protected Class getTestedClass() {
         return clazz;
@@ -223,8 +223,8 @@ public class DefaultModulePropertiesTest extends AbstractBoModuleTest {
                 return new DefaultModuleAddress(new URL(
                     "http://www.qedeq.org/0_03_09/doc/math/qedeq_set_theory_v1.xml"));
             }
-            if (clazz.equals(DefaultModuleProperties.class)) {
-                return new DefaultModuleProperties(new DefaultModuleAddress(new URL(
+            if (clazz.equals(DefaultQedeqBo.class)) {
+                return new DefaultQedeqBo(new DefaultModuleAddress(new URL(
                     "http://www.qedeq.org/0_03_09/doc/math/qedeq_set_theory_v1.xml")));
             }
             if (clazz.equals(ModuleAddress.class)) {

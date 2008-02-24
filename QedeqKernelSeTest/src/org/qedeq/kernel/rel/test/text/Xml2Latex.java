@@ -24,7 +24,7 @@ import java.io.OutputStream;
 
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.ModuleProperties;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.latex.Qedeq2Latex;
 import org.qedeq.kernel.trace.Trace;
@@ -205,7 +205,7 @@ public final class Xml2Latex  {
         final String method = "generate(String, String, String, String)";
         File destination = null;
         File source = null;
-        ModuleProperties prop = null;
+        QedeqBo prop = null;
         try {
             Trace.begin(CLASS, method);
             Trace.param(CLASS, method, "from", from);

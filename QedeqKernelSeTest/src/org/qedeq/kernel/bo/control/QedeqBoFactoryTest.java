@@ -97,7 +97,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
         final String method = "testCreateStringQedeq()";
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(errorFile.getCanonicalFile()));
-        final DefaultModuleProperties prop = (DefaultModuleProperties) KernelFacade
+        final DefaultQedeqBo prop = (DefaultQedeqBo) KernelFacade
             .getKernelContext().getModuleProperties(address);
         try {
             QedeqBoFactoryAssert.createQedeq(prop, error);
@@ -174,7 +174,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             SourceFileExceptionList {
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(file.getCanonicalFile()));
-        final DefaultModuleProperties prop = (DefaultModuleProperties) KernelFacade
+        final DefaultQedeqBo prop = (DefaultQedeqBo) KernelFacade
             .getKernelContext().getModuleProperties(address);
         QedeqBoFactoryAssert.createQedeq(prop, createQedeqFromFile(file));
     }

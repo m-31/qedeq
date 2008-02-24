@@ -51,7 +51,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
      * 
      * @param   prop     QEDEDQ BO.
      */
-    public QedeqBoFactoryAssert(final DefaultModuleProperties prop) {
+    public QedeqBoFactoryAssert(final DefaultQedeqBo prop) {
         super(prop);
     }
 
@@ -69,7 +69,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
      * @param   original        Basic qedeq module object.
      * @throws  ModuleDataException  Semantic or syntactic error occurred.
      */
-    public static void createQedeq(final DefaultModuleProperties prop,
+    public static void createQedeq(final DefaultQedeqBo prop,
             final Qedeq original) throws ModuleDataException {
         final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(prop);
         final QedeqVo qedeq = creator.create(original);
