@@ -645,10 +645,10 @@
                   \land \phi(y)))$
 
                   \par
-                  Now with \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1.pdf}{}{allandpp}{allandpp}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
+                  Now with \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1_en.pdf}{}{allandpp}{allandpp}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
 
                   \par
-                  With \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1.pdf}{}{andequi}{andequi} we derive: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. And with Proposition~\ref{theorem:extensonalityEquivalence} follows $u = v$. So we have shown:
+                  With \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1_en.pdf}{}{andequi}{andequi} we derive: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. And with Proposition~\ref{theorem:extensonalityEquivalence} follows $u = v$. So we have shown:
 
                   \par
                   $\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
