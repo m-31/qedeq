@@ -92,12 +92,12 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
         DefaultModuleReferenceList list = (DefaultModuleReferenceList) prop.getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             try {
-                Trace.trace(CLASS, "check(ModuleProperties)", "checking label",
+                Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label",
                     list.getLabel(i));
-                check((DefaultQedeqBo) list.getModuleProperties(i));
+                check((DefaultQedeqBo) list.getQedeqBo(i));
             } catch (SourceFileExceptionList e) {   // TODO mime 20080114: hard coded codes
                 ModuleDataException md = new CheckRequiredModuleException(11231,
-                    "import check failed: " + list.getModuleProperties(i).getModuleAddress(),
+                    "import check failed: " + list.getQedeqBo(i).getModuleAddress(),
                     list.getModuleContext(i));
                 final SourceFileExceptionList sfl =
                     ModuleDataException2XmlFileException.createXmlFileExceptionList(md,

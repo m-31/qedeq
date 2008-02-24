@@ -209,7 +209,7 @@ public class DefaultKernelServices implements KernelServices {
         final String method = "loadModule(URL)";
         processInc();
         try {
-            final DefaultQedeqBo prop = getModules().getModuleProperties(address);
+            final DefaultQedeqBo prop = getModules().getQedeqBo(address);
             synchronized (prop) {
                 if (prop.isLoaded()) {
                     return prop;
@@ -304,7 +304,7 @@ public class DefaultKernelServices implements KernelServices {
             // search in already loaded modules
             for (int i = 0; i < modulePaths.length; i++) {
                 final DefaultQedeqBo prop
-                    = getModules().getModuleProperties(modulePaths[i]);
+                    = getModules().getQedeqBo(modulePaths[i]);
                 synchronized (prop) {
                     if (prop.isLoaded()) {
                         return (prop);
@@ -317,7 +317,7 @@ public class DefaultKernelServices implements KernelServices {
             for (int i = 0; i < modulePaths.length; i++) {
                 try {
                     final DefaultQedeqBo prop
-                        = getModules().getModuleProperties(modulePaths[i]);
+                        = getModules().getQedeqBo(modulePaths[i]);
                     Trace.trace(CLASS, this, method, "synchronizing at prop=" + prop);
                     synchronized (prop) {
                         loadLocalModule(prop);
@@ -332,7 +332,7 @@ public class DefaultKernelServices implements KernelServices {
             for (int i = 0; i < modulePaths.length; i++) {
                 try {
                     final DefaultQedeqBo prop
-                        = getModules().getModuleProperties(modulePaths[i]);
+                        = getModules().getQedeqBo(modulePaths[i]);
                     synchronized (prop) {
                         makeLocalCopy(prop);
                         loadLocalModule(prop);
@@ -597,12 +597,12 @@ public class DefaultKernelServices implements KernelServices {
         return kernel.getConfig().getGenerationDirectory();
     }
 
-    private DefaultQedeqBo getDefaultModuleProperties(final ModuleAddress address) {
-        return getModules().getModuleProperties(address);
+    private DefaultQedeqBo getDefaultQedeqBo(final ModuleAddress address) {
+        return getModules().getQedeqBo(address);
     }
 
     public QedeqBo getQedeqBo(final ModuleAddress address) {
-        return getModules().getModuleProperties(address);
+        return getModules().getQedeqBo(address);
     }
 
     public ModuleAddress getModuleAddress(final URL url) throws IOException {
@@ -619,8 +619,8 @@ public class DefaultKernelServices implements KernelServices {
 
     public boolean checkModule(final ModuleAddress address) {
 
-        final String method = "checkModule(ModuleProperties)";
-        final DefaultQedeqBo prop = getDefaultModuleProperties(address);
+        final String method = "checkModule(ModuleAddress)";
+        final DefaultQedeqBo prop = getDefaultQedeqBo(address);
         try {
             QedeqLog.getInstance().logRequest("Check logical correctness for \""
                 + prop.getUrl() + "\"");

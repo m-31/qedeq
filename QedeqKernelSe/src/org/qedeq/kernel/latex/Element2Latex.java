@@ -272,7 +272,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
                             && Element2Latex.this.getReferences().size() > 0) {
                         final String label = name.substring(0, external);
                         final DefaultQedeqBo newProp = (DefaultQedeqBo)
-                            Element2Latex.this.getReferences().getModuleProperties(label);
+                            Element2Latex.this.getReferences().getQedeqBo(label);
                         if (newProp != null) {
                             final String shortName = name.substring(external + 1);
                             if (newProp.getExistenceChecker().predicateExists(shortName,
@@ -332,7 +332,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
                             && Element2Latex.this.getReferences().size() > 0) {
                         final String label = name.substring(0, external);
                         final DefaultQedeqBo newProp = (DefaultQedeqBo)
-                            Element2Latex.this.getReferences().getModuleProperties(label);
+                            Element2Latex.this.getReferences().getQedeqBo(label);
                         if (newProp != null) {
                             final String shortName = name.substring(external + 1);
                             if (newProp.getExistenceChecker().functionExists(shortName,

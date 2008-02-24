@@ -89,7 +89,7 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
         labels.add(label);
         label2Context.put(label, context);
         contexts.add(context);
-        Trace.param(CLASS, "add(ModuleContext, String, ModuleProperties)", "context", context);
+        Trace.param(CLASS, "add(ModuleContext, String, QedeqBo)", "context", context);
         props.add(prop);
     }
 
@@ -101,7 +101,7 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
         return (String) labels.get(index);
     }
 
-    public final QedeqBo getModuleProperties(final int index) {
+    public final QedeqBo getQedeqBo(final int index) {
         return (QedeqBo) props.get(index);
     }
 
@@ -109,7 +109,7 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
         return (ModuleContext) contexts.get(index);
     }
 
-    public final QedeqBo getModuleProperties(final String label) {
+    public final QedeqBo getQedeqBo(final String label) {
         final int index = labels.indexOf(label);
         if (index < 0) {
             return null;
@@ -127,8 +127,8 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
         }
         for (int i = 0; i < size(); i++) {
             if (!EqualsUtility.equals(getLabel(i), otherList.getLabel(i))
-                    || !EqualsUtility.equals(getModuleProperties(i),
-                        otherList.getModuleProperties(i))) {
+                    || !EqualsUtility.equals(getQedeqBo(i),
+                        otherList.getQedeqBo(i))) {
                 return false;
             }
         }
@@ -141,7 +141,7 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
             hash = hash ^ (i + 1);
             if (getLabel(i) != null) {
                 hash = hash ^ getLabel(i).hashCode();
-                hash = hash ^ getModuleProperties(i).hashCode();
+                hash = hash ^ getQedeqBo(i).hashCode();
             }
         }
         return hash;
@@ -154,7 +154,7 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
                 buffer.append("\n");
             }
             buffer.append((i + 1) + ":\t");
-            buffer.append(getLabel(i)).append(": ").append(getModuleProperties(i)).append("\n");
+            buffer.append(getLabel(i)).append(": ").append(getQedeqBo(i)).append("\n");
         }
         return buffer.toString();
     }

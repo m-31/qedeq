@@ -64,7 +64,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         String identityOperator = null;
         for (int i = 0; i < list.size(); i++) {
             final DefaultQedeqBo prop = (DefaultQedeqBo) list
-                .getModuleProperties(i);
+                .getQedeqBo(i);
             if (prop.getExistenceChecker().equalityOperatorExists()) {
                 if (identityOperatorExists) {
                     // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
@@ -97,7 +97,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final ModuleReferenceList ref = prop.getRequiredModules();
 
         final DefaultQedeqBo newProp = (DefaultQedeqBo) ref
-            .getModuleProperties(label);
+            .getQedeqBo(label);
         if (newProp == null) {
             return false;
         }
@@ -113,7 +113,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
         final DefaultQedeqBo newProp = (DefaultQedeqBo) ref
-            .getModuleProperties(label);
+            .getQedeqBo(label);
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().functionExists(shortName, arguments);
     }

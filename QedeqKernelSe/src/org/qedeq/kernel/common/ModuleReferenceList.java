@@ -41,7 +41,7 @@ public interface ModuleReferenceList {
      * @param   index   Entry index.
      * @return  Label of module.
      */
-    public String getLabel(final int index);
+    public String getLabel(int index);
 
     /**
      * Get properties of referenced module.
@@ -49,7 +49,7 @@ public interface ModuleReferenceList {
      * @param   index   Entry index.
      * @return  Module properties for that module.
      */
-    public QedeqBo getModuleProperties(final int index);
+    public QedeqBo getQedeqBo(int index);
 
     /**
      * Get import context of referenced module.
@@ -57,14 +57,14 @@ public interface ModuleReferenceList {
      * @param   index   Entry index.
      * @return  Context for that module.
      */
-    public ModuleContext getModuleContext(final int index);
+    public ModuleContext getModuleContext(int index);
 
     /**
-     * Get ModuleProperties of referenced module via label. Might be <code>null</code>.
+     * Get QedeqBo of referenced module via label. Might be <code>null</code>.
      *
      * @param   label   Label for referenced module or <code>null</code> if not found.
      * @return  Module properties for that module.
      */
-    public QedeqBo getModuleProperties(final String label);
+    public QedeqBo getQedeqBo(String label);
 
 }

@@ -159,7 +159,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
             KernelContext.getInstance().checkModule(prop.getModuleAddress());
         } catch (Exception e) {
             // we continue and ignore external predicates
-            Trace.trace(CLASS, "print(ModuleProperties, TextOutput, String, String)", e);
+            Trace.trace(CLASS, "print(QedeqBo, TextOutput, String, String)", e);
         }
         final Qedeq2Latex converter = new Qedeq2Latex(prop, printer,
             language, level);

@@ -80,7 +80,7 @@ public final class LoadRequiredModules extends AbstractModuleVisitor {
     public static void loadRequired(final DefaultQedeqBo prop, final DefaultKernelServices
             services)
             throws SourceFileExceptionList {
-        final String method = "loadRequired(ModuleProperties)";
+        final String method = "loadRequired(DefaultQedeqBo)";
         // did we check this already?
         if (prop.getDependencyState().areAllRequiredLoaded()) {
             return; // everything is OK
