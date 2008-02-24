@@ -26,8 +26,8 @@ import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleLabels;
-import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.ModuleReferenceList;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.utility.EqualsUtility;
 
@@ -80,7 +80,7 @@ public class DefaultQedeqBo implements QedeqBo {
      * @param   address     Module address (not <code>null</code>).
      * @throws  NullPointerException    <code>address</code> is null.
      */
-    public DefaultQedeqBo(final ModuleAddress address) {
+    DefaultQedeqBo(final ModuleAddress address) {
         this.address = address;
         if (address == null) {
             throw new NullPointerException("ModuleAddress must not be null");
@@ -188,6 +188,7 @@ public class DefaultQedeqBo implements QedeqBo {
         loadingState = LoadingState.STATE_LOADED;
         this.qedeq = qedeq;
         this.labels = labels;
+        this.exception = null;
     }
 
     public final String getEncoding() {
@@ -249,8 +250,8 @@ public class DefaultQedeqBo implements QedeqBo {
     * @param   state   Module dependency state. Must not be <code>null</code>.
     * @param   e       Exception that occurred during loading. Must not be <code>null</code>.
     * @throws  IllegalStateException       Module is not yet loaded.
-    * @throws  IllegalArgumentException    <code>state</code> is no failure state
-    * @throws  NullPointerException         <code>state</code> is <code>null</code>.
+    * @throws  IllegalArgumentException    <code>state</code> is no failure state.
+    * @throws  NullPointerException        <code>state</code> is <code>null</code>.
     */
     public final void setDependencyFailureState(final DependencyState state,
             final SourceFileExceptionList e) {

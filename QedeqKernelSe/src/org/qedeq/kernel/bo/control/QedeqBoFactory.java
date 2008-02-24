@@ -47,15 +47,13 @@ class QedeqBoFactory {
      * @param   address     Module address.
      * @return  Module properties for module.
      */
-    final DefaultQedeqBo getModuleProperties(final ModuleAddress address) {
-        synchronized (moduleProperties) {
-            if (moduleProperties.containsKey(address)) {
-                return (DefaultQedeqBo) moduleProperties.get(address);
-            } else {
-                final DefaultQedeqBo prop = new DefaultQedeqBo(address);
-                moduleProperties.put(address, prop);
-                return prop;
-            }
+    final synchronized DefaultQedeqBo getModuleProperties(final ModuleAddress address) {
+        if (moduleProperties.containsKey(address)) {
+            return (DefaultQedeqBo) moduleProperties.get(address);
+        } else {
+            final DefaultQedeqBo prop = new DefaultQedeqBo(address);
+            moduleProperties.put(address, prop);
+            return prop;
         }
     }
 
@@ -63,21 +61,19 @@ class QedeqBoFactory {
     /**
      * Remove all modules from memory.
      */
-    final void removeAllModules() {
+    final synchronized void removeAllModules() {
         final String method = "removeAllModules";
         Trace.begin(CLASS, this, method);
         try {
-            synchronized (moduleProperties) {
-                for (final Iterator iterator
-                        = moduleProperties.entrySet().iterator();
-                        iterator.hasNext(); ) {
-                    Map.Entry entry = (Map.Entry) iterator.next();
-                    final QedeqBo prop = (QedeqBo) entry.getValue();
-                    Trace.trace(CLASS, this, method, "remove " +  prop);
-                    ModuleEventLog.getInstance().removeModule(prop);
-                }
-                moduleProperties.clear();
+            for (final Iterator iterator
+                    = moduleProperties.entrySet().iterator();
+                    iterator.hasNext(); ) {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                final QedeqBo prop = (QedeqBo) entry.getValue();
+                Trace.trace(CLASS, this, method, "remove " +  prop);
+                ModuleEventLog.getInstance().removeModule(prop);
             }
+            moduleProperties.clear();
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
         } finally {
@@ -91,24 +87,22 @@ class QedeqBoFactory {
      *
      * @param   prop    Defines the module.
      */
-    final void removeModule(final QedeqBo prop) {
+    final synchronized void removeModule(final QedeqBo prop) {
         final String method = "removeModule";
         Trace.begin(CLASS, this, method);
         try {
-            synchronized (moduleProperties) {
-                Trace.trace(CLASS, this, method, "remove module "
-                    +  prop.getUrl());
-                if (!prop.isLoaded()) {
-                    Trace.trace(CLASS, this, method, "removing " +  prop.getUrl());
-                    ModuleEventLog.getInstance().removeModule(prop);
-                    moduleProperties.remove(prop.getModuleAddress());
-                } else {
-                    Trace.trace(CLASS, this, method, "module number=" + moduleProperties.size());
-                    Trace.trace(CLASS, this, method, "removing module itself: " +  prop.getUrl());
-                    ModuleEventLog.getInstance().removeModule(prop);
-                    moduleProperties.remove(prop.getModuleAddress());
-                    Trace.trace(CLASS, this, method, "module number=" + moduleProperties.size());
-                }
+            Trace.trace(CLASS, this, method, "remove module "
+                +  prop.getUrl());
+            if (!prop.isLoaded()) {
+                Trace.trace(CLASS, this, method, "removing " +  prop.getUrl());
+                ModuleEventLog.getInstance().removeModule(prop);
+                moduleProperties.remove(prop.getModuleAddress());
+            } else {
+                Trace.trace(CLASS, this, method, "module number=" + moduleProperties.size());
+                Trace.trace(CLASS, this, method, "removing module itself: " +  prop.getUrl());
+                ModuleEventLog.getInstance().removeModule(prop);
+                moduleProperties.remove(prop.getModuleAddress());
+                Trace.trace(CLASS, this, method, "module number=" + moduleProperties.size());
             }
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
@@ -122,20 +116,18 @@ class QedeqBoFactory {
      *
      * @return  list of all successfully loaded modules.
      */
-    final ModuleAddress[] getAllLoadedModules() {
+    final synchronized ModuleAddress[] getAllLoadedModules() {
         final String method = "getAllModules";
         Trace.begin(CLASS, this, method);
         try {
             final List list = new ArrayList();
-            synchronized (moduleProperties) {
-                for (final Iterator iterator
-                        = moduleProperties.entrySet().iterator();
-                        iterator.hasNext(); ) {
-                    Map.Entry entry = (Map.Entry) iterator.next();
-                    final QedeqBo prop = (QedeqBo) entry.getValue();
-                    if (prop.getLoadingState().getCode() >= LoadingState.STATE_LOADED.getCode()) {
-                        list.add(prop.getModuleAddress());
-                    }
+            for (final Iterator iterator
+                    = moduleProperties.entrySet().iterator();
+                    iterator.hasNext(); ) {
+                Map.Entry entry = (Map.Entry) iterator.next();
+                final QedeqBo prop = (QedeqBo) entry.getValue();
+                if (prop.getLoadingState().getCode() >= LoadingState.STATE_LOADED.getCode()) {
+                    list.add(prop.getModuleAddress());
                 }
             }
             return (ModuleAddress[]) list.toArray(new ModuleAddress[] {});
@@ -149,7 +141,7 @@ class QedeqBoFactory {
      *
      * @return  Number of loaded modules.
      */
-    final int getNumberOfLoadedModules() {
+    final synchronized int getNumberOfLoadedModules() {
         return getAllLoadedModules().length;
     }
 

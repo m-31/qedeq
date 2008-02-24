@@ -123,7 +123,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public QedeqBo getModuleProperties(final ModuleAddress address) {
+        public QedeqBo getQedeqBo(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
 
@@ -209,7 +209,7 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public QedeqBo getModuleProperties(final ModuleAddress address) {
+        public QedeqBo getQedeqBo(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -308,8 +308,8 @@ public final class KernelContext implements Kernel {
             return services.getGenerationDirectory();
         }
 
-        public QedeqBo getModuleProperties(final ModuleAddress address) {
-            return services.getModuleProperties(address);
+        public QedeqBo getQedeqBo(final ModuleAddress address) {
+            return services.getQedeqBo(address);
         }
 
         public ModuleAddress getModuleAddress(final URL url) throws IOException {
@@ -460,8 +460,8 @@ public final class KernelContext implements Kernel {
         return currentState.getGenerationDirectory();
     }
 
-    public QedeqBo getModuleProperties(final ModuleAddress address) {
-        return currentState.getModuleProperties(address);
+    public QedeqBo getQedeqBo(final ModuleAddress address) {
+        return currentState.getQedeqBo(address);
     }
 
     public ModuleAddress getModuleAddress(final URL url) throws IOException {

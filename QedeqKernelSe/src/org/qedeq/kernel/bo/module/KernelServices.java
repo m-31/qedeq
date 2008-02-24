@@ -117,7 +117,7 @@ public interface KernelServices {
      * @return  Existing or new {@link QedeqBo}, if address is maleformed
      *          <code>null</code> is returned.
      */
-    public QedeqBo getModuleProperties(ModuleAddress address);
+    public QedeqBo getQedeqBo(ModuleAddress address);
 
     /**
      * Transform an URL address into a local file path where the QEDEQ module is buffered.

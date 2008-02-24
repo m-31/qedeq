@@ -65,7 +65,7 @@ public class DefaultKernelServices implements KernelServices {
     private final String syncToken = new String();
 
     /** Number of method calls. */
-    private int processCounter = 0;
+    private volatile int processCounter = 0;
 
     /** Collection of modules. */
     private final QedeqBoFactory modules;
@@ -153,9 +153,9 @@ public class DefaultKernelServices implements KernelServices {
      * @throws  IOException Module is not known to the kernel.
      */
     public void removeModule(final ModuleAddress address) throws IOException {
-        final QedeqBo prop = getModuleProperties(address);
+        final QedeqBo prop = getQedeqBo(address);
         if (prop != null) {
-            removeModule(getModuleProperties(address));
+            removeModule(getQedeqBo(address));
         } else  {
             throw new IOException("Module not known: " + address);
         }
@@ -601,7 +601,7 @@ public class DefaultKernelServices implements KernelServices {
         return getModules().getModuleProperties(address);
     }
 
-    public QedeqBo getModuleProperties(final ModuleAddress address) {
+    public QedeqBo getQedeqBo(final ModuleAddress address) {
         return getModules().getModuleProperties(address);
     }
 
