@@ -194,9 +194,7 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
     }
 
     public void addModule(final QedeqBo prop) {
-        // TODO mime 20070829: what identifies a ModuleProperties, the moduleAddress? why not
-        // use equals?
-        if (this.prop != null && prop.getUrl().equals(this.prop.getUrl())) {
+        if (this.prop != null && this.prop.equals(prop)) {
             updateView();
         }
     }

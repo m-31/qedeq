@@ -112,9 +112,9 @@ public final class QedeqTreeCtrl implements TreeModelListener {
     }
 
     /**
-     * Get all selected ModuleProperties.
+     * Get all selected QedeqBos.
      *
-     * @return  Selected ModuleProperties.
+     * @return  Selected QedeqBos.
      * @throws  NothingSelectedException    Nothing was selected.
      */
     public final QedeqBo[] getSelected() throws NothingSelectedException {
@@ -265,9 +265,9 @@ public final class QedeqTreeCtrl implements TreeModelListener {
          */
        public void actionPerformed(final ActionEvent e) {
            try {
-               QedeqBo[] moduleProperties = getSelected();
-               for (int i = 0; i < moduleProperties.length; i++) {
-                   KernelContext.getInstance().removeModule(moduleProperties[i].getModuleAddress());
+               QedeqBo[] bos = getSelected();
+               for (int i = 0; i < bos.length; i++) {
+                   KernelContext.getInstance().removeModule(bos[i].getModuleAddress());
                }
            } catch (NothingSelectedException e1) {
                // nothing to do;

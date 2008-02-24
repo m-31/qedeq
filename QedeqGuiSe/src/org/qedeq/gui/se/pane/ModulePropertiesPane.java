@@ -35,7 +35,7 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 /**
- * View for {@link ModuleProperties}.
+ * View for {@link QedeqBo}s.
  *
  * @version $Revision: 1.3 $
  * @author  Michael Meyling
