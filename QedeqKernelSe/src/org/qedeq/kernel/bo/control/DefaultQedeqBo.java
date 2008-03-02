@@ -21,6 +21,7 @@ import java.net.URL;
 
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.logic.ExistenceChecker;
+import org.qedeq.kernel.bo.module.DefaultModuleReferenceList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
@@ -63,6 +64,9 @@ public class DefaultQedeqBo implements QedeqBo {
 
     /** Required QEDEQ modules. */
     private ModuleReferenceList required;
+
+    /** Dependent QEDEQ modules. */
+    private DefaultModuleReferenceList dependent;
 
     /** Predicate and function constant existence checker. */
     private ExistenceChecker checker;
@@ -189,6 +193,8 @@ public class DefaultQedeqBo implements QedeqBo {
         this.qedeq = qedeq;
         this.labels = labels;
         this.exception = null;
+        this.required = null;
+        this.dependent = new DefaultModuleReferenceList();
     }
 
     public final String getEncoding() {
@@ -230,7 +236,7 @@ public class DefaultQedeqBo implements QedeqBo {
             throw new IllegalArgumentException(
                 "this is a failure state, call setDependencyFailureState");
         }
-        if (state == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
+        if (state == DependencyState.STATE_LOADING_REQUIRED_REQUIREMENTS) {
             throw new IllegalArgumentException(
                 "this state could only be set by calling method setLoadedRequiredModules");
         }
@@ -277,12 +283,12 @@ public class DefaultQedeqBo implements QedeqBo {
     }
 
     /**
-     * Set loaded required modules state. Also set labels and URLs for all referenced modules.
+     * Set loaded required requirements state. Also set labels and URLs for all referenced modules.
      *
      * @param   list  URLs of all referenced modules. Must not be <code>null</code>.
      * @throws  IllegalStateException   Module is not yet loaded.
      */
-    public final void setLoadedRequiredModules(final ModuleReferenceList list) {
+    public final void setLoadedRequiredRequirementsModules(final ModuleReferenceList list) {
         if (!isLoaded()) {
             throw new IllegalStateException(
                 "Required modules can only be set if module is loaded."
@@ -304,6 +310,22 @@ public class DefaultQedeqBo implements QedeqBo {
 
     public final boolean hasLoadedRequiredModules() {
         return isLoaded() && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES;
+    }
+
+    /**
+     * Get labels and URLs of all directly dependent modules. Only available if module is loaded.
+     * Otherwise a runtime exception is thrown.
+     *
+     * @return  URLs of all referenced modules.
+     * @throws  IllegalStateException   Module not yet loaded.
+     */
+    public final DefaultModuleReferenceList getDependentModules() {
+        if (!isLoaded()) {
+            throw new IllegalStateException(
+                "module reference list exists only if state is \""
+                + LoadingState.STATE_LOADED.getText() + "\"");
+        }
+        return dependent;
     }
 
     /**
