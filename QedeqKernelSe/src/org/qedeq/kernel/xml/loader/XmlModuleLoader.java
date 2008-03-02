@@ -33,7 +33,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
-import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
+import org.qedeq.kernel.xml.mapper.ModuleDataException2SourceFileException;
 import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxParser;
@@ -125,7 +125,7 @@ public class XmlModuleLoader implements ModuleLoader {
         } catch (ModuleDataException e) {
             Trace.trace(CLASS, this, method, e);
             final SourceFileExceptionList xl
-                = ModuleDataException2XmlFileException.createXmlFileExceptionList(e, qedeq);
+                = ModuleDataException2SourceFileException.createSourceFileExceptionList(e, qedeq);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
             ModuleEventLog.getInstance().stateChanged(prop);
             throw xl;
