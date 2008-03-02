@@ -236,7 +236,7 @@ public class DefaultQedeqBo implements QedeqBo {
             throw new IllegalArgumentException(
                 "this is a failure state, call setDependencyFailureState");
         }
-        if (state == DependencyState.STATE_LOADING_REQUIRED_REQUIREMENTS) {
+        if (state == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
             throw new IllegalArgumentException(
                 "this state could only be set by calling method setLoadedRequiredModules");
         }
@@ -288,7 +288,7 @@ public class DefaultQedeqBo implements QedeqBo {
      * @param   list  URLs of all referenced modules. Must not be <code>null</code>.
      * @throws  IllegalStateException   Module is not yet loaded.
      */
-    public final void setLoadedRequiredRequirementsModules(final ModuleReferenceList list) {
+    public final void setLoadedRequiredModules(final ModuleReferenceList list) {
         if (!isLoaded()) {
             throw new IllegalStateException(
                 "Required modules can only be set if module is loaded."

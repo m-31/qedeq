@@ -155,7 +155,7 @@ public class LoadRequiredModules {
                 return; // everything is OK, someone elses thread might have corrected errors!
             }
             if (sfl == null) {
-                prop.setLoadedRequiredRequirementsModules(required);
+                prop.setLoadedRequiredModules(required);
                 ModuleEventLog.getInstance().stateChanged(prop);
             } else {
                 prop.setDependencyFailureState(
