@@ -31,7 +31,7 @@ import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.utility.TextOutput;
-import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
+import org.qedeq.kernel.xml.mapper.ModuleDataException2SourceFileException;
 import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
@@ -250,7 +250,7 @@ public final class Xml2Latex  {
         } catch (ModuleDataException e) {
             Trace.trace(CLASS, method, e);
             Trace.param(CLASS, method, "context", e.getContext());
-            throw ModuleDataException2XmlFileException.createXmlFileExceptionList(e, 
+            throw ModuleDataException2SourceFileException.createSourceFileExceptionList(e, 
                 prop.getQedeq());
         } finally {
             if (printer != null) {
