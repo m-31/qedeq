@@ -38,7 +38,7 @@ public final class ModuleEventListenerLog implements ModuleEventListener {
     }
 
     public void stateChanged(final QedeqBo prop) {
-        if (prop.getLoadingState().isFailure() || prop.getLogicalState().isFailure()) {
+        if (prop.hasFailures()) {
             QedeqLog.getInstance().logFailureState("Module state changed: "
                 + prop.getStateDescription(), prop.getUrl(), prop.getException().getMessage());
         } else {
