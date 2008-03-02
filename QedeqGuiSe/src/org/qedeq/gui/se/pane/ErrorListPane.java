@@ -200,7 +200,7 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
     }
 
     public void stateChanged(final QedeqBo prop) {
-        if (this.prop != null && prop.getUrl().equals(this.prop.getUrl())) {
+        if (this.prop != null && this.prop.equals(prop)) {
             updateView();
         }
     }
