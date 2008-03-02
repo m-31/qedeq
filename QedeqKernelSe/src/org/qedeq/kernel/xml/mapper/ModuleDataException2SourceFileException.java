@@ -42,15 +42,15 @@ import org.xml.sax.SAXException;
  * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
-public final class ModuleDataException2XmlFileException {
+public final class ModuleDataException2SourceFileException {
 
     /** This class. */
-    private static final Class CLASS = ModuleDataException2XmlFileException.class;
+    private static final Class CLASS = ModuleDataException2SourceFileException.class;
 
     /**
      * Constructor.
      */
-    private ModuleDataException2XmlFileException() {
+    private ModuleDataException2SourceFileException() {
         // nothing to do
     }
 
@@ -61,12 +61,26 @@ public final class ModuleDataException2XmlFileException {
      * @param   qedeq       Take this QEDEQ module.
      * @return  Newly created instance.
      */
-    public static final SourceFileExceptionList createXmlFileExceptionList(final ModuleDataException
-            exception, final Qedeq qedeq) {
+    public static final SourceFileExceptionList createSourceFileExceptionList(
+            final ModuleDataException exception, final Qedeq qedeq) {
         final SourceFileException e = new SourceFileException(exception, createSourceArea(qedeq,
             exception.getContext()), createSourceArea(qedeq, exception.getReferenceContext()));
         final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
         return list;
+    }
+
+    /**
+     * Create exception out of {@link ModuleDataException}.
+     *
+     * @param   exception   Take this exception.
+     * @param   qedeq       Take this QEDEQ module.
+     * @return  Newly created instance.
+     */
+    public static final SourceFileException createSourceFileException(final ModuleDataException
+            exception, final Qedeq qedeq) {
+        final SourceFileException e = new SourceFileException(exception, createSourceArea(qedeq,
+            exception.getContext()), createSourceArea(qedeq, exception.getReferenceContext()));
+        return e;
     }
 
     /**
