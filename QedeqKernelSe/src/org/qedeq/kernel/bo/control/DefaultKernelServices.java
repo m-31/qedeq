@@ -281,12 +281,12 @@ public class DefaultKernelServices implements KernelServices {
     /**
      * Load specified QEDEQ module from QEDEQ parent module.
      *
-     * @param   parent  Parent module.
+     * @param   parent  Parent module address.
      * @param   spec    Specification for another QEDEQ module.
      * @return  Loaded module.
      * @throws  SourceFileExceptionList     Loading failed.
      */
-    public DefaultQedeqBo loadModule(final DefaultQedeqBo parent,
+    public DefaultQedeqBo loadModule(final ModuleAddress parent,
             final Specification spec) throws SourceFileExceptionList {
 
         final String method = "loadModule(Module, Specification)";
@@ -296,7 +296,7 @@ public class DefaultKernelServices implements KernelServices {
         try {
             final ModuleAddress[] modulePaths;
             try {
-                modulePaths = DefaultModuleAddress.getModulePaths(parent.getModuleAddress(), spec);
+                modulePaths = DefaultModuleAddress.getModulePaths(parent, spec);
             } catch (IOException e) {
                 Trace.trace(CLASS, this, method, e);
                 throw createXmlFileExceptionList(e);
