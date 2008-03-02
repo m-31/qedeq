@@ -70,13 +70,12 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 
      * @throws Exception
      */
-    public void pestLoadRequiredModules_02() throws Exception {
+    public void testLoadRequiredModules_02() throws Exception {
         try {
             final ModuleAddress address = new DefaultModuleAddress("data/loadRequired/LRM021.xml");
             KernelContext.getInstance().loadRequiredModules(address);
             fail("021 -> 021 cycle");
         } catch (SourceFileExceptionList e) {
-            e.printStackTrace();
             assertEquals(1, e.size());
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
@@ -92,13 +91,14 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 
      * @throws Exception
      */
-    public void pestLoadRequiredModules_03() throws Exception {
+    public void testLoadRequiredModules_03() throws Exception {
         try {
             final ModuleAddress address = new DefaultModuleAddress("data/loadRequired/LRM031.xml");
             KernelContext.getInstance().loadRequiredModules(address);
             fail("031 -> 032 -> 031 cycle");
         } catch (SourceFileExceptionList e) {
             assertEquals(1, e.size());
+            e.printStackTrace();
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
             // TODO mime 20071101: check if exception code and description is ok
@@ -115,7 +115,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 
      * @throws Exception
      */
-    public void pestLoadRequiredModules_04() throws Exception {
+    public void testLoadRequiredModules_04() throws Exception {
         try {
             final ModuleAddress address = new DefaultModuleAddress("data/loadRequired/LRM041.xml");
             KernelContext.getInstance().loadRequiredModules(address);
@@ -128,8 +128,8 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             assertEquals(3, e.size());
             assertEquals(38, e.get(1).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
-            assertEquals(45, e.get(1).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(45, e.get(2).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(2).getSourceArea().getStartPosition().getColumn());
             // TODO mime 20071101: check if exception code and description is ok
         }
     }
@@ -196,31 +196,22 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 
      * @throws Exception
      */
-    public void pestLoadRequiredModules_07() throws Exception {
+    public void testLoadRequiredModules_07() throws Exception {
         try {
             final ModuleAddress address = new DefaultModuleAddress("data/loadRequired/LRM071.xml");
             KernelContext.getInstance().loadRequiredModules(address);
             fail("see test method description");
         } catch (SourceFileExceptionList e) {
+            e.printStackTrace(System.out);
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
-            assertEquals(9, e.size());
+            assertEquals(4, e.size());
             assertEquals(38, e.get(1).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
-            assertEquals(45, e.get(1).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
-            assertEquals(52, e.get(1).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
-            assertEquals(59, e.get(1).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
-            assertEquals(66, e.get(1).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
-            assertEquals(73, e.get(1).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
-            assertEquals(80, e.get(1).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
-            assertEquals(87, e.get(1).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(45, e.get(2).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(2).getSourceArea().getStartPosition().getColumn());
+            assertEquals(52, e.get(3).getSourceArea().getStartPosition().getLine());
+            assertEquals(7, e.get(3).getSourceArea().getStartPosition().getColumn());
             // TODO mime 20071105: check if exception code and description is ok
         }
     }
@@ -246,7 +237,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 
      * @throws Exception
      */
-    public void pestLoadRequiredModules_09() throws Exception {
+    public void testLoadRequiredModules_09() throws Exception {
         try {
             final ModuleAddress address = new DefaultModuleAddress("data/loadRequired/LRM091.xml");
             KernelContext.getInstance().loadRequiredModules(address);
