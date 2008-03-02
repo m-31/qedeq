@@ -165,7 +165,7 @@ public final class CheckLogicTest extends QedeqTestCase {
         final DefaultQedeqBo prop = (DefaultQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(context);
         QedeqVoBuilder.createQedeq(prop, qedeq);
-        prop.setLoadedRequiredRequirementsModules(new DefaultModuleReferenceList());
+        prop.setLoadedRequiredModules(new DefaultModuleReferenceList());
         QedeqBoFormalLogicChecker.check((DefaultQedeqBo) prop);
     }
 

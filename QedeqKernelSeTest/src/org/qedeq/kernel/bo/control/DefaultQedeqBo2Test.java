@@ -59,7 +59,7 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
         bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
             new DefaultSourceFileExceptionList(new NullPointerException()));
         assertTrue(bo.hasFailures());
-        bo.setLoadedRequiredRequirementsModules(new DefaultModuleReferenceList());
+        bo.setLoadedRequiredModules(new DefaultModuleReferenceList());
         assertFalse(bo.hasFailures());
         bo.setChecked(new DefaultExistenceChecker());
         assertFalse(bo.hasFailures());
@@ -248,11 +248,6 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
         assertTrue(bo.isLoaded());
         assertNull(bo.getException());
-        bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_REQUIREMENTS_FAILED,
-            defaultSourceFileExceptionList);
-        assertEquals(DependencyState.STATE_LOADING_REQUIRED_REQUIREMENTS_FAILED,
-            bo.getDependencyState());
-        assertEquals(defaultSourceFileExceptionList, bo.getException());
         bo.setDependencyProgressState(DependencyState.STATE_UNDEFINED);
         try {
             bo.setDependencyFailureState(DependencyState.STATE_UNDEFINED,
@@ -273,7 +268,7 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
         assertEquals(DependencyState.STATE_UNDEFINED, bo.getDependencyState());
         assertNull(bo.getException());
         try {
-            bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_REQUIREMENTS,
+            bo.setDependencyFailureState(DependencyState.STATE_LOADED_REQUIRED_MODULES,
                 defaultSourceFileExceptionList);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {

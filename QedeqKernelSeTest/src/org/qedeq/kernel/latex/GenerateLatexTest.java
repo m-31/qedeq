@@ -277,7 +277,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
 //            new DefaultModuleAddress(web));
         
         fakeProp.setLoaded(prop.getQedeq(), prop.getLabels());
-        fakeProp.setLoadedRequiredRequirementsModules(prop.getRequiredModules());
+        fakeProp.setLoadedRequiredModules(prop.getRequiredModules());
         final File texFile = new File(destinationDirectory, 
             xml.substring(0, xml.lastIndexOf('.')) + "_" + language + ".tex");
         Xml2Latex.generate(fakeProp, texFile, language, "1");
