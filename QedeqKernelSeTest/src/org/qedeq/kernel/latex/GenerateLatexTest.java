@@ -20,7 +20,6 @@ package org.qedeq.kernel.latex;
 import java.io.File;
 import java.io.IOException;
 
-import org.qedeq.kernel.bo.control.DefaultKernelServices;
 import org.qedeq.kernel.bo.control.DefaultModuleAddress;
 import org.qedeq.kernel.bo.control.DefaultQedeqBo;
 import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
@@ -278,7 +277,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
 //            new DefaultModuleAddress(web));
         
         fakeProp.setLoaded(prop.getQedeq(), prop.getLabels());
-        fakeProp.setLoadedRequiredModules(prop.getRequiredModules());
+        fakeProp.setLoadedRequiredRequirementsModules(prop.getRequiredModules());
         final File texFile = new File(destinationDirectory, 
             xml.substring(0, xml.lastIndexOf('.')) + "_" + language + ".tex");
         Xml2Latex.generate(fakeProp, texFile, language, "1");
