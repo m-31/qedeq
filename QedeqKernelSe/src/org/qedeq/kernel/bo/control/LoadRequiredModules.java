@@ -17,19 +17,16 @@
 
 package org.qedeq.kernel.bo.control;
 
-import org.qedeq.kernel.base.module.Import;
-import org.qedeq.kernel.base.module.ImportList;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.qedeq.kernel.bo.module.DefaultModuleReferenceList;
-import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.common.DependencyState;
-import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventLog;
-import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
+import org.qedeq.kernel.xml.mapper.ModuleDataException2SourceFileException;
 import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
@@ -39,117 +36,134 @@ import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
  * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
-public final class LoadRequiredModules extends AbstractModuleVisitor {
+public class LoadRequiredModules {
 
     /** This class. */
     private static final Class CLASS = LoadRequiredModules.class;
 
-    /** Traverse QEDEQ module with this traverser. */
-    private final QedeqNotNullTraverser traverser;
-
-    /** QEDEQ module properties object to work on. */
-    private final DefaultQedeqBo prop;
+    /** All QedeqBos currently in state "loading required modules". */
+    private final Map loadingRequiredInProgress = new HashMap();
 
     /** Kernel services. */
     private final DefaultKernelServices services;
 
-    /** List of required QEDEQ modules. */
-    private final DefaultModuleReferenceList required;
-
     /**
      * Constructor.
      *
-     * @param   prop    QEDEQ module properties object.
      * @param   services    Kernel services.
      */
-    private LoadRequiredModules(final DefaultQedeqBo prop,
-            final DefaultKernelServices services) {
-        this.prop = prop;
+    LoadRequiredModules(final DefaultKernelServices services) {
         this.services = services;
-        this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
-        required = new DefaultModuleReferenceList();
+    }
+
+    /**
+     * Load all required QEDEQ modules for a given QEDEQ module.
+     *
+     * FIXME mime 20080225: must this method be synchronized?
+     * @param   prop        Module properties.
+     * @param   services    Kernel services.
+     * @throws  SourceFileExceptionList Failure(s).
+     */
+    public static void loadRequired(final DefaultQedeqBo prop,
+            final DefaultKernelServices services) throws SourceFileExceptionList {
+        final String method = "loadRequired(DefaultQedeqBo, DefaultKernelServices)";
+        // did we check this already?
+        if (prop.getDependencyState().areAllRequiredLoaded()) {
+            return; // everything is OK
+        }
+        (new LoadRequiredModules(services)).loadRequired(prop);
     }
 
     /**
      * Load all required QEDEQ modules for a given QEDEQ module.
      *
      * @param   prop        Module properties.
-     * @param   services    Kernel services.
      * @throws  SourceFileExceptionList Failure(s).
      */
-    public static void loadRequired(final DefaultQedeqBo prop, final DefaultKernelServices
-            services)
+    private void loadRequired(final DefaultQedeqBo prop)
             throws SourceFileExceptionList {
-        final String method = "loadRequired(DefaultQedeqBo)";
-        // did we check this already?
-        if (prop.getDependencyState().areAllRequiredLoaded()) {
-            return; // everything is OK
-        }
-        KernelContext.getInstance().loadModule(prop.getModuleAddress());
-        prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
-        ModuleEventLog.getInstance().stateChanged(prop);
-        final LoadRequiredModules converter = new LoadRequiredModules(prop, services);
-        try {
-            converter.loadRequired();
-            prop.setLoadedRequiredModules(converter.required);
+        final String method = "loadRequired(DefaultQedeqBo, DefaultKernelServices, Map)";
+        synchronized (prop) {
+            if (prop.getDependencyState().areAllRequiredLoaded()) {
+                return; // everything is OK
+            }
+            if (!prop.isLoaded()) {
+                throw new IllegalArgumentException("BO must be loaded!");   // FIXME check it!
+            }
+            if (loadingRequiredInProgress.containsKey(prop)) { // already checked?
+                throw new IllegalArgumentException("must not be marked!");   // FIXME check it!
+            }
+            prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
             ModuleEventLog.getInstance().stateChanged(prop);
-        } catch (ModuleDataException e) {
-            final SourceFileExceptionList sfl =
-                ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
-                    prop.getQedeq());
-            prop.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
-                sfl);
-            ModuleEventLog.getInstance().stateChanged(prop);
-            throw sfl;
-        } catch (final RuntimeException e) {    // last catch
-            Trace.fatal(LoadRequiredModules.class, method, "programming error", e);
-            ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
-                converter.traverser.getCurrentContext());
-            final SourceFileExceptionList sfl =
-                new DefaultSourceFileExceptionList(me);
-            prop.setDependencyFailureState(
-                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
-            ModuleEventLog.getInstance().stateChanged(prop);
-            throw sfl;
-        } catch (final Throwable e) {           // last catch
-            ModuleDataException me = new LoadRequiredModuleException(10, e.toString(),
-                converter.traverser.getCurrentContext());
-            final SourceFileExceptionList sfl =
-                new DefaultSourceFileExceptionList(me);
-            prop.setDependencyFailureState(
-                DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
-            ModuleEventLog.getInstance().stateChanged(prop);
-            throw sfl;
-        }
-    }
+            loadingRequiredInProgress.put(prop, prop);
 
-    /**
-     * Load all required QEDEQ modules for a given QEDEQ module.
-     *
-     * @throws  ModuleDataException Exception during traverse.
-     */
-    private final void loadRequired() throws ModuleDataException {
-        traverser.accept(prop.getQedeq());
-    }
-
-    public void visitEnter(final Import imp) throws ModuleDataException {
-        try {
-            final DefaultQedeqBo propNew = services.loadModule(prop,
-                imp.getSpecification());
-            required.add(new ModuleContext(traverser.getCurrentContext()), imp.getLabel(), propNew);
-            Trace.param(CLASS, "visitEnter(Import)", "adding context",
-                traverser.getCurrentContext());
-            loadRequired(propNew, services);
-        } catch (SourceFileExceptionList e) {
-            Trace.trace(CLASS, this, "visitEnter(Import)", e);
-            throw new LoadRequiredModuleException(e.get(0).getErrorCode(),
-                "import of module labeled \"" + imp.getLabel() + "\" failed: "
-                + e.get(0).getMessage(), traverser.getCurrentContext());
         }
-    }
+        final LoadDirectlyRequiredModules loader = new LoadDirectlyRequiredModules(
+            prop.getModuleAddress(), prop.getQedeq(), services);
+        DefaultModuleReferenceList required = loader.load();
+        DefaultSourceFileExceptionList sfl = loader.getSourceFileExceptionList();
 
-    public void visitLeave(final ImportList imports) {
-        traverser.setBlocked(true);
+        for (int i = 0; i < required.size(); i++) {
+            DefaultQedeqBo current = null;
+            current = required.getDefaultQedeqBo(i);
+            if (loadingRequiredInProgress.containsKey(current)) {
+                ModuleDataException me = new LoadRequiredModuleException(12,
+                    "recursive import of modules is forbidden, label \""
+                    + required.getLabel(i) + "\"",
+                    required.getModuleContext(i));
+                final SourceFileException sf = ModuleDataException2SourceFileException
+                    .createSourceFileException(me, prop.getQedeq());
+                if (sfl == null) {
+                    sfl = new DefaultSourceFileExceptionList(sf);
+                } else {
+                    sfl.add(sf);
+                }
+                continue;
+            }
+            try {
+                current.getDependentModules().add(required.getModuleContext(i),
+                    required.getLabel(i), required.getDefaultQedeqBo(i));
+            } catch (ModuleDataException me) {  // should never happen
+                final SourceFileException sf = ModuleDataException2SourceFileException
+                    .createSourceFileException(me, prop.getQedeq());
+                if (sfl == null) {
+                    sfl = new DefaultSourceFileExceptionList(sf);
+                } else {
+                    sfl.add(sf);
+                }
+            }
+            try {
+                loadRequired(current);
+            } catch (SourceFileExceptionList e) {
+                ModuleDataException me = new LoadRequiredModuleException(13,
+                    "import of module \"" + required.getLabel(i) + "\" failed: "
+                    + e.get(0).getMessage(),
+                required.getModuleContext(i));
+                final SourceFileException sf = ModuleDataException2SourceFileException
+                    .createSourceFileException(me, prop.getQedeq());
+                if (sfl == null) {
+                    sfl = new DefaultSourceFileExceptionList(sf);
+                } else {
+                    sfl.add(sf);
+                }
+                continue;
+            }
+        }
+        synchronized (prop) {
+            loadingRequiredInProgress.remove(prop);
+            if (prop.getDependencyState().areAllRequiredLoaded()) {
+                return; // everything is OK, someone elses thread might have corrected errors!
+            }
+            if (sfl == null) {
+                prop.setLoadedRequiredRequirementsModules(required);
+                ModuleEventLog.getInstance().stateChanged(prop);
+            } else {
+                prop.setDependencyFailureState(
+                    DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
+                ModuleEventLog.getInstance().stateChanged(prop);
+                throw sfl;
+            }
+        }
     }
 
 }
