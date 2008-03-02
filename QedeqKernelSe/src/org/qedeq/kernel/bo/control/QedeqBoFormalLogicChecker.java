@@ -39,7 +39,7 @@ import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.xml.mapper.ModuleDataException2XmlFileException;
+import org.qedeq.kernel.xml.mapper.ModuleDataException2SourceFileException;
 
 
 /**
@@ -100,7 +100,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
                     "import check failed: " + list.getQedeqBo(i).getModuleAddress(),
                     list.getModuleContext(i));
                 final SourceFileExceptionList sfl =
-                    ModuleDataException2XmlFileException.createXmlFileExceptionList(md,
+                    ModuleDataException2SourceFileException.createSourceFileExceptionList(md,
                     prop.getQedeq());
                 prop.setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
                 ModuleEventLog.getInstance().stateChanged(prop);
@@ -114,7 +114,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
             checker.check();
         } catch (ModuleDataException e) {
             final SourceFileExceptionList sfl =
-                ModuleDataException2XmlFileException.createXmlFileExceptionList(e,
+                ModuleDataException2SourceFileException.createSourceFileExceptionList(e,
                 prop.getQedeq());
             prop.setLogicalFailureState(LogicalState.STATE_INTERNAL_CHECKING_FAILED, sfl);
             ModuleEventLog.getInstance().stateChanged(prop);
