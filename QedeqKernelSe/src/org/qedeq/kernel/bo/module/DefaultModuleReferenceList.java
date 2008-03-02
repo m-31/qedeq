@@ -22,10 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.qedeq.kernel.bo.control.DefaultQedeqBo;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.ModuleReferenceList;
+import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.EqualsUtility;
 
@@ -71,26 +72,39 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
      * @param   context Within this context.
      * @param   label   Referenced module gets this label. Must not be <code>null</code> or empty.
      * @param   prop    Referenced module has this properties. Must not be <code>null</code>.
-     * @throws  IllegalModuleDataException  The <code>id</code> already exists or is
-     *          <code>null</code>.
+     * @throws  IllegalModuleDataException  The <code>label</code> is empty or <code>null</code>.
      */
-    public final void add(final ModuleContext context, final String label,
-            final QedeqBo prop) throws IllegalModuleDataException {
+    public final void add(final ModuleContext context, final String label, final QedeqBo prop)
+            throws IllegalModuleDataException {
         if (label == null || label.length() <= 0) {
             throw new IllegalModuleDataException(10003, "An label was not defined.", context, null,
                 null);  // LATER mime 20071026: organize exception codes
-        }
-        if (labels.contains(label)) {
-            // LATER mime 20071026: organize exception codes
-            throw new IllegalModuleDataException(10004, "Label \"" + label
-                + "\" defined more than once.", context,
-                (ModuleContext) label2Context.get(label), null);
         }
         labels.add(label);
         label2Context.put(label, context);
         contexts.add(context);
         Trace.param(CLASS, "add(ModuleContext, String, QedeqBo)", "context", context);
         props.add(prop);
+    }
+
+    /**
+     * Add module reference to list.
+     *
+     * @param   context Within this context.
+     * @param   label   Referenced module gets this label. Must not be <code>null</code> or empty.
+     * @param   prop    Referenced module has this properties. Must not be <code>null</code>.
+     * @throws  IllegalModuleDataException  The <code>id</code> already exists or is
+     *          <code>null</code>. Also if <code>label</code> is empty or <code>null</code>.
+     */
+    public final void addLabelUnique(final ModuleContext context, final String label,
+            final QedeqBo prop) throws IllegalModuleDataException {
+        if (labels.contains(label)) {
+            // LATER mime 20071026: organize exception codes
+            throw new IllegalModuleDataException(10004, "Label \"" + label
+                + "\" defined more than once.", context,
+                (ModuleContext) label2Context.get(label), null);
+        }
+        add(context, label, prop);
     }
 
     public final int size() {
@@ -103,6 +117,16 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
 
     public final QedeqBo getQedeqBo(final int index) {
         return (QedeqBo) props.get(index);
+    }
+
+    /**
+     * Get {@link QedeqBo} of referenced module.
+     *
+     * @param   index   Entry index.
+     * @return  Module properties for that module.
+     */
+    public final DefaultQedeqBo getDefaultQedeqBo(final int index) {
+        return (DefaultQedeqBo) props.get(index);
     }
 
     public final ModuleContext getModuleContext(final int index) {
