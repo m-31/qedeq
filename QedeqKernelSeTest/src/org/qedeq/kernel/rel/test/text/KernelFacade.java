@@ -52,6 +52,7 @@ public final class KernelFacade {
                 new File(new File("../../../qedeq_gen/test"), "config/org.qedeq.properties"),
                 "This file is part of the project *Hilbert II* - http://www.qedeq.org",
                 new File("../../../qedeq_gen/test"));
+            config.setAutoReloadLastSessionChecked(false);
             KernelContext.getInstance().init(new DefaultKernelServices(KernelContext.getInstance(),
                 new XmlModuleLoader()), 
                 config);
