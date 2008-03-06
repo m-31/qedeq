@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import org.qedeq.gui.se.tree.NothingSelectedException;
+import org.qedeq.kernel.bo.control.DefaultQedeqBo;
 import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.latex.Xml2Latex;
@@ -71,7 +72,9 @@ class MakeLatexAction extends AbstractAction {
                             final String[] languages = controller.getSupportedLanguages(props[i]);
                             for (int j = 0; j < languages.length; j++) {
                                 final String result =
-                                    Xml2Latex.generate(props[i], null, languages[j], null);
+                                    Xml2Latex.generate((DefaultQedeqBo) // FIXME mime 20080303
+                                                                        // move into KernelServices
+                                        props[i], null, languages[j], null);
                                 if (languages[j] != null) {
                                     QedeqLog.getInstance().logSuccessfulReply(
                                         "LaTeX for language \"" + languages[j]

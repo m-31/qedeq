@@ -100,7 +100,8 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
             public void run() {
                 final TreePath path = (TreePath) module2Path.get(prop.getModuleAddress());
                 if (path == null) {
-                    throw new IllegalArgumentException("unknown property");
+                    throw new IllegalArgumentException("unknown property: "
+                        + prop.getModuleAddress());
                 }
                 final QedeqTreeNode node = (QedeqTreeNode) path.getLastPathComponent();
                 QedeqBo sameProp = (QedeqBo) node.getUserObject();
