@@ -10,22 +10,22 @@
     </SPECIFICATION>
     <TITLE>
       <LATEX language="en">
-         Semantical Error Example Module
+         LaTeX Error Example Module
       </LATEX>
       <LATEX language="de">
-         Mathematisches Fehlerbeispielmodul
+         LaTeX Fehlerbeispielmodul
       </LATEX>
     </TITLE>
     <ABSTRACT>
       <LATEX language="en">
          With this QEDEQ module error handling is demonstrated.
          \par
-         Two LaTeX entries with the same language. See line 304.
+         Two LaTeX entries with the same language. See line 306.
       </LATEX>
       <LATEX language="de">
          Mit diesem QEDEQ-Modul wird die Fehlerbehandlung demonstriert.
          \par
-         Eine unbekanne Prädikatskonstante wird verwendet. Siehe Zeile 284.
+         Zwei LaTeX-Einträge  mit derselben Sprache. Siehe Zeile 306.
       </LATEX>
     </ABSTRACT>
     <AUTHORS>
@@ -38,7 +38,7 @@
       </AUTHOR>
     </AUTHORS>
     <IMPORTS>
-      <IMPORT label="predlogic">
+      <IMPORT label="l">
         <SPECIFICATION name="predlogic" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
@@ -183,7 +183,7 @@
                         </PREDCON>
                       </EQUI>
                     </FORALL>
-                    <PREDCON ref="equal">
+                    <PREDCON ref="l.equal">
                       <VAR id="x"/>
                       <VAR id="y"/>
                     </PREDCON>
@@ -292,7 +292,7 @@
                     </PREDCON>
                   </EQUI>
                 </FORALL>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x"/>
                   <VAR id="y"/>
                 </PREDCON>

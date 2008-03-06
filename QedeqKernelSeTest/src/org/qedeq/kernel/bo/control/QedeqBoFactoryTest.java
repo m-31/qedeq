@@ -27,18 +27,17 @@ import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
-import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxParser;
-import org.qedeq.kernel.xml.tracker.SimpleXPath;
-import org.qedeq.kernel.xml.tracker.XPathLocationParser;
 import org.xml.sax.SAXException;
 
 /**
@@ -93,7 +92,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
      * @throws ParserConfigurationException Parser configuration problem.
      */
     public final void testCreateStringQedeq1() throws IOException, ParserConfigurationException,
-            SAXException, ModuleDataException {
+            SAXException, ModuleDataException, SourceFileExceptionList {
         final String method = "testCreateStringQedeq()";
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(errorFile.getCanonicalFile()));
@@ -101,19 +100,17 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             .getKernelContext().getQedeqBo(address);
         try {
             QedeqBoFactoryAssert.createQedeq(prop, error);
-            fail("IllegalModuleDataException expected");
-        } catch (IllegalModuleDataException e) {
-            System.err.println(e);
-            System.err.println(e.getContext());
-            final SimpleXPath xpath = Context2SimpleXPath.getXPath(e.getContext(), error);
-            final SimpleXPath find = XPathLocationParser.getXPathLocation(
-                errorFile.getCanonicalFile(), xpath, IoUtility.toUrl(errorFile.getCanonicalFile()));
-            System.out.println("found: " + find.getStartLocation());
-            System.out.println("found: " + find.getEndLocation());
-            assertEquals(221, find.getStartLocation().getLine());
-            assertEquals(9, find.getStartLocation().getColumn());
-            assertEquals(265, find.getEndLocation().getLine());
-            assertEquals(16, find.getEndLocation().getColumn());
+            // TODO mime 20080306: move this test to another location, building doesn't include
+            // checking any longer
+            final ModuleNodesCreator creator = new ModuleNodesCreator(prop);
+            creator.createLabels();
+            fail("SourceFileExceptionList expected");
+        } catch (SourceFileExceptionList e) {
+            SourceFileException sf = e.get(0);
+            assertEquals(221, sf.getSourceArea().getStartPosition().getLine());
+            assertEquals(9, sf.getSourceArea().getStartPosition().getColumn());
+            assertEquals(265, sf.getSourceArea().getEndPosition().getLine());
+            assertEquals(16, sf.getSourceArea().getEndPosition().getColumn());
             Trace.trace(CLASS, this, method, e);
         }
     }

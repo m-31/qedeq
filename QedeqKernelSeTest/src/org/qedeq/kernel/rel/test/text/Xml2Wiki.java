@@ -20,6 +20,7 @@ package org.qedeq.kernel.rel.test.text;
 import java.io.File;
 import java.io.IOException;
 
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -28,7 +29,6 @@ import org.qedeq.kernel.rel.test.gui.Xml2OtherGui;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.StringUtility;
-import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
 /**

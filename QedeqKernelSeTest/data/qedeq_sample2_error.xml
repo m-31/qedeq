@@ -38,17 +38,17 @@
       </AUTHOR>
     </AUTHORS>
     <IMPORTS>
-      <IMPORT label="predlogic">
+      <IMPORT label="l">
         <SPECIFICATION name="predlogic" ruleVersion="1.00.00">
           <LOCATIONS>
-            <LOCATION value="http://qedeq.org/0_03_08/sample"/>
+            <LOCATION value="."/>
           </LOCATIONS>
         </SPECIFICATION>
       </IMPORT>
       <IMPORT label="proplogic">
         <SPECIFICATION name="proplogic" ruleVersion="1.00.00">
           <LOCATIONS>
-            <LOCATION value="http://qedeq.org/0_03_08/sample"/>
+            <LOCATION value="."/>
           </LOCATIONS>
         </SPECIFICATION>
       </IMPORT>
@@ -181,7 +181,7 @@
                         </PREDCON>
                       </EQUI>
                     </FORALL>
-                    <PREDCON ref="equal">
+                    <PREDCON ref="l.equal">
                       <VAR id="x"/>
                       <VAR id="y"/>
                     </PREDCON>
@@ -291,7 +291,7 @@
                     </PREDCON>
                   </EQUI>
                 </FORALL>
-                <PREDCON ref="equal">
+                <PREDCON ref="l.equal">
                   <VAR id="x"/>
                   <VAR id="y"/>
                 </PREDCON>

@@ -24,12 +24,15 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.load.QedeqVoBuilder;
+import org.qedeq.kernel.common.LoadingState;
+import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.xml.loader.XmlModuleLoader;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
 import org.qedeq.kernel.xml.tracker.XPathLocationParser;
@@ -49,16 +52,16 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
     /**
      * Constructor.
      * 
-     * @param   prop     QEDEDQ BO.
+     * @param   address     QEDEQ module address.
      */
-    public QedeqBoFactoryAssert(final DefaultQedeqBo prop) {
-        super(prop);
+    public QedeqBoFactoryAssert(final ModuleAddress address) {
+        super(address);
     }
 
     /**
      * Create {@link QedeqBo} out of an {@link Qedeq} instance.
      * During that procedure some basic checking is done. E.g. the uniqueness of entries
-     * is tested. Also the logical correctness is checked. 
+     * is tested.
      * The resulting business object has no references to the original
      * {@link Qedeq} instance.
      * <p>
@@ -70,18 +73,24 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
      * @throws  ModuleDataException  Semantic or syntactic error occurred.
      */
     public static void createQedeq(final DefaultQedeqBo prop,
-            final Qedeq original) throws ModuleDataException {
-        final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(prop);
-        final QedeqVo qedeq = creator.create(original);
-        prop.setLoaded(qedeq, creator.getLabels());
+            final Qedeq original) throws SourceFileExceptionList {
+        final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(prop.getModuleAddress());
+        QedeqVo vo = null;
         try {
-            KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
-        } catch (SourceFileExceptionList sfel) {
-            throw (ModuleDataException) prop.getException().get(0).getCause(); // TODO mime 20080217 ok???
+            vo = QedeqVoBuilder.createQedeq(prop.getModuleAddress(), original);
+        } catch (ModuleDataException e) {
+            final SourceFileExceptionList xl
+                = prop.createSourceFileExceptionList(e, original);
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
+            throw xl;
         }
+        prop.setLoaded(vo);
+        prop.setLoader(new XmlModuleLoader());
+        prop.setLabels(new ModuleNodesCreator(prop).createLabels());
+        KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
         if (!prop.isChecked()) {
-            throw (ModuleDataException) prop.getException().get(0).getCause();
+            throw prop.getException();
         }
         QedeqBoDuplicateLanguageChecker.check(prop);
     }

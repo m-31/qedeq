@@ -23,10 +23,11 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
+import org.qedeq.kernel.bo.control.DefaultModuleReferenceList;
 import org.qedeq.kernel.bo.control.DefaultQedeqBo;
 import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
 import org.qedeq.kernel.bo.load.QedeqVoBuilder;
-import org.qedeq.kernel.bo.module.DefaultModuleReferenceList;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
@@ -36,7 +37,7 @@ import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
-import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.xml.loader.XmlModuleLoader;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxParser;
 import org.xml.sax.SAXException;
@@ -164,8 +165,9 @@ public final class CheckLogicTest extends QedeqTestCase {
         Qedeq qedeq = simple.getQedeq();
         final DefaultQedeqBo prop = (DefaultQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(context);
-        QedeqVoBuilder.createQedeq(prop, qedeq);
+        prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq));
         prop.setLoadedRequiredModules(new DefaultModuleReferenceList());
+        prop.setLoader(new XmlModuleLoader());
         QedeqBoFormalLogicChecker.check((DefaultQedeqBo) prop);
     }
 
