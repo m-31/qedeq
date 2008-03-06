@@ -21,15 +21,21 @@ import java.net.URL;
 
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.logic.ExistenceChecker;
-import org.qedeq.kernel.bo.module.DefaultModuleReferenceList;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleLabels;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.ModuleNodes;
 import org.qedeq.kernel.common.ModuleReferenceList;
 import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.common.SourceArea;
+import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.dto.module.QedeqVo;
+import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.utility.EqualsUtility;
 
 
@@ -57,7 +63,7 @@ public class DefaultQedeqBo implements QedeqBo {
     private LogicalState logicalState;
 
     /** Loaded QEDEQ module. */
-    private Qedeq qedeq;
+    private QedeqVo qedeq;
 
     /** Failure exception. */
     private SourceFileExceptionList exception;
@@ -75,8 +81,10 @@ public class DefaultQedeqBo implements QedeqBo {
     private String encoding;
 
     /** Labels for this module. */
-    private ModuleLabels labels;
+    private ModuleNodes labels;
 
+    /** Loader used for loading this object. */
+    private ModuleLoader loader;
 
     /**
      * Creates new module properties.
@@ -95,11 +103,29 @@ public class DefaultQedeqBo implements QedeqBo {
         logicalState = LogicalState.STATE_UNCHECKED;
     }
 
-    public final boolean hasFailures() {
+    /**
+     * Set loader used for loading this object.
+     *
+     * @param loader
+     */
+    public void setLoader(final ModuleLoader loader) {
+        this.loader = loader;
+    }
+
+    /**
+     * Get loader used to load this object.
+     *
+     * @return  Loader.
+     */
+    public ModuleLoader getLoader() {
+        return this.loader;
+    }
+
+    public boolean hasFailures() {
         return loadingState.isFailure() || dependencyState.isFailure() || logicalState.isFailure();
     }
 
-    public final ModuleAddress getModuleAddress() {
+    public ModuleAddress getModuleAddress() {
         return address;
     }
 
@@ -108,7 +134,7 @@ public class DefaultQedeqBo implements QedeqBo {
      *
      * @param   completeness    Completeness of loading into memory.
      */
-    public final void setLoadingCompleteness(final int completeness) {
+    public void setLoadingCompleteness(final int completeness) {
         this.loadingCompleteness = completeness;
     }
 
@@ -122,10 +148,7 @@ public class DefaultQedeqBo implements QedeqBo {
      * @param   state   Module loading state. Must not be <code>null</code>.
      * @throws  IllegalStateException   State is a failure state or module loaded state.
      */
-    // TODO mime 20070704: shouldn't stand here:
-    //  ModuleEventLog.getInstance().stateChanged(props[i]);
-    //  and not in DefaultModuleFactory?
-    public final void setLoadingProgressState(final LoadingState state) {
+    public void setLoadingProgressState(final LoadingState state) {
         if (state == LoadingState.STATE_LOADED) {
             throw new IllegalArgumentException(
                 "this state could only be set by calling method setLoaded");
@@ -134,12 +157,16 @@ public class DefaultQedeqBo implements QedeqBo {
             throw new IllegalArgumentException(
                 "this is a failure state, call setLoadingFailureState");
         }
+        if (this.loadingState == LoadingState.STATE_UNDEFINED) {
+            ModuleEventLog.getInstance().addModule(this);
+        }
 // FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
         this.loadingState = state;
         this.qedeq = null;
         this.dependencyState = DependencyState.STATE_UNDEFINED;
         this.logicalState = LogicalState.STATE_UNCHECKED;
         this.exception = null;
+        ModuleEventLog.getInstance().stateChanged(this);
     }
 
     /**
@@ -149,11 +176,14 @@ public class DefaultQedeqBo implements QedeqBo {
      * @param   e       Exception that occurred during loading. Must not be <code>null</code>.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public final void setLoadingFailureState(final LoadingState state,
+    public void setLoadingFailureState(final LoadingState state,
             final SourceFileExceptionList e) {
         if (!state.isFailure()) {
             throw new IllegalArgumentException(
                 "this is no failure state, call setLoadingProgressState");
+        }
+        if (this.loadingState == LoadingState.STATE_UNDEFINED) {
+            ModuleEventLog.getInstance().addModule(this);
         }
 //          FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
 //          they must be killed too!
@@ -165,13 +195,14 @@ public class DefaultQedeqBo implements QedeqBo {
         if (e == null) {
             throw new NullPointerException("Exception must not be null");
         }
+        ModuleEventLog.getInstance().stateChanged(this);
     }
 
-    public final LoadingState getLoadingState() {
+    public LoadingState getLoadingState() {
         return this.loadingState;
     }
 
-    public final boolean isLoaded() {
+    public boolean isLoaded() {
         return loadingState == LoadingState.STATE_LOADED;
     }
 
@@ -179,25 +210,22 @@ public class DefaultQedeqBo implements QedeqBo {
      * Set loading state to "loaded".
      *
      * @param   qedeq   This module was loaded. Must not be <code>null</code>.
-     * @param   labels  Set this label references. Must not be <code>null</code>.
      * @throws  NullPointerException    One argument was <code>null</code>.
      */
-    public final void setLoaded(final Qedeq qedeq, final ModuleLabels labels) {
+    public void setLoaded(final QedeqVo qedeq) {
         if (qedeq == null) {
             throw new NullPointerException("Qedeq is null");
         }
-        if (labels == null) {
-            throw new NullPointerException("ModuleLabels is null");
-        }
         loadingState = LoadingState.STATE_LOADED;
         this.qedeq = qedeq;
-        this.labels = labels;
+        this.labels = null;
         this.exception = null;
         this.required = null;
         this.dependent = new DefaultModuleReferenceList();
+        ModuleEventLog.getInstance().stateChanged(this);
     }
 
-    public final String getEncoding() {
+    public String getEncoding() {
         return this.encoding;
     }
 
@@ -206,11 +234,11 @@ public class DefaultQedeqBo implements QedeqBo {
      *
      * @param   encoding    Encoding.
      */
-    public final void setEncoding(final String encoding) {
+    public void setEncoding(final String encoding) {
         this.encoding = encoding;
     }
 
-    public final Qedeq getQedeq() {
+    public Qedeq getQedeq() {
         if (loadingState != LoadingState.STATE_LOADED) {
             throw new IllegalStateException(
                 "module exists only if state is \"" + LoadingState.STATE_LOADED.getText()
@@ -228,7 +256,7 @@ public class DefaultQedeqBo implements QedeqBo {
      *                                      state.
      * @throws  NullPointerException        <code>state</code> is <code>null</code>.
      */
-    public final void setDependencyProgressState(final DependencyState state) {
+    public void setDependencyProgressState(final DependencyState state) {
         if (!isLoaded() && state != DependencyState.STATE_UNDEFINED) {
             throw new IllegalStateException("module is not yet loaded");
         }
@@ -248,6 +276,7 @@ public class DefaultQedeqBo implements QedeqBo {
         }
         this.exception = null;
         this.dependencyState = state;
+        ModuleEventLog.getInstance().stateChanged(this);
     }
 
    /**
@@ -259,7 +288,7 @@ public class DefaultQedeqBo implements QedeqBo {
     * @throws  IllegalArgumentException    <code>state</code> is no failure state.
     * @throws  NullPointerException        <code>state</code> is <code>null</code>.
     */
-    public final void setDependencyFailureState(final DependencyState state,
+    public void setDependencyFailureState(final DependencyState state,
             final SourceFileExceptionList e) {
         if (!isLoaded()) {
             throw new IllegalStateException("module is not yet loaded");
@@ -276,9 +305,10 @@ public class DefaultQedeqBo implements QedeqBo {
         if (e == null) {
             throw new NullPointerException("Exception must not be null");
         }
+        ModuleEventLog.getInstance().stateChanged(this);
     }
 
-    public final DependencyState getDependencyState() {
+    public DependencyState getDependencyState() {
         return this.dependencyState;
     }
 
@@ -288,7 +318,7 @@ public class DefaultQedeqBo implements QedeqBo {
      * @param   list  URLs of all referenced modules. Must not be <code>null</code>.
      * @throws  IllegalStateException   Module is not yet loaded.
      */
-    public final void setLoadedRequiredModules(final ModuleReferenceList list) {
+    public void setLoadedRequiredModules(final ModuleReferenceList list) {
         if (!isLoaded()) {
             throw new IllegalStateException(
                 "Required modules can only be set if module is loaded."
@@ -297,9 +327,10 @@ public class DefaultQedeqBo implements QedeqBo {
         }
         dependencyState = DependencyState.STATE_LOADED_REQUIRED_MODULES;
         required = list;
+        ModuleEventLog.getInstance().stateChanged(this);
     }
 
-    public final ModuleReferenceList getRequiredModules() {
+    public ModuleReferenceList getRequiredModules() {
         if (!hasLoadedRequiredModules()) {
             throw new IllegalStateException(
                 "module reference list exists only if state is \""
@@ -308,7 +339,7 @@ public class DefaultQedeqBo implements QedeqBo {
         return required;
     }
 
-    public final boolean hasLoadedRequiredModules() {
+    public boolean hasLoadedRequiredModules() {
         return isLoaded() && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES;
     }
 
@@ -319,7 +350,7 @@ public class DefaultQedeqBo implements QedeqBo {
      * @return  URLs of all referenced modules.
      * @throws  IllegalStateException   Module not yet loaded.
      */
-    public final DefaultModuleReferenceList getDependentModules() {
+    public DefaultModuleReferenceList getDependentModules() {
         if (!isLoaded()) {
             throw new IllegalStateException(
                 "module reference list exists only if state is \""
@@ -333,7 +364,7 @@ public class DefaultQedeqBo implements QedeqBo {
      *
      * @param   checker Checks if a predicate or function constant is defined.
      */
-    public final void setChecked(final ExistenceChecker checker) {
+    public void setChecked(final ExistenceChecker checker) {
         if (!hasLoadedRequiredModules()) {
             throw new IllegalStateException(
                 "Checked can only be set if all required modules are loaded."
@@ -342,6 +373,7 @@ public class DefaultQedeqBo implements QedeqBo {
         }
         logicalState = LogicalState.STATE_CHECKED;
         this.checker = checker;
+        ModuleEventLog.getInstance().stateChanged(this);
     }
 
     /**
@@ -351,7 +383,7 @@ public class DefaultQedeqBo implements QedeqBo {
      * @return  Checker. Checks if a predicate or function constant is defined.
      * @throws  IllegalStateException   Module is not yet checked.
      */
-    public final ExistenceChecker getExistenceChecker() {
+    public ExistenceChecker getExistenceChecker() {
         if (!isChecked()) {
             throw new IllegalStateException(
                 "existence checker exists only if state is \""
@@ -360,7 +392,7 @@ public class DefaultQedeqBo implements QedeqBo {
         return checker;
     }
 
-    public final boolean isChecked() {
+    public boolean isChecked() {
         return isLoaded() && hasLoadedRequiredModules()
             && logicalState == LogicalState.STATE_CHECKED;
     }
@@ -373,7 +405,7 @@ public class DefaultQedeqBo implements QedeqBo {
     *
     * @param   state   module state
     */
-    public final void setLogicalProgressState(final LogicalState state) {
+    public void setLogicalProgressState(final LogicalState state) {
         if (dependencyState.getCode() < DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode()
                 && state != LogicalState.STATE_UNCHECKED) {
             throw new IllegalArgumentException(
@@ -389,6 +421,7 @@ public class DefaultQedeqBo implements QedeqBo {
         }
         this.exception = null;
         this.logicalState = state;
+        ModuleEventLog.getInstance().stateChanged(this);
     }
 
     /**
@@ -398,7 +431,7 @@ public class DefaultQedeqBo implements QedeqBo {
      * @param   e       Exception that occurred during loading.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public final void setLogicalFailureState(final LogicalState state,
+    public void setLogicalFailureState(final LogicalState state,
             final SourceFileExceptionList e) {
         if ((!isLoaded() || !hasLoadedRequiredModules()) && state != LogicalState.STATE_UNCHECKED) {
             throw new IllegalArgumentException(
@@ -410,17 +443,18 @@ public class DefaultQedeqBo implements QedeqBo {
         }
         this.logicalState = state;
         this.exception = e;
+        ModuleEventLog.getInstance().stateChanged(this);
     }
 
-    public final LogicalState getLogicalState() {
+    public LogicalState getLogicalState() {
         return this.logicalState;
     }
 
-    public final SourceFileExceptionList getException() {
+    public SourceFileExceptionList getException() {
         return this.exception;
     }
 
-    public final String getStateDescription() {
+    public String getStateDescription() {
         if (loadingState == LoadingState.STATE_LOADING_FROM_WEB) {
             return loadingState.getText() + " (" + loadingCompleteness + "%)";
         } else if (!isLoaded()) {
@@ -439,14 +473,14 @@ public class DefaultQedeqBo implements QedeqBo {
         return logicalState.getText();
     }
 
-    public final String getName() {
+    public String getName() {
         if (address == null) {
             return "null";
         }
         return address.getName();
     }
 
-    public final String getRuleVersion() {
+    public String getRuleVersion() {
         if (address == null || qedeq == null
                 || qedeq.getHeader() == null
                 || qedeq.getHeader().getSpecification() == null
@@ -456,7 +490,7 @@ public class DefaultQedeqBo implements QedeqBo {
         return qedeq.getHeader().getSpecification().getRuleVersion();
     }
 
-    public final URL getUrl() {
+    public URL getUrl() {
         if (this.address == null) {
             return null;
         }
@@ -464,11 +498,14 @@ public class DefaultQedeqBo implements QedeqBo {
     }
 
     /**
-     * Set label references for QEDEQ module.
+     * Set label references for QEDEQ module. Must not be <code>null</code>.
      *
      * @param   labels  Label references.
      */
-    public void setLabels(final ModuleLabels labels) {
+    public void setLabels(final ModuleNodes labels) {
+        if (labels == null) {
+            throw new NullPointerException("ModuleLabels is null");
+        }
         this.labels = labels;
     }
 
@@ -477,8 +514,65 @@ public class DefaultQedeqBo implements QedeqBo {
      *
      * @return  Label references.
      */
-    public ModuleLabels getLabels() {
+    public ModuleNodes getLabels() {
         return labels;
+    }
+
+    /**
+     * Create exception out of {@link ModuleDataException}.
+     *
+     * @param   exception   Take this exception.
+     * @return  Newly created instance.
+     */
+    public SourceFileExceptionList createSourceFileExceptionList(
+            final ModuleDataException exception) {
+        final SourceFileException e = new SourceFileException(exception, createSourceArea(qedeq,
+            exception.getContext()), loader.createSourceArea(qedeq,
+                exception.getReferenceContext()));
+        final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
+        return list;
+    }
+
+    /**
+     * Create exception out of {@link ModuleDataException}.
+     *
+     * @param   exception   Take this exception.
+     * @param   qedeq       Take this QEDEQ source. (This might not be accessible via
+     *                      {@link #getQedeq()}.
+     * @return  Newly created instance.
+     */
+    public SourceFileExceptionList createSourceFileExceptionList(
+            final ModuleDataException exception, final Qedeq qedeq) {
+        final SourceFileException e = new SourceFileException(exception, createSourceArea(qedeq,
+            exception.getContext()), loader.createSourceArea(qedeq,
+                exception.getReferenceContext()));
+        final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
+        return list;
+    }
+
+    /**
+     * Create exception out of {@link ModuleDataException}.
+     *
+     * @param   exception   Take this exception.
+     * @return  Newly created instance.
+     */
+    public SourceFileException createSourceFileException(final ModuleDataException
+            exception) {
+        final SourceFileException e = new SourceFileException(exception, createSourceArea(qedeq,
+            exception.getContext()), loader.createSourceArea(qedeq,
+                exception.getReferenceContext()));
+        return e;
+    }
+
+    /**
+     * Get area in XML source file for QEDEQ module context.
+     *
+     * @param   qedeq       Look at this QEDEQ module.
+     * @param   context     Search for this context.
+     * @return  Created file area. Maybe <code>null</code>.
+     */
+    public SourceArea createSourceArea(final Qedeq qedeq, final ModuleContext context) {
+        return loader.createSourceArea(qedeq, context);
     }
 
     public int hashCode() {

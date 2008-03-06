@@ -20,14 +20,11 @@ package org.qedeq.kernel.bo.control;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.qedeq.kernel.bo.module.DefaultModuleReferenceList;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.log.ModuleEventLog;
-import org.qedeq.kernel.xml.mapper.ModuleDataException2SourceFileException;
-import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
 /**
@@ -94,12 +91,10 @@ public class LoadRequiredModules {
                 throw new IllegalArgumentException("must not be marked!");   // FIXME check it!
             }
             prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
-            ModuleEventLog.getInstance().stateChanged(prop);
             loadingRequiredInProgress.put(prop, prop);
 
         }
-        final LoadDirectlyRequiredModules loader = new LoadDirectlyRequiredModules(
-            prop.getModuleAddress(), prop.getQedeq(), services);
+        final LoadDirectlyRequiredModules loader = new LoadDirectlyRequiredModules(prop, services);
         DefaultModuleReferenceList required = loader.load();
         DefaultSourceFileExceptionList sfl = loader.getSourceFileExceptionList();
 
@@ -111,8 +106,7 @@ public class LoadRequiredModules {
                     "recursive import of modules is forbidden, label \""
                     + required.getLabel(i) + "\"",
                     required.getModuleContext(i));
-                final SourceFileException sf = ModuleDataException2SourceFileException
-                    .createSourceFileException(me, prop.getQedeq());
+                final SourceFileException sf = prop.createSourceFileException(me);
                 if (sfl == null) {
                     sfl = new DefaultSourceFileExceptionList(sf);
                 } else {
@@ -124,8 +118,8 @@ public class LoadRequiredModules {
                 current.getDependentModules().add(required.getModuleContext(i),
                     required.getLabel(i), required.getDefaultQedeqBo(i));
             } catch (ModuleDataException me) {  // should never happen
-                final SourceFileException sf = ModuleDataException2SourceFileException
-                    .createSourceFileException(me, prop.getQedeq());
+                final SourceFileException sf = prop
+                    .createSourceFileException(me);
                 if (sfl == null) {
                     sfl = new DefaultSourceFileExceptionList(sf);
                 } else {
@@ -139,8 +133,7 @@ public class LoadRequiredModules {
                     "import of module \"" + required.getLabel(i) + "\" failed: "
                     + e.get(0).getMessage(),
                 required.getModuleContext(i));
-                final SourceFileException sf = ModuleDataException2SourceFileException
-                    .createSourceFileException(me, prop.getQedeq());
+                final SourceFileException sf = prop.createSourceFileException(me);
                 if (sfl == null) {
                     sfl = new DefaultSourceFileExceptionList(sf);
                 } else {
@@ -156,11 +149,9 @@ public class LoadRequiredModules {
             }
             if (sfl == null) {
                 prop.setLoadedRequiredModules(required);
-                ModuleEventLog.getInstance().stateChanged(prop);
             } else {
                 prop.setDependencyFailureState(
                     DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
-                ModuleEventLog.getInstance().stateChanged(prop);
                 throw sfl;
             }
         }

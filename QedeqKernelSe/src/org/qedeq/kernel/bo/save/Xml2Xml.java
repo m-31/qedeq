@@ -23,17 +23,15 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 
+import org.qedeq.kernel.bo.control.DefaultQedeqBo;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.latex.Qedeq2Xml;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.TextOutput;
-import org.qedeq.kernel.xml.mapper.ModuleDataException2SourceFileException;
-import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
 /**
@@ -100,18 +98,13 @@ public final class Xml2Xml  {
         TextOutput printer = null;
         try {
             final ModuleAddress address = KernelContext.getInstance().getModuleAddress(from);
-            final QedeqBo prop = KernelContext.getInstance().loadModule(address);
+            // FIXME mime 20080303: don't cast!!!!
+            final DefaultQedeqBo prop = (DefaultQedeqBo) KernelContext.getInstance()
+                .loadModule(address);
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream);
-            try {
-                Qedeq2Xml.print(address, prop.getQedeq(), printer);
-            } catch (ModuleDataException e) {
-                Trace.trace(CLASS, method, e);
-                Trace.param(CLASS, method, "context", e.getContext());
-                throw ModuleDataException2SourceFileException.createSourceFileExceptionList(e,
-                    prop.getQedeq());
-            }
+            Qedeq2Xml.print(prop, printer);
             return to.getCanonicalPath();
         } catch (IOException e) {
             Trace.trace(CLASS, method, e);

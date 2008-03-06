@@ -22,16 +22,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.bo.control.DefaultQedeqBo;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.TextOutput;
-import org.qedeq.kernel.xml.mapper.ModuleDataException2SourceFileException;
-import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
 /**
@@ -62,11 +59,10 @@ public final class Xml2Latex  {
      * @return  File name of generated LaTeX file.
      * @throws  SourceFileExceptionList    Something went wrong.
      */
-    public static String generate(final QedeqBo prop, final File to, final String language,
+    public static String generate(final DefaultQedeqBo prop, final File to, final String language,
             final String level) throws SourceFileExceptionList {
         final String method = "generate(String, String, String, String)";
         File destination = null;
-        Qedeq qedeq = null;
         try {
             Trace.begin(CLASS, method);
             Trace.param(CLASS, method, "prop", prop);
@@ -94,7 +90,6 @@ public final class Xml2Latex  {
         }
         TextOutput printer = null;
         try {
-            qedeq = prop.getQedeq();
             IoUtility.createNecessaryDirectories(destination);
             final OutputStream outputStream = new FileOutputStream(destination);
             printer = new TextOutput(destination.getName(), outputStream);
@@ -107,11 +102,6 @@ public final class Xml2Latex  {
         } catch (RuntimeException e) {
             Trace.trace(CLASS, method, e);
             throw new DefaultSourceFileExceptionList(e);
-        } catch (ModuleDataException e) {
-            Trace.trace(CLASS, method, e);
-            Trace.param(CLASS, method, "context", e.getContext());
-            throw ModuleDataException2SourceFileException.createSourceFileExceptionList(e,
-                qedeq);
         } finally {
             if (printer != null) {
                 printer.close();

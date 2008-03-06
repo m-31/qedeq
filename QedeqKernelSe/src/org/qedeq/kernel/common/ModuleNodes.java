@@ -23,12 +23,12 @@ import java.util.Map;
 import org.qedeq.kernel.dto.module.NodeVo;
 
 /**
- * Maps labels of an QEDEQ module to their elements.
+ * Maps labels of an QEDEQ module to their nodes.
  *
  * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
-public final class ModuleLabels {
+public final class ModuleNodes {
 
     /** Maps labels to business objects. */
     private final Map label2Bo;
@@ -39,7 +39,7 @@ public final class ModuleLabels {
     /**
      * Constructs a new empty module label list.
      */
-    public ModuleLabels() {
+    public ModuleNodes() {
         label2Bo = new HashMap();
         label2Context = new HashMap();
     }

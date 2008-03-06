@@ -19,6 +19,7 @@ package org.qedeq.kernel.xml.parser;
 
 import java.net.URL;
 
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourcePosition;

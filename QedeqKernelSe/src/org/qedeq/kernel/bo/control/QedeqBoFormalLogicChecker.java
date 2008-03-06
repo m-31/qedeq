@@ -22,24 +22,18 @@ import org.qedeq.kernel.base.module.Formula;
 import org.qedeq.kernel.base.module.FunctionDefinition;
 import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
-import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.bo.logic.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.FormulaChecker;
 import org.qedeq.kernel.bo.logic.Function;
 import org.qedeq.kernel.bo.logic.Predicate;
-import org.qedeq.kernel.bo.module.DefaultModuleReferenceList;
-import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.LogicalState;
-import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.xml.mapper.ModuleDataException2SourceFileException;
 
 
 /**
@@ -48,16 +42,10 @@ import org.qedeq.kernel.xml.mapper.ModuleDataException2SourceFileException;
  * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
-public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
+public final class QedeqBoFormalLogicChecker extends ControlVisitor {
 
     /** This class. */
     private static final Class CLASS = QedeqBoFormalLogicChecker.class;
-
-    /** QEDEQ module properties. */
-    private final DefaultQedeqBo prop;
-
-    /** Current context during creation. */
-    private final QedeqNotNullTraverser traverser;
 
     /** Existence checker for predicate and function constants. */
     private ModuleConstantsExistenceChecker existence;
@@ -68,8 +56,7 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
      * @param   prop              QEDEQ module properties object.
      */
     private QedeqBoFormalLogicChecker(final DefaultQedeqBo prop) {
-        this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
-        this.prop = prop;
+        super(prop);
     }
 
     /**
@@ -88,7 +75,6 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
                 + prop);
         }
         prop.setLogicalProgressState(LogicalState.STATE_EXTERNAL_CHECKING);
-        ModuleEventLog.getInstance().stateChanged(prop);
         DefaultModuleReferenceList list = (DefaultModuleReferenceList) prop.getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             try {
@@ -99,34 +85,30 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
                 ModuleDataException md = new CheckRequiredModuleException(11231,
                     "import check failed: " + list.getQedeqBo(i).getModuleAddress(),
                     list.getModuleContext(i));
-                final SourceFileExceptionList sfl =
-                    ModuleDataException2SourceFileException.createSourceFileExceptionList(md,
-                    prop.getQedeq());
+                final SourceFileExceptionList sfl = prop.createSourceFileExceptionList(md);
                 prop.setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
-                ModuleEventLog.getInstance().stateChanged(prop);
                 throw e;
             }
         }
         prop.setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
-        ModuleEventLog.getInstance().stateChanged(prop);
         final QedeqBoFormalLogicChecker checker = new QedeqBoFormalLogicChecker(prop);
         try {
-            checker.check();
-        } catch (ModuleDataException e) {
-            final SourceFileExceptionList sfl =
-                ModuleDataException2SourceFileException.createSourceFileExceptionList(e,
-                prop.getQedeq());
+            checker.traverse();
+        } catch (SourceFileExceptionList sfl) {
             prop.setLogicalFailureState(LogicalState.STATE_INTERNAL_CHECKING_FAILED, sfl);
-            ModuleEventLog.getInstance().stateChanged(prop);
             throw sfl;
         }
         prop.setChecked(checker.existence);
-        ModuleEventLog.getInstance().stateChanged(prop);
     }
 
-    private void check() throws ModuleDataException {
-        this.existence = new ModuleConstantsExistenceChecker(prop);
-        traverser.accept(prop.getQedeq());
+    protected void traverse() throws DefaultSourceFileExceptionList {
+        try {
+            this.existence = new ModuleConstantsExistenceChecker(getQedeqBo());
+        } catch (ModuleDataException me) {
+            addModuleDataException(me);
+            throw getSourceFileExceptionList();
+        }
+        super.traverse();
     }
 
     public void visitEnter(final Axiom axiom) throws ModuleDataException {
@@ -140,11 +122,11 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
             FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
         }
         setLocationWithinModule(context);
-        traverser.setBlocked(true);
+        setBlocked(true);
     }
 
     public void visitLeave(final Axiom axiom) {
-        traverser.setBlocked(false);
+        setBlocked(false);
     }
 
     public void visitEnter(final PredicateDefinition definition)
@@ -171,11 +153,11 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
         }
         existence.add(definition);
         setLocationWithinModule(context);
-        traverser.setBlocked(true);
+        setBlocked(true);
     }
 
     public void visitLeave(final PredicateDefinition definition) {
-        traverser.setBlocked(false);
+        setBlocked(false);
     }
 
     public void visitEnter(final FunctionDefinition definition)
@@ -198,11 +180,11 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
         }
         existence.add(definition);
         setLocationWithinModule(context);
-        traverser.setBlocked(true);
+        setBlocked(true);
     }
 
     public void visitLeave(final FunctionDefinition definition) {
-        traverser.setBlocked(false);
+        setBlocked(false);
     }
 
     public void visitEnter(final Proposition proposition)
@@ -217,11 +199,11 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
             FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
         }
         setLocationWithinModule(context);
-        traverser.setBlocked(true);
+        setBlocked(true);
     }
 
     public void visitLeave(final Proposition definition) {
-        traverser.setBlocked(false);
+        setBlocked(false);
     }
 
     public void visitEnter(final Rule rule) throws ModuleDataException {
@@ -234,11 +216,11 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
                 existence.setClassOperatorExists(true);
             }
         }
-        traverser.setBlocked(true);
+        setBlocked(true);
     }
 
     public void visitLeave(final Rule rule) {
-        traverser.setBlocked(false);
+        setBlocked(false);
     }
 
     /**
@@ -248,24 +230,6 @@ public final class QedeqBoFormalLogicChecker extends AbstractModuleVisitor {
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-    }
-
-    /**
-     * Get current context within original.
-     *
-     * @return  Current context.
-     */
-    public final ModuleContext getCurrentContext() {
-        return traverser.getCurrentContext();
-    }
-
-    /**
-     * Get original QEDEQ module.
-     *
-     * @return  Original QEDEQ module.
-     */
-    protected final Qedeq getQedeqOriginal() {
-        return prop.getQedeq();
     }
 
 }

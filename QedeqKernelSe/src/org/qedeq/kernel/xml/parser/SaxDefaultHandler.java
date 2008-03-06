@@ -19,6 +19,7 @@ package org.qedeq.kernel.xml.parser;
 import java.net.URL;
 import java.util.Stack;
 
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourcePosition;
@@ -156,7 +157,11 @@ public class SaxDefaultHandler extends SimpleHandler {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            errorList.add(ex);
+            final SourceFileException sfe = new SourceFileException(ex.getErrorCode(),
+                ex.getMessage(), ex,
+                new SourceArea(ex.getErrorPosition().getAddress(), ex.getErrorPosition(), null),
+                null);
+            errorList.add(sfe);
         }
     }
 
@@ -192,7 +197,11 @@ public class SaxDefaultHandler extends SimpleHandler {
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
             setLocationInformation(e);
-            errorList.add(e);
+            final SourceFileException sfe = new SourceFileException(e.getErrorCode(),
+                e.getMessage(), e,
+                new SourceArea(e.getErrorPosition().getAddress(), e.getErrorPosition(), null),
+                null);
+            errorList.add(sfe);
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);

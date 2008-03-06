@@ -31,6 +31,7 @@ import java.net.URLEncoder;
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.module.Kernel;
 import org.qedeq.kernel.bo.module.KernelServices;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
@@ -39,12 +40,10 @@ import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.StringUtility;
-import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
 
 
 /**
@@ -235,7 +234,7 @@ public class DefaultKernelServices implements KernelServices {
                     Trace.trace(CLASS, this, method, e);
                     QedeqLog.getInstance().logFailureState("Loading of module failed!",
                         address.getURL(), e.toString());
-                    throw createXmlFileExceptionList(e);
+                    throw createSourceFileExceptionList(e);
                 }
                 try {
                     loadLocalModule(prop);
@@ -275,6 +274,7 @@ public class DefaultKernelServices implements KernelServices {
     private void loadLocalModule(final DefaultQedeqBo prop)
             throws ModuleFileNotFoundException, SourceFileExceptionList {
         final File localFile = kernel.getLocalFilePath(prop.getModuleAddress());
+        prop.setLoader(loader); // remember loader for this module
         loader.loadLocalModule(prop, localFile);
     }
 
@@ -299,7 +299,7 @@ public class DefaultKernelServices implements KernelServices {
                 modulePaths = DefaultModuleAddress.getModulePaths(parent, spec);
             } catch (IOException e) {
                 Trace.trace(CLASS, this, method, e);
-                throw createXmlFileExceptionList(e);
+                throw createSourceFileExceptionList(e);
             }
             // search in already loaded modules
             for (int i = 0; i < modulePaths.length; i++) {
@@ -342,15 +342,15 @@ public class DefaultKernelServices implements KernelServices {
                      QedeqLog.getInstance().logFailureState("Loading of module failed!",
                          modulePaths[i].getURL(), e.toString());
                      Trace.trace(CLASS, this, method, e);
-                     throw createXmlFileExceptionList(e);
+                     throw createSourceFileExceptionList(e);
                  } catch (ModuleFileNotFoundException e) {
                      Trace.trace(CLASS, this, method, e);
                      QedeqLog.getInstance().logFailureState("Loading of module failed!",
                          modulePaths[i].getURL(), e.getMessage());
-                     throw createXmlFileExceptionList(e);
+                     throw createSourcelFileExceptionList(e);
                  }
             }
-            throw createXmlFileExceptionList(new ModuleFileNotFoundException(
+            throw createSourcelFileExceptionList(new ModuleFileNotFoundException(
                 "no QEDEQ module found"));
         } finally {
             processDec();
@@ -455,10 +455,8 @@ public class DefaultKernelServices implements KernelServices {
 
         if (prop.getLoadingState() == LoadingState.STATE_UNDEFINED) {
             prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
-            ModuleEventLog.getInstance().addModule(prop);
         } else {
             prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
-            ModuleEventLog.getInstance().stateChanged(prop);
         }
 
         if (prop.getModuleAddress().isFileAddress()) {
@@ -508,7 +506,6 @@ public class DefaultKernelServices implements KernelServices {
             }
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED,
                 new DefaultSourceFileExceptionList(e));
-            ModuleEventLog.getInstance().stateChanged(prop);
             Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
             throw e;
         } finally {
@@ -659,7 +656,6 @@ public class DefaultKernelServices implements KernelServices {
                         LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
                 }
             }
-            ModuleEventLog.getInstance().stateChanged(prop);
             QedeqLog.getInstance().logFailureReply(msg, e.toString());
         } catch (final Throwable e) {
             final String msg = "Check of logical correctness failed for \""
@@ -685,7 +681,6 @@ public class DefaultKernelServices implements KernelServices {
                         LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
                 }
             }
-            ModuleEventLog.getInstance().stateChanged(prop);
             QedeqLog.getInstance().logFailureReply(msg, e.toString());
         }
         return prop.isChecked();
@@ -700,11 +695,11 @@ public class DefaultKernelServices implements KernelServices {
         return modules;
     }
 
-    private SourceFileExceptionList createXmlFileExceptionList(final IOException e) {
+    private SourceFileExceptionList createSourceFileExceptionList(final IOException e) {
         return new DefaultSourceFileExceptionList(e);
     }
 
-    private SourceFileExceptionList createXmlFileExceptionList(
+    private SourceFileExceptionList createSourcelFileExceptionList(
             final ModuleFileNotFoundException e) {
         return new DefaultSourceFileExceptionList(e);
     }

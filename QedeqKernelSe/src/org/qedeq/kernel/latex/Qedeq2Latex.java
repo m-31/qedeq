@@ -49,12 +49,12 @@ import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
+import org.qedeq.kernel.bo.control.ControlVisitor;
 import org.qedeq.kernel.bo.control.DefaultModuleAddress;
-import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.bo.control.DefaultQedeqBo;
+import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.StringUtility;
@@ -75,19 +75,13 @@ import org.qedeq.kernel.utility.TextOutput;
  * @version $Revision: 1.49 $
  * @author  Michael Meyling
  */
-public final class Qedeq2Latex extends AbstractModuleVisitor {
+public final class Qedeq2Latex extends ControlVisitor {
 
     /** This class. */
     private static final Class CLASS = Qedeq2Latex.class;
 
-    /** Traverse QEDEQ module with this traverser. */
-    private final QedeqNotNullTraverser traverser;
-
     /** Output goes here. */
     private final TextOutput printer;
-
-    /** QEDEQ module properties object to work on. */
-    private final QedeqBo prop;
 
     /** Filter text to get and produce text in this language. */
     private final String language;
@@ -116,15 +110,14 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     /**
      * Constructor.
      *
-     * @param   prop            QEDEQ module properties object.
+     * @param   prop            QEDEQ BO object.
      * @param   printer         Print herein.
      * @param   language        Filter text to get and produce text in this language only.
      * @param   level           Filter for this detail level. TODO mime 20050205: not supported yet.
      */
-    private Qedeq2Latex(final QedeqBo prop, final TextOutput printer,
+    private Qedeq2Latex(final DefaultQedeqBo prop, final TextOutput printer,
             final String language, final String level) {
-        this.prop = prop;
-        this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
+        super(prop);
         this.printer = printer;
         if (language == null) {
             this.language = "en";
@@ -147,44 +140,43 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
      * @param   printer         Print herein.
      * @param   language        Filter text to get and produce text in this language only.
      * @param   level           Filter for this detail level. TODO mime 20050205: not supported yet.
-     * @throws  ModuleDataException Major problem occurred.
+     * @throws  DefaultSourceFileExceptionList Major problem occurred.
      * @throws  IOException
      */
-    public static void print(final QedeqBo prop,
+    public static void print(final DefaultQedeqBo prop,
             final TextOutput printer, final String language, final String level)
-            throws ModuleDataException, IOException {
+            throws DefaultSourceFileExceptionList, IOException {
         // first we try to get more information about required modules and their predicates..
         try {
             KernelContext.getInstance().loadRequiredModules(prop.getModuleAddress());
             KernelContext.getInstance().checkModule(prop.getModuleAddress());
         } catch (Exception e) {
             // we continue and ignore external predicates
+            e.printStackTrace(System.out);  // FIXME remove me
             Trace.trace(CLASS, "print(QedeqBo, TextOutput, String, String)", e);
         }
         final Qedeq2Latex converter = new Qedeq2Latex(prop, printer,
             language, level);
-        converter.printLatex();
-    }
-
-    /**
-     * Prints a LaTeX file into a given output stream.
-     *
-     * @throws  IOException         Writing failed.
-     * @throws  ModuleDataException Exception during transversion.
-     */
-    private final void printLatex() throws IOException, ModuleDataException {
-        traverser.accept(prop.getQedeq());
-        printer.flush();
+        try {
+            converter.traverse();
+        } finally {
+            printer.flush();
+        }
         if (printer.checkError()) {
             throw printer.getError();
         }
+        // TODO mime 20080111: just for testing purpose the following check is
+        // integrated here after the LaTeX print. The checking results should be maintained
+        // later on as additional information to a module. (Warnings...)
+        QedeqBoDuplicateLanguageChecker.check(prop);
+
     }
 
     public final void visitEnter(final Qedeq qedeq) {
         printer.println("% -*- TeX:" + language.toUpperCase() + " -*-");
         printer.println("%%% ====================================================================");
         printer.println("%%% @LaTeX-file    " + printer.getName());
-        printer.println("%%% Generated from " + prop.getModuleAddress());
+        printer.println("%%% Generated from " + getQedeqBo().getModuleAddress());
         printer.println("%%% Generated at   " + getTimestamp());
         printer.println("%%% ====================================================================");
         printer.println();
@@ -277,7 +269,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         printer.print(getLatexListEntry(tit));
         printer.println("}");
         printer.println("\\author{");
-        final AuthorList authors = prop.getQedeq().getHeader().getAuthorList();
+        final AuthorList authors = getQedeqBo().getQedeq().getHeader().getAuthorList();
         for (int i = 0; i < authors.size(); i++) {
             if (i > 0) {
                 printer.println(", ");
@@ -297,7 +289,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
         printer.println("\\mbox{}");
         printer.println("\\vfill");
         printer.println();
-        final String url = prop.getUrl().toString();
+        final String url = getQedeqBo().getUrl().toString();
         if (url != null && url.length() > 0) {
             printer.println("\\par");
             if ("de".equals(language)) {
@@ -624,7 +616,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
             }
             printer.println("\\addcontentsline{toc}{chapter}{Bibliography}");
         }
-        final ImportList imports = prop.getQedeq().getHeader().getImportList();
+        final ImportList imports = getQedeqBo().getQedeq().getHeader().getImportList();
         if (imports != null && imports.size() > 0) {
             printer.println();
             printer.println();
@@ -640,7 +632,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
                     // TODO mime 20070205: later on here must stand the location that was used
                     //   to verify the document contents
                     // TODO mime 20070205: convert relative address into absolute
-                    printer.print("\\url{" + getUrl(prop.getModuleAddress(), spec) + "}");
+                    printer.print("\\url{" + getUrl(getQedeqBo().getModuleAddress(), spec) + "}");
                 }
                 printer.println();
             }
@@ -652,7 +644,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
     }
 
     public void visitLeave(final LiteratureItemList list) {
-        final UsedByList usedby = prop.getQedeq().getHeader().getUsedByList();
+        final UsedByList usedby = getQedeqBo().getQedeq().getHeader().getUsedByList();
         if (usedby != null && usedby.size() > 0) {
             printer.println();
             printer.println();
@@ -661,7 +653,7 @@ public final class Qedeq2Latex extends AbstractModuleVisitor {
                 final Specification spec = usedby.get(i);
                 printer.print("\\bibitem{" + spec.getName() + "} ");
                 printer.print(getLatex(spec.getName()));
-                final String url = getUrl(prop.getModuleAddress(), spec);
+                final String url = getUrl(getQedeqBo().getModuleAddress(), spec);
                 if (url != null && url.length() > 0) {
                     printer.print(" ");
                     printer.print("\\url{" + url + "}");

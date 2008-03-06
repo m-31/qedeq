@@ -15,7 +15,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.xml.parser;
+package org.qedeq.kernel.common;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,11 +23,7 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.qedeq.kernel.common.SourceArea;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.xml.sax.SAXException;
 
 
@@ -123,18 +119,6 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
      */
     public void add(final SourceFileException e) {
         exceptions.add(e);
-    }
-
-    /**
-     * Add exception.
-     *
-     * @param   e   Exception to add.
-     */
-    public final void add(final XmlSyntaxException e) {
-        final SourceFileException sfe = new SourceFileException(e.getErrorCode(), e.getMessage(), e,
-            new SourceArea(e.getErrorPosition().getAddress(), e.getErrorPosition(), null), null);
-
-        exceptions.add(sfe);
     }
 
     /**

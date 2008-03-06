@@ -199,10 +199,10 @@ public interface QedeqVisitor extends ListVisitor {
     /**
      * Visit certain element. Begin of visit.
      *
-     * @param   authorList          Begin visit of this element.
+     * @param   node                Begin visit of this element.
      * @throws  ModuleDataException Major problem occurred.
      */
-    public void visitEnter(Node authorList) throws ModuleDataException;
+    public void visitEnter(Node node) throws ModuleDataException;
 
     /**
      * Visit certain element. Begin of visit.

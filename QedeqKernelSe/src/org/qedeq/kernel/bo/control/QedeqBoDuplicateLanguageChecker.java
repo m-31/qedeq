@@ -22,13 +22,9 @@ import java.util.Map;
 
 import org.qedeq.kernel.base.module.Latex;
 import org.qedeq.kernel.base.module.LatexList;
-import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
-import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.QedeqBo;
 
 
 /**
@@ -37,41 +33,28 @@ import org.qedeq.kernel.common.QedeqBo;
  * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
-public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor {
-
-    /** QEDEQ module input object. */
-    private final Qedeq original;
-
-    /** Current context during creation. */
-    private final QedeqNotNullTraverser traverser;
+public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
 
     /**
      * Constructor.
      *
-     * @param   globalContext     Module location information.
-     * @param   qedeq             BO QEDEQ module object.
+     * @param   bo  BO QEDEQ module object.
      */
-    private QedeqBoDuplicateLanguageChecker(final ModuleAddress globalContext,
-            final Qedeq qedeq) {
-        traverser = new QedeqNotNullTraverser(globalContext, this);
-        original = qedeq;
+    private QedeqBoDuplicateLanguageChecker(final DefaultQedeqBo bo) {
+        super(bo);
     }
 
     /**
      * Checks if all formulas of a QEDEQ module are well formed.
      *
      * @param   prop              QEDEQ BO.
-     * @throws  ModuleDataException      Major problem occurred.
+     * @throws  DefaultSourceFileExceptionList An error occured.
      */
-    public static void check(final QedeqBo prop)
-            throws ModuleDataException {
+    public static void check(final DefaultQedeqBo prop)
+            throws DefaultSourceFileExceptionList {
         final QedeqBoDuplicateLanguageChecker checker
-            = new QedeqBoDuplicateLanguageChecker(prop.getModuleAddress(),  prop.getQedeq());
-        checker.check();
-    }
-
-    private final void check() throws ModuleDataException {
-        traverser.accept(original);
+            = new QedeqBoDuplicateLanguageChecker(prop);
+        checker.traverse();
     }
 
     public final void visitEnter(final LatexList list) throws ModuleDataException {
@@ -94,32 +77,11 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
             languages.put(list.get(i).getLanguage(), getCurrentContext());
         }
         setLocationWithinModule(context);
-        traverser.setBlocked(true);
+        setBlocked(true);
     }
-/*
-            try {
-                if (latexList.get(i) == null) {
-                    throw new NullPointerListEntryException(1000, "Null pointer not permitted.");
-                }
-                for (int j = 0; j < list.size(); j++) {
-                    if ((list.get(j)).getLanguage().equals(latexList.get(i).getLanguage())) {
-                        throw new DuplicateLanguageEntryException(1001,
-                                "Language entry exists already", i);
-                    }
-                }
-                list.add(create(latexList.get(i)));
-            } catch (NullPointerListEntryException e) {
-                throw new IllegalModuleDataException(e.getErrorCode(),
-                    e.getMessage(), new ModuleContext(getCurrentContext()), e);
-            } catch (DuplicateLanguageEntryException e) {
-                throw new IllegalModuleDataException(e.getErrorCode(), e.getMessage(),
-                    new ModuleContext(getCurrentContext()), new ModuleContext(getCurrentContext(),
-                        context + ".get(" + (e.getIndex() + 1) + ")"), e);
-            }
 
- */
     public final void visitLeave(final LatexList list) {
-        traverser.setBlocked(false);
+        setBlocked(false);
     }
 
     /**
@@ -129,24 +91,6 @@ public final class QedeqBoDuplicateLanguageChecker extends AbstractModuleVisitor
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-    }
-
-    /**
-     * Get current context within original.
-     *
-     * @return  Current context.
-     */
-    public final ModuleContext getCurrentContext() {
-        return traverser.getCurrentContext();
-    }
-
-    /**
-     * Get original QEDEQ module.
-     *
-     * @return  Original QEDEQ module.
-     */
-    protected final Qedeq getQedeqOriginal() {
-        return original;
     }
 
 }

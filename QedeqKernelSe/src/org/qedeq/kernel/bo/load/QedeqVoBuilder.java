@@ -52,12 +52,10 @@ import org.qedeq.kernel.base.module.SubsectionList;
 import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.bo.control.DefaultQedeqBo;
-import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.common.IllegalModuleDataException;
+import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.ModuleLabels;
 import org.qedeq.kernel.dto.list.DefaultAtom;
 import org.qedeq.kernel.dto.list.DefaultElementList;
 import org.qedeq.kernel.dto.module.AuthorListVo;
@@ -110,9 +108,6 @@ import org.qedeq.kernel.dto.module.VariableListVo;
  */
 public class QedeqVoBuilder {
 
-    /** QEDEQ module labels. */
-    private final ModuleLabels labels;
-
     /** QEDEQ module input object. */
     private Qedeq original;
 
@@ -122,36 +117,29 @@ public class QedeqVoBuilder {
     /**
      * Constructor.
      *
-     * @param   prop    QEDEQ BO.
+     * @param   address QEDEQ address.
      */
-    protected QedeqVoBuilder(final DefaultQedeqBo prop) {
-        this.currentContext = prop.getModuleAddress().createModuleContext();
-        this.labels = new ModuleLabels();
+    protected QedeqVoBuilder(final ModuleAddress address) {
+        this.currentContext = address.createModuleContext();
     }
 
     /**
      * Create {@link QedeqVo} out of an {@link Qedeq} instance.
-     * During that procedure some basic checking is done. E.g. the uniqueness of entries
-     * is tested. The resulting object has no references to the original
-     * {@link Qedeq} instance.
+     * The resulting object has no references to the original {@link Qedeq} instance.
      * <p>
      * During the creation process the caller must assert that no modifications are made
      * to the {@link Qedeq} instance including its referenced objects.
      *
-     * @param   prop        Module informations.
+     * @param   address     Module address.
      * @param   original    Basic QEDEQ module object.
+     * @return  Created copy object.
      * @throws  ModuleDataException     Invalid data found.
      */
-    public static void createQedeq(final DefaultQedeqBo prop,
+    public static QedeqVo createQedeq(final ModuleAddress address,
             final Qedeq original) throws ModuleDataException {
-        final QedeqVoBuilder creator = new QedeqVoBuilder(prop);
+        final QedeqVoBuilder creator = new QedeqVoBuilder(address);
         QedeqVo vo = creator.create(original);
-        prop.setLoaded(vo, creator.getLabels());
-
-        // TODO mime 20080111: just for testing purpose the following check is
-        // integrated here in the BO creation. The checking results should be maintained
-        // later on as additional information to a module.
-        QedeqBoDuplicateLanguageChecker.check(prop);
+        return vo;
     }
 
     /**
@@ -603,7 +591,6 @@ public class QedeqVoBuilder {
             n.setSucceedingText(create(node.getSucceedingText()));
         }
         setLocationWithinModule(context);
-        getLabels().addNode(getCurrentContext(), n);
         return n;
     }
 
@@ -928,10 +915,6 @@ public class QedeqVoBuilder {
      */
     protected final Qedeq getQedeqOriginal() {
         return original;
-    }
-
-    protected ModuleLabels getLabels() {
-        return labels;
     }
 
 }

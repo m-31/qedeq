@@ -26,17 +26,23 @@ import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.control.DefaultQedeqBo;
 import org.qedeq.kernel.bo.control.ModuleFileNotFoundException;
 import org.qedeq.kernel.bo.control.ModuleLoader;
+import org.qedeq.kernel.bo.control.ModuleNodesCreator;
 import org.qedeq.kernel.bo.load.QedeqVoBuilder;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.LoadingState;
+import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.log.ModuleEventLog;
+import org.qedeq.kernel.context.KernelContext;
+import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
-import org.qedeq.kernel.xml.mapper.ModuleDataException2SourceFileException;
-import org.qedeq.kernel.xml.parser.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxParser;
+import org.qedeq.kernel.xml.tracker.SimpleXPath;
+import org.qedeq.kernel.xml.tracker.XPathLocationParser;
 import org.xml.sax.SAXException;
 
 
@@ -61,13 +67,14 @@ public class XmlModuleLoader implements ModuleLoader {
      * Load a local QEDEQ module.
      *
      * @param   prop        Module properties.
-     * @param   localFile   Load XML file from tbis location.
+     * @param   localFile   Load XML file from this location.
      * @throws  ModuleFileNotFoundException    Local file was not found.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
     public void loadLocalModule(final DefaultQedeqBo prop, final File localFile)
             throws ModuleFileNotFoundException, SourceFileExceptionList {
         final String method = "loadLocalModule";
+        prop.setLoader(this);
         final File file;
         try {
             file = localFile.getCanonicalFile();
@@ -79,13 +86,7 @@ public class XmlModuleLoader implements ModuleLoader {
             Trace.trace(CLASS, this, method, "file not readable=" + file);
             throw new ModuleFileNotFoundException("file not found: " + file);
         }
-        if (prop.getLoadingState() == LoadingState.STATE_UNDEFINED) {
-            prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER);
-            ModuleEventLog.getInstance().addModule(prop);
-        } else {
-            prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER);
-            ModuleEventLog.getInstance().stateChanged(prop);
-        }
+        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER);
         SaxDefaultHandler handler = new SaxDefaultHandler();
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
@@ -97,14 +98,12 @@ public class XmlModuleLoader implements ModuleLoader {
             Trace.trace(CLASS, this, method, e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
                 new DefaultSourceFileExceptionList(e));
-            ModuleEventLog.getInstance().stateChanged(prop);
             throw createXmlFileExceptionList(e);
         } catch (ParserConfigurationException e) {
             Trace.trace(CLASS, this, method, e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
                 new DefaultSourceFileExceptionList(new RuntimeException(
                     "XML parser configuration error", e)));
-            ModuleEventLog.getInstance().stateChanged(prop);
             throw createXmlFileExceptionList(e);
         }
         try {
@@ -113,24 +112,69 @@ public class XmlModuleLoader implements ModuleLoader {
             Trace.trace(CLASS, this, method, e);
             prop.setEncoding(parser.getEncoding());
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, e);
-            ModuleEventLog.getInstance().stateChanged(prop);
             throw e;
         }
         prop.setEncoding(parser.getEncoding());
         qedeq = simple.getQedeq();
+
+        // FIXME mime 20080305: this block should wander into DefaultKernelServices
+        // after the builder only builds a QedeqVo and doesn't make also
+        // a id to NodeVo mapping
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY);
-        ModuleEventLog.getInstance().stateChanged(prop);
+        QedeqVo vo = null;
         try {
-            QedeqVoBuilder.createQedeq(prop, qedeq);
+            vo = QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq);
         } catch (ModuleDataException e) {
             Trace.trace(CLASS, this, method, e);
             final SourceFileExceptionList xl
-                = ModuleDataException2SourceFileException.createSourceFileExceptionList(e, qedeq);
+                = prop.createSourceFileExceptionList(e, qedeq);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
-            ModuleEventLog.getInstance().stateChanged(prop);
             throw xl;
         }
-        ModuleEventLog.getInstance().stateChanged(prop);
+        prop.setLoaded(vo);
+        ModuleNodesCreator moduleNodesCreator = new ModuleNodesCreator(prop);
+        prop.setLabels(moduleNodesCreator.createLabels());
+    }
+
+    /**
+     * Get area in XML source file for QEDEQ module context.
+     *
+     * @param   qedeq       Look at this QEDEQ module.
+     * @param   context     Search for this context.
+     * @return  Created file area. Maybe <code>null</code>.
+     */
+    public SourceArea createSourceArea(final Qedeq qedeq, final ModuleContext context) {
+        final String method = "createSourceArea(Qedeq, ModuleContext)";
+        if (qedeq == null || context == null) {
+            return null;
+        }
+        final String xpath;
+        try {
+            xpath = Context2SimpleXPath.getXPath(context, qedeq).toString();
+        } catch (ModuleDataException e) {
+            Trace.trace(CLASS, method, e);
+            return null;
+        };
+
+        SimpleXPath find = null;
+        try {
+            find = XPathLocationParser.getXPathLocation(
+                KernelContext.getInstance().getLocalFilePath(context.getModuleLocation()),
+                xpath,
+                context.getModuleLocation().getURL());
+            if (find.getStartLocation() == null) {
+                return null;
+            }
+            return new SourceArea(context.getModuleLocation().getURL(), find.getStartLocation(),
+                find.getEndLocation());
+        } catch (ParserConfigurationException e) {
+            Trace.trace(CLASS, method, e);
+        } catch (SAXException e) {
+            Trace.trace(CLASS, method, e);
+        } catch (IOException e) {
+            Trace.trace(CLASS, method, e);
+        }
+        return null;
     }
 
     private SourceFileExceptionList createXmlFileExceptionList(

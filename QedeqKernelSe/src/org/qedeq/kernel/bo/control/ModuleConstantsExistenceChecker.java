@@ -40,8 +40,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
      * @throws  ModuleDataException Referenced QEDEQ modules are already inconsistent: they doesn't
      *          mix.
      */
-    public ModuleConstantsExistenceChecker(final DefaultQedeqBo prop)
-            throws  ModuleDataException {
+    public ModuleConstantsExistenceChecker(final DefaultQedeqBo prop) throws  ModuleDataException {
         super();
         this.prop = prop;
         init();

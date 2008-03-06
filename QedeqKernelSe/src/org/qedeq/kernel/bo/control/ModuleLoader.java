@@ -19,6 +19,9 @@ package org.qedeq.kernel.bo.control;
 
 import java.io.File;
 
+import org.qedeq.kernel.base.module.Qedeq;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
@@ -39,5 +42,15 @@ public interface ModuleLoader {
      */
     public void loadLocalModule(final DefaultQedeqBo prop, final File localFile)
             throws ModuleFileNotFoundException, SourceFileExceptionList;
+
+    /**
+     * Get area in source file for QEDEQ module context.
+     *
+     * @param   qedeq       Look at this QEDEQ module.
+     * @param   context     Search for this context.
+     * @return  Created file area. Maybe <code>null</code>.
+     */
+    public SourceArea createSourceArea(Qedeq qedeq, ModuleContext context);
+
 
 }
