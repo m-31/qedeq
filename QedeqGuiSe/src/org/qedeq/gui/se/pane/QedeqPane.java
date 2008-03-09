@@ -19,7 +19,6 @@ package org.qedeq.gui.se.pane;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.io.File;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
@@ -34,7 +33,6 @@ import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.IoUtility;
 
 /**
  * View source of QEDEQ module.
@@ -112,44 +110,34 @@ public class QedeqPane extends JPanel {
         Trace.begin(CLASS, this, "updateView");
         if (prop != null) {
             try {
-                final File file = KernelContext.getInstance().getLocalFilePath(
-                    prop.getModuleAddress());
-                if (file.canRead()) {
-                    final StringBuffer buffer = new StringBuffer();
-                        IoUtility.loadFile(file, buffer, IoUtility.getWorkingEncoding(
-                            prop.getEncoding()));
-//                    this.qedeqScroller.getViewport().setViewPosition(new Point(0, 0));
-                    qedeq.setText(buffer.toString());
-                    if (prop.hasFailures()) {
-                        final SourceFileExceptionList pe = prop.getException();
-                        if (prop.getModuleAddress().isFileAddress()) {
-                            qedeq.setEditable(true);
-                        } else {
-                            qedeq.setEditable(false);
-                        }
-                        qedeq.setCaretPosition(0);
-                        qedeq.getCaret().setSelectionVisible(true);
-                        qedeq.setSelectedTextColor(Color.RED);
-                        qedeq.setSelectionColor(Color.YELLOW);
-                        if (pe.get(0).getSourceArea() != null) {
-                            highlightLine(pe.get(0).getSourceArea().getStartPosition().getLine());
-                        }
-                    } else {    // TODO if file module is edited status must change
-                        if (prop.getModuleAddress().isFileAddress()) {
-                            qedeq.setEditable(true);
-                        } else {
-                            qedeq.setEditable(false);
-                        }
-                        qedeq.getCaret().setSelectionVisible(false);
-                        qedeq.setCaretPosition(0);
-                        // LATER mime 20080131: is this a valid setting for the default colors?
-                        qedeq.setSelectedTextColor(MetalLookAndFeel.getHighlightedTextColor());
-                        qedeq.setSelectionColor(MetalLookAndFeel.getTextHighlightColor());
+                qedeq.setText(KernelContext.getInstance().getSource(prop.getModuleAddress()));
+                if (prop.hasFailures()) {
+                    final SourceFileExceptionList pe = prop.getException();
+                    if (prop.getModuleAddress().isFileAddress()) {
+                        qedeq.setEditable(true);
+                    } else {
+                        qedeq.setEditable(false);
                     }
-                    Trace.trace(CLASS, this, "updateView", "Text updated");
-                } else {
-                    throw new IOException("File " + file.getCanonicalPath() + " not readable!");
+                    qedeq.setCaretPosition(0);
+                    qedeq.getCaret().setSelectionVisible(true);
+                    qedeq.setSelectedTextColor(Color.RED);
+                    qedeq.setSelectionColor(Color.YELLOW);
+                    if (pe.get(0).getSourceArea() != null) {
+                        highlightLine(pe.get(0).getSourceArea().getStartPosition().getLine());
+                    }
+                } else {    // TODO if file module is edited status must change
+                    if (prop.getModuleAddress().isFileAddress()) {
+                        qedeq.setEditable(true);
+                    } else {
+                        qedeq.setEditable(false);
+                    }
+                    qedeq.getCaret().setSelectionVisible(false);
+                    qedeq.setCaretPosition(0);
+                    // LATER mime 20080131: is this a valid setting for the default colors?
+                    qedeq.setSelectedTextColor(MetalLookAndFeel.getHighlightedTextColor());
+                    qedeq.setSelectionColor(MetalLookAndFeel.getTextHighlightColor());
                 }
+                Trace.trace(CLASS, this, "updateView", "Text updated");
             } catch (IOException ioException) {
                 qedeq.setEditable(false);
                 qedeq.setText("");
