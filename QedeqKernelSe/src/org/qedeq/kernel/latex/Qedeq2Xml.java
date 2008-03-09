@@ -50,7 +50,7 @@ import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.control.ControlVisitor;
-import org.qedeq.kernel.bo.control.DefaultQedeqBo;
+import org.qedeq.kernel.bo.control.KernelQedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.utility.TextOutput;
@@ -73,7 +73,7 @@ public final class Qedeq2Xml extends ControlVisitor {
      * @param   bo                  QEDEQ BO.
      * @param   printer             Print herein.
      */
-    private Qedeq2Xml(final DefaultQedeqBo bo, final TextOutput printer) {
+    private Qedeq2Xml(final KernelQedeqBo bo, final TextOutput printer) {
         super(bo);
         this.printer = printer;
     }
@@ -86,7 +86,7 @@ public final class Qedeq2Xml extends ControlVisitor {
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException
      */
-    public static void print(final DefaultQedeqBo bo, final TextOutput printer) throws
+    public static void print(final KernelQedeqBo bo, final TextOutput printer) throws
             SourceFileExceptionList, IOException {
         final Qedeq2Xml converter = new Qedeq2Xml(bo, printer);
         try {

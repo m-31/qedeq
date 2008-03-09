@@ -51,7 +51,7 @@ import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.control.ControlVisitor;
 import org.qedeq.kernel.bo.control.DefaultModuleAddress;
-import org.qedeq.kernel.bo.control.DefaultQedeqBo;
+import org.qedeq.kernel.bo.control.KernelQedeqBo;
 import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
@@ -115,7 +115,7 @@ public final class Qedeq2Latex extends ControlVisitor {
      * @param   language        Filter text to get and produce text in this language only.
      * @param   level           Filter for this detail level. TODO mime 20050205: not supported yet.
      */
-    private Qedeq2Latex(final DefaultQedeqBo prop, final TextOutput printer,
+    private Qedeq2Latex(final KernelQedeqBo prop, final TextOutput printer,
             final String language, final String level) {
         super(prop);
         this.printer = printer;
@@ -143,7 +143,7 @@ public final class Qedeq2Latex extends ControlVisitor {
      * @throws  DefaultSourceFileExceptionList Major problem occurred.
      * @throws  IOException
      */
-    public static void print(final DefaultQedeqBo prop,
+    public static void print(final KernelQedeqBo prop,
             final TextOutput printer, final String language, final String level)
             throws DefaultSourceFileExceptionList, IOException {
         // first we try to get more information about required modules and their predicates..
@@ -152,7 +152,6 @@ public final class Qedeq2Latex extends ControlVisitor {
             KernelContext.getInstance().checkModule(prop.getModuleAddress());
         } catch (Exception e) {
             // we continue and ignore external predicates
-            e.printStackTrace(System.out);  // FIXME remove me
             Trace.trace(CLASS, "print(QedeqBo, TextOutput, String, String)", e);
         }
         final Qedeq2Latex converter = new Qedeq2Latex(prop, printer,
