@@ -20,6 +20,7 @@ package org.qedeq.kernel.utility;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.net.URL;
 
 
@@ -27,7 +28,6 @@ import java.net.URL;
  * This class provides convenient methods for parsing input.
  *
  * LATER mime 20050426: offer input stream constructor?
- * LATER mime 20060330: decorate normal java.io.InputStream or other???
  *
  * @version $Revision: 1.17 $
  * @author  Michael Meyling
@@ -58,6 +58,27 @@ public class TextInput extends InputStream {
 
     /** Address of input, for identifying source. */
     private final URL address;
+
+    /**
+     * Constructor using <code>Reader</code> source.
+     *
+     * @param   reader  data source
+     * @throws  IOException     Reading failed.
+     * @throws  NullPointerException    Argument was a null pointer.
+     */
+    public TextInput(final Reader reader) throws IOException {
+        if (reader == null) {
+            throw new NullPointerException(
+                "no null pointer as argument accepted");
+        }
+        this.source = new StringBuffer();
+        // TODO mime 20080307: optimize reading
+        int c;
+        while (-1 != (c = reader.read())) {
+            this.source.append((char) c);
+        }
+        this.address = null;
+    }
 
     /**
      * Constructor using <code>StringBuffer</code> source.
@@ -622,5 +643,28 @@ public class TextInput extends InputStream {
         }
         return buffer.toString();
     }
+
+// LATER mime 20050608: remove if no use
+/*
+    public final int findCaretPosition(final int line, final int column, final String source) {
+        if (line == 1) {
+            return 0;
+        }
+        int k = 1;
+        for (int j = 0; j < source.length(); j++) {
+            if (source.charAt(j) == '\n') {
+                k++;
+            }
+            if (k == line) {
+                j += column - 1;
+                if (j > source.length()) {
+                    j = source.length();
+                }
+                return j;
+            }
+        }
+        return 0;
+    }
+*/
 
 }
