@@ -21,9 +21,10 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
-import org.qedeq.kernel.bo.module.Kernel;
+import org.qedeq.kernel.bo.control.InternalKernelServices;
+import org.qedeq.kernel.bo.control.KernelState;
+import org.qedeq.kernel.bo.module.KernelProperties;
 import org.qedeq.kernel.bo.module.KernelServices;
-import org.qedeq.kernel.bo.module.KernelState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -38,7 +39,7 @@ import org.qedeq.kernel.trace.Trace;
  * @version $Revision: 1.17 $
  * @author  Michael Meyling
  */
-public final class KernelContext implements Kernel {
+public final class KernelContext implements KernelProperties, KernelState, KernelServices {
 
     /** This class. */
     private static final Class CLASS = KernelContext.class;
@@ -62,7 +63,7 @@ public final class KernelContext implements Kernel {
     /** Initial kernel state. */
     private final KernelState initialState = new KernelState() {
 
-        public void init(final KernelServices moduleFactory, final QedeqConfig qedeqConfig)
+        public void init(final InternalKernelServices moduleFactory, final QedeqConfig qedeqConfig)
                 throws IOException {
             QedeqLog.getInstance().logMessage("This is "
                 + KernelContext.getInstance().getDescriptiveKernelVersion());
@@ -115,14 +116,6 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public File getBufferDirectory() {
-            throw new IllegalStateException("Kernel not initialized");
-        }
-
-        public File getGenerationDirectory() {
-            throw new IllegalStateException("Kernel not initialized");
-        }
-
         public QedeqBo getQedeqBo(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
@@ -139,11 +132,15 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public File getLocalFilePath(final ModuleAddress address) {
+        public String getSource(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
 
         public boolean checkModule(final ModuleAddress address) {
+            throw new IllegalStateException("Kernel not initialized");
+        }
+
+        public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
             throw new IllegalStateException("Kernel not initialized");
         }
     };
@@ -151,7 +148,7 @@ public final class KernelContext implements Kernel {
     /** Initial kernel state. */
     private final KernelState initializedState = new KernelState() {
 
-        public void init(final KernelServices moduleFactory, final QedeqConfig qedeqConfig)
+        public void init(final InternalKernelServices moduleFactory, final QedeqConfig qedeqConfig)
                 throws IOException {
             throw new IllegalStateException("Kernel is already initialized");
         }
@@ -201,14 +198,6 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public File getBufferDirectory() {
-            throw new IllegalStateException("Kernel not started");
-        }
-
-        public File getGenerationDirectory() {
-            throw new IllegalStateException("Kernel not started");
-        }
-
         public QedeqBo getQedeqBo(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
@@ -225,11 +214,15 @@ public final class KernelContext implements Kernel {
             throw new IllegalStateException("Kernel not started");
         }
 
-        public File getLocalFilePath(final ModuleAddress address) {
+        public String getSource(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
 
         public boolean checkModule(final ModuleAddress address) {
+            throw new IllegalStateException("Kernel not started");
+        }
+
+        public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -238,7 +231,7 @@ public final class KernelContext implements Kernel {
     /** State for ready kernel. */
     private final KernelState readyState = new KernelState() {
 
-        public void init(final KernelServices moduleFactory, final QedeqConfig qedeqConfig)
+        public void init(final InternalKernelServices moduleFactory, final QedeqConfig qedeqConfig)
                 throws IOException {
             // we are already ready
         }
@@ -300,14 +293,6 @@ public final class KernelContext implements Kernel {
             return services.getAllLoadedModules();
         }
 
-        public File getBufferDirectory() {
-            return services.getBufferDirectory();
-        }
-
-        public File getGenerationDirectory() {
-            return services.getGenerationDirectory();
-        }
-
         public QedeqBo getQedeqBo(final ModuleAddress address) {
             return services.getQedeqBo(address);
         }
@@ -324,11 +309,16 @@ public final class KernelContext implements Kernel {
             return services.getModuleAddress(file);
         }
 
-        public File getLocalFilePath(final ModuleAddress address) {
-            return services.getLocalFilePath(address);
+        public String getSource(final ModuleAddress address) throws IOException {
+            return services.getSource(address);
         }
+
         public boolean checkModule(final ModuleAddress address) {
             return services.checkModule(address);
+        }
+
+        public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
+            return services.getSourceFileExceptionList(address);
         }
     };
 
@@ -339,7 +329,7 @@ public final class KernelContext implements Kernel {
     private QedeqConfig config;
 
     /** This object can service QEDEQ modules. */
-    private KernelServices services;
+    private InternalKernelServices services;
 
     /**
      * Constructor.
@@ -407,7 +397,7 @@ public final class KernelContext implements Kernel {
         return config;
     }
 
-    public void init(final KernelServices moduleFactory, final QedeqConfig qedeqConfig)
+    public void init(final InternalKernelServices moduleFactory, final QedeqConfig qedeqConfig)
             throws IOException {
         currentState.init(moduleFactory, qedeqConfig);
     }
@@ -452,14 +442,6 @@ public final class KernelContext implements Kernel {
         return currentState.getAllLoadedModules();
     }
 
-    public File getBufferDirectory() {
-        return currentState.getBufferDirectory();
-    }
-
-    public File getGenerationDirectory() {
-        return currentState.getGenerationDirectory();
-    }
-
     public QedeqBo getQedeqBo(final ModuleAddress address) {
         return currentState.getQedeqBo(address);
     }
@@ -476,12 +458,16 @@ public final class KernelContext implements Kernel {
         return currentState.getModuleAddress(file);
     }
 
-    public File getLocalFilePath(final ModuleAddress address) {
-        return currentState.getLocalFilePath(address);
+    public String getSource(final ModuleAddress address) throws IOException {
+        return currentState.getSource(address);
     }
 
     public boolean checkModule(final ModuleAddress address) {
         return currentState.checkModule(address);
+    }
+
+    public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
+        return currentState.getSourceFileExceptionList(address);
     }
 
 }
