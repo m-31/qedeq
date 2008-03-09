@@ -48,7 +48,7 @@ public final class LoadDirectlyRequiredModules extends ControlVisitor {
      * @param   prop        Internal QedeqBo.
      * @param   services    Internal kernel services.
      */
-    LoadDirectlyRequiredModules(final DefaultQedeqBo prop,
+    LoadDirectlyRequiredModules(final KernelQedeqBo prop,
             final DefaultKernelServices services) {
         super(prop);
         this.services = services;
@@ -63,7 +63,6 @@ public final class LoadDirectlyRequiredModules extends ControlVisitor {
      */
     DefaultModuleReferenceList load()
             throws SourceFileExceptionList {
-        final String method = "load()";
         traverse();
         return required;
     }
@@ -85,7 +84,7 @@ public final class LoadDirectlyRequiredModules extends ControlVisitor {
      */
     public void visitEnter(final Import imp) throws ModuleDataException {
         try {
-            final DefaultQedeqBo propNew = services.loadModule(getQedeqBo().getModuleAddress(),
+            final KernelQedeqBo propNew = services.loadModule(getQedeqBo().getModuleAddress(),
                 imp.getSpecification());
             getRequired().addLabelUnique(new ModuleContext(getCurrentContext()),
                 imp.getLabel(), propNew);
