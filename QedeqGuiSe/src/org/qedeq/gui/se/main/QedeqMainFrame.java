@@ -80,8 +80,7 @@ public class QedeqMainFrame extends JFrame {
 
         // initialize the kernel, this may create already some logging events
         KernelContext.getInstance().init(
-            new DefaultKernelServices(KernelContext.getInstance(),
-            new XmlModuleLoader()),
+            new DefaultKernelServices(KernelContext.getInstance(), new XmlModuleLoader()),
             QedeqGuiConfig.getInstance());
 
         // create new controller for all possible actions
