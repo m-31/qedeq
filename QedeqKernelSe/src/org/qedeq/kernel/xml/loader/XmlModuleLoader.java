@@ -19,11 +19,13 @@ package org.qedeq.kernel.xml.loader;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.Reader;
 
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.control.DefaultQedeqBo;
+import org.qedeq.kernel.bo.control.InternalKernelServices;
+import org.qedeq.kernel.bo.control.KernelQedeqBo;
 import org.qedeq.kernel.bo.control.ModuleFileNotFoundException;
 import org.qedeq.kernel.bo.control.ModuleLoader;
 import org.qedeq.kernel.bo.control.ModuleNodesCreator;
@@ -34,7 +36,6 @@ import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
@@ -44,6 +45,8 @@ import org.qedeq.kernel.xml.parser.SaxParser;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
 import org.qedeq.kernel.xml.tracker.XPathLocationParser;
 import org.xml.sax.SAXException;
+
+import com.sun.syndication.io.XmlReader;
 
 
 /**
@@ -57,10 +60,23 @@ public class XmlModuleLoader implements ModuleLoader {
     /** This class. */
     private static final Class CLASS = XmlModuleLoader.class;
 
+    /** Internal kernel services. */
+    private InternalKernelServices services;
+
     /**
      * Constructor.
      */
     public XmlModuleLoader() {
+    }
+
+    /**
+     * Set kernel services. Is called by the kernel to give this loader the opportunity to
+     * use kernel services within its methods. This is the first method the kernal calls.
+     *
+     * @param   services    Internal kernel services.
+     */
+    public void setServices(final InternalKernelServices services) {
+        this.services = services;
     }
 
     /**
@@ -71,7 +87,8 @@ public class XmlModuleLoader implements ModuleLoader {
      * @throws  ModuleFileNotFoundException    Local file was not found.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public void loadLocalModule(final DefaultQedeqBo prop, final File localFile)
+    public void loadLocalModule(final KernelQedeqBo prop,
+            final File localFile)
             throws ModuleFileNotFoundException, SourceFileExceptionList {
         final String method = "loadLocalModule";
         prop.setLoader(this);
@@ -159,7 +176,7 @@ public class XmlModuleLoader implements ModuleLoader {
         SimpleXPath find = null;
         try {
             find = XPathLocationParser.getXPathLocation(
-                KernelContext.getInstance().getLocalFilePath(context.getModuleLocation()),
+                services.getLocalFilePath(context.getModuleLocation()),
                 xpath,
                 context.getModuleLocation().getURL());
             if (find.getStartLocation() == null) {
@@ -175,6 +192,18 @@ public class XmlModuleLoader implements ModuleLoader {
             Trace.trace(CLASS, method, e);
         }
         return null;
+    }
+
+    /**
+     * Return reader for QEDEQ module source.
+     *
+     * @param   bo  Get source for this one.
+     * @return  Source.
+     * @throws  IOException     Reading failed.
+     */
+    public Reader getModuleReader(final KernelQedeqBo bo)
+            throws IOException {
+        return new XmlReader(services.getLocalFilePath(bo.getModuleAddress()));
     }
 
     private SourceFileExceptionList createXmlFileExceptionList(
