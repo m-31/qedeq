@@ -34,7 +34,7 @@ import org.qedeq.kernel.common.SourceFileException;
 public abstract class ControlVisitor extends AbstractModuleVisitor {
 
     /** QEDEQ BO object to work on. */
-    private final DefaultQedeqBo prop;
+    private final KernelQedeqBo prop;
 
     /** This class. */
     private static final Class CLASS = ControlVisitor.class;
@@ -51,7 +51,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @param   prop        Internal QedeqBo.
      */
-    protected ControlVisitor(final DefaultQedeqBo prop) {
+    protected ControlVisitor(final KernelQedeqBo prop) {
         if (prop.getQedeq() == null) {
             throw new NullPointerException("Programming error, Module not loaded: "
                 + prop.getModuleAddress());
@@ -60,7 +60,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
     }
 
-    protected DefaultQedeqBo getQedeqBo() {
+    protected KernelQedeqBo getQedeqBo() {
         return this.prop;
     }
 
