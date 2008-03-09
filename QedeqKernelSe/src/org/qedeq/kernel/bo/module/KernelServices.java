@@ -34,16 +34,6 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 public interface KernelServices {
 
     /**
-     * Initialisation of services. This method should be called from the {@link Kernel}
-     * directly after switching into ready state. Calling this method in ready state is not
-     * supported.
-     *
-     * TODO mime 20070411: what about an appropriate closing method?
-     * FIXME mime 20080213: should not be here! Implemenatation detail!
-     */
-    public void startup();
-
-    /**
      * Remove all modules from memory.
      */
     public void removeAllModules();
@@ -96,20 +86,6 @@ public interface KernelServices {
      */
     public ModuleAddress[] getAllLoadedModules();
 
-     /**
-     * Get buffer directory for QEDEQ module files.
-     *
-     * @return  buffer directory.
-     */
-    public File getBufferDirectory();
-
-    /**
-     * Get directory for generated files.
-     *
-     * @return  Generation directory.
-     */
-    public File getGenerationDirectory();
-
     /**
      * Get {@link QedeqBo} for an address.
      *
@@ -120,13 +96,14 @@ public interface KernelServices {
     public QedeqBo getQedeqBo(ModuleAddress address);
 
     /**
-     * Transform an URL address into a local file path where the QEDEQ module is buffered.
-     * If the module is not buffered <code>null</code> is returned.
+     * Get source of an QEDEQ module.
+     * If the module was not yet not buffered <code>null</code> is returned.
      *
-     * @param   address     Get local address for this QEDEQ module address.
-     * @return  Local file path for that <code>address</code>.
+     * @param   address     Address for QEDEQ module address.
+     * @return  Contents of locally buffered QEDEQ module.
+     * @throws  IOException Loading failed.
      */
-    public File getLocalFilePath(ModuleAddress address);
+    public String getSource(ModuleAddress address) throws  IOException;
 
     /**
      * Get module address from URL.
@@ -162,5 +139,14 @@ public interface KernelServices {
      * @return  Was check successful?
      */
     public boolean checkModule(ModuleAddress address);
+
+    /**
+     * Get description of source file exception list.
+     *
+     * @param   address  Get description for this module exceptions.
+     * @return  Error description and location.
+     * @throws  IOException Reading failed.
+     */
+    public String[] getSourceFileExceptionList(ModuleAddress address) throws IOException;
 
 }

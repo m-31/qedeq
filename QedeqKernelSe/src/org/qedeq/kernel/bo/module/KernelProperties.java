@@ -26,7 +26,7 @@ import org.qedeq.kernel.config.QedeqConfig;
  * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public interface Kernel extends KernelState, KernelServices {
+public interface KernelProperties {
 
     /**
      * Get relative version directory of this kernel.
