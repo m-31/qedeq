@@ -59,8 +59,8 @@ import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.dto.list.Enumerator;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.Enumerator;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
 
 
