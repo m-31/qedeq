@@ -31,8 +31,8 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.qedeq.kernel.common.SourcePosition;
-import org.qedeq.kernel.dto.list.Enumerator;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.Enumerator;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.TextInput;
 import org.qedeq.kernel.xml.parser.SimpleHandler;
@@ -40,6 +40,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
+
+import com.sun.syndication.io.XmlReader;
 
 /**
  * Parser for XML files. Search simple XPath within an XML file.
@@ -50,9 +52,6 @@ import org.xml.sax.XMLReader;
  *      return parser.getFind();
  *
  * </pre>
- *
- * <p>
- * This class uses features specific for Xerces.
  *
  * @version $Revision: 1.22 $
  * @author Michael Meyling
@@ -302,18 +301,27 @@ public class XPathLocationParser extends SimpleHandler {
                 .getColumn()));
         }
 */
+        if (getLocator() == null) {
+            throw new SAXException("Locator unexpectly null");
+        }
         if (find.matchesElements(current, summary)) {
             Trace.trace(CLASS, this, method, "matching elements");
             Trace.param(CLASS, this, method, qName, current);
             TextInput xml = null;
             try {
+// LATER mime 20080608: old code
+//                xml = new TextInput(xmlFile, IoUtility.getWorkingEncoding(getEncoding()));
                 xml = new TextInput(xmlFile, IoUtility.getWorkingEncoding(getEncoding()));
-            } catch (IOException e1) {
-                // FIXME
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+            } catch (IOException io) {
+                Trace.fatal(CLASS, this, method, "File \"" + xmlFile + "\" should be readable", io);
+                if (getLocator() == null) {
+                    throw new SAXException("Locator unexpectedly null");
+                }
+                // at least we can set the current location as find location
+                find.setStartLocation(new SourcePosition(xml.getAddress(),
+                    getLocator().getLineNumber(), getLocator().getColumnNumber()));
+                return;
             }
-            // FIXME what about locator == null?
             xml.setRow(getLocator().getLineNumber());
             xml.setColumn(getLocator().getColumnNumber());
 
@@ -335,7 +343,7 @@ public class XPathLocationParser extends SimpleHandler {
                     try {
                         tag = xml.readNextXmlName();
                     } catch (IllegalArgumentException e) {
-                        break; // TODO mime 20050621: create named exception in readNextXmlName
+                        break; // LATER mime 20050621: create named exception in readNextXmlName
                     }
                     if (tag.equals(find.getAttribute())) {
                         find.setStartLocation(new SourcePosition(xml.getAddress(), row, col));
@@ -383,20 +391,32 @@ public class XPathLocationParser extends SimpleHandler {
      */
     public void endElement(final String namespaceURI, final String localName, final String qName)
             throws SAXException {
+        final String method = "endElement(String, String, Attributes)";
         level--;
+        if (getLocator() == null) {
+            current.deleteLastElement();
+            summary.deleteLastElement();
+            throw new SAXException("Locator unexpectly null");
+        }
         if (find.matchesElements(current, summary) && find.getAttribute() == null) {
             TextInput xml = null;
             try {
-                xml = new TextInput(xmlFile, IoUtility.getWorkingEncoding(getEncoding()));
-            } catch (IOException e1) {
-                // FIXME
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
+                xml = new TextInput(new XmlReader(xmlFile));
+// LATER mime 20080608: old code
+//                xml = new TextInput(xmlFile, IoUtility.getWorkingEncoding(getEncoding()));
+            } catch (IOException io) {
+                Trace.fatal(CLASS, this, method, "File \"" + xmlFile + "\" should be readable", io);
+                if (getLocator() == null) {
+                    throw new SAXException("Locator unexpectedly null");
+                }
+                // at least we can set the current location as find location
+                find.setStartLocation(new SourcePosition(xml.getAddress(),
+                    getLocator().getLineNumber(), getLocator().getColumnNumber()));
+                return;
             }
-            // FIXME what about locator == null?
             xml.setRow(getLocator().getLineNumber());
             xml.setColumn(getLocator().getColumnNumber());
-            // xml.skipForwardToEndOfXmlTag(); // TODO mime 20050810: remove? comment in?
+            // xml.skipForwardToEndOfXmlTag(); // LATER mime 20050810: remove? comment in?
             find.setEndLocation(new SourcePosition(original, xml.getRow(), xml
                 .getColumn()));
         }
