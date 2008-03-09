@@ -44,7 +44,7 @@ public final class ModuleNodesCreator extends ControlVisitor {
      *
      * @param   prop        Internal QedeqBo.
      */
-    public ModuleNodesCreator(final DefaultQedeqBo prop) {
+    public ModuleNodesCreator(final KernelQedeqBo prop) {
         super(prop);
     }
 
