@@ -18,6 +18,8 @@
 package org.qedeq.kernel.bo.control;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
 
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.common.ModuleContext;
@@ -33,6 +35,14 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 public interface ModuleLoader {
 
     /**
+     * Set kernel services. Is called by the kernel to give this loader the opportunity to
+     * use kernel services within its methods. This is the first method the kernal calls.
+     *
+     * @param   services    Internal kernel services.
+     */
+    public void setServices(InternalKernelServices services);
+
+    /**
      * Load a local QEDEQ module.
      *
      * @param   prop        Module properties.
@@ -40,7 +50,7 @@ public interface ModuleLoader {
      * @throws  ModuleFileNotFoundException    Local file was not found.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public void loadLocalModule(final DefaultQedeqBo prop, final File localFile)
+    public void loadLocalModule(KernelQedeqBo prop, final File localFile)
             throws ModuleFileNotFoundException, SourceFileExceptionList;
 
     /**
@@ -52,5 +62,13 @@ public interface ModuleLoader {
      */
     public SourceArea createSourceArea(Qedeq qedeq, ModuleContext context);
 
+    /**
+     * Get reader for local buffered QEDEQ module.
+     *
+     * @param   prop    QEDEQ BO.
+     * @return  Reader.
+     * @throws  IOException     Reading failed.
+     */
+    public Reader getModuleReader(KernelQedeqBo prop) throws IOException;
 
 }
