@@ -93,29 +93,6 @@ public final class SourcePosition implements Serializable {
         return column;
     }
 
-// LATER mime 20050608: remove if no use
-/*
-    public final int findCaretPosition(final int line, final int column, final String source) {
-        if (line == 1) {
-            return 0;
-        }
-        int k = 1;
-        for (int j = 0; j < source.length(); j++) {
-            if (source.charAt(j) == '\n') {
-                k++;
-            }
-            if (k == line) {
-                j += column - 1;
-                if (j > source.length()) {
-                    j = source.length();
-                }
-                return j;
-            }
-        }
-        return 0;
-    }
-*/
-
     public final String toString() {
         return getAddress() + ":" + getLine() + ":" + getColumn();
     }
