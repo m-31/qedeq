@@ -27,9 +27,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.qedeq.kernel.base.module.Specification;
-import org.qedeq.kernel.bo.module.Kernel;
+import org.qedeq.kernel.bo.module.KernelProperties;
 import org.qedeq.kernel.bo.module.KernelServices;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
@@ -44,6 +46,7 @@ import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.utility.StringUtility;
+import org.qedeq.kernel.utility.TextInput;
 
 
 /**
@@ -52,7 +55,7 @@ import org.qedeq.kernel.utility.StringUtility;
  * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
-public class DefaultKernelServices implements KernelServices {
+public class DefaultKernelServices implements KernelServices, InternalKernelServices {
 
     /** This class. */
     private static final Class CLASS = DefaultKernelServices.class;
@@ -66,11 +69,11 @@ public class DefaultKernelServices implements KernelServices {
     /** Number of method calls. */
     private volatile int processCounter = 0;
 
-    /** Collection of modules. */
-    private final QedeqBoFactory modules;
+    /** Collection of already known QEDEQ modules. */
+    private final KernelQedeqBoPool modules;
 
-    /** Kernel access. */
-    private final Kernel kernel;
+    /** Kernel properties access. */
+    private final KernelProperties kernel;
 
     /** This instance nows how to load a module from the file system. */
     private final ModuleLoader loader;
@@ -79,12 +82,13 @@ public class DefaultKernelServices implements KernelServices {
      * Constructor.
      *
      * @param   kernel  For kernel access.
-     * @param   loader  This instance nows how to load a module from the file system.
+     * @param   loader  For loading QEDEQ modules.
      */
-    public DefaultKernelServices(final Kernel kernel, final ModuleLoader loader) {
-        modules = new QedeqBoFactory();
+    public DefaultKernelServices(final KernelProperties kernel, final ModuleLoader loader) {
+        modules = new KernelQedeqBoPool();
         this.kernel = kernel;
         this.loader = loader;
+        loader.setServices(this);
     }
 
     public void startup() {
@@ -208,7 +212,7 @@ public class DefaultKernelServices implements KernelServices {
         final String method = "loadModule(URL)";
         processInc();
         try {
-            final DefaultQedeqBo prop = getModules().getQedeqBo(address);
+            final KernelQedeqBo prop = getModules().getKernelQedeqBo(address);
             synchronized (prop) {
                 if (prop.isLoaded()) {
                     return prop;
@@ -271,9 +275,9 @@ public class DefaultKernelServices implements KernelServices {
      * @throws  ModuleFileNotFoundException Local file not found.
      * @throws  SourceFileExceptionList     Loading failed.
      */
-    private void loadLocalModule(final DefaultQedeqBo prop)
+    private void loadLocalModule(final KernelQedeqBo prop)
             throws ModuleFileNotFoundException, SourceFileExceptionList {
-        final File localFile = kernel.getLocalFilePath(prop.getModuleAddress());
+        final File localFile = getLocalFilePath(prop.getModuleAddress());
         prop.setLoader(loader); // remember loader for this module
         loader.loadLocalModule(prop, localFile);
     }
@@ -286,7 +290,7 @@ public class DefaultKernelServices implements KernelServices {
      * @return  Loaded module.
      * @throws  SourceFileExceptionList     Loading failed.
      */
-    public DefaultQedeqBo loadModule(final ModuleAddress parent,
+    public KernelQedeqBo loadModule(final ModuleAddress parent,
             final Specification spec) throws SourceFileExceptionList {
 
         final String method = "loadModule(Module, Specification)";
@@ -303,8 +307,8 @@ public class DefaultKernelServices implements KernelServices {
             }
             // search in already loaded modules
             for (int i = 0; i < modulePaths.length; i++) {
-                final DefaultQedeqBo prop
-                    = getModules().getQedeqBo(modulePaths[i]);
+                final KernelQedeqBo prop
+                    = getModules().getKernelQedeqBo(modulePaths[i]);
                 synchronized (prop) {
                     if (prop.isLoaded()) {
                         return (prop);
@@ -316,8 +320,8 @@ public class DefaultKernelServices implements KernelServices {
             Trace.trace(CLASS, this, method, "searching file buffer");
             for (int i = 0; i < modulePaths.length; i++) {
                 try {
-                    final DefaultQedeqBo prop
-                        = getModules().getQedeqBo(modulePaths[i]);
+                    final KernelQedeqBo prop
+                        = getModules().getKernelQedeqBo(modulePaths[i]);
                     Trace.trace(CLASS, this, method, "synchronizing at prop=" + prop);
                     synchronized (prop) {
                         loadLocalModule(prop);
@@ -331,8 +335,8 @@ public class DefaultKernelServices implements KernelServices {
             // try loading url directly
             for (int i = 0; i < modulePaths.length; i++) {
                 try {
-                    final DefaultQedeqBo prop
-                        = getModules().getQedeqBo(modulePaths[i]);
+                    final KernelQedeqBo prop
+                        = getModules().getKernelQedeqBo(modulePaths[i]);
                     synchronized (prop) {
                         makeLocalCopy(prop);
                         loadLocalModule(prop);
@@ -364,7 +368,7 @@ public class DefaultKernelServices implements KernelServices {
 
 
     public void loadRequiredModules(final ModuleAddress address) throws SourceFileExceptionList {
-        final DefaultQedeqBo prop = (DefaultQedeqBo) loadModule(address);
+        final KernelQedeqBo prop = (KernelQedeqBo) loadModule(address);
         LoadRequiredModules.loadRequired(prop, this);
     }
 
@@ -448,7 +452,7 @@ public class DefaultKernelServices implements KernelServices {
      * @throws  IOException    if address was malformed or the file can not be found
      */
     private final synchronized void makeLocalCopy(
-            final DefaultQedeqBo prop)
+            final KernelQedeqBo prop)
             throws IOException {
         final String method = "makeLocalCopy";
         Trace.begin(CLASS, this, method);
@@ -564,7 +568,7 @@ public class DefaultKernelServices implements KernelServices {
         // escape characters:
         StringUtility.replace(adr, "://", "_");    // before host
         StringUtility.replace(adr, ":", "_");      // before protocol
-        return new File(kernel.getBufferDirectory(), adr.toString());
+        return new File(getBufferDirectory(), adr.toString());
     }
 
     /**
@@ -594,12 +598,12 @@ public class DefaultKernelServices implements KernelServices {
         return kernel.getConfig().getGenerationDirectory();
     }
 
-    private DefaultQedeqBo getDefaultQedeqBo(final ModuleAddress address) {
-        return getModules().getQedeqBo(address);
+    public KernelQedeqBo getKernelQedeqBo(final ModuleAddress address) {
+        return getModules().getKernelQedeqBo(address);
     }
 
     public QedeqBo getQedeqBo(final ModuleAddress address) {
-        return getModules().getQedeqBo(address);
+        return getModules().getKernelQedeqBo(address);
     }
 
     public ModuleAddress getModuleAddress(final URL url) throws IOException {
@@ -614,10 +618,22 @@ public class DefaultKernelServices implements KernelServices {
         return new DefaultModuleAddress(file);
     }
 
+    public String getSource(final ModuleAddress address) throws IOException {
+        final KernelQedeqBo bo = getKernelQedeqBo(address);
+        if (bo.getLoadingState().equals(LoadingState.STATE_UNDEFINED)
+                || bo.getLoadingState().equals(LoadingState.STATE_LOADING_FROM_WEB)
+                || bo.getLoadingState().equals(LoadingState.STATE_LOADING_FROM_WEB_FAILED)) {
+            throw new IllegalStateException("module is not yet buffered " + address);
+        }
+        final StringBuffer buffer = new StringBuffer();
+        IoUtility.loadReader(loader.getModuleReader(bo), buffer);
+        return buffer.toString();
+    }
+
     public boolean checkModule(final ModuleAddress address) {
 
         final String method = "checkModule(ModuleAddress)";
-        final DefaultQedeqBo prop = getDefaultQedeqBo(address);
+        final KernelQedeqBo prop = getKernelQedeqBo(address);
         try {
             QedeqLog.getInstance().logRequest("Check logical correctness for \""
                 + prop.getUrl() + "\"");
@@ -691,7 +707,7 @@ public class DefaultKernelServices implements KernelServices {
      *
      * @return  All QEDEQ modules.
      */
-    private final QedeqBoFactory getModules() {
+    private final KernelQedeqBoPool getModules() {
         return modules;
     }
 
@@ -702,6 +718,36 @@ public class DefaultKernelServices implements KernelServices {
     private SourceFileExceptionList createSourcelFileExceptionList(
             final ModuleFileNotFoundException e) {
         return new DefaultSourceFileExceptionList(e);
+    }
+
+    public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
+        final List list = new ArrayList();
+        final KernelQedeqBo bo = getKernelQedeqBo(address);
+        final SourceFileExceptionList sfl = bo.getException();
+        if (sfl != null) {
+            final StringBuffer buffer = new StringBuffer();
+            IoUtility.loadReader(loader.getModuleReader(bo), buffer);
+            final TextInput input = new TextInput(buffer);
+            input.setPosition(0);
+            final StringBuffer buf = new StringBuffer();
+            for (int i = 0; i < sfl.size(); i++) {
+                buf.setLength(0);
+                final SourceFileException sf = sfl.get(i);
+                buf.append(sf.getDescription());
+                if (sf.getSourceArea() != null && sf.getSourceArea().getStartPosition() != null) {
+                    buf.append("\n");
+                    input.setRow(sf.getSourceArea().getStartPosition().getLine());
+                    buf.append(StringUtility.replace(input.getLine(), "\t", " "));
+                    buf.append("\n");
+                    final StringBuffer whitespace = StringUtility.getSpaces(sf.getSourceArea()
+                        .getStartPosition().getColumn() - 1);
+                    buffer.append(whitespace);
+                    buffer.append("^");
+                }
+                list.add(buf.toString());
+            }
+        }
+        return (String[]) list.toArray(new String[]{});
     }
 
 }
