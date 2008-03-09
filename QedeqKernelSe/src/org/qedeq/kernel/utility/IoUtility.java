@@ -18,17 +18,21 @@
 package org.qedeq.kernel.utility;
 
 import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
@@ -114,9 +118,10 @@ public final class IoUtility {
      * @param   in          This stream will be loaded.
      * @param   buffer      Buffer to fill with file contents.
      * @throws  IOException File exception occurred.
+     *
+     * @deprecated  Use {@link #loadReader(Reader, StringBuffer)}.
      */
-    public static void loadStream(final InputStream in,
-            final StringBuffer buffer)
+    public static void loadStream(final InputStream in, final StringBuffer buffer)
             throws IOException {
 
         buffer.setLength(0);
@@ -125,14 +130,33 @@ public final class IoUtility {
             buffer.append((char) c);
         }
     }
-// FIXME
+
     /**
-     * Reads contents of a file into a string buffer.
+     * Reads contents of a {@link Reader} into a string buffer.
+     *
+     * @param   in          This reader will be loaded.
+     * @param   buffer      Buffer to fill with file contents.
+     * @throws  IOException File exception occurred.
+     */
+    public static void loadReader(final Reader in, final StringBuffer buffer)
+            throws IOException {
+
+        buffer.setLength(0);
+        int c;
+        while ((c = in.read()) >= 0) {
+            buffer.append((char) c);
+        }
+    }
+
+    /**
+     * Reads contents of a file into a string buffer. Uses default encoding.
      *
      * @param   file        This file will be loaded.
      * @param   buffer      Buffer to fill with file contents.
      * @throws  IOException File exception occurred.
      *
+     * @deprecated  Use {@link #loadFile(File, StringBuffer, String)}.
+     */
     public static void loadFile(final File file,
             final StringBuffer buffer)
             throws IOException {
@@ -148,7 +172,7 @@ public final class IoUtility {
         in.close();
         buffer.insert(0, data);
     }
-*/
+
     /**
      * Reads contents of a file into a string buffer.
      *
@@ -205,14 +229,15 @@ public final class IoUtility {
         }
     }
 
-// FIXME    
+
     /**
      * Reads contents of an URL into a string buffer. The filling is character set dependent.
-     * FIXME mime 20071230: what about binary load?
      * @param   url         This URL will be loaded.
      * @param   buffer      Buffer to fill with file contents.
      * @throws  IOException Reading failed.
      *
+     * @deprecated  Choose correct encoding.
+     */
     public static void loadFile(final URL url, final StringBuffer buffer) throws IOException {
         InputStream in = null;
         BufferedReader dis = null;
@@ -228,7 +253,7 @@ public final class IoUtility {
             closeReader(dis);
         }
     }
-*/
+
     /**
      * Save binary contents of an URL into a file.
      *
@@ -249,7 +274,7 @@ public final class IoUtility {
         in.close();
         out.close();
     }
-/*
+
     /**
      * Convert String into a {@link Reader}.
      *
@@ -267,7 +292,7 @@ public final class IoUtility {
         }
     }
 
-//FIXME
+
     /**
      * Saves a <code>String</code> into a file.
      *
@@ -275,6 +300,8 @@ public final class IoUtility {
      * @param   text        Data to save in the file.
      * @throws  IOException File exception occurred.
      *
+     * @deprecated  Use {@link #saveFile(File, String, String)} that has an encoding.
+     */
     public static void saveFile(final String filename, final String text)
             throws IOException {
         saveFile(new File(filename), text);
@@ -287,32 +314,37 @@ public final class IoUtility {
      * @param   text        Data to save in the file.
      * @throws  IOException File exception occurred.
      *
+     * @deprecated  Use {@link #saveFile(File, StringBuffer, String)} that has an encoding.
+     */
     public static void saveFile(final String filename, final StringBuffer text)
             throws IOException {
         saveFile(new File(filename), text.toString());
     }
 
-*/
-    /** FIXME comment in
+    /**
      * Saves a <code>StringBuffer</code> in a file.
      *
      * @param   file        File to save into.
      * @param   text        Data to save in the file.
      * @throws  IOException File exception occurred.
      *
+     * @deprecated  Use {@link #saveFile(File, StringBuffer, String)} that has an encoding
+     * parameter.
+     */
     public static void saveFile(final File file, final StringBuffer text)
             throws IOException {
         saveFile(file, text.toString());
     }
 
-
-    /** FIXME comment in
-     * Saves a <code>String</code> in a file.
+    /**
+     * Saves a <code>String</code> in a file. Uses default encoding.
      *
      * @param   file        File to save the data in.
      * @param   text        Data to save in the file.
      * @throws  IOException File exception occurred.
      *
+     * @deprecated  Use {@link #saveFile(File, String, String)} that has an encoding parameter.
+     */
     public static void saveFile(final File file, final String text)
             throws IOException {
         BufferedWriter out = new BufferedWriter(
@@ -320,7 +352,7 @@ public final class IoUtility {
         out.write(text);
         out.close();
     }
-*/
+
     /**
      * Saves a <code>String</code> in a file.
      *
@@ -351,7 +383,7 @@ public final class IoUtility {
     }
 
     /**
-     * Saves a <code>String</code> in a file.
+     * Saves a <code>data</code> in a file.
      *
      * @param   file        File to save the data in.
      * @param   data        Data to save in the file.
@@ -690,6 +722,32 @@ public final class IoUtility {
         newprops.load(in);
         in.close();
         return newprops;
+    }
+
+    /**
+     * This method returns the contents of an object variable.
+     *
+     * @param   obj     Object.
+     * @param   name    Variable name
+     * @return  Contents of variable.
+     */
+    public static Object getFieldContent(final Object obj, final String name) {
+        final Field field;
+        try {
+            field = obj.getClass().getDeclaredField(name);
+            field.setAccessible(true);
+        } catch (SecurityException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            return field.get(obj);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }
