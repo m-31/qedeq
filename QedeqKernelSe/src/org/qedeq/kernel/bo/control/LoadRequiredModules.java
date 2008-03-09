@@ -25,6 +25,7 @@ import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.trace.Trace;
 
 
 /**
@@ -56,14 +57,12 @@ public class LoadRequiredModules {
     /**
      * Load all required QEDEQ modules for a given QEDEQ module.
      *
-     * FIXME mime 20080225: must this method be synchronized?
      * @param   prop        Module properties.
      * @param   services    Kernel services.
      * @throws  SourceFileExceptionList Failure(s).
      */
-    public static void loadRequired(final DefaultQedeqBo prop,
+    public static void loadRequired(final KernelQedeqBo prop,
             final DefaultKernelServices services) throws SourceFileExceptionList {
-        final String method = "loadRequired(DefaultQedeqBo, DefaultKernelServices)";
         // did we check this already?
         if (prop.getDependencyState().areAllRequiredLoaded()) {
             return; // everything is OK
@@ -77,9 +76,10 @@ public class LoadRequiredModules {
      * @param   prop        Module properties.
      * @throws  SourceFileExceptionList Failure(s).
      */
-    private void loadRequired(final DefaultQedeqBo prop)
+    private void loadRequired(final KernelQedeqBo prop)
             throws SourceFileExceptionList {
         final String method = "loadRequired(DefaultQedeqBo, DefaultKernelServices, Map)";
+        Trace.param(CLASS, this, method, "prop.getModuleAddress", prop.getModuleAddress());
         synchronized (prop) {
             if (prop.getDependencyState().areAllRequiredLoaded()) {
                 return; // everything is OK
@@ -99,7 +99,7 @@ public class LoadRequiredModules {
         DefaultSourceFileExceptionList sfl = loader.getSourceFileExceptionList();
 
         for (int i = 0; i < required.size(); i++) {
-            DefaultQedeqBo current = null;
+            KernelQedeqBo current = null;
             current = required.getDefaultQedeqBo(i);
             if (loadingRequiredInProgress.containsKey(current)) {
                 ModuleDataException me = new LoadRequiredModuleException(12,
