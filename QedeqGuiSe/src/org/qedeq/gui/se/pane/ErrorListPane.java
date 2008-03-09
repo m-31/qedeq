@@ -21,9 +21,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -35,9 +33,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.QedeqBo;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.trace.Trace;
@@ -160,31 +156,20 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
         try {
             error.getDocument().remove(0, error.getDocument().getLength());
             if (prop != null && prop.getException() != null) {
-                SourceFileExceptionList list = prop.getException();
-                for (int i = 0; i < list.size(); i++) {
-                    if (list.get(i).getSourceArea() != null) {
-                        final URL url = list.get(i).getSourceArea().getAddress();
-                        final ModuleAddress address;
-                        try {
-                            address = KernelContext.getInstance().getModuleAddress(url);
-                            final File local = KernelContext.getInstance()
-                                .getLocalFilePath(address);
-                            error.getDocument().insertString(error.getDocument().getLength(),
-                                list.get(i).getDescription(local, prop.getEncoding()),
-                                errorAttrs);
-                        } catch (IOException e) {
-                            Trace.fatal(CLASS, this, method, "unexpected problem", e);
-                            error.getDocument().insertString(error.getDocument().getLength(),
-                                list.get(i).getMessage(),
-                                errorAttrs);
-                        }
-                    } else {
+                try {
+                    final String[] errors = KernelContext.getInstance()
+                        .getSourceFileExceptionList(prop.getModuleAddress());
+                    for (int i = 0; i < errors.length; i++) {
                         error.getDocument().insertString(error.getDocument().getLength(),
-                            list.get(i).getMessage(),
-                            errorAttrs);
+                            errors[i], errorAttrs);
+                        error.getDocument().insertString(error.getDocument().getLength(),
+                            "\n", errorAttrs);
                     }
+                } catch (IOException e) {
+                    Trace.fatal(CLASS, this, method, "unexpected problem", e);
                     error.getDocument().insertString(error.getDocument().getLength(),
-                        "\n", errorAttrs);
+                        prop.getException().toString(),
+                        errorAttrs);
                 }
             }
         } catch (BadLocationException e) {
