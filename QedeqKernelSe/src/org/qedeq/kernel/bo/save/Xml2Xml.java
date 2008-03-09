@@ -23,7 +23,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
 
-import org.qedeq.kernel.bo.control.DefaultQedeqBo;
+import org.qedeq.kernel.bo.control.KernelQedeqBo;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -99,7 +99,7 @@ public final class Xml2Xml  {
         try {
             final ModuleAddress address = KernelContext.getInstance().getModuleAddress(from);
             // FIXME mime 20080303: don't cast!!!!
-            final DefaultQedeqBo prop = (DefaultQedeqBo) KernelContext.getInstance()
+            final KernelQedeqBo prop = (KernelQedeqBo) KernelContext.getInstance()
                 .loadModule(address);
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
