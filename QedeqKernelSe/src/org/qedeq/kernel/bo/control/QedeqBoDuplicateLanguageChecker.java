@@ -40,7 +40,7 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
      *
      * @param   bo  BO QEDEQ module object.
      */
-    private QedeqBoDuplicateLanguageChecker(final DefaultQedeqBo bo) {
+    private QedeqBoDuplicateLanguageChecker(final KernelQedeqBo bo) {
         super(bo);
     }
 
@@ -50,7 +50,7 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
      * @param   prop              QEDEQ BO.
      * @throws  DefaultSourceFileExceptionList An error occured.
      */
-    public static void check(final DefaultQedeqBo prop)
+    public static void check(final KernelQedeqBo prop)
             throws DefaultSourceFileExceptionList {
         final QedeqBoDuplicateLanguageChecker checker
             = new QedeqBoDuplicateLanguageChecker(prop);

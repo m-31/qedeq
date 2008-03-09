@@ -124,8 +124,8 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
      * @param   index   Entry index.
      * @return  Module properties for that module.
      */
-    public final DefaultQedeqBo getDefaultQedeqBo(final int index) {
-        return (DefaultQedeqBo) props.get(index);
+    public final KernelQedeqBo getDefaultQedeqBo(final int index) {
+        return (KernelQedeqBo) props.get(index);
     }
 
     public final ModuleContext getModuleContext(final int index) {

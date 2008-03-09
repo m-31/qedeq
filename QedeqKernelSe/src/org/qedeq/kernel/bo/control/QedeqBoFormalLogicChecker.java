@@ -55,7 +55,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
      *
      * @param   prop              QEDEQ module properties object.
      */
-    private QedeqBoFormalLogicChecker(final DefaultQedeqBo prop) {
+    private QedeqBoFormalLogicChecker(final KernelQedeqBo prop) {
         super(prop);
     }
 
@@ -65,7 +65,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
      * @param   prop                QEDEQ module properties object.
      * @throws  SourceFileExceptionList      Major problem occurred.
      */
-    public static void check(final DefaultQedeqBo prop)
+    public static void check(final KernelQedeqBo prop)
             throws SourceFileExceptionList {
         if (prop.isChecked()) {
             return;
@@ -80,7 +80,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
             try {
                 Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label",
                     list.getLabel(i));
-                check((DefaultQedeqBo) list.getQedeqBo(i));
+                check((KernelQedeqBo) list.getQedeqBo(i));
             } catch (SourceFileExceptionList e) {   // TODO mime 20080114: hard coded codes
                 ModuleDataException md = new CheckRequiredModuleException(11231,
                     "import check failed: " + list.getQedeqBo(i).getModuleAddress(),

@@ -31,7 +31,7 @@ import org.qedeq.kernel.common.ModuleReferenceList;
 public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
 
     /** QEDEQ module properties. */
-    private final DefaultQedeqBo prop;
+    private final KernelQedeqBo prop;
 
     /**
      * Constructor.
@@ -40,7 +40,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
      * @throws  ModuleDataException Referenced QEDEQ modules are already inconsistent: they doesn't
      *          mix.
      */
-    public ModuleConstantsExistenceChecker(final DefaultQedeqBo prop) throws  ModuleDataException {
+    public ModuleConstantsExistenceChecker(final KernelQedeqBo prop) throws  ModuleDataException {
         super();
         this.prop = prop;
         init();
@@ -62,7 +62,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final ModuleReferenceList list = prop.getRequiredModules();
         String identityOperator = null;
         for (int i = 0; i < list.size(); i++) {
-            final DefaultQedeqBo prop = (DefaultQedeqBo) list
+            final KernelQedeqBo prop = (KernelQedeqBo) list
                 .getQedeqBo(i);
             if (prop.getExistenceChecker().equalityOperatorExists()) {
                 if (identityOperatorExists) {
@@ -95,7 +95,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
 
-        final DefaultQedeqBo newProp = (DefaultQedeqBo) ref
+        final KernelQedeqBo newProp = (KernelQedeqBo) ref
             .getQedeqBo(label);
         if (newProp == null) {
             return false;
@@ -111,7 +111,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final DefaultQedeqBo newProp = (DefaultQedeqBo) ref
+        final KernelQedeqBo newProp = (KernelQedeqBo) ref
             .getQedeqBo(label);
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().functionExists(shortName, arguments);
