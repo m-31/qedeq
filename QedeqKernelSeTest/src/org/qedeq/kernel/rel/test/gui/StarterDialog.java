@@ -286,19 +286,24 @@ public final class StarterDialog extends JFrame {
                 } catch (final SourceFileExceptionList e) {
                     Trace.trace(CLASS, this, method, e);
                     if (e.size() > 0) {
-                        errorPosition = e.get(0);   // TODO mime 20070323: handle other positions too
-                        setResultMessage(false, errorPosition.getDescription(
-                            from.getFileValue(), IoUtility.getDefaultEncoding()));
+                        errorPosition = e.get(0);
+                        try {
+                            final String[] messages = KernelFacade.getKernelContext()
+                                .getSourceFileExceptionList(KernelFacade.getKernelContext()
+                                .getModuleAddress(from.getFileValue()));
+                            setResultMessage(false, messages[0]);
+                        } catch (IOException e1) {
+                            errorPosition = new SourceFileException(from.getFileValue(), e);
+                            setResultMessage(false, e.getMessage());
+                        }
                     } else {
                         errorPosition = new SourceFileException(from.getFileValue(), e);
-                        setResultMessage(false, errorPosition.getDescription(
-                            from.getFileValue(), IoUtility.getDefaultEncoding()));
+                        setResultMessage(false, e.getMessage());
                     }
                 } catch (final Exception e) {
                     Trace.trace(CLASS, this, method, e);
                     errorPosition = new SourceFileException(from.getFileValue(), e);
-                    setResultMessage(false, errorPosition.getDescription(
-                        from.getFileValue(), IoUtility.getDefaultEncoding()));
+                    setResultMessage(false, e.getMessage());
                 } catch (final Error e) {
                     Trace.trace(CLASS, this, method, e);
                     shutdown();
@@ -403,7 +408,6 @@ public final class StarterDialog extends JFrame {
                     };
                     chooser.setFileFilter(filter);
                     chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-                    // TODO mime 20050205: end of Q & D
                     final int returnVal = chooser.showOpenDialog(StarterDialog.this);
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         textField.setText(chooser.getSelectedFile().getAbsolutePath());

@@ -74,8 +74,6 @@ public class QedeqPane extends JFrame {
     
     private final SourceFileException errorPosition;
 
-    private File file;
-
 
     /**
      * Creates new Panel.
@@ -197,30 +195,17 @@ public class QedeqPane extends JFrame {
             try {
                 final ModuleAddress address = KernelContext.getInstance().getModuleAddress(
                     errorPosition.getSourceArea().getAddress());
-                file = KernelContext.getInstance().getLocalFilePath(address);
-                Trace.param(CLASS, this, method, "file", file);
-                if (file.canRead()) {
-                    final StringBuffer buffer = new StringBuffer();
-                        IoUtility.loadFile(file, buffer, IoUtility.getDefaultEncoding());
-                    qedeqScroller.getViewport().setViewPosition(new Point(0, 0));
-                    qedeq.setText(buffer.toString());
-                    if (file.canWrite()) {
-                        qedeq.setEditable(true);
-                    } else {
-                        qedeq.setEditable(false);
-                    }
-                    error.setText(errorPosition.getDescription(file,
-                        IoUtility.getDefaultEncoding()));
-                    error.setCaretPosition(0);
-                    highlightLine();
-                    // reserve 3 text lines for error description
-                    splitPane.setDividerLocation(splitPane.getHeight()
-                        - splitPane.getDividerSize() -
-                        error.getFontMetrics(error.getFont()).getHeight() * 3 - 4);
-                    Trace.trace(CLASS, this, "updateView", "Text updated");
-                } else {
-                    throw new IOException("File " + file.getCanonicalPath() + " not readable!");
-                }
+                qedeqScroller.getViewport().setViewPosition(new Point(0, 0));
+                qedeq.setText(KernelContext.getInstance().getSource(address));
+                qedeq.setEditable(false);
+                error.setText(KernelContext.getInstance().getSourceFileExceptionList(address)[0]);
+                error.setCaretPosition(0);
+                highlightLine();
+                // reserve 3 text lines for error description
+                splitPane.setDividerLocation(splitPane.getHeight()
+                    - splitPane.getDividerSize() -
+                    error.getFontMetrics(error.getFont()).getHeight() * 3 - 4);
+                Trace.trace(CLASS, this, "updateView", "Text updated");
             } catch (IOException ioException) {
                 qedeq.setEditable(false);
                 qedeq.setText("");
@@ -267,7 +252,8 @@ public class QedeqPane extends JFrame {
      * @throws  IOException Saving data failed.
      */
     public final void saveQedeq() throws IOException {
-        IoUtility.saveFile(file, qedeq.getText(), IoUtility.getDefaultEncoding());
+        // FIXME not working
+        IoUtility.saveFile(new File("unknown"), qedeq.getText(), IoUtility.getDefaultEncoding());
     }
     
 

@@ -21,6 +21,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.kernel.bo.control.DefaultKernelServices;
+import org.qedeq.kernel.bo.control.InternalKernelServices;
+import org.qedeq.kernel.bo.control.ModuleLoader;
 import org.qedeq.kernel.config.QedeqConfig;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.LogListener;
@@ -53,9 +55,10 @@ public final class KernelFacade {
                 "This file is part of the project *Hilbert II* - http://www.qedeq.org",
                 new File("../../../qedeq_gen/test"));
             config.setAutoReloadLastSessionChecked(false);
-            KernelContext.getInstance().init(new DefaultKernelServices(KernelContext.getInstance(),
-                new XmlModuleLoader()), 
-                config);
+            final ModuleLoader loader = new XmlModuleLoader();
+            final InternalKernelServices services = new DefaultKernelServices(
+                KernelContext.getInstance(), loader);
+            KernelContext.getInstance().init(services , config);
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);

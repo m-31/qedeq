@@ -22,7 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.qedeq.kernel.bo.control.DefaultQedeqBo;
+import org.qedeq.kernel.bo.control.KernelQedeqBo;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -203,7 +203,7 @@ public final class Xml2Latex  {
         final String method = "generate(String, String, String, String)";
         File destination = null;
         File source = null;
-        DefaultQedeqBo prop = null;
+        KernelQedeqBo prop = null;
         try {
             Trace.begin(CLASS, method);
             Trace.param(CLASS, method, "from", from);
@@ -231,7 +231,7 @@ public final class Xml2Latex  {
         try {
             final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
                 IoUtility.toUrl(source.getCanonicalFile()));
-            prop = (DefaultQedeqBo) KernelFacade.getKernelContext().loadModule(address);
+            prop = (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(address);
             IoUtility.createNecessaryDirectories(destination);
             final OutputStream outputStream = new FileOutputStream(destination);
             printer = new TextOutput(destination.getName(), outputStream);

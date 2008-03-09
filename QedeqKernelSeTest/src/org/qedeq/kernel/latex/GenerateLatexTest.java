@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.kernel.bo.control.DefaultModuleAddress;
-import org.qedeq.kernel.bo.control.DefaultQedeqBo;
+import org.qedeq.kernel.bo.control.KernelQedeqBo;
 import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
 import org.qedeq.kernel.bo.logic.LogicalCheckException;
@@ -261,14 +261,14 @@ public final class GenerateLatexTest extends QedeqTestCase {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(xmlFile));
-        final DefaultQedeqBo prop = (DefaultQedeqBo) KernelFacade
+        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade
             .getKernelContext().loadModule(address);
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
         QedeqBoDuplicateLanguageChecker.check(prop);
         final String web = "http://qedeq.org/" 
             + KernelFacade.getKernelContext().getKernelVersionDirectory() + "/doc/" + xml;
-        final DefaultQedeqBo fakeProp = (DefaultQedeqBo) KernelFacade.getKernelContext()
+        final KernelQedeqBo fakeProp = (KernelQedeqBo) KernelFacade.getKernelContext()
             .getQedeqBo(new DefaultModuleAddress(web));
         fakeProp.setLoaded((QedeqVo) prop.getQedeq());
         fakeProp.setLoadedRequiredModules(prop.getRequiredModules());

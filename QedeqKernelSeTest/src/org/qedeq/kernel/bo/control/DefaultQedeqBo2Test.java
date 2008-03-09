@@ -36,17 +36,17 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
     
     public void testConstructor() throws Exception {
         try {
-            new DefaultQedeqBo(null);
+            new KernelQedeqBo(null);
             fail("RuntimeException expected");
         } catch (RuntimeException e) {
             // expected
         }
-        new DefaultQedeqBo(new DefaultModuleAddress("qedeq.org/text.xml"));
+        new KernelQedeqBo(new DefaultModuleAddress("qedeq.org/text.xml"));
     }
 
     public void testHasFailures() throws Exception {
-        DefaultQedeqBo bo;
-        bo = new DefaultQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
+        KernelQedeqBo bo;
+        bo = new KernelQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasFailures());
         bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, 
             new DefaultSourceFileExceptionList(new NullPointerException()));
@@ -54,7 +54,7 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
         bo.setLoaded(new QedeqVo());
         bo.setLabels(new ModuleNodes());
         assertFalse(bo.hasFailures());
-        bo = new DefaultQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
+        bo = new KernelQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
         bo.setLoaded(new QedeqVo());
         bo.setLabels(new ModuleNodes());
         bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
@@ -67,8 +67,8 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
     }
     
     public void testSetLoadingFailureState() throws Exception {
-        DefaultQedeqBo bo;
-        bo = new DefaultQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
+        KernelQedeqBo bo;
+        bo = new KernelQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasFailures());
         assertNull(bo.getException());
         try {
@@ -145,8 +145,8 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
     }
     
     public void testSetLoadingProgressState() throws Exception {
-        DefaultQedeqBo bo;
-        bo = new DefaultQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
+        KernelQedeqBo bo;
+        bo = new KernelQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasFailures());
         assertFalse(bo.isLoaded());
         assertEquals(LoadingState.STATE_UNDEFINED, bo.getLoadingState());
@@ -197,8 +197,8 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
     }
     
     public void testSetDependencyFailureState() throws Exception {
-        DefaultQedeqBo bo;
-        bo = new DefaultQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
+        KernelQedeqBo bo;
+        bo = new KernelQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasFailures());
         assertNull(bo.getException());
         bo.setLoaded(new QedeqVo());

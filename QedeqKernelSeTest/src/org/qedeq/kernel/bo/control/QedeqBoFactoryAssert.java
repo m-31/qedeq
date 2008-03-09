@@ -32,6 +32,7 @@ import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.loader.XmlModuleLoader;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
@@ -72,12 +73,12 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
      * @param   original        Basic qedeq module object.
      * @throws  ModuleDataException  Semantic or syntactic error occurred.
      */
-    public static void createQedeq(final DefaultQedeqBo prop,
+    public static void createQedeq(final KernelQedeqBo prop,
             final Qedeq original) throws SourceFileExceptionList {
         final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(prop.getModuleAddress());
-        QedeqVo vo = null;
+        final QedeqVo vo;
         try {
-            vo = QedeqVoBuilder.createQedeq(prop.getModuleAddress(), original);
+            vo = creator.create(original);
         } catch (ModuleDataException e) {
             final SourceFileExceptionList xl
                 = prop.createSourceFileExceptionList(e, original);
@@ -85,7 +86,11 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
             throw xl;
         }
         prop.setLoaded(vo);
-        prop.setLoader(new XmlModuleLoader());
+        final InternalKernelServices services = (InternalKernelServices) IoUtility
+            .getFieldContent(KernelFacade.getKernelContext(), "services");
+        final ModuleLoader loader = new XmlModuleLoader();
+        loader.setServices(services);
+        prop.setLoader(loader);
         prop.setLabels(new ModuleNodesCreator(prop).createLabels());
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
@@ -125,8 +130,10 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         Trace.param(CLASS, "setLocationWithinModule(String)", 
             "xpath                < ", xpath);
         try {
+            final InternalKernelServices services = (InternalKernelServices) IoUtility
+                .getFieldContent(KernelFacade.getKernelContext(), "services");
             final SimpleXPath find = XPathLocationParser.getXPathLocation(
-                KernelFacade.getKernelContext().getLocalFilePath(
+                services.getLocalFilePath(
                     getCurrentContext().getModuleLocation()), xpath,
                 getCurrentContext().getModuleLocation().getURL());
             if (find.getStartLocation() == null) {

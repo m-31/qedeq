@@ -29,7 +29,6 @@ import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.rel.test.text.KernelFacade;
 import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.test.QedeqTestCase;
@@ -96,7 +95,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
         final String method = "testCreateStringQedeq()";
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(errorFile.getCanonicalFile()));
-        final DefaultQedeqBo prop = (DefaultQedeqBo) KernelFacade
+        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(address);
         try {
             QedeqBoFactoryAssert.createQedeq(prop, error);
@@ -171,7 +170,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             SourceFileExceptionList {
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(file.getCanonicalFile()));
-        final DefaultQedeqBo prop = (DefaultQedeqBo) KernelFacade
+        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(address);
         QedeqBoFactoryAssert.createQedeq(prop, createQedeqFromFile(file));
     }
