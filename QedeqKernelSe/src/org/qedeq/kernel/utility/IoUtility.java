@@ -46,8 +46,6 @@ import java.util.Properties;
  *
  * LATER mime 20070101: use StringBuilder instead of StringBuffer if working under JDK 1.5
  *
- * FIXME mime 20070926: load* and loadBinary are mixed. loarUrl should be binary load!
- *
  * @version $Revision: 1.14 $
  * @author  Michael Meyling
  */
@@ -60,12 +58,24 @@ public final class IoUtility {
         // don't call me
     }
 
+    /**
+     * Get default encoding for this system.
+     *
+     * @return  Default encoding for this system.
+     */
     public static String getDefaultEncoding() {
         return new InputStreamReader(
               new ByteArrayInputStream(new byte[0])).getEncoding();
     }
 
 
+    /**
+     * Get working Java encoding.
+     *
+     * @param   encoding    Try this encoding.
+     * @return              This is <code>encoding</code> if it is supported. Or an other
+     *                      encoding that is supported by this system.
+     */
     public static String getWorkingEncoding(final String encoding) {
         if (encoding != null) {
             try {
@@ -77,9 +87,11 @@ public final class IoUtility {
                 // ignore
             }
         }
-        // FIXME
+        // TODO mime 20080309: we must inform someone, but using
+        // Trace within this class is not wise, because it is used
+        // before the Trace is initialized.
         System.err.println("not supported encoding: " + encoding);
-        return "ISO-8859-1";
+        return "ISO-8859-1";    // every system must support this
     }
 
     /**
@@ -261,7 +273,7 @@ public final class IoUtility {
      * @param   file    Write into this file.
      * @throws  IOException Reading or writing failed.
      */
-    public static void saveFile(final URL url, final File file) throws IOException {
+    public static void saveFileBinary(final URL url, final File file) throws IOException {
         final InputStream in = url.openStream();
         final FileOutputStream out = new FileOutputStream(file);
 
