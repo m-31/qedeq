@@ -59,6 +59,9 @@ import org.qedeq.kernel.utility.TextOutput;
 /**
  * This class prints a QEDEQ module in XML format in an output stream.
  *
+ * TODO mime 20080309: escape XML attributes like &gt;, &amp; and other.
+ * See {@link org.qedeq.kernel.utility.StringUtility#decodeXmlMarkup(StringBuffer)}.
+ *
  * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */

@@ -100,7 +100,8 @@ public final class Qedeq2Wiki {
      * Prints a LaTeX file into a given output stream.
      *
      * @param   language        Filter text to get and produce text in this language only.
-     * @param   level           Filter for this detail level. TODO mime 20050205: not supported yet.
+     * @param   level           Filter for this detail level. LATER mime 20050205: not supported
+     *                          yet.
      * @param   outputDirectory Write files to this directory.
      * @throws  IOException
      */

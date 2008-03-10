@@ -65,12 +65,8 @@ import org.qedeq.kernel.utility.TextOutput;
  * Transfer a QEDEQ module into a LaTeX file.
  * <p>
  * <b>TODO mime 20070131: This is just a quick written generator. No parsing or validation
- * of inline LaTeX text is done. No references to other QEDEQ modules are resolved. This class just
- * generates some LaTeX output to be able to get a visual impression of a QEDEQ module.</b>
- * <p>
- * This generator operates operates against the interface declaration of a QEDEQ module.
- * A business object is not yet required.
- *
+ * of inline LaTeX text is done. This class just generates some LaTeX output to be able to
+ * get a visual impression of a QEDEQ module.</b>
  *
  * @version $Revision: 1.49 $
  * @author  Michael Meyling
@@ -86,7 +82,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     /** Filter text to get and produce text in this language. */
     private final String language;
 
-    /** Filter for this detail level. TODO mime 20050205: not used yet. */
+    /** Filter for this detail level. LATER mime 20050205: not used yet. */
     private final String level;
 
     /** Transformer to get LaTeX out of {@link Element}s. */
@@ -113,7 +109,8 @@ public final class Qedeq2Latex extends ControlVisitor {
      * @param   prop            QEDEQ BO object.
      * @param   printer         Print herein.
      * @param   language        Filter text to get and produce text in this language only.
-     * @param   level           Filter for this detail level. TODO mime 20050205: not supported yet.
+     * @param   level           Filter for this detail level. LATER mime 20050205: not supported
+     *                          yet.
      */
     private Qedeq2Latex(final KernelQedeqBo prop, final TextOutput printer,
             final String language, final String level) {
@@ -139,7 +136,8 @@ public final class Qedeq2Latex extends ControlVisitor {
      * @param   prop            QEDEQ module properties object.
      * @param   printer         Print herein.
      * @param   language        Filter text to get and produce text in this language only.
-     * @param   level           Filter for this detail level. TODO mime 20050205: not supported yet.
+     * @param   level           Filter for this detail level. LATER mime 20050205: not supported
+     *                          yet.
      * @throws  DefaultSourceFileExceptionList Major problem occurred.
      * @throws  IOException
      */
@@ -391,7 +389,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     }
 
     public void visitEnter(final Section section) {
-/* TODO mime 20070131: use this information?
+/* LATER mime 20070131: use this information?
         if (section.getNoNumber() != null) {
            printer.print(" noNumber=\"" + section.getNoNumber().booleanValue() + "\"");
         }
@@ -409,7 +407,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     }
 
     public void visitEnter(final Subsection subsection) {
-/* TODO mime 20070131: use this information?
+/* LATER mime 20070131: use this information?
         if (subsection.getId() != null) {
             printer.print(" id=\"" + subsection.getId() + "\"");
         }
@@ -474,7 +472,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     }
 
     public void visitEnter(final Proof proof) {
-/* TODO mime 20070131: filter level and kind
+/* LATER mime 20070131: filter level and kind
         if (proof.getKind() != null) {
             printer.print(" kind=\"" + proof.getKind() + "\"");
         }
