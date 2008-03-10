@@ -26,7 +26,8 @@ import org.qedeq.kernel.common.SourceFileException;
 
 
 /**
- * Basic visitor that makes nothing.
+ * Basic visitor that gives some error collecting features. Also hides the
+ * traverser that does the work.
  *
  * @version $Revision: 1.2 $
  * @author Michael Meyling
@@ -35,9 +36,6 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
 
     /** QEDEQ BO object to work on. */
     private final KernelQedeqBo prop;
-
-    /** This class. */
-    private static final Class CLASS = ControlVisitor.class;
 
     /** Traverse QEDEQ module with this traverser. */
     private final QedeqNotNullTraverser traverser;
@@ -60,10 +58,24 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
     }
 
+    /**
+     * Get QedeqBo.
+     *
+     * @return  QedeqBo.
+     */
     protected KernelQedeqBo getQedeqBo() {
         return this.prop;
     }
 
+    /**
+     * Start traverse of QedeqBo. If during the traverse a {@link ModuleDataException}
+     * occurs it is thrown till high level and transformed into a
+     * {@link DefaultSourceFileExceptionList}. Otherwise all collected exceptions
+     * (via {@link #addModuleDataException(ModuleDataException)} and
+     * {@link #addSourceFileException(SourceFileException)}) are thrown.
+     *
+     * @throws  DefaultSourceFileExceptionList  All collected exceptions.
+     */
     protected void traverse() throws DefaultSourceFileExceptionList {
         try {
             this.traverser.accept(this.prop.getQedeq());
@@ -88,10 +100,20 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         return errorList;
     }
 
+    /**
+     * Add exception to error collection.
+     *
+     * @param   me  Exception to be added.
+     */
     protected void addModuleDataException(final ModuleDataException me) {
         addSourceFileException(prop.createSourceFileException(me));
     }
 
+    /**
+     * Add exception to error collection.
+     *
+     * @param   sf  Exception to be added.
+     */
     protected void addSourceFileException(final SourceFileException sf) {
             if (errorList == null) {
                 errorList = new DefaultSourceFileExceptionList(sf);
@@ -101,9 +123,9 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     }
 
     /**
-     * Set if further transversing is blocked.
+     * Set if further traverse is blocked.
      *
-     * @param   blocked Further transversion?
+     * @param   blocked     Further traverse blocked?
      */
     protected void setBlocked(final boolean blocked) {
         traverser.setBlocked(blocked);
