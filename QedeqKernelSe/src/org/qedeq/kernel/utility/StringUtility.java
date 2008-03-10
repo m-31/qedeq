@@ -85,7 +85,7 @@ public final class StringUtility {
         final String result = replace(text.toString(), search, replace);
         text.setLength(0);
         text.append(result);
-// TODO mime 20050205: check if the above could be replaced with:
+// LATER mime 20050205: check if the above could be replaced with:
 /*
         final StringBuffer result = new StringBuffer();
         int pos1 = 0;
@@ -237,6 +237,21 @@ public final class StringUtility {
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    /**
+     * Return a String without XML specific encoding.
+     *
+     * @param   value   Data containing markup like &gt;.
+     * @return  Escaped form.
+     */
+    public static String decodeXmlMarkup(final StringBuffer value) {
+        // TODO mime 20080309: replace numerical entities starting with "&"
+        // see http://www.w3.org/TR/2000/WD-xml-2e-20000814#dt-charref
+        replace(value, "&lt;", "<");
+        replace(value, "&gt;", ">");
+        replace(value, "&amp;", "&");
+        return value.toString();
     }
 
 
