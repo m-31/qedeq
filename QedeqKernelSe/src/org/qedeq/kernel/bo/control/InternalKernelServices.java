@@ -37,7 +37,7 @@ public interface InternalKernelServices extends KernelServices {
      * supported.
      *
      * TODO mime 20070411: what about an appropriate closing method?
-     * FIXME mime 20080213: should not be here! Implementation detail!
+     * TODO mime 20080213: should not be here! Implementation detail!
      */
     public void startup();
 
