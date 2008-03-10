@@ -765,9 +765,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     /**
-     * Is further transversing blocked?
+     * Is further traversing blocked?
      *
-     * @return  Is further transversing blocked?
+     * @return  Is further traversing blocked?
      */
     public final boolean getBlocked() {
         return blocked;
