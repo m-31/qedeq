@@ -73,7 +73,7 @@ class MakeLatexAction extends AbstractAction {
                             for (int j = 0; j < languages.length; j++) {
                                 final String result =
                                     Xml2Latex.generate((KernelQedeqBo) // FIXME mime 20080303
-                                                                        // move into KernelServices
+                                                                       // move into KernelServices
                                         props[i], null, languages[j], null);
                                 if (languages[j] != null) {
                                     QedeqLog.getInstance().logSuccessfulReply(

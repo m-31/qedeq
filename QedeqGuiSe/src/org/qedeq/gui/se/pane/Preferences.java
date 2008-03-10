@@ -261,7 +261,7 @@ public final class Preferences extends JFrame {
         moduleBufferTextField.setBounds(33, 210 + y, 600, 21);
 
         final JButton chooseBufferLocation = new JButton("Choose");
-        chooseBufferLocation.setEnabled(false); // TODO mime 200700903: setting still unsupported
+        chooseBufferLocation.setEnabled(false); // LATER mime 200700903: setting still unsupported
         contents.add(chooseBufferLocation);
         chooseBufferLocation.setBounds(33 + 600 - 90, 180 + y, 90, 21);
         chooseBufferLocation.addActionListener(new  ActionListener() {
@@ -310,7 +310,8 @@ public final class Preferences extends JFrame {
         generationPathTextField.setBounds(33, 280 + y, 600, 21);
 
         final JButton chooseGenerationLocation = new JButton("Choose");
-        chooseGenerationLocation.setEnabled(false); //TODO mime 200700903: setting still unsupported
+        //LATER mime 200700903: setting still unsupported
+        chooseGenerationLocation.setEnabled(false);
         contents.add(chooseGenerationLocation);
         chooseGenerationLocation.setBounds(33 + 600 - 90, 250 + y, 90, 21);
         chooseGenerationLocation.addActionListener(new  ActionListener() {
@@ -358,7 +359,7 @@ public final class Preferences extends JFrame {
         localModulesPathTextField.setBounds(33, 340 + y, 600, 21);
 
         final JButton chooselocalModulesLocation = new JButton("Choose");
-//      TODO mime 200700903: setting still unsupported
+//      LATER mime 200700903: setting still unsupported
         chooselocalModulesLocation.setEnabled(false);
         contents.add(chooselocalModulesLocation);
         chooselocalModulesLocation.setBounds(33 + 600 - 90, 310 + y, 90, 21);
