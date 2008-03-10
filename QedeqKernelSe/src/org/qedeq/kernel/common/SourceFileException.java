@@ -167,14 +167,13 @@ public class SourceFileException extends QedeqException {
      *
      * @return  Error description.
      */
-    // FIXME use XmlReader?
     public String getDescription() {
         final StringBuffer buffer = new StringBuffer();
         buffer.append(getErrorCode() + ": " + getMessage());
         if (errorArea != null && errorArea.getStartPosition() != null) {
             final SourcePosition start = errorArea.getStartPosition();
             buffer.append("\n");
-            buffer.append(start.getAddress() + ":" + start.getLine() + ":"
+            buffer.append(errorArea.getAddress() + ":" + start.getLine() + ":"
                 + start.getColumn());
         }
         return buffer.toString();
