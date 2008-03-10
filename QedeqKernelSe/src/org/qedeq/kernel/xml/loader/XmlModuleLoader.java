@@ -161,13 +161,15 @@ public class XmlModuleLoader implements ModuleLoader {
      * @return  Created file area. Maybe <code>null</code>.
      */
     public SourceArea createSourceArea(final Qedeq qedeq, final ModuleContext context) {
+        // copy constructor
         final String method = "createSourceArea(Qedeq, ModuleContext)";
         if (qedeq == null || context == null) {
             return null;
         }
+        ModuleContext ctext = new ModuleContext(context);
         final String xpath;
         try {
-            xpath = Context2SimpleXPath.getXPath(context, qedeq).toString();
+            xpath = Context2SimpleXPath.getXPath(ctext, qedeq).toString();
         } catch (ModuleDataException e) {
             Trace.trace(CLASS, method, e);
             return null;
@@ -176,13 +178,13 @@ public class XmlModuleLoader implements ModuleLoader {
         SimpleXPath find = null;
         try {
             find = XPathLocationParser.getXPathLocation(
-                services.getLocalFilePath(context.getModuleLocation()),
+                services.getLocalFilePath(ctext.getModuleLocation()),
                 xpath,
-                context.getModuleLocation().getURL());
+                ctext.getModuleLocation().getURL());
             if (find.getStartLocation() == null) {
                 return null;
             }
-            return new SourceArea(context.getModuleLocation().getURL(), find.getStartLocation(),
+            return new SourceArea(ctext.getModuleLocation().getURL(), find.getStartLocation(),
                 find.getEndLocation());
         } catch (ParserConfigurationException e) {
             Trace.trace(CLASS, method, e);
