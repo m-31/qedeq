@@ -20,6 +20,7 @@ package org.qedeq.kernel.utility;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Wraps a text output stream.
@@ -44,20 +45,13 @@ public class TextOutput {
      * @param   name    File name.
      * @param   output  Write to this output.
      */
-    public TextOutput(final String name, final PrintStream output) {
-        this.name = name;
-        this.output = output;
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   name    File name.
-     * @param   output  Write to this output.
-     */
     public TextOutput(final String name, final OutputStream output) {
         this.name = name;
-        this.output = new PrintStream(output);
+        try {
+            this.output = new PrintStream(output, false, "ISO-8859-1");
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);  // should never occur
+        }
     }
 
     /**
