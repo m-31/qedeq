@@ -19,7 +19,6 @@ package org.qedeq.kernel.tool.parser;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.PrintStream;
 import java.util.List;
 
 import org.qedeq.kernel.common.SourceFileException;
@@ -61,8 +60,7 @@ public final class LatexTextParser {
             {
                 input = new TextInput(new File(args[0]), IoUtility.getDefaultEncoding());
                 final String textName = "test_text.xml";
-                final PrintStream output = new PrintStream(new FileOutputStream(textName));
-                final TextOutput printer = new TextOutput(textName, output);
+                final TextOutput printer = new TextOutput(textName, new FileOutputStream(textName));
                 new LatexTextParser(input, printer, false,
                     LoadXmlOperatorListUtility.getOperatorList(new File(
                         ResourceLoaderUtility.getResourceUrl(
@@ -71,8 +69,7 @@ public final class LatexTextParser {
             {
                 input = new TextInput(new File(args[0]), IoUtility.getDefaultEncoding());
                 final String mathName = "test_math.xml";
-                final PrintStream output = new PrintStream(new FileOutputStream(mathName));
-                final TextOutput printer = new TextOutput(mathName, output);
+                final TextOutput printer = new TextOutput(mathName, new FileOutputStream(mathName));
                 new LatexTextParser(input, printer, true,
                     LoadXmlOperatorListUtility.getOperatorList(new File(
                         ResourceLoaderUtility.getResourceUrl(
