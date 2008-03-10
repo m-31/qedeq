@@ -45,8 +45,10 @@ public abstract class ModuleDataException extends QedeqException {
             final ModuleContext context, final ModuleContext referenceContext,
             final Exception cause) {
         super(errorCode, message, cause);
-        this.context = context;
-        this.referenceContext = referenceContext;
+        // use copy constructor
+        this.context = (context == null ? null : new ModuleContext(context));
+        this.referenceContext = (referenceContext == null ? null
+                : new ModuleContext(referenceContext));
     }
 
     /**
@@ -60,8 +62,10 @@ public abstract class ModuleDataException extends QedeqException {
     public ModuleDataException(final int errorCode, final String message,
             final ModuleContext context, final ModuleContext referenceContext) {
         super(errorCode, message);
-        this.context = context;
-        this.referenceContext = referenceContext;
+        // use copy constructor
+        this.context = (context == null ? null : new ModuleContext(context));
+        this.referenceContext = (referenceContext == null ? null
+                : new ModuleContext(referenceContext));
     }
 
     /**
@@ -75,7 +79,8 @@ public abstract class ModuleDataException extends QedeqException {
     public ModuleDataException(final int errorCode, final String message,
             final ModuleContext context, final Exception cause) {
         super(errorCode, message, cause);
-        this.context = context;
+        // use copy constructor
+        this.context = (context == null ? null : new ModuleContext(context));
         this.referenceContext = null;
     }
 
@@ -89,7 +94,8 @@ public abstract class ModuleDataException extends QedeqException {
     public ModuleDataException(final int errorCode, final String message,
             final ModuleContext context) {
         super(errorCode, message);
-        this.context = context;
+        // use copy constructor
+        this.context = (context == null ? null : new ModuleContext(context));
         this.referenceContext = null;
     }
 
