@@ -328,7 +328,14 @@ public class TextInput extends InputStream {
      * characters are read till whitespace or &quot;&gt;&quot; occurs. Otherwise data is
      * read till an ending quotation mark comes.
      *
-     * @return  Value read. TODO mime 20050503: do any transformations like &amp;lt; into &lt;?
+     * @return  Value read.
+     * @throws  IllegalArgumentException    Following had not one of the following forms:
+     * <pre>
+     *   = "value"
+     * </pre>
+     * <pre>
+     *   = value
+     * </pre>
      */
     public final String readNextAttributeValue() {
         skipWhiteSpace();
@@ -358,7 +365,7 @@ public class TextInput extends InputStream {
                 buffer.append((char) read());
             }
         }
-        return buffer.toString();
+        return StringUtility.decodeXmlMarkup(buffer);
     }
 
     /**
