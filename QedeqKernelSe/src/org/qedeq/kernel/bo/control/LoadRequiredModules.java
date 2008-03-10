@@ -73,8 +73,9 @@ public class LoadRequiredModules {
     /**
      * Load all required QEDEQ modules for a given QEDEQ module.
      *
-     * @param   prop        Module properties.
+     * @param   prop        QEDEQ module BO. This module must be loaded.
      * @throws  SourceFileExceptionList Failure(s).
+     * @throws  IllegalArgumentException    BO is not loaded
      */
     private void loadRequired(final KernelQedeqBo prop)
             throws SourceFileExceptionList {
@@ -85,10 +86,10 @@ public class LoadRequiredModules {
                 return; // everything is OK
             }
             if (!prop.isLoaded()) {
-                throw new IllegalArgumentException("BO must be loaded!");   // FIXME check it!
+                throw new IllegalArgumentException("Programming error BO must be loaded!");
             }
             if (loadingRequiredInProgress.containsKey(prop)) { // already checked?
-                throw new IllegalArgumentException("must not be marked!");   // FIXME check it!
+                throw new IllegalStateException("Programming error: must not be marked!");
             }
             prop.setDependencyProgressState(DependencyState.STATE_LOADING_REQUIRED_MODULES);
             loadingRequiredInProgress.put(prop, prop);
