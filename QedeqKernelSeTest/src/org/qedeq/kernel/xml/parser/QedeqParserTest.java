@@ -45,7 +45,7 @@ public class QedeqParserTest extends QedeqTestCase {
 
                 public void endElement(final String name) {
                     System.out.println("</" + name + ">");
-    // TODO mime 20050205: for testing: throw new NullPointerException("");
+                    // mime 20050205: for testing: throw new NullPointerException("");
                 }
 
                 public void characters(final String name, final String value) {

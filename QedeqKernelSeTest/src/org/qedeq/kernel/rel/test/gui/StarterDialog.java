@@ -258,7 +258,7 @@ public final class StarterDialog extends JFrame {
                 final String method ="actionPerformed";
                 try {
                     setResultMessage(true, "generating");
-                    // LATER 20070415: this line is necessary because we still don't
+                    // mime 20070415: this line is necessary because we still don't
                     // know if a file (or web) QEDEQ module has changed its content
                     KernelFacade.getKernelContext().removeAllModules();
                     if ("tex".equals(kind.getStringValue())) {
@@ -390,7 +390,7 @@ public final class StarterDialog extends JFrame {
                     }
                     JFileChooser chooser = new JFileChooser(new File(file.getCanonicalPath()));
 
-                    // TODO mime 20050205: because this makes this starter dialog special
+                    // mime 20050205: improve because this makes this starter dialog special
                     FileFilter filter = new FileFilter() {
                         public boolean accept(final File f) {
                             if (f.isDirectory()) {
@@ -491,7 +491,7 @@ public final class StarterDialog extends JFrame {
             }
         });
         contents.add(comboBox);
-        // TODO mime 20050205: just Q & D
+        // mime 20050205: just Q & D
         comboBox.setBounds(MARGIN_X, y, CONTENTS_WIDTH / 6, CONTENT_HEIGHT);
         comboBox.setToolTipText(parameter.getComment());
     }
