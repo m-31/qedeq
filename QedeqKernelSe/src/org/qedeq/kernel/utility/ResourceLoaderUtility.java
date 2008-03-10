@@ -233,7 +233,7 @@ public final class ResourceLoaderUtility {
                             "creation failed: " + resourceDir);
                     }
                 }
-                IoUtility.saveFile(url, resource);
+                IoUtility.saveFileBinary(url, resource);
             } catch (IOException e) {
                 Trace.fatal(ResourceLoaderUtility.class, "getResourceUrlAndMakeLocalCopy",
                     "resource can not be saved", e);
