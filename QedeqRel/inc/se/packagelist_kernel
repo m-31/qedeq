@@ -1,3 +1,4 @@
+com.sun.syndication.io
 org.qedeq.kernel.base.list
 org.qedeq.kernel.base.module
 org.qedeq.kernel.bo.control
@@ -21,8 +22,10 @@ org.qedeq.kernel.xml.handler.list
 org.qedeq.kernel.xml.handler.module
 org.qedeq.kernel.xml.handler.parser
 org.qedeq.kernel.xml.mapper
+org.qedeq.kernel.xml.loader
 org.qedeq.kernel.xml.parser
 org.qedeq.kernel.xml.schema
 org.qedeq.kernel.xml.tracker
 org.qedeq.kernel.test
+org.qedeq.kernel.rel.test.text
 org.qedeq.kernel.tool.parser

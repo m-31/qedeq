@@ -10,31 +10,17 @@ Functional Changes
 
   Extensions
   ----------
-  * checking resolves external function and predicate constants; for
-    example the predicate "equal" in QEDEQ module "qedeq_logic_v1.xml"
-    is used within module "qedeq_set_theory_v1.xml" where it is
-    referenced as "l.equal" where "l" is the import label for
-    "qedeq_logic_v1.xml"
-  * to resolve external references for the LaTeX generation the module 
-    is checked. However if checking errors occur the generation of
-    LaTeX is continued.
-  * log4j watchdog: if trace configuration file changes, logging
-    behaviour changes accordingly
+  * improved error descriptions if QEDEQ modules are imported
+    recursivly
   
   Fixed Bugs
   ----------
-  * generation of LaTeX and checking of multiple QEDEQ modules doesn't
-    stop if a selected module is not loaded
-  * shows correct config file location if web started
-  * context menu entries for tree view corrected: now one can start any
-    enabled action ("delete" module can also be started but doesn't
-    respect dependencies yet) 
-  * status changed messages don't say "undefined" no more
+  * encodings supported, UTF-8 and ISO-8859-1 are now correctly parsed
+    and the error line has correctly translated
 
   Other Changes
   -------------
-  * trace configuration now via log4j XML file and the default settings
-    doesn't use XMLLayout any longer
+  * failure text area removed from state pane
 
 
 XML Files
@@ -42,16 +28,16 @@ XML Files
 
   Extensions
   ----------
-  * "proplogic.xml" and "predlogic.xml" added because of external QEDEQ
-    module resolution
+  none
 
   Fixed Bugs
   ----------
-  none
+  * qedeq_set_theory_v1.xml has now corrected references to 
+    qedeq_logic_v1_en.pdf
 
   Other Changes
   -------------
-  * "qedeq_basic_logic_v1.xml" is now more formal
+  none 
 
 
 Source Code
@@ -59,33 +45,46 @@ Source Code
 
   Extensions
   ----------
-  * if a predicate was already defined for an argument number the error
-    message gives more information
-  * an "ExistenceChecker" is now an attribute of ModuleProperties (if
-    the QEDEQ module was successfully checked)
-  * new classes "Predicate" and "Function" to describe keys for
-    predicate and function constants
-  
+  * new "XmlModuleLoader" implementing new interface ModuleLoader, thus
+    loading and parsing a physical QEDEQ file is separated
+  * kernel has new method for getting a String error description for
+    all errors
+  * uses class "com.sun.syndication.io.XmlReader" from project Rome
+    (see https://rome.dev.java.net/source/browse/rome/src/java/)
+    to get an java.io.Reader from an XML file, this reader is
+    responsible to get the correct encoding
+  * new class "ControlVisitor" that is an "AbstractModuleVisitor" that
+    gives some error collecting features and hides the traverser;
+    this simplifies some checkers (e.g. 
+    "QedeqBoDuplicateLanguageChecker")
+  * "LoadRequiredModules" uses new class "LoadDirectlyRequiredModules";
+    they check for recursive imports, now there is no need to catch
+    an OutOfMemoryError any longer; also all existing tests now
+    run green
+  * "KernelContext" implements now the three interfaces
+    "KernelProperties", "KernelState", "KernelServices"
+  * "SourceFileException" doesn't parse the source file itself to get
+    the error line but the "ModuleLoader" can do that
+  * IoUtility has now methods that deal with encodings
+  * XPathLocationParser now uses new XmlReader to get exact location
+
   Fixed Bugs
   ----------
-  * trace methods have not only runtime object as parameter but also
-    the calling class (needed because "this.getClass()" gives the the
-    class of the runtime object; but we want to log the class the
-    code resides in
-  * for loading from QEDEQ home page: URL of "qedeq_sample1.xml" 
-    corrected
-  
+  * "ModuleEventListenerLog.stateChanged" decides now correctly if
+    it is a failure or not
+
   Other Changes
   -------------
-  * the kernel (outside and inside) uses now a "ModuleAddress"
-    instead of an QEDEQ module URL
-  * "transverse" changed into "traverse"
-  * "QedeqConfig" sets and gets file properties as files now
-  * "TextInput" has no local address any longer
-  * further work on Exception handling
-  * "Qedeq2Latex" uses now new class "Element2Latex" for transforming
-    an element into LaTeX
-  * checkstyle problems reduced to a number of 6!
+  * GUI uses now new kernel method for checking a QEDEQ module instead
+    of doing it itself
+  * "ModuleProperties" and "QedeqBo" married, family name is "QedeqBo";
+    the kernel internal "QedeqBo" is called "KernelQedeqBo"; this
+    "KernelQedeqBo" does call "ModuleEventLog.getInstance()
+    .stateChanged(this)"
+  * "DefaultModuleFactory" -> "DefaultKernelServices"
+  * "StringUtility" (previously "ReplaceUtility") has some methods from
+    "IoUtility"
+
 
 XSD
 ---
@@ -100,5 +99,6 @@ XSD
 
   Other Changes
   -------------
-  none
+  * attribute "ref" of element "PREDCON" is now of type "xs:string"
+    instead of "xs:NMTOKEN"
 
