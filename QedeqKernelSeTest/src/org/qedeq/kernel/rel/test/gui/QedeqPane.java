@@ -2,7 +2,7 @@
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
- * Copyright 2000-2007,  Michael Meyling <mime@qedeq.org>.
+ * Copyright 2000-2008,  Michael Meyling <mime@qedeq.org>.
  *
  * "Hilbert II" is free software; you can redistribute
  * it and/or modify it under the terms of the GNU General Public
@@ -252,7 +252,6 @@ public class QedeqPane extends JFrame {
      * @throws  IOException Saving data failed.
      */
     public final void saveQedeq() throws IOException {
-        // FIXME not working
         IoUtility.saveFile(new File("unknown"), qedeq.getText(), IoUtility.getDefaultEncoding());
     }
     

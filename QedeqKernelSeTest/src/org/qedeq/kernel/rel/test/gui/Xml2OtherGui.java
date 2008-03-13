@@ -2,7 +2,7 @@
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
- * Copyright 2000-2007,  Michael Meyling <mime@qedeq.org>.
+ * Copyright 2000-2008,  Michael Meyling <mime@qedeq.org>.
  *
  * "Hilbert II" is free software; you can redistribute
  * it and/or modify it under the terms of the GNU General Public
@@ -18,7 +18,7 @@
 package org.qedeq.kernel.rel.test.gui;
 
 
-import org.qedeq.kernel.rel.test.text.KernelFacade;
+import org.qedeq.kernel.test.KernelFacade;
 import org.qedeq.kernel.trace.Trace;
 
 
