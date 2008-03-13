@@ -2,7 +2,7 @@
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
- * Copyright 2000-2007,  Michael Meyling <mime@qedeq.org>.
+ * Copyright 2000-2008,  Michael Meyling <mime@qedeq.org>.
  *
  * "Hilbert II" is free software; you can redistribute
  * it and/or modify it under the terms of the GNU General Public
@@ -146,14 +146,14 @@ public final class SaxParser {
 
     /**
      * Parse input source.
-     *
+     * @param   in              Parse data from this file source.
+     * @param   validateOnly    validate with {@link #deflt} or parse with {@link #handler}.
      * @param   original        Original URL for the file. If this is <code>null</code> same as
      *                          file name.
-     * @param   validateOnly    validate with {@link #deflt} or parse with {@link #handler}.
-     * @param   in              Parse data from this file source.
+     *
      * @throws  SourceFileExceptionList    Loading failed.
      */
-    private void parse(final URL original, final boolean validateOnly, final File in)
+    private void parse(final File in, final boolean validateOnly, final URL original)
             throws SourceFileExceptionList {
         final String method = "parse(URL, boolean, InputStream)";
         InputStream stream = null;
@@ -217,8 +217,8 @@ public final class SaxParser {
      * @throws  SourceFileExceptionList    Loading failed.
      */
     public final void parse(final File file, final URL original) throws SourceFileExceptionList {
-        parse(original, true, file);
-        parse(original, false, file);
+        parse(file, true, original);
+        parse(file, false, original);
     }
 
     /**
