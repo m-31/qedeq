@@ -623,7 +623,9 @@ public class DefaultKernelServices implements KernelServices, InternalKernelServ
         if (bo.getLoadingState().equals(LoadingState.STATE_UNDEFINED)
                 || bo.getLoadingState().equals(LoadingState.STATE_LOADING_FROM_WEB)
                 || bo.getLoadingState().equals(LoadingState.STATE_LOADING_FROM_WEB_FAILED)) {
-            throw new IllegalStateException("module is not yet buffered " + address);
+            return null;
+// TODO mime 20080313: remove me
+//            throw new IllegalStateException("module is not yet buffered " + address);
         }
         final StringBuffer buffer = new StringBuffer();
         IoUtility.loadReader(loader.getModuleReader(bo), buffer);
@@ -720,32 +722,48 @@ public class DefaultKernelServices implements KernelServices, InternalKernelServ
         return new DefaultSourceFileExceptionList(e);
     }
 
-    public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
+    public String[] getSourceFileExceptionList(final ModuleAddress address) {
         final List list = new ArrayList();
         final KernelQedeqBo bo = getKernelQedeqBo(address);
         final SourceFileExceptionList sfl = bo.getException();
         if (sfl != null) {
             final StringBuffer buffer = new StringBuffer();
-            IoUtility.loadReader(loader.getModuleReader(bo), buffer);
-            final TextInput input = new TextInput(buffer);
-            input.setPosition(0);
-            final StringBuffer buf = new StringBuffer();
-            for (int i = 0; i < sfl.size(); i++) {
-                buf.setLength(0);
-                final SourceFileException sf = sfl.get(i);
-                buf.append(sf.getDescription());
-                if (sf.getSourceArea() != null && sf.getSourceArea().getStartPosition() != null) {
-                    buf.append("\n");
-                    input.setRow(sf.getSourceArea().getStartPosition().getLine());
-                    buf.append(StringUtility.replace(input.getLine(), "\t", " "));
-                    buf.append("\n");
-                    final StringBuffer whitespace = StringUtility.getSpaces(sf.getSourceArea()
-                        .getStartPosition().getColumn() - 1);
-                    buffer.append(whitespace);
-                    buffer.append("^");
+            do {
+                try {
+                    IoUtility.loadReader(loader.getModuleReader(bo), buffer);
+                } catch (IOException e) {
+                    for (int i = 0; i < sfl.size(); i++) {
+                        list.add(sfl.get(i).getDescription());
+                    }
+                    break;  // out of do while
                 }
-                list.add(buf.toString());
-            }
+                final TextInput input = new TextInput(buffer);
+                input.setPosition(0);
+                final StringBuffer buf = new StringBuffer();
+                for (int i = 0; i < sfl.size(); i++) {
+                    buf.setLength(0);
+                    final SourceFileException sf = sfl.get(i);
+                    buf.append(sf.getDescription());
+                    try {
+                        if (sf.getSourceArea() != null && sf.getSourceArea().getStartPosition()
+                                != null) {
+                            buf.append("\n");
+                            input.setRow(sf.getSourceArea().getStartPosition().getLine());
+                            buf.append(StringUtility.replace(input.getLine(), "\t", " "));
+                            buf.append("\n");
+                            final StringBuffer whitespace = StringUtility.getSpaces(
+                                sf.getSourceArea().getStartPosition().getColumn() - 1);
+                            buffer.append(whitespace);
+                            buffer.append("^");
+                        }
+                    } catch (Exception e) {
+                        Trace.trace(CLASS, this, "getSourceFileExceptionList(ModuleAddress)",
+                            e);
+                    }
+                    list.add(buf.toString());
+                }
+                break;  // out of do while
+            } while (true);
         }
         return (String[]) list.toArray(new String[]{});
     }

@@ -140,7 +140,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
+        public String[] getSourceFileExceptionList(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
     };
@@ -222,7 +222,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             throw new IllegalStateException("Kernel not started");
         }
 
-        public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
+        public String[] getSourceFileExceptionList(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -317,7 +317,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             return services.checkModule(address);
         }
 
-        public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
+        public String[] getSourceFileExceptionList(final ModuleAddress address) {
             return services.getSourceFileExceptionList(address);
         }
     };
@@ -466,7 +466,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         return currentState.checkModule(address);
     }
 
-    public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
+    public String[] getSourceFileExceptionList(final ModuleAddress address) {
         return currentState.getSourceFileExceptionList(address);
     }
 

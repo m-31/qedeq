@@ -145,8 +145,7 @@ public interface KernelServices {
      *
      * @param   address  Get description for this module exceptions.
      * @return  Error description and location.
-     * @throws  IOException Reading failed.
      */
-    public String[] getSourceFileExceptionList(ModuleAddress address) throws IOException;
+    public String[] getSourceFileExceptionList(ModuleAddress address);
 
 }
