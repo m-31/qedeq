@@ -21,7 +21,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -156,20 +155,13 @@ public class ErrorListPane extends JPanel implements ModuleEventListener {
         try {
             error.getDocument().remove(0, error.getDocument().getLength());
             if (prop != null && prop.getException() != null) {
-                try {
-                    final String[] errors = KernelContext.getInstance()
-                        .getSourceFileExceptionList(prop.getModuleAddress());
-                    for (int i = 0; i < errors.length; i++) {
-                        error.getDocument().insertString(error.getDocument().getLength(),
-                            errors[i], errorAttrs);
-                        error.getDocument().insertString(error.getDocument().getLength(),
-                            "\n", errorAttrs);
-                    }
-                } catch (IOException e) {
-                    Trace.fatal(CLASS, this, method, "unexpected problem", e);
+                final String[] errors = KernelContext.getInstance()
+                    .getSourceFileExceptionList(prop.getModuleAddress());
+                for (int i = 0; i < errors.length; i++) {
                     error.getDocument().insertString(error.getDocument().getLength(),
-                        prop.getException().toString(),
-                        errorAttrs);
+                        errors[i], errorAttrs);
+                    error.getDocument().insertString(error.getDocument().getLength(),
+                        "\n", errorAttrs);
                 }
             }
         } catch (BadLocationException e) {
