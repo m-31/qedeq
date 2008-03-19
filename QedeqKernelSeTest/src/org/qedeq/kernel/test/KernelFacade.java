@@ -20,7 +20,7 @@ package org.qedeq.kernel.test;
 import java.io.File;
 import java.io.IOException;
 
-import org.qedeq.kernel.bo.control.DefaultKernelServices;
+import org.qedeq.kernel.bo.control.DefaultInternalKernelServices;
 import org.qedeq.kernel.bo.control.InternalKernelServices;
 import org.qedeq.kernel.bo.control.ModuleLoader;
 import org.qedeq.kernel.config.QedeqConfig;
@@ -56,7 +56,7 @@ public final class KernelFacade {
                 new File("../../../qedeq_gen/test"));
             config.setAutoReloadLastSessionChecked(false);
             final ModuleLoader loader = new XmlModuleLoader();
-            final InternalKernelServices services = new DefaultKernelServices(
+            final InternalKernelServices services = new DefaultInternalKernelServices(
                 KernelContext.getInstance(), loader);
             KernelContext.getInstance().init(services , config);
         } catch (IOException e) {

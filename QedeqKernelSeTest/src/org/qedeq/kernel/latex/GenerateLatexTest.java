@@ -271,7 +271,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
         final KernelQedeqBo fakeProp = (KernelQedeqBo) KernelFacade.getKernelContext()
             .getQedeqBo(new DefaultModuleAddress(web));
         fakeProp.setLoaded((QedeqVo) prop.getQedeq());
-        fakeProp.setLoadedRequiredModules(prop.getRequiredModules());
+        fakeProp.setLoadedRequiredModules(prop.getKernelRequiredModules());
         fakeProp.setLoader(prop.getLoader());
         final File texFile = new File(destinationDirectory, 
             xml.substring(0, xml.lastIndexOf('.')) + "_" + language + ".tex");

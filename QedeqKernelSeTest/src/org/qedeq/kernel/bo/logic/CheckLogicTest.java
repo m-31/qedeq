@@ -23,7 +23,7 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.control.DefaultModuleReferenceList;
+import org.qedeq.kernel.bo.control.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.control.InternalKernelServices;
 import org.qedeq.kernel.bo.control.KernelQedeqBo;
 import org.qedeq.kernel.bo.control.ModuleLoader;
@@ -168,7 +168,7 @@ public final class CheckLogicTest extends QedeqTestCase {
         final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(context);
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq));
-        prop.setLoadedRequiredModules(new DefaultModuleReferenceList());
+        prop.setLoadedRequiredModules(new KernelModuleReferenceList());
         final InternalKernelServices services = (InternalKernelServices) IoUtility
             .getFieldContent(KernelFacade.getKernelContext(), "services");
         final ModuleLoader loader = new XmlModuleLoader();

@@ -60,7 +60,7 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
         bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
             new DefaultSourceFileExceptionList(new NullPointerException()));
         assertTrue(bo.hasFailures());
-        bo.setLoadedRequiredModules(new DefaultModuleReferenceList());
+        bo.setLoadedRequiredModules(new KernelModuleReferenceList());
         assertFalse(bo.hasFailures());
         bo.setChecked(new DefaultExistenceChecker());
         assertFalse(bo.hasFailures());
