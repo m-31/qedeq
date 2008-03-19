@@ -55,10 +55,10 @@ import org.qedeq.kernel.utility.TextInput;
  * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
-public class DefaultKernelServices implements KernelServices, InternalKernelServices {
+public class DefaultInternalKernelServices implements KernelServices, InternalKernelServices {
 
     /** This class. */
-    private static final Class CLASS = DefaultKernelServices.class;
+    private static final Class CLASS = DefaultInternalKernelServices.class;
 
     /** For synchronized waiting. */
     private final String monitor = new String();
@@ -84,7 +84,7 @@ public class DefaultKernelServices implements KernelServices, InternalKernelServ
      * @param   kernel  For kernel access.
      * @param   loader  For loading QEDEQ modules.
      */
-    public DefaultKernelServices(final KernelProperties kernel, final ModuleLoader loader) {
+    public DefaultInternalKernelServices(final KernelProperties kernel, final ModuleLoader loader) {
         modules = new KernelQedeqBoPool();
         this.kernel = kernel;
         this.loader = loader;
@@ -158,7 +158,8 @@ public class DefaultKernelServices implements KernelServices, InternalKernelServ
     public void removeModule(final ModuleAddress address) throws IOException {
         final QedeqBo prop = getQedeqBo(address);
         if (prop != null) {
-            removeModule(getQedeqBo(address));
+            removeModule(getKernelQedeqBo(address));
+            modules.validateDependencies();
         } else  {
             throw new IOException("Module not known: " + address);
         }
@@ -167,12 +168,16 @@ public class DefaultKernelServices implements KernelServices, InternalKernelServ
     /**
      * Remove a QEDEQ module from memory.
      *
+     * This method must block all other methods and if this method runs no other
+     * is allowed to run
+     *
      * @param   prop    Remove module identified by this property.
      */
-    public void removeModule(final QedeqBo prop) {
+    public void removeModule(final KernelQedeqBo prop) {
         do {
             synchronized (syncToken) {
-                if (processCounter == 0) {
+                if (processCounter == 0) {  // no other method is allowed to run
+                    prop.setLoadingProgressState(LoadingState.STATE_DELETED);
                     getModules().removeModule(prop);
                     return;
                 }
@@ -701,6 +706,7 @@ public class DefaultKernelServices implements KernelServices, InternalKernelServ
             }
             QedeqLog.getInstance().logFailureReply(msg, e.toString());
         }
+        modules.validateDependencies();
         return prop.isChecked();
     }
 

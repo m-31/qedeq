@@ -38,10 +38,10 @@ import org.qedeq.kernel.utility.EqualsUtility;
  * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
-public class DefaultModuleReferenceList implements ModuleReferenceList {
+public class KernelModuleReferenceList implements ModuleReferenceList {
 
     /** This class. */
-    private static final Class CLASS = DefaultModuleReferenceList.class;
+    private static final Class CLASS = KernelModuleReferenceList.class;
 
     /** Contains all labels. */
     private final List labels;
@@ -58,7 +58,7 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
     /**
      * Constructs an empty list of module references.
      */
-    public DefaultModuleReferenceList() {
+    public KernelModuleReferenceList() {
         labels = new ArrayList();
         props = new ArrayList();
         contexts = new ArrayList();
@@ -73,7 +73,7 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
      * @param   prop    Referenced module has this properties. Must not be <code>null</code>.
      * @throws  IllegalModuleDataException  The <code>label</code> is empty or <code>null</code>.
      */
-    public final void add(final ModuleContext context, final String label, final QedeqBo prop)
+    public void add(final ModuleContext context, final String label, final QedeqBo prop)
             throws IllegalModuleDataException {
         if (label == null || label.length() <= 0) {
             throw new IllegalModuleDataException(10003, "An label was not defined.", context, null,
@@ -95,7 +95,7 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
      * @throws  IllegalModuleDataException  The <code>id</code> already exists or is
      *          <code>null</code>. Also if <code>label</code> is empty or <code>null</code>.
      */
-    public final void addLabelUnique(final ModuleContext context, final String label,
+    public void addLabelUnique(final ModuleContext context, final String label,
             final QedeqBo prop) throws IllegalModuleDataException {
         if (labels.contains(label)) {
             // LATER mime 20071026: organize exception codes
@@ -106,15 +106,15 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
         add(context, label, prop);
     }
 
-    public final int size() {
+    public int size() {
         return labels.size();
     }
 
-    public final String getLabel(final int index) {
+    public String getLabel(final int index) {
         return (String) labels.get(index);
     }
 
-    public final QedeqBo getQedeqBo(final int index) {
+    public QedeqBo getQedeqBo(final int index) {
         return (QedeqBo) props.get(index);
     }
 
@@ -124,15 +124,15 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
      * @param   index   Entry index.
      * @return  Module properties for that module.
      */
-    public final KernelQedeqBo getDefaultQedeqBo(final int index) {
+    public KernelQedeqBo getKernelQedeqBo(final int index) {
         return (KernelQedeqBo) props.get(index);
     }
 
-    public final ModuleContext getModuleContext(final int index) {
+    public ModuleContext getModuleContext(final int index) {
         return (ModuleContext) contexts.get(index);
     }
 
-    public final QedeqBo getQedeqBo(final String label) {
+    public QedeqBo getQedeqBo(final String label) {
         final int index = labels.indexOf(label);
         if (index < 0) {
             return null;
@@ -140,8 +140,34 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
         return (QedeqBo) props.get(index);
     }
 
+    /**
+     * Is the given QEDEQ BO already in this list?
+     *
+     * @param   bo  QEDEQ BO.
+     * @return  Already in list?
+     */
+    public boolean contains(final KernelQedeqBo bo) {
+        return props.contains(bo);
+    }
+
+    /**
+     * Delete a given QEDEQ BO already from list.
+     *
+     * @param   bo  QEDEQ BO.
+     */
+    public void remove(final KernelQedeqBo bo) {
+        int index;
+        while (0 <= (index = props.indexOf(bo))) {
+            final String label = (String) labels.get(index);
+            label2Context.remove(label);
+            props.remove(index);
+            labels.remove(index);
+            contexts.remove(index);
+        }
+    }
+
     public boolean equals(final Object obj) {
-        if (!(obj instanceof DefaultModuleReferenceList)) {
+        if (!(obj instanceof KernelModuleReferenceList)) {
             return false;
         }
         final ModuleReferenceList otherList = (ModuleReferenceList) obj;
@@ -156,6 +182,29 @@ public class DefaultModuleReferenceList implements ModuleReferenceList {
             }
         }
         return true;
+    }
+
+    /**
+     * Empty reference list.
+     */
+    public void clear() {
+        labels.clear();
+        props.clear();
+        contexts.clear();
+        label2Context.clear();
+    }
+
+    /**
+     * Copy all list entry references of <code>list</code> to this instance.
+     *
+     * @param   list    Copy from here.
+     */
+    public void set(final KernelModuleReferenceList list) {
+        clear();
+        this.labels.addAll(list.labels);
+        this.props.addAll(list.props);
+        this.contexts.addAll(list.contexts);
+        this.label2Context.putAll(list.label2Context);
     }
 
     public int hashCode() {

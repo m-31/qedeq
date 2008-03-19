@@ -35,7 +35,6 @@ import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
-import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.utility.EqualsUtility;
 
 
@@ -69,10 +68,10 @@ public class KernelQedeqBo implements QedeqBo {
     private SourceFileExceptionList exception;
 
     /** Required QEDEQ modules. */
-    private ModuleReferenceList required;
+    private KernelModuleReferenceList required;
 
     /** Dependent QEDEQ modules. */
-    private DefaultModuleReferenceList dependent;
+    private KernelModuleReferenceList dependent;
 
     /** Predicate and function constant existence checker. */
     private ExistenceChecker checker;
@@ -85,6 +84,9 @@ public class KernelQedeqBo implements QedeqBo {
 
     /** Loader used for loading this object. */
     private ModuleLoader loader;
+
+    /** State change manager. */
+    private final StateManager stateManager;
 
     /**
      * Creates new module properties.
@@ -101,6 +103,9 @@ public class KernelQedeqBo implements QedeqBo {
         loadingCompleteness = 0;
         dependencyState = DependencyState.STATE_UNDEFINED;
         logicalState = LogicalState.STATE_UNCHECKED;
+        required = new KernelModuleReferenceList();
+        dependent = new KernelModuleReferenceList();
+        stateManager = new StateManager(this);
     }
 
     /**
@@ -132,6 +137,8 @@ public class KernelQedeqBo implements QedeqBo {
     /**
      * Set completeness percentage.
      *
+     * FIXME manage per state handler?
+     *
      * @param   completeness    Completeness of loading into memory.
      */
     public void setLoadingCompleteness(final int completeness) {
@@ -149,24 +156,7 @@ public class KernelQedeqBo implements QedeqBo {
      * @throws  IllegalStateException   State is a failure state or module loaded state.
      */
     public void setLoadingProgressState(final LoadingState state) {
-        if (state == LoadingState.STATE_LOADED) {
-            throw new IllegalArgumentException(
-                "this state could only be set by calling method setLoaded");
-        }
-        if (state.isFailure()) {
-            throw new IllegalArgumentException(
-                "this is a failure state, call setLoadingFailureState");
-        }
-        if (this.loadingState == LoadingState.STATE_UNDEFINED) {
-            ModuleEventLog.getInstance().addModule(this);
-        }
-// FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
-        this.loadingState = state;
-        this.qedeq = null;
-        this.dependencyState = DependencyState.STATE_UNDEFINED;
-        this.logicalState = LogicalState.STATE_UNCHECKED;
-        this.exception = null;
-        ModuleEventLog.getInstance().stateChanged(this);
+        stateManager.setLoadingProgressState(state);
     }
 
     /**
@@ -178,24 +168,7 @@ public class KernelQedeqBo implements QedeqBo {
      */
     public void setLoadingFailureState(final LoadingState state,
             final SourceFileExceptionList e) {
-        if (!state.isFailure()) {
-            throw new IllegalArgumentException(
-                "this is no failure state, call setLoadingProgressState");
-        }
-        if (this.loadingState == LoadingState.STATE_UNDEFINED) {
-            ModuleEventLog.getInstance().addModule(this);
-        }
-//          FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
-//          they must be killed too!
-        this.qedeq = null;
-        this.loadingState = state;
-        this.dependencyState = DependencyState.STATE_UNDEFINED;
-        this.logicalState = LogicalState.STATE_UNCHECKED;
-        this.exception = e;
-        if (e == null) {
-            throw new NullPointerException("Exception must not be null");
-        }
-        ModuleEventLog.getInstance().stateChanged(this);
+        stateManager.setLoadingFailureState(state, e);
     }
 
     public LoadingState getLoadingState() {
@@ -207,22 +180,76 @@ public class KernelQedeqBo implements QedeqBo {
     }
 
     /**
-     * Set loading state to "loaded".
+     * Set loading state to "loaded". Also puts <code>null</code> to {@link #getLabels()}.
      *
      * @param   qedeq   This module was loaded. Must not be <code>null</code>.
      * @throws  NullPointerException    One argument was <code>null</code>.
      */
     public void setLoaded(final QedeqVo qedeq) {
-        if (qedeq == null) {
-            throw new NullPointerException("Qedeq is null");
-        }
-        loadingState = LoadingState.STATE_LOADED;
+        stateManager.setLoaded(qedeq);
+    }
+
+    /**
+     * FIXME only called by StataManager!
+     *
+     * @param qedeq
+     */
+    public void setXXXQedeqVo(final QedeqVo qedeq) {
         this.qedeq = qedeq;
-        this.labels = null;
-        this.exception = null;
-        this.required = null;
-        this.dependent = new DefaultModuleReferenceList();
-        ModuleEventLog.getInstance().stateChanged(this);
+    }
+
+    /**
+     * FIXME only called by StataManager!
+     *
+     * @param state
+     */
+    public void setXXXLoadingState(final LoadingState state) {
+        this.loadingState = state;
+    }
+
+    /**
+     * FIXME only called by StataManager!
+     *
+     * @param state
+     */
+    public void setXXXDependencyState(final DependencyState state) {
+        this.dependencyState = state;
+    }
+
+    /**
+     * FIXME only called by StataManager!
+     *
+     * @param state
+     */
+    public void setXXXLogicalState(final LogicalState state) {
+        this.logicalState = state;
+    }
+
+    /**
+     * FIXME only called by StataManager!
+     *
+     * @param e
+     */
+    public void setXXXException(final SourceFileExceptionList e) {
+        this.exception = e;
+    }
+
+    /**
+     * FIXME only called by StataManager!
+     *
+     * @return StateManager
+     */
+    public StateManager getXXXStateManager() {
+        return this.stateManager;
+    }
+
+    /**
+     * FIXME only called by StataManager!
+     *
+     * @param   checker
+     */
+    public void setXXXExistenceChecker(final ExistenceChecker checker) {
+        this.checker = checker;
     }
 
     public String getEncoding() {
@@ -257,26 +284,7 @@ public class KernelQedeqBo implements QedeqBo {
      * @throws  NullPointerException        <code>state</code> is <code>null</code>.
      */
     public void setDependencyProgressState(final DependencyState state) {
-        if (!isLoaded() && state != DependencyState.STATE_UNDEFINED) {
-            throw new IllegalStateException("module is not yet loaded");
-        }
-        if (state.isFailure()) {
-            throw new IllegalArgumentException(
-                "this is a failure state, call setDependencyFailureState");
-        }
-        if (state == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
-            throw new IllegalArgumentException(
-                "this state could only be set by calling method setLoadedRequiredModules");
-        }
-        if (state != DependencyState.STATE_LOADED_REQUIRED_MODULES) {
-//          FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
-//          they must be killed too!
-            this.logicalState = LogicalState.STATE_UNCHECKED;
-            this.required = null;
-        }
-        this.exception = null;
-        this.dependencyState = state;
-        ModuleEventLog.getInstance().stateChanged(this);
+        stateManager.setDependencyProgressState(state);
     }
 
    /**
@@ -290,22 +298,7 @@ public class KernelQedeqBo implements QedeqBo {
     */
     public void setDependencyFailureState(final DependencyState state,
             final SourceFileExceptionList e) {
-        if (!isLoaded()) {
-            throw new IllegalStateException("module is not yet loaded");
-        }
-        if (!state.isFailure()) {
-            throw new IllegalArgumentException(
-                "this is no failure state, call setLoadingProgressState");
-        }
-//  FIXME mime 20071113: what about LogicalState and DependencyState of dependent modules?
-//              they must be killed too!
-        this.logicalState = LogicalState.STATE_UNCHECKED;
-        this.dependencyState = state;
-        this.exception = e;
-        if (e == null) {
-            throw new NullPointerException("Exception must not be null");
-        }
-        ModuleEventLog.getInstance().stateChanged(this);
+        stateManager.setDependencyFailureState(state, e);
     }
 
     public DependencyState getDependencyState() {
@@ -313,29 +306,25 @@ public class KernelQedeqBo implements QedeqBo {
     }
 
     /**
-     * Set loaded required requirements state. Also set labels and URLs for all referenced modules.
+     * Set loaded required requirements state.
      *
      * @param   list  URLs of all referenced modules. Must not be <code>null</code>.
      * @throws  IllegalStateException   Module is not yet loaded.
      */
-    public void setLoadedRequiredModules(final ModuleReferenceList list) {
-        if (!isLoaded()) {
-            throw new IllegalStateException(
-                "Required modules can only be set if module is loaded."
-                + "\"\nCurrently the status for the module"
-                + "\"" + getName() + "\" is \"" + getLoadingState() + "\"");
-        }
-        dependencyState = DependencyState.STATE_LOADED_REQUIRED_MODULES;
-        required = list;
-        ModuleEventLog.getInstance().stateChanged(this);
+    public void setLoadedRequiredModules(final KernelModuleReferenceList list) {
+        stateManager.setLoadedRequiredModules(list);
     }
 
     public ModuleReferenceList getRequiredModules() {
-        if (!hasLoadedRequiredModules()) {
-            throw new IllegalStateException(
-                "module reference list exists only if state is \""
-                + DependencyState.STATE_LOADED_REQUIRED_MODULES.getText() + "\"");
-        }
+        return getKernelRequiredModules();
+    }
+
+    /**
+     * Get labels and URLs of all referenced modules.
+     *
+     * @return  URLs of all referenced modules.
+     */
+    public KernelModuleReferenceList getKernelRequiredModules() {
         return required;
     }
 
@@ -344,18 +333,11 @@ public class KernelQedeqBo implements QedeqBo {
     }
 
     /**
-     * Get labels and URLs of all directly dependent modules. Only available if module is loaded.
-     * Otherwise a runtime exception is thrown.
+     * Get labels and URLs of all directly dependent modules.
      *
      * @return  URLs of all referenced modules.
-     * @throws  IllegalStateException   Module not yet loaded.
      */
-    public DefaultModuleReferenceList getDependentModules() {
-        if (!isLoaded()) {
-            throw new IllegalStateException(
-                "module reference list exists only if state is \""
-                + LoadingState.STATE_LOADED.getText() + "\"");
-        }
+    public KernelModuleReferenceList getDependentModules() {
         return dependent;
     }
 
@@ -365,15 +347,7 @@ public class KernelQedeqBo implements QedeqBo {
      * @param   checker Checks if a predicate or function constant is defined.
      */
     public void setChecked(final ExistenceChecker checker) {
-        if (!hasLoadedRequiredModules()) {
-            throw new IllegalStateException(
-                "Checked can only be set if all required modules are loaded."
-                + "\"\nCurrently the status for the module"
-                + "\"" + getName() + "\" is \"" + getLoadingState() + "\"");
-        }
-        logicalState = LogicalState.STATE_CHECKED;
-        this.checker = checker;
-        ModuleEventLog.getInstance().stateChanged(this);
+        stateManager.setChecked(checker);
     }
 
     /**
@@ -381,14 +355,8 @@ public class KernelQedeqBo implements QedeqBo {
      * if logic was successfully checked.
      *
      * @return  Checker. Checks if a predicate or function constant is defined.
-     * @throws  IllegalStateException   Module is not yet checked.
      */
     public ExistenceChecker getExistenceChecker() {
-        if (!isChecked()) {
-            throw new IllegalStateException(
-                "existence checker exists only if state is \""
-                + LogicalState.STATE_CHECKED.getText() + "\"");
-        }
         return checker;
     }
 
@@ -397,31 +365,13 @@ public class KernelQedeqBo implements QedeqBo {
             && logicalState == LogicalState.STATE_CHECKED;
     }
 
-    // TODO mime 20070704: shouldn't stand here:
-    //  ModuleEventLog.getInstance().stateChanged(props[i]);
-    //  and not in DefaultModuleFactory?
    /**
     * Set loading progress module state. Must not be <code>null</code>.
     *
     * @param   state   module state
     */
     public void setLogicalProgressState(final LogicalState state) {
-        if (dependencyState.getCode() < DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode()
-                && state != LogicalState.STATE_UNCHECKED) {
-            throw new IllegalArgumentException(
-                "this state could only be set if all required modules are loaded ");
-        }
-        if (state.isFailure()) {
-            throw new IllegalArgumentException(
-                "this is a failure state, call setLogicalFailureState");
-        }
-        if (state == LogicalState.STATE_CHECKED) {
-            throw new IllegalArgumentException(
-                "set with setChecked(ExistenceChecker)");
-        }
-        this.exception = null;
-        this.logicalState = state;
-        ModuleEventLog.getInstance().stateChanged(this);
+        stateManager.setLogicalProgressState(state);
     }
 
     /**
@@ -433,17 +383,7 @@ public class KernelQedeqBo implements QedeqBo {
      */
     public void setLogicalFailureState(final LogicalState state,
             final SourceFileExceptionList e) {
-        if ((!isLoaded() || !hasLoadedRequiredModules()) && state != LogicalState.STATE_UNCHECKED) {
-            throw new IllegalArgumentException(
-                "this state could only be set if all required modules are loaded ");
-        }
-        if (!state.isFailure()) {
-            throw new IllegalArgumentException(
-                "this is no failure state, call setLogicalProgressState");
-        }
-        this.logicalState = state;
-        this.exception = e;
-        ModuleEventLog.getInstance().stateChanged(this);
+        stateManager.setLogicalFailureState(state, e);
     }
 
     public LogicalState getLogicalState() {
@@ -498,14 +438,11 @@ public class KernelQedeqBo implements QedeqBo {
     }
 
     /**
-     * Set label references for QEDEQ module. Must not be <code>null</code>.
+     * Set label references for QEDEQ module.
      *
      * @param   labels  Label references.
      */
     public void setLabels(final ModuleNodes labels) {
-        if (labels == null) {
-            throw new NullPointerException("ModuleLabels is null");
-        }
         this.labels = labels;
     }
 
@@ -588,7 +525,7 @@ public class KernelQedeqBo implements QedeqBo {
     }
 
     public String toString() {
-       return address + ";" + loadingState;
+       return address.getURL().toString();
     }
 
 }

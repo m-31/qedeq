@@ -75,12 +75,12 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
                 + prop);
         }
         prop.setLogicalProgressState(LogicalState.STATE_EXTERNAL_CHECKING);
-        DefaultModuleReferenceList list = (DefaultModuleReferenceList) prop.getRequiredModules();
+        KernelModuleReferenceList list = (KernelModuleReferenceList) prop.getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             try {
                 Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label",
                     list.getLabel(i));
-                check((KernelQedeqBo) list.getQedeqBo(i));
+                check(list.getKernelQedeqBo(i));
             } catch (SourceFileExceptionList e) {   // TODO mime 20080114: hard coded codes
                 ModuleDataException md = new CheckRequiredModuleException(11231,
                     "import check failed: " + list.getQedeqBo(i).getModuleAddress(),

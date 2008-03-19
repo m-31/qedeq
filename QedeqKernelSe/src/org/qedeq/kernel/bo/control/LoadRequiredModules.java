@@ -43,14 +43,14 @@ public class LoadRequiredModules {
     private final Map loadingRequiredInProgress = new HashMap();
 
     /** Kernel services. */
-    private final DefaultKernelServices services;
+    private final DefaultInternalKernelServices services;
 
     /**
      * Constructor.
      *
      * @param   services    Kernel services.
      */
-    LoadRequiredModules(final DefaultKernelServices services) {
+    LoadRequiredModules(final DefaultInternalKernelServices services) {
         this.services = services;
     }
 
@@ -62,7 +62,7 @@ public class LoadRequiredModules {
      * @throws  SourceFileExceptionList Failure(s).
      */
     public static void loadRequired(final KernelQedeqBo prop,
-            final DefaultKernelServices services) throws SourceFileExceptionList {
+            final DefaultInternalKernelServices services) throws SourceFileExceptionList {
         // did we check this already?
         if (prop.getDependencyState().areAllRequiredLoaded()) {
             return; // everything is OK
@@ -96,12 +96,13 @@ public class LoadRequiredModules {
 
         }
         final LoadDirectlyRequiredModules loader = new LoadDirectlyRequiredModules(prop, services);
-        DefaultModuleReferenceList required = loader.load();
+        KernelModuleReferenceList required = loader.load();
         DefaultSourceFileExceptionList sfl = loader.getSourceFileExceptionList();
 
         for (int i = 0; i < required.size(); i++) {
+            System.out.println("loading required modules of " + prop.getName());
             KernelQedeqBo current = null;
-            current = required.getDefaultQedeqBo(i);
+            current = required.getKernelQedeqBo(i);
             if (loadingRequiredInProgress.containsKey(current)) {
                 ModuleDataException me = new LoadRequiredModuleException(12,
                     "recursive import of modules is forbidden, label \""
@@ -114,18 +115,6 @@ public class LoadRequiredModules {
                     sfl.add(sf);
                 }
                 continue;
-            }
-            try {
-                current.getDependentModules().add(required.getModuleContext(i),
-                    required.getLabel(i), required.getDefaultQedeqBo(i));
-            } catch (ModuleDataException me) {  // should never happen
-                final SourceFileException sf = prop
-                    .createSourceFileException(me);
-                if (sfl == null) {
-                    sfl = new DefaultSourceFileExceptionList(sf);
-                } else {
-                    sfl.add(sf);
-                }
             }
             try {
                 loadRequired(current);
@@ -143,6 +132,7 @@ public class LoadRequiredModules {
                 continue;
             }
         }
+
         synchronized (prop) {
             loadingRequiredInProgress.remove(prop);
             if (prop.getDependencyState().areAllRequiredLoaded()) {

@@ -37,10 +37,10 @@ public final class LoadDirectlyRequiredModules extends ControlVisitor {
     private static final Class CLASS = LoadDirectlyRequiredModules.class;
 
     /** Kernel services. */
-    private final DefaultKernelServices services;
+    private final DefaultInternalKernelServices services;
 
     /** List of required QEDEQ modules. */
-    private final DefaultModuleReferenceList required;
+    private final KernelModuleReferenceList required;
 
     /**
      * Constructor.
@@ -49,10 +49,10 @@ public final class LoadDirectlyRequiredModules extends ControlVisitor {
      * @param   services    Internal kernel services.
      */
     LoadDirectlyRequiredModules(final KernelQedeqBo prop,
-            final DefaultKernelServices services) {
+            final DefaultInternalKernelServices services) {
         super(prop);
         this.services = services;
-        this.required = new DefaultModuleReferenceList();
+        this.required = new KernelModuleReferenceList();
     }
 
     /**
@@ -61,7 +61,7 @@ public final class LoadDirectlyRequiredModules extends ControlVisitor {
      * @return  List of all directly imported QEDEQ modules.
      * @throws  SourceFileExceptionList Failure(s).
      */
-    DefaultModuleReferenceList load()
+    KernelModuleReferenceList load()
             throws SourceFileExceptionList {
         traverse();
         return required;
@@ -72,7 +72,7 @@ public final class LoadDirectlyRequiredModules extends ControlVisitor {
      *
      * @return  List of directly required modules.
      */
-    DefaultModuleReferenceList getRequired() {
+    KernelModuleReferenceList getRequired() {
         return required;
     }
 

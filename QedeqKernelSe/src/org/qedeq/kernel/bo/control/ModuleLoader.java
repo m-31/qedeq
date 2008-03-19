@@ -36,11 +36,18 @@ public interface ModuleLoader {
 
     /**
      * Set kernel services. Is called by the kernel to give this loader the opportunity to
-     * use kernel services within its methods. This is the first method the kernal calls.
+     * use kernel services within its methods. This is the first method the kernel calls.
      *
      * @param   services    Internal kernel services.
      */
     public void setServices(InternalKernelServices services);
+
+    /**
+     * Get kernel services.
+     *
+     * @return  Internal kernel services.
+     */
+    public InternalKernelServices getServices();
 
     /**
      * Load a local QEDEQ module.

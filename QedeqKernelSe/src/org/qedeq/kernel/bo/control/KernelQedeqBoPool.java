@@ -26,8 +26,8 @@ import java.util.Map;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.QedeqBo;
-import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.IoUtility;
 
 /**
  * Encapsulates all modules.
@@ -37,7 +37,7 @@ class KernelQedeqBoPool {
     /** This class. */
     private static final Class CLASS = KernelQedeqBoPool.class;
 
-    /** properties of modules; key: ModuleAddress, value: DefaultQedeqBo.*/
+    /** QEDEQ Modules; key: ModuleAddress, value: KernelQedeqBo. */
     private final Map bos = new HashMap();
 
 
@@ -68,9 +68,10 @@ class KernelQedeqBoPool {
                     = bos.entrySet().iterator();
                     iterator.hasNext(); ) {
                 Map.Entry entry = (Map.Entry) iterator.next();
-                final QedeqBo prop = (QedeqBo) entry.getValue();
+                final KernelQedeqBo prop = (KernelQedeqBo) entry.getValue();
                 Trace.trace(CLASS, this, method, "remove " +  prop);
-                ModuleEventLog.getInstance().removeModule(prop);
+                // TODO mime 20080316: module progress state setting really here?
+                prop.setXXXLoadingState(LoadingState.STATE_DELETED);   // FIXME ok?
             }
             bos.clear();
         } catch (RuntimeException e) {
@@ -80,29 +81,68 @@ class KernelQedeqBoPool {
         }
     }
 
+    synchronized void validateDependencies() {
+        boolean error = false;
+        for (final Iterator iterator = bos.entrySet().iterator(); iterator.hasNext(); ) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            final KernelQedeqBo prop = (KernelQedeqBo) entry.getValue();
+            System.out.println("Checking: " + prop.getName());
+            if (!prop.hasLoadedRequiredModules()) {
+                continue;
+            }
+
+            // prop must be in dependent list for all required modules
+            final KernelModuleReferenceList refs = prop.getKernelRequiredModules();
+            for (int i = 0; i < refs.size(); i++) {
+                final KernelQedeqBo ref = refs.getKernelQedeqBo(i);
+                final KernelModuleReferenceList dependents = (KernelModuleReferenceList)
+                     IoUtility.getFieldContent(ref, "dependent");
+//                KernelModuleReferenceList dependents = ref.getDependentModules();
+                if (!dependents.contains(prop)) {
+                    System.out.println(ref.getName() + " missing dependent module: "
+                        + prop.getName());
+                    error = true;
+                }
+            }
+
+            // for all dependent modules, prop must be in required list
+            final KernelModuleReferenceList dependents = prop.getDependentModules();
+            for (int i = 0; i < dependents.size(); i++) {
+                final KernelQedeqBo dependent = dependents.getKernelQedeqBo(i);
+                final KernelModuleReferenceList refs2 = (KernelModuleReferenceList)
+                    IoUtility.getFieldContent(dependent, "required");
+//                KernelModuleReferenceList refs2 = dependent.getKernelRequiredModules();
+                if (!refs2.contains(prop)) {
+                    System.out.println(dependent.getName() + " missing required module: "
+                        + prop.getName());
+                    error = true;
+                    
+                    System.out.println();
+                    System.out.println("Complete list of " + dependent.getName() + ": ");
+                    for (int j = 0; j < refs2.size(); j++) {
+                        System.out.print("  " + refs.getKernelQedeqBo(j).getName());
+                    }
+                    
+                }
+            }
+        }
+
+        if (error) {
+            throw new RuntimeException();
+        }
+    }
 
     /**
      * Remove a QEDEQ module from memory.
      *
      * @param   prop    Defines the module.
      */
-    final synchronized void removeModule(final QedeqBo prop) {
-        final String method = "removeModule(QedeqBo)";
+    final synchronized void removeModule(final KernelQedeqBo prop) {
+        final String method = "removeModule(KernelQedeqBo)";
         Trace.begin(CLASS, this, method);
         try {
-            Trace.trace(CLASS, this, method, "remove module "
-                +  prop.getUrl());
-            if (!prop.isLoaded()) {
-                Trace.trace(CLASS, this, method, "removing " +  prop.getUrl());
-                ModuleEventLog.getInstance().removeModule(prop);
-                bos.remove(prop.getModuleAddress());
-            } else {
-                Trace.trace(CLASS, this, method, "module number=" + bos.size());
-                Trace.trace(CLASS, this, method, "removing module itself: " +  prop.getUrl());
-                ModuleEventLog.getInstance().removeModule(prop);
-                bos.remove(prop.getModuleAddress());
-                Trace.trace(CLASS, this, method, "module number=" + bos.size());
-            }
+            Trace.trace(CLASS, this, method, "removing " +  prop.getUrl());
+            bos.remove(prop.getModuleAddress());
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
         } finally {
