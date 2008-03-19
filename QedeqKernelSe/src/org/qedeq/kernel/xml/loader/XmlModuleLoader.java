@@ -69,14 +69,12 @@ public class XmlModuleLoader implements ModuleLoader {
     public XmlModuleLoader() {
     }
 
-    /**
-     * Set kernel services. Is called by the kernel to give this loader the opportunity to
-     * use kernel services within its methods. This is the first method the kernal calls.
-     *
-     * @param   services    Internal kernel services.
-     */
     public void setServices(final InternalKernelServices services) {
         this.services = services;
+    }
+
+    public InternalKernelServices getServices() {
+        return this.services;
     }
 
     /**
