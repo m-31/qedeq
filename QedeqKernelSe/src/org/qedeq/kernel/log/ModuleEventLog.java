@@ -28,6 +28,8 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * This class organizes the logging of module events.
  *
+ * TODO mime 20080317: must this be a singleton?
+ *
  * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
