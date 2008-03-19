@@ -24,7 +24,7 @@ import org.qedeq.kernel.utility.TextInput;
 
 /**
  * Parse term or formula data into {@link org.qedeq.kernel.parser.Term}s.
- * This parser uses simple ascii text operators.
+ * This parser uses simple ASCII text operators.
  *
  * @version $Revision: 1.3 $
  * @author  Michael Meyling
@@ -76,7 +76,6 @@ public class SimpleMathParser extends MathParser {
             return null;
         }
         if (SEPARATORS.indexOf(getChar()) >= 0) {
-            System.out.println("Read token: " + (char) getChar());
             return "" + (char) readChar();
         }
         final StringBuffer token = new StringBuffer();
@@ -93,7 +92,6 @@ public class SimpleMathParser extends MathParser {
                 break;
             }
         }
-        System.out.println("Read token: " + token.toString());
         return token.toString();
     }
 
