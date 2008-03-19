@@ -36,7 +36,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.bo.control.DefaultKernelServices;
+import org.qedeq.kernel.bo.control.DefaultInternalKernelServices;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.LogListenerImpl;
 import org.qedeq.kernel.log.ModuleEventListenerLog;
@@ -80,7 +80,7 @@ public class QedeqMainFrame extends JFrame {
 
         // initialize the kernel, this may create already some logging events
         KernelContext.getInstance().init(
-            new DefaultKernelServices(KernelContext.getInstance(), new XmlModuleLoader()),
+            new DefaultInternalKernelServices(KernelContext.getInstance(), new XmlModuleLoader()),
             QedeqGuiConfig.getInstance());
 
         // create new controller for all possible actions
