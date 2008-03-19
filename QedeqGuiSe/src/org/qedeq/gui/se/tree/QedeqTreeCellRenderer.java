@@ -176,7 +176,9 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
                 }
 
                 setIcon(null);
-                if (loadingState == LoadingState.STATE_LOADING_FROM_WEB) {
+                if (loadingState == LoadingState.STATE_DELETED) {
+                    // do nothing;
+                } else if (loadingState == LoadingState.STATE_LOADING_FROM_WEB) {
                     setIcon(webLoadingIcon);
                 } else if (loadingState == LoadingState.STATE_LOADING_FROM_WEB_FAILED) {
                     setIcon(webLoadingErrorIcon);
