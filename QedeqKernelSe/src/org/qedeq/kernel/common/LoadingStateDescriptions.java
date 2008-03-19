@@ -88,4 +88,10 @@ public interface LoadingStateDescriptions {
     /** Completely loaded description. */
     public static final String STATE_STRING_LOADED = "loaded";
 
+    /** Completely loaded code. */
+    public static final int STATE_CODE_DELETED = -1;
+
+    /** Completely loaded description. */
+    public static final String STATE_STRING_DELETED = "deleted";
+
 }

@@ -75,6 +75,11 @@ public final class LoadingState {
         LoadingStateDescriptions.STATE_STRING_LOADED, false,
         LoadingStateDescriptions.STATE_CODE_LOADED);
 
+    /** Deleted. */
+    public static final LoadingState STATE_DELETED = new LoadingState(
+        LoadingStateDescriptions.STATE_STRING_DELETED, false,
+        LoadingStateDescriptions.STATE_CODE_DELETED);
+
     /** meaning of this state. */
     private final String text;
 
