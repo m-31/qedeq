@@ -30,7 +30,9 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.base.module.Specification;
+import org.qedeq.kernel.bo.load.QedeqVoBuilder;
 import org.qedeq.kernel.bo.module.KernelProperties;
 import org.qedeq.kernel.bo.module.KernelServices;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
@@ -38,10 +40,12 @@ import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
@@ -61,10 +65,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     private static final Class CLASS = DefaultInternalKernelServices.class;
 
     /** For synchronized waiting. */
-    private final String monitor = new String();
+    private final String monitor = "";
 
     /** Token for synchronization. */
-    private final String syncToken = new String();
+    private final String syncToken = "";
 
     /** Number of method calls. */
     private volatile int processCounter = 0;
@@ -77,6 +81,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /** This instance nows how to load a module from the file system. */
     private final ModuleLoader loader;
+
+    /** Validate module dependencies and status. */
+    private boolean validate = true;
 
     /**
      * Constructor.
@@ -153,15 +160,14 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * Remove a QEDEQ module from memory.
      *
      * @param   address     Remove module identified by this address.
-     * @throws  IOException Module is not known to the kernel.
      */
-    public void removeModule(final ModuleAddress address) throws IOException {
+    public void removeModule(final ModuleAddress address) {
         final QedeqBo prop = getQedeqBo(address);
         if (prop != null) {
             removeModule(getKernelQedeqBo(address));
-            modules.validateDependencies();
-        } else  {
-            throw new IOException("Module not known: " + address);
+            if (validate) {
+                modules.validateDependencies();
+            }
         }
     }
 
@@ -177,7 +183,11 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         do {
             synchronized (syncToken) {
                 if (processCounter == 0) {  // no other method is allowed to run
-                    prop.setLoadingProgressState(LoadingState.STATE_DELETED);
+                    // TODO mime 20080319: one could call prop.setLoadingProgressState(
+                    // LoadingState.STATE_DELETED) alone but that would
+                    // miss to inform the KernelQedeqBoPool. How do we inform the pool?
+                    // must the StateManager have a reference to it?
+                    prop.delete();
                     getModules().removeModule(prop);
                     return;
                 }
@@ -214,7 +224,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
     public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
-        final String method = "loadModule(URL)";
+        final String method = "loadModule(ModuleAddress)";
         processInc();
         try {
             final KernelQedeqBo prop = getModules().getKernelQedeqBo(address);
@@ -282,9 +292,30 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      */
     private void loadLocalModule(final KernelQedeqBo prop)
             throws ModuleFileNotFoundException, SourceFileExceptionList {
+        final String method = "loadLocalModule(KernelQedeqBo)";
         final File localFile = getLocalFilePath(prop.getModuleAddress());
         prop.setLoader(loader); // remember loader for this module
-        loader.loadLocalModule(prop, localFile);
+        final Qedeq qedeq = loader.loadLocalModule(prop, localFile);
+        prop.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY);
+        QedeqVo vo = null;
+        try {
+            vo = QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq);
+        } catch (ModuleDataException e) {
+            Trace.trace(CLASS, this, method, e);
+            final SourceFileExceptionList xl
+                = prop.createSourceFileExceptionList(e, qedeq);
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
+            throw xl;
+        }
+        prop.setQedeqVo(vo);
+        ModuleNodesCreator moduleNodesCreator = new ModuleNodesCreator(prop);
+        try {
+            prop.setLabels(moduleNodesCreator.createLabels());
+        } catch (SourceFileExceptionList sfl) {
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, sfl);
+            throw sfl;
+        }
+        prop.setLoaded(vo);
     }
 
     /**
@@ -456,17 +487,13 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * @param   prop         Module properties.
      * @throws  IOException    if address was malformed or the file can not be found
      */
-    private final synchronized void makeLocalCopy(
+    private synchronized void makeLocalCopy(
             final KernelQedeqBo prop)
             throws IOException {
         final String method = "makeLocalCopy";
         Trace.begin(CLASS, this, method);
 
-        if (prop.getLoadingState() == LoadingState.STATE_UNDEFINED) {
-            prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
-        } else {
-            prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
-        }
+        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
 
         if (prop.getModuleAddress().isFileAddress()) {
             return;
@@ -579,7 +606,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     /**
      * Increment intern process counter.
      */
-    private final void processInc() {
+    private void processInc() {
         synchronized (syncToken) {
             this.processCounter++;
         }
@@ -589,7 +616,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     /**
      * Decrement intern process counter.
      */
-    private final void processDec() {
+    private void processDec() {
         synchronized (syncToken) {
             this.processCounter--;
         }
@@ -645,6 +672,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             QedeqLog.getInstance().logRequest("Check logical correctness for \""
                 + prop.getUrl() + "\"");
 
+            loadModule(address);
             LoadRequiredModules.loadRequired(prop, this);
 
             QedeqBoFormalLogicChecker.check(prop);
@@ -706,7 +734,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             }
             QedeqLog.getInstance().logFailureReply(msg, e.toString());
         }
-        modules.validateDependencies();
+        if (validate) {
+            modules.validateDependencies();
+        }
         return prop.isChecked();
     }
 
@@ -715,7 +745,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      *
      * @return  All QEDEQ modules.
      */
-    private final KernelQedeqBoPool getModules() {
+    private KernelQedeqBoPool getModules() {
         return modules;
     }
 
