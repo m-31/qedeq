@@ -19,18 +19,23 @@ package org.qedeq.kernel.latex;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
 import org.qedeq.kernel.bo.control.DefaultModuleAddress;
+import org.qedeq.kernel.bo.control.InternalKernelServices;
 import org.qedeq.kernel.bo.control.KernelQedeqBo;
+import org.qedeq.kernel.bo.control.KernelQedeqBoPool;
 import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
 import org.qedeq.kernel.bo.logic.LogicalCheckException;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.common.DependencyState;
+import org.qedeq.kernel.common.LoadingState;
+import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.test.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.utility.IoUtility;
@@ -261,32 +266,48 @@ public final class GenerateLatexTest extends QedeqTestCase {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(xmlFile));
-        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade
-            .getKernelContext().loadModule(address);
+        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade.getKernelContext()
+            .loadModule(address);
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
         QedeqBoDuplicateLanguageChecker.check(prop);
+        if (!prop.isChecked()) {
+            throw prop.getException();
+        }
+        
         final String web = "http://qedeq.org/" 
             + KernelFacade.getKernelContext().getKernelVersionDirectory() + "/doc/" + xml;
         final KernelQedeqBo fakeProp = (KernelQedeqBo) KernelFacade.getKernelContext()
             .getQedeqBo(new DefaultModuleAddress(web));
-        fakeProp.setLoaded((QedeqVo) prop.getQedeq());
-        fakeProp.setLoadedRequiredModules(prop.getKernelRequiredModules());
         fakeProp.setLoader(prop.getLoader());
+        IoUtility.setFieldContent(fakeProp, "qedeq", prop.getQedeq());
+        fakeProp.getKernelRequiredModules().set(prop.getKernelRequiredModules());
+        fakeProp.getDependentModules().set(prop.getDependentModules());
+        IoUtility.setFieldContent(fakeProp, "loadingState", LoadingState.STATE_LOADED);
+        IoUtility.setFieldContent(fakeProp, "dependencyState",
+            DependencyState.STATE_LOADED_REQUIRED_MODULES);
+        IoUtility.setFieldContent(fakeProp, "logicalState", LogicalState.STATE_CHECKED);
+        final InternalKernelServices services = (InternalKernelServices) IoUtility
+            .getFieldContent(KernelFacade.getKernelContext(), "services");
+        final KernelQedeqBoPool pool = (KernelQedeqBoPool) IoUtility
+            .getFieldContent(services, "modules");
+        final HashMap bos = (HashMap) IoUtility
+            .getFieldContent(pool, "bos");
+        bos.remove(address);
+        bos.put(address, fakeProp);
         final File texFile = new File(destinationDirectory, 
             xml.substring(0, xml.lastIndexOf('.')) + "_" + language + ".tex");
+        IoUtility.setFieldContent(services, "validate", Boolean.FALSE);
         Xml2Latex.generate(fakeProp, texFile, language, "1");
+        IoUtility.setFieldContent(services, "validate", Boolean.TRUE);
+        bos.remove(address);
+        bos.clear();
         final File texCopy = new File(dir, new File(new File(xml).getParent(), 
             texFile.getName()).getPath());
         final File xmlCopy = new File(destinationDirectory, xml);
-        KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
-        if (prop.isChecked()) {
-            IoUtility.createNecessaryDirectories(xmlCopy);
-            IoUtility.copyFile(xmlFile, xmlCopy);
-            IoUtility.copyFile(texFile, texCopy);
-        } else {
-            throw prop.getException();
-        }
+        IoUtility.createNecessaryDirectories(xmlCopy);
+        IoUtility.copyFile(xmlFile, xmlCopy);
+        IoUtility.copyFile(texFile, texCopy);
     }
 
 }
