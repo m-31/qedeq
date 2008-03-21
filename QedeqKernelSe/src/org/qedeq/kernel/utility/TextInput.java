@@ -21,13 +21,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.net.URL;
 
 
 /**
  * This class provides convenient methods for parsing input.
- *
- * LATER mime 20050426: offer input stream constructor?
  *
  * @version $Revision: 1.17 $
  * @author  Michael Meyling
@@ -38,7 +35,7 @@ public class TextInput extends InputStream {
     public static final int EOF = -1;
 
     /** Char marking end of input line. */
-//    public final static char CR = '\n'; // TODO mime 20050613: delete if running on all platforms
+//    public final static char CR = '\n'; // LATER mime 20050613: delete if running on all platforms
     public static final char CR = '\012';
 
     /** String for marking current reading position. */
@@ -55,9 +52,6 @@ public class TextInput extends InputStream {
 
     /** Current reading position (starting with 0). */
     private int position = 0;
-
-    /** Address of input, for identifying source. */
-    private final URL address;
 
     /**
      * Constructor using <code>Reader</code> source.
@@ -77,7 +71,6 @@ public class TextInput extends InputStream {
         while (-1 != (c = reader.read())) {
             this.source.append((char) c);
         }
-        this.address = null;
     }
 
     /**
@@ -92,7 +85,6 @@ public class TextInput extends InputStream {
                 "no null pointer as argument accepted");
         }
         this.source = source;
-        this.address = null;
     }
 
     /**
@@ -107,7 +99,6 @@ public class TextInput extends InputStream {
                 "no null pointer as argument accepted");
         }
         this.source = new StringBuffer(source);
-        this.address = null;
     }
 
 
@@ -126,7 +117,6 @@ public class TextInput extends InputStream {
         }
         this.source = new StringBuffer();
         IoUtility.loadFile(file, source, encoding);
-        this.address = IoUtility.toUrl(file);
     }
 
     /**
@@ -617,15 +607,6 @@ public class TextInput extends InputStream {
         while (getChar() != CR && getChar() != EOF && getColumn() < c) {
             read();
         }
-    }
-
-    /**
-     * Get address (or something to identify it) of input source.
-     *
-     * @return  Address of input source.
-     */
-    public final URL getAddress() {
-        return this.address;
     }
 
     /**
