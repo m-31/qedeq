@@ -98,7 +98,7 @@ public final class Xml2Xml  {
         TextOutput printer = null;
         try {
             final ModuleAddress address = KernelContext.getInstance().getModuleAddress(from);
-            // FIXME mime 20080303: don't cast!!!!
+            // TODO mime 20080303: find a solution without casting!
             final KernelQedeqBo prop = (KernelQedeqBo) KernelContext.getInstance()
                 .loadModule(address);
             IoUtility.createNecessaryDirectories(to);
