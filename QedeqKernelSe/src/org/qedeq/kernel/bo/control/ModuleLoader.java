@@ -54,10 +54,11 @@ public interface ModuleLoader {
      *
      * @param   prop        Module properties.
      * @param   localFile   Load XML file from tbis location.
+     * @return  Loaded Qedeq.
      * @throws  ModuleFileNotFoundException    Local file was not found.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public void loadLocalModule(KernelQedeqBo prop, final File localFile)
+    public Qedeq loadLocalModule(KernelQedeqBo prop, final File localFile)
             throws ModuleFileNotFoundException, SourceFileExceptionList;
 
     /**
