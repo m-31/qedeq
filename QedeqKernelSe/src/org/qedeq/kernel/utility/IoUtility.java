@@ -237,7 +237,7 @@ public final class IoUtility {
             in.close();
             return data;
         } finally {
-            closeStream(in);
+            close(in);
         }
     }
 
@@ -261,8 +261,8 @@ public final class IoUtility {
                 buffer.append((char) i);
             }
         } finally {
-            closeStream(in);
-            closeReader(dis);
+            close(in);
+            close(dis);
         }
     }
 
@@ -476,8 +476,8 @@ public final class IoUtility {
             }
             return true;
         } finally {
-            closeStream(one);
-            closeStream(two);
+            close(one);
+            close(two);
         }
     }
 
@@ -659,7 +659,7 @@ public final class IoUtility {
      *
      * @param   in  Input stream, maybe <code>null</code>.
      */
-    public static void closeStream(final InputStream in) {
+    public static void close(final InputStream in) {
         if (in != null) {
             try {
                 in.close();
@@ -674,7 +674,7 @@ public final class IoUtility {
      *
      * @param   reader  Reader, maybe <code>null</code>.
      */
-    public static void closeReader(final Reader reader) {
+    public static void close(final Reader reader) {
         if (reader != null) {
             try {
                 reader.close();
@@ -737,7 +737,7 @@ public final class IoUtility {
     }
 
     /**
-     * This method returns the contents of an object variable.
+     * This method returns the contents of an object variable (even if it is private).
      *
      * @param   obj     Object.
      * @param   name    Variable name
@@ -755,6 +755,32 @@ public final class IoUtility {
         }
         try {
             return field.get(obj);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * This method sets the contents of an object variable (even if it is private).
+     *
+     * @param   obj     Object.
+     * @param   name    Variable name.
+     * @param   value   Value to set.
+     */
+    public static void setFieldContent(final Object obj, final String name, final Object value) {
+        final Field field;
+        try {
+            field = obj.getClass().getDeclaredField(name);
+            field.setAccessible(true);
+        } catch (SecurityException e) {
+            throw new RuntimeException(e);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            field.set(obj, value);
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
