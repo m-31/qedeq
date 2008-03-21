@@ -137,7 +137,7 @@ public class KernelQedeqBo implements QedeqBo {
     /**
      * Set completeness percentage.
      *
-     * FIXME manage per state handler?
+     * LATER manage per state handler?
      *
      * @param   completeness    Completeness of loading into memory.
      */
@@ -147,6 +147,13 @@ public class KernelQedeqBo implements QedeqBo {
 
     public int getLoadingCompleteness() {
         return this.loadingCompleteness;
+    }
+
+    /**
+     * Delete QEDEQ module. Invalidates all dependent modules.
+     */
+    public void delete() {
+        stateManager.delete();
     }
 
     /**
@@ -189,69 +196,6 @@ public class KernelQedeqBo implements QedeqBo {
         stateManager.setLoaded(qedeq);
     }
 
-    /**
-     * FIXME only called by StataManager!
-     *
-     * @param qedeq
-     */
-    public void setXXXQedeqVo(final QedeqVo qedeq) {
-        this.qedeq = qedeq;
-    }
-
-    /**
-     * FIXME only called by StataManager!
-     *
-     * @param state
-     */
-    public void setXXXLoadingState(final LoadingState state) {
-        this.loadingState = state;
-    }
-
-    /**
-     * FIXME only called by StataManager!
-     *
-     * @param state
-     */
-    public void setXXXDependencyState(final DependencyState state) {
-        this.dependencyState = state;
-    }
-
-    /**
-     * FIXME only called by StataManager!
-     *
-     * @param state
-     */
-    public void setXXXLogicalState(final LogicalState state) {
-        this.logicalState = state;
-    }
-
-    /**
-     * FIXME only called by StataManager!
-     *
-     * @param e
-     */
-    public void setXXXException(final SourceFileExceptionList e) {
-        this.exception = e;
-    }
-
-    /**
-     * FIXME only called by StataManager!
-     *
-     * @return StateManager
-     */
-    public StateManager getXXXStateManager() {
-        return this.stateManager;
-    }
-
-    /**
-     * FIXME only called by StataManager!
-     *
-     * @param   checker
-     */
-    public void setXXXExistenceChecker(final ExistenceChecker checker) {
-        this.checker = checker;
-    }
-
     public String getEncoding() {
         return this.encoding;
     }
@@ -266,11 +210,6 @@ public class KernelQedeqBo implements QedeqBo {
     }
 
     public Qedeq getQedeq() {
-        if (loadingState != LoadingState.STATE_LOADED) {
-            throw new IllegalStateException(
-                "module exists only if state is \"" + LoadingState.STATE_LOADED.getText()
-                +   "\"");
-        }
         return this.qedeq;
     }
 
@@ -510,6 +449,69 @@ public class KernelQedeqBo implements QedeqBo {
      */
     public SourceArea createSourceArea(final Qedeq qedeq, final ModuleContext context) {
         return loader.createSourceArea(qedeq, context);
+    }
+
+    /**
+     * Set {@link QedeqVo}. Doesn't do any status handling. Only for internal use.
+     *
+     * @param   qedeq   Set this value.
+     */
+    protected void setQedeqVo(final QedeqVo qedeq) {
+        this.qedeq = qedeq;
+    }
+
+    /**
+     * Set {@link LoadingState}. Doesn't do any status handling. Only for internal use.
+     *
+     * @param   state   Set this loading state.
+     */
+    protected void setLoadingState(final LoadingState state) {
+        this.loadingState = state;
+    }
+
+    /**
+     * Set {@link DependencyState}. Doesn't do any status handling. Only for internal use.
+     *
+     * @param   state   Set this dependency state.
+     */
+    protected void setDependencyState(final DependencyState state) {
+        this.dependencyState = state;
+    }
+
+    /**
+     * Set {@link LogicalState}. Doesn't do any status handling. Only for internal use.
+     *
+     * @param   state   Set this logical state.
+     */
+    protected void setLogicalState(final LogicalState state) {
+        this.logicalState = state;
+    }
+
+    /**
+     * Set {@link SourceFileExceptionList}. Doesn't do any status handling. Only for internal use.
+     *
+     * @param   exception   Set this exception.
+     */
+    protected void setException(final SourceFileExceptionList exception) {
+        this.exception = exception;
+    }
+
+    /**
+     * Get {@link StateManager}. Only for internal use.
+     *
+     * @return StateManager
+     */
+    protected StateManager getStateManager() {
+        return this.stateManager;
+    }
+
+    /**
+     * Set {@link ExistenceChecker}. Doesn't do any status handling. Only for internal use.
+     *
+     * @param   checker Set this checker.
+     */
+    protected void setXXXExistenceChecker(final ExistenceChecker checker) {
+        this.checker = checker;
     }
 
     public int hashCode() {
