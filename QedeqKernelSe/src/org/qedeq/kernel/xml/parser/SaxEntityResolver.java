@@ -95,7 +95,7 @@ public class SaxEntityResolver implements EntityResolver {
             + KernelContext.getInstance().getKernelVersionDirectory()
             + "/xml/parser.xsd");
         throw sax;
-        // TODO mime 20070604: this error should have correct location information,
+        // LATER mime 20070604: this error should have correct location information,
         // but is hasn't! this problem should be solved later...
     }
 }
