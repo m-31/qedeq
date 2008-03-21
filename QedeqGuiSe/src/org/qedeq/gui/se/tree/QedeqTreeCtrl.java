@@ -20,11 +20,9 @@ package org.qedeq.gui.se.tree;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
@@ -257,6 +255,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
     /**
      * RemoveAction removes the selected node from the tree.
+     * TODO mime 20080319: code already in RemoveModuleAction!
      */
     private class RemoveAction extends Object implements ActionListener {
 
@@ -273,11 +272,6 @@ public final class QedeqTreeCtrl implements TreeModelListener {
                // nothing to do;
                Trace.trace(QedeqTreeCtrl.RemoveAction.class, this, "actionPerformed(ActionEvent",
                    e);
-           } catch (IOException io) {
-               JOptionPane.showMessageDialog(null, "Deletion in file system failed: " + io,
-                   "Error", JOptionPane.ERROR_MESSAGE);
-               Trace.fatal(QedeqTreeCtrl.RemoveAction.class, this, "actionPerformed(ActionEvent",
-                   "Deletion of local QEDEQ module copy in file system failed.", io);
            }
        }
 
