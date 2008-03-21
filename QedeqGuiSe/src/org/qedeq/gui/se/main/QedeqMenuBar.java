@@ -88,6 +88,13 @@ public class QedeqMenuBar extends JMenuBar {
         item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/go-home.png"));
         menu.add(item);
 
+        menu.addSeparator();
+
+        item = MenuHelper.createMenuItem("Remove module", 'R');
+        item.addActionListener(controller.getRemoveModuleAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-cut.png"));
+        menu.add(item);
+
         item = MenuHelper.createMenuItem("Clear Buffer", 'C');
         item.addActionListener(controller.getRemoveLocalBufferAction());
         item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-delete.png"));

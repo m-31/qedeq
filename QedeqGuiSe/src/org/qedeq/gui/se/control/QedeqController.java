@@ -38,7 +38,7 @@ import org.qedeq.kernel.context.KernelContext;
  * communicate between classes in the model and view.
  * Connects the models and the views. Handles program flow.
  *
- * TODO mime 20070605: encapsulate actions that need another thread
+ * LATER mime 20070605: encapsulate actions that need another thread
  *                     for later java versions: use Executor framework
  *
  * @version $Revision: 1.4 $
@@ -69,6 +69,9 @@ public class QedeqController {
 
     /** Remove all QEDEQ modules from local buffer. */
     private final Action removeLocalBufferAction;
+
+    /** Remove all selected QEDEQ modules from memory. */
+    private final Action removeModuleAction;
 
     /** Add all modules from <a href="http://www.qedeq.org/">Hilbert II</a> webpage. */
     private final Action addAllModulesFromQedeqAction;
@@ -110,6 +113,7 @@ public class QedeqController {
         addFileAction = new AddFileAction(this);
         addAllModulesFromQedeqAction = new AddAllModulesFromQedeqAction();
         removeAllAction = new RemoveAllAction();
+        removeModuleAction = new RemoveModuleAction(this);
         removeLocalBufferAction = new RemoveLocalBufferAction(this);
         makeLatexAction = new MakeLatexAction(this);
         checkLogicAction = new CheckLogicAction(this);
@@ -237,6 +241,15 @@ public class QedeqController {
      */
     public Action getRemoveAllAction() {
         return removeAllAction;
+    }
+
+    /**
+     * Get action for removing all seelected QEDEQ modules from memory.
+     *
+     * @return  Action.
+     */
+    public Action getRemoveModuleAction() {
+        return removeModuleAction;
     }
 
     /**
