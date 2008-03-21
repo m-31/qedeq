@@ -62,9 +62,9 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final ModuleReferenceList list = prop.getRequiredModules();
         String identityOperator = null;
         for (int i = 0; i < list.size(); i++) {
-            final KernelQedeqBo prop = (KernelQedeqBo) list
+            final KernelQedeqBo bo = (KernelQedeqBo) list
                 .getQedeqBo(i);
-            if (prop.getExistenceChecker().equalityOperatorExists()) {
+            if (bo.getExistenceChecker().equalityOperatorExists()) {
                 if (identityOperatorExists) {
                     // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
                     throw new IdentityOperatorAlreadyExistsException(123476,
@@ -72,9 +72,9 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
                 }
                 identityOperatorExists = true;
                 identityOperator = list.getLabel(i) + "."
-                    + prop.getExistenceChecker().getIdentityOperator();
+                    + bo.getExistenceChecker().getIdentityOperator();
             }
-            if (prop.getExistenceChecker().classOperatorExists()) {
+            if (bo.getExistenceChecker().classOperatorExists()) {
                 if (classOperatorExists) {
                     // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
                     throw new ClassOperatorAlreadyExistsException(123478,
