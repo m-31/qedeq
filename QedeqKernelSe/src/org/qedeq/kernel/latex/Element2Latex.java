@@ -555,7 +555,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
     }
 
     /**
-     * TODO mime 20080126: needed?
+     * LATER mime 20080126: needed?
      */
     class QuantorUnion implements ListType {
         public String getLatex(final ElementList list, final boolean first) {
@@ -578,7 +578,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
     }
 
     /**
-     * TODO mime 20080126: needed?
+     * LATER mime 20080126: needed?
      */
     class Unknown implements ListType {
         public String getLatex(final ElementList list, final boolean first) {
