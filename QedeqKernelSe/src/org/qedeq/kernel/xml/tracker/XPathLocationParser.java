@@ -20,6 +20,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -308,19 +309,23 @@ public class XPathLocationParser extends SimpleHandler {
             Trace.trace(CLASS, this, method, "matching elements");
             Trace.param(CLASS, this, method, qName, current);
             TextInput xml = null;
+            Reader xmlReader = null;
             try {
+                xmlReader = new XmlReader(xmlFile);
+                xml = new TextInput(xmlReader);
 // LATER mime 20080608: old code
 //                xml = new TextInput(xmlFile, IoUtility.getWorkingEncoding(getEncoding()));
-                xml = new TextInput(xmlFile, IoUtility.getWorkingEncoding(getEncoding()));
             } catch (IOException io) {
                 Trace.fatal(CLASS, this, method, "File \"" + xmlFile + "\" should be readable", io);
                 if (getLocator() == null) {
                     throw new SAXException("Locator unexpectedly null");
                 }
                 // at least we can set the current location as find location
-                find.setStartLocation(new SourcePosition(xml.getAddress(),
+                find.setStartLocation(new SourcePosition(original,
                     getLocator().getLineNumber(), getLocator().getColumnNumber()));
                 return;
+            } finally {
+                IoUtility.close(xmlReader);
             }
             xml.setRow(getLocator().getLineNumber());
             xml.setColumn(getLocator().getColumnNumber());
@@ -330,7 +335,7 @@ public class XPathLocationParser extends SimpleHandler {
             } catch (RuntimeException e) {
                 Trace.trace(CLASS, this, method, e);
             }
-            find.setStartLocation(new SourcePosition(xml.getAddress(), xml.getRow(), xml
+            find.setStartLocation(new SourcePosition(original, xml.getRow(), xml
                 .getColumn()));
             if (find.getAttribute() != null) {
                 xml.read(); // skip <
@@ -346,9 +351,9 @@ public class XPathLocationParser extends SimpleHandler {
                         break; // LATER mime 20050621: create named exception in readNextXmlName
                     }
                     if (tag.equals(find.getAttribute())) {
-                        find.setStartLocation(new SourcePosition(xml.getAddress(), row, col));
+                        find.setStartLocation(new SourcePosition(original, row, col));
                         xml.readNextAttributeValue();
-                        find.setEndLocation(new SourcePosition(xml.getAddress(), xml.getRow(),
+                        find.setEndLocation(new SourcePosition(original, xml.getRow(),
                             xml.getColumn()));
                         break;
                     }
@@ -400,8 +405,10 @@ public class XPathLocationParser extends SimpleHandler {
         }
         if (find.matchesElements(current, summary) && find.getAttribute() == null) {
             TextInput xml = null;
+            Reader xmlReader = null;
             try {
-                xml = new TextInput(new XmlReader(xmlFile));
+                xmlReader = new XmlReader(xmlFile);
+                xml = new TextInput(xmlReader);
 // LATER mime 20080608: old code
 //                xml = new TextInput(xmlFile, IoUtility.getWorkingEncoding(getEncoding()));
             } catch (IOException io) {
@@ -410,9 +417,11 @@ public class XPathLocationParser extends SimpleHandler {
                     throw new SAXException("Locator unexpectedly null");
                 }
                 // at least we can set the current location as find location
-                find.setStartLocation(new SourcePosition(xml.getAddress(),
+                find.setStartLocation(new SourcePosition(original,
                     getLocator().getLineNumber(), getLocator().getColumnNumber()));
                 return;
+            } finally {
+                IoUtility.close(xmlReader);
             }
             xml.setRow(getLocator().getLineNumber());
             xml.setColumn(getLocator().getColumnNumber());
