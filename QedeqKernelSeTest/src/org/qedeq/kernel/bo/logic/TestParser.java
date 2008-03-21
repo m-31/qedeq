@@ -19,9 +19,7 @@ package org.qedeq.kernel.bo.logic;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringBufferInputStream;
+import java.io.Reader;
 import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -31,6 +29,7 @@ import javax.xml.parsers.SAXParserFactory;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.IoUtility;
 import org.qedeq.kernel.xml.handler.list.ElementHandler;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxErrorHandler;
@@ -76,18 +75,17 @@ public class TestParser {
      * Parse input source.
      *
      * @param   url             Source URL. Only for information.
-     * @param   validateOnly    validate with {@link #deflt} or parse with {@link #handler}.
      * @param   in              Parse data from this source.
      * @throws  SAXException    Syntactical or semantical problem occurred.
      * @throws  IOException     Technical problem occurred.
      */
-    private void parse(final URL url, final InputStream in)
+    private void parse(final URL url, final Reader in)
             throws IOException, SAXException {
         final String method = "parse(URL, boolean, InputStream)";
         BufferedReader dis = null;
         DefaultSourceFileExceptionList exceptionList = new DefaultSourceFileExceptionList();;
         try {
-            dis = new BufferedReader(new InputStreamReader(in));
+            dis = new BufferedReader(in);
             final InputSource input = new InputSource(dis);
             
             reader.setErrorHandler(new SaxErrorHandler(url, exceptionList));
@@ -114,7 +112,7 @@ public class TestParser {
             ElementHandler simple = new ElementHandler(handler);
             handler.setBasisDocumentHandler(simple);
             TestParser parser = new TestParser(handler);
-            parser.parse(null, new StringBufferInputStream(data));
+            parser.parse(null, IoUtility.stringToReader(data));
             return simple.getElement();
         } catch (SAXException e) {
             Trace.trace(TestParser.class, "createElement", e);
