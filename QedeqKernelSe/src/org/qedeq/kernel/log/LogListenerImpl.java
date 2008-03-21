@@ -76,7 +76,7 @@ public final class LogListenerImpl implements LogListener {
     }
 
     private static final String getTimestamp() {
-        return FORMATTER.format(new Date()).toString();
+        return FORMATTER.format(new Date());
     }
 
     public void logRequest(final String text) {

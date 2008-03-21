@@ -79,7 +79,7 @@ public class DefaultModuleEventListener implements ModuleEventListener {
     }
 
     private static final String getTimestamp() {
-        return FORMATTER.format(new Date()).toString();
+        return FORMATTER.format(new Date());
     }
 
 }
