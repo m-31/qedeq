@@ -269,11 +269,9 @@ public class DefaultModuleAddress implements ModuleAddress {
     /**
      * Get the file name of the specified module.
      *
-     * TODO mime 20070326: is this function really necessary?
-     *
-     * @param   spec    here are the (perhaps relative) addresses to
-     *                  another module
-     * @return  file name of specified module
+     * @param   spec    Here are the (perhaps relative) addresses to
+     *                  another module.
+     * @return  File name of specified module.
      */
     public static final String getModuleFileName(final Specification spec) {
 
