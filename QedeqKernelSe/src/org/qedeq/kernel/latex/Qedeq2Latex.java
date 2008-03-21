@@ -64,7 +64,7 @@ import org.qedeq.kernel.utility.TextOutput;
 /**
  * Transfer a QEDEQ module into a LaTeX file.
  * <p>
- * <b>TODO mime 20070131: This is just a quick written generator. No parsing or validation
+ * <b>This is just a quick written generator. No parsing or validation
  * of inline LaTeX text is done. This class just generates some LaTeX output to be able to
  * get a visual impression of a QEDEQ module.</b>
  *
@@ -556,7 +556,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         printer.println(getLatexListEntry(rule.getDescription()));
         printer.println("\\end{rul}");
 
-// TODO mime 20051210: are these informations equivalent to a formal proof?
+// LATER mime 20051210: are these informations equivalent to a formal proof?
 /*
         if (null != rule.getLinkList()) {
             printer.println("\\begin{proof}");
@@ -811,7 +811,7 @@ public final class Qedeq2Latex extends ControlVisitor {
 
     /**
      * Get really LaTeX. Does some simple character replacements for umlauts.
-     * TODO mime 20050205: filter more than German umlauts
+     * LATER mime 20050205: filter more than German umlauts
      *
      * @param   nearlyLatex   Unescaped text.
      * @return  Really LaTeX.
