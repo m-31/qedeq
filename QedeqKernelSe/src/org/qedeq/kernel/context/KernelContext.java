@@ -267,7 +267,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             services.removeAllModules();
         }
 
-        public void removeModule(final ModuleAddress address) throws IOException {
+        public void removeModule(final ModuleAddress address) {
             services.removeModule(address);
         }
 
@@ -418,7 +418,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         currentState.removeAllModules();
     }
 
-    public void removeModule(final ModuleAddress address) throws IOException {
+    public void removeModule(final ModuleAddress address) {
         currentState.removeModule(address);
     }
 
