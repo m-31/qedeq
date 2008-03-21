@@ -35,6 +35,13 @@
           </LOCATIONS>
         </SPECIFICATION>
       </IMPORT>
+      <IMPORT label="LRM057">
+        <SPECIFICATION name="LRM057" ruleVersion="1.00.00">
+          <LOCATIONS>
+            <LOCATION value="."/>
+          </LOCATIONS>
+        </SPECIFICATION>
+      </IMPORT>
     </IMPORTS>
   </HEADER>
   <CHAPTER>
