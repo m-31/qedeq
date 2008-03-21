@@ -119,7 +119,7 @@ public final class Xml2Latex  {
         try {
             System.out.println("Successfully generated:\n" + generate(from, to, language, level));
         } catch (SourceFileExceptionList e) {
-            System.out.println(e);  // TODO mime 20070323: better: iterate through errors
+            System.out.println(e);
         } catch (RuntimeException e) {
             System.out.println(e);
         }
