@@ -28,15 +28,12 @@ import org.qedeq.kernel.bo.control.InternalKernelServices;
 import org.qedeq.kernel.bo.control.KernelQedeqBo;
 import org.qedeq.kernel.bo.control.ModuleFileNotFoundException;
 import org.qedeq.kernel.bo.control.ModuleLoader;
-import org.qedeq.kernel.bo.control.ModuleNodesCreator;
-import org.qedeq.kernel.bo.load.QedeqVoBuilder;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
@@ -85,7 +82,7 @@ public class XmlModuleLoader implements ModuleLoader {
      * @throws  ModuleFileNotFoundException    Local file was not found.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public void loadLocalModule(final KernelQedeqBo prop,
+    public Qedeq loadLocalModule(final KernelQedeqBo prop,
             final File localFile)
             throws ModuleFileNotFoundException, SourceFileExceptionList {
         final String method = "loadLocalModule";
@@ -105,7 +102,6 @@ public class XmlModuleLoader implements ModuleLoader {
         SaxDefaultHandler handler = new SaxDefaultHandler();
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
-        Qedeq qedeq = null;
         SaxParser parser = null;
         try {
             parser = new SaxParser(handler);
@@ -130,25 +126,7 @@ public class XmlModuleLoader implements ModuleLoader {
             throw e;
         }
         prop.setEncoding(parser.getEncoding());
-        qedeq = simple.getQedeq();
-
-        // FIXME mime 20080305: this block should wander into DefaultKernelServices
-        // after the builder only builds a QedeqVo and doesn't make also
-        // a id to NodeVo mapping
-        prop.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY);
-        QedeqVo vo = null;
-        try {
-            vo = QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq);
-        } catch (ModuleDataException e) {
-            Trace.trace(CLASS, this, method, e);
-            final SourceFileExceptionList xl
-                = prop.createSourceFileExceptionList(e, qedeq);
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
-            throw xl;
-        }
-        prop.setLoaded(vo);
-        ModuleNodesCreator moduleNodesCreator = new ModuleNodesCreator(prop);
-        prop.setLabels(moduleNodesCreator.createLabels());
+        return simple.getQedeq();
     }
 
     /**
