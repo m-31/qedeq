@@ -32,7 +32,7 @@ import org.qedeq.kernel.utility.IoUtility;
 /**
  * Encapsulates all modules.
  */
-class KernelQedeqBoPool {
+public class KernelQedeqBoPool {
 
     /** This class. */
     private static final Class CLASS = KernelQedeqBoPool.class;
@@ -70,8 +70,8 @@ class KernelQedeqBoPool {
                 Map.Entry entry = (Map.Entry) iterator.next();
                 final KernelQedeqBo prop = (KernelQedeqBo) entry.getValue();
                 Trace.trace(CLASS, this, method, "remove " +  prop);
-                // TODO mime 20080316: module progress state setting really here?
-                prop.setXXXLoadingState(LoadingState.STATE_DELETED);   // FIXME ok?
+                // TODO mime 20080316: set module progress state really here?
+                prop.setLoadingState(LoadingState.STATE_DELETED);
             }
             bos.clear();
         } catch (RuntimeException e) {
@@ -81,12 +81,17 @@ class KernelQedeqBoPool {
         }
     }
 
+    /**
+     * Validate module dependencies and throw Error if they are not correct.
+     */
     synchronized void validateDependencies() {
+        final String method = "validateDependencies";
         boolean error = false;
+        Trace.begin(CLASS, this, method);
         for (final Iterator iterator = bos.entrySet().iterator(); iterator.hasNext(); ) {
             Map.Entry entry = (Map.Entry) iterator.next();
             final KernelQedeqBo prop = (KernelQedeqBo) entry.getValue();
-            System.out.println("Checking: " + prop.getName());
+            Trace.param(CLASS, this, method, "prop", prop);
             if (!prop.hasLoadedRequiredModules()) {
                 continue;
             }
@@ -97,7 +102,6 @@ class KernelQedeqBoPool {
                 final KernelQedeqBo ref = refs.getKernelQedeqBo(i);
                 final KernelModuleReferenceList dependents = (KernelModuleReferenceList)
                      IoUtility.getFieldContent(ref, "dependent");
-//                KernelModuleReferenceList dependents = ref.getDependentModules();
                 if (!dependents.contains(prop)) {
                     System.out.println(ref.getName() + " missing dependent module: "
                         + prop.getName());
@@ -111,24 +115,16 @@ class KernelQedeqBoPool {
                 final KernelQedeqBo dependent = dependents.getKernelQedeqBo(i);
                 final KernelModuleReferenceList refs2 = (KernelModuleReferenceList)
                     IoUtility.getFieldContent(dependent, "required");
-//                KernelModuleReferenceList refs2 = dependent.getKernelRequiredModules();
                 if (!refs2.contains(prop)) {
                     System.out.println(dependent.getName() + " missing required module: "
                         + prop.getName());
                     error = true;
-                    
-                    System.out.println();
-                    System.out.println("Complete list of " + dependent.getName() + ": ");
-                    for (int j = 0; j < refs2.size(); j++) {
-                        System.out.print("  " + refs.getKernelQedeqBo(j).getName());
-                    }
-                    
                 }
             }
         }
-
+        Trace.end(CLASS, this, method);
         if (error) {
-            throw new RuntimeException();
+            throw new Error();
         }
     }
 
