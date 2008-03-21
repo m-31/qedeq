@@ -75,9 +75,8 @@ public interface KernelServices {
      * Remove a certain module.
      *
      * @param   address     Address of module.
-     * @throws  IOException    Module could not be successfully removed.
      */
-    public void removeModule(final ModuleAddress address) throws IOException;
+    public void removeModule(final ModuleAddress address);
 
     /**
      * Get list of all currently loaded QEDEQ modules.
