@@ -96,17 +96,17 @@ public final class ParserHandler extends AbstractSimpleHandler {
             setBasisAttributes(name, attributes);
             final String separatorSymbol = attributes.getString("separatorSymbol");
             if (separatorSymbol == null) {
-                XmlSyntaxException.createEmptyAttributeException(name, "separatorSymbol");
+                throw XmlSyntaxException.createEmptyAttributeException(name, "separatorSymbol");
             }
             if (separatorSymbol.length() == 0) {
-                XmlSyntaxException.createMissingAttributeException(name, "separatorSymbol");
+                throw XmlSyntaxException.createMissingAttributeException(name, "separatorSymbol");
             }
             final String endSymbol = attributes.getString("endSymbol");
             if (endSymbol == null) {
-                XmlSyntaxException.createEmptyAttributeException(name, "endSymbol");
+                throw XmlSyntaxException.createEmptyAttributeException(name, "endSymbol");
             }
             if (endSymbol.length() == 0) {
-                XmlSyntaxException.createMissingAttributeException(name, "endSymbol");
+                throw XmlSyntaxException.createMissingAttributeException(name, "endSymbol");
             }
             if (max == null) {
                 operators.add(new Operator(startSymbol, separatorSymbol, endSymbol, qedeq,
