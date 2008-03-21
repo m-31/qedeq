@@ -416,7 +416,7 @@ public final class Qedeq2Wiki {
         printer.println(getLatexListEntry(rule.getDescription()));
         printer.println("\\end{rul}");
 
-// TODO mime 20051210: are these informations equivalent to a formal proof?
+// LATER mime 20051210: are these informations equivalent to a formal proof?
 /*
         if (null != rule.getLinkList()) {
             printer.println("\\begin{proof}");
@@ -480,7 +480,7 @@ public final class Qedeq2Wiki {
 
     /**
      * Get really LaTeX. Does some simple character replacements for umlauts.
-     * TODO mime 20050205: filter more than German umlauts
+     * LATER mime 20050205: filter more than German umlauts
      *
      * @param   latex   Unescaped text.
      * @return  Really LaTeX.
