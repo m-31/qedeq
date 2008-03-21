@@ -17,6 +17,9 @@
 
 package org.qedeq.kernel.bo.control;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.qedeq.kernel.bo.logic.ExistenceChecker;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
@@ -25,6 +28,8 @@ import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.log.ModuleEventLog;
+import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.StringUtility;
 
 
 /**
@@ -34,6 +39,9 @@ import org.qedeq.kernel.log.ModuleEventLog;
  * @author  Michael Meyling
  */
 public class StateManager {
+
+    /** This class. */
+    private static final Class CLASS = StateManager.class;
 
     /** Main BO to care about. */
     private final KernelQedeqBo bo;
@@ -52,21 +60,19 @@ public class StateManager {
     }
 
     /**
-     * Set loading state to deleted, remove entry from dependent modules
-     * and log status without further actions.
+     * Delete QEDEQ module. Invalidates all dependent modules.
      */
-    protected void setDeleted() {
-        bo.setXXXLoadingState(LoadingState.STATE_DELETED);
-        final KernelModuleReferenceList required = bo.getKernelRequiredModules();
-        for (int i = 0; i < required.size(); i++) {
-            final KernelQedeqBo ref = required.getKernelQedeqBo(i);
-            KernelModuleReferenceList dependents = ref.getDependentModules();
-            if (!dependents.contains(bo)) {
-                System.out.println(ref + " missing dependent module: " + bo.getName());
-                throw new RuntimeException(ref + " missing dependent module: " + bo.getUrl()); // FIXME
-            }
-            dependents.remove(bo);
-        }
+    public void delete() {
+        checkIfDeleted();
+        invalidateOtherDependentModulesToLoaded();
+        bo.setLoadingState(LoadingState.STATE_DELETED);
+        bo.setQedeqVo(null);
+        bo.getKernelRequiredModules().clear();
+        bo.getDependentModules().clear();
+        bo.setLabels(null);
+        bo.setDependencyState(DependencyState.STATE_UNDEFINED);
+        bo.setLogicalState(LogicalState.STATE_UNCHECKED);
+        bo.setException(null);
         ModuleEventLog.getInstance().removeModule(bo);
     }
 
@@ -93,19 +99,18 @@ public class StateManager {
             invalidateOtherDependentModulesToLoaded();
         }
         if (state == LoadingState.STATE_DELETED) {
-            invalidateOtherDependentModulesToLoaded();
-            setDeleted();
-        } else {
-            bo.setXXXLoadingState(state);
+            throw new IllegalArgumentException(
+                "call delete for " + state);
         }
-        bo.setXXXQedeqVo(null);
+        bo.setLoadingState(state);
+        bo.setQedeqVo(null);
         bo.getKernelRequiredModules().clear();
-        bo.setXXXDependencyState(DependencyState.STATE_UNDEFINED);
-        bo.setXXXLogicalState(LogicalState.STATE_UNCHECKED);
-        bo.setXXXException(null);
-        if (state != LoadingState.STATE_DELETED) {  // FIXME: Logging in POOL but not here?
-            ModuleEventLog.getInstance().stateChanged(bo);
-        }
+        bo.getDependentModules().clear();
+        bo.setLabels(null);
+        bo.setDependencyState(DependencyState.STATE_UNDEFINED);
+        bo.setLogicalState(LogicalState.STATE_UNCHECKED);
+        bo.setException(null);
+        ModuleEventLog.getInstance().stateChanged(bo);
     }
 
     /**
@@ -126,13 +131,14 @@ public class StateManager {
             ModuleEventLog.getInstance().addModule(bo);
         }
         invalidateOtherDependentModulesToLoaded();
-        bo.setXXXQedeqVo(null);
+        bo.setQedeqVo(null);
         bo.getKernelRequiredModules().clear();
+        bo.getDependentModules().clear();
         bo.setLabels(null);
-        bo.setXXXLoadingState(state);
-        bo.setXXXDependencyState(DependencyState.STATE_UNDEFINED);
-        bo.setXXXLogicalState(LogicalState.STATE_UNCHECKED);
-        bo.setXXXException(e);
+        bo.setLoadingState(state);
+        bo.setDependencyState(DependencyState.STATE_UNDEFINED);
+        bo.setLogicalState(LogicalState.STATE_UNCHECKED);
+        bo.setException(e);
         if (e == null) {
             throw new NullPointerException("Exception must not be null");
         }
@@ -140,7 +146,8 @@ public class StateManager {
     }
 
     /**
-     * Set loading state to "loaded". Also puts <code>null</code> to {@link #getLabels()}.
+     * Set loading state to "loaded". Also puts <code>null</code> to
+     * {@link KernelQedeqBo#getLabels()}.
      *
      * @param   qedeq   This module was loaded. Must not be <code>null</code>.
      * @throws  NullPointerException    One argument was <code>null</code>.
@@ -151,13 +158,14 @@ public class StateManager {
             throw new NullPointerException("Qedeq is null");
         }
         invalidateOtherDependentModulesToLoaded();
-        bo.setXXXLoadingState(LoadingState.STATE_LOADED);
-        bo.setXXXQedeqVo(qedeq);
+        bo.setLoadingState(LoadingState.STATE_LOADED);
+        bo.setQedeqVo(qedeq);
         bo.getKernelRequiredModules().clear();
+        bo.getDependentModules().clear();
         bo.setLabels(null);
-        bo.setXXXDependencyState(DependencyState.STATE_UNDEFINED);
-        bo.setXXXLogicalState(LogicalState.STATE_UNCHECKED);
-        bo.setXXXException(null);
+        bo.setDependencyState(DependencyState.STATE_UNDEFINED);
+        bo.setLogicalState(LogicalState.STATE_UNCHECKED);
+        bo.setException(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -186,10 +194,10 @@ public class StateManager {
         if (state == DependencyState.STATE_LOADING_REQUIRED_MODULES) {
             invalidateOtherDependentModulesToLoaded();
         }
-        bo.setXXXLogicalState(LogicalState.STATE_UNCHECKED);
-        bo.setXXXDependencyState(state);
+        bo.setLogicalState(LogicalState.STATE_UNCHECKED);
+        bo.setDependencyState(state);
         bo.getKernelRequiredModules().clear();
-        bo.setXXXException(null);
+        bo.setException(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -213,8 +221,8 @@ public class StateManager {
                 "this is no failure state, call setLoadingProgressState");
         }
         invalidateOtherDependentModulesToLoadedRequired();
-        bo.setXXXDependencyState(state);
-        bo.setXXXException(e);
+        bo.setDependencyState(state);
+        bo.setException(e);
         if (e == null) {
             throw new NullPointerException("Exception must not be null");
         }
@@ -225,37 +233,80 @@ public class StateManager {
      * Reset all (recursive) dependent modules (if any) to state loaded.
      */
     private void invalidateOtherDependentModulesToLoaded() {
-        System.out.println("resetting other dependent modules for " + bo.getName());
+        final String method = "invalidateOtherDependModulesToLoaded";
+        Trace.begin(CLASS, this, method);
+        Trace.param(CLASS, this, method, "bo", bo);
         if (bo.hasLoadedRequiredModules()) {
             final KernelModuleReferenceList dependent = bo.getDependentModules();
+            Trace.trace(CLASS, this, method, "begin list of dependent modules");
+            // remember dependent modules
+            final List list = new ArrayList();
             for (int i = 0; i < dependent.size(); i++) {
-                KernelQedeqBo ref = dependent.getKernelQedeqBo(i);
-                System.out.println("invalidating to loaded for " + ref.getName());
-                ref.getKernelRequiredModules().remove(bo);
-                ref.getXXXStateManager().invalidateDependentModulesToLoaded();
+                Trace.param(CLASS, this, method, "" + i, dependent.getKernelQedeqBo(i));
+                list.add(dependent.getKernelQedeqBo(i));
             }
+            Trace.trace(CLASS, this, method, "end list of dependent modules");
+            for (int i = 0; i < list.size(); i++) {
+                KernelQedeqBo ref = (KernelQedeqBo) list.get(i);
+                // work on it, if still in list of dependent modules
+                if (dependent.contains(ref)) {
+                    ref.getStateManager().invalidateDependentModulesToLoaded();
+                }
+            }
+            list.clear();
             dependent.clear();
-            bo.getKernelRequiredModules().clear();
+
+            final KernelModuleReferenceList required = bo.getKernelRequiredModules();
+            for (int i = 0; i < required.size(); i++) {
+                KernelQedeqBo ref = required.getKernelQedeqBo(i);
+                Trace.param(CLASS, this, method, "remove dependence from", ref);
+                ref.getDependentModules().remove(bo);
+            }
+            required.clear();
         }
+        Trace.end(CLASS, this, method);
     }
 
     /**
      * Reset this and all (recursive) dependent modules (if any) to state loaded.
      */
     private void invalidateDependentModulesToLoaded() {
+        final String method = "invalidateDependentModulesToLoaded";
+        Trace.begin(CLASS, this, method);
+        Trace.param(CLASS, this, method, "bo", bo);
         if (bo.hasLoadedRequiredModules()) {
             final KernelModuleReferenceList dependent = bo.getDependentModules();
+            Trace.trace(CLASS, this, method, "begin list of dependent modules");
+            // remember dependent modules
+            final List list = new ArrayList();
             for (int i = 0; i < dependent.size(); i++) {
-                KernelQedeqBo ref = dependent.getKernelQedeqBo(i);
-                ref.getXXXStateManager().invalidateDependentModulesToLoaded();
-                ref.getKernelRequiredModules().remove(bo);
+                Trace.param(CLASS, this, method, "" + i, dependent.getKernelQedeqBo(i));
+                list.add(dependent.getKernelQedeqBo(i));
             }
-            invalidateThisModule();
+            Trace.trace(CLASS, this, method, "end list of dependent modules");
+            for (int i = 0; i < list.size(); i++) {
+                KernelQedeqBo ref = (KernelQedeqBo) list.get(i);
+                // work on it, if still in list of dependent modules
+                if (dependent.contains(ref)) {
+                    ref.getStateManager().invalidateDependentModulesToLoaded();
+                }
+            }
+            list.clear();
             dependent.clear();
-            bo.getKernelRequiredModules().clear();
-            bo.setXXXLoadingState(LoadingState.STATE_LOADED);
+
+            final KernelModuleReferenceList required = bo.getKernelRequiredModules();
+            for (int i = 0; i < required.size(); i++) {
+                KernelQedeqBo ref = required.getKernelQedeqBo(i);
+                Trace.param(CLASS, this, method, "remove dependence from", ref);
+                ref.getDependentModules().remove(bo);
+            }
+            required.clear();
+
+            invalidateThisModule();
+            bo.setLoadingState(LoadingState.STATE_LOADED);
             ModuleEventLog.getInstance().stateChanged(bo);
         }
+        Trace.end(CLASS, this, method);
     }
 
     /**
@@ -266,7 +317,7 @@ public class StateManager {
             final KernelModuleReferenceList dependent = bo.getDependentModules();
             for (int i = 0; i < dependent.size(); i++) {
                 KernelQedeqBo ref = dependent.getKernelQedeqBo(i);
-                ref.getXXXStateManager().invalidateDependentModulesToLoadedRequired();
+                ref.getStateManager().invalidateDependentModulesToLoadedRequired();
             }
         }
     }
@@ -279,21 +330,19 @@ public class StateManager {
             final KernelModuleReferenceList dependent = bo.getDependentModules();
             for (int i = 0; i < dependent.size(); i++) {
                 KernelQedeqBo ref = dependent.getKernelQedeqBo(i);
-                ref.getXXXStateManager().invalidateDependentModulesToLoadedRequired();
+                ref.getStateManager().invalidateDependentModulesToLoadedRequired();
             }
             invalidateThisModule();
-            bo.setXXXDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
+            bo.setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
             ModuleEventLog.getInstance().stateChanged(bo);
         }
     }
 
     private void invalidateThisModule() {
-        bo.setXXXLoadingState(LoadingState.STATE_LOADED);
-        bo.setXXXDependencyState(DependencyState.STATE_UNDEFINED);
-        bo.setXXXLogicalState(LogicalState.STATE_UNCHECKED);
-        bo.setXXXException(null);
-        bo.getKernelRequiredModules().clear();
-//        this.dependent.clear();
+        bo.setLoadingState(LoadingState.STATE_LOADED);
+        bo.setDependencyState(DependencyState.STATE_UNDEFINED);
+        bo.setLogicalState(LogicalState.STATE_UNCHECKED);
+        bo.setException(null);
     }
 
     /**
@@ -315,16 +364,15 @@ public class StateManager {
         for (int i = 0; i < required.size(); i++) {
             KernelQedeqBo current = required.getKernelQedeqBo(i);
             try {
-                current.getDependentModules().add(required.getModuleContext(i), // FIXME
+                current.getDependentModules().add(required.getModuleContext(i),
                     required.getLabel(i), bo);
-                System.out.println(current.getName() + " needed by " + bo.getName());
-            } catch (ModuleDataException me) {  // should never happen FIXME
+            } catch (ModuleDataException me) {  // should never happen
                 throw new RuntimeException(me);
             }
         }
 
 
-        bo.setXXXDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
+        bo.setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
         bo.getKernelRequiredModules().set(required);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -342,7 +390,7 @@ public class StateManager {
                 + "\"\nCurrently the status for the module"
                 + "\"" + bo.getName() + "\" is \"" + bo.getLoadingState() + "\"");
         }
-        bo.setXXXLogicalState(LogicalState.STATE_CHECKED);
+        bo.setLogicalState(LogicalState.STATE_CHECKED);
         bo.setXXXExistenceChecker(checker);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -353,7 +401,8 @@ public class StateManager {
     * @param   state   module state
     */
     public void setLogicalProgressState(final LogicalState state) {
-        if (bo.getDependencyState().getCode() < DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode()
+        if (bo.getDependencyState().getCode()
+                < DependencyState.STATE_LOADED_REQUIRED_MODULES.getCode()
                 && state != LogicalState.STATE_UNCHECKED) {
             throw new IllegalArgumentException(
                 "this state could only be set if all required modules are loaded ");
@@ -367,8 +416,8 @@ public class StateManager {
                 "set with setChecked(ExistenceChecker)");
         }
         invalidateOtherDependentModulesToLoadedRequired();
-        bo.setXXXException(null);
-        bo.setXXXLogicalState(state);
+        bo.setException(null);
+        bo.setLogicalState(state);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -381,7 +430,8 @@ public class StateManager {
      */
     public void setLogicalFailureState(final LogicalState state,
             final SourceFileExceptionList e) {
-        if ((!bo.isLoaded() || !bo.hasLoadedRequiredModules()) && state != LogicalState.STATE_UNCHECKED) {
+        if ((!bo.isLoaded() || !bo.hasLoadedRequiredModules())
+                && state != LogicalState.STATE_UNCHECKED) {
             throw new IllegalArgumentException(
                 "this state could only be set if all required modules are loaded ");
         }
@@ -390,8 +440,8 @@ public class StateManager {
                 "this is no failure state, call setLogicalProgressState");
         }
         invalidateDependentModulesToLoadedRequired();
-        bo.setXXXLogicalState(state);
-        bo.setXXXException(e);
+        bo.setLogicalState(state);
+        bo.setException(e);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -403,6 +453,24 @@ public class StateManager {
     private void checkIfDeleted() {
         if (bo.getLoadingState() == LoadingState.STATE_DELETED) {
             throw new IllegalStateException("module is already deleted: " + bo.getUrl());
+        }
+    }
+
+    /**
+     * Print the dependence tree to <code>System.out</code>.
+     */
+    public void printDependencyTree() {
+        printDependencyTree(0);
+        System.out.println();
+    }
+
+    private void printDependencyTree(final int tab) {
+        System.out.println(StringUtility.getSpaces(tab) + bo.getName());
+        final int newTab = tab + bo.getName().length();
+        final KernelModuleReferenceList dependent = bo.getDependentModules();
+        for (int i = 0; i < dependent.size(); i++) {
+            KernelQedeqBo ref = dependent.getKernelQedeqBo(i);
+            ref.getStateManager().printDependencyTree(newTab);
         }
     }
 
