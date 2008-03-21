@@ -20,9 +20,6 @@ package org.qedeq.kernel.common;
 /**
  * This interface provides primitive constants for the {@link LogicalState}.
  *
- * TODO mime 20070312: what about exception lists? e.g. not all can be imported, but
- *                     we have only some checking errors within the module directly
- *
  * @version $Revision: 1.3 $
  * @author Michael Meyling
  */
