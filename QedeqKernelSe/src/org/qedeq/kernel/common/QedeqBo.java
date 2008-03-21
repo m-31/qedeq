@@ -118,7 +118,6 @@ public interface QedeqBo {
      * Get module. Works only if module is already completely loaded.
      *
      * @return  QEDEQ module if it is already loaded.
-     * @throws  IllegalStateException   Module is not loaded.
      */
     public Qedeq getQedeq();
 
