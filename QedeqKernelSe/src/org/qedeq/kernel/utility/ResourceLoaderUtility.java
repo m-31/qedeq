@@ -219,13 +219,10 @@ public final class ResourceLoaderUtility {
      */
     public static File getResourceFile(final File startDirectory,
             final String resourceDirectoryName, final String resourceName) {
-        final URL url;
         final File resourceDir = new File(startDirectory, resourceDirectoryName);
         final File resource = new File(resourceDir, resourceName);
-        if (resource.exists()) {
-            url = IoUtility.toUrl(resource);
-        } else {
-            url = getResourceUrl(resourceDirectoryName + "/" + resourceName);
+        if (!resource.exists()) {
+            final URL url = getResourceUrl(resourceDirectoryName + "/" + resourceName);
             try {
                 if (!resourceDir.exists()) {
                     if (!resourceDir.mkdirs()) {
