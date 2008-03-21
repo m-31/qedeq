@@ -58,7 +58,7 @@ public final class DynamicGetter {
         } else {
             param = new Object[0];
         }
-        // TODO mime 20050622: check parameter types and length, support string parameters
+        // mime 20050622: check parameter types and length, support string parameters
         if (obj == null) {
             Trace.trace(DynamicGetter.class, "getMethodResult(Object)", "obj = null!");
         }
@@ -70,7 +70,7 @@ public final class DynamicGetter {
                 return method[i].invoke(obj, param);
             }
         }
-        // TODO mime 20050622: other exception?
+        // mime 20050622: other exception?
         throw new RuntimeException("method not found: " + methodName);
     }
 
