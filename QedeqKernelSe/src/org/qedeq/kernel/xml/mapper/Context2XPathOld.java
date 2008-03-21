@@ -124,7 +124,6 @@ public final class Context2XPathOld {
         xpath = StringUtility.replace(xpath, "Formula/Element/", "Formula/*/");
         xpath = StringUtility.replace(xpath, "Element", "*");
 
-        // TODO mime 20050807: integrate non formal proofs
         xpath = StringUtility.replace(xpath, "/NonFormalProof[", "/Latex[");
         xpath = StringUtility.replace(xpath, "/NonFormalProof", "/Latex");
 
