@@ -267,6 +267,30 @@ public final class IoUtility {
     }
 
     /**
+     * Reads contents of an URL into a string buffer. The filling is character set dependent.
+     * @param   url         This URL will be loaded.
+     * @param   buffer      Buffer to fill with file contents.
+     * @param   encoding    Take this encoding.
+     * @throws  IOException Reading failed.
+     */
+    public static void loadFile(final URL url, final StringBuffer buffer, final String encoding)
+            throws IOException {
+        InputStream in = null;
+        BufferedReader dis = null;
+        try {
+            in = url.openStream();
+            dis = new BufferedReader(new InputStreamReader(in, encoding));
+            int i;
+            while ((i = dis.read()) != -1) {
+                buffer.append((char) i);
+            }
+        } finally {
+            close(in);
+            close(dis);
+        }
+    }
+
+    /**
      * Save binary contents of an URL into a file.
      *
      * @param   url     This URL will be loaded.
