@@ -56,6 +56,7 @@ import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.context.KernelContext;
+import org.qedeq.kernel.dto.module.NodeVo;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.StringUtility;
 import org.qedeq.kernel.utility.TextOutput;
@@ -766,7 +767,8 @@ public final class Qedeq2Latex extends ControlVisitor {
     }
 
     /**
-     * Get really LaTeX. Does some simple character replacements for umlauts.
+     * Get really LaTeX. Does some simple character replacements for umlauts. Also transforms
+     * <code>\qref{key}</code> into LaTeX.
      *
      * @param   latex   Unescaped text.
      * @return  Really LaTeX.
@@ -775,7 +777,130 @@ public final class Qedeq2Latex extends ControlVisitor {
         if (latex == null || latex.getLatex() == null) {
             return "";
         }
-        return escapeUmlauts(latex.getLatex());
+        StringBuffer result = new StringBuffer(escapeUmlauts(latex.getLatex()));
+
+        // LATER mime 20080324: check if LaTeX is correct and no forbidden tags are used
+
+        transformQref(result);
+
+        return result.toString();
+    }
+
+    /**
+     * Transform <code>\qref{key}</code> entries into common LaTeX code.
+     *
+     * LATER mime 20080324: write JUnitTests to be sure that no runtime exceptions are thrown if
+     * reference is at end of latex etc.
+     *
+     * @param   result  Work on this buffer.
+     */
+    private void transformQref(final StringBuffer result) {
+        final String method = "transformQref(StringBuffer)";
+        int pos1 = 0;
+        final String qref = "\\qref{";
+        try {
+            while (0 <= (pos1 = result.indexOf(qref))) {
+                int pos = pos1 + qref.length();
+                int pos2 = result.indexOf("}", pos);
+                if (pos2 < 0) {
+                    break;
+                    // just let LaTeX find the errors
+                    // LATER mime 20080325: add warning
+                }
+                String ref = result.substring(pos, pos2);
+                Trace.param(CLASS, this, method, "1 ref", ref);
+
+                // exists a sub reference?
+                String sub = "";
+                final int posb = pos2 + 1;
+                if (posb < result.length() && result.charAt(posb) == '[') {
+                    pos2 = result.indexOf("]", posb + 1);
+                    if (pos2 < 0) {
+                        break;
+                        // just let LaTeX find the errors
+                        // LATER mime 20080325: add warning
+                    }
+                    sub = result.substring(posb + 1, pos2);
+                    Trace.param(CLASS, this, method, "sub", sub);
+                }
+
+                // get module label (if any)
+                String label = "";
+                int dot = ref.indexOf(".");
+                if (dot >= 0) {
+                    label = ref.substring(0, dot);
+                    ref = ref.substring(dot + 1);
+                }
+                if (label.length() == 0) {
+                    if (getQedeqBo().getKernelRequiredModules().getQedeqBo(ref) != null) {
+                        label = ref;
+                        ref = "";
+                    }
+                }
+                Trace.param(CLASS, this, method, "2 ref", ref);
+                Trace.param(CLASS, this, method, "2 label", label);
+                KernelQedeqBo prop = getQedeqBo();
+                if (label.length() > 0) {
+                    prop = prop.getKernelRequiredModules().getKernelQedeqBo(label);
+                }
+                NodeVo node = null;
+                if (prop != null) {
+                    if (prop.getLabels() != null) {
+                        node = prop.getLabels().getNode(ref);
+                    } else {
+                        Trace.info(CLASS, this, method, "no labels found");
+                    }
+                }
+                if (node == null) {
+                        Trace.info(CLASS, this, method, "node not found for " + ref);
+                }
+                if (label.length() <= 0) {
+                    result.replace(pos1, pos2 + 1, "\\ref{" + ref + "}");
+                } else {
+                    if (ref.length() <= 0) {
+                        result.replace(pos1, pos2 + 1, "\\url{" + getPdfLink(prop) + "}");
+                    } else {
+                        String display = ref;
+                        if (node != null) {
+                            if (node.getName() != null) {
+                                display = getLatexListEntry(node.getName());
+                            } else {
+                                if (node.getNodeType() instanceof Axiom) {
+                                    display = "[Axiom]";
+                                } else if (node.getNodeType() instanceof Proposition) {
+                                    display = "[Proposition]";
+                                } else if (node.getNodeType() instanceof FunctionDefinition) {
+                                    display = "[Definition]";
+                                } else if (node.getNodeType() instanceof PredicateDefinition) {
+                                    display = "[Definition]";
+                                } else if (node.getNodeType() instanceof Rule) {
+                                    display = "[rule]";
+                                }
+                            }
+                            if (sub.length() > 0) {
+                                display += " " + sub;
+                            }
+                        }
+                        result.replace(pos1, pos2 + 1, "\\hyperref{" + getPdfLink(prop) + "}{}{"
+                            + ref + (sub.length() > 0 ? ":" + sub : "") + "}{" + display + "}");
+                    }
+                }
+            }
+        } catch (RuntimeException e) {
+            Trace.trace(CLASS, this, method, e);
+        }
+    }
+
+    /**
+     * Get URL to for PDF version of module.
+     *
+     * @param   prop    Get URL for this QEDEQ module.
+     * @return  URL to PDF.
+     */
+    private String getPdfLink(final KernelQedeqBo prop) {
+        final String url = prop.getUrl().toString();
+        final int dot = url.lastIndexOf(".");
+        return url.substring(0, dot) + "_" + language + ".pdf";
     }
 
     /**
@@ -799,14 +924,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         StringUtility.replace(buffer, "^", "\\textasciicircum");
         StringUtility.replace(buffer, "<", "\\textless");
         StringUtility.replace(buffer, ">", "\\textgreater");
-        StringUtility.replace(buffer, "\u00fc", "{\\\"u}");
-        StringUtility.replace(buffer, "\u00f6", "{\\\"o}");
-        StringUtility.replace(buffer, "\u00e4", "{\\\"a}");
-        StringUtility.replace(buffer, "\u00dc", "{\\\"U}");
-        StringUtility.replace(buffer, "\u00d6", "{\\\"O}");
-        StringUtility.replace(buffer, "\u00c4", "{\\\"A}");
-        StringUtility.replace(buffer, "\u00df", "{\\ss}");
-        return buffer.toString();
+        return escapeUmlauts(buffer.toString());
     }
 
     /**
