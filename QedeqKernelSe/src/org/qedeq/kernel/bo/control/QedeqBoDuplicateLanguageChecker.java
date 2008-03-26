@@ -25,6 +25,7 @@ import org.qedeq.kernel.base.module.LatexList;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.latex.LatexListDataException;
 
 
 /**
