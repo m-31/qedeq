@@ -95,41 +95,49 @@ public class LoadRequiredModules {
             loadingRequiredInProgress.put(prop, prop);
 
         }
+        DefaultSourceFileExceptionList sfl = null;
         final LoadDirectlyRequiredModules loader = new LoadDirectlyRequiredModules(prop, services);
-        KernelModuleReferenceList required = loader.load();
-        DefaultSourceFileExceptionList sfl = loader.getSourceFileExceptionList();
-
-        for (int i = 0; i < required.size(); i++) {
-            System.out.println("loading required modules of " + prop.getName());
-            KernelQedeqBo current = null;
-            current = required.getKernelQedeqBo(i);
-            if (loadingRequiredInProgress.containsKey(current)) {
-                ModuleDataException me = new LoadRequiredModuleException(12,
-                    "recursive import of modules is forbidden, label \""
-                    + required.getLabel(i) + "\"",
+        KernelModuleReferenceList required = null;
+        try {
+            required = loader.load();
+            sfl = loader.getSourceFileExceptionList();
+        } catch (DefaultSourceFileExceptionList e) {
+            sfl = e;
+        }
+        loader.getSourceFileExceptionList();
+        if (sfl == null) {
+            for (int i = 0; i < required.size(); i++) {
+                System.out.println("loading required modules of " + prop.getName());
+                KernelQedeqBo current = null;
+                current = required.getKernelQedeqBo(i);
+                if (loadingRequiredInProgress.containsKey(current)) {
+                    ModuleDataException me = new LoadRequiredModuleException(12,
+                        "recursive import of modules is forbidden, label \""
+                        + required.getLabel(i) + "\"",
+                        required.getModuleContext(i));
+                    final SourceFileException sf = prop.createSourceFileException(me);
+                    if (sfl == null) {
+                        sfl = new DefaultSourceFileExceptionList(sf);
+                    } else {
+                        sfl.add(sf);
+                    }
+                    continue;
+                }
+                try {
+                    loadRequired(current);
+                } catch (SourceFileExceptionList e) {
+                    ModuleDataException me = new LoadRequiredModuleException(13,
+                        "import of module \"" + required.getLabel(i) + "\" failed: "
+                        + e.get(0).getMessage(),
                     required.getModuleContext(i));
-                final SourceFileException sf = prop.createSourceFileException(me);
-                if (sfl == null) {
-                    sfl = new DefaultSourceFileExceptionList(sf);
-                } else {
-                    sfl.add(sf);
+                    final SourceFileException sf = prop.createSourceFileException(me);
+                    if (sfl == null) {
+                        sfl = new DefaultSourceFileExceptionList(sf);
+                    } else {
+                        sfl.add(sf);
+                    }
+                    continue;
                 }
-                continue;
-            }
-            try {
-                loadRequired(current);
-            } catch (SourceFileExceptionList e) {
-                ModuleDataException me = new LoadRequiredModuleException(13,
-                    "import of module \"" + required.getLabel(i) + "\" failed: "
-                    + e.get(0).getMessage(),
-                required.getModuleContext(i));
-                final SourceFileException sf = prop.createSourceFileException(me);
-                if (sfl == null) {
-                    sfl = new DefaultSourceFileExceptionList(sf);
-                } else {
-                    sfl.add(sf);
-                }
-                continue;
             }
         }
 
