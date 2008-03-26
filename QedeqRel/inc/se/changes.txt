@@ -12,6 +12,10 @@ Functional Changes
   ----------
   * improved error descriptions if QEDEQ modules are imported
     recursivly
+  * QEDEQ modules might be removed within the GUI, all dependent
+    modules change their state accordingly
+  * LaTeX parts support new command "\qref" to reference a
+    Node from the local or an imported QEDEQ module
   
   Fixed Bugs
   ----------
@@ -28,16 +32,18 @@ XML Files
 
   Extensions
   ----------
-  none
+  * a proposition more
+  * more proofs
 
   Fixed Bugs
   ----------
   * qedeq_set_theory_v1.xml has now corrected references to 
-    qedeq_logic_v1_en.pdf
+    qedeq_logic_v1_en.pdf; one formula was corrected
+  * predlogic.xml has now a correct LaTeX pattern for predicate "equal"
 
   Other Changes
   -------------
-  none 
+  none
 
 
 Source Code
@@ -67,11 +73,19 @@ Source Code
     the error line but the "ModuleLoader" can do that
   * IoUtility has now methods that deal with encodings
   * XPathLocationParser now uses new XmlReader to get exact location
+  * new "StateManager" that manages state change for a "KernelQedeqBo"
+    so that changing the loading, dependency or checking state of a
+    QEDEQ module changes the state of depending modules accordingly
+  * KernelQedeqBo throws an Error if validation of dependencies failed
+  * new loading state "LoadingState.STATE_DELETED" for deleted modules
+  * Qedeq2Latex
 
   Fixed Bugs
   ----------
   * "ModuleEventListenerLog.stateChanged" decides now correctly if
     it is a failure or not
+  * "ParserHandler.startElement" now really throws the
+    "XmlSyntaxException"
 
   Other Changes
   -------------
@@ -80,10 +94,17 @@ Source Code
   * "ModuleProperties" and "QedeqBo" married, family name is "QedeqBo";
     the kernel internal "QedeqBo" is called "KernelQedeqBo"; this
     "KernelQedeqBo" does call "ModuleEventLog.getInstance()
-    .stateChanged(this)"
-  * "DefaultModuleFactory" -> "DefaultKernelServices"
+    .stateChanged(this)"; new protected methods for setting elementary
+    properities added, these are used by the "StateManager" and
+    "XmlModuleLoader" for example
+  * "DefaultModuleFactory" -> "DefaultInternalKernelServices"
+  * "DefaultModuleReferenceList" -> "KernelModuleReferenceList"
+  * "ModuleNodes" -> "ModuleLables"
   * "StringUtility" (previously "ReplaceUtility") has some methods from
     "IoUtility"
+  * "KernelServices.removeModule(ModuleAddress)" throws no longer an
+    "IOException"
+  * attribute address removed from "TextInput"
 
 
 XSD
@@ -91,7 +112,7 @@ XSD
 
   Extensions
   ----------
-  none
+  * some more annotations
 
   Fixed Bugs
   ----------

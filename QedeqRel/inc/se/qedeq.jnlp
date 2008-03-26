@@ -6,7 +6,7 @@
      <homepage ref="index.html"/>
      <description>Mathematical Documentation</description>
      <icon href="qedeq.png"/>
-     <icon kind="splash" href="splash.png"/>
+     <icon kind="splash" href="splash.gif"/>
     <offline-allowed/>
   </information>
   <security>
