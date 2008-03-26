@@ -25,6 +25,7 @@ import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.ModuleLabels;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.log.ModuleEventLog;
@@ -150,9 +151,10 @@ public class StateManager {
      * {@link KernelQedeqBo#getLabels()}.
      *
      * @param   qedeq   This module was loaded. Must not be <code>null</code>.
+     * @param   labels  Module labels.
      * @throws  NullPointerException    One argument was <code>null</code>.
      */
-    public void setLoaded(final QedeqVo qedeq) {
+    public void setLoaded(final QedeqVo qedeq, final ModuleLabels labels) {
         checkIfDeleted();
         if (qedeq == null) {
             throw new NullPointerException("Qedeq is null");
@@ -162,7 +164,7 @@ public class StateManager {
         bo.setQedeqVo(qedeq);
         bo.getKernelRequiredModules().clear();
         bo.getDependentModules().clear();
-        bo.setLabels(null);
+        bo.setLabels(labels);
         bo.setDependencyState(DependencyState.STATE_UNDEFINED);
         bo.setLogicalState(LogicalState.STATE_UNCHECKED);
         bo.setException(null);
@@ -391,7 +393,7 @@ public class StateManager {
                 + "\"" + bo.getName() + "\" is \"" + bo.getLoadingState() + "\"");
         }
         bo.setLogicalState(LogicalState.STATE_CHECKED);
-        bo.setXXXExistenceChecker(checker);
+        bo.setExistenceChecker(checker);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
