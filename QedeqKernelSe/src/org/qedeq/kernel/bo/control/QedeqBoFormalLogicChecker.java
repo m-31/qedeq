@@ -134,6 +134,8 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
         if (definition == null) {
             return;
         }
+        // FIXME mime 20080324: check that no reference (also node references) with same name exist
+
         final String context = getCurrentContext().getLocationWithinModule();
         final Predicate predicate = new Predicate(definition.getName(),
             definition.getArgumentNumber());
@@ -165,6 +167,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
         if (definition == null) {
             return;
         }
+        // TODO mime 20080324: check that no reference (also node references) with same name exist
         final String context = getCurrentContext().getLocationWithinModule();
         final Function function = new Function(definition.getName(),
             definition.getArgumentNumber());
