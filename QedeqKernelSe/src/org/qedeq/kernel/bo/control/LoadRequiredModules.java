@@ -107,7 +107,7 @@ public class LoadRequiredModules {
         loader.getSourceFileExceptionList();
         if (sfl == null) {
             for (int i = 0; i < required.size(); i++) {
-                System.out.println("loading required modules of " + prop.getName());
+                Trace.trace(CLASS, this, method, "loading required modules of " + prop.getUrl());
                 KernelQedeqBo current = null;
                 current = required.getKernelQedeqBo(i);
                 if (loadingRequiredInProgress.containsKey(current)) {

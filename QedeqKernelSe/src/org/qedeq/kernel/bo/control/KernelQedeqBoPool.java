@@ -99,10 +99,10 @@ public class KernelQedeqBoPool {
             for (int i = 0; i < refs.size(); i++) {
                 final KernelQedeqBo ref = refs.getKernelQedeqBo(i);
                 final KernelModuleReferenceList dependents = (KernelModuleReferenceList)
-                     IoUtility.getFieldContent(ref, "dependent");
+                     IoUtility.getFieldContent(ref, "dependent");   // TODO mime 20080325: Q & D
                 if (!dependents.contains(prop)) {
-                    System.out.println(ref.getName() + " missing dependent module: "
-                        + prop.getName());
+                    Trace.fatal(CLASS, this, method, ref.getUrl() + " missing dependent module: "
+                        + prop.getUrl(), null);
                     error = true;
                 }
             }
@@ -113,16 +113,20 @@ public class KernelQedeqBoPool {
                 final KernelQedeqBo dependent = dependents.getKernelQedeqBo(i);
                 final KernelModuleReferenceList refs2 = (KernelModuleReferenceList)
                     IoUtility.getFieldContent(dependent, "required");
-                if (!refs2.contains(prop)) {
-                    System.out.println(dependent.getName() + " missing required module: "
-                        + prop.getName());
+                if (!refs2.contains(prop)) {                        // TODO mime 20080325: Q & D
+                    Trace.fatal(CLASS, this, method, dependent.getUrl()
+                        + " missing required module: " + prop.getUrl(), null);
                     error = true;
                 }
             }
         }
         Trace.end(CLASS, this, method);
+
+        // if the dependencies are not ok we throw an error!
         if (error) {
-            throw new Error();
+            Error e = new Error("QEDEQ dependencies and status are flawed! This is a major error!");
+            Trace.fatal(CLASS, this, method, "Shutdown because of major validation error", e);
+            throw e;
         }
     }
 
