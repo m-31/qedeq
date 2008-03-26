@@ -76,13 +76,15 @@ public class KernelModuleReferenceList implements ModuleReferenceList {
     public void add(final ModuleContext context, final String label, final QedeqBo prop)
             throws IllegalModuleDataException {
         if (label == null || label.length() <= 0) {
-            throw new IllegalModuleDataException(10003, "An label was not defined.", context, null,
+            throw new IllegalModuleDataException(10003, "An label was not defined.",
+                new ModuleContext(context), null,
                 null);  // LATER mime 20071026: organize exception codes
         }
+        final ModuleContext con = new ModuleContext(context);
         labels.add(label);
-        label2Context.put(label, context);
-        contexts.add(context);
-        Trace.param(CLASS, "add(ModuleContext, String, QedeqBo)", "context", context);
+        label2Context.put(label, con);
+        contexts.add(con);
+        Trace.param(CLASS, "add(ModuleContext, String, QedeqBo)", "context", con);
         props.add(prop);
     }
 
@@ -100,10 +102,10 @@ public class KernelModuleReferenceList implements ModuleReferenceList {
         if (labels.contains(label)) {
             // LATER mime 20071026: organize exception codes
             throw new IllegalModuleDataException(10004, "Label \"" + label
-                + "\" defined more than once.", context,
+                + "\" defined more than once.", new ModuleContext(context), // use copy constructor!
                 (ModuleContext) label2Context.get(label), null);
         }
-        add(context, label, prop);
+        add(new ModuleContext(context), label, prop);
     }
 
     public int size() {
@@ -138,6 +140,20 @@ public class KernelModuleReferenceList implements ModuleReferenceList {
             return null;
         }
         return (QedeqBo) props.get(index);
+    }
+
+    /**
+     * Get KernelQedeqBo of referenced module via label. Might be <code>null</code>.
+     *
+     * @param   label   Label for referenced module or <code>null</code> if not found.
+     * @return  QEQDEQ BO.
+     */
+    public KernelQedeqBo getKernelQedeqBo(final String label) {
+        final int index = labels.indexOf(label);
+        if (index < 0) {
+            return null;
+        }
+        return (KernelQedeqBo) props.get(index);
     }
 
     /**
