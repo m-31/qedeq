@@ -171,7 +171,7 @@
             </LATEX>
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="2" name="equal">
-            <LATEXPATTERN>#1 \\ =  \\ #2</LATEXPATTERN>
+            <LATEXPATTERN>#1 \ =  \ #2</LATEXPATTERN>
             <VARLIST>
               <VAR id="x"/>
               <VAR id="y"/>
