@@ -28,7 +28,7 @@ import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.ModuleNodes;
+import org.qedeq.kernel.common.ModuleLabels;
 import org.qedeq.kernel.common.ModuleReferenceList;
 import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.common.SourceArea;
@@ -64,7 +64,7 @@ public class KernelQedeqBo implements QedeqBo {
     /** Loaded QEDEQ module. */
     private QedeqVo qedeq;
 
-    /** Failure exception. */
+    /** Failure exceptions. */
     private SourceFileExceptionList exception;
 
     /** Required QEDEQ modules. */
@@ -80,7 +80,7 @@ public class KernelQedeqBo implements QedeqBo {
     private String encoding;
 
     /** Labels for this module. */
-    private ModuleNodes labels;
+    private ModuleLabels labels;
 
     /** Loader used for loading this object. */
     private ModuleLoader loader;
@@ -190,10 +190,11 @@ public class KernelQedeqBo implements QedeqBo {
      * Set loading state to "loaded". Also puts <code>null</code> to {@link #getLabels()}.
      *
      * @param   qedeq   This module was loaded. Must not be <code>null</code>.
+     * @param   labels  Module labels.
      * @throws  NullPointerException    One argument was <code>null</code>.
      */
-    public void setLoaded(final QedeqVo qedeq) {
-        stateManager.setLoaded(qedeq);
+    public void setLoaded(final QedeqVo qedeq, final ModuleLabels labels) {
+        stateManager.setLoaded(qedeq, labels);
     }
 
     public String getEncoding() {
@@ -333,6 +334,17 @@ public class KernelQedeqBo implements QedeqBo {
         return this.exception;
     }
 
+    /**
+     * Get warnings for this BO.
+     * <p>
+     * FIXME mime 20080324: implement this method. Put in interface and use in GUI.
+     *
+     * @return  Warnings for this BO.
+     */
+    public SourceFileExceptionList getWarnings() {
+        return null;
+    }
+
     public String getStateDescription() {
         if (loadingState == LoadingState.STATE_LOADING_FROM_WEB) {
             return loadingState.getText() + " (" + loadingCompleteness + "%)";
@@ -381,7 +393,7 @@ public class KernelQedeqBo implements QedeqBo {
      *
      * @param   labels  Label references.
      */
-    public void setLabels(final ModuleNodes labels) {
+    public void setLabels(final ModuleLabels labels) {
         this.labels = labels;
     }
 
@@ -390,7 +402,7 @@ public class KernelQedeqBo implements QedeqBo {
      *
      * @return  Label references.
      */
-    public ModuleNodes getLabels() {
+    public ModuleLabels getLabels() {
         return labels;
     }
 
@@ -510,7 +522,7 @@ public class KernelQedeqBo implements QedeqBo {
      *
      * @param   checker Set this checker.
      */
-    protected void setXXXExistenceChecker(final ExistenceChecker checker) {
+    protected void setExistenceChecker(final ExistenceChecker checker) {
         this.checker = checker;
     }
 
