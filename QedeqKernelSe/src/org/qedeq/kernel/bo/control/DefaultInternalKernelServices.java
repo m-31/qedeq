@@ -308,14 +308,13 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             throw xl;
         }
         prop.setQedeqVo(vo);
-        ModuleNodesCreator moduleNodesCreator = new ModuleNodesCreator(prop);
+        ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(prop);
         try {
-            prop.setLabels(moduleNodesCreator.createLabels());
+            prop.setLoaded(vo, moduleNodesCreator.createLabels());
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, sfl);
             throw sfl;
         }
-        prop.setLoaded(vo);
     }
 
     /**
@@ -369,10 +368,13 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             }
 
             // try loading url directly
+            SourceFileExceptionList sfl = null;
+
+            // FIXME mime 20080324: add warning if loading failed (but not for the last one)
             for (int i = 0; i < modulePaths.length; i++) {
+                KernelQedeqBo prop = null;
                 try {
-                    final KernelQedeqBo prop
-                        = getModules().getKernelQedeqBo(modulePaths[i]);
+                    prop = getModules().getKernelQedeqBo(modulePaths[i]);
                     synchronized (prop) {
                         makeLocalCopy(prop);
                         loadLocalModule(prop);
@@ -382,16 +384,26 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                      QedeqLog.getInstance().logFailureState("Loading of module failed!",
                          modulePaths[i].getURL(), e.toString());
                      Trace.trace(CLASS, this, method, e);
-                     throw createSourceFileExceptionList(e);
+                     sfl = createSourceFileExceptionList(e);
+                     // delete unsuccessful load
+                     if (i + 1 < modulePaths.length) {
+                         prop.delete();
+                         getModules().removeModule(prop);
+                     }
                  } catch (ModuleFileNotFoundException e) {
                      Trace.trace(CLASS, this, method, e);
                      QedeqLog.getInstance().logFailureState("Loading of module failed!",
                          modulePaths[i].getURL(), e.getMessage());
-                     throw createSourcelFileExceptionList(e);
+                     sfl = createSourcelFileExceptionList(e);
+                     // delete unsuccessful load
+                     if (i + 1 < modulePaths.length) {
+                         prop.delete();
+                         getModules().removeModule(prop);
+                     }
                  }
             }
-            throw createSourcelFileExceptionList(new ModuleFileNotFoundException(
-                "no QEDEQ module found"));
+            // throw last loading error
+            throw sfl;
         } finally {
             processDec();
             Trace.end(CLASS, this, method);
@@ -495,7 +507,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
 
-        if (prop.getModuleAddress().isFileAddress()) {
+        if (prop.getModuleAddress().isFileAddress()) {  // this is already a local file
             return;
         }
         FileOutputStream out = null;
@@ -755,7 +767,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     private SourceFileExceptionList createSourcelFileExceptionList(
             final ModuleFileNotFoundException e) {
-        return new DefaultSourceFileExceptionList(e);
+        return new DefaultSourceFileExceptionList(new IOException(e.getMessage()));
     }
 
     public String[] getSourceFileExceptionList(final ModuleAddress address) {
