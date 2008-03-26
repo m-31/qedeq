@@ -47,6 +47,7 @@
       <filter token="QEDEQ_CODENAME"    value="${qedeq.working.codename}" />
       <filter token="QEDEQ_DIRECTORY"   value="${qedeq.working.directory}" />
       <filter token="QEDEQ_TIMESTAMP"   value="${qedeq.se.timestamp}" />
+      <filter token="trace_file_path"   value="./log/trace.log" />
   </filterset>
 
   <taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task" classpath="${qedeq.lib}/xsddoc.jar" />
@@ -358,6 +359,7 @@
       <fileset file="${qedeq.se.rel}/gpl.html" />
       <fileset file="${qedeq.se.rel}/fdl.html" />
       <fileset file="${qedeq.se.rel}/*license.txt" />
+      <filterset refid="qedeq_filter" />
     </copy>
     <delete dir="${qedeq.se.dest}/sample"/>
     <mkdir dir="${qedeq.se.dest}/sample"/>
@@ -379,9 +381,11 @@
     <mkdir dir="${qedeq.se.dest}/bin"/>
     <copy todir="${qedeq.se.dest}/bin">
       <fileset dir="${qedeq.se.rel}/bin/" includes="*.bat,*.sh" excludes="qedeq_se.*,xml2*.*"/>
+      <filterset refid="qedeq_filter" />
     </copy>
     <copy todir="${qedeq.se.dest}">
       <fileset dir="${qedeq.se.rel}/bin/" includes="qedeq_se.*"/>
+      <filterset refid="qedeq_filter" />
     </copy>
     <copy todir="${qedeq.se.dest}">
       <fileset dir="${qedeq.rel.images}" includes="qedeq.*"/>
@@ -394,6 +398,7 @@
     <mkdir dir="${qedeq.se.dest}/buffer"/>
     <copy todir="${qedeq.se.dest}/config">
       <fileset file="${qedeq.gui.se.src}/config/*" excludes="**/log4j.properties"/>
+      <filterset refid="qedeq_filter" />
     </copy>
   </target>
   
