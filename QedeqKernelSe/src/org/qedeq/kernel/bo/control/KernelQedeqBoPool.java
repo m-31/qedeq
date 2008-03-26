@@ -69,9 +69,7 @@ public class KernelQedeqBoPool {
                     iterator.hasNext(); ) {
                 Map.Entry entry = (Map.Entry) iterator.next();
                 final KernelQedeqBo prop = (KernelQedeqBo) entry.getValue();
-                Trace.trace(CLASS, this, method, "remove " +  prop);
-                // TODO mime 20080316: set module progress state really here?
-                prop.setLoadingState(LoadingState.STATE_DELETED);
+                prop.delete();
             }
             bos.clear();
         } catch (RuntimeException e) {
