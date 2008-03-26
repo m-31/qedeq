@@ -101,7 +101,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             QedeqBoFactoryAssert.createQedeq(prop, error);
             // TODO mime 20080306: move this test to another location, building doesn't include
             // checking any longer
-            final ModuleNodesCreator creator = new ModuleNodesCreator(prop);
+            final ModuleLabelsCreator creator = new ModuleLabelsCreator(prop);
             creator.createLabels();
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList e) {

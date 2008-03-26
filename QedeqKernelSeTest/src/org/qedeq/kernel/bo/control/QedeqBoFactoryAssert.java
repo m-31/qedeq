@@ -85,13 +85,13 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
             throw xl;
         }
-        prop.setLoaded(vo);
         final InternalKernelServices services = (InternalKernelServices) IoUtility
             .getFieldContent(KernelFacade.getKernelContext(), "services");
         final ModuleLoader loader = new XmlModuleLoader();
         loader.setServices(services);
         prop.setLoader(loader);
-        prop.setLabels(new ModuleNodesCreator(prop).createLabels());
+        prop.setQedeqVo(vo);
+        prop.setLoaded(vo, new ModuleLabelsCreator(prop).createLabels());
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
         if (!prop.isChecked()) {

@@ -21,7 +21,7 @@ import org.qedeq.kernel.bo.logic.DefaultExistenceChecker;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
-import org.qedeq.kernel.common.ModuleNodes;
+import org.qedeq.kernel.common.ModuleLabels;
 import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.test.QedeqTestCase;
 
@@ -51,12 +51,10 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
         bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, 
             new DefaultSourceFileExceptionList(new NullPointerException()));
         assertTrue(bo.hasFailures());
-        bo.setLoaded(new QedeqVo());
-        bo.setLabels(new ModuleNodes());
+        bo.setLoaded(new QedeqVo(), new ModuleLabels());
         assertFalse(bo.hasFailures());
         bo = new KernelQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
-        bo.setLoaded(new QedeqVo());
-        bo.setLabels(new ModuleNodes());
+        bo.setLoaded(new QedeqVo(), new ModuleLabels());
         bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
             new DefaultSourceFileExceptionList(new NullPointerException()));
         assertTrue(bo.hasFailures());
@@ -201,8 +199,7 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
         bo = new KernelQedeqBo(new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasFailures());
         assertNull(bo.getException());
-        bo.setLoaded(new QedeqVo());
-        bo.setLabels(new ModuleNodes());
+        bo.setLoaded(new QedeqVo(), new ModuleLabels());
         assertTrue(bo.isLoaded());
         assertNull(bo.getException());
         try {
@@ -239,8 +236,7 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
         } catch (IllegalStateException e) {
             // expected
         }
-        bo.setLoaded(new QedeqVo());
-        bo.setLabels(new ModuleNodes());
+        bo.setLoaded(new QedeqVo(), new ModuleLabels());
         assertTrue(bo.isLoaded());
         assertNull(bo.getException());
         bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
@@ -248,8 +244,7 @@ public class DefaultQedeqBo2Test extends QedeqTestCase {
         assertEquals(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
             bo.getDependencyState());
         assertEquals(defaultSourceFileExceptionList, bo.getException());
-        bo.setLoaded(new QedeqVo());
-        bo.setLabels(new ModuleNodes());
+        bo.setLoaded(new QedeqVo(), new ModuleLabels());
         assertTrue(bo.isLoaded());
         assertNull(bo.getException());
         bo.setDependencyProgressState(DependencyState.STATE_UNDEFINED);

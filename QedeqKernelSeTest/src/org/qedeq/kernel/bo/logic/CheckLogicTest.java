@@ -22,10 +22,10 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.control.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.control.InternalKernelServices;
+import org.qedeq.kernel.bo.control.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.control.KernelQedeqBo;
+import org.qedeq.kernel.bo.control.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.control.ModuleLoader;
 import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
 import org.qedeq.kernel.bo.load.QedeqVoBuilder;
@@ -34,6 +34,7 @@ import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.dto.module.QedeqVo;
 import org.qedeq.kernel.test.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.trace.Trace;
@@ -164,16 +165,18 @@ public final class CheckLogicTest extends QedeqTestCase {
         handler.setBasisDocumentHandler(simple);
         SaxParser parser = new SaxParser(handler);
         parser.parse(xmlFile, null);
-        Qedeq qedeq = simple.getQedeq();
-        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade
-            .getKernelContext().getQedeqBo(context);
-        prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq));
-        prop.setLoadedRequiredModules(new KernelModuleReferenceList());
+        final QedeqVo qedeq = (QedeqVo) simple.getQedeq();
         final InternalKernelServices services = (InternalKernelServices) IoUtility
             .getFieldContent(KernelFacade.getKernelContext(), "services");
         final ModuleLoader loader = new XmlModuleLoader();
         loader.setServices(services);
+        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade
+            .getKernelContext().getQedeqBo(context);
         prop.setLoader(loader);
+        IoUtility.setFieldContent(prop, "qedeq", qedeq);
+        prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
+            new ModuleLabelsCreator(prop).createLabels());
+        prop.setLoadedRequiredModules(new KernelModuleReferenceList());
         QedeqBoFormalLogicChecker.check((KernelQedeqBo) prop);
     }
 
