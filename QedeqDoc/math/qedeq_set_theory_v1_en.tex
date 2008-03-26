@@ -2,7 +2,7 @@
 %%% ====================================================================
 %%% @LaTeX-file    qedeq_set_theory_v1_en.tex
 %%% Generated from http://qedeq.org/0_03_09/doc/math/qedeq_set_theory_v1.xml
-%%% Generated at   2008-03-21 09:36:42,640
+%%% Generated at   2008-03-26 05:22:44,359
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -95,7 +95,7 @@ This document is not finished and is updated from time to time. Especially at th
 I am deeply grateful to my wife \emph{Gesine~Dr{\"a}ger} and our son \emph{Lennart} for their support and patience.
 
 \par
-\vspace*{1cm} Hamburg, october 2007 \\
+\vspace*{1cm} Hamburg, march 2008 \\
 \hspace*{\fill} Michael Meyling
 
 %% end of chapter Preface\label{ch:preface}
@@ -103,6 +103,7 @@ I am deeply grateful to my wife \emph{Gesine~Dr{\"a}ger} and our son \emph{Lenna
 \chapter*{Introduction\label{ch:introduction}} \label{chapter1} \hypertarget{chapter1}{}
 \addcontentsline{toc}{chapter}{Introduction\label{ch:introduction}}
 
+Within this document we use the results of \url{file:/M:/qedeq/qedeq/eclipse/QedeqDoc/math/qedeq_logic_v1_en.pdf}.
 After mathematical logic has provided us with the methods of reasoning we start with a very basic theory. Set theory deals with objects and their collections. This theory is interesting for two reasons. First, nearly all mathematical fields use it. Second, every mathematical statement or proof could be cast into formulas within set theory. Number theory, algebra, analysis an all other theories could be constructed within.
 
 \par          
@@ -185,6 +186,25 @@ but if they have the same members, they are the same class.
 
 
 \par
+Now to our first proposition.
+We can reverse the implication in the axiom of extensionality.
+
+\begin{prop}
+\label{theorem:extensonalityEquivalence} \hypertarget{theorem:extensonalityEquivalence}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall z\ (z \in x\ \leftrightarrow \ z \in y)\ \leftrightarrow \ x \ =  \ y$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+This a simple consequence of the second identity axiom. We assume $x=y$. Then follows $\phi(x) \leftrightarrow \phi(y)$ for any predicate $\phi$. So follows $z \in x \leftrightarrow z \in y$ for any $z$. Therefore we have $\forall \ z \ z  \in x \leftrightarrow \ z \in y$. So we derived $x = y \ \rightarrow \ \forall \ z \ z  \in x \leftrightarrow \ z \in y$. Together with the axiom of extensionality~\ref{axiom:extensionality} we get the desired result.
+\end{proof}
+
+
+
+
+\par
 Now we specify \emph{sets}.
 
 \begin{defn}[Set\index{set!definition}]
@@ -197,36 +217,43 @@ So sets are nothing else than special classes. A class is a set iff it is a memb
 
 
 \par
-As a consequence of the axiom of extensionality we have the following.\footnote{The quantification over $z$ is restricted to sets.}
+A trivial consequence of this definition is the following equivalence.
 
 \begin{prop}
-\label{theorem:extensionalitySetRestricted} \hypertarget{theorem:extensionalitySetRestricted}{}
+\label{theorem:inSetEqualInSetAndIsSet} \hypertarget{theorem:inSetEqualInSetAndIsSet}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $\forall \ \mathfrak{M}(z)\ \ (z \in x\ \leftrightarrow \ z \in y)\ \rightarrow \ x \ =  \ y$
+\centering $x \in y\ \leftrightarrow \ (\mathfrak{M}(x)\ \land \ x \in y)$
 \end{longtable}
 
 \end{prop}
 \begin{proof}
-Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $z$ be an arbitrary class. If $z \in x$ then $z$ is a set by definition~\ref{definition:isSet}, and hence by the assumption, $z \in y$. similarly $z \in y \ \rightarrow \ z \in x$. Since $z$ is arbitrary, it follows that $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Thus by    the axiom of extensionality~\ref{axiom:extensionality}, $x = y$.
+`$\Rightarrow$': Assume $x \in y$. It follows $\exists \ u \ x \in u$ and therefore $\mathfrak{M}(x)$ and logically $\mathfrak{M}(x) \land x \in y$.
+
+\par
+`$\Leftarrow$': From $\mathfrak{M}(x) \land x \in y$ we conclude $x \in y$.
 \end{proof}
 
 
 
 
 \par
-We can also reverse the implication in the axiom of extensionality.
+Now we can rewrite the axiom of extensionality as follows.\footnote{The quantification over $z$ is restricted to sets.}
 
 \begin{prop}
-\label{theorem:extensonalityEquivalence} \hypertarget{theorem:extensonalityEquivalence}{}
+\label{theorem:extensionalitySetRestricted} \hypertarget{theorem:extensionalitySetRestricted}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $x \ =  \ y\ \leftrightarrow \ \forall z\ (z \in x\ \leftrightarrow \ z \in y)$
+\centering $x \ =  \ y\ \leftrightarrow \ \forall \ \mathfrak{M}(z)\ \ (z \in x\ \leftrightarrow \ z \in y)$
 \end{longtable}
 
 \end{prop}
 \begin{proof}
-This a simple consequence of the second identity axiom.
+`$\Rightarrow$': Simulary to proof of~\ref{theorem:extensonalityEquivalence} we get the first implication by the second identity axiom.
+
+\par
+`$\Leftarrow$': 
+Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $u$ be an arbitrary class. If $u \in x$ then $u$ is a set by definition~\ref{definition:isSet}, and hence by the assumption, $u \in y$. similarly $u \in y \ \rightarrow \ u \in x$. Since $u$ is arbitrary, it follows that $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Thus by the axiom of extensionality~\ref{axiom:extensionality}, $x = y$.
 \end{proof}
 
 

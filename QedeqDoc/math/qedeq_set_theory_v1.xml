@@ -90,7 +90,7 @@
           I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their support and patience.
 
           \par
-          \vspace*{1cm} Hamburg, october 2007 \\
+          \vspace*{1cm} Hamburg, march 2008 \\
           \hspace*{\fill} Michael Meyling
         ]]>
       </LATEX>
@@ -111,7 +111,7 @@
           Besondere Dank geht an meine Frau \emph{Gesine~Dräger} und unseren Sohn \emph{Lennart} für ihre Unterstützung und ihr Verständnis für ihnen fehlende Zeit.
 
           \par
-          \vspace*{1cm} Hamburg, Oktober 2007 \\
+          \vspace*{1cm} Hamburg, März 2008 \\
           \hspace*{\fill} Michael Meyling
         ]]>
       </LATEX>
@@ -132,6 +132,7 @@
     <INTRODUCTION>
       <LATEX language="en">
         <![CDATA[
+          Within this document we use the results of \qref{l}.
           After mathematical logic has provided us with the methods of reasoning we start with a very basic theory. Set theory deals with objects and their collections. This theory is interesting for two reasons. First, nearly all mathematical fields use it. Second, every mathematical statement or proof could be cast into formulas within set theory. Number theory, algebra, analysis an all other theories could be constructed within.
 
           \par          
@@ -143,7 +144,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-        
+          In diesem Dokument nutzen wir die Ergebnisse aus \qref{l}.
           Nachdem durch die Logik die Art der mathematischen Argumentation vorgegeben wird, wird in der Mengenlehre ganz allgemein über Objekte und ihre Zusammenfassungen gesprochen. Besonders interessant ist die Mengenlehre dadurch, dass sie zum einen von eigentlich allen mathematischen Disziplinen verwendet wird. Zum anderen lässt sich jede mathematische Disziplin innerhalb der Mengenlehre definieren. Zahlentheorie, Algebra, Analysis und alle weiteren Gebiete lassen sich darauf aufbauen.
         
           \par
@@ -383,6 +384,55 @@
             </LATEX>
           </SUCCEEDING>
         </NODE>
+
+        <NODE id="theorem:extensonalityEquivalence" level="formal">
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                Now to our first proposition.
+                We can reverse the implication in the axiom of extensionality.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Nun zu unserer ersten Proposition.
+                In dem Extensionalitätsaxiom können wir die Implikation umkehren.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <THEOREM>
+            <FORMULA>
+              <EQUI>
+                <FORALL>
+                  <VAR id="z"/>
+                  <EQUI>
+                    <PREDCON ref="in">
+                      <VAR id="z"/>
+                      <VAR id="x"/>
+                    </PREDCON>
+                    <PREDCON ref="in">
+                      <VAR id="z"/>
+                      <VAR id="y"/>
+                    </PREDCON>
+                  </EQUI>
+                </FORALL>
+                <PREDCON ref="l.equal">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </PREDCON>
+              </EQUI>
+            </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                 This a simple consequence of the second identity axiom. We assume $x=y$. Then follows $\phi(x) \leftrightarrow \phi(y)$ for any predicate $\phi$. So follows $z \in x \leftrightarrow z \in y$ for any $z$. Therefore we have $\forall \ z \ z  \in x \leftrightarrow \ z \in y$. So we derived $x = y \ \rightarrow \ \forall \ z \ z  \in x \leftrightarrow \ z \in y$. Together with the axiom of extensionality~\ref{axiom:extensionality} we get the desired result.
+              </LATEX>
+              <LATEX language="de">
+                 Dies ist eine einfache Anwendung des zweiten identitätslogischen Axioms. Wir setzen $x=y$ voraus. Nun folgt $\phi(x) \leftrightarrow \phi(y)$ für jedes Prädikat $\phi$. So bekommen wir $z \in x \leftrightarrow z \in y$ für beliebiges $z$. Also haben wir $\forall \ z \ z  \in x \leftrightarrow \ z \in y$. Damit zeigten wir $x = y \ \rightarrow \ \forall \ z \ z  \in x \leftrightarrow \ z \in y$. Zusammen mit dem Extensionalitätsaxiom~\ref{axiom:extensionality} erhalten wir das gewünschte Ergebnis.
+              </LATEX>
+            </PROOF>
+          </THEOREM>
+        </NODE>
+
         <NODE id="definition:isSet">
           <NAME>
             <LATEX language="en">is set</LATEX>
@@ -428,22 +478,79 @@
             </LATEX>
           </SUCCEEDING>
         </NODE>
-        <NODE id="theorem:extensionalitySetRestricted" level="formal">
+        
+        <NODE id="theorem:inSetEqualInSetAndIsSet" level="formal">
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                As a consequence of the axiom of extensionality we have the following.\footnote{The quantification over $z$ is restricted to sets.}
+                A trivial consequence of this definition is the following equivalence.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Als erste Folgerung aus dem Extensionalitätsaxiom erhalten wir das Folgende.\footnote{Es wird ein eingeschränkter Allquantor benutzt, $z$ läuft nur über Mengen.}
+                Eine triviale Folgerung aus dieser Definition ist die folgende Äquivalenz.
               ]]>
             </LATEX>
           </PRECEDING>
           <THEOREM>
             <FORMULA>
-              <IMPL>
+              <EQUI>
+                <PREDCON ref="in">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </PREDCON>
+                <AND>
+                  <PREDCON ref="isSet">
+                    <VAR id="x"/>
+                  </PREDCON>
+                  <PREDCON ref="in">
+                    <VAR id="x"/>
+                    <VAR id="y"/>
+                  </PREDCON>
+                </AND>
+              </EQUI>
+            </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  `$\Rightarrow$': Assume $x \in y$. It follows $\exists \ u \ x \in u$ and therefore $\mathfrak{M}(x)$ and logically $\mathfrak{M}(x) \land x \in y$.
+                  
+                  \par
+                  `$\Leftarrow$': From $\mathfrak{M}(x) \land x \in y$ we conclude $x \in y$.
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                  `$\Rightarrow$': Sei $x \in y$. Es folgt $\exists \ u \ x \in u$ und daher $\mathfrak{M}(x)$ und logisch $\mathfrak{M}(x) \land x \in y$.
+                  
+                  \par
+                  `$\Leftarrow$': Aus $\mathfrak{M}(x) \land x \in y$ schließen wir $x \in y$.
+                ]]>
+              </LATEX>
+            </PROOF>
+          </THEOREM>
+        </NODE>
+
+        <NODE id="theorem:extensionalitySetRestricted" level="formal">
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                Now we can rewrite the axiom of extensionality as follows.\footnote{The quantification over $z$ is restricted to sets.}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Nun können wir das Extensionalitätsaxiom wie folgt schreiben.\footnote{Es wird ein eingeschränkter Allquantor benutzt, $z$ läuft nur über Mengen.}
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <THEOREM>
+            <FORMULA>
+              <EQUI>
+                <PREDCON ref="l.equal">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </PREDCON>
                 <FORALL>
                   <VAR id="z"/>
                   <PREDCON ref="isSet">
@@ -460,68 +567,26 @@
                     </PREDCON>
                   </EQUI>
                 </FORALL>
-                <PREDCON ref="l.equal">
-                  <VAR id="x"/>
-                  <VAR id="y"/>
-                </PREDCON>
-              </IMPL>
-            </FORMULA>
-            <PROOF kind="informal" level="1">
-              <LATEX language="en">
-                <![CDATA[
-                  Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $z$ be an arbitrary class. If $z \in x$ then $z$ is a set by definition~\ref{definition:isSet}, and hence by the assumption, $z \in y$. similarly $z \in y \ \rightarrow \ z \in x$. Since $z$ is arbitrary, it follows that $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Thus by    the axiom of extensionality~\ref{axiom:extensionality}, $x = y$. 
-                ]]>
-              </LATEX>
-              <LATEX language="de">
-                <![CDATA[
-                  Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $z$ eine beliebige Klasse. Falls $z \in x$ dann gilt $z$ ist eine Menge nach Definition~\ref{definition:isSet}, und daraus folgt mit der Annahme $z \in y$. Analog folgt $z \in y \ \rightarrow \ z \in x$. Da $z$ beliebig, haben wir $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Und mit dem  Extensionalitätsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$. 
-                ]]>
-              </LATEX>
-            </PROOF>
-          </THEOREM>
-        </NODE>
-
-        <NODE id="theorem:extensonalityEquivalence" level="formal">
-          <PRECEDING>
-            <LATEX language="en">
-              <![CDATA[
-                We can also reverse the implication in the axiom of extensionality.
-              ]]>
-            </LATEX>
-            <LATEX language="de">
-              <![CDATA[
-                Weiterhin können wir in dem Extensionalitätsaxiom die Implikation umkehren.
-              ]]>
-            </LATEX>
-          </PRECEDING>
-          <THEOREM>
-            <FORMULA>
-              <EQUI>
-                <PREDCON ref="l.equal">
-                  <VAR id="x"/>
-                  <VAR id="y"/>
-                </PREDCON>
-                <FORALL>
-                  <VAR id="z"/>
-                  <EQUI>
-                    <PREDCON ref="in">
-                      <VAR id="z"/>
-                      <VAR id="x"/>
-                    </PREDCON>
-                    <PREDCON ref="in">
-                      <VAR id="z"/>
-                      <VAR id="y"/>
-                    </PREDCON>
-                  </EQUI>
-                </FORALL>
               </EQUI>
             </FORMULA>
             <PROOF kind="informal" level="1">
               <LATEX language="en">
-                 This a simple consequence of the second identity axiom.
+                <![CDATA[
+                  `$\Rightarrow$': Simulary to proof of~\ref{theorem:extensonalityEquivalence} we get the first implication by the second identity axiom.
+                  
+                  \par
+                  `$\Leftarrow$': 
+                  Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $u$ be an arbitrary class. If $u \in x$ then $u$ is a set by definition~\ref{definition:isSet}, and hence by the assumption, $u \in y$. similarly $u \in y \ \rightarrow \ u \in x$. Since $u$ is arbitrary, it follows that $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Thus by the axiom of extensionality~\ref{axiom:extensionality}, $x = y$.
+                ]]>
               </LATEX>
               <LATEX language="de">
-                 Dies ist eine einfache Anwendung des zweiten identitätslogischen Axioms.
+                <![CDATA[
+                  `$\Rightarrow$': Genauso wie im Beweis zu~\ref{theorem:extensonalityEquivalence} erhalten wir die erste Implikation mit dem zweiten idenitätslogischen Axiom.
+                  
+                  \par
+                  `$\Leftarrow$': 
+                  Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $u$ eine beliebige Klasse. Falls $u \in x$ dann gilt $u$ ist eine Menge nach Definition~\ref{definition:isSet}, und daraus folgt mit der Annahme $u \in y$. Analog folgt $u \in y \ \rightarrow \ u \in x$. Da $u$ beliebig, haben wir $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Und mit dem Extensionalitätsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$. 
+                ]]>
               </LATEX>
             </PROOF>
           </THEOREM>

@@ -2,7 +2,7 @@
 %%% ====================================================================
 %%% @LaTeX-file    qedeq_set_theory_v1_de.tex
 %%% Generated from http://qedeq.org/0_03_09/doc/math/qedeq_set_theory_v1.xml
-%%% Generated at   2008-03-21 09:36:44,593
+%%% Generated at   2008-03-26 05:22:46,546
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -94,7 +94,7 @@ Dieses Dokument ist noch im Entstehen und wird von Zeit zu Zeit aktualisiert. In
 Besondere Dank geht an meine Frau \emph{Gesine~Dr{\"a}ger} und unseren Sohn \emph{Lennart} f{\"u}r ihre Unterst{\"u}tzung und ihr Verst{\"a}ndnis f{\"u}r ihnen fehlende Zeit.
 
 \par
-\vspace*{1cm} Hamburg, Oktober 2007 \\
+\vspace*{1cm} Hamburg, M{\"a}rz 2008 \\
 \hspace*{\fill} Michael Meyling
 
 %% end of chapter Vorwort\label{ch:preface}
@@ -102,13 +102,14 @@ Besondere Dank geht an meine Frau \emph{Gesine~Dr{\"a}ger} und unseren Sohn \emp
 \chapter*{Einleitung\label{ch:introduction}} \label{chapter1} \hypertarget{chapter1}{}
 \addcontentsline{toc}{chapter}{Einleitung\label{ch:introduction}}
 
+In diesem Dokument nutzen wir die Ergebnisse aus \url{file:/M:/qedeq/qedeq/eclipse/QedeqDoc/math/qedeq_logic_v1_de.pdf}.
 Nachdem durch die Logik die Art der mathematischen Argumentation vorgegeben wird, wird in der Mengenlehre ganz allgemein {\"u}ber Objekte und ihre Zusammenfassungen gesprochen. Besonders interessant ist die Mengenlehre dadurch, dass sie zum einen von eigentlich allen mathematischen Disziplinen verwendet wird. Zum anderen l{\"a}sst sich jede mathematische Disziplin innerhalb der Mengenlehre definieren. Zahlentheorie, Algebra, Analysis und alle weiteren Gebiete lassen sich darauf aufbauen.
-
-  \par
-  Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen Disziplinen ben{\"o}tigt werden. Nach den Grundlagen wird die Boolsche Algebra der Klassen betrachtet. Es schliessen sich Betrachtungen {\"u}ber Relationen und Funktionen an. Ein weiteres wichtiges Ergebnis sind die Definition der nat{\"u}rlichen Zahlen und die Erf{\"u}llung der Peano-Axiome durch diese, auch auf den Begriff der Rekursion wird eingegangen.
- 
-  \par
-  Die Darstellung erfolgt in axiomatischer Weise soll aber im Ergebnis der mathematischen Praxis entsprechen. Daher wird auch das Axiomensystem der Mengenlehre von \emph{A.~P.~Morse} und  \emph{J.~L.~Kelley} (MK\index{MK}) verwendet.
+        
+\par
+Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen Disziplinen ben{\"o}tigt werden. Nach den Grundlagen wird die Boolsche Algebra der Klassen betrachtet. Es schliessen sich Betrachtungen {\"u}ber Relationen und Funktionen an. Ein weiteres wichtiges Ergebnis sind die Definition der nat{\"u}rlichen Zahlen und die Erf{\"u}llung der Peano-Axiome durch diese, auch auf den Begriff der Rekursion wird eingegangen.
+         
+\par
+Die Darstellung erfolgt in axiomatischer Weise soll aber im Ergebnis der mathematischen Praxis entsprechen. Daher wird auch das Axiomensystem der Mengenlehre von \emph{A.~P.~Morse} und  \emph{J.~L.~Kelley} (MK\index{MK}) verwendet.
 
 %% end of chapter Einleitung\label{ch:introduction}
 
@@ -185,6 +186,25 @@ aber wenn sie dieselben Elemente besitzen, sind sie gleich.
 
 
 \par
+Nun zu unserer ersten Proposition.
+In dem Extensionalit{\"a}tsaxiom k{\"o}nnen wir die Implikation umkehren.
+
+\begin{prop}
+\label{theorem:extensonalityEquivalence} \hypertarget{theorem:extensonalityEquivalence}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\forall z\ (z \in x\ \leftrightarrow \ z \in y)\ \leftrightarrow \ x \ =  \ y$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+Dies ist eine einfache Anwendung des zweiten identit{\"a}tslogischen Axioms. Wir setzen $x=y$ voraus. Nun folgt $\phi(x) \leftrightarrow \phi(y)$ f{\"u}r jedes Pr{\"a}dikat $\phi$. So bekommen wir $z \in x \leftrightarrow z \in y$ f{\"u}r beliebiges $z$. Also haben wir $\forall \ z \ z  \in x \leftrightarrow \ z \in y$. Damit zeigten wir $x = y \ \rightarrow \ \forall \ z \ z  \in x \leftrightarrow \ z \in y$. Zusammen mit dem Extensionalit{\"a}tsaxiom~\ref{axiom:extensionality} erhalten wir das gew{\"u}nschte Ergebnis.
+\end{proof}
+
+
+
+
+\par
 Jetzt legen wir fest, was eine \emph{Menge} ist.
 
 \begin{defn}[Menge\index{Menge!Definition}]
@@ -197,36 +217,43 @@ Mengen sind also nichts anderes, als Klassen mit einer besonderen Eigenschaft. E
 
 
 \par
-Als erste Folgerung aus dem Extensionalit{\"a}tsaxiom erhalten wir das Folgende.\footnote{Es wird ein eingeschr{\"a}nkter Allquantor benutzt, $z$ l{\"a}uft nur {\"u}ber Mengen.}
+Eine triviale Folgerung aus dieser Definition ist die folgende {\"A}quivalenz.
 
 \begin{prop}
-\label{theorem:extensionalitySetRestricted} \hypertarget{theorem:extensionalitySetRestricted}{}
+\label{theorem:inSetEqualInSetAndIsSet} \hypertarget{theorem:inSetEqualInSetAndIsSet}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $\forall \ \mathfrak{M}(z)\ \ (z \in x\ \leftrightarrow \ z \in y)\ \rightarrow \ x \ =  \ y$
+\centering $x \in y\ \leftrightarrow \ (\mathfrak{M}(x)\ \land \ x \in y)$
 \end{longtable}
 
 \end{prop}
 \begin{proof}
-Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $z$ eine beliebige Klasse. Falls $z \in x$ dann gilt $z$ ist eine Menge nach Definition~\ref{definition:isSet}, und daraus folgt mit der Annahme $z \in y$. Analog folgt $z \in y \ \rightarrow \ z \in x$. Da $z$ beliebig, haben wir $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Und mit dem  Extensionalit{\"a}tsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$.
+`$\Rightarrow$': Sei $x \in y$. Es folgt $\exists \ u \ x \in u$ und daher $\mathfrak{M}(x)$ und logisch $\mathfrak{M}(x) \land x \in y$.
+
+\par
+`$\Leftarrow$': Aus $\mathfrak{M}(x) \land x \in y$ schlie{\ss}en wir $x \in y$.
 \end{proof}
 
 
 
 
 \par
-Weiterhin k{\"o}nnen wir in dem Extensionalit{\"a}tsaxiom die Implikation umkehren.
+Nun k{\"o}nnen wir das Extensionalit{\"a}tsaxiom wie folgt schreiben.\footnote{Es wird ein eingeschr{\"a}nkter Allquantor benutzt, $z$ l{\"a}uft nur {\"u}ber Mengen.}
 
 \begin{prop}
-\label{theorem:extensonalityEquivalence} \hypertarget{theorem:extensonalityEquivalence}{}
+\label{theorem:extensionalitySetRestricted} \hypertarget{theorem:extensionalitySetRestricted}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $x \ =  \ y\ \leftrightarrow \ \forall z\ (z \in x\ \leftrightarrow \ z \in y)$
+\centering $x \ =  \ y\ \leftrightarrow \ \forall \ \mathfrak{M}(z)\ \ (z \in x\ \leftrightarrow \ z \in y)$
 \end{longtable}
 
 \end{prop}
 \begin{proof}
-Dies ist eine einfache Anwendung des zweiten identit{\"a}tslogischen Axioms.
+`$\Rightarrow$': Genauso wie im Beweis zu~\ref{theorem:extensonalityEquivalence} erhalten wir die erste Implikation mit dem zweiten idenit{\"a}tslogischen Axiom.
+
+\par
+`$\Leftarrow$': 
+Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $u$ eine beliebige Klasse. Falls $u \in x$ dann gilt $u$ ist eine Menge nach Definition~\ref{definition:isSet}, und daraus folgt mit der Annahme $u \in y$. Analog folgt $u \in y \ \rightarrow \ u \in x$. Da $u$ beliebig, haben wir $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Und mit dem Extensionalit{\"a}tsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$.
 \end{proof}
 
 
