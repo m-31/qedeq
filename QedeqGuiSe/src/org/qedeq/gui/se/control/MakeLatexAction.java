@@ -1,4 +1,4 @@
-/* $Id: MakeLatexAction.java,v 1.4 2008/01/26 12:38:27 m31 Exp $
+/* $Id: MakeLatexAction.java,v 1.5 2008/03/27 05:14:03 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

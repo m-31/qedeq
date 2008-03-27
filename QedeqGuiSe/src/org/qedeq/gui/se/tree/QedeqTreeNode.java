@@ -1,4 +1,4 @@
-/* $Id: QedeqTreeNode.java,v 1.2 2007/12/21 23:34:47 m31 Exp $
+/* $Id: QedeqTreeNode.java,v 1.3 2008/03/27 05:14:03 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.common.QedeqBo;
 /**
  * Node for a JTreee.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public final class QedeqTreeNode extends DefaultMutableTreeNode {

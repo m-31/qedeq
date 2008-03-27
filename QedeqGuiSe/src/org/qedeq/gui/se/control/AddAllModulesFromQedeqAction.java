@@ -1,4 +1,4 @@
-/* $Id: AddAllModulesFromQedeqAction.java,v 1.2 2008/01/26 12:38:27 m31 Exp $
+/* $Id: AddAllModulesFromQedeqAction.java,v 1.3 2008/03/27 05:14:04 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * Add all modules from the QEDEQ web page.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 class AddAllModulesFromQedeqAction extends AbstractAction {

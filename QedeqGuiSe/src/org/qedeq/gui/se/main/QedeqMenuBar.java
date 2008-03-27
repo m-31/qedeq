@@ -1,4 +1,4 @@
-/* $Id: QedeqMenuBar.java,v 1.3 2007/12/21 23:34:47 m31 Exp $
+/* $Id: QedeqMenuBar.java,v 1.4 2008/03/27 05:14:04 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -33,7 +33,7 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
  * Menu bar and pull-down menus.
  *
  * @author  Michael Meyling
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class QedeqMenuBar extends JMenuBar {
 

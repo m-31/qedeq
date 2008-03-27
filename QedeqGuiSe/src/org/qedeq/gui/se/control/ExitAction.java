@@ -1,4 +1,4 @@
-/* $Id: ExitAction.java,v 1.1 2007/08/21 20:44:58 m31 Exp $
+/* $Id: ExitAction.java,v 1.2 2008/03/27 05:14:03 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.context.KernelContext;
 /**
  * Exit from application.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 class ExitAction extends AbstractAction {

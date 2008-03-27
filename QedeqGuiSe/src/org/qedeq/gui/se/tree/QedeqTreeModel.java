@@ -1,4 +1,4 @@
-/* $Id: QedeqTreeModel.java,v 1.4 2008/01/26 12:38:27 m31 Exp $
+/* $Id: QedeqTreeModel.java,v 1.5 2008/03/27 05:14:03 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -39,7 +39,7 @@ import org.qedeq.kernel.trace.Trace;
  * software application and the high-level class associated with it. The
  * object model does not contain any information about the user interface.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEventListener {

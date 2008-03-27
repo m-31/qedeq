@@ -1,4 +1,4 @@
-/* $Id: PreferencesAction.java,v 1.2 2008/01/26 12:38:27 m31 Exp $
+/* $Id: PreferencesAction.java,v 1.3 2008/03/27 05:14:03 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.gui.se.pane.Preferences;
 /**
  * Show preferences window.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 class PreferencesAction extends AbstractAction {

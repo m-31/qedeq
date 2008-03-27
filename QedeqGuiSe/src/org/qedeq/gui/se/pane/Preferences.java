@@ -1,4 +1,4 @@
-// $Id: Preferences.java,v 1.3 2008/01/26 12:38:27 m31 Exp $
+// $Id: Preferences.java,v 1.4 2008/03/27 05:14:03 m31 Exp $
 //
 // This file is part of the program suite "Principia Mathematica II"
 // which is a working prototype for the main project:
@@ -40,7 +40,7 @@ import org.qedeq.kernel.trace.Trace;
  * Show and edit preferences of this application.
  * TODO mime 20071228: this frame is pixel hardcoded, replace by non pixel layouted version
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class Preferences extends JFrame {

@@ -1,4 +1,4 @@
-/* $Id: QedeqTreeCellRenderer.java,v 1.5 2008/01/26 12:38:27 m31 Exp $
+/* $Id: QedeqTreeCellRenderer.java,v 1.6 2008/03/27 05:14:03 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -38,7 +38,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * Renderer for a JTree.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRenderer {

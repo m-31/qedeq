@@ -1,4 +1,4 @@
-/* $Id: QedeqMainFrame.java,v 1.3 2008/01/26 12:38:27 m31 Exp $
+/* $Id: QedeqMainFrame.java,v 1.4 2008/03/27 05:14:04 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -54,7 +54,7 @@ import com.jgoodies.looks.Options;
  * version of <b>Hilbert II</b>.
  *
  * @author  Michael Meyling
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  */
 public class QedeqMainFrame extends JFrame {
 
