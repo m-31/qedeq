@@ -275,6 +275,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
             throw prop.getException();
         }
         
+        // FIXME doesn't work for links to external QEDEQ modules because that are absolute links!
         final String web = "http://qedeq.org/" 
             + KernelFacade.getKernelContext().getKernelVersionDirectory() + "/doc/" + xml;
         final KernelQedeqBo fakeProp = (KernelQedeqBo) KernelFacade.getKernelContext()
