@@ -1,4 +1,4 @@
-/* $Id: QedeqTestCase.java,v 1.4 2007/02/25 20:04:31 m31 Exp $
+/* $Id: QedeqTestCase.java,v 1.5 2008/03/27 05:12:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 /**
  * Basis class for all tests.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author Michael Meyling
  */
 public class QedeqTestCase extends TestCase {

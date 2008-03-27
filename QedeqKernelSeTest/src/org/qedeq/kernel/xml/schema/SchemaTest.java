@@ -1,4 +1,4 @@
-/* $Id: SchemaTest.java,v 1.9 2007/10/07 16:43:10 m31 Exp $
+/* $Id: SchemaTest.java,v 1.10 2008/03/27 05:12:45 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ import org.qedeq.kernel.test.QedeqTestCase;
 /**
  * This class tests the XML schema files under <code>org.qedeq.kernel.xml.schema</code>.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  * @author    Michael Meyling
  */
 public class SchemaTest extends QedeqTestCase {

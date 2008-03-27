@@ -1,4 +1,4 @@
-/* $Id: FormulaCheckerPredicateFormulaTest.java,v 1.7 2008/01/26 12:39:49 m31 Exp $
+/* $Id: FormulaCheckerPredicateFormulaTest.java,v 1.8 2008/03/27 05:12:43 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.common.ModuleContext;
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
  * Testing formulas made of predicate variables and predicate constants.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {

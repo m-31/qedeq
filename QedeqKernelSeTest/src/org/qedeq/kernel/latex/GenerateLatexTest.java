@@ -1,4 +1,4 @@
-/* $Id: GenerateLatexTest.java,v 1.23 2008/01/26 12:39:51 m31 Exp $
+/* $Id: GenerateLatexTest.java,v 1.24 2008/03/27 05:12:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -44,7 +44,7 @@ import org.xml.sax.SAXParseException;
 /**
  * Test generating LaTeX files for all known samples.
  * 
- * @version $Revision: 1.23 $
+ * @version $Revision: 1.24 $
  * @author Michael Meyling
  */
 public final class GenerateLatexTest extends QedeqTestCase {

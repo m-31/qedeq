@@ -1,4 +1,4 @@
-/* $Id: KernelBoLogicTestSuite.java,v 1.3 2007/12/21 23:35:17 m31 Exp $
+/* $Id: KernelBoLogicTestSuite.java,v 1.4 2008/03/27 05:12:43 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.kernel.test.QedeqTestSuite;
 /**
  * Run all junit tests for package org.qedeq.kernel.bo.module.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author    Michael Meyling
  */
 public class KernelBoLogicTestSuite extends QedeqTestSuite {

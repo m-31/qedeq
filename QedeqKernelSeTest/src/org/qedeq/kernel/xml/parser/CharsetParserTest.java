@@ -1,4 +1,4 @@
-/* $Id: QedeqParserTest.java,v 1.14 2007/12/21 23:35:18 m31 Exp $
+/* $Id: CharsetParserTest.java,v 1.1 2008/03/27 05:12:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.test.QedeqTestCase;
  * Tests correct charset handling by {@link SaxParser}, 
  * {@link org.qedeq.kernel.xml.parser.SaxDefaultHandler} (and higher level classes).
  *
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class CharsetParserTest extends QedeqTestCase {

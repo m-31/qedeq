@@ -1,4 +1,4 @@
-/* $Id: SubsectionVoTest.java,v 1.6 2007/02/25 20:04:31 m31 Exp $
+/* $Id: SubsectionVoTest.java,v 1.7 2008/03/27 05:12:40 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -23,7 +23,7 @@ package org.qedeq.kernel.dto.module;
 /**
  * Test class {@link org.qedeq.kernel.dto.module.SubsectionVo}.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public class SubsectionVoTest extends AbstractVoModuleTest {

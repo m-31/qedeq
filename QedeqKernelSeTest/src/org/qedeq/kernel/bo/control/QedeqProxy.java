@@ -1,4 +1,4 @@
-/* $Id: QedeqProxy.java,v 1.6 2008/01/26 12:39:50 m31 Exp $
+/* $Id: QedeqProxy.java,v 1.7 2008/03/27 05:12:45 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.kernel.utility.StringUtility;
 /**
  * For testing QEDEQ modules.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author Michael Meyling
  */
 public class QedeqProxy implements InvocationHandler {

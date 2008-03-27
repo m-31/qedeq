@@ -1,4 +1,4 @@
-/* $Id: KernelDtoModuleTestSuite.java,v 1.1 2007/12/21 23:35:17 m31 Exp $
+/* $Id: KernelDtoModuleTestSuite.java,v 1.2 2008/03/27 05:12:39 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.kernel.test.QedeqTestSuite;
 /**
  * Run all junit tests for package org.qedeq.kernel.vo.module.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author    Michael Meyling
  */
 public class KernelDtoModuleTestSuite extends QedeqTestSuite {

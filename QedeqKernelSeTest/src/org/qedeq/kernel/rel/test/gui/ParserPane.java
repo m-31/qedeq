@@ -1,4 +1,4 @@
-/* $Id: ParserPane.java,v 1.3 2008/01/26 12:39:50 m31 Exp $
+/* $Id: ParserPane.java,v 1.4 2008/03/27 05:12:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -52,7 +52,7 @@ import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 /**
  * View for QEDEQ XML files.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public class ParserPane extends JFrame {

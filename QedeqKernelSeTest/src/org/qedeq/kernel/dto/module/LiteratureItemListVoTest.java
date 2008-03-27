@@ -1,4 +1,4 @@
-/* $Id: LiteratureItemListVoTest.java,v 1.2 2007/02/25 20:04:31 m31 Exp $
+/* $Id: LiteratureItemListVoTest.java,v 1.3 2008/03/27 05:12:39 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ package org.qedeq.kernel.dto.module;
 /**
  * Test class {@link org.qedeq.kernel.dto.module.LiteratureItemListVo}.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author    Michael Meyling
  */
 public class LiteratureItemListVoTest extends AbstractVoModuleTest {

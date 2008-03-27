@@ -1,4 +1,4 @@
-/* $Id: LinkListVoTest.java,v 1.3 2007/02/25 20:04:31 m31 Exp $
+/* $Id: LinkListVoTest.java,v 1.4 2008/03/27 05:12:40 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ package org.qedeq.kernel.dto.module;
 /**
  * Test class {@link org.qedeq.kernel.dto.module.LinkListVo}.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author    Michael Meyling
  */
 public class LinkListVoTest extends AbstractVoModuleTest {

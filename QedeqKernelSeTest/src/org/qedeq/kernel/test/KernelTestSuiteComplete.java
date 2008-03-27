@@ -1,4 +1,4 @@
-/* $Id: KernelTestSuiteComplete.java,v 1.3 2007/02/25 20:04:31 m31 Exp $
+/* $Id: KernelTestSuiteComplete.java,v 1.4 2008/03/27 05:12:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -23,7 +23,7 @@ import junit.framework.Test;
 /**
  * Run all tests inclusive "pest" methods for the project.
  * 
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author Michael Meyling
  */
 public class KernelTestSuiteComplete extends KernelTestSuite {

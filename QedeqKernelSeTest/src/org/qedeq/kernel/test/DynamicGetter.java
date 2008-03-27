@@ -1,4 +1,4 @@
-/* $Id: DynamicGetter.java,v 1.4 2008/01/26 12:39:51 m31 Exp $
+/* $Id: DynamicGetter.java,v 1.5 2008/03/27 05:12:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.trace.Trace;
  * Get result of getter expression chain. A string is interpreted as an getter call chain and
  * is called on a given object. The resulting object is returned.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author Michael Meyling
  */
 public final class DynamicGetter {

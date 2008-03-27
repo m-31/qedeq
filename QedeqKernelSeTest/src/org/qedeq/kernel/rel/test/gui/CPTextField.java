@@ -1,4 +1,4 @@
-/* $Id: CPTextField.java,v 1.1 2007/10/07 16:43:10 m31 Exp $
+/* $Id: CPTextField.java,v 1.2 2008/03/27 05:12:45 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import javax.swing.JTextField;
 /**
  * TextField with Cut and Paste.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public class CPTextField extends JTextField {
@@ -60,7 +60,7 @@ public class CPTextField extends JTextField {
     /**
      * Clipboard listener.
      *
-     * @version $Revision: 1.1 $
+     * @version $Revision: 1.2 $
      * @author    Michael Meyling
      */
     private class ClipboardListener extends MouseAdapter implements ActionListener {

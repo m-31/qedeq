@@ -1,4 +1,4 @@
-/* $Id: TestParser.java,v 1.9 2008/01/26 12:39:50 m31 Exp $
+/* $Id: TestParser.java,v 1.10 2008/03/27 05:12:43 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

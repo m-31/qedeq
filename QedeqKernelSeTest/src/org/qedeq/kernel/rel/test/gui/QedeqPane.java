@@ -1,4 +1,4 @@
-/* $Id: QedeqPane.java,v 1.3 2008/01/26 12:39:50 m31 Exp $
+/* $Id: QedeqPane.java,v 1.4 2008/03/27 05:12:45 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

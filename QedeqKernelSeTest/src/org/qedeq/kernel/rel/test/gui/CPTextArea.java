@@ -1,4 +1,4 @@
-/* $Id: CPTextArea.java,v 1.1 2007/10/07 16:43:10 m31 Exp $
+/* $Id: CPTextArea.java,v 1.2 2008/03/27 05:12:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import javax.swing.JTextArea;
 /**
  * TextField with Cut and Paste.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public class CPTextArea extends JTextArea {
@@ -60,7 +60,7 @@ public class CPTextArea extends JTextArea {
     /**
      * Clipboard listener.
      *
-     * @version $Revision: 1.1 $
+     * @version $Revision: 1.2 $
      * @author    Michael Meyling
      */
     private class ClipboardListener extends MouseAdapter implements ActionListener {

@@ -1,4 +1,4 @@
-/* $Id: TextInputTest.java,v 1.10 2007/02/25 20:04:32 m31 Exp $
+/* $Id: TextInputTest.java,v 1.11 2008/03/27 05:12:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.kernel.test.QedeqTestCase;
 /**
  * Test {@link org.qedeq.kernel.utility.TextInput}.
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  * @author  Michael Meyling
  */
 public class TextInputTest extends QedeqTestCase {

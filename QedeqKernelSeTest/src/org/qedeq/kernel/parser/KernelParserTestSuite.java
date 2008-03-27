@@ -1,4 +1,4 @@
-/* $Id: KernelParserTestSuite.java,v 1.1 2007/12/21 23:35:18 m31 Exp $
+/* $Id: KernelParserTestSuite.java,v 1.2 2008/03/27 05:12:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.kernel.test.QedeqTestSuite;
 /**
  * Run all JUnit tests for package org.qedeq.kernel.parser.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author    Michael Meyling
  */
 public class KernelParserTestSuite extends QedeqTestSuite {

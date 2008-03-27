@@ -1,4 +1,4 @@
-/* $Id: ParameterList.java,v 1.1 2007/10/07 16:43:10 m31 Exp $
+/* $Id: ParameterList.java,v 1.2 2008/03/27 05:12:45 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import java.util.Properties;
 /**
  * List of {@link Parameter}s.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author Michael Meyling
  */
 public class ParameterList {
