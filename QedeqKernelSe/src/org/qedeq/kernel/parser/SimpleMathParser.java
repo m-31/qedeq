@@ -1,4 +1,4 @@
-/* $Id: SimpleMathParser.java,v 1.3 2007/05/10 00:37:51 m31 Exp $
+/* $Id: SimpleMathParser.java,v 1.4 2008/03/27 05:16:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.utility.TextInput;
  * Parse term or formula data into {@link org.qedeq.kernel.parser.Term}s.
  * This parser uses simple ASCII text operators.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public class SimpleMathParser extends MathParser {

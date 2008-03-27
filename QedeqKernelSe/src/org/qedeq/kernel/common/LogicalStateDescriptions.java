@@ -1,4 +1,4 @@
-/* $Id: LogicalStateDescriptions.java,v 1.3 2007/12/21 23:33:46 m31 Exp $
+/* $Id: LogicalStateDescriptions.java,v 1.1 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -20,7 +20,7 @@ package org.qedeq.kernel.common;
 /**
  * This interface provides primitive constants for the {@link LogicalState}.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public interface LogicalStateDescriptions {

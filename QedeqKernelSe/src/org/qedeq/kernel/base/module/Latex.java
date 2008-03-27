@@ -1,4 +1,4 @@
-/* $Id: Latex.java,v 1.6 2007/02/25 20:05:36 m31 Exp $
+/* $Id: Latex.java,v 1.7 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.base.module;
 /**
  * LaTeX text part.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public interface Latex {

@@ -1,4 +1,4 @@
-/* $Id: Node.java,v 1.8 2007/02/25 20:05:35 m31 Exp $
+/* $Id: Node.java,v 1.9 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.base.module;
 /**
  * A node carries mathematical knowledge.
  *
- * @version   $Revision: 1.8 $
+ * @version   $Revision: 1.9 $
  * @author    Michael Meyling
  */
 public interface Node extends SubsectionType {

@@ -1,4 +1,4 @@
-/* $Id: TooFewArgumentsException.java,v 1.3 2007/02/25 20:05:35 m31 Exp $
+/* $Id: TooFewArgumentsException.java,v 1.4 2008/03/27 05:16:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -20,7 +20,7 @@ package org.qedeq.kernel.parser;
 /**
  * To few arguments. More arguments were expected.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public class TooFewArgumentsException extends ParserException {

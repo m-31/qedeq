@@ -1,4 +1,4 @@
-/* $Id: ElementHandler.java,v 1.3 2007/05/10 00:37:52 m31 Exp $
+/* $Id: ElementHandler.java,v 1.4 2008/03/27 05:16:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -37,7 +37,7 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
  * validating. It simply puts all attributes into string atoms and
  * adds all sub elements. The element name is taken for the operator name.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author Michael Meyling
  */
 public class ElementHandler extends AbstractSimpleHandler {

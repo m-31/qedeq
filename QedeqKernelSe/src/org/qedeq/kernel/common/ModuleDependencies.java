@@ -1,4 +1,4 @@
-/* $Id: ModuleDependencies.java,v 1.1 2007/12/21 23:33:46 m31 Exp $
+/* $Id: ModuleDependencies.java,v 1.1 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

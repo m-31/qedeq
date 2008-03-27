@@ -1,4 +1,4 @@
-/* $Id: LocationFoundException.java,v 1.2 2007/04/12 23:50:10 m31 Exp $
+/* $Id: LocationFoundException.java,v 1.3 2008/03/27 05:16:28 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -23,7 +23,7 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * Thrown if the location was found.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public class LocationFoundException extends ModuleDataException {

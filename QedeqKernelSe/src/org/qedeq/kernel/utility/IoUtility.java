@@ -1,4 +1,4 @@
-/* $Id: IoUtility.java,v 1.14 2008/01/26 12:39:10 m31 Exp $
+/* $Id: IoUtility.java,v 1.15 2008/03/27 05:16:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -46,7 +46,7 @@ import java.util.Properties;
  *
  * LATER mime 20070101: use StringBuilder instead of StringBuffer if working under JDK 1.5
  *
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  * @author  Michael Meyling
  */
 public final class IoUtility {

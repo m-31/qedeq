@@ -1,4 +1,4 @@
-/* $Id: ParserHandler.java,v 1.5 2007/12/21 23:33:47 m31 Exp $
+/* $Id: ParserHandler.java,v 1.6 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Parses list of operators. Result is a list of all parsed operators.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public final class ParserHandler extends AbstractSimpleHandler {

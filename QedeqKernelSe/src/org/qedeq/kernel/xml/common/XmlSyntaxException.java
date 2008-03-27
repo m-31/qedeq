@@ -1,4 +1,4 @@
-/* $Id: XmlSyntaxException.java,v 1.1 2007/12/21 23:33:47 m31 Exp $
+/* $Id: XmlSyntaxException.java,v 1.2 2008/03/27 05:16:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.common.SourcePosition;
  * It can also mark a lack of inner consistence of something.
  * Also a programming error can lead to this exception.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author    Michael Meyling
  */
 public final class XmlSyntaxException extends QedeqException {

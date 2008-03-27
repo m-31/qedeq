@@ -1,4 +1,4 @@
-/* $Id: SourceFileExceptionList.java,v 1.1 2007/12/21 23:33:47 m31 Exp $
+/* $Id: SourceFileExceptionList.java,v 1.2 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.common;
 /**
  * List of {@link org.qedeq.kernel.common.SourceFileException}s.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public abstract class SourceFileExceptionList extends Exception {

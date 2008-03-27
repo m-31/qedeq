@@ -1,4 +1,4 @@
-/* $Id: Qedeq2Latex.java,v 1.49 2008/01/26 12:39:09 m31 Exp $
+/* $Id: Qedeq2Latex.java,v 1.50 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -69,7 +69,7 @@ import org.qedeq.kernel.utility.TextOutput;
  * of inline LaTeX text is done. This class just generates some LaTeX output to be able to
  * get a visual impression of a QEDEQ module.</b>
  *
- * @version $Revision: 1.49 $
+ * @version $Revision: 1.50 $
  * @author  Michael Meyling
  */
 public final class Qedeq2Latex extends ControlVisitor {

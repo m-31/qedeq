@@ -1,4 +1,4 @@
-/* $Id: Proposition.java,v 1.9 2007/02/25 20:05:35 m31 Exp $
+/* $Id: Proposition.java,v 1.10 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.base.module;
 /**
  * Proposition.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  * @author  Michael Meyling
  */
 public interface Proposition extends NodeType {

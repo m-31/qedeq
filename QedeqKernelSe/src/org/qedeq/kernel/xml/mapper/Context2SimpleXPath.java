@@ -1,4 +1,4 @@
-/* $Id: Context2SimpleXPath.java,v 1.8 2008/01/26 12:39:09 m31 Exp $
+/* $Id: Context2SimpleXPath.java,v 1.9 2008/03/27 05:16:28 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -81,7 +81,7 @@ import org.qedeq.kernel.xml.tracker.SimpleXPath;
  * Is this still a correct XPath? (Old solution was usage of "*")
  * Seems ok for official XPath specification, but does it work for our SimpleXPathFinder?
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public final class Context2SimpleXPath extends AbstractModuleVisitor {

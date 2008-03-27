@@ -1,4 +1,4 @@
-/* $Id: LogicalCheckException.java,v 1.2 2007/04/12 23:50:08 m31 Exp $
+/* $Id: LogicalCheckException.java,v 1.3 2008/03/27 05:16:24 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * This is the basis for an exception for logical errors within a QEDEQ module.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public abstract class LogicalCheckException extends ModuleDataException {

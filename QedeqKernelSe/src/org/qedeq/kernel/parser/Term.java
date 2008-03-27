@@ -1,4 +1,4 @@
-/* $Id: Term.java,v 1.6 2007/05/10 00:37:51 m31 Exp $
+/* $Id: Term.java,v 1.7 2008/03/27 05:16:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.utility.StringUtility;
 /**
  * Parsed term.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public class Term {

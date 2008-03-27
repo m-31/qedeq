@@ -1,4 +1,4 @@
-/* $Id: LocationVo.java,v 1.6 2007/05/10 00:37:50 m31 Exp $
+/* $Id: LocationVo.java,v 1.7 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -27,7 +27,7 @@ import org.qedeq.kernel.utility.EqualsUtility;
  * <code>http://www.qedeq.org/principia/0_01_06/</code> or <code>.</code>
  * or <code>file:///qedeq/</code>
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public class LocationVo implements Location {

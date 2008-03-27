@@ -1,4 +1,4 @@
-/* $Id: SubsectionType.java,v 1.4 2007/02/25 20:05:36 m31 Exp $
+/* $Id: SubsectionType.java,v 1.5 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.base.module;
 /**
  * Marker interface for different subsection types.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public interface SubsectionType {

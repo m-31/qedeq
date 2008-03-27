@@ -1,4 +1,4 @@
-/* $Id: DefaultAtom.java,v 1.1 2007/05/10 00:37:52 m31 Exp $
+/* $Id: DefaultAtom.java,v 1.2 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.base.list.ElementList;
 /**
  * An object of this class represents a text string.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public final class DefaultAtom implements Atom {

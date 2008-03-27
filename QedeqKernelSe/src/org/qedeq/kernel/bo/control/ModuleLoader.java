@@ -1,4 +1,4 @@
-/* $Id: ModuleFileNotFoundException.java,v 1.4 2007/12/21 23:33:46 m31 Exp $
+/* $Id: ModuleLoader.java,v 1.1 2008/03/27 05:16:24 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * An instance of this interface can load a local file.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface ModuleLoader {

@@ -1,4 +1,4 @@
-/* $Id: FunctionDefinition.java,v 1.3 2007/02/25 20:05:35 m31 Exp $
+/* $Id: FunctionDefinition.java,v 1.4 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ package org.qedeq.kernel.base.module;
  * Definition of function operator. This is a function constant. For example the function
  * "x union y" or constants like the empty set.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public interface FunctionDefinition extends NodeType {

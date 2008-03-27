@@ -1,4 +1,4 @@
-/* $Id: DefaultModuleProperties.java,v 1.6 2008/01/26 12:39:08 m31 Exp $
+/* $Id: KernelQedeqBo.java,v 1.1 2008/03/27 05:16:24 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -41,7 +41,7 @@ import org.qedeq.kernel.utility.EqualsUtility;
 /**
  * Represents a module and its states. This is a kernel intern representation.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class KernelQedeqBo implements QedeqBo {

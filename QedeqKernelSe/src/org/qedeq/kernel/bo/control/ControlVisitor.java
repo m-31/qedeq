@@ -1,4 +1,4 @@
-/* $Id: AbstractModuleVisitor.java,v 1.2 2007/02/25 20:05:36 m31 Exp $
+/* $Id: ControlVisitor.java,v 1.1 2008/03/27 05:16:24 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import org.qedeq.kernel.common.SourceFileException;
  * Basic visitor that gives some error collecting features. Also hides the
  * traverser that does the work.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public abstract class ControlVisitor extends AbstractModuleVisitor {

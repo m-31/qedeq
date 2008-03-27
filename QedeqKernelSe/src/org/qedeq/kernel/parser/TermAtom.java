@@ -1,4 +1,4 @@
-/* $Id: TermAtom.java,v 1.1 2007/05/10 00:37:51 m31 Exp $
+/* $Id: TermAtom.java,v 1.2 2008/03/27 05:16:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.parser;
 /**
  * Parsed atom, this is a term constant, or an formula constant.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public final class TermAtom {

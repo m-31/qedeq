@@ -1,4 +1,4 @@
-/* $Id: XPathLocationParser.java,v 1.22 2008/01/26 12:39:11 m31 Exp $
+/* $Id: XPathLocationParser.java,v 1.23 2008/03/27 05:16:28 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -54,7 +54,7 @@ import com.sun.syndication.io.XmlReader;
  *
  * </pre>
  *
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.23 $
  * @author Michael Meyling
  */
 public class XPathLocationParser extends SimpleHandler {

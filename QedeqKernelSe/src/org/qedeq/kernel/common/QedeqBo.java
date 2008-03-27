@@ -1,4 +1,4 @@
-/* $Id: ModuleProperties.java,v 1.6 2008/01/26 12:39:09 m31 Exp $
+/* $Id: QedeqBo.java,v 1.1 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.base.module.Qedeq;
 /**
  * Represents a module and its states.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface QedeqBo {

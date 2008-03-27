@@ -1,4 +1,4 @@
-/* $Id: LatexMathParser.java,v 1.6 2008/01/26 12:39:09 m31 Exp $
+/* $Id: LatexMathParser.java,v 1.7 2008/03/27 05:16:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -72,7 +72,7 @@ import org.qedeq.kernel.utility.TextInput;
 /**
  * Parse LaTeX term or formula data into {@link org.qedeq.kernel.parser.Term}s.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public class LatexMathParser extends MathParser {

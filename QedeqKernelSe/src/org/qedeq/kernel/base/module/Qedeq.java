@@ -1,4 +1,4 @@
-/* $Id: Qedeq.java,v 1.5 2007/02/25 20:05:35 m31 Exp $
+/* $Id: Qedeq.java,v 1.6 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.base.module;
 /**
  * A complete qedeq module. This is the root value object.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author    Michael Meyling
  */
 public interface Qedeq {

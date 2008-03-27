@@ -1,4 +1,4 @@
-/* $Id: NodeType.java,v 1.7 2007/02/25 20:05:35 m31 Exp $
+/* $Id: NodeType.java,v 1.8 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -27,7 +27,7 @@ package org.qedeq.kernel.base.module;
  * this interface and get no information about the instance.
  * See in QedeqKernelSeTest: {@link org.qedeq.kernel.bo.control.QedeqProxy}.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  * @author Michael Meyling
  */
 public interface NodeType {

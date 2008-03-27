@@ -1,4 +1,4 @@
-/* $Id: DefaultElementList.java,v 1.1 2007/05/10 00:37:52 m31 Exp $
+/* $Id: DefaultElementList.java,v 1.2 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -31,7 +31,7 @@ import org.qedeq.kernel.base.list.ElementList;
  * provide the standard implementation of {@link #equals}
  * and {@link #hashCode}.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public final class DefaultElementList implements ElementList {

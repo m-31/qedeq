@@ -1,4 +1,4 @@
-/* $Id: FormulaBasicErrors.java,v 1.3 2007/03/11 01:19:34 m31 Exp $
+/* $Id: FormulaBasicErrors.java,v 1.4 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -20,7 +20,7 @@ package org.qedeq.kernel.bo.logic;
 /**
  * Error codes and messages for formula checker.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public interface FormulaBasicErrors {

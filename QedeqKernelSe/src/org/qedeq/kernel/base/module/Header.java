@@ -1,4 +1,4 @@
-/* $Id: Header.java,v 1.5 2007/02/25 20:05:35 m31 Exp $
+/* $Id: Header.java,v 1.6 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ package org.qedeq.kernel.base.module;
  * Header of a qedeq file. The header specifies such things as the location of the file,
  * the title and abstract of that module, imports and exports.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public interface Header {

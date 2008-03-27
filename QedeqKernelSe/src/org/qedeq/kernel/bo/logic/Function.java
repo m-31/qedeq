@@ -1,4 +1,4 @@
-/* $Id: Function.java,v 1.1 2008/01/26 12:39:09 m31 Exp $
+/* $Id: Function.java,v 1.2 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ import org.qedeq.kernel.utility.EqualsUtility;
 /**
  * Function constant key, describing a function constant.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public final class Function {

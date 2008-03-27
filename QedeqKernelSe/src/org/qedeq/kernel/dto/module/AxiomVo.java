@@ -1,4 +1,4 @@
-/* $Id: AxiomVo.java,v 1.10 2007/05/10 00:37:50 m31 Exp $
+/* $Id: AxiomVo.java,v 1.11 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import org.qedeq.kernel.utility.EqualsUtility;
 /**
  * Axiom.
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  * @author  Michael Meyling
  */
 public class AxiomVo implements Axiom {

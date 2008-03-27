@@ -1,4 +1,4 @@
-/* $Id: LogicalEquivalence.java,v 1.7 2007/03/11 01:19:34 m31 Exp $
+/* $Id: LogicalEquivalence.java,v 1.8 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.base.list.Element;
  *
  * LATER mime 20050205: work in progress
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 public final class LogicalEquivalence {

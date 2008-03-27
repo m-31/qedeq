@@ -1,4 +1,4 @@
-/* $Id: SubsectionListVo.java,v 1.6 2007/05/10 00:37:50 m31 Exp $
+/* $Id: SubsectionListVo.java,v 1.7 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.kernel.utility.EqualsUtility;
 /**
  * List of nodes. In LaTeX terms a node is something like an "subsection".
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public class SubsectionListVo implements SubsectionList {

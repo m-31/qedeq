@@ -1,4 +1,4 @@
-/* $Id: Qedeq2Wiki.java,v 1.9 2008/01/26 12:39:09 m31 Exp $
+/* $Id: Qedeq2Wiki.java,v 1.10 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -59,7 +59,7 @@ import org.qedeq.kernel.utility.StringUtility;
  * <p>
  * It should be compared with Qedeq2Latex and then refactored to reuse common functions.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  * @author  Michael Meyling
  */
 public final class Qedeq2Wiki {

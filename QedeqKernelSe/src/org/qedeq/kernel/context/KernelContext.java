@@ -1,4 +1,4 @@
-/* $Id: KernelContext.java,v 1.17 2008/01/26 12:39:11 m31 Exp $
+/* $Id: KernelContext.java,v 1.18 2008/03/27 05:16:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -36,7 +36,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * This class provides static access methods for basic informations.
  *
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  * @author  Michael Meyling
  */
 public final class KernelContext implements KernelProperties, KernelState, KernelServices {

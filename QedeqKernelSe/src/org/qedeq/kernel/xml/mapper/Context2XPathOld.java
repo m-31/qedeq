@@ -1,4 +1,4 @@
-/* $Id: Context2XPathOld.java,v 1.4 2008/01/26 12:39:09 m31 Exp $
+/* $Id: Context2XPathOld.java,v 1.5 2008/03/27 05:16:28 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -45,7 +45,7 @@ import org.qedeq.kernel.xml.tracker.SimpleXPath;
  * XML element counting doesn't work (you have to subtract one if the first element is an
  * Atom)
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author Michael Meyling
  * @deprecated
  */

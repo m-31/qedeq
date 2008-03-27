@@ -1,4 +1,4 @@
-/* $Id: SeparatorNotFoundException.java,v 1.3 2007/05/10 00:37:51 m31 Exp $
+/* $Id: SeparatorNotFoundException.java,v 1.4 2008/03/27 05:16:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -20,7 +20,7 @@ package org.qedeq.kernel.parser;
 /**
  * Separator not found.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public class SeparatorNotFoundException extends ParserException {

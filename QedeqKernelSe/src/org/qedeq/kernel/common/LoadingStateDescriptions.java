@@ -1,4 +1,4 @@
-/* $Id: LoadingStateDescriptions.java,v 1.1 2007/04/12 23:50:04 m31 Exp $
+/* $Id: LoadingStateDescriptions.java,v 1.1 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

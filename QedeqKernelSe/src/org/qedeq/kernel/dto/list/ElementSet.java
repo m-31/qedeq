@@ -1,4 +1,4 @@
-/* $Id: ElementSet.java,v 1.2 2007/02/25 20:05:37 m31 Exp $
+/* $Id: ElementSet.java,v 1.3 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import org.qedeq.kernel.base.list.ElementList;
 /**
  * This class represents a set of {@link org.qedeq.kernel.base.list.Element}s.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public final class ElementSet {

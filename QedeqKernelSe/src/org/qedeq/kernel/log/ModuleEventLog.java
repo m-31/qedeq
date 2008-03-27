@@ -1,4 +1,4 @@
-/* $Id: ModuleEventLog.java,v 1.7 2008/01/26 12:39:10 m31 Exp $
+/* $Id: ModuleEventLog.java,v 1.8 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import org.qedeq.kernel.trace.Trace;
  *
  * TODO mime 20080317: must this be a singleton?
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 public final class ModuleEventLog implements ModuleEventListener {

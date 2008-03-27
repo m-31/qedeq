@@ -1,4 +1,4 @@
-/* $Id: EverythingExists.java,v 1.3 2008/01/26 12:39:09 m31 Exp $
+/* $Id: EverythingExists.java,v 1.4 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ package org.qedeq.kernel.bo.logic;
  * This implementation gives always the answer <code>true</code> to the question
  * <em>exists this predicate?</em>.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class EverythingExists implements ExistenceChecker {

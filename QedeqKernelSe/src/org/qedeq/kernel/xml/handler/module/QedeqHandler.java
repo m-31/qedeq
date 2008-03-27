@@ -1,4 +1,4 @@
-/* $Id: QedeqHandler.java,v 1.14 2007/12/21 23:33:46 m31 Exp $
+/* $Id: QedeqHandler.java,v 1.15 2008/03/27 05:16:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Parses complete qedeq modules.
  *
- * @version $Revision: 1.14 $
+ * @version $Revision: 1.15 $
  * @author  Michael Meyling
  */
 public class QedeqHandler extends AbstractSimpleHandler {

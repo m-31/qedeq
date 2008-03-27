@@ -1,4 +1,4 @@
-/* $Id: ModuleDataException.java,v 1.3 2007/04/12 23:50:04 m31 Exp $
+/* $Id: ModuleDataException.java,v 1.1 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.common;
  * Data validation error for a QEDEQ module. An error has always a reference to its
  * location. Maybe an additional reference for another location is provided.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public abstract class ModuleDataException extends QedeqException {

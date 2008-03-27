@@ -1,4 +1,4 @@
-/* $Id: Location.java,v 1.5 2007/02/25 20:05:35 m31 Exp $
+/* $Id: Location.java,v 1.6 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -23,7 +23,7 @@ package org.qedeq.kernel.base.module;
  * <code>http://www.qedeq.org/principia/0_01_06/</code> or <code>.</code>
  * or <code>file:///qedeq/</code>
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public interface Location {

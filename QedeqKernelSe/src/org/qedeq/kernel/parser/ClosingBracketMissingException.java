@@ -1,4 +1,4 @@
-/* $Id: ClosingBracketMissingException.java,v 1.4 2007/12/21 23:33:48 m31 Exp $
+/* $Id: ClosingBracketMissingException.java,v 1.5 2008/03/27 05:16:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -20,7 +20,7 @@ package org.qedeq.kernel.parser;
 /**
  * Closing bracket expected but is missing.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public class ClosingBracketMissingException extends ParserException {

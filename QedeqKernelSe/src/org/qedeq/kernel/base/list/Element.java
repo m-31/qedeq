@@ -1,4 +1,4 @@
-/* $Id: Element.java,v 1.2 2007/02/25 20:05:37 m31 Exp $
+/* $Id: Element.java,v 1.3 2008/03/27 05:16:28 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ package org.qedeq.kernel.base.list;
  * elements can be accessed by their position. An atom carries textual
  * data, has no operator and no size in the previous sense.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public interface Element {

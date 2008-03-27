@@ -1,4 +1,4 @@
-/* $Id: TextOutput.java,v 1.3 2007/05/10 00:37:50 m31 Exp $
+/* $Id: TextOutput.java,v 1.4 2008/03/27 05:16:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import java.io.UnsupportedEncodingException;
 /**
  * Wraps a text output stream.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public class TextOutput {

@@ -1,4 +1,4 @@
-/* $Id: TermVo.java,v 1.3 2007/05/10 00:37:50 m31 Exp $
+/* $Id: TermVo.java,v 1.4 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.utility.EqualsUtility;
  * Wraps a fterm. Such an object is build out of
  * {@link org.qedeq.kernel.base.list.Element}s.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public class TermVo implements Term {

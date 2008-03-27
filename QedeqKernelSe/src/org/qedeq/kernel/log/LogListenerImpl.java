@@ -1,4 +1,4 @@
-/* $Id: LogListenerImpl.java,v 1.1 2007/04/01 07:59:49 m31 Exp $
+/* $Id: LogListenerImpl.java,v 1.2 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import java.util.Date;
 /**
  * Listener that writes events to a stream.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public final class LogListenerImpl implements LogListener {

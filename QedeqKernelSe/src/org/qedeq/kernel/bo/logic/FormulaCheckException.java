@@ -1,4 +1,4 @@
-/* $Id: FormulaCheckException.java,v 1.4 2007/04/12 23:50:08 m31 Exp $
+/* $Id: FormulaCheckException.java,v 1.5 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.kernel.common.ModuleContext;
  * element list that is has a subject variable operator but has not
  * exactly one element that is an atom.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public class FormulaCheckException extends LogicalCheckException {

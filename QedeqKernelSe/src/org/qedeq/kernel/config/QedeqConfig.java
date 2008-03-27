@@ -1,4 +1,4 @@
-/* $Id: QedeqConfig.java,v 1.5 2008/01/26 12:39:10 m31 Exp $
+/* $Id: QedeqConfig.java,v 1.6 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -27,7 +27,7 @@ import org.qedeq.kernel.utility.IoUtility;
 /**
  * This class gives a type save access to properties of the application.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public class QedeqConfig {

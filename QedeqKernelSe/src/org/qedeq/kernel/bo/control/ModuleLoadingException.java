@@ -1,4 +1,4 @@
-/* $Id: ModuleLoadingException.java,v 1.2 2007/04/12 23:50:09 m31 Exp $
+/* $Id: ModuleLoadingException.java,v 1.1 2008/03/27 05:16:24 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * Error during module loading.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class ModuleLoadingException extends ModuleDataException {

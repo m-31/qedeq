@@ -1,4 +1,4 @@
-/* $Id: ClassOperatorAlreadyExistsException.java,v 1.1 2008/01/26 12:39:09 m31 Exp $
+/* $Id: ClassOperatorAlreadyExistsException.java,v 1.2 2008/03/27 05:16:24 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * A class operator was defined twice.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public class ClassOperatorAlreadyExistsException extends ModuleDataException {

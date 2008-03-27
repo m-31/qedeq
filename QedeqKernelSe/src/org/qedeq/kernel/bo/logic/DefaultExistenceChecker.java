@@ -1,4 +1,4 @@
-/* $Id: DefaultExistenceChecker.java,v 1.1 2008/01/26 12:39:09 m31 Exp $
+/* $Id: DefaultExistenceChecker.java,v 1.2 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * Checks if all predicate and function constants exist already.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public class DefaultExistenceChecker implements ExistenceChecker {

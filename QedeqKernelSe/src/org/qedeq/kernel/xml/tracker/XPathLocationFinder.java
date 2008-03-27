@@ -1,4 +1,4 @@
-/* $Id: XPathLocationFinder.java,v 1.18 2008/01/26 12:39:11 m31 Exp $
+/* $Id: XPathLocationFinder.java,v 1.19 2008/03/27 05:16:28 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import org.xml.sax.SAXException;
 /**
  * Find position of simple XPath expressions within an XML file.
  *
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.19 $
  * @author Michael Meyling
  */
 public final class XPathLocationFinder {

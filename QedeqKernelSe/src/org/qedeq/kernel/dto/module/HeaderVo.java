@@ -1,4 +1,4 @@
-/* $Id: HeaderVo.java,v 1.7 2007/05/10 00:37:50 m31 Exp $
+/* $Id: HeaderVo.java,v 1.8 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import org.qedeq.kernel.utility.EqualsUtility;
  * Header of a qedeq file. The header specifies such things as the location of the file,
  * the title and abstract of that module, imports and exports.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 public class HeaderVo implements Header {

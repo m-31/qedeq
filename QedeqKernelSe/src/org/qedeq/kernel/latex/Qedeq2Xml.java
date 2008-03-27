@@ -1,4 +1,4 @@
-/* $Id: Qedeq2Xml.java,v 1.6 2008/01/26 12:39:09 m31 Exp $
+/* $Id: Qedeq2Xml.java,v 1.7 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -62,7 +62,7 @@ import org.qedeq.kernel.utility.TextOutput;
  * TODO mime 20080309: escape XML attributes like &gt;, &amp; and other.
  * See {@link org.qedeq.kernel.utility.StringUtility#decodeXmlMarkup(StringBuffer)}.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public final class Qedeq2Xml extends ControlVisitor {

@@ -1,4 +1,4 @@
-/* $Id: DefaultModuleEventListener.java,v 1.2 2008/01/26 12:39:10 m31 Exp $
+/* $Id: DefaultModuleEventListener.java,v 1.3 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.common.QedeqBo;
 /**
  * Listener that writes events to a stream.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public class DefaultModuleEventListener implements ModuleEventListener {

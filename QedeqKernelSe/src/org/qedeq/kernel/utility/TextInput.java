@@ -1,4 +1,4 @@
-/* $Id: TextInput.java,v 1.17 2008/01/26 12:39:10 m31 Exp $
+/* $Id: TextInput.java,v 1.18 2008/03/27 05:16:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import java.io.Reader;
 /**
  * This class provides convenient methods for parsing input.
  *
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.18 $
  * @author  Michael Meyling
  */
 public class TextInput extends InputStream {

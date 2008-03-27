@@ -1,4 +1,4 @@
-/* $Id: Kernel.java,v 1.1 2007/04/12 23:50:04 m31 Exp $
+/* $Id: KernelProperties.java,v 1.1 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

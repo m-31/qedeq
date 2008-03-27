@@ -1,4 +1,4 @@
-/* $Id: SaxDefaultHandler.java,v 1.29 2008/01/26 12:39:10 m31 Exp $
+/* $Id: SaxDefaultHandler.java,v 1.30 2008/03/27 05:16:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -39,7 +39,7 @@ import org.xml.sax.SAXParseException;
  * Before anything is parsed the method {@link #setExceptionList(DefaultSourceFileExceptionList)}
  * must be called.
  *
- * @version $Revision: 1.29 $
+ * @version $Revision: 1.30 $
  * @author  Michael Meyling
  */
 public class SaxDefaultHandler extends SimpleHandler {

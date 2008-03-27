@@ -1,4 +1,4 @@
-/* $Id: NodeVo.java,v 1.8 2007/05/10 00:37:50 m31 Exp $
+/* $Id: NodeVo.java,v 1.9 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.utility.EqualsUtility;
 /**
  * Special subsection of a qedeq file.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class NodeVo implements Node {

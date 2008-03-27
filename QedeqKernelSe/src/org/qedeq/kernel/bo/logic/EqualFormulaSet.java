@@ -1,4 +1,4 @@
-/* $Id: EqualFormulaSet.java,v 1.6 2007/05/10 00:37:52 m31 Exp $
+/* $Id: EqualFormulaSet.java,v 1.7 2008/03/27 05:16:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import org.qedeq.kernel.base.list.ElementList;
 /**
  * This class represents a set of {@link Element}s.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public class EqualFormulaSet {

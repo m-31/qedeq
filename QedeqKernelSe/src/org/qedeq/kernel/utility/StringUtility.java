@@ -1,4 +1,4 @@
-/* $Id: ReplaceUtility.java,v 1.7 2007/02/25 20:05:38 m31 Exp $
+/* $Id: StringUtility.java,v 1.1 2008/03/27 05:16:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import java.util.Properties;
  *
  * LATER mime 20070101: use StringBuilder instead of StringBuffer if working under JDK 1.5
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class StringUtility {

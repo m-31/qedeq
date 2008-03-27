@@ -1,4 +1,4 @@
-/* $Id: SubsectionListHandler.java,v 1.8 2007/12/21 23:33:46 m31 Exp $
+/* $Id: SubsectionListHandler.java,v 1.9 2008/03/27 05:16:27 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Parse subsection list.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class SubsectionListHandler extends AbstractSimpleHandler {

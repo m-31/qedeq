@@ -1,4 +1,4 @@
-/* $Id: LoadRequiredModules.java,v 1.2 2008/01/26 12:39:09 m31 Exp $
+/* $Id: ModuleLabelsCreator.java,v 1.1 2008/03/27 05:16:24 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -32,7 +32,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * Create mapping from labels to {@link org.qedeq.kernel.dto.module.NodeVo} for a QEDEQ module.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class ModuleLabelsCreator extends ControlVisitor {

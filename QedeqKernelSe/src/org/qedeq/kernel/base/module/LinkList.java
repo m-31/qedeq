@@ -1,4 +1,4 @@
-/* $Id: LinkList.java,v 1.3 2007/02/25 20:05:36 m31 Exp $
+/* $Id: LinkList.java,v 1.4 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.base.module;
 /**
  * List of identifiers.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public interface LinkList {

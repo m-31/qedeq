@@ -1,4 +1,4 @@
-/* $Id: ImportList.java,v 1.5 2007/02/25 20:05:36 m31 Exp $
+/* $Id: ImportList.java,v 1.6 2008/03/27 05:16:26 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.base.module;
 /**
  * List of imports.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public interface ImportList {

@@ -1,4 +1,4 @@
-/* $Id: LoadXmlOperatorListUtility.java,v 1.8 2008/01/26 12:39:10 m31 Exp $
+/* $Id: LoadXmlOperatorListUtility.java,v 1.9 2008/03/27 05:16:25 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -35,7 +35,7 @@ import org.xml.sax.SAXParseException;
 /**
  * Load operator list from an XML file.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public final class LoadXmlOperatorListUtility  {

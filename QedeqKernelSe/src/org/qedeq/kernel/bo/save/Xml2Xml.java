@@ -1,4 +1,4 @@
-/* $Id: Xml2Xml.java,v 1.2 2008/01/26 12:39:11 m31 Exp $
+/* $Id: Xml2Xml.java,v 1.3 2008/03/27 05:16:30 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -37,7 +37,7 @@ import org.qedeq.kernel.utility.TextOutput;
 /**
  * Test application.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.3 $
  * @author    Michael Meyling
  */
 public final class Xml2Xml  {
