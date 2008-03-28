@@ -105,6 +105,8 @@ Source Code
   * "KernelServices.removeModule(ModuleAddress)" throws no longer an
     "IOException"
   * attribute address removed from "TextInput"
+  * "Term.getQedeqXml" doesn't log a fatal exception for variables or
+    constants if they have arguments
 
 
 XSD
