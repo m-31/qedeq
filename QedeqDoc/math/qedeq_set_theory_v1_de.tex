@@ -2,7 +2,7 @@
 %%% ====================================================================
 %%% @LaTeX-file    qedeq_set_theory_v1_de.tex
 %%% Generated from http://qedeq.org/0_03_09/doc/math/qedeq_set_theory_v1.xml
-%%% Generated at   2008-03-26 05:22:46,546
+%%% Generated at   2008-03-27 22:33:09,765
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -102,7 +102,7 @@ Besondere Dank geht an meine Frau \emph{Gesine~Dr{\"a}ger} und unseren Sohn \emp
 \chapter*{Einleitung\label{ch:introduction}} \label{chapter1} \hypertarget{chapter1}{}
 \addcontentsline{toc}{chapter}{Einleitung\label{ch:introduction}}
 
-In diesem Dokument nutzen wir die Ergebnisse aus \url{file:/M:/qedeq/qedeq/eclipse/QedeqDoc/math/qedeq_logic_v1_de.pdf}.
+In diesem Dokument nutzen wir die Ergebnisse aus \url{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_de.pdf}.
 Nachdem durch die Logik die Art der mathematischen Argumentation vorgegeben wird, wird in der Mengenlehre ganz allgemein {\"u}ber Objekte und ihre Zusammenfassungen gesprochen. Besonders interessant ist die Mengenlehre dadurch, dass sie zum einen von eigentlich allen mathematischen Disziplinen verwendet wird. Zum anderen l{\"a}sst sich jede mathematische Disziplin innerhalb der Mengenlehre definieren. Zahlentheorie, Algebra, Analysis und alle weiteren Gebiete lassen sich darauf aufbauen.
         
 \par
@@ -255,6 +255,18 @@ Nun k{\"o}nnen wir das Extensionalit{\"a}tsaxiom wie folgt schreiben.\footnote{E
 `$\Leftarrow$': 
 Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $u$ eine beliebige Klasse. Falls $u \in x$ dann gilt $u$ ist eine Menge nach Definition~\ref{definition:isSet}, und daraus folgt mit der Annahme $u \in y$. Analog folgt $u \in y \ \rightarrow \ u \in x$. Da $u$ beliebig, haben wir $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Und mit dem Extensionalit{\"a}tsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$.
 \end{proof}
+\begin{proof}
+\begin{tabularx}{\linewidth}{rclX}
+$x = y$ & $\leftrightarrow$ & $\forall \ z \ ( z \in x \ \leftrightarrow \ z \in y)$
+  & this is proposition~\ref{theorem:extensonalityEquivalence} \\
+        & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
+  & with \ref{theorem:inSetEqualInSetAndIsSet} \\
+        & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
+  & with \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus:bh}{Elementare S{\"a}tze bh} \\
+        & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
+  & with \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_de.pdf}{}{definition:restrictedUniversalQuantifier}{Definition eingeschr{\"a}nker Allquantor} \\
+                  \end{tabularx}
+\end{proof}
 
 
 
@@ -273,7 +285,7 @@ Unser n{\"a}chstes Axiom der Mengenlehre erm{\"o}glicht uns in simpler Art und W
 
 \index{NBG}Durch eine kleine {\"A}nderung dieses Axioms w{\"u}rden wir im Folgenden ein \emph{NBG}-Axiomensystem der Mengenlehre erhalten, welches auf \emph{John von Neumann}, \emph{Isaak Bernays} und \emph{Kurt G{\"o}del} zur{\"u}ckgeht.\index{pr{\"a}dikativ}\index{Formel, pr{\"a}dikative}
 Dazu definieren wir: eine Formel, in der alle gebundenen Subjektvariablen auf Mengen restringiert sind wird \emph{pr{\"a}dikative Formel} genannt. Pr{\"a}dikative Formeln formalisieren also diejenigen Eigenschaften, die man als {\glqq Eigenschaften von Mengen\grqq} bezeichnen kann.\footnote{Noch etwas formaler: in einer pr{\"a}dikativen Formel laufen alle Quantorenvariablen nur {\"u}ber Mengen: $\forall \ \mathfrak{M}(x) \ \exists \ \mathfrak{M}(y) \ldots$}
-Fordern wir nun also zus{\"a}tzlich, dass $\phi$ pr{\"a}dikativ sein muss, dann erhalten wir im zusammen mit den folgenden Axiomen ein NBG-System.
+Fordern wir nun also zus{\"a}tzlich, dass $\phi$ pr{\"a}dikativ sein muss, dann erhalten wir ein NBG-System\footnote{Dazu werden noch einige andere Axiome --- analog zu den folgenden --- ben{\"o}tigt}.
 
 
 \par
@@ -283,7 +295,7 @@ Durch das Komprehensionsaxiom und die Extensionalit{\"a}t wird nun der Zusammenh
 \label{theorem:comprehension} \hypertarget{theorem:comprehension}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $\exists! x\ \forall y\ (x \in y\ \leftrightarrow \ (\mathfrak{M}(y)\ \land \ \phi(y)))$
+\centering $\exists! x\ \forall y\ (y \in x\ \leftrightarrow \ (\mathfrak{M}(y)\ \land \ \phi(y)))$
 \end{longtable}
 
 \end{prop}

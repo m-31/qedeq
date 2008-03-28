@@ -2,7 +2,7 @@
 %%% ====================================================================
 %%% @LaTeX-file    qedeq_set_theory_v1_en.tex
 %%% Generated from http://qedeq.org/0_03_09/doc/math/qedeq_set_theory_v1.xml
-%%% Generated at   2008-03-26 05:22:44,359
+%%% Generated at   2008-03-27 22:33:09,140
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -103,7 +103,7 @@ I am deeply grateful to my wife \emph{Gesine~Dr{\"a}ger} and our son \emph{Lenna
 \chapter*{Introduction\label{ch:introduction}} \label{chapter1} \hypertarget{chapter1}{}
 \addcontentsline{toc}{chapter}{Introduction\label{ch:introduction}}
 
-Within this document we use the results of \url{file:/M:/qedeq/qedeq/eclipse/QedeqDoc/math/qedeq_logic_v1_en.pdf}.
+Within this document we use the results of \url{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_en.pdf}.
 After mathematical logic has provided us with the methods of reasoning we start with a very basic theory. Set theory deals with objects and their collections. This theory is interesting for two reasons. First, nearly all mathematical fields use it. Second, every mathematical statement or proof could be cast into formulas within set theory. Number theory, algebra, analysis an all other theories could be constructed within.
 
 \par          
@@ -255,6 +255,18 @@ Now we can rewrite the axiom of extensionality as follows.\footnote{The quantifi
 `$\Leftarrow$': 
 Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $u$ be an arbitrary class. If $u \in x$ then $u$ is a set by definition~\ref{definition:isSet}, and hence by the assumption, $u \in y$. similarly $u \in y \ \rightarrow \ u \in x$. Since $u$ is arbitrary, it follows that $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Thus by the axiom of extensionality~\ref{axiom:extensionality}, $x = y$.
 \end{proof}
+\begin{proof}
+\begin{tabularx}{\linewidth}{rclX}
+$x = y$ & $\leftrightarrow$ & $\forall \ z \ ( z \in x \ \leftrightarrow \ z \in y)$
+  & this is proposition~\ref{theorem:extensonalityEquivalence} \\
+        & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
+  & with \ref{theorem:inSetEqualInSetAndIsSet} \\
+        & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
+  & with \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_en.pdf}{}{theorem:propositionalCalculus:bh}{basic propositions bh} \\
+        & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
+  & with \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_en.pdf}{}{definition:restrictedUniversalQuantifier}{definition restricted universal quantifier} \\
+                  \end{tabularx}
+\end{proof}
 
 
 
@@ -274,7 +286,7 @@ Our next set theoretic axiom makes it simple to create new classes. A class coul
 \index{NBG}By a small modification of the above axiom we could get a \emph{NBG} axiom system of set theory due to \emph{John von Neumann}, \emph{Isaak Bernays} and \emph{Kurt G{\"o}del}.\index{predicative}\index{Formula, predicative}
 For that purpose we call a formula \emph{predicative}, if all of its bound subject variables are restricted to sets.
 Therefore predicative formulas formalize `set properties'.\footnote{A little bit more formal: within a predicative formula all quantifier variables run over sets: $\forall \ \mathfrak{M}(x) \ \exists \ \mathfrak{M}(y) \ldots$}
-So if we postulate $\phi$ to be predicative we achieve a NBG system together with the following axioms.
+If we postulate $\phi$ to be predicative we achieve a NBG~system\footnote{Some other axioms --- similar to the following --- are needed as well.}
 
 
 \par
@@ -284,7 +296,7 @@ By the comprehension axiom and the axiom of extensionality a relationship betwee
 \label{theorem:comprehension} \hypertarget{theorem:comprehension}{}
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $\exists! x\ \forall y\ (x \in y\ \leftrightarrow \ (\mathfrak{M}(y)\ \land \ \phi(y)))$
+\centering $\exists! x\ \forall y\ (y \in x\ \leftrightarrow \ (\mathfrak{M}(y)\ \land \ \phi(y)))$
 \end{longtable}
 
 \end{prop}
