@@ -589,6 +589,40 @@
                 ]]>
               </LATEX>
             </PROOF>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $x = y$ & $\leftrightarrow$ & $\forall \ z \ ( z \in x \ \leftrightarrow \ z \in y)$
+                      & this is proposition~\ref{theorem:extensonalityEquivalence} \\
+                            & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
+                      & proposition~\qref{theorem:inSetEqualInSetAndIsSet} \\
+                            & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
+                      & \qref{l.theorem:propositionalCalculus}[bh] \\
+                            & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \ z \in x \ \leftrightarrow \ z \in y)$ 
+                      & \qref{l.definition:restrictedUniversalQuantifier} \\
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $x = y$ & $\leftrightarrow$ & $\forall \ z \ ( z \in x \ \leftrightarrow \ z \in y)$
+                      & dies ist Proposition~\ref{theorem:extensonalityEquivalence} \\
+                            & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
+                      & Proposition~\ref{theorem:inSetEqualInSetAndIsSet} \\
+                            & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
+                      & \qref{l.theorem:propositionalCalculus}[bh] \\
+                            & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \ z \in x \ \leftrightarrow \ z \in y)$ 
+                      & \qref{l.definition:restrictedUniversalQuantifier} \\
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
         </NODE>
 
@@ -643,14 +677,14 @@
                 \index{NBG}By a small modification of the above axiom we could get a \emph{NBG} axiom system of set theory due to \emph{John von Neumann}, \emph{Isaak Bernays} and \emph{Kurt Gödel}.\index{predicative}\index{Formula, predicative}
                 For that purpose we call a formula \emph{predicative}, if all of its bound subject variables are restricted to sets.
                 Therefore predicative formulas formalize `set properties'.\footnote{A little bit more formal: within a predicative formula all quantifier variables run over sets: $\forall \ \mathfrak{M}(x) \ \exists \ \mathfrak{M}(y) \ldots$}
-                So if we postulate $\phi$ to be predicative we achieve a NBG system together with the following axioms.
+                If we postulate $\phi$ to be predicative we achieve a NBG~system\footnote{Some other axioms --- similar to the following --- are needed as well.}
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
                 \index{NBG}Durch eine kleine Änderung dieses Axioms würden wir im Folgenden ein \emph{NBG}-Axiomensystem der Mengenlehre erhalten, welches auf \emph{John von Neumann}, \emph{Isaak Bernays} und \emph{Kurt Gödel} zurückgeht.\index{prädikativ}\index{Formel, prädikative}
                 Dazu definieren wir: eine Formel, in der alle gebundenen Subjektvariablen auf Mengen restringiert sind wird \emph{prädikative Formel} genannt. Prädikative Formeln formalisieren also diejenigen Eigenschaften, die man als {\glqq Eigenschaften von Mengen\grqq} bezeichnen kann.\footnote{Noch etwas formaler: in einer prädikativen Formel laufen alle Quantorenvariablen nur über Mengen: $\forall \ \mathfrak{M}(x) \ \exists \ \mathfrak{M}(y) \ldots$}
-                Fordern wir nun also zusätzlich, dass $\phi$ prädikativ sein muss, dann erhalten wir im zusammen mit den folgenden Axiomen ein NBG-System.
+                Fordern wir nun also zusätzlich, dass $\phi$ prädikativ sein muss, dann erhalten wir ein NBG-System\footnote{Dazu werden noch einige andere Axiome --- analog zu den folgenden --- benötigt}.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -677,8 +711,8 @@
                   <VAR id="y"/>
                   <EQUI>
                     <PREDCON ref="in">
-                      <VAR id="x"/>
                       <VAR id="y"/>
+                      <VAR id="x"/>
                     </PREDCON>
                     <AND>
                       <PREDCON ref="isSet">
