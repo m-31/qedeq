@@ -19,19 +19,14 @@ package org.qedeq.kernel.latex;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 
 import org.qedeq.kernel.bo.control.DefaultModuleAddress;
 import org.qedeq.kernel.bo.control.InternalKernelServices;
 import org.qedeq.kernel.bo.control.KernelQedeqBo;
-import org.qedeq.kernel.bo.control.KernelQedeqBoPool;
 import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
 import org.qedeq.kernel.bo.logic.LogicalCheckException;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.DependencyState;
-import org.qedeq.kernel.common.LoadingState;
-import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
@@ -80,9 +75,9 @@ public final class GenerateLatexTest extends QedeqTestCase {
      * @throws Exception
      */
     public void testGeneration() throws Exception {
+        generate(docDir, "math/qedeq_logic_v1.xml", genDir, false);
         generate(docDir, "math/qedeq_sample1.xml", genDir, false);
         generate(docDir, "math/qedeq_set_theory_v1.xml", genDir, false);
-        generate(docDir, "math/qedeq_logic_v1.xml", genDir, false);
         generate(docDir, "project/qedeq_basic_concept.xml", genDir, false);
         generate(docDir, "project/qedeq_logic_language.xml", genDir, true);
     }
@@ -274,12 +269,34 @@ public final class GenerateLatexTest extends QedeqTestCase {
         if (!prop.isChecked()) {
             throw prop.getException();
         }
-        
-        // FIXME doesn't work for links to external QEDEQ modules because that are absolute links!
+
         final String web = "http://qedeq.org/" 
             + KernelFacade.getKernelContext().getKernelVersionDirectory() + "/doc/" + xml;
+        final InternalKernelServices services = (InternalKernelServices) IoUtility
+            .getFieldContent(KernelFacade.getKernelContext(), "services");
+        final ModuleAddress webAddress = new DefaultModuleAddress(web);
+        services.getLocalFilePath(webAddress);
+        IoUtility.copyFile(xmlFile, services.getLocalFilePath(webAddress));
+        
+        KernelFacade.getKernelContext().checkModule(webAddress);
+        KernelQedeqBo webBo = (KernelQedeqBo) KernelFacade.getKernelContext()
+            .getQedeqBo(webAddress);
+        final File texFile = new File(destinationDirectory, 
+            xml.substring(0, xml.lastIndexOf('.')) + "_" + language + ".tex");
+        Xml2Latex.generate(webBo, texFile, language, "1");
+        final File texCopy = new File(dir, new File(new File(xml).getParent(), 
+            texFile.getName()).getPath());
+        final File xmlCopy = new File(destinationDirectory, xml);
+        IoUtility.createNecessaryDirectories(xmlCopy);
+        IoUtility.copyFile(xmlFile, xmlCopy);
+        IoUtility.copyFile(texFile, texCopy);
+        
+/*        
+        // FIXME doesn't work for links to external QEDEQ modules because that are absolute links!
         final KernelQedeqBo fakeProp = (KernelQedeqBo) KernelFacade.getKernelContext()
             .getQedeqBo(new DefaultModuleAddress(web));
+
+        
         fakeProp.setLoader(prop.getLoader());
         IoUtility.setFieldContent(fakeProp, "qedeq", prop.getQedeq());
         fakeProp.getKernelRequiredModules().set(prop.getKernelRequiredModules());
@@ -309,6 +326,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
         IoUtility.createNecessaryDirectories(xmlCopy);
         IoUtility.copyFile(xmlFile, xmlCopy);
         IoUtility.copyFile(texFile, texCopy);
+*/        
     }
 
 }
