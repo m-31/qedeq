@@ -193,9 +193,10 @@ public class Term {
             }
 
             buffer.append(">\n");
-            if (operator.getQedeqArgument() != null) {
+            if (operator.getQedeqArgument() != null && !operator.getQedeq().endsWith("VAR")
+                    && !operator.getQedeq().endsWith("CON")) {
                 // no arguments expected!
-                Trace.fatal(CLASS, this, "getQedeqXml(int)", "operator argument is not null but:\n"
+                Trace.fatal(CLASS, this, "getQedeqXml(int)", "operator argument is not null but: "
                     + operator.getQedeqArgument(), new IllegalArgumentException());
             }
             for (int i = 0; i < arguments.size(); i++) {
