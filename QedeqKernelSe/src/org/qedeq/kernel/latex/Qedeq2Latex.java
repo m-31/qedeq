@@ -68,6 +68,9 @@ import org.qedeq.kernel.utility.TextOutput;
  * <b>This is just a quick written generator. No parsing or validation
  * of inline LaTeX text is done. This class just generates some LaTeX output to be able to
  * get a visual impression of a QEDEQ module.</b>
+ * <p>
+ * TODO mime 20080330: we should be able to generate a authors help LaTeX document that contains the
+ *                     labels in the generated document. So referencing is a lot easier...
  *
  * @version $Revision: 1.50 $
  * @author  Michael Meyling
@@ -83,7 +86,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     /** Filter text to get and produce text in this language. */
     private final String language;
 
-    /** Filter for this detail level. LATER mime 20050205: not used yet. */
+    /** Filter for this detail level. TODO mime 20080330: not used yet, but we should use it */
     private final String level;
 
     /** Transformer to get LaTeX out of {@link Element}s. */
@@ -852,43 +855,82 @@ public final class Qedeq2Latex extends ControlVisitor {
                     }
                 }
                 if (node == null) {
-                        Trace.info(CLASS, this, method, "node not found for " + ref);
+                    Trace.info(CLASS, this, method, "node not found for " + ref);
                 }
                 if (label.length() <= 0) {
-                    result.replace(pos1, pos2 + 1, "\\ref{" + ref + "}");
+                    final String display = getDisplay(ref, node);
+                    result.replace(pos1, pos2 + 1, display + "~\\ref{" + ref + "}"
+                        + (sub.length() > 0 ? " (" + sub + ")" : ""));
                 } else {
                     if (ref.length() <= 0) {
                         result.replace(pos1, pos2 + 1, "\\url{" + getPdfLink(prop) + "}");
                     } else {
-                        String display = ref;
-                        if (node != null) {
-                            if (node.getName() != null) {
-                                display = getLatexListEntry(node.getName());
-                            } else {
-                                if (node.getNodeType() instanceof Axiom) {
-                                    display = "[Axiom]";
-                                } else if (node.getNodeType() instanceof Proposition) {
-                                    display = "[Proposition]";
-                                } else if (node.getNodeType() instanceof FunctionDefinition) {
-                                    display = "[Definition]";
-                                } else if (node.getNodeType() instanceof PredicateDefinition) {
-                                    display = "[Definition]";
-                                } else if (node.getNodeType() instanceof Rule) {
-                                    display = "[rule]";
-                                }
-                            }
-                            if (sub.length() > 0) {
-                                display += " " + sub;
-                            }
-                        }
+                        final String display = getDisplay(ref, node);
                         result.replace(pos1, pos2 + 1, "\\hyperref{" + getPdfLink(prop) + "}{}{"
-                            + ref + (sub.length() > 0 ? ":" + sub : "") + "}{" + display + "}");
+                            + ref + (sub.length() > 0 ? ":" + sub : "")
+                            + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "") + "}");
                     }
                 }
             }
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
         }
+    }
+
+    /**
+     * Get text to display for a link.
+     * FIXME mime 20080330: refactor language dependent code
+     *
+     * @param   ref     Reference label.
+     * @param   node    Node to link to. Might be <code>null</code>.
+     * @return  Display text.
+     */
+    private String getDisplay(final String ref, final NodeVo node) {
+        String display = ref;
+        if (node != null) {
+            if (node.getName() != null) {
+                display = getLatexListEntry(node.getName());
+            } else {
+                if (node.getNodeType() instanceof Axiom) {
+                    if ("de".equals(language)) {
+                        display = "Axiom";
+                    } else {
+                        display = "axiom";
+                    }
+                } else if (node.getNodeType() instanceof Proposition) {
+                    if ("de".equals(language)) {
+                        display = "Proposition";
+                    } else {
+                        display = "proposition";
+                    }
+                } else if (node.getNodeType() instanceof FunctionDefinition) {
+                    if ("de".equals(language)) {
+                        display = "Definition";
+                    } else {
+                        display = "definition";
+                    }
+                } else if (node.getNodeType() instanceof PredicateDefinition) {
+                    if ("de".equals(language)) {
+                        display = "Definition";
+                    } else {
+                        display = "definition";
+                    }
+                } else if (node.getNodeType() instanceof Rule) {
+                    if ("de".equals(language)) {
+                        display = "Regel";
+                    } else {
+                        display = "rule";
+                    }
+                } else {
+                    if ("de".equals(language)) {
+                        display = "Unbekannt";
+                    } else {
+                        display = "unknown";
+                    }
+                }
+            }
+        }
+        return display;
     }
 
     /**
