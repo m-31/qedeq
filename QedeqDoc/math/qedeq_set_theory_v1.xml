@@ -576,7 +576,7 @@
                   
                   \par
                   `$\Leftarrow$': 
-                  Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $u$ be an arbitrary class. If $u \in x$ then $u$ is a set by definition~\ref{definition:isSet}, and hence by the assumption, $u \in y$. similarly $u \in y \ \rightarrow \ u \in x$. Since $u$ is arbitrary, it follows that $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Thus by the axiom of extensionality~\ref{axiom:extensionality}, $x = y$.
+                  Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $u$ be an arbitrary class. If $u \in x$ then $u$ is a set by definition~\ref{definition:isSet}, and hence by the assumption, $u \in y$. similarly $u \in y \ \rightarrow \ u \in x$. Since $u$ is arbitrary, it follows that $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Thus by the \qref{axiom:extensionality}, $x = y$.
                 ]]>
               </LATEX>
               <LATEX language="de">
@@ -585,7 +585,7 @@
                   
                   \par
                   `$\Leftarrow$': 
-                  Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $u$ eine beliebige Klasse. Falls $u \in x$ dann gilt $u$ ist eine Menge nach Definition~\ref{definition:isSet}, und daraus folgt mit der Annahme $u \in y$. Analog folgt $u \in y \ \rightarrow \ u \in x$. Da $u$ beliebig, haben wir $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Und mit dem Extensionalitätsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$. 
+                  Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $u$ eine beliebige Klasse. Falls $u \in x$ dann gilt $u$ ist eine Menge nach Definition~\ref{definition:isSet}, und daraus folgt mit der Annahme $u \in y$. Analog folgt $u \in y \ \rightarrow \ u \in x$. Da $u$ beliebig, haben wir $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Und mit dem \qref{axiom:extensionality} erhalten wir daraus $x = y$. 
                 ]]>
               </LATEX>
             </PROOF>
@@ -596,9 +596,9 @@
                   \par
                   \begin{tabularx}{\linewidth}{rclX}
                     $x = y$ & $\leftrightarrow$ & $\forall \ z \ ( z \in x \ \leftrightarrow \ z \in y)$
-                      & this is proposition~\ref{theorem:extensonalityEquivalence} \\
+                      & this is \qref{theorem:extensonalityEquivalence} \\
                             & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
-                      & proposition~\qref{theorem:inSetEqualInSetAndIsSet} \\
+                      & \qref{theorem:inSetEqualInSetAndIsSet} \\
                             & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
                       & \qref{l.theorem:propositionalCalculus}[bh] \\
                             & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \ z \in x \ \leftrightarrow \ z \in y)$ 
@@ -612,9 +612,9 @@
                   \par
                   \begin{tabularx}{\linewidth}{rclX}
                     $x = y$ & $\leftrightarrow$ & $\forall \ z \ ( z \in x \ \leftrightarrow \ z \in y)$
-                      & dies ist Proposition~\ref{theorem:extensonalityEquivalence} \\
+                      & dies ist \qref{theorem:extensonalityEquivalence} \\
                             & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
-                      & Proposition~\ref{theorem:inSetEqualInSetAndIsSet} \\
+                      & \qref{theorem:inSetEqualInSetAndIsSet} \\
                             & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
                       & \qref{l.theorem:propositionalCalculus}[bh] \\
                             & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \ z \in x \ \leftrightarrow \ z \in y)$ 
@@ -744,16 +744,16 @@
                   \land \phi(y)))$
 
                   \par
-                  Now with \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1_en.pdf}{}{allandpp}{allandpp}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
+                  Now with \qref{l.theorem:predicateCalculus}[f]: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
 
                   \par
-                  With \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1_en.pdf}{}{andequi}{andequi} we derive: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. And with Proposition~\ref{theorem:extensonalityEquivalence} follows $u = v$. So we have shown:
+                  With \qref{l.theorem:predicateCalculus}[bg] we derive: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. And with \qref{theorem:extensonalityEquivalence} follows $u = v$. So we have shown:
 
                   \par
                   $\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
 
                   \par
-                  Together with axiom~\ref{axiom:comprehension} we get the proposition.
+                  Together with \qref{axiom:comprehension} we get the proposition.
                 ]]>
               </LATEX>
               <LATEX language="de">
@@ -773,16 +773,16 @@
                   \land \phi(y)))$
 
                   \par
-                  Dann folgt mit \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1_de.pdf}{}{allandpp}{Formel 3.37}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
+                  Dann folgt mit \qref{l.theorem:predicateCalculus}[f]: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
 
                   \par
-                  Daraus erhalten wir mit \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1_de.pdf}{}{andequi}{Formel 3.31}: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit Proposition~\ref{theorem:extensonalityEquivalence} folgt nun $u = v$. Also haben wir gezeigt:
+                  Daraus erhalten wir mit \qref{l.theorem:predicateCalculus}[bg]: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit Proposition~\ref{theorem:extensonalityEquivalence} folgt nun $u = v$. Also haben wir gezeigt:
 
                   \par
                   $\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
 
                   \par
-                  Zusammen mit Axiom~\ref{axiom:comprehension} folgt nun die Behauptung.
+                  Zusammen mit dem \qref{axiom:comprehension} folgt nun die Behauptung.
                 ]]>
               </LATEX>
             </PROOF>
@@ -846,8 +846,8 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-                In particular the substitution rules must be adapted.\footnote{Because now a term can have bound subject variables. Luckily we formulated the substitution rules with this extension already in our mind, so we have nothing to do.} This is a \emph{conservative} extension of our (not so) formal language. This means that no new mathematical content can be derived. It is just convenient to have an elegant new notation.\footnote{
-                A conservative extension defined by the following.
+                In particular the substitution rules must be adapted.\footnote{Because now a term can have bound subject variables. Luckily we formulated the substitution rules with this extension already in our mind, so we have nothing to do.} This is a \emph{conservative} extension of our formal language. This means that no new mathematical content can be derived. It is just convenient to have an elegant new notation.\footnote{
+                A conservative extension is defined by the following.
                 Let $\mathfrak{L}$ be a language and $\mathfrak{L'}$ an extension of $\mathfrak{L}$. Because $\mathfrak{L'} \supset \mathfrak{L}$ it follows $\mbox{Formula}_\mathfrak{L'} \supset \mbox{Formula}_\mathfrak{L}$. If now for every set of formulas $\Gamma \subseteq \mbox{Formula}_\mathfrak{L}$ and each formula $\alpha \in \mbox{Formula}_\mathfrak{L}$ this proposition holds: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, then $\mathfrak{L'}$ is called a \emph{conservative} extension of $\mathfrak{L}$.} 
                 
                 
@@ -856,18 +856,35 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                 Insbesondere müssen die Substitutionsregeln angepasst werden.\footnote{Weil nun ein Term auch gebundene Subjektvariablen besitzen kann. Glücklicherweise haben wir das jedoch schon bei der Formulierung unserer Substitutionsregeln berücksichtigt, so dass wir nicht s tun müssen.} Es handelt sich hierbei um eine \emph{konservative} Erweiterung\footnote{Unter einer konservativen Erweiterung  verstehen wir das Folgende: Sei $\mathfrak{L}$ eine Sprache und $\mathfrak{L'}$ eine Erweiterung von $\mathfrak{L}$. Da $\mathfrak{L'} \supset \mathfrak{L}$ gilt auch $\mbox{Formel}_\mathfrak{L'} \supset \mbox{Formel}_\mathfrak{L}$. Falls nun für jede Formelmenge $\Gamma \subseteq \mbox{Formel}_\mathfrak{L}$ und jede Formel $\alpha \in \mbox{Formel}_\mathfrak{L}$ gilt: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, dann heißt $\mathfrak{L'}$ eine \emph{konservative} Erweiterung von $\mathfrak{L}$.}.
+                 Insbesondere müssen die Substitutionsregeln angepasst werden.\footnote{Weil nun ein Term auch gebundene Subjektvariablen besitzen kann. Glücklicherweise haben wir das jedoch schon bei der Formulierung unserer Substitutionsregeln berücksichtigt, so dass wir nichts tun müssen.} Es handelt sich hierbei um eine \emph{konservative} Erweiterung unser formalen Sprache. Das bedeutet, dass wir keine neuen mathematischen Inhalte erhalten. Es ist nur bequem, eine neue elegante Schreibweise zu besitzen.\footnote{
+                 Unter einer konservativen Erweiterung  verstehen wir das Folgende: Sei $\mathfrak{L}$ eine Sprache und $\mathfrak{L'}$ eine Erweiterung von $\mathfrak{L}$. Da $\mathfrak{L'} \supset \mathfrak{L}$ gilt auch $\mbox{Formel}_\mathfrak{L'} \supset \mbox{Formel}_\mathfrak{L}$. Falls nun für jede Formelmenge $\Gamma \subseteq \mbox{Formel}_\mathfrak{L}$ und jede Formel $\alpha \in \mbox{Formel}_\mathfrak{L}$ gilt: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, dann heißt $\mathfrak{L'}$ eine \emph{konservative} Erweiterung von $\mathfrak{L}$.}.
 
 %old                
 %                { x | alpha (x)} = { x | alpha (x)}
 %                y = y n All x x in y <-> M(x) n alpha(x)
                 
-                Im Folgenden wird auf diese Schreibweise zurückgegriffen.
+                Im Folgenden wird auf diese neue Schreibweise zurückgegriffen.
               ]]>
             </LATEX>
           </SUCCEEDING>
         </NODE>
 
+        <SUBSECTION>
+          <TEXT>
+            <LATEX language="en">
+              <![CDATA[
+                +++ TODO Perhaps it is better to extend the term syntax and add the following axiom?
+                $x \in \{ y \ | \ \phi(y) \} \ \leftrightarrow \ \phi(x)$
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                +++ TODO Vielleicht ist es besser die Termsyntax zu erweitern und das folgende Axiom hinzuzufügen?
+                $x \in \{ y | \phi(y) \} \ \leftrightarrow \ \phi(x)$
+              ]]>
+            </LATEX>
+          </TEXT>
+        </SUBSECTION>
 
         <NODE id="theorem:setNotation" level="1">
           <PRECEDING>
@@ -1091,12 +1108,12 @@
             <PROOF kind="informal" level="1">
               <LATEX language="en">
                 <![CDATA[
-                  +++ missing.
+                  Directly from class definition we get a) by quantor elimination and an identity rule. With \qref{theorem:extensonalityEquivalence} we get b) and c). Also from identity theormes we get d) and e). 
                 ]]>
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  +++ fehlt noch.
+                  Direkt aus \qref{rule:classDefinition} bekommen wir a) mittels Quantorenelimination und einam Identitätsgestz. Mit \qref{theorem:extensonalityEquivalence} erhalten wir b) und c). Ebenfalls mit Identitätsgesetzen  bekommen wir d) und e). 
                 ]]>
               </LATEX>
             </PROOF>
@@ -1143,6 +1160,36 @@
                 </PREDCON>
               </EXISTSU>
             </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{lX}
+                    $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land \phi(z))$
+                      & this is \qref{theorem:comprehension} \\
+                    $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow z \in \{ y \ | \  \phi(y) \}$
+                      & \qref{theorem:setNotation}[a] \\
+                    $\exists! \ x \ x = \{ y \ | \  \phi(y) \}$
+                      & \qref{theorem:extensonalityEquivalence}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{lX}
+                    $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land \phi(z))$
+                      & dies ist \qref{theorem:comprehension} \\
+                    $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow z \in \{ y \ | \  \phi(y) \}$
+                      & \qref{theorem:setNotation}[a] \\
+                    $\exists! \ x \ x = \{ y \ | \  \phi(y) \}$
+                      & \qref{theorem:extensonalityEquivalence}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
         </NODE>
         
@@ -1151,7 +1198,7 @@
             <LATEX language="en">
               <![CDATA[
                 
-                The equivalence of properties enables us to conclude the identy of the associated classes.
+                The equivalence of properties enables us to conclude the identity of the associated classes.
                 
               ]]>
             </LATEX>
@@ -1338,6 +1385,72 @@
                 </PREDCON>
               </NOT>
             </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $y \in \{ x \ | \ \phi(x) \}$
+                     & $\leftrightarrow$ 
+                     & $\mathfrak{M}(y) \land \phi(y)$ 
+                     & this is \qref{theorem:setNotation}[a] \\
+                    $y \in \{ x \ | \ x \notin x \}$  
+                     & $\leftrightarrow$ 
+                     & $\mathfrak{M}(y) \land y \notin y$ 
+                     & substitution for $\phi$ \\
+                    $y \in \mathfrak{Ru}$         
+                     & $\leftrightarrow$ 
+                     & $\mathfrak{M}(y) \land y \notin y$ 
+                     & \qref{definition:RussellClass} \\
+                    $\mathfrak{Ru} \in \mathfrak{Ru}$ 
+                     & $\leftrightarrow$ 
+                     & $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \notin \mathfrak{Ru}$ 
+                     & substitution for $y$ \\
+                    $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \in \mathfrak{Ru}$ 
+                     & $\leftrightarrow$ 
+                     & $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \notin \mathfrak{Ru}$ 
+                     & \qref{theorem:inSetEqualInSetAndIsSet} \\
+                     
+                     & $\not \mathfrak{M}(\mathfrak{Ru})$ 
+                     &  
+                     & \qref{l.theorem:propositionalCalculus}[bi]
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $y \in \{ x \ | \ \phi(x) \}$
+                     & $\leftrightarrow$ 
+                     & $\mathfrak{M}(y) \land \phi(y)$ 
+                     & das ist \qref{theorem:setNotation}[a] \\
+                    $y \in \{ x \ | \ x \notin x \}$  
+                     & $\leftrightarrow$ 
+                     & $\mathfrak{M}(y) \land y \notin y$ 
+                     & Substitution für $\phi$ \\
+                    $y \in \mathfrak{Ru}$         
+                     & $\leftrightarrow$ 
+                     & $\mathfrak{M}(y) \land y \notin y$ 
+                     & \qref{definition:RussellClass} \\
+                    $\mathfrak{Ru} \in \mathfrak{Ru}$ 
+                     & $\leftrightarrow$ 
+                     & $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \notin \mathfrak{Ru}$ 
+                     & Substitution für $y$ \\
+                    $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \in \mathfrak{Ru}$ 
+                     & $\leftrightarrow$ 
+                     & $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \notin \mathfrak{Ru}$ 
+                     & \qref{theorem:inSetEqualInSetAndIsSet} \\
+                     
+                     & $\not \mathfrak{M}(\mathfrak{Ru})$ 
+                     &  
+                     & \qref{l.theorem:propositionalCalculus}[bi]
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
         </NODE>
 
@@ -1381,38 +1494,6 @@
           </DEFINITION_FUNCTION>
         </NODE>
 
-        <NODE id="theorem:universalClassContainsAllSets" level="formal">
-          <PRECEDING>
-            <LATEX language="en">
-              <![CDATA[
-
-                At least the universal class contains all sets.
-                
-              ]]>
-            </LATEX>
-            <LATEX language="de">
-              <![CDATA[
-
-                Zumindest umfasst die Allklasse alle Mengen.
-                
-              ]]>
-            </LATEX>
-          </PRECEDING>
-          <THEOREM>
-            <FORMULA>
-              <PREDCON ref="l.equal">
-                <FUNCON ref="universalClass" />
-                <CLASS>
-                  <VAR id="x" />
-                  <PREDCON ref="isSet">
-                    <VAR id="x" />
-                  </PREDCON>
-                </CLASS>
-              </PREDCON>
-            </FORMULA>
-          </THEOREM>
-        </NODE>
-
         <NODE id="theorem:isInUniversalClass" level="formal">
           <PRECEDING>
             <LATEX language="en">
@@ -1442,6 +1523,60 @@
                   <VAR id="x" />
                 </PREDCON>
               </EQUI>
+            </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $x \in \{ y \ | \ \phi(y) \} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land \phi(x)$
+                      & this is \qref{theorem:setNotation}[a] \\
+                    $x \in \{ y \ | \ y = y \} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land y = y$
+                      & substitution for $\phi$ \\
+                    $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land y = y$
+                      & \qref{definition:universalClass} \\
+                    $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x)$
+                      & \qref{l.theorem:propositionalCalculus}[au] and \qref{l.axiom:identityIsReflexive}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                ]]>
+              </LATEX>
+            </PROOF>
+          </THEOREM>
+        </NODE>
+
+        <NODE id="theorem:universalClassContainsAllSets" level="formal">
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+
+                The universal class contains all sets.
+                
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+
+                Die Allklasse umfasst alle Mengen.
+                
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <THEOREM>
+            <FORMULA>
+              <PREDCON ref="l.equal">
+                <FUNCON ref="universalClass" />
+                <CLASS>
+                  <VAR id="x" />
+                  <PREDCON ref="isSet">
+                    <VAR id="x" />
+                  </PREDCON>
+                </CLASS>
+              </PREDCON>
             </FORMULA>
           </THEOREM>
         </NODE>

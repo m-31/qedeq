@@ -1759,8 +1759,8 @@
                       <PREDVAR id="B" />
                     </EQUI>
                     <EQUI>
-                      <PREDVAR id="B" />
                       <PREDVAR id="C" />
+                      <PREDVAR id="B" />
                     </EQUI>
                   </AND>
                   <EQUI>
@@ -2499,7 +2499,7 @@
             <FORMULA>
               <PREDCON ref="equal">
                 <VAR id="x" />
-                <VAR id="y" />
+                <VAR id="x" />
               </PREDCON>
             </FORMULA>
           </AXIOM>
