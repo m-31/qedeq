@@ -2,7 +2,7 @@
 %%% ====================================================================
 %%% @LaTeX-file    qedeq_set_theory_v1_de.tex
 %%% Generated from http://qedeq.org/0_03_09/doc/math/qedeq_set_theory_v1.xml
-%%% Generated at   2008-03-27 22:33:09,765
+%%% Generated at   2008-03-30 23:18:17,122
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -256,16 +256,18 @@ Nun k{\"o}nnen wir das Extensionalit{\"a}tsaxiom wie folgt schreiben.\footnote{E
 Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $u$ eine beliebige Klasse. Falls $u \in x$ dann gilt $u$ ist eine Menge nach Definition~\ref{definition:isSet}, und daraus folgt mit der Annahme $u \in y$. Analog folgt $u \in y \ \rightarrow \ u \in x$. Da $u$ beliebig, haben wir $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Und mit dem Extensionalit{\"a}tsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$.
 \end{proof}
 \begin{proof}
+\mbox{}
+\par
 \begin{tabularx}{\linewidth}{rclX}
-$x = y$ & $\leftrightarrow$ & $\forall \ z \ ( z \in x \ \leftrightarrow \ z \in y)$
-  & this is proposition~\ref{theorem:extensonalityEquivalence} \\
-        & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
-  & with \ref{theorem:inSetEqualInSetAndIsSet} \\
-        & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
-  & with \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus:bh}{Elementare S{\"a}tze bh} \\
-        & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
-  & with \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_de.pdf}{}{definition:restrictedUniversalQuantifier}{Definition eingeschr{\"a}nker Allquantor} \\
-                  \end{tabularx}
+  $x = y$ & $\leftrightarrow$ & $\forall \ z \ ( z \in x \ \leftrightarrow \ z \in y)$
+    & dies ist Proposition~\ref{theorem:extensonalityEquivalence} \\
+          & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
+    & Proposition~\ref{theorem:inSetEqualInSetAndIsSet} \\
+          & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
+    & \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus:bh}{Elementare S{\"a}tze (bh)} \\
+          & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \ z \in x \ \leftrightarrow \ z \in y)$ 
+    & \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_de.pdf}{}{definition:restrictedUniversalQuantifier}{Definition eingeschr{\"a}nker Allquantor} \\
+\end{tabularx}
 \end{proof}
 
 
@@ -315,16 +317,16 @@ $\forall y \ (y \in u \leftrightarrow \ \mathfrak{M}(y) \land \phi(y)) \land \ \
 \land \phi(y)))$
 
 \par
-Dann folgt mit \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1_de.pdf}{}{allandpp}{Formel 3.37}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
+Dann folgt mit \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:predicateCalculus:f}{Elementare S{\"a}tze (f)}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
 
 \par
-Daraus erhalten wir mit \hyperref{http://www.qedeq.org/current/doc/math/qedeq_logic_v1_de.pdf}{}{andequi}{Formel 3.31}: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit Proposition~\ref{theorem:extensonalityEquivalence} folgt nun $u = v$. Also haben wir gezeigt:
+Daraus erhalten wir mit \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:predicateCalculus:bg}{Elementare S{\"a}tze (bg)}: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit Proposition~\ref{theorem:extensonalityEquivalence} folgt nun $u = v$. Also haben wir gezeigt:
 
 \par
 $\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
 
 \par
-Zusammen mit Axiom~\ref{axiom:comprehension} folgt nun die Behauptung.
+Zusammen mit dem Komprehensionsaxiom~\ref{axiom:comprehension} folgt nun die Behauptung.
 \end{proof}
 
 
@@ -351,13 +353,18 @@ Die freien Variablen von $\{ x \ | \ \alpha(x)\}$ sind die freien Variablen von 
 Basierend auf: 
  \ref{theorem:comprehension}
 
-Insbesondere m{\"u}ssen die Substitutionsregeln angepasst werden.\footnote{Weil nun ein Term auch gebundene Subjektvariablen besitzen kann. Gl{\"u}cklicherweise haben wir das jedoch schon bei der Formulierung unserer Substitutionsregeln ber{\"u}cksichtigt, so dass wir nicht s tun m{\"u}ssen.} Es handelt sich hierbei um eine \emph{konservative} Erweiterung\footnote{Unter einer konservativen Erweiterung  verstehen wir das Folgende: Sei $\mathfrak{L}$ eine Sprache und $\mathfrak{L'}$ eine Erweiterung von $\mathfrak{L}$. Da $\mathfrak{L'} \supset \mathfrak{L}$ gilt auch $\mbox{Formel}_\mathfrak{L'} \supset \mbox{Formel}_\mathfrak{L}$. Falls nun f{\"u}r jede Formelmenge $\Gamma \subseteq \mbox{Formel}_\mathfrak{L}$ und jede Formel $\alpha \in \mbox{Formel}_\mathfrak{L}$ gilt: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, dann hei{\ss}t $\mathfrak{L'}$ eine \emph{konservative} Erweiterung von $\mathfrak{L}$.}.
+Insbesondere m{\"u}ssen die Substitutionsregeln angepasst werden.\footnote{Weil nun ein Term auch gebundene Subjektvariablen besitzen kann. Gl{\"u}cklicherweise haben wir das jedoch schon bei der Formulierung unserer Substitutionsregeln ber{\"u}cksichtigt, so dass wir nichts tun m{\"u}ssen.} Es handelt sich hierbei um eine \emph{konservative} Erweiterung unser formalen Sprache. Das bedeutet, dass wir keine neuen mathematischen Inhalte erhalten. Es ist nur bequem, eine neue elegante Schreibweise zu besitzen.\footnote{
+Unter einer konservativen Erweiterung  verstehen wir das Folgende: Sei $\mathfrak{L}$ eine Sprache und $\mathfrak{L'}$ eine Erweiterung von $\mathfrak{L}$. Da $\mathfrak{L'} \supset \mathfrak{L}$ gilt auch $\mbox{Formel}_\mathfrak{L'} \supset \mbox{Formel}_\mathfrak{L}$. Falls nun f{\"u}r jede Formelmenge $\Gamma \subseteq \mbox{Formel}_\mathfrak{L}$ und jede Formel $\alpha \in \mbox{Formel}_\mathfrak{L}$ gilt: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, dann hei{\ss}t $\mathfrak{L'}$ eine \emph{konservative} Erweiterung von $\mathfrak{L}$.}.
 
 %old                
 %                { x | alpha (x)} = { x | alpha (x)}
 %                y = y n All x x in y <-> M(x) n alpha(x)
                 
-                Im Folgenden wird auf diese Schreibweise zur{\"u}ckgegriffen.
+                Im Folgenden wird auf diese neue Schreibweise zur{\"u}ckgegriffen.
+
+
++++ TODO Vielleicht ist es besser die Termsyntax zu erweitern und das folgende Axiom hinzuzuf{\"u}gen?
+$x \in \{ y | \phi(y) \} \ \leftrightarrow \ \phi(x)$
 
 
 \par
@@ -389,7 +396,7 @@ v \ ((u  = \{ x~|~\phi(x) \} \\
 \end{align}
 \end{prop}
 \begin{proof}
-+++ fehlt noch.
+Direkt aus Klassenschreibweise~\ref{rule:classDefinition} bekommen wir a) mittels Quantorenelimination und einam Identit{\"a}tsgestz. Mit Proposition~\ref{theorem:extensonalityEquivalence} erhalten wir b) und c). Ebenfalls mit Identit{\"a}tsgesetzen  bekommen wir d) und e).
 \end{proof}
 
 Durch sukzessives Anwenden des obigen Satzes kann also die neue Syntax in die alte {\"u}berf{\"u}hrt werden.
@@ -406,6 +413,18 @@ Da durch die neue Schreibweise ein Term eindeutig festgelegt wird, muss nat{\"u}
 \end{longtable}
 
 \end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{lX}
+  $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land \phi(z))$
+    & dies ist Proposition~\ref{theorem:comprehension} \\
+  $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow z \in \{ y \ | \  \phi(y) \}$
+    & Proposition~\ref{theorem:setNotation} (a) \\
+  $\exists! \ x \ x = \{ y \ | \  \phi(y) \}$
+    & Proposition~\ref{theorem:extensonalityEquivalence}
+\end{tabularx}
+\end{proof}
 
 
 
@@ -466,6 +485,36 @@ Die Russellsche Klasse ist eine \emph{echte}\index{echt}\index{Klasse!echte} Kla
 \end{longtable}
 
 \end{prop}
+\begin{proof}
+\mbox{}
+\par
+\begin{tabularx}{\linewidth}{rclX}
+  $y \in \{ x \ | \ \phi(x) \}$
+   & $\leftrightarrow$ 
+   & $\mathfrak{M}(y) \land \phi(y)$ 
+   & das ist Proposition~\ref{theorem:setNotation} (a) \\
+  $y \in \{ x \ | \ x \notin x \}$  
+   & $\leftrightarrow$ 
+   & $\mathfrak{M}(y) \land y \notin y$ 
+   & Substitution f{\"u}r $\phi$ \\
+  $y \in \mathfrak{Ru}$         
+   & $\leftrightarrow$ 
+   & $\mathfrak{M}(y) \land y \notin y$ 
+   & Russellsche Klasse~\ref{definition:RussellClass} \\
+  $\mathfrak{Ru} \in \mathfrak{Ru}$ 
+   & $\leftrightarrow$ 
+   & $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \notin \mathfrak{Ru}$ 
+   & Substitution f{\"u}r $y$ \\
+  $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \in \mathfrak{Ru}$ 
+   & $\leftrightarrow$ 
+   & $\mathfrak{M}(\mathfrak{Ru}) \land \mathfrak{Ru} \notin \mathfrak{Ru}$ 
+   & Proposition~\ref{theorem:inSetEqualInSetAndIsSet} \\
+   
+   & $\not \mathfrak{M}(\mathfrak{Ru})$ 
+   &  
+   & \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_de.pdf}{}{theorem:propositionalCalculus:bi}{Elementare S{\"a}tze (bi)}
+\end{tabularx}
+\end{proof}
 
 
 
@@ -483,21 +532,6 @@ $$\mathfrak{V}\ := \ \{ x \ | \ x \ =  \ x \} $$
 
 
 \par
-Zumindest umfasst die Allklasse alle Mengen.
-
-\begin{prop}
-\label{theorem:universalClassContainsAllSets} \hypertarget{theorem:universalClassContainsAllSets}{}
-\mbox{}
-\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
-\centering $\mathfrak{V} \ =  \ \{ x \ | \ \mathfrak{M}(x) \} $
-\end{longtable}
-
-\end{prop}
-
-
-
-
-\par
 Mitgliedschaft in der Allklasse ist daher gleichbedeutet mit der 
 Eigenschaft eine Menge zu sein.
 
@@ -506,6 +540,24 @@ Eigenschaft eine Menge zu sein.
 \mbox{}
 \begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
 \centering $x \in \mathfrak{V}\ \leftrightarrow \ \mathfrak{M}(x)$
+\end{longtable}
+
+\end{prop}
+\begin{proof}
+
+\end{proof}
+
+
+
+
+\par
+Die Allklasse umfasst alle Mengen.
+
+\begin{prop}
+\label{theorem:universalClassContainsAllSets} \hypertarget{theorem:universalClassContainsAllSets}{}
+\mbox{}
+\begin{longtable}{{@{\extracolsep{\fill}}p{\linewidth}}}
+\centering $\mathfrak{V} \ =  \ \{ x \ | \ \mathfrak{M}(x) \} $
 \end{longtable}
 
 \end{prop}
