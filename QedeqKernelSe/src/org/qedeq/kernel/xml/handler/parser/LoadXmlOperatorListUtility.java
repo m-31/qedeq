@@ -18,7 +18,6 @@
 package org.qedeq.kernel.xml.handler.parser;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -73,22 +72,25 @@ public final class LoadXmlOperatorListUtility  {
             throw new DefaultSourceFileExceptionList(e);
         } catch (ParserConfigurationException e) {
             Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
+            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(
+                new RuntimeException(e));   // TODO mime 20080404: search for better solution
             throw list;
         } catch (final SAXParseException e) {
             Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
+            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(
+                new RuntimeException(e));   // TODO mime 20080404: search for better solution
             throw list;
         } catch (SAXException e) {
             Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
+            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(
+                new RuntimeException(e));   // TODO mime 20080404: search for better solution
             throw list;
         } catch (javax.xml.parsers.FactoryConfigurationError e) {
             Trace.trace(CLASS, method, e);
             final String msg = "SAX Parser not in classpath, "
                 + "add for example \"xercesImpl.jar\" and \"xml-apis.jar\".";
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList();
-            list.add(new IOException(msg));
+            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(
+                new RuntimeException(msg));   // TODO mime 20080404: search for better solution
             throw list;
         } finally {
             Trace.end(CLASS, method);
