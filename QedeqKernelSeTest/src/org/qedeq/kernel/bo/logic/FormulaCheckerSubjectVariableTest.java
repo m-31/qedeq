@@ -48,10 +48,10 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
      */
     public void testSubjectVariablePositive() throws Exception {
         final Element ele = TestParser.createElement("<VAR id=\"x\"/>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkTerm(ele, context);
-        FormulaChecker.checkTerm(ele, context, getChecker());
-        FormulaChecker.checkTerm(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkTerm(ele, context, getCheckerWithoutClass()).hasErrors());
     }
     
     /**
@@ -63,13 +63,11 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
      */
     public void testSubjectVariableNegative1() throws Exception {
         final Element ele = TestParser.createElement("<VAR />");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30710, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30710, list.get(0).getErrorCode());
     }
     
     /**
@@ -81,13 +79,11 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
      */
     public void testSubjectVariableNegative2() throws Exception {
         final Element ele = TestParser.createElement("<VAR id=\"x\" ref=\"12\" />");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30710, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30710, list.get(0).getErrorCode());
     }
     
     
@@ -100,13 +96,11 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
      */
     public void testSubjectVariableNegative3() throws Exception {
         final Element ele = TestParser.createElement("<VAR> <A/> </VAR>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30730, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30730, list.get(0).getErrorCode());
     }
     
     

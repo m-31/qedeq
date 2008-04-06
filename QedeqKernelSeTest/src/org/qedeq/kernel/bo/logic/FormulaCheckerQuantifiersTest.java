@@ -50,10 +50,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
     public void testQuantifiersPositive01() throws Exception {
         final Element ele = TestParser.createElement(
             "<FORALL><VAR id=\"x\" /><PREDVAR id=\"A\"/></FORALL>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -66,10 +67,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
     public void testQuantifiersPositive02() throws Exception {
         final Element ele = TestParser.createElement(
             "<EXISTS><VAR id=\"x\" /><PREDVAR id=\"A\"/></EXISTS>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -82,10 +84,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
     public void testQuantifiersPositive03() throws Exception {
         final Element ele = TestParser.createElement(
             "<EXISTSU><VAR id=\"x\" /><PREDVAR id=\"A\"/></EXISTSU>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -102,10 +105,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  <PREDVAR id=\"A\"/>" +
             "</FORALL>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -122,10 +126,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  <PREDVAR id=\"A\"/>" +
             "</EXISTS>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -142,10 +147,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  <PREDVAR id=\"A\"/>" +
             "</EXISTSU>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -161,13 +167,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  <PREDVAR id=\"A\"/>" +
             "</FORALL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30540, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30540, list.get(0).getErrorCode());
     }
     
     /**
@@ -183,13 +187,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  <PREDVAR id=\"A\"/>" +
             "</EXISTS>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30540, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30540, list.get(0).getErrorCode());
     }
     
     /**
@@ -205,13 +207,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  <PREDVAR id=\"A\"/>" +
             "</EXISTSU>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30540, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30540, list.get(0).getErrorCode());
     }
         
     /**
@@ -230,13 +230,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  </FORALL>" +
             "</FORALL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30550, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30550, list.get(0).getErrorCode());
     }
     
     /**
@@ -256,13 +254,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "   </FORALL>" +
             "</FORALL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30550, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30550, list.get(0).getErrorCode());
     }
     
     /**
@@ -283,13 +279,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "     </CLASS>" +
             "   </PREDVAR>" +
             "</FORALL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30550, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30550, list.get(0).getErrorCode());
     }
     
     /**
@@ -308,13 +302,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  </FORALL>" +
             "</EXISTS>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30550, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30550, list.get(0).getErrorCode());
     }
     
     /**
@@ -334,13 +326,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  </EXISTS>" +
             "</EXISTS>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30550, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30550, list.get(0).getErrorCode());
     }
     
     /**
@@ -361,13 +351,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "     </CLASS>" +
             "   </PREDVAR>" +
             "</EXISTS>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30550, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30550, list.get(0).getErrorCode());
     }
     
     /**
@@ -386,13 +374,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  </FORALL>" +
             "</EXISTSU>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30550, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30550, list.get(0).getErrorCode());
     }
     
     /**
@@ -412,13 +398,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  </EXISTSU>" +
             "</EXISTSU>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30550, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30550, list.get(0).getErrorCode());
     }
     
     /**
@@ -439,13 +423,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "     </CLASS>" +
             "   </PREDVAR>" +
             "</EXISTSU>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30550, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30550, list.get(0).getErrorCode());
     }
         
     /**
@@ -470,13 +452,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    </CLASS>" +
             "  </PREDVAR>" +
             "</FORALL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30770, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
         
     /**
@@ -501,13 +481,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    </CLASS>" +
             "  </PREDVAR>" +
             "</EXISTS>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30770, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
         
     /**
@@ -532,13 +510,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    </CLASS>" +
             "  </PREDVAR>" +
             "</EXISTSU>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30770, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
         
     /**
@@ -561,13 +537,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <PREDVAR id=\"A\"/>" +
             "  </FORALL>" +
             "</FORALL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30770, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
         
     /**
@@ -590,13 +564,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <PREDVAR id=\"A\"/>" +
             "  </FORALL>" +
             "</EXISTS>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30770, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
         
     /**
@@ -622,13 +594,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <PREDVAR id=\"A\"/>" +
             "  </EXISTSU>" +
             "</EXISTSU>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30770, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
     
     /**
@@ -654,13 +624,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <VAR id=\"y\" />" +
             "  </PREDVAR>" +
             "</FORALL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
         
     /**
@@ -686,13 +654,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <VAR id=\"y\" />" +
             "  </PREDVAR>" +
             "</EXISTS>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
         
     /**
@@ -718,13 +684,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <VAR id=\"y\" />" +
             "  </PREDVAR>" +
             "</EXISTSU>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
         
     /**
@@ -749,13 +713,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <VAR id=\"y\" />" +
             "  </PREDVAR>" +
             "</FORALL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
         
     /**
@@ -781,13 +743,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <VAR id=\"y\" />" +
             "  </PREDVAR>" +
             "</EXISTS>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
         
     /**
@@ -814,13 +774,11 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
             "    <VAR id=\"y\" />" +
             "  </PREDVAR>" +
             "</EXISTSU>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
     
 }

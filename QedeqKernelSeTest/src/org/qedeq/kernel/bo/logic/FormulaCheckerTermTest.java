@@ -62,9 +62,9 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
             "    </PREDCON>" +
             "  </AND>" +
             "</CLASS>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkTerm(ele, context);
-        FormulaChecker.checkTerm(ele, context, getChecker());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
     }
     
     /**
@@ -81,9 +81,9 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
             "  <VAR id=\"y\" />" +
             "  <VAR id=\"x\" />" +
             "</FUNVAR>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkTerm(ele, context);
-        FormulaChecker.checkTerm(ele, context, getChecker());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
     }
     
     /**
@@ -101,9 +101,9 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
             "    <VAR id=\"y\" />" +
             "  </FUNCON>" +
             "</FUNCON>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkTerm(ele, context);
-        FormulaChecker.checkTerm(ele, context, getChecker());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
     }
     
     /**
@@ -116,9 +116,9 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     public void testTermPositive04() throws Exception {
         final Element ele = TestParser.createElement(
             "<VAR id=\"x\" />");
-        System.out.println(ele.toString());
-        FormulaChecker.checkTerm(ele, context);
-        FormulaChecker.checkTerm(ele, context, getChecker());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
     }
     
     /**
@@ -131,13 +131,11 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     public void testTermNegative01() throws Exception {
         final Element ele = TestParser.createElement(
           "<AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></AND>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30620, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30620, list.get(0).getErrorCode());
     }
 
     /**
@@ -150,13 +148,11 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     public void testTermNegative02() throws Exception {
         final Element ele = TestParser.createElement(
           "<UNKNOWN><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></UNKNOWN>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30620, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30620, list.get(0).getErrorCode());
     }
 
     /**
@@ -169,13 +165,11 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     public void testTermNegative03() throws Exception {
         final Element ele = TestParser.createElement(
         "<OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></OR>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30620, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30620, list.get(0).getErrorCode());
     }
 
     /**
@@ -188,13 +182,11 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     public void testTermNegative04() throws Exception {
         final Element ele = TestParser.createElement(
         "<IMPL><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></IMPL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30620, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30620, list.get(0).getErrorCode());
     }
 
     /**
@@ -207,13 +199,11 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     public void testTermNegative05() throws Exception {
         final Element ele = TestParser.createElement(
         "<EQUI><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></EQUI>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30620, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30620, list.get(0).getErrorCode());
     }
 
     /**
@@ -226,13 +216,11 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     public void testTermNegative06() throws Exception {
         final Element ele = TestParser.createElement(
           "<NOT><PREDVAR id=\"A\"/></NOT>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30620, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30620, list.get(0).getErrorCode());
     }
 
     /**
@@ -245,13 +233,11 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     public void testTermNegative07() throws Exception {
         final Element ele = TestParser.createElement(
           "<PREDVAR id=\"A\"/>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30620, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30620, list.get(0).getErrorCode());
     }
 
     /**
@@ -264,13 +250,11 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     public void testTermNegative08() throws Exception {
         final Element ele = TestParser.createElement(
           "<FORALL><VAR id=\"x\" /><PREDVAR id=\"A\"/></FORALL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30620, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30620, list.get(0).getErrorCode());
     }
 
     /**
@@ -283,13 +267,11 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     public void testTermNegative09() throws Exception {
         final Element ele = TestParser.createElement(
           "<EXISTS><VAR id=\"x\" /><PREDVAR id=\"A\"/></EXISTS>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30620, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30620, list.get(0).getErrorCode());
     }
 
     /**
@@ -302,13 +284,11 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     public void testTermNegative10() throws Exception {
         final Element ele = TestParser.createElement(
           "<EXISTSU><VAR id=\"x\" /><PREDVAR id=\"A\"/></EXISTSU>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30620, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30620, list.get(0).getErrorCode());
     }
 
 }

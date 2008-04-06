@@ -38,7 +38,8 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     private ModuleContext context;
     
     protected void setUp() throws Exception {
-        context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
+        context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"),
+            "getElement()");
     }
 
     protected void tearDown() throws Exception {
@@ -105,9 +106,9 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 })
             })
         });
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
     }
     
     /**
@@ -118,12 +119,10 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testGlobalFormulaNegative01() throws Exception {
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(null, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30400, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30400, list.get(0).getErrorCode());
     }
     
     /**
@@ -134,12 +133,10 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testGlobalTermNegative01() throws Exception {
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(null, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30400, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30400, list.get(0).getErrorCode());
     }
     
     /**
@@ -150,7 +147,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testGlobalFormulaNegative03() throws Exception {
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(new DefaultElementList("PREDVAR", new Element[]{new Atom(){
 
                 public String getString() {
@@ -181,10 +178,8 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }}}), 
                 context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30410, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30410, list.get(0).getErrorCode());
     }
     
     /**
@@ -195,41 +190,39 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testGlobalFormulaNegative04() throws Exception {
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(new DefaultElementList("FUNCON", new Element[]{new Atom(){
 
                 public String getString() {
                     return null;
                 }
-
+    
                 public boolean isAtom() {
                     return true;
                 }
-
+    
                 public Atom getAtom() {
                     return null;
                 }
-
+    
                 public boolean isList() {
                     return false;
                 }
-
+    
                 public ElementList getList() {
                     return null;
                 }
-
+    
                 public Element copy() {
                     return null;
                 }
-
+    
                 public Element replace(Element search, Element replacement) {
                     return null;
                 }}}), 
                 context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30410, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30410, list.get(0).getErrorCode());
     }
     
     /**
@@ -240,7 +233,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testGlobalFormulaNegative05() throws Exception {
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(new Element() {
 
                 public boolean isAtom() {
@@ -267,10 +260,8 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }},
                 context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30420, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30420, list.get(0).getErrorCode());
     }
     
     /**
@@ -281,7 +272,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testGlobalFormulaNegative06() throws Exception {
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(new Element() {
 
                 public boolean isAtom() {
@@ -308,10 +299,8 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }},
                 context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30420, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30420, list.get(0).getErrorCode());
     }
     
     /**
@@ -322,7 +311,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testGlobalFormulaNegative07() throws Exception {
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(new DefaultElementList("PREDVAR", new Element[]{new Atom(){
 
                 public String getString() {
@@ -353,10 +342,8 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }}}), 
                 context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30430, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30430, list.get(0).getErrorCode());
     }
     
     /**
@@ -367,7 +354,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testGlobalFormulaNegative08() throws Exception {
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(new DefaultElementList("FUNCON", new Element[]{new Atom(){
 
                 public String getString() {
@@ -398,10 +385,8 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }}}), 
                 context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30430, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30430, list.get(0).getErrorCode());
     }
     
     /**
@@ -412,7 +397,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testGlobalFormulaNegative09() throws Exception {
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(new DefaultElementList("PREDVAR", new Element[]{new Atom(){
 
                 public String getString() {
@@ -443,10 +428,8 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }}}), 
                 context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30440, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30440, list.get(0).getErrorCode());
     }
 
     /**
@@ -459,13 +442,11 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     public void testGlobalFormulaNegative11() throws Exception {
         final Element ele = new DefaultElementList("PREDCON", new Element[] {
             new DefaultAtom("")});
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30440, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30440, list.get(0).getErrorCode());
     }
 
     /**
@@ -478,13 +459,11 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     public void testGlobalFormulaNegative12() throws Exception {
         final Element ele = new DefaultElementList("FUNCON", new Element[] {
             new DefaultAtom("")});
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30440, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30440, list.get(0).getErrorCode());
     }
 
     /**
@@ -551,13 +530,11 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
             }
 
         }; 
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30450, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30450, list.get(0).getErrorCode());
     }
 
     /**
@@ -623,13 +600,11 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
         }; 
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30450, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30450, list.get(0).getErrorCode());
     }
 
     /**
@@ -640,37 +615,35 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testGlobalFormulaNegative15() throws Exception {
-        try {
-            final Element ele = new Element() {
+        final Element ele = new Element() {
 
-                public boolean isAtom() {
-                    return false;
-                }
+            public boolean isAtom() {
+                return false;
+            }
 
-                public Atom getAtom() {
-                    return null;
-                }
+            public Atom getAtom() {
+                return null;
+            }
 
-                public boolean isList() {
-                    return true;
-                }
+            public boolean isList() {
+                return true;
+            }
 
-                public ElementList getList() {
-                    return new DefaultElementList("", new Element[] {});
-                }
+            public ElementList getList() {
+                return new DefaultElementList("", new Element[] {});
+            }
 
-                public Element copy() {
-                    return null;
-                }
+            public Element copy() {
+                return null;
+            }
 
-                public Element replace(Element search, Element replacement) {
-                    return null;
-                }};
+            public Element replace(Element search, Element replacement) {
+                return null;
+            }};
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30460, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30460, list.get(0).getErrorCode());
     }
         
     /**
@@ -681,37 +654,35 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testGlobalFormulaNegative16() throws Exception {
-        try {
-            final Element ele = new Element() {
+        final Element ele = new Element() {
 
-                public boolean isAtom() {
-                    return false;
-                }
+            public boolean isAtom() {
+                return false;
+            }
 
-                public Atom getAtom() {
-                    return null;
-                }
+            public Atom getAtom() {
+                return null;
+            }
 
-                public boolean isList() {
-                    return true;
-                }
+            public boolean isList() {
+                return true;
+            }
 
-                public ElementList getList() {
-                    return new DefaultElementList("", new Element[] {});
-                }
+            public ElementList getList() {
+                return new DefaultElementList("", new Element[] {});
+            }
 
-                public Element copy() {
-                    return null;
-                }
+            public Element copy() {
+                return null;
+            }
 
-                public Element replace(Element search, Element replacement) {
-                    return null;
-                }};
+            public Element replace(Element search, Element replacement) {
+                return null;
+            }};
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30460, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30460, list.get(0).getErrorCode());
     }
         
     /**
@@ -777,13 +748,11 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
         }; 
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30460, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30460, list.get(0).getErrorCode());
     }
 
     /**
@@ -795,13 +764,11 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      */
     public void testGlobalFormulaNegative23() throws Exception {
         final Element ele = new DefaultAtom("Atom");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30470, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30470, list.get(0).getErrorCode());
     }
 
     /**
@@ -813,13 +780,11 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      */
     public void testGlobalFormulaNegative24() throws Exception {
         final Element ele = new DefaultAtom("Atom");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30470, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30470, list.get(0).getErrorCode());
     }
 
 }

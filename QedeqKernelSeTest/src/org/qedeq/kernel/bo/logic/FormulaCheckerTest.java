@@ -56,8 +56,8 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
     public void testPositive1() throws Exception {
         final Element ele = TestParser.createElement("<AND><PREDVAR id=\"A\"/><PREDVAR id=\"A\"/></AND>");
         Trace.param(CLASS, this, "testPositive1", "ele", ele);
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
     }
     
     /**
@@ -94,9 +94,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </PREDCON>"
             + "</IMPL>");
         Trace.param(CLASS, this, "testPositive2", "ele", ele);
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -131,9 +132,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </PREDCON>"
             + "</IMPL>");
         Trace.param(CLASS, this, "testPositive3", "ele", ele);
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
 
     /**
@@ -171,9 +173,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </PREDCON>"
             + "</IMPL>");
         Trace.param(CLASS, this, "testPositive4", "ele", ele);
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -220,9 +223,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </FORALL>"
             + "</IMPL>");
         Trace.param(CLASS, this, "testPositive5", "ele", ele);
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -271,9 +275,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </FORALL>"
             + "</IMPL>");
         Trace.param(CLASS, this, "testPositive6", "ele", ele);
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -316,8 +321,8 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "            </EQUI>"
         );
         Trace.param(CLASS, this, "testPositive7", "ele", ele);
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
     }
     
     /**
@@ -356,8 +361,8 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </IMPL>"
             + "</FORALL>");
         Trace.param(CLASS, this, "testPositive8", "ele", ele);
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
     }
     
     /**
@@ -396,12 +401,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </PREDCON>"
             + "</IMPL>");
         Trace.param(CLASS, this, "testNegative1", "ele", ele);
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-           assertEquals(30550, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30550, list.get(0).getErrorCode());
     }
     
     /**
@@ -440,7 +443,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </PREDCON>"
             + "</IMPL>");
         Trace.param(CLASS, this, "testPositive9", "ele", ele);
-        FormulaChecker.checkFormula(ele, context);
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
     }
 
     /**
@@ -488,12 +491,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "  </FORALL>"
             + "</IMPL>");
         Trace.param(CLASS, this, "testNegative3", "ele", ele);
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
      
     /**
@@ -533,12 +534,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "</FORALL>"
         );
         Trace.param(CLASS, this, "testNegative4", "ele", ele);
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
     
     /**
@@ -578,12 +577,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "</FORALL>"
         );
         Trace.param(CLASS, this, "testNegative5", "ele", ele);
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
     
     /**
@@ -623,17 +620,15 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "</FORALL>"
         );
         Trace.param(CLASS, this, "testNegative6", "ele", ele);
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30770, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
     
     /**
      * Function: checkFormula(Element)
-     * Type:     negative, code 30760
+     * Type:     negative, code 30740
      * Data:     (x = y) -> 
      * Reason:   second operand missing 
      * 
@@ -649,12 +644,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "</IMPL>"
         );
         Trace.param(CLASS, this, "testNegative7", "ele", ele);
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30740, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30740, list.get(0).getErrorCode());
     }
     
     /**
@@ -673,12 +666,12 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "</IMPL>"
         );
         Trace.param(CLASS, this, "testNegative8", "ele", ele);
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30530, e.getErrorCode());
-        }
+        // System.out.println(list);
+        assertEquals(2, list.size());
+        assertEquals(30530, list.get(0).getErrorCode());
+        assertEquals(30530, list.get(1).getErrorCode());
     }
     
     /**
@@ -697,12 +690,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "</UIMPL>"
         );
         Trace.param(CLASS, this, "testNegative9", "ele", ele);
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30530, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30530, list.get(0).getErrorCode());
     }
     
     /**
@@ -721,12 +712,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
             + "</PREDVAR>"
         );
         Trace.param(CLASS, this, "testNegative10", "ele", ele);
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30620, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30620, list.get(0).getErrorCode());
     }
     
     /**
@@ -748,12 +737,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         );
         Trace.param(CLASS, this, "testNegative11", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30590, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30590, list.get(0).getErrorCode());
     }
             
     /**
@@ -775,12 +762,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         );
         Trace.param(CLASS, this, "testNegative12", "ele", ele);
         FormulaChecker.checkTerm(ele, context);
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30690, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30690, list.get(0).getErrorCode());
     }
         
     /**
@@ -823,12 +808,10 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         Trace.param(CLASS, this, "testNegative13", "ele", ele);
         FormulaChecker.checkFormula(ele, context);
         FormulaChecker.checkFormula(ele, context, getChecker());
-        try {
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30680, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30680, list.get(0).getErrorCode());
     }
     
 }

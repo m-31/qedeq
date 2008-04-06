@@ -50,10 +50,11 @@ public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
     public void testNegationPositive01() throws Exception {
         final Element ele = TestParser.createElement(
             "<NOT><PREDVAR id=\"A\"/></NOT>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -65,13 +66,11 @@ public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
      */
     public void testNegationNegative01() throws Exception {
         final Element ele = TestParser.createElement("<NOT />");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30710, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30710, list.get(0).getErrorCode());
     }
     
     /**
@@ -84,13 +83,11 @@ public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
     public void testNegationNegative02() throws Exception {
         final Element ele = TestParser.createElement(
             "<NOT><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></NOT>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30710, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30710, list.get(0).getErrorCode());
     }
     
 }

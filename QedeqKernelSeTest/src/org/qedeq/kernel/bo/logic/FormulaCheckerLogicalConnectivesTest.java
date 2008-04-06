@@ -50,10 +50,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
     public void testLogicalConnectivePositive01() throws Exception {
         final Element ele = TestParser.createElement(
             "<AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></AND>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -66,10 +67,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
     public void testLogicalConnectivePositive02() throws Exception {
         final Element ele = TestParser.createElement(
             "<OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></OR>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -82,10 +84,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
     public void testLogicalConnectivePositive03() throws Exception {
         final Element ele = TestParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></IMPL>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -98,10 +101,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
     public void testLogicalConnectivePositive04() throws Exception {
         final Element ele = TestParser.createElement(
             "<EQUI><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></EQUI>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -114,10 +118,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
     public void testLogicalConnectivePositive05() throws Exception {
         final Element ele = TestParser.createElement(
             "<AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/><PREDVAR id=\"C\"/></AND>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -130,10 +135,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
     public void testLogicalConnectivePositive06() throws Exception {
         final Element ele = TestParser.createElement(
             "<OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/><PREDVAR id=\"C\"/></OR>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -146,10 +152,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
     public void testLogicalConnectivePositive07() throws Exception {
         final Element ele = TestParser.createElement(
             "<EQUI><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/><PREDVAR id=\"C\"/></EQUI>");
-        System.out.println(ele.toString());
-        FormulaChecker.checkFormula(ele, context);
-        FormulaChecker.checkFormula(ele, context, getChecker());
-        FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass());
+        // System.out.println(ele.toString());
+        assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
     
     /**
@@ -161,13 +168,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      */
     public void testLogicalConnectiveNegative01() throws Exception {
         final Element ele = TestParser.createElement("<AND />");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30740, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30740, list.get(0).getErrorCode());
     }
     
     /**
@@ -179,13 +184,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      */
     public void testLogicalConnectiveNegative02() throws Exception {
         final Element ele = TestParser.createElement("<OR />");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30740, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30740, list.get(0).getErrorCode());
     }
     
     /**
@@ -197,13 +200,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      */
     public void testLogicalConnectiveNegative03() throws Exception {
         final Element ele = TestParser.createElement("<IMPL />");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30740, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30740, list.get(0).getErrorCode());
     }
     
     /**
@@ -215,13 +216,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      */
     public void testLogicalConnectiveNegative04() throws Exception {
         final Element ele = TestParser.createElement("<EQUI />");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30740, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30740, list.get(0).getErrorCode());
     }
     
     /**
@@ -233,13 +232,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      */
     public void testLogicalConnectiveNegative05() throws Exception {
         final Element ele = TestParser.createElement("<AND><PREDVAR id=\"A\"/></AND>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30740, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30740, list.get(0).getErrorCode());
     }
     
     /**
@@ -251,13 +248,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      */
     public void testLogicalConnectiveNegative06() throws Exception {
         final Element ele = TestParser.createElement("<OR><PREDVAR id=\"A\"/></OR>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30740, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30740, list.get(0).getErrorCode());
     }
     
     /**
@@ -269,13 +264,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      */
     public void testLogicalConnectiveNegative07() throws Exception {
         final Element ele = TestParser.createElement("<IMPL><PREDVAR id=\"A\"/></IMPL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30740, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30740, list.get(0).getErrorCode());
     }
     
     /**
@@ -287,13 +280,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      */
     public void testLogicalConnectiveNegative08() throws Exception {
         final Element ele = TestParser.createElement("<EQUI><PREDVAR id=\"A\"/></EQUI>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30740, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30740, list.get(0).getErrorCode());
     }
     
     /**
@@ -306,13 +297,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
     public void testLogicalConnectiveNegative09() throws Exception {
         final Element ele = TestParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/><PREDVAR id=\"C\"/></IMPL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30760, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30760, list.get(0).getErrorCode());
     }
     
     /**
@@ -337,13 +326,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
                   "</CLASS>" +
                "</PREDVAR>" +
             "</AND>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30770, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
     
     /**
@@ -368,13 +355,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
                     "<VAR id=\"x\" />" +
                 "</PREDVAR>" +
             "</AND>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
     
     /**
@@ -399,13 +384,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
                   "</CLASS>" +
                "</PREDVAR>" +
             "</OR>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30770, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
     
     /**
@@ -430,13 +413,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
                     "<VAR id=\"x\" />" +
                 "</PREDVAR>" +
             "</OR>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
     
     /**
@@ -461,13 +442,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
                   "</CLASS>" +
                "</PREDVAR>" +
             "</IMPL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30770, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
     
     /**
@@ -492,13 +471,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
                     "<VAR id=\"x\" />" +
                 "</PREDVAR>" +
             "</IMPL>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
     
     /**
@@ -523,13 +500,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
                   "</CLASS>" +
                "</PREDVAR>" +
             "</EQUI>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30770, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
     
     /**
@@ -554,13 +529,11 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
                     "<VAR id=\"x\" />" +
                 "</PREDVAR>" +
             "</EQUI>");
-        System.out.println(ele.toString());
-        try {
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context, getChecker());
-            fail("Exception expected");
-        } catch (LogicalCheckException e) {
-            assertEquals(30780, e.getErrorCode());
-        }
+        assertEquals(1, list.size());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
     
 }

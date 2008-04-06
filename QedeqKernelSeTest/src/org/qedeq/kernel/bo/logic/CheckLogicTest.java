@@ -81,7 +81,7 @@ public final class CheckLogicTest extends QedeqTestCase {
             Trace.trace(CLASS, this, "testNegative00", ex);
             assertEquals(1, ex.size());
             final SourceFileException check = ex.get(0);
-            check.printStackTrace();
+            // check.printStackTrace();
             assertEquals(9001, check.getErrorCode());
             assertEquals(36, check.getSourceArea().getStartPosition().getLine());
             assertEquals(20, check.getSourceArea().getStartPosition().getColumn());
@@ -109,7 +109,7 @@ public final class CheckLogicTest extends QedeqTestCase {
         } catch (SourceFileExceptionList sfl) {
             Trace.trace(CLASS, this, "testNegative02", sfl);
             final Exception e = (Exception) sfl.get(0).getCause();
-            System.out.println(e.getClass().getName());
+            Trace.param(CLASS, this, "testNegative02", "name", e.getClass().getName());
             assertTrue(e instanceof LogicalCheckException);
             final LogicalCheckException check = (LogicalCheckException) e;
             assertEquals(30550, check.getErrorCode());
