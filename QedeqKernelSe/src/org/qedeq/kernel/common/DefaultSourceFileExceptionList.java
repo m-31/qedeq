@@ -21,12 +21,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.qedeq.kernel.trace.Trace;
-import org.xml.sax.SAXException;
-
-
 /**
  * Type save {@link org.qedeq.kernel.common.SourceFileException} list.
  * TODO mime 20080109: shouldn't this list have some informations about the source being parsed?
@@ -35,9 +29,6 @@ import org.xml.sax.SAXException;
  * @author  Michael Meyling
  */
 public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
-
-    /** This class. */
-    private static final Class CLASS = DefaultSourceFileExceptionList.class;
 
     /** List with parse exceptions. */
     private final List exceptions = new ArrayList();
@@ -54,18 +45,7 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
      * @param   e   Wrap me.
      */
     public DefaultSourceFileExceptionList(final IOException e) {
-        initCause(e);
-        add(new SourceFileException(e));
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   e   Wrap me.
-     */
-    public DefaultSourceFileExceptionList(final SAXException e) {
-        initCause(e);
-        add(new SourceFileException(e));
+        add(e);
     }
 
     /**
@@ -74,32 +54,7 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
      * @param   e   Wrap me.
      */
     public DefaultSourceFileExceptionList(final RuntimeException e) {
-        initCause(e);
-        add(new SourceFileException(e));
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   e   Wrap me.
-     */
-    public DefaultSourceFileExceptionList(final Throwable e) {
-        initCause(e);
-        add(new SourceFileException(e));
-        Trace.fatal(CLASS, "Constructor(Throwable)",
-            "Major unexpected problem", e);
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   e   Wrap me.
-     */
-    public DefaultSourceFileExceptionList(final Exception e) {
-        initCause(e);
-        Trace.fatal(CLASS, "Constructor(Exception)",
-            "Unexpected problem", e);
-        add(new SourceFileException(e));
+        add(e);
     }
 
     /**
@@ -108,7 +63,6 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
      * @param   e   Wrap me.
      */
     public DefaultSourceFileExceptionList(final SourceFileException e) {
-        initCause(e);
         add(e);
     }
 
@@ -118,6 +72,9 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
      * @param   e   Exception to add.
      */
     public void add(final SourceFileException e) {
+        if (size() == 0) {
+            initCause(e);
+        }
         exceptions.add(e);
     }
 
@@ -126,25 +83,10 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
      *
      * @param   e   Exception to add.
      */
-    public final void add(final SAXException e) {
-        exceptions.add(new SourceFileException(e));
-    }
-
-    /**
-     * Add exception.
-     *
-     * @param   e   Exception to add.
-     */
     public final void add(final IOException e) {
-        exceptions.add(new SourceFileException(e));
-    }
-
-    /**
-     * Add exception.
-     *
-     * @param   e   Exception to add.
-     */
-    public void add(final ParserConfigurationException e) {
+        if (size() == 0) {
+            initCause(e);
+        }
         exceptions.add(new SourceFileException(e));
     }
 
@@ -154,6 +96,9 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
      * @param   e   Exception to add.
      */
     public void add(final RuntimeException e) {
+        if (size() == 0) {
+            initCause(e);
+        }
         exceptions.add(new SourceFileException(e));
     }
 
