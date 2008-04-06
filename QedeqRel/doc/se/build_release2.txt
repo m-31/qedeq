@@ -12,6 +12,7 @@ Preliminary Build
 -----------------
 - test within eclipse if all works ok
 - run JUnit tests til they are all green
+- test all tests from qedeq_bugs_and_features*.xls
 - check if all packages are in java doc package list
 - run mimeBuild to create new XSD documentation
 - build project with QedeqRel/scripts/buildQedeqReleaseSe.xml
