@@ -720,31 +720,6 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 }
             }
             QedeqLog.getInstance().logFailureReply(msg, e.toString());
-        } catch (final Throwable e) {
-            final String msg = "Check of logical correctness failed for \""
-                + prop.getUrl() + "\"";
-            Trace.fatal(CLASS, this, method, msg, e);
-            final SourceFileExceptionList xl =
-                new DefaultSourceFileExceptionList(e);
-            // TODO mime 20080124: every state must be able to change into
-            // a failure state, here we only assume three cases
-            if (!prop.isLoaded()) {
-                if (!prop.getLoadingState().isFailure()) {
-                    prop.setLoadingFailureState(
-                        LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
-                }
-            } else if (!prop.hasLoadedRequiredModules()) {
-                if (!prop.getDependencyState().isFailure()) {
-                    prop.setDependencyFailureState(
-                        DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
-                }
-            } else {
-                if (!prop.getLogicalState().isFailure()) {
-                    prop.setLogicalFailureState(
-                        LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
-                }
-            }
-            QedeqLog.getInstance().logFailureReply(msg, e.toString());
         }
         if (validate) {
             modules.validateDependencies();
