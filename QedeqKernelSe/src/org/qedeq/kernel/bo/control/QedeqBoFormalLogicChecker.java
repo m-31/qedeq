@@ -27,6 +27,7 @@ import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.bo.logic.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.FormulaChecker;
 import org.qedeq.kernel.bo.logic.Function;
+import org.qedeq.kernel.bo.logic.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.Predicate;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.IllegalModuleDataException;
@@ -119,7 +120,11 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
         if (axiom.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Formula formula = axiom.getFormula();
-            FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
+            LogicalCheckExceptionList list =
+                FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
+            for (int i = 0; i < list.size(); i++) {
+                addModuleDataException(list.get(i));
+            }
         }
         setLocationWithinModule(context);
         setBlocked(true);
@@ -151,7 +156,11 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
         if (definition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Formula formula = definition.getFormula();
-            FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
+            LogicalCheckExceptionList list =
+                FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
+            for (int i = 0; i < list.size(); i++) {
+                addModuleDataException(list.get(i));
+            }
         }
         existence.add(definition);
         setLocationWithinModule(context);
@@ -179,7 +188,11 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
         if (definition.getTerm() != null) {
             setLocationWithinModule(context + ".getTerm().getElement()");
             final Term term = definition.getTerm();
-            FormulaChecker.checkTerm(term.getElement(), getCurrentContext(), existence);
+            LogicalCheckExceptionList list =
+                FormulaChecker.checkTerm(term.getElement(), getCurrentContext(), existence);
+            for (int i = 0; i < list.size(); i++) {
+                addModuleDataException(list.get(i));
+            }
         }
         existence.add(definition);
         setLocationWithinModule(context);
@@ -199,7 +212,11 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
         if (proposition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Formula formula = proposition.getFormula();
-            FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
+            LogicalCheckExceptionList list =
+                FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
+            for (int i = 0; i < list.size(); i++) {
+                addModuleDataException(list.get(i));
+            }
         }
         setLocationWithinModule(context);
         setBlocked(true);
