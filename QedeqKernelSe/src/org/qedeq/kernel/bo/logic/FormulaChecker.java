@@ -38,6 +38,7 @@ import org.qedeq.kernel.trace.Trace;
  */
 public final class FormulaChecker implements Operators, FormulaBasicErrors {
 
+    // TODO mime 20080404: we should do that within a JUnit test!
     // If you want to check if the context information within this class is correct you have to
     // do the following:
     // 1. add "private Qedeq qedeq;" as a new field of this class
@@ -57,6 +58,9 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     /** Existence checker for operators. */
     private final ExistenceChecker existenceChecker;
 
+    private final LogicalCheckExceptionList exceptions;
+
+
     /**
      * Constructor.
      *
@@ -74,6 +78,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             throw new IllegalArgumentException("equality predicate should exist, but it doesn't");
         }
         currentContext = new ModuleContext(context);
+        exceptions = new LogicalCheckExceptionList();
     }
 
     /**
@@ -84,10 +89,11 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   existenceChecker    Existence checker for operators.
      * @throws  LogicalCheckException  It is no formula.
      */
-    public static final void checkFormula(final Element element, final ModuleContext context,
-            final ExistenceChecker existenceChecker) throws LogicalCheckException {
+    public static final LogicalCheckExceptionList checkFormula(final Element element,
+            final ModuleContext context, final ExistenceChecker existenceChecker) {
         final FormulaChecker checker = new FormulaChecker(context, existenceChecker);
         checker.checkFormula(element);
+        return checker.exceptions;
     }
 
     /**
@@ -99,9 +105,9 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   context             For location information. Important for locating errors.
      * @throws  LogicalCheckException  It is no formula.
      */
-    public static final void checkFormula(final Element element, final ModuleContext context)
-            throws LogicalCheckException {
-        checkFormula(element, context, EverythingExists.getInstance());
+    public static final LogicalCheckExceptionList checkFormula(final Element element,
+            final ModuleContext context) {
+        return checkFormula(element, context, EverythingExists.getInstance());
     }
 
     /**
@@ -112,10 +118,11 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   existenceChecker    Existence checker for operators.
      * @throws  LogicalCheckException      It is no term.
      */
-    public static final void checkTerm(final Element element, final ModuleContext context,
-            final ExistenceChecker existenceChecker) throws LogicalCheckException {
+    public static final LogicalCheckExceptionList checkTerm(final Element element,
+            final ModuleContext context, final ExistenceChecker existenceChecker) {
         final FormulaChecker checker = new FormulaChecker(context, existenceChecker);
         checker.checkTerm(element);
+        return checker.exceptions;
     }
 
     /**
@@ -126,9 +133,9 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   context For location information. Important for locating errors.
      * @throws  LogicalCheckException  It is no term.
      */
-    public static final void checkTerm(final Element element, final ModuleContext context)
-            throws LogicalCheckException {
-        checkTerm(element, context, EverythingExists.getInstance());
+    public static final LogicalCheckExceptionList checkTerm(final Element element,
+            final ModuleContext context) {
+        return checkTerm(element, context, EverythingExists.getInstance());
     }
 
     /**
@@ -137,14 +144,15 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   element    Check this element.
      * @throws  LogicalCheckException  It is no formula.
      */
-    private final void checkFormula(final Element element)
-            throws LogicalCheckException {
+    private final void checkFormula(final Element element) {
         final String method = "checkFormula";
         Trace.begin(CLASS, this, method);
         Trace.param(CLASS, this, method, "element", element);
         final String context = getCurrentContext().getLocationWithinModule();
         Trace.param(CLASS, this, method, "context", context);
-        checkList(element);
+        if (!checkList(element)) {
+            return;
+        }
         final ElementList list = element.getList();
         final String listContext = context + ".getList()";
         setLocationWithinModule(listContext);
@@ -156,14 +164,16 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             Trace.trace(CLASS, this, method,
                 "one of (and, or, implication, equivalence) operator found");
             if (list.size() <= 1) {
-                throw new FormulaCheckException(MORE_THAN_ONE_ARGUMENT_EXPECTED,
+                handleFormulaCheckException(MORE_THAN_ONE_ARGUMENT_EXPECTED,
                     MORE_THAN_ONE_ARGUMENT_EXPECTED_TEXT + "\""
                     + operator + "\"", element, getCurrentContext());
+                return;
             }
             if (operator.equals(IMPLICATION_OPERATOR) && list.size() != 2) {
-                throw new FormulaCheckException(EXACTLY_TWO_ARGUMENTS_EXPECTED,
+                handleFormulaCheckException(EXACTLY_TWO_ARGUMENTS_EXPECTED,
                     EXACTLY_TWO_ARGUMENTS_EXPECTED_TEXT + "\""
                     + operator + "\"", element, getCurrentContext());
+                return;
             }
             for (int i = 0; i < list.size(); i++) {
                 setLocationWithinModule(listContext + ".getElement(" + i + ")");
@@ -175,9 +185,10 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             Trace.trace(CLASS, this, method, "negation operator found");
             setLocationWithinModule(listContext);
             if (list.size() != 1) {
-                throw new FormulaCheckException(EXACTLY_ONE_ARGUMENT_EXPECTED,
+                handleFormulaCheckException(EXACTLY_ONE_ARGUMENT_EXPECTED,
                     EXACTLY_ONE_ARGUMENT_EXPECTED_TEXT + "\"" + operator + "\"",
                     element, getCurrentContext());
+                return;
             }
             setLocationWithinModule(listContext + ".getElement(0)");
             checkFormula(list.getElement(0));
@@ -186,13 +197,16 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             Trace.trace(CLASS, this, method, "predicate operator found");
             setLocationWithinModule(listContext);
             if (list.size() < 1) {
-                throw new FormulaCheckException(AT_LEAST_ONE_ARGUMENT_EXPECTED,
+                handleFormulaCheckException(AT_LEAST_ONE_ARGUMENT_EXPECTED,
                     AT_LEAST_ONE_ARGUMENT_EXPECTED_TEXT + "\"" + operator + "\"",
                     element, getCurrentContext());
+                return;
             }
             // check if first argument is an atom
             setLocationWithinModule(listContext + ".getElement(0)");
-            checkAtomFirst(list.getElement(0));
+            if (!checkAtomFirst(list.getElement(0))) {
+                return;
+            }
 
             // check if rest arguments are terms
             for (int i = 1; i < list.size(); i++) {
@@ -206,7 +220,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             // check if predicate is known
             if (PREDICATE_CONSTANT.equals(operator) && !existenceChecker.predicateExists(
                     list.getElement(0).getAtom().getString(), list.size() - 1)) {
-                throw new FormulaCheckException(UNKNOWN_PREDICATE_CONSTANT,
+                handleFormulaCheckException(UNKNOWN_PREDICATE_CONSTANT,
                     UNKNOWN_PREDICATE_CONSTANT_TEXT + "\""
                     + list.getElement(0).getAtom().getString() + "\" [" + (list.size() - 1) + "]",
                     element, getCurrentContext());
@@ -220,7 +234,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             checkQuantifier(element);
         } else {
             setLocationWithinModule(listContext + ".getOperator()");
-            throw new FormulaCheckException(UNKNOWN_LOGICAL_OPERATOR,
+            handleFormulaCheckException(UNKNOWN_LOGICAL_OPERATOR,
                 UNKNOWN_LOGICAL_OPERATOR_TEXT + "\"" + operator + "\"",
                 element, getCurrentContext());
         }
@@ -237,7 +251,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @throws  IllegalArgumentException    <code>element.getList().getOperator()</code> is no
      *          quantifier operator.
      */
-    private void checkQuantifier(final Element element) throws LogicalCheckException {
+    private void checkQuantifier(final Element element) {
         final String method = "checkQuantifier";
         Trace.begin(CLASS, this, method);
         Trace.param(CLASS, this, method, "element", element);
@@ -256,15 +270,16 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
                     + element.toString());
         }
         if (list.size() < 2 || list.size() > 3) {
-            throw new FormulaCheckException(EXACTLY_TWO_OR_THREE_ARGUMENTS_EXPECTED,
+            handleFormulaCheckException(EXACTLY_TWO_OR_THREE_ARGUMENTS_EXPECTED,
                 EXACTLY_TWO_OR_THREE_ARGUMENTS_EXPECTED_TEXT, element, getCurrentContext());
+            return;
         }
 
         // check if unique existential operator could be used
         if (operator.equals(UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR)
                 && !existenceChecker.equalityOperatorExists()) {
             setLocationWithinModule(listContext + ".getOperator()");
-            throw new FormulaCheckException(EQUALITY_PREDICATE_NOT_YET_DEFINED,
+            handleFormulaCheckException(EQUALITY_PREDICATE_NOT_YET_DEFINED,
                 EQUALITY_PREDICATE_NOT_YET_DEFINED_TEXT, element, getCurrentContext());
         }
 
@@ -280,14 +295,15 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
         // check if subject variable is not already bound in formula
         if (FormulaChecker.getBoundSubjectVariables(list.getElement(1)).contains(
                 list.getElement(0))) {
-            throw new FormulaCheckException(SUBJECT_VARIABLE_ALREADY_BOUND_IN_FORMULA,
+            handleFormulaCheckException(SUBJECT_VARIABLE_ALREADY_BOUND_IN_FORMULA,
                 SUBJECT_VARIABLE_ALREADY_BOUND_IN_FORMULA_TEXT, list.getElement(1),
                 getCurrentContext());
         }
         if (list.size() > 3) {
-            throw new FormulaCheckException(EXACTLY_TWO_OR_THREE_ARGUMENTS_EXPECTED,
+            handleFormulaCheckException(EXACTLY_TWO_OR_THREE_ARGUMENTS_EXPECTED,
                 EXACTLY_TWO_OR_THREE_ARGUMENTS_EXPECTED_TEXT, list,
                 getCurrentContext());
+            return;
         }
         if (list.size() > 2) {
             // check if third argument is a formula
@@ -298,9 +314,10 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             setLocationWithinModule(listContext);
             if (FormulaChecker.getBoundSubjectVariables(list.getElement(2)).contains(
                     list.getElement(0))) {
-                throw new FormulaCheckException(SUBJECT_VARIABLE_ALREADY_BOUND_IN_FORMULA,
+                handleFormulaCheckException(SUBJECT_VARIABLE_ALREADY_BOUND_IN_FORMULA,
                     SUBJECT_VARIABLE_ALREADY_BOUND_IN_FORMULA_TEXT, list.getElement(2),
                     getCurrentContext());
+                return;
             }
             setLocationWithinModule(listContext);
             checkFreeAndBoundDisjunct(1, list);
@@ -316,14 +333,16 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   element    Check this element.
      * @throws  LogicalCheckException  It is no term.
      */
-    private void checkTerm(final Element element) throws LogicalCheckException {
+    private void checkTerm(final Element element) {
         final String method = "checkTerm";
         Trace.begin(CLASS, this, method);
         Trace.param(CLASS, this, method, "element", element);
         // save current context
         final String context = getCurrentContext().getLocationWithinModule();
         Trace.param(CLASS, this, method, "context", context);
-        checkList(element);
+        if (!checkList(element)) {
+            return;
+        }
         final ElementList list = element.getList();
         final String listContext = context + ".getList()";
         setLocationWithinModule(listContext);
@@ -335,19 +354,23 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
 
             // function constants must have at least a function name
             if (operator.equals(FUNCTION_CONSTANT) && list.size() < 1) {
-                throw new TermCheckException(AT_LEAST_ONE_ARGUMENT_EXPECTED,
+                handleTermCheckException(AT_LEAST_ONE_ARGUMENT_EXPECTED,
                     AT_LEAST_ONE_ARGUMENT_EXPECTED_TEXT, element, getCurrentContext());
+                return;
             }
 
             // function variables must have at least a function name and at least one argument
             if (operator.equals(FUNCTION_VARIABLE) && list.size() < 2) {
-                throw new TermCheckException(MORE_THAN_ONE_ARGUMENT_EXPECTED,
+                handleTermCheckException(MORE_THAN_ONE_ARGUMENT_EXPECTED,
                     MORE_THAN_ONE_ARGUMENT_EXPECTED_TEXT, element, getCurrentContext());
+                return;
             }
 
             // check if first argument is an atom
             setLocationWithinModule(listContext + ".getElement(0)");
-            checkAtomFirst(list.getElement(0));
+            if (!checkAtomFirst(list.getElement(0))) {
+                return;
+            }
 
             // check if all arguments are terms
             setLocationWithinModule(listContext);
@@ -363,7 +386,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             setLocationWithinModule(listContext);
             if (FUNCTION_CONSTANT.equals(operator) && !existenceChecker.functionExists(
                     list.getElement(0).getAtom().getString(), list.size() - 1)) {
-                throw new FormulaCheckException(UNKNOWN_FUNCTION_CONSTANT,
+                handleFormulaCheckException(UNKNOWN_FUNCTION_CONSTANT,
                     UNKNOWN_FUNCTION_CONSTANT_TEXT + "\""
                     + list.getElement(0).getAtom().getString() + "\"", element,
                     getCurrentContext());
@@ -372,13 +395,14 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
         } else if (operator.equals(CLASS_OP)) {
 
             if (list.size() != 2) {
-                throw new TermCheckException(EXACTLY_TWO_ARGUMENTS_EXPECTED,
+                handleTermCheckException(EXACTLY_TWO_ARGUMENTS_EXPECTED,
                     EXACTLY_TWO_ARGUMENTS_EXPECTED_TEXT, element, getCurrentContext());
+                return;
             }
             // check if first argument is a subject variable
             setLocationWithinModule(listContext + ".getElement(" + 0 + ")");
             if (!isSubjectVariable(list.getElement(0))) {
-                throw new TermCheckException(SUBJECT_VARIABLE_EXPECTED,
+                handleTermCheckException(SUBJECT_VARIABLE_EXPECTED,
                     SUBJECT_VARIABLE_EXPECTED_TEXT, element, getCurrentContext());
             }
 
@@ -389,7 +413,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             // check if class operator is allowed
             setLocationWithinModule(listContext);
             if (!existenceChecker.classOperatorExists()) {
-                throw new FormulaCheckException(CLASS_OPERATOR_STILL_UNKNOWN,
+                handleFormulaCheckException(CLASS_OPERATOR_STILL_UNKNOWN,
                     CLASS_OPERATOR_STILL_UNKNOWN_TEXT, element, getCurrentContext());
             }
 
@@ -397,14 +421,14 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
             setLocationWithinModule(listContext + ".getElement(" + 0 + ")");
             if (FormulaChecker.getBoundSubjectVariables(list.getElement(1)).contains(
                     list.getElement(0))) {
-                throw new TermCheckException(SUBJECT_VARIABLE_ALREADY_BOUND_IN_FORMULA,
+                handleTermCheckException(SUBJECT_VARIABLE_ALREADY_BOUND_IN_FORMULA,
                     SUBJECT_VARIABLE_ALREADY_BOUND_IN_FORMULA_TEXT, list.getElement(0),
                     getCurrentContext());
             }
 
         } else {
             setLocationWithinModule(listContext + ".getOperator()");
-            throw new TermCheckException(UNKNOWN_TERM_OPERATOR,
+            handleTermCheckException(UNKNOWN_TERM_OPERATOR,
                 UNKNOWN_TERM_OPERATOR_TEXT + "\"" + operator + "\"", element, getCurrentContext());
         }
         // restore context
@@ -419,10 +443,10 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   start   Start check with this list position. Beginning with 0.
      * @param   list    List element to check.
      * @throws  LogicalCheckException  At least one variable occurs free and bound in different
-     *          sub-elements.
+     *          sub elements.
      */
     private void checkFreeAndBoundDisjunct(final int start,
-            final ElementList list) throws LogicalCheckException {
+            final ElementList list) {
         // save current context
         final String context = getCurrentContext().getLocationWithinModule();
         final ElementSet free = new ElementSet();
@@ -435,13 +459,13 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
                 = FormulaChecker.getBoundSubjectVariables(list.getElement(i));
             final ElementSet interBound = newFree.newIntersection(bound);
             if (!interBound.isEmpty()) {
-                throw new FormulaCheckException(FREE_VARIABLE_ALREADY_BOUND,
+                handleFormulaCheckException(FREE_VARIABLE_ALREADY_BOUND,
                     FREE_VARIABLE_ALREADY_BOUND_TEXT
                     + interBound, list.getElement(i), getCurrentContext());
             }
             final ElementSet interFree = newBound.newIntersection(free);
             if (!interFree.isEmpty()) {
-                throw new FormulaCheckException(BOUND_VARIABLE_ALREADY_FREE,
+                handleFormulaCheckException(BOUND_VARIABLE_ALREADY_FREE,
                     BOUND_VARIABLE_ALREADY_FREE_TEXT
                     + interFree, list.getElement(i), getCurrentContext());
             }
@@ -490,27 +514,34 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   element    Check this element.
      * @throws  LogicalCheckException  It is no subject variable.
      */
-    private final void checkSubjectVariable(final Element element)
-            throws LogicalCheckException {
+    private boolean checkSubjectVariable(final Element element) {
+           // throws LogicalCheckException {
         // save current context
         final String context = getCurrentContext().getLocationWithinModule();
-        checkList(element);
+        if (!checkList(element)) {
+            return false;
+        }
         setLocationWithinModule(context + ".getList()");
         if (element.getList().getOperator().equals(SUBJECT_VARIABLE)) {
             if (element.getList().size() != 1) {
-                throw new FormulaCheckException(EXACTLY_ONE_ARGUMENT_EXPECTED,
+                handleFormulaCheckException(EXACTLY_ONE_ARGUMENT_EXPECTED,
                     EXACTLY_ONE_ARGUMENT_EXPECTED_TEXT, element.getList(), getCurrentContext());
+                return false;
             }
             // check if first argument is an atom
             setLocationWithinModule(context + ".getList().getElement(0)");
-            checkAtomFirst(element.getList().getElement(0));
+            if (checkAtomFirst(element.getList().getElement(0))) {
+                return false;
+            }
         } else {
             setLocationWithinModule(context + ".getList().getOperator()");
-            throw new FormulaCheckException(SUBJECT_VARIABLE_EXPECTED,
+            handleFormulaCheckException(SUBJECT_VARIABLE_EXPECTED,
                 SUBJECT_VARIABLE_EXPECTED_TEXT, element, getCurrentContext());
+            return false;
         }
         // restore context
         setLocationWithinModule(context);
+        return true;
     }
 
 
@@ -583,37 +614,43 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   element     List element.
      * @throws  ElementCheckException   Requirements not fulfilled.
      */
-    private void checkList(final Element element) throws ElementCheckException {
+    private boolean checkList(final Element element) {
         // save current context
         final String context = getCurrentContext().getLocationWithinModule();
         if (element == null) {
-            throw new ElementCheckException(ELEMENT_MUST_NOT_BE_NULL,
+            handleElementCheckException(ELEMENT_MUST_NOT_BE_NULL,
                 ELEMENT_MUST_NOT_BE_NULL_TEXT, null, getCurrentContext());
+            return false;
         }
         if (!element.isList()) {
-            throw new ElementCheckException(LIST_EXPECTED,
+            handleElementCheckException(LIST_EXPECTED,
                 LIST_EXPECTED_TEXT, element, getCurrentContext());
+            return false;
         }
         final ElementList list = element.getList();
         setLocationWithinModule(context + ".getList()");
         if (list == null) {
-            throw new ElementCheckException(LIST_MUST_NOT_BE_NULL,
+            handleElementCheckException(LIST_MUST_NOT_BE_NULL,
                 LIST_MUST_NOT_BE_NULL_TEXT, element, getCurrentContext());
+            return false;
         }
         final String operator = list.getOperator();
         setLocationWithinModule(context + ".getList().getOperator()");
         if (operator == null) {
-            throw new ElementCheckException(OPERATOR_CONTENT_MUST_NOT_BE_NULL,
+            handleElementCheckException(OPERATOR_CONTENT_MUST_NOT_BE_NULL,
                 OPERATOR_CONTENT_MUST_NOT_BE_NULL_TEXT + "\""
                 + operator + "\"", element, getCurrentContext());
+            return false;
         }
         if (operator.length() == 0) {
-            throw new ElementCheckException(OPERATOR_CONTENT_MUST_NOT_BE_EMPTY,
+            handleElementCheckException(OPERATOR_CONTENT_MUST_NOT_BE_EMPTY,
                 OPERATOR_CONTENT_MUST_NOT_BE_EMPTY_TEXT + "\""
                 + operator + "\"", element, getCurrentContext());
+            return false;
         }
         // restore context
         setLocationWithinModule(context);
+        return true;
     }
 
     /**
@@ -623,33 +660,62 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   element Check this for an atom.
      * @throws  ElementCheckException   No valid content.
      */
-    private void checkAtomFirst(final Element element) throws ElementCheckException {
+    private boolean checkAtomFirst(final Element element) {
         // save current context
         final String context = getCurrentContext().getLocationWithinModule();
         if (element == null) {
-            throw new ElementCheckException(ELEMENT_MUST_NOT_BE_NULL,
+            handleElementCheckException(ELEMENT_MUST_NOT_BE_NULL,
                 ELEMENT_MUST_NOT_BE_NULL_TEXT, null, getCurrentContext());
+            return false;
         }
         if (!element.isAtom()) {    // TODO mime 20061126: this is special?
-            throw new ElementCheckException(FIRST_ARGUMENT_MUST_BE_AN_ATOM,
+            handleElementCheckException(FIRST_ARGUMENT_MUST_BE_AN_ATOM,
                 FIRST_ARGUMENT_MUST_BE_AN_ATOM_TEXT, element, getCurrentContext());
+            return false;
         }
         final Atom atom = element.getAtom();
         setLocationWithinModule(context + ".getAtom()");
         if (atom == null) {
-            throw new ElementCheckException(ATOM_MUST_NOT_BE_NULL,
+            handleElementCheckException(ATOM_MUST_NOT_BE_NULL,
                 ATOM_MUST_NOT_BE_NULL_TEXT, element, getCurrentContext());
+            return false;
         }
         if (atom.getString() == null) {
-            throw new ElementCheckException(ATOM_CONTENT_MUST_NOT_BE_NULL,
+            handleElementCheckException(ATOM_CONTENT_MUST_NOT_BE_NULL,
                 ATOM_CONTENT_MUST_NOT_BE_NULL_TEXT, element, getCurrentContext());
+            return false;
         }
         if (atom.getString().length() == 0) {
-            throw new ElementCheckException(ATOM_CONTENT_MUST_NOT_BE_EMPTY,
+            handleElementCheckException(ATOM_CONTENT_MUST_NOT_BE_EMPTY,
                 ATOM_CONTENT_MUST_NOT_BE_EMPTY_TEXT, element, getCurrentContext());
+            return false;
         }
         // restore context
         setLocationWithinModule(context);
+        return true;
+    }
+
+// FIXME 20080404
+
+    protected void handleFormulaCheckException(final int code, final String msg,
+            final Element element, final ModuleContext context) { // throws FormulaCheckException {
+        final FormulaCheckException ex = new FormulaCheckException(code, msg, element, context);
+        exceptions.add(ex);
+//        throw ex;
+    }
+
+    protected void handleTermCheckException(final int code, final String msg,
+            final Element element, final ModuleContext context) { // throws TermCheckException {
+        final TermCheckException ex = new TermCheckException(code, msg, element, context);
+        exceptions.add(ex);
+//        throw ex;
+    }
+
+    protected void handleElementCheckException(final int code, final String msg,
+            final Element element, final ModuleContext context) { // { throws ElementCheckException {
+        final ElementCheckException ex = new ElementCheckException(code, msg, element, context);
+        exceptions.add(ex);
+//        throw ex;
     }
 
     /**
