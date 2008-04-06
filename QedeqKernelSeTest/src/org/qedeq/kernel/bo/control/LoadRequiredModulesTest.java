@@ -98,7 +98,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             fail("031 -> 032 -> 031 cycle");
         } catch (SourceFileExceptionList e) {
             assertEquals(1, e.size());
-            e.printStackTrace();
+            // e.printStackTrace();
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
             // TODO mime 20071101: check if exception code and description is ok
@@ -202,7 +202,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             KernelContext.getInstance().loadRequiredModules(address);
             fail("see test method description");
         } catch (SourceFileExceptionList e) {
-            e.printStackTrace(System.out);
+            // e.printStackTrace(System.out);
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
             assertEquals(4, e.size());
