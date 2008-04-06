@@ -107,15 +107,18 @@ public class XmlModuleLoader implements ModuleLoader {
             parser = new SaxParser(handler);
         } catch (SAXException e) {
             Trace.trace(CLASS, this, method, e);
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
-                new DefaultSourceFileExceptionList(e));
-            throw createXmlFileExceptionList(e);
+            final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(
+                // TODO mime 20080404: search for better solution
+                new RuntimeException(e));
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
+            throw sfl;
         } catch (ParserConfigurationException e) {
             Trace.trace(CLASS, this, method, e);
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
-                new DefaultSourceFileExceptionList(new RuntimeException(
-                    "XML parser configuration error", e)));
-            throw createXmlFileExceptionList(e);
+            final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(
+                // TODO mime 20080404: search for better solution
+                new RuntimeException("XML parser configuration error", e));
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
+            throw sfl;
         }
         try {
             parser.parse(file, prop.getUrl());
@@ -184,12 +187,4 @@ public class XmlModuleLoader implements ModuleLoader {
         return new XmlReader(services.getLocalFilePath(bo.getModuleAddress()));
     }
 
-    private SourceFileExceptionList createXmlFileExceptionList(
-            final ParserConfigurationException e) {
-        return new DefaultSourceFileExceptionList(e);
-    }
-
-    private DefaultSourceFileExceptionList createXmlFileExceptionList(final SAXException e) {
-        return new DefaultSourceFileExceptionList(e);
-    }
 }
