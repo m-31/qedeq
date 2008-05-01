@@ -125,7 +125,7 @@ public class QedeqController {
 
         // LATER mime 20070606: dynamic evaluation from web page?
         if (getModuleHistory().size() == 0) {
-            final String prefix = "http://www.qedeq.org/"
+            final String prefix = "http://qedeq.org/"
                 + KernelContext.getInstance().getKernelVersionDirectory() + "/doc/";
             getModuleHistory().add(prefix + "math/qedeq_logic_v1.xml");
             getModuleHistory().add(prefix + "math/qedeq_set_theory_v1.xml");
