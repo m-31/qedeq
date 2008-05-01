@@ -64,7 +64,13 @@ class ParserAction extends AbstractAction {
             JOptionPane.showMessageDialog(
                 controller.getMainFrame(), "Parser Window can not be opened" + "\n"
                     + xl.toString(), "Error",
-                    JOptionPane.ERROR_MESSAGE);;
+                    JOptionPane.ERROR_MESSAGE);
+        } catch (final RuntimeException ex) {
+            Trace.fatal(CLASS, this, "actionPerformed", "unexpected problem", ex);
+            JOptionPane.showMessageDialog(
+                controller.getMainFrame(), "Parser Window can not be opened" + "\n"
+                    + ex.toString(), "Error",
+                    JOptionPane.ERROR_MESSAGE);
         }
     }
 
