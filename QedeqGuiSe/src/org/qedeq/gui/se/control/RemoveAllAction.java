@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import org.qedeq.kernel.context.KernelContext;
+import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
 
 /**
@@ -37,7 +38,13 @@ class RemoveAllAction extends AbstractAction {
 
         final Thread thread = new Thread() {
             public void run() {
-                KernelContext.getInstance().removeAllModules();
+                try {
+                    KernelContext.getInstance().removeAllModules();
+                } catch (final RuntimeException e) {
+                    Trace.fatal(CLASS, this, "actionPerformed", "unexpected problem", e);
+                    QedeqLog.getInstance().logFailureReply(
+                        "Removing failed", e.getMessage());
+                }
             }
         };
         thread.setDaemon(true);
