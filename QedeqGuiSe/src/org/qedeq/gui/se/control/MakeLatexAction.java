@@ -92,6 +92,11 @@ class MakeLatexAction extends AbstractAction {
                                 + props[i].getUrl() + "\"";
                             Trace.fatal(CLASS, this, method, msg, e);
                             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+                        } catch (final RuntimeException e) {
+                            Trace.fatal(CLASS, controller, "actionPerformed", "unexpected problem",
+                                e);
+                            QedeqLog.getInstance().logFailureReply(
+                                "Generation failed", e.getMessage());
                         }
                     }
                 }
