@@ -122,6 +122,10 @@ class AddFileAction extends AbstractAction {
                     Trace.trace(CLASS, controller, "actionPerformed", e);
                     QedeqLog.getInstance().logFailureReply(
                         "Loading failed", e.getMessage());
+                } catch (final RuntimeException e) {
+                    Trace.fatal(CLASS, controller, "actionPerformed", "unexpected problem", e);
+                    QedeqLog.getInstance().logFailureReply(
+                        "Loading failed", e.getMessage());
                 }
             }
         };
