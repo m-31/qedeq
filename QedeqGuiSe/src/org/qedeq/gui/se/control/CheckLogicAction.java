@@ -24,6 +24,7 @@ import javax.swing.AbstractAction;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.context.KernelContext;
+import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
 
 /**
@@ -62,8 +63,14 @@ class CheckLogicAction extends AbstractAction {
 
             final Thread thread = new Thread() {
                 public void run() {
-                    for (int i = 0; i < props.length; i++) {
-                        KernelContext.getInstance().checkModule(props[i].getModuleAddress());
+                    try {
+                        for (int i = 0; i < props.length; i++) {
+                            KernelContext.getInstance().checkModule(props[i].getModuleAddress());
+                        }
+                    } catch (final RuntimeException e) {
+                        Trace.fatal(CLASS, controller, "actionPerformed", "unexpected problem", e);
+                        QedeqLog.getInstance().logFailureReply(
+                            "Checking failed", e.getMessage());
                     }
                 }
             };
