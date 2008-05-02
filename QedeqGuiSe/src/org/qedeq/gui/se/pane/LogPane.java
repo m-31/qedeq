@@ -27,6 +27,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.SimpleAttributeSet;
@@ -92,10 +93,10 @@ public class LogPane extends JPanel implements LogListener {
         final JScrollPane scroller = new JScrollPane();
         final JViewport vp = scroller.getViewport();
         vp.add(textPane);
-        this.setLayout(new BorderLayout(1, 1));
-        this.add(scroller);
+        setLayout(new BorderLayout(1, 1));
+        add(scroller);
 
-        this.addComponentListener(new ComponentAdapter() {
+        addComponentListener(new ComponentAdapter() {
             public void componentHidden(final ComponentEvent e) {
                 Trace.trace(CLASS, this, "componentHidden", e);
             }
@@ -105,83 +106,125 @@ public class LogPane extends JPanel implements LogListener {
         });
 
         StyleConstants.setForeground(
-            this.errorAttrs, Color.red);
+            errorAttrs, Color.red);
         StyleConstants.setForeground(
-            this.successAttrs, Color.darkGray);
+            successAttrs, Color.darkGray);
         StyleConstants.setForeground(
-            this.messageAttrs, Color.black);
+            messageAttrs, Color.black);
         StyleConstants.setForeground(
-            this.requestAttrs, Color.blue);
+            requestAttrs, Color.blue);
     }
 
     public final void logMessageState(final String text, final URL url) {
-        try {
-            this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
-                text + "\n\t" + url + "\n", this.messageAttrs);
-        } catch (BadLocationException e) {
-            Trace.trace(CLASS, this, "logMessageState", e);
-        }
-        rework();
+
+        final Runnable runLater = new Runnable() {
+            public void run() {
+                try {
+                    textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                        text + "\n\t" + url + "\n", messageAttrs);
+                } catch (BadLocationException e) {
+                    Trace.trace(CLASS, this, "logMessageState", e);
+                }
+                rework();
+            }
+        };
+        SwingUtilities.invokeLater(runLater);
     }
 
     public final void logFailureState(final String text, final URL url, final String description) {
-        try {
-            this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
-                text + "\n\t" + url + "\n", this.errorAttrs);
-        } catch (BadLocationException e) {
-            Trace.trace(CLASS, this, "logFailureState", e);
-        }
-        rework();
+
+        final Runnable runLater = new Runnable() {
+            public void run() {
+            try {
+                textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                    text + "\n\t" + url + "\n", errorAttrs);
+            } catch (BadLocationException e) {
+                Trace.trace(CLASS, this, "logFailureState", e);
+            }
+            rework();
+            }
+        };
+        SwingUtilities.invokeLater(runLater);
     }
 
     public final void logSuccessfulState(final String text, final URL url) {
-        try {
-            this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
-                text + "\n\t" + url + "\n", this.successAttrs);
-        } catch (BadLocationException e) {
-            Trace.trace(CLASS, this, "logSuccessfulState", e);
-        }
-        rework();
+
+        final Runnable runLater = new Runnable() {
+            public void run() {
+                try {
+                    textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                        text + "\n\t" + url + "\n", successAttrs);
+                } catch (BadLocationException e) {
+                    Trace.trace(CLASS, this, "logSuccessfulState", e);
+                }
+                rework();
+            }
+        };
+        SwingUtilities.invokeLater(runLater);
     }
 
     public void logRequest(final String text) {
-        try {
-            this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
-                text + "\n", this.requestAttrs);
-        } catch (BadLocationException e) {
-            Trace.trace(CLASS, this, "logRequest", e);
-        }
-        rework();
+
+        final Runnable runLater = new Runnable() {
+            public void run() {
+                try {
+                    textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                        text + "\n", requestAttrs);
+                } catch (BadLocationException e) {
+                    Trace.trace(CLASS, this, "logRequest", e);
+                }
+                rework();
+            }
+        };
+        SwingUtilities.invokeLater(runLater);
     }
 
     public void logSuccessfulReply(final String text) {
-        try {
-            this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
-                text + "\n", this.successAttrs);
-        } catch (BadLocationException e) {
-            Trace.trace(CLASS, this, "logSuccessfulReply", e);
-        }
-        rework();
+
+        final Runnable runLater = new Runnable() {
+            public void run() {
+                try {
+                    textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                        text + "\n", successAttrs);
+                } catch (BadLocationException e) {
+                    Trace.trace(CLASS, this, "logSuccessfulReply", e);
+                }
+                rework();
+            }
+        };
+        SwingUtilities.invokeLater(runLater);
     }
 
     public void logFailureReply(final String text, final String description) {
-        try {
-            this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
-                text +  "\n\t" + description + "\n", this.errorAttrs);
-        } catch (BadLocationException e) {
-            Trace.trace(CLASS, this, "logFailureReply", e);
-        }
-        rework();
+
+        final Runnable runLater = new Runnable() {
+            public void run() {
+                try {
+                    textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                        text +  "\n\t" + description + "\n", errorAttrs);
+                } catch (BadLocationException e) {
+                    Trace.trace(CLASS, this, "logFailureReply", e);
+                }
+                rework();
+            }
+        };
+        SwingUtilities.invokeLater(runLater);
     }
 
     public void logMessage(final String text) {
-        try {
-            this.textPane.getDocument().insertString(this.textPane.getDocument().getLength(),
-                text + "\n", this.messageAttrs);
-        } catch (BadLocationException e) {
-            Trace.trace(CLASS, this, "logFailureReply", e);
-        }
-        rework();
+
+        final Runnable runLater = new Runnable() {
+            public void run() {
+                try {
+                    textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                        text + "\n", messageAttrs);
+                } catch (BadLocationException e) {
+                    Trace.trace(CLASS, this, "logFailureReply", e);
+                }
+                rework();
+            }
+        };
+        SwingUtilities.invokeLater(runLater);
     }
 
     private void rework() {
