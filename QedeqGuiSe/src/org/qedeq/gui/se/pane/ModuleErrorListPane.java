@@ -18,21 +18,29 @@
 package org.qedeq.gui.se.pane;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableColumnModel;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import org.qedeq.gui.se.control.ErrorSelectionListenerList;
 import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.EqualsUtility;
@@ -54,27 +62,50 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
     /** This class. */
     private static final Class CLASS = ModuleErrorListPane.class;
 
-    /** This text field holds the error descriptions. */
-    private JTable error = new JTable( new AbstractTableModel() {
-            public String getColumnName(int column) {
-                return "error";
-            }
-            public int getRowCount() { 
-                return (prop != null && prop.getException() != null ? prop.getException().size()
-                    : 0);
-            }
-            public int getColumnCount() { 
-                return 1;
+    /** Currently selected error. */
+    private int errNo = -1;
+
+
+    /** This table holds the error descriptions. */
+    private JTable error = new JTable(new AbstractTableModel() {
+            public String getColumnName(final int column) {
+                if (column == 0) {
+                    return "Errors for " + (prop != null ? prop.getName() + "("
+                        + prop.getModuleAddress() + ")" : "");
+                } else if (column == 1) {
+                    return "Location";
+                } else {
+                    return "";
+                }
             }
 
-            public Object getValueAt(int row, int col) {
-                return (prop != null && prop.getException() != null ?
-                    prop.getException().get(row).getMessage()
-                    : "");
+            public int getRowCount() {
+                return (sfl != null ? sfl.size() : 0);
             }
-            
-            public boolean isCellEditable(int row, int column) { return false; }
-            public void setValueAt(Object value, int row, int col) {
+
+            public int getColumnCount() {
+                return 2;
+            }
+
+            public Object getValueAt(final int row, final int col) {
+                if (sfl == null) {
+                    return "";
+                }
+                if (col == 0) {
+                    return sfl.get(row).getMessage();
+                } else if (col == 1) {
+                    if (sfl.get(row).getSourceArea() != null) {
+                        return "line " + sfl.get(row).getSourceArea().getStartPosition().getLine();
+                    }
+                }
+                return "";
+            }
+
+            public boolean isCellEditable(final int row, final int column) {
+                return false;
+            }
+
+            public void setValueAt(final Object value, final int row, final int col) {
             }
         });
 
@@ -84,19 +115,26 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
     /** For this module properties the errors are shown. */
     private QedeqBo prop;
 
-    private ErrorSelectionListener errorListener;
+    /** These errors are shown. */
+    private SourceFileExceptionList sfl;
 
+    /** Our scroll area. */
     private JScrollPane scrollPane;
 
     /**
      * Creates new panel.
      */
-    public ModuleErrorListPane(final ErrorSelectionListener listener) {
+    public ModuleErrorListPane() {
         super(false);
         setModel(null);
         setupView();
-        this.errorListener = listener;
 
+    }
+
+    private void selectError() {
+        if (sfl != null && errNo >= 0 && errNo < sfl.size()) {
+            ErrorSelectionListenerList.getInstance().selectError(errNo, sfl.get(errNo));
+        }
     }
 
     /**
@@ -106,27 +144,42 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
         FormLayout layout = new FormLayout(
             "min:grow",
             "0:grow");
-        DefaultFormBuilder builder = new DefaultFormBuilder(layout, this);
-//        builder.setDefaultDialogBorder();
+        final DefaultFormBuilder builder = new DefaultFormBuilder(layout, this);
         builder.setBorder(BorderFactory.createEmptyBorder());
         builder.setRowGroupingEnabled(true);
 
-        CellConstraints cc = new CellConstraints();
+        final CellConstraints cc = new CellConstraints();
         builder.appendRow(new RowSpec("0:grow"));
 
-        ListSelectionModel rowSM = error.getSelectionModel();
+        final ListSelectionModel rowSM = error.getSelectionModel();
+        rowSM.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        // if selection changes remember the error number (= selected row (starting with 0))
         rowSM.addListSelectionListener(new ListSelectionListener() {
-            public void valueChanged(ListSelectionEvent e) {
-                int errNo = e.getFirstIndex();
-//                if (!e.getValueIsAdjusting()) {
-                    errorListener.selectError(errNo);
-//                }
+            public void valueChanged(final ListSelectionEvent e) {
+                if (e.getValueIsAdjusting()) {
+                    return;
+                }
+                errNo = error.getSelectionModel().getLeadSelectionIndex();
+                Trace.param(CLASS, this, "setupView$valueChanged", "errNo" , errNo);
             }
         });
 
-        error.addMouseListener(new MouseAdapter() {
+        // doing a double click shall open the edit window
+        error.addMouseListener(new MouseAdapter()  {
             public void mouseClicked(final MouseEvent e) {
+                if (e.getClickCount() == 2) {
+                    Trace.trace(CLASS, this, "setupView$vmouseClicked", "doubleClick");
+                    selectError();
+                }
+            }
+        });
 
+        // pressing the enter key shall open the edit window
+        error.getActionMap().put("selectNextRowCell", new AbstractAction() {
+            public void actionPerformed(final ActionEvent event) {
+                Trace.param(CLASS, this, "setupView$actionPerformed", "event" , event);
+                selectError();
             }
         });
 
@@ -140,6 +193,22 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
         StyleConstants.setBackground(this.errorAttrs, Color.white);  // TODO mime 20080124: testing
 
 
+        // the default table cell renderer uses a JLabel to render the heading and we want to
+        // left align the header columns
+        // TODO mime 20080415: left align with small spaces would be better
+        final JTableHeader header = error.getTableHeader();
+        ((JLabel) header.getDefaultRenderer()).setHorizontalAlignment(JLabel.LEFT);
+
+        changeHeaderWidth();
+    }
+
+    /**
+     * Make 2. column smaller.
+     */
+    private void changeHeaderWidth() {
+        TableColumnModel model = error.getColumnModel();
+        model.getColumn(0).setPreferredWidth(300);
+        model.getColumn(1).setPreferredWidth(30);
     }
 
     /**
@@ -155,41 +224,53 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
         }
     }
 
-
-    public QedeqBo getModel() {
-        return this.prop;
-    }
-
     /**
      * Update from model.
      */
     public synchronized void updateView() {
         final String method = "updateView";
         Trace.begin(CLASS, this, method);
+        this.sfl = (prop != null ? prop.getException() : null);
         ((AbstractTableModel) error.getModel()).fireTableDataChanged();
+        ((AbstractTableModel) error.getModel()).fireTableStructureChanged();
+        changeHeaderWidth();
         error.invalidate();
         error.repaint();
         this.repaint();
     }
 
-    public void addModule(final QedeqBo prop) {
-        if (this.prop != null && this.prop.equals(prop)) {
-            updateView();
-        }
+    public void addModule(final QedeqBo p) {
+        Runnable addModule = new Runnable() {
+            public void run() {
+                if (prop != null && prop.equals(p)) {
+                    updateView();
+                }
+            }
+        };
+        SwingUtilities.invokeLater(addModule);
     }
 
-    public void stateChanged(final QedeqBo prop) {
-        if (this.prop != null && this.prop.equals(prop)) {
-            updateView();
-        }
+    public void stateChanged(final QedeqBo p) {
+        Runnable stateChanged = new Runnable() {
+            public void run() {
+                if (prop != null && prop.equals(p)) {
+                    updateView();
+                }
+            }
+        };
+        SwingUtilities.invokeLater(stateChanged);
     }
 
-    public void removeModule(final QedeqBo prop) {
-        if (this.prop != null && this.prop.equals(prop)) {
-            this.prop = null;
-            updateView();
-        }
+    public void removeModule(final QedeqBo p) {
+        Runnable removeModule = new Runnable() {
+            public void run() {
+                if (prop != null && prop.equals(p)) {
+                    prop = null;
+                    updateView();
+                }
+            }
+        };
+        SwingUtilities.invokeLater(removeModule);
     }
-
 
 }
