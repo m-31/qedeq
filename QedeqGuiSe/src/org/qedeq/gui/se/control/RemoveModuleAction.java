@@ -63,10 +63,16 @@ class RemoveModuleAction extends AbstractAction {
 
             final Thread thread = new Thread() {
                 public void run() {
-                    for (int i = 0; i < props.length; i++) {
-                        QedeqLog.getInstance().logRequest("Removing module \""
-                            + props[i].getUrl() + "\"");
-                        KernelContext.getInstance().removeModule(props[i].getModuleAddress());
+                    try {
+                        for (int i = 0; i < props.length; i++) {
+                            QedeqLog.getInstance().logRequest("Removing module \""
+                                + props[i].getUrl() + "\"");
+                            KernelContext.getInstance().removeModule(props[i].getModuleAddress());
+                        }
+                    } catch (final RuntimeException e) {
+                        Trace.fatal(CLASS, controller, "actionPerformed", "unexpected problem", e);
+                        QedeqLog.getInstance().logFailureReply(
+                            "Remove failed", e.getMessage());
                     }
                 }
             };
