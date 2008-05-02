@@ -22,7 +22,7 @@ import java.net.URL;
 
 
 /**
- * Describes a file position.
+ * Describes a file position within a text file.
  *
  * @version $Revision: 1.3 $
  * @author  Michael Meyling
