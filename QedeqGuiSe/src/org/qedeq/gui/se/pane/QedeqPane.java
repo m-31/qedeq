@@ -18,18 +18,26 @@
 package org.qedeq.gui.se.pane;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JViewport;
+import javax.swing.plaf.TextUI;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.BadLocationException;
 
+import org.qedeq.gui.se.control.ErrorSelectionListener;
+import org.qedeq.gui.se.control.ErrorSelectionListenerList;
+import org.qedeq.gui.se.util.CurrentLineHighlighterUtility;
+import org.qedeq.gui.se.util.DocumentMarker;
 import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.common.SourceArea;
+import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
@@ -41,7 +49,7 @@ import org.qedeq.kernel.trace.Trace;
  * @author  Michael Meyling
  */
 
-public class QedeqPane extends JPanel {
+public class QedeqPane extends JPanel implements ErrorSelectionListener {
 
     /** This class. */
     private static final Class CLASS = QedeqPane.class;
@@ -50,7 +58,37 @@ public class QedeqPane extends JPanel {
     private QedeqBo prop;
 
     /** Here is the QEDEQ module source. */
-    private JTextArea qedeq = new JTextArea();
+    private JTextArea qedeq = new JTextArea() {
+        public String getToolTipText(final MouseEvent e) {
+            if (marker == null) {
+                setToolTipText(null);
+                return super.getToolTipText();
+            }
+            // --- determine locations ---
+            TextUI mapper = qedeq.getUI();
+            final int i = mapper.viewToModel(qedeq, e.getPoint());
+            final List errNos =  marker.getBlockNumbersForOffset(i);
+            if (errNos.size() == 0) {
+                setToolTipText(null);
+                return super.getToolTipText(e);
+            }
+            final StringBuffer buffer = new StringBuffer();
+            buffer.append("<html>");
+            for (int j = 0; j < errNos.size(); j++) {
+                if (j > 0) {
+                    buffer.append("<br>");
+                }
+                buffer.append((prop.getException().get(((Integer) errNos.get(j)).intValue())
+                    .getMessage()));    // TODO mime 20080417: escape for HTML presenatation
+            }
+            buffer.append("</html>");
+            setToolTipText(buffer.toString());
+            return getToolTipText();
+        }
+    };
+
+    /** Marks error areas. */
+    private DocumentMarker marker;
 
     /**
      * Creates new Panel.
@@ -60,13 +98,14 @@ public class QedeqPane extends JPanel {
         this.prop = prop;
         setupView();
         updateView();
+        // add this instance as error selection listener
+        ErrorSelectionListenerList.getInstance().addListener(this);
     }
 
     /**
      * Assembles the GUI components of the panel.
      */
     public void setupView() {
-
         final JScrollPane scroller = new JScrollPane();
         final JViewport vp = scroller.getViewport();
         vp.add(qedeq);
@@ -74,8 +113,9 @@ public class QedeqPane extends JPanel {
         this.add(scroller);
         setBorder(BorderFactory.createEmptyBorder());
         qedeq.setEditable(false);
+        qedeq.setToolTipText("");
         qedeq.putClientProperty("JTextArea.infoBackground", Boolean.TRUE);
-
+        qedeq.setLineWrap(true); // FIXME
     }
 
     /**
@@ -94,7 +134,6 @@ public class QedeqPane extends JPanel {
         return prop;
     }
 
-
     public void setLineWrap(final boolean wrap) {
         qedeq.setLineWrap(wrap);
     }
@@ -111,6 +150,8 @@ public class QedeqPane extends JPanel {
         if (prop != null) {
             try {
                 qedeq.setText(KernelContext.getInstance().getSource(prop.getModuleAddress()));
+                CurrentLineHighlighterUtility.install(qedeq);
+                qedeq.setLineWrap(getLineWrap());
                 if (prop.hasFailures()) {
                     final SourceFileExceptionList pe = prop.getException();
                     if (prop.getModuleAddress().isFileAddress()) {
@@ -120,10 +161,29 @@ public class QedeqPane extends JPanel {
                     }
                     qedeq.setCaretPosition(0);
                     qedeq.getCaret().setSelectionVisible(true);
-                    qedeq.setSelectedTextColor(Color.RED);
-                    qedeq.setSelectionColor(Color.YELLOW);
-                    if (pe.get(0).getSourceArea() != null) {
-                        highlightLine(pe.get(0).getSourceArea().getStartPosition().getLine());
+                    marker = new DocumentMarker(qedeq);
+                    for (int i = 0; i < pe.size(); i++) {
+                        if (pe.get(i).getSourceArea() != null) {
+                            try {
+                                final SourceArea sa = pe.get(i).getSourceArea();
+                                if (sa != null) {
+                                    final int from = sa.getStartPosition().getLine() - 1;
+                                    int to = sa.getEndPosition().getLine() - 1;
+// for line marking only:
+//                                    marker.addMarkedLines(from, to,
+//                                        sa.getStartPosition().getColumn() - 1);
+                                    marker.addMarkedBlock(from,
+                                        sa.getStartPosition().getColumn() - 1,
+                                        to, sa.getEndPosition().getColumn() - 1);
+                                    continue;
+                                }
+                            } catch (BadLocationException e) {
+                                // TODO Auto-generated catch block
+                                e.printStackTrace();
+                            }
+                        }
+                        marker.addEmptyBlock();
+
                     }
                 } else {    // TODO if file module is edited status must change
                     if (prop.getModuleAddress().isFileAddress()) {
@@ -144,6 +204,8 @@ public class QedeqPane extends JPanel {
                 Trace.trace(CLASS, this, "updateView", ioException);
             }
         } else {
+            marker = null;
+            CurrentLineHighlighterUtility.uninstall(qedeq);
             qedeq.setEditable(false);
             qedeq.setText("");
             Trace.end(CLASS, this, "updateView");
@@ -196,7 +258,7 @@ public class QedeqPane extends JPanel {
         }
         return 0;
     }
-*/
+
     private final void highlightLine(final int line) {
         Trace.param(CLASS, this, "highlightLine", "line", line);
         int j;
@@ -217,6 +279,30 @@ public class QedeqPane extends JPanel {
 
         qedeq.setCaretPosition(j);
         qedeq.moveCaretPosition(k);
+    }
+
+//    public void selectError(final int number) {
+//        if (prop != null && prop.getException() != null && number < prop.getException().size()) {
+//            final SourceFileException sfe = prop.getException().get(number);
+//            if (sfe.getSourceArea() != null && sfe.getSourceArea().getStartPosition() != null) {
+//                highlightLine(sfe.getSourceArea().getStartPosition().getLine());
+//            }
+//        }
+//    }
+*/
+
+    /**
+     * Jump to error location. Uses only <code>errorNumber</code> to select correct marker.
+     *
+     * @param   errorNumber Selected error number. Starts with 0.
+     * @param   sf          Selected error.
+     */
+    public void selectError(final int errorNumber, final SourceFileException sf) {
+        if (marker != null) {
+            this.requestFocus();
+            qedeq.requestFocus();
+            qedeq.setCaretPosition(marker.getLandmarkOffsetForBlock(errorNumber));
+        }
     }
 
 
