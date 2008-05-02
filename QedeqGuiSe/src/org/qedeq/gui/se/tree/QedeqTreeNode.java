@@ -20,6 +20,7 @@ package org.qedeq.gui.se.tree;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.utility.EqualsUtility;
 
 
 
@@ -52,4 +53,14 @@ public final class QedeqTreeNode extends DefaultMutableTreeNode {
         }
     }
 
+    public boolean equals(final Object other) {
+        if (other == null || other.getClass() != QedeqTreeNode.class) {
+            return false;
+        }
+        return EqualsUtility.equals(getUserObject(), ((QedeqTreeNode) other).getUserObject());
+    }
+
+    public int hashCode() {
+        return getUserObject().hashCode();
+    }
 }
