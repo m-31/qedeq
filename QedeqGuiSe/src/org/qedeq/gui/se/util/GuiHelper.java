@@ -17,7 +17,10 @@
 
 package org.qedeq.gui.se.util;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
@@ -33,6 +36,8 @@ import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.JTextComponent;
 
 import org.qedeq.gui.se.main.GuiOptions;
 import org.qedeq.kernel.trace.Trace;
@@ -51,6 +56,15 @@ public final class GuiHelper  {
 
     /** This class. */
     private static final Class CLASS = GuiHelper.class;
+
+    /** Color for line highlighter. */
+    private static Color lineHighlighterBackgroundColor = new Color(232, 242, 254);
+
+    /** Color for line highlighter and marked areas. */
+    private static Color markedAndHiglightedBackgroundColor = new Color(232, 242, 254, 128);
+
+    /** Color for marked text areas. */
+    private static Color markedTextBackgroundColor = new Color(255, 255, 190);
 
     /**
      * Hidden constructor.
@@ -152,6 +166,56 @@ public final class GuiHelper  {
     public static ImageIcon readImageIcon(final String filename) {
         URL url = ResourceLoaderUtility.getResourceUrl("images/" + filename);
         return new ImageIcon(url);
+    }
+
+    /**
+     * Get background color for highlighting the current line.
+     *
+     * @return  Background color.
+     */
+    public static Color getLineHighlighterBackgroundColor() {
+        return lineHighlighterBackgroundColor;
+    }
+
+    /**
+     * Get background color for marked text areas.
+     *
+     * @return  Background color.
+     */
+    public static Color getMarkedTextBackgroundColor() {
+        return markedTextBackgroundColor;
+    }
+
+    /**
+     * Get background color for marked and highlightted text areas.
+     *
+     * @return  Background color.
+     */
+    public static Color getCurrentAndMarkedBackgroundColor() {
+        return markedAndHiglightedBackgroundColor;
+    }
+
+
+    /**
+     * Paint current line background area with {@link #getLineHighlighterBackgroundColor()}.
+     *
+     * @param   g   Graphics to use.
+     * @param   c   Text component to work on.
+     */
+    public static void paintCurrentLineBackground(final Graphics g, final JTextComponent c,
+            final Color col)  {
+        // if something is selected we don't highlight
+        if (c.getSelectionStart() != c.getSelectionEnd()) {
+            return;
+        }
+        Rectangle r;
+        try {
+            r = c.modelToView(c.getCaretPosition());
+        } catch (BadLocationException couldNotHappen) {
+            throw new RuntimeException(couldNotHappen);
+        }
+        g.setColor(col);
+        g.fillRect(0, r.y, c.getWidth(), r.height);
     }
 
 }
