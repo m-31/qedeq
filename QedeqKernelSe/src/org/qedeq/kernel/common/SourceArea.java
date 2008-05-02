@@ -42,12 +42,15 @@ public final class SourceArea implements Serializable {
      * Constructs file position object.
      *
      * @param   address         For identifying source.
-     * @param   startPosition   Start position.
-     * @param   endPosition     Start position.
+     * @param   startPosition   Start position. Must not be <code>null</code>.
+     * @param   endPosition     Start position. Must not be <code>null</code>.
      */
     public SourceArea(final URL address, final SourcePosition startPosition,
             final SourcePosition endPosition) {
         this.address = address;
+        if (startPosition == null || endPosition == null) {
+            throw new NullPointerException();
+        }
         this.startPosition = startPosition;
         this.endPosition = endPosition;
     }
