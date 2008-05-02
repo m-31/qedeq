@@ -449,4 +449,36 @@ public final class Trace {
         }
     }
 
+    /**
+     * Parameter information.
+     * @param   tracingClass    Class that wants to make an info entry.
+     * @param   tracingObject   Instance that wants to make an info entry.
+     * @param   method          Method of that object.
+     * @param   param           Parameter to trace.
+     * @param   value           Value of parameter.
+     */
+    public static void paramInfo(final Class tracingClass, final Object tracingObject,
+            final String method, final String param, final boolean value) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
+        if (log.isInfoEnabled()) {
+            log.info("." + method + " " + param + "=" + value);
+        }
+    }
+
+    /**
+     * Parameter information.
+     *
+     * @param   tracingClass    Class that wants to make an info entry.
+     * @param   method          Method of that class.
+     * @param   param           Parameter to trace.
+     * @param   value           Value of parameter.
+     */
+    public static void paramInfo(final Class tracingClass, final String method,
+            final String param, final boolean value) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
+        if (log.isInfoEnabled()) {
+            log.info("." + method + " " + param + "=" + value);
+        }
+    }
+
 }
