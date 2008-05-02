@@ -58,6 +58,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     /** Existence checker for operators. */
     private final ExistenceChecker existenceChecker;
 
+    /** All exceptions that occurred during checking. */
     private final LogicalCheckExceptionList exceptions;
 
 
@@ -82,12 +83,13 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     }
 
     /**
-     * Is {@link Element} a formula?
+     * Checks if an {@link Element} is a formula. If there are any errors the returned list
+     * (which is always not <code>null</code>) has a size greater zero.
      *
      * @param   element             Check this element.
      * @param   context             For location information. Important for locating errors.
      * @param   existenceChecker    Existence checker for operators.
-     * @throws  LogicalCheckException  It is no formula.
+     * @return  Collected errors if there are any. Not <code>null</code>.
      */
     public static final LogicalCheckExceptionList checkFormula(final Element element,
             final ModuleContext context, final ExistenceChecker existenceChecker) {
@@ -97,13 +99,15 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     }
 
     /**
-     * Is {@link Element} a formula? All predicates and functions are assumed to exit.
+     * Checks if an {@link Element} is a formula. All predicates and functions are assumed to exit.
+     * If there are any errors the returned list (which is always not <code>null</code>) has a size
+     * greater zero.
      * If the existence context is known you should use
      * {@link #checkFormula(Element, ModuleContext, ExistenceChecker)}.
      *
      * @param   element             Check this element.
      * @param   context             For location information. Important for locating errors.
-     * @throws  LogicalCheckException  It is no formula.
+     * @return  Collected errors if there are any. Not <code>null</code>.
      */
     public static final LogicalCheckExceptionList checkFormula(final Element element,
             final ModuleContext context) {
@@ -111,12 +115,13 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     }
 
     /**
-     * Is {@link Element} a term?
+     * Check if {@link Element} is a term. If there are any errors the returned list
+     * (which is always not <code>null</code>) has a size greater zero.
      *
      * @param   element             Check this element.
      * @param   context             For location information. Important for locating errors.
      * @param   existenceChecker    Existence checker for operators.
-     * @throws  LogicalCheckException      It is no term.
+     * @return  Collected errors if there are any. Not <code>null</code>.
      */
     public static final LogicalCheckExceptionList checkTerm(final Element element,
             final ModuleContext context, final ExistenceChecker existenceChecker) {
@@ -126,12 +131,14 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     }
 
     /**
-     * Is {@link Element} a term?  If the existence context is known you should use
+     * Check if {@link Element} is a term. If there are any errors the returned list
+     * (which is always not <code>null</code>) has a size greater zero.
+     * If the existence context is known you should use
      * {@link #checkTerm(Element, ModuleContext, ExistenceChecker)}.
      *
      * @param   element Check this element.
      * @param   context For location information. Important for locating errors.
-     * @throws  LogicalCheckException  It is no term.
+     * @return  Collected errors if there are any. Not <code>null</code>.
      */
     public static final LogicalCheckExceptionList checkTerm(final Element element,
             final ModuleContext context) {
@@ -142,7 +149,6 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * Is {@link Element} a formula?
      *
      * @param   element    Check this element.
-     * @throws  LogicalCheckException  It is no formula.
      */
     private final void checkFormula(final Element element) {
         final String method = "checkFormula";
@@ -247,7 +253,6 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * Check quantifier element.
      *
      * @param   element     Check this element. Must be a quantifier element.
-     * @throws  LogicalCheckException  Check failed.
      * @throws  IllegalArgumentException    <code>element.getList().getOperator()</code> is no
      *          quantifier operator.
      */
@@ -331,7 +336,6 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * Is {@link Element} a term?
      *
      * @param   element    Check this element.
-     * @throws  LogicalCheckException  It is no term.
      */
     private void checkTerm(final Element element) {
         final String method = "checkTerm";
@@ -442,8 +446,6 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      *
      * @param   start   Start check with this list position. Beginning with 0.
      * @param   list    List element to check.
-     * @throws  LogicalCheckException  At least one variable occurs free and bound in different
-     *          sub elements.
      */
     private void checkFreeAndBoundDisjunct(final int start,
             final ElementList list) {
@@ -512,7 +514,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * Check if {@link Element} is a subject variable.
      *
      * @param   element    Check this element.
-     * @throws  LogicalCheckException  It is no subject variable.
+     * @return  Is it a subject variable?
      */
     private boolean checkSubjectVariable(final Element element) {
            // throws LogicalCheckException {
@@ -610,9 +612,10 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
 
     /**
      * Check common requirements for list elements that are checked for being a term or formula.
+     * That includes: is the element a true list, has the operator a non zero size.
      *
      * @param   element     List element.
-     * @throws  ElementCheckException   Requirements not fulfilled.
+     * @return  Are the requirements fulfilled?
      */
     private boolean checkList(final Element element) {
         // save current context
@@ -658,7 +661,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * first of a list.
      *
      * @param   element Check this for an atom.
-     * @throws  ElementCheckException   No valid content.
+     * @return  Is the content valid?
      */
     private boolean checkAtomFirst(final Element element) {
         // save current context
@@ -695,27 +698,46 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
         return true;
     }
 
-// FIXME 20080404
-
-    protected void handleFormulaCheckException(final int code, final String msg,
-            final Element element, final ModuleContext context) { // throws FormulaCheckException {
+    /**
+     * Add new {@link FormulaCheckException} to exception list.
+     *
+     * @param code      Error code.
+     * @param msg       Error message.
+     * @param element   Element with error.
+     * @param context   Error context.
+     */
+    private void handleFormulaCheckException(final int code, final String msg,
+            final Element element, final ModuleContext context) {
         final FormulaCheckException ex = new FormulaCheckException(code, msg, element, context);
         exceptions.add(ex);
-//        throw ex;
     }
 
-    protected void handleTermCheckException(final int code, final String msg,
-            final Element element, final ModuleContext context) { // throws TermCheckException {
+    /**
+     * Add new {@link TermCheckException} to exception list.
+     *
+     * @param code      Error code.
+     * @param msg       Error message.
+     * @param element   Element with error.
+     * @param context   Error context.
+     */
+    private void handleTermCheckException(final int code, final String msg,
+            final Element element, final ModuleContext context) {
         final TermCheckException ex = new TermCheckException(code, msg, element, context);
         exceptions.add(ex);
-//        throw ex;
     }
 
-    protected void handleElementCheckException(final int code, final String msg,
-            final Element element, final ModuleContext context) { // { throws ElementCheckException {
+    /**
+     * Add new {@link ElementCheckException} to exception list.
+     *
+     * @param code      Error code.
+     * @param msg       Error message.
+     * @param element   Element with error.
+     * @param context   Error context.
+     */
+    private void handleElementCheckException(final int code, final String msg,
+            final Element element, final ModuleContext context) {
         final ElementCheckException ex = new ElementCheckException(code, msg, element, context);
         exceptions.add(ex);
-//        throw ex;
     }
 
     /**
