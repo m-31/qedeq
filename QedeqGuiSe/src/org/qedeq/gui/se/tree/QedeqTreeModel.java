@@ -18,6 +18,7 @@
 package org.qedeq.gui.se.tree;
 
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,6 +31,7 @@ import javax.swing.tree.TreePath;
 import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.IoUtility;
 
 
 /**
@@ -50,9 +52,9 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
     /**
      * Maps {@link org.qedeq.kernel.bo.module.ModuleAddress}es to {@link TreeNode}s..
      */
-    private final Map module2Path = new HashMap();
+    private final Map address2Path = new HashMap();
 
-    public QedeqTreeModel(final TreeNode root) {
+    private QedeqTreeModel(final TreeNode root) {
         super(root);
     }
 
@@ -74,31 +76,59 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
     public void addModule(final QedeqBo prop) {
         Runnable addModule = new Runnable() {
             public void run() {
+                synchronized (QedeqTreeModel.class) {
+                System.out.println("adding " + prop);
+                IoUtility.sleep();
                 final QedeqTreeNode root = (QedeqTreeNode) getRoot();
                 final QedeqTreeNode node = new QedeqTreeNode(prop, false);
                 Trace.trace(CLASS, this, "addModule", "calls insertNodeInto=" + node);
-                module2Path.put(prop.getModuleAddress(), new TreePath(node.getPath()));
+                address2Path.put(prop.getModuleAddress(), new TreePath(node.getPath()));
                 for (int i = 0; i < root.getChildCount(); i++) {
                     final QedeqTreeNode n = (QedeqTreeNode) root.getChildAt(i);
                     final QedeqBo p = (QedeqBo) n.getUserObject();
                     if (p.getModuleAddress().getFileName().compareTo(prop.getModuleAddress()
                             .getFileName()) > 0) {
+                        Trace.param(CLASS, this, "addModule", "adding at", i);
+                        IoUtility.sleep();
                         insertNodeInto(node, root, i);
+                        IoUtility.sleep();
                         return;
                     }
                 }
+                Trace.param(CLASS, this, "addModule", "adding at end", root.getChildCount());
+                IoUtility.sleep();
                 insertNodeInto(node, root, root.getChildCount());
+                IoUtility.sleep();
+                }
             }
         };
 
-        SwingUtilities.invokeLater(addModule);
+//        try {
+            SwingUtilities.invokeLater(addModule);
+//        } catch (InterruptedException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
 
     }
 
     public void stateChanged(final QedeqBo prop) {
         Runnable stateChanged = new Runnable() {
             public void run() {
-                final TreePath path = (TreePath) module2Path.get(prop.getModuleAddress());
+//                synchronized (QedeqTreeModel.class){
+//                final QedeqTreeNode root = (QedeqTreeNode) getRoot();
+//                final QedeqTreeNode node = new QedeqTreeNode(prop, false);
+//                node.setParent(root);
+//                nodeChanged(node);
+//                }
+                synchronized (QedeqTreeModel.class){
+                
+                IoUtility.sleep();
+                TreeNode root = (TreeNode) getRoot();
+                final TreePath path = (TreePath) address2Path.get(prop.getModuleAddress());
                 if (path == null) {
                     throw new IllegalArgumentException("unknown property: "
                         + prop.getModuleAddress());
@@ -108,18 +138,40 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
                 if (!prop.equals(sameProp)) {
                     throw new IllegalStateException("should not happen");
                 }
-                Trace.trace(CLASS, this, "stateChanged", "nodeChanged=" + node);
+                Trace.param(CLASS, this, "stateChanged", "nodeChanged", node);
+                Trace.param(CLASS, this, "stateChanged", "state", prop.getStateDescription());
+                IoUtility.sleep();
                 nodeChanged(node);
+                IoUtility.sleep();
+                }
             }
+
         };
 
-        SwingUtilities.invokeLater(stateChanged);
+//        try {
+            SwingUtilities.invokeLater(stateChanged);
+//        } catch (InterruptedException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
     }
 
     public void removeModule(final QedeqBo prop) {
         Runnable removeModule = new Runnable() {
             public void run() {
-                final TreePath path = (TreePath) module2Path.get(prop.getModuleAddress());
+/*        
+                final QedeqTreeNode root = (QedeqTreeNode) getRoot();
+                final QedeqTreeNode node = new QedeqTreeNode(prop, false);
+                node.setParent(root);
+                removeNodeFromParent(node);
+*/                
+       
+                synchronized (QedeqTreeModel.class){
+            
+                final TreePath path = (TreePath) address2Path.get(prop.getModuleAddress());
                 if (path == null) {
                     throw new IllegalArgumentException("unknown property: "
                         + prop.getModuleAddress());
@@ -129,26 +181,22 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
                 if (!prop.equals(sameProp)) {
                     throw new IllegalStateException("should not happen");
                 }
-                module2Path.remove(prop.getModuleAddress());
+                address2Path.remove(prop.getModuleAddress());
                 Trace.trace(CLASS, this, "removeModule", "nodeRemoved=" + node);
                 removeNodeFromParent(node);
+                }
             }
         };
 
-        SwingUtilities.invokeLater(removeModule);
-    }
-
-    public TreePath getSelectionPath(final QedeqBo prop) {
-        final TreePath path = (TreePath) module2Path.get(prop.getModuleAddress());
-        if (path == null) {
-            throw new IllegalArgumentException("unknown property");
-        }
-        final QedeqTreeNode node = (QedeqTreeNode) path.getLastPathComponent();
-        QedeqBo sameProp = (QedeqBo) node.getUserObject();
-        if (!prop.equals(sameProp)) {
-            throw new IllegalStateException("should not happen");
-        }
-        return path;
+//        try {
+            SwingUtilities.invokeLater(removeModule);
+//        } catch (InterruptedException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
     }
 
 }
