@@ -10,21 +10,16 @@ Functional Changes
 
   Extensions
   ----------
-  * improved error descriptions if QEDEQ modules are imported
-    recursivly
-  * QEDEQ modules might be removed within the GUI, all dependent
-    modules change their state accordingly
-  * LaTeX parts support new command "\qref" to reference a
-    Node from the local or an imported QEDEQ module
+  * multiple formal errors per formula are shown
   
   Fixed Bugs
   ----------
-  * encodings supported, UTF-8 and ISO-8859-1 are now correctly parsed
-    and the error line has correctly translated
+  none
 
   Other Changes
   -------------
-  * failure text area removed from state pane
+  * loading failures of referenced QEDEQ modules point directy to import
+    label
 
 
 XML Files
@@ -32,14 +27,11 @@ XML Files
 
   Extensions
   ----------
-  * a proposition more
-  * more proofs
+  none
 
   Fixed Bugs
   ----------
-  * qedeq_set_theory_v1.xml has now corrected references to 
-    qedeq_logic_v1_en.pdf; one formula was corrected
-  * predlogic.xml has now a correct LaTeX pattern for predicate "equal"
+  none
 
   Other Changes
   -------------
@@ -51,70 +43,9 @@ Source Code
 
   Extensions
   ----------
-  * new "XmlModuleLoader" implementing new interface ModuleLoader, thus
-    loading and parsing a physical QEDEQ file is separated
-  * kernel has new method for getting a String error description for
-    all errors
-  * uses class "com.sun.syndication.io.XmlReader" from project Rome
-    (see https://rome.dev.java.net/source/browse/rome/src/java/)
-    to get an java.io.Reader from an XML file, this reader is
-    responsible to get the correct encoding
-  * new class "ControlVisitor" that is an "AbstractModuleVisitor" that
-    gives some error collecting features and hides the traverser;
-    this simplifies some checkers (e.g. 
-    "QedeqBoDuplicateLanguageChecker")
-  * "LoadRequiredModules" uses new class "LoadDirectlyRequiredModules";
-    they check for recursive imports, now there is no need to catch
-    an OutOfMemoryError any longer; also all existing tests now
-    run green
-  * "KernelContext" implements now the three interfaces
-    "KernelProperties", "KernelState", "KernelServices"
-  * "SourceFileException" doesn't parse the source file itself to get
-    the error line but the "ModuleLoader" can do that
-  * IoUtility has now methods that deal with encodings
-  * XPathLocationParser now uses new XmlReader to get exact location
-  * new "StateManager" that manages state change for a "KernelQedeqBo"
-    so that changing the loading, dependency or checking state of a
-    QEDEQ module changes the state of depending modules accordingly
-  * KernelQedeqBo throws an Error if validation of dependencies failed
-  * new loading state "LoadingState.STATE_DELETED" for deleted modules
-  * Qedeq2Latex
-
-  Fixed Bugs
-  ----------
-  * "ModuleEventListenerLog.stateChanged" decides now correctly if
-    it is a failure or not
-  * "ParserHandler.startElement" now really throws the
-    "XmlSyntaxException"
-
-  Other Changes
-  -------------
-  * GUI uses now new kernel method for checking a QEDEQ module instead
-    of doing it itself
-  * "ModuleProperties" and "QedeqBo" married, family name is "QedeqBo";
-    the kernel internal "QedeqBo" is called "KernelQedeqBo"; this
-    "KernelQedeqBo" does call "ModuleEventLog.getInstance()
-    .stateChanged(this)"; new protected methods for setting elementary
-    properities added, these are used by the "StateManager" and
-    "XmlModuleLoader" for example
-  * "DefaultModuleFactory" -> "DefaultInternalKernelServices"
-  * "DefaultModuleReferenceList" -> "KernelModuleReferenceList"
-  * "ModuleNodes" -> "ModuleLables"
-  * "StringUtility" (previously "ReplaceUtility") has some methods from
-    "IoUtility"
-  * "KernelServices.removeModule(ModuleAddress)" throws no longer an
-    "IOException"
-  * attribute address removed from "TextInput"
-  * "Term.getQedeqXml" doesn't log a fatal exception for variables or
-    constants if they have arguments
-
-
-XSD
----
-
-  Extensions
-  ----------
-  * some more annotations
+  * FormulaChecker collects all occurring errors in a
+    LogicalCheckExceptionList and QedeqBoFormalLogicChecker transforms
+    them into SourceFileException s
 
   Fixed Bugs
   ----------
@@ -122,6 +53,23 @@ XSD
 
   Other Changes
   -------------
-  * attribute "ref" of element "PREDCON" is now of type "xs:string"
-    instead of "xs:NMTOKEN"
+  * simplified DefaultSourceFileExceptionList
+  * SourceArea must have a start and end position, otherwise a
+    NullPointerException is raised
+
+
+XSD
+---
+
+  Extensions
+  ----------
+  * added new element FORMAL_PROOF
+
+  Fixed Bugs
+  ----------
+  none
+
+  Other Changes
+  -------------
+  * small reorganization
 
