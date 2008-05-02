@@ -20,20 +20,24 @@ package org.qedeq.gui.se.tree;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
+import java.util.Vector;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.UIManager;
+import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeCellRenderer;
+import javax.swing.tree.DefaultTreeCellRenderer;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.VariableHeightLayoutCache;
 
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.IoUtility;
 
 /**
  * Renderer for a JTree.
@@ -41,7 +45,7 @@ import org.qedeq.kernel.trace.Trace;
  * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
-public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRenderer {
+public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
 
     /** This class. */
     private static final Class CLASS = QedeqTreeCellRenderer.class;
@@ -137,23 +141,52 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
         super();
     }
 
-    public Component getTreeCellRendererComponent(final JTree tree,
+    public synchronized Component getTreeCellRendererComponent(final JTree tree,
             final Object value, final boolean isSelected,
             final boolean expanded, final boolean leaf, final int row,
             final boolean hasFocus) {
 
         final String method = "getTreeCellRendererComponent";
-        Trace.param(CLASS, this, method, row + " is selected", isSelected);
-        Trace.param(CLASS, this, method, row + " hasFocus", hasFocus);
-        Trace.param(CLASS, this, method, row + " leaf", leaf);
-        Trace.param(CLASS, this, method, row + " maxSelectionRow", tree.getMaxSelectionRow());
-        Trace.param(CLASS, this, method, row + " selectionCount", tree.getSelectionCount());
-        Trace.param(CLASS, this, method, row + " rowCount", tree.getRowCount());
-        Trace.param(CLASS, this, method, row + " tree path", tree.getPathForRow(row));
+        Trace.paramInfo(CLASS, this, method, row + " is selected", isSelected);
+        Trace.paramInfo(CLASS, this, method, row + " is expanded", expanded);
+        Trace.paramInfo(CLASS, this, method, row + " hasFocus", hasFocus);
+        Trace.paramInfo(CLASS, this, method, row + " leaf", leaf);
+        Trace.paramInfo(CLASS, this, method, row + " maxSelectionRow", tree.getMaxSelectionRow());
+        Trace.paramInfo(CLASS, this, method, row + " selectionCount", tree.getSelectionCount());
+        Trace.paramInfo(CLASS, this, method, row + " rowCount", tree.getRowCount());
+        Trace.paramInfo(CLASS, this, method, row + " tree path", tree.getPathForRow(row));
 
         ModuleElement unit;
         QedeqBo prop;
+/* FIXME remove me
+        final DefaultMutableTreeNode nod = (DefaultMutableTreeNode) tree.getModel().getRoot();
+        if (row  >= nod.getChildCount()) {
+            return null;
+        }
+*/
+/* FIXME remove me
+        TreeModel model = tree.getModel();
+        BasicTreeUI ui = (BasicTreeUI) tree.getUI();
+        VariableHeightLayoutCache vhlc = null;
+        Vector visibleNodes = null;
+        try {
+            vhlc = (VariableHeightLayoutCache) IoUtility.getFieldContentSuper(ui, "treeState");
+            visibleNodes = (Vector) IoUtility.getFieldContentSuper(vhlc, "visibleNodes");
+            System.out.println("vectorSize = " + visibleNodes.size());
+            for (int i = 0; i < visibleNodes.size(); i++) {
+                System.out.println("  " + visibleNodes.get(i));
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        if (row == 16) {
+            tree.getPathForRow(row);
+        }
+*/
+        super.getTreeCellRendererComponent(
+            tree, value, isSelected, expanded, leaf, row, hasFocus);
         if (value instanceof DefaultMutableTreeNode) {
+            System.out.println("+++" + value);
             if (((DefaultMutableTreeNode) value).getUserObject()
                     instanceof ModuleElement) {
                 unit = (ModuleElement) ((DefaultMutableTreeNode)
@@ -161,8 +194,10 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
                 setText(unit.getName());
                 setToolTipText("here should stand a tool tip"); // LATER mime 20071022: add tool tip
             } else {
+
                 prop = (QedeqBo) ((DefaultMutableTreeNode)
                     value).getUserObject();
+                System.out.println(prop.getName());     // FIXME remove me
                 String text = prop.getName();
                 setText(text);
                 final LoadingState loadingState = prop.getLoadingState();
@@ -230,6 +265,7 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
                 }
             }
         }
+/*
         if (isSelected) {
             setBackground(backgroundSelectionColor);
             setForeground(textSelectionColor);
@@ -237,16 +273,18 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
             setBackground(backgroundNonSelectionColor);
             setForeground(textNonSelectionColor);
         }
-
-/*
-        Trace.trace(this, method, "-- global info");
-        final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getModel().getRoot();
-        Trace.param(this, method, "-- child", node.getChildCount());
-        for (int i = 0; i < node.getChildCount(); i++) {
-            Trace.param(this, method, "--- node" + i,  node.getChildAt(i));
-            Trace.param(this, method, "--- child count" + i,  node.getChildAt(i).getChildCount());
-        }
 */
+// FIXME mime 20080430: comment out, debug code!
+
+        Trace.trace(CLASS, this, method, "-- global info");
+        final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getModel().getRoot();
+        Trace.param(CLASS, this, method, "-- child", node.getChildCount());
+        for (int i = 0; i < node.getChildCount(); i++) {
+            Trace.param(CLASS, this, method, "--- node" + i,  node.getChildAt(i));
+            Trace.param(CLASS, this, method, "--- child count" + i,
+                node.getChildAt(i).getChildCount());
+        }
+
         return this;
     }
 
@@ -255,7 +293,7 @@ public final class QedeqTreeCellRenderer extends JLabel implements TreeCellRende
      * currently does not allow backgrounds other than white, and it
      * will also fill behind the icon. Something that isn't desirable.
      */
-   public void paint(final Graphics g) {
+   public void paintttttt(final Graphics g) {
        final String method = "paint";
        Trace.param(CLASS, this, method, "label", getText());
        Icon currentI = getIcon();
