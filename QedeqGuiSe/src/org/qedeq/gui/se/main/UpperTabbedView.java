@@ -23,10 +23,13 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import org.qedeq.gui.se.control.ErrorSelectionListener;
+import org.qedeq.gui.se.control.ErrorSelectionListenerList;
 import org.qedeq.gui.se.pane.HtmlPane;
 import org.qedeq.gui.se.pane.ModulePropertiesPane;
 import org.qedeq.gui.se.pane.QedeqPane;
 import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.trace.Trace;
 
 
@@ -36,7 +39,7 @@ import org.qedeq.kernel.trace.Trace;
  * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
-public final class UpperTabbedView extends JPanel {
+public final class UpperTabbedView extends JPanel implements ErrorSelectionListener {
 
     /** This class. */
     private static final Class CLASS = UpperTabbedView.class;
@@ -86,6 +89,7 @@ public final class UpperTabbedView extends JPanel {
         // Add the tabbed pane to this panel.
         add(tabbedPane);
         setLayout(new GridLayout(1, 1));
+        ErrorSelectionListenerList.getInstance().addListener(this);
     }
 
     public final void setHtmlView(final boolean enable) {
@@ -137,11 +141,15 @@ public final class UpperTabbedView extends JPanel {
     /**
      * Get edited QEDEQ text, if text is editable.
      *
-     * @return  QEDEQ text
-     * @throws  IllegalStateException   QEDEQ text is not editable
+     * @return  QEDEQ text.
+     * @throws  IllegalStateException   QEDEQ text is not editable.
      */
     public String getEditedQedeq() {
         return qedeqPane.getEditedQedeq();
+    }
+
+    public void selectError(final int errorNumber, final SourceFileException sf) {
+        tabbedPane.setSelectedComponent(qedeqPane);
     }
 
 }
