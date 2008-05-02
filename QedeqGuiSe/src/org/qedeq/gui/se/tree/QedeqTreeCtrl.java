@@ -29,6 +29,7 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.qedeq.gui.se.control.QedeqController;
@@ -155,8 +156,8 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         return this.pane.getEditedQedeq();
     }
 
-
     public void treeNodesChanged(final TreeModelEvent e) {
+/*     
         DefaultMutableTreeNode node;
         node = (DefaultMutableTreeNode)
                  (e.getTreePath().getLastPathComponent());
@@ -167,23 +168,58 @@ public final class QedeqTreeCtrl implements TreeModelListener {
          * gotten.  Otherwise, the changed node and the
          * specified node are the same.
          */
-
+/*
         try {
             int index = e.getChildIndices()[0];
             node = (DefaultMutableTreeNode) node.getChildAt(index);
         } catch (NullPointerException exc) {
         }
+*/
+        Trace.param(CLASS, this, "treeNodesChanged", "event", e);
 
-        Trace.trace(CLASS, this, "treeNodesChanged", node.getUserObject());
+        final Runnable runLater = new Runnable() {
 
-        pane.updateView();
+            public void run() {
+                try {
+
+                    pane.updateView();
+                } catch (RuntimeException ex) {
+                    Trace.fatal(CLASS, this, "treeNodesChanged", "unexpected problem", ex);
+                }
+            }
+        };
+        SwingUtilities.invokeLater(runLater);
+        Trace.end(CLASS, this, "treeNodesChanged");
+
     }
 
     public void treeNodesInserted(final TreeModelEvent e) {
         Trace.begin(CLASS, this, "treeNodesInserted");
-        if (((DefaultMutableTreeNode) treeModel.getRoot()).getChildCount() == 1) {
-            treeView.expandPath(new TreePath(treeModel.getRoot()));
-        }
+        // 20080501 mime: solution of an old problem:
+        // because the root is invisible its children are invisible too. to make them visible
+        // we must expand the the path of the root node. but this is possible only if there is
+        // already a child node there. so if the first node is added we must expand the
+        // path of root. when the model sends us this event we can not simply expand the path
+        // instantly because if we do so, the new node is added twice! This is done for example for
+        // VariableHeightLayoutCache.visibleNodes in the two methods
+        // setExpandedState(TreePath path, boolean isExpanded) (called by expandPath) and in
+        // (treeNodesInserted(TreeModelEvent e) (called by DefaultTreeModel.nodesWereInserted(
+        // TreeNode node, int[] childIndices)
+        // To solve this dilemma we simply generate a new event that is handled later on
+        final Runnable runLater = new Runnable() {
+
+            public void run() {
+                try {
+                    if (((DefaultMutableTreeNode) treeModel.getRoot()).getChildCount() > 0) {
+                        Trace.trace(CLASS, this, "treeNodesInserted", "expandPath");
+                        treeView.expandPath(new TreePath(treeModel.getRoot()));
+                    }
+                } catch (RuntimeException ex) {
+                    Trace.fatal(CLASS, this, "treeNodesInserted", "unexpected problem", ex);
+                }
+            }
+        };
+        SwingUtilities.invokeLater(runLater);
         Trace.end(CLASS, this, "treeNodesInserted");
     }
 
@@ -264,10 +300,17 @@ public final class QedeqTreeCtrl implements TreeModelListener {
          */
        public void actionPerformed(final ActionEvent e) {
            try {
-               QedeqBo[] bos = getSelected();
-               for (int i = 0; i < bos.length; i++) {
-                   KernelContext.getInstance().removeModule(bos[i].getModuleAddress());
-               }
+               final QedeqBo[] bos = getSelected();
+               final Runnable runExtra = new Runnable() {
+                   public void run() {
+                       for (int i = 0; i < bos.length; i++) {
+                           KernelContext.getInstance().removeModule(bos[i].getModuleAddress());
+                       }
+                   }
+               };
+               final Thread thread = new Thread(runExtra);
+               thread.setDaemon(true);
+               thread.start();
            } catch (NothingSelectedException e1) {
                // nothing to do;
                Trace.trace(QedeqTreeCtrl.RemoveAction.class, this, "actionPerformed(ActionEvent",
