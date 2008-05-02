@@ -303,7 +303,7 @@ public class XPathLocationParser extends SimpleHandler {
         }
 */
         if (getLocator() == null) {
-            throw new SAXException("Locator unexpectly null");
+            throw new SAXException("Locator unexpectedly null");
         }
         if (find.matchesElements(current, summary)) {
             Trace.trace(CLASS, this, method, "matching elements");
