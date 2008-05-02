@@ -111,7 +111,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         if (kernel.getConfig().isAutoReloadLastSessionChecked()) {
             final Thread thread = new Thread() {
                 public void run() {
-                    final String method = "start()";
+                    final String method = "autoReloadLastSessionChecked.thread.run()";
                     try {
                         Trace.begin(CLASS, this, method);
                         QedeqLog.getInstance().logMessage(
@@ -129,7 +129,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                     } catch (Exception e) {
                         Trace.trace(CLASS, this, method, e);
                     } finally {
-                        Trace.begin(CLASS, this, method);
+                        Trace.end(CLASS, this, method);
                     }
                 }
             };
@@ -434,6 +434,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 try {
                     final ModuleAddress address = getModuleAddress(list[i]);
                     loadModule(address);
+                    IoUtility.sleep();
                 } catch (SourceFileExceptionList e) {
                     errors = true;
                 } catch (IOException e) {
@@ -478,6 +479,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 try {
                     final ModuleAddress address = getModuleAddress(list[i]);
                     loadModule(address);
+                    IoUtility.sleep();
                 } catch (SourceFileExceptionList e) {
                     errors = true;
                 } catch (IOException e) {
@@ -587,8 +589,8 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         Trace.param(CLASS, this, method, "path", url.getPath());
         Trace.param(CLASS, this, method, "file", url.getFile());
         StringBuffer file = new StringBuffer(url.getFile());
-        StringUtility.replace(file, "_", "__");    // remember all '_'
-        StringUtility.replace(file, "/", "_1");    // preserve all '/'
+        StringUtility.replace(file, "_", "_1");    // remember all '_'
+        StringUtility.replace(file, "/", "_2");    // preserve all '/'
         String encoded = file.toString();           // fallback file name
         try {
             encoded = URLEncoder.encode(file.toString(), "UTF-8");
@@ -599,8 +601,8 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         file.setLength(0);
         file.append(encoded);
         StringUtility.replace(file, "#", "##");    // escape all '#'
-        StringUtility.replace(file, "_1", "#");    // from '/' into '#'
-        StringUtility.replace(file, "__", "_");    // from '_' into '_'
+        StringUtility.replace(file, "_2", "#");    // from '/' into '#'
+        StringUtility.replace(file, "_1", "_");    // from '_' into '_'
         StringBuffer adr = new StringBuffer(url.toExternalForm());
         try {
             adr = new  StringBuffer(new URL(url.getProtocol(), url.getHost(),
