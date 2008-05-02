@@ -73,7 +73,7 @@ Real Build
 - tag subversion
   + open team create Branch/Tags
     for QedeqKernelSe for example:
-    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_03_09_2008-03-30/QedeqKernelSe
+    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_03_17_2008-04-17/QedeqKernelSe
     with version as comment
 - transfer release to WebPage (se above)
 
