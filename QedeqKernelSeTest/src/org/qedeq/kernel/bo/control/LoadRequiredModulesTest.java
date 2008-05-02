@@ -78,7 +78,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
         } catch (SourceFileExceptionList e) {
             assertEquals(1, e.size());
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
             // TODO mime 20071101: check if exception code and description is ok
         }
     }
@@ -100,7 +100,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             assertEquals(1, e.size());
             // e.printStackTrace();
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
             // TODO mime 20071101: check if exception code and description is ok
         }
     }
@@ -124,12 +124,12 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
                + "041 -> 044 -> 042 -> 043 -> 044 cycle");
         } catch (SourceFileExceptionList e) {
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
             assertEquals(3, e.size());
             assertEquals(38, e.get(1).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(15, e.get(1).getSourceArea().getStartPosition().getColumn());
             assertEquals(45, e.get(2).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(2).getSourceArea().getStartPosition().getColumn());
+            assertEquals(15, e.get(2).getSourceArea().getStartPosition().getColumn());
             // TODO mime 20071101: check if exception code and description is ok
         }
     }
@@ -204,14 +204,14 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
         } catch (SourceFileExceptionList e) {
             // e.printStackTrace(System.out);
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
             assertEquals(4, e.size());
             assertEquals(38, e.get(1).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(15, e.get(1).getSourceArea().getStartPosition().getColumn());
             assertEquals(45, e.get(2).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(2).getSourceArea().getStartPosition().getColumn());
+            assertEquals(15, e.get(2).getSourceArea().getStartPosition().getColumn());
             assertEquals(52, e.get(3).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(3).getSourceArea().getStartPosition().getColumn());
+            assertEquals(15, e.get(3).getSourceArea().getStartPosition().getColumn());
             // TODO mime 20071105: check if exception code and description is ok
         }
     }
@@ -244,7 +244,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             fail("091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 098 -> 099 -> 091 cycle\n");
         } catch (SourceFileExceptionList e) {
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getLine());
-            assertEquals(7, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
             assertEquals(1, e.size());
             // TODO mime 20071105: check if exception code and description is ok
         }
