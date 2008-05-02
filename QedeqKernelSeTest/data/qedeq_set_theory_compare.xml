@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <QEDEQ
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_09/xml/qedeq.xsd">
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_10/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
     <SPECIFICATION name="qedeq_set_theory_v1" ruleVersion="1.00.00">
       <LOCATIONS>
-        <LOCATION value="http://qedeq.org/0_03_09/doc/math" />
+        <LOCATION value="http://qedeq.org/0_03_10/doc/math" />
       </LOCATIONS>
     </SPECIFICATION>
     <TITLE>
@@ -59,7 +59,7 @@
       <IMPORT label="qedeq_logic_v1">
         <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
           <LOCATIONS>
-            <LOCATION value="http://qedeq.org/0_03_09/doc/math" />
+            <LOCATION value="http://qedeq.org/0_03_10/doc/math" />
           </LOCATIONS>
         </SPECIFICATION>
       </IMPORT>
@@ -3593,18 +3593,18 @@
               <EQUI>
                 <PREDCON ref="in">
                   <VAR id="z"/>
-                  <FUNCON ref="setSum">
+                  <FUNCON ref="setSums">
                     <VAR id="x"/>
                   </FUNCON>
                 </PREDCON>
                 <EXISTS>
-                  <VAR id="y"/>
+                  <VAR id="z"/>
                   <AND>
-                    <PREDCON ref="in">
+                    <PREDCON ref="ins">
                       <VAR id="y"/>
                       <VAR id="x"/>
                     </PREDCON>
-                    <PREDCON ref="in">
+                    <PREDCON ref="int">
                       <VAR id="z"/>
                       <VAR id="y"/>
                     </PREDCON>
@@ -4742,9 +4742,9 @@
                   <FUNCON ref="universalClass"/>
                 </PREDCON>
                 <IMPL>
-                  <PREDCON ref="notEqual">
+                  <PREDCON ref="notEquals">
                     <VAR id="x"/>
-                    <FUNCON ref="emptySet"/>
+                    <FUNCON ref="emptySett"/>
                   </PREDCON>
                   <PREDCON ref="isSet">
                     <FUNCON ref="setProduct">
@@ -4973,7 +4973,7 @@
                   </NOT>
                 </OR>
                 <PREDCON ref="equal">
-                  <FUNCON ref="orderedPair">
+                  <FUNCON ref="orderedPairs">
                     <VAR id="x"/>
                     <VAR id="y"/>
                   </FUNCON>
@@ -5030,10 +5030,10 @@
               <EXISTS>
                 <VAR id="u"/>
                 <EXISTS>
-                  <VAR id="v"/>
+                  <VAR id="u"/>
                   <PREDCON ref="equal">
                     <VAR id="x"/>
-                    <FUNCON ref="orderedPair">
+                    <FUNCON ref="orderedPairs">
                       <VAR id="u"/>
                       <VAR id="v"/>
                     </FUNCON>
