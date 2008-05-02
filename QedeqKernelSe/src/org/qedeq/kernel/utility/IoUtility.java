@@ -40,6 +40,8 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import org.qedeq.kernel.bo.control.DefaultInternalKernelServices;
+
 
 /**
  * A collection of useful static methods for input and output.
@@ -787,6 +789,41 @@ public final class IoUtility {
     }
 
     /**
+     * This method returns the contents of an object variable (even if it is private).
+     *
+     * @param   obj     Object.
+     * @param   name    Variable name
+     * @return  Contents of variable.
+     */
+    public static Object getFieldContentSuper(final Object obj, final String name) {
+        Field field = null;
+        try {
+            Class cl = obj.getClass();
+            while (!Object.class.equals(cl)) {
+                try {
+                    field = cl.getDeclaredField(name);
+                    break;
+                } catch (NoSuchFieldException ex) {
+                    cl = cl.getSuperclass();
+                    System.out.println(cl);
+                }
+            }
+            field.setAccessible(true);
+        } catch (SecurityException e) {
+            throw new RuntimeException(e);
+//        } catch (NoSuchFieldException e) {
+//            throw new RuntimeException(e);
+        }
+        try {
+            return field.get(obj);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * This method sets the contents of an object variable (even if it is private).
      *
      * @param   obj     Object.
@@ -809,6 +846,19 @@ public final class IoUtility {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Sleep my little class.
+     */
+    public static void sleep() {
+        final String monitor = "";
+        synchronized (monitor) {
+            try {
+                monitor.wait(1);
+            } catch (InterruptedException e) {
+            }
         }
     }
 
