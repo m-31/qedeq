@@ -20,24 +20,19 @@ package org.qedeq.gui.se.tree;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
-import java.util.Vector;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.UIManager;
-import javax.swing.plaf.basic.BasicTreeUI;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeModel;
-import javax.swing.tree.VariableHeightLayoutCache;
 
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.IoUtility;
 
 /**
  * Renderer for a JTree.
@@ -158,13 +153,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
 
         ModuleElement unit;
         QedeqBo prop;
-/* FIXME remove me
-        final DefaultMutableTreeNode nod = (DefaultMutableTreeNode) tree.getModel().getRoot();
-        if (row  >= nod.getChildCount()) {
-            return null;
-        }
-*/
-/* FIXME remove me
+/* TODO mime 20080502: Debugging code
         TreeModel model = tree.getModel();
         BasicTreeUI ui = (BasicTreeUI) tree.getUI();
         VariableHeightLayoutCache vhlc = null;
@@ -179,9 +168,6 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         } catch (Throwable e) {
             e.printStackTrace();
         }
-        if (row == 16) {
-            tree.getPathForRow(row);
-        }
 */
         super.getTreeCellRendererComponent(
             tree, value, isSelected, expanded, leaf, row, hasFocus);
@@ -192,12 +178,9 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 unit = (ModuleElement) ((DefaultMutableTreeNode)
                     value).getUserObject();
                 setText(unit.getName());
-                setToolTipText("here should stand a tool tip"); // LATER mime 20071022: add tool tip
             } else {
-
                 prop = (QedeqBo) ((DefaultMutableTreeNode)
                     value).getUserObject();
-                System.out.println(prop.getName());     // FIXME remove me
                 String text = prop.getName();
                 setText(text);
                 final LoadingState loadingState = prop.getLoadingState();
@@ -217,6 +200,10 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                     setIcon(webLoadingIcon);
                 } else if (loadingState == LoadingState.STATE_LOADING_FROM_WEB_FAILED) {
                     setIcon(webLoadingErrorIcon);
+                } else if (loadingState == LoadingState.STATE_LOADING_FROM_LOCAL_FILE) {
+                    setIcon(fileLoadingIcon);
+                } else if (loadingState == LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED) {
+                    setIcon(fileLoadingErrorIcon);
                 } else if (loadingState == LoadingState.STATE_LOADING_FROM_BUFFER) {
                     setIcon(fileLoadingIcon);
                 } else if (loadingState == LoadingState.STATE_LOADING_FROM_BUFFER_FAILED) {
@@ -288,6 +275,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         return this;
     }
 
+    // FIXME mime 20080502: do we want to rename it back to "paint" or do we delete it?
     /**
      * paint is subclassed to draw the background correctly.  JLabel
      * currently does not allow backgrounds other than white, and it
