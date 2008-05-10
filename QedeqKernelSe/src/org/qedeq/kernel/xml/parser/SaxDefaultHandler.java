@@ -159,7 +159,7 @@ public class SaxDefaultHandler extends SimpleHandler {
             setLocationInformation(ex);
             final SourceFileException sfe = new SourceFileException(ex.getErrorCode(),
                 ex.getMessage(), ex,
-                new SourceArea(ex.getErrorPosition().getAddress(), ex.getErrorPosition(), 
+                new SourceArea(ex.getErrorPosition().getAddress(), ex.getErrorPosition(),
                 ex.getErrorPosition()),
                 null);
             errorList.add(sfe);
@@ -200,7 +200,7 @@ public class SaxDefaultHandler extends SimpleHandler {
             setLocationInformation(e);
             final SourceFileException sfe = new SourceFileException(e.getErrorCode(),
                 e.getMessage(), e,
-                new SourceArea(e.getErrorPosition().getAddress(), e.getErrorPosition(), 
+                new SourceArea(e.getErrorPosition().getAddress(), e.getErrorPosition(),
                 e.getErrorPosition()),
                 null);
             errorList.add(sfe);
