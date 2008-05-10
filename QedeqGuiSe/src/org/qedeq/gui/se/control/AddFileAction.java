@@ -28,10 +28,7 @@ import javax.swing.filechooser.FileFilter;
 
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.QedeqBo;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;
-import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
 
 /**
@@ -110,23 +107,7 @@ class AddFileAction extends AbstractAction {
         controller.addToModuleHistory(address.getURL().toString());
         final Thread thread = new Thread() {
             public void run() {
-                try {
-               // FIXME mime 20071231: move logging out of gui!
-                    QedeqLog.getInstance().logRequest("Load module \"" + address + "\"");
-                    final QedeqBo prop
-                        = KernelContext.getInstance().loadModule(address);
-                    QedeqLog.getInstance().logSuccessfulReply("Module \""
-                        + prop.getModuleAddress().getFileName()
-                        + "\" was successfully loaded.");
-                } catch (final SourceFileExceptionList e) {
-                    Trace.trace(CLASS, controller, "actionPerformed", e);
-                    QedeqLog.getInstance().logFailureReply(
-                        "Loading failed", e.getMessage());
-                } catch (final RuntimeException e) {
-                    Trace.fatal(CLASS, controller, "actionPerformed", "unexpected problem", e);
-                    QedeqLog.getInstance().logFailureReply(
-                        "Loading failed", e.getMessage());
-                }
+                KernelContext.getInstance().loadModule(address);
             }
         };
         thread.setDaemon(true);
