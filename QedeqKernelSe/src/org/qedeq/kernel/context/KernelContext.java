@@ -18,6 +18,7 @@
 package org.qedeq.kernel.context;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 
@@ -31,6 +32,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.config.QedeqConfig;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.utility.IoUtility;
 
 
 /**
@@ -60,17 +62,19 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     /** One and only instance of this class. */
     private static final KernelContext INSTANCE = new KernelContext();
 
+    /** Lock file. */
+    private static File lockFile;
+
+    /** Lock file stream. */
+    private static FileOutputStream lockStream;
+
     /** Initial kernel state. */
     private final KernelState initialState = new KernelState() {
 
         public void init(final InternalKernelServices moduleFactory, final QedeqConfig qedeqConfig)
                 throws IOException {
-            QedeqLog.getInstance().logMessage("This is "
-                + KernelContext.getInstance().getDescriptiveKernelVersion());
-            QedeqLog.getInstance().logMessage("  see \"http://www.qedeq.org\" for more "
-                + "information");
-            QedeqLog.getInstance().logMessage("  supports rules till version "
-                + KernelContext.getInstance().getMaximalRuleVersion());
+            checkJavaVersion();
+            checkIfApplicationIsAlreadyRunning(qedeqConfig);
             config = qedeqConfig;
             KernelContext.this.services = moduleFactory;
             currentState = initializedState;
@@ -81,6 +85,11 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         }
 
         public void shutdown() {
+            currentState = initialState;
+            IoUtility.close(lockStream);
+            if (lockFile != null) {
+                lockFile.delete();
+            }
         }
 
         public void startup() {
@@ -99,8 +108,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             throw new IllegalStateException("Kernel not initialized");
         }
 
-        public QedeqBo loadModule(final ModuleAddress address)
-                throws SourceFileExceptionList {
+        public QedeqBo loadModule(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not initialized");
         }
 
@@ -158,9 +166,9 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         }
 
         public void shutdown() {
-            currentState = initialState;
-            KernelContext.this.services = null;
             QedeqLog.getInstance().logMessage("QEDEQ Kernel closed.");
+            KernelContext.this.services = null;
+            initialState.shutdown();
         }
 
         public void startup() {
@@ -181,8 +189,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             throw new IllegalStateException("Kernel not started");
         }
 
-        public QedeqBo loadModule(final ModuleAddress address)
-                throws SourceFileExceptionList {
+        public QedeqBo loadModule(final ModuleAddress address) {
             throw new IllegalStateException("Kernel not started");
         }
 
@@ -254,9 +261,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
                 Trace.trace(CLASS, this, "shutdown()", e);
                 QedeqLog.getInstance().logMessage("Saving current config file failed.");
             }
-            currentState = initialState;
-            KernelContext.this.services = null;
-            QedeqLog.getInstance().logMessage("QEDEQ Kernel closed.");
+            initializedState.shutdown();
         }
 
         public void startup() {
@@ -275,8 +280,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             services.clearLocalBuffer();
         }
 
-        public QedeqBo loadModule(final ModuleAddress address)
-                throws SourceFileExceptionList {
+        public QedeqBo loadModule(final ModuleAddress address) {
             return services.loadModule(address);
         }
 
@@ -426,7 +430,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         currentState.clearLocalBuffer();
     }
 
-    public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
+    public QedeqBo loadModule(final ModuleAddress address) {
         return currentState.loadModule(address);
     }
 
@@ -468,6 +472,89 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
     public String[] getSourceFileExceptionList(final ModuleAddress address) {
         return currentState.getSourceFileExceptionList(address);
+    }
+
+    /**
+     * Check java version. We want to be shure that the kernel is run at least with java 1.4.2
+     *
+     * @throws  IOException     Application is running below java 1.4.2.
+     */
+    private void checkJavaVersion() throws IOException {
+        final int[] versions = IoUtility.getJavaVersion();
+        if (versions == null) {
+            Trace.fatal(CLASS, this, "checkJavaVersion", "running java version unknown", null);
+            // we try to continue
+            return;
+        }
+        final StringBuffer version = new StringBuffer();
+        for (int i = 0; i < versions.length; i++) {
+            if (i > 0) {
+                version.append(".");
+            }
+            version.append(versions[i]);
+        }
+        Trace.paramInfo(CLASS, this, "checkJavaVersion", "version", version);
+        // >= 1
+        if (versions.length < 1 || versions[0] < 1) {
+            throw new IOException("This application requires at least Java 1.4.2 but we got "
+                + version);
+        }
+        if (versions[0] == 1) {         // further checking
+            // >= 1.4
+            if (versions.length < 2 || versions[1] < 4) {
+                throw new IOException("This application requires at least Java 1.4.2 but we got "
+                    + version);
+            }
+            if (versions[1] == 4) {     // further checking
+                // >=1.4.2
+                if (versions.length < 3 || versions[2] < 2) {
+                    throw new IOException(
+                        "This application requires at least Java 1.4.2 but we got "
+                        + version);
+                }
+            }
+        }
+    }
+
+    /**
+     * Checks if the application is already running. To check that we create a file in the
+     * buffer directory, open a stream and write something into it. The stream is not closed
+     * until kernel shutdown.
+     *
+     * @param   qedeqConfig     Configuration.
+     * @throws  IOException     Application is already running.
+     */
+    private void checkIfApplicationIsAlreadyRunning(final QedeqConfig qedeqConfig)
+            throws IOException {
+        lockFile = new File(qedeqConfig.getBufferDirectory(), "qedeq_lock.lck");
+        final String osName = System.getProperty("os.name");
+        if (osName.startsWith("Windows")) {
+            if ((lockFile.exists() && !lockFile.delete())) {
+                throw new IOException("It seems the application is already running.\n"
+                    + "At least the file \"" + lockFile.getAbsolutePath()
+                    + "\" couldn't be deleted.");
+            }
+        } else {
+            if ((lockFile.exists())) {
+                throw new IOException("It seems the application is already running or crashed."
+                    + "\nAt least the file \"" + lockFile.getAbsolutePath()
+                    + "\" must be manually deleted!");
+            }
+        }
+        try {
+            lockStream = new FileOutputStream(lockFile);
+            lockStream.write("LOCKED".getBytes());
+            lockStream.flush();
+        } catch (IOException e) {
+            throw new IOException("It seems the application is already running.\n"
+                + "At least locking the file \"" + lockFile.getAbsolutePath() + "\" failed.");
+        }
+        QedeqLog.getInstance().logMessage("This is "
+            + KernelContext.getInstance().getDescriptiveKernelVersion());
+        QedeqLog.getInstance().logMessage("  see \"http://www.qedeq.org\" for more "
+            + "information");
+        QedeqLog.getInstance().logMessage("  supports rules till version "
+            + KernelContext.getInstance().getMaximalRuleVersion());
     }
 
 }
