@@ -93,7 +93,9 @@ public class StateManager {
             throw new IllegalArgumentException(
                 "this is a failure state, call setLoadingFailureState for " + state);
         }
+        // if module has no loading state we give him one before creating an event
         if (bo.getLoadingState() == LoadingState.STATE_UNDEFINED) {
+            bo.setLoadingState(state);
             ModuleEventLog.getInstance().addModule(bo);
         }
         if (state == LoadingState.STATE_LOADING_FROM_BUFFER) {
@@ -128,7 +130,9 @@ public class StateManager {
             throw new IllegalArgumentException(
                 "this is no failure state, call setLoadingProgressState");
         }
+        // if module has no loading state we give him one before creating an event
         if (bo.getLoadingState() == LoadingState.STATE_UNDEFINED) {
+            bo.setLoadingState(state);
             ModuleEventLog.getInstance().addModule(bo);
         }
         invalidateOtherDependentModulesToLoaded();
