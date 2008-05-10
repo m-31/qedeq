@@ -115,7 +115,7 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
         qedeq.setEditable(false);
         qedeq.setToolTipText("");
         qedeq.putClientProperty("JTextArea.infoBackground", Boolean.TRUE);
-        qedeq.setLineWrap(true); // FIXME
+        qedeq.setLineWrap(true); // TODO mime 20080509: make this configurable
     }
 
     /**
