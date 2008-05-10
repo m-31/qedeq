@@ -84,7 +84,9 @@ public final class CheckLogicTest extends QedeqTestCase {
             // check.printStackTrace();
             assertEquals(9001, check.getErrorCode());
             assertEquals(36, check.getSourceArea().getStartPosition().getLine());
-            assertEquals(20, check.getSourceArea().getStartPosition().getColumn());
+            assertEquals(1, check.getSourceArea().getStartPosition().getColumn());
+            assertEquals(36, check.getSourceArea().getEndPosition().getLine());
+            assertEquals(20, check.getSourceArea().getEndPosition().getColumn());
         }
     }
     
@@ -98,7 +100,9 @@ public final class CheckLogicTest extends QedeqTestCase {
             final SourceFileException check = ex.get(0);
             assertEquals(9001, check.getErrorCode());
             assertEquals(39, check.getSourceArea().getStartPosition().getLine());
-            assertEquals(35, check.getSourceArea().getStartPosition().getColumn());
+            assertEquals(1, check.getSourceArea().getStartPosition().getColumn());
+            assertEquals(39, check.getSourceArea().getEndPosition().getLine());
+            assertEquals(35, check.getSourceArea().getEndPosition().getColumn());
         }
     }
     
