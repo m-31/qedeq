@@ -145,11 +145,4 @@ public interface QedeqBo {
      */
     public boolean isChecked();
 
-    /**
-     * In what encoding the module was parsed.
-     *
-     * @return  Encoding.
-     */
-    public String getEncoding();
-
 }
