@@ -42,7 +42,6 @@ import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.QedeqBo;
-import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
@@ -216,86 +215,105 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         }
     }
 
-    /**
-     * Get a certain module.
-     *
-     * @param   address     Address of module.
-     * @return  Wanted module.
-     * @throws  SourceFileExceptionList    Module could not be successfully loaded.
-     */
-    public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
+    public QedeqBo loadModule(final ModuleAddress address) {
         final String method = "loadModule(ModuleAddress)";
         processInc();
+        final KernelQedeqBo prop = getModules().getKernelQedeqBo(address);
         try {
-            final KernelQedeqBo prop = getModules().getKernelQedeqBo(address);
             synchronized (prop) {
                 if (prop.isLoaded()) {
                     return prop;
                 }
-
-                // search in local file buffer
-                try {
+                QedeqLog.getInstance().logRequest("Load module \"" + address + "\"");
+                if (prop.getModuleAddress().isFileAddress()) {
                     loadLocalModule(prop);
-                    return prop;
-                } catch (ModuleFileNotFoundException e) {     // file not found
-                    // nothing to do, we will continue by creating a local copy
-                } catch (SourceFileExceptionList e) {
-                    Trace.trace(CLASS, this, method, e);
-                    QedeqLog.getInstance().logFailureState("Loading of module failed!",
-                        address.getURL(), e.toString());
-                    throw e;
+                } else {
+                    // search in local file buffer
+                    try {
+                        getCanonicalReadableFile(prop);
+                    } catch (ModuleFileNotFoundException e) {     // file not found
+                        // we will continue by creating a local copy
+                        makeLocalCopy(prop);
+                    }
+                    loadBufferedModule(prop);
                 }
-
-                // make local copy
-                try {
-                    makeLocalCopy(prop);
-                } catch (IOException e) {
-                    Trace.trace(CLASS, this, method, e);
-                    QedeqLog.getInstance().logFailureState("Loading of module failed!",
-                        address.getURL(), e.toString());
-                    throw createSourceFileExceptionList(e);
-                }
-                try {
-                    loadLocalModule(prop);
-                } catch (ModuleFileNotFoundException e) {
-                    // TODO mime 20070415: This should not occur because a local copy was
-                    // at least created a few lines above
-                    Trace.trace(CLASS, this, method, e);
-                    QedeqLog.getInstance().logFailureState("Loading of module failed!",
-                        address.getURL(), e.getMessage());
-                    // TODO mime 20071125: refac codes
-                    final SourceFileException sf = new SourceFileException(1021,
-                        "Loading of module \"" + address.getURL() +  "\"failed",
-                        e, (SourceArea) null, (SourceArea) null);
-                    final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(
-                        sf);
-                    throw sfl;
-                } catch (SourceFileExceptionList e) {
-                    Trace.trace(CLASS, this, method, e);
-                    QedeqLog.getInstance().logFailureState("Loading of module failed!",
-                    address.getURL(), e.getMessage());
-                    throw e;
-                }
-                return prop;
+                QedeqLog.getInstance().logSuccessfulReply("Module \""
+                    + prop.getModuleAddress().getFileName()
+                    + "\" was successfully loaded.");
              }
-         } finally {
+        } catch (SourceFileExceptionList e) {
+            Trace.trace(CLASS, this, method, e);
+            QedeqLog.getInstance().logFailureState("Loading of module failed!",
+                address.getURL(), e.toString());
+        } catch (final RuntimeException e) {
+            Trace.fatal(CLASS, this, method, "unexpected problem", e);
+            QedeqLog.getInstance().logFailureReply(
+                "Loading failed", e.getMessage());
+        } finally {
              processDec();
-         }
+        }
+        return prop;
     }
 
     /**
      * Load local QEDEQ module file with loader.
      *
      * @param   prop    Load this.
-     * @throws  ModuleFileNotFoundException Local file not found.
-     * @throws  SourceFileExceptionList     Loading failed.
+     * @throws  SourceFileExceptionList     Loading or copying Qedeq failed.
      */
-    private void loadLocalModule(final KernelQedeqBo prop)
-            throws ModuleFileNotFoundException, SourceFileExceptionList {
-        final String method = "loadLocalModule(KernelQedeqBo)";
-        final File localFile = getLocalFilePath(prop.getModuleAddress());
+    private void loadBufferedModule(final KernelQedeqBo prop) throws SourceFileExceptionList {
+        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER);
+        final File localFile;
+        try {
+            localFile = getCanonicalReadableFile(prop);
+        } catch (ModuleFileNotFoundException e) {
+            final SourceFileExceptionList sfl = createSourcelFileExceptionList(e);
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
+            throw sfl;
+        }
+
         prop.setLoader(loader); // remember loader for this module
-        final Qedeq qedeq = loader.loadLocalModule(prop, localFile);
+        final Qedeq qedeq;
+        try {
+            qedeq = loader.loadLocalModule(prop, localFile);
+        } catch (SourceFileExceptionList sfl) {
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
+            throw sfl;
+        }
+        setCopiedQedeq(prop, qedeq);
+    }
+
+    /**
+     * Load local QEDEQ module file with loader.
+     *
+     * @param   prop    Load this.
+     * @throws  SourceFileExceptionList     Loading or copying QEDEQ module failed.
+     */
+    private void loadLocalModule(final KernelQedeqBo prop) throws SourceFileExceptionList {
+        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE);
+        final File localFile;
+        try {
+            localFile = getCanonicalReadableFile(prop);
+        } catch (ModuleFileNotFoundException e) {
+           final SourceFileExceptionList sfl = createSourcelFileExceptionList(e);
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED, sfl);
+            throw sfl;
+        }
+        prop.setLoader(loader); // remember loader for this module
+
+        final Qedeq qedeq;
+        try {
+            qedeq = loader.loadLocalModule(prop, localFile);
+        } catch (SourceFileExceptionList sfl) {
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED, sfl);
+            throw sfl;
+        }
+        setCopiedQedeq(prop, qedeq);
+    }
+
+    private void setCopiedQedeq(final KernelQedeqBo prop, final Qedeq qedeq)
+            throws SourceFileExceptionList {
+        final String method = "setCopiedQedeq(KernelQedeqBo, Qedeq)";
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY);
         QedeqVo vo = null;
         try {
@@ -318,6 +336,32 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     }
 
     /**
+     * Check if file exists and is readable. Checks the local buffer file for a buffered module or
+     * the module file address directly.
+     * Returns canonical file path.
+     *
+     * @param   prop    Check for this file.
+     * @return  Canonical file path.
+     * @throws  ModuleFileNotFoundException     File doesn't exist or is not readable.
+     */
+    private File getCanonicalReadableFile(final QedeqBo prop) throws ModuleFileNotFoundException {
+        final String method = "checkLocalBuffer(File)";
+        final File localFile = getLocalFilePath(prop.getModuleAddress());
+        final File file;
+        try {
+            file = localFile.getCanonicalFile();
+        } catch (IOException e) {
+            Trace.trace(CLASS, this, method, e);
+            throw new ModuleFileNotFoundException("file path not correct: " + localFile);
+        }
+        if (!file.canRead()) {
+            Trace.trace(CLASS, this, method, "file not readable=" + file);
+            throw new ModuleFileNotFoundException("file not readable: " + file);
+        }
+        return file;
+    }
+
+    /**
      * Load specified QEDEQ module from QEDEQ parent module.
      *
      * @param   parent  Parent module address.
@@ -332,6 +376,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         Trace.begin(CLASS, this, method);
         Trace.trace(CLASS, this, method, spec);
         processInc();
+        KernelQedeqBo prop = null;      // currently tried module
         try {
             final ModuleAddress[] modulePaths;
             try {
@@ -340,70 +385,44 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 Trace.trace(CLASS, this, method, e);
                 throw createSourceFileExceptionList(e);
             }
-            // search in already loaded modules
+
+            // now we iterate over the possible module addresses
             for (int i = 0; i < modulePaths.length; i++) {
-                final KernelQedeqBo prop
-                    = getModules().getKernelQedeqBo(modulePaths[i]);
+                prop  = getModules().getKernelQedeqBo(modulePaths[i]);
+                Trace.trace(CLASS, this, method, "synchronizing at prop=" + prop);
                 synchronized (prop) {
                     if (prop.isLoaded()) {
                         return (prop);
                     }
+                    try {
+                        if (prop.getModuleAddress().isFileAddress()) {
+                            loadLocalModule(prop);
+                        } else {
+                            // search in local file buffer
+                            try {
+                                getCanonicalReadableFile(prop);
+                            } catch (ModuleFileNotFoundException e) {     // file not found
+                                // we will continue by creating a local copy
+                                makeLocalCopy(prop);
+                            }
+                            loadBufferedModule(prop);
+                        }
+                        // success!
+                        return prop;
+                    } catch (SourceFileExceptionList e) {
+                        Trace.trace(CLASS, this, method, e);
+                        if (i + 1 < modulePaths.length) {
+                            QedeqLog.getInstance().logMessage("trying alternate path");
+                            // we continue with the next path
+                        } else {
+                            // we surrender
+                            throw e;
+                        }
+                    }
                 }
             }
+            return prop;    // never called, only here to soothe the compiler
 
-            // search in local file buffer
-            Trace.trace(CLASS, this, method, "searching file buffer");
-            for (int i = 0; i < modulePaths.length; i++) {
-                try {
-                    final KernelQedeqBo prop
-                        = getModules().getKernelQedeqBo(modulePaths[i]);
-                    Trace.trace(CLASS, this, method, "synchronizing at prop=" + prop);
-                    synchronized (prop) {
-                        loadLocalModule(prop);
-                        return prop;
-                    }
-                } catch (Exception e) {
-                    // file not found try loading URL later on
-                }
-            }
-
-            // try loading url directly
-            SourceFileExceptionList sfl = null;
-
-            // FIXME mime 20080324: add warning if loading failed (but not for the last one)
-            for (int i = 0; i < modulePaths.length; i++) {
-                KernelQedeqBo prop = null;
-                try {
-                    prop = getModules().getKernelQedeqBo(modulePaths[i]);
-                    synchronized (prop) {
-                        makeLocalCopy(prop);
-                        loadLocalModule(prop);
-                        return prop;
-                    }
-                 } catch (IOException e) {
-                     QedeqLog.getInstance().logFailureState("Loading of module failed!",
-                         modulePaths[i].getURL(), e.toString());
-                     Trace.trace(CLASS, this, method, e);
-                     sfl = createSourceFileExceptionList(e);
-                     // delete unsuccessful load
-                     if (i + 1 < modulePaths.length) {
-                         prop.delete();
-                         getModules().removeModule(prop);
-                     }
-                 } catch (ModuleFileNotFoundException e) {
-                     Trace.trace(CLASS, this, method, e);
-                     QedeqLog.getInstance().logFailureState("Loading of module failed!",
-                         modulePaths[i].getURL(), e.getMessage());
-                     sfl = createSourcelFileExceptionList(e);
-                     // delete unsuccessful load
-                     if (i + 1 < modulePaths.length) {
-                         prop.delete();
-                         getModules().removeModule(prop);
-                     }
-                 }
-            }
-            // throw last loading error
-            throw sfl;
         } finally {
             processDec();
             Trace.end(CLASS, this, method);
@@ -433,10 +452,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             for (int i = 0; i < list.length; i++) {
                 try {
                     final ModuleAddress address = getModuleAddress(list[i]);
-                    loadModule(address);
-                    IoUtility.sleep();
-                } catch (SourceFileExceptionList e) {
-                    errors = true;
+                    final QedeqBo prop = loadModule(address);
+                    if (prop.hasFailures()) {
+                        errors = true;
+                    }
                 } catch (IOException e) {
                     Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
                         "internal error: "
@@ -478,10 +497,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             for (int i = 0; i < list.length; i++) {
                 try {
                     final ModuleAddress address = getModuleAddress(list[i]);
-                    loadModule(address);
-                    IoUtility.sleep();
-                } catch (SourceFileExceptionList e) {
-                    errors = true;
+                    final QedeqBo prop = loadModule(address);
+                    if (prop.hasFailures()) {
+                        errors = true;
+                    }
                 } catch (IOException e) {
                     Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
                         "internal error: "
@@ -499,19 +518,20 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * Make local copy of a module if it is no file address.
      *
      * @param   prop         Module properties.
-     * @throws  IOException    if address was malformed or the file can not be found
+     * @throws  SourceFileExceptionList    Address was malformed or the file can not be found.
      */
     private synchronized void makeLocalCopy(
-            final KernelQedeqBo prop)
-            throws IOException {
+            final KernelQedeqBo prop) throws SourceFileExceptionList {
         final String method = "makeLocalCopy";
         Trace.begin(CLASS, this, method);
 
-        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
-
         if (prop.getModuleAddress().isFileAddress()) {  // this is already a local file
+            Trace.fatal(CLASS, this, method, "tried to make a local copy for a local module", null);
+            Trace.end(CLASS, this, method);
             return;
         }
+        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
+
         FileOutputStream out = null;
         InputStream in = null;
         final File f = getLocalFilePath(prop.getModuleAddress());
@@ -554,10 +574,11 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             } catch (Exception ex) {
                 Trace.trace(CLASS, this, method, ex);
             }
+            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED,
-                new DefaultSourceFileExceptionList(e));
+                sfl);
             Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
-            throw e;
+            throw sfl;
         } finally {
             try {
                 out.close();
@@ -572,7 +593,8 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     }
 
     /**
-     * Transform an URL address into a relative local file path. This can also be another file name.
+     * Transform an URL address into a relative local file path. This might also change the file
+     * name. If the URL address is already a file address, the original file path is returned.
      *
      * @param   address     Transform this URL.
      * @return  Result of transformation.
