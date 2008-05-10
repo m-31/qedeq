@@ -56,34 +56,47 @@ public interface LoadingStateDescriptions {
     /** Loading from web address failure description. */
     public static final String STATE_STRING_LOADING_FROM_WEB_FAILED = "loading from web failed";
 
+    /** Loading from local file code. */
+    public static final int STATE_CODE_LOADING_FROM_LOCAL_FILE = 5;
+
+    /** Loading from web address description. */
+    public static final String STATE_STRING_LOADING_FROM_LOCAL_FILE = "loading from local file";
+
+    /** Loading from web address failure code. */
+    public static final int STATE_CODE_LOADING_FROM_LOCAL_FILE_FAILED = 6;
+
+    /** Loading from web address failure description. */
+    public static final String STATE_STRING_LOADING_FROM_LOCAL_FILE_FAILED
+        = "loading from web failed";
+
     /** Loading from local file buffer code. */
-    public static final int STATE_CODE_LOADING_FROM_BUFFER = 5;
+    public static final int STATE_CODE_LOADING_FROM_BUFFER = 7;
 
     /** Loading from local file buffer description. */
     public static final String STATE_STRING_LOADING_FROM_BUFFER = "loading from local buffer";
 
     /** Loading from local file buffer failed code. */
-    public static final int STATE_CODE_LOADING_FROM_BUFFER_FAILED = 6;
+    public static final int STATE_CODE_LOADING_FROM_BUFFER_FAILED = 8;
 
     /** Loading from local file buffer failed description. */
     public static final String STATE_STRING_LOADING_FROM_BUFFER_FAILED
         = "loading from local buffer failed";
 
     /** Loading into memory code. */
-    public static final int STATE_CODE_LOADING_INTO_MEMORY = 7;
+    public static final int STATE_CODE_LOADING_INTO_MEMORY = 9;
 
     /** Loading into memory description. */
     public static final String STATE_STRING_LOADING_INTO_MEMORY = "loading into memory";
 
     /** Loading into memory failed code. */
-    public static final int STATE_CODE_LOADING_INTO_MEMORY_FAILED = 8;
+    public static final int STATE_CODE_LOADING_INTO_MEMORY_FAILED = 10;
 
     /** Loading into memory failed description. */
     public static final String STATE_STRING_LOADING_INTO_MEMORY_FAILED
         = "loading into memory failed";
 
     /** Completely loaded code. */
-    public static final int STATE_CODE_LOADED = 10;
+    public static final int STATE_CODE_LOADED = 11;
 
     /** Completely loaded description. */
     public static final String STATE_STRING_LOADED = "loaded";
