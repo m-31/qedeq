@@ -26,7 +26,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.control.InternalKernelServices;
 import org.qedeq.kernel.bo.control.KernelQedeqBo;
-import org.qedeq.kernel.bo.control.ModuleFileNotFoundException;
 import org.qedeq.kernel.bo.control.ModuleLoader;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.LoadingState;
@@ -78,27 +77,13 @@ public class XmlModuleLoader implements ModuleLoader {
      * Load a local QEDEQ module.
      *
      * @param   prop        Module properties.
-     * @param   localFile   Load XML file from this location.
-     * @throws  ModuleFileNotFoundException    Local file was not found.
+     * @param   file        Load XML file from this location.
+     * @return  QEDEQ module.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public Qedeq loadLocalModule(final KernelQedeqBo prop,
-            final File localFile)
-            throws ModuleFileNotFoundException, SourceFileExceptionList {
+    public Qedeq loadLocalModule(final KernelQedeqBo prop, final File file)
+            throws SourceFileExceptionList {
         final String method = "loadLocalModule";
-        prop.setLoader(this);
-        final File file;
-        try {
-            file = localFile.getCanonicalFile();
-        } catch (IOException e) {
-            Trace.trace(CLASS, this, method, e);
-            throw new ModuleFileNotFoundException("file path not correct: " + localFile);
-        }
-        if (!file.canRead()) {
-            Trace.trace(CLASS, this, method, "file not readable=" + file);
-            throw new ModuleFileNotFoundException("file not found: " + file);
-        }
-        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER);
         SaxDefaultHandler handler = new SaxDefaultHandler();
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
@@ -110,25 +95,20 @@ public class XmlModuleLoader implements ModuleLoader {
             final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(
                 // TODO mime 20080404: search for better solution
                 new RuntimeException(e));
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
             throw sfl;
         } catch (ParserConfigurationException e) {
             Trace.trace(CLASS, this, method, e);
             final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(
                 // TODO mime 20080404: search for better solution
                 new RuntimeException("XML parser configuration error", e));
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
             throw sfl;
         }
         try {
             parser.parse(file, prop.getUrl());
         } catch (SourceFileExceptionList e) {
             Trace.trace(CLASS, this, method, e);
-            prop.setEncoding(parser.getEncoding());
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, e);
             throw e;
         }
-        prop.setEncoding(parser.getEncoding());
         return simple.getQedeq();
     }
 
