@@ -76,9 +76,6 @@ public class KernelQedeqBo implements QedeqBo {
     /** Predicate and function constant existence checker. */
     private ExistenceChecker checker;
 
-    /** Character encoding for this module. */
-    private String encoding;
-
     /** Labels for this module. */
     private ModuleLabels labels;
 
@@ -195,19 +192,6 @@ public class KernelQedeqBo implements QedeqBo {
      */
     public void setLoaded(final QedeqVo qedeq, final ModuleLabels labels) {
         stateManager.setLoaded(qedeq, labels);
-    }
-
-    public String getEncoding() {
-        return this.encoding;
-    }
-
-    /**
-     * Set character encoding for this module. Can be <code>null</code>.
-     *
-     * @param   encoding    Encoding.
-     */
-    public void setEncoding(final String encoding) {
-        this.encoding = encoding;
     }
 
     public Qedeq getQedeq() {
