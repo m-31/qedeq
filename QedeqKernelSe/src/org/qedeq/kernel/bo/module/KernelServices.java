@@ -46,13 +46,12 @@ public interface KernelServices {
     public void clearLocalBuffer() throws IOException;
 
     /**
-     * Get a certain module.
+     * Get a certain module. You can check the status to know if the loading was successful.
      *
      * @param   address     Address of module.
      * @return  Wanted module.
-     * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      */
-    public QedeqBo loadModule(ModuleAddress address) throws SourceFileExceptionList;
+    public QedeqBo loadModule(ModuleAddress address);
 
     /**
      * Get a certain module.
