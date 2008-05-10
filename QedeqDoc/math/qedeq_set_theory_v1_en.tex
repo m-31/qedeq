@@ -1,8 +1,8 @@
 % -*- TeX:EN -*-
 %%% ====================================================================
 %%% @LaTeX-file    qedeq_set_theory_v1_en.tex
-%%% Generated from http://qedeq.org/0_03_09/doc/math/qedeq_set_theory_v1.xml
-%%% Generated at   2008-03-30 23:18:16,499
+%%% Generated from http://qedeq.org/0_03_10/doc/math/qedeq_set_theory_v1.xml
+%%% Generated at   2008-05-10 10:17:56,078
 %%% ====================================================================
 
 %%% Permission is granted to copy, distribute and/or modify this document
@@ -64,7 +64,7 @@ Michael Meyling
 \par
 The source for this document can be found here:
 \par
-\url{http://qedeq.org/0_03_09/doc/math/qedeq_set_theory_v1.xml}
+\url{http://qedeq.org/0_03_10/doc/math/qedeq_set_theory_v1.xml}
 
 \par
 Copyright by the authors. All rights reserved.
@@ -103,7 +103,7 @@ I am deeply grateful to my wife \emph{Gesine~Dr{\"a}ger} and our son \emph{Lenna
 \chapter*{Introduction\label{ch:introduction}} \label{chapter1} \hypertarget{chapter1}{}
 \addcontentsline{toc}{chapter}{Introduction\label{ch:introduction}}
 
-Within this document we use the results of \url{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_en.pdf}.
+Within this document we use the results of \url{http://qedeq.org/0_03_10/doc/math/qedeq_logic_v1_en.pdf}.
 After mathematical logic has provided us with the methods of reasoning we start with a very basic theory. Set theory deals with objects and their collections. This theory is interesting for two reasons. First, nearly all mathematical fields use it. Second, every mathematical statement or proof could be cast into formulas within set theory. Number theory, algebra, analysis an all other theories could be constructed within.
 
 \par          
@@ -264,9 +264,9 @@ Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let
           & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
     & proposition~\ref{theorem:inSetEqualInSetAndIsSet} \\
           & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
-    & \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_en.pdf}{}{theorem:propositionalCalculus:bh}{basic propositions (bh)} \\
+    & \hyperref{http://qedeq.org/0_03_10/doc/math/qedeq_logic_v1_en.pdf}{}{theorem:propositionalCalculus:bh}{basic propositions (bh)} \\
           & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \ z \in x \ \leftrightarrow \ z \in y)$ 
-    & \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_en.pdf}{}{definition:restrictedUniversalQuantifier}{definition restricted universal quantifier} \\
+    & \hyperref{http://qedeq.org/0_03_10/doc/math/qedeq_logic_v1_en.pdf}{}{definition:restrictedUniversalQuantifier}{definition restricted universal quantifier} \\
 \end{tabularx}
 \end{proof}
 
@@ -318,10 +318,10 @@ $\forall y \ (y \in u \leftrightarrow \ \mathfrak{M}(y) \land \phi(y)) \land \ \
 \land \phi(y)))$
 
 \par
-Now with \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_en.pdf}{}{theorem:predicateCalculus:f}{basic propositions (f)}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
+Now with \hyperref{http://qedeq.org/0_03_10/doc/math/qedeq_logic_v1_en.pdf}{}{theorem:predicateCalculus:f}{basic propositions (f)}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
 
 \par
-With \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_en.pdf}{}{theorem:predicateCalculus:bg}{basic propositions (bg)} we derive: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. And with proposition~\ref{theorem:extensonalityEquivalence} follows $u = v$. So we have shown:
+With \hyperref{http://qedeq.org/0_03_10/doc/math/qedeq_logic_v1_en.pdf}{}{theorem:predicateCalculus:bg}{basic propositions (bg)} we derive: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. And with proposition~\ref{theorem:extensonalityEquivalence} follows $u = v$. So we have shown:
 
 \par
 $\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
@@ -505,7 +505,7 @@ The Russell class is a \emph{proper}\index{proper}\index{class!proper} class. Th
    
    & $\not \mathfrak{M}(\mathfrak{Ru})$ 
    &  
-   & \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_en.pdf}{}{theorem:propositionalCalculus:bi}{basic propositions (bi)}
+   & \hyperref{http://qedeq.org/0_03_10/doc/math/qedeq_logic_v1_en.pdf}{}{theorem:propositionalCalculus:bi}{basic propositions (bi)}
 \end{tabularx}
 \end{proof}
 
@@ -546,7 +546,7 @@ Being in the universal class is therefore the same as being a set.
   $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land y = y$
     & universal class~\ref{definition:universalClass} \\
   $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x)$
-    & \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_en.pdf}{}{theorem:propositionalCalculus:au}{basic propositions (au)} and \hyperref{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1_en.pdf}{}{axiom:identityIsReflexive}{reflexivity of identity}
+    & \hyperref{http://qedeq.org/0_03_10/doc/math/qedeq_logic_v1_en.pdf}{}{theorem:propositionalCalculus:au}{basic propositions (au)} and \hyperref{http://qedeq.org/0_03_10/doc/math/qedeq_logic_v1_en.pdf}{}{axiom:identityIsReflexive}{reflexivity of identity}
 \end{tabularx}
 \end{proof}
 
@@ -1800,7 +1800,7 @@ MISSING! OTHER:
 
 
 %% Used other QEDEQ modules:
-\bibitem{l} qedeq\_logic\_v1 \url{http://qedeq.org/0_03_09/doc/math/qedeq_logic_v1.xml}
+\bibitem{l} qedeq\_logic\_v1 \url{http://qedeq.org/0_03_10/doc/math/qedeq_logic_v1.xml}
 
 
 %% Other references:
