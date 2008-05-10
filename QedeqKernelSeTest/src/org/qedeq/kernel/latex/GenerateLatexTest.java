@@ -19,7 +19,10 @@ package org.qedeq.kernel.latex;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
 
+import org.apache.log4j.helpers.Loader;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.kernel.bo.control.DefaultModuleAddress;
 import org.qedeq.kernel.bo.control.InternalKernelServices;
 import org.qedeq.kernel.bo.control.KernelQedeqBo;
@@ -45,6 +48,7 @@ import org.xml.sax.SAXParseException;
 public final class GenerateLatexTest extends QedeqTestCase {
 
     private File genDir;
+
     private File docDir;
 
     public void setUp() throws Exception{
@@ -110,7 +114,9 @@ public final class GenerateLatexTest extends QedeqTestCase {
             assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(313, e.getSourceArea().getStartPosition().getLine());
-            assertEquals(30, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(1, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(313, e.getSourceArea().getEndPosition().getLine());
+            assertEquals(30, e.getSourceArea().getEndPosition().getColumn());
         }
     }
     
@@ -126,37 +132,51 @@ public final class GenerateLatexTest extends QedeqTestCase {
             assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(13, e.getSourceArea().getStartPosition().getLine());
-            assertEquals(13, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(1, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(13, e.getSourceArea().getEndPosition().getLine());
+            assertEquals(13, e.getSourceArea().getEndPosition().getColumn());
             e = ex.get(1);
             assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(16, e.getSourceArea().getStartPosition().getLine());
-            assertEquals(16, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(1, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(16, e.getSourceArea().getEndPosition().getLine());
+            assertEquals(16, e.getSourceArea().getEndPosition().getColumn());
             e = ex.get(2);
             assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(19, e.getSourceArea().getStartPosition().getLine());
-            assertEquals(15, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(1, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(19, e.getSourceArea().getEndPosition().getLine());
+            assertEquals(15, e.getSourceArea().getEndPosition().getColumn());
             e = ex.get(3);
             assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(22, e.getSourceArea().getStartPosition().getLine());
-            assertEquals(15, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(1, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(22, e.getSourceArea().getEndPosition().getLine());
+            assertEquals(15, e.getSourceArea().getEndPosition().getColumn());
             e = ex.get(4);
             assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(26, e.getSourceArea().getStartPosition().getLine());
-            assertEquals(23, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(1, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(26, e.getSourceArea().getEndPosition().getLine());
+            assertEquals(23, e.getSourceArea().getEndPosition().getColumn());
             e = ex.get(5);
             assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(69, e.getSourceArea().getStartPosition().getLine());
-            assertEquals(47, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(1, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(69, e.getSourceArea().getEndPosition().getLine());
+            assertEquals(47, e.getSourceArea().getEndPosition().getColumn());
             e = ex.get(6);
             assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
             assertEquals(98, e.getSourceArea().getStartPosition().getLine());
-            assertEquals(47, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(1, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(98, e.getSourceArea().getEndPosition().getLine());
+            assertEquals(47, e.getSourceArea().getEndPosition().getColumn());
         }
     }
     
@@ -263,10 +283,19 @@ public final class GenerateLatexTest extends QedeqTestCase {
             IoUtility.toUrl(xmlFile));
         final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade.getKernelContext()
             .loadModule(address);
+        if (prop.hasFailures()) {
+            throw prop.getException();
+        }
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
+        if (prop.hasFailures()) {
+            throw prop.getException();
+        }
         KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
+        if (prop.hasFailures()) {
+            throw prop.getException();
+        }
         QedeqBoDuplicateLanguageChecker.check(prop);
-        if (!prop.isChecked()) {
+        if (prop.hasFailures()) {
             throw prop.getException();
         }
 
@@ -290,43 +319,6 @@ public final class GenerateLatexTest extends QedeqTestCase {
         IoUtility.createNecessaryDirectories(xmlCopy);
         IoUtility.copyFile(xmlFile, xmlCopy);
         IoUtility.copyFile(texFile, texCopy);
-        
-/*        
-        // FIXME doesn't work for links to external QEDEQ modules because that are absolute links!
-        final KernelQedeqBo fakeProp = (KernelQedeqBo) KernelFacade.getKernelContext()
-            .getQedeqBo(new DefaultModuleAddress(web));
-
-        
-        fakeProp.setLoader(prop.getLoader());
-        IoUtility.setFieldContent(fakeProp, "qedeq", prop.getQedeq());
-        fakeProp.getKernelRequiredModules().set(prop.getKernelRequiredModules());
-        fakeProp.getDependentModules().set(prop.getDependentModules());
-        IoUtility.setFieldContent(fakeProp, "loadingState", LoadingState.STATE_LOADED);
-        IoUtility.setFieldContent(fakeProp, "dependencyState",
-            DependencyState.STATE_LOADED_REQUIRED_MODULES);
-        IoUtility.setFieldContent(fakeProp, "logicalState", LogicalState.STATE_CHECKED);
-        final InternalKernelServices services = (InternalKernelServices) IoUtility
-            .getFieldContent(KernelFacade.getKernelContext(), "services");
-        final KernelQedeqBoPool pool = (KernelQedeqBoPool) IoUtility
-            .getFieldContent(services, "modules");
-        final HashMap bos = (HashMap) IoUtility
-            .getFieldContent(pool, "bos");
-        bos.remove(address);
-        bos.put(address, fakeProp);
-        final File texFile = new File(destinationDirectory, 
-            xml.substring(0, xml.lastIndexOf('.')) + "_" + language + ".tex");
-        IoUtility.setFieldContent(services, "validate", Boolean.FALSE);
-        Xml2Latex.generate(fakeProp, texFile, language, "1");
-        IoUtility.setFieldContent(services, "validate", Boolean.TRUE);
-        bos.remove(address);
-        bos.clear();
-        final File texCopy = new File(dir, new File(new File(xml).getParent(), 
-            texFile.getName()).getPath());
-        final File xmlCopy = new File(destinationDirectory, xml);
-        IoUtility.createNecessaryDirectories(xmlCopy);
-        IoUtility.copyFile(xmlFile, xmlCopy);
-        IoUtility.copyFile(texFile, texCopy);
-*/        
     }
 
 }
