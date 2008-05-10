@@ -879,7 +879,7 @@ public final class Qedeq2Latex extends ControlVisitor {
 
     /**
      * Get text to display for a link.
-     * FIXME mime 20080330: refactor language dependent code
+     * TODO mime 20080330: refactor language dependent code
      *
      * @param   ref     Reference label.
      * @param   node    Node to link to. Might be <code>null</code>.
