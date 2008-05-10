@@ -29,7 +29,6 @@ import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.qedeq.gui.se.control.QedeqController;
@@ -157,31 +156,10 @@ public final class QedeqTreeCtrl implements TreeModelListener {
     }
 
     public void treeNodesChanged(final TreeModelEvent e) {
-/*     
-        DefaultMutableTreeNode node;
-        node = (DefaultMutableTreeNode)
-                 (e.getTreePath().getLastPathComponent());
-
-        /*
-         * If the event lists children, then the changed
-         * node is the child of the node we've already
-         * gotten.  Otherwise, the changed node and the
-         * specified node are the same.
-         */
-/*
-        try {
-            int index = e.getChildIndices()[0];
-            node = (DefaultMutableTreeNode) node.getChildAt(index);
-        } catch (NullPointerException exc) {
-        }
-*/
         Trace.param(CLASS, this, "treeNodesChanged", "event", e);
-
         final Runnable runLater = new Runnable() {
-
             public void run() {
                 try {
-
                     pane.updateView();
                 } catch (RuntimeException ex) {
                     Trace.fatal(CLASS, this, "treeNodesChanged", "unexpected problem", ex);
@@ -190,7 +168,6 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         };
         SwingUtilities.invokeLater(runLater);
         Trace.end(CLASS, this, "treeNodesChanged");
-
     }
 
     public void treeNodesInserted(final TreeModelEvent e) {
@@ -207,7 +184,6 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         // TreeNode node, int[] childIndices)
         // To solve this dilemma we simply generate a new event that is handled later on
         final Runnable runLater = new Runnable() {
-
             public void run() {
                 try {
                     if (((DefaultMutableTreeNode) treeModel.getRoot()).getChildCount() > 0) {
@@ -342,4 +318,3 @@ public final class QedeqTreeCtrl implements TreeModelListener {
     }
 
 }
-
