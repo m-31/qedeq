@@ -29,6 +29,7 @@ import java.net.URL;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import org.apache.log4j.PropertyConfigurator;
@@ -100,8 +101,6 @@ public class QedeqMainFrame extends JFrame {
             }
         });
 
-        // now we are ready to fire up the kernel
-        KernelContext.getInstance().startup();
     }
 
     private void checkDirectoryExistenceAndOptionallyCreate(final QedeqGuiConfig config)
@@ -187,14 +186,19 @@ public class QedeqMainFrame extends JFrame {
         System.err.println("ERROR>>> " + message);
     }
 
-    public static void main(final String[] args) throws IOException {
+    public static void main(final String[] args) {
         // load configuration file
-        QedeqGuiConfig.init(new File(IoUtility.getStartDirectory("qedeq"),
-            "config/org.qedeq.properties"), IoUtility.getStartDirectory("qedeq"));
+        try {
+            QedeqGuiConfig.init(new File(IoUtility.getStartDirectory("qedeq"),
+                "config/org.qedeq.properties"), IoUtility.getStartDirectory("qedeq"));
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showInternalMessageDialog(null, "Configuration file not found!\n\n"
+                + e.getMessage(), "Hilbert II - Error", JOptionPane.ERROR_MESSAGE);
+        }
 
         // we make a local file copy of the log4j.properties if it dosen't exist already
         initLog4J(QedeqGuiConfig.getInstance());
-
 
         final GuiOptions options = new GuiOptions();
         if (args.length > 0) {
@@ -213,7 +217,17 @@ public class QedeqMainFrame extends JFrame {
             }
             options.setSelectedLookAndFeel(lafClassName);
         }
-        QedeqMainFrame instance = new QedeqMainFrame(options);
+        final QedeqMainFrame instance;
+        try {
+            instance = new QedeqMainFrame(options);
+        } catch (IOException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Application start failed!\n\n"
+                + e.getMessage(), "Hilbert II - Error", JOptionPane.ERROR_MESSAGE);
+            KernelContext.getInstance().shutdown();
+            System.exit(-1);
+            return;
+        }
         instance.setSize(PREFERRED_SIZE);
         Dimension paneSize = instance.getSize();
         Dimension screenSize = instance.getToolkit().getScreenSize();
@@ -221,6 +235,9 @@ public class QedeqMainFrame extends JFrame {
             (screenSize.width  - paneSize.width)  / 2,
             (screenSize.height - paneSize.height) / 2);
         instance.setVisible(true);
+        IoUtility.sleep(100);   // TODO mime 20080509: test application when this line is missing
+        // now we are ready to fire up the kernel
+        KernelContext.getInstance().startup();
     }
 
 }
