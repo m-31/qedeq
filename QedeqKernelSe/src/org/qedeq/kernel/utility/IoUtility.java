@@ -29,6 +29,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
@@ -36,11 +37,12 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Properties;
-
-import org.qedeq.kernel.bo.control.DefaultInternalKernelServices;
+import java.util.StringTokenizer;
 
 
 /**
@@ -696,6 +698,21 @@ public final class IoUtility {
     }
 
     /**
+     * Closes out stream without exception.
+     *
+     * @param   out Output stream, maybe <code>null</code>.
+     */
+    public static void close(final OutputStream out) {
+        if (out != null) {
+            try {
+                out.close();
+            } catch (Exception e) {
+                // ignore
+            }
+        }
+    }
+
+    /**
      * Closes input reader without exception.
      *
      * @param   reader  Reader, maybe <code>null</code>.
@@ -711,8 +728,10 @@ public final class IoUtility {
     }
 
     /**
-     * Get start directory for application. If this is no Java Webstart version
-     * the result is <code>new File(".")</code>.
+     * Get start directory for application. Within the start directory all newly created data is
+     * stored in. If this is no Java Webstart version the result is
+     * <code>new File(".")</code>. Otherwise the start directory is the subdirectory
+     * "." concatenated <code>application</code> within <code>user.home</code>.
      *
      * @param   application Application name, used for Java Webstart version. Should
      *          be written in lowercase letters. A "." is automatically appended at
@@ -722,13 +741,8 @@ public final class IoUtility {
     public static final File getStartDirectory(final String application) {
         final File startDirectory;
         if (isWebStarted()) {
-            final String userHomeWS = System.getProperties().get("jnlpx.deployment.user.home")
-                != null ? (String) System.getProperties().get("jnlpx.deployment.user.home")
-                : "";
-            final String userHome = System.getProperties().get("user.home") != null
-                ? (String) System.getProperties().get("user.home") : "";
-            startDirectory = new File(
-                new File((userHomeWS.length() != 0 ? userHomeWS : userHome)), "." + application);
+            final String userHome = System.getProperty("user.home", ".");
+            startDirectory = new File(new File(userHome), "." + application);
         } else {
             startDirectory = new File(".");
         }
@@ -851,15 +865,52 @@ public final class IoUtility {
 
     /**
      * Sleep my little class.
+     *
+     * @param   ms  Milliseconds to wait.
      */
-    public static void sleep() {
+    public static void sleep(final int ms) {
         final String monitor = "";
         synchronized (monitor) {
             try {
-                monitor.wait(1);
+                monitor.wait(ms);
             } catch (InterruptedException e) {
             }
         }
+    }
+
+    /**
+     * Get currently running java version and subversion numbers. This is the running JRE version.
+     * If no version could be identified <code>null</code> is returned.
+     *
+     * @return  Array of version and subversion numbers.
+     */
+    public static int[] getJavaVersion() {
+        final String version = System.getProperty("java.version");
+        final List numbers = new ArrayList();
+        final StringTokenizer tokenizer = new StringTokenizer(version, ".");
+        while (tokenizer.hasMoreElements()) {
+            String sub = (String) tokenizer.nextToken();
+            for (int i = 0; i < sub.length(); i++) {
+                if (!Character.isDigit(sub.charAt(i))) {
+                    sub = sub.substring(0, i);
+                    break;
+                }
+            }
+            try {
+                numbers.add(new Integer(Integer.parseInt(sub)));
+            } catch (Exception e) {
+                e.printStackTrace();
+                break;
+            }
+        }
+        if (numbers.size() == 0) {
+            return null;
+        }
+        final int[] result = new int[numbers.size()];
+        for (int i = 0; i < numbers.size(); i++) {
+            result[i] = ((Integer) numbers.get(i)).intValue();
+        }
+        return result;
     }
 
 }
