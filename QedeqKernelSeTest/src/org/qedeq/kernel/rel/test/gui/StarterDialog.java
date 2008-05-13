@@ -293,16 +293,19 @@ public final class StarterDialog extends JFrame {
                                 .getModuleAddress(from.getFileValue()));
                             setResultMessage(false, messages[0]);
                         } catch (IOException e1) {
-                            errorPosition = new SourceFileException(from.getFileValue(), e);
+                            errorPosition = new SourceFileException(IoUtility.toUrl(
+                                from.getFileValue()), e);
                             setResultMessage(false, e.getMessage());
                         }
                     } else {
-                        errorPosition = new SourceFileException(from.getFileValue(), e);
+                        errorPosition = new SourceFileException(IoUtility.toUrl(
+                            from.getFileValue()), e);
                         setResultMessage(false, e.getMessage());
                     }
                 } catch (final Exception e) {
                     Trace.trace(CLASS, this, method, e);
-                    errorPosition = new SourceFileException(from.getFileValue(), e);
+                    errorPosition = new SourceFileException(IoUtility.toUrl(
+                        from.getFileValue()), e);
                     setResultMessage(false, e.getMessage());
                 } catch (final Error e) {
                     Trace.trace(CLASS, this, method, e);
