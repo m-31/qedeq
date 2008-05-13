@@ -19,10 +19,7 @@ package org.qedeq.kernel.latex;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
-import org.apache.log4j.helpers.Loader;
-import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.kernel.bo.control.DefaultModuleAddress;
 import org.qedeq.kernel.bo.control.InternalKernelServices;
 import org.qedeq.kernel.bo.control.KernelQedeqBo;
