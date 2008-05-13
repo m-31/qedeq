@@ -101,7 +101,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
     public void stateChanged(final QedeqBo prop) {
         Runnable stateChanged = new Runnable() {
             public void run() {
-// FIXME mime 20080502: decide if this or the following code should be used
+// LATER mime 20080502: take the following code and make it workable. Currently problems if deleting.
 //                synchronized (QedeqTreeModel.class){
 //                    final QedeqTreeNode root = (QedeqTreeNode) getRoot();
 //                    final QedeqTreeNode node = new QedeqTreeNode(prop, false);
@@ -133,7 +133,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
     public void removeModule(final QedeqBo prop) {
         Runnable removeModule = new Runnable() {
             public void run() {
-// FIXME mime 20080502: decide if this or the following code should be used
+// LATER mime 20080502: take the following code and make it workable. Currently problems if deleting.
 //                final QedeqTreeNode root = (QedeqTreeNode) getRoot();
 //                final QedeqTreeNode node = new QedeqTreeNode(prop, false);
 //                node.setParent(root);

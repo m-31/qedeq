@@ -17,14 +17,12 @@
 
 package org.qedeq.gui.se.tree;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTree;
-import javax.swing.UIManager;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
@@ -120,17 +118,19 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_checked.gif"));
 
-    /** Color to use for the foreground for selected nodes. */
-    private Color textSelectionColor = UIManager.getColor("Tree.selectionForeground");
-
-    /** Color to use for the foreground for non-selected nodes. */
-    private Color textNonSelectionColor = UIManager.getColor("Tree.textForeground");
-
-    /** Color to use for the background when a node is selected. */
-    private Color backgroundSelectionColor = UIManager.getColor("Tree.selectionBackground");
-
-    /** Color to use for the background when the node isn't selected. */
-    private Color backgroundNonSelectionColor = UIManager.getColor("Tree.textBackground");
+// LATER mime 20080502: do we want to leave it for our alternative "paint" or do we delete it?
+//
+//    /** Color to use for the foreground for selected nodes. */
+//    private Color textSelectionColor = UIManager.getColor("Tree.selectionForeground");
+//
+//    /** Color to use for the foreground for non-selected nodes. */
+//    private Color textNonSelectionColor = UIManager.getColor("Tree.textForeground");
+//
+//    /** Color to use for the background when a node is selected. */
+//    private Color backgroundSelectionColor = UIManager.getColor("Tree.selectionBackground");
+//
+//    /** Color to use for the background when the node isn't selected. */
+//    private Color backgroundNonSelectionColor = UIManager.getColor("Tree.textBackground");
 
     public QedeqTreeCellRenderer() {
         super();
@@ -153,7 +153,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
 
         ModuleElement unit;
         QedeqBo prop;
-/* TODO mime 20080502: Debugging code
+/* mime 20080502: Debugging code
         TreeModel model = tree.getModel();
         BasicTreeUI ui = (BasicTreeUI) tree.getUI();
         VariableHeightLayoutCache vhlc = null;
@@ -172,7 +172,6 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         super.getTreeCellRendererComponent(
             tree, value, isSelected, expanded, leaf, row, hasFocus);
         if (value instanceof DefaultMutableTreeNode) {
-            System.out.println("+++" + value);
             if (((DefaultMutableTreeNode) value).getUserObject()
                     instanceof ModuleElement) {
                 unit = (ModuleElement) ((DefaultMutableTreeNode)
@@ -252,6 +251,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 }
             }
         }
+    // LATER mime 20080502: do we want to leave it for our alternative "paint" or do we delete it?
 /*
         if (isSelected) {
             setBackground(backgroundSelectionColor);
@@ -261,21 +261,20 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
             setForeground(textNonSelectionColor);
         }
 */
-// FIXME mime 20080430: comment out, debug code!
-
-        Trace.trace(CLASS, this, method, "-- global info");
-        final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getModel().getRoot();
-        Trace.param(CLASS, this, method, "-- child", node.getChildCount());
-        for (int i = 0; i < node.getChildCount(); i++) {
-            Trace.param(CLASS, this, method, "--- node" + i,  node.getChildAt(i));
-            Trace.param(CLASS, this, method, "--- child count" + i,
-                node.getChildAt(i).getChildCount());
-        }
+// mime 20080430: comment out, debug code!
+//        Trace.trace(CLASS, this, method, "-- global info");
+//        final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getModel().getRoot();
+//        Trace.param(CLASS, this, method, "-- child", node.getChildCount());
+//        for (int i = 0; i < node.getChildCount(); i++) {
+//            Trace.param(CLASS, this, method, "--- node" + i,  node.getChildAt(i));
+//            Trace.param(CLASS, this, method, "--- child count" + i,
+//                node.getChildAt(i).getChildCount());
+//        }
 
         return this;
     }
 
-    // FIXME mime 20080502: do we want to rename it back to "paint" or do we delete it?
+    // LATER mime 20080502: do we want to rename it back to "paint" or do we delete it?
     /**
      * paint is subclassed to draw the background correctly.  JLabel
      * currently does not allow backgrounds other than white, and it
