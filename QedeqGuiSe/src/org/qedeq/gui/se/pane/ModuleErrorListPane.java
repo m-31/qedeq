@@ -165,13 +165,13 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
             }
         });
 
-        // doing a double click shall open the edit window
+        // doing a click shall open the edit window
         error.addMouseListener(new MouseAdapter()  {
             public void mouseClicked(final MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     Trace.trace(CLASS, this, "setupView$vmouseClicked", "doubleClick");
-                    selectError();
                 }
+                selectError();
             }
         });
 
