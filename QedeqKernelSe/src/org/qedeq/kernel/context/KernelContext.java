@@ -77,6 +77,12 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             checkIfApplicationIsAlreadyRunning(qedeqConfig);
             config = qedeqConfig;
             KernelContext.this.services = moduleFactory;
+            QedeqLog.getInstance().logMessage("This is "
+                + KernelContext.getInstance().getDescriptiveKernelVersion());
+            QedeqLog.getInstance().logMessage("  see \"http://www.qedeq.org\" for more "
+                + "information");
+            QedeqLog.getInstance().logMessage("  supports rules till version "
+                + KernelContext.getInstance().getMaximalRuleVersion());
             currentState = initializedState;
         }
 
@@ -549,12 +555,6 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             throw new IOException("It seems the application is already running.\n"
                 + "At least locking the file \"" + lockFile.getAbsolutePath() + "\" failed.");
         }
-        QedeqLog.getInstance().logMessage("This is "
-            + KernelContext.getInstance().getDescriptiveKernelVersion());
-        QedeqLog.getInstance().logMessage("  see \"http://www.qedeq.org\" for more "
-            + "information");
-        QedeqLog.getInstance().logMessage("  supports rules till version "
-            + KernelContext.getInstance().getMaximalRuleVersion());
     }
 
 }
