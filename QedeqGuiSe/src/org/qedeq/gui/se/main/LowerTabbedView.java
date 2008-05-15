@@ -1,4 +1,4 @@
-/* $Id: LowerTabbedView.java,v 1.5 2008/03/27 05:14:04 m31 Exp $
+/* $Id: LowerTabbedView.java,v 1.6 2008/05/15 21:26:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -34,7 +34,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * Lower tabbed pane view.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public final class LowerTabbedView extends JPanel {

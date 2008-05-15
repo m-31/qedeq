@@ -1,4 +1,4 @@
-/* $Id: ParserAction.java,v 1.4 2008/03/27 05:14:03 m31 Exp $
+/* $Id: ParserAction.java,v 1.5 2008/05/15 21:26:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * Show preferences window.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 class ParserAction extends AbstractAction {

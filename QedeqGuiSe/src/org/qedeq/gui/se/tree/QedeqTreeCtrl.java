@@ -1,4 +1,4 @@
-/* $Id: QedeqTreeCtrl.java,v 1.6 2008/03/27 05:14:03 m31 Exp $
+/* $Id: QedeqTreeCtrl.java,v 1.7 2008/05/15 21:26:45 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -47,7 +47,7 @@ import org.qedeq.kernel.trace.Trace;
  *
  * TODO mime 20080126: rather work with listeners than referencing other views
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public final class QedeqTreeCtrl implements TreeModelListener {

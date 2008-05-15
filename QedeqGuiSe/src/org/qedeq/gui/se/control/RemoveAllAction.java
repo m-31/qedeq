@@ -1,4 +1,4 @@
-/* $Id: RemoveAllAction.java,v 1.3 2008/03/27 05:14:03 m31 Exp $
+/* $Id: RemoveAllAction.java,v 1.4 2008/05/15 21:26:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

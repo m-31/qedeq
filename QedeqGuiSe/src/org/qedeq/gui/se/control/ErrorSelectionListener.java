@@ -1,4 +1,4 @@
-/* $Id: ErrorSelectionListener.java,v 1.6 2008/04/15 05:14:03 m31 Exp $
+/* $Id: ErrorSelectionListener.java,v 1.1 2008/05/15 21:26:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ import org.qedeq.kernel.common.SourceFileException;
 /**
  * Listener for error selection events.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface ErrorSelectionListener {

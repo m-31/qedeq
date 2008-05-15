@@ -1,4 +1,4 @@
-/* $Id: CurrentLineHighlighterUtility.java,v 1.0 2008/04/12 05:14:04 m31 Exp $
+/* $Id: CurrentLineHighlighterUtility.java,v 1.1 2008/05/15 21:26:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

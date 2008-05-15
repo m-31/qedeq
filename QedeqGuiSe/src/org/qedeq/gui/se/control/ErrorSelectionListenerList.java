@@ -1,4 +1,4 @@
-/* $Id: ErrorSelectionListenerList.java,v 1.8 2008/04/15 05:18:26 m31 Exp $
+/* $Id: ErrorSelectionListenerList.java,v 1.1 2008/05/15 21:26:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

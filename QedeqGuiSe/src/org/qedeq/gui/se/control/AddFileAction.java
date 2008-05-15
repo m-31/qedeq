@@ -1,4 +1,4 @@
-/* $Id: AddFileAction.java,v 1.5 2008/03/27 05:14:03 m31 Exp $
+/* $Id: AddFileAction.java,v 1.6 2008/05/15 21:26:45 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -34,7 +34,7 @@ import org.qedeq.kernel.trace.Trace;
 /**
  * Load new module from local file.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 class AddFileAction extends AbstractAction {
