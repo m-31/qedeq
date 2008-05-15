@@ -1,4 +1,4 @@
-/* $Id: DefaultSourceFileExceptionList.java,v 1.1 2008/03/27 05:16:25 m31 Exp $
+/* $Id: DefaultSourceFileExceptionList.java,v 1.2 2008/05/15 21:27:48 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import java.util.List;
  * Type save {@link org.qedeq.kernel.common.SourceFileException} list.
  * TODO mime 20080109: shouldn't this list have some informations about the source being parsed?
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public class DefaultSourceFileExceptionList extends SourceFileExceptionList {

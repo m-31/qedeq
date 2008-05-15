@@ -1,4 +1,4 @@
-/* $Id: StateManager.java,v 1.1 2008/03/27 05:16:24 m31 Exp $
+/* $Id: StateManager.java,v 1.2 2008/05/15 21:27:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -36,7 +36,7 @@ import org.qedeq.kernel.utility.StringUtility;
 /**
  * Changes the states of {@link org.qedeq.kernel.bo.control.KernelQedeqBo}s.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public class StateManager {

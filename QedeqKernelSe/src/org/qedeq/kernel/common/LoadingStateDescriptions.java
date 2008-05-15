@@ -1,4 +1,4 @@
-/* $Id: LoadingStateDescriptions.java,v 1.1 2008/03/27 05:16:25 m31 Exp $
+/* $Id: LoadingStateDescriptions.java,v 1.2 2008/05/15 21:27:48 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -20,7 +20,7 @@ package org.qedeq.kernel.common;
 /**
  * This interface provides constants of this package.
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author Michael Meyling
  */
 public interface LoadingStateDescriptions {

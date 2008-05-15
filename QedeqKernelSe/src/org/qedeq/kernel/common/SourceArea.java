@@ -1,4 +1,4 @@
-/* $Id: SourceArea.java,v 1.3 2008/03/27 05:16:25 m31 Exp $
+/* $Id: SourceArea.java,v 1.4 2008/05/15 21:27:48 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import java.net.URL;
 /**
  * Describes an area of an URL contents.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class SourceArea implements Serializable {

@@ -1,4 +1,4 @@
-/* $Id: FormulaChecker.java,v 1.10 2008/03/27 05:16:23 m31 Exp $
+/* $Id: FormulaChecker.java,v 1.11 2008/05/15 21:27:47 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -33,7 +33,7 @@ import org.qedeq.kernel.trace.Trace;
  * an {@link org.qedeq.kernel.base.list.ElementList#getOperator()} string. Perhaps these
  * strings must be translated into the original input format and a mapping must be done.
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.11 $
  * @author  Michael Meyling
  */
 public final class FormulaChecker implements Operators, FormulaBasicErrors {
