@@ -1,8 +1,8 @@
 Code Name:   mongaga
 Version:     0.03.10
-Timestamp:   2008-04-17 19:26:45
+Timestamp:   2008-05-16 21:26:45
 Subversion
-and CVS Tag: qedeq_unstable_0_03_10_2008-03-30
+and CVS Tag: qedeq_unstable_0_03_10_2008-05-16
 
 This is an unstable development release of *Hilbert II*. 
 
@@ -17,7 +17,7 @@ Still no formal proofs are given. See  "Elements of Mathematical
 Logic" for the logical background of this project. 
 
 Other samples show the error handling for incorrect QEDEQ files. 
-Beside the XSD verification there are some semantical checks: 
+Beside the XSD verification there are some semantic checks: 
 "are all defined labels different" and "are all formulas well
 formed"?
 
