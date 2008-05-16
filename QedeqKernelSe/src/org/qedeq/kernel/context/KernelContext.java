@@ -1,4 +1,4 @@
-/* $Id: KernelContext.java,v 1.19 2008/05/15 21:27:48 m31 Exp $
+/* $Id: KernelContext.java,v 1.20 2008/05/16 19:19:19 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -38,7 +38,7 @@ import org.qedeq.kernel.utility.IoUtility;
 /**
  * This class provides static access methods for basic informations.
  *
- * @version $Revision: 1.19 $
+ * @version $Revision: 1.20 $
  * @author  Michael Meyling
  */
 public final class KernelContext implements KernelProperties, KernelState, KernelServices {
@@ -92,6 +92,9 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
         public void shutdown() {
             currentState = initialState;
+            if (lockStream == null) {
+                return;
+            }
             IoUtility.close(lockStream);
             if (lockFile != null) {
                 lockFile.delete();
