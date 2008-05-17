@@ -1,4 +1,4 @@
-/* $Id: KernelContext.java,v 1.20 2008/05/16 19:19:19 m31 Exp $
+/* $Id: KernelContext.java,v 1.21 2008/05/17 05:11:37 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -38,7 +38,7 @@ import org.qedeq.kernel.utility.IoUtility;
 /**
  * This class provides static access methods for basic informations.
  *
- * @version $Revision: 1.20 $
+ * @version $Revision: 1.21 $
  * @author  Michael Meyling
  */
 public final class KernelContext implements KernelProperties, KernelState, KernelServices {
@@ -73,9 +73,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
         public void init(final InternalKernelServices moduleFactory, final QedeqConfig qedeqConfig)
                 throws IOException {
-            checkJavaVersion();
-            checkIfApplicationIsAlreadyRunning(qedeqConfig);
             config = qedeqConfig;
+            checkJavaVersion();
+            createAllNecessaryDirectories();
+            checkIfApplicationIsAlreadyRunning();
             KernelContext.this.services = moduleFactory;
             QedeqLog.getInstance().logMessage("This is "
                 + KernelContext.getInstance().getDescriptiveKernelVersion());
@@ -526,16 +527,40 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     }
 
     /**
+     * Create all necessary directories for the kernel.
+     *
+     * @throws  IOException     Creation was not possible.
+     */
+    void createAllNecessaryDirectories() throws IOException {
+        // log directory
+        final File logFile = new File(config.getBasisDirectory(), config.getLogFile());
+        final File logDir = logFile.getParentFile();
+        if (!logDir.exists() &&  !logDir.mkdirs()) {
+            throw new IOException("can't create directory: " + logDir.getAbsolutePath());
+        }
+        // buffer directory
+        final File bufferDir = config.getBufferDirectory();
+        if (!bufferDir.exists() &&  !bufferDir.mkdirs()) {
+            throw new IOException("can't create directory: " + bufferDir.getAbsolutePath());
+        }
+        // generation directory
+        final File generationDir = config.getGenerationDirectory();
+        if (!generationDir.exists() &&  !generationDir.mkdirs()) {
+            throw new IOException("can't create directory: " + generationDir.getAbsolutePath());
+        }
+    }
+
+
+    /**
      * Checks if the application is already running. To check that we create a file in the
      * buffer directory, open a stream and write something into it. The stream is not closed
      * until kernel shutdown.
      *
-     * @param   qedeqConfig     Configuration.
      * @throws  IOException     Application is already running.
      */
-    private void checkIfApplicationIsAlreadyRunning(final QedeqConfig qedeqConfig)
+    private void checkIfApplicationIsAlreadyRunning()
             throws IOException {
-        lockFile = new File(qedeqConfig.getBufferDirectory(), "qedeq_lock.lck");
+        lockFile = new File(config.getBufferDirectory(), "qedeq_lock.lck");
         final String osName = System.getProperty("os.name");
         if (osName.startsWith("Windows")) {
             if ((lockFile.exists() && !lockFile.delete())) {
