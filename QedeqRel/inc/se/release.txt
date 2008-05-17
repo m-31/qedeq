@@ -1,8 +1,8 @@
 Code Name:   mongaga
 Version:     0.03.10
-Timestamp:   2008-05-16 21:26:45
+Timestamp:   2008-05-17 07:17:25
 Subversion
-and CVS Tag: qedeq_unstable_0_03_10_2008-05-16
+and CVS Tag: qedeq_unstable_0_03_10_2008-05-17
 
 This is an unstable development release of *Hilbert II*. 
 
@@ -27,7 +27,7 @@ This is still a "mongaga" release however most points of
 Formal proofs and their verification are not yet integrated.
 
 Precondition to start the program is a Java Runtime Environment, at 
-least version 1.4.
+least version 1.4.2
 
 This release includes the source code and the JUnit test classes. 
 The code coverage results of these tests where produced by Clover.
