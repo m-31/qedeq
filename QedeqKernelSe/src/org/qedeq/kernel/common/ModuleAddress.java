@@ -17,7 +17,10 @@
 
 package org.qedeq.kernel.common;
 
+import java.io.IOException;
 import java.net.URL;
+
+import org.qedeq.kernel.base.module.Specification;
 
 /**
  * An address for a QEDEQ module.
@@ -83,5 +86,18 @@ public interface ModuleAddress {
      * @return  Is the QEDEQ module a local file?
      */
     public boolean isFileAddress();
+
+
+    /**
+     * Get all potential module addresses from a module specification.
+     *
+     * TODO mime 20070326: add context information (for error case)
+     *
+     * @param   spec    Here are the (perhaps relative) addresses to
+     *                  another module.
+     * @return  Array of absolute address strings.
+     * @throws  IOException One address is not correctly formed.
+     */
+    public ModuleAddress[] getModulePaths(final Specification spec) throws IOException;
 
 }
