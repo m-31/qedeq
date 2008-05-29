@@ -18,14 +18,14 @@
 package org.qedeq.gui.se.control;
 
 import java.awt.event.ActionEvent;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 
 import org.qedeq.gui.se.tree.NothingSelectedException;
-import org.qedeq.kernel.bo.control.KernelQedeqBo;
-import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.latex.Xml2Latex;
+import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.QedeqLog;
 import org.qedeq.kernel.trace.Trace;
 
@@ -67,14 +67,14 @@ class MakeLatexAction extends AbstractAction {
                 public void run() {
                     for (int i = 0; i < props.length; i++) {
                         try {
-                            QedeqLog.getInstance().logRequest("Generate Latex from \""
+                            QedeqLog.getInstance().logRequest("Generate LaTeX from \""
                                 + props[i].getUrl() + "\"");
                             final String[] languages = controller.getSupportedLanguages(props[i]);
                             for (int j = 0; j < languages.length; j++) {
                                 final String result =
-                                    Xml2Latex.generate((KernelQedeqBo) // FIXME mime 20080303
-                                                                       // move into KernelServices
-                                        props[i], null, languages[j], null);
+                                    KernelContext.getInstance().generateLatex(
+                                        props[i].getModuleAddress(), languages[j],
+                                        "1");
                                 if (languages[j] != null) {
                                     QedeqLog.getInstance().logSuccessfulReply(
                                         "LaTeX for language \"" + languages[j]
@@ -88,6 +88,11 @@ class MakeLatexAction extends AbstractAction {
                                 }
                             }
                         } catch (final SourceFileExceptionList e) {
+                            final String msg = "Generation failed for \""
+                                + props[i].getUrl() + "\"";
+                            Trace.fatal(CLASS, this, method, msg, e);
+                            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+                        } catch (IOException e) {
                             final String msg = "Generation failed for \""
                                 + props[i].getUrl() + "\"";
                             Trace.fatal(CLASS, this, method, msg, e);

@@ -33,9 +33,9 @@ import javax.swing.event.HyperlinkListener;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLFrameHyperlinkEvent;
 
+import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
 
 /**

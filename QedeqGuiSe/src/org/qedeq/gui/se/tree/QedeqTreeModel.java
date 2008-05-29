@@ -27,7 +27,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
-import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.trace.Trace;
 
@@ -101,7 +101,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
     public void stateChanged(final QedeqBo prop) {
         Runnable stateChanged = new Runnable() {
             public void run() {
-// LATER mime 20080502: take the following code and make it workable. Currently problems if deleting.
+// LATER mime 20080502: take the following code and make it workable. Currently problems if deleting
 //                synchronized (QedeqTreeModel.class){
 //                    final QedeqTreeNode root = (QedeqTreeNode) getRoot();
 //                    final QedeqTreeNode node = new QedeqTreeNode(prop, false);
@@ -133,7 +133,7 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
     public void removeModule(final QedeqBo prop) {
         Runnable removeModule = new Runnable() {
             public void run() {
-// LATER mime 20080502: take the following code and make it workable. Currently problems if deleting.
+// LATER mime 20080502: take the following code and make it workable. Currently problems if deleting
 //                final QedeqTreeNode root = (QedeqTreeNode) getRoot();
 //                final QedeqTreeNode node = new QedeqTreeNode(prop, false);
 //                node.setParent(root);

@@ -34,7 +34,7 @@ import javax.swing.tree.TreePath;
 import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.main.LowerTabbedView;
 import org.qedeq.gui.se.main.UpperTabbedView;
-import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.trace.Trace;
 

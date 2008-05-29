@@ -6,5 +6,8 @@
 	<classpathentry sourcepath="/QedeqLib/src/forms-1.1.0-src.jar" path="/QedeqLib/forms-1.1.0.jar" kind="lib"/>
 	<classpathentry sourcepath="/QedeqLib/src/looks-2.1.4-src.jar" path="/QedeqLib/looks-2.1.4.jar" kind="lib"/>
 	<classpathentry sourcepath="/QedeqLib/src/log4j-1.2.14_src.zip" path="/QedeqLib/log4j-1.2.14.jar" kind="lib"/>
+	<classpathentry path="/QedeqKernelXml" combineaccessrules="false" kind="src"/>
+	<classpathentry path="/QedeqBase" combineaccessrules="false" kind="src"/>
+	<classpathentry path="/QedeqKernelBo" combineaccessrules="false" kind="src"/>
 	<classpathentry path="bin" kind="output"/>
 </classpath>

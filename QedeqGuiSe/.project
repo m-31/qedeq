@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>QedeqGuiSe</name>
-	<comment>GUI for usage of QEDEQ kernel</comment>
+	<comment>Standalone GUI for usage of QEDEQ kernel.</comment>
 	<projects>
 		<project>QedeqKernelSe</project>
 		<project>QedeqLib</project>

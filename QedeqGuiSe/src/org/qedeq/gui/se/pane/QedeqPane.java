@@ -35,7 +35,7 @@ import org.qedeq.gui.se.control.ErrorSelectionListener;
 import org.qedeq.gui.se.control.ErrorSelectionListenerList;
 import org.qedeq.gui.se.util.CurrentLineHighlighterUtility;
 import org.qedeq.gui.se.util.DocumentMarker;
-import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;

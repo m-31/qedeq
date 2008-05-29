@@ -39,7 +39,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
 import org.qedeq.gui.se.control.ErrorSelectionListenerList;
-import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.trace.Trace;

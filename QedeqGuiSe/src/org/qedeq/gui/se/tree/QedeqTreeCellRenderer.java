@@ -26,10 +26,10 @@ import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
-import org.qedeq.kernel.common.QedeqBo;
 import org.qedeq.kernel.trace.Trace;
 
 /**

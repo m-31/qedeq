@@ -28,7 +28,7 @@ import org.qedeq.gui.se.control.ErrorSelectionListenerList;
 import org.qedeq.gui.se.pane.HtmlPane;
 import org.qedeq.gui.se.pane.ModulePropertiesPane;
 import org.qedeq.gui.se.pane.QedeqPane;
-import org.qedeq.kernel.common.QedeqBo;
+import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.trace.Trace;
 
