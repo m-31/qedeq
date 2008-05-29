@@ -24,15 +24,16 @@ import java.util.Stack;
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
-import org.qedeq.kernel.bo.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser;
-import org.qedeq.kernel.bo.visitor.QedeqVisitor;
+import org.qedeq.kernel.bo.service.DefaultModuleAddress;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.dto.list.DefaultAtom;
 import org.qedeq.kernel.dto.list.DefaultElementList;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.TextOutput;
+import org.qedeq.kernel.visitor.AbstractModuleVisitor;
+import org.qedeq.kernel.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.visitor.QedeqVisitor;
 
 /**
  * Test visitor concept for {@link org.qedeq.kernel.bo.visitor.ListVisitor}. 

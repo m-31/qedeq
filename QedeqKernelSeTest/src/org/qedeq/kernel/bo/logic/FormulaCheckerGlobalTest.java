@@ -22,10 +22,12 @@ import java.util.List;
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
-import org.qedeq.kernel.bo.control.DefaultModuleAddress;
+import org.qedeq.kernel.bo.service.DefaultModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.dto.list.DefaultAtom;
 import org.qedeq.kernel.dto.list.DefaultElementList;
+import org.qedeq.kernel.logic.FormulaChecker;
+import org.qedeq.kernel.logic.wf.LogicalCheckExceptionList;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.

@@ -24,6 +24,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Author;
 import org.qedeq.kernel.base.module.Qedeq;
+import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
@@ -95,7 +97,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
         final String method = "testCreateStringQedeq()";
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(errorFile.getCanonicalFile()));
-        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade
+        final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(address);
         try {
             QedeqBoFactoryAssert.createQedeq(prop, error);
@@ -170,7 +172,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             SourceFileExceptionList {
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(file.getCanonicalFile()));
-        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade
+        final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(address);
         QedeqBoFactoryAssert.createQedeq(prop, createQedeqFromFile(file));
     }

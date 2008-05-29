@@ -22,25 +22,27 @@ import java.io.IOException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.qedeq.kernel.bo.control.InternalKernelServices;
-import org.qedeq.kernel.bo.control.KernelModuleReferenceList;
-import org.qedeq.kernel.bo.control.KernelQedeqBo;
-import org.qedeq.kernel.bo.control.ModuleLabelsCreator;
-import org.qedeq.kernel.bo.control.ModuleLoader;
-import org.qedeq.kernel.bo.control.QedeqBoFormalLogicChecker;
-import org.qedeq.kernel.bo.load.QedeqVoBuilder;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
+import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
+import org.qedeq.kernel.bo.service.QedeqBoFormalLogicChecker;
+import org.qedeq.kernel.bo.service.QedeqVoBuilder;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
+import org.qedeq.kernel.logic.FormulaChecker;
+import org.qedeq.kernel.logic.wf.LogicalCheckException;
 import org.qedeq.kernel.test.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
+import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
-import org.qedeq.kernel.xml.loader.XmlModuleLoader;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxParser;
 import org.xml.sax.SAXException;
@@ -172,16 +174,16 @@ public final class CheckLogicTest extends QedeqTestCase {
         final QedeqVo qedeq = (QedeqVo) simple.getQedeq();
         final InternalKernelServices services = (InternalKernelServices) IoUtility
             .getFieldContent(KernelFacade.getKernelContext(), "services");
-        final ModuleLoader loader = new XmlModuleLoader();
+        final QedeqFileDao loader = new XmlQedeqFileDao();
         loader.setServices(services);
-        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade
+        final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(context);
-        prop.setLoader(loader);
+        prop.setQedeqFileDao(loader);
         IoUtility.setFieldContent(prop, "qedeq", qedeq);
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             new ModuleLabelsCreator(prop).createLabels());
         prop.setLoadedRequiredModules(new KernelModuleReferenceList());
-        QedeqBoFormalLogicChecker.check((KernelQedeqBo) prop);
+        QedeqBoFormalLogicChecker.check(prop);
     }
 
 }

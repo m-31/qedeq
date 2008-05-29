@@ -20,9 +20,9 @@ package org.qedeq.kernel.test;
 import java.io.File;
 import java.io.IOException;
 
-import org.qedeq.kernel.bo.control.DefaultInternalKernelServices;
-import org.qedeq.kernel.bo.control.InternalKernelServices;
-import org.qedeq.kernel.bo.control.ModuleLoader;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.DefaultInternalKernelServices;
 import org.qedeq.kernel.config.QedeqConfig;
 import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.log.LogListener;
@@ -31,7 +31,7 @@ import org.qedeq.kernel.log.ModuleEventListener;
 import org.qedeq.kernel.log.ModuleEventListenerLog;
 import org.qedeq.kernel.log.ModuleEventLog;
 import org.qedeq.kernel.log.QedeqLog;
-import org.qedeq.kernel.xml.loader.XmlModuleLoader;
+import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 
 
 /**
@@ -55,7 +55,7 @@ public final class KernelFacade {
                 "This file is part of the project *Hilbert II* - http://www.qedeq.org",
                 new File("../../../qedeq_gen/test"));
             config.setAutoReloadLastSessionChecked(false);
-            final ModuleLoader loader = new XmlModuleLoader();
+            final QedeqFileDao loader = new XmlQedeqFileDao();
             final InternalKernelServices services = new DefaultInternalKernelServices(
                 KernelContext.getInstance(), loader);
             KernelContext.getInstance().init(services , config);

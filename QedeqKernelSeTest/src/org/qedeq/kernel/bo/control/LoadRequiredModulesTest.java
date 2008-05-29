@@ -16,6 +16,7 @@
  */
 package org.qedeq.kernel.bo.control;
 
+import org.qedeq.kernel.bo.service.DefaultModuleAddress;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.context.KernelContext;

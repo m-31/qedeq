@@ -18,15 +18,13 @@
 package org.qedeq.kernel.rel.test.text;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 
-import org.qedeq.kernel.bo.control.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.latex.Qedeq2Latex;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.latex.Qedeq2Latex;
 import org.qedeq.kernel.test.KernelFacade;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
@@ -234,11 +232,8 @@ public final class Xml2Latex  {
                 IoUtility.toUrl(source.getCanonicalFile()));
             prop = (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(address);
             IoUtility.createNecessaryDirectories(destination);
-            final OutputStream outputStream = new FileOutputStream(destination);
-            printer = new TextOutput(destination.getName(), outputStream);
-            
             // System.out.println(simple.getQedeq().toString());
-            Qedeq2Latex.print(prop, printer, language, level); 
+            Qedeq2Latex.createLatex(prop, language, level); 
             return destination.getCanonicalPath();
         } catch (IOException e) {
             Trace.trace(CLASS, method, e);

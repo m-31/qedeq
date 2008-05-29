@@ -23,7 +23,12 @@ import java.lang.reflect.InvocationTargetException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.bo.load.QedeqVoBuilder;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
+import org.qedeq.kernel.bo.service.QedeqVoBuilder;
+import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
@@ -33,7 +38,7 @@ import org.qedeq.kernel.test.DynamicGetter;
 import org.qedeq.kernel.test.KernelFacade;
 import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
-import org.qedeq.kernel.xml.loader.XmlModuleLoader;
+import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
 import org.qedeq.kernel.xml.tracker.XPathLocationParser;
@@ -73,7 +78,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
      * @param   original        Basic qedeq module object.
      * @throws  ModuleDataException  Semantic or syntactic error occurred.
      */
-    public static void createQedeq(final KernelQedeqBo prop,
+    public static void createQedeq(final DefaultKernelQedeqBo prop,
             final Qedeq original) throws SourceFileExceptionList {
         final QedeqBoFactoryAssert creator = new QedeqBoFactoryAssert(prop.getModuleAddress());
         final QedeqVo vo;
@@ -87,9 +92,9 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         }
         final InternalKernelServices services = (InternalKernelServices) IoUtility
             .getFieldContent(KernelFacade.getKernelContext(), "services");
-        final ModuleLoader loader = new XmlModuleLoader();
+        final QedeqFileDao loader = new XmlQedeqFileDao();
         loader.setServices(services);
-        prop.setLoader(loader);
+        prop.setQedeqFileDao(loader);
         prop.setQedeqVo(vo);
         prop.setLoaded(vo, new ModuleLabelsCreator(prop).createLabels());
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());

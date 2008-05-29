@@ -19,20 +19,24 @@ package org.qedeq.kernel.latex;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
-import org.qedeq.kernel.bo.control.DefaultModuleAddress;
-import org.qedeq.kernel.bo.control.InternalKernelServices;
-import org.qedeq.kernel.bo.control.KernelQedeqBo;
-import org.qedeq.kernel.bo.control.QedeqBoDuplicateLanguageChecker;
+import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
-import org.qedeq.kernel.bo.logic.LogicalCheckException;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.DefaultModuleAddress;
+import org.qedeq.kernel.bo.service.latex.Qedeq2Latex;
+import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.logic.wf.LogicalCheckException;
 import org.qedeq.kernel.test.KernelFacade;
 import org.qedeq.kernel.test.QedeqTestCase;
+import org.qedeq.kernel.trace.Trace;
 import org.qedeq.kernel.utility.IoUtility;
 import org.xml.sax.SAXParseException;
 
@@ -43,6 +47,9 @@ import org.xml.sax.SAXParseException;
  * @author Michael Meyling
  */
 public final class GenerateLatexTest extends QedeqTestCase {
+
+    /** This class. */
+    private static final Class CLASS = GenerateLatexTest.class;
 
     private File genDir;
 
@@ -305,17 +312,55 @@ public final class GenerateLatexTest extends QedeqTestCase {
         IoUtility.copyFile(xmlFile, services.getLocalFilePath(webAddress));
         
         KernelFacade.getKernelContext().checkModule(webAddress);
-        KernelQedeqBo webBo = (KernelQedeqBo) KernelFacade.getKernelContext()
-            .getQedeqBo(webAddress);
+        final QedeqBo webBo = KernelFacade.getKernelContext().getQedeqBo(webAddress);
         final File texFile = new File(destinationDirectory, 
             xml.substring(0, xml.lastIndexOf('.')) + "_" + language + ".tex");
-        Xml2Latex.generate(webBo, texFile, language, "1");
-        final File texCopy = new File(dir, new File(new File(xml).getParent(), 
+        GenerateLatexTest.generate((KernelQedeqBo) webBo, texFile, language, "1");
+        final File texCopy = new File(dir, new File(new File(xml).getParent(),
             texFile.getName()).getPath());
         final File xmlCopy = new File(destinationDirectory, xml);
         IoUtility.createNecessaryDirectories(xmlCopy);
         IoUtility.copyFile(xmlFile, xmlCopy);
         IoUtility.copyFile(texFile, texCopy);
+    }
+
+    /**
+     * Generate LaTeX file out of XML file.
+     *
+     * @param   prop            Take this QEDEQ module.
+     * @param   to              Write to this file. Could be <code>null</code>.
+     * @param   language        Resulting language. Could be <code>null</code>.
+     * @param   level           Resulting detail level. Could be <code>null</code>.
+     * @return  File name of generated LaTeX file.
+     * @throws  SourceFileExceptionList    Something went wrong.
+     */
+    public static String generate(final KernelQedeqBo prop, final File to, final String language,
+            final String level) throws SourceFileExceptionList {
+        final String method = "generate(String, String, String, String)";
+        try {
+            Trace.begin(CLASS, method);
+            Trace.param(CLASS, method, "prop", prop);
+            Trace.param(CLASS, method, "to", to);
+            Trace.param(CLASS, method, "language", language);
+            Trace.param(CLASS, method, "level", level);
+            final InputStream latex = Qedeq2Latex.createLatex(prop, language, level);
+            if (to != null) {
+                IoUtility.createNecessaryDirectories(to);
+                IoUtility.saveFile(latex, to);
+                return to.getCanonicalPath();
+            } else {
+                latex.close();
+                return prop.getName();
+            }
+        } catch (IOException e) {
+            Trace.trace(CLASS, method, e);
+            throw new DefaultSourceFileExceptionList(e);
+        } catch (RuntimeException e) {
+            Trace.trace(CLASS, method, e);
+            throw new DefaultSourceFileExceptionList(e);
+        } finally {
+            Trace.end(CLASS, method);
+        }
     }
 
 }

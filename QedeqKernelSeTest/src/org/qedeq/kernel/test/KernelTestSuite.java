@@ -26,7 +26,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.kernel.bo.control.KernelBoControlTestSuite;
 import org.qedeq.kernel.bo.logic.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
-import org.qedeq.kernel.bo.save.GenerateXmlTest;
+import org.qedeq.kernel.dao.GenerateXmlTest;
 import org.qedeq.kernel.dto.module.KernelDtoModuleTestSuite;
 import org.qedeq.kernel.latex.GenerateLatexTest;
 import org.qedeq.kernel.parser.KernelParserTestSuite;

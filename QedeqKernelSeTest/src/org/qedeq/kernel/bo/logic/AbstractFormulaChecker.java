@@ -19,6 +19,9 @@ package org.qedeq.kernel.bo.logic;
 
 
 
+import org.qedeq.kernel.logic.wf.ExistenceChecker;
+import org.qedeq.kernel.logic.wf.Function;
+import org.qedeq.kernel.logic.wf.Predicate;
 import org.qedeq.kernel.test.QedeqTestCase;
 import org.qedeq.kernel.trace.Trace;
 
