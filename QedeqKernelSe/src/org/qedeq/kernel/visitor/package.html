@@ -1,0 +1,38 @@
+<html>
+<head>
+<!-- $Id: package.html,v 1.1 2007/01/15 01:05:43 m31 Exp $ -->
+</head>
+<body>
+The visitor design pattern allows you to decouple the classes for the data structure and the
+algorithms used upon them. A practical result of this separation is the ability to add new
+operations to existing object structures without modifying those structures.
+
+<p>
+Originally the idea is to use a structure of element classes, each of which has an accept method
+that takes a visitor object as an argument. The visitor is an interface that has different visit
+methods for each element class. The <code>accept()</code> method of an element class calls back
+the <code>visitEnter()</code> and <code>visitLeave</code> methods for its class.
+
+<p>
+Separate concrete visitor classes can then be written that perform some particular
+operations. One of these visit methods of a concrete visitor can be thought of as methods
+not of a single class, but rather methods of a pair of classes: the concrete visitor and the
+particular element class. Thus the visitor pattern simulates double dispatch in a conventional
+single-dispatch object-oriented language such as Java.
+
+<p>
+The visitor pattern also specifies how iteration occurs over the object structure. In the
+simplest version, where each algorithm needs to iterate in the same way, the
+<code>accept()</code> method for a container element, in addition to calling back the
+<code>visitEnter()</code> method of the visitor, also passes the visitor object to the
+<code>accept()</code> method of all its constituent child elements. At the end the method
+<code>visitLeave</code> is called.
+
+<p>
+Here we also decouple the transverse mechanism from the elements to gain control over
+the iteration over the object structure.
+
+<p>
+See <a href="http://en.wikipedia.org/wiki/Visitor_pattern">Wikepedia article</a>.
+
+</body>
