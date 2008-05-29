@@ -25,7 +25,6 @@ package org.qedeq.kernel.base.module;
  * necessary as a quick hack to get some information in QedeqBoFactory and Context2XPath.
  * mime 20051216 I still see no solution to get round this. Some JUnit tests work against
  * this interface and get no information about the instance.
- * See in QedeqKernelSeTest: {@link org.qedeq.kernel.bo.control.QedeqProxy}.
  *
  * @version $Revision: 1.8 $
  * @author Michael Meyling
