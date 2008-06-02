@@ -3,8 +3,8 @@ package org.qedeq.kernel.parser;
 import java.io.File;
 import java.util.List;
 
-import org.qedeq.kernel.utility.ResourceLoaderUtility;
-import org.qedeq.kernel.utility.TextInput;
+import org.qedeq.base.io.TextInput;
+import org.qedeq.base.utility.ResourceLoaderUtility;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 
 public class LatexMathParserTest extends AbstractParserTest {

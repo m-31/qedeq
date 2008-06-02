@@ -1,4 +1,4 @@
-/* $Id: KernelPestSuite.java,v 1.4 2008/03/27 05:12:46 m31 Exp $
+/* $Id: KernelTestSuite.java,v 1.21 2008/03/27 05:12:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -19,29 +19,43 @@ package org.qedeq.kernel.test;
 
 import junit.framework.Test;
 
+import org.qedeq.kernel.dto.module.KernelDtoModuleTestSuite;
+import org.qedeq.kernel.parser.KernelParserTestSuite;
 
 /**
- * Run all tests inclusive "pest" methods for the project.
+ * Run all tests for the project.
  * 
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.21 $
  * @author Michael Meyling
  */
-public class KernelPestSuite extends KernelTestSuite {
+public class KernelSeTestSuite extends QedeqTestSuite {
 
     /**
-     * Get a new <code>KernelTestSuiteWithPest</code>.
+     * Get a new <code>KernelTestSuite</code>.
      * 
      * @return Test.
      */
     public static Test suite() {
-        return new KernelPestSuite();
+        return new KernelSeTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelPestSuite() {
-        super(false, true);
+    protected KernelSeTestSuite() {
+        this(true, false);
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param   withTest    Execute test methods.      
+     * @param   withPest    Execute pest methods.
+     */
+    public KernelSeTestSuite(final boolean withTest, final boolean withPest) {
+        super(withTest, withPest);
+        addTest(KernelDtoModuleTestSuite.suite());
+        addTest(KernelParserTestSuite.suite());
     }
 
 }

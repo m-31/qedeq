@@ -1,8 +1,8 @@
 package org.qedeq.kernel.parser;
 
+import org.qedeq.base.io.TextInput;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.test.QedeqTestCase;
-import org.qedeq.kernel.utility.StringUtility;
-import org.qedeq.kernel.utility.TextInput;
 
 
 public abstract class AbstractParserTest extends QedeqTestCase {

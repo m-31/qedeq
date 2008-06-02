@@ -1,4 +1,4 @@
-/* $Id: KernelTestSuiteComplete.java,v 1.4 2008/03/27 05:12:46 m31 Exp $
+/* $Id: KernelPestSuite.java,v 1.4 2008/03/27 05:12:46 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import junit.framework.Test;
  * @version $Revision: 1.4 $
  * @author Michael Meyling
  */
-public class KernelTestSuiteComplete extends KernelTestSuite {
+public class KernelSePestSuite extends KernelSeTestSuite {
 
     /**
      * Get a new <code>KernelTestSuiteWithPest</code>.
@@ -34,14 +34,14 @@ public class KernelTestSuiteComplete extends KernelTestSuite {
      * @return Test.
      */
     public static Test suite() {
-        return new KernelTestSuiteComplete();
+        return new KernelSePestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelTestSuiteComplete() {
-        super(true, true);
+    public KernelSePestSuite() {
+        super(false, true);
     }
 
 }

@@ -20,7 +20,7 @@ package org.qedeq.kernel.test;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
-import org.qedeq.kernel.trace.Trace;
+import org.qedeq.base.trace.Trace;
 
 /**
  * Get result of getter expression chain. A string is interpreted as an getter call chain and
