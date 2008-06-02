@@ -21,7 +21,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.qedeq.kernel.utility.IoUtility;
+import org.qedeq.base.io.IoUtility;
 
 
 /**

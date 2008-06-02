@@ -20,8 +20,8 @@ package org.qedeq.kernel.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.StringUtility;
+import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.StringUtility;
 
 /**
  * Parsed term.

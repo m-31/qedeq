@@ -17,6 +17,7 @@
 
 package org.qedeq.kernel.dto.module;
 
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.base.module.Axiom;
 import org.qedeq.kernel.base.module.Formula;
 import org.qedeq.kernel.base.module.FunctionDefinition;
@@ -25,7 +26,6 @@ import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.utility.EqualsUtility;
 
 
 /**

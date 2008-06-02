@@ -17,13 +17,13 @@
 
 package org.qedeq.kernel.dto.module;
 
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.base.module.AuthorList;
 import org.qedeq.kernel.base.module.Header;
 import org.qedeq.kernel.base.module.ImportList;
 import org.qedeq.kernel.base.module.LatexList;
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.base.module.UsedByList;
-import org.qedeq.kernel.utility.EqualsUtility;
 
 
 /**

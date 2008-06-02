@@ -20,9 +20,9 @@ package org.qedeq.kernel.dto.module;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.base.module.LiteratureItem;
 import org.qedeq.kernel.base.module.LiteratureItemList;
-import org.qedeq.kernel.utility.EqualsUtility;
 
 
 /**

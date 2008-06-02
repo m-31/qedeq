@@ -20,8 +20,8 @@ package org.qedeq.kernel.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.TextInput;
+import org.qedeq.base.io.TextInput;
+import org.qedeq.base.trace.Trace;
 
 /*
  * TODO mime 20080118: refactor

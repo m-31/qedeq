@@ -20,7 +20,7 @@ package org.qedeq.kernel.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.kernel.utility.TextInput;
+import org.qedeq.base.io.TextInput;
 
 /**
  * Parse term or formula data into {@link org.qedeq.kernel.parser.Term}s.

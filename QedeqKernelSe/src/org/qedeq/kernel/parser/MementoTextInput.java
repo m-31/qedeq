@@ -19,7 +19,7 @@ package org.qedeq.kernel.parser;
 
 import java.util.Stack;
 
-import org.qedeq.kernel.utility.TextInput;
+import org.qedeq.base.io.TextInput;
 
 /**
  * Remember TextInput positions.

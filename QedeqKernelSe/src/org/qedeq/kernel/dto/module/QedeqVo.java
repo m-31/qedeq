@@ -17,11 +17,11 @@
 
 package org.qedeq.kernel.dto.module;
 
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.base.module.ChapterList;
 import org.qedeq.kernel.base.module.Header;
 import org.qedeq.kernel.base.module.LiteratureItemList;
 import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.utility.EqualsUtility;
 
 
 /**

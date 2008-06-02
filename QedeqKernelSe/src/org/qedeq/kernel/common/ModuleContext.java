@@ -17,7 +17,7 @@
 
 package org.qedeq.kernel.common;
 
-import org.qedeq.kernel.trace.Trace;
+import org.qedeq.base.trace.Trace;
 
 
 /**

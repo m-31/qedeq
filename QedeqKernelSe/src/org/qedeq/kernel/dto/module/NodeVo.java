@@ -17,10 +17,10 @@
 
 package org.qedeq.kernel.dto.module;
 
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.base.module.LatexList;
 import org.qedeq.kernel.base.module.Node;
 import org.qedeq.kernel.base.module.NodeType;
-import org.qedeq.kernel.utility.EqualsUtility;
 
 
 /**
