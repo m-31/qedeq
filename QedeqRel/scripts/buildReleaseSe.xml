@@ -10,8 +10,6 @@
 
   <!-- set global properties for this build -->
   <property file="${basedir}/QedeqRel/conf/build.properties" />
-  <property name="qedeq.kernel.se.src"   value="${basedir}/QedeqKernelSe/src" />
-  <property name="qedeq.gui.se.src"      value="${basedir}/QedeqGuiSe/src" />
   <property name="qedeq.se.test.src"     value="${basedir}/QedeqKernelSeTest/src" />
   <property name="qedeq.se.test.data"    value="${basedir}/QedeqKernelSeTest/data" />
   <property name="qedeq.lib"             value="${basedir}/QedeqLib" />
@@ -35,7 +33,28 @@
       <pathelement location="${qedeq.lib}/log4j-1.2.14.jar" />
       <pathelement location="${qedeq.lib}/forms-1.1.0.jar" />
       <pathelement location="${qedeq.lib}/looks-2.1.4.jar" />
-      <pathelement location="${qedeq.se.dest}/classes/kernel" />
+  	
+  	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqBase/bin" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqBaseTest/bin" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelSe/bin" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelSeTest/bin" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelBo/bin" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelBoTest/bin" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelXml/bin" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelXmlTest/bin" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqGuiSe/bin" />
+  </path>
+
+  <path id="srcpath.common">
+  	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqBase/src" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqBaseTest/src" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelSe/src" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelSeTest/src" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelBo/src" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelBoTest/src" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelXml/src" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelXmlTest/src" />
+	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqGuiSe/src" />
   </path>
 
   <tstamp>
@@ -47,7 +66,7 @@
       <filter token="QEDEQ_CODENAME"    value="${qedeq.working.codename}" />
       <filter token="QEDEQ_DIRECTORY"   value="${qedeq.working.directory}" />
       <filter token="QEDEQ_TIMESTAMP"   value="${qedeq.se.timestamp}" />
-      <filter token="trace_file_path"   value="./log/trace.log" />
+      <filter token="trace_file_path"   value="./log/trace.txt" />
   </filterset>
 
   <taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task" classpath="${qedeq.lib}/xsddoc.jar" />
@@ -62,88 +81,104 @@
   </target>
 
 
+  <target name="sourceKernel" depends="init">
+  	<delete dir="${qedeq.se.dest}/src/eclipse"/>
+	<antcall target="copySource"><param name="QedeqModule" value="QedeqBase"/></antcall>
+	<antcall target="copySource"><param name="QedeqModule" value="QedeqBaseTest"/></antcall>
+	<antcall target="copySource"><param name="QedeqModule" value="QedeqKernelSe"/></antcall>
+	<antcall target="copySource"><param name="QedeqModule" value="QedeqKernelSeTest"/></antcall>
+	<antcall target="copySource"><param name="QedeqModule" value="QedeqKernelBo"/></antcall>
+	<antcall target="copySource"><param name="QedeqModule" value="QedeqKernelBoTest"/></antcall>
+	<antcall target="copySource"><param name="QedeqModule" value="QedeqKernelXml"/></antcall>
+	<antcall target="copySource"><param name="QedeqModule" value="QedeqKernelXmlTest"/></antcall>
+  </target>  
+
+  <!-- for antcalls with parameter ${QedeqModule} -->
+  <target name="copySource" >
+    <echo>Copying module sources: ${QedeqModule}</echo>
+  	<mkdir dir="${qedeq.se.dest}/src/eclipse/${QedeqModule}"/>
+    <mkdir dir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/src"/>
+    <copy todir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/src" >
+      <fileset dir="${basedir}/${QedeqModule}/src"
+      />
+    </copy>
+  </target>
+
   <target name="compileKernel" depends="sourceKernel">
-  	<delete dir="${qedeq.se.dest}/classes/kernel"/>
-    <mkdir dir="${qedeq.se.dest}/classes/kernel"/>
+	<antcall target="compileModule"><param name="QedeqModule" value="QedeqBase"/></antcall>
+	<antcall target="compileModule"><param name="QedeqModule" value="QedeqKernelSe"/></antcall>
+	<antcall target="compileModule"><param name="QedeqModule" value="QedeqKernelBo"/></antcall>
+	<antcall target="compileModule"><param name="QedeqModule" value="QedeqKernelXml"/></antcall>
+	<antcall target="compileModule"><param name="QedeqModule" value="QedeqBaseTest"/></antcall>
+	<antcall target="compileModule"><param name="QedeqModule" value="QedeqKernelSeTest"/></antcall>
+	<antcall target="compileModule"><param name="QedeqModule" value="QedeqKernelBoTest"/></antcall>
+	<antcall target="compileModule"><param name="QedeqModule" value="QedeqKernelXmlTest"/></antcall>
+  </target>
+
+  <!-- for antcalls with parameter ${QedeqModule} -->
+  <target name="compileModule">
+    <echo>Compile module sources: ${QedeqModule}</echo>
+  	<mkdir dir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/bin"/>
     <javac compiler="javac1.4" 
-      srcdir="${qedeq.se.dest}/src/kernel"
-      destdir="${qedeq.se.dest}/classes/kernel"
+      srcdir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/src"
+      destdir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/bin"
       debug="on"
       deprecation="on"
       classpathref="classpath.common" 
     />
-    <copy todir="${qedeq.se.dest}/classes/kernel">
-      <fileset dir="${qedeq.kernel.se.src}"
-	       includes="**/*.xsd"
+    <copy todir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/bin">
+      <fileset dir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/src"
+	       includes="**/*.xsd,**/*.gif,**/*.png,**/*.properties,**/*.xml"
        />
     </copy>
   </target>
 
-
-  <target name="sourceKernel" depends="init">
-  	<delete dir="${qedeq.se.dest}/src/kernel"/>
-    <mkdir dir="${qedeq.se.dest}/src/kernel"/>
-    <copy todir="${qedeq.se.dest}/src/kernel" >
-      <fileset dir="${qedeq.kernel.se.src}"
-       />
-    </copy>
-<!--  	
-    <copy todir="${qedeq.se.dest}/src/kernel" >
-      <fileset dir="${qedeq.rel.src}"
-       includes="org/qedeq/kernel/rel/test/text/*.java,org/qedeq/kernel/rel/test/text/*.html,org/qedeq/kernel/rel/test/gui/*.java,org/qedeq/kernel/rel/test/gui/*.html"/>
-    </copy>
--->
+  <target name="sourceGui" depends="sourceKernel">
+	<antcall target="copySource"><param name="QedeqModule" value="QedeqGuiSe"/></antcall>
   </target>  
 
-	  <target name="compileGui" depends="sourceGui,compileKernel">
-	  	<delete dir="${qedeq.se.dest}/classes/gui"/>
-	    <mkdir dir="${qedeq.se.dest}/classes/gui"/>
-	    <javac compiler="javac1.4"
-	      srcdir="${qedeq.se.dest}/src/gui"
-	      destdir="${qedeq.se.dest}/classes/gui"
-	      debug="on"
-	      deprecation="on"
-	      classpathref="classpath.common"
-	    />
-	    <copy todir="${qedeq.se.dest}/classes/gui">
-	      <fileset dir="${qedeq.gui.se.src}"
-		       includes="**/*.gif,**/*.png,**/*.properties,**/*.xml"
-	       />
-	    </copy>
-	  </target>
+  <target name="compileGui" depends="sourceGui,compileKernel">
+	<antcall target="compileModule"><param name="QedeqModule" value="QedeqGuiSe"/></antcall>
+  </target>
 
+  <target name="test" depends="compileKernel,compileGui">
+	<antcall target="testModule"><param name="QedeqModule" value="QedeqBase"/></antcall>
+	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelSe"/></antcall>
+	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelBo"/></antcall>
+	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelXml"/></antcall>
+	<antcall target="testModule"><param name="QedeqModule" value="QedeqBaseTest"/></antcall>
+	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelSeTest"/></antcall>
+	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelBoTest"/></antcall>
+	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelXmlTest"/></antcall>
+  </target>
 
-  <target name="sourceGui" depends="init">
-  	<delete dir="${qedeq.se.dest}/src/gui"/>
-    <mkdir dir="${qedeq.se.dest}/src/gui"/>
-    <copy todir="${qedeq.se.dest}/src/gui" >
-      <fileset dir="${qedeq.gui.se.src}"
-       />
-    </copy>
-  </target>  
+  <!-- for antcalls with parameter ${QedeqModule} -->
+  <target name="testModule">
+    <echo>Test module: ${QedeqModule}</echo>
+  	<mkdir dir="${qedeq.se.dest}/src/results/junit/${QedeqModule}"/>
+    <junit fork="true" printsummary="yes">
+      <classpath refid="classpath.common" />
+      <formatter type="plain" />
+      <formatter type="xml" />
+  	  <batchtest todir="${qedeq.se.dest}/src/results/junit/${QedeqModule}">
+  	    <fileset dir="${qedeq.se.dest}/src/eclipse/${QedeqModule}Test/src">
+  	      <include name="**/*Test.java" />
+    	  <exclude name="**/Abstract*Test.java" />
+  	    </fileset>
+  	  </batchtest>
+    </junit>
+  	<junitreport todir="${qedeq.se.dest}/src/results/junit/${QedeqModule}">
+  	  <fileset dir="${qedeq.se.dest}/src/results/junit/${QedeqModule}">
+  	  	<include name="TEST-*.xml" />
+  	  </fileset>
+  	  <report format="frames" todir="${qedeq.se.dest}/src/results/junit/${QedeqModule}"
+  	  />
+  	</junitreport>
+  			
+  </target>
 
-  
-  <target name="sourceTest" depends="init">
-  	<delete dir="${qedeq.se.dest}/srcTest"/>
-    <mkdir dir="${qedeq.se.dest}/srcTest"/>
-    <copy todir="${qedeq.se.dest}/srcTest" >
-<!-- why should that be also be in the test source directory???      
-      <fileset dir="${qedeq.kernel.se.src}"
-       />
--->       
-    <fileset dir="${qedeq.se.test.src}"
-     />
-    </copy>
-    <mkdir dir="${qedeq.se.dest}/srcTest/data"/>
-    <copy todir="${qedeq.se.dest}/srcTest/data" >
-	  <fileset dir="${qedeq.se.test.data}"
-	   />
-    </copy>
-  </target>  
-
-  
   <target name="doc" depends="init">
-  	<antcall target="makePdf" />
+  	<!-- FIXME <antcall target="makePdf" /> -->
     <mkdir dir="${qedeq.se.dest}/doc" />
     <mkdir dir="${qedeq.se.dest}/doc/project" />
     <copy todir="${qedeq.se.dest}/doc/project">
@@ -198,20 +233,20 @@
   </target>  
 
 
-  <target name="javadocKernel" description="javadoc kernel" depends="sourceKernel">
+  <target name="javadoc" description="complete javadoc" depends="compileKernel,compileGui">
     <copy todir="${qedeq.se.temp}">
       <fileset dir="${qedeq.se.rel}" includes="overview.html"/>
       <filterset refid="qedeq_filter" />
     </copy>
-  	<delete dir="${qedeq.se.dest}/javadoc/kernel"/>
-    <mkdir dir="${qedeq.se.dest}/javadoc/kernel"/>
-      <javadoc destdir="${qedeq.se.dest}/javadoc/kernel"
-               sourcepath="${qedeq.se.dest}/src/kernel"
+  	<delete dir="${qedeq.se.dest}/src/javadoc" />
+    <mkdir dir="${qedeq.se.dest}/src/javadoc" />
+      <javadoc destdir="${qedeq.se.dest}/src/javadoc" 
+      	       sourcepathref="srcpath.common"
                classpathref="classpath.common"
                access="package"
+      		   packagenames="*"
                windowtitle="Hilbert II"
                doctitle="Hilbert II"
-               packageList="${qedeq.se.rel}/packagelist_kernel"
                overview="${qedeq.se.temp}/overview.html"
                use="true"
                splitindex="true"
@@ -225,66 +260,6 @@
             <link href="http://java.sun.com/products/jdbc/jdbc20.stdext.javadoc/"/>
             <header><![CDATA[<b>Hilbert II - Version ${qedeq.working.version}</b>]]></header>
             <footer><![CDATA[<b>Hilbert II - Version ${qedeq.working.version}</b>]]></footer>
-            <bottom><![CDATA[<table><td style="font-size:8pt"><a href="http://www.gnu.org/copyleft/gpl.html">&copy;left GNU General Public Licence</a><br> All Rights Reserved.</td></table>]]></bottom>
-    </javadoc>
-  </target>
-
-  <target name="javadocGui" description="javadoc gui" depends="sourceGui,javadocKernel">
-    <copy todir="${qedeq.se.temp}">
-      <fileset dir="${qedeq.se.rel}" includes="overview.html"/>
-      <filterset refid="qedeq_filter" />
-    </copy>
-  	<delete dir="${qedeq.se.dest}/javadoc/gui"/>
-    <mkdir dir="${qedeq.se.dest}/javadoc/gui"/>
-      <javadoc destdir="${qedeq.se.dest}/javadoc/gui"
-               sourcepath="${qedeq.se.dest}/src/gui"
-               classpathref="classpath.common"
-               access="package"
-               windowtitle="Hilbert II"
-               doctitle="Hilbert II"
-               packageList="${qedeq.se.rel}/packagelist_gui"
-               overview="${qedeq.se.temp}/overview.html"
-               use="true"
-               splitindex="true"
-               author="false"
-               version="true"
-      >
-    <!--               stylesheetfile="${qedeq.se.rel}/stylesheet.css"  -->
-            <link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
-            <link href="http://java.sun.com/xml/jaxp-docs-1.0.1/docs/api/"/>
-            <link href="http://jakarta.apache.org/log4j/docs/api/"/>
-            <link href="http://java.sun.com/products/jdbc/jdbc20.stdext.javadoc/"/>
-            <link href="../kernel/"/>
-      	    <link href="http://" />	<!-- TODO jgoodies API ?? -->
-            <header><![CDATA[<b>Hilbert II - Version ${qedeq.working.version}</b>]]></header>
-            <footer><![CDATA[<b>Hilbert II - Version ${qedeq.working.version}</b>]]></footer>
-            <bottom><![CDATA[<table><td style="font-size:8pt"><a href="http://www.gnu.org/copyleft/gpl.html">&copy;left GNU General Public Licence</a><br> All Rights Reserved.</td></table>]]></bottom>
-    </javadoc>
-  </target>
-
-  <target name="javadocTest" description="javadoc inclusive test classes" depends="sourceTest">
-  	<delete dir="${qedeq.se.dest}/javadocTest"/>
-    <mkdir dir="${qedeq.se.dest}/javadocTest"/>
-      <javadoc destdir="${qedeq.se.dest}/javadocTest"
-               sourcepath="${qedeq.se.dest}/src;${qedeq.se.dest}/srcTest"
-               classpathref="classpath.common"
-               access="package"
-               windowtitle="Hilbert II"
-               doctitle="Hilbert II"
-               packageList="${qedeq.se.rel}/packagelist_kernel"
-               overview="${qedeq.se.rel}/overview.html"
-               use="true"
-               splitindex="true"
-               author="false"
-               version="true"
-      >
-    <!--               stylesheetfile="${qedeq.se.rel}/stylesheet.css"  -->
-            <link href="http://java.sun.com/j2se/1.4.2/docs/api/"/>
-            <link href="http://java.sun.com/xml/jaxp-docs-1.0.1/docs/api/"/>
-            <link href="http://jakarta.apache.org/log4j/docs/api/"/>
-            <link href="http://java.sun.com/products/jdbc/jdbc20.stdext.javadoc/"/>
-            <header><![CDATA[<b>Hilbert II - Java-Packages</b>]]></header>
-            <footer><![CDATA[<i>Hilbert II - Java-Packages</i>]]></footer>
             <bottom><![CDATA[<table><td style="font-size:8pt"><a href="http://www.gnu.org/copyleft/gpl.html">&copy;left GNU General Public Licence</a><br> All Rights Reserved.</td></table>]]></bottom>
     </javadoc>
   </target>
@@ -341,7 +316,7 @@
   	</exec>
   </target>
 	
-  <target name="assemble" depends="compileKernel,sourceKernel,sourceTest,compileGui,sourceGui,doc,xsddoc">
+  <target name="assemble" depends="compileKernel,compileGui,sourceKernel,sourceGui,doc,xsddoc">
     <delete dir="${qedeq.se.dest}/lib" />
     <mkdir dir="${qedeq.se.dest}/lib" />
     <copy todir="${qedeq.se.dest}/lib">
@@ -397,12 +372,12 @@
   	<delete dir="${qedeq.se.dest}/buffer"/>
     <mkdir dir="${qedeq.se.dest}/buffer"/>
     <copy todir="${qedeq.se.dest}/config">
-      <fileset file="${qedeq.gui.se.src}/config/*" excludes="**/log4j.properties"/>
+      <fileset file="${basedir}/QedeqGuiSe/src/config/*" excludes="**/log4j.properties"/>
       <filterset refid="qedeq_filter" />
     </copy>
   </target>
   
-  <target name="jarKernel" depends="compileKernel,sourceKernel,sourceTest,doc,assemble,javadocKernel">
+  <target name="jarKernel" depends="compileKernel,sourceKernel,doc,assemble,javadoc">
     <delete dir="${qedeq.se.temp}" />
     <mkdir dir="${qedeq.se.temp}" />
     <copy todir="${qedeq.se.temp}">
@@ -419,8 +394,10 @@
      jarfile="${qedeq.se.dist}/qedeq_kernel_se_${qedeq.working.version}.jar"
      manifest="${qedeq.se.temp}/manifest.txt"
     >
-      <fileset dir="${qedeq.se.dest}/classes/kernel"
-      />
+        <fileset dir="${qedeq.se.dest}/src/eclipse/QedeqBase/bin"/>
+        <fileset dir="${qedeq.se.dest}/src/eclipse/QedeqKernelSe/bin"/>
+        <fileset dir="${qedeq.se.dest}/src/eclipse/QedeqKernelBo/bin"/>
+        <fileset dir="${qedeq.se.dest}/src/eclipse/QedeqKernelXml/bin"/>
       <fileset dir="${qedeq.se.rel}" includes="gpl.txt"/>
       <fileset dir="${qedeq.se.temp}" includes="readme.txt"/>
     </jar>
@@ -430,7 +407,7 @@
 
   </target>
 
-  <target name="jarGui" depends="compileGui,sourceGui,doc,assemble,javadocGui">
+  <target name="jarGui" depends="compileGui,sourceGui,doc,assemble,javadoc">
     <delete dir="${qedeq.se.temp}" />
     <mkdir dir="${qedeq.se.temp}" />
     <copy todir="${qedeq.se.temp}">
@@ -447,8 +424,7 @@
      jarfile="${qedeq.se.dist}/qedeq_gui_se_${qedeq.working.version}.jar"
      manifest="${qedeq.se.temp}/manifest.txt"
     >
-      <fileset dir="${qedeq.se.dest}/classes/gui"
-      />
+      <fileset dir="${qedeq.se.dest}/src/eclipse/QedeqGuiSe/bin"/>
       <fileset dir="${qedeq.se.rel}" includes="gpl.txt"/>
       <fileset dir="${qedeq.se.temp}" includes="readme.txt"/>
     </jar>
@@ -490,7 +466,7 @@
     </copy>
   </target>
 	
-  <target name="release" depends="jarKernel,jarGui,sourceTest,doc,assemble,javadocKernel">
+  <target name="release" depends="jarKernel,jarGui,sourceKernel,doc,assemble,javadoc">
     <!-- Windows -->
     <fixcrlf srcdir="${qedeq.se.dest}"
         eol="dos" 
@@ -561,7 +537,7 @@
 
 
   <target name="all"
-	depends="clean,compileKernel,sourceKernel,jarKernel,javadocTest,release,webstart">
+	depends="clean,compileKernel,compileGui,jarKernel,jarGui,test,javadoc,release,webstart">
   </target>
 
 </project>

@@ -21,17 +21,17 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
 
+import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.TextInput;
+import org.qedeq.base.io.TextOutput;
+import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.ResourceLoaderUtility;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.parser.LatexMathParser;
 import org.qedeq.kernel.parser.MementoTextInput;
 import org.qedeq.kernel.parser.ParserException;
 import org.qedeq.kernel.parser.Term;
-import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.IoUtility;
-import org.qedeq.kernel.utility.ResourceLoaderUtility;
-import org.qedeq.kernel.utility.StringUtility;
-import org.qedeq.kernel.utility.TextInput;
-import org.qedeq.kernel.utility.TextOutput;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 
 /**
