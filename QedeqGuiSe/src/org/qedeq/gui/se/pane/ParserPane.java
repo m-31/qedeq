@@ -37,16 +37,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JViewport;
 
+import org.qedeq.base.io.TextInput;
+import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.ResourceLoaderUtility;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.element.CPTextArea;
+import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.context.KernelContext;
 import org.qedeq.kernel.parser.LatexMathParser;
 import org.qedeq.kernel.parser.ParserException;
 import org.qedeq.kernel.parser.Term;
-import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.ResourceLoaderUtility;
-import org.qedeq.kernel.utility.StringUtility;
-import org.qedeq.kernel.utility.TextInput;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 
 

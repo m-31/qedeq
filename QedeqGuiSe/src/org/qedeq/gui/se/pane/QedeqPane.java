@@ -31,16 +31,16 @@ import javax.swing.plaf.TextUI;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.BadLocationException;
 
+import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.control.ErrorSelectionListener;
 import org.qedeq.gui.se.control.ErrorSelectionListenerList;
 import org.qedeq.gui.se.util.CurrentLineHighlighterUtility;
 import org.qedeq.gui.se.util.DocumentMarker;
 import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.context.KernelContext;
-import org.qedeq.kernel.trace.Trace;
 
 /**
  * View source of QEDEQ module.

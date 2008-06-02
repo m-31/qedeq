@@ -33,7 +33,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.filechooser.FileFilter;
 
-import org.qedeq.kernel.trace.Trace;
+import org.qedeq.base.trace.Trace;
 
 
 /**

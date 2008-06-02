@@ -22,12 +22,12 @@ import java.io.IOException;
 
 import javax.swing.AbstractAction;
 
+import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.context.KernelContext;
-import org.qedeq.kernel.log.QedeqLog;
-import org.qedeq.kernel.trace.Trace;
 
 /**
  * Create LaTeX file out of selected QEDEQ module files.

@@ -20,9 +20,9 @@ package org.qedeq.gui.se.pane;
 import java.io.File;
 import java.io.IOException;
 
+import org.qedeq.base.io.IoUtility;
+import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.config.QedeqConfig;
-import org.qedeq.kernel.context.KernelContext;
-import org.qedeq.kernel.utility.IoUtility;
 
 /**
  * This class gives a type save access to the GUI properties of the application.

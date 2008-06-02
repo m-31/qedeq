@@ -31,12 +31,12 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
+import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.main.LowerTabbedView;
 import org.qedeq.gui.se.main.UpperTabbedView;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.context.KernelContext;
-import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.bo.context.KernelContext;
 
 
 /**

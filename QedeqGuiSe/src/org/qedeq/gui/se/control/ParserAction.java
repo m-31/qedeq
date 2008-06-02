@@ -23,9 +23,9 @@ import java.io.FileNotFoundException;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.pane.ParserPane;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.trace.Trace;
 
 /**
  * Show preferences window.

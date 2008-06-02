@@ -24,9 +24,9 @@ import javax.swing.AbstractAction;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
+import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.context.KernelContext;
-import org.qedeq.kernel.trace.Trace;
 
 /**
  * Load QEDEQ module file.

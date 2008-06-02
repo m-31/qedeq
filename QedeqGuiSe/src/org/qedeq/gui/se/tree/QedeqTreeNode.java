@@ -19,8 +19,8 @@ package org.qedeq.gui.se.tree;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.utility.EqualsUtility;
 
 
 

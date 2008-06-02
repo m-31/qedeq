@@ -19,7 +19,7 @@ package org.qedeq.gui.se.main;
 
 import javax.swing.LookAndFeel;
 
-import org.qedeq.kernel.trace.Trace;
+import org.qedeq.base.trace.Trace;
 
 import com.jgoodies.looks.BorderStyle;
 import com.jgoodies.looks.HeaderStyle;

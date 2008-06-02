@@ -23,7 +23,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.context.KernelContext;
+import org.qedeq.kernel.bo.context.KernelContext;
 
 /**
  * Show help window.

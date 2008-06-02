@@ -21,7 +21,7 @@ import java.io.IOException;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.qedeq.kernel.trace.Trace;
+import org.qedeq.base.trace.Trace;
 
 
 /**

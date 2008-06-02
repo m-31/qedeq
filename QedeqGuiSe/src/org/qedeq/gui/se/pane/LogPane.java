@@ -34,8 +34,8 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
-import org.qedeq.kernel.log.LogListener;
-import org.qedeq.kernel.trace.Trace;
+import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.log.LogListener;
 
 /**
  * Global log. All events are displayed here.

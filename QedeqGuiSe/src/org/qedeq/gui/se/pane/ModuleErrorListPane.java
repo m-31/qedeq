@@ -38,12 +38,12 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.ErrorSelectionListenerList;
 import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.log.ModuleEventListener;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.log.ModuleEventListener;
-import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.EqualsUtility;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;

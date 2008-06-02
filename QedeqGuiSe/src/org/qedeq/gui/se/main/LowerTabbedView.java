@@ -23,12 +23,12 @@ import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
+import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.pane.LogPane;
 import org.qedeq.gui.se.pane.ModuleErrorListPane;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.log.ModuleEventLog;
-import org.qedeq.kernel.log.QedeqLog;
-import org.qedeq.kernel.trace.Trace;
+import org.qedeq.kernel.bo.log.ModuleEventLog;
+import org.qedeq.kernel.bo.log.QedeqLog;
 
 
 /**

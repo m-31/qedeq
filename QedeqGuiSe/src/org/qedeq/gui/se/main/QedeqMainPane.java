@@ -29,7 +29,7 @@ import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.tree.QedeqTreeCtrl;
 import org.qedeq.gui.se.tree.QedeqTreeModel;
 import org.qedeq.gui.se.tree.QedeqTreeView;
-import org.qedeq.kernel.log.ModuleEventLog;
+import org.qedeq.kernel.bo.log.ModuleEventLog;
 
 import com.jgoodies.forms.factories.Borders;
 import com.jgoodies.looks.Options;

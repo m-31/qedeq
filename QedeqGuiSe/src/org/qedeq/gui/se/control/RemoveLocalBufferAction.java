@@ -22,9 +22,9 @@ import java.io.IOException;
 
 import javax.swing.AbstractAction;
 
-import org.qedeq.kernel.context.KernelContext;
-import org.qedeq.kernel.log.QedeqLog;
-import org.qedeq.kernel.trace.Trace;
+import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.log.QedeqLog;
 
 /**
  * Remove all QEDEQ module files from memory and local buffer.

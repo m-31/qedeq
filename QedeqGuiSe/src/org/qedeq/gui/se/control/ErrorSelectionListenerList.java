@@ -20,8 +20,8 @@ package org.qedeq.gui.se.control;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.trace.Trace;
 
 
 /**

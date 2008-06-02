@@ -39,9 +39,9 @@ import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
+import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.ResourceLoaderUtility;
 import org.qedeq.gui.se.main.GuiOptions;
-import org.qedeq.kernel.trace.Trace;
-import org.qedeq.kernel.utility.ResourceLoaderUtility;
 
 import com.jgoodies.looks.Options;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;

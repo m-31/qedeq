@@ -28,7 +28,7 @@ import org.qedeq.gui.se.tree.QedeqTreeCtrl;
 import org.qedeq.gui.se.util.DataDictionary;
 import org.qedeq.kernel.base.module.LatexList;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.context.KernelContext;
+import org.qedeq.kernel.bo.context.KernelContext;
 
 
 /**

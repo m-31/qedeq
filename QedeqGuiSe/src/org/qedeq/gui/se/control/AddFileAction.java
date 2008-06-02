@@ -26,10 +26,10 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
+import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
+import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.context.KernelContext;
-import org.qedeq.kernel.trace.Trace;
 
 /**
  * Load new module from local file.
