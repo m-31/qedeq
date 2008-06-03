@@ -146,7 +146,7 @@ public class QedeqMainFrame extends JFrame {
                     }
                     final StringBuffer buffer = new StringBuffer();
                     IoUtility.loadFile(url, buffer, "ISO-8859-1");
-                    File traceFile = config.createAbsolutePath("log/trace.log");
+                    File traceFile = config.createAbsolutePath("log/trace.txt");
                     StringUtility.replace(buffer, "@trace_file_path@", traceFile.toString()
                         .replace('\\', '/'));
 // for a properties file:
