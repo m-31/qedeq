@@ -25,6 +25,17 @@
   <property name="qedeq.rel.src"         value="${basedir}/QedeqRel/src" />
   <property name="qedeq.rel.images"      value="${basedir}/QedeqRel/inc/images" />
 	
+	
+ 	
+
+  <taskdef resource="checkstyletask.properties"
+         classpath="${qedeq.lib}/checkstyle-all-4.4.jar"/>
+	
+  <taskdef name="java2html"
+    classname="de.java2html.anttasks.Java2HtmlTask"
+    classpath="${qedeq.lib}/java2html.jar"
+  />
+	
   <path id="classpath.common">
       <pathelement location="${qedeq.lib}/junit.jar"/>
       <pathelement location="${qedeq.lib}/xercesImpl.jar" />
@@ -89,6 +100,10 @@
 	<antcall target="copySource"><param name="QedeqModule" value="QedeqKernelSeTest"/></antcall>
 	<antcall target="copySource"><param name="QedeqModule" value="QedeqKernelBo"/></antcall>
 	<antcall target="copySource"><param name="QedeqModule" value="QedeqKernelBoTest"/></antcall>
+    <mkdir dir="${qedeq.se.dest}/src/eclipse/QedeqKernelBoTest/data" />
+    <copy todir="${qedeq.se.dest}/src/eclipse/QedeqKernelBoTest/data" >
+      <fileset dir="${basedir}/QedeqKernelBoTest/data" />
+    </copy>
 	<antcall target="copySource"><param name="QedeqModule" value="QedeqKernelXml"/></antcall>
 	<antcall target="copySource"><param name="QedeqModule" value="QedeqKernelXmlTest"/></antcall>
   </target>  
@@ -100,6 +115,11 @@
     <mkdir dir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/src"/>
     <copy todir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/src" >
       <fileset dir="${basedir}/${QedeqModule}/src"
+      />
+    </copy>
+    <copy todir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/" >
+      <fileset dir="${basedir}/${QedeqModule}/"
+      	includes=".checkstyle,.project"
       />
     </copy>
   </target>
@@ -141,29 +161,97 @@
 	<antcall target="compileModule"><param name="QedeqModule" value="QedeqGuiSe"/></antcall>
   </target>
 
+  <target name="sourceDoc" depends="sourceKernel,sourceGui">
+	<antcall target="sourceDocModule"><param name="QedeqModule" value="QedeqBase"/></antcall>
+	<antcall target="sourceDocModule"><param name="QedeqModule" value="QedeqKernelSe"/></antcall>
+	<antcall target="sourceDocModule"><param name="QedeqModule" value="QedeqKernelBo"/></antcall>
+	<antcall target="sourceDocModule"><param name="QedeqModule" value="QedeqKernelXml"/></antcall>
+  </target>
+
+  <!-- for antcalls with parameter ${QedeqModule} -->
+  <target name="sourceDocModule">
+    <echo>Java2Html module: ${QedeqModule}</echo>
+	<java2html
+	       srcdir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/src"
+	       destdir="${qedeq.se.dest}/src/results/src/${QedeqModule}"
+	       includes="**/*.java"
+	       style="eclipse"
+	       showLineNumbers="true"
+	       showFileName="true"
+	       showTableBorder="true"
+		>
+	</java2html>
+
+  </target>
+	
+	
+  <target name="checkstyle" depends="sourceDoc">
+	<antcall target="checkstyleModule"><param name="QedeqModule" value="QedeqBase"/></antcall>
+	<antcall target="checkstyleModule"><param name="QedeqModule" value="QedeqKernelSe"/></antcall>
+	<antcall target="checkstyleModule"><param name="QedeqModule" value="QedeqKernelBo"/></antcall>
+	<antcall target="checkstyleModule"><param name="QedeqModule" value="QedeqKernelXml"/></antcall>
+  </target>
+
+  <!-- for antcalls with parameter ${QedeqModule} -->
+  <target name="checkstyleModule">
+    <echo>Checkstyle module: ${QedeqModule}</echo>
+    <mkdir dir="${qedeq.se.dest}/src/results/checkstyle/${QedeqModule}" />
+    <checkstyle config="${qedeq.se.rel}/checkstyle_config.xml"
+                failureProperty="checkstyle.failure"
+                failOnViolation="false">
+      <formatter type="xml" tofile="${qedeq.se.dest}/src/results/checkstyle/${QedeqModule}/checkstyle_report.xml"/>
+      <fileset dir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/src" />
+    </checkstyle>
+  	<!-- source directory name for stripping off link href attribute value -->
+  	<!-- "src.dir" -->
+  	<!-- directory containing syntax-highlighted HTML files for java source files -->
+  	<!-- "html.dir"-->
+  	<style in="${qedeq.se.dest}/src/results/checkstyle/${QedeqModule}/checkstyle_report.xml" 
+  		out="${qedeq.se.dest}/src/results/checkstyle/${QedeqModule}/index.html" 
+  		style="${qedeq.se.rel}/checkstyle-frames.xsl">
+  	</style>
+  </target>
+
   <target name="test" depends="compileKernel,compileGui">
 	<antcall target="testModule"><param name="QedeqModule" value="QedeqBase"/></antcall>
 	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelSe"/></antcall>
+    <mkdir dir="${qedeq.se.dest}/src/results/junit/QedeqKernelBo/data" />
+    <copy todir="${qedeq.se.dest}/src/results/junit/QedeqKernelBo/data" >
+      <fileset dir="${basedir}/QedeqKernelBoTest/data" />
+    </copy>
+  	<mkdir dir="${qedeq.se.dest}/src/results/junit/QedeqDoc"/>
+    <copy todir="${qedeq.se.dest}/src/results/junit/QedeqDoc" >
+      <fileset dir="${basedir}/QedeqDoc" />
+    </copy>
 	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelBo"/></antcall>
 	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelXml"/></antcall>
-	<antcall target="testModule"><param name="QedeqModule" value="QedeqBaseTest"/></antcall>
-	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelSeTest"/></antcall>
-	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelBoTest"/></antcall>
-	<antcall target="testModule"><param name="QedeqModule" value="QedeqKernelXmlTest"/></antcall>
   </target>
 
   <!-- for antcalls with parameter ${QedeqModule} -->
   <target name="testModule">
     <echo>Test module: ${QedeqModule}</echo>
   	<mkdir dir="${qedeq.se.dest}/src/results/junit/${QedeqModule}"/>
-    <junit fork="true" printsummary="yes">
-      <classpath refid="classpath.common" />
+  	<mkdir dir="${qedeq.se.dest}/src/results/junit/${QedeqModule}/log"/>
+  	<mkdir dir="${qedeq.se.dest}/src/results/junit/${QedeqModule}/buffer"/>
+  	<mkdir dir="${qedeq.se.dest}/src/results/junit/${QedeqModule}/generated"/>
+  	<mkdir dir="${qedeq.se.dest}/src/results/junit/${QedeqModule}/config"/>
+    <copy todir="${qedeq.se.dest}/src/results/junit/${QedeqModule}/config">
+      <fileset file="${basedir}/QedeqGuiSe/src/config/*" excludes="**/log4j.properties"/>
+      <filterset refid="qedeq_filter" />
+    </copy>
+    <junit fork="true" printsummary="yes" dir="${qedeq.se.dest}/src/results/junit/${QedeqModule}"
+    	maxmemory="1024M">
+      <classpath>
+      	<path refid="classpath.common" />
+      	<pathelement location="${qedeq.se.dest}/src/results/junit/${QedeqModule}" />
+      	<pathelement location="${qedeq.se.dest}/src/results/junit/${QedeqModule}/config" />
+     </classpath>
       <formatter type="plain" />
       <formatter type="xml" />
   	  <batchtest todir="${qedeq.se.dest}/src/results/junit/${QedeqModule}">
-  	    <fileset dir="${qedeq.se.dest}/src/eclipse/${QedeqModule}Test/src">
-  	      <include name="**/*Test.java" />
-    	  <exclude name="**/Abstract*Test.java" />
+  	    <fileset dir="${qedeq.se.dest}/src/eclipse/${QedeqModule}Test/bin">
+  	      <include name="**/*Test.class" />
+    	  <exclude name="**/Abstract*Test.class" />
   	    </fileset>
   	  </batchtest>
     </junit>
@@ -537,7 +625,7 @@
 
 
   <target name="all"
-	depends="clean,compileKernel,compileGui,jarKernel,jarGui,test,javadoc,release,webstart">
+	depends="clean,checkstyle,compileKernel,sourceDoc,compileGui,jarKernel,jarGui,test,javadoc,release,webstart">
   </target>
 
 </project>
