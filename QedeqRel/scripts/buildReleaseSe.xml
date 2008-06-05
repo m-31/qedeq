@@ -25,11 +25,7 @@
   <property name="qedeq.rel.src"         value="${basedir}/QedeqRel/src" />
   <property name="qedeq.rel.images"      value="${basedir}/QedeqRel/inc/images" />
 	
-	
- 	
-
-  <taskdef resource="checkstyletask.properties"
-         classpath="${qedeq.lib}/checkstyle-all-4.4.jar"/>
+  <taskdef resource="checkstyletask.properties" classpath="${qedeq.lib}/checkstyle-all-4.4.jar" />
 	
   <taskdef name="java2html"
     classname="de.java2html.anttasks.Java2HtmlTask"
@@ -40,6 +36,7 @@
       <pathelement location="${qedeq.lib}/junit.jar"/>
       <pathelement location="${qedeq.lib}/xercesImpl.jar" />
       <pathelement location="${qedeq.lib}/xml-apis.jar" />
+      <pathelement location="${qedeq.lib}/xalan.jar" />
       <pathelement location="${qedeq.lib}/commons-logging-1.1.jar" />
       <pathelement location="${qedeq.lib}/log4j-1.2.14.jar" />
       <pathelement location="${qedeq.lib}/forms-1.1.0.jar" />
@@ -54,6 +51,7 @@
 	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelXml/bin" />
 	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqKernelXmlTest/bin" />
 	  <pathelement location="${qedeq.se.dest}/src/eclipse/QedeqGuiSe/bin" />
+  	
   </path>
 
   <path id="srcpath.common">
@@ -145,6 +143,8 @@
       debug="on"
       deprecation="on"
       classpathref="classpath.common" 
+      source="1.4"
+      target="1.4"
     />
     <copy todir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/bin">
       <fileset dir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/src"
@@ -185,31 +185,42 @@
   </target>
 	
 	
-  <target name="checkstyle" depends="sourceDoc">
-	<antcall target="checkstyleModule"><param name="QedeqModule" value="QedeqBase"/></antcall>
-	<antcall target="checkstyleModule"><param name="QedeqModule" value="QedeqKernelSe"/></antcall>
-	<antcall target="checkstyleModule"><param name="QedeqModule" value="QedeqKernelBo"/></antcall>
-	<antcall target="checkstyleModule"><param name="QedeqModule" value="QedeqKernelXml"/></antcall>
-  </target>
+  <target name="checkstyle" description="Generation of Checkstyle Reports" depends="sourceKernel,sourceGui,compileKernel,compileGui">
+    <mkdir dir="${qedeq.se.dest}/src/results/checkstyle" />
+    <mkdir dir="${qedeq.se.dest}/src/results/checkstyle/src" />
+  	<copy todir="${qedeq.se.dest}/src/results/checkstyle/src">
+  	  <fileset dir="${qedeq.se.dest}/src/eclipse/QedeqBase/src" includes="**/*.java,**/package.html" />
+      <fileset dir="${qedeq.se.dest}/src/eclipse/QedeqKernelSe/src" includes="**/*.java,**/package.html" />
+      <fileset dir="${qedeq.se.dest}/src/eclipse/QedeqKernelBo/src" includes="**/*.java,**/package.html" />
+      <fileset dir="${qedeq.se.dest}/src/eclipse/QedeqKernelXml/src" includes="**/*.java,**/package.html" />
+      <fileset dir="${qedeq.se.dest}/src/eclipse/QedeqGuiSe/src" includes="**/*.java,**/package.html" />
+    </copy>
 
-  <!-- for antcalls with parameter ${QedeqModule} -->
-  <target name="checkstyleModule">
-    <echo>Checkstyle module: ${QedeqModule}</echo>
-    <mkdir dir="${qedeq.se.dest}/src/results/checkstyle/${QedeqModule}" />
-    <checkstyle config="${qedeq.se.rel}/checkstyle_config.xml"
+    <pathconvert property="checkstyle.basedir">
+	  <path location="${qedeq.se.dest}/src/results/checkstyle" />
+    </pathconvert>
+  	
+  	<echo>${checkstyle.basedir}</echo>
+  	
+  	<checkstyle config="${qedeq.se.rel}/checkstyle_config.xml"
                 failureProperty="checkstyle.failure"
-                failOnViolation="false">
-      <formatter type="xml" tofile="${qedeq.se.dest}/src/results/checkstyle/${QedeqModule}/checkstyle_report.xml"/>
-      <fileset dir="${qedeq.se.dest}/src/eclipse/${QedeqModule}/src" />
+                failOnViolation="false"
+  		        classpathref="classpath.common"
+  	>
+      <formatter type="xml" tofile="${qedeq.se.dest}/src/results/checkstyle/checkstyle_report.xml"/>
+  	  <fileset dir="${qedeq.se.dest}/src/results/checkstyle/src" />
     </checkstyle>
-  	<!-- source directory name for stripping off link href attribute value -->
-  	<!-- "src.dir" -->
-  	<!-- directory containing syntax-highlighted HTML files for java source files -->
-  	<!-- "html.dir"-->
-  	<style in="${qedeq.se.dest}/src/results/checkstyle/${QedeqModule}/checkstyle_report.xml" 
-  		out="${qedeq.se.dest}/src/results/checkstyle/${QedeqModule}/index.html" 
-  		style="${qedeq.se.rel}/checkstyle-frames.xsl">
-  	</style>
+  	
+  	<!-- the following line has effect!!! :((( -->
+  	<replace file="${qedeq.se.dest}/src/results/checkstyle/checkstyle_report.xml" 
+  	  token="${checkstyle.basedir}"
+  	  value=""
+  	/>
+  	<xslt in="${qedeq.se.dest}/src/results/checkstyle/checkstyle_report.xml" 
+  		out="${qedeq.se.dest}/src/results/checkstyle/index.html" 
+  		style="${qedeq.se.rel}/checkstyle-no-frames-detailed.xsl">
+  		<param name="basedir" expression="${checkstyle.basedir}"/>
+  	</xslt>
   </target>
 
   <target name="test" depends="compileKernel,compileGui">
@@ -266,7 +277,7 @@
   </target>
 
   <target name="doc" depends="init">
-  	<!-- FIXME <antcall target="makePdf" /> -->
+  	<antcall target="makePdf" />
     <mkdir dir="${qedeq.se.dest}/doc" />
     <mkdir dir="${qedeq.se.dest}/doc/project" />
     <copy todir="${qedeq.se.dest}/doc/project">
