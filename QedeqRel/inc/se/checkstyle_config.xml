@@ -3,6 +3,9 @@
 
 <module name="Checker">
 <property name="severity" value="warning"/>
+<property name="basedir" value="${checkstyle.basedir}"/>
+<property name="localeCountry" value="EN"/>
+<property name="localeLanguage" value="en"/>
 <module name="TreeWalker">
 <module name="FileContentsHolder">
 </module>
