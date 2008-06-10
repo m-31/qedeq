@@ -19,8 +19,8 @@ package org.qedeq.kernel.test;
 
 import junit.framework.Test;
 
+import org.qedeq.base.test.QedeqTestSuite;
 import org.qedeq.kernel.dto.module.KernelDtoModuleTestSuite;
-import org.qedeq.kernel.parser.KernelParserTestSuite;
 
 /**
  * Run all tests for the project.
@@ -55,7 +55,6 @@ public class KernelSeTestSuite extends QedeqTestSuite {
     public KernelSeTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
         addTest(KernelDtoModuleTestSuite.suite());
-        addTest(KernelParserTestSuite.suite());
     }
 
 }

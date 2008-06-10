@@ -19,7 +19,7 @@ package org.qedeq.kernel.dto.module;
 
 import junit.framework.Test;
 
-import org.qedeq.kernel.test.QedeqTestSuite;
+import org.qedeq.base.test.QedeqTestSuite;
 
 /**
  * Run all junit tests for package org.qedeq.kernel.vo.module.

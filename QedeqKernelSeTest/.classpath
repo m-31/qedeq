@@ -10,6 +10,5 @@
 	<classpathentry path="/QedeqLib/log4j-1.2.14.jar" exported="true" kind="lib"/>
 	<classpathentry path="/QedeqBase" combineaccessrules="false" kind="src"/>
 	<classpathentry path="/QedeqBaseTest" combineaccessrules="false" kind="src"/>
-	<classpathentry path="/QedeqKernelXml" combineaccessrules="false" kind="src"/>
 	<classpathentry path="bin" kind="output"/>
 </classpath>
