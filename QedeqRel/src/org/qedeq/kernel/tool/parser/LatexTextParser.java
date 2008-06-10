@@ -27,11 +27,11 @@ import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.ResourceLoaderUtility;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.parser.LatexMathParser;
+import org.qedeq.kernel.bo.parser.MementoTextInput;
+import org.qedeq.kernel.bo.parser.ParserException;
+import org.qedeq.kernel.bo.parser.Term;
 import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.parser.LatexMathParser;
-import org.qedeq.kernel.parser.MementoTextInput;
-import org.qedeq.kernel.parser.ParserException;
-import org.qedeq.kernel.parser.Term;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 
 /**
