@@ -43,10 +43,10 @@ import org.qedeq.base.utility.ResourceLoaderUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.element.CPTextArea;
 import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.parser.LatexMathParser;
+import org.qedeq.kernel.bo.parser.ParserException;
+import org.qedeq.kernel.bo.parser.Term;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.parser.LatexMathParser;
-import org.qedeq.kernel.parser.ParserException;
-import org.qedeq.kernel.parser.Term;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 
 
