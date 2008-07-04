@@ -37,7 +37,9 @@
       <pathelement location="${qedeq.lib}/xercesImpl.jar" />
       <pathelement location="${qedeq.lib}/xml-apis.jar" />
       <pathelement location="${qedeq.lib}/xalan.jar" />
-      <pathelement location="${qedeq.lib}/commons-logging-1.1.jar" />
+      <pathelement location="${qedeq.lib}/commons-io-1.4.jar" />
+      <pathelement location="${qedeq.lib}/commons-lang-2.4.jar" />
+      <pathelement location="${qedeq.lib}/commons-logging-1.1.1.jar" />
       <pathelement location="${qedeq.lib}/log4j-1.2.14.jar" />
       <pathelement location="${qedeq.lib}/forms-1.1.0.jar" />
       <pathelement location="${qedeq.lib}/looks-2.1.4.jar" />
@@ -422,7 +424,9 @@
       <!-- fileset file="${qedeq.lib}/xalan.jar" / -->
       <fileset file="${qedeq.lib}/xercesImpl.jar" />
       <fileset file="${qedeq.lib}/xml-apis.jar" />
-      <fileset file="${qedeq.lib}/commons-logging-1.1.jar" />
+      <fileset file="${qedeq.lib}/commons-io-1.4.jar" />
+      <fileset file="${qedeq.lib}/commons-lang-2.4.jar" />
+      <fileset file="${qedeq.lib}/commons-logging-1.1.1.jar" />
       <fileset file="${qedeq.lib}/log4j-1.2.14.jar" />
       <fileset file="${qedeq.lib}/forms-1.1.0.jar" />
       <fileset file="${qedeq.lib}/looks-2.1.4.jar" />
@@ -543,7 +547,11 @@
       storepass="Iewsss#WhadUg" keystore="${qedeq.se.rel}/qedeqKey.bin"/>
 	<signjar jar="${qedeq.se.webstart}/qedeq_gui_se.jar" alias="qedeqkey"
       storepass="Iewsss#WhadUg" keystore="${qedeq.se.rel}/qedeqKey.bin"/>
-	<signjar jar="${qedeq.se.webstart}/commons-logging-1.1.jar" alias="qedeqkey"
+	<signjar jar="${qedeq.se.webstart}/commons-io-1.4.jar" alias="qedeqkey"
+      storepass="Iewsss#WhadUg" keystore="${qedeq.se.rel}/qedeqKey.bin"/>
+    <signjar jar="${qedeq.se.webstart}/commons-lang-2.4.jar" alias="qedeqkey"
+      storepass="Iewsss#WhadUg" keystore="${qedeq.se.rel}/qedeqKey.bin"/>
+    <signjar jar="${qedeq.se.webstart}/commons-logging-1.1.1.jar" alias="qedeqkey"
       storepass="Iewsss#WhadUg" keystore="${qedeq.se.rel}/qedeqKey.bin"/>
 	<signjar jar="${qedeq.se.webstart}/log4j-1.2.14.jar" alias="qedeqkey"
 	  storepass="Iewsss#WhadUg" keystore="${qedeq.se.rel}/qedeqKey.bin"/>
