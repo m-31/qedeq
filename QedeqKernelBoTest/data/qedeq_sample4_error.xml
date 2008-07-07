@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<QEDEQ 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_10/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="qedeq_sample4_error" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="http://qedeq.org/0_03_10"/>
+      </LOCATIONS>
+    </SPECIFICATION>
+    <!-- empty TITLE element is not allowed: -->
+    <TITLE>
+    </TITLE>
+    <!-- empty ABSTRACT element is not allowed: -->
+    <ABSTRACT>
+    </ABSTRACT>
+    <!-- empty AUTHORS element is not allowed: -->
+    <AUTHORS>
+    </AUTHORS>
+    <!-- empty IMPORTS element is not allowed: -->
+    <IMPORTS>
+    </IMPORTS>
+    <USEDBY>
+      <!-- empty SPECIFICATION element is not allowed: -->
+      <SPECIFICATION name="module2" ruleVersion="1.00.00">
+      </SPECIFICATION>
+    </USEDBY>
+  </HEADER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">
+        Basics
+      </LATEX>
+      <LATEX language="de">
+        Anfangsgründe
+      </LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        In this chapter we start with the very basic axioms and definitions of set theory.
+      </LATEX>
+      <LATEX language="de">
+        In diesem Kapitel beginnen wir mit den ganz elementaren Axiomen und Definitionen der Mengenlehre.
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+          Axioms
+        </LATEX>
+        <LATEX language="de">
+          Axiome
+        </LATEX>
+      </TITLE>
+      <SUBSECTIONS>
+        <NODE id="module1:def1">
+          <NAME>
+            <LATEX language="en">contains</LATEX>
+            <LATEX language="de">enthält</LATEX>
+          </NAME>
+          <PRECEDING>
+            <LATEX language="en">
+              At first we define the contains operator.
+            </LATEX>
+            <LATEX language="de">
+              Zunächst einmal wird der Enthaltensseinoperator festgelegt.
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="2">
+            <LATEXPATTERN>#1 \in #2</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="1"/>
+              <VAR id="2"/>
+            </VARLIST>
+          </DEFINITION_PREDICATE>
+          <SUCCEEDING>
+            <LATEX language="en">
+              This is the only predicate we start with. All other will be defined.
+            </LATEX>
+            <LATEX language="de">
+              Dies ist das einzige Prädikat welches wir zu Begin haben. Alle anderen werden definiert. 
+            </LATEX>
+          </SUCCEEDING>
+        </NODE>
+        <NODE id="isSet">
+          <NAME>
+            <LATEX language="en">is set</LATEX>
+            <LATEX language="de">ist Menge</LATEX>
+          </NAME>
+          <PRECEDING>
+            <LATEX language="en">
+              Now we introduce sets.
+            </LATEX>
+            <LATEX language="de">
+              Jetzt legen wir fest, was eine Menge ist.
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="1">
+            <LATEXPATTERN>\mathfrak{M}(#1)</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="1"/>
+            </VARLIST>
+            <FORMULA>
+              <EXISTS>
+                <VAR id="2"/>
+                <PREDCON ref="module1:def1">
+                  <VAR id="1"/>
+                  <VAR id="2"/>
+                </PREDCON>
+              </EXISTS>
+            </FORMULA>
+          </DEFINITION_PREDICATE>
+          <SUCCEEDING>
+            <LATEX language="en">
+              So sets are nothing else than special classes.
+            </LATEX>
+            <LATEX language="de">
+              Mengen sind also nichts anderes, als Klassen mit einer besonderen Eigenschaft.
+            </LATEX>
+          </SUCCEEDING>
+        </NODE>
+        <NODE id="module1:theorem" level="formal">
+          <NAME>
+            <LATEX language="en">is set</LATEX>
+            <LATEX language="de">ist Menge</LATEX>
+          </NAME>
+          <PRECEDING>
+            <LATEX language="en">
+               The first conclusion bla bla bla
+            </LATEX>
+            <LATEX language="de">
+               Als erste Folgerung bla bla bla
+            </LATEX>
+          </PRECEDING>
+          <THEOREM>
+            <FORMULA>
+              <EXISTS>
+                <VAR id="1"/>
+                <PREDCON ref="isSet">
+                  <VAR id="1"/>
+                </PREDCON>
+              </EXISTS>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
+        <NODE id="module1:axiom" level="formal">
+          <!-- vielleicht auch eine Kurzbezeichnung hier?? -->
+          <NAME>
+            <LATEX language="en">comprehension</LATEX>
+            <LATEX language="de">Komprehensionsaxiom</LATEX>
+          </NAME>
+          <PRECEDING>
+            <LATEX language="en">
+               Our first axiom is the comprehensive axiom.
+            </LATEX>
+            <LATEX language="de">
+               Unser erstes Axiom ist das Komprehensionsaxiom.
+            </LATEX>
+          </PRECEDING>
+          <AXIOM>
+            <FORMULA>
+              <FORALL>
+                <VAR id="1"/>
+                <AND>
+                  <PREDCON ref="isSet">
+                    <VAR id="1"/>
+                  </PREDCON>
+                  <PREDCON ref="isSet">
+                    <VAR id="1"/>
+                  </PREDCON>
+                </AND>
+              </FORALL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>

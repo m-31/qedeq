@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<QEDEQ 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_10/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="qedeq_error_sample_01" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="http://qedeq.org/0_03_10/sample"/>
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE><LATEX>Mathematical Error Example Module</LATEX></TITLE>
+    <ABSTRACT>
+      <LATEX>
+         With this QEDEQ module error handling is demonstrated.
+         Too many arguments for logical implication operator. See line 39.
+         This XML file violates already the XML file definition given in the
+         above referenced XSD.
+      </LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME><LATEX>Michael Meyling</LATEX></NAME>
+      </AUTHOR>
+    </AUTHORS>
+  </HEADER>
+  <CHAPTER>
+    <TITLE><LATEX>Error Example</LATEX></TITLE>
+    <SECTION>
+      <TITLE><LATEX>Errors</LATEX></TITLE>
+      <SUBSECTIONS>
+        <NODE id="axiom:implicationWithThreeArguments">
+          <NAME><LATEX>more than two operands for implication</LATEX></NAME>
+          <TITLE><LATEX>More than Two Operands</LATEX></TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <PREDVAR id="A" />
+                <PREDVAR id="B" />
+                <PREDVAR id="C" />
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>

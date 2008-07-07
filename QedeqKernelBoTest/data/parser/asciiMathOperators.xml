@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<parser 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_10/xml/parser.xsd">
+ 	<prefixOperator 
+ 		startSymbol	="~"
+ 		qedeq		="NOT"
+ 		priority	="110"
+ 		min		="1"
+ 		max		="1"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="&amp;"
+ 		qedeq		="AND"
+ 		priority	="100"
+ 		min		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="v"
+ 		qedeq		="OR"
+ 		priority	="90"
+ 		min		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="-&gt;"
+ 		qedeq		="IMPL"
+ 		priority	="80"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="&lt;-&gt;"
+ 		qedeq		="EQUI"
+ 		priority	="80"
+ 		min		="2"
+ 	/>
+ 	<prefixOperator 
+ 		startSymbol	="A"
+ 		qedeq		="ALL"
+ 		priority	="140"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<prefixOperator 
+ 		startSymbol	="E"
+ 		qedeq		="EXISTS"
+ 		priority	="140"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="in"
+ 		qedeq		="IN"
+ 		priority	="200"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="="
+ 		qedeq		="EQUAL"
+ 		priority	="200"
+ 		min		="2"
+ 	/>
+ 	<prefixOperator 
+ 		startSymbol	="set"
+ 		qedeq		="isSet"
+ 		priority	="200"
+ 		min		="1"
+ 		max		="1"
+ 	/>
+ 	<complexOperator 
+ 		startSymbol	="{"
+ 		separatorSymbol =","
+ 		endSymbol	="}"
+ 		qedeq		="SET"
+ 		priority	="10"
+ 		min		="0"
+ 	/>
+ 	<complexOperator 
+ 		startSymbol	="{"
+ 		separatorSymbol ="|"
+ 		endSymbol	="}"
+ 		qedeq		="SETDEF"
+ 		priority	="10"
+ 		min		="2"
+ 		max		="2"
+ 	/>
+ 	<prefixOperator 
+ 		startSymbol	="P"
+ 		qedeq		="PREDVAR_1"
+ 		priority	="200"
+ 		min		="1"
+ 		max		="1"
+ 	/>
+ 	<prefixOperator 
+ 		startSymbol	="Q"
+ 		qedeq		="PREDVAR_2"
+ 		priority	="200"
+ 		min		="1"
+ 		max		="1"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="union"
+ 		qedeq		="UNION"
+ 		priority	="30"
+ 		min		="2"
+ 	/>
+ 	<infixOperator 
+ 		startSymbol	="inter"
+ 		qedeq		="INTER"
+ 		priority	="40"
+ 		min		="2"
+ 	/>
+</parser>
+<!--
+        operators.add(new Operator("~",      "NOT",   110, 1, 1, 1));
+        operators.add(new Operator("&",      "AND",   100, 0, 2));
+        operators.add(new Operator("v",      "OR",     90, 0, 2));
+        operators.add(new Operator("->",     "IMPL",   80, 0, 2, 2));
+        operators.add(new Operator("<->",    "EQUI",   80, 0, 2));
+        operators.add(new Operator("A",      "ALL",    140, 1, 2, 2));
+        operators.add(new Operator("E",      "EXISTS", 140, 1, 2, 2));
+        operators.add(new Operator("in",     "IN",    200, 0, 2, 2));
+        operators.add(new Operator("=",      "EQUAL", 200, 0, 2));
+        operators.add(new Operator("set",    "isSet", 200, 1, 1, 1));
+        operators.add(new Operator("{", ",", "}", "SET", 10, 0));
+        operators.add(new Operator("{", "|", "}", "SETDEF", 10, 2, 2));
+        operators.add(new Operator("P",       "PREDVAR_1",  200, 1, 1, 1));
+        operators.add(new Operator("Q",       "PREDVAR_2",  200, 1, 1, 1));
+        operators.add(new Operator("union",   "UNION",       30, 0, 2));
+        operators.add(new Operator("inter",   "INTER",       40, 0, 2));
+-->
