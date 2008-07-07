@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>QedeqBuild</name>
+	<comment>release and build</comment>
+	<projects>
+		<project>QedeqBase</project>
+		<project>QedeqKernelSe</project>
+		<project>QedeqKernelBo</project>
+		<project>QedeqKernelXml</project>
+		<project>QedeqGuiSe</project>
+		<project>QedeqBaseTest</project>
+		<project>QedeqKernelSeTest</project>
+		<project>QedeqKernelBoTest</project>
+		<project>QedeqKernelXmlTest</project>
+		<project>QedeqLib</project>
+	</projects>
+	<buildSpec>
+	</buildSpec>
+	<natures>
+	</natures>
+</projectDescription>

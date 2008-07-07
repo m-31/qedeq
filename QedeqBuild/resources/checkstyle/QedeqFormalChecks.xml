@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
+
+<module name="Checker">
+<property name="severity" value="warning"/>
+<property name="localeCountry" value="EN"/>
+<property name="localeLanguage" value="en"/>
+<module name="TreeWalker">
+<module name="FileContentsHolder">
+</module>
+<module name="JavadocMethod">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="we allow undeclared RTE be documented, disabled because inherited doc is not seen"/>
+<property name="severity" value="ignore"/>
+<property name="allowUndeclaredRTE" value="true"/>
+</module>
+<module name="JavadocType">
+</module>
+<module name="JavadocVariable">
+</module>
+<module name="JavadocStyle">
+</module>
+<module name="ConstantName">
+</module>
+<module name="LocalFinalVariableName">
+</module>
+<module name="LocalVariableName">
+</module>
+<module name="MemberName">
+</module>
+<module name="MethodName">
+</module>
+<module name="PackageName">
+</module>
+<module name="ParameterName">
+</module>
+<module name="StaticVariableName">
+</module>
+<module name="TypeName">
+</module>
+<module name="AvoidStarImport">
+</module>
+<module name="IllegalImport">
+</module>
+<module name="RedundantImport">
+</module>
+<module name="UnusedImports">
+</module>
+<module name="FileLength">
+</module>
+<module name="LineLength">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="100 is ok nowerdays"/>
+<property name="max" value="100"/>
+</module>
+<module name="MethodLength">
+</module>
+<module name="ParameterNumber">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="increased from 7 to 9 because a parser implementation needed it"/>
+<property name="max" value="9"/>
+</module>
+<module name="EmptyForIteratorPad">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="we want to make an empty place a little bit bigger"/>
+<metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="ignore"/>
+<property name="severity" value="ignore"/>
+</module>
+<module name="MethodParamPad">
+</module>
+<module name="NoWhitespaceAfter">
+</module>
+<module name="NoWhitespaceBefore">
+</module>
+<module name="OperatorWrap">
+</module>
+<module name="ParenPad">
+</module>
+<module name="TypecastParenPad">
+</module>
+<module name="TabCharacter">
+</module>
+<module name="WhitespaceAfter">
+</module>
+<module name="WhitespaceAround">
+</module>
+<module name="ModifierOrder">
+</module>
+<module name="RedundantModifier">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="we want to declare public methods in an interface, also public static final variables"/>
+<property name="severity" value="ignore"/>
+</module>
+<module name="AvoidNestedBlocks">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="by using nested blocks we realize information hiding"/>
+<metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="ignore"/>
+<property name="severity" value="ignore"/>
+</module>
+<module name="EmptyBlock">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="we allow commented empty blocks, therefore we must disable this check"/>
+<metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="ignore"/>
+<property name="severity" value="ignore"/>
+</module>
+<module name="LeftCurly">
+</module>
+<module name="NeedBraces">
+</module>
+<module name="RightCurly">
+</module>
+<module name="AvoidInlineConditionals">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="we allow our developers to use it"/>
+<metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="ignore"/>
+<property name="severity" value="ignore"/>
+</module>
+<module name="DoubleCheckedLocking">
+</module>
+<module name="EmptyStatement">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="we allow empty statements, but ther must be a comment"/>
+<metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="ignore"/>
+<property name="severity" value="ignore"/>
+</module>
+<module name="EqualsHashCode">
+</module>
+<module name="HiddenField">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="we want method parameters that have the same name as the attributes"/>
+<property name="tokens" value="VARIABLE_DEF"/>
+</module>
+<module name="IllegalInstantiation">
+</module>
+<module name="InnerAssignment">
+</module>
+<module name="MagicNumber">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="that is a way too strict for formal checks"/>
+<metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="ignore"/>
+<property name="severity" value="ignore"/>
+</module>
+<module name="MissingSwitchDefault">
+</module>
+<module name="RedundantThrows">
+</module>
+<module name="SimplifyBooleanExpression">
+</module>
+<module name="SimplifyBooleanReturn">
+</module>
+<module name="DesignForExtension">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="for toString and Hashcode we want to no warning, so the whole check is disabled"/>
+<property name="severity" value="ignore"/>
+</module>
+<module name="FinalClass">
+</module>
+<module name="HideUtilityClassConstructor">
+</module>
+<module name="InterfaceIsType">
+<metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="we do it like SwingConstants"/>
+<metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="ignore"/>
+<property name="severity" value="ignore"/>
+</module>
+<module name="VisibilityModifier">
+</module>
+<module name="ArrayTypeStyle">
+</module>
+<module name="FinalParameters">
+</module>
+<module name="GenericIllegalRegexp">
+<property name="format" value="\s+$"/>
+<property name="message" value="Line has trailing spaces."/>
+</module>
+<module name="TodoComment">
+</module>
+<module name="UpperEll">
+</module>
+</module>
+<module name="PackageHtml">
+</module>
+<module name="NewlineAtEndOfFile">
+</module>
+<module name="Translation">
+</module>
+</module>

@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="macros" basedir="../..">
+    <description>
+        This is the Ant build file library for building the Se release of project Hilbert II.
+        Herein are macro definitons to make releasing easier.   
+    </description>
+    
+    <!-- Delete all generated files -->
+    <macrodef name="clean">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <sequential>
+            <echo>clean @{name}</echo>   
+            <delete dir="@{dir}" failonerror="false"/>
+            <mkdir dir="@{dir}" />
+        </sequential>
+    </macrodef>
+
+    <!-- Copy all needed source files -->
+    <macrodef name="copySource">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <sequential>
+            <echo>Copying module sources: @{name}</echo>
+            <mkdir dir="@{dir}/src/main/java"/>
+            <copy todir="@{dir}/src/main/java" >
+                <fileset dir="${basedir}/@{name}/src"
+                />
+            </copy>
+            <mkdir dir="@{dir}/src/main/resources"/>
+            <copy todir="@{dir}/src/main/resources" >
+                <fileset dir="${basedir}/@{name}/src" excludes="**/*.java,**/package.html"
+                />
+            </copy>
+            <copy todir="@{dir}/" >
+                <fileset dir="${basedir}/@{name}/"
+                  includes=".checkstyle"
+                />
+            </copy>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="copyTestSource" >
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <sequential>
+            <echo>Copying module test sources: @{name}</echo>
+            <copy todir="@{dir}/src/test/java" >
+                <fileset dir="${basedir}/@{name}Test/src"
+                />
+            </copy>
+            <mkdir dir="@{dir}/src/test/resources"/>
+            <copy todir="@{dir}/src/test/resources" >
+                <fileset dir="${basedir}/@{name}Test/src"
+                    includes="**/*.xml,*.txt,*.xsl,*.xsd,*.properties"
+                    excludes="**/*.java,**/package.html"
+                />
+            </copy>
+            <!-- if ressource loading via classes is done -->
+            <copy todir="@{dir}/target/test-classes" >
+                <fileset dir="${basedir}/@{name}Test/src"
+                    includes="**/*.xml,*.txt,*.xsl,*.xsd,*.properties"
+                    excludes="**/*.java,**/package.html"
+                />
+            </copy>
+            <available file="${basedir}/@{name}Test/data" type="dir"
+                        property="qedeq.test.@{name}.data-present"  />
+            <echo>qedeq.test.@{name}.data-present=${qedeq.test.@{name}.data-present}</echo>   
+            <antcall target="-copyTestData">
+                <param name="QedeqModule" value="@{name}"/>
+                <param name="QedeqDest" value="@{dir}"/>
+            </antcall>   
+        </sequential>
+    </macrodef>
+
+    <!-- for antcalls with parameter ${QedeqModule} and ${QedeqDest} -->
+    <target name="-copyTestData" if="qedeq.test.${QedeqModule}.data-present">
+        <echo>Copying module test data: ${QedeqModule}</echo>
+        <mkdir dir="${QedeqDest}/src/test/resources/data" />   
+        <copy todir="${QedeqDest}/src/test/resources/data" >
+          <fileset dir="${basedir}/${QedeqModule}Test/data"
+          />
+        </copy>
+        <!-- TODO this a quick and dirty hack: we copy the original modules into the test dir -->   
+        <mkdir dir="${QedeqDest}/src/test/resources/data/doc" />   
+        <copy todir="${QedeqDest}/src/test/resources/data/doc" >
+          <fileset dir="${basedir}/QedeqDoc"
+          />
+        </copy>
+        <!-- TODO this a quick and dirty hack: we copy the log4j config file to the test resources -->   
+        <copy todir="${QedeqDest}/target/test-outdir/config">
+            <fileset file="${basedir}/QedeqGuiSe/src/config/*" 
+                excludes="**/log4j.properties" />
+            <filterset refid="qedeq_filter" />
+        </copy>
+   </target>
+
+    <!-- Compile all files in sub directory "src/main/java" into sub directory "target/classes" -->
+    <macrodef name="compile">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <attribute name="classpath" />   <!-- refid for compile classpath -->
+        <sequential>
+            <echo>compile @{name}</echo>   
+            <mkdir dir="@{dir}/target/classes"/>
+            <javac srcdir="@{dir}/src/main/java"
+                   destdir="@{dir}/target/classes"
+                   debug="on"
+                   debuglevel="lines,vars,source"
+                   target="1.4"
+                   source="1.4"
+                   deprecation="true"
+                   >
+               <classpath refid="@{classpath}" />
+            </javac>
+        </sequential>
+    </macrodef>
+
+    <!-- Compile all files in sub directory "src/test/java" into sub directory "target/test-classes" -->
+    <macrodef name="testCompile">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <attribute name="classpath" />   <!-- refid for test compile classpath -->
+        <sequential>
+            <echo>compile tests @{name}</echo>   
+            <mkdir dir="@{dir}/target/test-classes"/>
+            <javac srcdir="@{dir}/src/test/java"
+                   destdir="@{dir}/target/test-classes"
+                   debug="on"
+                   debuglevel="lines,vars,source"
+                   target="1.4"
+                   source="1.4"
+                   deprecation="true"
+                   >
+               <classpath refid="@{classpath}" />
+            </javac>
+        </sequential>
+    </macrodef>
+
+    <!-- Run all tests with clover, recompile without clover -->
+    <macrodef name="cloverTest">
+        <attribute name="name" />        <!-- artifact name -->
+        <attribute name="dir" />         <!-- destination directory -->
+        <attribute name="classpath" />   <!-- refid for compile, test compile and run classpath -->
+        <sequential>
+            <delete dir="@{dir}/target/classes" />   
+            <delete dir="@{dir}/target/test-classes" />
+            <delete dir="@{dir}/target/reports/clover" failonerror="false" />   
+            <mkdir dir="@{dir}/target/reports/clover" />   
+            <clover-setup initstring="@{dir}/target/reports/clover/data/clover.db">  
+                <fileset dir="@{dir}/src/test/java">
+                    <include name="**/*.java"/>
+                    <exclude name="**/*Suite.java"/>
+               </fileset>        
+                <fileset dir="@{dir}/src/main/java">
+               </fileset>        
+            </clover-setup>
+            <compile     name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
+            <testCompile name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
+            <utest       name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
+            <clover-report>
+                <current outfile="@{dir}/target/reports/clover/report">
+                    <format type="html" />
+                    <testsources dir="@{dir}/src/test/java">
+                        <include name="**/*.java"/>
+                        <exclude name="**/*Suite.java"/>
+                   </testsources>        
+                </current>
+            </clover-report>
+            <!-- put things right again, get rid of instrumentation -->   
+            <clover-setup initstring="@{dir}/target/reports/clover/data/clover.db" enabled="false" />  
+            <compile     name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
+            <testCompile name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
+        </sequential>
+    </macrodef>   
+   
+
+    <!-- Run all tests in sub directory "target/test-classes" and write report to "reports/junit/report" -->
+    <macrodef name="utest">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <attribute name="classpath" />   <!-- refid for test runtime classpath -->
+        <sequential>
+            <echo>test @{name}</echo>   
+            <delete dir="@{dir}/target/reports/junit/data" failonerror="false"/>
+            <mkdir dir="@{dir}/target/reports/junit/data" />
+            <delete dir="@{dir}/target/reports/junit/report" failonerror="false"/>
+            <mkdir dir="@{dir}/target/reports/junit/report" />
+            <mkdir dir="@{dir}/target/test-outdir" />
+            <mkdir dir="@{dir}/src/test/resources" /> <!-- create if it doesn't exist already -->   
+            <junit fork="yes" printsummary="yes" dir="@{dir}/target/test-outdir"
+                failureproperty="qedeq.junitfailure"   
+                showoutput="true"   
+                maxmemory="1024M">
+                <classpath refid="@{classpath}"/>
+                <formatter type="brief" usefile="yes"/>
+                <formatter type="plain" usefile="yes"/>
+                <formatter type="xml" usefile="yes"/>
+                <sysproperty key="qedeq.test.indir" value="@{dir}/src/test/resources/data"/>
+                <sysproperty key="qedeq.test.outdir" value="@{dir}/target/test-outdir"/>
+                <batchtest fork="true"
+                        todir="@{dir}/target/reports/junit/data"
+                        haltonerror="false"
+                        haltonfailure="false">
+                      
+                    <fileset dir="@{dir}/target/test-classes">
+                        <include name="**/*Test.class" />
+                        <exclude name="**/Abstract*Test.class" />
+                    </fileset>
+                </batchtest>
+            </junit>
+            <testReport reportdir="@{dir}/target/reports/junit" />
+        </sequential>
+    </macrodef>
+
+    <!-- Cummulate test report, write report to "reports" -->
+    <macrodef name="testReport">
+        <attribute name="reportdir" />   <!-- report directory -->
+        <sequential>
+            <junitreport todir="@{reportdir}/report">
+                <fileset dir="@{reportdir}/data">
+                    <include name="TEST-*.xml" />
+                </fileset>
+                <report format="frames" todir="@{reportdir}/report"
+                />
+            </junitreport>
+        </sequential>
+    </macrodef>
+
+ 
+    <!-- Run all pest tests in sub directory "target/test-classes" and write report to "reports" -->
+    <macrodef name="pest">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <attribute name="classpath" />   <!-- refid for test runtime classpath -->
+        <sequential>
+            <echo>pest @{name}</echo>   
+            <delete dir="@{dir}/target/reports/junitpest/data" failonerror="false"/>
+            <mkdir dir="@{dir}/target/reports/junitpest/data" />
+            <delete dir="@{dir}/target/reports/junitpest/report" failonerror="false"/>
+            <mkdir dir="@{dir}/target/reports/junitpest/report" />
+            <mkdir dir="@{dir}/target/test-outdir" />
+            <mkdir dir="@{dir}/src/test/resources" /> <!-- create if it doesn't exist already -->   
+            <junit fork="yes" printsummary="yes" dir="@{dir}/target/test-outdir"
+                showoutput="true"   
+                maxmemory="1024M">
+                <classpath refid="@{classpath}"/>
+                <formatter type="brief" usefile="yes"/>
+                <formatter type="plain" usefile="yes"/>
+                <formatter type="xml" usefile="yes"/>
+                <sysproperty key="qedeq.test.indir" value="@{dir}/src/test/resources/data"/>
+                <sysproperty key="qedeq.test.outdir" value="@{dir}/target/test-outdir"/>
+                <batchtest fork="true"
+                        todir="@{dir}/target/reports/junitpest/data"
+                        haltonerror="false"
+                        haltonfailure="false">
+                      
+                    <fileset dir="@{dir}/target/test-classes">
+                        <include name="**/*PestSuite.class" />
+                    </fileset>
+                </batchtest>
+            </junit>
+            <testReport reportdir="@{dir}/target/reports/junitpest" />
+        </sequential>
+    </macrodef>
+
+    
+    <!-- write source as html to "reports", generates browseable HTML version of the source code -->
+    <macrodef name="sourceHtml">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <sequential>
+            <echo>creating HTML source for @{name}</echo>   
+            <delete dir="@{dir}/target/reports/source/report" failonerror="false"/>
+            <mkdir dir="@{dir}/target/reports/source/report" />
+            <java2html
+                srcdir="@{dir}/src/main/java"
+                destdir="@{dir}/target/reports/source/report"
+                includes="**/*.java"
+                outputFormat="html"
+                tabs="4"
+                style="eclipse"
+                showLineNumbers="true"
+                showFileName="true"
+                showTableBorder="true"
+                includeDocumentHeader="true"
+                includeDocumentFooter="true"
+                addLineAnchors="true"
+                lineAnchorPrefix="fff"/>
+        </sequential>
+    </macrodef>
+
+    <!-- Run checkstyle" and write report to "reports" -->
+    <macrodef name="checkstyleReport">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <attribute name="classpath" />   <!-- refid for test runtime classpath -->
+        <attribute name="checks" />      <!-- checks to perform -->
+        <attribute name="style" />       <!-- XSLT transformer file -->
+        <sequential>
+            <echo>checkstyle @{name}</echo>   
+
+            <delete dir="@{dir}/target/reports/checkstyle" failonerror="false"/>
+            <mkdir dir="@{dir}/target/reports/checkstyle/data" />
+            <mkdir dir="@{dir}/target/reports/checkstyle/report" />
+            <pathconvert property="checkstyle.basedir.@{name}">
+                <path location="@{dir}/src/main/java" />
+            </pathconvert>
+            
+            <echo>${checkstyle.basedir.@{name}}</echo>
+            
+            <checkstyle config="@{checks}"
+                        failureProperty="checkstyle.failure"
+                        failOnViolation="false"
+                        classpathref="@{classpath}"
+            >
+                <formatter type="xml" tofile="@{dir}/target/reports/checkstyle/data/checkstyle_report.xml"/>
+                <fileset dir="@{dir}/src/main/java" />
+            </checkstyle>
+            
+            <!-- the following line has effect!!! :((( -->
+            <replace file="@{dir}/target/reports/checkstyle/data/checkstyle_report.xml" 
+                token="${checkstyle.basedir.@{name}}"
+                value=""
+            />
+            <xslt in="@{dir}/target/reports/checkstyle/data/checkstyle_report.xml" 
+                out="@{dir}/target/reports/checkstyle/report/index.html" 
+                style="@{style}">
+                <param name="basedir" expression="${checkstyle.basedir.@{name}}"/>
+            </xslt>
+        </sequential>
+    </macrodef>
+
+    <!-- copy "reports" entries to assembly -->
+    <macrodef name="assembleReports">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <sequential>
+            <echo>assemble reports for @{name}</echo>   
+            <mkdir dir="${qedeq.dest}/src/reports/@{name}/junit" />
+            <copy todir="${qedeq.dest}/src/reports/@{name}/junit" failonerror="false">
+                <fileset dir="@{dir}/target/reports/junit/report" />
+            </copy>   
+            <mkdir dir="${qedeq.dest}/src/reports/@{name}/junitpest" />
+            <copy todir="${qedeq.dest}/src/reports/@{name}/junitpest" failonerror="false">
+                <fileset dir="@{dir}/target/reports/junitpest/report" />
+            </copy>   
+            <mkdir dir="${qedeq.dest}/src/reports/@{name}/clover" />
+            <copy todir="${qedeq.dest}/src/reports/@{name}/clover" failonerror="false">
+                <fileset dir="@{dir}/target/reports/clover/report" />
+            </copy>   
+        </sequential>
+    </macrodef>
+
+    <!-- pack classes and resources into jar " -->
+    <macrodef name="package">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <attribute name="version" />  <!-- version -->
+        <attribute name="manifest" />  <!-- manifest file -->
+        <attribute name="includes" />  <!-- additional filesset id to put into the jar -->
+        <sequential>
+            <jar
+             jarfile="@{dir}/@{name}-@{version}.jar"
+             manifest="@{manifest}"
+            >
+                <fileset dir="@{dir}/target/classes"/>
+                <fileset dir="@{dir}/src/main/resources"/>
+                <fileset refid="@{includes}" /> 
+            </jar>
+        </sequential>
+    </macrodef>
+
+    <!-- create pdf out of LaTeX files. pdflatex must be installed -->   
+    <macrodef name="makePdf">
+        <attribute name="dir" />   <!-- directory with LaTeX file within -->
+        <attribute name="file" />  <!-- LaTeX file name without path -->
+        <sequential>
+            <exec executable="pdflatex">
+                <arg value="-output-directory" />
+                <arg value="@{dir}" />
+                <arg value="@{dir}/@{file}" />
+            </exec>
+            <exec executable="pdflatex">
+                <arg value="-output-directory" />
+                <arg value="@{dir}" />
+                <arg value="@{dir}/@{file}" />
+            </exec>
+        </sequential>
+    </macrodef>
+    
+</project>

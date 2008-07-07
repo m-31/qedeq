@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<links xmlns="http://qedeq.org/current/xml">
+	<schema file-location="qedeq.xsd" docfile-location="qedeq.xsd.html"/>
+	<schema file-location="parser.xsd" docfile-location="parser.xsd.html"/>
+	<schema file-location="XMLSchema.xsd" docfile-location="XMLSchema.xsd.html"/>
+</links>

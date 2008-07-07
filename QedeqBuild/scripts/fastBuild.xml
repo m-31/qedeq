@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- $Id: buildReleaseSe.xml,v 1.32 2008/05/16 19:19:22 m31 Exp $ -->
+<!-- $RCSfile: buildReleaseSe.xml,v $ -->
+<!-- $Revision: 1.32 $ -->
+<!-- author: mime -->
+<!-- project: Hilbert II -->
+
+<!-- This is the Ant build file for building the Se release of project Hilbert II -->
+<project name="fastBuild" default="all" basedir="../..">
+    <description>
+        Developer build for Hilbert II.   
+    </description>
+
+    <import file="releaseBuild.xml" />
+
+    <target name="test" description="run all tests" depends="testCompile">
+        
+        <!-- move slow tests -->   
+        <delete dir="${qedeq.temp}/slow" />   
+        <mkdir dir="${qedeq.temp}/slow" />   
+        <move todir="${qedeq.temp}/slow">
+        	<fileset dir="${qedeq.dest.module}">
+        	    <include name="**/QedeqBoFactory*" />
+                <include name="**/GenerateLatexTest*" />                
+                <include name="**/VisitorContextTest*" />                
+        	</fileset>
+        </move>
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" />
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" />
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" />
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" />
+        <utest       name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common" />
+        <utest       name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common" />
+       
+<!-- takes too long:       
+        <utest       name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"  />
+-->
+        <mkdir dir="${qedeq.dest.module}/qedeq_kernel/target/reports/junit/data" />
+        <mkdir dir="${qedeq.dest.module}/qedeq_kernel/target/reports/junit/report" />
+        <copy todir="${qedeq.dest.module}/qedeq_kernel/target/reports/junit/data">
+            <fileset dir="${qedeq.dest.module}/QedeqBase/target/reports/junit/data"       includes="*.xml,*.txt" />
+            <fileset dir="${qedeq.dest.module}/QedeqKernelSe/target/reports/junit/data"   includes="*.xml,*.txt" />
+            <fileset dir="${qedeq.dest.module}/QedeqKernelBo/target/reports/junit/data"   includes="*.xml,*.txt" />
+            <fileset dir="${qedeq.dest.module}/QedeqKernelXml/target/reports/junit/data"  includes="*.xml,*.txt" />
+        </copy>
+        <testReport reportdir="${qedeq.dest.module}/qedeq_kernel/target/reports/junit" />
+
+        <!-- put slow tests back -->   
+        <move todir="${qedeq.dest.module}">
+            <fileset dir="${qedeq.temp}/slow">
+                <include name="**/*" />
+            </fileset>
+        </move>
+    </target>
+ 
+    <target name="makePdfs" description="create PDF files out of certain *.tex test results" depends="test">
+        <!-- fake creation by GenerateLatexText -->
+        <mkdir dir="${qedeq.dest.module}/QedeqKernelBo/target/test-outdir/doc" />
+    </target>
+ 
+    <target name="release" depends="assemble">
+       <!-- don't do anything because we want to be fast.. -->   
+    </target>
+        
+    <target name="maven" depends="release">
+       <!-- don't do anything because we want to be fast.. -->   
+    </target>
+        
+</project>
+
+
