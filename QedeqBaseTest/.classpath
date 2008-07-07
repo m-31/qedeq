@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry path="src" kind="src"/>
+	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true" kind="con"/>
+	<classpathentry path="/QedeqLib/xalan.jar" exported="true" kind="lib"/>
+	<classpathentry path="/QedeqLib/xercesImpl.jar" exported="true" kind="lib"/>
+	<classpathentry path="/QedeqLib/xml-apis.jar" exported="true" kind="lib"/>
+	<classpathentry sourcepath="/QedeqLib/src/junit_3.8.1_src.jar" path="/QedeqLib/junit.jar" exported="true" kind="lib"/>
+	<classpathentry path="/QedeqLib/log4j-1.2.14.jar" exported="true" kind="lib"/>
+	<classpathentry path="/QedeqBase" combineaccessrules="false" kind="src"/>
+	<classpathentry path="bin" kind="output"/>
+</classpath>
