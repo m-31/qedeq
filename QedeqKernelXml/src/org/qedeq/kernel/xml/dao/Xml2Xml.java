@@ -100,6 +100,9 @@ public final class Xml2Xml  {
             // TODO mime 20080303: find a solution without casting!
             final KernelQedeqBo prop = (KernelQedeqBo) KernelContext.getInstance()
                 .loadModule(address);
+            if (prop.getLoadingState().isFailure()) {
+                throw prop.getException();
+            }
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream);
