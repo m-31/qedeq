@@ -88,12 +88,13 @@ public class SaxEntityResolver implements EntityResolver {
         }
         Trace.trace(CLASS, this, method, "unknown entity");
         SAXParseException sax = handler.createSAXParseException(
-            "this kernel supports only the following XSDs:\n"
-            + "http://www.qedeq.org/" + KernelContext.getInstance()
-            .getKernelVersionDirectory() + "/xml/qedeq.xsd" + "\n"
-            + "http://www.qedeq.org/"
+            "this kernel supports only the following XSDs: "
+            + "\"http://www.qedeq.org/" + KernelContext.getInstance()
+            .getKernelVersionDirectory() + "/xml/qedeq.xsd\"" + " and "
+            + "\"http://www.qedeq.org/"
             + KernelContext.getInstance().getKernelVersionDirectory()
-            + "/xml/parser.xsd");
+            + "/xml/parser.xsd\""
+            + " but the document \"" + handler.getUrl() + "\" referenced \"" + systemId + "\"");
         throw sax;
         // LATER mime 20070604: this error should have correct location information,
         // but is hasn't! this problem should be solved later...

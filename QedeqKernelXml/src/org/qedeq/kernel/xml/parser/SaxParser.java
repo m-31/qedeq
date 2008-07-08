@@ -162,13 +162,14 @@ public final class SaxParser {
             stream = new FileInputStream(in);
             final InputSource input = new InputSource(stream);
             reader.setErrorHandler(new SaxErrorHandler(original, exceptionList));
+            handler.setUrl(original);
+            deflt.setUrl(original);
             if (validateOnly) {
                 reader.setContentHandler(deflt);
                 reader.parse(input);
             } else {
                 handler.setExceptionList(exceptionList);
                 reader.setContentHandler(handler);
-                handler.setUrl(original);
                 reader.parse(input);
             }
         } catch (SAXException e) {

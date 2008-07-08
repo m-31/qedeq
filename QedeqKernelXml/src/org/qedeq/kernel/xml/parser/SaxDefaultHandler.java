@@ -16,7 +16,6 @@
  */
 package org.qedeq.kernel.xml.parser;
 
-import java.net.URL;
 import java.util.Stack;
 
 import org.qedeq.base.trace.Trace;
@@ -70,10 +69,6 @@ public class SaxDefaultHandler extends SimpleHandler {
 
     /** Current tag name. Could be <code>null</code>. */
     private String currentElementName;
-
-    /** File that is parsed. */
-    private URL url;
-
 
     /**
      * Constructor.
@@ -337,8 +332,8 @@ public class SaxDefaultHandler extends SimpleHandler {
      * @param   e   Set location information within this exception.
      */
     private final void setLocationInformation(final XmlSyntaxException e) {
-        if (getLocator() != null && url != null) {
-            e.setErrorPosition(new SourcePosition(url, getLocator().getLineNumber(),
+        if (getLocator() != null && getUrl() != null) {
+            e.setErrorPosition(new SourcePosition(getUrl(), getLocator().getLineNumber(),
                 getLocator().getColumnNumber()));
         }
     }
@@ -349,33 +344,14 @@ public class SaxDefaultHandler extends SimpleHandler {
      * @return  Current area.
      */
     private final SourceArea createSourceArea() {
-        if (getLocator() != null && url != null) {
-            return new SourceArea(url, new SourcePosition(url, getLocator().getLineNumber(),
-                1),
-                new SourcePosition(url, getLocator().getLineNumber(),
+        if (getLocator() != null && getUrl() != null) {
+            return new SourceArea(getUrl(), new SourcePosition(getUrl(),
+                getLocator().getLineNumber(), 1),
+                new SourcePosition(getUrl(), getLocator().getLineNumber(),
                 getLocator().getColumnNumber()));
         }
-        return new SourceArea(url, new SourcePosition(url, 1 , 1), new SourcePosition(url, 1 , 1));
-    }
-
-    /**
-     * Set original file URL.
-     *
-     * @param   url     Data from this source is parsed. This URL is only for information. The
-     *                  actual parsed data might be a local copy.
-     */
-    public final void setUrl(final URL url) {
-        this.url = url;
-    }
-
-    /**
-     * Get original file URL.
-     *
-     * @return  Data from this source is parsed. This URL is only for information. The
-     *          actual parsed data might be a local copy.
-     */
-    public final URL getUrl() {
-        return url;
+        return new SourceArea(getUrl(), new SourcePosition(getUrl(), 1 , 1),
+            new SourcePosition(getUrl(), 1 , 1));
     }
 
 }

@@ -17,6 +17,7 @@
 package org.qedeq.kernel.xml.parser;
 
 import java.lang.reflect.Method;
+import java.net.URL;
 
 import org.qedeq.base.trace.Trace;
 import org.xml.sax.Locator;
@@ -40,6 +41,9 @@ public class SimpleHandler extends DefaultHandler {
 
     /** Which encoding was used to parse the document? */
     private String encoding;
+
+    /** File that is parsed. */
+    private URL url;
 
     /**
      * Constructor.
@@ -102,6 +106,26 @@ public class SimpleHandler extends DefaultHandler {
      */
     protected Locator getLocator() {
         return locator;
+    }
+
+    /**
+     * Set original file URL.
+     *
+     * @param   url     Data from this source is parsed. This URL is only for information. The
+     *                  actual parsed data might be a local copy.
+     */
+    public final void setUrl(final URL url) {
+        this.url = url;
+    }
+
+    /**
+     * Get original file URL.
+     *
+     * @return  Data from this source is parsed. This URL is only for information. The
+     *          actual parsed data might be a local copy.
+     */
+    public final URL getUrl() {
+        return url;
     }
 
 }
