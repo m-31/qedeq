@@ -15,7 +15,7 @@
     <import file="macros.xml" />
 
     <!-- set global properties for this build -->
-    <property file="${basedir}/QedeqRel/conf/build.properties" />
+    <property file="${basedir}/QedeqBuild/scripts/build.properties" />
     <property name="qedeq.lib"             value="${basedir}/QedeqLib" />
     <property name="qedeq.gen"             value="${basedir}/../../qedeq_gen" />
     <property name="qedeq.se.site"         value="${basedir}/../../qedeq_gen/release/ant/site" />
@@ -44,9 +44,9 @@ currently in ants classpath
     </tstamp>
 
     <filterset id="qedeq_filter" begintoken="@" endtoken="@">
-        <filter token="QEDEQ_VERSION"     value="${qedeq.working.version}" />
-        <filter token="QEDEQ_CODENAME"    value="${qedeq.working.codename}" />
-        <filter token="QEDEQ_DIRECTORY"   value="${qedeq.working.directory}" />
+        <filter token="QEDEQ_VERSION"     value="${qedeq.release.version}" />
+        <filter token="QEDEQ_CODENAME"    value="${qedeq.release.codename}" />
+        <filter token="QEDEQ_DIRECTORY"   value="${qedeq.release.directory}" />
         <filter token="QEDEQ_TIMESTAMP"   value="${qedeq.se.timestamp}" />
         <filter token="QEDEQ_BUILD_ID"    value="${qedeq.se.buildId}" />
         <filter token="trace_file_path"   value="./log/trace.txt" />
@@ -198,11 +198,11 @@ currently in ants classpath
         <fileset id="qedeq.jar.includes" dir="${qedeq.temp}" 
             includes="readme.txt,gpl.txt" />
         <package     name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"
-                     version="${qedeq.working.version}"   
+                     version="${qedeq.release.version}"   
                      manifest="${qedeq.temp}/manifest.txt" includes="qedeq.jar.includes" />
         
         <package     name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"
-                     version="${qedeq.working.version}"   
+                     version="${qedeq.release.version}"
                      manifest="${qedeq.temp}/manifest.txt" includes="qedeq.jar.includes" />
     </target>
 
@@ -303,8 +303,8 @@ currently in ants classpath
             <fileset file="${qedeq.lib}/log4j-1.2.14.jar" />
             <fileset file="${qedeq.lib}/forms-1.1.0.jar" />
             <fileset file="${qedeq.lib}/looks-2.1.4.jar" />
-            <fileset file="${qedeq.dest.module}/qedeq_kernel/qedeq_kernel-${qedeq.working.version}.jar" />
-            <fileset file="${qedeq.dest.module}/qedeq_gui_se/qedeq_gui_se-${qedeq.working.version}.jar" />
+            <fileset file="${qedeq.dest.module}/qedeq_kernel/qedeq_kernel-${qedeq.release.version}.jar" />
+            <fileset file="${qedeq.dest.module}/qedeq_gui_se/qedeq_gui_se-${qedeq.release.version}.jar" />
         </copy>
        
         <!-- copy licenses --> 
@@ -414,7 +414,7 @@ currently in ants classpath
             excludes="xml/qedeq/**"   
         />
         <zip whenempty="create"
-          zipfile="${qedeq.dist}/qedeq_${qedeq.working.version}_win.zip"
+          zipfile="${qedeq.dist}/qedeq_${qedeq.release.version}_win.zip"
         >
           <fileset dir="${qedeq.dest}/.." 
             includes="${qedeq.directory}/**"
@@ -429,7 +429,7 @@ currently in ants classpath
             excludes="xml/qedeq/**"   
         />
         <tar
-          destfile="${qedeq.dist}/qedeq_${qedeq.working.version}_unx.tar.bz2"
+          destfile="${qedeq.dist}/qedeq_${qedeq.release.version}_unx.tar.bz2"
           defaultexcludes="no"
           compression="bzip2"
         >
@@ -451,7 +451,7 @@ currently in ants classpath
              includes="**/*.sh,**/*.java,**/*.html,**/*.txt,**/*.properties,**/*.tex,**/*.xml,**/*.xsd"
         />
         <zip whenempty="create"
-          zipfile="${qedeq.dist}/qedeq_${qedeq.working.version}_mac.zip"
+          zipfile="${qedeq.dist}/qedeq_${qedeq.release.version}_mac.zip"
         >
           <fileset dir="${qedeq.dest}" 
           />
@@ -465,9 +465,9 @@ currently in ants classpath
         <copy todir="${qedeq.webstart}">
             <fileset dir="${qedeq.dest}/lib" />
         </copy>
-        <signjar jar="${qedeq.webstart}/qedeq_kernel-${qedeq.working.version}.jar" alias="qedeqkey"
+        <signjar jar="${qedeq.webstart}/qedeq_kernel-${qedeq.release.version}.jar" alias="qedeqkey"
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
-        <signjar jar="${qedeq.webstart}/qedeq_gui_se-${qedeq.working.version}.jar" alias="qedeqkey"
+        <signjar jar="${qedeq.webstart}/qedeq_gui_se-${qedeq.release.version}.jar" alias="qedeqkey"
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
         <signjar jar="${qedeq.webstart}/commons-io-1.4.jar" alias="qedeqkey"
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
