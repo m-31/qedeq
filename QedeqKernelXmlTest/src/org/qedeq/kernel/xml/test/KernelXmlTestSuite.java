@@ -58,7 +58,6 @@ public class KernelXmlTestSuite extends QedeqTestSuite {
     public KernelXmlTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
         addTestSuite(GenerateXmlTest.class);
-
         addTestSuite(QedeqParserTest.class);
         addTestSuite(SchemaTest.class);
         addTest(KernelXmlTrackerTestSuite.suite());

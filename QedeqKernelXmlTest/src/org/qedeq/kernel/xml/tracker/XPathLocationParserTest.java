@@ -25,7 +25,7 @@ import org.qedeq.base.trace.Trace;
 
 /**
  * Test {@link org.qedeq.kernel.xml.tracker.XPathLocationFinder}.
- * 
+ *
  * @version $Revision: 1.2 $
  * @author Michael Meyling
  */
@@ -44,27 +44,27 @@ public class XPathLocationParserTest extends QedeqTestCase {
 
     /**
      * Test {@link XPathLocationFinder}.
-     * 
+     *
      * @throws Exception Test failed.
      */
     public final void testGetXPathLocation() throws Exception {
-        checkPosition("xpathLocationFinder.xml", 
-                "/QEDEQ", 
+        checkPosition("xpathLocationFinder.xml",
+                "/QEDEQ",
                 2, 1, 304, 9);
-        checkPosition("xpathLocationFinder.xml", 
-                "/QEDEQ[1]", 
+        checkPosition("xpathLocationFinder.xml",
+                "/QEDEQ[1]",
                 2, 1, 304, 9);
-        checkPosition("xpathLocationFinder.xml", 
-                "/QEDEQ/CHAPTER/SECTION/NODE", 
+        checkPosition("xpathLocationFinder.xml",
+                "/QEDEQ/CHAPTER/SECTION/NODE",
                 100, 7, 139, 14);
-        checkPosition("xpathLocationFinder.xml", 
-                "/QEDEQ/CHAPTER[1]/SECTION/NODE[1]", 
+        checkPosition("xpathLocationFinder.xml",
+                "/QEDEQ/CHAPTER[1]/SECTION/NODE[1]",
                 100, 7, 139, 14);
-        checkPosition("xpathLocationFinder.xml", 
-                "/QEDEQ/CHAPTER/SECTION/NODE@label", 
+        checkPosition("xpathLocationFinder.xml",
+                "/QEDEQ/CHAPTER/SECTION/NODE@label",
                 100, 13, 100, 23);
-        checkPosition("xpathLocationFinder.xml", 
-                "/QEDEQ/CHAPTER/SECTION/NODE[2]", 
+        checkPosition("xpathLocationFinder.xml",
+                "/QEDEQ/CHAPTER/SECTION/NODE[2]",
                 140, 7, 212, 14);
         checkPosition("xpathLocationFinder.xml",
                 "/QEDEQ/CHAPTER/SECTION/NODE[2]/AXIOM/FORMULA/FORALL/FORALL/IMPL/FORALL/VAR@id",
