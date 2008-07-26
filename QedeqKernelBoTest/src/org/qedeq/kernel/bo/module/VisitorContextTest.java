@@ -88,7 +88,7 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
 
     /** Traverse QEDEQ module with this traverser. */
     private QedeqNotNullTraverser traverser;
-    
+
     private Qedeq qedeq;
 
     private File moduleFile;
@@ -100,7 +100,7 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
         traverser = new QedeqNotNullTraverser(globalContext, this);
         traverser.accept(qedeq);
     }
-    
+
     public void visitEnter(final Atom atom) throws ModuleDataException {
         checkContext();
     }
@@ -386,13 +386,13 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
     private void checkContext() throws ModuleDataException {
         final String context = traverser.getCurrentContext().getLocationWithinModule();
         try {
-            Trace.param(CLASS, "checkContext()", 
+            Trace.param(CLASS, "checkContext()",
             "context > ", context);
             if (context.length() > 0) {
                 DynamicGetter.get(qedeq, context);
             }
         } catch (RuntimeException e) {
-            System.err.println(context); 
+            System.err.println(context);
             throw e;
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
@@ -401,19 +401,19 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
         }
 
         SimpleXPath xpath = Context2SimpleXPath.getXPath(traverser.getCurrentContext(), qedeq);
-        Trace.param(CLASS, "checkContext()", 
+        Trace.param(CLASS, "checkContext()",
             "xpath   < ", xpath);
         try {
-            final SimpleXPath find = XPathLocationParser.getXPathLocation(moduleFile, 
+            final SimpleXPath find = XPathLocationParser.getXPathLocation(moduleFile,
                 xpath.toString(), IoUtility.toUrl(moduleFile));
             if (find.getStartLocation() == null) {
                 System.out.println(traverser.getCurrentContext());
-                throw new RuntimeException("start not found: " + find + "\ncontext: " 
+                throw new RuntimeException("start not found: " + find + "\ncontext: "
                     + context);
             }
             if (find.getEndLocation() == null) {
                 System.out.println(traverser.getCurrentContext());
-                throw new RuntimeException("end not found: " + find + "\ncontext: " 
+                throw new RuntimeException("end not found: " + find + "\ncontext: "
                     + context);
             }
 
