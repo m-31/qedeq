@@ -1,4 +1,4 @@
-/* $Id: QedeqGuiConfig.java,v 1.3 2008/03/27 05:14:03 m31 Exp $
+/* $Id: QedeqGuiConfig.java,v 1.4 2008/07/26 07:57:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -27,7 +27,7 @@ import org.qedeq.kernel.config.QedeqConfig;
 /**
  * This class gives a type save access to the GUI properties of the application.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class QedeqGuiConfig extends QedeqConfig {

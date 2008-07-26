@@ -1,4 +1,4 @@
-/* $Id: LowerTabbedView.java,v 1.6 2008/05/15 21:26:46 m31 Exp $
+/* $Id: LowerTabbedView.java,v 1.7 2008/07/26 07:57:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -34,7 +34,7 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 /**
  * Lower tabbed pane view.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public final class LowerTabbedView extends JPanel {

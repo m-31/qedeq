@@ -1,4 +1,4 @@
-/* $Id: RemoveModuleAction.java,v 1.2 2008/05/15 21:26:45 m31 Exp $
+/* $Id: RemoveModuleAction.java,v 1.3 2008/07/26 07:57:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

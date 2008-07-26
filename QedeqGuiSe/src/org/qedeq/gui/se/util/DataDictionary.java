@@ -1,4 +1,4 @@
-/* $Id: DataDictionary.java,v 1.4 2008/03/27 05:14:04 m31 Exp $
+/* $Id: DataDictionary.java,v 1.5 2008/07/26 07:57:45 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.base.trace.Trace;
  * This class reads entries from property files and
  * gives typed get and set methods.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public final class DataDictionary {

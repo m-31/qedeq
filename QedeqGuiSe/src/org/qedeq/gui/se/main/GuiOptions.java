@@ -1,4 +1,4 @@
-/* $Id: GuiOptions.java,v 1.4 2008/03/27 05:14:04 m31 Exp $
+/* $Id: GuiOptions.java,v 1.5 2008/07/26 07:57:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -31,7 +31,7 @@ import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 /**
  * Container for GUI design settings for JGoodies.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public final class GuiOptions {

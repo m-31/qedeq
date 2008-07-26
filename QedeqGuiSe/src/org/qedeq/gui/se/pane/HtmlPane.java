@@ -1,4 +1,4 @@
-/* $Id: HtmlPane.java,v 1.5 2008/03/27 05:14:03 m31 Exp $
+/* $Id: HtmlPane.java,v 1.6 2008/07/26 07:57:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -43,7 +43,7 @@ import org.qedeq.kernel.common.ModuleAddress;
  *
  * TODO mime 20070606: not implemented yet
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 

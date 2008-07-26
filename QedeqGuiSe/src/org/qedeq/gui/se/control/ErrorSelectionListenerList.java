@@ -1,4 +1,4 @@
-/* $Id: ErrorSelectionListenerList.java,v 1.1 2008/05/15 21:26:46 m31 Exp $
+/* $Id: ErrorSelectionListenerList.java,v 1.2 2008/07/26 07:57:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import org.qedeq.kernel.common.SourceFileException;
  *
  * LATER mime 20080415: must this be a singleton?
  *
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public final class ErrorSelectionListenerList implements ErrorSelectionListener {

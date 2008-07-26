@@ -1,4 +1,4 @@
-/* $Id: AboutAction.java,v 1.3 2008/03/27 05:14:03 m31 Exp $
+/* $Id: AboutAction.java,v 1.4 2008/07/26 07:57:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.kernel.bo.context.KernelContext;
 /**
  * Shows the "about" dialog.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 class AboutAction extends AbstractAction {

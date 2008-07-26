@@ -1,4 +1,4 @@
-/* $Id: UpperTabbedView.java,v 1.5 2008/05/15 21:26:46 m31 Exp $
+/* $Id: UpperTabbedView.java,v 1.6 2008/07/26 07:57:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -36,7 +36,7 @@ import org.qedeq.kernel.common.SourceFileException;
 /**
  * Upper tabbed pane view.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public final class UpperTabbedView extends JPanel implements ErrorSelectionListener {
