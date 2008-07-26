@@ -1,4 +1,4 @@
-/* $Id: LinkListVo.java,v 1.5 2008/03/27 05:16:23 m31 Exp $
+/* $Id: LinkListVo.java,v 1.6 2008/07/26 07:59:35 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -27,7 +27,7 @@ import org.qedeq.kernel.base.module.LinkList;
 /**
  * List of links. A link is just a string that identifies something.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public class LinkListVo implements LinkList {

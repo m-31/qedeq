@@ -1,4 +1,4 @@
-/* $Id: SpecificationVo.java,v 1.7 2008/03/27 05:16:23 m31 Exp $
+/* $Id: SpecificationVo.java,v 1.8 2008/07/26 07:59:35 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.kernel.base.module.Specification;
  * The combination of {@link #getName()} and {@link #getRuleVersion()} defines the
  * file name of that module.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 public class SpecificationVo implements Specification {

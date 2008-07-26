@@ -1,4 +1,4 @@
-/* $Id: QedeqVo.java,v 1.9 2008/03/27 05:16:23 m31 Exp $
+/* $Id: QedeqVo.java,v 1.10 2008/07/26 07:59:35 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -27,7 +27,7 @@ import org.qedeq.kernel.base.module.Qedeq;
 /**
  * A complete qedeq module. This is the root value object.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  * @author    Michael Meyling
  */
 public class QedeqVo implements Qedeq {

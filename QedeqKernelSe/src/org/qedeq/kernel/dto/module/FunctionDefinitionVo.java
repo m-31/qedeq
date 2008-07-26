@@ -1,4 +1,4 @@
-/* $Id: FunctionDefinitionVo.java,v 1.5 2008/03/27 05:16:23 m31 Exp $
+/* $Id: FunctionDefinitionVo.java,v 1.6 2008/07/26 07:59:35 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -32,7 +32,7 @@ import org.qedeq.kernel.base.module.VariableList;
  * Definition of function operator. This is a function constant. For example the function
  * "x union y" or constants like the empty set.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public class FunctionDefinitionVo implements FunctionDefinition {

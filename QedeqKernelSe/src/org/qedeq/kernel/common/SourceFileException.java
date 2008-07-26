@@ -1,4 +1,4 @@
-/* $Id: SourceFileException.java,v 1.4 2008/05/15 21:27:48 m31 Exp $
+/* $Id: SourceFileException.java,v 1.5 2008/07/26 07:59:40 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -27,7 +27,7 @@ import org.qedeq.base.io.IoUtility;
 /**
  * Data validation error. Shows an error within a source file.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public class SourceFileException extends QedeqException {

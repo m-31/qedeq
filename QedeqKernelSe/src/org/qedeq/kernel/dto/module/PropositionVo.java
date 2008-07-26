@@ -1,4 +1,4 @@
-/* $Id: PropositionVo.java,v 1.11 2008/03/27 05:16:23 m31 Exp $
+/* $Id: PropositionVo.java,v 1.12 2008/07/26 07:59:35 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -31,7 +31,7 @@ import org.qedeq.kernel.base.module.Rule;
 /**
  * Proposition.
  *
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.12 $
  * @author  Michael Meyling
  */
 public class PropositionVo implements Proposition {

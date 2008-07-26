@@ -1,4 +1,4 @@
-/* $Id: NodeType.java,v 1.8 2008/03/27 05:16:26 m31 Exp $
+/* $Id: NodeType.java,v 1.9 2008/07/26 07:59:44 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ package org.qedeq.kernel.base.module;
  * mime 20051216 I still see no solution to get round this. Some JUnit tests work against
  * this interface and get no information about the instance.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  * @author Michael Meyling
  */
 public interface NodeType {

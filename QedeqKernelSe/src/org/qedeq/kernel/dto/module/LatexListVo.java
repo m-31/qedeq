@@ -1,4 +1,4 @@
-/* $Id: LatexListVo.java,v 1.8 2008/03/27 05:16:23 m31 Exp $
+/* $Id: LatexListVo.java,v 1.9 2008/07/26 07:59:35 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.kernel.base.module.LatexList;
 /**
  * List of LaTeX text parts.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class LatexListVo implements LatexList {

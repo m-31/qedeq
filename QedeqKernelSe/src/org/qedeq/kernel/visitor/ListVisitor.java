@@ -1,4 +1,4 @@
-/* $Id: ListVisitor.java,v 1.3 2008/03/27 05:16:27 m31 Exp $
+/* $Id: ListVisitor.java,v 1.1 2008/07/26 07:59:34 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * Visit elements of the list package.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public interface ListVisitor {

@@ -1,4 +1,4 @@
-/* $Id: SectionVo.java,v 1.13 2008/03/27 05:16:23 m31 Exp $
+/* $Id: SectionVo.java,v 1.14 2008/07/26 07:59:35 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.base.module.SubsectionList;
 /**
  * Section of a qedeq file.
  *
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  * @author  Michael Meyling
  */
 public class SectionVo implements Section {

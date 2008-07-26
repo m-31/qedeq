@@ -1,4 +1,4 @@
-/* $Id: FormulaVo.java,v 1.4 2008/03/27 05:16:23 m31 Exp $
+/* $Id: FormulaVo.java,v 1.5 2008/07/26 07:59:35 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.base.module.Formula;
  * Wraps a formula. Such an object is build out of
  * {@link org.qedeq.kernel.base.list.Element}s.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public class FormulaVo implements Formula {

@@ -1,4 +1,4 @@
-/* $Id: SubsectionVo.java,v 1.8 2008/03/27 05:16:23 m31 Exp $
+/* $Id: SubsectionVo.java,v 1.9 2008/07/26 07:59:35 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.base.module.Subsection;
 /**
  * Subsection of a qedeq file.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class SubsectionVo implements Subsection {
