@@ -28,6 +28,9 @@
       <param name="module" value="QedeqDoc" />
     </antcall>
     <antcall target="copy">
+      <param name="module" value="QedeqBuild" />
+    </antcall>
+    <antcall target="copy">
       <param name="module" value="QedeqGuiSe" />
     </antcall>
     <antcall target="copy">

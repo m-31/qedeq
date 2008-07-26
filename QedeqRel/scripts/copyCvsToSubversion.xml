@@ -30,13 +30,34 @@
       <param name="module" value="QedeqDoc" />
     </antcall>
     <antcall target="copy">
+      <param name="module" value="QedeqBuild" />
+    </antcall>
+    <antcall target="copy">
       <param name="module" value="QedeqGuiSe" />
+    </antcall>
+    <antcall target="copy">
+      <param name="module" value="QedeqBase" />
+    </antcall>
+    <antcall target="copy">
+      <param name="module" value="QedeqBaseTest" />
     </antcall>
     <antcall target="copy">
       <param name="module" value="QedeqKernelSe" />
     </antcall>
     <antcall target="copy">
       <param name="module" value="QedeqKernelSeTest" />
+    </antcall>
+    <antcall target="copy">
+      <param name="module" value="QedeqKernelBo" />
+    </antcall>
+    <antcall target="copy">
+      <param name="module" value="QedeqKernelBoTest" />
+    </antcall>
+    <antcall target="copy">
+      <param name="module" value="QedeqKernelXml" />
+    </antcall>
+    <antcall target="copy">
+      <param name="module" value="QedeqKernelXmlTest" />
     </antcall>
     <antcall target="copy">
       <param name="module" value="QedeqRel" />
