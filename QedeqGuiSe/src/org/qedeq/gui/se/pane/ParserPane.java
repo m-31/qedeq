@@ -97,6 +97,7 @@ public class ParserPane extends JFrame {
         // LATER mime 20080131: hard coded window, change to FormLayout
         super("QEDEQ LaTeX Parser Sample");
         final String resourceDirectoryName = "config";
+        // TODO mime 20080725: change name and loading mechanism (no resource file in source folder)
         final String resourceName = "mengenlehreMathOperators.xml";
         operators = LoadXmlOperatorListUtility.getOperatorList(
             ResourceLoaderUtility.getResourceFile(
