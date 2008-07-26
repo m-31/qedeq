@@ -1,4 +1,4 @@
-/* $Id: CharsetParserTest.java,v 1.1 2008/03/27 05:12:46 m31 Exp $
+/* $Id: CharsetParserTest.java,v 1.1 2008/07/26 08:01:08 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

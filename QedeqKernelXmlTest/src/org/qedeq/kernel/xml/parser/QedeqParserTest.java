@@ -1,4 +1,4 @@
-/* $Id: QedeqParserTest.java,v 1.15 2008/03/27 05:12:46 m31 Exp $
+/* $Id: QedeqParserTest.java,v 1.1 2008/07/26 08:01:08 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ import org.qedeq.kernel.xml.handler.module.QedeqHandler;
 /**
  * Tests the class {@link SaxParser}.
  *
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class QedeqParserTest extends QedeqTestCase {
