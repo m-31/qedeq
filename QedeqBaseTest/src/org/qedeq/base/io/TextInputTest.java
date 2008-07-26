@@ -111,7 +111,7 @@ public class TextInputTest extends QedeqTestCase {
             // expected
         }
     }
-    
+
     /**
      * Test constructor {@link TextInput#TextInput(StringBuffer)}.
      */
@@ -389,39 +389,39 @@ public class TextInputTest extends QedeqTestCase {
         assertEquals("", second.readQuoted());
         final int position = second.getPosition();
         try {
-			second.readQuoted();
-			fail("IllegalArgumentException expected");
-		} catch (IllegalArgumentException e) {
-			// expected
-		}
-		assertTrue(position < second.getPosition());
+            second.readQuoted();
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        assertTrue(position < second.getPosition());
     }
 
     /**
      * Test {@link TextInput#readInverse()}.
      */
     public void testReadInverse() {
-    	assertEquals(-1, qedeqInput.readInverse());
-    	assertEquals('<', qedeqInput.read());
-    	assertEquals('<', qedeqInput.readInverse());
+        assertEquals(-1, qedeqInput.readInverse());
+        assertEquals('<', qedeqInput.read());
+        assertEquals('<', qedeqInput.readInverse());
     }
-    
+
     /**
      * Test {@link TextInput#readNextAttributeValue()}.
      */
     public void pestReadNextAttributeValue() {
-    	// qedeqInput.readNextAttributeValue();
+        // qedeqInput.readNextAttributeValue();
         fail("not implemented");
     }
-    
+
     /**
      * Test {@link TextInput#readNextXmlName()}.
      */
     public void pestReadNextXmlName() {
-    	qedeqInput.readNextXmlName();
+        qedeqInput.readNextXmlName();
         fail("not implemented");
     }
-    
+
     /**
      * Test {@link TextInput#getRow()}.
      */

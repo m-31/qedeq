@@ -23,7 +23,7 @@ import org.qedeq.base.io.KernelUtilityTestSuite;
 
 /**
  * Run all tests for the project.
- * 
+ *
  * @version $Revision: 1.21 $
  * @author Michael Meyling
  */
@@ -31,7 +31,7 @@ public class BaseTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelTestSuite</code>.
-     * 
+     *
      * @return Test.
      */
     public static Test suite() {
@@ -48,7 +48,7 @@ public class BaseTestSuite extends QedeqTestSuite {
     /**
      * Constructor.
      *
-     * @param   withTest    Execute test methods.      
+     * @param   withTest    Execute test methods.
      * @param   withPest    Execute pest methods.
      */
     public BaseTestSuite(final boolean withTest, final boolean withPest) {

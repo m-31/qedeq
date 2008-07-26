@@ -105,7 +105,7 @@ public final class DynamicGetter {
 //        ????????????
 
         // last expression (must not be an getter)
-        Trace.param(CLASS, "get(Object, String)", "method", 
+        Trace.param(CLASS, "get(Object, String)", "method",
             methodParam.substring(posOld));
         return getMethodResult(result, methodParam.substring(posOld));
     }

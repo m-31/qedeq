@@ -47,17 +47,17 @@ public class IoUtilityTest extends QedeqTestCase {
 
     /**
      * Test createRelativePath(final File orgin, final File next).
-     * 
+     *
      * @throws Exception
      */
     public void testCreateRelativePath() throws Exception {
         assertEquals("local", IoUtility.createRelativePath(new File("."), new File ("local")));
-        assertEquals("text", IoUtility.createRelativePath(new File("/local/data"), 
+        assertEquals("text", IoUtility.createRelativePath(new File("/local/data"),
             new File ("/local/data/text")));
-        assertEquals("../../green", IoUtility.createRelativePath(new File("/local/data"), 
+        assertEquals("../../green", IoUtility.createRelativePath(new File("/local/data"),
             new File ("/green")));
-        assertEquals("../green", IoUtility.createRelativePath(new File("/local/data"), 
+        assertEquals("../green", IoUtility.createRelativePath(new File("/local/data"),
             new File ("/local/green")));
     }
-    
+
 }

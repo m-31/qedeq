@@ -22,7 +22,7 @@ import junit.framework.Test;
 
 /**
  * Run all "pest" test methods for the project.
- * 
+ *
  * @version $Revision: 1.4 $
  * @author Michael Meyling
  */
@@ -30,7 +30,7 @@ public class BaselPestSuite extends BaseTestSuite {
 
     /**
      * Get a new <code>KernelTestSuiteWithPest</code>.
-     * 
+     *
      * @return Test.
      */
     public static Test suite() {
