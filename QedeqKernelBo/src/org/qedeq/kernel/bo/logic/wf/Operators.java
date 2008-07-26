@@ -1,4 +1,4 @@
-/* $Id: Operators.java,v 1.5 2008/03/27 05:16:23 m31 Exp $
+/* $Id: Operators.java,v 1.1 2008/07/26 07:58:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -21,7 +21,7 @@ package org.qedeq.kernel.bo.logic.wf;
  * Logical and term operators. These strings might occur as values for
  * {@link org.qedeq.kernel.base.list.ElementList#getOperator()}.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface Operators {

@@ -1,4 +1,4 @@
-/* $Id: HigherLogicalErrors.java,v 1.3 2008/03/27 05:16:24 m31 Exp $
+/* $Id: HigherLogicalErrors.java,v 1.1 2008/07/26 07:58:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -20,7 +20,7 @@ package org.qedeq.kernel.bo.logic.wf;
 /**
  * Error codes and messages for formula checker.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface HigherLogicalErrors {

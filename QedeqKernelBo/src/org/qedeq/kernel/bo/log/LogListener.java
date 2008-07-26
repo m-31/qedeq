@@ -1,4 +1,4 @@
-/* $Id: LogListener.java,v 1.2 2008/03/27 05:16:26 m31 Exp $
+/* $Id: LogListener.java,v 1.1 2008/07/26 07:58:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ import java.net.URL;
 /**
  * Log event listener. Here one can listen to high level application events.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface LogListener {

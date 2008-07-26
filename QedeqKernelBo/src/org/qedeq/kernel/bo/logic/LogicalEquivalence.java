@@ -1,4 +1,4 @@
-/* $Id: LogicalEquivalence.java,v 1.8 2008/03/27 05:16:23 m31 Exp $
+/* $Id: LogicalEquivalence.java,v 1.1 2008/07/26 07:58:30 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -29,7 +29,7 @@ import org.qedeq.kernel.bo.logic.wf.Operators;
  *
  * LATER mime 20050205: work in progress
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class LogicalEquivalence {

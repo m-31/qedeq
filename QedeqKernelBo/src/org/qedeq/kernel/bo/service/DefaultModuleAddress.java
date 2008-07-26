@@ -1,4 +1,4 @@
-/* $Id: DefaultModuleAddress.java,v 1.1 2008/03/27 05:16:24 m31 Exp $
+/* $Id: DefaultModuleAddress.java,v 1.1 2008/07/26 07:58:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

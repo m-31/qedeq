@@ -1,4 +1,4 @@
-/* $Id: Qedeq2Latex.java,v 1.52 2008/05/15 21:27:48 m31 Exp $
+/* $Id: Qedeq2Latex.java,v 1.1 2008/07/26 07:58:28 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -73,7 +73,7 @@ import org.qedeq.kernel.dto.module.NodeVo;
  * TODO mime 20080330: we should be able to generate a authors help LaTeX document that contains the
  *                     labels in the generated document. So referencing is a lot easier...
  *
- * @version $Revision: 1.52 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Qedeq2Latex extends ControlVisitor {

@@ -1,4 +1,4 @@
-/* $Id: KernelServices.java,v 1.2 2008/05/15 21:27:48 m31 Exp $
+/* $Id: KernelServices.java,v 1.1 2008/07/26 07:58:30 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * The main QEDEQ kernel methods are assembled here.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface KernelServices {

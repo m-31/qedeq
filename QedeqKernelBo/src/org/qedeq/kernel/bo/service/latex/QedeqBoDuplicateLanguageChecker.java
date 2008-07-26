@@ -1,4 +1,4 @@
-/* $Id: QedeqBoDuplicateLanguageChecker.java,v 1.5 2008/03/27 05:16:24 m31 Exp $
+/* $Id: QedeqBoDuplicateLanguageChecker.java,v 1.1 2008/07/26 07:58:28 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -32,7 +32,7 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * Checks if all formulas of a QEDEQ module are well formed.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {

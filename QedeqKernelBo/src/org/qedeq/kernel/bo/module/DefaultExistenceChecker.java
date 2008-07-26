@@ -1,4 +1,4 @@
-/* $Id: DefaultExistenceChecker.java,v 1.2 2008/03/27 05:16:23 m31 Exp $
+/* $Id: DefaultExistenceChecker.java,v 1.1 2008/07/26 07:58:30 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -32,7 +32,7 @@ import org.qedeq.kernel.bo.logic.wf.Predicate;
 /**
  * Checks if all predicate and function constants exist already.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class DefaultExistenceChecker implements ExistenceChecker {

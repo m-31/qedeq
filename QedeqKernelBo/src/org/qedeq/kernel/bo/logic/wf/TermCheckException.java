@@ -1,4 +1,4 @@
-/* $Id: TermCheckException.java,v 1.5 2008/03/27 05:16:23 m31 Exp $
+/* $Id: TermCheckException.java,v 1.1 2008/07/26 07:58:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.common.ModuleContext;
  *
  * This exception occurs if an element should be a term but is not.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class TermCheckException extends LogicalCheckException {

@@ -1,4 +1,4 @@
-/* $Id: QedeqBoFormalLogicChecker.java,v 1.8 2008/05/15 21:27:47 m31 Exp $
+/* $Id: QedeqBoFormalLogicChecker.java,v 1.1 2008/07/26 07:58:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -44,7 +44,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * Checks if all formulas of a QEDEQ module are well formed.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class QedeqBoFormalLogicChecker extends ControlVisitor {

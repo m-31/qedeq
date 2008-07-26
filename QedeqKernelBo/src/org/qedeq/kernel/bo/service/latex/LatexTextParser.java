@@ -1,4 +1,4 @@
-/* $Id: LatexTextParser.java,v 1.6 2008/03/27 05:16:25 m31 Exp $
+/* $Id: LatexTextParser.java,v 1.1 2008/07/26 07:58:28 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.kernel.bo.parser.MementoTextInput;
 /**
  * Transform LaTeX into QEDEQ format.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class LatexTextParser {

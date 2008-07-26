@@ -1,4 +1,4 @@
-/* $Id: ModuleEventListenerLog.java,v 1.5 2008/03/27 05:16:26 m31 Exp $
+/* $Id: ModuleEventListenerLog.java,v 1.1 2008/07/26 07:58:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -22,7 +22,7 @@ import org.qedeq.kernel.bo.QedeqBo;
 /**
  * Listener that writes events to the {@link org.qedeq.kernel.bo.log.QedeqLog}.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class ModuleEventListenerLog implements ModuleEventListener {

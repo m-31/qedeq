@@ -1,4 +1,4 @@
-/* $Id: ModuleEventListener.java,v 1.3 2008/03/27 05:16:26 m31 Exp $
+/* $Id: ModuleEventListener.java,v 1.1 2008/07/26 07:58:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -23,7 +23,7 @@ import org.qedeq.kernel.bo.QedeqBo;
 /**
  * Interface for an QEDEQ module event listener.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface ModuleEventListener {

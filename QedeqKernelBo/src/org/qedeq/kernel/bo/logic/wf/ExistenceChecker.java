@@ -1,4 +1,4 @@
-/* $Id: ExistenceChecker.java,v 1.4 2008/03/27 05:16:23 m31 Exp $
+/* $Id: ExistenceChecker.java,v 1.1 2008/07/26 07:58:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ package org.qedeq.kernel.bo.logic.wf;
  * the call to {@link #predicateExists(String, int)} with the arguments
  * {@link #getIdentityOperator()} and 2 must return <code>true</code>.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface ExistenceChecker extends PredicateExistenceChecker, FunctionExistenceChecker,

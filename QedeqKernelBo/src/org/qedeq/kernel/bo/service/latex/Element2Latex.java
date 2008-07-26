@@ -1,4 +1,4 @@
-/* $Id: Element2Latex.java,v 1.2 2008/03/27 05:16:25 m31 Exp $
+/* $Id: Element2Latex.java,v 1.1 2008/07/26 07:58:28 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -36,7 +36,7 @@ import org.qedeq.kernel.visitor.AbstractModuleVisitor;
 /**
  * Transfer a QEDEQ formulas into LaTeX text.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Element2Latex extends AbstractModuleVisitor {

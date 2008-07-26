@@ -1,4 +1,4 @@
-/* $Id: AsciiMathParser.java,v 1.6 2008/03/27 05:16:27 m31 Exp $
+/* $Id: AsciiMathParser.java,v 1.1 2008/07/26 07:58:30 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -32,7 +32,7 @@ import org.qedeq.base.trace.Trace;
  * Parse term or formula data into {@link org.qedeq.kernel.bo.parser.Term}s.
  * This parser uses simple ASCII text operators.
  *
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class AsciiMathParser extends MathParser {

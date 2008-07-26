@@ -1,4 +1,4 @@
-/* $Id: ElementCheckException.java,v 1.5 2008/03/27 05:16:23 m31 Exp $
+/* $Id: ElementCheckException.java,v 1.1 2008/07/26 07:58:29 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.kernel.common.ModuleContext;
  * content or an element list was expected but is not there, an element list
  *  has an <code>null</code> operator or an <code>null</code> entry.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class ElementCheckException extends LogicalCheckException {

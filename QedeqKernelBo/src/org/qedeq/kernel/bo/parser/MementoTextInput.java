@@ -1,4 +1,4 @@
-/* $Id: MementoTextInput.java,v 1.4 2008/03/27 05:16:27 m31 Exp $
+/* $Id: MementoTextInput.java,v 1.1 2008/07/26 07:58:30 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.base.io.TextInput;
 /**
  * Remember TextInput positions.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class MementoTextInput {

@@ -1,4 +1,4 @@
-/* $Id: EndSymbolNotFoundException.java,v 1.3 2008/03/27 05:16:27 m31 Exp $
+/* $Id: EndSymbolNotFoundException.java,v 1.1 2008/07/26 07:58:30 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -20,7 +20,7 @@ package org.qedeq.kernel.bo.parser;
 /**
  * Expected end symbol of expression not found.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class EndSymbolNotFoundException extends ParserException {

@@ -1,4 +1,4 @@
-/* $Id: EqualFormula.java,v 1.7 2008/03/27 05:16:23 m31 Exp $
+/* $Id: EqualFormula.java,v 1.1 2008/07/26 07:58:30 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.kernel.base.list.Element;
  * Encapsulates a logical formula.
  * LATER mime 20050205: what for is this anyway???
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 final class EqualFormula {
