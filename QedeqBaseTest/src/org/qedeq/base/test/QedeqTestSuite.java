@@ -1,4 +1,4 @@
-/* $Id: QedeqTestSuite.java,v 1.6 2008/03/27 05:12:46 m31 Exp $
+/* $Id: QedeqTestSuite.java,v 1.1 2008/07/26 07:56:13 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -40,7 +40,7 @@ import junit.framework.TestSuite;
  * The basic source code is based on the superclass source code (JUnit 3.7).
  *
  * @see junit.framework.TestSuite
- * @version $Revision: 1.6 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class QedeqTestSuite extends TestSuite {

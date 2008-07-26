@@ -1,4 +1,4 @@
-/* $Id: QedeqTestCase.java,v 1.5 2008/03/27 05:12:46 m31 Exp $
+/* $Id: QedeqTestCase.java,v 1.1 2008/07/26 07:56:13 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import org.apache.log4j.xml.DOMConfigurator;
 /**
  * Basis class for all tests.
  *
- * @version $Revision: 1.5 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public abstract class QedeqTestCase extends TestCase {

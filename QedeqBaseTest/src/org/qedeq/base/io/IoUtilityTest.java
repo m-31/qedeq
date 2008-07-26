@@ -1,4 +1,4 @@
-/* $Id: IoUtilityTest.java,v 1.2 2008/03/27 05:12:44 m31 Exp $
+/* $Id: IoUtilityTest.java,v 1.1 2008/07/26 07:56:13 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.base.test.QedeqTestCase;
 /**
  * Test {@link org.qedeq.kernel.utility.TextInput}.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class IoUtilityTest extends QedeqTestCase {

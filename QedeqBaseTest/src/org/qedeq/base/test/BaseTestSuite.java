@@ -1,4 +1,4 @@
-/* $Id: KernelTestSuite.java,v 1.21 2008/03/27 05:12:46 m31 Exp $
+/* $Id: BaseTestSuite.java,v 1.1 2008/07/26 07:56:13 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.base.io.KernelUtilityTestSuite;
 /**
  * Run all tests for the project.
  *
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class BaseTestSuite extends QedeqTestSuite {
