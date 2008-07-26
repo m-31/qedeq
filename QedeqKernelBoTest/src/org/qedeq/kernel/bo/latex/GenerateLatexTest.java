@@ -25,7 +25,6 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
 import org.qedeq.kernel.bo.logic.wf.LogicalCheckException;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -42,26 +41,28 @@ import org.xml.sax.SAXParseException;
 
 /**
  * Test generating LaTeX files for all known samples.
- * 
+ *
  * @version $Revision: 1.25 $
  * @author Michael Meyling
  */
-public final class GenerateLatexTest extends QedeqTestCase {
+public class GenerateLatexTest extends QedeqTestCase {
 
     /** This class. */
     private static final Class CLASS = GenerateLatexTest.class;
 
+    /** Here should the result get into. */
     private File genDir;
 
+    /** Here are the documents within. */
     private File docDir;
 
-    public void setUp() throws Exception{
+    public void setUp() throws Exception {
         super.setUp();
         docDir = new File("../QedeqDoc");
         genDir = new File("../../../qedeq_gen");
         // test if we are in the normal development environment, where a project with name
-        //  "../QedeqDoc" exists, otherwise we assume to run within the release directory
-        //  structure where the docs are in the directory ../doc
+        // "../QedeqDoc" exists, otherwise we assume to run within the release directory
+        // structure where the docs are in the directory ../doc
         if (!docDir.exists()) {
             docDir = getFile("doc");
             // or are we testing automatically?
@@ -72,15 +73,15 @@ public final class GenerateLatexTest extends QedeqTestCase {
         }
         KernelFacade.startup();
     }
-    
-    public void tearDown() throws Exception{
+
+    public void tearDown() throws Exception {
         super.tearDown();
         KernelFacade.shutdown();
     }
-    
+
     /**
      * Start main process.
-     * 
+     *
      * @throws Exception
      */
     public void testGeneration() throws Exception {
@@ -93,8 +94,7 @@ public final class GenerateLatexTest extends QedeqTestCase {
 
     public void testNegative02() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample2_error.xml", "de",
-                new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample2_error.xml", "de", new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -106,11 +106,10 @@ public final class GenerateLatexTest extends QedeqTestCase {
             assertEquals(9, e.getSourceArea().getStartPosition().getColumn());
         }
     }
-    
+
     public void testNegative03() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample3_error.xml", "en",
-                new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample3_error.xml", "en", new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -124,11 +123,10 @@ public final class GenerateLatexTest extends QedeqTestCase {
             assertEquals(30, e.getSourceArea().getEndPosition().getColumn());
         }
     }
-    
+
     public void testNegative04() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample4_error.xml", "en",
-                new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample4_error.xml", "en", new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -184,11 +182,10 @@ public final class GenerateLatexTest extends QedeqTestCase {
             assertEquals(47, e.getSourceArea().getEndPosition().getColumn());
         }
     }
-    
+
     public void testNegative05() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample5_error.xml", "en",
-                new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample5_error.xml", "en", new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -200,11 +197,10 @@ public final class GenerateLatexTest extends QedeqTestCase {
             assertEquals(15, e.getSourceArea().getStartPosition().getColumn());
         }
     }
-    
+
     public void testNegative06() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample6_error.xml", "en",
-                new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample6_error.xml", "en", new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -216,11 +212,10 @@ public final class GenerateLatexTest extends QedeqTestCase {
             assertEquals(21, e.getSourceArea().getStartPosition().getColumn());
         }
     }
-    
+
     public void testNegative07() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample7_error.xml", "en",
-                new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample7_error.xml", "en", new File(genDir, "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -232,11 +227,10 @@ public final class GenerateLatexTest extends QedeqTestCase {
             assertEquals(17, e.getSourceArea().getStartPosition().getColumn());
         }
     }
-    
+
     public void testNegative08() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample8_error.xml", "en",
-                new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample8_error.xml", "en", new File(genDir, "null"));
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -248,46 +242,42 @@ public final class GenerateLatexTest extends QedeqTestCase {
             assertEquals(15, e.getSourceArea().getStartPosition().getColumn());
         }
     }
-    
+
     /**
      * Call the generation of one LaTeX file and copy XML source to same destination directory for
      * all supported languages.
-     * <p>
-     * Tests also if the parsed context can be found by
-     * {@link org.qedeq.kernel.xml.mapper.Context2XPath#getXPath(ModuleContext)}.
      *
-     * @param   dir         Start directory.
-     * @param   xml         Relative path to XML file. Must not be <code>null</code>.
-     * @param   destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
-     * @param   onlyEn      Generate only for language "en".
-     * @throws  Exception   Failure.
+     * @param dir Start directory.
+     * @param xml Relative path to XML file. Must not be <code>null</code>.
+     * @param destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
+     * @param onlyEn Generate only for language "en".
+     * @throws Exception Failure.
      */
-    private final static void generate(final File dir, final String xml, 
-            final File destinationDirectory, final boolean onlyEn) throws Exception {
+    public void generate(final File dir, final String xml, final File destinationDirectory,
+            final boolean onlyEn) throws Exception {
         generate(dir, xml, "en", destinationDirectory);
         if (!onlyEn) {
             generate(dir, xml, "de", destinationDirectory);
         }
-        QedeqBoFactoryTest.loadQedeqAndAssertContext(new File(dir, xml));
     }
 
     /**
      * Call the generation of one LaTeX file and copy XML source to same destination directory.
      *
-     * @param   dir         Start directory.
-     * @param   xml         Relative path to XML file. Must not be <code>null</code>.
-     * @param   language    Generate text in this language. Can be <code>null</code>.
-     * @param   destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
-     * @throws  IOException File IO failed.
-     * @throws  XmlFilePositionException File data is invalid.
+     * @param dir Start directory.
+     * @param xml Relative path to XML file. Must not be <code>null</code>.
+     * @param language Generate text in this language. Can be <code>null</code>.
+     * @param destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
+     * @throws IOException File IO failed.
+     * @throws XmlFilePositionException File data is invalid.
      */
-    private static void generate(final File dir, final String xml, final String language,
+    public void generate(final File dir, final String xml, final String language,
             final File destinationDirectory) throws IOException, SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(xmlFile));
-        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade.getKernelContext()
-            .loadModule(address);
+        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(
+            address);
         if (prop.hasFailures()) {
             throw prop.getException();
         }
@@ -304,21 +294,21 @@ public final class GenerateLatexTest extends QedeqTestCase {
             throw prop.getException();
         }
 
-        final String web = "http://qedeq.org/" 
+        final String web = "http://qedeq.org/"
             + KernelFacade.getKernelContext().getKernelVersionDirectory() + "/doc/" + xml;
-        final InternalKernelServices services = (InternalKernelServices) IoUtility
-            .getFieldContent(KernelFacade.getKernelContext(), "services");
+        final InternalKernelServices services = (InternalKernelServices) IoUtility.getFieldContent(
+            KernelFacade.getKernelContext(), "services");
         final ModuleAddress webAddress = new DefaultModuleAddress(web);
         services.getLocalFilePath(webAddress);
         IoUtility.copyFile(xmlFile, services.getLocalFilePath(webAddress));
-        
+
         KernelFacade.getKernelContext().checkModule(webAddress);
         final QedeqBo webBo = KernelFacade.getKernelContext().getQedeqBo(webAddress);
-        final File texFile = new File(destinationDirectory, 
-            xml.substring(0, xml.lastIndexOf('.')) + "_" + language + ".tex");
-        GenerateLatexTest.generate((KernelQedeqBo) webBo, texFile, language, "1");
-        final File texCopy = new File(dir, new File(new File(xml).getParent(),
-            texFile.getName()).getPath());
+        final File texFile = new File(destinationDirectory, xml.substring(0, xml.lastIndexOf('.'))
+            + "_" + language + ".tex");
+        generate((KernelQedeqBo) webBo, texFile, language, "1");
+        final File texCopy = new File(dir, new File(new File(xml).getParent(), texFile.getName())
+            .getPath());
         final File xmlCopy = new File(destinationDirectory, xml);
         IoUtility.createNecessaryDirectories(xmlCopy);
         IoUtility.copyFile(xmlFile, xmlCopy);
@@ -328,14 +318,14 @@ public final class GenerateLatexTest extends QedeqTestCase {
     /**
      * Generate LaTeX file out of XML file.
      *
-     * @param   prop            Take this QEDEQ module.
-     * @param   to              Write to this file. Could be <code>null</code>.
-     * @param   language        Resulting language. Could be <code>null</code>.
-     * @param   level           Resulting detail level. Could be <code>null</code>.
-     * @return  File name of generated LaTeX file.
-     * @throws  SourceFileExceptionList    Something went wrong.
+     * @param prop Take this QEDEQ module.
+     * @param to Write to this file. Could be <code>null</code>.
+     * @param language Resulting language. Could be <code>null</code>.
+     * @param level Resulting detail level. Could be <code>null</code>.
+     * @return File name of generated LaTeX file.
+     * @throws SourceFileExceptionList Something went wrong.
      */
-    public static String generate(final KernelQedeqBo prop, final File to, final String language,
+    public String generate(final KernelQedeqBo prop, final File to, final String language,
             final String level) throws SourceFileExceptionList {
         final String method = "generate(String, String, String, String)";
         try {
@@ -362,6 +352,14 @@ public final class GenerateLatexTest extends QedeqTestCase {
         } finally {
             Trace.end(CLASS, method);
         }
+    }
+
+    public File getGenDir() {
+        return genDir;
+    }
+
+    public File getDocDir() {
+        return docDir;
     }
 
 }
