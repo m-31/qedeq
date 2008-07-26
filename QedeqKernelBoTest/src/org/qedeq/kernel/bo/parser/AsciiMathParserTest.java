@@ -10,7 +10,7 @@ public class AsciiMathParserTest extends AbstractParserTest {
 
     private static String[][] test = new String[][] {
         {    // 00
-            "set(x) <-> Ey x in y", 
+            "set(x) <-> Ey x in y",
             "EQUI(isSet(x), EXISTS(y, IN(x, y)))"
         }, { // 01
             "Ex Ay(y in x <-> set(y) & P(y))",
@@ -174,7 +174,7 @@ public class AsciiMathParserTest extends AbstractParserTest {
             "EQUI(IN(z, SET(x, y)), OR(EQUAL(z, x), EQUAL(z, y)))"
         }
     };
-    
+
     public AsciiMathParserTest(String arg0) {
         super(arg0);
     }
@@ -190,13 +190,13 @@ public class AsciiMathParserTest extends AbstractParserTest {
     protected String[][] getTest() {
         return test;
     }
-    
+
     protected MathParser createParser(final TextInput input) throws Exception {
         final List operators = LoadXmlOperatorListUtility.getOperatorList(new File(getIndir(),
             "parser/asciiMathOperators.xml"));
         return new AsciiMathParser(input, operators);
     }
-    
+
     public void testReadMaximalTerm00() throws Exception {
         internalTest(0);
     }

@@ -10,7 +10,7 @@ public class SimpleMathParserTest extends AbstractParserTest {
 
     private static String[][] test = new String[][] {
         {    // 00
-            "A & B | C", 
+            "A & B | C",
             "OR(AND(A, B), C)"
         }, { // 01
             "A | B & C",
@@ -73,7 +73,7 @@ public class SimpleMathParserTest extends AbstractParserTest {
             "A <=> B <=> C",
             "EQUI(A, B, C)"
         }, { // 21
-            "all x A & B \n",   // "\n" to separate this formula from the next one 
+            "all x A & B \n",   // "\n" to separate this formula from the next one
             "ALL(x, AND(A, B))"
         }, { // 22
             "all x x = y y",
@@ -99,7 +99,7 @@ public class SimpleMathParserTest extends AbstractParserTest {
         }
 
     };
-    
+
     public SimpleMathParserTest(String arg0) {
         super(arg0);
     }
@@ -115,13 +115,13 @@ public class SimpleMathParserTest extends AbstractParserTest {
     protected String[][] getTest() {
         return test;
     }
-    
+
     protected MathParser createParser(final TextInput input) throws Exception {
         final List operators = LoadXmlOperatorListUtility.getOperatorList(new File(getIndir(),
             "parser/simpleMathOperators.xml"));
         return new SimpleMathParser(input, operators);
     }
-    
+
     public void testReadMaximalTerm00() throws Exception {
         internalTest(0);
     }

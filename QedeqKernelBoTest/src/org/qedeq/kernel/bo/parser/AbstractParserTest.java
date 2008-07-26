@@ -10,12 +10,12 @@ import org.qedeq.kernel.bo.parser.Term;
 
 public abstract class AbstractParserTest extends QedeqTestCase {
 
-    public AbstractParserTest(String arg0) {
+    public AbstractParserTest(final String arg0) {
         super(arg0);
     }
-        
+
     protected abstract String[][] getTest();
-    
+
     protected abstract MathParser createParser(TextInput input) throws Exception;
 
     public void testAllTogether() throws Exception {
@@ -47,7 +47,7 @@ public abstract class AbstractParserTest extends QedeqTestCase {
             System.out.println(pointer);
             throw e;
         }
-/*        
+/*
         final  TextInput e = new TextInput(expected, "expected", "expected");
         final  TextInput o = new TextInput(out, "out", "out");
         int i = 0;
@@ -58,10 +58,10 @@ public abstract class AbstractParserTest extends QedeqTestCase {
             assertEquals(e.getLine(), o.getLine());
             i++;
         } while(!e.isEmpty());
-*/        
+*/
         assertEquals(expected.toString(), out.toString());
     }
-    
+
     protected void internalTest(int number) throws Exception {
         final TextInput input =  new TextInput(
             new StringBuffer(getTest()[number][0]));
