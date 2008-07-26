@@ -1,4 +1,4 @@
-/* $Id: XmlModuleLoader.java,v 1.2 2008/05/15 21:27:48 m31 Exp $
+/* $Id: XmlQedeqFileDao.java,v 1.1 2008/07/26 08:00:51 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -51,7 +51,7 @@ import com.sun.syndication.io.XmlReader;
 /**
  * This class provides access methods for loading QEDEQ modules from XML files.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class XmlQedeqFileDao implements QedeqFileDao {

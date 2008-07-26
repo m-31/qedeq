@@ -1,4 +1,4 @@
-/* $Id: ProofHandler.java,v 1.15 2008/03/27 05:16:27 m31 Exp $
+/* $Id: ProofHandler.java,v 1.1 2008/07/26 08:00:51 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Parse a proposition.
  *
- * @version $Revision: 1.15 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class ProofHandler extends AbstractSimpleHandler {

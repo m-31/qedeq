@@ -1,4 +1,4 @@
-/* $Id: SimpleAttributes.java,v 1.16 2008/03/27 05:16:29 m31 Exp $
+/* $Id: SimpleAttributes.java,v 1.1 2008/07/26 08:00:50 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -36,7 +36,7 @@ import java.util.TreeMap;
  * With {@link #add} another key value pair is added. An {@link IllegalArgumentException} is thrown,
  * if the key is already known.
  *
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.1 $
  * @author    Michael Meyling
  */
 public class SimpleAttributes {

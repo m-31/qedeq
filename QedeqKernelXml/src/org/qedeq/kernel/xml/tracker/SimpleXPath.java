@@ -1,4 +1,4 @@
-/* $Id: SimpleXPath.java,v 1.16 2008/03/27 05:16:28 m31 Exp $
+/* $Id: SimpleXPath.java,v 1.1 2008/07/26 08:00:50 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.kernel.common.SourcePosition;
 /**
  * Simple XPath like description of a location in an XML file.
  *
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.1 $
  * @author    Michael Meyling
  */
 public class SimpleXPath {

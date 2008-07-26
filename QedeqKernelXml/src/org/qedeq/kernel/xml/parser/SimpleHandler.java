@@ -1,4 +1,4 @@
-/* $Id: SimpleHandler.java,v 1.11 2008/03/27 05:16:29 m31 Exp $
+/* $Id: SimpleHandler.java,v 1.1 2008/07/26 08:00:50 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.xml.sax.helpers.DefaultHandler;
  * SAX handler that remembers {@link org.xml.sax.Locator} and possibly
  * encoding of XML document.
  *
- * @version $Revision: 1.11 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class SimpleHandler extends DefaultHandler {

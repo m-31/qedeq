@@ -1,4 +1,4 @@
-/* $Id: Xml2Xml.java,v 1.3 2008/03/27 05:16:30 m31 Exp $
+/* $Id: Xml2Xml.java,v 1.1 2008/07/26 08:00:51 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -36,7 +36,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * Test application.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  * @author    Michael Meyling
  */
 public final class Xml2Xml  {

@@ -1,4 +1,4 @@
-/* $Id: AbstractSimpleHandler.java,v 1.10 2008/03/27 05:16:29 m31 Exp $
+/* $Id: AbstractSimpleHandler.java,v 1.1 2008/07/26 08:00:50 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.xml.common.XmlSyntaxException;
  * {@link org.qedeq.kernel.xml.parser.SaxDefaultHandler} and are delegated to the
  * current {@link AbstractSimpleHandler}.
  *
- * @version $Revision: 1.10 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public abstract class AbstractSimpleHandler {

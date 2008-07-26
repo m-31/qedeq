@@ -1,4 +1,4 @@
-/* $Id: SectionHandler.java,v 1.17 2008/03/27 05:16:27 m31 Exp $
+/* $Id: SectionHandler.java,v 1.1 2008/07/26 08:00:51 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Handle sections.
  *
- * @version $Revision: 1.17 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class SectionHandler extends AbstractSimpleHandler {

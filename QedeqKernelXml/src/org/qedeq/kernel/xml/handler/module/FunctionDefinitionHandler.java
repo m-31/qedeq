@@ -1,4 +1,4 @@
-/* $Id: FunctionDefinitionHandler.java,v 1.7 2008/03/27 05:16:27 m31 Exp $
+/* $Id: FunctionDefinitionHandler.java,v 1.1 2008/07/26 08:00:51 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Parse a function definition.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class FunctionDefinitionHandler extends AbstractSimpleHandler {
