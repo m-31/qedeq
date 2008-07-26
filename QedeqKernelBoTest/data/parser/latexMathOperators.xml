@@ -137,6 +137,48 @@
  		min		="2"
  		max		="2"
  	/>
+ 	<functionOperator 
+ 		startSymbol	="A"
+ 		qedeq		="A"
+ 		priority	="200"
+ 		min		="0"
+ 		max		="0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	="B"
+ 		qedeq		="B"
+ 		priority	="200"
+ 		min		="0"
+ 		max		="0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	="C"
+ 		qedeq		="C"
+ 		priority	="200"
+ 		min		="0"
+ 		max		="0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	="x"
+ 		qedeq		="x"
+ 		priority	="200"
+ 		min		="0"
+ 		max		="0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	="x_1"
+ 		qedeq		="x_1"
+ 		priority	="200"
+ 		min		="0"
+ 		max		="0"
+ 	/>
+ 	<functionOperator 
+ 		startSymbol	="y"
+ 		qedeq		="y"
+ 		priority	="200"
+ 		min		="0"
+ 		max		="0"
+ 	/>
 </parser>
 <!--
 
