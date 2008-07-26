@@ -32,7 +32,7 @@ import org.qedeq.kernel.common.ModuleContext;
 public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
 
     private ModuleContext context;
-    
+
     protected void setUp() throws Exception {
         context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
     }
@@ -45,7 +45,7 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     positive
      * Data:     f(x)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermPositive01() throws Exception {
@@ -58,12 +58,12 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
         assertFalse(FormulaChecker.checkTerm(ele, context, getCheckerWithoutClass()).hasErrors());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     positive
      * Data:     V
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermPositive02() throws Exception {
@@ -73,12 +73,12 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
         assertFalse(FormulaChecker.checkTerm(ele, context, getCheckerWithoutClass()).hasErrors());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30740
      * Data:     no function variable name and no argument
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative01() throws Exception {
@@ -89,12 +89,12 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30740, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30740
      * Data:     f() (no function argument)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative01b() throws Exception {
@@ -105,12 +105,12 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30740, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30720
      * Data:     no function constant name
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative02() throws Exception {
@@ -121,12 +121,12 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30720, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30730
      * Data:     function name missing (but list instead of name)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative09() throws Exception {
@@ -140,13 +140,13 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30730, list.get(0).getErrorCode());
     }
-    
-    
+
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30730
      * Data:     function name missing (but list instead of name)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative10() throws Exception {
@@ -157,13 +157,13 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30730, list.get(0).getErrorCode());
     }
-    
-    
+
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30730
      * Data:     function name missing
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative13() throws Exception {
@@ -174,12 +174,12 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30730, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30730
      * Data:     function name missing
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative14() throws Exception {
@@ -190,12 +190,12 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30730, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30770
      * Data:     f(x, {x| phi})
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative15() throws Exception {
@@ -210,12 +210,12 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30770, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30770
      * Data:     x union {x| phi}
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative16() throws Exception {
@@ -230,12 +230,12 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30770, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30780
      * Data:     f({x| phi}, x)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative19() throws Exception {
@@ -250,12 +250,12 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30780
      * Data:     {x| phi} union x
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative20() throws Exception {
@@ -270,12 +270,12 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30690
      * Data:     F(x)  (unknown function constant)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFunctionTermNegative22() throws Exception {
@@ -287,5 +287,5 @@ public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30690, list.get(0).getErrorCode());
     }
-    
+
 }

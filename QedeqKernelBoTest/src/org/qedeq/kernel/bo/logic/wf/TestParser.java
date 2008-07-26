@@ -38,7 +38,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
 public class TestParser {
-    
+
     /** This class. */
     private static final Class CLASS = TestParser.class;
 
@@ -87,7 +87,7 @@ public class TestParser {
         try {
             dis = new BufferedReader(in);
             final InputSource input = new InputSource(dis);
-            
+
             reader.setErrorHandler(new SaxErrorHandler(url, exceptionList));
             handler.setExceptionList(exceptionList);
             reader.setContentHandler(handler);
@@ -123,5 +123,5 @@ public class TestParser {
             throw e;
         }
     }
-    
+
 }

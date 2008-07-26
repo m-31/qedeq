@@ -37,9 +37,9 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
     private static final Class CLASS = FormulaCheckerTest.class;
 
     private ModuleContext context;
-    
+
     protected void setUp() throws Exception {
-        context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), 
+        context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"),
             "getElement()");
     }
 
@@ -51,7 +51,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     A & A.
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPositive1() throws Exception {
@@ -60,12 +60,12 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
         assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     (all z (isSet(z) -> (z in x <-> z in y))) -> x = y.
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPositive2() throws Exception {
@@ -100,12 +100,12 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     (all isSet(z) (z in x <-> z in y)) -> x = y.
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPositive3() throws Exception {
@@ -143,7 +143,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     (all z (all t isSet(t) (z in x <-> z in y))) -> x = y.
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPositive4() throws Exception {
@@ -179,12 +179,12 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     (all z (all t (z in x <-> z in y))) -> (all z (all t (z in x <-> z in y)))
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPositive5() throws Exception {
@@ -229,12 +229,12 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     (all z (all t (z in P(x) <-> z in y))) -> (all z (all t (z in x <-> z in y)))
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPositive6() throws Exception {
@@ -281,12 +281,12 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     y = [x | phi(x)} <-> all z (z in y <-> z in {x | phi(x)})
-     *  
+     *
      * @throws  Exception   Test failed.
      */
     public void testPositive7() throws Exception {
@@ -325,12 +325,12 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
         assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     all y (all z (phi(z) <-> z in y) -> y = {z | phi(z)})
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPositive8() throws Exception {
@@ -365,13 +365,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context).hasErrors());
         assertFalse(FormulaChecker.checkFormula(ele, context, getChecker()).hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30550
      * Data:     (all z (all z isSet(z) (z in x <-> z in y))) -> x = y.
-     * Reason:   z is quantifier variable for two times 
-     * 
+     * Reason:   z is quantifier variable for two times
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative1() throws Exception {
@@ -407,13 +407,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30550, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     (all z (all t isSet(z) (z in x <-> z in y))) -> x = y.
      *           Restriction formula for t contains no t but that is ok.
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPositive9() throws Exception {
@@ -451,8 +451,8 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * Function: checkFormula(Element)
      * Type:     negative, code 30780
      * Data:     (all z (all x (z in x <-> z in y))) -> (all z (all t (z in x <-> z in y)))
-     * Reason:   x occurs non free and free 
-     * 
+     * Reason:   x occurs non free and free
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative3() throws Exception {
@@ -497,13 +497,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-     
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30780
      * Data:     (all x (all y (all z (z in x <-> z in y)) -> (z = y)))
-     * Reason:   z occurs non free and free 
-     * 
+     * Reason:   z occurs non free and free
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative4() throws Exception {
@@ -540,13 +540,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30780
      * Data:     (all x (all y (all z (z in x <-> z in y))) -> (x = y))
-     * Reason:   y occurs non free and free 
-     * 
+     * Reason:   y occurs non free and free
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative5() throws Exception {
@@ -583,13 +583,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30770
      * Data:     (all x ((x = y) -> all y (all z (z in x <-> z in y))))
-     * Reason:   y occurs free and non free 
-     * 
+     * Reason:   y occurs free and non free
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative6() throws Exception {
@@ -626,13 +626,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30770, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30740
-     * Data:     (x = y) -> 
-     * Reason:   second operand missing 
-     * 
+     * Data:     (x = y) ->
+     * Reason:   second operand missing
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative7() throws Exception {
@@ -650,13 +650,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30740, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30530
      * Data:     x -> y
-     * Reason:   x and y are no formulas 
-     * 
+     * Reason:   x and y are no formulas
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative8() throws Exception {
@@ -674,13 +674,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(30530, list.get(0).getErrorCode());
         assertEquals(30530, list.get(1).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30530
      * Data:     UIMPL(x, y)
-     * Reason:   UIMPL is an unknown logical operator 
-     * 
+     * Reason:   UIMPL is an unknown logical operator
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative9() throws Exception {
@@ -696,13 +696,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30530, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30620
      * Data:     sirup(x, unknown(y))
-     * Reason:   "unknown" is an unknown term operator 
-     * 
+     * Reason:   "unknown" is an unknown term operator
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative10() throws Exception {
@@ -718,13 +718,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30620, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30590
      * Data:     x union unknown(y)
-     * Reason:   "and" is an unknown predicate constant 
-     * 
+     * Reason:   "and" is an unknown predicate constant
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative11() throws Exception {
@@ -743,13 +743,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30590, list.get(0).getErrorCode());
     }
-            
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30690
      * Data:     x union unknown(y)
-     * Reason:   "unknown" is an unknown term operator 
-     * 
+     * Reason:   "unknown" is an unknown term operator
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative12() throws Exception {
@@ -768,13 +768,13 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30690, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30680
      * Data:     all y (all z (phi(z) <-> z in y) -> y = {z | phi(z)})
-     * Reason:   "{ .. }" is an unknown term operator 
-     * 
+     * Reason:   "{ .. }" is an unknown term operator
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegative13() throws Exception {
@@ -814,5 +814,5 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30680, list.get(0).getErrorCode());
     }
-    
+
 }

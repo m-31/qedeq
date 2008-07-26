@@ -31,7 +31,7 @@ import org.qedeq.kernel.common.ModuleContext;
 public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
 
     private ModuleContext context;
-    
+
     protected void setUp() throws Exception {
         context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
     }
@@ -44,7 +44,7 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     positive
      * Data:     x
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testSubjectVariablePositive() throws Exception {
@@ -54,12 +54,12 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
         assertFalse(FormulaChecker.checkTerm(ele, context, getCheckerWithoutClass()).hasErrors());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30710
      * Data:     no variable name
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testSubjectVariableNegative1() throws Exception {
@@ -70,12 +70,12 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30710, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30710
      * Data:     x 12
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testSubjectVariableNegative2() throws Exception {
@@ -86,13 +86,13 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30710, list.get(0).getErrorCode());
     }
-    
-    
+
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30730
      * Data:     ?
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testSubjectVariableNegative3() throws Exception {
@@ -103,6 +103,6 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30730, list.get(0).getErrorCode());
     }
-    
-    
+
+
 }

@@ -48,7 +48,7 @@ import org.xml.sax.SAXException;
 
 /**
  * Test generating LaTeX files for all known samples.
- * 
+ *
  * @version $Revision: 1.8 $
  * @author Michael Meyling
  */
@@ -61,19 +61,19 @@ public final class CheckLogicTest extends QedeqTestCase {
     public CheckLogicTest() {
         super();
     }
-    
+
     public CheckLogicTest(final String name) {
         super(name);
     }
 
     public void setUp() {
-       KernelFacade.startup(); 
+       KernelFacade.startup();
     }
-    
+
     public void tearDown() {
         KernelFacade.shutdown();
     }
-    
+
     public void testNegative00() throws Exception {
         try {
             generate(getFile("qedeq_error_sample_00.xml"));
@@ -90,7 +90,7 @@ public final class CheckLogicTest extends QedeqTestCase {
             assertEquals(20, check.getSourceArea().getEndPosition().getColumn());
         }
     }
-    
+
     public void testNegative01() throws Exception {
         try {
             generate(getFile("qedeq_error_sample_01.xml"));
@@ -106,7 +106,7 @@ public final class CheckLogicTest extends QedeqTestCase {
             assertEquals(35, check.getSourceArea().getEndPosition().getColumn());
         }
     }
-    
+
     public void testNegative02() throws Exception {
         try {
             generate(getFile("qedeq_error_sample_02.xml"));
@@ -122,7 +122,7 @@ public final class CheckLogicTest extends QedeqTestCase {
             assertNull(check.getReferenceContext());
         }
     }
-    
+
     public void testNegative03() throws Exception {
         try {
             generate(getFile("qedeq_error_sample_03.xml"));
@@ -137,7 +137,7 @@ public final class CheckLogicTest extends QedeqTestCase {
             assertNull(check.getReferenceContext());
         }
     }
-    
+
     public void testNegative04() throws Exception {
         try {
             generate(getFile("qedeq_error_sample_04.xml"));
@@ -158,7 +158,7 @@ public final class CheckLogicTest extends QedeqTestCase {
      *
      * @param   xmlFile Module file to check.
      */
-    private static void generate(final File xmlFile) throws IOException, 
+    private static void generate(final File xmlFile) throws IOException,
             ParserConfigurationException, SAXException, ModuleDataException,
             SourceFileExceptionList {
         final ModuleAddress context = KernelFacade.getKernelContext().getModuleAddress(

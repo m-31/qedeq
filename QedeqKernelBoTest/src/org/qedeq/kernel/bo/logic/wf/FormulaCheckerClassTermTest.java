@@ -32,7 +32,7 @@ import org.qedeq.kernel.common.ModuleContext;
 public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
 
     private ModuleContext context;
-    
+
     protected void setUp() throws Exception {
         context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"),
             "getElement()");
@@ -46,7 +46,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     positive
      * Data:     {x | A}
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testClassTermPositive01() throws Exception {
@@ -57,12 +57,12 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
         assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     positive
      * Data:     {x | phi(y, x)}
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testClassTermPositive02() throws Exception {
@@ -79,12 +79,12 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
         assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     positive
      * Data:     {x | forall y phi(y, x)}
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testClassTermPositive03() throws Exception {
@@ -104,12 +104,12 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
         assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30760, exactly two arguments expected
      * Data:     {x | phi(y, x) | phi(y, x)}
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testClassTermNegative01() throws Exception {
@@ -126,18 +126,18 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
             "  </PREDVAR>" +
             "</CLASS>");
         // System.out.println(ele.toString());
-        
+
         LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context, getChecker());
         assertEquals(1, list.size());
         assertEquals(30760, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30760, exactly two arguments expected
      * Data:     {x | }
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testClassTermNegative02() throws Exception {
@@ -151,12 +151,12 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30760, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30540, first argument must be a subject variable
      * Data:     {x | phi(y, x) | phi(y, x)}
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testClassTermNegative03() throws Exception {
@@ -182,7 +182,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     negative, code 30550, subject variable already bound
      * Data:     {x | forall x phi(y, x)}
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testClassTermNegative04() throws Exception {
@@ -203,13 +203,13 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30550, list.get(0).getErrorCode());
     }
-    
-    
+
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30680, undefined class operator
      * Data:     {x | forall y phi(y, x)}
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testClassTermNegative05() throws Exception {
@@ -234,6 +234,6 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30680, list.get(0).getErrorCode());
     }
-    
-    
+
+
 }

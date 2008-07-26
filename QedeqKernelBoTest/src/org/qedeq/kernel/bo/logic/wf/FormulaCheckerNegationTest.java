@@ -32,7 +32,7 @@ import org.qedeq.kernel.common.ModuleContext;
 public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
 
     private ModuleContext context;
-    
+
     protected void setUp() throws Exception {
         context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
     }
@@ -45,7 +45,7 @@ public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     -A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegationPositive01() throws Exception {
@@ -57,12 +57,12 @@ public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30710
      * Data:     -
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegationNegative01() throws Exception {
@@ -73,12 +73,12 @@ public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30710, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30710
      * Data:     -(A, B)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testNegationNegative02() throws Exception {
@@ -90,5 +90,5 @@ public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30710, list.get(0).getErrorCode());
     }
-    
+
 }

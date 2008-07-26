@@ -32,7 +32,7 @@ import org.qedeq.kernel.common.ModuleContext;
 public class FormulaCheckerFormulaTest extends AbstractFormulaChecker {
 
     private ModuleContext context;
-    
+
     protected void setUp() throws Exception {
         context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
     }
@@ -45,7 +45,7 @@ public class FormulaCheckerFormulaTest extends AbstractFormulaChecker {
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFormulaPositive01() throws Exception {
@@ -57,12 +57,12 @@ public class FormulaCheckerFormulaTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     -A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFormulaPositive02() throws Exception {
@@ -74,12 +74,12 @@ public class FormulaCheckerFormulaTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     true
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFormulaPositive03() throws Exception {
@@ -91,12 +91,12 @@ public class FormulaCheckerFormulaTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30530, unknown formula operator
      * Data:     x
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFormulaNegative01() throws Exception {
@@ -107,12 +107,12 @@ public class FormulaCheckerFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30530, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30530, unknown formula operator
      * Data:     f(x)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFormulaNegative02() throws Exception {
@@ -123,12 +123,12 @@ public class FormulaCheckerFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30530, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30530, unknown formula operator
      * Data:     {}
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testFormulaNegative03() throws Exception {
@@ -139,6 +139,6 @@ public class FormulaCheckerFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30530, list.get(0).getErrorCode());
     }
-    
-    
+
+
 }

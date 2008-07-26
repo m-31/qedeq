@@ -32,7 +32,7 @@ import org.qedeq.kernel.common.ModuleContext;
 public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
 
     private ModuleContext context;
-    
+
     protected void setUp() throws Exception {
         context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
     }
@@ -45,7 +45,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaPositive01() throws Exception {
@@ -56,12 +56,12 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     V
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaPositive02() throws Exception {
@@ -72,12 +72,12 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30720
      * Data:     no function variable name
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative01() throws Exception {
@@ -88,12 +88,12 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30720, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30720
      * Data:     no function constant name
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative02() throws Exception {
@@ -104,12 +104,12 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30720, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30730
      * Data:     function name missing (but list instead of name)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative09() throws Exception {
@@ -120,13 +120,13 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30730, list.get(0).getErrorCode());
     }
-    
-    
+
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30730
      * Data:     function name missing (but list instead of name)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative10() throws Exception {
@@ -137,13 +137,13 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30730, list.get(0).getErrorCode());
     }
-    
-    
+
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30730
      * Data:     function name missing
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative13() throws Exception {
@@ -154,12 +154,12 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30730, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30730
      * Data:     function name missing
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative14() throws Exception {
@@ -170,12 +170,12 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30730, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30770
      * Data:     f(x, {x| phi})
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative15() throws Exception {
@@ -190,12 +190,12 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30770, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30770
      * Data:     x in {x| phi}
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative16() throws Exception {
@@ -210,12 +210,12 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30770, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30780
      * Data:     f({x| phi}, x)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative19() throws Exception {
@@ -230,12 +230,12 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30780
      * Data:     {x| phi} in x
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative20() throws Exception {
@@ -250,12 +250,12 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30590
      * Data:     F(x)  (unknown predicate constant)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative22() throws Exception {
@@ -267,5 +267,5 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30590, list.get(0).getErrorCode());
     }
-    
+
 }

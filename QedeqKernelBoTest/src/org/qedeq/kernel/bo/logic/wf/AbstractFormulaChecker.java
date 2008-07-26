@@ -33,7 +33,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
     /** This class. */
     private static final Class CLASS = AbstractFormulaChecker.class;
 
-    
+
     private ExistenceChecker checker = new ExistenceChecker() {
 
         public boolean predicateExists(String name, int arguments) {
@@ -73,7 +73,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
         public boolean functionExists(Function function) {
             return functionExists(function.getName(), Integer.parseInt(function.getArguments()));
         }
-        
+
         public boolean classOperatorExists() {
             return true;
         }
@@ -127,7 +127,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
         public boolean functionExists(Function function) {
             return functionExists(function.getName(), Integer.parseInt(function.getArguments()));
         }
-        
+
         public boolean classOperatorExists() {
             return false;
         }
@@ -139,7 +139,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
         public String getIdentityOperator() {
             return "equal";
         }
-        
+
     };
 
     protected ExistenceChecker getChecker() {
@@ -149,6 +149,6 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
     protected ExistenceChecker getCheckerWithoutClass() {
         return checkerWithoutClass;
     }
-    
-    
+
+
 }

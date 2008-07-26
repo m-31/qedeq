@@ -32,7 +32,7 @@ import org.qedeq.kernel.common.ModuleContext;
 public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
 
     private ModuleContext context;
-    
+
     protected void setUp() throws Exception {
         context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
     }
@@ -45,7 +45,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     all x A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive01() throws Exception {
@@ -57,12 +57,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     exists x A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive02() throws Exception {
@@ -74,12 +74,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     exists! x A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive03() throws Exception {
@@ -91,12 +91,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     all x phi(x): A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive04() throws Exception {
@@ -112,12 +112,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     exists x phi(x) A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive05() throws Exception {
@@ -133,12 +133,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     positive
      * Data:     exists! x phi(x): A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive06() throws Exception {
@@ -154,12 +154,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkFormula(ele, context, getCheckerWithoutClass())
             .hasErrors());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30540, missing subject variable
      * Data:     all phi(x) A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative01() throws Exception {
@@ -174,12 +174,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30540, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30540, missing subject variable
      * Data:     exists phi(x) A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative02() throws Exception {
@@ -194,12 +194,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30540, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30540, missing subject variable
      * Data:     exists! phi(x): A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative03() throws Exception {
@@ -214,12 +214,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30540, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30550, subject already bound
      * Data:     all x all x phi(x)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative04() throws Exception {
@@ -237,12 +237,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30550, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30550, subject variable already bound
      * Data:     all x phi(x) all x phi(x)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative05() throws Exception {
@@ -261,12 +261,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30550, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30550, subject variable already bound
      * Data:     all x phi({x | phi(x)})
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative06() throws Exception {
@@ -286,12 +286,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30550, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30550, subject already bound
      * Data:     exists x all x phi(x)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative07() throws Exception {
@@ -309,12 +309,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30550, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30550, subject variable already bound
      * Data:     exists x phi(x) exists x phi(x)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative08() throws Exception {
@@ -333,12 +333,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30550, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30550, subject variable already bound
      * Data:     exists x phi({x | phi(x)})
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative09() throws Exception {
@@ -358,12 +358,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30550, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30550, subject already bound
      * Data:     exists! x all x phi(x)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative10() throws Exception {
@@ -381,12 +381,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30550, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30550, subject variable already bound
      * Data:     exists! x phi(x) exists! x phi(x)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative11() throws Exception {
@@ -405,12 +405,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30550, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30550, subject variable already bound
      * Data:     exists! x phi({x | phi(x)})
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative12() throws Exception {
@@ -430,12 +430,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30550, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30570, mixed free bound
      * Data:     all x phi(x, y): phi({y | A)})
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative16() throws Exception {
@@ -459,12 +459,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30770, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30570, mixed free bound
      * Data:     exists x phi(x, y): phi({y | A)})
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative17() throws Exception {
@@ -488,12 +488,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30770, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30570, mixed free bound
      * Data:     exists! x phi(x, y): phi({y | A)})
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative18() throws Exception {
@@ -517,12 +517,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30770, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30570, mixed free bound
      * Data:     all x phi(x, y): all y  A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative19() throws Exception {
@@ -544,12 +544,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30770, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30570, mixed free bound
      * Data:     exists x phi(x, y): all y A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative20() throws Exception {
@@ -571,12 +571,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30770, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30570, mixed free bound
      * Data:     exists! x phi(x, y): exists! y phi(y) A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative21() throws Exception {
@@ -601,12 +601,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30770, list.get(0).getErrorCode());
     }
-    
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30580, mixed free bound
      * Data:     all x phi(x, {y | A)}): phi(x, y)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative22() throws Exception {
@@ -631,12 +631,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30580, mixed free bound
      * Data:     exists x phi(x, {y | A)}) phi(x, y)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative23() throws Exception {
@@ -661,12 +661,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30580, mixed free bound
      * Data:     exists! x phi({y | A)}, x): phi(x, y)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative24() throws Exception {
@@ -691,12 +691,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30580, mixed free bound
      * Data:     all x (all y psi(x)): phi(x, y)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative25() throws Exception {
@@ -720,12 +720,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30580, mixed free bound
      * Data:     exists x (all y phi(x, y)): phi(x, y)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative26() throws Exception {
@@ -750,12 +750,12 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-        
+
     /**
      * Function: checkFormula(Element)
      * Type:     negative, code 30580, mixed free bound
      * Data:     exists! x (exists! y phi(y, x) A): phi(x, y)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative27() throws Exception {
@@ -781,5 +781,5 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
         assertEquals(1, list.size());
         assertEquals(30780, list.get(0).getErrorCode());
     }
-    
+
 }

@@ -32,7 +32,7 @@ import org.qedeq.kernel.common.ModuleContext;
 public class FormulaCheckerTermTest extends AbstractFormulaChecker {
 
     private ModuleContext context;
-    
+
     protected void setUp() throws Exception {
         context = new ModuleContext(new DefaultModuleAddress("http://memory.org/sample.xml"), "getElement()");
     }
@@ -45,7 +45,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     positive
      * Data:     {x | x in a & x in b}
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermPositive01() throws Exception {
@@ -67,12 +67,12 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
         assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     positive
      * Data:     f(x, y, x)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermPositive02() throws Exception {
@@ -86,12 +86,12 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
         assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     positive
      * Data:     Power(x union y)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermPositive03() throws Exception {
@@ -106,12 +106,12 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
         assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     positive
      * Data:     x
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermPositive04() throws Exception {
@@ -121,12 +121,12 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
         assertFalse(FormulaChecker.checkTerm(ele, context).hasErrors());
         assertFalse(FormulaChecker.checkTerm(ele, context, getChecker()).hasErrors());
     }
-    
+
     /**
      * Function: checkTerm(Element)
      * Type:     negative, code 30620, unknown term operator
      * Data:     A & B
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermNegative01() throws Exception {
@@ -143,7 +143,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     negative, code 30620, unknown term operator
      * Data:     UNKNOWN(A & B)
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermNegative02() throws Exception {
@@ -160,7 +160,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     negative, code 30620, unknown term operator
      * Data:     A v B
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermNegative03() throws Exception {
@@ -177,7 +177,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     negative, code 30620, unknown term operator
      * Data:     A -> B
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermNegative04() throws Exception {
@@ -194,7 +194,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     negative, code 30620, unknown term operator
      * Data:     A <-> B
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermNegative05() throws Exception {
@@ -211,7 +211,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     negative, code 30620, unknown term operator
      * Data:     -A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermNegative06() throws Exception {
@@ -228,7 +228,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     negative, code 30620, unknown term operator
      * Data:     A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermNegative07() throws Exception {
@@ -245,7 +245,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     negative, code 30620, unknown term operator
      * Data:     all x A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermNegative08() throws Exception {
@@ -262,7 +262,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     negative, code 30620, unknown term operator
      * Data:     exists x A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermNegative09() throws Exception {
@@ -279,7 +279,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * Function: checkTerm(Element)
      * Type:     negative, code 30620, unknown term operator
      * Data:     exists! x A
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testTermNegative10() throws Exception {
