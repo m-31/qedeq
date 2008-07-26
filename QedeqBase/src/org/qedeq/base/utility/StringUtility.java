@@ -17,10 +17,14 @@
 
 package org.qedeq.base.utility;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.util.Properties;
+
+import org.apache.commons.lang.SystemUtils;
 
 
 /**
@@ -274,6 +278,104 @@ public final class StringUtility {
         }
         final String temp = FORMATED_ZERO + number;
         return temp.substring(temp.length() - length);
+    }
+
+        /**
+     * Get a hex string representation for an byte array.
+     *
+     * @param data <code>byte</code> array to work on
+     * @return hex string of <code>data</code>
+     */
+    public static String string2Hex(final String data) {
+
+        StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < data.length(); i++) {
+            String b = Integer.toHexString(255 & data.charAt(i));
+            if (i != 0) {
+                if (0 != i % 16) {
+                    buffer.append(" ");
+                } else {
+                    buffer.append("\n");
+                }
+            }
+            if (b.length() < 2) {
+                buffer.append("0");
+            }
+            buffer.append(b.toUpperCase());
+        }
+        return buffer.toString();
+    }
+
+    /**
+     * Get a String out of a hex string representation.
+     *
+     * @param hex hex string representation of data
+     * @return String
+     */
+    public static String hex2String(final String hex) {
+
+        StringBuffer buffer = new StringBuffer(hex.length());
+        char c;
+        for (int i = 0; i < hex.length(); i++) {
+            c = hex.charAt(i);
+            if (!Character.isWhitespace(c)) {
+                if (!Character.isLetterOrDigit(c)) {
+                    throw new IllegalArgumentException("Illegal hex char");
+                }
+                buffer.append(c);
+            }
+        }
+        if (buffer.length() % 2 != 0) {
+            throw new IllegalArgumentException("Bad padding");
+        }
+        StringBuffer result = new StringBuffer(buffer.length() / 2);
+        for (int i = 0; i < buffer.length() / 2; i++) {
+            try {
+                result.append((char) Integer.parseInt(buffer.substring(2 * i, 2 * i + 2), 16));
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Illegal hex char");
+            }
+        }
+        return result.toString();
+    }
+
+    /**
+     * Get platform dependent line separator. (<code>&quot;\n&quot;</code> on UNIX).
+     *
+     * @return  Platform dependent line separator.
+     */
+    public static String getSystemLineSeparator() {
+        return (SystemUtils.LINE_SEPARATOR != null ? SystemUtils.LINE_SEPARATOR
+            : "\n");
+    }
+
+    /**
+     * Creates String with platform dependent line ends.
+     *
+     * @param  text Text with CR or CR LF as line end markers. Might be <code>null</code>.
+     * @return Text with platform dependent line ends.
+     */
+    public static String useSystemLineSeparator(final String text) {
+        if (text == null) {
+            return null;
+        }
+        final StringBuffer buffer = new StringBuffer(text.length());
+        final BufferedReader reader = new BufferedReader(new StringReader(text));
+        final String separator = getSystemLineSeparator();
+        String line;
+        boolean notFirst = false;
+        try {
+            while (null != (line = reader.readLine())) {
+                if (notFirst) {
+                    buffer.append(separator);
+                }
+                buffer.append(line);
+                notFirst = true;
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        return buffer.toString();
     }
 
 }
