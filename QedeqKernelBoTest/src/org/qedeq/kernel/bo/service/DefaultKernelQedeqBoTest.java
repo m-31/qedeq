@@ -45,7 +45,7 @@ import org.qedeq.kernel.dto.module.QedeqVo;
  * @author    Michael Meyling
  */
 public class DefaultKernelQedeqBoTest extends QedeqTestCase {
-    
+
     final InternalKernelServices services = new InternalKernelServices() {
             public File getBufferDirectory() {
                 return null;
@@ -108,7 +108,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             public KernelQedeqBo loadModule(ModuleAddress parent, Specification spec) throws SourceFileExceptionList {
                 return null;
             }};
-    
+
     public void testConstructor() throws Exception {
         try {
             new DefaultKernelQedeqBo(null, null);
@@ -123,7 +123,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         DefaultKernelQedeqBo bo;
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasFailures());
-        bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, 
+        bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
             new DefaultSourceFileExceptionList(new NullPointerException()));
         assertTrue(bo.hasFailures());
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
@@ -138,14 +138,14 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         bo.setChecked(new DefaultExistenceChecker());
         assertFalse(bo.hasFailures());
     }
-    
+
     public void testSetLoadingFailureState() throws Exception {
         DefaultKernelQedeqBo bo;
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasFailures());
         assertNull(bo.getException());
         try {
-            bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, 
+            bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
                 null);
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
@@ -154,7 +154,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         final DefaultSourceFileExceptionList defaultSourceFileExceptionList
             = new DefaultSourceFileExceptionList(new NullPointerException());
         try {
-            bo.setLoadingFailureState(null, 
+            bo.setLoadingFailureState(null,
                 defaultSourceFileExceptionList);
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
@@ -174,49 +174,49 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         assertEquals(LoadingState.STATE_LOADING_FROM_WEB_FAILED,
             bo.getLoadingState());
         try {
-            bo.setLoadingFailureState(LoadingState.STATE_LOADED, 
+            bo.setLoadingFailureState(LoadingState.STATE_LOADED,
                 defaultSourceFileExceptionList);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
         try {
-            bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER, 
+            bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER,
                 defaultSourceFileExceptionList);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
         try {
-            bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB, 
+            bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB,
                 defaultSourceFileExceptionList);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
         try {
-            bo.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY, 
+            bo.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY,
                 defaultSourceFileExceptionList);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
         try {
-            bo.setLoadingFailureState(LoadingState.STATE_LOCATING_WITHIN_WEB, 
+            bo.setLoadingFailureState(LoadingState.STATE_LOCATING_WITHIN_WEB,
                 defaultSourceFileExceptionList);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
         try {
-            bo.setLoadingFailureState(LoadingState.STATE_UNDEFINED, 
+            bo.setLoadingFailureState(LoadingState.STATE_UNDEFINED,
                 defaultSourceFileExceptionList);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
     }
-    
+
     public void testSetLoadingProgressState() throws Exception {
         DefaultKernelQedeqBo bo;
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
@@ -230,19 +230,19 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             // expected
         }
         try {
-            bo.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED); 
+            bo.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
         try {
-            bo.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB_FAILED); 
+            bo.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB_FAILED);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
         try {
-            bo.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED); 
+            bo.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
@@ -262,13 +262,13 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         bo.setLoadingProgressState(LoadingState.STATE_UNDEFINED);
         assertEquals(LoadingState.STATE_UNDEFINED, bo.getLoadingState());
         try {
-            bo.setLoadingProgressState(LoadingState.STATE_LOADED); 
+            bo.setLoadingProgressState(LoadingState.STATE_LOADED);
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
         }
     }
-    
+
     public void testSetDependencyFailureState() throws Exception {
         DefaultKernelQedeqBo bo;
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
@@ -287,7 +287,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         final DefaultSourceFileExceptionList defaultSourceFileExceptionList
             = new DefaultSourceFileExceptionList(new NullPointerException());
         try {
-            bo.setLoadingFailureState(null, 
+            bo.setLoadingFailureState(null,
                 defaultSourceFileExceptionList);
             fail("NullPointerException expected");
         } catch (NullPointerException e) {
@@ -302,7 +302,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         } catch (IllegalStateException e) {
             // expected
         }
-        bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, 
+        bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
             defaultSourceFileExceptionList);
         try {
             bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,

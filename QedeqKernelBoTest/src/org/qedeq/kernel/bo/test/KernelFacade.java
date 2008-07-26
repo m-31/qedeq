@@ -42,7 +42,7 @@ import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
  * @author  Michael Meyling
  */
 public final class KernelFacade {
-    
+
     private static KernelContext context;
     private static LogListener log;
     private static ModuleEventListener mod;
@@ -60,7 +60,7 @@ public final class KernelFacade {
 //                new File(new File("../../../qedeq_gen/test"), "config/org.qedeq.properties"),
 //                "This file is part of the project *Hilbert II* - http://www.qedeq.org",
 //                new File("../../../qedeq_gen/test"));
-                cf, 
+                cf,
                 "This file is part of the project *Hilbert II* - http://www.qedeq.org",
                 dir);
             config.setAutoReloadLastSessionChecked(false);
@@ -77,7 +77,7 @@ public final class KernelFacade {
         KernelContext.getInstance().startup();
         context = KernelContext.getInstance();
     }
-    
+
     public static void shutdown() {
         KernelContext.getInstance().shutdown();
         QedeqLog.getInstance().removeLog(log);
@@ -86,8 +86,8 @@ public final class KernelFacade {
         log = null;
         mod = null;
     }
-    
-    
+
+
     public static KernelContext getKernelContext() {
         return context;
     }
