@@ -21,6 +21,7 @@ import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
 import org.qedeq.kernel.bo.control.KernelBoControlTestSuite;
+import org.qedeq.kernel.bo.latex.ExtendedGenerateLatexTest;
 import org.qedeq.kernel.bo.latex.GenerateLatexTest;
 import org.qedeq.kernel.bo.logic.wf.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
@@ -28,16 +29,16 @@ import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
 
 /**
  * Run all tests for the project.
- * 
+ *
  * @version $Revision: 1.21 $
  * @author Michael Meyling
  */
 public class KernelBoTestSuite extends QedeqTestSuite {
 
-    
+
     /**
      * Get a new <code>KernelTestSuite</code>.
-     * 
+     *
      * @return Test.
      */
     public static Test suite() {
@@ -54,7 +55,7 @@ public class KernelBoTestSuite extends QedeqTestSuite {
     /**
      * Constructor.
      *
-     * @param   withTest    Execute test methods.      
+     * @param   withTest    Execute test methods.
      * @param   withPest    Execute pest methods.
      */
     public KernelBoTestSuite(final boolean withTest, final boolean withPest) {
@@ -63,8 +64,9 @@ public class KernelBoTestSuite extends QedeqTestSuite {
         addTest(KernelBoLogicTestSuite.suite());
         addTest(KernelBoModuleTestSuite.suite());
         addTest(KernelBoParserTestSuite.suite());
-
         addTestSuite(GenerateLatexTest.class);
+        // very slow:
+        addTestSuite(ExtendedGenerateLatexTest.class);
     }
 
 }
