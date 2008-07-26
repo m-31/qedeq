@@ -8,23 +8,16 @@
 <!-- This is the Ant build file for building the Se release of project Hilbert II -->
 <project name="fastBuild" default="all" basedir="../..">
     <description>
-        Developer build for Hilbert II.   
+        Developer build for Hilbert II without clover, pdf generation and maven execution.   
     </description>
 
     <import file="releaseBuild.xml" />
+    <import file="fastMacros.xml" />
 
     <target name="test" description="run all tests" depends="testCompile">
         
-        <!-- move slow tests -->   
-        <delete dir="${qedeq.temp}/slow" />   
-        <mkdir dir="${qedeq.temp}/slow" />   
-        <move todir="${qedeq.temp}/slow">
-        	<fileset dir="${qedeq.dest.module}">
-        	    <include name="**/QedeqBoFactory*" />
-                <include name="**/GenerateLatexTest*" />                
-                <include name="**/VisitorContextTest*" />                
-        	</fileset>
-        </move>
+        <moveSlowTestsAway/>
+
         <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" />
         <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" />
         <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" />
@@ -46,18 +39,9 @@
         <testReport reportdir="${qedeq.dest.module}/qedeq_kernel/target/reports/junit" />
 
         <!-- put slow tests back -->   
-        <move todir="${qedeq.dest.module}">
-            <fileset dir="${qedeq.temp}/slow">
-                <include name="**/*" />
-            </fileset>
-        </move>
+        <putSlowTestsBack/>
     </target>
- 
-    <target name="makePdfs" description="create PDF files out of certain *.tex test results" depends="test">
-        <!-- fake creation by GenerateLatexText -->
-        <mkdir dir="${qedeq.dest.module}/QedeqKernelBo/target/test-outdir/doc" />
-    </target>
- 
+
     <target name="release" depends="assemble">
        <!-- don't do anything because we want to be fast.. -->   
     </target>

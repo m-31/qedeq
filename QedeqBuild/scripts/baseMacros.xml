@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<project name="macros" basedir="../..">
+<project name="baseMacros" basedir="../..">
     <description>
         This is the Ant build file library for building the Se release of project Hilbert II.
         Herein are macro definitons to make releasing easier.   

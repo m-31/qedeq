@@ -12,7 +12,7 @@
         Release build for Hilbert II.   
     </description>
 
-    <import file="macros.xml" />
+    <import file="baseMacros.xml" />
 
     <!-- set global properties for this build -->
     <property file="${basedir}/QedeqBuild/scripts/build.properties" />

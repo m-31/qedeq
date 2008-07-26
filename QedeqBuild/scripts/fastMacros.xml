@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- $Id: buildReleaseSe.xml,v 1.32 2008/05/16 19:19:22 m31 Exp $ -->
+<!-- $RCSfile: buildReleaseSe.xml,v $ -->
+<!-- $Revision: 1.32 $ -->
+<!-- author: mime -->
+<!-- project: Hilbert II -->
+
+<!-- This part of the Ant build process for project Hilbert II -->
+<project name="fastMacros" default="all" basedir="../..">
+    <description>
+        Macros for the developer build for Hilbert II.   
+    </description>
+
+
+    <!-- Delete all generated files -->
+    <macrodef name="moveSlowTestsAway">
+        <sequential>
+            <echo>moving slow tests away</echo>   
+	        <delete dir="${qedeq.temp}/slow" />   
+	        <mkdir dir="${qedeq.temp}/slow" />   
+	        <move todir="${qedeq.temp}/slow">
+	        	<fileset dir="${qedeq.dest.module}">
+	        	    <include name="**/QedeqBoFactoryTest.*" />
+	                <include name="**/ExtendedGenerateLatexTest.*" />                
+	                <include name="**/VisitorContextTest.*" />                
+	                <include name="**/*Suite.*" />                
+	        	</fileset>
+	        </move>
+        </sequential>
+     </macrodef>
+
+    <macrodef name="putSlowTestsBack">
+        <sequential>
+            <echo>put slow tests back</echo>   
+	        <move todir="${qedeq.dest.module}">
+	            <fileset dir="${qedeq.temp}/slow">
+	                <include name="**/*" />
+	            </fileset>
+	        </move>
+        </sequential>
+     </macrodef>
+ 
+</project>
+
+
