@@ -1,4 +1,4 @@
-/* $Id: LoadRequiredModulesTest.java,v 1.4 2008/05/15 21:27:31 m31 Exp $
+/* $Id: LoadRequiredModulesTest.java,v 1.1 2008/07/26 07:59:15 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * For testing of loading required QEDEQ modules.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class LoadRequiredModulesTest extends QedeqTestCase{

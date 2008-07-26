@@ -1,4 +1,4 @@
-/* $Id: QedeqNotNullTraverserTest.java,v 1.2 2008/03/27 05:12:45 m31 Exp $
+/* $Id: QedeqNotNullTraverserTest.java,v 1.1 2008/07/26 07:59:15 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -41,7 +41,7 @@ import org.qedeq.kernel.visitor.QedeqVisitor;
  * {@link org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser} works correctly for
  * the list part.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class QedeqNotNullTraverserTest extends QedeqTestCase {

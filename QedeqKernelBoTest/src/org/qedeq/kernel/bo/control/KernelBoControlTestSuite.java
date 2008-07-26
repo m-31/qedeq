@@ -1,4 +1,4 @@
-/* $Id: KernelBoControlTestSuite.java,v 1.3 2008/03/27 05:12:45 m31 Exp $
+/* $Id: KernelBoControlTestSuite.java,v 1.1 2008/07/26 07:59:15 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.qedeq.base.test.QedeqTestSuite;
 /**
  * Run all JUnit tests for package org.qedeq.kernel.utility.
  *
- * @version $Revision: 1.3 $
+ * @version $Revision: 1.1 $
  * @author    Michael Meyling
  */
 public class KernelBoControlTestSuite extends QedeqTestSuite {

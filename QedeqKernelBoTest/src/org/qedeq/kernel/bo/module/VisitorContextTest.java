@@ -1,4 +1,4 @@
-/* $Id: VisitorContextTest.java,v 1.4 2008/03/27 05:12:39 m31 Exp $
+/* $Id: VisitorContextTest.java,v 1.1 2008/07/26 07:59:15 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -78,7 +78,7 @@ import org.xml.sax.SAXException;
 /**
  * Basic visitor that makes nothing.
  *
- * @version $Revision: 1.4 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {

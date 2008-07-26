@@ -1,4 +1,4 @@
-/* $Id: FormulaCheckerNegationTest.java,v 1.9 2008/05/15 21:27:29 m31 Exp $
+/* $Id: FormulaCheckerNegationTest.java,v 1.1 2008/07/26 07:59:14 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -26,7 +26,7 @@ import org.qedeq.kernel.common.ModuleContext;
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
  * Testing formulas made of negation.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class FormulaCheckerNegationTest extends AbstractFormulaChecker {

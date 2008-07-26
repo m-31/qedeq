@@ -1,4 +1,4 @@
-/* $Id: KernelFacade.java,v 1.2 2008/05/15 21:27:30 m31 Exp $
+/* $Id: KernelFacade.java,v 1.1 2008/07/26 07:59:17 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -38,7 +38,7 @@ import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 /**
  * This class provides static access methods for basic informations.
  *
- * @version $Revision: 1.2 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class KernelFacade {

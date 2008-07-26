@@ -1,4 +1,4 @@
-/* $Id: KernelBoModuleTestSuite.java,v 1.8 2008/03/27 05:12:39 m31 Exp $
+/* $Id: KernelBoModuleTestSuite.java,v 1.1 2008/07/26 07:59:15 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -25,7 +25,7 @@ import org.qedeq.kernel.bo.service.DefaultKernelQedeqBoTest;
 /**
  * Run all JUnit tests for package org.qedeq.kernel.bo.module.
  *
- * @version $Revision: 1.8 $
+ * @version $Revision: 1.1 $
  * @author    Michael Meyling
  */
 public class KernelBoModuleTestSuite extends QedeqTestSuite {

@@ -1,4 +1,4 @@
-/* $Id: KernelTestSuite.java,v 1.21 2008/03/27 05:12:46 m31 Exp $
+/* $Id: KernelBoTestSuite.java,v 1.1 2008/07/26 07:59:17 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -30,7 +30,7 @@ import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
 /**
  * Run all tests for the project.
  *
- * @version $Revision: 1.21 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class KernelBoTestSuite extends QedeqTestSuite {

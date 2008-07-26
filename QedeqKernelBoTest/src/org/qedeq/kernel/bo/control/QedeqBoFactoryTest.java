@@ -1,4 +1,4 @@
-/* $Id: QedeqBoFactoryTest.java,v 1.22 2008/03/27 05:12:45 m31 Exp $
+/* $Id: QedeqBoFactoryTest.java,v 1.1 2008/07/26 07:59:15 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -45,7 +45,7 @@ import org.xml.sax.SAXException;
 /**
  * For testing QEDEQ generation.
  *
- * @version $Revision: 1.22 $
+ * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class QedeqBoFactoryTest extends QedeqTestCase {
