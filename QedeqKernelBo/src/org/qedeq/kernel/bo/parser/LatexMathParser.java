@@ -243,7 +243,7 @@ public class LatexMathParser extends MathParser {
     protected final Operator getOperator(final String token) {
         Operator result = null;
         if (token == null) {
-            return result;
+            return null;
         }
         for (int i = 0; i < getOperators().size(); i++) {
             if (token.equals(((Operator) getOperators().get(i)).getStartSymbol())) {
@@ -251,7 +251,14 @@ public class LatexMathParser extends MathParser {
                 break;
             }
         }
-        return result;
+        if (result != null) {
+            return result;
+        }
+        // mime 20080725: no operator found -> return subject variable
+        if (SPECIALCHARACTERS.indexOf(token) < 0) {
+            return new Operator(token, null, null, "VAR", token, 200, 0, 0);
+        }
+        return null;
     }
 
     protected final List getOperators(final String token) {
@@ -263,6 +270,10 @@ public class LatexMathParser extends MathParser {
             if (token.equals(((Operator) getOperators().get(i)).getStartSymbol())) {
                 result.add(getOperators().get(i));
             }
+        }
+        // mime 20080725: no operator found -> return subject variable
+        if (result.size() <= 0 && SPECIALCHARACTERS.indexOf(token) < 0) {
+            result.add(new Operator(token, null, null, "VAR", token, 200, 0, 0));
         }
         return result;
     }
