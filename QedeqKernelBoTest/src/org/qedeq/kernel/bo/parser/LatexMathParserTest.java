@@ -10,23 +10,23 @@ public class LatexMathParserTest extends AbstractParserTest {
 
     private static String[][] test = new String[][] {
         {    // 00
-            "(A \\lor A) \\impl A", 
-            "IMPL(OR(A, A), A)"
+            "(A \\lor A) \\impl A",
+            "IMPL(OR(A(), A()), A())"
         }, { // 01
             "A \\impl (A \\lor B)",
-            "IMPL(A, OR(A, B))"
+            "IMPL(A(), OR(A(), B()))"
         }, { // 02
             "(A \\lor B) \\impl (B \\lor A)",
-            "IMPL(OR(A, B), OR(B, A))"
+            "IMPL(OR(A(), B()), OR(B(), A()))"
         }, { // 03
             "(A \\impl B) \\impl ((C \\lor A) \\impl (C \\lor B))",
-            "IMPL(IMPL(A, B), IMPL(OR(C, A), OR(C, B)))"
+            "IMPL(IMPL(A(), B()), IMPL(OR(C(), A()), OR(C(), B())))"
         }, { // 04
             "(\\forall x~\\phi(x)) \\impl \\phi(y)",
-            "IMPL(ALL(x, PREDVAR_1(x)), PREDVAR_1(y))"
+            "IMPL(ALL(x(), PREDVAR_1(x())), PREDVAR_1(y()))"
         }, { // 05
             "\\phi(y) \\impl (\\exists x~\\phi(x))",
-            "IMPL(PREDVAR_1(y), EXISTS(x, PREDVAR_1(x)))"
+            "IMPL(PREDVAR_1(y()), EXISTS(x(), PREDVAR_1(x())))"
         }, { // 06
             "$$\\alpha \\land \\beta \\ \\defp \\ \\neg(\\neg\\alpha \\lor \\neg\\beta)$$",
             "DEFP(AND(PREDVAR_3(), PREDVAR_4()), NOT(OR(NOT(PREDVAR_3()), NOT(PREDVAR_4()))))"
@@ -38,10 +38,10 @@ public class LatexMathParserTest extends AbstractParserTest {
             "DEFP(EQUI(PREDVAR_3(), PREDVAR_4()), AND(IMPL(PREDVAR_3(), PREDVAR_4()), IMPL(PREDVAR_4(), PREDVAR_3())))"
         }, { // 09
             "$\\alpha \\impl (\\forall x_1~(\\beta(x_1)))$",
-            "IMPL(PREDVAR_3(), ALL(x_1, PREDVAR_4(x_1)))"
+            "IMPL(PREDVAR_3(), ALL(x_1(), PREDVAR_4(x_1())))"
         }
     };
-    
+
     public LatexMathParserTest(String arg0) {
         super(arg0);
     }
@@ -57,13 +57,13 @@ public class LatexMathParserTest extends AbstractParserTest {
     protected String[][] getTest() {
         return test;
     }
-    
+
     protected MathParser createParser(final TextInput input) throws Exception {
         final List operators = LoadXmlOperatorListUtility.getOperatorList(new File(getIndir(),
             "parser/latexMathOperators.xml"));
         return new LatexMathParser(input, operators);
     }
-    
+
     public void testReadMaximalTerm00() throws Exception {
         internalTest(0);
     }
