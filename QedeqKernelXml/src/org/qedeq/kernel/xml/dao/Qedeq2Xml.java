@@ -20,6 +20,7 @@ package org.qedeq.kernel.xml.dao;
 import java.io.IOException;
 
 import org.qedeq.base.io.TextOutput;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.base.module.Author;
 import org.qedeq.kernel.base.module.AuthorList;
@@ -201,7 +202,7 @@ public final class Qedeq2Xml extends ControlVisitor {
             printer.pushLevel();
             printer.levelPrintln("<![CDATA[");
             printer.pushLevel();
-            printer.levelPrintln(latex.getLatex());
+            printer.levelPrintln(StringUtility.useSystemLineSeparator(latex.getLatex()));
         }
     }
 
