@@ -1,4 +1,4 @@
-/* $Id: TextInput.java,v 1.18 2008/03/27 05:16:29 m31 Exp $
+/* $Id: TextInput.java,v 1.1 2008/07/26 07:55:42 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -28,7 +28,7 @@ import org.qedeq.base.utility.StringUtility;
 /**
  * This class provides convenient methods for parsing input.
  *
- * @version $Revision: 1.18 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class TextInput extends InputStream {

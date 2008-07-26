@@ -1,4 +1,4 @@
-/* $Id: IoUtility.java,v 1.16 2008/05/15 21:27:48 m31 Exp $
+/* $Id: IoUtility.java,v 1.1 2008/07/26 07:55:42 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -50,7 +50,7 @@ import java.util.StringTokenizer;
  *
  * LATER mime 20070101: use StringBuilder instead of StringBuffer if working under JDK 1.5
  *
- * @version $Revision: 1.16 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class IoUtility {

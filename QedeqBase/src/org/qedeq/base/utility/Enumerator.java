@@ -1,4 +1,4 @@
-/* $Id: Enumerator.java,v 1.1 2008/03/27 05:16:29 m31 Exp $
+/* $Id: Enumerator.java,v 1.1 2008/07/26 07:55:42 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *

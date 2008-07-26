@@ -1,4 +1,4 @@
-/* $Id: Trace.java,v 1.7 2008/05/15 21:27:47 m31 Exp $
+/* $Id: Trace.java,v 1.1 2008/07/26 07:55:42 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -24,7 +24,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Developer trace.
  *
- * @version $Revision: 1.7 $
+ * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Trace {
