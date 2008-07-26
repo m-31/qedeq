@@ -36,27 +36,27 @@ import org.qedeq.kernel.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.visitor.QedeqVisitor;
 
 /**
- * Test visitor concept for {@link org.qedeq.kernel.bo.visitor.ListVisitor}. 
+ * Test visitor concept for {@link org.qedeq.kernel.bo.visitor.ListVisitor}.
  * This class doesn't test much existing code directly, but checks that the
  * {@link org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser} works correctly for
- * the list part. 
- * 
+ * the list part.
+ *
  * @version $Revision: 1.2 $
  * @author Michael Meyling
  */
 public class QedeqNotNullTraverserTest extends QedeqTestCase {
-   
+
     /** This class. */
     private static final Class CLASS = QedeqNotNullTraverserTest.class;
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
-    
+
     private final TextOutput text = new TextOutput("local", out);
-    
+
     private final Stack stack = new Stack();
-    
+
     private static ModuleAddress address;
-    
+
     static {
         try {
             address = new DefaultModuleAddress("http://memory.org/sample.xml");
@@ -64,9 +64,9 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
             e.printStackTrace();
         }
     }
-    
+
     private final QedeqVisitor visitor = new AbstractModuleVisitor() {
-        
+
         public void visitEnter(Atom atom) {
             handleComma();
             text.print("\"");
@@ -100,11 +100,11 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
         }
 
     };
-    
-    private final QedeqNotNullTraverser trans = new QedeqNotNullTraverser(address, 
+
+    private final QedeqNotNullTraverser trans = new QedeqNotNullTraverser(address,
         visitor);
-    
-    
+
+
     /**
      * Constructor.
      */
@@ -114,7 +114,7 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
 
     /**
      * Constructor.
-     * 
+     *
      * @param   name    Test case name.
      */
     public QedeqNotNullTraverserTest(String name) {
@@ -126,10 +126,10 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
      */
     public void testVisit() throws Exception {
         Element el = new DefaultElementList("myOperator", new Element[] {
-            new DefaultAtom("Hello"), 
+            new DefaultAtom("Hello"),
             new DefaultAtom("Again"),
             new DefaultElementList("again", new Element[] {
-                new DefaultAtom("one"), 
+                new DefaultAtom("one"),
                 new DefaultAtom("two"),
                 new DefaultAtom("three")
             })
@@ -140,56 +140,56 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
         assertEquals("myOperator(\"Hello\", \"Again\", again(\"one\", \"two\", \"three\"))",
             out.toString("ISO-8859-1"));
     }
-    
+
     /**
      * Test generation.
      */
     public void testGeneration() throws Exception {
         Element el = new DefaultElementList("EQUI", new Element[] {
             new DefaultElementList("PREDCON", new Element[] {
-                new DefaultAtom("equal"), 
+                new DefaultAtom("equal"),
                 new DefaultElementList("VAR", new Element[] {
-                    new DefaultAtom("y"), 
+                    new DefaultAtom("y"),
                 }),
                 new DefaultElementList("CLASS", new Element[] {
                     new DefaultElementList("VAR", new Element[] {
-                        new DefaultAtom("x"), 
+                        new DefaultAtom("x"),
                     }),
                     new DefaultElementList("PREDVAR", new Element[] {
-                        new DefaultAtom("\\phi"), 
+                        new DefaultAtom("\\phi"),
                         new DefaultElementList("VAR", new Element[] {
-                            new DefaultAtom("x"), 
+                            new DefaultAtom("x"),
                         })
                     })
                 })
             }),
             new DefaultElementList("FORALL", new Element[] {
                 new DefaultElementList("VAR", new Element[] {
-                    new DefaultAtom("z"), 
+                    new DefaultAtom("z"),
                 }),
                 new DefaultElementList("EQUI", new Element[] {
                     new DefaultElementList("PREDCON", new Element[] {
-                        new DefaultAtom("in"), 
+                        new DefaultAtom("in"),
                         new DefaultElementList("VAR", new Element[] {
-                            new DefaultAtom("z"), 
+                            new DefaultAtom("z"),
                         }),
                         new DefaultElementList("VAR", new Element[] {
-                            new DefaultAtom("y"), 
+                            new DefaultAtom("y"),
                         })
                     }),
                     new DefaultElementList("PREDCON", new Element[] {
-                        new DefaultAtom("in"), 
+                        new DefaultAtom("in"),
                         new DefaultElementList("VAR", new Element[] {
-                            new DefaultAtom("z"), 
+                            new DefaultAtom("z"),
                         }),
                         new DefaultElementList("CLASS", new Element[] {
                             new DefaultElementList("VAR", new Element[] {
-                                new DefaultAtom("x"), 
+                                new DefaultAtom("x"),
                             }),
                             new DefaultElementList("PREDVAR", new Element[] {
-                                new DefaultAtom("\\phi"), 
+                                new DefaultAtom("\\phi"),
                                 new DefaultElementList("VAR", new Element[] {
-                                    new DefaultAtom("x"), 
+                                    new DefaultAtom("x"),
                                 })
                             })
                         })
@@ -205,7 +205,7 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
             out.toString("ISO-8859-1"));
         Trace.trace(CLASS, this, "testGeneration", el.toString());
     }
-    
+
     protected void setUp() throws Exception {
         super.setUp();
         out.reset();
@@ -215,7 +215,7 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
         super.tearDown();
     }
 
-/*    
+/*
     public void accept(final Element element) throws ModuleDataException {
         if (element.isList()) {
             accept(element.getList());
@@ -243,5 +243,5 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
         visitLeave(list);
     }
 */
-    
+
 }

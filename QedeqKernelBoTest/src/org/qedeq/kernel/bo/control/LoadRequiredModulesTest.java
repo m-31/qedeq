@@ -44,18 +44,18 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
     public LoadRequiredModulesTest() {
         super();
     }
-    
+
     public LoadRequiredModulesTest(final String name) {
         super(name);
     }
-    
+
     /**
      * Load following dependencies:
      * <pre>
      * 011 -> 012
      * 011 -> 013 -> 012
      * </pre>
-     * 
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_01() throws Exception {
@@ -68,7 +68,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * <pre>
      * 021 -> 021
      * </pre>
-     * 
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_02() throws Exception {
@@ -84,13 +84,13 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             // TODO mime 20071101: check if exception code and description is ok
         }
     }
-    
+
     /**
      * Load following dependencies:
      * <pre>
      * 031 -> 032 -> 031
      * </pre>
-     * 
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_03() throws Exception {
@@ -107,7 +107,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             // TODO mime 20071101: check if exception code and description is ok
         }
     }
-    
+
     /**
      * Load following dependencies:
      * <pre>
@@ -115,7 +115,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 041 -> 043 -> 044
      * 041 -> 044 -> 042
      * </pre>
-     * 
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_04() throws Exception {
@@ -137,7 +137,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
             // TODO mime 20071101: check if exception code and description is ok
         }
     }
-    
+
     /**
      * Load following dependencies:
      * <pre>
@@ -146,10 +146,10 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 051 -> 052 -> 055 -> 053 -> 056
      * 051 -> 052 -> 055 -> 057
      * 051 -> 053 -> 056
-     * 051 -> 054 -> 056   
-     * 051 -> 055 -> 057 
+     * 051 -> 054 -> 056
+     * 051 -> 055 -> 057
      * </pre>
-     * 
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_05() throws Exception {
@@ -166,10 +166,10 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 061 -> 062 -> 065 -> 063 -> 066 -> 067
      * 061 -> 062 -> 065 -> 067
      * 061 -> 063 -> 066 -> 067
-     * 061 -> 064 -> 066 -> 067  
-     * 061 -> 065 -> 067 
+     * 061 -> 064 -> 066 -> 067
+     * 061 -> 065 -> 067
      * </pre>
-     * 
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_06() throws Exception {
@@ -192,13 +192,13 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * 071 -> 073 -> 076 -> 077
      * 071 -> 073 -> 076 -> 071                    c
      * 071 -> 073 -> 075 -> 073                    c
-     * 071 -> 074 -> 076 -> 077  
+     * 071 -> 074 -> 076 -> 077
      * 071 -> 074 -> 076 -> 071                    c
      * 071 -> 075 -> 073 -> 076 -> 077
      * 071 -> 075 -> 073 -> 076 -> 071             c
      * 071 -> 075 -> 073 -> 075 - >073             c
      * </pre>
-     * 
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_07() throws Exception {
@@ -227,7 +227,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * <pre>
      * 081 -> 082 -> 083 -> 084 -> 085 -> 086 -> 087 -> 089
      * </pre>
-     * 
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_08() throws Exception {
@@ -240,7 +240,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase{
      * <pre>
      * 091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 099 -> 091
      * </pre>
-     * 
+     *
      * @throws Exception
      */
     public void testLoadRequiredModules_09() throws Exception {

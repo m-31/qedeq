@@ -57,7 +57,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
 
     /**
      * Constructor.
-     * 
+     *
      * @param   address     QEDEQ module address.
      */
     public QedeqBoFactoryAssert(final ModuleAddress address) {
@@ -111,14 +111,14 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
      * @param   locationWithinModule    Location within module.
      */
     protected void setLocationWithinModule(final String locationWithinModule) {
-        Trace.param(CLASS, "setLocationWithinModule(String)", 
+        Trace.param(CLASS, "setLocationWithinModule(String)",
             "locationWithinModule > ", locationWithinModule);
         getCurrentContext().setLocationWithinModule(locationWithinModule);
 
         try {
             DynamicGetter.get(getQedeqOriginal(), getCurrentContext().getLocationWithinModule());
         } catch (RuntimeException e) {
-            System.err.println(getCurrentContext().getLocationWithinModule()); 
+            System.err.println(getCurrentContext().getLocationWithinModule());
             throw e;
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
@@ -132,7 +132,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         } catch (ModuleDataException e) {
             throw new RuntimeException(e);
         }
-        Trace.param(CLASS, "setLocationWithinModule(String)", 
+        Trace.param(CLASS, "setLocationWithinModule(String)",
             "xpath                < ", xpath);
         try {
             final InternalKernelServices services = (InternalKernelServices) IoUtility
@@ -143,12 +143,12 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
                 getCurrentContext().getModuleLocation().getURL());
             if (find.getStartLocation() == null) {
                 System.out.println(getCurrentContext());
-                throw new RuntimeException("start not found: " + find + "\ncontext: " 
+                throw new RuntimeException("start not found: " + find + "\ncontext: "
                     + getCurrentContext().getLocationWithinModule());
             }
             if (find.getEndLocation() == null) {
                 System.out.println(getCurrentContext());
-                throw new RuntimeException("end not found: " + find + "\ncontext: " 
+                throw new RuntimeException("end not found: " + find + "\ncontext: "
                     + getCurrentContext().getLocationWithinModule());
             }
 

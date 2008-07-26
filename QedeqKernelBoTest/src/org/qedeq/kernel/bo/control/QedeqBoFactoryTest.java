@@ -87,14 +87,14 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
     public QedeqBoFactoryTest() {
         super();
     }
-    
+
     public QedeqBoFactoryTest(final String name) {
         super(name);
     }
-    
+
     /**
      * Class under test for QedeqBo create(String, Qedeq).
-     * 
+     *
      * @throws IOException  Module creation failed due to IO error.
      * @throws SAXException Module parsing failed.
      * @throws ParserConfigurationException Parser configuration problem.
@@ -125,8 +125,8 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
 
     /**
      * Class under test for QedeqBo createQedeq(String, Qedeq).
-     * 
-     * @throws Exception    Unexpected failure of module creation. 
+     *
+     * @throws Exception    Unexpected failure of module creation.
      */
     public void testCreateStringQedeq2() throws Exception {
         loadQedeqAndAssertContext("project/qedeq_basic_concept.xml");
@@ -134,35 +134,35 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
 
     /**
      * Class under test for QedeqBo createQedeq(String, Qedeq).
-     * 
-     * @throws Exception    Unexpected failure of module creation. 
+     *
+     * @throws Exception    Unexpected failure of module creation.
      */
     public void testCreateStringQedeq3() throws Exception {
         loadQedeqAndAssertContext("project/qedeq_logic_language.xml");
     }
-    
+
     /**
      * Class under test for QedeqBo createQedeq(String, Qedeq).
-     * 
-     * @throws Exception    Unexpected failure of module creation. 
+     *
+     * @throws Exception    Unexpected failure of module creation.
      */
     public void testCreateStringQedeq4() throws Exception {
         loadQedeqAndAssertContext("math/qedeq_sample1.xml");
     }
-    
+
     /**
      * Class under test for QedeqBo createQedeq(String, Qedeq).
-     * 
-     * @throws Exception    Unexpected failure of module creation. 
+     *
+     * @throws Exception    Unexpected failure of module creation.
      */
     public void testCreateStringQedeq5() throws Exception {
         loadQedeqAndAssertContext("math/qedeq_set_theory_v1.xml");
     }
-    
+
     /**
      * Class under test for QedeqBo createQedeq(String, Qedeq).
-     * 
-     * @throws Exception    Unexpected failure of module creation. 
+     *
+     * @throws Exception    Unexpected failure of module creation.
      */
     public void testCreateStringQedeq6() throws Exception {
         loadQedeqAndAssertContext("math/qedeq_logic_v1.xml");
@@ -173,7 +173,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             SourceFileExceptionList {
         loadQedeqAndAssertContext(getQedeqFile(name));
     }
-        
+
     public static final void loadQedeqAndAssertContext(final File file) throws IOException,
             ModuleDataException, ParserConfigurationException, SAXException,
             SourceFileExceptionList {
@@ -183,19 +183,19 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             .getKernelContext().getQedeqBo(address);
         QedeqBoFactoryAssert.createQedeq(prop, createQedeqFromFile(file));
     }
-    
+
     public static Qedeq loadQedeq(final String name) throws IOException,
             IllegalModuleDataException, ParserConfigurationException, SAXException,
             SourceFileExceptionList {
         return loadQedeq(getQedeqFile(name));
     }
-    
+
     public static Qedeq loadQedeq(final File file) throws IOException,
             ParserConfigurationException, SAXException,
             SourceFileExceptionList {
         return createQedeqFromFile(file);
     }
-    
+
     public static final Qedeq createQedeqFromFile(final File file)
             throws ParserConfigurationException, SAXException, IOException,
             SourceFileExceptionList {
@@ -209,9 +209,9 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
 
     /**
      * Get QEDEQ file.
-     * 
-     * @param   relativePath    File path relative to documentation directory. 
-     * 
+     *
+     * @param   relativePath    File path relative to documentation directory.
+     *
      * @return  Path to file.
      * @throws  IOException IO-Failure.
      */
