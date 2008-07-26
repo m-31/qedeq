@@ -1,4 +1,4 @@
-/* $Id: AbstractValueObjectTest.java,v 1.13 2008/03/27 05:12:46 m31 Exp $
+/* $Id: AbstractValueObjectTest.java,v 1.14 2008/07/26 08:00:23 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -35,7 +35,7 @@ import org.qedeq.kernel.dto.list.DefaultAtom;
  * Basis for value object tests.
  * @see #testAll()
  *
- * @version $Revision: 1.13 $
+ * @version $Revision: 1.14 $
  * @author    Michael Meyling
  */
 public abstract class AbstractValueObjectTest extends QedeqTestCase {
