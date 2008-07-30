@@ -1,4 +1,4 @@
-/* $Id: LatexTextParser.java,v 1.9 2008/03/27 05:13:47 m31 Exp $
+/* $Id: LatexTextParser.java,v 1.10 2008/07/26 08:03:15 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -37,7 +37,7 @@ import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 /**
  * Transform LaTeX into QEDEQ format.
  *
- * @version $Revision: 1.9 $
+ * @version $Revision: 1.10 $
  * @author  Michael Meyling
  */
 public final class LatexTextParser {
