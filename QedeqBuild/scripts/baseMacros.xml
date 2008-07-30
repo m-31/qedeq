@@ -169,6 +169,8 @@
             </clover-report>
             <!-- put things right again, get rid of instrumentation -->   
             <clover-setup initstring="@{dir}/target/reports/clover/data/clover.db" enabled="false" />  
+            <delete dir="@{dir}/target/classes" />   
+            <delete dir="@{dir}/target/test-classes" />
             <compile     name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
             <testCompile name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
         </sequential>
