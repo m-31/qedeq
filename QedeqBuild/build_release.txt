@@ -1,0 +1,105 @@
+Making a release for *Hilbert II*
+
+
+Prepare for Build
+-----------------
+- check eclipse "problems"
+- check eclipse "task list"
+- run FindBugs
+- run Classcycle
+- run *PestSuite s and change all running tests from "pest*" into "test*"
+
+
+Preliminary Build
+-----------------
+- test within eclipse if QedeqMainFrame works ok  (open all windows!)
+- run QedeqBuild/scripts/fastBuild to create new development release
+  + look at the messages during build project (e.g. javadoc warnings)
+  + if it runs through all tests are ok
+  + direct execution, is all still working (open all windows!)
+  + look into the generated pdfs if they look ok
+  + check java doc
+    > is every package there
+    > look at the messages during build project
+  + exame index.html and update it
+  + transfer release to WebPage
+    > copy xml-apis.jar and xercesImpl.jar from eclipse/webstart    [TODO: do by script]
+      directory into release webstart directory (they are stripped
+      of the original manifest.mf and are signed with jarsigner due 
+      to an java webstart bug)
+    > web execution, is that ok too?
+    > indide FireFox run checky to validate the HTML
+- go through qedeq_bugs_and_features*.xls and rework list
+- put build in qedeq_temp directory and name it
+  "release_" + version + "_" + build number
+
+
+Update Build Documentation
+--------------------------
+- compare build with last build and document changes
+  in QedeqRel/inc/se/changes.txt
+- update QedeqRel/inc/se/readme.txt
+- update QedeqRel/inc/se/release.txt (whatfor???)
+
+
+Update CVS Tags
+---------------
+- commit everything to subversion, nothing must remain marked as
+  changed. 
+- run copySubversionToCvs.xml
+- start eclipse_cvs
+  1. synchronize
+  2. clean timestamps
+  3. commit changes
+  4. close eclipse_cvs
+- run copyCvsToSubversion.xml
+- synchronize and commit
+
+
+Real Build
+----------
+- build again (inkl. "release_" + version + "_" + sub version copy
+- put build in qedeq_rel directory and name it
+  "release_" + version + "_" + build number
+- tag CVS as in the following example:
+  qedeq_unstable_0_01_06_2005-03-09
+- tag subversion
+  + open team create Branch/Tags on project
+  + browse
+  + create new entry in tags: right mouse click and new tag directory
+  + choose destination folder
+    for QedeqKernelSe for example:
+    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_03_17_2008-04-17/QedeqKernelSe
+    with version as comment
+- transfer release to WebPage (se above)
+
+
+Make Release known
+------------------
+- goto sourceforge.net and create new release
+- upload files *.tar.gz and *.zip
+- finish release creation
+- update sourceforge entry
+- update qedeq_pad.xml file and put it to web page
+
+
+Update Web Page
+---------------
+- adapt at least
+  + download.html 
+  + development.html
+  + webstart.html
+  + news.html
+  + site.csv
+  + planning.html ?
+- run W3C html and link validation for web page
+
+
+Refactoring After Release
+-------------------------
+- update build number in QedeqBuild/scripts/build.properties
+- change version number in various *.xml tests
+- check if QedeqBuild/scripts/fastBuild runs through
+- look at *PestSuite s and make some tests green and add new ones
+- look at qedeq_bugs_and_features*.xls and make the refactorings you like
+
