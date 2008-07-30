@@ -18,7 +18,6 @@
     <property file="${basedir}/QedeqBuild/scripts/build.properties" />
     <property name="qedeq.lib"             value="${basedir}/QedeqLib" />
     <property name="qedeq.gen"             value="${basedir}/../../qedeq_gen" />
-    <property name="qedeq.se.site"         value="${basedir}/../../qedeq_gen/release/ant/site" />
     <property name="qedeq.directory"       value="qedeq" />
     <property name="qedeq.dest"            value="${basedir}/../../qedeq_gen/release/ant/${qedeq.directory}" />
     <property name="qedeq.dest.module"     value="${basedir}/../../qedeq_gen/release/ant/modules" />
@@ -101,12 +100,14 @@ currently in ants classpath
     <taskdef resource="cloverlib.xml" classpath="${qedeq.lib}/clover-2.3.1.jar" />
 
     <target name="clean">
-        <delete dir="${qedeq.dest.module}" failonerror="false" />
+        <delete dir="${qedeq.dest.module}" failonerror="true" />
         <mkdir dir="${qedeq.dest.module}" />
-        <delete dir="${qedeq.dist}" failonerror="false"/>
+        <delete dir="${qedeq.dist}" failonerror="true"/>
         <mkdir dir="${qedeq.dist}" />
-        <delete dir="${qedeq.temp}" failonerror="false" />
+        <delete dir="${qedeq.temp}" failonerror="true" />
         <mkdir dir="${qedeq.temp}"/>
+        <delete dir="${qedeq.dest.module}" failonerror="true" />
+        <mkdir dir="${qedeq.dest.module}"/>
         <clean name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase" />
         <clean name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe" />
         <clean name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo" />
@@ -218,6 +219,7 @@ currently in ants classpath
     </target>
                             
     <target name="doc" description="generate project documentation" depends="source,test,makePdfs">
+        <delete dir="${qedeq.dest}/xml" />
         <mkdir dir="${qedeq.dest}/doc" />
         <mkdir dir="${qedeq.dest}/doc/project" />
         <delete dir="${qedeq.dest}/xml" />

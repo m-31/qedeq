@@ -14,6 +14,21 @@
     <import file="releaseBuild.xml" />
     <import file="fastMacros.xml" />
 
+    <target name="clean">
+        <delete dir="${qedeq.dest.module}" failonerror="false" />
+        <mkdir dir="${qedeq.dest.module}" />
+        <delete dir="${qedeq.dist}" failonerror="false"/>
+        <mkdir dir="${qedeq.dist}" />
+        <delete dir="${qedeq.temp}" failonerror="false" />
+        <mkdir dir="${qedeq.temp}"/>
+        <clean name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase" />
+        <clean name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe" />
+        <clean name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo" />
+        <clean name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" />
+        <clean name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel" />
+        <clean name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_gui_se" />
+    </target>
+
     <target name="test" description="run all tests" depends="testCompile">
         
         <moveSlowTestsAway/>
