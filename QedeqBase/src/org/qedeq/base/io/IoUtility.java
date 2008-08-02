@@ -22,6 +22,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
@@ -579,6 +580,62 @@ public final class IoUtility {
         if (deleteDir) {
             return directory.delete();
         }
+        return success;
+    }
+
+    /**
+     * Delete directory contents for all files that match the filter. The main directory itself is
+     * not deleted.
+     *
+     * @param   directory   Directory to scan for files to delete.
+     * @param   filter      Filter files (and directories) to delete.
+     * @return  Was deletion successful?
+     */
+    public static boolean deleteDir(final File directory, final FileFilter filter) {
+        // to see if this directory is actually a symbolic link to a directory,
+        // we want to get its canonical path - that is, we follow the link to
+        // the file it's actually linked to
+        File candir;
+        try {
+            candir = directory.getCanonicalFile();
+        } catch (IOException e) {
+            return false;
+        }
+
+        // a symbolic link has a different canonical path than its actual path,
+        // unless it's a link to itself
+        if (!candir.equals(directory.getAbsoluteFile())) {
+            // this file is a symbolic link, and there's no reason for us to
+            // follow it, because then we might be deleting something outside of
+            // the directory we were told to delete
+            return false;
+        }
+
+        // now we go through all of the files and subdirectories in the
+        // directory and delete them one by one
+        boolean success = true;
+        File[] files = candir.listFiles(filter);
+        if (files != null) {
+            for (int i = 0; i < files.length; i++) {
+                File file = files[i];
+
+                // in case this directory is actually a symbolic link, or it's
+                // empty, we want to try to delete the link before we try
+                // anything
+                boolean deleted = file.delete();
+                if (!deleted) {
+                    // deleting the file failed, so maybe it's a non-empty
+                    // directory
+                    if (file.isDirectory()) {
+                        deleted = deleteDir(file, true);
+                    }
+
+                    // otherwise, there's nothing else we can do
+                }
+                success = success && deleted;
+            }
+        }
+
         return success;
     }
 
