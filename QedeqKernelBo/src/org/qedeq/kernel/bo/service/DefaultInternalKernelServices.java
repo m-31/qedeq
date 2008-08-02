@@ -18,6 +18,7 @@
 package org.qedeq.kernel.bo.service;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -55,12 +56,11 @@ import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
 
-
 /**
  * This class provides a default implementation for the QEDEQ module services.
- *
+ * 
  * @version $Revision: 1.1 $
- * @author  Michael Meyling
+ * @author Michael Meyling
  */
 public class DefaultInternalKernelServices implements KernelServices, InternalKernelServices {
 
@@ -87,9 +87,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Constructor.
-     *
-     * @param   kernel  For kernel access.
-     * @param   loader  For loading QEDEQ modules.
+     * 
+     * @param kernel For kernel access.
+     * @param loader For loading QEDEQ modules.
      */
     public DefaultInternalKernelServices(final KernelProperties kernel, final QedeqFileDao loader) {
         modules = new KernelQedeqBoStorage();
@@ -120,11 +120,12 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                         if (loadPreviouslySuccessfullyLoadedModules()) {
                             QedeqLog.getInstance().logMessage(
                                 "Loading of " + number + " previously successfully loaded module"
-                                + (number != 1 ? "s" : "") + " successfully done.");
+                                    + (number != 1 ? "s" : "") + " successfully done.");
                         } else {
                             QedeqLog.getInstance().logMessage(
                                 "Loading of all previously successfully checked modules failed. "
-                                + number + " module" + (number != 1 ? "s" : "") + " were tried.");
+                                    + number + " module" + (number != 1 ? "s" : "")
+                                    + " were tried.");
                         }
                     } catch (Exception e) {
                         Trace.trace(CLASS, this, method, e);
@@ -159,8 +160,8 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Remove a QEDEQ module from memory.
-     *
-     * @param   address     Remove module identified by this address.
+     * 
+     * @param address Remove module identified by this address.
      */
     public void removeModule(final ModuleAddress address) {
         final QedeqBo prop = getQedeqBo(address);
@@ -173,17 +174,15 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     }
 
     /**
-     * Remove a QEDEQ module from memory.
-     *
-     * This method must block all other methods and if this method runs no other
-     * is allowed to run
-     *
-     * @param   prop    Remove module identified by this property.
+     * Remove a QEDEQ module from memory. This method must block all other methods and if this
+     * method runs no other is allowed to run
+     * 
+     * @param prop Remove module identified by this property.
      */
     private void removeModule(final DefaultKernelQedeqBo prop) {
         do {
             synchronized (this) {
-                if (processCounter == 0) {  // no other method is allowed to run
+                if (processCounter == 0) { // no other method is allowed to run
                     // TODO mime 20080319: one could call prop.setLoadingProgressState(
                     // LoadingState.STATE_DELETED) alone but that would
                     // miss to inform the KernelQedeqBoPool. How do we inform the pool?
@@ -207,13 +206,16 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     /**
      * Clear local file buffer and all loaded QEDEQ modules.
      *
-     * @throws  IOException Deletion of all buffered file was not successful.
+     * @throws IOException Deletion of all buffered file was not successful.
      */
-    public void clearLocalBuffer()
-            throws IOException {
+    public void clearLocalBuffer() throws IOException {
         removeAllModules();
         final File bufferDir = getBufferDirectory().getCanonicalFile();
-        if (bufferDir.exists() && !IoUtility.deleteDir(bufferDir, false)) {
+        if (bufferDir.exists() && !IoUtility.deleteDir(bufferDir, new FileFilter() {
+                    public boolean accept(final File pathname) {
+                        return pathname.getName().endsWith(".xml");
+                    }
+                })) {
             throw new IOException("buffer could not be deleted: " + bufferDir);
         }
     }
@@ -234,38 +236,36 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                     // search in local file buffer
                     try {
                         getCanonicalReadableFile(prop);
-                    } catch (ModuleFileNotFoundException e) {     // file not found
+                    } catch (ModuleFileNotFoundException e) { // file not found
                         // we will continue by creating a local copy
                         saveQedeqFromWebToBuffer(prop);
                     }
                     loadBufferedModule(prop);
                 }
-                QedeqLog.getInstance().logSuccessfulReply("Module \""
-                    + prop.getModuleAddress().getFileName()
-                    + "\" was successfully loaded.");
-             }
+                QedeqLog.getInstance().logSuccessfulReply(
+                    "Module \"" + prop.getModuleAddress().getFileName()
+                        + "\" was successfully loaded.");
+            }
         } catch (SourceFileExceptionList e) {
             Trace.trace(CLASS, this, method, e);
-            QedeqLog.getInstance().logFailureState("Loading of module failed!",
-                address.getURL(), e.toString());
+            QedeqLog.getInstance().logFailureState("Loading of module failed!", address.getURL(),
+                e.toString());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
-            QedeqLog.getInstance().logFailureReply(
-                "Loading failed", e.getMessage());
+            QedeqLog.getInstance().logFailureReply("Loading failed", e.getMessage());
         } finally {
-             processDec();
+            processDec();
         }
         return prop;
     }
 
     /**
      * Load buffered QEDEQ module file.
-     *
-     * @param   prop    Load this.
-     * @throws  SourceFileExceptionList     Loading or QEDEQ module failed.
+     * 
+     * @param prop Load this.
+     * @throws SourceFileExceptionList Loading or QEDEQ module failed.
      */
-    private void loadBufferedModule(final DefaultKernelQedeqBo prop) throws
-            SourceFileExceptionList {
+    private void loadBufferedModule(final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER);
         final File localFile;
         try {
@@ -293,9 +293,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Load QEDEQ module file with file loader.
-     *
-     * @param   prop    Load this.
-     * @throws  SourceFileExceptionList     Loading or copying QEDEQ module failed.
+     * 
+     * @param prop Load this.
+     * @throws SourceFileExceptionList Loading or copying QEDEQ module failed.
      */
     private void loadLocalModule(final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE);
@@ -303,7 +303,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         try {
             localFile = getCanonicalReadableFile(prop);
         } catch (ModuleFileNotFoundException e) {
-           final SourceFileExceptionList sfl = createSourcelFileExceptionList(e);
+            final SourceFileExceptionList sfl = createSourcelFileExceptionList(e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED, sfl);
             throw sfl;
         }
@@ -332,8 +332,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             vo = QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq);
         } catch (ModuleDataException e) {
             Trace.trace(CLASS, this, method, e);
-            final SourceFileExceptionList xl
-                = prop.createSourceFileExceptionList(e, qedeq);
+            final SourceFileExceptionList xl = prop.createSourceFileExceptionList(e, qedeq);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
             throw xl;
         }
@@ -349,12 +348,11 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Check if file exists and is readable. Checks the local buffer file for a buffered module or
-     * the module file address directly.
-     * Returns canonical file path.
-     *
-     * @param   prop    Check for this file.
-     * @return  Canonical file path.
-     * @throws  ModuleFileNotFoundException     File doesn't exist or is not readable.
+     * the module file address directly. Returns canonical file path.
+     * 
+     * @param prop Check for this file.
+     * @return Canonical file path.
+     * @throws ModuleFileNotFoundException File doesn't exist or is not readable.
      */
     private File getCanonicalReadableFile(final QedeqBo prop) throws ModuleFileNotFoundException {
         final String method = "checkLocalBuffer(File)";
@@ -375,20 +373,20 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Load specified QEDEQ module from QEDEQ parent module.
-     *
-     * @param   parent  Parent module address.
-     * @param   spec    Specification for another QEDEQ module.
-     * @return  Loaded module.
-     * @throws  SourceFileExceptionList     Loading failed.
+     * 
+     * @param parent Parent module address.
+     * @param spec Specification for another QEDEQ module.
+     * @return Loaded module.
+     * @throws SourceFileExceptionList Loading failed.
      */
-    public KernelQedeqBo loadModule(final ModuleAddress parent,
-            final Specification spec) throws SourceFileExceptionList {
+    public KernelQedeqBo loadModule(final ModuleAddress parent, final Specification spec)
+            throws SourceFileExceptionList {
 
         final String method = "loadModule(Module, Specification)";
         Trace.begin(CLASS, this, method);
         Trace.trace(CLASS, this, method, spec);
         processInc();
-        DefaultKernelQedeqBo prop = null;  // currently tried module
+        DefaultKernelQedeqBo prop = null; // currently tried module
         try {
             final ModuleAddress[] modulePaths;
             try {
@@ -400,7 +398,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
             // now we iterate over the possible module addresses
             for (int i = 0; i < modulePaths.length; i++) {
-                prop  = getModules().getKernelQedeqBo(this, modulePaths[i]);
+                prop = getModules().getKernelQedeqBo(this, modulePaths[i]);
                 Trace.trace(CLASS, this, method, "synchronizing at prop=" + prop);
                 synchronized (prop) {
                     if (prop.isLoaded()) {
@@ -413,7 +411,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                             // search in local file buffer
                             try {
                                 getCanonicalReadableFile(prop);
-                            } catch (ModuleFileNotFoundException e) {     // file not found
+                            } catch (ModuleFileNotFoundException e) { // file not found
                                 // we will continue by creating a local copy
                                 saveQedeqFromWebToBuffer(prop);
                             }
@@ -433,7 +431,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                     }
                 }
             }
-            return prop;    // never called, only here to soothe the compiler
+            return prop; // never called, only here to soothe the compiler
 
         } finally {
             processDec();
@@ -445,11 +443,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         return getModules().getAllLoadedModules();
     }
 
-
     public void loadRequiredModules(final ModuleAddress address) throws SourceFileExceptionList {
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) loadModule(address);
         if (prop.hasFailures()) {
-            throw prop.getException();  // FIXME mime 20080603: remove exception from signature
+            throw prop.getException(); // FIXME mime 20080603: remove exception from signature
             // of this function and also from loadRequired
         }
         LoadRequiredModules.loadRequired(prop);
@@ -457,8 +454,8 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Load all previously checked QEDEQ modules.
-     *
-     * @return  Successfully reloaded all modules.
+     * 
+     * @return Successfully reloaded all modules.
      */
     public boolean loadPreviouslySuccessfullyLoadedModules() {
         processInc();
@@ -474,8 +471,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                     }
                 } catch (IOException e) {
                     Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
-                        "internal error: "
-                            + "saved URLs are malformed", e);
+                        "internal error: " + "saved URLs are malformed", e);
                     errors = true;
                 }
             }
@@ -489,15 +485,12 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     public boolean loadAllModulesFromQedeq() {
         processInc();
         try {
-            final String prefix = "http://qedeq.org/"
-                + kernel.getKernelVersionDirectory() + "/";
-            final String[] list = new String[] {
-                prefix + "doc/math/qedeq_logic_v1.xml",
+            final String prefix = "http://qedeq.org/" + kernel.getKernelVersionDirectory() + "/";
+            final String[] list = new String[] { prefix + "doc/math/qedeq_logic_v1.xml",
                 prefix + "doc/math/qedeq_set_theory_v1.xml",
                 prefix + "doc/project/qedeq_basic_concept.xml",
                 prefix + "doc/project/qedeq_logic_language.xml",
-                prefix + "sample/qedeq_sample1.xml",
-                prefix + "sample/qedeq_error_sample_00.xml",
+                prefix + "sample/qedeq_sample1.xml", prefix + "sample/qedeq_error_sample_00.xml",
                 prefix + "sample/qedeq_error_sample_01.xml",
                 prefix + "sample/qedeq_error_sample_02.xml",
                 prefix + "sample/qedeq_error_sample_03.xml",
@@ -507,8 +500,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 prefix + "sample/qedeq_sample4_error.xml",
                 prefix + "sample/qedeq_sample5_error.xml",
                 prefix + "sample/qedeq_sample6_error.xml",
-                prefix + "sample/qedeq_sample7_error.xml",
-            };
+                prefix + "sample/qedeq_sample7_error.xml", };
             boolean errors = false;
             for (int i = 0; i < list.length; i++) {
                 try {
@@ -519,29 +511,28 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                     }
                 } catch (IOException e) {
                     Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
-                        "internal error: "
-                            + "saved URLs are malformed", e);
+                        "internal error: " + "saved URLs are malformed", e);
                     errors = true;
                 }
             }
             return !errors;
         } finally {
-           processDec();
+            processDec();
         }
     }
 
     /**
      * Make local copy of a module if it is no file address.
-     *
-     * @param   prop         Module properties.
-     * @throws  SourceFileExceptionList    Address was malformed or the file can not be found.
+     * 
+     * @param prop Module properties.
+     * @throws SourceFileExceptionList Address was malformed or the file can not be found.
      */
     public void saveQedeqFromWebToBuffer(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
         final String method = "makeLocalCopy";
         Trace.begin(CLASS, this, method);
 
-        if (prop.getModuleAddress().isFileAddress()) {  // this is already a local file
+        if (prop.getModuleAddress().isFileAddress()) { // this is already a local file
             Trace.fatal(CLASS, this, method, "tried to make a local copy for a local module", null);
             Trace.end(CLASS, this, method);
             return;
@@ -560,7 +551,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 if (responseCode == 200) {
                     in = httpConnection.getInputStream();
                 } else {
-                    in = httpConnection.getErrorStream();   // FIXME do something with this stream?
+                    in = httpConnection.getErrorStream(); // FIXME do something with this stream?
                     throw new IOException("Response code from HTTP server was " + responseCode);
                     // FIXME give more explanation over response codes
                 }
@@ -571,16 +562,15 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             }
 
             if (!prop.getUrl().equals(connection.getURL())) {
-                throw new FileNotFoundException("\"" + prop.getUrl()
-                    + "\" was substituted by " + "\"" + connection.getURL()
-                    + "\" from server");
+                throw new FileNotFoundException("\"" + prop.getUrl() + "\" was substituted by "
+                    + "\"" + connection.getURL() + "\" from server");
             }
             final int maximum = connection.getContentLength();
             IoUtility.createNecessaryDirectories(f);
             out = new FileOutputStream(f);
             final byte[] buffer = new byte[4096];
-            int bytesRead;      // bytes read during one buffer read
-            int position = 0;   // current reading position within the whole document
+            int bytesRead; // bytes read during one buffer read
+            int position = 0; // current reading position within the whole document
             // continue writing
             while ((bytesRead = in.read(buffer)) != -1) {
                 position += bytesRead;
@@ -607,8 +597,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 Trace.trace(CLASS, this, method, ex);
             }
             final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(e);
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED,
-                sfl);
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
             Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
             throw sfl;
         } finally {
@@ -621,9 +610,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     /**
      * Transform an URL address into a relative local file path. This might also change the file
      * name. If the URL address is already a file address, the original file path is returned.
-     *
-     * @param   address     Transform this URL.
-     * @return  Result of transformation.
+     * 
+     * @param address Transform this URL.
+     * @return Result of transformation.
      */
     public final File getLocalFilePath(final ModuleAddress address) {
         final String method = "localizeInFileSystem(URL)";
@@ -637,9 +626,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         Trace.param(CLASS, this, method, "path", url.getPath());
         Trace.param(CLASS, this, method, "file", url.getFile());
         StringBuffer file = new StringBuffer(url.getFile());
-        StringUtility.replace(file, "_", "_1");    // remember all '_'
-        StringUtility.replace(file, "/", "_2");    // preserve all '/'
-        String encoded = file.toString();           // fallback file name
+        StringUtility.replace(file, "_", "_1"); // remember all '_'
+        StringUtility.replace(file, "/", "_2"); // preserve all '/'
+        String encoded = file.toString(); // fallback file name
         try {
             encoded = URLEncoder.encode(file.toString(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
@@ -648,20 +637,20 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         }
         file.setLength(0);
         file.append(encoded);
-        StringUtility.replace(file, "#", "##");    // escape all '#'
-        StringUtility.replace(file, "_2", "#");    // from '/' into '#'
-        StringUtility.replace(file, "_1", "_");    // from '_' into '_'
+        StringUtility.replace(file, "#", "##"); // escape all '#'
+        StringUtility.replace(file, "_2", "#"); // from '/' into '#'
+        StringUtility.replace(file, "_1", "_"); // from '_' into '_'
         StringBuffer adr = new StringBuffer(url.toExternalForm());
         try {
-            adr = new  StringBuffer(new URL(url.getProtocol(), url.getHost(),
-                url.getPort(), file.toString()).toExternalForm());
+            adr = new StringBuffer(new URL(url.getProtocol(), url.getHost(), url.getPort(), file
+                .toString()).toExternalForm());
         } catch (MalformedURLException e) {
             Trace.fatal(CLASS, this, "localizeInFileSystem(URL)", "unexpected", e);
             e.printStackTrace();
         }
         // escape characters:
-        StringUtility.replace(adr, "://", "_");    // before host
-        StringUtility.replace(adr, ":", "_");      // before protocol
+        StringUtility.replace(adr, "://", "_"); // before host
+        StringUtility.replace(adr, ":", "_"); // before protocol
         return new File(getBufferDirectory(), adr.toString());
     }
 
@@ -671,7 +660,6 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     private synchronized void processInc() {
         this.processCounter++;
     }
-
 
     /**
      * Decrement intern process counter.
@@ -711,11 +699,11 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     public String getSource(final ModuleAddress address) throws IOException {
         final KernelQedeqBo bo = getKernelQedeqBo(address);
         if (bo.getLoadingState().equals(LoadingState.STATE_UNDEFINED)
-                || bo.getLoadingState().equals(LoadingState.STATE_LOADING_FROM_WEB)
-                || bo.getLoadingState().equals(LoadingState.STATE_LOADING_FROM_WEB_FAILED)) {
+            || bo.getLoadingState().equals(LoadingState.STATE_LOADING_FROM_WEB)
+            || bo.getLoadingState().equals(LoadingState.STATE_LOADING_FROM_WEB_FAILED)) {
             return null;
-// TODO mime 20080313: remove me
-//            throw new IllegalStateException("module is not yet buffered " + address);
+            // TODO mime 20080313: remove me
+            // throw new IllegalStateException("module is not yet buffered " + address);
         }
         final StringBuffer buffer = new StringBuffer();
         IoUtility.loadReader(getQedeqFileDao().getModuleReader(bo), buffer);
@@ -727,32 +715,29 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         final String method = "checkModule(ModuleAddress)";
         final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
         try {
-            QedeqLog.getInstance().logRequest("Check logical correctness for \""
-                + prop.getUrl() + "\"");
+            QedeqLog.getInstance().logRequest(
+                "Check logical correctness for \"" + prop.getUrl() + "\"");
 
             loadModule(address);
             LoadRequiredModules.loadRequired(prop);
 
             QedeqBoFormalLogicChecker.check(prop);
             QedeqLog.getInstance().logSuccessfulReply(
-                "Check of logical correctness successful for \""
-                + prop.getUrl() + "\"");
+                "Check of logical correctness successful for \"" + prop.getUrl() + "\"");
         } catch (final SourceFileExceptionList e) {
-            final String msg = "Check of logical correctness failed for \""
-                + address.getURL() + "\"";
+            final String msg = "Check of logical correctness failed for \"" + address.getURL()
+                + "\"";
             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
         } catch (final RuntimeException e) {
-            final String msg = "Check of logical correctness failed for \""
-                + address.getURL() + "\"";
+            final String msg = "Check of logical correctness failed for \"" + address.getURL()
+                + "\"";
             Trace.fatal(CLASS, this, method, msg, e);
-            final SourceFileExceptionList xl =
-                new DefaultSourceFileExceptionList(e);
+            final SourceFileExceptionList xl = new DefaultSourceFileExceptionList(e);
             // TODO mime 20080124: every state must be able to change into
             // a failure state, here we only assume three cases
             if (!prop.isLoaded()) {
                 if (!prop.getLoadingState().isFailure()) {
-                    prop.setLoadingFailureState(
-                        LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
+                    prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
                 }
             } else if (!prop.hasLoadedRequiredModules()) {
                 if (!prop.getDependencyState().isFailure()) {
@@ -761,8 +746,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 }
             } else {
                 if (!prop.getLogicalState().isFailure()) {
-                    prop.setLogicalFailureState(
-                        LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
+                    prop.setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
                 }
             }
             QedeqLog.getInstance().logFailureReply(msg, e.toString());
@@ -774,23 +758,19 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     }
 
     public InputStream createLatex(final ModuleAddress address, final String language,
-            final String level)
-            throws DefaultSourceFileExceptionList, IOException {
+            final String level) throws DefaultSourceFileExceptionList, IOException {
         return Qedeq2Latex.createLatex(getKernelQedeqBo(address), language, level);
     }
 
     public String generateLatex(final ModuleAddress address, final String language,
-            final String level)
-            throws DefaultSourceFileExceptionList, IOException {
-        return Qedeq2Latex.generateLatex(getKernelQedeqBo(address), language,
-            level).toString();
+            final String level) throws DefaultSourceFileExceptionList, IOException {
+        return Qedeq2Latex.generateLatex(getKernelQedeqBo(address), language, level).toString();
     }
-
 
     /**
      * Get all loaded QEDEQ modules.
-     *
-     * @return  All QEDEQ modules.
+     * 
+     * @return All QEDEQ modules.
      */
     private KernelQedeqBoStorage getModules() {
         return modules;
@@ -807,9 +787,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Get description of source file exception list.
-     *
-     * @param   address  Get description for this module exceptions.
-     * @return  Error description and location.
+     * 
+     * @param address Get description for this module exceptions.
+     * @return Error description and location.
      */
     public String[] getSourceFileExceptionList(final ModuleAddress address) {
         final List list = new ArrayList();
@@ -824,7 +804,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                     for (int i = 0; i < sfl.size(); i++) {
                         list.add(sfl.get(i).getDescription());
                     }
-                    break;  // out of do while
+                    break; // out of do while
                 }
                 final TextInput input = new TextInput(buffer);
                 input.setPosition(0);
@@ -834,27 +814,26 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                     final SourceFileException sf = sfl.get(i);
                     buf.append(sf.getDescription());
                     try {
-                        if (sf.getSourceArea() != null && sf.getSourceArea().getStartPosition()
-                                != null) {
+                        if (sf.getSourceArea() != null
+                            && sf.getSourceArea().getStartPosition() != null) {
                             buf.append("\n");
                             input.setRow(sf.getSourceArea().getStartPosition().getLine());
                             buf.append(StringUtility.replace(input.getLine(), "\t", " "));
                             buf.append("\n");
-                            final StringBuffer whitespace = StringUtility.getSpaces(
-                                sf.getSourceArea().getStartPosition().getColumn() - 1);
+                            final StringBuffer whitespace = StringUtility.getSpaces(sf
+                                .getSourceArea().getStartPosition().getColumn() - 1);
                             buffer.append(whitespace);
                             buffer.append("^");
                         }
                     } catch (Exception e) {
-                        Trace.trace(CLASS, this, "getSourceFileExceptionList(ModuleAddress)",
-                            e);
+                        Trace.trace(CLASS, this, "getSourceFileExceptionList(ModuleAddress)", e);
                     }
                     list.add(buf.toString());
                 }
-                break;  // out of do while
+                break; // out of do while
             } while (true);
         }
-        return (String[]) list.toArray(new String[]{});
+        return (String[]) list.toArray(new String[] {});
     }
 
     public QedeqFileDao getQedeqFileDao() {
