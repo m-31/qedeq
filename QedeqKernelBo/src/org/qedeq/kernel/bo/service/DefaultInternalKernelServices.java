@@ -1,4 +1,4 @@
-/* $Id: DefaultInternalKernelServices.java,v 1.1 2008/07/26 07:58:29 m31 Exp $
+/* $Id: DefaultInternalKernelServices.java,v 1.2 2008/08/02 04:33:09 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -59,7 +59,7 @@ import org.qedeq.kernel.dto.module.QedeqVo;
 /**
  * This class provides a default implementation for the QEDEQ module services.
  * 
- * @version $Revision: 1.1 $
+ * @version $Revision: 1.2 $
  * @author Michael Meyling
  */
 public class DefaultInternalKernelServices implements KernelServices, InternalKernelServices {
