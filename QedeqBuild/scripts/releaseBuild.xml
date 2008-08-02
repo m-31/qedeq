@@ -488,7 +488,7 @@ currently in ants classpath
         <signjar jar="${qedeq.webstart}/xml-apis.jar" alias="qedeqkey"
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
         <copy todir="${qedeq.webstart}">
-            <fileset file="${qedeq.resources}/qedeq.jnlp" />
+            <fileset file="${qedeq.resources}/webstart/qedeq.jnlp" />
             <filterset refid="qedeq_filter" />
         </copy>
         <copy todir="${qedeq.webstart}">

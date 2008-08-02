@@ -15,14 +15,16 @@
   
   <resources>
      <j2se version="1.4+" />
-     <jar href="qedeq_gui_se.jar" main="true" />
-     <jar href="commons-logging-1.1.jar" />
+     <jar href="qedeq_gui_se-@QEDEQ_VERSION@.jar" main="true" />
+     <jar href="qedeq_kernel-@QEDEQ_VERSION@.jar" />
+     <jar href="commons-lang-2.4.jar" />
+     <jar href="commons-logging-1.1.1.jar" />
+     <jar href="commons-io-1.4.jar" />
      <jar href="log4j-1.2.14.jar" />
      <jar href="forms-1.1.0.jar" />
      <jar href="looks-2.1.4.jar" />
      <jar href="xercesImpl.jar" />
      <jar href="xml-apis.jar" />
-     <jar href="qedeq_kernel_se.jar" />
   </resources>
   <application-desc main-class="org.qedeq.gui.se.main.QedeqMainFrame" />
 </jnlp>

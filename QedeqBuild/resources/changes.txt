@@ -13,6 +13,8 @@ Functional Changes
   
   Fixed Bugs
   ----------
+  - within the buffer directory only all *.xml files are deleted when
+    the buffer is cleaned; so we have no problem with the lock file
 
   Other Changes
   -------------
