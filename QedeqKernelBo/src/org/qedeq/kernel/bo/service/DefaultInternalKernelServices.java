@@ -58,7 +58,7 @@ import org.qedeq.kernel.dto.module.QedeqVo;
 
 /**
  * This class provides a default implementation for the QEDEQ module services.
- * 
+ *
  * @version $Revision: 1.2 $
  * @author Michael Meyling
  */
@@ -87,7 +87,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Constructor.
-     * 
+     *
      * @param kernel For kernel access.
      * @param loader For loading QEDEQ modules.
      */
@@ -160,7 +160,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Remove a QEDEQ module from memory.
-     * 
+     *
      * @param address Remove module identified by this address.
      */
     public void removeModule(final ModuleAddress address) {
@@ -176,7 +176,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     /**
      * Remove a QEDEQ module from memory. This method must block all other methods and if this
      * method runs no other is allowed to run
-     * 
+     *
      * @param prop Remove module identified by this property.
      */
     private void removeModule(final DefaultKernelQedeqBo prop) {
@@ -261,11 +261,12 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Load buffered QEDEQ module file.
-     * 
+     *
      * @param prop Load this.
      * @throws SourceFileExceptionList Loading or QEDEQ module failed.
      */
-    private void loadBufferedModule(final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
+    private void loadBufferedModule(final DefaultKernelQedeqBo prop)
+            throws SourceFileExceptionList {
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_BUFFER);
         final File localFile;
         try {
@@ -293,7 +294,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Load QEDEQ module file with file loader.
-     * 
+     *
      * @param prop Load this.
      * @throws SourceFileExceptionList Loading or copying QEDEQ module failed.
      */
@@ -349,7 +350,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     /**
      * Check if file exists and is readable. Checks the local buffer file for a buffered module or
      * the module file address directly. Returns canonical file path.
-     * 
+     *
      * @param prop Check for this file.
      * @return Canonical file path.
      * @throws ModuleFileNotFoundException File doesn't exist or is not readable.
@@ -373,7 +374,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Load specified QEDEQ module from QEDEQ parent module.
-     * 
+     *
      * @param parent Parent module address.
      * @param spec Specification for another QEDEQ module.
      * @return Loaded module.
@@ -454,7 +455,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Load all previously checked QEDEQ modules.
-     * 
+     *
      * @return Successfully reloaded all modules.
      */
     public boolean loadPreviouslySuccessfullyLoadedModules() {
@@ -486,7 +487,8 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         processInc();
         try {
             final String prefix = "http://qedeq.org/" + kernel.getKernelVersionDirectory() + "/";
-            final String[] list = new String[] { prefix + "doc/math/qedeq_logic_v1.xml",
+            final String[] list = new String[] {
+                prefix + "doc/math/qedeq_logic_v1.xml",
                 prefix + "doc/math/qedeq_set_theory_v1.xml",
                 prefix + "doc/project/qedeq_basic_concept.xml",
                 prefix + "doc/project/qedeq_logic_language.xml",
@@ -523,7 +525,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Make local copy of a module if it is no file address.
-     * 
+     *
      * @param prop Module properties.
      * @throws SourceFileExceptionList Address was malformed or the file can not be found.
      */
@@ -610,7 +612,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     /**
      * Transform an URL address into a relative local file path. This might also change the file
      * name. If the URL address is already a file address, the original file path is returned.
-     * 
+     *
      * @param address Transform this URL.
      * @return Result of transformation.
      */
@@ -769,7 +771,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Get all loaded QEDEQ modules.
-     * 
+     *
      * @return All QEDEQ modules.
      */
     private KernelQedeqBoStorage getModules() {
@@ -787,7 +789,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     /**
      * Get description of source file exception list.
-     * 
+     *
      * @param address Get description for this module exceptions.
      * @return Error description and location.
      */
