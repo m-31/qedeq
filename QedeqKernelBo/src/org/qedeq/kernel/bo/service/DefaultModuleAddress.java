@@ -22,7 +22,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.module.LocationList;
 import org.qedeq.kernel.base.module.Specification;
@@ -95,7 +94,8 @@ public class DefaultModuleAddress implements ModuleAddress {
      * @throws  MalformedURLException   Address is formally incorrect.
      */
     public DefaultModuleAddress(final File file) throws MalformedURLException {
-        this(IoUtility.toUrl(file));
+// FIXME 20080804: now less bugs?        this(IoUtility.toUrl(file));
+        this(file.toURL());
     }
 
     /**
@@ -183,7 +183,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      *
      * @return  Module address as {@link ModuleContext}.
      */
-    public final ModuleContext createModuleContext() {
+    public ModuleContext createModuleContext() {
         return new ModuleContext(this);
     }
 
@@ -193,7 +193,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      *
      * @return address header
      */
-    public final String getHeader() {
+    public String getHeader() {
         return header;
     }
 
@@ -202,7 +202,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      *
      * @return module path
      */
-    public final String getPath() {
+    public String getPath() {
         return path;
     }
 
@@ -211,7 +211,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      *
      * @return  Module file name.
      */
-    public final String getFileName() {
+    public String getFileName() {
         return fileName;
     }
 
@@ -220,7 +220,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      *
      * @return  Module name.
      */
-    public final String getName() {
+    public String getName() {
         return this.name;
     }
 
@@ -229,7 +229,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      *
      * @return  URL for QEDEQ module.
      */
-    public final URL getURL() {
+    public URL getURL() {
         return this.url;
     }
 
@@ -238,7 +238,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      *
      * @return  Relatively created?
      */
-    public final boolean isRelativeAddress() {
+    public boolean isRelativeAddress() {
         return this.relativeAddress;
     }
 
@@ -247,7 +247,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      *
      * @return  Is the QEDEQ module a local file?
      */
-    public final boolean isFileAddress() {
+    public boolean isFileAddress() {
         return fileAddress;
     }
 
@@ -273,7 +273,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      *                  another module.
      * @return  File name of specified module.
      */
-    public static final String getModuleFileName(final Specification spec) {
+    private static final String getModuleFileName(final Specification spec) {
 
         return spec.getName() + ".xml";
     }
@@ -350,25 +350,6 @@ public class DefaultModuleAddress implements ModuleAddress {
 
     }
 
-    /**
-     * Get module address with new ending. E.g.: ".html" instead of ".qedeq".
-     *
-     * @param   address     The address of something (e.g.: a module).
-     * @param   newEnding   This should be the new ending (e.g.: "html").
-     * @return  module address with substituted ending
-     */
-    public static final String newEnding(final String address,
-            final String newEnding) {
-        if (address.length() == 0) {
-            return "";
-        }
-        final int i = address.lastIndexOf(".");
-        if (i > 0) {
-            return address.substring(0, i + 1) + newEnding;
-        } else {
-            return address + "." + newEnding;
-        }
-    }
 
 }
 
