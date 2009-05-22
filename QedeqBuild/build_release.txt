@@ -8,12 +8,13 @@ Prepare for Build
 - run FindBugs
 - run Classcycle
 - run *PestSuite s and change all running tests from "pest*" into "test*"
+- run fastBuild
 
 
 Preliminary Build
 -----------------
 - test within eclipse if QedeqMainFrame works ok  (open all windows!)
-- run QedeqBuild/scripts/fastBuild to create new development release
+- run QedeqBuild/scripts/fastCloverBuild to create new development release
   + look at the messages during build project (e.g. javadoc warnings)
   + if it runs through all tests are ok
   + direct execution, is all still working (open all windows!)
@@ -56,22 +57,30 @@ Update CVS Tags
 - synchronize and commit
 
 
-Real Build
-----------
+Build Release Candidate
+-----------------------
 - build again (inkl. "release_" + version + "_" + sub version copy
+- put build in qedeq_temp directory and name it
+  "release_" + version + "_" + build number
+- test release candidate under linux
+
+
+Final Release
+-------------
 - put build in qedeq_rel directory and name it
   "release_" + version + "_" + build number
 - tag CVS as in the following example:
-  qedeq_unstable_0_01_06_2005-03-09
+  qedeq_unstable_0_03_11_20080802043913
 - tag subversion
   + open team create Branch/Tags on project
   + browse
   + create new entry in tags: right mouse click and new tag directory
   + choose destination folder
     for QedeqKernelSe for example:
-    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_03_17_2008-04-17/QedeqKernelSe
+    https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_03_11_20080802043913/QedeqKernelSe
     with version as comment
 - transfer release to WebPage (se above)
+- update directory "/current" on web page
 
 
 Make Release known
@@ -85,7 +94,7 @@ Make Release known
 
 Update Web Page
 ---------------
-- adapt at least
+- adapt at least (incl *_de.*)
   + download.html 
   + development.html
   + webstart.html
