@@ -34,7 +34,9 @@ currently in ants classpath
     <taskdef name="junit" class="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" 
         classpathref="classpath.common" />   
 -->    
-    <taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task" classpath="${qedeq.lib}/xsddoc.jar" />
+ 
+<!-- we add the xerces libraries, so that parsing works for JDK >= 1.5 also -->
+	<taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task" classpath="${qedeq.lib}/xsddoc.jar:${qedeq.lib}/xercesImpl.jar:${qedeq.lib}/xalan.jar:${qedeq.lib}/xml-apis.jar" />
     <taskdef resource="checkstyletask.properties" classpath="${qedeq.lib}/checkstyle-all-4.4.jar" />
     
     <tstamp>
@@ -277,7 +279,7 @@ currently in ants classpath
           </fileset>
         </copy>
         <copy todir="${qedeq.dest}/doc/math">
-          <fileset dir="${basedir}/doc/description"
+          <fileset dir="${basedir}/QedeqDoc/math"
             includes="axiomatic_set_theory.txt"
           >
     <!-- outdated:        includes="mengenlehre_1.tex,mengenlehre_1.pdf,axiomatic_set_theory.txt" -->
