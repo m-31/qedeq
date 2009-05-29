@@ -1,0 +1,370 @@
+%%% ====================================================================
+%%% Text-file from project *Hilbert II*
+%%%
+%%% Permission is granted to copy, distribute and/or modify this 
+%%% document under the terms of the GNU Free Documentation License, 
+%%% Version 1.2 or any later version published by the 
+%%% Free Software Foundation; with no Invariant Sections, 
+%%% no Front-Cover Texts, and no Back-Cover Texts.
+%%% See under "http://www.gnu.org/licenses/fdl.html".
+%%% ====================================================================
+
+
+This module has the following specification:
+
+  Name:           Axiomatic Set Theory
+  Module version: 1.00.00 (Rev. 2.01a)
+  Rule version:   2.00.00
+  Locations:      http://www.qedeq.org/0_01_05/axiomatic_set_theory.txt
+
+
+*Axioms and first definitions of axiomatic set theory*  [DRAFT]
+
+
+This file is part of the project 'Hilbert II'.
+
+This open source project wants to present mathematical knowledge in a 
+highly standardized and formal correct form.
+
+Under \href{http://www.qedeq.org/}{http://www.qedeq.org/} more 
+information about this project could be found.
+
+This file contains the axioms and first definitions of the axiomatic set 
+theory due to Morse and Kelley (MK) - a variant of the von Neumann-Bernays-
+Gödel set theory (NBG).
+
+The following logical operator symbols are used in formulas:
+
+"~"      negation    (prefix notation with exact one argument)
+"&"      conjunction (infix notation with exact two arguments)
+"v"      disjunction (infix notation with exact two arguments)
+"->"     implication (infix notation with exact two arguments)
+"<->"    equivalence (infix notation with exact two arguments)
+"A"      universal quantor   (prefix notation with exact two arguments)
+"E"      existential quantor (prefix notation with exact two arguments)
+
+Table of operator priority, sorted from highest to lowest:
+
+  "~", "A", "E"
+  "&"
+  "v"
+  "->", "<->"
+
+Undefined (primitive) predicate for the domain:
+"in"     solely needed set theoretic predicate constant
+         (infix notation with exact two arguments)
+
+Defined predicates for the domain:
+"set"    defined predicate constant (prefix notation with exact one argument)
+"="      defined predicate constant (infix notation with exact two arguments)
+
+The subject domain consists of classes. Class variables are written as single
+lower case letters like "x", "y", etc.
+
+
+Module admin: mime@qedeq.org
+
+Author(s) of this module: 
+Michael Meyling <michael@meyling.com>
+Franz Fritsche <info@simple-line.de>
+
+
+Needs following modules:
+
+  Name:           propaxiom
+  Module version: 1.00.00
+  Rule version:   1.00.00
+  Locations:      ../0_00_52/
+
+  Name:           predaxiom
+  Module version: 1.00.00
+  Rule version:   1.00.00
+  Locations:      ../0_00_52/
+
+
+(primitive:in) 
+Application of the predicate constant 'is a member of the class'
+%1 in %2
+
+
+(def:set) 
+Definition of the predicate 'is a set'.
+
+Definition
+set(x) :<-> Ey x in y       
+
+If x is a member of a class, it is called a {\bf set}.
+
+
+(axiom:kompr) 
+The axiom of class constructing is the following:
+
+Axiom
+ExAy(y in x <-> set(y) & P(y))	 // if x does not occure free in P(y)
+
+This axiom (or rather axiom schema) is also called 'comprehension axiom'.
+Notice that for \qedeq{P(y)} arbitrary formulas could be 
+substituted\footnote{in which \qedeq{x} does not occur (free) and 
+\qedeq{y} occurs free}, in which some other subject variables 
+could occur free.
+
+
+(def:equal)
+The equality of two classes could be defined by the property that 
+they have precisely the same members.
+
+Definition
+x = y :<-> Az(z in x <-> z in y)
+
+So a set is determined uniquely by its members.
+Some treatments of axiomatic set theory prefer to assume that 
+equality is a primitive symbol in predicate logic.
+
+
+(thm:set:equal1)
+This definition of equality leads to the common properties:
+First reflexivity.
+
+Proposition 
+x = x
+
+Proof:
+  1. a in x <-> a in x                        ;P <-> P is a tautology
+  2. Az(z in x <-> z in x)                    ;A-Intro
+  3. x = x                                    ;[def:equal]
+qed
+
+
+(thm:set:equal2) 
+Symmetry is following.
+
+Proposition 
+x = y -> y = x
+
+Proof
+  1.   x = y                                  ;assume
+  2.   Az(z in x <-> z in y)                  ;[def:equal]
+  3.   Az(z in y <-> z in x)                  ;commutativity of <->
+  4.   y = x                                  ;[def:equal]
+  5. x = y -> y = x                           ;from 1,4 (->Intro)
+qed
+
+
+(thm:set:equal3) 
+Now the transitivity property is shown.
+
+Proposition 
+x = y & y = z -> x = z
+
+Proof
+  1.   x = y & y = z                                  ;assume
+  2.   Au(u in x <-> u in y) & Au(u in y <-> u in z)  ;[def:equal]
+  3.   Au((u in x <-> u in y) & (u in y <-> u in z))  ;theorem
+  4.   (a in x <-> a in y) & (a in y <-> a in z)      ;A-Elim
+  5.   a in x <-> a in z                              ;from 4
+  6.   Au(u in x <-> u in z)                          ;A-Intro
+  7.   x = z                                          ;[def:equal]
+  8. x = y & y = z -> x = z                           ;from 1,7 (->Intro)
+qed
+
+
+(thm:extens2)
+The substitutability for the member relation could be deduced for
+one direction (right of \qedeq{in}) directly from the definition.
+
+Proposition
+x = y & z in x -> z in y
+
+Proof
+  1.   x = y & z in x                    ;assume
+  2.   z in x                            ;from 1 (&Elim) 
+  3.   x = y                             ;from 1 (&Elim)
+  4.   Au(u in x <-> u in y)             ;[def:equal]
+  5.   z in x <-> z in y                 ;A-Elim
+  6.   z in y                            ;from 2,5
+  7. x = y & z in x -> z in y            ;from 1,6 (->Intro)       
+qed
+
+(axiom:extens) 
+Die Definition der Umfangsgleichheit reicht jedoch nicht aus, um eine 
+Klasse durch eine gleiche Klasse ersetzen zu können.
+Der Zusammenhang von Umfangsgleichheit und Ersetzbarkeit für die 
+Enthaltenseinsbeziehung in der anderen Richtung (links von $in$) 
+wird erst durch das Axiom der Extensionalität garantiert.
+
+Axiom
+x = y & x in z -> y in z
+
+
+(rule:leibniz)
+Rule
+Neben der Reflexivität ist die "Leibniz'sche Ersetzbarkeit" eine 
+wichtige Forderung an die mathematische Gleichheit:
+\qedeq{(x = y & P(x)) -> P(y)}. Da die Gleichheit hier 
+innerhalb der Mengenlehre definiert wurde, kann die Aussage in dieser
+Form nicht bewiesen werden. Weil jedoch alle Aussagen der Mengenlehre
+aus Prädikaten bestehen, die ausschließlich aus der
+Enthaltenseinsbeziehung und logischen Operatoren gebildet werden,
+kann aus [thm:extens2] und [axiom:extens] die Gültigkeit der Leibniz'schen
+Ersetzbarkeit für alle konkreten mengentheoretischen Aussagen
+bewiesen werden\footnote{So folgt beispielsweise aus 
+\qedeq{x = y & (x in z v z in x)} nach dem logischen Distributivgesetz
+\qedeq{(x = y & x in z) v (x = y & z in x)} und mit [thm:extens2] und 
+[axiom:extens] folgt dann logisch \qedeq{y in z v z in y}. Entsprechend
+kann auch für die Negation und die Quantifizierung argumentiert werden.}.
+Deshalb wird die Leibniz'sche Ersetzbarkeit als Metaregel aufgenommen.
+Nach ihrer Anwendung muss allerdings das Prädikat durch ein konkretes
+mengentheoretisches Prädikat ersetzt werden. \par
+Aus dieser Form der Leibniz'schen Ersetzbarkeit kann auch die schärfere
+Formulierung \qedeq{(x = y -> (P(x) <-> P(y))} abgeleitet werden.
+Für gleiche Mengen gelten also dieselben Aussagen.
+
+
+(abr:set1) 
+Deshalb können wir eine neue abkürzende Schreibweise einführen.
+'set builder notation'
+
+Abbreviation
+x in {y | P(y)} :<-> set(x) & P(x)
+
+
+(abr:set2) 
+Für die Beziehung in der anderen Richtung muss das Folgende gelten.
+
+Abbreviation
+{y | P(y)} in x :<-> Ez(Ay((set(y) & P(y)) <-> y in z) & z in x)
+
+
+(rule:predset)
+Rule
+Im Folgenden verwenden wir diese abkürzenden Schreibweisen in 
+allen prädikativen Aussagen.
+
+
+(thm:set:equal1) 
+Die Kompatiblität mit dem Extensionalitätsaxiom ist gewährleistet.
+
+Proposition 
+{y | P(y)} in x <-> Ez(z = {y | P(y)} & z in x)
+
+Proof
+  1. {y | P(y)} in x <-> {y | P(y)} in x                ;P <-> P is a tautology
+  2.  <-> Ez(Ay((set(y) & P(y)) <-> y in z) & z in x)   ;[abr:set2]
+  3.  <-> Ez(Au((set(u) & P(u)) <-> u in z) & z in x)
+  4.  <-> Ez(Au(u in z <-> (set(u) & P(u))) & z in x)
+  5.  <-> Ez(Au(u in z <-> u in {y | P(y)}) & z in x) 
+  6.  <-> Ez(z = {y | P(y)} & z in x)
+qed
+
+
+(thm:set:equal1) 
+Aus den Abkürzungen ergibt sich für die Gleichheit von derartigen Mengen das Folgende.
+
+Proposition 
+{x | P(x)} = {x | Q(x)} <-> (Ax(set(x) -> (P(x) <-> Q(x))))
+
+Proof
+  1. {x | P(x)} = {x | Q(x)} 
+  2.  <-> Ay(y in {x | P(x)} <-> y in {x | Q(x)}))                      ;[def:equal]
+  3.  <-> Ay((set(y) & P(y)) <-> (set(y) & Q(y))))                      ;[abr:set1]
+  4.  <-> Ay(((set(y) & P(y)) -> (set(y) & Q(y))) & ((set(y) & P(y)) -> (set(y) & Q(y)))))
+  5.  <-> Ay(((set(y) & P(y)) -> Q(y)) & ((set(y) & Q(y)) -> Q(y))))
+  6.  <-> Ay((set(y) -> (P(y) -> P(y))) & (set(y) -> (Q(y) -> P(y)))))
+  7.  <-> Ay(set(y) -> ((P(y) -> Q(y)) & (Q(y) -> P(y)))))
+  8.  <-> Ay(set(y) -> (P(y) <-> Q(y))))
+qed
+
+
+(thm:set:describe)
+Jede Klasse lässt sich durch eine Aussage beschreiben.
+
+Proposition
+x = {y | y in x}
+
+Proof
+  1. x = x                                     ;[thm:set:equal1]
+  2. Az(z in x <-> z in x)                     ;[def:equal]
+  3. Az(z in x <-> (set(z) & z in x))          ;[def:set]
+  4. Az(z in x <-> z in {y | y in x})          ;[abr:set1] with P(z) : z in x
+  5. x = {y | y in x}                          ;[def:equal]
+  
+    
+(abr:set:union)
+Die Möglichkeit, eine Menge durch eine Aussage zu beschreiben, ermöglicht die 
+Definition einer Verknüpfung zweier Klassen: die Vereinigung zweier Klassen.
+
+Abbreviation
+(x union y) :<-> {z | z in x v z in y}
+
+
+(abr:set:intersection)
+Entsprechend wird der Durchschnitt zweier Klassen definiert.
+
+Abbreviation
+(x inter y) :<-> {z | z in x & z in y}
+
+
+(thm:set:in:union)
+Ob eine Menge ein Element der Vereinigung zweier Klassen ist, kann natürlich 
+auch direkt angegeben werden.
+
+Proposition
+z in (x union y) <-> z in x v z in y
+
+Proof
+  1. z in (x union y)
+  2. <-> z in {u | u in x v u in y}              ;[abr:set:union]
+  3. <-> z in x v z in y                         ;[abr:set1]
+
+
+(thm:set:in:intersection)
+Entsprechendes gilt für den Durchschnitt zweier Klassen.
+
+Proposition
+z in (x inter y) <-> z in x & z in y
+
+Proof
+  1. z in (x inter y)
+  2. <-> z in {u | u in x & u in y}              ;[abr:set:intersection]
+  3. <-> z in x & z in y                         ;[abr:set1]
+
+
+Die letzten beiden Sätze [thm:set:in:union] und [thm:set:in:intersection] 
+zeigen die Übertragbarkeit der Eigenschaften der logischen Verknüpfungen 
+\qedeq{v} und\qedeq{&} auf die Mengenverknüpfungen \qedeq{+} und \qedeq{*}. 
+Deshalb lassen sich die entsprechenden logischen Gesetzmässigkeiten direkt 
+auf die Mengenverknüpfungen übertragen.
+
+
+(thm:union:asso)
+Assoziativität der Vereinigung
+
+Proposition
+((x union y) union z) = (x union (y union z))
+
+Proof
+  1. ((x union y) union z) = ((x union y) union z)                     ;[thm:set:equal1]
+  2. Au(u in ((x union y) union z) <-> u in ((x union y) union z))     ;[def:equal]
+  3. Au(u in ((x union y) union z) <-> u in (x union y) v u in z)      ;[abr:set:union]
+  4. Au(u in ((x union y) union z) <-> (u in x v u in y) v u in z)     ;[abr:set:union]
+  5. Au(u in ((x union y) union z) <-> u in x v (u in y v u in z))
+  6. Au(u in ((x union y) union z) <-> u in x v u in (y union z))      ;[abr:set:union]
+  7. Au(u in ((x union y) union z) <-> u in (x union (y union z)))     ;[abr:set:union]
+  8. ((x union y) union z) = (x union (y union z))                     ;[def:equal]
+
+
+(thm:union:asso)
+Assoziativität des Durchschnitts
+
+Proposition
+((x inter y) inter z) = (x inter (y inter z))
+
+Proof
+  1. ((x inter y) inter z) = ((x inter y) inter z)                    ;[thm:set:equal1]
+  2. Au(u in ((x inter y) inter z) <-> u in ((x inter y) inter z))    ;[def:equal]
+  3. Au(u in ((x inter y) inter z) <-> u in (x inter y) v u in z)     ;[abr:set:intersection]
+  4. Au(u in ((x inter y) inter z) <-> (u in x v u in y) v u in z)    ;[abr:set:intersection]
+  5. Au(u in ((x inter y) inter z) <-> u in x v (u in y v u in z))
+  6. Au(u in ((x inter y) inter z) <-> u in x v u in (y inter z))     ;[abr:set:intersection]
+  7. Au(u in ((x inter y) inter z) <-> u in (x inter (y inter z)))    ;[abr:set:intersection]
+  8. ((x inter y) inter z) = (x inter (y inter z))                    ;[def:equal]
