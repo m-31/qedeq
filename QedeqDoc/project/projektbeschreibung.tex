@@ -1,0 +1,1793 @@
+% -*- TeX:DE -*-
+%%% ====================================================================
+%%% @LaTeX-file $RCSfile: projektbeschreibung.tex,v $
+%%% $Revision: 1.40 $
+%%% ====================================================================
+
+%%% Permission is granted to copy, distribute and/or modify this document
+%%% under the terms of the GNU Free Documentation License, Version 1.2
+%%% or any later version published by the Free Software Foundation;
+%%% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+   \pdffalse			   % we are not running PDFLaTeX
+\else
+   \pdftrue				   % we assume that we will run PDFLaTeX
+\fi
+
+\documentclass[a4paper,german,10pt,twoside]{book}
+
+\usepackage[german]{babel}
+\usepackage{makeidx}
+\usepackage{amsmath,amsthm,amssymb}
+\usepackage{color}
+\usepackage[bookmarks,bookmarksnumbered,bookmarksopen,
+	   colorlinks,linkcolor=webgreen,pagebackref]{hyperref}
+%%		 colorlinks,linkcolor=webgreen,filecolor=webbrown,citecolor=webgreen,
+\definecolor{webgreen}{rgb}{0,.5,0}
+%%\definecolor{webbrown}{rgb}{.6,0,0}
+%%\definecolor{webyellow}{rgb}{0.98,0.92,0.73}
+%%\definecolor{webgray}{rgb}{.753,.753,.753}
+%%\definecolor{webblue}{rgb}{0,0,.8}
+
+\ifpdf % pdf generation
+  \usepackage[pdftex]{graphicx}
+  \pdfcompresslevel=9
+  \pdfinfo{
+	/Author		  (Michael Meyling)
+	/Title		  (Hilbert II)
+	/Subject	  (Darstellung von formal korrektem mathematischen Wissen)
+	/CreationDate (D:20030511230000)
+	/ModDate	  (D:20050821230000)
+	/Creator	  (TeX)						% default: "TeX"
+	/Producer	  (pdfTeX)					% default: "pdfTeX" + pdftex version
+	/Keywords	  (Qedeq, Hilbert II, Principia Mathematica II, Grobkonzept, Mathematik, Grundlagen,
+				   Axiome, Formale Sprache, Logik, Mengenlehre, Dokumentation, Beweis, Korrektheit)
+  }
+  \pdfcatalog{								% Catalog dictionary of PDF output.
+	/PageMode /UseOutlines					%
+	/URI (http://www.qedeq.org/)
+% pdfscreen-like setting might look like:
+%	  /PageMode /none
+%	  /ViewerPreferences <<
+%		  /HideToolbar true
+%		  /HideMenubar true
+%		  /HideWindowUI true
+%		  /FitWindow true
+%		  /CenterWindow true
+%	  >>
+}
+\else % no pdf generation
+  \usepackage{graphicx}
+\fi
+
+\usepackage{xr}
+\usepackage{epsfig,longtable}
+
+\addtolength{\textheight}{7\baselineskip}
+\addtolength{\topmargin}{-5\baselineskip}
+
+\setlength{\parindent}{0pt}					% Einrueckung 1. Zeile eines Absatzes
+\frenchspacing \sloppy
+
+
+% Theorem environments
+\newtheorem{thm}{Satz}[section]
+\newtheorem{cor}[thm]{Korollar}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{rem}[thm]{Bemerkung}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{ax}{Axiom}
+
+%\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{rul}{Regel}
+\newtheorem*{notation}{Schreibweise}
+\newtheorem*{prf}{Beweis}
+
+% Math definitions
+\newcommand{\deft}{:=}
+\newcommand{\defp}{\ :\Leftrightarrow \ }
+\newcommand{\impl}{\ \rightarrow \ }
+\newcommand{\equi}{\ \leftrightarrow \ }
+\newcommand{\conj}{\ \wedge \ }
+\newcommand{\disj}{\ \vee \ }
+
+% Widerspruchszeichen
+\newcommand{\err}{
+  \begin{minipage}{\linewidth}
+  %$\underset{\swarrow}{\angle}$
+  $\hspace*{2.5pt} \angle \vspace*{-5.5pt} \\ \swarrow$
+  \end{minipage}
+}
+\newcommand{\stimes}{\stackrel{\rm S} \times}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\class}[2]{\left\lfloor #1 \right\rfloor_{#2}}
+\newcommand{\successor}[1]{\mathcal{N}(#1)}
+\newcommand{\isSet}[1]{\mathfrak{M}(#1)}
+
+\DeclareMathOperator{\id}{id} \DeclareMathOperator{\Power}{\mathfrak P}
+\DeclareMathOperator{\rel}{Rel} \DeclareMathOperator{\fkt}{Fkt} \DeclareMathOperator{\dmn}{Dmn}
+\DeclareMathOperator{\rng}{Rng}
+%\DeclareMathOperator{\isSet}{\mathfrak{M}}
+
+
+
+\title{
+\textbf{Hilbert~II} \\
+\vspace*{1cm} Darstellung von formal korrektem mathematischen Wissen\\
+\vspace*{1cm} Grobkonzept \\
+\vspace*{0.1cm} {\small Version 0.64}}
+\author{Michael Meyling}
+\date{18.~Januar~2005}
+
+\makeindex
+
+
+\begin{document}
+
+\maketitle
+
+\setlength{\parskip}{5pt plus 2pt minus 1pt}  % Abstand zwischen Absaetzen
+Homepage von \textbf{Hilbert~II}: \url{http://www.qedeq.org/index_de.html}
+\par
+\vfill
+\par
+Dieses Dokument ist in elektronischer Form an dem folgenden Ort zu finden:
+\url{http://www.qedeq.org/current/project/projektbeschreibung.pdf}
+\par
+Die vorliegende Publikation ist urheberrechtlich gesch{\"u}tzt:
+\par
+Copyright \copyright{} 2003 - 2005 Michael Meyling. Permission is granted to copy, distribute
+and/or modify this document under the terms of the GNU Free Documentation License, Version 1.2 or
+any later version published by the Free Software Foundation; with no Invariant Sections, no
+Front-Cover Texts, and no Back-Cover Texts. A copy of the license is included in
+appendix~\ref{GNU_Free_Documentation_License} entitled \emph{GNU Free Documentation License}.
+\par
+Die Wiedergabe von Gebrauchsnamen, Handelsnamen, Warenbezeichnungen usw. in diesem Werk berechtigt
+auch ohne besondere Kennzeichnung nicht zu der Annahme, dass solche Namen im Sinne der
+Warenzeichen- und Markenschutz-Gesetzgebung als frei zu betrachten w{\"a}ren. Die in diesem Text
+erw{\"a}hnten Software- und Hardwarebezeichnungen sind in den meisten F{\"a}llen auch eingetragene
+Warenzeichen und unterliegen als solche den gesetzlichen Bestimmungen.
+
+\setlength{\parskip}{0pt}					  % Abstand zwischen Absaetzen
+\tableofcontents
+\setlength{\parskip}{5pt plus 2pt minus 1pt}  % Abstand zwischen Absaetzen
+
+\chapter*{Zusammenfassung\index{Zusammenfassung} und Management Summary}
+\addcontentsline{toc}{chapter}{Zusammenfassung und Management Summary} Das Projekt
+\textbf{Hilbert~II}, besch{\"a}ftigt sich mit der Darstellung und Dokumentation von mathematischem
+Wissen. Dazu stellt \textbf{Hilbert~II} eine Programmsuite zur Verwirklichung unterschiedlicher
+Aufgaben bereit. Auch die konkrete Dokumentation mathematischen Grundlagenwissens mit diesen
+Hilfsmitteln geh{\"o}rt zum Ziel dieses Projekts.
+\par
+Dieses Dokument ist eine grobe, fachliche, weitgehend DV-unabh{\"a}ngige Leistungsbeschreibung des zu
+realisierenden Softwaresystems und der zugeh{\"o}rigen mathematischen Grundlagen. Es werden die grobe
+Funktionalit{\"a}t und die wesentlichen Daten der Anwendung beschrieben. Dieses Grobkonzept soll es der
+Mathematikerin erlauben, Inhalt und Aufbau des Softwaresystems zu verstehen und zu beurteilen. Auch
+einige technische Hinweise und Vorgaben werden angegeben. Dieses Konzept dient auch als Referenz
+und Entscheidungsgrundlage f{\"u}r das weitere Vorgehen.
+\par
+Das mathematische Wissen soll in \emph{formal korrekter} Form \emph{dezentral} im Internet
+\emph{frei verf{\"u}gbar} gemacht werden. Dazu wird das Wissen in sogenannten \emph{Qedeq-Modulen}
+organisiert, XML-Dateien die analog zu mathematischen Textb{\"u}chern aufgebaut sind. Wesentlich ist
+dabei die M{\"o}glichkeit zur formal korrekten Darstellung in einem Pr{\"a}dikatenkalk{\"u}l erster Stufe, die
+eine maschinelle Auswertung erm{\"o}glicht. Dazu ist ein \emph{Proofchecker}\index{Proofchecker}
+integriert, der die logische Folgerichtigkeit der formalen Beweise {\"u}berpr{\"u}ft.\footnote{Dabei ist
+\textbf{Hilbert~II} kein Theorembeweiser\index{Theorembeweiser} oder Theoremfinder im herk{\"o}mmlichen
+Sinne. Lediglich Zwischenschritte innerhalb von formalen Beweisen werden ermittelt. Dennoch wird es
+f{\"u}r die Bequemlichkeit entscheidend sein, ob ein dem {\glqq normalen mathematischen Gebrauch\grqq}
+entsprechender {\"U}bergang von einer Beweiszeile zur n{\"a}chsten von \textbf{Hilbert~II} ermittelt werden
+kann.} Ein \emph{Qedeq-Viewer} erm{\"o}glicht eine komfortable Betrachtung der Hypertexte. Weitere
+Analysen, z.~B. zur Satz- und Axiomabh{\"a}ngigkeit, sind ebenfalls vorgesehen. Aus den Qedeq-Modulen
+k{\"o}nnen mathematische Textb{\"u}cher im \LaTeX-, \mbox{PDF-,} oder HTML-Format generiert werden. Durch
+die Verweism{\"o}glichkeit auf andere Qedeq-Module kann im Internet ein riesiges mathematisches
+Wissensnetz aufgebaut werden.
+\par
+Dabei ist die formale Korrektheit der dargestellten S{\"a}tze nicht erforderlich, um mathematisches
+Wissen in Qedeq-Modulen abzubilden. Schon in den ersten Phasen des Projekts kann
+\textbf{Hilbert~II} mathematisches Wissens aufnehmen. Mathematische Erkenntnisse k{\"o}nnen bereits
+fr{\"u}hzeitig in Qedeq-Form gebracht und erst sp{\"a}ter in formal korrekter Form erfasst werden. Das
+Qedeq-Format erm{\"o}glicht die Darstellung verschiedener Detaillierungsstufen von mathematischer
+Theorie innerhalb eines Moduls. So k{\"o}nnen in der niedrigsten Detaillierung die Haupts{\"a}tze
+betrachtet werden, in weiteren Stufen sind informale Beweise und weitere Informationen zu sehen und
+im letzten Schritt sollten dann formale Beweise stehen, deren Korrektheit mit dem Proofchecker
+{\"u}berpr{\"u}ft wurde. In dem Qedeq-Viewer kann zwischen den Detaillierungsstufen und gegebenenfalls
+zwischen verschiedenen Sprachen gewechselt werden, ausserdem ist zu erkennen, welchen
+Korrektheitsgrad\index{Korrektheitsgrad} ein Satz besitzt.\footnote{D.~h. es ist erkennbar, ob ein
+formal korrekter Beweis vorliegt, und die formale Korrektheit der beim Beweis verwendeten anderen
+mathematischen S{\"a}tze gegeben ist. Der Korrektheitsgrad steigt je nach Anzahl der erf{\"u}llten
+Bedingungen.}
+\par
+Weitere Einzelheiten zum aktuellen Stand des dieses internationalen Open-Source-Projekts sind auf
+der Homepage dieses Projekts zu finden: \url{http://www.qedeq.org/index_de.html}.
+\par
+Vorwort und Einleitung beschreiben die Ausgangssituation und Problemstellung. Im
+Kapitel~\ref{Ziele_der_Darstellung} werden die Anforderungen formuliert, die an die Darstellung
+mathematischen Wissens gestellt werden. Die mathematischen Grundlagen, die der Konzeption und den
+Textb{\"u}chern von \textbf{Hilbert~II} zugrundeliegen, werden in
+Kapitel~\ref{Mathematische_Ausgangspunkte} formuliert. Auf technische Einzelheiten wird in
+Kapitel~\ref{Technischer_Rahmen} eingegangen. Es gibt bereits einen funktionierenden Prototypen,
+welcher in Kapitel~\ref{Prototyp} vorgestellt wird. Die Arbeitsbereiche dieses Projekts werden in
+Kapitel~\ref{Arbeitsbereiche} beschrieben. Das Kapitel~\ref{Projektplanung} besch{\"a}ftigt sich mit
+der initialen Planung des Projektverlaufs. Entwicklungsleitlinien f{\"u}r die Programmentwicklung sind
+in Kapitel~\ref{Technische_Realisierung} zu finden. Um die Einsatzszenarien geht es in
+Kapitel~\ref{Einsatzszenarien}. Die Lizenzbedingungen f{\"u}r dieses Dokument sind in
+Anhang~\ref{GNU_Free_Documentation_License} angegeben.
+\par
+Dieses Dokument ist noch in Arbeit und wird von Zeit zu Zeit aktualisiert. Insbesondere sind an den
+durch {\glqq+++\grqq} gekennzeichneten Stellen noch Erg{\"a}nzungen vorzunehmen.
+
+
+\chapter*{Vorwort}
+\addcontentsline{toc}{chapter}{Vorwort} Mathematik ist eine Wissenschaft, deren Wissensgeb{\"a}ude im
+Laufe der Zeit gigantische Ausma{\ss}e angenommen hat. Gebaut auf ein Fundament aus wenigen
+mengentheoretischen Axiomen, l{\"a}sst sich dieses Geb{\"a}ude mit pr{\"a}dikatenlogischem M{\"o}rtel in
+schwindelnde H{\"o}hen errichten.
+%Ein auf mengentheoretische Axiome gestelltes Fundament, auf das mit
+%pr{\"a}dikatenlogischem M{\"o}rtel Stein auf Stein in schwindelnde H{\"o}hen
+%get{\"u}rmt wurden.
+Dieser Aufbau kann im Prinzip von jeder Mathematikerin nachvollzogen werden. Auch von dem letzten
+T{\"u}rmchen neuester mathematische Erkenntnis kann der Weg ganz nach unten bis in das Fundament
+verfolgt werden.
+\par
+Praktisch durchf{\"u}hrbar ist dieser Weg jedoch kaum. Zumal f{\"u}r Mathematikerinnen mit anderer
+Spezialdisziplin ist es nicht m{\"o}glich, alle Detailschritte bis in die Niederungen des elementar
+Einfachen zu {\"u}berblicken oder zu verfolgen. Es fehlt einfach die Zeit diesen langen Weg
+zur{\"u}ckzulegen.
+%Deshalb ist es schwierig einen kompletten und detaillierten Beweis f{\"u}r eine {\glqq
+%schwere\grqq} \footnote{{\glqq Schwer\grqq} bedeutet nicht unbedingt lang und kompliziert, sondern
+%dass f{\"u}r den Beweis Ideen ben{\"o}tigt werden, die nicht naheliegend, also \emph{schwer zu finden}
+%sind.} mathematische Aussage in einem einzigen Buch zu finden.
+Mathematik ist auch die Wissenschaft der Abstraktion, der Untersuchung von Strukturen. Und so
+thronen {\glqq schwere\grqq}\footnote{{\glqq Schwer\grqq} bedeutet nicht unbedingt lang und
+kompliziert, sondern dass f{\"u}r den Beweis Ideen ben{\"o}tigt werden, die nicht naheliegend, also
+\emph{schwer zu finden} sind.} Aussagen und ihre Beweise h{\"a}ufig auf einem Stapel neuer abstrakter
+Strukturen, die sich die Leserin erst einmal aneignen muss. Daher ist die Voraussetzung f{\"u}r das
+Lesen von mathematischen Artikeln in der Regel die Kenntnis von mathematischen Standardwerken f{\"u}r
+die jeweilige Disziplin. Die darin benutzten Nomenklaturen, Definitionen und Konventionen
+unterscheiden sich nicht nur von Disziplin zu Disziplin, sondern auch schon innerhalb eines
+Gebietes.
+\par
+Dazu sind bestimmte mathematische Werke\index{freier Zugang} nicht einfach zu bekommen. So sie denn
+noch k{\"a}uflich zu erwerben sind, ist ihr Preis f{\"u}r viele unerschwinglich und zu Bibliotheken haben
+leider die meisten Menschen keinen Zugang.\footnote{Die Lebensumst{\"a}nde der meisten Menschen dieser
+Erde sind mit denen in Deutschland vorherrschenden nicht vergleichbar.} Dabei sind mathematische
+Erkenntnisse {\"o}ffentliches Kulturgut und sollten der {\"O}ffentlichkeit frei zur Verf{\"u}gung stehen. Aber
+selbst dann, wenn eine Bibliothek in der N{\"a}he und das entsprechende Werk im Bestand vorhanden und
+nicht verliehen ist, sind auch in Standardwerken nicht alle mathematischen Aussagen richtig, sie
+enthalten kleinere und gr{\"o}{\ss}ere Fehler.
+\par
+Gerade in der mathematischen Spitzenforschung kommt es gelegentlich vor, dass nur wenige Menschen
+die Beweisschritte f{\"u}r einen mathematischen Satz nachvollziehen k{\"o}nnen und deshalb die
+Verantwortung f{\"u}r die Korrektheit der mathematischen Argumentation auf wenige Schultern verteilt
+ist.
+\par
+Auch die Verwendung von Erkenntnissen aus anderen mathematischen Disziplinen in der eigenen
+gestaltet sich h{\"a}ufig als schwierig. Die ben{\"o}tigten Voraussetzungen, Vorbedingungen und notwendigen
+Definitionen k{\"o}nnen f{\"u}r eine in der Disziplin nicht bewanderte Mathematikerin nicht einfach
+ermittelt und dann herausgel{\"o}st werden.\footnote{Das zeigt sich schon an ganz einfachen Beispielen.
+Beim Nachschlagen in B{\"u}chern k{\"o}nnen manche Voraussetzungen leicht {\"u}bersehen werden. Z.~B.: {\glqq
+In diesem Kapitel bedeutet \emph{K{\"o}rper} stets einen \emph{kommutativen K{\"o}rper}.\grqq} {\glqq Das
+Pr{\"a}dikat $\subset$ beinhaltet auch die Gleichheit.\grqq} } W{\"u}nschenswert ist ein Hilfsmittel zur
+automatischen Auflistung dieser Bedingungen und ihre {\"U}berpr{\"u}fung bei der Anwendung.
+\par
+Welche Anforderungen k{\"o}nnen aus den zuvor formulierten Problemen nun abgeleitet werden?
+\par
+\emph{Mathematische Standardwerke sollten frei verf{\"u}gbar sein. Die darin getroffenen mathematischen
+Aussagen sollten in einer normierten Sprache verfasst und auch formal nachvollziehbar sein.}
+\par
+Gerade in dem jetztzeitigen elektronischem Zeitalter bieten sich L{\"o}sungsm{\"o}glichkeiten f{\"u}r diese
+Anforderungen an. Die Erarbeitung und Umsetzung solcher L{\"o}sungen ist das Ziel von
+\textbf{Hilbert~II}.
+\par
+Dank geb{\"u}hrt den Professoren \emph{W.~Kerby} und \emph{V.~G{\"u}nther} der
+Hamburger Universit{\"a}t f{\"u}r ihre inspirierenden Vorlesungen zu den Themen Logik
+und Axiomatische Mengenlehre. Ohne diese entscheidenden Impulse h{\"a}tte es dieses
+Projekt nie gegeben.
+\par
+Dank auch an \emph{F.~Fritsche} f{\"u}r einige Korrekturvorschl{\"a}ge und inhaltliche Anregungen.
+
+
+\chapter*{Einleitung}
+\addcontentsline{toc}{chapter}{Einleitung} Mathematik besch{\"a}ftigt sich mit abstrakten Strukturen,
+welche keinen direkten Bezug zur {\glqq realen\grqq} Welt haben. Diese abstrakten Strukturen sind
+sehr gut formalisierbar. Die Exaktheit der Mathematik erfordert diesen hohen Grad der
+Formalisierbarkeit, es kann sogar behauptet werden, dass die meisten Gebiete der Mathematik in
+einer einfachen formalen Sprache vollst{\"a}ndig beschrieben werden k{\"o}nnen.\footnote{{\"U}ber die
+Einschr{\"a}nkung durch die Verwendung des Wortes {\glqq meistens\grqq} wird im Folgenden noch
+eingegangen. Die Frage, ob das Wesen der Mathematik in einer formalen Sprache {\"u}berhaupt erfasst
+werden kann, stellt sich f{\"u}r \textbf{Hilbert~II} nicht, da in diesem Projekt auch die nat{\"u}rliche
+Sprache wesentlichen Eingang findet.}
+\par
+Grundlage der mathematischen Argumentation ist die \emph{Pr{\"a}dikatenlogik}. Diese wiederum fu{\ss}t auf
+der \emph{Aussagenlogik}. Jeder \emph{mathematischen Aussage} kann genau ein Wahrheitswert
+\emph{wahr}, beziehungsweise \emph{falsch} zugeordnet werden. Mathematische Aussagen k{\"o}nnen durch
+\emph{logische Operatoren} zu neuen mathematischen Aussagen verkn{\"u}pft werden, und dieser
+Verkn{\"u}pfung kann dann ebenfalls ein Wahrheitswert zugeordnet werden.
+\par
+Mathematische Aussagen beziehen sich auf \emph{mathematische Objekte}, denen gewisse
+\emph{Pr{\"a}dikate} zuerkannt werden. Ausgehend von bestimmten Grundaussagen, den \emph{Axiomen},
+welche als wahr angesehen werden, k{\"o}nnen nun mit den \emph{Schlussregeln} der Pr{\"a}dikatenlogik neue
+mathematische Aussagen abgeleitet werden, die ebenfalls als wahr gelten. Mithilfe einfacher, an den
+Anfang gestellter Pr{\"a}dikate k{\"o}nnen dann im weiteren Verlauf neue, kompliziertere Pr{\"a}dikate
+\emph{definiert} werden.
+
+\section*{Historische Einbettung}
+Die \emph{mathematische Logik} untersucht die Grundlagen mathematischer Beweisf{\"u}hrung. Sie wird
+auch \emph{formale Logik}, \emph{symbolische Logik}, \emph{Logistik} oder \emph{theoretische Logik}
+genannt und unterscheidet sich von anderen Gestalten der Logik. So besitzt sie eine formalistische
+Methodik, die sich in Form eines \emph{Kalk{\"u}ls} beschreiben l{\"a}{\ss}t. Dieses formale System behandelt
+nur die Gestalt von Zeichen und besch{\"a}ftigt sich nicht mit der Deutung dieser
+Symbole.\footnote{Psychologische, erkenntnistheoretische und metaphysische Fragen werden in der
+mathematischen Logik nicht behandelt.}
+\par
+Die von den Arabern eingef{\"u}hrten mathematischen Methoden haben den Spanier R.~Lullus (ca.
+1235-1315) angeregt zu seiner ber{\"u}hmten \emph{Ars Magna}, die dem Wunsch nach einer schematischen
+Erzeugung aller wahren Aussagen entsprang. Obwohl die Ideen von Lullus von geringem mathematischen
+Wert sind, hatten sie einen gro{\ss}en Einfluss auf die Nachwelt: noch zweihundert Jahre sp{\"a}ter
+ver{\"o}ffentlichte Cardano seine algebraischen Algorithmen als Teil der Ars Magna. G.~W.~Leibniz
+formulierte als einer der ersten die Idee einer formalen Logik. Als eigentlicher Begr{\"u}nder der
+mathematischen Logik gilt G.~Boole, der unter anderem im Jahr 1854 das Werk \emph{An Investigation
+of the laws of thought on which are founded the mathematical theories of logic and probabilities}
+ver{\"o}ffentlichte. C.~S.~Peirce erweiterte diesen Ansatz auf die Pr{\"a}dikatenlogik. Neben vielen
+weiteren Logikern ist G.~Frege hervorzuheben. Seine 1879 publizierte \emph{Begriffsschrift, eine
+der arithmetischen nachgebildete Formelsprache des reinen Denkens} enth{\"a}lt bereits ein
+vollst{\"a}ndiges Kalk{\"u}l der Junktoren- und Quantorenlogik. G.~S.~Peanos Symbolik floss in das epochale
+Werk \emph{Principia Mathematica\index{Principia Mathematica}} (1910-1913) von A.~N.~Whitehead and
+B.~Russell ein. In diesem Werk wird ein Kalk{\"u}l vorgestellt, der nicht es nicht nur gestattet die
+Logik, sondern auch gro{\ss}e Teile der Mathematik aus wenigen Axiomen herzuleiten.
+\par
++++ Bedeutung der Principia Mathematica \\
++++ Hilbert, alles ist formalisierbar \\
++++ Ergebnisse von G{\"o}del \\
+
+\section*{Ausblick}
+Ist durch dieses letzte Ergebnis von G{\"o}del nicht jeglicher Versuch, die Mathematik zu
+formalisieren, {\"u}berfl{\"u}ssig? G{\"o}dels Beweis l{\"a}sst sich auch innerhalb einer geeigneten formalen
+Sprache f{\"u}hren. Dabei kann sich ein solches System auch selbst betrachten, ohne diese
+Selbstbez{\"u}glichkeit zu kennen. Innerhalb dieses Systems wird dann nachgewiesen, dass das diesem
+System nachgebildete innere formale System unvollst{\"a}ndig ist. Da also selbst die Unvollst{\"a}ndigkeit
+in einem formalen System erfasst werden kann, ist in diesem Sinne die \textbf{gesamte} Mathematik
+formalisierbar.
+
+
+\chapter{Ziele der Darstellung} \label{Ziele_der_Darstellung}
+
+Mathematik besteht aus mathematischem Wissen. Zur Vermittlung und Kommunikation muss dieses Wissen
+dargestellt werden. In diesem Kapitel werden, in dem durch das Vorwort und die Einleitung
+abgesteckten Rahmen, Anforderungen f{\"u}r die Darstellung von mathematischem Wissen formuliert. Damit
+werden die Anspr{\"u}che und Ziele definiert, welche durch \textbf{Hilbert~II} verwirklicht werden
+sollen.
+
+\section{Freie Verf{\"u}gbarkeit\index{frei}\index{freier Zugang}}
+Mathematisches Wissen soll \emph{frei} verf{\"u}gbar gemacht werden. Alle mathematischen Texte von
+\textbf{Hilbert~II} unterliegen der \emph{GNU Free Documentation License}. Der Zweck dieser Lizenz
+ist es, Dokumente frei zu halten: jeder und jedem die effektive Freiheit zu sichern, Dokumente zu
+kopieren und weiter zu verteilen, mit oder ohne {\"A}nderung, entweder kommerziell oder
+nichtkommerziell. Dabei m{\"u}ssen alle abgeleitete Arbeiten der Dokumente selbst wieder im selben
+Sinne frei sein. Diese Lizenz gilt auch f{\"u}r dieses Dokument, siehe auch
+Anhang~\ref{GNU_Free_Documentation_License} \emph{GNU Free Documentation License}.
+\par
+Verf{\"u}gbar soll dieses Wissen in \emph{elektronischer} Form sein. Zum einen in Form von Dateien im
+Format \LaTeX{}, PDF, und HTML. Zum anderen im XML-Format, welches eine elektronische Auswertung
+erm{\"o}glicht. All diese Dateien werden im \emph{Internet} verf{\"u}gbar sein und sich gegenseitig
+referenzieren.
+
+\section{Formale Form und andere Ansichten}
+Die mathematischen S{\"a}tze und ihre formalen Beweise sind in einer formalen Sprache gehalten, welche
+die M{\"o}glichkeit einer automatischen Kontrolle schafft. Aus dem zugeh{\"o}rigen XML-Dateiformat k{\"o}nnen
+die bereits erw{\"a}hnten Dokumente im Format \LaTeX{}, PDF, und HTML generiert werden. Diese enthalten
+die formale Sprache nicht mehr, sondern sind in einer dem {\"u}blichen mathematischen Gebrauch
+m{\"o}glichst {\"a}hnlichen Form gehalten.
+\par
+Die Auspr{\"a}gung des XML-Formats f{\"u}r dieses Projekt\footnote{Etwas technischer ausgedr{\"u}ckt: die XSD
+f{\"u}r die XML-Dateien von \textbf{Hilbert~II}.} wird im Folgenden auch
+{\emph{Qedeq\index{Qedeq}}\footnote{Die Verwendung des Wortes \emph{Qedeq} leitet sich aus der
+Abk{\"u}rzung Q.E.D. ab. Um einen weltweit m{\"o}glichst einmaligen Zusatz zu haben, wurde die Abk{\"u}rzung
+symmetrisch erg{\"a}nzt.}-Format genannt.
+\par
+Diese Umwandlung bedeutet in der Regel auch einen Informationsverlust, wenn zum Beispiel
+verschiedene Operatoren des Qedeq-Formates in dasselbe \LaTeX{}-Symbol umgewandelt werden. Der
+besseren Lesbarkeit wegen ist das gew{\"u}nscht, in Zweifelsf{\"a}llen {\"u}ber die exakte Bedeutung eines
+Formelabschnitts ist immer das zugeh{\"o}rige Qedeq-Format heranzuziehen.
+
+\section{Textbuch und Referenzen}
+Die Dokumente entsprechen im Aufbau und Inhalt einem normalen mathematischen Textbuch. In Kapitel
+und Abschnitte gegliedert, wird das mathematische Wissen schrittweise entwickelt. Au{\ss}erdem ist es
+mithilfe des Qedeq-Formats m{\"o}glich, alle f{\"u}r einen Abschnitt notwendigen
+Voraussetzungen\footnote{Dabei handelt es sich um andere Abschnitte, gegebenenfalls auch aus
+anderen Qedeq-Dokumenten. Falls f{\"u}r einen Satz kein formaler Beweis vorhanden ist, kann diese
+Abh{\"a}ngigkeit nicht vollst{\"a}ndig ermittelt werden.} zu ermitteln. Ausgehend von einem mathematischen
+Satz, k{\"o}nnen so also alle Wege in das mathematische Fundament verfolgt werden. Dies kann am
+bequemsten in dem \emph{Qedeq-Viewer}\index{Qedeq!-Viewer} erfolgen. Dieser kann nicht nur analog
+zum HTML-Format alle Querverweise verfolgen, sondern verf{\"u}gt {\"u}ber verschiedene
+Analysem{\"o}glichkeiten, die z.~B. die Abh{\"a}ngigkeit von S{\"a}tzen aufzeigen, Ableitungsregeln begr{\"u}nden
+oder Definitionen aufl{\"o}sen k{\"o}nnen.
+
+\section{Formale Korrektheit\index{Korrektheit, formale}\index{Qedeq!-Format!formale Korrektheit}}
+Die Kontrolle, ob die formalen Beweise auf formal logischer Ebene korrekt durchgef{\"u}hrt sind, kann
+mit Hilfe eines \emph{Proofcheckers\index{Proofchecker}} durchgef{\"u}hrt werden. Dazu wird ebenfalls
+das Qedeq-Format verwendet. Dabei m{\"u}ssen die Beweise in einer hinreichenden Detaillierung
+vorliegen, so dass eine Beweiszeile jeweils aus den vorherigen nach Anwendung logischer Regeln bzw.
+syntaktischer Operationen\footnote{Eine syntaktische Operation ist z.~B. die Verwendung von
+Abk{\"u}rzungen bzw. deren Eliminierung.} folgt. Die M{\"a}chtigkeit dieser Regeln bestimmt die Lesbarkeit
+solcher formalen Beweise. Eine weiteres Strukturierungsmittel bei der Erstellung eines
+Qedeq-Dokuments ist die Verwendung von einfachen Hilfss{\"a}tzen. Bei offensichtlicher
+Klarheit\footnote{Das ist nat{\"u}rlich immer eine sehr subjektive Einsch{\"a}tzung.} kann die Leserin dann
+die Beweise der Hilfss{\"a}tze {\"u}berspringen und nur den Beweis des Hauptsatzes unter Verwendung der
+Hilfss{\"a}tze nachvollziehen.
+
+\section{Vernetzung\index{Vernetzung}}
+Mathematik ist kein totes Wissensgeb{\"a}ude sondern erf{\"a}hrt st{\"a}ndig vielf{\"a}ltige Umbauten und
+Neuorganisationen. Dabei ergeben sich unterschiedliche Standpunkte und immer neue Querverbindungen.
+Um dieser dezentralen und dynamischen Struktur gerecht zu werden, kann \textbf{Hilbert~II} in einer
+dezentralen Client/Server-Architektur arbeiten. Als Server kann jeder HTTP- oder FTP-Server dienen,
+nur auf dem Client l{\"a}uft das eigentliche Programm.\footnote{In sp{\"a}teren Ausbaustufen kann die
+Architektur zur besseren Verteilung und Skalierung verfeinert werden.} Ausgehend von einer
+bestimmten Qedeq-Datei werden dann alle vorausgesetzten weiteren Qedeq-Module von den jeweiligen
+Stellen im Internet angefordert. Bei ausschlie{\ss}lichem Zugriff auf die Formate HTML und PDF ist der
+Client ein einfacher Web-Browser.\footnote{Eventuell l{\"a}{\ss}t sich die Programmsuite von
+\textbf{Hilbert~II} auch in ein \emph{Plugin} f{\"u}r einen Webbrowser einbinden.}
+
+\section{Sprachen\index{Sprachen}}
+Qedeq-Module k{\"o}nnen Texte verschiedener Sprachen enthalten, Standardsprache ist jedoch Englisch.
+Bei der Erzeugung von Ansichten kann eine Sprache ausgew{\"a}hlt werden, f{\"u}r die dieses Qedeq-Modul
+Texte enth{\"a}lt. So k{\"o}nnen beispielsweise aus einem Qedeq-Modul PDF-Dateien in englischer und in
+deutscher Sprache erzeugt werden.\footnote{Das Qedeq-Modul muss dazu nat{\"u}rlich englische und
+deutsche Texte enthalten.}
+
+\section{Detailgrad\index{Detailgrad}}
+Innerhalb eines Qedeq-Moduls sollen auch nichtformale Beweise unterschiedlichen Detailgrades
+vorhanden sein. So kann beispielsweise in der obersten Stufe ein Beweis oder sogar ein Hilfssatz
+fehlen ({\glqq trivialerweise gilt\grqq}), in der darunterliegenden Stufe k{\"o}nnte {\glqq aus den
+Definitionen ergibt sich sofort\grqq} stehen und in der n{\"a}chsten Stufe k{\"o}nnte der formal korrekte
+Beweis angegeben sein. Bei der Erzeugung von Ansichten ist es dann m{\"o}glich, die Detailtiefe
+anzugeben.
+
+\section{Metaregeln\index{Metaregeln} und
+Versionen\index{Versionen}\index{Regelversionen}}\label{Metaregeln_und_Versionen} Die
+Abh{\"a}ngigkeiten von Qedeq-Modulen bilden eine komplexe Struktur.\footnote{Die Abh{\"a}ngigkeiten bilden
+einen schwach zusamenh{\"a}ngenden, zykelfreien Diagraphen. Die Axiome bilden die Quellen und die
+Senken sind die Endpunkte der mathematischen Theorie. Eine topologische Sortierung der Knoten,
+d.~h. der Qedeq-Module, liefert eine Lesereihenfolge.} Wichtigste Quelle ist dabei ein Qedeq-Modul,
+welches die Axiome der Mengenlehre enth{\"a}lt. Daran anschliessend werden aus den Axiomen Folgerungen
+gezogen, und durch die Definition neuer Strukturen ergeben sich neue Objekte, deren Eigenschaften
+analysiert werden. Die Sicht kompliziert sich durch die Benutzung von \emph{Metaregeln}. Metaregeln
+sind Spracherweiterungen, die eine einfachere Darstellung oder Argumentation erm{\"o}glichen. Im
+Prinzip lassen sie sich jedoch immer durch die urspr{\"u}ngliche Sprachsyntax ersetzen. Die Benutzung
+von Metaregeln setzt eine Erweiterung des Proofcheckers und aller anderen Programmteile von
+\textbf{Hilbert~II} voraus. Daher ist jedes Qedeq-Modul mit einer Regel-Versionsnummer versehen.
+Jede Version von \textbf{Hilbert~II} kann nur mit Modulen bis zu einer bestimmten
+Regelversionsnummer umgehen. Deshalb kann es vorkommen, dass ein Qedeq-Modul von einer {\"a}lteren
+\textbf{Hilbert~II}-Version nicht {\"u}berpr{\"u}ft werden kann. Es empfiehlt sich daher, ein Qedeq-Modul
+auch in {\"a}lteren Regelversionen vorzuhalten. Dabei ist zu beachten, dass ben{\"o}tigte weitere
+Qedeq-Module in derselben oder kleineren Regelversionen vorhanden sein m{\"u}ssen, so dass der
+Proofchecker die Korrektheit komplett pr{\"u}fen kann.
+\par
+Zur Ableitung der logischen Regeln, die Vorbedingung f{\"u}r die mathematische Argumentation sind, gibt
+es zwei weitere Basis-Qedeq-Module. Diese enthalten die Axiome und Definitionen der Aussagen- und
+P{\"a}dikatenlogik. Daraus werden dann neue S{\"a}tze entwickelt, die zu neuen logischen Metaregeln f{\"u}hren.
+Diese neuen Metaregeln komplettieren dann die logischen Regeln und bilden die Basis, mit der dann
+die mathematische Theorie entfaltet werden kann. So wird bei der Entwicklung der Mengenlehre gleich
+eine h{\"o}here Regelversion verwendet, damit sich die logische Argumentation komfortabel gestaltet und
+die Mengenlehre den Schwerpunkt bilden kann.
+
+\section{Erzeugung und Bearbeitung}
+Die Erzeugung und Bearbeitung von Qedeq-Modulen ist -- analog zur Arbeit mit \LaTeX{}-Texten -- mit
+einem einfachen Texteditor m{\"o}glich. Selbstverst{\"a}ndlich kann auch ein XML-Editor zum Einsatz kommen.
+Ein spezieller komfortabler Editor f{\"u}r Qedeq-Module befindet sich in Planung.
+\par
+Der weitaus gr{\"o}{\ss}te Anteil soll jedoch aus \LaTeX-Texten heraus mit speziellen Umwandlungsprogrammen
+erzeugt werden. Das erleichtert zum einen die Umwandlung von existierenden Dokumenten und
+erm{\"o}glicht zum andern auch das Arbeiten in einer gewohnten \LaTeX-Umgebung.
+
+
+\chapter{Mathematische Ausgangspunkte} \label{Mathematische_Ausgangspunkte}
+
+Mathematik ist das Ziel, aber auch der Ausgangspunkt f{\"u}r \textbf{Hilbert~II}. In diesem Kapitel
+werden die mathematischen Grundlagen formuliert, auf denen das Projekt fu{\ss}t. Zun{\"a}chst werden die
+logischen Gesetzm{\"a}{\ss}igkeiten f{\"u}r die Pr{\"a}dikatenlogik erster Stufe definiert. Anschlie{\ss}end werden die
+Axiome der Mengenlehre notiert. Aus diesen Grundbausteinen kann dann die restliche Mathematik
+entwickelt werden.
+\par
+Die mathematischen Grundlagen, insbesondere die der Mengenlehre, werden in einem gesonderten
+Dokument gepflegt: \url{http://www.qedeq.org/0_01_05/mengenlehre_1.pdf}. Dort ist ein
+weiterentwickelter Stand zu finden, der an einigen Stellen auch grunds{\"a}tzlich abweichen kann. In
+diesem Sinne handelt es sich bei dem Folgendem nur um eine vorl{\"a}ufige und grobe Skizze der
+mathematischen Ausgangspunkte f{\"u}r dieses Projekt.
+
+\section{Logische Axiome}\index{Logik}\index{Axiome!logische} \label{Logische_Grundlagen}
+Die Grundlagen der bei \textbf{Hilbert~II} verwendeten Logik werden hier zusammengestellt. Die
+folgende Kalk{\"u}lsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert},
+\emph{W.~Ackermann}, \emph{P.~Bernays} und \emph{P.~S.~Novikov}. Aus den hier angegebenen logischen
+Axiomen und den elementaren Schlussregeln k{\"o}nnen weitere Gesetzm{\"a}{\ss}igkeiten abgeleitet werden. Erst
+diese neuen Metaregeln f{\"u}hren zu einer komfortablen logischen Argumentation. Siehe auch unter
+\url{http://www.qedeq.org/mathematics_de.html}.
+\par
+Als Symbole kommen die logischen Symbole $L = \{$ \mbox{`$\neg$'}, \mbox{`$\vee$'},
+\mbox{`$\wedge$'}, \mbox{`$\leftrightarrow$'}, \mbox{`$\rightarrow$'}, \mbox{`$\forall$'},
+\mbox{`$\exists$'} $\}$, die
+Pr{\"a}dikatenkonstanten\index{Pr{\"a}dikatenkonstante}\index{Konstante!Pr{\"a}dikaten-} $C = \{c^k_i~|~i, k
+\in \omega\}$, die
+Funktionsvariablen\index{Funktionsvariablen}\index{Variable!Funktions-}\footnote{Funktionsvariablen
+dienen der einfacheren Notation und werden beispielsweise zur Formulierung eines
+identit{\"a}tslogischen Satzes ben{\"o}tigt: $x = y \impl f(x) = f(y)$. Ausserdem bereitet ihre Einf{\"u}hrung
+die sp{\"a}tere Syntaxerweiterung zur Anwendung von funktionalen Klassen vor.} $F = \{f^k_i~|~i, k \in
+\omega \land k
+> 0\}$, die
+Funktionskonstanten\index{Funktionskonstanten}\index{Konstante!Funktions-}\footnote{Funktionskonstanten
+dienen ebenfalls der Bequemlichkeit und werden sp{\"a}ter f{\"u}r direkt definierte Klassenfunktionen
+verwendet. So zum Beispiel zur Potenzklassenbildung, zur Vereinigungsklassenbildung und f{\"u}r die
+Nachfolgerfunktion. All diese Funktionskonstanten k{\"o}nnen auch als Abk{\"u}rzungen verstanden werden.}
+$H = \{h^k_i~|~i, k \in \omega\}$, die
+Subjektvariablen\index{Subjektvariable}\index{Variable!Subjekt-} V = $\{v_i~|~i \in \omega\}$,
+sowie die Pr{\"a}dikatenvariablen\index{Pr{\"a}dikatenvariable}\index{Variable!Pr{\"a}dikaten-} $P =
+\{p^k_i~|~i, k \in \omega\}$ vor.\footnote{Unter $\omega$ werden die nat{\"u}rlichen Zahlen, die Null
+eingeschlossen, verstanden. Alle bei den Mengenbildungen beteiligten Symbole werden als paarweise
+verschieden vorausgesetzt. Das bedeutet z.~B.: $f^k_i = f^{k'}_{i'} \impl (k = k' \land i = i')$
+und $h^k_i \neq v_j$.} Unter der \emph{Stellenzahl} eines Operators wird der obere Index
+verstanden. Die Menge der nullstelligen Pr{\"a}dikatenvariablen wird auch als Menge der
+Aussagenvariablen\index{Aussagenvariable}\index{Variable!Aussagen-} bezeichnet: $A := \{p_i^0~|~i
+\in \omega \}$. F{\"u}r die Subjektvariablen werden abk{\"u}rzend auch bestimmte Kleinbuchstaben
+geschrieben. Die Kleinbuchstaben stehen f{\"u}r verschiedene Subjektvariablen: \mbox{$v_1 = $ `$u$'},
+\mbox{$v_2 = $ `$v$'}, \mbox{$v_3 = $ `$w$'}, \mbox{$v_4 = $ `$x$'}, \mbox{$v_5 = $ `$y$'},
+\mbox{$v_5 = $ `$z$'}. Weiter werden als Abk{\"u}rzungen verwendet: f{\"u}r die Pr{\"a}dikatenvariablen $p^n_1
+= $ `$\phi$' und $p^n_2 = $ `$\psi$', wobei die jeweilige Stellenanzahl $n$ aus der Anzahl der
+nachfolgenden Parameter ermittelt wird, f{\"u}r die Aussagenvariablen $a_1 = $ `$A$', $a_2 = $ `$B$'
+und $a_3 = $ `$C$'. Als Abk{\"u}rzungen f{\"u}r Funktionsvariablen wird festgelegt $f^n_1 = $ `$f$' und
+$f^n_2 = $ `$g$', wobei wiederum die jeweilige Stellenanzahl $n$ aus der Anzahl der nachfolgenden
+Parameter ermittelt wird. Bei allen aussagenlogischen zweistelligen Operatoren wird der leichteren
+Lesbarkeit wegen die Infixschreibweise benutzt, dabei werden die Symbole `(' und `)' verwandt.
+D.~h. f{\"u}r den Operator $\land$ mit den Argumenten $A$ und $B$ wird $(A \land B)$ geschrieben. Es
+gelten die {\"u}blichen Operatorpriorit{\"a}ten und die dazugeh{\"o}rigen Klammerregeln. Insbesondere die
+{\"a}u{\ss}eren Klammern werden in der Regel weggelassen.
+\par
+Nachfolgend werden die Operatoren mit absteigender Priorit{\"a}t aufgelistet.
+$$
+\begin{array}{c}
+  \neg, \forall, \exists  \\
+  \land \\
+  \lor \\
+  \impl, \equi \\
+\end{array}
+$$
+\par
+Der Begriff \emph{Term\index{Term}} wird im Folgenden rekursiv definiert:
+\begin{enumerate}
+\item Jede Subjektvariable ist ein Term. \item Seien $i, k \in \omega$ und $t_1$, \ldots, $t_k$
+Terme. Dann ist auch $h^k_i(t_1, \ldots, t_k)$ und falls $k > 0$, so auch $f^k_i(t_1, \ldots, t_k)$
+ein Term.
+\end{enumerate}
+Alle nullstelligen Funktionskonstanten $\{h^0_i~|~i, \in \omega\}$ sind demzufolge Terme, sie
+werden auch \emph{Individuenkonstanten} genannt.\footnote{Analog dazu k{\"o}nnten Subjektvariablen auch
+als nullstellige Funktionsvariablen definiert werden. Da die Subjektvariablen jedoch eine
+hervorgehobene Rolle spielen, werden sie auch gesondert bezeichnet.}
+\par
+Die Begriffe \emph{Formel\index{Formel}}, \emph{freie\index{freie
+Subjektvariable}\index{Subjektvariable!freie}} und \emph{gebundene\index{gebundene
+Subjektvariable}\index{Subjektvariable!gebundene}} Subjektvariable werden rekursiv wie folgt
+definiert:
+\begin{enumerate}
+\item Jede Aussagenvariable ist eine Formel, solche Formeln enthalten keine freien oder gebundenen
+Subjektvariablen. \item Ist $p^k$ eine $k$-stellige Pr{\"a}dikatenvariable und $c^k$ eine $k$-stellige
+Pr{\"a}dikatenkonstante und sind $t_1, t_2, \ldots, t_k$ Terme, so sind $p^k(t_1, t_2, \ldots t_k)$ und
+$c^k(t_1, t_2, \ldots, t_k)$ Formeln. Dabei gelten alle in $t_1, t_2, \ldots, t_k$ vorkommenden
+Subjektvariablen als freie Subjektvariablen, gebundene Subjektvariablen kommen nicht
+vor.\footnote{Dieser zweite Punkt umfasst den ersten, welcher nur der Anschaulichkeit wegen extra
+aufgef{\"u}hrt ist.} \item Falls die Formel $\alpha$ die freie Subjektvariable $x_1$ enth{\"a}lt (+++ ist
+das tats{\"a}chlich erforderlich, dass $x_1$ in $\alpha$ vorkommt?), dann sind auch $\forall
+x_1~\alpha$ und $\exists x_1~\alpha$ Formeln\footnote{Dabei wird $\forall$ als
+\emph{Allquantor}\index{Allquantor}\index{Quantor!All-} und $\exists$ als
+\emph{Existenzquantor}\index{Existenzquantor}\index{Quantor!Existenz-} bezeichnet}, und bis auf
+$x_1$ bleiben alle freien Subjektvariablen von $\alpha$ auch frei, und zu den gebundenen
+Subjektvariablen von $\alpha$ kommt $x_1$ hinzu. \item Es seien $\alpha, \beta$ Formeln, in denen
+keine Subjektvariablen vorkommen, die in einer Formel gebunden und in der anderen frei sind. Dann
+sind auch $\neg \alpha$, $(\alpha \land \beta)$, $(\alpha \lor \beta)$, $(\alpha \impl \beta)$,
+$(\alpha \equi \beta)$ Formeln. Subjektvariablen, welche in $\alpha$, $\beta$ frei (bzw. gebunden)
+vorkommen, bleiben frei (bzw. gebunden).
+\end{enumerate}
+\par
+Die folgenden Axiome\index{Axiome!logische} werden an den Anfang gestellt.
+\begin{ax}[Oder-K{\"u}rzung]
+$$(A \lor A) \impl A$$
+\end{ax}
+
+\begin{ax}[Oder-Verd{\"u}nnung]
+$$A \impl (A \lor B)$$
+\end{ax}
+
+\begin{ax}[Oder-Vertauschung]
+$$(A \lor B) \impl (B \lor A)$$
+\end{ax}
+
+\begin{ax}[Oder-Vorsehung]
+$$(A \impl B) \impl ((C \lor A) \impl (C \lor B))$$
+\end{ax}
+
+\begin{ax}
+$$(\forall x~\phi(x)) \impl \phi(y)$$
+\end{ax}
+
+\begin{ax}
+$$\phi(y) \impl (\exists x~\phi(x))$$
+\end{ax}
+
+Die Konjunktion, die Implikation und die {\"A}quivalenz werden als Abk{\"u}rzungen
+definiert.\footnote{Eigentlich werden die Abk{\"u}rzungssymbole $\wedge, \rightarrow, \leftrightarrow$
+erst an dieser Stelle definiert und erweitern die Sprachsyntax. Aus Bequemlichkeitsgr{\"u}nden wurden
+diese Symbole bereits als logische Symbole angegeben. Bei den bisher angegebenen Axiomen muss also
+strenggenommen die Implikation durch ihre Definition ersetzt werden.}
+
+\begin{defn}[Konjunktion]
+$$\alpha \land \beta \ \defp \ \neg(\neg\alpha \lor \neg\beta)$$
+\end{defn}
+
+\begin{defn}[Implikation]
+$$\alpha \impl \beta \ \defp \ \neg\alpha \lor \beta$$
+\end{defn}
+
+\begin{defn}[{\"A}quivalenz]
+$$\alpha \equi \beta \ \defp \ (\alpha \impl \beta) \land (\beta \impl \alpha)$$
+\end{defn}
+
+\begin{rul}[Abtrennung, Modus Ponens\index{Modus Ponens}\index{Abtrennungsregel}]
+Wenn $\alpha$ und $\alpha \impl \beta$ wahre Formeln sind, dann ist auch $\beta$ eine wahre Formel.
+\end{rul}
+
+\begin{rul}[Einsetzung f{\"u}r Pr{\"a}dikatenvariablen]\label{predreplace}
+Es sei $\alpha$ eine Formel, die die $n$-stellige Pr{\"a}dikatenvariable $p$ enth{\"a}lt und $\beta(x_1,
+\ldots, x_n)$ eine beliebige Formel mit den freien Variablen $x_1$, \ldots, $x_n$, welche nicht in
+$\alpha$ vorkommen.\footnote{In der Formel $\beta(x_1, \ldots, x_n)$ k{\"o}nnen ausser den $n$
+Subjektvariablen $x_1$, \ldots, $x_n$ noch weitere Variablen frei vorkommen.} Wenn die folgenden
+Bedingungen erf{\"u}llt sind, dann kann durch die Ersetzung jedes Vorkommens von $p(t_1, \ldots, t_n)$
+mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\beta(t_1, \ldots, t_n)$ eine
+weitere wahre Formel gewonnen werden.
+\begin{itemize}
+\item $\alpha$ ist eine im Kalk{\"u}l wahre Formel \item die freien Variablen von $\alpha$ sind
+disjunkt zu den gebundenen Variablen von $\beta(x_1, \ldots, x_n)$ und die gebundenen Variablen von
+$\alpha$ disjunkt zu den freien Variablen von $\beta(x_1, \ldots, x_n)$ \item Liegt das zu
+ersetzende $p(t_1, \ldots, t_n)$ in $\alpha$ im Wirkungsbereich eines Quantors, so kommt die
+zugeh{\"o}rige Subjektvariable in $\beta(x_1, \ldots, x_n)$ nicht vor.\footnote{D.~h. nach dem
+Einsetzen werden -- au{\ss}er den in den f{\"u}r $x_1$, \ldots, $x_n$ eingesetzten Termen vorkommenden --
+keine weiteren Subjektvariablen gebunden.}
+\end{itemize}
+\end{rul}
+
+\begin{rul}[Einsetzung f{\"u}r Funktionsvariablen]\label{functreplace}
+Es sei $\alpha$ eine Formel, die die $n$-stellige Funktionsvariable $\sigma$ enth{\"a}lt und $\tau(x_1,
+\ldots, x_n)$ eine beliebiger Term mit den Subjektvariablen $x_1$, \ldots, $x_n$, welche nicht in
+$\alpha$ vorkommen.\footnote{In dem Term $\tau(x_1, \ldots, x_n)$ k{\"o}nnen ausser den $n$
+Subjektvariablen $x_1$, \ldots, $x_n$ noch weitere Variablen vorkommen.} Wenn die folgenden
+Bedingungen erf{\"u}llt sind, dann kann durch die Ersetzung jedes Vorkommens von $\sigma(t_1, \ldots,
+t_n)$ mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\tau(t_1, \ldots, t_n)$
+eine weitere wahre Formel gewonnen werden.
+\begin{itemize}
+\item $\alpha$ ist eine im Kalk{\"u}l wahre Formel \item die gebundenen Variablen von $\alpha$ sind
+disjunkt zu den Subjektvariablen von $\tau(x_1, \ldots, x_n)$ \item Liegt das zu ersetzende
+$\sigma(t_1, \ldots, t_n)$ in $\alpha$ im Wirkungsbereich eines Quantors, so kommt die zugeh{\"o}rige
+Subjektvariable in $\beta(x_1, \ldots, x_n)$ nicht vor, d.~h. nach dem Einsetzen werden -- au{\ss}er
+den f{\"u}r $x_1$, \ldots, $x_n$ eingesetzten -- keine weiteren Subjektvariablen gebunden.
+\end{itemize}
+\end{rul}
+
+\begin{rul}[Ersetzung f{\"u}r freie Subjektvariablen]
+Ausgehend von einer wahren Formel kann jede freie Subjektvariable durch einen Term ersetzt werden,
+der keine in der Formel bereits gebundenen Subjektvariablen enth{\"a}lt. Die Ersetzung muss durchg{\"a}ngig
+in der gesamten Formel erfolgen.
+\end{rul}
+
+\begin{rul}[Umbenennung f{\"u}r gebundene Subjektvariablen]
+Aus jeder im Kalk{\"u}l bereits gewonnenen Formel k{\"o}nnen weitere Formeln abgeleitet werden: Jede
+gebundene Subjektvariable kann in eine andere, nicht bereits frei vorkommende, Subjektvariable
+umbenannt werden. Die Umbenennung braucht nur im Wirkungsbereich eines bestimmten Quantors zu
+erfolgen.
+\end{rul}
+
+\begin{rul}[Generalisierung\index{Generalisierung}]
+Wenn $\alpha \impl \beta(x_1)$ eine wahre Formel ist und $\alpha$ die Subjektvariable $x_1$ nicht
+enth{\"a}lt, dann ist auch $\alpha \impl (\forall x_1~(\beta(x_1)))$ eine wahre Formel.
+\end{rul}
+
+\begin{rul}[Partikularisierung\index{Partikularisierung}]
+Wenn $\alpha(x_1) \impl \beta$ eine wahre Formel ist und $\beta$ die Subjektvariable $x_1$ nicht
+enth{\"a}lt, dann ist auch $(\exists x_1~\alpha(x_1)) \impl \beta$ eine wahre Formel.
+\end{rul}
+
+\par
+Die Aufl{\"o}sung und der Einsatz von Abk{\"u}rzungen ist auch mit der Anwendung von Regeln verbunden. In
+vielen Texten zur mathematischen Logik werden diese Regeln nicht explizit formuliert, auch dieser
+Text geht darauf nicht weiter ein. In dem exakten Qedeq-Format gibt es jedoch entsprechende Regeln
+zur Verwendung von Abk{\"u}rzungen.
+
+\section{Identit{\"a}t}\index{Identit{\"a}t}\label{gleichheit}
+Es wird eine zweistellige Funktionskonstante festgelegt, welche in der Interpretation die Identit{\"a}t
+von Subjekten ausdr{\"u}cken soll.
+\begin{defn}[Gleichheit]
+$$x = y \ \defp \ c_1^2(x, y)$$
+\end{defn}
+
+Dazu werden zwei weitere Axiome, auch
+\emph{Gleichheitsaxiome}\index{Gleichheit}\index{Axiome!Gleichheits-} genannt, formuliert.
+\begin{ax}[Reflexivit{\"a}t der Gleichheit]
+$$x = x$$
+\end{ax}
+
+\begin{ax}[Leibnizsche Ersetzbarkeit]\index{Leibnizsche Ersetzbarkeit}\label{leibniz}
+$$x = y	 \impl (\phi(x) \impl \phi(y))$$
+\end{ax}
+
+\section{Eingeschr{\"a}nkte Quantoren\index{Quantor!eingeschr{\"a}nkter}}
+Bei der folgenden Definition muss die f{\"u}r $\psi(x)$ eingesetzte Formel {\glqq erkennen
+lassen\grqq}, {\"u}ber welche Subjektvariable quantifiziert wird. Das ist in der Regel dar{\"u}ber zu
+entscheiden, welche freie Subjektvariable als erstes in der Formel
+vorkommt.\footnote{Beispielsweise ist in der folgenden Formel erkennbar, dass die zweite
+Quantifikation {\"u}ber die Subjektvariable $m$ l{\"a}uft: $\forall \ n \in \N \ \forall \ m \in n \ m < n
+$.} In der exakten Syntax des Qedeq-Formats\footnote{Siehe unter \ref{Qedeq-Format}.} ist die
+Subjektvariable immer angegeben.
+\begin{defn}[Eingeschr{\"a}nkter Allquantor]\index{Allquantor!eingeschr{\"a}nkter}
+$$ \forall \ \psi(x) \ (\phi(x)) \ \defp \ \forall \ x \ (\psi(x) \impl \phi(x))$$
+\end{defn}
+
+Dazu passt die folgende Definition f{\"u}r den eingeschr{\"a}nkten Existenzquantor.\footnote{Passend, da
+$\neg \forall \ \psi(x) \ (\phi(x)) \equi \exists \ x \ \neg (\psi(x) \impl \phi(x)) \equi \exists
+\ x \ (\psi(x) \land \neg\phi(x)) \equi \exists \ \psi(x) \ (\neg\phi(x))$.}
+\begin{defn}[Eingeschr{\"a}nkter Existenzquantor]\index{Existenzquantor!eingeschr{\"a}nkter}
+$$ \exists \ \psi(x) \ (\phi(x)) \ \defp \ \exists \ x \ (\psi(x) \land \phi(x))$$
+\end{defn}
+
+F{\"u}r die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird nun ein gesonderter
+Quantor eingef{\"u}hrt.
+\begin{defn}[Eingeschr{\"a}nkter Existenzquantor f{\"u}r genau ein Individuum]
+$$ \exists! \ \psi(x) \ (\phi(x)) \ \defp \ \exists \ \psi(x) \ (\phi(x) \land \forall \ \psi(y) \ (\phi(y) \impl x = y))$$
+\end{defn}
+Durch die G{\"u}ltigkeit von $\exists! \ \psi(x) (\phi(x))$ kann daher eine Subjektkonstante definiert
+werden, wenn $\phi(x)$ und $\psi(x)$ durch Ausdr{\"u}cke ersetzt werden, die ausser $x$ keine freien
+Variablen, keine Pr{\"a}dikatsvariablen und keine Funktionsvariablen mehr enth{\"a}lt.
+
+\section{Axiome der Mengenlehre\index{Mengenlehre}\index{Axiome!der Mengenlehre}}
+Nach der Entwicklung der \emph{naiven Mengenlehre} (1895 - 1897) durch \emph{G.~Cantor} und der
+Entdeckung von Widerspr{\"u}chen durch \emph{B.~Russell} (1902) gab es verschiedene Versuche die
+Mengenlehre zu axiomatisieren. Zum einen in der \emph{Typentheorie}\footnote{In der Typentheorie
+k{\"o}nnen nur Mengen einer bestimmten Stufe zu Mengen der n{\"a}chsth{\"o}heren Stufe zusammengefa{\ss}t werden.}
+(1910) von \emph{A.~N.~Whitehead} und \emph{B.~Russell} in ihrem epochalen Werk {\glqq Principia
+Mathematica\grqq}. Zum anderen in der Zermeloschen axiomatischen Mengenlehre (1908) mit der
+Fraenkischen Verbesserung\footnote{Verwendung unendlich vieler Axiome, Aussonderungsschema.} (1921)
+und der skolemschen Pr{\"a}zisierung der mengentheoretischen Aussagen\footnote{Das Aussonderungsschema
+wird durch das Ersetzungsaxiomschema ersetzt.} (1922). Diese sogenannte Zermelo-Fraenkelsche
+Mengenlehre (\emph{ZF}) erfuhr durch \emph{K.~G{\"o}del} und \emph{P.~Bernays} eine Verbesserung, die
+h{\"a}ufig mit \emph{ZFG}\index{ZFG} abgek{\"u}rzt wird. Die Verwendung dieser f{\"u}r mengentheoretische
+Grundlagenforschung immer noch benutzten Theorie ist jedoch f{\"u}r die mathematische Praxis unbequem.
+Auch die Erg{\"a}nzungen von \emph{J.~v.~Neumann} und \emph{P.~Bernays} f{\"u}hrten zu einer neuen
+Formulierung, welche mit \emph{NBG}\index{NBG} bezeichnet wird. Eine Verallgemeinerung von NBG
+wurde von \emph{J.~L.~Kelley} (1955) vorgestellt. In der Tradition dieses auch
+\emph{MK}\index{MK}\footnote{Diese Abk{\"u}rzung ist nach \emph{A.~P.~Morse} und \emph{J.~L.~Kelley}
+benannt, das Axiomensystem wurde jedoch zuvor auch von anderen Mathematikern vorgestellt.}
+genannten Systems steht auch das hier verwendete Axiomensystem der Mengenlehre.
+\par
+
+Die Interpretationen der Subjektvariablen hei{\ss}en \emph{Klassen}\index{Klasse}.
+
+\par
+Als neue zweistellige Funktionskonstante wird die Elementbeziehung $\in$ vorausgesetzt.
+\begin{defn}[Elementbeziehung]\index{Elementbeziehung}
+$$x \in y \ \defp \ c_2^2(x, y)$$
+\end{defn}
+\begin{defn}[Negation der Elementbeziehung]
+$$x \not \in y \ \defp \ \neg(x \in y)$$
+\end{defn}
+
+\par
+Ist eine Klasse Element einer anderen Klasse, dann wird sie auch als \emph{Menge}\index{Menge}
+bezeichnet.
+\begin{defn}[Mengendefinition\index{Definition!Menge}]
+$$ \isSet{x} \ \defp \ \exists y \ ( x \in y)$$
+\end{defn}
+
+Zur Klassenbildung wird das Komprehensionsaxiom\index{Axiom!Komprehensions-}\index{Komprehension}
+ben{\"o}tigt.
+\begin{ax}[Komprehensionssaxiom]\label{kompax}
+$$\exists x \ \forall y \ ( y \in x \equi \isSet{y} \land \phi(y))$$
+\end{ax}
+Werden an $\phi(y)$ zus{\"a}tzliche Anforderungen gestellt, so bilden die hier aufgelisteten Axiome ein
+NBG-System.\footnote{Dazu darf in $\phi(y)$ nur {\"u}ber Mengen quantifiziert werden, d.~h. alle in
+$\phi(y)$ vorkommenden Quantoren haben die Form $\forall \ \isSet{z} \ (\psi(z)))$ oder $\exists \
+\isSet{z} \ (\psi(z))$ mit entsprechenden $z$ und $\psi(z)$. Falls $\phi(y)$ diese Anforderung
+erf{\"u}llt, wird auch von einer \emph{pr{\"a}dikativen} Formel gesprochen.} In den herk{\"o}mmlichen
+Formulierungen dieses Axioms wird als zus{\"a}tzliche Einschr{\"a}nkung an $\phi(y)$ gefordert, dass in
+dieser Formel die Subjektvariable $x$ nicht vorkommen darf. Diese Forderung ist aufgrund des
+Verbots der mehrfachen Quantifizierung mit derselben Subjektvariablen und der
+Regel~\ref{predreplace} erf{\"u}llt.
+
+
+Der Gleichheitsbegriff\index{Gleichheit} wird durch das
+Extentsionalit{\"a}tsaxiom\index{Axiom!Extensionalit{\"a}ts-}\index{Extensionalit{\"a}t}
+festgeschrieben.\footnote{Die Umfangsgleichheit kann auch als Definition des Gleichheitspr{\"a}dikates
+verwendet werden. Das ist jedoch zum Nachweis der Leibnizschen Ersetzbarkeit nicht ausreichend.
+Daf{\"u}r muss die Extensionalit{\"a}t durch das folgende Axiom gesichert werden $(x = y ~ \land ~ x \in z
+\impl y \in z$. Damit gen{\"u}gt dann das definierte Gleichheitspr{\"a}dikat allen Anforderungen an den in
+Abschnitt \ref{gleichheit} vorgestellten Identit{\"a}tsbegriff. Aus Gr{\"u}nden der formalen Vereinfachung
+wird hier jedoch von einem Pr{\"a}dikatenkalk{\"u}l mit Identit{\"a}t ausgegangen.} Die Gleichheit zweier
+Klassen soll dann gegeben sein, wenn sie dieselben Elemente besitzen.
+\begin{ax}[Extensionalit{\"a}tsaxiom]
+$$\forall z \ (z \in x \equi z \in y) \impl x = y$$
+\end{ax}
+
+\begin{defn}[Unterklasse]
+$$ x \subset y \defp \forall z ( z \in x \impl z \in y)$$
+\end{defn}
+
+\begin{ax}[Axiom der Potenzmenge\index{Axiom!Potenzmenge}]
+$$\forall \isSet{x} \ \exists \isSet{y} \ \forall z \ ( z \subset x \impl z \in y)$$
+\end{ax}
+
+\begin{ax}[Axiom der Paarmenge\index{Axiom!Paarmenge}]
+$$\forall \isSet{x} \ \forall \isSet{y} \ \exists \isSet{z} \ ( x \in z \conj y \in z)$$
+\end{ax}
+
+\begin{ax}[Axiom der Vereinigungsmenge\index{Axiom!Vereinigungsmenge}]
+$$\forall \isSet{x} \ \exists \isSet{y} \ \forall z \ ( z \in x \impl z \subset y)$$
+\end{ax}
+
+\begin{rul}[Klassenschreibweise]\label{classcomp}
+Der Ausdruck $\{x~|~\phi(x) \}$ bezeichnet einen Term, alle Bildungsregeln werden entsprechend
+erweitert. Ist $\alpha(\{ x~|~\phi(x) \})$ eine mit diesem Term gebildete Formel, so wird diese
+Formel definiert durch $\alpha(y) \land \forall x \ (x \in y \equi \isSet{x} \land \phi(x))$ mit
+einer noch nicht in $\alpha$ vorkommenden Subjektvariablen $y$.\footnote{Auch die Schreibweise
+$\exists! y \ (\alpha(y) \land \forall x \ (x \in y \equi \isSet{x} \land \phi(x)))$ ist m{\"o}glich.}
+Auch in der abk{\"u}rzenden Schreibweise gilt die Subjektvariable $x$ als gebunden, die Subjektvariable
+$y$ ist frei w{\"a}hlbar und wird in der Abk{\"u}rzung nicht weiter beachtet. Bei der Ersetzung von $\phi$
+durch eine andere Formel muss auch in $\{ x~|~\phi(x) \}$ ersetzt werden.
+\end{rul}
+Im Folgenden kann diese abk{\"u}rzende Schreibweise in pr{\"a}dikativen Aussagen benutzt werden.
+
+\begin{thm}
+Die G{\"u}ltigkeit der Ausgangspr{\"a}dikate dr{\"u}ckt sich f{\"u}r diesen neuen Term wie folgt aus:
+\begin{eqnarray}
+y \in \{ x~|~\phi(x) \} & \defp & \isSet{y} \land \phi(y) \label{inSetEqual} \\
+y = \{ x~|~ \phi(x) \} & \defp & \forall z \ (z \in y \equi z \in \{ x~|~\phi(x) \}) \\
+\{ x~|~\phi(x) \} = \{ x~|~\psi(x) \} & \defp & \forall z \ (z \in \{ x~|~\phi(x) \} \\
+  & & \ \equi z \in \{x~|~\psi(x) \}) \\
+\{ x~|~\phi(x) \} \in \{ x~|~\psi(x) \} & \defp & \forall u \ \forall
+v \ (u	= \{ x~|~\phi(x) \} \nonumber \\
+  & & \ \land \ v = \{ x~|~\psi(x) \} \impl u \in v \\
+\{ x~|~\phi(x) \} \in y & \defp & \forall u \ (u  = \{ x~|~\phi(x) \})	\impl u \in y
+\end{eqnarray}
+\end{thm}
+
+\begin{defn}[Durchschnitt]
+$$ x \cap y \deft \{z~|~z \in x \conj z \in y \}$$
+\end{defn}
+
+\begin{defn}[Leere Menge]
+$$ \emptyset \deft \{x~|~x \neq x \}$$
+\end{defn}
+
+\begin{ax}[Regularit{\"a}tsaxiom\index{Axiom!Regularit{\"a}t}]
+$$\forall x \ (x \neq \emptyset \impl \exists y \ (y \in x \conj y \cap x = \emptyset))$$
+\end{ax}
+
+\begin{defn}[Nachfolger]
+$$ \successor{x} \deft \{y~|~y \in x \disj y = x \}$$
+\end{defn}
+
+\begin{ax}[Unendlichkeitsaxiom\index{Axiom!Regularit{\"a}t}]
+$$\exists x \ (\emptyset \in x \conj \forall~y \ (y \in x \impl \successor{y} \in x))$$
+\end{ax}
+
+Eine Klasse kann auch durch Angabe ihrer Elemente definiert werden. Insbesondere kann durch Angabe
+eines Elements die sogenannte \emph{Einerklasse} festgelegt werden.
+\begin{defn}[Einerklasse]\index{Einerklasse}\index{Klasse!Einer-}
+$$
+\{x\} \ \deft \ \{u~|~\isSet{x} \impl u = x \}
+$$
+\end{defn}
+Da der Ausdruck $\{x\}$ f{\"u}r jegliches $x$ definiert ist, kann er auch f{\"u}r den Fall, dass $x$ eine
+echte Klasse ist, gebildet werden. In diesem Fall erf{\"u}llen alle Mengen $u$ die Bedingung $\isSet{u}
+\land (\isSet{x} \impl u = x)$ und die Einerklasse ist mit der Allklasse identisch. Das f{\"u}hrt zu
+einem technisch einfacheren Umgang mit der Einerklasse.\footnote{Andere Autoren wie z.~B. auch
+K.~G{\"o}del, definieren $\{x\}$ durch $\{u~|~u = x\}$.}
+
+\begin{defn}[Klassenangabe durch Aufz{\"a}hlung]\index{Klasse!Angabe durch Aufz{\"a}hlung}
+\begin{eqnarray}
+\{x, y\} & \deft & \{x\} \cup \{y\} \\
+\{x, y, z\} & \deft & \{x\} \cup \{y\} \cup \{z\} \\
+\end{eqnarray}
+\end{defn}
+
+Die Definition eines geordneten Paares $\langle x, y\rangle$ erfolgt nach \emph{N.~Wiener} (1914)
+bzw. \emph{K.~Kuratowski} (1921).
+
+\begin{defn}[Geordnetes Klassenpaar]\index{Klassenpaar!geordnetes}
+$$
+\langle x, y\rangle \ \deft \ \{\{x\}, \{x, y\}\}
+$$
+\end{defn}
+
+\begin{defn}[Relation]
+$$\rel(x) \defp \forall y \in x \ \exists \isSet{u} \ \exists \isSet{v} \ y = \langle u, v\rangle$$
+\end{defn}
+
+\begin{defn}[Definitionsbereich]
+$$\dmn(x) \deft \{u~|~\isSet(u) \conj \exists \isSet{v} \ \langle u, v\rangle \in x\}$$
+\end{defn}
+
+\begin{defn}[Wertebereich]
+$$\rng(x) \deft \{v~|~\isSet(v) \conj \exists \isSet{u} \ \langle u, v\rangle \in x\}$$
+\end{defn}
+
+\begin{defn}[Funktionale Klasse]
+$$\fkt(x) \defp \rel(x) \conj \forall u \in \dmn(x) \ \exists! v \ \langle u, v\rangle \in x$$
+\end{defn}
+
+\begin{ax}[Ersetzungsaxiom\index{Axiom!Ersetzungs-}]
+$$\fkt(x) \conj \isSet{\dmn(x)} \impl \isSet{\rng(x)}$$
+\end{ax}
+
+\begin{ax}[Auswahlaxiom\index{Axiom!Auswahl-}]
+$$\rel(x) \impl \exists \fkt(y) \ y \subset x \conj \dmn(x) = \dmn(y) $$
+\end{ax}
+
+
+\section{Literaturverzeichnis\index{Literatur!Mengenlehre}}
+\begin{itemize}
+ % Logik
+ \item \emph{A.N. Whitehead, B. Russell}, Principia Mathematica, Cambridge University Press, London
+1910
+ \item \emph{P. Bernays}, Axiomatische Untersuchung des Aussagen-Kalkuls der {\glqq Principia
+Mathematica\grqq}, Math. Zeitschr. 25 (1926), 305-320
+ \item \emph{D. Hilbert, W. Ackermann}, Grundz{\"u}ge der theoretischen Logik, Springer, Berlin 1928
+ \item \emph{P.S. Novikov}, Grundz{\"u}ge der mathematischen Logik, VEB Deutscher Verlag der Wissenschaften, Berlin 1973
+ % Mengenlehre
+ \item \emph{J.~D.~Monk}, Introduction to Set Theory, McGraw-Hill, New York 1969
+ \item \emph{J.~Schmidt}, Mengenlehre I, Bibliographisches Institut, Mannheim 1966
+ \item \emph{U.~Friedrichsdorf, A.~Prestel}, Mengenlehre f{\"u}r den Mathematiker, Vieweg,
+  Braunschweig 1985
+ \item \emph{G.~Takenti, W.~M.~Zaring}, Introduction to Axiomatic Set Theory,
+  McGraw-Hill, New York 1971
+ \item \emph{W.~Kerby}, Vorlesung {\glqq Axiomatische Mengenlehre\grqq}, gehalten an der Universit{\"a}t Hamburg, Sommersemester 1992
+ \item \emph{V.~G{\"u}nther}, Vorlesung {\glqq Mathematik und Logik\grqq}, gehalten an der Universit{\"a}t Hamburg, Wintersemester
+ 1994/1995
+\end{itemize}
+
+
+\chapter{Technischer Rahmen} \label{Technischer_Rahmen}
+
+Dieses Kapitel geht auf technische Details ein, die f{\"u}r die Realisierung von Bedeutung sind. Das
+Projekt \textbf{Hilbert~II} ist ein internationales \emph{Open-Source-Projekt}. Es ist bei
+Sourceforge unter \url{http://sourceforge.net/projects/pmii} zu finden. Der zugeh{\"o}rige
+Programm-Code steht unter der GNU General Public License\index{GPL}, die zugeh{\"o}rigen Dokumente
+unterliegen der GNU Free Documentation License. Die Lizenzbedingungen f{\"u}r die GFDL sind im
+Anhang~\ref{GNU_Free_Documentation_License} angegeben.
+
+\section{Kernel\index{Kernel}}
+Das mathematische Wissen ist bei \textbf{Hilbert~II} in Qedeq-Modulen \emph{dezentral} organisiert.
+Diese Qedeq-Module k{\"o}nnen irgendwo im Internet liegen und {\"u}ber die TCP/IP-Protokolle {\tt http} und
+{\tt ftp} abgerufen werden. Durch \textbf{Hilbert~II} wird ein Kernel bereitgestellt, der
+verschiedene Funktionen f{\"u}r diese Qedeq-Module anbietet. Zu dessen Basisaufgabe geh{\"o}rt das Einlesen
+und Parsen von Qedeq-Modulen. Nach dem erfolgreichen Lesen stehen verschiedene Methoden, auf das
+Modul strukturiert zuzugreifen, zur Verf{\"u}gung.
+\par
+Die wichtigste Funktionalit{\"a}t wird durch den \emph{Proofchecker} realisiert. Er kann ein
+Qedeq-Modul auf Korrektheit {\"u}berpr{\"u}fen. Dazu werden alle Beweisschritte einzeln durchgegangen um
+festzustellen, ob eine Beweiszeile logisch aus den vorherigen folgt. Bei der Verwendung von
+Ergebnissen anderer Qedeq-Module, z.~B. dort bereits bewiesenen S{\"a}tzen, kontrolliert der
+Proofchecker die Korrektheit dieser Qedeq-Module ebenfalls. Dazu verwaltet der Kernel eine
+{\"U}bersicht {\"u}ber bereits {\"u}berpr{\"u}fte Qedeq-Module, es k{\"o}nnen verschiedenste {\"U}berpr{\"u}fungseinstellungen
+vorgenommen werden. Qedeq-Module k{\"o}nnen auch lokal zwischengespeichert werden, so dass nur bei
+ge{\"a}nderten Qedeq-Modulen eine Aktualisierung erfolgen muss.
+\par
+Auch die Erzeugung von Qedeq-Modulen, die eine kleinere Regelversionsnummer\index{Regelversion}
+ben{\"o}tigen, ist eine Funktionalit{\"a}t, die vom Kernel angeboten wird. Diese Funktionalit{\"a}t wird von
+dem \emph{Regeltransformer\index{Regeltransformer}} zur Verf{\"u}gung gestellt.
+\par
+Die Erzeugung von HTML-, \LaTeX{}- und PDF-Dokumenten wird von den verschiedenen
+\emph{Konvertern\index{Konverter}} des Kernels {\"u}bernommen.
+
+\section{Organisation von Anwendungen}
+Anwendungen k{\"o}nnen auf dem Kernel aufsetzen, um eine komfortable Benutzeroberfl{\"a}che zur Verf{\"u}gung
+zu stellen. Der \emph{Qedeq-Viewer\index{Qedeq!-Viewer}} erm{\"o}glicht das Betrachten von
+Qedeq-Modulen und die Verfolgung von Querverweisen. Dazu werden auch die \LaTeX{}-Konstrukte
+dargestellt. Der {\"U}berpr{\"u}fungsstand eines Moduls kann angezeigt, die Sprache und Detailtiefe
+eingestellt werden. Auch einfache Abh{\"a}ngigkeitsanalysen und Umwandlungen k{\"o}nnen innerhalb des
+Qedeq-Viewers ausgef{\"u}hrt werden. Zur Realisierung wird auf verschiedene Kernelfunktionen
+zur{\"u}ckgegriffen.
+
+\section{Qedeq-Format\index{Qedeq}}
+Qedeq-Module werden in einem bestimmten Format im Dateisystem abgelegt. Ihr Dateiname setzt sich
+zusammen aus dem Qedeq-Modulnamen gefolgt von einem Unterstrich und der ben{\"o}tigten
+Regelversionsnummer\index{Regelversion}\index{Version} und wird abgeschlossen mit der Zeichenfolge
+{\tt .xml}.
+\par
+Eine Beschreibung dieses Formats ist im Anhang in dem Abschnitt \ref{Qedeq-Format} zu finden. Eine
+aktuelle und maschinenlesbare Formatbeschreibung ist unter
+\url{http://www.qedeq.org/0_01_06/qedeq.xsd} zu finden.
+
+\section{\LaTeX\index{LaTeX@\LaTeX{}}}
+In den Texten der Qedeq-Module kommt eine Untermenge von \LaTeX{}-Befehlen zum Einsatz. Damit ist
+die Formatierung von mathematischen Texten in einfacher Form m{\"o}glich. Jeder Mathematikerin ist
+diese Syntax in der Regel gel{\"a}ufig. Da die Qedeq-Module von \textbf{Hilbert~II} in verschiedenen
+Ansichten dargestellt werden k{\"o}nnen, wird -- zumindest zun{\"a}chst -- nur ein kleiner Teil der
+Formatierungsmerkmale von \LaTeX{} genutzt.\footnote{Insbesondere die HTML-Ansicht limitiert die
+M{\"o}glichkeiten. Auch die Programmierung des Qedeq-Viewers wird durch Unterst{\"u}tzung von komplexeren
+\LaTeX{}-Konstrukten erschwert.} Diese Knappheit bietet auch den Vorteil einer st{\"a}rkeren Normierung
+des Erscheinungsbildes von Qedeq-Ansichten, was insgesamt zu einer besseren Lesbarkeit f{\"u}hren kann.
+\par
+Weiterhin soll der Informationsgehalt formatunabh{\"a}ngig sein, daher sind spezielle Randabst{\"a}nde oder
+andere Sonderlayouts nicht w{\"u}nschenswert.
+\par
+Welche Formatierungsmerkmale konkret unterst{\"u}tzt werden, wird erst im weiteren Verlauf des Projekts
+festgelegt.
+
+\section{Formaterweitungen\index{Qedeq!-Format!Erweiterungen}}
+Die Definition neuer Pr{\"a}dikate und ihrer \LaTeX{}-Darstellung bereitet keine Probleme. Wesentliches
+Element von \textbf{Hilbert~II} ist auch die Erweiterung der Sprache durch neue Operatoren und
+Metaregeln. Diese Erweiterungen k{\"o}nnen auch den Programmcode betreffen\footnote{Neue Metaregeln
+betreffen immer den Programmcode. Ein Beispiel f{\"u}r einen Operator, der mit Programm{\"a}nderungen
+einhergeht, ist beispielsweise die Definition einer Menge bzw. einer Klasse durch Angabe einer
+Formel, e.~g. $\{ x~|~\phi(x) \}$.} und dann einen erh{\"o}hten Herstellungsaufwand erfordern. Die
+einfache Definition von neuen Pr{\"a}dikaten oder Funktionen, die dann in bestimmter \LaTeX{}-Form
+ausgegeben werden, ist dagegen ohne Programm{\"a}nderung jederzeit m{\"o}glich.
+\par
+Durch die dezentrale Organisation von Qedeq-Modulen ergibt sich das Problem der
+mehrfachen\index{Operatordefinition, mehrfache} Definition eines Operators. Denn in zwei
+verschiedenen, von einander unabh{\"a}ngigen Qedeq-Modulen kann derselbe Operatorname verwendet werden,
+um unterschiedliche Operationen zu definieren. Damit kann ein weiteres Modul nicht beide anderen
+Module importieren, weil die Bedeutung dieses einen Operatornamens nicht eindeutig ist. Es sollte
+daher m{\"o}glich sein, einen Operatornamen in sp{\"a}teren Abschnitten zu {\"a}ndern. Dazu muss die G{\"u}ltigkeit
+des Operatornamens st{\"a}rker kontrolliert werden.
+\par
+Aus Sicht eines Qedeq-Moduls l{\"a}{\ss}t sich die Abh{\"a}ngigkeit von anderen Qedeq-Modulen stets in
+serieller Form darstellen.\footnote{Siehe Abschnitt~\ref{Metaregeln_und_Versionen}.} Ein Modul nach
+dem anderen wird abgeleitet, bis zum aktuell betrachteten Qedeq-Modul. Dabei kann beispielsweise
+nur ein Axiomensystem der Mengenlehre zum Einsatz kommen oder die nat{\"u}rlichen Zahlen nur auf eine
+Art definiert werden. Viele Anwendungen ben{\"o}tigen jedoch nur bestimmte Eigenschaften dieser
+Strukturen. So k{\"o}nnte es sinnvoll sein, eine Schnittstelle zu schaffen, in der nur diese
+Eigenschaften beschrieben sind, also beispielsweise die Peano-Axiome der nat{\"u}rlichen Zahlen
+aufgef{\"u}hrt sind. Diese Schnittstellen k{\"o}nnen dann zum einen als Axiome aufgefasst werden, zum
+anderen k{\"o}nnen sie aber aus verschiedenen anderen Qedeq-Modulen als S{\"a}tze abgeleitet werden. Dies
+wird der komplexen Abh{\"a}ngigkeitsstruktur am besten gerecht und erm{\"o}glicht es auch fr{\"u}hzeitig neue
+mathematische Theorien zu dokumentieren, indem zun{\"a}chst neue Axiome eingef{\"u}hrt werden. Sp{\"a}ter
+k{\"o}nnen diese dann -- eventuell auf verschiedene Weisen -- als S{\"a}tze erhalten werden.
+\par
+Wesentliche Formaterweiterungen sind auch die Einf{\"u}hrung neuer Ableitungsregeln, die eine bequemere
+Herleitung von Beweiszeilen erm{\"o}glichen. Diese Regeln werden sicherlich jeweils auf bestimmte
+Objekte ausgerichtet sein, so wie zum Beispiel eine neue Metaregel zur vollst{\"a}ndigen Induktion sich
+auf Funktionen von nat{\"u}rlichen Zahlen beziehen wird. Diese Metaregel l{\"a}{\ss}t sich in jedem konkreten
+Anwendungsfall durch die Anwendung bisheriger Regeln ersetzten. In \textbf{Hilbert~II} besteht das
+Ziel, diese Ersetzung auch automatisch durchzuf{\"u}hren. Wie bereits erw{\"a}hnt, sind neue
+Ableitungsregeln stets mit Programm{\"a}nderungen verbunden.
+
+\section{Programmiersprache}\index{Programmiersprache}\label{Programmiersprache}
+Die Umsetzung dieses Grobkonzeptes ist nicht an eine bestimmte Programmiersprache gebunden. Die
+wesentliche Schnittstelle ist das Qedeq-Format.
+\par
+Die Referenzimplementierung von \textbf{Hilbert~II} erfolgt in Java\index{Java}. Java ist eine
+moderne objektorientierte Programmiersprache, die {\"u}ber reichhaltige Bibliotheken verf{\"u}gt. Darin
+erzeugte Programme sind ohne Anpassung auf vielen Betriebssystemen ablauff{\"a}hig.
+\par
+Weitere Einzelheiten zur Programmentwicklung sind in Kapitel~\ref{Technische_Realisierung} oder im
+sp{\"a}ter fertiggestellten Entwicklungshandbuch zu finden.
+
+
+\chapter{Prototyp\index{Prototyp}} \label{Prototyp}
+Es gibt bereits einen funktionierenden Prototypen, der wesentliche Anforderungen von
+\textbf{Hilbert~II} bereits unterst{\"u}tzt. Die in Abschnitt~\ref{Logische_Grundlagen} formulierten
+logischen Grundlagen wurden, mit Ausnahme der mit dem Begriff {\glqq Term\grqq} in Zusammenhang
+stehenden Objekte, in der Prototypversion 0.00.53 umgesetzt. Siehe dazu
+\url{http://www.qedeq.org/prototype_de.html}. Die dazugeh{\"o}rige logische Ausgangsbasis ist auch
+unter \url{http://www.qedeq.org/0_00_53/rules_1.00.00.html} zu finden.
+
+\section{Qedeq-Module}
+Ausgangsbasis f{\"u}r die Aussagenlogik ist das Qedeq-Modul
+\url{http://www.qedeq.org/0_00_53/propaxiom_1.00.00_1.00.00.qedeq}. Daraus werden einfache
+Folgerungen gezogen und die aussagenlogischen Axiome der Principia Mathematica\index{Principia
+Mathematica}, dem Whitehead-Russell-Kalk{\"u}l, abgeleitet. Dabei wird die vierte \emph{primitive
+Proposition} nach dem Beweis von Bernays~\cite{bernays} erhalten. Anschlie{\ss}end erfolgt der
+systematische Aufbau der aussagenlogischen Gesetzm{\"a}{\ss}igkeiten, der sich an dem von Hilbert und
+Ackermann \cite{hilback} vorgestellten orientiert. Siehe dazu auch die Datei
+\url{http://www.qedeq.org/doc/deduction.txt}.
+\par
+Dabei werden neue Metaregeln abgeleitet, die die urspr{\"u}nglichen Ableitungsregeln erweitern. Diese
+Regeln vereinfachen lediglich die Ableitung und k{\"o}nnen durch die urspr{\"u}nglichen Ableitungsregeln
+ersetzt werden. Die neuen Regeln werden in der Version 1.02.00 zusammengefasst, die in dem
+Qedeq-Modul {\tt prophilbert1} in genau dieser Version vorgestellt werden. F{\"u}r alle diese Module
+wurden auch HTML-, \LaTeX{}- und PDF-Dokumente erzeugt, die in der {\"U}bersicht
+\url{http://www.qedeq.org/propositional_de.html} zu finden sind.
+\par
+Analog gibt es das Basismodul f{\"u}r die Pr{\"a}dikatenlogik
+\url{http://www.qedeq.org/0_00_53/predaxiom_1.00.00_1.00.00.qedeq} aus dem S{\"a}tze der
+Pr{\"a}dikatenlogik abgeleitet werden. Unter der Adresse \url{http://www.qedeq.org/predicate.html} ist
+eine {\"U}bersicht dar{\"u}ber zu finden.
+
+\section{Funktionalit{\"a}t}
+Der Prototyp kann seit der Version 0.00.53 auch {\"u}ber eine graphische Benutzeroberl{\"a}che bedient
+werden. Er ist sogar von der Seite \url{http://www.qedeq.org/webstart_de.html} aus startbar, falls
+Ihr Browser das unterst{\"u}zt.
+\par
+Er arbeitet mit (prototypspezifischen) Qedeq-Moduldateien zusammen, die sich irgendwo im Internet
+befinden k{\"o}nnen. Es kommen die Protokolle {\tt http} und {\tt ftp} zum Einsatz, aber auch lokale
+Dateien k{\"o}nnen angegeben werden. Bei der Eingabe einer URL eines solchen Moduls wird der lokale
+Datei-Puffer durchsucht. Wenn dieser die Datei nicht enth{\"a}lt, dann wird die durch die URL
+angegebene Datei heruntergeladen und in dem lokalen Datei-Puffer gespeichert. Anschliessend wird
+versucht das Qedeq-Modul zu laden, dabei findet eine Pr{\"u}fung auf Korrektheit statt. Falls andere
+Qedeq-Module referenziert werden, wird versucht diese ebenfalls zu laden. Erst wenn alle
+notwendigen Qedeq-Module erfolgreich geladen und {\"u}berpr{\"u}ft worden sind, bekommt das urspr{\"u}glich
+angeforderte Qedeq-Modul seinen {\glqq gr{\"u}nen Korrektheitspunkt\grqq}. Im Fehlerfalle wird eine
+detaillierte Problembeschreibung angegeben und auch die Problemstelle im entsprechenden Modul
+angezeigt.
+\par
+Aus erfolgreich geladenen und {\"u}berpr{\"u}ften Modulen k{\"o}nnen weitere Dokumente erzeugt werden. Der
+Prototyp kann HTML- und \LaTeX-Dateien generieren. Der Prototyp kannn auch alle Metaregeln
+automatisch eliminieren und die Beweise so ab{\"a}ndern, dass nur die Basisregeln verwendet werden.
+Dazu wird jede Anwendung einer Metaregel in eine Abfolge von Anwendungen der Basisregln
+umgewandelt. Das neu erzeugte Qedeq-Modul wird dann gespeichert. Auch k{\"o}nnen Qedeq-Module von
+doppelten Beweiszeilen befreit werden.
+\par
+Innerhalb des Prototypen k{\"o}nnen lokale Qedeq-Module erzeugt und editiert werden. Es kann aber auch
+jeder einfache Texteditor Verwendung finden. Bereits im Netz befindliche Qedeq-Module k{\"o}nnen durch
+einfache Referenzierung benutzt werden.
+\par
+Hauptprojekt ben{\"o}tigt nicht die extreme Detailtiefe der Beweise des Prototypen, aber diese
+detaillierte Form sollte dort auch generierbar sein.
+
+
+\chapter{Arbeitsbereiche} \label{Arbeitsbereiche}
+
+Die Projektorganisation ist noch in Entstehung begriffen. Nachfolgend werden einige Arbeitsbereiche
+angegeben. Dabei gibt es teilweise starke Verbindungen und {\"U}berlappungen zwischen verschiedenen
+Bereichen. Teilweise wird auch durch Sourceforge\footnote{Siehe auch auf den Projektseiten:
+\url{http://sourceforge.net/projects/pmii}.} logistische Unterst{\"u}tzung angeboten. Gerade bei einem
+Open-Source-Projekt muss die Projektorganisation den Gegebenheiten jeweils dynamisch angepasst
+werden.
+
+\section{Erstellung von mathematischen Texten}
+In sp{\"a}teren Aufbaustufen k{\"o}nnen weitere Hilfsmittel zur Erstellung von mathematischen Dokumenten
+zum Einsatz kommen. Hier wird nur das anf{\"a}ngliche Vorgehen beschrieben.
+
+\subsection{Mathematik}
+Das Ziel von \textbf{Hilbert~II} ist im Wesentlichen die konkrete Darstellung von Mathematik. Das
+Ergebnis ist in erster N{\"a}herung ein {\"u}blicher mathematischer Artikel. Mathematische Artikel werden
+im ersten Schritt in nichtformaler Form in einem {\"u}blichen Texteditor erfasst. Dabei werden
+bestimmte Formatierungen verwendet, z.~B. {\tt all} f{\"u}r den Allquantor und {\tt in} f{\"u}r die
+Elementbeziehung. Es soll sogar m{\"o}glich sein, den mathematischen Text in \LaTeX{} zu schreiben.
+
+\subsection{Formalisierung} Im n{\"a}chsten Schritt folgt nun die {\"U}bertragung in ein Qedeq-Modul.
+Dabei sollen Parser zum Einsatz kommen, die beispielsweise aus einer bestimmten bequemen Syntax
+formale Qedeq-Ausdr{\"u}cke erzeugen. Diese halbformale Form wird dann zu einem formal korrekten
+Qedeq-Modul erg{\"a}nzt. Dabei sind in der ersten Phase die Beweise nur informell und werden dann
+sukzessive durch formale Beweise erg{\"a}nzt.
+
+\subsection{Weitere Erg{\"a}nzungen}
+Um in dem Qedeq-Modul auch Texte in anderen Sprachen oder einem anderen Detaillierungsgrad zu
+haben, kann es erforderlich sein, eine Zusammenf{\"u}hrung dieser verschiedenen Anteile vorzunehmen.
+Dabei sollte zun{\"a}chst eine Stufe komplett fertiggestellt sein, und dieses formal korrekte
+Qedeq-Modul wird dann entsprechend erg{\"a}nzt.
+
+\section{Qedeq-Syntaxdefinition}
+Die Syntax des Qedeq-Formats muss {\"u}berpr{\"u}ft und weiterentwickelt werden. Ein weiterer Punkt ist die
+Definition der ben{\"o}tigten und unterst{\"u}tzten \LaTeX{}-Befehle. Diese Festlegungen sollten in enger
+Abstimmung mit den Erstellern von Qedeq-Dateien und den Kernel-Entwicklern geschehen. Siehe auch
+Kapitel~\ref{Ziele_der_Darstellung} und Kapitel~\ref{Technischer_Rahmen}.
+
+\section{Kernelentwicklung\index{Kernel!Entwicklung}}
+Hierzu geh{\"o}rt die Programmentwicklung des Kernels. Mit dabei sind die Implementierung des
+Proofcheckers\index{Proofchecker}, des Regeltransformers\index{Regeltransformer} und der Konverter
+in verschiedene andere Formate wie z.~B. HTML, \LaTeX{} und PDF.
+
+\section{Anwendungsentwicklung}
+Der Qedeq-Viewer mit seinen verschiedenen Darstellungs- und Analysem{\"o}glichkeiten ist eine gro{\ss}e
+Aufgabe der Anwendungsentwicklung.
+
+\section{Test und Qualit{\"a}tssicherung}
+Vor der Zusammenstellung von neuen Distributionen oder der Ver{\"o}ffentlichung von neuen Qedeq-Dateien
+wird ein entsprechender Test und eine Qualit{\"a}tskontrolle erfolgen.
+
+\section{{\"U}bersetzung}
+Nicht nur die mathematischen Texte, auch die Dokumentation und der Internetauftritt m{\"u}ssen in
+andere Sprachen {\"u}bersetzt werden. Insbesondere eine {\"U}bertragung in das Englische sollte vorgenommen
+werden.
+
+\section{Releasemanagement und Distribution}
+Die Erstellung einer neuen Version der Programmpakete von \textbf{Hilbert~II} erfordert eine
+gewisse Organisation. Eine CD-Zusammenstellung ist angedacht. Auch die Verteilung des neuen Release
+ist aktiv anzusto{\ss}en. Das neue Programmpaket muss zusammengestellt und verteilt werden. Denkbar ist
+auch die Definition eines Debian\index{Debian}-Paketes\footnote{Das Debian-Projekt ist eine
+Gemeinschaft von Individuen, die in Gemeinschaftsarbeit ein freies Betriebssystem entwickeln.
+Dieses Betriebssystem wird Debian GNU/Linux genannt, oder einfach nur Debian. }, eventuell auch
+aufbauend auf dem \emph{GNU Compiler f{\"u}r Java} (\url{http://gcc.gnu.org/java/} oder \emph{Kaffe}
+(\url{http://www.kaffe.org/}), einer freien Implementierung von Java.\footnote{Siehe
+Abschnitt~\ref{Programmiersprache}.}
+
+\section{Support und Fehlerverfolgung}
+Die Sammlung und Organisation von Anfragen und Fehlermeldungen und deren Beantwortung geh{\"o}ren zu
+diesem Arbeitsbereich. Auch die Betreuung von Anwender-Foren geh{\"o}rt dazu.
+
+\section{Organisation des Internet-Auftritts}
+Die Internetseiten bed{\"u}rfen der w{\"o}chentlichen Pflege und Aktualisierung. Die aktuellen Web-Seiten
+von \url{http://www.qedeq.org} werden zur Zeit mit einem eigenen Programm
+generiert.\footnote{Dieser Auftritt k{\"o}nnte beispielsweise komplett neu aufgestellt werden.}
+
+\section{Dokumentation und Redaktion}
+Die Dokumentation ist ein h{\"a}ufig vernachl{\"a}ssigtes Gebiet. Dazu geh{\"o}ren nicht nur
+Programmbeschreibungen, sondern auch Anleitungen\footnote{Eine solche Anleitung wird oft auch
+\emph{HowTo} genannt.} zur L{\"o}sung der verschiedensten Aufgabenstellungen. Auch die mathematischen
+Texte ben{\"o}tigen h{\"a}ufig einen guten Editor.
+
+\section{Gestaltung und Design}
+Die Dokumente und Internet-Seiten dieses Projekts bed{\"u}rfen der Gestaltung. Auch ein Logo oder sogar
+ein CD-Cover k{\"o}nnen auf der Designliste stehen.
+
+\section{{\"O}ffentlichkeitsarbeit und Kontaktpflege}
+Das Projekt \textbf{Hilbert~II} muss bekanntgemacht, E-Mails m{\"u}ssen beantwortet, Foren betreut
+werden. Eventuell geh{\"o}rt auch das Einwerben von F{\"o}rdermitteln in diesen Arbeitsbereich.
+
+\section{Gesamtkoordination}
+Die Organisation des gesamten Projekts ist eine nicht einfache Aufgabe. Die Koordination der
+verschiedenen Arbeitsbereiche und die Abstimmung und Planung der weiteren Entwicklungen geh{\"o}ren
+dazu.
+
+
+\chapter{Planung}\index{Aufgaben}\index{Projektplanung} \label{Projektplanung}
+
+Eine Projektplanung im eigentlichen Sinne kann zu diesem Zeitpunkt noch nicht vorgenommen werden
+und wird auch in Zukunft nicht Bestandteil dieses Dokuments werden. In diesem Kapitel werden die
+Arbeitspakete f{\"u}r verschiedene Ausbaustufen von \textbf{Hilbert~II} definiert.
+
+\section{Umfang der Version 1.00}
+F{\"u}r die Version 1.00 wird die Syntax-Beschreibung der Qedeq-Dateien soweit festgelegt, dass
+zumindest die in dem Kapitel~\ref{Mathematische_Ausgangspunkte} angegebenen Formeln bequem
+ausgedr{\"u}ckt werden k{\"o}nnen. Sie beinhaltet einen Kernel, der eine Qedeq-Datei auf dieser
+syntaktischen Ebene {\"u}berpr{\"u}fen kann. D.~h. es kann beispielsweise festgestellt werden, dass eine
+Formel nicht formal korrekt gebildet ist, da {\"u}ber die Variable $x$ zweimal quantifiziert wurde. Es
+ist dem Kernel aber noch nicht m{\"o}glich zu kontrollieren, ob in einem formalen Beweis eine
+Beweiszeile logisch aus den vorherigen folgt. Desweiteren sollen in der Qedeq-Syntax die
+Anfangsgr{\"u}nde der Mengenlehre dargestellt werden k{\"o}nnen. Die Generierung von \LaTeX{}-Dokumenten
+ist ebenfalls m{\"o}glich.
+\par
+Mathematisch werden die Anfangsgr{\"u}nde der Mengenlehre in knapper Form in Qedeq-Dateien dargelegt.
+Ausgehend von den grundlegenden Axiomen, Definitionen und Notationen werden die ersten S{\"a}tze der
+axiomatischen Mengenlehre formuliert. Idealerweise erfolgt die Darstellung in mehreren
+Detaillierungsstufen und in den Sprachen Deutsch und Englisch.
+
+% +++ was machen wir hiermit?
+%\section{Aufwand f{\"u}r Version 1.00}
+%Folgende Aufwandsabsch{\"a}tzung in Personentagen wurde erstellt:
+%\begin{longtable}{lr}
+%{\bf Beschreibung} & {\bf PT} \\
+%\hline \\
+%Festlegung der Qedeq-Syntax						 & 10  \\
+%Fertigstellung Syntaxbeschreibungsgenerator		 & 6  \\
+%Anfangsgr{\"u}nde der Mengenlehre informal aufschreiben & 60 \\
+%Formal korrekte Qedeq-Datei bauen					 & 30  \\
+%Programmierung: Modulstruktur abbilden				 & 30 \\
+%Programmierung: Konverter f{\"u}r \LaTeX{}-Ausgabe		 & 20 \\
+%Testfallerstellung									 & 30 \\
+%Herstellertest										 & 15 \\
+%Releasebau und Distribution						 & 6  \\
+%Erg{\"a}nzung dieses Dokuments							 & 8  \\
+%Aktualisierung und Pflege der Web-Seiten			 & 9
+%\end{longtable}
+
+\section{Umfang der Version 1.01}
+Der Umfang der Version 1.01 beinhaltet die F{\"a}higkeit, formale {\"U}berpr{\"u}fungen der in Version 1.00
+erstellten Qedeq-Module vorzunehmen. Wsentliches Element dieser Version ist also der
+\emph{ProofChecker}. Dazu kann es erforderlich sein, dass die bereits erstellten Qedeq-Dateien
+korrigiert oder erg{\"a}nzt werden m{\"u}ssen.
+\par
++++
+
+\section{Umfang der Version 1.02}
+In dieser Version ist ein rudiment{\"a}rer Qedeq-Viewer einsatzbereit. Er erm{\"o}glicht die Betrachtung
+von Qedeq-Dateien unter Ber{\"u}cksichtigung der einstellbaren Parameter Detailtiefe und Sprache. Die
+Aufl{\"o}sung von Referenzen und Querverbindungen sind ebenfalls m{\"o}glich.
+\par
+Zur Darstellung der Texte und Formeln ist es notwendig, dass der Qedeq-Viewer elementare, oder
+zumindest die notwendigen \LaTeX-Konstrukte unterst{\"u}tzt.
+\par
++++
+
+\section{Umfang der Version 1.03}
+Ein Kernel, mit dem Reduzierungsm{\"o}glichkeiten f{\"u}r die logischen Regeln aus Version 1.01 m{\"o}glich
+sind, ist Bestandteil dieser Version. Inhaltlich wird damit an den Prototyp angekn{\"u}pft. Dazu geh{\"o}rt
+eine Ausarbeitung s{\"a}mtlicher aussagen- und pr{\"a}dikatenlogischer S{\"a}tze.
+\par
++++
+
+\section{Weitere Aufgaben}
+{\"U}ber die vorherigen Paketbeschreibungen hinaus gibt es nat{\"u}rlich die im
+Kapitel~\ref{Arbeitsbereiche} angegebenen Aufgabenbereiche, die eine permanente Mitarbeit
+erfordern. Insbesondere die Erstellung von mathematischen Dokumenten geh{\"o}rt dazu.
+
+
+\chapter{Technische Realisierung} \label{Technische_Realisierung}
+
+An dieser Stelle folgen Informationen, die sp{\"a}ter in ein
+Entwicklungshandbuch\index{Entwicklungshandbuch} ausgelagert werden. Die Referenzimplementation
+erfolgt in Java 1.4.1 oder einer gr{\"o}{\ss}eren Version.
+\par
+In den ersten Versionen erfolgt keine Organisation in einer Multi-Tier-Architektur, sondern in
+einer Stand-Alone-Applikation. Die Qedeq-Dateien werden bei der Initialisierung des Kernels bzw.
+auf Anforderung direkt eingelesen und im Hauptspeicher verwaltet.
+\par
+Es existieren bereits prototypische Basisklassen, am Designentwurf wird noch gefeilt.
+\par
++++
+\par
++++ PDF direkt und nicht {\"u}ber \LaTeX{} erzeugen? \\
+
+
+\chapter{Einsatzszenarien} \label{Einsatzszenarien}
+
+Als grober Richtwert f{\"u}r die Gr{\"o}{\ss}e formaler Beweise im Vergleich zu nicht formalen Beweisen wird
+h{\"a}ufig der Faktor vier genannt, siehe zum Beispiel bei Wiedjk~\cite{wiedijk}. Dieser Wert wird auch
+\emph{de Bruijn Faktor}\index{de Bruijn Faktor}\index{Bruijn, de} genannt. Falls also die
+Qedeq-Syntax von \textbf{Hilbert~II} entsprechend komfortabel ist, kann damit der Speicherbedarf
+f{\"u}r verschiedene Theorien abgesch{\"a}tzt werden. In den folgenden {\"U}berlegungen wird der Einfachheit
+von einer Standalone-Applikation ausgegangen, alle Daten werden gleichzeitig im Hauptspeicher
+gehalten.
+
+\section{Ausstattungen}
+Es wird f{\"u}r {\glqq einige Jahre in der Zukunft\grqq} geplant. Eine grobe Absch{\"a}tzung ist, dass in
+ein paar Jahren 512 MB Arbeitsspeicher als Standard gelten.\footnote{Das Wort {\glqq Standard\grqq}
+bezieht sich auf die westlichen Industrienationen.} Die Festplattenkapazit{\"a}t wird sch{\"a}tzungsweise
+120 GB betragen. Als Kapazit{\"a}t der Netzanbindung wird von dem Durchsatz eines
+DSL-Anschlusses\footnote{Unter \emph{DSL\index{DSL}} wird eine Daten{\"u}bertragungsmethode verstanden,
+die eine {\"U}ber\-tragungs\-geschwindig\-keit im MegaBit-Bereich {\"u}ber die Telefonleitung erm{\"o}glicht.}
+ausgegangen.
+
+\section{Mengenger{\"u}st\index{Mengenger{\"u}st}}
+Sicherheitshalber nehmen wir einen de Bruijn Faktor\index{de Bruijn Faktor}\index{Bruijn, de} von
+zehn an. Die Gr{\"o}{\ss}e dieses Faktors h{\"a}ngt von der Bequemlichkeit der Qedeq-Syntax, von der Qualit{\"a}t
+des Proofcheckers\index{Proofchecker}\footnote{Hier zeigt sich, dass \textbf{Hilbert~II}
+idealerweise {\"u}ber einen hervorragenden Theorembeweiser\index{Theorembeweiser} verf{\"u}gen sollte, der
+in der Lage ist, die in mathematischen Texten {\"u}blicherweise {\"a}u{\ss}erst knapp gehaltenen Beweise durch
+die erforderlichen Zwischenschritte\index{Zwischenschritte} zu erg{\"a}nzen. Dabei k{\"o}nnte sich die
+M{\"o}glichkeit ergeben auch etablierte externe Theorembeweiser anzuschlie{\ss}en.} und den
+Detaillierungsgraden der Qedeq-Dateien ab.
+\par
+Bei einem Ansatz von einem Speicherverbrauch von 2 MB pro mathematischem Textbuch ergibt sich ein
+Bedarf von 20 MB pro Qedeq-Modul.\footnote{Der Speicherverbrauch im Dateisystem ist sicherlich
+h{\"o}her, da die Operatoren dort nicht abgek{\"u}rzt vorkommen. Allerdings w{\"a}re der Verbrauch im
+Dateisystem geringer, wenn die Qedeq-Module dort in komprimierter Form abgelegt werden w{\"u}rden.} Bei
+der Annahme, dass das mathematische Basiswissen in 15 B{\"u}chern\footnote{Die B{\"u}cheraufteilung k{\"o}nnte
+beispielsweise so aussehen: Mengenlehre 1, Zahlentheorie 2, Algebra 2, Geometrie 1, Analysis 3,
+Stochastik 1, Numerik 1, Funktionentheorie 1, Topologie 1, Kombinatorik 1, Graphentheorie 1}
+beschrieben werden kann, ergibt sich ein dynamischer Speicherbedarf von 300 MB. Bei dieser Gr{\"o}{\ss}e
+ist noch genug Platz f{\"u}r die Anwendung und das Betriebssystem vorhanden. In sp{\"a}teren Jahren wird
+der verf{\"u}gbare dynamische Speicher sicherlich zunehmen, so dass dann gleichzeitig auch die h{\"o}here
+Mathematik im Speicher gehalten werden kann.\footnote{Zum einen ist allein die Bereitstellung von
+Qedeq-Dateien f{\"u}r das Basiswissen zeitaufwendig genug, um zum Zeitpunkt der Fertigstellung auf eine
+h{\"o}here Zahl von dynamischem Speicher zu hoffen. Zum anderen sollte es auch m{\"o}glich sein
+\emph{Schnittstellenmodule\index{Schnittstellenmodul}} zu schaffen, in denen die Beweise fehlen,
+die jedoch bei Bedarf in zugeh{\"o}rigen vollst{\"a}ndigen Qedeq-Modulen nachgeladen werden k{\"o}nnen. Dieses
+Vorgehen k{\"o}nnte generell den Speicherverbrauch reduzieren.}
+\par
+Die Module werden initial aus dem Internet geladen und lokal im Dateisystem gespeichert. Nur bei
+{\"A}nderungen ist eine Aktualisierung n{\"o}tig. Die Gr{\"o}{\ss}e des Plattenspeichers ist zwar gr{\"o}{\ss}er als der
+Bedarf an dynamischem Speicher, dennoch reichen einige GB sicherlich v{\"o}llig aus.
+\par
+Eine Absch{\"a}tzung der Performance des Kernels, des Qedeq-Viewers und anderer Programmteile von
+\textbf{Hilbert~II} ist zur Zeit nicht so einfach m{\"o}glich. Es gibt jeweils viele starke
+Einflussgr{\"o}{\ss}en, die nur schwer zu bewerten sind. Insbesondere ist zuvor eine genaue Spezifikation
+dieser Komponenten erforderlich.
+
+\section{Verwendung\index{Verwendung}}
+Wie bereits im Kapitel~\ref{Ziele_der_Darstellung} formuliert, ist das Ziel von \textbf{Hilbert~II}
+eine Darstellung der Mathematik bzw. ihrer Grundlagen. Diese Darstellung hat bestimmte
+Eigenschaften, die Rahmenbedingungen f{\"u}r die Einsatzm{\"o}glichkeiten abstecken. Zun{\"a}chst einmal ist
+diese Darstellung \emph{frei} in dem von Anhang~\ref{GNU_Free_Documentation_License} definierten
+Sinne. Verf{\"u}gbar ist sie -- in unterschiedlicher Form -- an jedem Ort mit Internetzugang.
+\par
+Die Darstellung bietet die Grundlagen der Mathematik in textbuchartiger Form dar. Das bedeutet,
+dass \textbf{Hilbert~II} als Online-Bibliothek f{\"u}r mathematisches Wissen dienen kann. Die erzeugten
+PDF-Dolumente k{\"o}nnen ganz normal als Skripte oder Textb{\"u}cher benutzt werden.
+\par
+Es kann aber auch, beispielsweise von einem mathematischen Satz ausgehend, zur{\"u}ckverfolgt werden,
+welche Definitionen und andere S{\"a}tze f{\"u}r den Beweis ben{\"o}tigt werden. Sogar die automatische
+R{\"u}ckf{\"u}hrung auf die mengentheoretischen Axiome ist m{\"o}glich oder die Beantwortung der Frage, ob ein
+bestimmter Satz irgendwo in den Beweis eingeht.
+\par
+Das durch \textbf{Hilbert~II} formal erfasste mathematische Wissen ist auch formal korrekt, das
+wird durch den Proofchecker gew{\"a}hrleistet. In diesem Sinne kann \textbf{Hilbert~II} auch als
+Kontrollinstanz f{\"u}r mathematisches Wissen fungieren.
+
+\begin{appendix}
+
+\chapter{GNU Free Documentation License\index{GFDL}} \label{GNU_Free_Documentation_License}
+
+{ \small \sffamily
+\renewcommand{\LaTeX}{LaTeX}
+
+ \begin{flushleft}
+ Version 1.2, November 2002\\[.5ex]
+ Copyright \copyright\ 2000,2001,2002  Free Software Foundation, Inc.\\
+	 59~Temple Place, Suite~330, Boston, MA	 02111-1307	 USA\\[.5ex]
+ Everyone is permitted to copy and distribute verbatim copies
+ of this license document, but changing it is not allowed.
+ \end{flushleft}
+
+
+\subsection*{PREAMBLE}
+
+The purpose of this License is to make a manual, textbook, or other functional and useful document
+``free'' in the sense of freedom: to assure everyone the effective freedom to copy and redistribute
+it, with or without modifying it, either commercially or noncommercially. Secondarily, this License
+preserves for the author and publisher a way to get credit for their work, while not being
+considered responsible for modifications made by others.
+
+This License is a kind of ``copyleft'', which means that derivative works of the document must
+themselves be free in the same sense.  It complements the GNU General Public License, which is a
+copyleft license designed for free software.
+
+We have designed this License in order to use it for manuals for free software, because free
+software needs free documentation: a free program should come with manuals providing the same
+freedoms that the software does.  But this License is not limited to software manuals; it can be
+used for any textual work, regardless of subject matter or whether it is published as a printed
+book.  We recommend this License principally for works whose purpose is instruction or reference.
+
+
+\subsection*{APPLICABILITY AND DEFINITIONS}
+\label{applicability}
+
+This License applies to any manual or other work, in any medium, that contains a notice placed by
+the copyright holder saying it can be distributed under the terms of this License.	Such a notice
+grants a world-wide, royalty-free license, unlimited in duration, to use that work under the
+conditions stated herein.  The ``Document'', below, refers to any such manual or work.	Any member
+of the public is a licensee, and is addressed as ``you''.  You accept the license if you copy,
+modify or distribute the work in a way requiring permission under copyright law.
+
+A ``Modified Version'' of the Document means any work containing the Document or a portion of it,
+either copied verbatim, or with modifications and/or translated into another language.
+
+A ``Secondary Section'' is a named appendix or a front-matter section of the Document that deals
+exclusively with the relationship of the publishers or authors of the Document to the Document's
+overall subject (or to related matters) and contains nothing that could fall directly within that
+overall subject.  (Thus, if the Document is in part a textbook of mathematics, a Secondary Section
+may not explain any mathematics.)  The relationship could be a matter of historical connection with
+the subject or with related matters, or of legal, commercial, philosophical, ethical or political
+position regarding them.
+
+The ``Invariant Sections'' are certain Secondary Sections whose titles are designated, as being
+those of Invariant Sections, in the notice that says that the Document is released under this
+License.  If a section does not fit the above definition of Secondary then it is not allowed to be
+designated as Invariant.  The Document may contain zero Invariant Sections.	 If the Document does
+not identify any Invariant Sections then there are none.
+
+The ``Cover Texts'' are certain short passages of text that are listed, as Front-Cover Texts or
+Back-Cover Texts, in the notice that says that the Document is released under this License.	 A
+Front-Cover Text may be at most 5 words, and a Back-Cover Text may be at most 25 words.
+
+A ``Transparent'' copy of the Document means a machine-readable copy, represented in a format whose
+specification is available to the general public, that is suitable for revising the document
+straightforwardly with generic text editors or (for images composed of pixels) generic paint
+programs or (for drawings) some widely available drawing editor, and that is suitable for input to
+text formatters or for automatic translation to a variety of formats suitable for input to text
+formatters.	 A copy made in an otherwise Transparent file format whose markup, or absence of
+markup, has been arranged to thwart or discourage subsequent modification by readers is not
+Transparent. An image format is not Transparent if used for any substantial amount of text.	 A copy
+that is not ``Transparent'' is called ``Opaque''.
+
+Examples of suitable formats for Transparent copies include plain ASCII without markup, Texinfo
+input format, \LaTeX\ input format, SGML or XML using a publicly available DTD, and
+standard-conforming simple HTML, PostScript or PDF designed for human modification.	 Examples of
+transparent image formats include PNG, XCF and JPG.	 Opaque formats include proprietary formats
+that can be read and edited only by proprietary word processors, SGML or XML for which the DTD
+and/or processing tools are not generally available, and the machine-generated HTML, PostScript or
+PDF produced by some word processors for output purposes only.
+
+The ``Title Page'' means, for a printed book, the title page itself, plus such following pages as
+are needed to hold, legibly, the material this License requires to appear in the title page.  For
+works in formats which do not have any title page as such, ``Title Page'' means the text near the
+most prominent appearance of the work's title, preceding the beginning of the body of the text.
+
+A section ``Entitled XYZ'' means a named subunit of the Document whose title either is precisely
+XYZ or contains XYZ in parentheses following text that translates XYZ in another language.	(Here
+XYZ stands for a specific section name mentioned below, such as ``Acknowledgements'',
+``Dedications'', ``Endorsements'', or ``History''.)	 To ``Preserve the Title'' of such a section
+when you modify the Document means that it remains a section ``Entitled XYZ'' according to this
+definition.
+
+The Document may include Warranty Disclaimers next to the notice which states that this License
+applies to the Document.  These Warranty Disclaimers are considered to be included by reference in
+this License, but only as regards disclaiming warranties: any other implication that these Warranty
+Disclaimers may have is void and has no effect on the meaning of this License.
+
+
+\subsection*{VERBATIM COPYING}
+\label{verbatim}
+
+You may copy and distribute the Document in any medium, either commercially or noncommercially,
+provided that this License, the copyright notices, and the license notice saying this License
+applies to the Document are reproduced in all copies, and that you add no other conditions
+whatsoever to those of this License.  You may not use technical measures to obstruct or control the
+reading or further copying of the copies you make or distribute.  However, you may accept
+compensation in exchange for copies.  If you distribute a large enough number of copies you must
+also follow the conditions in section ``COPYING IN QUANTITY''.
+
+You may also lend copies, under the same conditions stated above, and you may publicly display
+copies.
+
+
+\subsection*{COPYING IN QUANTITY}
+\label{copying}
+
+If you publish printed copies (or copies in media that commonly have printed covers) of the
+Document, numbering more than 100, and the Document's license notice requires Cover Texts, you must
+enclose the copies in covers that carry, clearly and legibly, all these Cover Texts: Front-Cover
+Texts on the front cover, and Back-Cover Texts on the back cover.  Both covers must also clearly
+and legibly identify you as the publisher of these copies.	The front cover must present the full
+title with all words of the title equally prominent and visible.  You may add other material on the
+covers in addition. Copying with changes limited to the covers, as long as they preserve the title
+of the Document and satisfy these conditions, can be treated as verbatim copying in other respects.
+
+If the required texts for either cover are too voluminous to fit legibly, you should put the first
+ones listed (as many as fit reasonably) on the actual cover, and continue the rest onto adjacent
+pages.
+
+If you publish or distribute Opaque copies of the Document numbering more than 100, you must either
+include a machine-readable Transparent copy along with each Opaque copy, or state in or with each
+Opaque copy a computer-network location from which the general network-using public has access to
+download using public-standard network protocols a complete Transparent copy of the Document, free
+of added material. If you use the latter option, you must take reasonably prudent steps, when you
+begin distribution of Opaque copies in quantity, to ensure that this Transparent copy will remain
+thus accessible at the stated location until at least one year after the last time you distribute
+an Opaque copy (directly or through your agents or retailers) of that edition to the public.
+
+It is requested, but not required, that you contact the authors of the Document well before
+redistributing any large number of copies, to give them a chance to provide you with an updated
+version of the Document.
+
+
+\subsection*{MODIFICATIONS}
+\label{modifications}
+
+You may copy and distribute a Modified Version of the Document under the conditions of sections
+``VERBATIM COPYING'' and ``COPYING IN QUANTITY'' above, provided that you release the Modified
+Version under precisely this License, with the Modified Version filling the role of the Document,
+thus licensing distribution and modification of the Modified Version to whoever possesses a copy of
+it.	 In addition, you must do these things in the Modified Version:
+
+\begin{enumerate}% [A.]
+\item Use in the Title Page (and on the covers, if any) a title distinct
+   from that of the Document, and from those of previous versions
+   (which should, if there were any, be listed in the History section
+   of the Document).  You may use the same title as a previous version
+   if the original publisher of that version gives permission.
+\item List on the Title Page, as authors, one or more persons or entities
+   responsible for authorship of the modifications in the Modified
+   Version, together with at least five of the principal authors of the
+   Document (all of its principal authors, if it has fewer than five),
+   unless they release you from this requirement.
+\item State on the Title page the name of the publisher of the
+   Modified Version, as the publisher.
+\item Preserve all the copyright notices of the Document. \item Add an appropriate copyright notice
+for your modifications
+   adjacent to the other copyright notices.
+\item Include, immediately after the copyright notices, a license notice
+   giving the public permission to use the Modified Version under the
+   terms of this License, in the form shown in the Addendum below.
+\item Preserve in that license notice the full lists of Invariant Sections
+   and required Cover Texts given in the Document's license notice.
+\item Include an unaltered copy of this License. \item Preserve the section Entitled ``History'',
+Preserve its Title, and add
+   to it an item stating at least the title, year, new authors, and
+   publisher of the Modified Version as given on the Title Page.  If
+   there is no section Entitled ``History'' in the Document, create one
+   stating the title, year, authors, and publisher of the Document as
+   given on its Title Page, then add an item describing the Modified
+   Version as stated in the previous sentence.
+\item Preserve the network location, if any, given in the Document for
+   public access to a Transparent copy of the Document, and likewise
+   the network locations given in the Document for previous versions
+   it was based on.	 These may be placed in the ``History'' section.
+   You may omit a network location for a work that was published at
+   least four years before the Document itself, or if the original
+   publisher of the version it refers to gives permission.
+\item For any section Entitled ``Acknowledgements'' or ``Dedications'',
+   Preserve the Title of the section, and preserve in the section all
+   the substance and tone of each of the contributor acknowledgements
+   and/or dedications given therein.
+\item Preserve all the Invariant Sections of the Document,
+   unaltered in their text and in their titles.	 Section numbers
+   or the equivalent are not considered part of the section titles.
+\item Delete any section Entitled ``Endorsements''.	 Such a section
+   may not be included in the Modified Version.
+\item Do not retitle any existing section to be Entitled ``Endorsements''
+   or to conflict in title with any Invariant Section.
+\item Preserve any Warranty Disclaimers.
+
+\end{enumerate}
+
+If the Modified Version includes new front-matter sections or appendices that qualify as Secondary
+Sections and contain no material copied from the Document, you may at your option designate some or
+all of these sections as invariant.	 To do this, add their titles to the list of Invariant Sections
+in the Modified Version's license notice. These titles must be distinct from any other section
+titles.
+
+You may add a section Entitled ``Endorsements'', provided it contains nothing but endorsements of
+your Modified Version by various parties--for example, statements of peer review or that the text
+has been approved by an organization as the authoritative definition of a standard.
+
+You may add a passage of up to five words as a Front-Cover Text, and a passage of up to 25 words as
+a Back-Cover Text, to the end of the list of Cover Texts in the Modified Version.  Only one passage
+of Front-Cover Text and one of Back-Cover Text may be added by (or through arrangements made by)
+any one entity.	 If the Document already includes a cover text for the same cover, previously added
+by you or by arrangement made by the same entity you are acting on behalf of, you may not add
+another; but you may replace the old one, on explicit permission from the previous publisher that
+added the old one.
+
+The author(s) and publisher(s) of the Document do not by this License give permission to use their
+names for publicity for or to assert or imply endorsement of any Modified Version.
+
+
+\subsection*{COMBINING DOCUMENTS}
+\label{combining}
+
+You may combine the Document with other documents released under this License, under the terms
+defined in section ``MODIFICATIONS'' above for modified versions, provided that you include in the
+combination all of the Invariant Sections of all of the original documents, unmodified, and list
+them all as Invariant Sections of your combined work in its license notice, and that you preserve
+all their Warranty Disclaimers.
+
+The combined work need only contain one copy of this License, and multiple identical Invariant
+Sections may be replaced with a single copy.  If there are multiple Invariant Sections with the
+same name but different contents, make the title of each such section unique by adding at the end
+of it, in parentheses, the name of the original author or publisher of that section if known, or
+else a unique number. Make the same adjustment to the section titles in the list of Invariant
+Sections in the license notice of the combined work.
+
+In the combination, you must combine any sections Entitled ``History'' in the various original
+documents, forming one section Entitled ``History''; likewise combine any sections Entitled
+``Acknowledgements'', and any sections Entitled ``Dedications''.  You must delete all sections
+Entitled ``Endorsements''.
+
+
+\subsection*{COLLECTIONS OF DOCUMENTS}
+\label{collections}
+
+You may make a collection consisting of the Document and other documents released under this
+License, and replace the individual copies of this License in the various documents with a single
+copy that is included in the collection, provided that you follow the rules of this License for
+verbatim copying of each of the documents in all other respects.
+
+You may extract a single document from such a collection, and distribute it individually under this
+License, provided you insert a copy of this License into the extracted document, and follow this
+License in all other respects regarding verbatim copying of that document.
+
+
+\subsection*{AGGREGATION WITH INDEPENDENT WORKS}
+\label{aggregation}
+
+A compilation of the Document or its derivatives with other separate and independent documents or
+works, in or on a volume of a storage or distribution medium, is called an ``aggregate'' if the
+copyright resulting from the compilation is not used to limit the legal rights of the compilation's
+users beyond what the individual works permit. When the Document is included in an aggregate, this
+License does not apply to the other works in the aggregate which are not themselves derivative
+works of the Document.
+
+If the Cover Text requirement of section ``COPYING IN QUANTITY'' is applicable to these copies of
+the Document, then if the Document is less than one half of the entire aggregate, the Document's
+Cover Texts may be placed on covers that bracket the Document within the aggregate, or the
+electronic equivalent of covers if the Document is in electronic form. Otherwise they must appear
+on printed covers that bracket the whole aggregate.
+
+
+\subsection*{TRANSLATION}
+\label{translation}
+
+Translation is considered a kind of modification, so you may distribute translations of the
+Document under the terms of section ``MODIFICATIONS''. Replacing Invariant Sections with
+translations requires special permission from their copyright holders, but you may include
+translations of some or all Invariant Sections in addition to the original versions of these
+Invariant Sections.	 You may include a translation of this License, and all the license notices in
+the Document, and any Warranty Disclaimers, provided that you also include the original English
+version of this License and the original versions of those notices and disclaimers.	 In case of a
+disagreement between the translation and the original version of this License or a notice or
+disclaimer, the original version will prevail.
+
+If a section in the Document is Entitled ``Acknowledgements'', ``Dedications'', or ``History'', the
+requirement (section ``MODIFICATIONS'') to Preserve its Title (section ``APPLICABILITY AND
+DEFINITIONS'') will typically require changing the actual title.
+
+
+\subsection*{TERMINATION}
+\label{termination}
+
+You may not copy, modify, sublicense, or distribute the Document except as expressly provided for
+under this License.	 Any other attempt to copy, modify, sublicense or distribute the Document is
+void, and will automatically terminate your rights under this License.	However, parties who have
+received copies, or rights, from you under this License will not have their licenses terminated so
+long as such parties remain in full compliance.
+
+
+\subsection*{FUTURE REVISIONS OF THIS LICENSE}
+\label{future}
+
+The Free Software Foundation may publish new, revised versions of the GNU Free Documentation
+License from time to time.	Such new versions will be similar in spirit to the present version, but
+may differ in detail to address new problems or concerns.  See \path{http://www.gnu.org/copyleft/}.
+
+Each version of the License is given a distinguishing version number. If the Document specifies
+that a particular numbered version of this License ``or any later version'' applies to it, you have
+the option of following the terms and conditions either of that specified version or of any later
+version that has been published (not as a draft) by the Free Software Foundation.  If the Document
+does not specify a version number of this License, you may choose any version ever published (not
+as a draft) by the Free Software Foundation.
+
+
+\subsection*{ADDENDUM: How to use this License for your documents}
+
+To use this License in a document you have written, include a copy of the License in the document
+and put the following copyright and license notices just after the title page:
+\begin{quote}
+	Copyright \copyright{} \textit{year}\quad \textit{your name}.\\
+	Permission is granted to copy, distribute and/or modify this document
+	under the terms of the GNU Free Documentation License, Version 1.2
+	or any later version published by the Free Software Foundation;
+	with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+	A copy of the license is included in the section entitled ``GNU
+	Free Documentation License''.
+\end{quote}
+If you have Invariant Sections, Front-Cover Texts and Back-Cover Texts, replace the
+``with...Texts.'' line with this:
+\begin{quote}
+	with the Invariant Sections being \textit{list their titles}, with the
+	Front-Cover Texts being \textit{list}, and with the Back-Cover Texts being \textit{list}.
+\end{quote}
+If you have Invariant Sections without Cover Texts, or some other combination of the three, merge
+those two alternatives to suit the situation.
+
+If your document contains nontrivial examples of program code, we recommend releasing these
+examples in parallel under your choice of free software license, such as the GNU General Public
+License, to permit their use in free software.
+\par
+} % small sffamily
+
+
+\chapter{Qedeq-Format\index{Qedeq!-Format}} \label{Qedeq-Format}
+
+Die Dateiform von Qedeq-Modulen ist eine zentrale Schnittstelle von \textbf{Hilbert~II}. Der im
+Prototypen vorliegende Stand ist unter \url{http://www.qedeq.org/0_00_53/qedeq_de.csv}\footnote{Die
+dort vorliegende Beschreibung ist in einem etwas anderen Format gehalten.} abrufbar und beschreibt
+das Format der Version 0.00.53. Diese Formatbeschreibung kann auch als \emph{XML-DTD} unter
+\url{http://www.qedeq.org/0_00_53/qedeq_de.dtd} abgerufen werden.
+\par
+Das Hauptprojekt benutzt f{\"u}r das Qedeq-Format reines XML und die zugeh{\"o}rige XSD ist unter
+\url{http://www.qedeq.org/0_01_06/qedeq.xsd} zu finden. Zur Dokumentation siehe auch
+\url{http://www.qedeq.org/0_01_06/qedeq_xsd.html}.
+
+\end{appendix}
+
+
+\backmatter
+
+\begin{thebibliography}{99}
+ % Logik
+ \bibitem{witheruss}\emph{A.N. Whitehead, B. Russell}, Principia Mathematica, Cambridge University Press, London
+1910
+ \bibitem{bernays}\emph{P. Bernays}, Axiomatische Untersuchung des Aussagen-Kalkuls der {\glqq Principia
+Mathematica\grqq}, Math. Zeitschr. 25 (1926), 305-320
+ \bibitem{hilback}\emph{D. Hilbert, W. Ackermann}, Grundz{\"u}ge der theoretischen Logik, Springer, Berlin 1928
+ \bibitem{novikov}\emph{P.S. Novikov}, Grundz{\"u}ge der mathematischen Logik, VEB Deutscher Verlag der Wissenschaften, Berlin 1973
+
+ % Mengenlehre
+ \bibitem{monk}\emph{J.~D.~Monk}, Introduction to Set Theory, McGraw-Hill, New York 1969
+ \bibitem{schmidt}\emph{J.~Schmidt}, Mengenlehre I, Bibliographisches Institut, Mannheim 1966
+ \bibitem{friepres}\emph{U.~Friedrichsdorf, A.~Prestel}, Mengenlehre f{\"u}r den Mathematiker, Vieweg,
+  Braunschweig 1985
+ \bibitem{takzar}\emph{G.~Takenti, W.~M.~Zaring}, Introduction to Axiomatic Set Theory,
+  McGraw-Hill, New York 1971
+
+ % Computer
+ \bibitem{wiedijk}\emph{F. Wiedijk}, The de Bruijn factor, \url{http://www.cs.kun.nl/~freek/notes/index.html}
+
+\end{thebibliography}
+
+\addcontentsline{toc}{chapter}{Literaturverzeichnis}
+
+\addcontentsline{toc}{chapter}{\indexname} \printindex
+
+\end{document}
