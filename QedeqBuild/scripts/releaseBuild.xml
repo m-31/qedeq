@@ -286,7 +286,7 @@ currently in ants classpath
           </fileset>
         </copy>
         <copy todir="${qedeq.dest}/doc/project">
-          <fileset dir="${basedir}/doc/description"
+          <fileset dir="${basedir}/QedeqDoc/project"
             includes="projektbeschreibung.tex,projektbeschreibung.pdf"
           >
           </fileset>
