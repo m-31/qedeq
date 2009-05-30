@@ -80,7 +80,7 @@ public final class GenerateXmlTest extends QedeqTestCase {
         final File xmlFile = new File(dir, xml);
         final File destination = new File(destinationDirectory, xml + "_").getAbsoluteFile();
         Xml2Xml.generate(xmlFile, destination);
-        assertEquals(true, IoUtility.compareFilesBinary(xmlFile, destination));
+        assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination));
     }
 
 }
