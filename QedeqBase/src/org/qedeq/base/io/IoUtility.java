@@ -45,6 +45,8 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import org.qedeq.base.utility.EqualsUtility;
+
 
 /**
  * A collection of useful static methods for input and output.
@@ -477,7 +479,7 @@ public final class IoUtility {
     }
 
     /**
-     * Compare two files.
+     * Compare two files binary.
      *
      * @param   from    Compare source.
      * @param   with    Compare with this file.
@@ -516,6 +518,50 @@ public final class IoUtility {
                     return false;
                 }
             }
+            return true;
+        } finally {
+            close(one);
+            close(two);
+        }
+    }
+
+    /**
+     * Compare two text files.
+     *
+     * @param   from    Compare source.
+     * @param   with    Compare with this file.
+     * @return  Is the contents of the two files binary equal?
+     * @throws  IOException File exception occurred.
+     */
+    public static boolean compareTextFiles(final File from, final File with)
+            throws IOException {
+        if (from == null && with == null) {
+            return true;
+        }
+        if (from == null || with == null) {
+            return false;
+        }
+        if (from.getAbsoluteFile().equals(with.getAbsoluteFile())) {
+            return true;
+        }
+
+        BufferedReader one = null;
+        BufferedReader two = null;
+        try {
+            one = new BufferedReader(new FileReader(from));
+            two = new BufferedReader(new FileReader(with));
+
+            String lineOne;
+            String lineTwo;
+            do {
+                lineOne = one.readLine();
+                lineTwo = two.readLine();
+//                System.out.println("1: " + lineOne);
+//                System.out.println("2: " + lineTwo);
+                if (!EqualsUtility.equals(lineOne, lineTwo)) {
+                    return false;
+                }
+            } while (lineOne != null);
             return true;
         } finally {
             close(one);
