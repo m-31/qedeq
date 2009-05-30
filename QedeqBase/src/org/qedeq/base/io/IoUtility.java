@@ -556,7 +556,7 @@ public final class IoUtility {
             do {
                 lineOne = one.readLine();
                 lineTwo = two.readLine();
-// comment out for debugging, comment in for production, as you like it
+// comment out for debugging, comment in for production
 //                System.out.println("1: " + lineOne);
 //                System.out.println("2: " + lineTwo);
                 if (!EqualsUtility.equals(lineOne, lineTwo)) {
