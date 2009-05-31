@@ -535,8 +535,14 @@ currently in ants classpath
         <echo>++++++++++++++++++++++++++++++++++</echo>
         <echo>${PomDir} mvn ${MvnArguments}</echo>
         <!-- FIXME only windows!!!! -->
+<!--        
         <exec dir="${PomDir}" executable="cmd">
             <arg line="/c mvn ${MvnArguments}"/>
+        </exec> 
+-->        
+        <!-- FIXME only unix!!!! -->
+        <exec dir="${PomDir}" executable="mvn">
+            <arg line="${MvnArguments}"/>
         </exec> 
         <echo>----------------------------------</echo>
     </target>
