@@ -541,8 +541,8 @@ currently in ants classpath
         </exec> 
 -->        
         <!-- FIXME only unix!!!! -->
-        <exec dir="${PomDir}" executable="mvn">
-            <arg line="${MvnArguments}"/>
+        <exec dir="${PomDir}" executable="sh">
+            <arg line="-c &quot;mvn ${MvnArguments}&quot;"/>
         </exec> 
         <echo>----------------------------------</echo>
     </target>
