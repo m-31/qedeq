@@ -27,7 +27,7 @@ import org.qedeq.base.test.QedeqTestSuite;
  * @version $Revision: 1.1 $
  * @author    Michael Meyling
  */
-public class KernelUtilityTestSuite extends QedeqTestSuite {
+public class KernelBaseIoTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelVoModuleTestSuite</code>.
@@ -35,13 +35,13 @@ public class KernelUtilityTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelUtilityTestSuite();
+        return new KernelBaseIoTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelUtilityTestSuite() {
+    public KernelBaseIoTestSuite() {
         super();
         addTestSuite(TextInputTest.class);
         addTestSuite(IoUtilityTest.class);

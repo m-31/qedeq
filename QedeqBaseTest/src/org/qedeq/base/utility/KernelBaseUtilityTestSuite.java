@@ -1,4 +1,4 @@
-/* $Id: BaseTestSuite.java,v 1.1 2008/07/26 07:56:13 m31 Exp $
+/* $Id: KernelUtilityTestSuite.java,v 1.1 2008/07/26 07:56:13 m31 Exp $
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
@@ -15,45 +15,34 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.base.test;
+package org.qedeq.base.utility;
 
 import junit.framework.Test;
 
-import org.qedeq.base.io.KernelBaseIoTestSuite;
+import org.qedeq.base.test.QedeqTestSuite;
 
 /**
- * Run all tests for the project.
+ * Run all JUnit tests for package org.qedeq.kernel.utility.
  *
  * @version $Revision: 1.1 $
- * @author Michael Meyling
+ * @author    Michael Meyling
  */
-public class BaseTestSuite extends QedeqTestSuite {
+public class KernelBaseUtilityTestSuite extends QedeqTestSuite {
 
     /**
-     * Get a new <code>KernelTestSuite</code>.
+     * Get a new <code>KernelVoModuleTestSuite</code>.
      *
-     * @return Test.
+     * @return  Test.
      */
     public static Test suite() {
-        return new BaseTestSuite();
+        return new KernelBaseUtilityTestSuite();
     }
 
     /**
      * Constructor.
      */
-    protected BaseTestSuite() {
-        this(true, false);
+    public KernelBaseUtilityTestSuite() {
+        super();
+        addTestSuite(DateUtilityTest.class);
     }
-
-    /**
-     * Constructor.
-     *
-     * @param   withTest    Execute test methods.
-     * @param   withPest    Execute pest methods.
-     */
-    public BaseTestSuite(final boolean withTest, final boolean withPest) {
-        super(withTest, withPest);
-        addTest(KernelBaseIoTestSuite.suite());
-    }
-
 }
