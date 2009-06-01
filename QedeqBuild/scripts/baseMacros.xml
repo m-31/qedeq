@@ -158,6 +158,7 @@
             <compile     name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
             <testCompile name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
             <utest       name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
+            <!-- html report -->
             <clover-report>
                 <current outfile="@{dir}/target/reports/clover/report">
                     <format type="html" />
@@ -167,6 +168,18 @@
                    </testsources>        
                 </current>
             </clover-report>
+
+            <!-- xml report -->
+            <clover-report>
+                <current outfile="@{dir}/target/reports/clover/data/clover_eport_@{name}.xml">
+                    <format type="xml" />
+                    <testsources dir="@{dir}/src/test/java">
+                        <include name="**/*.java"/>
+                        <exclude name="**/*Suite.java"/>
+                   </testsources>        
+                </current>
+            </clover-report>
+
             <!-- put things right again, get rid of instrumentation -->   
             <clover-setup initstring="@{dir}/target/reports/clover/data/clover.db" enabled="false" />  
             <delete dir="@{dir}/target/classes" />   
