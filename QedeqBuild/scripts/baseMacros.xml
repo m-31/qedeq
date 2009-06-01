@@ -171,7 +171,7 @@
 
             <!-- xml report -->
             <clover-report>
-                <current outfile="@{dir}/target/reports/clover/data/clover_eport_@{name}.xml">
+                <current outfile="@{dir}/target/reports/clover/data/clover.xml">
                     <format type="xml" />
                     <testsources dir="@{dir}/src/test/java">
                         <include name="**/*.java"/>
