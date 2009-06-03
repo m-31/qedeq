@@ -20,6 +20,7 @@ package org.qedeq.kernel.xml.test;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
+import org.qedeq.kernel.xml.common.XmlSyntaxExceptionTest;
 import org.qedeq.kernel.xml.dao.GenerateXmlTest;
 import org.qedeq.kernel.xml.parser.QedeqParserTest;
 import org.qedeq.kernel.xml.schema.SchemaTest;
@@ -60,6 +61,7 @@ public class KernelXmlTestSuite extends QedeqTestSuite {
         addTestSuite(GenerateXmlTest.class);
         addTestSuite(QedeqParserTest.class);
         addTestSuite(SchemaTest.class);
+        addTestSuite(XmlSyntaxExceptionTest.class);
         addTest(KernelXmlTrackerTestSuite.suite());
     }
 
