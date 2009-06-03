@@ -34,13 +34,40 @@ public class XmlSyntaxExceptionTest extends QedeqTestCase {
     }
 
     /**
-     * Test constructors.
+     * Test creator.
      *
      * @throws  Exception   Something bad happened.
      */
-    public void testConstructor() throws Exception {
+    public void testCreator() throws Exception {
+        XmlSyntaxException xse = XmlSyntaxException.createUnexpectedTagException("blueBerry");
+        assertNull(xse.getCause());
+        assertEquals(XmlSyntaxException.UNEXPECTED_TAG_CODE, xse.getErrorCode());
+        RuntimeException re = new NullPointerException();
+        xse = XmlSyntaxException.createByRuntimeException(re);
+        assertEquals(XmlSyntaxException.PROGRAMMING_ERROR_CODE, xse.getErrorCode());
+        assertEquals(re, xse.getCause());
+        xse = XmlSyntaxException.createEmptyAttributeException("TAGGG", "Attribute");
+        assertEquals(XmlSyntaxException.EMPTY_ATTRIBUTE_CODE, xse.getErrorCode());
+        assertNull(xse.getCause());
+        xse = XmlSyntaxException.createMissingAttributeException("TAAAG", "attribuTE");
+        assertEquals(XmlSyntaxException.MISSING_ATTRIBUTE_CODE, xse.getErrorCode());
+        assertNull(xse.getCause());
+        xse = XmlSyntaxException.createUnexpectedTextDataException("tag", "ATTRIBUTE");
+        assertEquals(XmlSyntaxException.UNEXPECTED_DATA_CODE, xse.getErrorCode());
+        assertNull(xse.getCause());
+    }
+    
+    /**
+     * Test creator.
+     *
+     * @throws  Exception   Something bad happened.
+     */
+    public void testGetter() throws Exception {
         XmlSyntaxException xse = XmlSyntaxException.createUnexpectedTagException("blueBerry");
         assertNull(xse.getCause());
         assertEquals(XmlSyntaxException.UNEXPECTED_TAG_CODE, xse.getErrorCode());
     }
+    
+    
+    
 }
