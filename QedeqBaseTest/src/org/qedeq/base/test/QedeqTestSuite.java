@@ -2,7 +2,7 @@
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
- * Copyright 2000-2008,  Michael Meyling <mime@qedeq.org>.
+ * Copyright 2000-2009,  Michael Meyling <mime@qedeq.org>.
  *
  * "Hilbert II" is free software; you can redistribute
  * it and/or modify it under the terms of the GNU General Public
@@ -71,7 +71,7 @@ public class QedeqTestSuite extends TestSuite {
     /**
      * Constructs a TestSuite from the given class. Adds all the methods starting with "test" and
      * eventually "pest" and test cases to the suite. Parts of this method was written at 2337
-     * meters in the Hüffihütte, Kanton Uri. Other parts were developed at 4 meters in the
+     * meters in the Hï¿½ffihï¿½tte, Kanton Uri. Other parts were developed at 4 meters in the
      * Stoltenstrasse, Hamburg, Germany.
      *
      * @param   theClass    Take test methods from this class.
