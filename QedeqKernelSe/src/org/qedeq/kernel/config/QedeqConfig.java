@@ -274,6 +274,42 @@ public class QedeqConfig {
     }
 
     /**
+     * Get connection timeout, especially for TCP/IP connections.
+     *
+     * @return  Connection timeout (in milliseconds).
+     */
+    public int getConnectTimeout() {
+        return getKeyValue("connectionTimeout", 2000);
+    }
+
+    /**
+     * Set connection timeout, especially for TCP/IP connections.
+     *
+     * @param   timeout Connection timeout, especially for TCP/IP connections. In milliseconds. 
+     */
+    public final void setConnectTimeout(final int timeout) {
+        setKeyValue("connectionTimeout", timeout);
+    }
+
+    /**
+     * Get read timeout, especially for TCP/IP connections.
+     *
+     * @return  Read timeout (in milliseconds).
+     */
+    public int getReadTimeout() {
+        return getKeyValue("readTimeout", 1000);
+    }
+
+    /**
+     * Set read timeout, especially for TCP/IP connections.
+     *
+     * @param   timeout Read timeout, especially for TCP/IP connections. In milliseconds. 
+     */
+    public final void setReadTimeout(final int timeout) {
+        setKeyValue("readTimeout", timeout);
+    }
+
+    /**
      * Get value for given key.
      *
      * @param   key     Get value for this key.
@@ -303,6 +339,28 @@ public class QedeqConfig {
      */
     protected void setKeyValue(final String key, final String value) {
         configAccess.setString(key, value);
+    }
+
+    /**
+     * Get value for given key.
+     *
+     * @param   key             Get value for this key.
+     * @param   defaultValue    Default value..
+     * @return  Value. If value for key is originally <code>null</code> <code>defaultValue</code>
+     *          is returned..
+     */
+    protected int getKeyValue(final String key, final int defaultValue) {
+        return configAccess.getInteger(key, defaultValue);
+    }
+
+    /**
+     * Set value for given key.
+     *
+     * @param   key     For this key.
+     * @param   value   Set this value.
+     */
+    protected void setKeyValue(final String key, final int value) {
+        configAccess.setInteger(key, value);
     }
 
 }
