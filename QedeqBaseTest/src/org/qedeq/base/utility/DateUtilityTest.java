@@ -2,7 +2,7 @@
  *
  * This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
- * Copyright 2000-2008,  Michael Meyling <mime@qedeq.org>.
+ * Copyright 2000-2009,  Michael Meyling <mime@qedeq.org>.
  *
  * "Hilbert II" is free software; you can redistribute
  * it and/or modify it under the terms of the GNU General Public
@@ -60,6 +60,39 @@ public class DateUtilityTest extends QedeqTestCase {
             * 1000));
         assertEquals("23:00:59.999", DateUtility.getDuration(1000 * 60 * 60 * 24 - 1 - 60 * 60
             * 1000 + 60 * 1000));
+    }
+    
+    public void testGetIsoTimestamp() throws Exception {
+        final String ts = DateUtility.getIsoTimestamp();
+        assertEquals("2009-06-07T02:10:12.000".length(), ts.length());
+        assertEquals("-", ts.substring(4, 5));
+        assertEquals("-", ts.substring(7, 8));
+        assertEquals("T", ts.substring(10, 11));
+        assertEquals(":", ts.substring(13, 14));
+        assertEquals(":", ts.substring(16, 17));
+        assertEquals(".", ts.substring(19, 20));
+    }
+
+    public void testGmtTimestamp() throws Exception {
+        final String ts = DateUtility.getGmtTimestamp();
+        assertEquals("2009-06-07 02:10:12.000".length(), ts.length());
+        assertEquals("-", ts.substring(4, 5));
+        assertEquals("-", ts.substring(7, 8));
+        assertEquals(" ", ts.substring(10, 11));
+        assertEquals(":", ts.substring(13, 14));
+        assertEquals(":", ts.substring(16, 17));
+        assertEquals(".", ts.substring(19, 20));
+    }
+
+    public void testTimestamp() throws Exception {
+        final String ts = DateUtility.getTimestamp();
+        assertEquals("2009-06-07 02:10:12.000".length(), ts.length());
+        assertEquals("-", ts.substring(4, 5));
+        assertEquals("-", ts.substring(7, 8));
+        assertEquals(" ", ts.substring(10, 11));
+        assertEquals(":", ts.substring(13, 14));
+        assertEquals(":", ts.substring(16, 17));
+        assertEquals(".", ts.substring(19, 20));
     }
 
 }
