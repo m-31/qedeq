@@ -549,13 +549,17 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
             if (connection instanceof HttpURLConnection) {
                 final HttpURLConnection httpConnection = (HttpURLConnection) connection;
+                httpConnection.setConnectTimeout(kernel.getConfig().getConnectTimeout());
+                httpConnection.setReadTimeout(kernel.getConfig().getReadTimeout());
                 int responseCode = httpConnection.getResponseCode();
                 if (responseCode == 200) {
                     in = httpConnection.getInputStream();
                 } else {
-                    in = httpConnection.getErrorStream(); // FIXME do something with this stream?
-                    throw new IOException("Response code from HTTP server was " + responseCode);
-                    // FIXME give more explanation over response codes
+                    in = httpConnection.getErrorStream();
+                    final String errorText = IoUtility.loadStreamWithoutException(in, 1000);
+                    throw new IOException("Response code from HTTP server was " + responseCode
+                        + (errorText.length() > 0 ? "\nResponse  text from HTTP server was:\n"
+                        + errorText : ""));
                 }
             } else {
                 Trace.paramInfo(CLASS, this, method, "connection.getClass", connection.getClass()
