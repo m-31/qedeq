@@ -151,6 +151,35 @@ public final class IoUtility {
     }
 
     /**
+     * Returns contents of a stream 1into a string buffer, respecting a maximum length.
+     * No exceptions are thrown. 
+     *
+     * @param   in          This stream will be loaded.
+     * @param   maxLength   This length is not exceeded.
+     * @return  readData    Data read, is not <code>null</code>.
+     */
+    public static String loadStreamWithoutException(final InputStream in, final int maxLength) {
+
+        if (in == null) {
+            return "";
+        }
+        final StringBuffer buffer = new StringBuffer();
+        buffer.setLength(0);
+        try {
+            int counter = 0;
+            int c;
+            while (counter++ < maxLength && (c = in.read()) >= 0) {
+                buffer.append((char) c);
+            }
+        } catch (IOException e) {
+            // ignored
+        } catch (RuntimeException e) {
+            // ignored
+        }
+        return buffer.toString();
+    }
+
+    /**
      * Reads contents of a {@link Reader} into a string buffer.
      *
      * @param   in          This reader will be loaded.
