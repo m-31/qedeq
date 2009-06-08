@@ -62,17 +62,979 @@ public class TraceTest extends QedeqTestCase {
             new PatternLayout(PatternLayout.TTCC_CONVERSION_PATTERN), out));
     }
 
-    public void testTrace() throws Exception {
-        Trace.fatal(this.getClass(), "methodToLog", "##My Description##",
+    public void testFatal() throws Exception {
+        Trace.fatal(this.getClass(), this, "methodToLog", "##My Description##",
             new NullPointerException());
-        final String result = out.toString();
+        String result = out.toString();
         assertTrue(result.contains("methodToLog"));
-        assertTrue(result.contains("testTrace"));
+        assertTrue(result.contains("testFatal"));
+        assertTrue(result.contains("##My Description##"));
+        assertTrue(result.contains("FATAL"));
+        assertTrue(result.contains("NullPointerException"));
+        assertTrue(result.contains(this.getClass().getName()));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.fatal(this.getClass(), this, "methodToLog", "##My Description##",
+            new NullPointerException());
+        result = out.toString();
+        assertTrue(result.contains("methodToLog"));
+        assertTrue(result.contains("testFatal"));
         assertTrue(result.contains("##My Description##"));
         assertTrue(result.contains("FATAL"));
         assertTrue(result.contains("NullPointerException"));
         assertTrue(result.contains(this.getClass().getName()));
     }
     
+    public void testFatal2() throws Exception {
+        Trace.fatal(this.getClass(), "methodToLog", "##My Description##",
+            new NullPointerException());
+        String result = out.toString();
+        assertTrue(result.contains("methodToLog"));
+        assertTrue(result.contains("testFatal"));
+        assertTrue(result.contains("##My Description##"));
+        assertTrue(result.contains("FATAL"));
+        assertTrue(result.contains("NullPointerException"));
+        assertTrue(result.contains(this.getClass().getName()));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.fatal(this.getClass(), "methodToLog", "##My Description##",
+            new NullPointerException());
+        result = out.toString();
+        assertTrue(result.contains("methodToLog"));
+        assertTrue(result.contains("testFatal"));
+        assertTrue(result.contains("##My Description##"));
+        assertTrue(result.contains("FATAL"));
+        assertTrue(result.contains("NullPointerException"));
+        assertTrue(result.contains(this.getClass().getName()));
+    }
+    
+    public void testInfo() throws Exception {
+        Trace.info(this.getClass(), this, "testInfo",
+            "*Super Info*");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testInfo"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("*Super Info"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.info(this.getClass(), this, "testInfo",
+            "*Super Info*");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.info(this.getClass(), this, "testInfo",
+            "*Super Info*");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testInfo"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("*Super Info"));
+    }
 
+    public void testInfo2() throws Exception {
+        Trace.info(this.getClass(), "testInfo",
+            "*Super Info*");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testInfo"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("*Super Info*"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.info(this.getClass(), "testInfo",
+            "*Super Info*");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.info(this.getClass(), "testInfo",
+            "*Super Info*");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testInfo"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("*Super Info*"));
+    }
+
+    public void testBegin() throws Exception {
+        Trace.begin(this.getClass(), this, "testBegin");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testBegin"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("begin"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.begin(this.getClass(), this, "testBegin");
+        result = out.toString();
+        rootLogger.setLevel(Level.ERROR);
+        Trace.begin(this.getClass(), this, "testBegin");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.begin(this.getClass(), this, "testBegin");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.begin(this.getClass(), this, "testBegin");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.begin(this.getClass(), this, "testBegin");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testBegin"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("begin"));
+    }
+
+    public void testBegin2() throws Exception {
+        Trace.begin(this.getClass(), "testBegin");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testBegin"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("begin"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.begin(this.getClass(), "testBegin");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.begin(this.getClass(), "testBegin");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.begin(this.getClass(), "testBegin");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.begin(this.getClass(), "testBegin");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testBegin"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("begin"));
+    }
+
+    public void testEnd() throws Exception {
+        Trace.end(this.getClass(), this, "testEnd");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testEnd"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("end"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.end(this.getClass(), this, "testEnd");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.end(this.getClass(), this, "testEnd");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.end(this.getClass(), this, "testEnd");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.end(this.getClass(), this, "testEnd");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testEnd"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("end"));
+    }
+
+    public void testEnd2() throws Exception {
+        Trace.end(this.getClass(), "testEnd");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testEnd"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("end"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.end(this.getClass(), "testEnd");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.end(this.getClass(), "testEnd");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.end(this.getClass(), "testEnd");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.end(this.getClass(), "testEnd");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testEnd"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("end"));
+    }
+
+    public void testParamString() throws Exception {
+        Trace.param(this.getClass(), this, "testParamString", "param", "6868");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamString"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.param(this.getClass(), this, "testParamString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.param(this.getClass(), this, "testParamString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.param(this.getClass(), this, "testParamString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.param(this.getClass(), this, "testParamString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamString"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+    }
+
+    public void testParamString2() throws Exception {
+        Trace.param(this.getClass(), "testParamString", "param", "6868");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamString"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.param(this.getClass(), "testParamString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.param(this.getClass(), "testParamString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.param(this.getClass(), "testParamString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.param(this.getClass(), "testParamString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamString"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+    }
+
+    public void testParamInt() throws Exception {
+        Trace.param(this.getClass(), this, "testParamInt", "param", 6868);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInt"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.param(this.getClass(), this, "testParamInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.param(this.getClass(), this, "testParamInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.param(this.getClass(), this, "testParamInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.param(this.getClass(), this, "testParamInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInt"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+    }
+
+    public void testParamInt2() throws Exception {
+        Trace.param(this.getClass(), "testParamInt", "param", 6868);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInt"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.param(this.getClass(), "testParamInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.param(this.getClass(), "testParamInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.param(this.getClass(), "testParamInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.param(this.getClass(), "testParamInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInt"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+    }
+
+    public void testParamBoolean() throws Exception {
+        Trace.param(this.getClass(), this, "testParamBoolean", "param", true);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamBoolean"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("true"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.param(this.getClass(), this, "testParamBoolean", "param", true);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.param(this.getClass(), this, "testParamBoolean", "param", false);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.param(this.getClass(), this, "testParamBoolean", "param", true);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.param(this.getClass(), this, "testParamBoolean", "param", false);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamBoolean"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("false"));
+    }
+
+    public void testParamBoolean2() throws Exception {
+        Trace.param(this.getClass(), "testParamBoolean", "param", true);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamBoolean"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("true"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.param(this.getClass(), "testParamBoolean", "param", true);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.param(this.getClass(), "testParamBoolean", "param", false);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.param(this.getClass(), "testParamBoolean", "param", true);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.param(this.getClass(), "testParamBoolean", "param", false);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamBoolean"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("false"));
+    }
+
+    public void testParamObject() throws Exception {
+        Object object = new Long("123456789");
+        Trace.param(this.getClass(), this, "testParamObject", "param", object);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamObject"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("123456789"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.param(this.getClass(), this, "testParamObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.param(this.getClass(), this, "testParamObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.param(this.getClass(), this, "testParamObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.param(this.getClass(), this, "testParamObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamObject"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("123456789"));
+    }
+
+    public void testParamObject2() throws Exception {
+        Object object = new Long("9876543210");
+        Trace.param(this.getClass(), "testParamObject", "param", object);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamObject"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("9876543210"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.param(this.getClass(), "testParamObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.param(this.getClass(), "testParamObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.param(this.getClass(), "testParamObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.param(this.getClass(), "testParamObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamObject"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("9876543210"));
+    }
+
+    public void testParamInfoString() throws Exception {
+        Trace.paramInfo(this.getClass(), this, "testParamInfoString", "param", "6868");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoString"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoString"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+    }
+
+    public void testParamInfoString2() throws Exception {
+        Trace.paramInfo(this.getClass(), "testParamInfoString", "param", "6868");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoString"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.paramInfo(this.getClass(), "testParamInfoString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.paramInfo(this.getClass(), "testParamInfoString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.paramInfo(this.getClass(), "testParamInfoString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.paramInfo(this.getClass(), "testParamInfoString", "param", "6868");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoString"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+    }
+
+    public void testParamInfoInt() throws Exception {
+        Trace.paramInfo(this.getClass(), this, "testParamInfoInt", "param", 6868);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoInt"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoInt"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+    }
+
+    public void testParamInfoInt2() throws Exception {
+        Trace.paramInfo(this.getClass(), "testParamInfoInt", "param", 6868);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoInt"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.paramInfo(this.getClass(), "testParamInfoInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.paramInfo(this.getClass(), "testParamInfoInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.paramInfo(this.getClass(), "testParamInfoInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.paramInfo(this.getClass(), "testParamInfoInt", "param", 6868);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoInt"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("6868"));
+    }
+
+    public void testParamInfoBoolean() throws Exception {
+        Trace.paramInfo(this.getClass(), this, "testParamInfoBoolean", "param", true);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoBoolean"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("true"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoBoolean", "param", true);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoBoolean", "param", false);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoBoolean", "param", true);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoBoolean", "param", false);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoBoolean"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("false"));
+    }
+
+    public void testParamInfoBoolean2() throws Exception {
+        Trace.paramInfo(this.getClass(), "testParamInfoBoolean", "param", true);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoBoolean"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("true"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.paramInfo(this.getClass(), "testParamInfoBoolean", "param", true);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.paramInfo(this.getClass(), "testParamInfoBoolean", "param", false);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.paramInfo(this.getClass(), "testParamInfoBoolean", "param", true);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.INFO);
+        Trace.paramInfo(this.getClass(), "testParamInfoBoolean", "param", false);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoBoolean"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("false"));
+    }
+
+    public void testParamInfoObject() throws Exception {
+        Object object = new Long("123456789");
+        Trace.paramInfo(this.getClass(), this, "testParamInfoObject", "param", object);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoObject"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("123456789"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.paramInfo(this.getClass(), this, "testParamInfoObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoObject"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("123456789"));
+    }
+
+    public void testParamInfoObject2() throws Exception {
+        Object object = new Long("9876543210");
+        Trace.paramInfo(this.getClass(), "testParamInfoObject", "param", object);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoObject"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("9876543210"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.paramInfo(this.getClass(), "testParamInfoObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.paramInfo(this.getClass(), "testParamInfoObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.paramInfo(this.getClass(), "testParamInfoObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.paramInfo(this.getClass(), "testParamInfoObject", "param", object);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testParamInfoObject"));
+        assertTrue(result.contains("INFO"));
+        assertTrue(result.contains("param"));
+        assertTrue(result.contains("9876543210"));
+    }
+
+    public void testTraceObject() throws Exception {
+        Object object = new Long("123456789");
+        Trace.trace(this.getClass(), this, "testTraceObject", object);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceObject"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("123456789"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.trace(this.getClass(), this, "testTraceObject", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.trace(this.getClass(), this, "testTraceObject", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.trace(this.getClass(), this, "testTraceObject", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.trace(this.getClass(), this, "testTraceObject", object);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceObject"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("123456789"));
+    }
+
+    public void testTraceObject2() throws Exception {
+        Object object = new Long("123456789");
+        Trace.trace(this.getClass(), "testTraceObject", object);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceObject"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("123456789"));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.trace(this.getClass(), "testTraceObject", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.trace(this.getClass(), "testTraceObject", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.trace(this.getClass(), "testTraceObject", object);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.trace(this.getClass(), "testTraceObject", object);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceObject"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("123456789"));
+    }
+
+    public void testTraceThrowable() throws Exception {
+        final Throwable throwable = new IllegalArgumentException("i am important");
+        Trace.trace(this.getClass(), this, "testTraceThrowable", "bad situation", throwable);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceThrowable"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("bad situation"));
+        assertTrue(result.contains(throwable.toString()));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.trace(this.getClass(), this, "testTraceThrowable", "bad situation", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.trace(this.getClass(), this, "testTraceThrowable", "bad situation", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.trace(this.getClass(), this, "testTraceThrowable", "bad situation", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.trace(this.getClass(), this, "testTraceThrowable", "bad situation", throwable);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceThrowable"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("bad situation"));
+        assertTrue(result.contains(throwable.toString()));
+    }
+    
+    public void testTraceThrowable2() throws Exception {
+        final Throwable throwable = new IllegalArgumentException("i am important");
+        Trace.trace(this.getClass(), "testTraceThrowable", "bad situation", throwable);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceThrowable"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("bad situation"));
+        assertTrue(result.contains(throwable.toString()));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.trace(this.getClass(), "testTraceThrowable", "bad situation", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.trace(this.getClass(), "testTraceThrowable", "bad situation", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.trace(this.getClass(), "testTraceThrowable", "bad situation", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.trace(this.getClass(), "testTraceThrowable", "bad situation", throwable);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceThrowable"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains("bad situation"));
+        assertTrue(result.contains(throwable.toString()));
+    }
+    
 }
