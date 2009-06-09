@@ -17,12 +17,10 @@
 
 package org.qedeq.base.utility;
 
-import java.io.File;
-
 import org.qedeq.base.test.QedeqTestCase;
 
 /**
- * Test {@link org.qedeq.kernel.utility.TextInput}.
+ * Test {@link DateUtility}.
  * 
  * @version $Revision: 1.1 $
  * @author Michael Meyling
