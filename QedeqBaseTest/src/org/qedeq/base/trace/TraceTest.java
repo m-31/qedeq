@@ -18,10 +18,8 @@
 package org.qedeq.base.trace;
 
 import java.io.ByteArrayOutputStream;
-import java.util.Enumeration;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PatternLayout;
 import org.apache.log4j.WriterAppender;
@@ -1035,6 +1033,154 @@ public class TraceTest extends QedeqTestCase {
         assertTrue(result.contains("DEBUG"));
         assertTrue(result.contains("bad situation"));
         assertTrue(result.contains(throwable.toString()));
+    }
+    
+    public void testTraceThrowable3() throws Exception {
+        final Throwable throwable = new IllegalArgumentException("i am important");
+        Trace.trace(this.getClass(), this, "testTraceThrowable", throwable);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceThrowable"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains(throwable.toString()));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.trace(this.getClass(), this, "testTraceThrowable", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.trace(this.getClass(), this, "testTraceThrowable", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.trace(this.getClass(), this, "testTraceThrowable", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.trace(this.getClass(), this, "testTraceThrowable", throwable);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceThrowable"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains(throwable.toString()));
+    }
+    
+    public void testTraceThrowable4() throws Exception {
+        final Throwable throwable = new IllegalArgumentException("i am important");
+        Trace.trace(this.getClass(), "testTraceThrowable", throwable);
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceThrowable"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains(throwable.toString()));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.trace(this.getClass(), "testTraceThrowable", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.trace(this.getClass(), "testTraceThrowable", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.trace(this.getClass(), "testTraceThrowable", throwable);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.trace(this.getClass(), "testTraceThrowable", throwable);
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceThrowable"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains(throwable.toString()));
+    }
+    
+    public void testTraceStack() throws Exception {
+        final Throwable throwable = new IllegalArgumentException("i am important");
+        String stack = "";
+        for (int i = 1; i < throwable.getStackTrace().length; i++) {
+            stack += "\n\tat " + throwable.getStackTrace()[i]; 
+        }
+        Trace.traceStack(this.getClass(), this, "testTraceStack");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceStack"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains(stack));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.traceStack(this.getClass(), this, "testTraceStack");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.traceStack(this.getClass(), this, "testTraceStack");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.traceStack(this.getClass(), this, "testTraceStack");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.traceStack(this.getClass(), this, "testTraceStack");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceStack"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains(stack));
+    }
+    
+    public void testTraceStack2() throws Exception {
+        final Throwable throwable = new IllegalArgumentException("i am important");
+        String stack = "";
+        for (int i = 1; i < throwable.getStackTrace().length; i++) {
+            stack += "\n\tat " + throwable.getStackTrace()[i]; 
+        }
+        Trace.traceStack(this.getClass(), "testTraceStack");
+        String result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceStack"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains(stack));
+        out.reset();
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.FATAL);
+        Trace.traceStack(this.getClass(), "testTraceStack");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        Trace.traceStack(this.getClass(), "testTraceStack");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.ERROR);
+        Trace.traceStack(this.getClass(), "testTraceStack");
+        result = out.toString();
+        assertTrue(result.length() == 0);
+        rootLogger.setLevel(Level.DEBUG);
+        Trace.traceStack(this.getClass(), "testTraceStack");
+        result = out.toString();
+        assertTrue(result.length() > 0);
+        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.contains("testTraceStack"));
+        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.contains(stack));
     }
     
 }
