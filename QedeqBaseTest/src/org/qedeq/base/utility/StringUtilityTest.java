@@ -17,8 +17,6 @@
 
 package org.qedeq.base.utility;
 
-import java.io.File;
-
 import org.qedeq.base.test.QedeqTestCase;
 
 /**
@@ -104,6 +102,75 @@ public class StringUtilityTest extends QedeqTestCase {
         buffer.append(expected);
         StringUtility.replace(buffer, search, replacement);
         assertEquals(expected, buffer.toString());
+    }
+
+    /**
+     * Test {@link StringUtility#quote(String)}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testQuote() throws Exception {
+        assertEquals("\"\"", StringUtility.quote(""));
+        assertEquals("\"\"\"\"", StringUtility.quote("\""));
+        assertEquals("\"a\"", StringUtility.quote("a"));
+        assertEquals("\"\"\"a\"\"\"", StringUtility.quote("\"a\""));
+        assertEquals("\"b\"\"a\"\"c\"", StringUtility.quote("b\"a\"c"));
+        try {
+            StringUtility.quote(null);
+            fail("NullPointerException expected");
+        } catch (NullPointerException e) {
+            // expected
+        }
+    }
+    
+    /**
+     * Test {@link StringUtility#isLetterDigitString(String)}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testIsLetterDigitString() throws Exception {
+        assertFalse(StringUtility.isLetterDigitString(""));
+        assertTrue(StringUtility.isLetterDigitString("a"));
+        assertFalse(StringUtility.isLetterDigitString("1a"));
+        assertTrue(StringUtility.isLetterDigitString("a1"));
+        assertFalse(StringUtility.isLetterDigitString(" 1"));
+        assertFalse(StringUtility.isLetterDigitString("a 1"));
+        assertTrue(StringUtility.isLetterDigitString("AllOneTwo3"));
+        assertTrue(StringUtility.isLetterDigitString("Z111111999999999"));
+        assertFalse(StringUtility.isLetterDigitString("$A111111999999999"));
+        try {
+            StringUtility.isLetterDigitString(null);
+            fail("NullPointerException expected");
+        } catch (NullPointerException e) {
+            // expected
+        }
+    }
+    
+    /**
+     * Test {@link StringUtility#getSpaces(int))}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testGetSpaces() throws Exception {
+        eq("", StringUtility.getSpaces(0));
+        eq(" ", StringUtility.getSpaces(1));
+        eq("  ", StringUtility.getSpaces(2));
+        eq("   ", StringUtility.getSpaces(3));
+        eq("    ", StringUtility.getSpaces(4));
+        eq("     ", StringUtility.getSpaces(5));
+        eq("      ", StringUtility.getSpaces(6));
+        eq("       ", StringUtility.getSpaces(7));
+        eq("        ", StringUtility.getSpaces(8));
+        eq("         ", StringUtility.getSpaces(9));
+        eq("                                                                                ", 
+            StringUtility.getSpaces(80));
+        eq("", StringUtility.getSpaces(-1));
+        eq("", StringUtility.getSpaces(-999999));
+    }
+    
+    public void eq(String expected, StringBuffer spaces) throws Exception {
+        assertEquals(expected.length(), spaces.length());
+        assertEquals(expected, spaces.toString());
     }
     
 }
