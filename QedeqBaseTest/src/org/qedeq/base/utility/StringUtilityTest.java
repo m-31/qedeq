@@ -49,7 +49,61 @@ public class StringUtilityTest extends QedeqTestCase {
      * @throws Exception
      */
     public void testReplace() throws Exception {
+        assertEquals("", StringUtility.replace("", "12345", "89"));
+        assertEquals("", StringUtility.replace((String) null, "12345", "89"));
+        assertEquals("", StringUtility.replace((String) null, null, null));
+        assertEquals("", StringUtility.replace("", null, "89"));
+        assertEquals("", StringUtility.replace("", "2", null));
+        assertEquals("", StringUtility.replace("", "", null));
+        assertEquals("", StringUtility.replace("", "", ""));
+        assertEquals("", StringUtility.replace("", null, ""));
+        assertEquals("", StringUtility.replace((String) null, "", ""));
         assertEquals("13", StringUtility.replace("12", "2", "3"));
+        assertEquals("1", StringUtility.replace("12", "2", null));
+        assertEquals("12", StringUtility.replace("12", "", "7"));
+        assertEquals("12", StringUtility.replace("12", null, "7"));
+        assertEquals("145", StringUtility.replace("12345", "23", null));
+        assertEquals("12345", StringUtility.replace("12345", "23", "23"));
+        assertEquals("12AA12AA12", StringUtility.replace("12012012", "0", "AA"));
+        assertEquals("AA12AA12AA12AA", StringUtility.replace("0120120120", "0", "AA"));
+        assertEquals("AA12ABA12AA12AA", StringUtility.replace("012ABA120120", "0", "AA"));
+    }
+    
+    /**
+     * Test replace(String, String, String).
+     * 
+     * @throws Exception
+     */
+    public void testReplaceStringBuffer() throws Exception {
+        StringBuffer buffer = new StringBuffer();
+        doReplace(buffer, "", "", "12345", "89");
+        doReplace(buffer, "", "", null, null);
+        doReplace(buffer, "", "", null, "89");
+        doReplace(buffer, "", "", "2", null);
+        doReplace(buffer, "", "", "", null);
+        doReplace(buffer, "", "", "", "");
+        doReplace(buffer, "13", "12", "2", "3");
+        doReplace(buffer, "1", "12", "2", null);
+        doReplace(buffer, "12", "12", "", "7");
+        doReplace(buffer, "12", "12", null, "7");
+        doReplace(buffer, "145", "12345", "23", null);
+        doReplace(buffer, "12345", "12345", "23", "23");
+        doReplace(buffer, "12AA12AA12", "12012012", "0", "AA");
+        doReplace(buffer, "AA12AA12AA12AA", "0120120120", "0", "AA");
+        doReplace(buffer, "AA12ABA12AA12AA", "012ABA120120", "0", "AA");
+        try {
+            doReplace(null, "AA12ABA12AA12AA", "012ABA120120", "0", "AA");
+            fail("NullPointerException expected");
+        } catch (NullPointerException e) {
+            // expected;
+        }
+    }
+
+    private void doReplace(StringBuffer buffer, String expected, String text, String search, String replacement) {
+        buffer.setLength(0);
+        buffer.append(expected);
+        StringUtility.replace(buffer, search, replacement);
+        assertEquals(expected, buffer.toString());
     }
     
 }

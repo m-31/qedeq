@@ -51,24 +51,27 @@ public final class StringUtility {
      * Replaces all occurrences of <code>search</code> in <code>text</code>
      * by <code>replace</code> and returns the result.
      *
-     * @param   text    text to work on
-     * @param   search  replace this text by <code>replace</code>
-     * @param   replace replacement for <code>search</code>
-     * @return  resulting string
+     * @param   text    text to work on, can be <code>null</code>
+     * @param   search  replace this text by <code>replace</code>, can be <code>null</code>
+     * @param   replace replacement for <code>search</code>, can be <code>null</code>
+     * @return  resulting string (is never <code>null</code>)
      */
     public static String replace(final String text,
             final String search, final String replace) {
 
-        final int len = search.length();
+        if (text == null) {
+            return "";
+        }
+        final int len = search != null ? search.length() : 0;
         if (len == 0) {
-            return text;
+            return text != null ? text : "";
         }
         final StringBuffer result = new StringBuffer();
         int pos1 = 0;
         int pos2;
         while (0 <= (pos2 = text.indexOf(search, pos1))) {
             result.append(text.substring(pos1, pos2));
-            result.append(replace);
+            result.append(replace != null ? replace : "");
             pos1 = pos2 + len;
         }
         if (pos1 < text.length()) {
@@ -82,25 +85,24 @@ public final class StringUtility {
      * Replaces all occurrences of <code>search</code> in <code>text</code>
      * by <code>replace</code> and returns the result.
      *
-     * @param   text    text to work on
-     * @param   search  replace this text by <code>replace</code>
-     * @param   replace replacement for <code>search</code>
+     * @param   text    Text to work on. Must not be <code>null</code>.
+     * @param   search  replace this text by <code>replace</code>. Can be <code>null</code>.
+     * @param   replace replacement for <code>search</code>. Can be <code>null</code>.
+     * @throws  NullPointerException    <code>text</code> is <code>null</code>.
      */
     public static void replace(final StringBuffer text,
             final String search, final String replace) {
-
-        final String result = replace(text.toString(), search, replace);
-        text.setLength(0);
-        text.append(result);
-// LATER mime 20050205: check if the above could be replaced with:
-/*
-        final StringBuffer result = new StringBuffer();
+        if (search == null || search.length() <= 0) {
+            return;
+        }
+        final StringBuffer result = new StringBuffer(text.length() + 16);
         int pos1 = 0;
         int pos2;
         final int len = search.length();
         while (0 <= (pos2 = text.indexOf(search, pos1))) {
+            System.out.println(pos1 + ", " + pos2);
             result.append(text.substring(pos1, pos2));
-            result.append(replace);
+            result.append(replace != null ? replace : "");
             pos1 = pos2 + len;
         }
         if (pos1 < text.length()) {
@@ -108,7 +110,13 @@ public final class StringUtility {
         }
         text.setLength(0);
         text.append(result);
-  */
+
+// TODO mime 20090610 old working code, remove if above fully testeds
+/*
+        final String result = replace(text.toString(), search, replace);
+        text.setLength(0);
+        text.append(result);
+*/
       }
 
     /**
