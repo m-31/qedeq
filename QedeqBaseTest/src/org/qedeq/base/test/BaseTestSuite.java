@@ -21,6 +21,7 @@ import junit.framework.Test;
 
 import org.qedeq.base.io.KernelBaseIoTestSuite;
 import org.qedeq.base.trace.TraceTest;
+import org.qedeq.base.utility.KernelBaseUtilityTestSuite;
 
 /**
  * Run all tests for the project.
@@ -55,6 +56,7 @@ public class BaseTestSuite extends QedeqTestSuite {
     public BaseTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
         addTest(KernelBaseIoTestSuite.suite());
+        addTest(KernelBaseUtilityTestSuite.suite());
         addTestSuite(TraceTest.class);
     }
 
