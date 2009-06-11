@@ -218,9 +218,11 @@ public class SaxDefaultHandler extends SimpleHandler {
     private void sendCharacters() {
         try  {
             if (buffer.length() > 0) {
-                final String str = buffer.toString().trim();
+// FIXME mime 20090611 we removed trim here. OK? ... final String str = buffer.toString().trim();
+                final String str = buffer.toString();
                 buffer.setLength(0);
-                if (str.length() > 0) {
+// FIXME mime 20090611 her trim was added OK?
+                if (str.trim().length() > 0) {  // anything there beside whitespace?
                     currentHandler.characters(currentElementName, str);
                 }
             }
