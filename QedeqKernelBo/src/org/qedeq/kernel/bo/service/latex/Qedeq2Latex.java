@@ -310,7 +310,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                 printer.println(", ");
             }
             final Author author = authors.get(i);
-            printer.print(author.getName().getLatex());
+            printer.print(author.getName().getLatex().trim());
 // TODO mime 20070206            if (author.getEmail() != null)
         }
         printer.println();
@@ -976,7 +976,6 @@ public final class Qedeq2Latex extends ControlVisitor {
      */
     private String getLatex(final String text) {
         final StringBuffer buffer = new StringBuffer(text);
-        StringUtility.deleteLineLeadingWhitespace(buffer);
         StringUtility.replace(buffer, "\\", "\\textbackslash");
         StringUtility.replace(buffer, "$", "\\$");
         StringUtility.replace(buffer, "&", "\\&");
@@ -994,6 +993,7 @@ public final class Qedeq2Latex extends ControlVisitor {
 
     /**
      * Get really LaTeX. Does some simple character replacements for umlauts.
+     * Also gets rid of leading spaces if they are equal among the lines.
      * LATER mime 20050205: filter more than German umlauts
      *
      * @param   nearlyLatex   Unescaped text.
@@ -1004,7 +1004,13 @@ public final class Qedeq2Latex extends ControlVisitor {
             return "";
         }
         final StringBuffer buffer = new StringBuffer(nearlyLatex);
+//        System.out.println("before");
+//        System.out.println(buffer);
+//        System.out.println();
+//        System.out.println("after");
         StringUtility.deleteLineLeadingWhitespace(buffer);
+//        System.out.println(buffer);
+//        System.out.println("*******************************************************************");
         StringUtility.replace(buffer, "\u00fc", "{\\\"u}");
         StringUtility.replace(buffer, "\u00f6", "{\\\"o}");
         StringUtility.replace(buffer, "\u00e4", "{\\\"a}");
@@ -1012,7 +1018,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         StringUtility.replace(buffer, "\u00d6", "{\\\"O}");
         StringUtility.replace(buffer, "\u00c4", "{\\\"A}");
         StringUtility.replace(buffer, "\u00df", "{\\ss}");
-        return buffer.toString();
+        return buffer.toString().trim();
     }
 
 }
