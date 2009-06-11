@@ -63,6 +63,17 @@ public final class Enumerator {
         number++;
     }
 
+    public final boolean equals(final Object object) {
+        if (object == null || !(object instanceof Enumerator)) {
+            return false;
+        }
+        return getNumber() == ((Enumerator) object).getNumber();
+    }
+
+    public final int hashCode() {
+        return number;
+    }
+
     /**
      * Return number in <code>String</code> format.
      *
