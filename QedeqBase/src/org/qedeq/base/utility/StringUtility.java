@@ -211,22 +211,27 @@ public final class StringUtility {
      * @param   buffer  Work on this text.
      */
     public static void deleteLineLeadingWhitespace(final StringBuffer buffer) {
-        int start = -1;
-        while (0 <= (start = buffer.indexOf("\n", start + 1))) {
-            if (start + 1 < buffer.length() && '\n' != buffer.charAt(start + 1)) {
+        int current = -1;
+        int lastLf = current;
+
+        // detect position of last line feed before content starts (lastLf)
+        while (current < buffer.length()) {
+            current++;
+            if (!Character.isWhitespace(buffer.charAt(current))) {
                 break;
             }
+            if ('\n' == buffer.charAt(current)) {
+                lastLf = current;
+            }
         }
-        if (start >= 0) {
-            int next = start + 1;
-            while (next < buffer.length() && Character.isWhitespace(buffer.charAt(next))
-                    && '\n' != buffer.charAt(next)) {
-                next++;
-            }
-            final String empty = buffer.substring(start, next);
-            if (empty.length() > 0) {
-                replace(buffer, empty, "\n");
-            }
+        // string from last whitespace line feed until first non whitespace
+        final String empty = buffer.substring(lastLf + 1, current);
+
+        // delete this string out of the text
+        if (empty.length() > 0) {
+//            System.out.println(string2Hex(empty));
+            buffer.delete(lastLf + 1 , current);    // delete first occurence
+            replace(buffer, "\n" + empty, "\n");    // delete same whitespace on all following lines
         }
     }
 
