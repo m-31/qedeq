@@ -27,15 +27,18 @@ import org.qedeq.base.test.QedeqTestCase;
 
 /**
  * Test {@link org.qedeq.kernel.utility.TextInput}.
- * 
+ *
  * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class TraceTest extends QedeqTestCase {
 
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    /** Where we write our logging to. */
+    private ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+    /** Log4J root logger. */
     private Logger rootLogger;
-    
+
     /*
      * @see TestCase#setUp()
      */
@@ -84,7 +87,7 @@ public class TraceTest extends QedeqTestCase {
         assertTrue(result.contains("NullPointerException"));
         assertTrue(result.contains(this.getClass().getName()));
     }
-    
+
     public void testFatal2() throws Exception {
         Trace.fatal(this.getClass(), "methodToLog", "##My Description##",
             new NullPointerException());
@@ -109,7 +112,7 @@ public class TraceTest extends QedeqTestCase {
         assertTrue(result.contains("NullPointerException"));
         assertTrue(result.contains(this.getClass().getName()));
     }
-    
+
     public void testInfo() throws Exception {
         Trace.info(this.getClass(), this, "testInfo",
             "*Super Info*");
@@ -997,7 +1000,7 @@ public class TraceTest extends QedeqTestCase {
         assertTrue(result.contains("bad situation"));
         assertTrue(result.contains(throwable.toString()));
     }
-    
+
     public void testTraceThrowable2() throws Exception {
         final Throwable throwable = new IllegalArgumentException("i am important");
         Trace.trace(this.getClass(), "testTraceThrowable", "bad situation", throwable);
@@ -1034,7 +1037,7 @@ public class TraceTest extends QedeqTestCase {
         assertTrue(result.contains("bad situation"));
         assertTrue(result.contains(throwable.toString()));
     }
-    
+
     public void testTraceThrowable3() throws Exception {
         final Throwable throwable = new IllegalArgumentException("i am important");
         Trace.trace(this.getClass(), this, "testTraceThrowable", throwable);
@@ -1069,7 +1072,7 @@ public class TraceTest extends QedeqTestCase {
         assertTrue(result.contains("DEBUG"));
         assertTrue(result.contains(throwable.toString()));
     }
-    
+
     public void testTraceThrowable4() throws Exception {
         final Throwable throwable = new IllegalArgumentException("i am important");
         Trace.trace(this.getClass(), "testTraceThrowable", throwable);
@@ -1104,12 +1107,12 @@ public class TraceTest extends QedeqTestCase {
         assertTrue(result.contains("DEBUG"));
         assertTrue(result.contains(throwable.toString()));
     }
-    
+
     public void testTraceStack() throws Exception {
         final Throwable throwable = new IllegalArgumentException("i am important");
         String stack = "";
         for (int i = 1; i < throwable.getStackTrace().length; i++) {
-            stack += "\n\tat " + throwable.getStackTrace()[i]; 
+            stack += System.getProperty("line.separator") + "\tat " + throwable.getStackTrace()[i];
         }
         Trace.traceStack(this.getClass(), this, "testTraceStack");
         String result = out.toString();
@@ -1117,6 +1120,8 @@ public class TraceTest extends QedeqTestCase {
         assertTrue(result.contains(this.getClass().getName()));
         assertTrue(result.contains("testTraceStack"));
         assertTrue(result.contains("DEBUG"));
+//        System.out.println("stack=\n" + stack);
+//        System.out.println("\nresult=\n" + result);
         assertTrue(result.contains(stack));
         out.reset();
         result = out.toString();
@@ -1143,12 +1148,12 @@ public class TraceTest extends QedeqTestCase {
         assertTrue(result.contains("DEBUG"));
         assertTrue(result.contains(stack));
     }
-    
+
     public void testTraceStack2() throws Exception {
         final Throwable throwable = new IllegalArgumentException("i am important");
         String stack = "";
         for (int i = 1; i < throwable.getStackTrace().length; i++) {
-            stack += "\n\tat " + throwable.getStackTrace()[i]; 
+            stack += System.getProperty("line.separator") + "\tat " + throwable.getStackTrace()[i];
         }
         Trace.traceStack(this.getClass(), "testTraceStack");
         String result = out.toString();
@@ -1182,5 +1187,5 @@ public class TraceTest extends QedeqTestCase {
         assertTrue(result.contains("DEBUG"));
         assertTrue(result.contains(stack));
     }
-    
+
 }
