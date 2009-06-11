@@ -45,5 +45,6 @@ public class KernelBaseUtilityTestSuite extends QedeqTestSuite {
         super();
         addTestSuite(DateUtilityTest.class);
         addTestSuite(StringUtilityTest.class);
+        addTestSuite(EnumeratorTest.class);
     }
 }
