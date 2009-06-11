@@ -17,11 +17,13 @@
 
 package org.qedeq.base.utility;
 
+import java.io.IOException;
+
 import org.qedeq.base.test.QedeqTestCase;
 
 /**
  * Test {@link StringUtility}.
- * 
+ *
  * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
@@ -43,7 +45,7 @@ public class StringUtilityTest extends QedeqTestCase {
 
     /**
      * Test replace(String, String, String).
-     * 
+     *
      * @throws Exception
      */
     public void testReplace() throws Exception {
@@ -56,6 +58,14 @@ public class StringUtilityTest extends QedeqTestCase {
         assertEquals("", StringUtility.replace("", "", ""));
         assertEquals("", StringUtility.replace("", null, ""));
         assertEquals("", StringUtility.replace((String) null, "", ""));
+        assertEquals("", StringUtility.replace("", "1", "1"));
+        assertEquals("", StringUtility.replace("", "12", "12"));
+        assertEquals("1", StringUtility.replace("1", "1", "1"));
+        assertEquals("12", StringUtility.replace("12", "12", "12"));
+        assertEquals("", StringUtility.replace("1", "1", ""));
+        assertEquals("", StringUtility.replace("12", "12", ""));
+        assertEquals("", StringUtility.replace("1", "1", null));
+        assertEquals("", StringUtility.replace("12", "12", null));
         assertEquals("13", StringUtility.replace("12", "2", "3"));
         assertEquals("1", StringUtility.replace("12", "2", null));
         assertEquals("12", StringUtility.replace("12", "", "7"));
@@ -65,11 +75,26 @@ public class StringUtilityTest extends QedeqTestCase {
         assertEquals("12AA12AA12", StringUtility.replace("12012012", "0", "AA"));
         assertEquals("AA12AA12AA12AA", StringUtility.replace("0120120120", "0", "AA"));
         assertEquals("AA12ABA12AA12AA", StringUtility.replace("012ABA120120", "0", "AA"));
+        assertEquals("012ABA120120", StringUtility.replace("012ABA120120", "", "AA"));
+        assertEquals("012ABA120120", StringUtility.replace("012ABA120120", null, "AA"));
+        assertEquals("012ABA120120", StringUtility.replace("012ABA120120", null, null));
+        assertEquals("012ABA120120", StringUtility.replace("012ABA120120", "", "AA"));
+        assertEquals("12ABA1212", StringUtility.replace("012ABA120120", "0", null));
+        assertEquals("12ABA1212", StringUtility.replace("012ABA120120", "0", ""));
+        assertEquals("012ABA120120", StringUtility.replace("012ABA120120", "", ""));
+        assertEquals("A3A2A3A2A3A20", StringUtility.replace("0120120120", "01", "A3A"));
+        assertEquals("0ABA1200", StringUtility.replace("012ABA120120", "012", "0"));
+        assertEquals("012ABA120120", StringUtility.replace("012ABA120120", "", "012"));
+        assertEquals("012ABA120120", StringUtility.replace("012ABA120120", null, "012"));
+        assertEquals("", StringUtility.replace("012ABA120120", "012ABA120120", ""));
+        assertEquals("", StringUtility.replace("012ABA120120", "012ABA120120", null));
+        assertEquals("012ABA120120", StringUtility.replace("012ABA120120", "012ABA120120",
+            "012ABA120120"));
     }
-    
+
     /**
      * Test replace(String, String, String).
-     * 
+     *
      * @throws Exception
      */
     public void testReplaceStringBuffer() throws Exception {
@@ -80,6 +105,14 @@ public class StringUtilityTest extends QedeqTestCase {
         doReplace(buffer, "", "", "2", null);
         doReplace(buffer, "", "", "", null);
         doReplace(buffer, "", "", "", "");
+        doReplace(buffer, "", "", "1", "1");
+        doReplace(buffer, "", "", "12", "12");
+        doReplace(buffer, "1", "1", "1", "1");
+        doReplace(buffer, "12", "12", "12", "12");
+        doReplace(buffer, "", "1", "1", "");
+        doReplace(buffer, "", "12", "12", "");
+        doReplace(buffer, "", "1", "1", null);
+        doReplace(buffer, "", "12", "12", null);
         doReplace(buffer, "13", "12", "2", "3");
         doReplace(buffer, "1", "12", "2", null);
         doReplace(buffer, "12", "12", "", "7");
@@ -89,6 +122,21 @@ public class StringUtilityTest extends QedeqTestCase {
         doReplace(buffer, "12AA12AA12", "12012012", "0", "AA");
         doReplace(buffer, "AA12AA12AA12AA", "0120120120", "0", "AA");
         doReplace(buffer, "AA12ABA12AA12AA", "012ABA120120", "0", "AA");
+        doReplace(buffer, "012ABA120120", "012ABA120120", "", "AA");
+        doReplace(buffer, "012ABA120120", "012ABA120120", null, "AA");
+        doReplace(buffer, "012ABA120120", "012ABA120120", null, null);
+        doReplace(buffer, "012ABA120120", "012ABA120120", "", "AA");
+        doReplace(buffer, "12ABA1212", "012ABA120120", "0", null);
+        doReplace(buffer, "12ABA1212", "012ABA120120", "0", "");
+        doReplace(buffer, "012ABA120120", "012ABA120120", "", "");
+        doReplace(buffer, "A3A2A3A2A3A20", "0120120120", "01", "A3A");
+        doReplace(buffer, "0ABA1200", "012ABA120120", "012", "0");
+        doReplace(buffer, "012ABA120120", "012ABA120120", "", "012");
+        doReplace(buffer, "012ABA120120", "012ABA120120", null, "012");
+        doReplace(buffer, "", "012ABA120120", "012ABA120120", "");
+        doReplace(buffer, "", "012ABA120120", "012ABA120120", null);
+        doReplace(buffer, "012ABA120120", "012ABA120120", "012ABA120120",
+            "012ABA120120");
         try {
             doReplace(null, "AA12ABA12AA12AA", "012ABA120120", "0", "AA");
             fail("NullPointerException expected");
@@ -97,7 +145,8 @@ public class StringUtilityTest extends QedeqTestCase {
         }
     }
 
-    private void doReplace(StringBuffer buffer, String expected, String text, String search, String replacement) {
+    private void doReplace(final StringBuffer buffer, final String expected, final String text,
+            final String search, final String replacement) {
         buffer.setLength(0);
         buffer.append(expected);
         StringUtility.replace(buffer, search, replacement);
@@ -122,7 +171,7 @@ public class StringUtilityTest extends QedeqTestCase {
             // expected
         }
     }
-    
+
     /**
      * Test {@link StringUtility#isLetterDigitString(String)}.
      *
@@ -145,7 +194,7 @@ public class StringUtilityTest extends QedeqTestCase {
             // expected
         }
     }
-    
+
     /**
      * Test {@link StringUtility#getSpaces(int))}.
      *
@@ -162,15 +211,62 @@ public class StringUtilityTest extends QedeqTestCase {
         eq("       ", StringUtility.getSpaces(7));
         eq("        ", StringUtility.getSpaces(8));
         eq("         ", StringUtility.getSpaces(9));
-        eq("                                                                                ", 
+        eq("                                                                                ",
             StringUtility.getSpaces(80));
         eq("", StringUtility.getSpaces(-1));
         eq("", StringUtility.getSpaces(-999999));
     }
-    
-    public void eq(String expected, StringBuffer spaces) throws Exception {
+
+    public void eq(final String expected, final StringBuffer spaces) throws Exception {
         assertEquals(expected.length(), spaces.length());
         assertEquals(expected, spaces.toString());
     }
-    
+
+    /**
+     * Test {@link StringUtility#getClassName(Class)}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testGetClassName() throws Exception {
+        assertEquals("IOException", StringUtility.getClassName(IOException.class));
+    }
+
+    /**
+     * Test {@link StringUtility#deleteLineLeadingWhitespace(StringBuffer)}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testDeleteLineLeadingWhitespace() throws Exception {
+        String muffin1 = "       Do you know the muffin man,\n"
+            + "       The muffin man, the muffin man,\n"
+            + "       Do you know the muffin man,\n"
+            + "       Who lives on Drury Lane?\n";
+        String muffin2 = "Do you know the muffin man,\n"
+            + "The muffin man, the muffin man,\n"
+            + "Do you know the muffin man,\n"
+            + "Who lives on Drury Lane?\n";
+        String muffin3 = "Do you know the muffin man,\n"
+            + "       The muffin man, the muffin man,\n"
+            + "       Do you know the muffin man,\n"
+            + "       Who lives on Drury Lane?\n";
+        String muffin4 = "Do you know the muffin man,\n"
+            + " The muffin man, the muffin man,\n"
+            + " Do you know the muffin man,\n"
+            + " Who lives on Drury Lane?\n";
+        eq(muffin1, muffin2);
+        eq("\n" + muffin1, "\n" + muffin2);
+        eq("\n" + muffin1 + "\n", "\n" + muffin2 + "\n");
+        eq(muffin1.substring(1), muffin4);
+        eq("\n\t\n" + muffin1 + "\n", "\n\t\n" + muffin2 + "\n");
+        eq("\015\012" + muffin1, "\015\012" + muffin2);
+        eq("\015\012" + "      Hello Again" + "\015\012" + "      Said the Knight" + "\015\012",
+            "\015\012" + "Hello Again" + "\015\012" + "Said the Knight" + "\015\012");
+    }
+
+    public void eq(final String input, final String expected) throws Exception {
+        final StringBuffer buffer = new StringBuffer(input);
+        StringUtility.deleteLineLeadingWhitespace(buffer);
+        assertEquals(expected, buffer.toString());
+    }
+
 }
