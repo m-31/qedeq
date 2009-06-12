@@ -237,6 +237,10 @@ public class StringUtilityTest extends QedeqTestCase {
      * @throws  Exception   Test failed.
      */
     public void testDeleteLineLeadingWhitespace() throws Exception {
+        eq("", "");
+        eq("A", "A");
+        eq(" A", "A");
+        eq("\tA", "A");
         String muffin1 = "       Do you know the muffin man,\n"
             + "       The muffin man, the muffin man,\n"
             + "       Do you know the muffin man,\n"
@@ -256,6 +260,8 @@ public class StringUtilityTest extends QedeqTestCase {
         eq(muffin1, muffin2);
         eq("\n" + muffin1, "\n" + muffin2);
         eq("\n" + muffin1 + "\n", "\n" + muffin2 + "\n");
+        eq("\n " + muffin1 + "\n", "\n" + muffin3 + "\n");
+
         eq(muffin1.substring(1), muffin4);
         eq("\n\t\n" + muffin1 + "\n", "\n\t\n" + muffin2 + "\n");
         eq("\015\012" + muffin1, "\015\012" + muffin2);
@@ -268,5 +274,38 @@ public class StringUtilityTest extends QedeqTestCase {
         StringUtility.deleteLineLeadingWhitespace(buffer);
         assertEquals(expected, buffer.toString());
     }
+
+    /**
+     * Test {@link StringUtility#escapeProperty(String)}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testEscapeProperty() throws Exception {
+        assertEquals("\\u00E4\\u00FC\\u00F6\\u00DF\\u20AC\\u00C4\\u00DC\\u00D6\\u00B3",
+            StringUtility.escapeProperty("\u00E4\u00FC\u00F6\u00DF\u20AC\u00C4\u00DC\u00D6\u00B3"));
+    }
+
+    /**
+     * Test {@link StringUtility#decodeXmlMarkup(StringBuffer)}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testDecodeXmlMarkup() throws Exception {
+        final String test1 = "&amp;&lt;&gt;";
+        final StringBuffer buffer = new StringBuffer(test1);
+        assertEquals("&<>", StringUtility.decodeXmlMarkup(buffer));
+    }
+
+    /**
+     * Test {@link StringUtility#decodeXmlMarkup(StringBuffer)}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void pestDecodeXmlMarkup() throws Exception {
+        final String test1 = "&#x3C;";
+        final StringBuffer buffer = new StringBuffer(test1);
+        assertEquals("<", StringUtility.decodeXmlMarkup(buffer));
+    }
+
 
 }
