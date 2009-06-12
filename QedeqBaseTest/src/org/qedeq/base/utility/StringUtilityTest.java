@@ -307,5 +307,98 @@ public class StringUtilityTest extends QedeqTestCase {
         assertEquals("<", StringUtility.decodeXmlMarkup(buffer));
     }
 
+    /**
+     * Test {@link StringUtility#hex2String(String).
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testHex2String() throws Exception {
+        assertEquals("A", StringUtility.hex2String("41"));
+        assertEquals(" ", StringUtility.hex2String("20"));
+        assertEquals("0", StringUtility.hex2String("30"));
+        assertEquals("\015\012", StringUtility.hex2String("0D 0A"));
+        assertEquals("A", StringUtility.hex2String("41 "));
+        assertEquals(" ", StringUtility.hex2String("20 "));
+        assertEquals("0", StringUtility.hex2String("30 "));
+        assertEquals("\015\012", StringUtility.hex2String("0D 0A "));
+        assertEquals("A", StringUtility.hex2String(" 41"));
+        assertEquals(" ", StringUtility.hex2String(" 20"));
+        assertEquals("0", StringUtility.hex2String(" 30"));
+        assertEquals("\015\012", StringUtility.hex2String(" 0D 0A"));
+        assertEquals("A", StringUtility.hex2String("4 1"));
+        assertEquals(" ", StringUtility.hex2String("2 0"));
+        assertEquals("0", StringUtility.hex2String("3 0"));
+        assertEquals("\015\012", StringUtility.hex2String("0 D 0 A"));
+        assertEquals("A", StringUtility.hex2String("4\n1"));
+        assertEquals(" ", StringUtility.hex2String("\t2  \r0\n"));
+        assertEquals("0", StringUtility.hex2String("3                   0"));
+        assertEquals("\015\012", StringUtility.hex2String("         0       D0A"));
+        assertEquals("\352", StringUtility.hex2String("EA"));
+        assertEquals("\352", StringUtility.hex2String("ea"));
+        assertEquals("\352", StringUtility.hex2String("e A "));
+        assertEquals("\000", StringUtility.hex2String("00"));
 
+        // wrong padding
+        try {
+            StringUtility.hex2String("0");
+            fail("wrong number format exception expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        try {
+            StringUtility.hex2String("A01");
+            fail("wrong number format exception expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        
+        // wrong character
+        try {
+            StringUtility.hex2String("ZZ");
+            fail("wrong number format exception expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
+
+    /**
+     * Test {@link StringUtility#string2Hex(String).
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testString2Hex() throws Exception {
+        assertEquals("41", StringUtility.string2Hex("A"));
+        assertEquals("20", StringUtility.string2Hex(" "));
+        assertEquals("0D 0A", StringUtility.string2Hex("\015\012"));
+        assertEquals("EA", StringUtility.string2Hex("\352"));
+        assertEquals("0D 0A 0D 0A 0D 0A 0D 0A 0D 0A", 
+            StringUtility.string2Hex("\015\012\015\012\015\012\015\012\015\012"));
+        assertEquals("0D 0A 0D 0A 0D 0A 0D 0A 0D 0A 20 20 20 20 20 20", 
+            StringUtility.string2Hex(
+            "\015\012\015\012\015\012\015\012\015\012\040\040\040\040\040\040"));
+        assertEquals("0D 0A 0D 0A 0D 0A 0D 0A 0D 0A 20 20 20 20 20 20\n41", 
+            StringUtility.string2Hex(
+            "\015\012\015\012\015\012\015\012\015\012\040\040\040\040\040\040A"));
+    }
+    
+    /**
+     * Test {@link StringUtility#string2Hex(String) and {@link StringUtility#hex2String(String)}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testString2HexAndBack() throws Exception {
+        final String first = "All my Ducks in a Row!!!$%&<>/\\?";
+        assertEquals(first, StringUtility.hex2String(StringUtility.string2Hex(first)));
+        final String second = "41 42 43";
+        assertEquals(second, StringUtility.string2Hex(StringUtility.hex2String(second)));
+        StringBuffer third = new StringBuffer(256);
+        for (int i = 0; i < 256; i++) {
+            third.append((char) i);
+        }
+        assertEquals(third.toString(), 
+            StringUtility.hex2String(StringUtility.string2Hex(third.toString())));
+        assertEquals(StringUtility.string2Hex(third.toString()), 
+            StringUtility.string2Hex(StringUtility.hex2String(StringUtility.string2Hex(
+                third.toString()))));
+    }
 }
