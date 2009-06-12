@@ -292,7 +292,7 @@ public final class StringUtility {
         return temp.substring(temp.length() - length);
     }
 
-        /**
+    /**
      * Get a hex string representation for an byte array.
      *
      * @param data <code>byte</code> array to work on
@@ -323,6 +323,7 @@ public final class StringUtility {
      *
      * @param hex hex string representation of data
      * @return String
+     * @throws IllegalArgumentException Padding wrong or illegal hexadecimal character.
      */
     public static String hex2String(final String hex) {
 
