@@ -211,18 +211,18 @@ public final class StringUtility {
      * @param   buffer  Work on this text.
      */
     public static void deleteLineLeadingWhitespace(final StringBuffer buffer) {
-        int current = -1;
-        int lastLf = current;
+        int current = 0;
+        int lastLf = -1;
 
         // detect position of last line feed before content starts (lastLf)
         while (current < buffer.length()) {
-            current++;
             if (!Character.isWhitespace(buffer.charAt(current))) {
                 break;
             }
             if ('\n' == buffer.charAt(current)) {
                 lastLf = current;
             }
+            current++;
         }
         // string from last whitespace line feed until first non whitespace
         final String empty = buffer.substring(lastLf + 1, current);
@@ -252,7 +252,7 @@ public final class StringUtility {
         }
         try {
             final String file = out.toString("ISO-8859-1");
-            return file.substring(file.indexOf('\n') + 1 + "key=".length());
+            return file.substring(file.indexOf('\n') + 1 + "key=".length()).trim();
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
