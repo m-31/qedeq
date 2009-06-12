@@ -202,7 +202,7 @@ public final class Qedeq2Xml extends ControlVisitor {
             printer.pushLevel();
             printer.levelPrintln("<![CDATA[");
             printer.pushLevel();
-            printer.levelPrintln(StringUtility.useSystemLineSeparator(latex.getLatex()));
+            printer.levelPrintln(StringUtility.useSystemLineSeparator(latex.getLatex().trim()));
         }
     }
 
