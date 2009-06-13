@@ -112,6 +112,8 @@ public class EnumeratorTest extends QedeqTestCase {
         assertFalse(e3.equals(e1));
         assertFalse(e2.equals(e3));
         assertFalse(e3.equals(e2));
+        assertFalse(e3.equals(null));
+        assertFalse(e1.equals(new Integer(0)));
     }
 
     /**

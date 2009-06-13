@@ -38,7 +38,7 @@ import org.apache.commons.lang.SystemUtils;
 public final class StringUtility {
 
     /** Trimed with zeros. */
-    static final String FORMATED_ZERO = "0000000000000000000000000";
+    static final String FORMATED_ZERO = "00000000000000000000";
 
     /**
      * Constructor, should never be called.
@@ -64,14 +64,16 @@ public final class StringUtility {
         }
         final int len = search != null ? search.length() : 0;
         if (len == 0) {
-            return text != null ? text : "";
+            return text;
         }
         final StringBuffer result = new StringBuffer();
         int pos1 = 0;
         int pos2;
         while (0 <= (pos2 = text.indexOf(search, pos1))) {
             result.append(text.substring(pos1, pos2));
-            result.append(replace != null ? replace : "");
+            if (replace != null) {
+                result.append(replace);
+            }
             pos1 = pos2 + len;
         }
         if (pos1 < text.length()) {
@@ -276,8 +278,8 @@ public final class StringUtility {
     /**
      * Trim an integer with zeros to a given maximum length.
      *
-     * @param   number  Format this long. Must not be less than 0.
-     * @param   length  Maximum length. Must not be bigger than 20.
+     * @param   number  Format this long.
+     * @param   length  Maximum length. Must not be bigger than 20 and less than 1.
      * @return  String with minimum <code>length</code>, trimed with leading zeros.
      */
     public static final String format(final long number, final int length) {
@@ -285,8 +287,8 @@ public final class StringUtility {
             throw new IllegalArgumentException("maximum length " + FORMATED_ZERO + " exceeded: "
                 + length);
         }
-        if (number < 0) {
-            throw new IllegalArgumentException("number must be bigger than 0: " + number);
+        if (length < 1) {
+            throw new IllegalArgumentException("length must be bigger than 0: " + length);
         }
         final String temp = FORMATED_ZERO + number;
         return temp.substring(temp.length() - length);

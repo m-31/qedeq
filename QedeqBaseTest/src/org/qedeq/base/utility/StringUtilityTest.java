@@ -354,6 +354,18 @@ public class StringUtilityTest extends QedeqTestCase {
         
         // wrong character
         try {
+            StringUtility.hex2String("a+");
+            fail("wrong number format exception expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        try {
+            StringUtility.hex2String("!+");
+            fail("wrong number format exception expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        try {
             StringUtility.hex2String("ZZ");
             fail("wrong number format exception expected");
         } catch (IllegalArgumentException e) {
@@ -401,4 +413,34 @@ public class StringUtilityTest extends QedeqTestCase {
             StringUtility.string2Hex(StringUtility.hex2String(StringUtility.string2Hex(
                 third.toString()))));
     }
+
+    /**
+     * Test {@link StringUtility#format(long, int)}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testFormat() throws Exception {
+        assertEquals("0", StringUtility.format(0, 1));
+        try {
+            assertEquals("0", StringUtility.format(0, 0));
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        assertEquals("00123456", StringUtility.format(123456, 8));
+        assertEquals("00000000000000123456", StringUtility.format(123456, 20));
+        try {
+            assertEquals("00000000000000000000000123456", StringUtility.format(123456, 30));
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+        try {
+            assertEquals("000000000000000123456", StringUtility.format(123456, 21));
+            fail("IllegalArgumentException expected");
+        } catch (IllegalArgumentException e) {
+            // expected
+        }
+    }
+
 }
