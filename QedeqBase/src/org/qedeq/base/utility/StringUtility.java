@@ -424,7 +424,9 @@ public final class StringUtility {
     }
 
     /**
-     * Creates String with platform dependent line ends.
+     * Creates String with platform dependent line ends. If <code>text</code> is <code>null</code>
+     * or empty nothing is changed. At the end of the String the platform dependent line end is
+     * added whether or not the original text ends with such a sequence.   
      *
      * @param  text Text with CR or CR LF as line end markers. Might be <code>null</code>.
      * @return Text with platform dependent line ends.
@@ -437,14 +439,10 @@ public final class StringUtility {
         final BufferedReader reader = new BufferedReader(new StringReader(text));
         final String separator = getSystemLineSeparator();
         String line;
-        boolean notFirst = false;
         try {
             while (null != (line = reader.readLine())) {
-                if (notFirst) {
-                    buffer.append(separator);
-                }
                 buffer.append(line);
-                notFirst = true;
+                buffer.append(separator);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
