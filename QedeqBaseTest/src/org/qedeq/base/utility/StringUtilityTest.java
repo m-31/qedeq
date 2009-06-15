@@ -351,7 +351,7 @@ public class StringUtilityTest extends QedeqTestCase {
         } catch (IllegalArgumentException e) {
             // expected
         }
-
+        
         // wrong character
         try {
             StringUtility.hex2String("a+");
@@ -383,16 +383,16 @@ public class StringUtilityTest extends QedeqTestCase {
         assertEquals("20", StringUtility.string2Hex(" "));
         assertEquals("0D 0A", StringUtility.string2Hex("\015\012"));
         assertEquals("EA", StringUtility.string2Hex("\352", "ISO-8859-1"));
-        assertEquals("0D 0A 0D 0A 0D 0A 0D 0A 0D 0A",
+        assertEquals("0D 0A 0D 0A 0D 0A 0D 0A 0D 0A", 
             StringUtility.string2Hex("\015\012\015\012\015\012\015\012\015\012"));
-        assertEquals("0D 0A 0D 0A 0D 0A 0D 0A 0D 0A 20 20 20 20 20 20",
+        assertEquals("0D 0A 0D 0A 0D 0A 0D 0A 0D 0A 20 20 20 20 20 20", 
             StringUtility.string2Hex(
             "\015\012\015\012\015\012\015\012\015\012\040\040\040\040\040\040"));
-        assertEquals("0D 0A 0D 0A 0D 0A 0D 0A 0D 0A 20 20 20 20 20 20\n41",
+        assertEquals("0D 0A 0D 0A 0D 0A 0D 0A 0D 0A 20 20 20 20 20 20\n41", 
             StringUtility.string2Hex(
             "\015\012\015\012\015\012\015\012\015\012\040\040\040\040\040\040A"));
     }
-
+    
     /**
      * Test {@link StringUtility#string2Hex(String) and {@link StringUtility#hex2String(String)}.
      *
@@ -407,9 +407,9 @@ public class StringUtilityTest extends QedeqTestCase {
         for (int i = 0; i < 256; i++) {
             third.append((char) i);
         }
-        assertEquals(third.toString(),
+        assertEquals(third.toString(), 
             StringUtility.hex2String(StringUtility.string2Hex(third.toString())));
-        assertEquals(StringUtility.string2Hex(third.toString()),
+        assertEquals(StringUtility.string2Hex(third.toString()), 
             StringUtility.string2Hex(StringUtility.hex2String(StringUtility.string2Hex(
                 third.toString()))));
     }
@@ -441,6 +441,29 @@ public class StringUtilityTest extends QedeqTestCase {
         } catch (IllegalArgumentException e) {
             // expected
         }
+    }
+
+    /**
+     * Test {@link StringUtility#getSystemLineSeparator()}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testGetSystemLineSeparator() throws Exception {
+        assertEquals(System.getProperty("line.separator"), 
+            StringUtility.getSystemLineSeparator());
+    }
+        
+    /**
+     * Test {@link StringUtility#useSystemLineSeparator(String)}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testAddSystemLineSeparator() throws Exception {
+        assertEquals(null, StringUtility.useSystemLineSeparator(null));
+        assertEquals("" + System.getProperty("line.separator"), 
+            StringUtility.useSystemLineSeparator("\015\012"));
+        assertEquals("asdfghj" + System.getProperty("line.separator"), 
+            StringUtility.useSystemLineSeparator("asdfghj\015"));
     }
 
 }
