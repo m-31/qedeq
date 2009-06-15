@@ -333,9 +333,9 @@ public class StringUtilityTest extends QedeqTestCase {
         assertEquals(" ", StringUtility.hex2String("\t2  \r0\n"));
         assertEquals("0", StringUtility.hex2String("3                   0"));
         assertEquals("\015\012", StringUtility.hex2String("         0       D0A"));
-        assertEquals("\352", StringUtility.hex2String("EA"));
-        assertEquals("\352", StringUtility.hex2String("ea"));
-        assertEquals("\352", StringUtility.hex2String("e A "));
+        assertEquals("\352", StringUtility.hex2String("EA", "ISO-8859-1"));
+        assertEquals("\352", StringUtility.hex2String("ea", "ISO-8859-1"));
+        assertEquals("\352", StringUtility.hex2String("e A ", "ISO-8859-1"));
         assertEquals("\000", StringUtility.hex2String("00"));
 
         // wrong padding
@@ -382,7 +382,7 @@ public class StringUtilityTest extends QedeqTestCase {
         assertEquals("41", StringUtility.string2Hex("A"));
         assertEquals("20", StringUtility.string2Hex(" "));
         assertEquals("0D 0A", StringUtility.string2Hex("\015\012"));
-        assertEquals("EA", StringUtility.string2Hex("\352"));
+        assertEquals("EA", StringUtility.string2Hex("\352", "ISO-8859-1"));
         assertEquals("0D 0A 0D 0A 0D 0A 0D 0A 0D 0A",
             StringUtility.string2Hex("\015\012\015\012\015\012\015\012\015\012"));
         assertEquals("0D 0A 0D 0A 0D 0A 0D 0A 0D 0A 20 20 20 20 20 20",
