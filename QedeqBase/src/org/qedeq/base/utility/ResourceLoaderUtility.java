@@ -224,6 +224,12 @@ public final class ResourceLoaderUtility {
         final File resource = new File(resourceDir, resourceName);
         if (!resource.exists()) {
             final URL url = getResourceUrl(resourceDirectoryName + "/" + resourceName);
+            System.out.println("trying to find " + resourceDirectoryName + "/" + resourceName);
+            if (url == null) {
+                Trace.info(ResourceLoaderUtility.class, "getResourceUrlAndMakeLocalCopy",
+                    "URL not found for: " + resourceDirectoryName + "/" + resourceName);
+                return null;
+            }
             try {
                 if (!resourceDir.exists()) {
                     if (!resourceDir.mkdirs()) {
