@@ -26,6 +26,7 @@ import java.util.Random;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.EqualsUtility;
+import org.qedeq.base.utility.StringUtility;
 
 /**
  * Test {@link org.qedeq.kernel.utility.TextInput}.
@@ -50,6 +51,51 @@ public class IoUtilityTest extends QedeqTestCase {
         super.tearDown();
     }
 
+
+    /**
+     * Test {@link IoUtility#getDefaultEncoding()}.
+     *
+     * @throws Exception
+     */
+    public void testGetDefaultEncoding() throws Exception {
+        // UTF-8 and UTF8 are the same, so we remove all "-" ...
+        assertEquals(StringUtility.replace(System.getProperty("file.encoding"), "-", ""),
+            StringUtility.replace(IoUtility.getDefaultEncoding(), "-", ""));
+    }
+
+    /**
+     * Test {@link IoUtility#loadFile(String fileName, String encoding)}.
+     *
+     * @throws Exception
+     */
+    public void testLoadFileStringString() throws Exception {
+        final File file = new File("IoUtilityTestLoadStringString.txt");
+        if (file.exists()) {
+            assertTrue(file.delete());
+        }
+        IoUtility.saveFileBinary(file, StringUtility.hex2byte(
+            "FF FE 49 00 20 00 61 00 6D 00 20 00 64 00 72 00"
+                + "65 00 61 00 6D 00 69 00 6E 00 67 00 20 00 6F 00"
+                + "66 00 20 00 61 00 20 00 77 00 68 00 69 00 74 00"
+                + "65 00 20 00 63 00 68 00 72 00 69 00 73 00 74 00"
+                + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00"));
+        assertEquals("I am dreaming of a white christmass...", IoUtility.loadFile(file.toString(),
+            "UTF16"));
+    }
+
+    /**
+     * Test {@link IoUtility#getWorkingEncoding(String)}.
+     *
+     * @throws Exception
+     */
+    public void testGetWorkingEncoding() throws Exception {
+        assertEquals("ISO-8859-1", IoUtility.getWorkingEncoding("unknown"));
+        System.err.println("^ above text is ok, this was intended test behaviour");
+        assertEquals("UTF-8", IoUtility.getWorkingEncoding("UTF-8"));
+        assertEquals("UTF-16", IoUtility.getWorkingEncoding("UTF-16"));
+        assertEquals("UTF16", IoUtility.getWorkingEncoding("UTF16"));
+        assertEquals("UTF8", IoUtility.getWorkingEncoding("UTF8"));
+    }
 
     /**
      * Test {@link IoUtility#createRelativePath(final File origin, final File next)}.
