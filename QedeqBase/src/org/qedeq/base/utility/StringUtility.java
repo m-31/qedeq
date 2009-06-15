@@ -25,6 +25,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import org.apache.commons.lang.SystemUtils;
+import org.qedeq.base.io.IoUtility;
 
 
 /**
@@ -297,14 +298,14 @@ public final class StringUtility {
     /**
      * Get a hex string representation for an byte array.
      *
-     * @param data <code>byte</code> array to work on
-     * @return hex string of <code>data</code>
+     * @param   data    <code>byte</code> array to work on
+     * @return  hex     String of hex codes.
      */
-    public static String string2Hex(final String data) {
+    public static String byte2Hex(final byte[] data) {
 
         StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < data.length(); i++) {
-            String b = Integer.toHexString(255 & data.charAt(i));
+        for (int i = 0; i < data.length; i++) {
+            String b = Integer.toHexString(255 & data[i]);
             if (i != 0) {
                 if (0 != i % 16) {
                     buffer.append(" ");
@@ -321,13 +322,41 @@ public final class StringUtility {
     }
 
     /**
-     * Get a String out of a hex string representation.
+     * Get a hex string representation for a String.
      *
-     * @param hex hex string representation of data
-     * @return String
-     * @throws IllegalArgumentException Padding wrong or illegal hexadecimal character.
+     * @param   data    String to work on
+     * @return  hex     String of hex codes.
      */
-    public static String hex2String(final String hex) {
+    public static String string2Hex(final String data) {
+        try {
+            return byte2Hex(data.getBytes(IoUtility.getDefaultEncoding()));
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+            // should never happen
+        }
+    }
+
+    /**
+     * Get a hex string representation for a String.
+     *
+     * @param   data    String to work on
+     * @param   encoding    Use this String encoding.
+     * @return  hex     String of hex codes.
+     * @throws  UnsupportedEncodingException    Encoding not supported.
+     */
+    public static String string2Hex(final String data, final String encoding)
+            throws UnsupportedEncodingException {
+        return byte2Hex(data.getBytes(encoding));
+    }
+
+    /**
+     * Get a byte array of a hex string representation.
+     *
+     * @param   hex     Hex string representation of data.
+     * @return  Data array.
+     * @throws  IllegalArgumentException Padding wrong or illegal hexadecimal character.
+     */
+    public static byte[] hex2byte(final String hex) {
 
         StringBuffer buffer = new StringBuffer(hex.length());
         char c;
@@ -343,15 +372,45 @@ public final class StringUtility {
         if (buffer.length() % 2 != 0) {
             throw new IllegalArgumentException("Bad padding");
         }
-        StringBuffer result = new StringBuffer(buffer.length() / 2);
+        byte[] result = new byte[buffer.length() / 2];
         for (int i = 0; i < buffer.length() / 2; i++) {
             try {
-                result.append((char) Integer.parseInt(buffer.substring(2 * i, 2 * i + 2), 16));
+                result[i] = (byte) Integer.parseInt(buffer.substring(2 * i, 2 * i + 2), 16);
             } catch (Exception e) {
                 throw new IllegalArgumentException("Illegal hex char");
             }
         }
-        return result.toString();
+        return result;
+    }
+
+    /**
+     * Get a String out of a hex string representation.
+     *
+     * @param   hex     Hex string representation of data.
+     * @return  Data as String.
+     * @throws  IllegalArgumentException Padding wrong or illegal hexadecimal character.
+     */
+    public static String hex2String(final String hex) {
+        try {
+            return new String(hex2byte(hex), IoUtility.getDefaultEncoding());
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException(e);
+            // should never happen
+        }
+    }
+
+    /**
+     * Get a String out of a hex string representation.
+     *
+     * @param   hex         Hex string representation of data.
+     * @param   encoding    Use this String encoding.
+     * @return  Data as String.
+     * @throws  UnsupportedEncodingException    Encoding not supported.
+     * @throws  IllegalArgumentException    Padding wrong or illegal hexadecimal character.
+     */
+    public static String hex2String(final String hex, final String encoding)
+        throws UnsupportedEncodingException {
+        return new String(hex2byte(hex), encoding);
     }
 
     /**
