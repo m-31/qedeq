@@ -18,6 +18,8 @@
 package org.qedeq.base.utility;
 
 import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.test.QedeqTestCase;
@@ -29,6 +31,8 @@ import org.qedeq.base.test.QedeqTestCase;
  * @author Michael Meyling
  */
 public class ResourceLoaderUtilityTest extends QedeqTestCase {
+
+    private static final String ONCE_THE_COW_JUMPED_OVER_THE_MOON = "once=the cow jumped over the moon";
 
     /*
      * @see TestCase#setUp()
@@ -56,15 +60,16 @@ public class ResourceLoaderUtilityTest extends QedeqTestCase {
             assertTrue(file.delete());
         }
         file.createNewFile();
-        IoUtility.saveFile(file, "once=the cow jumped over the moon",
+        IoUtility.saveFile(file, ONCE_THE_COW_JUMPED_OVER_THE_MOON,
             IoUtility.getDefaultEncoding());
-        assertEquals("once=the cow jumped over the moon", IoUtility.loadFile(
+        assertEquals(ONCE_THE_COW_JUMPED_OVER_THE_MOON, IoUtility.loadFile(
             ResourceLoaderUtility.getResourceFile(new File("."), ".",
             "ResourceLoaderUtilityTestFile.txt").toString(), IoUtility.getDefaultEncoding()));
         String name = ResourceLoaderUtility.class.getName();
         String shortName = StringUtility.getClassName(ResourceLoaderUtility.class);
         final String directory = name.substring(0,
             name.length() - shortName.length()).replace('.', '/');
+        file.delete();
         file = ResourceLoaderUtility.getResourceFile(new File("."), directory,
             shortName + ".class");
 //        long lastModifiedBefore = file.lastModified();
@@ -75,6 +80,34 @@ public class ResourceLoaderUtilityTest extends QedeqTestCase {
         file = ResourceLoaderUtility.getResourceFile(new File("."), directory,
             shortName + ".class");
         assertEquals(lastModifiedAfter, file.lastModified());
+    }
+
+    /**
+     * Test {@link ResourceLoaderUtility#getResourceUrl(String)}.
+     *
+     * @throws  Exception   Test failure.
+     */
+    public void testGetResourceUrl() throws Exception {
+        String name = ResourceLoaderUtilityTest.class.getName().replace('.', '/') + ".class";
+        System.out.println(name);
+        final URL url = ResourceLoaderUtility.getResourceUrl(name);
+        System.out.println(url);
+        final StringBuffer buffer = new StringBuffer();
+        IoUtility.loadFile(url, buffer, IoUtility.getDefaultEncoding());
+        assertTrue(buffer.toString().contains(ONCE_THE_COW_JUMPED_OVER_THE_MOON));
+    }
+
+    /**
+     * Test {@link ResourceLoaderUtility#getResourceAsStream(String)}.
+     *
+     * @throws  Exception   Test failure.
+     */
+    public void testGetResourceAsStream() throws Exception {
+        String name = ResourceLoaderUtilityTest.class.getName().replace('.', '/') + ".class";
+        System.out.println(name);
+        final InputStream stream = ResourceLoaderUtility.getResourceAsStream(name);
+        assertTrue(IoUtility.loadStreamWithoutException(stream, 30000).contains(
+            ONCE_THE_COW_JUMPED_OVER_THE_MOON));
     }
 
 }
