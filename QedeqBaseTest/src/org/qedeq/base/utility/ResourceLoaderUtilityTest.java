@@ -89,9 +89,9 @@ public class ResourceLoaderUtilityTest extends QedeqTestCase {
      */
     public void testGetResourceUrl() throws Exception {
         String name = ResourceLoaderUtilityTest.class.getName().replace('.', '/') + ".class";
-        System.out.println(name);
+//        System.out.println(name);
         final URL url = ResourceLoaderUtility.getResourceUrl(name);
-        System.out.println(url);
+//        System.out.println(url);
         final StringBuffer buffer = new StringBuffer();
         IoUtility.loadFile(url, buffer, IoUtility.getDefaultEncoding());
         assertTrue(buffer.toString().contains(ONCE_THE_COW_JUMPED_OVER_THE_MOON));
@@ -104,7 +104,7 @@ public class ResourceLoaderUtilityTest extends QedeqTestCase {
      */
     public void testGetResourceAsStream() throws Exception {
         String name = ResourceLoaderUtilityTest.class.getName().replace('.', '/') + ".class";
-        System.out.println(name);
+//        System.out.println(name);
         final InputStream stream = ResourceLoaderUtility.getResourceAsStream(name);
         assertTrue(IoUtility.loadStreamWithoutException(stream, 30000).contains(
             ONCE_THE_COW_JUMPED_OVER_THE_MOON));
