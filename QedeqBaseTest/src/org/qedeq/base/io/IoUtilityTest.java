@@ -19,7 +19,9 @@ package org.qedeq.base.io;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Random;
@@ -95,6 +97,8 @@ public class IoUtilityTest extends QedeqTestCase {
         assertEquals("UTF-16", IoUtility.getWorkingEncoding("UTF-16"));
         assertEquals("UTF16", IoUtility.getWorkingEncoding("UTF16"));
         assertEquals("UTF8", IoUtility.getWorkingEncoding("UTF8"));
+        assertEquals("ISO-8859-1", IoUtility.getWorkingEncoding(null));
+        System.err.println("^ above text is ok, this was intended test behaviour");
     }
 
     /**
@@ -227,6 +231,74 @@ public class IoUtilityTest extends QedeqTestCase {
         assertFalse(IoUtility.compareFilesBinary(file1, file2));
         file1.delete();
         file2.delete();
+    }
+
+    public void testLoadStreamInputStreamStringBuffer() throws Exception {
+        final File file = new File("testLoadStreamInputStreamStringBuffer.txt");
+        try {
+            if (file.exists()) {
+                assertTrue(file.delete());
+            }
+            final OutputStream out = new FileOutputStream(file);
+            final String expected = "We all live in a yellow submarine ...";
+            out.write(expected.getBytes());
+            out.close();
+            final StringBuffer buffer = new StringBuffer();
+            final InputStream in = new FileInputStream(file);
+            IoUtility.loadStream(in, buffer);
+            assertEquals(expected, buffer.toString());
+        } finally {
+            file.delete();
+        }
+    }
+
+    public void testLoadStreamWithoutException() throws Exception {
+        final String expected = "We all live in a yellow submarine ...";
+        assertEquals("", IoUtility.loadStreamWithoutException(null, 100));
+        assertEquals("", IoUtility.loadStreamWithoutException(null, -100));
+        assertEquals("", IoUtility.loadStreamWithoutException(new InputStream() {
+            public int read() throws IOException {
+                throw new IOException("i am an error input stream!");
+            }}, 0));
+        assertEquals("", IoUtility.loadStreamWithoutException(new InputStream() {
+            public int read() throws IOException {
+                throw new IOException("i am an error input stream!");
+            }}, -99));
+        assertEquals(expected, streamLoad(expected, expected.length()));
+        assertEquals(expected.substring(0, expected.length() - 1),
+            streamLoad(expected, expected.length() - 1));
+        assertEquals(expected.substring(0, 1),
+            streamLoad(expected, 1));
+        assertEquals("", streamLoad(expected, -2));
+
+    }
+
+    private String streamLoad(final String expected, final int length) throws FileNotFoundException,
+            IOException {
+        final File file = new File("testLoadStreamWithoutException.txt");
+        if (file.exists()) {
+            assertTrue(file.delete());
+        }
+        try {
+            final OutputStream out = new FileOutputStream(file);
+            try {
+                out.write(expected.getBytes());
+            } finally {
+                if (out != null) {
+                    out.close();
+                }
+            }
+            final InputStream in = new FileInputStream(file);
+            try {
+                return IoUtility.loadStreamWithoutException(in, length);
+            } finally {
+                if (in != null) {
+                    in.close();
+                }
+            }
+        } finally {
+            file.delete();
+        }
     }
 
 }
