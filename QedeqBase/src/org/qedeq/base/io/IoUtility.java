@@ -132,7 +132,7 @@ public final class IoUtility {
     }
 
     /**
-     * Reads contents of a stream into a string buffer.
+     * Reads contents of a stream into a string buffer. Stream is not closed.
      *
      * @param   in          This stream will be loaded.
      * @param   buffer      Buffer to fill with file contents.
@@ -152,7 +152,7 @@ public final class IoUtility {
 
     /**
      * Returns contents of a stream into a string buffer, respecting a maximum length.
-     * No exceptions are thrown.
+     * No exceptions are thrown. Stream is not closed.
      *
      * @param   in          This stream will be loaded.
      * @param   maxLength   This length is not exceeded.
@@ -180,7 +180,7 @@ public final class IoUtility {
     }
 
     /**
-     * Reads contents of a {@link Reader} into a string buffer.
+     * Reads contents of a {@link Reader} into a string buffer. Reader is not closed.
      *
      * @param   in          This reader will be loaded.
      * @param   buffer      Buffer to fill with file contents.
@@ -280,6 +280,9 @@ public final class IoUtility {
 
     /**
      * Reads contents of an URL into a string buffer. The filling is character set dependent.
+     * Content is added to the end of buffer. (Existing data is not cleared.)
+     * <p>
+     * All parameters should not be <code>null</code>.
      * @param   url         This URL will be loaded.
      * @param   buffer      Buffer to fill with file contents.
      * @throws  IOException Reading failed.
@@ -303,7 +306,10 @@ public final class IoUtility {
     }
 
     /**
-     * Reads contents of an URL into a string buffer. The filling is character set dependent.
+     * Reads contents of an URL into a StringBuffer. The filling is character set dependent. The
+     * buffer is not cleared, contents is just added.
+     * <p>
+     * All parameters should not be <code>null</code>.
      * @param   url         This URL will be loaded.
      * @param   buffer      Buffer to fill with file contents.
      * @param   encoding    Take this encoding.
