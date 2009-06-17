@@ -21,9 +21,15 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.io.UnsupportedEncodingException;
+import java.io.Writer;
+import java.net.URL;
 import java.util.Random;
 
 import org.qedeq.base.test.QedeqTestCase;
@@ -57,7 +63,7 @@ public class IoUtilityTest extends QedeqTestCase {
     /**
      * Test {@link IoUtility#getDefaultEncoding()}.
      *
-     * @throws Exception
+     * @throws Exception Test failed.
      */
     public void testGetDefaultEncoding() throws Exception {
         // UTF-8 and UTF8 are the same, so we remove all "-" ...
@@ -68,7 +74,7 @@ public class IoUtilityTest extends QedeqTestCase {
     /**
      * Test {@link IoUtility#loadFile(String fileName, String encoding)}.
      *
-     * @throws Exception
+     * @throws Exception Test failed.
      */
     public void testLoadFileStringString() throws Exception {
         final File file = new File("IoUtilityTestLoadStringString.txt");
@@ -88,7 +94,7 @@ public class IoUtilityTest extends QedeqTestCase {
     /**
      * Test {@link IoUtility#getWorkingEncoding(String)}.
      *
-     * @throws Exception
+     * @throws Exception Test failed.
      */
     public void testGetWorkingEncoding() throws Exception {
         assertEquals("ISO-8859-1", IoUtility.getWorkingEncoding("unknown"));
@@ -104,7 +110,7 @@ public class IoUtilityTest extends QedeqTestCase {
     /**
      * Test {@link IoUtility#createRelativePath(final File origin, final File next)}.
      *
-     * @throws Exception
+     * @throws Exception Test failed.
      */
     public void testCreateRelativePath() throws Exception {
         assertEquals("local", IoUtility.createRelativePath(new File("."), new File("local")));
@@ -117,9 +123,185 @@ public class IoUtilityTest extends QedeqTestCase {
     }
 
     /**
+     * Test {@link IoUtility#loadStream(InputStream, StringBuffer)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testLoadStreamInputStreamStringBuffer() throws Exception {
+        final File file = new File("testLoadStreamInputStreamStringBuffer.txt");
+        try {
+            if (file.exists()) {
+                assertTrue(file.delete());
+            }
+            final OutputStream out = new FileOutputStream(file);
+            final String expected = "We all live in a yellow submarine ...";
+            out.write(expected.getBytes());
+            out.close();
+            final StringBuffer buffer = new StringBuffer();
+            final InputStream in = new FileInputStream(file);
+            IoUtility.loadStream(in, buffer);
+            assertEquals(expected, buffer.toString());
+        } finally {
+            file.delete();
+        }
+    }
+
+    /**
+     * Test {@link IoUtility#loadStreamWithoutException(InputStream, int)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testLoadStreamWithoutException() throws Exception {
+        final String expected = "We all live in a yellow submarine ...";
+        assertEquals("", IoUtility.loadStreamWithoutException(null, 100));
+        assertEquals("", IoUtility.loadStreamWithoutException(null, -100));
+        assertEquals("", IoUtility.loadStreamWithoutException(new InputStream() {
+            public int read() throws IOException {
+                throw new IOException("i am an error input stream!");
+            }}, 0));
+        assertEquals("", IoUtility.loadStreamWithoutException(new InputStream() {
+            public int read() throws IOException {
+                throw new IOException("i am an error input stream!");
+            }}, -99));
+        assertEquals(expected, streamLoad(expected, expected.length()));
+        assertEquals(expected, streamLoad(expected, expected.length() * 100));
+        assertEquals(expected.substring(0, expected.length() - 1),
+            streamLoad(expected, expected.length() - 1));
+        assertEquals(expected.substring(0, 1),
+            streamLoad(expected, 1));
+        assertEquals("", streamLoad(expected, -2));
+
+    }
+
+    private String streamLoad(final String expected, final int length) throws FileNotFoundException,
+            IOException {
+        final File file = new File("testLoadStreamWithoutException.txt");
+        if (file.exists()) {
+            assertTrue(file.delete());
+        }
+        try {
+            final OutputStream out = new FileOutputStream(file);
+            try {
+                out.write(expected.getBytes());
+            } finally {
+                if (out != null) {
+                    out.close();
+                }
+            }
+            final InputStream in = new FileInputStream(file);
+            try {
+                return IoUtility.loadStreamWithoutException(in, length);
+            } finally {
+                if (in != null) {
+                    // assert that stream is not closed yet
+                    in.close();
+                }
+            }
+        } finally {
+            file.delete();
+        }
+    }
+
+    /**
+     * Test {@link IoUtility#loadReader(Reader, StringBuffer)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testLoadReader() throws Exception {
+        final File file = new File("testLoadReaderStringBuffer.txt");
+        try {
+            if (file.exists()) {
+                assertTrue(file.delete());
+            }
+            final Writer out = new FileWriter(file);
+            final String expected = "We all live in a yellow submarine ...";
+            out.write(expected);
+            out.close();
+            final StringBuffer buffer = new StringBuffer();
+            final Reader in = new FileReader(file);
+            IoUtility.loadReader(in, buffer);
+            // test if reader can be closed
+            in.close();
+            assertEquals(expected, buffer.toString());
+        } finally {
+            file.delete();
+        }
+    }
+
+    /**
+     * Test {@link IoUtility#loadFile(File, StringBuffer)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testLoadFileFileStringBuffer() throws Exception {
+        final File file = new File("testLoadFileFileStringBuffer.txt");
+        try {
+            if (file.exists()) {
+                assertTrue(file.delete());
+            }
+            final Writer out = new FileWriter(file);
+            final String expected = "We all live in a yellow submarine ...";
+            out.write(expected);
+            out.close();
+            final StringBuffer buffer = new StringBuffer();
+            IoUtility.loadFile(file, buffer);
+            assertEquals(expected, buffer.toString());
+        } finally {
+            file.delete();
+        }
+    }
+
+    /**
+     * Test {@link IoUtility#loadFile(File, StringBuffer, String)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testLoadFileFileStringBufferString() throws Exception {
+        final File file = new File("testLoadFileFileStringBufferString.txt");
+        try {
+            if (file.exists()) {
+                assertTrue(file.delete());
+            }
+            final String expected1 = "We all live in a yellow submarine ...";
+            final String encoding1 = "UTF-16";
+            assertEquals(expected1, loadFile(file, expected1, encoding1));
+            final String expected2 = "We all live in a yellow submarine\n"
+                + "Yellow submarine, yellow submarine\n"
+                + "We all live in a yellow submarine\n"
+                + "Yellow submarine, yellow submarine\n"
+                + "\n"
+                + "As we live a life of ease\n"
+                + "Everyone of us has all we need\n"
+                + "Sky of blue and sea of green\n"
+                + "In our yellow submarine ";
+            final String encoding2 = "UnicodeBigUnmarked";
+            assertEquals(expected2, loadFile(file, expected2, encoding2));
+            final String encoding3 = "ASCII";
+            assertEquals(expected2, loadFile(file, expected2, encoding3));
+        } finally {
+            file.delete();
+        }
+    }
+
+    private String loadFile(final File file, final String expected, final String encoding)
+            throws FileNotFoundException, IOException, UnsupportedEncodingException {
+        final OutputStream out = new FileOutputStream(file);
+        try {
+            out.write(expected.getBytes(encoding));
+        } finally {
+            if (out != null) {
+                out.close();
+            }
+        }
+        final StringBuffer buffer = new StringBuffer();
+        IoUtility.loadFile(file, buffer, encoding);
+        return buffer.toString();
+    }
+
+    /**
      * Test {@link IoUtility#loadFileBinary(File)}.
      *
-     * @throws Exception
+     * @throws Exception Test failed.
      */
     public void testLoadFileBinary() throws Exception {
         final File file = new File("IoUtilityTestLoadBinary.bin");
@@ -151,7 +333,7 @@ public class IoUtilityTest extends QedeqTestCase {
     /**
      * Test {@link IoUtility#saveFileBinary(File, byte[])}.
      *
-     * @throws Exception
+     * @throws Exception Test failed.
      */
     public void testSaveFileBinary() throws Exception {
         final File file = new File("IoUtilityTestLoadBinary.bin");
@@ -181,7 +363,7 @@ public class IoUtilityTest extends QedeqTestCase {
     /**
      * Test {@link IoUtility#saveFileBinary(File, byte[])}.
      *
-     * @throws Exception
+     * @throws Exception Test failed.
      */
     public void testLoadAndSaveFileBinary() throws Exception {
         final File file = new File("IoUtilityTestLoadBinary.bin");
@@ -204,7 +386,7 @@ public class IoUtilityTest extends QedeqTestCase {
     /**
      * Test {@link IoUtility#compareFilesBinary(File, File)}.
      *
-     * @throws Exception
+     * @throws Exception Test failed.
      */
     public void testCompareFile() throws Exception {
         final File file1 = new File("IoUtilityTestLoadBinary1.bin");
@@ -233,72 +415,146 @@ public class IoUtilityTest extends QedeqTestCase {
         file2.delete();
     }
 
-    public void testLoadStreamInputStreamStringBuffer() throws Exception {
-        final File file = new File("testLoadStreamInputStreamStringBuffer.txt");
+    /**
+     * Test {@link IoUtility#loadFile(URL, StringBuffer)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testLoadFileURLStringBuffer() throws Exception {
+        final File file = new File("testLoadFileURLStringBuffer.txt");
         try {
             if (file.exists()) {
                 assertTrue(file.delete());
             }
-            final OutputStream out = new FileOutputStream(file);
+            final Writer out = new FileWriter(file);
             final String expected = "We all live in a yellow submarine ...";
-            out.write(expected.getBytes());
+            out.write(expected);
             out.close();
             final StringBuffer buffer = new StringBuffer();
-            final InputStream in = new FileInputStream(file);
-            IoUtility.loadStream(in, buffer);
+            IoUtility.loadFile(file.toURL(), buffer);
             assertEquals(expected, buffer.toString());
         } finally {
             file.delete();
         }
     }
 
-    public void testLoadStreamWithoutException() throws Exception {
-        final String expected = "We all live in a yellow submarine ...";
-        assertEquals("", IoUtility.loadStreamWithoutException(null, 100));
-        assertEquals("", IoUtility.loadStreamWithoutException(null, -100));
-        assertEquals("", IoUtility.loadStreamWithoutException(new InputStream() {
-            public int read() throws IOException {
-                throw new IOException("i am an error input stream!");
-            }}, 0));
-        assertEquals("", IoUtility.loadStreamWithoutException(new InputStream() {
-            public int read() throws IOException {
-                throw new IOException("i am an error input stream!");
-            }}, -99));
-        assertEquals(expected, streamLoad(expected, expected.length()));
-        assertEquals(expected.substring(0, expected.length() - 1),
-            streamLoad(expected, expected.length() - 1));
-        assertEquals(expected.substring(0, 1),
-            streamLoad(expected, 1));
-        assertEquals("", streamLoad(expected, -2));
-
-    }
-
-    private String streamLoad(final String expected, final int length) throws FileNotFoundException,
-            IOException {
-        final File file = new File("testLoadStreamWithoutException.txt");
-        if (file.exists()) {
-            assertTrue(file.delete());
-        }
+    /**
+     * Test {@link IoUtility#loadFile(URL, StringBuffer, String)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testLoadFileURLStringBufferString() throws Exception {
+        final File file = new File("testLoadFileURLStringBufferString.txt");
         try {
-            final OutputStream out = new FileOutputStream(file);
-            try {
-                out.write(expected.getBytes());
-            } finally {
-                if (out != null) {
-                    out.close();
-                }
+            if (file.exists()) {
+                assertTrue(file.delete());
             }
-            final InputStream in = new FileInputStream(file);
-            try {
-                return IoUtility.loadStreamWithoutException(in, length);
-            } finally {
-                if (in != null) {
-                    in.close();
-                }
-            }
+            final Writer out = new FileWriter(file);
+            final String expected = "We all live in a yellow submarine ...\n";
+            final String encoding = "UTF-8";
+            out.write(expected);
+            out.close();
+            final StringBuffer buffer = new StringBuffer();
+            IoUtility.loadFile(file.toURL(), buffer, encoding);
+            assertEquals(expected, buffer.toString());
+            IoUtility.saveFileBinary(file, StringUtility.hex2byte(
+                "FF FE 49 00 20 00 61 00 6D 00 20 00 64 00 72 00"
+                    + "65 00 61 00 6D 00 69 00 6E 00 67 00 20 00 6F 00"
+                    + "66 00 20 00 61 00 20 00 77 00 68 00 69 00 74 00"
+                    + "65 00 20 00 63 00 68 00 72 00 69 00 73 00 74 00"
+                    + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00"));
+            IoUtility.loadFile(file.toURL(), buffer, "UTF16");
+            assertEquals(expected + "I am dreaming of a white christmass...", buffer.toString());
         } finally {
             file.delete();
         }
+    }
+
+    /**
+     * Test {@link IoUtility#saveFile(URL, File))}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testSaveFileURLFile() throws Exception {
+        final File file1 = new File("testSaveFileURLFile1.txt");
+        final File file2 = new File("testSaveFileURLFile2.txt");
+        try {
+            if (file1.exists()) {
+                assertTrue(file1.delete());
+            }
+            if (file2.exists()) {
+                assertTrue(file2.delete());
+            }
+            IoUtility.saveFileBinary(file1, StringUtility.hex2byte(
+                "FF FE 49 00 20 00 61 00 6D 00 20 00 64 00 72 00"
+                    + "65 00 61 00 6D 00 69 00 6E 00 67 00 20 00 6F 00"
+                    + "66 00 20 00 61 00 20 00 77 00 68 00 69 00 74 00"
+                    + "65 00 20 00 63 00 68 00 72 00 69 00 73 00 74 00"
+                    + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00"));
+            IoUtility.saveFile(file1.toURL(), file2);
+            assertTrue(IoUtility.compareFilesBinary(file1, file2));
+        } finally {
+            file1.delete();
+            file2.delete();
+        }
+    }
+
+    /**
+     * Test {@link IoUtility#saveFile(URL, File))}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testSaveFileInputStreamFile() throws Exception {
+        final File file1 = new File("testSaveFileInputStreamFile1.txt");
+        final File file2 = new File("testSaveFileInputStreamFile2.txt");
+        InputStream in = null;
+        try {
+            if (file1.exists()) {
+                assertTrue(file1.delete());
+            }
+            if (file2.exists()) {
+                assertTrue(file2.delete());
+            }
+            IoUtility.saveFileBinary(file1, StringUtility.hex2byte(
+                "FF FE 49 00 20 00 61 00 6D 00 20 00 64 00 72 00"
+                    + "65 00 61 00 6D 00 69 00 6E 00 67 00 20 00 6F 00"
+                    + "66 00 20 00 61 00 20 00 77 00 68 00 69 00 74 00"
+                    + "65 00 20 00 63 00 68 00 72 00 69 00 73 00 74 00"
+                    + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00"));
+            in = new FileInputStream(file1);
+            IoUtility.saveFile(in, file2);
+            assertTrue(IoUtility.compareFilesBinary(file1, file2));
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+            file1.delete();
+            file2.delete();
+        }
+    }
+
+    /**
+     * Test {@link IoUtility#stringToReader(String))}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testStringToReader() throws Exception {
+        final String expected = "We all live in a yellow submarine\n"
+            + "Yellow submarine, yellow submarine\n"
+            + "We all live in a yellow submarine\n"
+            + "Yellow submarine, yellow submarine\n"
+            + "\n"
+            + "As we live a life of ease\n"
+            + "Everyone of us has all we need\n"
+            + "Sky of blue and sea of green\n"
+            + "In our yellow submarine ";
+        final Reader reader = IoUtility.stringToReader(expected);
+        final StringBuffer buffer = new StringBuffer();
+        int c;
+        while (0 <= (c = (reader.read()))) {
+            buffer.append((char) c);
+        }
+        assertEquals(expected, buffer.toString());
     }
 
 }
