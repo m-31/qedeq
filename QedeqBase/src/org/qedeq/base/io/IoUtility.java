@@ -151,8 +151,8 @@ public final class IoUtility {
     }
 
     /**
-     * Returns contents of a stream 1into a string buffer, respecting a maximum length.
-     * No exceptions are thrown. 
+     * Returns contents of a stream into a string buffer, respecting a maximum length.
+     * No exceptions are thrown.
      *
      * @param   in          This stream will be loaded.
      * @param   maxLength   This length is not exceeded.
