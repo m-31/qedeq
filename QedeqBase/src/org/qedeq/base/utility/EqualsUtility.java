@@ -50,4 +50,29 @@ public final class EqualsUtility {
         return a.equals(b);
     }
 
+    /**
+     * Compare two objects, each of them could be <code>null</code>.
+     *
+     * @param   a   First parameter.
+     * @param   b   Second parameter.
+     * @return  Are <code>a</code> and <code>b</code> equal?
+     */
+    public static boolean equals(final byte[] a, final byte[] b) {
+        if (a == null) {
+            if (b == null) {
+                return true;
+            }
+            return false;
+        }
+        if (a.length != b.length) {
+            return false;
+        }
+        for (int i = 0; i < a.length; i++) {
+            if (a[i] != b[i]) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
