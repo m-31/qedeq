@@ -89,6 +89,7 @@ public class IoUtilityTest extends QedeqTestCase {
                 + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00"));
         assertEquals("I am dreaming of a white christmass...", IoUtility.loadFile(file.toString(),
             "UTF16"));
+        assertTrue(file.delete());
     }
 
     /**
@@ -140,6 +141,7 @@ public class IoUtilityTest extends QedeqTestCase {
             final StringBuffer buffer = new StringBuffer();
             final InputStream in = new FileInputStream(file);
             IoUtility.loadStream(in, buffer);
+            in.close();
             assertEquals(expected, buffer.toString());
         } finally {
             file.delete();
@@ -303,8 +305,8 @@ public class IoUtilityTest extends QedeqTestCase {
      *
      * @throws Exception Test failed.
      */
-    public void testLoadFileBinary() throws Exception {
-        final File file = new File("IoUtilityTestLoadBinary.bin");
+    public void testLoadFileBinary1() throws Exception {
+        final File file = new File("IoUtilityTestLoadBinary1.bin");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -331,12 +333,48 @@ public class IoUtilityTest extends QedeqTestCase {
     }
 
     /**
+     * Test {@link IoUtility#loadFileBinary(File)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testLoadFileBinary2() throws Exception {
+        final File file = new File("IoUtilityTestLoadBinary2.bin");
+        if (file.exists()) {
+            assertTrue(file.delete());
+        }
+        final OutputStream out = new FileOutputStream(file);
+        try {
+            for (int j = 0; j < 512; j++) {
+                for (int i = 0; i < 256; i++) {
+                    out.write(i);
+                }
+                for (int i = 0; i < 256; i++) {
+                    out.write(255 - i);
+                }
+            }
+        } finally {
+            out.close();
+        }
+        final byte [] loaded = IoUtility.loadFileBinary(file);
+        assertEquals(512 * 2 * 256, loaded.length);
+        for (int j = 0; j < 512; j++) {
+            for (int i = 0; i < 256; i++) {
+                assertEquals((byte) i, loaded[i + 512 * j]);
+            }
+            for (int i = 0; i < 256; i++) {
+                assertEquals((byte) (255 - i), loaded[i + 256 + 512 * j]);
+            }
+        }
+        file.delete();
+    }
+
+    /**
      * Test {@link IoUtility#saveFileBinary(File, byte[])}.
      *
      * @throws Exception Test failed.
      */
     public void testSaveFileBinary() throws Exception {
-        final File file = new File("IoUtilityTestLoadBinary.bin");
+        final File file = new File("IoUtilityTestSaveFileBinary.bin");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -366,7 +404,7 @@ public class IoUtilityTest extends QedeqTestCase {
      * @throws Exception Test failed.
      */
     public void testLoadAndSaveFileBinary() throws Exception {
-        final File file = new File("IoUtilityTestLoadBinary.bin");
+        final File file = new File("testLoadAndSaveFileBinary.bin");
         if (file.exists()) {
             assertTrue(file.delete());
         }
@@ -379,7 +417,7 @@ public class IoUtilityTest extends QedeqTestCase {
             data[i] = (byte) random.nextInt();
         }
         IoUtility.saveFileBinary(file, data);
-        EqualsUtility.equals(data, IoUtility.loadFileBinary(file));
+        assertTrue(EqualsUtility.equals(data, IoUtility.loadFileBinary(file)));
         file.delete();
     }
 
