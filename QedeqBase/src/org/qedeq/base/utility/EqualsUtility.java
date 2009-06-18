@@ -17,6 +17,8 @@
 
 package org.qedeq.base.utility;
 
+import java.util.Arrays;
+
 
 /**
  * A collection of useful static methods for equality.
@@ -58,21 +60,7 @@ public final class EqualsUtility {
      * @return  Are <code>a</code> and <code>b</code> equal?
      */
     public static boolean equals(final byte[] a, final byte[] b) {
-        if (a == null) {
-            if (b == null) {
-                return true;
-            }
-            return false;
-        }
-        if (a.length != b.length) {
-            return false;
-        }
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] != b[i]) {
-                return false;
-            }
-        }
-        return true;
+        return Arrays.equals(a, b);
     }
 
 }
