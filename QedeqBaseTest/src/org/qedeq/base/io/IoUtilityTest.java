@@ -707,4 +707,145 @@ public class IoUtilityTest extends QedeqTestCase {
         file3.delete();
     }
 
+    /**
+     * Test {@link IoUtility#saveFile(String, String)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testSaveFileStringString() throws Exception {
+        final File file1 = new File("testSaveFileStringString1.txt");
+        final File file2 = new File("testSaveFileStringString2.txt");
+        InputStream in = null;
+        try {
+            if (file1.exists()) {
+                assertTrue(file1.delete());
+            }
+            if (file2.exists()) {
+                assertTrue(file2.delete());
+            }
+            final StringBuffer buffer = new StringBuffer(StringUtility.hex2String(
+                "FF FE 49 00 20 00 61 00 6D 00 20 00 64 00 72 00"
+                    + "65 00 61 00 6D 00 69 00 6E 00 67 00 20 00 6F 00"
+                    + "66 00 20 00 61 00 20 00 77 00 68 00 69 00 74 00"
+                    + "65 00 20 00 63 00 68 00 72 00 69 00 73 00 74 00"
+                    + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00"));
+            IoUtility.saveFile(file1.toString(), buffer.toString());
+            in = new FileInputStream(file1);
+            IoUtility.saveFile(in, file2);
+            assertTrue(IoUtility.compareFilesBinary(file1, file2));
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+            file1.delete();
+            file2.delete();
+        }
+    }
+
+    /**
+     * Test {@link IoUtility#saveFile(String, StringBuffer)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testSaveFileStringStringBuffer() throws Exception {
+        final File file1 = new File("testSaveFileStringString1.txt");
+        final File file2 = new File("testSaveFileStringString2.txt");
+        InputStream in = null;
+        try {
+            if (file1.exists()) {
+                assertTrue(file1.delete());
+            }
+            if (file2.exists()) {
+                assertTrue(file2.delete());
+            }
+            final StringBuffer buffer = new StringBuffer(StringUtility.hex2String(
+                "FF FE 49 00 20 00 61 00 6D 00 20 00 64 00 72 00"
+                    + "65 00 61 00 6D 00 69 00 6E 00 67 00 20 00 6F 00"
+                    + "66 00 20 00 61 00 20 00 77 00 68 00 69 00 74 00"
+                    + "65 00 20 00 63 00 68 00 72 00 69 00 73 00 74 00"
+                    + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00"));
+            IoUtility.saveFile(file1.toString(), buffer);
+            in = new FileInputStream(file1);
+            IoUtility.saveFile(in, file2);
+            assertTrue(IoUtility.compareFilesBinary(file1, file2));
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+            file1.delete();
+            file2.delete();
+        }
+    }
+
+    /**
+     * Test {@link IoUtility#saveFile(File, StringBuffer, String)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testSaveFileFileStringBufferString() throws Exception {
+        final File file1 = new File("testSaveFileFileStringBufferString1.txt");
+        final File file2 = new File("testSaveFileFileStringBufferString2.txt");
+        final File file3 = new File("testSaveFileFileStringBufferString3.txt");
+        InputStream in = null;
+        try {
+            if (file1.exists()) {
+                assertTrue(file1.delete());
+            }
+            if (file2.exists()) {
+                assertTrue(file2.delete());
+            }
+            if (file3.exists()) {
+                assertTrue(file3.delete());
+            }
+            final String data = StringUtility.hex2String(
+                "FF FE 49 00 20 00 61 00 6D 00 20 00 64 00 72 00"
+                    + "65 00 61 00 6D 00 69 00 6E 00 67 00 20 00 6F 00"
+                    + "66 00 20 00 61 00 20 00 77 00 68 00 69 00 74 00"
+                    + "65 00 20 00 63 00 68 00 72 00 69 00 73 00 74 00"
+                    + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00");
+            final StringBuffer buffer = new StringBuffer(data);
+            IoUtility.saveFile(file1, buffer, "ISO-8859-1");
+            in = new FileInputStream(file1);
+            IoUtility.saveFile(in, file2);
+            assertTrue(IoUtility.compareFilesBinary(file1, file2));
+            buffer.setLength(0);
+            buffer.append("I am dreaming of a white christmass...");
+            IoUtility.saveFile(file3, buffer, "UTF-16");
+            assertEquals("I am dreaming of a white christmass...", IoUtility.loadFile(
+                file3.toString(), "UTF-16"));
+        } finally {
+            if (in != null) {
+                in.close();
+            }
+        }
+        file1.delete();
+        file2.delete();
+        file3.delete();
+    }
+
+    /**
+     * Test {@link IoUtility#copyFile(File, File)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testCopyFile() throws Exception {
+        final File file1 = new File("IoUtilityTestCopyFile1.bin");
+        if (file1.exists()) {
+            assertTrue(file1.delete());
+        }
+        final File file2 = new File("IoUtilityTestCopyFile2.bin");
+        if (file2.exists()) {
+            assertTrue(file2.delete());
+        }
+        Random random = new Random(1007);
+        final byte data[] = new byte[1025];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = (byte) random.nextInt();
+        }
+        IoUtility.saveFileBinary(file1, data);
+        IoUtility.copyFile(file1, file1);
+        IoUtility.copyFile(file1, file2);
+        assertTrue(IoUtility.compareFilesBinary(file1, file2));
+    }
+
 }
