@@ -426,7 +426,7 @@ public class IoUtilityTest extends QedeqTestCase {
      *
      * @throws Exception Test failed.
      */
-    public void testCompareFile() throws Exception {
+    public void testCompareFileBinary() throws Exception {
         final File file1 = new File("IoUtilityTestLoadBinary1.bin");
         if (file1.exists()) {
             assertTrue(file1.delete());
@@ -434,6 +434,15 @@ public class IoUtilityTest extends QedeqTestCase {
         final File file2 = new File("IoUtilityTestLoadBinary2.bin");
         if (file2.exists()) {
             assertTrue(file2.delete());
+        }
+        assertFalse(IoUtility.compareFilesBinary(null, file1));
+        assertFalse(IoUtility.compareFilesBinary(file2, null));
+        assertTrue(IoUtility.compareFilesBinary(null, null));
+        try {
+            assertTrue(IoUtility.compareFilesBinary(file1, file2));
+            fail("FileNotFoundException expected");
+        } catch (FileNotFoundException e) {
+            // expected;
         }
         Random random = new Random(1001);
         final byte data[] = new byte[1025];
@@ -449,6 +458,11 @@ public class IoUtilityTest extends QedeqTestCase {
         data[999] -= 1;
         IoUtility.saveFileBinary(file2, data);
         assertFalse(IoUtility.compareFilesBinary(file1, file2));
+        IoUtility.saveFileBinary(file2, new byte[] {});
+        assertEquals(0, file2.length());
+        assertFalse(IoUtility.compareFilesBinary(file1, file2));
+        assertTrue(IoUtility.compareFilesBinary(file1, file1));
+        assertTrue(IoUtility.compareFilesBinary(file2, file2));
         file1.delete();
         file2.delete();
     }
@@ -847,5 +861,53 @@ public class IoUtilityTest extends QedeqTestCase {
         IoUtility.copyFile(file1, file2);
         assertTrue(IoUtility.compareFilesBinary(file1, file2));
     }
+
+
+    /**
+     * Test {@link IoUtility#compareFilesBinary(File, File)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testCompareTextFiles() throws Exception {
+        final File file1 = new File("testCompareTextFiles1.txt");
+        if (file1.exists()) {
+            assertTrue(file1.delete());
+        }
+        final File file2 = new File("testCompareTextFiles2.txt");
+        if (file2.exists()) {
+            assertTrue(file2.delete());
+        }
+        assertFalse(IoUtility.compareTextFiles(null, file1));
+        assertFalse(IoUtility.compareTextFiles(file2, null));
+        assertTrue(IoUtility.compareTextFiles(null, null));
+        try {
+            assertTrue(IoUtility.compareTextFiles(file1, file2));
+            fail("FileNotFoundException expected");
+        } catch (FileNotFoundException e) {
+            // expected;
+        }
+        Random random = new Random(1001);
+        final byte data[] = new byte[1025];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = (byte) random.nextInt();
+        }
+        IoUtility.saveFileBinary(file1, data);
+        IoUtility.saveFileBinary(file2, data);
+        assertTrue(IoUtility.compareTextFiles(file1, file2));
+        data[1000] += 1;
+        IoUtility.saveFileBinary(file2, data);
+        assertFalse(IoUtility.compareTextFiles(file1, file2));
+        data[999] -= 1;
+        IoUtility.saveFileBinary(file2, data);
+        assertFalse(IoUtility.compareTextFiles(file1, file2));
+        IoUtility.saveFileBinary(file2, new byte[] {});
+        assertEquals(0, file2.length());
+        assertFalse(IoUtility.compareTextFiles(file1, file2));
+        assertTrue(IoUtility.compareTextFiles(file1, file1));
+        assertTrue(IoUtility.compareTextFiles(file2, file2));
+        file1.delete();
+        file2.delete();
+    }
+
 
 }

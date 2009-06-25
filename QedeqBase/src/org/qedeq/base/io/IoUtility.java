@@ -333,7 +333,7 @@ public final class IoUtility {
     }
 
     /**
-     * Save binary contents of an URL into a file.
+     * Save binary contents of an URL into a file. Existing files are overwritten.
      *
      * @param   url     This URL will be loaded.
      * @param   file    Write into this file.
@@ -345,7 +345,7 @@ public final class IoUtility {
 
     /**
      * Save binary contents of an input stream into a file. The input stream is closed even
-     * if exceptions occur.
+     * if exceptions occur.  Existing files are overwritten.
      * @param   in      Read this stream.
      * @param   file    Write into this file.
      *
@@ -385,7 +385,7 @@ public final class IoUtility {
 
 
     /**
-     * Saves a <code>String</code> into a file.
+     * Saves a <code>String</code> into a file. Existing files are overwritten.
      *
      * @param   filename    Name of the file (could include path).
      * @param   text        Data to save in the file.
@@ -399,7 +399,7 @@ public final class IoUtility {
     }
 
     /**
-     * Saves a <code>StringBuffer</code> in a file.
+     * Saves a <code>StringBuffer</code> in a file. Existing files are overwritten.
      *
      * @param   filename    Name of the file (could include path).
      * @param   text        Data to save in the file.
@@ -413,7 +413,7 @@ public final class IoUtility {
     }
 
     /**
-     * Saves a <code>StringBuffer</code> in a file.
+     * Saves a <code>StringBuffer</code> in a file. Existing files are overwritten.
      *
      * @param   file        File to save into.
      * @param   text        Data to save in the file.
@@ -428,7 +428,8 @@ public final class IoUtility {
     }
 
     /**
-     * Saves a <code>String</code> in a file. Uses default encoding.
+     * Saves a <code>String</code> in a file. Uses default encoding.  Existing files are
+     * overwritten.
      *
      * @param   file        File to save the data in.
      * @param   text        Data to save in the file.
@@ -445,7 +446,7 @@ public final class IoUtility {
     }
 
     /**
-     * Saves a <code>String</code> in a file.
+     * Saves a <code>String</code> in a file.  Existing files are overwritten.
      *
      * @param   file        File to save the data in.
      * @param   text        Data to save in the file.
@@ -474,7 +475,7 @@ public final class IoUtility {
     }
 
     /**
-     * Saves a <code>data</code> in a file.
+     * Saves a <code>data</code> in a file. Existing files are overwritten.
      *
      * @param   file        File to save the data in.
      * @param   data        Data to save in the file.
@@ -516,8 +517,9 @@ public final class IoUtility {
     /**
      * Compare two files binary.
      *
-     * @param   from    Compare source.
-     * @param   with    Compare with this file.
+     * @param   from    Compare source. This file must be <code>null</code> or be an existing file.
+     * @param   with    Compare with this file. This file must be <code>null</code> or be an 
+     *                  existing file.
      * @return  Is the contents of the two files binary equal?
      * @throws  IOException File exception occurred.
      */
@@ -588,7 +590,9 @@ public final class IoUtility {
 
             String lineOne;
             String lineTwo;
+            int lineCounter = 0;
             do {
+                System.out.println(++lineCounter);
                 lineOne = one.readLine();
                 lineTwo = two.readLine();
 // comment out for debugging, comment in for production, as you like it
@@ -597,6 +601,7 @@ public final class IoUtility {
                 if (!EqualsUtility.equals(lineOne, lineTwo)) {
                     return false;
                 }
+// FIXME mime 20090625 doesn't work if last line is not terminated by \n !!!!!!!                
             } while (lineOne != null);
             return true;
         } finally {
