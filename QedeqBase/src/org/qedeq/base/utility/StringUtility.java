@@ -394,9 +394,10 @@ public final class StringUtility {
         try {
             return new String(hex2byte(hex), IoUtility.getDefaultEncoding());
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
             // should never happen
+            throw new RuntimeException(e);
         }
+// TODO mime 20090630 if all fails: return new String(hex2byte(hex));
     }
 
     /**
@@ -426,7 +427,7 @@ public final class StringUtility {
     /**
      * Creates String with platform dependent line ends. If <code>text</code> is <code>null</code>
      * or empty nothing is changed. At the end of the String the platform dependent line end is
-     * added whether or not the original text ends with such a sequence.   
+     * added whether or not the original text ends with such a sequence.
      *
      * @param  text Text with CR or CR LF as line end markers. Might be <code>null</code>.
      * @return Text with platform dependent line ends.
