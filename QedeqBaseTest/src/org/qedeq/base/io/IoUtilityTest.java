@@ -17,6 +17,7 @@
 
 package org.qedeq.base.io;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -25,6 +26,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
@@ -60,14 +62,21 @@ public class IoUtilityTest extends QedeqTestCase {
 
 
     /**
-     * Test {@link IoUtility#getDefaultEncoding()}.
+     * Test {@link IoUtility#getDefaultEncoding()}. TODO mime 20090630 throws no exception no more
      *
      * @throws Exception Test failed.
      */
     public void testGetDefaultEncoding() throws Exception {
+        assertEquals(System.getProperty("file.encoding"), IoUtility.getDefaultEncoding());
+        final String encoding = new InputStreamReader(new ByteArrayInputStream(
+            new byte[0])).getEncoding();
         // UTF-8 and UTF8 are the same, so we remove all "-" ...
-        assertEquals(StringUtility.replace(System.getProperty("file.encoding"), "-", ""),
-            StringUtility.replace(IoUtility.getDefaultEncoding(), "-", ""));
+        if (!StringUtility.replace(System.getProperty("file.encoding"), "-", "").equals(encoding)) {
+            System.out.println("This system showed the java property \"file.encoding\" "
+                + System.getProperty("file.encoding") + " but the detected writing default is: "
+                + "\"" + IoUtility.getDefaultEncoding()
+                + "\"\nThis might be ok, but you should check it");
+        }
     }
 
     /**
@@ -1050,6 +1059,16 @@ public class IoUtilityTest extends QedeqTestCase {
         assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF16"));
         assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF16"));
 
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\015\012"), "ISO-8859-1");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "" + (char) 0x2029),
+            "ISO-8859-1");
+        assertTrue(IoUtility.compareTextFiles(file1, file2, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, "ISO-8859-1"));
+        assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF8"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF8"));
+        assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF16"));
+        assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF16"));
+        
         file1.delete();
         file2.delete();
     }
