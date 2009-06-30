@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
+import org.apache.commons.lang.SystemUtils;
 import org.qedeq.base.utility.EqualsUtility;
 
 
@@ -71,8 +72,11 @@ public final class IoUtility {
      * @return  Default encoding for this system.
      */
     public static String getDefaultEncoding() {
-        return new InputStreamReader(
-              new ByteArrayInputStream(new byte[0])).getEncoding();
+        return SystemUtils.FILE_ENCODING;
+// mime 20090630: under ubuntu the following gave the encoding ASCII:
+//        return new InputStreamReader(
+//              new ByteArrayInputStream(new byte[0])).getEncoding();
+// but it was: file.encoding="ANSI_X3.41968"
     }
 
 
@@ -563,7 +567,8 @@ public final class IoUtility {
     }
 
     /**
-     * Compare two text files.
+     * Compare two text files. Ignores different line separators. As there are:
+     * LF, CR, CR + LF, NEL, FF, LS, PS.
      *
      * @param   from        Compare source.
      * @param   with        Compare with this file.
@@ -632,6 +637,11 @@ public final class IoUtility {
         }
     }
 
+    /**
+     * Test if character is LF, CR, NEL, FF, LS, PS.
+     * @param   c   Character to test.
+     * @return  Is character a line terminator?
+     */
     private static boolean isCr(final int c) {
         return c == 0x0A || c == 0x0D || c == 0x85 || c == 0x0C || c == 0x2028 || c == 0x2029;
     }
