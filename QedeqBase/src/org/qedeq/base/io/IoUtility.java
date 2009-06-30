@@ -518,7 +518,7 @@ public final class IoUtility {
      * Compare two files binary.
      *
      * @param   from    Compare source. This file must be <code>null</code> or be an existing file.
-     * @param   with    Compare with this file. This file must be <code>null</code> or be an 
+     * @param   with    Compare with this file. This file must be <code>null</code> or be an
      *                  existing file.
      * @return  Is the contents of the two files binary equal?
      * @throws  IOException File exception occurred.
@@ -565,12 +565,14 @@ public final class IoUtility {
     /**
      * Compare two text files.
      *
-     * @param   from    Compare source.
-     * @param   with    Compare with this file.
-     * @return  Is the contents of the two files binary equal?
-     * @throws  IOException File exception occurred.
+     * @param   from        Compare source.
+     * @param   with        Compare with this file.
+     * @param   encoding    Use this character encoding. Must not be <code>null</code>.
+     * @return  Is the contents of the two text files equal?
+     * @throws  IOException File exception occurred or encoding is not supported.
+     * @throws  NullPointerException    Is encoding different from <code>null</code>?
      */
-    public static boolean compareTextFiles(final File from, final File with)
+    public static boolean compareTextFiles(final File from, final File with, final String encoding)
             throws IOException {
         if (from == null && with == null) {
             return true;
@@ -584,30 +586,54 @@ public final class IoUtility {
 
         BufferedReader one = null;
         BufferedReader two = null;
+        FileInputStream fromIn = null;
+        FileInputStream withIn = null;
         try {
-            one = new BufferedReader(new FileReader(from));
-            two = new BufferedReader(new FileReader(with));
+            fromIn = new FileInputStream(from);
+            one = new BufferedReader(new InputStreamReader(fromIn, encoding));
+            withIn = new FileInputStream(with);
+            two = new BufferedReader(new InputStreamReader(withIn, encoding));
 
-            String lineOne;
-            String lineTwo;
-            int lineCounter = 0;
+            boolean crOne = false;
+            boolean crTwo = false;
             do {
-                System.out.println(++lineCounter);
-                lineOne = one.readLine();
-                lineTwo = two.readLine();
-// comment out for debugging, comment in for production, as you like it
-//                System.out.println("1: " + lineOne);
-//                System.out.println("2: " + lineTwo);
-                if (!EqualsUtility.equals(lineOne, lineTwo)) {
-                    return false;
+                int readOne = one.read();
+                int readTwo = two.read();
+                if (readOne == readTwo) {
+                    if (readOne < 0) {
+                        break;
+                    }
+                } else {
+                    crOne = readOne == 0x0D;
+                    crTwo = readTwo == 0x0D;
+                    if (crOne) {
+                        readOne = one.read();
+                    }
+                    if (crTwo) {
+                        readTwo = two.read();
+                    }
+                    if (crOne && readOne != 0x0A & isCr(readTwo)) {
+                        readTwo = two.read();
+                    }
+                    if (crTwo && readTwo != 0x0A & isCr(readOne)) {
+                        readOne = one.read();
+                    }
+                    if (readOne != readTwo && (!isCr(readOne) && !isCr(readTwo))) {
+                        return false;
+                    }
                 }
-// FIXME mime 20090625 doesn't work if last line is not terminated by \n !!!!!!!                
-            } while (lineOne != null);
+            } while (true);
             return true;
         } finally {
+            close(fromIn);
             close(one);
             close(two);
+            close(withIn);
         }
+    }
+
+    private static boolean isCr(final int c) {
+        return c == 0x0A || c == 0x0D || c == 0x85 || c == 0x0C || c == 0x2028 || c == 0x2029;
     }
 
     /**

@@ -82,7 +82,7 @@ public final class GenerateXmlTest extends QedeqTestCase {
         Xml2Xml.generate(xmlFile, destination);
 //        assertEquals(IoUtility.loadFile(xmlFile.getAbsolutePath(), "ISO-8859-1"), 
 //            IoUtility.loadFile(destination.getAbsolutePath(), "ISO-8859-1"));
-        assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination));
+        assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination, "ISO-8859-1"));
     }
 
 }
