@@ -19,6 +19,7 @@ package org.qedeq.base.io;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -138,22 +139,19 @@ public class IoUtilityTest extends QedeqTestCase {
      */
     public void testLoadStreamInputStreamStringBuffer() throws Exception {
         final File file = new File("testLoadStreamInputStreamStringBuffer.txt");
-        try {
-            if (file.exists()) {
-                assertTrue(file.delete());
-            }
-            final OutputStream out = new FileOutputStream(file);
-            final String expected = "We all live in a yellow submarine ...";
-            out.write(expected.getBytes());
-            out.close();
-            final StringBuffer buffer = new StringBuffer();
-            final InputStream in = new FileInputStream(file);
-            IoUtility.loadStream(in, buffer);
-            in.close();
-            assertEquals(expected, buffer.toString());
-        } finally {
-            file.delete();
+        if (file.exists()) {
+            assertTrue(file.delete());
         }
+        final OutputStream out = new FileOutputStream(file);
+        final String expected = "We all live in a yellow submarine ...";
+        out.write(expected.getBytes());
+        out.close();
+        final StringBuffer buffer = new StringBuffer();
+        final InputStream in = new FileInputStream(file);
+        IoUtility.loadStream(in, buffer);
+        in.close();
+        assertEquals(expected, buffer.toString());
+        assertTrue(file.delete());
     }
 
     /**
@@ -208,7 +206,7 @@ public class IoUtilityTest extends QedeqTestCase {
                 }
             }
         } finally {
-            file.delete();
+            assertTrue(file.delete());
         }
     }
 
@@ -219,23 +217,20 @@ public class IoUtilityTest extends QedeqTestCase {
      */
     public void testLoadReader() throws Exception {
         final File file = new File("testLoadReaderStringBuffer.txt");
-        try {
-            if (file.exists()) {
-                assertTrue(file.delete());
-            }
-            final Writer out = new FileWriter(file);
-            final String expected = "We all live in a yellow submarine ...";
-            out.write(expected);
-            out.close();
-            final StringBuffer buffer = new StringBuffer();
-            final Reader in = new FileReader(file);
-            IoUtility.loadReader(in, buffer);
-            // test if reader can be closed
-            in.close();
-            assertEquals(expected, buffer.toString());
-        } finally {
-            file.delete();
+        if (file.exists()) {
+            assertTrue(file.delete());
         }
+        final Writer out = new FileWriter(file);
+        final String expected = "We all live in a yellow submarine ...";
+        out.write(expected);
+        out.close();
+        final StringBuffer buffer = new StringBuffer();
+        final Reader in = new FileReader(file);
+        IoUtility.loadReader(in, buffer);
+        // test if reader can be closed
+        in.close();
+        assertEquals(expected, buffer.toString());
+        assertTrue(file.delete());
     }
 
     /**
@@ -245,20 +240,17 @@ public class IoUtilityTest extends QedeqTestCase {
      */
     public void testLoadFileFileStringBuffer() throws Exception {
         final File file = new File("testLoadFileFileStringBuffer.txt");
-        try {
-            if (file.exists()) {
-                assertTrue(file.delete());
-            }
-            final Writer out = new FileWriter(file);
-            final String expected = "We all live in a yellow submarine ...";
-            out.write(expected);
-            out.close();
-            final StringBuffer buffer = new StringBuffer();
-            IoUtility.loadFile(file, buffer);
-            assertEquals(expected, buffer.toString());
-        } finally {
-            file.delete();
+        if (file.exists()) {
+            assertTrue(file.delete());
         }
+        final Writer out = new FileWriter(file);
+        final String expected = "We all live in a yellow submarine ...";
+        out.write(expected);
+        out.close();
+        final StringBuffer buffer = new StringBuffer();
+        IoUtility.loadFile(file, buffer);
+        assertEquals(expected, buffer.toString());
+        assertTrue(file.delete());
     }
 
     /**
@@ -268,29 +260,26 @@ public class IoUtilityTest extends QedeqTestCase {
      */
     public void testLoadFileFileStringBufferString() throws Exception {
         final File file = new File("testLoadFileFileStringBufferString.txt");
-        try {
-            if (file.exists()) {
-                assertTrue(file.delete());
-            }
-            final String expected1 = "We all live in a yellow submarine ...";
-            final String encoding1 = "UTF-16";
-            assertEquals(expected1, loadFile(file, expected1, encoding1));
-            final String expected2 = "We all live in a yellow submarine\n"
-                + "Yellow submarine, yellow submarine\n"
-                + "We all live in a yellow submarine\n"
-                + "Yellow submarine, yellow submarine\n"
-                + "\n"
-                + "As we live a life of ease\n"
-                + "Everyone of us has all we need\n"
-                + "Sky of blue and sea of green\n"
-                + "In our yellow submarine ";
-            final String encoding2 = "UnicodeBigUnmarked";
-            assertEquals(expected2, loadFile(file, expected2, encoding2));
-            final String encoding3 = "ASCII";
-            assertEquals(expected2, loadFile(file, expected2, encoding3));
-        } finally {
-            file.delete();
+        if (file.exists()) {
+            assertTrue(file.delete());
         }
+        final String expected1 = "We all live in a yellow submarine ...";
+        final String encoding1 = "UTF-16";
+        assertEquals(expected1, loadFile(file, expected1, encoding1));
+        final String expected2 = "We all live in a yellow submarine\n"
+            + "Yellow submarine, yellow submarine\n"
+            + "We all live in a yellow submarine\n"
+            + "Yellow submarine, yellow submarine\n"
+            + "\n"
+            + "As we live a life of ease\n"
+            + "Everyone of us has all we need\n"
+            + "Sky of blue and sea of green\n"
+            + "In our yellow submarine ";
+        final String encoding2 = "UnicodeBigUnmarked";
+        assertEquals(expected2, loadFile(file, expected2, encoding2));
+        final String encoding3 = "ASCII";
+        assertEquals(expected2, loadFile(file, expected2, encoding3));
+        assertTrue(file.delete());
     }
 
     private String loadFile(final File file, final String expected, final String encoding)
@@ -337,7 +326,7 @@ public class IoUtilityTest extends QedeqTestCase {
         for (int i = 0; i < 256; i++) {
             assertEquals((byte) i, loaded[i]);
         }
-        file.delete();
+        assertTrue(file.delete());
     }
 
     /**
@@ -373,7 +362,7 @@ public class IoUtilityTest extends QedeqTestCase {
                 assertEquals((byte) (255 - i), loaded[i + 256 + 512 * j]);
             }
         }
-        file.delete();
+        assertTrue(file.delete());
     }
 
     /**
@@ -403,7 +392,7 @@ public class IoUtilityTest extends QedeqTestCase {
         } finally {
             in.close();
         }
-        file.delete();
+        assertTrue(file.delete());
     }
 
     /**
@@ -426,7 +415,7 @@ public class IoUtilityTest extends QedeqTestCase {
         }
         IoUtility.saveFileBinary(file, data);
         assertTrue(EqualsUtility.equals(data, IoUtility.loadFileBinary(file)));
-        file.delete();
+        assertTrue(file.delete());
     }
 
     /**
@@ -469,10 +458,14 @@ public class IoUtilityTest extends QedeqTestCase {
         IoUtility.saveFileBinary(file2, new byte[] {});
         assertEquals(0, file2.length());
         assertFalse(IoUtility.compareFilesBinary(file1, file2));
+        assertFalse(IoUtility.compareFilesBinary(file2, file1));
         assertTrue(IoUtility.compareFilesBinary(file1, file1));
         assertTrue(IoUtility.compareFilesBinary(file2, file2));
-        file1.delete();
-        file2.delete();
+        IoUtility.saveFileBinary(file2, new byte[] {'A', 'B', 'C'});
+        assertFalse(IoUtility.compareFilesBinary(file1, file2));
+        assertFalse(IoUtility.compareFilesBinary(file2, file1));
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
     }
 
     /**
@@ -482,20 +475,17 @@ public class IoUtilityTest extends QedeqTestCase {
      */
     public void testLoadFileURLStringBuffer() throws Exception {
         final File file = new File("testLoadFileURLStringBuffer.txt");
-        try {
-            if (file.exists()) {
-                assertTrue(file.delete());
-            }
-            final Writer out = new FileWriter(file);
-            final String expected = "We all live in a yellow submarine ...";
-            out.write(expected);
-            out.close();
-            final StringBuffer buffer = new StringBuffer();
-            IoUtility.loadFile(file.toURL(), buffer);
-            assertEquals(expected, buffer.toString());
-        } finally {
-            file.delete();
+        if (file.exists()) {
+            assertTrue(file.delete());
         }
+        final Writer out = new FileWriter(file);
+        final String expected = "We all live in a yellow submarine ...";
+        out.write(expected);
+        out.close();
+        final StringBuffer buffer = new StringBuffer();
+        IoUtility.loadFile(file.toURL(), buffer);
+        assertEquals(expected, buffer.toString());
+        assertTrue(file.delete());
     }
 
     /**
@@ -505,29 +495,26 @@ public class IoUtilityTest extends QedeqTestCase {
      */
     public void testLoadFileURLStringBufferString() throws Exception {
         final File file = new File("testLoadFileURLStringBufferString.txt");
-        try {
-            if (file.exists()) {
-                assertTrue(file.delete());
-            }
-            final Writer out = new FileWriter(file);
-            final String expected = "We all live in a yellow submarine ...\n";
-            final String encoding = "UTF-8";
-            out.write(expected);
-            out.close();
-            final StringBuffer buffer = new StringBuffer();
-            IoUtility.loadFile(file.toURL(), buffer, encoding);
-            assertEquals(expected, buffer.toString());
-            IoUtility.saveFileBinary(file, StringUtility.hex2byte(
-                "FF FE 49 00 20 00 61 00 6D 00 20 00 64 00 72 00"
-                    + "65 00 61 00 6D 00 69 00 6E 00 67 00 20 00 6F 00"
-                    + "66 00 20 00 61 00 20 00 77 00 68 00 69 00 74 00"
-                    + "65 00 20 00 63 00 68 00 72 00 69 00 73 00 74 00"
-                    + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00"));
-            IoUtility.loadFile(file.toURL(), buffer, "UTF16");
-            assertEquals(expected + "I am dreaming of a white christmass...", buffer.toString());
-        } finally {
-            file.delete();
+        if (file.exists()) {
+            assertTrue(file.delete());
         }
+        final Writer out = new FileWriter(file);
+        final String expected = "We all live in a yellow submarine ...\n";
+        final String encoding = "UTF-8";
+        out.write(expected);
+        out.close();
+        final StringBuffer buffer = new StringBuffer();
+        IoUtility.loadFile(file.toURL(), buffer, encoding);
+        assertEquals(expected, buffer.toString());
+        IoUtility.saveFileBinary(file, StringUtility.hex2byte(
+            "FF FE 49 00 20 00 61 00 6D 00 20 00 64 00 72 00"
+                + "65 00 61 00 6D 00 69 00 6E 00 67 00 20 00 6F 00"
+                + "66 00 20 00 61 00 20 00 77 00 68 00 69 00 74 00"
+                + "65 00 20 00 63 00 68 00 72 00 69 00 73 00 74 00"
+                + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00"));
+        IoUtility.loadFile(file.toURL(), buffer, "UTF16");
+        assertEquals(expected + "I am dreaming of a white christmass...", buffer.toString());
+        assertTrue(file.delete());
     }
 
     /**
@@ -538,25 +525,22 @@ public class IoUtilityTest extends QedeqTestCase {
     public void testSaveFileURLFile() throws Exception {
         final File file1 = new File("testSaveFileURLFile1.txt");
         final File file2 = new File("testSaveFileURLFile2.txt");
-        try {
-            if (file1.exists()) {
-                assertTrue(file1.delete());
-            }
-            if (file2.exists()) {
-                assertTrue(file2.delete());
-            }
-            IoUtility.saveFileBinary(file1, StringUtility.hex2byte(
-                "FF FE 49 00 20 00 61 00 6D 00 20 00 64 00 72 00"
-                    + "65 00 61 00 6D 00 69 00 6E 00 67 00 20 00 6F 00"
-                    + "66 00 20 00 61 00 20 00 77 00 68 00 69 00 74 00"
-                    + "65 00 20 00 63 00 68 00 72 00 69 00 73 00 74 00"
-                    + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00"));
-            IoUtility.saveFile(file1.toURL(), file2);
-            assertTrue(IoUtility.compareFilesBinary(file1, file2));
-        } finally {
-            file1.delete();
-            file2.delete();
+        if (file1.exists()) {
+            assertTrue(file1.delete());
         }
+        if (file2.exists()) {
+            assertTrue(file2.delete());
+        }
+        IoUtility.saveFileBinary(file1, StringUtility.hex2byte(
+            "FF FE 49 00 20 00 61 00 6D 00 20 00 64 00 72 00"
+                + "65 00 61 00 6D 00 69 00 6E 00 67 00 20 00 6F 00"
+                + "66 00 20 00 61 00 20 00 77 00 68 00 69 00 74 00"
+                + "65 00 20 00 63 00 68 00 72 00 69 00 73 00 74 00"
+                + "6D 00 61 00 73 00 73 00 2E 00 2E 00 2E 00"));
+        IoUtility.saveFile(file1.toURL(), file2);
+        assertTrue(IoUtility.compareFilesBinary(file1, file2));
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
     }
 
     /**
@@ -588,9 +572,9 @@ public class IoUtilityTest extends QedeqTestCase {
             if (in != null) {
                 in.close();
             }
-            file1.delete();
-            file2.delete();
         }
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
     }
 
     /**
@@ -646,9 +630,9 @@ public class IoUtilityTest extends QedeqTestCase {
             if (in != null) {
                 in.close();
             }
-            file1.delete();
-            file2.delete();
         }
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
     }
 
     /**
@@ -681,9 +665,9 @@ public class IoUtilityTest extends QedeqTestCase {
             if (in != null) {
                 in.close();
             }
-            file1.delete();
-            file2.delete();
         }
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
     }
 
     /**
@@ -724,9 +708,9 @@ public class IoUtilityTest extends QedeqTestCase {
                 in.close();
             }
         }
-        file1.delete();
-        file2.delete();
-        file3.delete();
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
+        assertTrue(file3.delete());
     }
 
     /**
@@ -759,9 +743,9 @@ public class IoUtilityTest extends QedeqTestCase {
             if (in != null) {
                 in.close();
             }
-            file1.delete();
-            file2.delete();
         }
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
     }
 
     /**
@@ -794,9 +778,9 @@ public class IoUtilityTest extends QedeqTestCase {
             if (in != null) {
                 in.close();
             }
-            file1.delete();
-            file2.delete();
         }
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
     }
 
     /**
@@ -840,9 +824,9 @@ public class IoUtilityTest extends QedeqTestCase {
                 in.close();
             }
         }
-        file1.delete();
-        file2.delete();
-        file3.delete();
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
+        assertTrue(file3.delete());
     }
 
     /**
@@ -926,8 +910,8 @@ public class IoUtilityTest extends QedeqTestCase {
         assertFalse(IoUtility.compareTextFiles(file1, file2, "ISO-8859-1"));
         assertTrue(IoUtility.compareTextFiles(file1, file1, "ISO-8859-1"));
         assertTrue(IoUtility.compareTextFiles(file2, file2, "ISO-8859-1"));
-        file1.delete();
-        file2.delete();
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
     }
 
     /**
@@ -1069,8 +1053,8 @@ public class IoUtilityTest extends QedeqTestCase {
         assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF16"));
         assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF16"));
 
-        file1.delete();
-        file2.delete();
+        assertTrue(file1.delete());
+        assertTrue(file2.delete());
     }
 
     /**
@@ -1088,13 +1072,44 @@ public class IoUtilityTest extends QedeqTestCase {
         final File file2 = new File(dir1, "testDeleteDirFileBoolean2.txt");
         final File file3 = new File(dir2, "testDeleteDirFileBoolean3.txt");
         assertTrue(dir2.mkdirs());
-        
+
         IoUtility.saveFile(file1, "File 1", "ISO-8859-1");
         IoUtility.saveFile(file2, "File 2", "ISO-8859-1");
         IoUtility.saveFile(file3, "File 3", "ISO-8859-1");
         assertTrue(IoUtility.deleteDir(dir1, true));
-
+        assertTrue(!dir1.exists());
     }
 
+    /**
+     * Test {@link IoUtility#testCompareTextFiles(File, File, String)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testDeleteDirFileFileFilter() throws Exception {
+        final File dir1 = new File("testDeleteDirFileFileFilter_directory");
+        if (dir1.exists()) {
+            assertTrue(IoUtility.deleteDir(dir1, true));
+        }
+        final File dir2 = new File(dir1, "testDeleteDirFileFileFilter_directory2");
+        final File file1 = new File(dir1, "testDeleteDirFileFileFilter1.txt");
+        final File file2 = new File(dir1, "testDeleteDirFileFileFilter2.txt");
+        final File file3 = new File(dir2, "testDeleteDirFileFileFilter_3.txt");
+        assertTrue(dir2.mkdirs());
+
+        IoUtility.saveFile(file1, "File 1", "ISO-8859-1");
+        IoUtility.saveFile(file2, "File 2", "ISO-8859-1");
+        IoUtility.saveFile(file3, "File 3", "ISO-8859-1");
+        assertTrue(IoUtility.deleteDir(dir1, new FileFilter() {
+
+            public boolean accept(final File pathname) {
+                return pathname.toString().indexOf("testDeleteDirFileFileFilter_") >= 0;
+            }}));
+        assertTrue(dir1.exists());
+        assertTrue(dir2.exists());
+        assertFalse(file1.exists());
+        assertFalse(file2.exists());
+        assertTrue(file3.exists());
+        assertFalse(dir1.exists());
+    }
 
 }
