@@ -67,12 +67,12 @@ public class TraceTest extends QedeqTestCase {
         Trace.fatal(this.getClass(), this, "methodToLog", "##My Description##",
             new NullPointerException());
         String result = out.toString();
-        assertTrue(result.contains("methodToLog"));
-        assertTrue(result.contains("testFatal"));
-        assertTrue(result.contains("##My Description##"));
-        assertTrue(result.contains("FATAL"));
-        assertTrue(result.contains("NullPointerException"));
-        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.indexOf("methodToLog") >= 0);
+        assertTrue(result.indexOf("testFatal") >= 0);
+        assertTrue(result.indexOf("##My Description##") >= 0);
+        assertTrue(result.indexOf("FATAL") >= 0);
+        assertTrue(result.indexOf("NullPointerException") >= 0);
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -80,24 +80,24 @@ public class TraceTest extends QedeqTestCase {
         Trace.fatal(this.getClass(), this, "methodToLog", "##My Description##",
             new NullPointerException());
         result = out.toString();
-        assertTrue(result.contains("methodToLog"));
-        assertTrue(result.contains("testFatal"));
-        assertTrue(result.contains("##My Description##"));
-        assertTrue(result.contains("FATAL"));
-        assertTrue(result.contains("NullPointerException"));
-        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.indexOf("methodToLog") >= 0);
+        assertTrue(result.indexOf("testFatal") >= 0);
+        assertTrue(result.indexOf("##My Description##") >= 0);
+        assertTrue(result.indexOf("FATAL") >= 0);
+        assertTrue(result.indexOf("NullPointerException") >= 0);
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
     }
 
     public void testFatal2() throws Exception {
         Trace.fatal(this.getClass(), "methodToLog", "##My Description##",
             new NullPointerException());
         String result = out.toString();
-        assertTrue(result.contains("methodToLog"));
-        assertTrue(result.contains("testFatal"));
-        assertTrue(result.contains("##My Description##"));
-        assertTrue(result.contains("FATAL"));
-        assertTrue(result.contains("NullPointerException"));
-        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.indexOf("methodToLog") >= 0);
+        assertTrue(result.indexOf("testFatal") >= 0);
+        assertTrue(result.indexOf("##My Description##") >= 0);
+        assertTrue(result.indexOf("FATAL") >= 0);
+        assertTrue(result.indexOf("NullPointerException") >= 0);
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -105,12 +105,12 @@ public class TraceTest extends QedeqTestCase {
         Trace.fatal(this.getClass(), "methodToLog", "##My Description##",
             new NullPointerException());
         result = out.toString();
-        assertTrue(result.contains("methodToLog"));
-        assertTrue(result.contains("testFatal"));
-        assertTrue(result.contains("##My Description##"));
-        assertTrue(result.contains("FATAL"));
-        assertTrue(result.contains("NullPointerException"));
-        assertTrue(result.contains(this.getClass().getName()));
+        assertTrue(result.indexOf("methodToLog") >= 0);
+        assertTrue(result.indexOf("testFatal") >= 0);
+        assertTrue(result.indexOf("##My Description##") >= 0);
+        assertTrue(result.indexOf("FATAL") >= 0);
+        assertTrue(result.indexOf("NullPointerException") >= 0);
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
     }
 
     public void testInfo() throws Exception {
@@ -118,10 +118,10 @@ public class TraceTest extends QedeqTestCase {
             "*Super Info*");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testInfo"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("*Super Info"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testInfo") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("*Super Info") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -139,10 +139,10 @@ public class TraceTest extends QedeqTestCase {
             "*Super Info*");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testInfo"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("*Super Info"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testInfo") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("*Super Info") >= 0);
     }
 
     public void testInfo2() throws Exception {
@@ -150,10 +150,10 @@ public class TraceTest extends QedeqTestCase {
             "*Super Info*");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testInfo"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("*Super Info*"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testInfo") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("*Super Info*") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -171,20 +171,20 @@ public class TraceTest extends QedeqTestCase {
             "*Super Info*");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testInfo"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("*Super Info*"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testInfo") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("*Super Info*") >= 0);
     }
 
     public void testBegin() throws Exception {
         Trace.begin(this.getClass(), this, "testBegin");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testBegin"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("begin"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testBegin") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("begin") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -206,20 +206,20 @@ public class TraceTest extends QedeqTestCase {
         Trace.begin(this.getClass(), this, "testBegin");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testBegin"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("begin"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testBegin") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("begin") >= 0);
     }
 
     public void testBegin2() throws Exception {
         Trace.begin(this.getClass(), "testBegin");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testBegin"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("begin"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testBegin") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("begin") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -240,20 +240,20 @@ public class TraceTest extends QedeqTestCase {
         Trace.begin(this.getClass(), "testBegin");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testBegin"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("begin"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testBegin") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("begin") >= 0);
     }
 
     public void testEnd() throws Exception {
         Trace.end(this.getClass(), this, "testEnd");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testEnd"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("end"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testEnd") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("end") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -274,20 +274,20 @@ public class TraceTest extends QedeqTestCase {
         Trace.end(this.getClass(), this, "testEnd");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testEnd"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("end"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testEnd") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("end") >= 0);
     }
 
     public void testEnd2() throws Exception {
         Trace.end(this.getClass(), "testEnd");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testEnd"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("end"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testEnd") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("end") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -308,21 +308,21 @@ public class TraceTest extends QedeqTestCase {
         Trace.end(this.getClass(), "testEnd");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testEnd"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("end"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testEnd") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("end") >= 0);
     }
 
     public void testParamString() throws Exception {
         Trace.param(this.getClass(), this, "testParamString", "param", "6868");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamString"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamString") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -343,22 +343,22 @@ public class TraceTest extends QedeqTestCase {
         Trace.param(this.getClass(), this, "testParamString", "param", "6868");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamString"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamString") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
     }
 
     public void testParamString2() throws Exception {
         Trace.param(this.getClass(), "testParamString", "param", "6868");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamString"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamString") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -379,22 +379,22 @@ public class TraceTest extends QedeqTestCase {
         Trace.param(this.getClass(), "testParamString", "param", "6868");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamString"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamString") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
     }
 
     public void testParamInt() throws Exception {
         Trace.param(this.getClass(), this, "testParamInt", "param", 6868);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInt"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInt") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -415,22 +415,22 @@ public class TraceTest extends QedeqTestCase {
         Trace.param(this.getClass(), this, "testParamInt", "param", 6868);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInt"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInt") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
     }
 
     public void testParamInt2() throws Exception {
         Trace.param(this.getClass(), "testParamInt", "param", 6868);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInt"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInt") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -451,22 +451,22 @@ public class TraceTest extends QedeqTestCase {
         Trace.param(this.getClass(), "testParamInt", "param", 6868);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInt"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInt") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
     }
 
     public void testParamBoolean() throws Exception {
         Trace.param(this.getClass(), this, "testParamBoolean", "param", true);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamBoolean"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("true"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamBoolean") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("true") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -487,22 +487,22 @@ public class TraceTest extends QedeqTestCase {
         Trace.param(this.getClass(), this, "testParamBoolean", "param", false);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamBoolean"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("false"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamBoolean") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("false") >= 0);
     }
 
     public void testParamBoolean2() throws Exception {
         Trace.param(this.getClass(), "testParamBoolean", "param", true);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamBoolean"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("true"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamBoolean") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("true") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -523,11 +523,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.param(this.getClass(), "testParamBoolean", "param", false);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamBoolean"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("false"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamBoolean") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("false") >= 0);
     }
 
     public void testParamObject() throws Exception {
@@ -535,11 +535,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.param(this.getClass(), this, "testParamObject", "param", object);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamObject"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("123456789"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamObject") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("123456789") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -560,11 +560,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.param(this.getClass(), this, "testParamObject", "param", object);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamObject"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("123456789"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamObject") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("123456789") >= 0);
     }
 
     public void testParamObject2() throws Exception {
@@ -572,11 +572,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.param(this.getClass(), "testParamObject", "param", object);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamObject"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("9876543210"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamObject") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("9876543210") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -597,22 +597,22 @@ public class TraceTest extends QedeqTestCase {
         Trace.param(this.getClass(), "testParamObject", "param", object);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamObject"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("9876543210"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamObject") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("9876543210") >= 0);
     }
 
     public void testParamInfoString() throws Exception {
         Trace.paramInfo(this.getClass(), this, "testParamInfoString", "param", "6868");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoString"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoString") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -633,22 +633,22 @@ public class TraceTest extends QedeqTestCase {
         Trace.paramInfo(this.getClass(), this, "testParamInfoString", "param", "6868");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoString"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoString") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
     }
 
     public void testParamInfoString2() throws Exception {
         Trace.paramInfo(this.getClass(), "testParamInfoString", "param", "6868");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoString"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoString") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -669,22 +669,22 @@ public class TraceTest extends QedeqTestCase {
         Trace.paramInfo(this.getClass(), "testParamInfoString", "param", "6868");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoString"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoString") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
     }
 
     public void testParamInfoInt() throws Exception {
         Trace.paramInfo(this.getClass(), this, "testParamInfoInt", "param", 6868);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoInt"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoInt") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -705,22 +705,22 @@ public class TraceTest extends QedeqTestCase {
         Trace.paramInfo(this.getClass(), this, "testParamInfoInt", "param", 6868);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoInt"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoInt") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
     }
 
     public void testParamInfoInt2() throws Exception {
         Trace.paramInfo(this.getClass(), "testParamInfoInt", "param", 6868);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoInt"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoInt") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -741,22 +741,22 @@ public class TraceTest extends QedeqTestCase {
         Trace.paramInfo(this.getClass(), "testParamInfoInt", "param", 6868);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoInt"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("6868"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoInt") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("6868") >= 0);
     }
 
     public void testParamInfoBoolean() throws Exception {
         Trace.paramInfo(this.getClass(), this, "testParamInfoBoolean", "param", true);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoBoolean"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("true"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoBoolean") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("true") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -777,22 +777,22 @@ public class TraceTest extends QedeqTestCase {
         Trace.paramInfo(this.getClass(), this, "testParamInfoBoolean", "param", false);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoBoolean"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("false"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoBoolean") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("false") >= 0);
     }
 
     public void testParamInfoBoolean2() throws Exception {
         Trace.paramInfo(this.getClass(), "testParamInfoBoolean", "param", true);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoBoolean"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("true"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoBoolean") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("true") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -813,11 +813,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.paramInfo(this.getClass(), "testParamInfoBoolean", "param", false);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoBoolean"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("false"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoBoolean") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("false") >= 0);
     }
 
     public void testParamInfoObject() throws Exception {
@@ -825,11 +825,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.paramInfo(this.getClass(), this, "testParamInfoObject", "param", object);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoObject"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("123456789"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoObject") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("123456789") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -850,11 +850,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.paramInfo(this.getClass(), this, "testParamInfoObject", "param", object);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoObject"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("123456789"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoObject") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("123456789") >= 0);
     }
 
     public void testParamInfoObject2() throws Exception {
@@ -862,11 +862,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.paramInfo(this.getClass(), "testParamInfoObject", "param", object);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoObject"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("9876543210"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoObject") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("9876543210") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -887,11 +887,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.paramInfo(this.getClass(), "testParamInfoObject", "param", object);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testParamInfoObject"));
-        assertTrue(result.contains("INFO"));
-        assertTrue(result.contains("param"));
-        assertTrue(result.contains("9876543210"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testParamInfoObject") >= 0);
+        assertTrue(result.indexOf("INFO") >= 0);
+        assertTrue(result.indexOf("param") >= 0);
+        assertTrue(result.indexOf("9876543210") >= 0);
     }
 
     public void testTraceObject() throws Exception {
@@ -899,10 +899,10 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), this, "testTraceObject", object);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceObject"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("123456789"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceObject") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("123456789") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -923,10 +923,10 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), this, "testTraceObject", object);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceObject"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("123456789"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceObject") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("123456789") >= 0);
     }
 
     public void testTraceObject2() throws Exception {
@@ -934,10 +934,10 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), "testTraceObject", object);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceObject"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("123456789"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceObject") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("123456789") >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -958,10 +958,10 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), "testTraceObject", object);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceObject"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("123456789"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceObject") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("123456789") >= 0);
     }
 
     public void testTraceThrowable() throws Exception {
@@ -969,11 +969,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), this, "testTraceThrowable", "bad situation", throwable);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceThrowable"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("bad situation"));
-        assertTrue(result.contains(throwable.toString()));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceThrowable") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("bad situation") >= 0);
+        assertTrue(result.indexOf(throwable.toString()) >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -994,11 +994,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), this, "testTraceThrowable", "bad situation", throwable);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceThrowable"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("bad situation"));
-        assertTrue(result.contains(throwable.toString()));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceThrowable") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("bad situation") >= 0);
+        assertTrue(result.indexOf(throwable.toString()) >= 0);
     }
 
     public void testTraceThrowable2() throws Exception {
@@ -1006,11 +1006,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), "testTraceThrowable", "bad situation", throwable);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceThrowable"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("bad situation"));
-        assertTrue(result.contains(throwable.toString()));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceThrowable") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("bad situation") >= 0);
+        assertTrue(result.indexOf(throwable.toString()) >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -1031,11 +1031,11 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), "testTraceThrowable", "bad situation", throwable);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceThrowable"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains("bad situation"));
-        assertTrue(result.contains(throwable.toString()));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceThrowable") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf("bad situation") >= 0);
+        assertTrue(result.indexOf(throwable.toString()) >= 0);
     }
 
     public void testTraceThrowable3() throws Exception {
@@ -1043,10 +1043,10 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), this, "testTraceThrowable", throwable);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceThrowable"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains(throwable.toString()));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceThrowable") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf(throwable.toString()) >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -1067,10 +1067,10 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), this, "testTraceThrowable", throwable);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceThrowable"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains(throwable.toString()));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceThrowable") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf(throwable.toString()) >= 0);
     }
 
     public void testTraceThrowable4() throws Exception {
@@ -1078,10 +1078,10 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), "testTraceThrowable", throwable);
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceThrowable"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains(throwable.toString()));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceThrowable") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf(throwable.toString()) >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -1102,10 +1102,10 @@ public class TraceTest extends QedeqTestCase {
         Trace.trace(this.getClass(), "testTraceThrowable", throwable);
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceThrowable"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains(throwable.toString()));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceThrowable") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf(throwable.toString()) >= 0);
     }
 
     public void testTraceStack() throws Exception {
@@ -1117,12 +1117,12 @@ public class TraceTest extends QedeqTestCase {
         Trace.traceStack(this.getClass(), this, "testTraceStack");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceStack"));
-        assertTrue(result.contains("DEBUG"));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceStack") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
 //        System.out.println("stack=\n" + stack);
 //        System.out.println("\nresult=\n" + result);
-        assertTrue(result.contains(stack));
+        assertTrue(result.indexOf(stack) >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -1143,10 +1143,10 @@ public class TraceTest extends QedeqTestCase {
         Trace.traceStack(this.getClass(), this, "testTraceStack");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceStack"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains(stack));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceStack") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf(stack) >= 0);
     }
 
     public void testTraceStack2() throws Exception {
@@ -1158,10 +1158,10 @@ public class TraceTest extends QedeqTestCase {
         Trace.traceStack(this.getClass(), "testTraceStack");
         String result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceStack"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains(stack));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceStack") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf(stack) >= 0);
         out.reset();
         result = out.toString();
         assertTrue(result.length() == 0);
@@ -1182,10 +1182,10 @@ public class TraceTest extends QedeqTestCase {
         Trace.traceStack(this.getClass(), "testTraceStack");
         result = out.toString();
         assertTrue(result.length() > 0);
-        assertTrue(result.contains(this.getClass().getName()));
-        assertTrue(result.contains("testTraceStack"));
-        assertTrue(result.contains("DEBUG"));
-        assertTrue(result.contains(stack));
+        assertTrue(result.indexOf(this.getClass().getName()) >= 0);
+        assertTrue(result.indexOf("testTraceStack") >= 0);
+        assertTrue(result.indexOf("DEBUG") >= 0);
+        assertTrue(result.indexOf(stack) >= 0);
     }
 
 }
