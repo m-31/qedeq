@@ -328,12 +328,7 @@ public final class StringUtility {
      * @return  hex     String of hex codes.
      */
     public static String string2Hex(final String data) {
-        try {
-            return byte2Hex(data.getBytes(IoUtility.getDefaultEncoding()));
-        } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);
-            // should never happen
-        }
+        return byte2Hex(data.getBytes());
     }
 
     /**
@@ -391,13 +386,7 @@ public final class StringUtility {
      * @throws  IllegalArgumentException Padding wrong or illegal hexadecimal character.
      */
     public static String hex2String(final String hex) {
-        try {
-            return new String(hex2byte(hex), IoUtility.getDefaultEncoding());
-        } catch (UnsupportedEncodingException e) {
-            // should never happen
-            throw new RuntimeException(e);
-        }
-// TODO mime 20090630 if all fails: return new String(hex2byte(hex));
+        return new String(hex2byte(hex));
     }
 
     /**
