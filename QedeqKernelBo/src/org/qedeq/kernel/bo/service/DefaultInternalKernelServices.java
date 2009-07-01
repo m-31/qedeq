@@ -32,6 +32,11 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.HttpStatus;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
@@ -55,6 +60,7 @@ import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
+
 
 /**
  * This class provides a default implementation for the QEDEQ module services.
@@ -529,7 +535,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * @param prop Module properties.
      * @throws SourceFileExceptionList Address was malformed or the file can not be found.
      */
-    public void saveQedeqFromWebToBuffer(final DefaultKernelQedeqBo prop)
+    public void saveQedeqFromWebToBufferOld(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
         final String method = "makeLocalCopy";
         Trace.begin(CLASS, this, method);
@@ -549,8 +555,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
             if (connection instanceof HttpURLConnection) {
                 final HttpURLConnection httpConnection = (HttpURLConnection) connection;
-                httpConnection.setConnectTimeout(kernel.getConfig().getConnectTimeout());
-                httpConnection.setReadTimeout(kernel.getConfig().getReadTimeout());
+// FIXME mime 20090701: this is java 1.5 code, how do we do it in 1.4?
+//                httpConnection.setConnectTimeout(kernel.getConfig().getConnectTimeout());
+//                httpConnection.setReadTimeout(kernel.getConfig().getReadTimeout());
                 int responseCode = httpConnection.getResponseCode();
                 if (responseCode == 200) {
                     in = httpConnection.getInputStream();
@@ -609,6 +616,78 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         } finally {
             IoUtility.close(out);
             IoUtility.close(in);
+            Trace.end(CLASS, this, method);
+        }
+    }
+
+    /**
+     * Make local copy of a module if it is no file address.
+     *
+     * @param prop Module properties.
+     * @throws SourceFileExceptionList Address was malformed or the file can not be found.
+     */
+    public void saveQedeqFromWebToBuffer(final DefaultKernelQedeqBo prop)
+            throws SourceFileExceptionList {
+        final String method = "makeLocalCopy";
+        Trace.begin(CLASS, this, method);
+
+        if (prop.getModuleAddress().isFileAddress()) { // this is already a local file
+            Trace.fatal(CLASS, this, method, "tried to make a local copy for a local module", null);
+            Trace.end(CLASS, this, method);
+            return;
+        }
+        prop.setLoadingProgressState(LoadingState.STATE_LOADING_FROM_WEB);
+
+        final File f = getLocalFilePath(prop.getModuleAddress());
+        // Create an instance of HttpClient.
+        HttpClient client = new HttpClient();
+
+        final String pHost = System.getProperty("proxyHost", "");
+        final int pPort = Integer.parseInt(System.getProperty("proxyPort", "80"));
+//        System.out.println("proxyHost=" + pHost);
+//        System.out.println("proxyPort=" + pPort);
+//        System.out.println(0 / 0);
+        if (pHost.length() > 0) {
+            client.getHostConfiguration().setProxy(pHost, pPort);
+        }
+
+        // Create a method instance.
+        GetMethod httpMethod = new GetMethod(prop.getUrl().toString());
+
+        try {
+            // Provide custom retry handler is necessary
+            httpMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
+                    new DefaultHttpMethodRetryHandler(3, false));
+
+            httpMethod.getParams().setSoTimeout(kernel.getConfig().getConnectTimeout());
+            // Throws IOException on TimeOut.
+
+            int statusCode = client.executeMethod(httpMethod);
+
+            if (statusCode != HttpStatus.SC_OK) {
+                throw new FileNotFoundException("Problems loading: " + prop.getUrl() + "\n"
+                    + httpMethod.getStatusLine());
+            }
+
+            // Read the response body.
+            byte[] responseBody = httpMethod.getResponseBody();
+            IoUtility.createNecessaryDirectories(f);
+            IoUtility.saveFileBinary(f, responseBody);
+            prop.setLoadingCompleteness(100);
+        } catch (IOException e) {
+            Trace.trace(CLASS, this, method, e);
+            try {
+                f.delete(); // FIXME do we really want to delete it? Perhaps there are infos in it!!
+            } catch (Exception ex) {
+                Trace.trace(CLASS, this, method, ex);
+            }
+            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(e);
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
+            Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
+            throw sfl;
+        } finally {
+            // Release the connection.
+            httpMethod.releaseConnection();
             Trace.end(CLASS, this, method);
         }
     }
