@@ -874,7 +874,7 @@ public class IoUtilityTest extends QedeqTestCase {
 
 
     /**
-     * Test {@link IoUtility#testCompareTextFiles(File, File, String)}.
+     * Test {@link IoUtility#compareTextFiles(File, File, String)}.
      *
      * @throws Exception Test failed.
      */
@@ -931,7 +931,7 @@ public class IoUtilityTest extends QedeqTestCase {
     }
 
     /**
-     * Test {@link IoUtility#testCompareTextFiles(File, File, String)}.
+     * Test {@link IoUtility#compareTextFiles(File, File, String)}.
      *
      * @throws Exception Test failed.
      */
@@ -1068,9 +1068,32 @@ public class IoUtilityTest extends QedeqTestCase {
         assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF8"));
         assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF16"));
         assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF16"));
-        
+
         file1.delete();
         file2.delete();
+    }
+
+    /**
+     * Test {@link IoUtility#testCompareTextFiles(File, File, String)}.
+     *
+     * @throws Exception Test failed.
+     */
+    public void testDeleteDirFileBoolean() throws Exception {
+        final File dir1 = new File("testDeleteDirFileBoolean_directory");
+        if (dir1.exists()) {
+            assertTrue(IoUtility.deleteDir(dir1, true));
+        }
+        final File dir2 = new File(dir1, "testDeleteDirFileBoolean_directory2");
+        final File file1 = new File(dir1, "testDeleteDirFileBoolean1.txt");
+        final File file2 = new File(dir1, "testDeleteDirFileBoolean2.txt");
+        final File file3 = new File(dir2, "testDeleteDirFileBoolean3.txt");
+        assertTrue(dir2.mkdirs());
+        
+        IoUtility.saveFile(file1, "File 1", "ISO-8859-1");
+        IoUtility.saveFile(file2, "File 2", "ISO-8859-1");
+        IoUtility.saveFile(file3, "File 3", "ISO-8859-1");
+        assertTrue(IoUtility.deleteDir(dir1, true));
+
     }
 
 
