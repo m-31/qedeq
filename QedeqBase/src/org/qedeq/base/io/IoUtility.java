@@ -46,7 +46,6 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 
 import org.apache.commons.lang.SystemUtils;
-import org.qedeq.base.utility.EqualsUtility;
 
 
 /**
