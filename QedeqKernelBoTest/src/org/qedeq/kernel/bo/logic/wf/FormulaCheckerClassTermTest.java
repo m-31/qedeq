@@ -31,6 +31,7 @@ import org.qedeq.kernel.common.ModuleContext;
  */
 public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
 
+    /** For module access. */
     private ModuleContext context;
 
     protected void setUp() throws Exception {
@@ -43,7 +44,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     positive
      * Data:     {x | A}
      *
@@ -59,7 +60,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     positive
      * Data:     {x | phi(y, x)}
      *
@@ -81,7 +82,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     positive
      * Data:     {x | forall y phi(y, x)}
      *
@@ -106,7 +107,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30760, exactly two arguments expected
      * Data:     {x | phi(y, x) | phi(y, x)}
      *
@@ -134,7 +135,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30760, exactly two arguments expected
      * Data:     {x | }
      *
@@ -153,7 +154,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30540, first argument must be a subject variable
      * Data:     {x | phi(y, x) | phi(y, x)}
      *
@@ -179,7 +180,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30550, subject variable already bound
      * Data:     {x | forall x phi(y, x)}
      *
@@ -206,7 +207,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
 
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30680, undefined class operator
      * Data:     {x | forall y phi(y, x)}
      *
