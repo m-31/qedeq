@@ -1105,11 +1105,10 @@ public class IoUtilityTest extends QedeqTestCase {
                 return pathname.toString().indexOf("testDeleteDirFileFileFilter_") >= 0;
             }}));
         assertTrue(dir1.exists());
-        assertTrue(dir2.exists());
+        assertFalse(dir2.exists());
         assertFalse(file1.exists());
         assertFalse(file2.exists());
-        assertTrue(file3.exists());
-        assertFalse(dir1.exists());
+        assertFalse(file3.exists());
     }
 
 }
