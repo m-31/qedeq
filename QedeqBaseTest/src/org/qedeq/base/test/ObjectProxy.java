@@ -31,7 +31,7 @@ import org.qedeq.base.utility.StringUtility;
  * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
-public class ObjectProxy implements InvocationHandler {
+public final class ObjectProxy implements InvocationHandler {
 
     /** This class. */
     private static final Class CLASS = ObjectProxy.class;
