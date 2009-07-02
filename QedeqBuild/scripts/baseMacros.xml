@@ -330,7 +330,7 @@
                         classpathref="@{classpath}"
             >
                 <formatter type="xml" tofile="@{dir}/target/reports/checkstyle/data/checkstyle_report.xml" />
-                <fileset dir="@{dir}/src/main/java" includes="**/*.java" />
+                <fileset dir="@{dir}/src/main/java" includes="**/*.java" excludes="**/XmlReader*" />
             </checkstyle>
             
             <!-- the following line has effect!!! :((( -->
