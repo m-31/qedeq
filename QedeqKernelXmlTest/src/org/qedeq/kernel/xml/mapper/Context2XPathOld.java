@@ -26,7 +26,7 @@ import org.qedeq.kernel.xml.tracker.SimpleXPath;
 
 /**
  * This class is outdated. Worked with XSD version 0.03.01. Can not find locations
- * within formulas or terms.
+ * within formulas or terms. Should be used for tests?
  *
  * <p>
  * Map content string to SimpleXPath string. This class makes it possible to transfer an location
