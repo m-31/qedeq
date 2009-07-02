@@ -18,27 +18,8 @@
 package org.qedeq.kernel.bo.latex;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 
-import org.qedeq.base.io.IoUtility;
-import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
-import org.qedeq.kernel.bo.logic.wf.LogicalCheckException;
-import org.qedeq.kernel.bo.module.InternalKernelServices;
-import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.DefaultModuleAddress;
-import org.qedeq.kernel.bo.service.latex.Qedeq2Latex;
-import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
-import org.qedeq.kernel.bo.test.KernelFacade;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.xml.sax.SAXParseException;
 
 /**
  * Test generating LaTeX files for all known samples.

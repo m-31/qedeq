@@ -36,7 +36,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
 
     private ExistenceChecker checker = new ExistenceChecker() {
 
-        public boolean predicateExists(String name, int arguments) {
+        public boolean predicateExists(final String name, final int arguments) {
             Trace.param(CLASS, this, "predicateExists(String, int)", "name", name);
             Trace.param(CLASS, this, "predicateExists(String, int)", "arguments", arguments);
             if ("in".equals(name) && arguments == 2) {
@@ -51,11 +51,11 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
-        public boolean predicateExists(Predicate predicate) {
+        public boolean predicateExists(final Predicate predicate) {
             return predicateExists(predicate.getName(), Integer.parseInt(predicate.getArguments()));
         }
 
-        public boolean functionExists(String name, int arguments) {
+        public boolean functionExists(final String name, final int arguments) {
             Trace.param(CLASS, this, "functionExists(String, int)", "name", name);
             Trace.param(CLASS, this, "functionExists(String, int)", "arguments", arguments);
             if ("power".equals(name) && arguments == 1) {

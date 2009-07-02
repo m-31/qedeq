@@ -21,7 +21,7 @@ import org.qedeq.base.test.QedeqTestCase;
 
 /**
  * Test {@link DateUtility}.
- * 
+ *
  * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
@@ -43,7 +43,7 @@ public class DateUtilityTest extends QedeqTestCase {
 
     /**
      * Test getDuration(final int duration).
-     * 
+     *
      * @throws Exception
      */
     public void testGetDuration() throws Exception {
@@ -59,7 +59,7 @@ public class DateUtilityTest extends QedeqTestCase {
         assertEquals("23:00:59.999", DateUtility.getDuration(1000 * 60 * 60 * 24 - 1 - 60 * 60
             * 1000 + 60 * 1000));
     }
-    
+
     public void testGetIsoTimestamp() throws Exception {
         final String ts = DateUtility.getIsoTimestamp();
         assertEquals("2009-06-07T02:10:12.000".length(), ts.length());

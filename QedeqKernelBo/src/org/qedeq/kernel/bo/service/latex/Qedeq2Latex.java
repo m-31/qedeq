@@ -157,7 +157,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         } catch (Exception e) {
             // we continue and ignore external predicates
             Trace.trace(CLASS, "print(QedeqBo, TextOutput, String, String)", e);
-        };
+        }
         String tex = prop.getModuleAddress().getFileName();
         if (tex.toLowerCase().endsWith(".xml")) {
             tex = tex.substring(0, tex.length() - 4);

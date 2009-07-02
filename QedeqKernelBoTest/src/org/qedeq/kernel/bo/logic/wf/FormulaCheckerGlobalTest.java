@@ -36,6 +36,7 @@ import org.qedeq.kernel.dto.list.DefaultElementList;
  */
 public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
 
+    /** Module context for module access. */
     private ModuleContext context;
 
     protected void setUp() throws Exception {
@@ -48,7 +49,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkFormula(Element)
+     * Function: checkFormula(Element).
      * Type:     positive
      * Data:     y = { x | phi(x)} <-> (all z: z in y <-> z in {x | phi(x)})
      *
@@ -113,7 +114,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkFormula(Element)
+     * Function: checkFormula(Element).
      * Type:     negative, code 30400
      * Data:     element null
      *
@@ -127,7 +128,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30400
      * Data:     element null
      *
@@ -141,7 +142,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkFormula(Element)
+     * Function: checkFormula(Element).
      * Type:     negative, code 30410
      * Data:     element getAtom() null
      *
@@ -149,7 +150,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      */
     public void testGlobalFormulaNegative03() throws Exception {
         LogicalCheckExceptionList list =
-            FormulaChecker.checkFormula(new DefaultElementList("PREDVAR", new Element[]{new Atom(){
+            FormulaChecker.checkFormula(new DefaultElementList("PREDVAR", new Element[]{new Atom() {
 
                 public String getString() {
                     return null;
@@ -175,16 +176,17 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }
 
-                public Element replace(Element search, Element replacement) {
+                public Element replace(final Element search, final Element replacement) {
                     return null;
-                }}}),
-                context);
+                }
+            }
+        }), context);
         assertEquals(1, list.size());
         assertEquals(30410, list.get(0).getErrorCode());
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30410
      * Data:     element getAtom() null
      *
@@ -192,7 +194,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      */
     public void testGlobalFormulaNegative04() throws Exception {
         LogicalCheckExceptionList list =
-            FormulaChecker.checkTerm(new DefaultElementList("FUNCON", new Element[]{new Atom(){
+            FormulaChecker.checkTerm(new DefaultElementList("FUNCON", new Element[] {new Atom() {
 
                 public String getString() {
                     return null;
@@ -218,16 +220,17 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }
 
-                public Element replace(Element search, Element replacement) {
+                public Element replace(final Element search, final Element replacement) {
                     return null;
-                }}}),
-                context);
+                }
+            }
+        }), context);
         assertEquals(1, list.size());
         assertEquals(30410, list.get(0).getErrorCode());
     }
 
     /**
-     * Function: checkFormula(Element)
+     * Function: checkFormula(Element).
      * Type:     negative, code 30420
      * Data:     element getList() null
      *
@@ -257,16 +260,16 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }
 
-                public Element replace(Element search, Element replacement) {
+                public Element replace(final Element search, final Element replacement) {
                     return null;
-                }},
-                context);
+                }
+            }, context);
         assertEquals(1, list.size());
         assertEquals(30420, list.get(0).getErrorCode());
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30420
      * Data:     element getList() null
      *
@@ -296,16 +299,16 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }
 
-                public Element replace(Element search, Element replacement) {
+                public Element replace(final Element search, final Element replacement) {
                     return null;
-                }},
-                context);
+                }
+            }, context);
         assertEquals(1, list.size());
         assertEquals(30420, list.get(0).getErrorCode());
     }
 
     /**
-     * Function: checkFormula(Element)
+     * Function: checkFormula(Element).
      * Type:     negative, code 30430
      * Data:     PREDVAR(null) (atom content is null)
      *
@@ -313,7 +316,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      */
     public void testGlobalFormulaNegative07() throws Exception {
         LogicalCheckExceptionList list =
-            FormulaChecker.checkFormula(new DefaultElementList("PREDVAR", new Element[]{new Atom(){
+            FormulaChecker.checkFormula(new DefaultElementList("PREDVAR", new Element[]{new Atom() {
 
                 public String getString() {
                     return null;
@@ -339,16 +342,17 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }
 
-                public Element replace(Element search, Element replacement) {
+                public Element replace(final Element search, final Element replacement) {
                     return null;
-                }}}),
-                context);
+                }
+            }
+        }), context);
         assertEquals(1, list.size());
         assertEquals(30430, list.get(0).getErrorCode());
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30430
      * Data:     FUNCON(null) (atom content is null)
      *
@@ -356,7 +360,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      */
     public void testGlobalFormulaNegative08() throws Exception {
         LogicalCheckExceptionList list =
-            FormulaChecker.checkTerm(new DefaultElementList("FUNCON", new Element[]{new Atom(){
+            FormulaChecker.checkTerm(new DefaultElementList("FUNCON", new Element[]{new Atom() {
 
                 public String getString() {
                     return null;
@@ -382,16 +386,17 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }
 
-                public Element replace(Element search, Element replacement) {
+                public Element replace(final Element search, final Element replacement) {
                     return null;
-                }}}),
-                context);
+                }
+            }
+        }), context);
         assertEquals(1, list.size());
         assertEquals(30430, list.get(0).getErrorCode());
     }
 
     /**
-     * Function: checkFormula(Element)
+     * Function: checkFormula(Element).
      * Type:     negative, code 30440
      * Data:     PREDVAR("")  (atom contents has length 0)
      *
@@ -399,7 +404,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
      */
     public void testGlobalFormulaNegative09() throws Exception {
         LogicalCheckExceptionList list =
-            FormulaChecker.checkFormula(new DefaultElementList("PREDVAR", new Element[]{new Atom(){
+            FormulaChecker.checkFormula(new DefaultElementList("PREDVAR", new Element[]{new Atom() {
 
                 public String getString() {
                     return "";
@@ -425,16 +430,17 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                     return null;
                 }
 
-                public Element replace(Element search, Element replacement) {
+                public Element replace(final Element search, final Element replacement) {
                     return null;
-                }}}),
-                context);
+                }
+            }
+        }), context);
         assertEquals(1, list.size());
         assertEquals(30440, list.get(0).getErrorCode());
     }
 
     /**
-     * Function: checkFormula(Element)
+     * Function: checkFormula(Element).
      * Type:     negative, code 30440
      * Data:     PREDCON("")  (atom contents has length 0)
      *
@@ -451,7 +457,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30440
      * Data:     FUNCON("")  (atom contents has length 0)
      *
@@ -468,7 +474,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkFormula(Element)
+     * Function: checkFormula(Element).
      * Type:     negative, code 30450
      * Data:     operator is null
      *
@@ -485,7 +491,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
 
-            public Element getElement(int i) {
+            public Element getElement(final int i) {
                 return null;
             }
 
@@ -493,17 +499,17 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
 
-            public void add(Element element) {
+            public void add(final Element element) {
 
             }
 
-            public void insert(int position, Element element) {
+            public void insert(final int position, final Element element) {
             }
 
-            public void replace(int position, Element element) {
+            public void replace(final int position, final Element element) {
             }
 
-            public void remove(int i) {
+            public void remove(final int i) {
             }
 
             public boolean isAtom() {
@@ -526,7 +532,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
 
-            public Element replace(Element search, Element replacement) {
+            public Element replace(final Element search, final Element replacement) {
                 return null;
             }
 
@@ -539,7 +545,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30450
      * Data:     operator is null
      *
@@ -556,7 +562,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
 
-            public Element getElement(int i) {
+            public Element getElement(final int i) {
                 return null;
             }
 
@@ -564,17 +570,17 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
 
-            public void add(Element element) {
+            public void add(final Element element) {
 
             }
 
-            public void insert(int position, Element element) {
+            public void insert(final int position, final Element element) {
             }
 
-            public void replace(int position, Element element) {
+            public void replace(final int position, final Element element) {
             }
 
-            public void remove(int i) {
+            public void remove(final int i) {
             }
 
             public boolean isAtom() {
@@ -597,7 +603,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
 
-            public Element replace(Element search, Element replacement) {
+            public Element replace(final Element search, final Element replacement) {
                 return null;
             }
         };
@@ -609,7 +615,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkFormula(Element)
+     * Function: checkFormula(Element).
      * Type:     negative, code 30460
      * Data:     operator has length 0
      *
@@ -638,9 +644,10 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
 
-            public Element replace(Element search, Element replacement) {
+            public Element replace(final Element search, final Element replacement) {
                 return null;
-            }};
+            }
+        };
         LogicalCheckExceptionList list =
             FormulaChecker.checkFormula(ele, context);
         assertEquals(1, list.size());
@@ -648,7 +655,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30460
      * Data:     operator has length 0
      *
@@ -677,9 +684,10 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
 
-            public Element replace(Element search, Element replacement) {
+            public Element replace(final Element search, final Element replacement) {
                 return null;
-            }};
+            }
+        };
         LogicalCheckExceptionList list =
             FormulaChecker.checkTerm(ele, context);
         assertEquals(1, list.size());
@@ -687,7 +695,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkFormula(Element)
+     * Function: checkFormula(Element).
      * Type:     negative, code 30460
      * Data:     operator has length 0
      *
@@ -704,7 +712,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return "";
             }
 
-            public Element getElement(int i) {
+            public Element getElement(final int i) {
                 return null;
             }
 
@@ -712,17 +720,17 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
 
-            public void add(Element element) {
+            public void add(final Element element) {
 
             }
 
-            public void insert(int position, Element element) {
+            public void insert(final int position, final Element element) {
             }
 
-            public void replace(int position, Element element) {
+            public void replace(final int position, final Element element) {
             }
 
-            public void remove(int i) {
+            public void remove(final int i) {
             }
 
             public boolean isAtom() {
@@ -745,7 +753,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
                 return null;
             }
 
-            public Element replace(Element search, Element replacement) {
+            public Element replace(final Element search, final Element replacement) {
                 return null;
             }
         };
@@ -757,7 +765,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkFormula(Element)
+     * Function: checkFormula(Element).
      * Type:     negative, code 30470
      * Data:
      *
@@ -773,7 +781,7 @@ public class FormulaCheckerGlobalTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkTerm(Element).
      * Type:     negative, code 30470
      * Data:
      *

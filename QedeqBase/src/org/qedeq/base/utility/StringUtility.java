@@ -25,7 +25,6 @@ import java.io.UnsupportedEncodingException;
 import java.util.Properties;
 
 import org.apache.commons.lang.SystemUtils;
-import org.qedeq.base.io.IoUtility;
 
 
 /**
@@ -126,7 +125,7 @@ public final class StringUtility {
      * beginning and the end of the <code>String</code>. If a quote character occurs
      * within the string it is replaced by two quotes.
      *
-     * @param   unquoted    the unquoted <code>String</code>, must not be <code>null<code>
+     * @param   unquoted    the unquoted <code>String</code>, must not be <code>null</code>
      * @return  quoted <code>String</code>
      * @throws  NullPointerException if <code>unquoted == null</code>
      */

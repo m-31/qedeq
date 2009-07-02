@@ -1189,3 +1189,4 @@ public class TraceTest extends QedeqTestCase {
     }
 
 }
+

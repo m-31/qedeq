@@ -166,11 +166,13 @@ public class IoUtilityTest extends QedeqTestCase {
         assertEquals("", IoUtility.loadStreamWithoutException(new InputStream() {
             public int read() throws IOException {
                 throw new IOException("i am an error input stream!");
-            }}, 0));
+            }
+        }, 0));
         assertEquals("", IoUtility.loadStreamWithoutException(new InputStream() {
             public int read() throws IOException {
                 throw new IOException("i am an error input stream!");
-            }}, -99));
+            }
+        }, -99));
         assertEquals(expected, streamLoad(expected, expected.length()));
         assertEquals(expected, streamLoad(expected, expected.length() * 100));
         assertEquals(expected.substring(0, expected.length() - 1),
@@ -181,8 +183,7 @@ public class IoUtilityTest extends QedeqTestCase {
 
     }
 
-    private String streamLoad(final String expected, final int length) throws FileNotFoundException,
-            IOException {
+    private String streamLoad(final String expected, final int length) throws IOException {
         final File file = new File("testLoadStreamWithoutException.txt");
         if (file.exists()) {
             assertTrue(file.delete());
@@ -375,7 +376,7 @@ public class IoUtilityTest extends QedeqTestCase {
         if (file.exists()) {
             assertTrue(file.delete());
         }
-        final byte data[] = new byte[512];
+        final byte[] data = new byte[512];
         for (int i = 0; i < 512; i++) {
             data[i] = (byte) i;
         }
@@ -406,7 +407,7 @@ public class IoUtilityTest extends QedeqTestCase {
             assertTrue(file.delete());
         }
         Random random = new Random(1001);
-        final byte data[] = new byte[100000];
+        final byte[] data = new byte[100000];
         for (int i = 0; i < 512; i++) {
             data[i] = (byte) i;
         }
@@ -442,7 +443,7 @@ public class IoUtilityTest extends QedeqTestCase {
             // expected;
         }
         Random random = new Random(1001);
-        final byte data[] = new byte[1025];
+        final byte[] data = new byte[1025];
         for (int i = 0; i < data.length; i++) {
             data[i] = (byte) random.nextInt();
         }
@@ -844,7 +845,7 @@ public class IoUtilityTest extends QedeqTestCase {
             assertTrue(file2.delete());
         }
         Random random = new Random(1007);
-        final byte data[] = new byte[1025];
+        final byte[] data = new byte[1025];
         for (int i = 0; i < data.length; i++) {
             data[i] = (byte) random.nextInt();
         }
@@ -880,7 +881,7 @@ public class IoUtilityTest extends QedeqTestCase {
             // expected;
         }
         Random random = new Random(1001);
-        final byte data[] = new byte[1025];
+        final byte[] data = new byte[1025];
         for (int i = 0; i < data.length; i++) {
             data[i] = (byte) random.nextInt();
         }
@@ -1103,7 +1104,8 @@ public class IoUtilityTest extends QedeqTestCase {
 
             public boolean accept(final File pathname) {
                 return pathname.toString().indexOf("testDeleteDirFileFileFilter_") >= 0;
-            }}));
+            }
+        }));
         assertTrue(dir1.exists());
         assertFalse(dir2.exists());
         assertFalse(file1.exists());

@@ -29,7 +29,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
-public class LoadRequiredModulesTest extends QedeqTestCase{
+public class LoadRequiredModulesTest extends QedeqTestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
