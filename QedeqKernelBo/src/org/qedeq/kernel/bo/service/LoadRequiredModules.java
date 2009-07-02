@@ -35,13 +35,20 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public class LoadRequiredModules {
+public final class LoadRequiredModules {
 
     /** This class. */
     private static final Class CLASS = LoadRequiredModules.class;
 
     /** All QedeqBos currently in state "loading required modules". */
     private final Map loadingRequiredInProgress = new HashMap();
+
+    /**
+     * Don't use this constructor.
+     */
+    private LoadRequiredModules() {
+        // nothing to do
+    }
 
     /**
      * Load all required QEDEQ modules for a given QEDEQ module.
