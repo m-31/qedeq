@@ -127,7 +127,7 @@ public class XmlQedeqFileDao implements QedeqFileDao {
         } catch (ModuleDataException e) {
             Trace.trace(CLASS, method, e);
             return null;
-        };
+        }
 
         SimpleXPath find = null;
         try {
