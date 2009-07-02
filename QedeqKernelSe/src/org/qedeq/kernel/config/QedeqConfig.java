@@ -285,7 +285,7 @@ public class QedeqConfig {
     /**
      * Set connection timeout, especially for TCP/IP connections.
      *
-     * @param   timeout Connection timeout, especially for TCP/IP connections. In milliseconds. 
+     * @param   timeout Connection timeout, especially for TCP/IP connections. In milliseconds.
      */
     public final void setConnectTimeout(final int timeout) {
         setKeyValue("connectionTimeout", timeout);
@@ -303,7 +303,7 @@ public class QedeqConfig {
     /**
      * Set read timeout, especially for TCP/IP connections.
      *
-     * @param   timeout Read timeout, especially for TCP/IP connections. In milliseconds. 
+     * @param   timeout Read timeout, especially for TCP/IP connections. In milliseconds.
      */
     public final void setReadTimeout(final int timeout) {
         setKeyValue("readTimeout", timeout);
