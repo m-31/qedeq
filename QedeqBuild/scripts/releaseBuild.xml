@@ -9,7 +9,7 @@
 <project name="releaseBuild" default="all" basedir="../..">
 
     <description>
-        Release build for Hilbert II.   
+        Release Build for Hilbert II.   
     </description>
 
     <import file="baseMacros.xml" />
