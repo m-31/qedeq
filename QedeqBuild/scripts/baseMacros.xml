@@ -91,6 +91,7 @@
         <copy todir="${QedeqDest}/target/test-outdir/config">
             <fileset file="${basedir}/QedeqGuiSe/src/config/*" 
                 excludes="**/log4j.properties" />
+            <!-- TODO mime 20090608: refactor: the line below is a dependency from the releaseBuild.xml script ! -->
             <filterset refid="qedeq_filter" />
         </copy>
    </target>
