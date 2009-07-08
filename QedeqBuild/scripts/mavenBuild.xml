@@ -104,22 +104,19 @@
 
     <!-- for antcalls with parameters ${PomDir} and ${MvnArguments}-->
     <target name="execMaven">
+        <condition property="maven.executable" value="cmd" else="mvn" >
+            <contains string="${java.os}" substring="windows" casesensitive="false" />
+        </condition>
+        <condition property="maven.argLine" value="/c mvn " else="" >
+            <contains string="${java.os}" substring="windows" casesensitive="false" />
+        </condition>
         <echo>++++++++++++++++++++++++++++++++++</echo>
         <echo>${PomDir} mvn ${MvnArguments}</echo>
-        <!-- FIXME only windows!!!! -->
-<!-- -->        
-        <exec dir="${PomDir}" executable="cmd">
-            <arg line="/c mvn ${MvnArguments}"/>
+        <!-- TODO only windows and unix are supported -->
+        <exec dir="${PomDir}" executable="${maven.executable}">
+            <arg line="${maven.argLine}${MvnArguments}"/>
         </exec> 
         <echo>----------------------------------</echo>
-<!-- -->        
-        <!-- FIXME only unix!!!! -->
-<!--        
-        <exec dir="${PomDir}" executable="mvn">
-            <arg line="${MvnArguments}"/>
-        </exec> 
-        <echo>++++++++++++++++++++++++++++++++++</echo>
--->        
     </target>
     
     <target name="all"
