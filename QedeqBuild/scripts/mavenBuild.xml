@@ -105,10 +105,10 @@
     <!-- for antcalls with parameters ${PomDir} and ${MvnArguments}-->
     <target name="execMaven">
         <condition property="maven.executable" value="cmd" else="mvn" >
-            <contains string="${java.os}" substring="windows" casesensitive="false" />
+            <contains string="${os.name}" substring="windows" casesensitive="false" />
         </condition>
         <condition property="maven.argLine" value="/c mvn " else="" >
-            <contains string="${java.os}" substring="windows" casesensitive="false" />
+            <contains string="${os.name}" substring="windows" casesensitive="false" />
         </condition>
         <echo>++++++++++++++++++++++++++++++++++</echo>
         <echo>${PomDir} mvn ${MvnArguments}</echo>
