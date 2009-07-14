@@ -6,15 +6,17 @@
 <!-- project: Hilbert II -->
 
 <!-- This is the Ant build file for building the Se release of project Hilbert II via maven -->
-<project name="releaseBuild" default="all" basedir="../..">
+<project name="mavenBuild" default="all" basedir="../..">
 
     <description>
         maven build for Hilbert II.   
     </description>
 
     <import file="baseMacros.xml" />
+    <import file="fastMacros.xml" />
 
     <!-- set global properties for this build -->
+    <property file="${basedir}/QedeqBuild/scripts/build.properties" />
     <property name="qedeq.dest"            value="${basedir}/../../maven/qedeq" />
     <property name="qedeq.resources"       value="${basedir}/QedeqBuild/resources" />
     <property name="qedeq.dest.module"     value="${basedir}/../../maven/modules" />
@@ -44,6 +46,8 @@
         <copySource     name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" />
         <copyTestSource name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" />
         <copySource     name="QedeqGuiSe"     dir="${qedeq.dest.module}/qedeq_gui_se" />
+
+        <moveSlowTestsAway/>
         
         <!-- generate complete kernel sources out of all sub modules -->   
         <mkdir dir="${qedeq.dest.module}/qedeq_kernel/src" />
@@ -56,7 +60,6 @@
     </target>  
 
     <target name="assemble" depends="source">
-
         <!-- create also maven structure with POM s -->   
         <delete dir="${qedeq.dest}/src/maven" failonerror="false" />
         <mkdir dir="${qedeq.dest}/src/maven" />
@@ -66,8 +69,12 @@
                 <include name="qedeq_gui_se/**/*" />
             </fileset>
         </copy>
-        <copy todir="${qedeq.dest}/src/maven/qedeq_kernel" file="${qedeq.resources}/pom/qedeq_kernel/pom.xml" />
-        <copy todir="${qedeq.dest}/src/maven/qedeq_gui_se" file="${qedeq.resources}/pom/qedeq_gui_se/pom.xml" />
+        <copy todir="${qedeq.dest}/src/maven/qedeq_kernel" file="${qedeq.resources}/pom/qedeq_kernel/pom.xml">
+            <filterset refid="qedeq_filter" />
+        </copy>
+        <copy todir="${qedeq.dest}/src/maven/qedeq_gui_se" file="${qedeq.resources}/pom/qedeq_gui_se/pom.xml">
+            <filterset refid="qedeq_filter" />
+        </copy>
 
     </target>
              

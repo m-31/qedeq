@@ -36,7 +36,7 @@ currently in ants classpath
 -->    
  
 <!-- we add the xerces libraries, so that parsing works for JDK >= 1.5 also -->
-	<taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task" classpath="${qedeq.lib}/xsddoc.jar:${qedeq.lib}/xercesImpl.jar:${qedeq.lib}/xalan.jar:${qedeq.lib}/xml-apis.jar" />
+    <taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task" classpath="${qedeq.lib}/xsddoc.jar:${qedeq.lib}/xercesImpl.jar:${qedeq.lib}/xalan.jar:${qedeq.lib}/xml-apis.jar" />
     <taskdef resource="checkstyletask.properties" classpath="${qedeq.lib}/checkstyle-all-4.4.jar" />
     
     <tstamp>
@@ -121,8 +121,8 @@ currently in ants classpath
     </target>
 
     <target name="source" depends="clean">
-    	<copySource     name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase" />
-    	<copyTestSource name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"/>
+        <copySource     name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase" />
+        <copyTestSource name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"/>
         <copySource     name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe" />
         <copyTestSource name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe" />
         <copySource     name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo" />
@@ -149,7 +149,7 @@ currently in ants classpath
         <compile     name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.common" />
         <compile     name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.common" />
     </target>
-	
+    
     <target name="testCompile" description="compile all test classes" depends="compile">
         <testCompile name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" />
         <testCompile name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" />
@@ -503,56 +503,8 @@ currently in ants classpath
         </copy>
     </target>
  
-    <target name="maven" description="start maven build"> <!-- depends="release"-->
-        <antcall target="execMaven">
-            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
-            <param name="MvnArguments" value="install"/>
-<!--            
-            <param name="MvnArguments" value="-Dmaven.test.skip=true site"/>
--->            
-        </antcall>
-        <antcall target="execMaven">
-            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_kernel"/>
-            <param name="MvnArguments" value="site"/>
-<!--            
-            <param name="MvnArguments" value="-Dmaven.test.skip=true site"/>
--->            
-        </antcall>
-        <antcall target="execMaven">
-            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
-            <param name="MvnArguments" value="install"/>
-<!--            
-            <param name="MvnArguments" value="-Dmaven.test.skip=true site"/>
--->            
-        </antcall>
-        <antcall target="execMaven">
-            <param name="PomDir" value="${qedeq.dest}/src/maven/qedeq_gui_se"/>
-            <param name="MvnArguments" value="site"/>
-<!--            
-            <param name="MvnArguments" value="-Dmaven.test.skip=true site"/>
--->            
-        </antcall>
-    </target>   
-
-    <!-- for antcalls with parameters ${PomDir} and ${MvnArguments}-->
-    <target name="execMaven">
-        <echo>++++++++++++++++++++++++++++++++++</echo>
-        <echo>${PomDir} mvn ${MvnArguments}</echo>
-        <!-- FIXME only windows!!!! -->
-<!--        
-        <exec dir="${PomDir}" executable="cmd">
-            <arg line="/c mvn ${MvnArguments}"/>
-        </exec> 
--->        
-        <!-- FIXME only unix!!!! -->
-        <exec dir="${PomDir}" executable="mvn">
-            <arg line="${MvnArguments}"/>
-        </exec> 
-        <echo>----------------------------------</echo>
-    </target>
-    
     <target name="all"
-        depends="clean,compile,test,package,doc,assemble,release,webstart,maven">
+        depends="clean,compile,test,package,doc,assemble,release,webstart">
     </target>
 
 </project>
