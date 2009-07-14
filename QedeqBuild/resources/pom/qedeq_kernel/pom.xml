@@ -5,8 +5,43 @@
   <groupId>org.qedeq.kernel.maven</groupId>
   <artifactId>qedeq_kernel</artifactId>
   <packaging>jar</packaging>
-  <version>1.0</version>
-  <name>Kernel Parent Project</name>
+  <version>@QEDEQ_VERSION@</version>
+  <name>QEDEQ Kernel for the Hilbert II project</name>
+  <description>
+  In the tradition of Hilbert's program the project creates a formal correct (checkable by a proof verifier) but readable (like an ordinary LaTeX textbook) mathematical knowledge base which is freely accessible within the internet.
+  </description>
+  <url>http://qedeq.org</url>
+  <issueManagement>
+    <system>Mantis</system>
+    <url>http://sourceforge.net/apps/mantisbt/pmii/my_view_page.php</url>
+  </issueManagement>
+  <scm>
+    <connection>
+      scm:svn:https://pmii.svn.sourceforge.net/svnroot/pmii/trunk
+    </connection>
+    <developerConnection>
+      scm:svn:https://pmii.svn.sourceforge.net/svnroot/pmii/trunk
+    </developerConnection>
+    <url>http://pmii.svn.sourceforge.net/viewvc/pmii/trunk/</url>
+  </scm>
+  <developers>
+    <developer>
+      <name>Michael Meyling</name>
+      <id>m31</id>
+      <email>mime@qedeq.org</email>
+      <organization>meyling.com</organization>
+      <roles>
+        <role>Java Developer</role>
+      </roles>
+    </developer>
+  </developers>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+  </licenses>
  
   <build>
     <pluginManagement>
@@ -132,7 +167,7 @@
       <!-- JUnit -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-surefire-plugin</artifactId>
+        <artifactId>maven-surefire-plugin</artifactId>        
         <configuration>
           <workingDirectory>src/test/resources</workingDirectory>
 <!--        
@@ -140,6 +175,10 @@
 -->        
         </configuration>
       </plugin> 
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
     </plugins>
   </reporting>
 </project>
