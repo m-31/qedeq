@@ -158,11 +158,10 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
-<!--        
         <configuration>
-          <configLocation>maven/checkstyle-config.xml</configLocation>
+          <includes>org/qedeq/**/*.java</includes>
+          <configLocation>target/QedeqFormalChecks.xml</configLocation>
         </configuration>
--->        
       </plugin>
       <!-- JUnit -->
       <plugin>
@@ -170,7 +169,7 @@
         <artifactId>maven-surefire-plugin</artifactId>        
         <configuration>
           <argLine>-Xms256m -Xmx512m -XX:PermSize=512m -XX:MaxPermSize=512m</argLine>
-          <disableXmlReport>true</disableXmlReport> 
+          <disableXmlReport>false</disableXmlReport> 
           <workingDirectory>src/test/resources</workingDirectory>
 <!--        
           <reportsDirectory>target/testreports</reportsDirectory>
@@ -180,6 +179,11 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>findbugs-maven-plugin</artifactId>
+        <version>2.0.1</version>
       </plugin>
     </plugins>
   </reporting>
