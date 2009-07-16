@@ -613,6 +613,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     private void checkIfApplicationIsAlreadyRunning()
             throws IOException {
         lockFile = new File(config.getBufferDirectory(), "qedeq_lock.lck");
+        lockFile.deleteOnExit();
         final String osName = System.getProperty("os.name");
         if (osName.startsWith("Windows")) {
             if ((lockFile.exists() && !lockFile.delete())) {
@@ -629,7 +630,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         }
         try {
             lockStream = new FileOutputStream(lockFile);
-            lockStream.write("LOCKED".getBytes());
+            lockStream.write("LOCKED".getBytes("UTF8"));
             lockStream.flush();
         } catch (IOException e) {
             throw new IOException("It seems the application is already running.\n"
