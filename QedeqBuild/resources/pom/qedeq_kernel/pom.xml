@@ -169,6 +169,8 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>        
         <configuration>
+          <argLine>-Xms256m -Xmx512m -XX:PermSize=512m -XX:MaxPermSize=512m</argLine>
+          <disableXmlReport>true</disableXmlReport> 
           <workingDirectory>src/test/resources</workingDirectory>
 <!--        
           <reportsDirectory>target/testreports</reportsDirectory>
