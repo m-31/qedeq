@@ -613,7 +613,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     private void checkIfApplicationIsAlreadyRunning()
             throws IOException {
         lockFile = new File(config.getBufferDirectory(), "qedeq_lock.lck");
-        lockFile.deleteOnExit();
+        lockFile.deleteOnExit();  // FIXME mime 20090719: perhaps no further IO stream lock neccessary?
         final String osName = System.getProperty("os.name");
         if (osName.startsWith("Windows")) {
             if ((lockFile.exists() && !lockFile.delete())) {
