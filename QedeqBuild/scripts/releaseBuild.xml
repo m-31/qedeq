@@ -489,6 +489,8 @@ currently in ants classpath
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
         <signjar jar="${qedeq.webstart}/looks-2.1.4.jar" alias="qedeqkey"
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+        <!-- FIXME mime 20090920: the signed XML-Parser Jars have to be replaced by other ones
+             so that it works under an old JNLP version !? -->
         <signjar jar="${qedeq.webstart}/xercesImpl.jar" alias="qedeqkey"
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
         <signjar jar="${qedeq.webstart}/xml-apis.jar" alias="qedeqkey"
