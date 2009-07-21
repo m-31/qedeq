@@ -66,7 +66,7 @@
         <copy todir="${qedeq.dest}/src/maven">
             <fileset dir="${qedeq.dest.module}">
                 <include name="qedeq_kernel/src/**/*" />
-                <include name="qedeq_gui_se/**/*" />
+                <include name="qedeq_gui_se/src/**/*" />
             </fileset>
         </copy>
         <copy todir="${qedeq.dest}/src/maven/qedeq_kernel" file="${qedeq.resources}/pom/qedeq_kernel/pom.xml">
