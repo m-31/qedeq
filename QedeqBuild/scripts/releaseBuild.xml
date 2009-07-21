@@ -104,6 +104,8 @@ currently in ants classpath
     <taskdef resource="cloverlib.xml" classpath="${qedeq.lib}/clover-2.3.1.jar" />
 
     <target name="clean">
+        <delete dir="${qedeq.dest}" failonerror="true" />
+        <mkdir dir="${qedeq.dest}" />
         <delete dir="${qedeq.dest.module}" failonerror="true" />
         <mkdir dir="${qedeq.dest.module}" />
         <delete dir="${qedeq.dist}" failonerror="true"/>
