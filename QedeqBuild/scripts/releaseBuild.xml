@@ -424,10 +424,22 @@ currently in ants classpath
             excludes="xml/qedeq/**"   
         />
         <zip whenempty="create"
+          zipfile="${qedeq.dist}/qedeq_${qedeq.release.version}_dev_win.zip"
+        >
+          <fileset dir="${qedeq.dest}/.." 
+            includes="${qedeq.directory}/**"
+          />
+        </zip>
+        
+        <zip whenempty="create"
           zipfile="${qedeq.dist}/qedeq_${qedeq.release.version}_win.zip"
         >
           <fileset dir="${qedeq.dest}/.." 
             includes="${qedeq.directory}/**"
+            excludes="${qedeq.directory}/src/**"
+          />
+          <fileset dir="${qedeq.dest}/.." 
+            includes="${qedeq.directory}/src/maven/qedeq_kernel/**"
           />
         </zip>
         
@@ -439,12 +451,31 @@ currently in ants classpath
             excludes="xml/qedeq/**"   
         />
         <tar
+          destfile="${qedeq.dist}/qedeq_${qedeq.release.version}_dev_unx.tar.bz2"
+          defaultexcludes="no"
+          compression="bzip2"
+        >
+          <tarfileset dir="${qedeq.dest}/.." 
+            includes="${qedeq.directory}/**/*" 
+            excludes="**/*.sh" 
+          />
+          <tarfileset dir="${qedeq.dest}/.."
+            mode="755"
+            includes="${qedeq.directory}/**/*.sh" 
+          />
+        </tar>
+
+        <tar
           destfile="${qedeq.dist}/qedeq_${qedeq.release.version}_unx.tar.bz2"
           defaultexcludes="no"
           compression="bzip2"
         >
           <tarfileset dir="${qedeq.dest}/.." 
             includes="${qedeq.directory}/**/*" 
+            excludes="**/*.sh,${qedeq.directory}/src/**" 
+          />
+          <tarfileset dir="${qedeq.dest}/.." 
+            includes="${qedeq.directory}/src/maven/qedeq_kernel/**" 
             excludes="**/*.sh" 
           />
           <tarfileset dir="${qedeq.dest}/.."

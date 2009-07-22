@@ -6,9 +6,9 @@
 <!-- project: Hilbert II -->
 
 <!-- This is the Ant build file for building the Se release of project Hilbert II -->
-<project name="fastCloverBuild" default="all" basedir="../..">
+<project name="fastReleaseBuild" default="all" basedir="../..">
     <description>
-        Developer build for Hilbert II with clover but without pdf generation and release execution.   
+        Release build for Hilbert II without pdf generation and slow tests.   
     </description>
 
     <import file="releaseBuild.xml" />
@@ -47,10 +47,6 @@
         <mkdir dir="${qedeq.dest.module}/QedeqKernelBo/target/test-outdir/doc" />
     </target>
  
-    <target name="release" depends="assemble">
-       <!-- don't do anything because we want to be fast.. -->   
-    </target>
-                
 </project>
 
 

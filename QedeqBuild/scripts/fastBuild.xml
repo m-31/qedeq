@@ -8,7 +8,7 @@
 <!-- This is the Ant build file for building the Se release of project Hilbert II -->
 <project name="fastBuild" default="all" basedir="../..">
     <description>
-        Developer build for Hilbert II without clover, pdf generation and maven execution.   
+        Developer build for Hilbert II without clover, pdf generation and release build.   
     </description>
 
     <import file="releaseBuild.xml" />
@@ -58,10 +58,6 @@
     </target>
 
     <target name="release" depends="assemble">
-       <!-- don't do anything because we want to be fast.. -->   
-    </target>
-        
-    <target name="maven" depends="release">
        <!-- don't do anything because we want to be fast.. -->   
     </target>
         
