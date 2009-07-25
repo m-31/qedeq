@@ -37,7 +37,10 @@ currently in ants classpath
  
 <!-- we add the xerces libraries, so that parsing works for JDK >= 1.5 also -->
     <taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task" classpath="${qedeq.lib}/xsddoc.jar:${qedeq.lib}/xercesImpl.jar:${qedeq.lib}/xalan.jar:${qedeq.lib}/xml-apis.jar" />
+
     <taskdef resource="checkstyletask.properties" classpath="${qedeq.lib}/checkstyle-all-4.4.jar" />
+
+    <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${qedeq.lib}/findbugs-ant.jar" />
     
     <tstamp>
         <format property="qedeq.se.timestamp" pattern="yyyy-MM-dd HH:mm:ss" timezone="GMT"/>
@@ -194,6 +197,15 @@ currently in ants classpath
         <checkstyleReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.aggregate" checks="${qedeq.resources}/checkstyle/QedeqFormalChecks.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" />
     </target>
                 
+    <target name="findbugs" description="run findbugs" depends="">
+        <findbugsReport  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"     />
+        <findbugsReport  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"     />
+        <findbugsReport  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"     />
+        <findbugsReport  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"     />
+        <findbugsReport  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate"  /> 
+        <findbugsReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.aggregate"  />
+    </target>
+                
     <target name="package" description="generate jars" depends="compile">
         <delete dir="${qedeq.temp}" />
         <mkdir dir="${qedeq.temp}" />
@@ -297,7 +309,7 @@ currently in ants classpath
         </copy>
     </target>
 
-    <target name="assemble" depends="doc,package,test,pest,sourceHtml,checkstyle">
+    <target name="assemble" depends="doc,package,test,pest,sourceHtml,checkstyle,findbugs">
         <!-- copy libraries -->   
         <delete dir="${qedeq.dest}/lib" />
         <mkdir dir="${qedeq.dest}/lib" />

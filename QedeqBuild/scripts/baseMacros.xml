@@ -347,6 +347,29 @@
         </sequential>
     </macrodef>
 
+    <!-- Run findbugs" and write report to "reports" -->
+    <macrodef name="findbugsReport">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <attribute name="classpath" />   <!-- refid for test runtime classpath -->
+        <sequential>
+            <echo>findbugs @{name} with findbugs.home=$findbugs.home}</echo>   
+
+            <pathconvert property="findbugs.aux.classpath.@{name}" refid="@{classpath}" />
+
+            <delete dir="@{dir}/target/reports/findbugs" failonerror="false" />
+            <mkdir dir="@{dir}/target/reports/findbugs/data" />
+            <mkdir dir="@{dir}/target/reports/findbugs/report" />
+		    <findbugs home="${findbugs.home}"
+		              output="xml"
+		              outputFile="@{dir}/target/reports/findbugs/data/@{name}-fb.xml" >
+		      <auxClasspath path="${findbugs.aux.classpath.@{name}}" />
+		      <sourcePath path="@{dir}/src/main/java" />
+		      <class location="@{dir}/target/classes" />
+		    </findbugs>
+        </sequential>
+    </macrodef>
+
     <!-- copy "reports" entries to assembly -->
     <macrodef name="assembleReports">
         <attribute name="name" />  <!-- artifact name -->
