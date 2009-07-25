@@ -362,7 +362,9 @@
             <mkdir dir="@{dir}/target/reports/findbugs/report" />
 		    <findbugs home="${findbugs.home}"
 		              output="xml"
-		              outputFile="@{dir}/target/reports/findbugs/data/@{name}-fb.xml" >
+		              outputFile="@{dir}/target/reports/findbugs/data/@{name}-fb.xml"
+		              jvmargs="-Xmx1024m -Xms1024m -XX:MaxPermSize=512m" 
+		    >
 		      <auxClasspath path="${findbugs.aux.classpath.@{name}}" />
 		      <sourcePath path="@{dir}/src/main/java" />
 		      <class location="@{dir}/target/classes" />
