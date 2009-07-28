@@ -347,7 +347,7 @@
         </sequential>
     </macrodef>
 
-    <!-- Run findbugs" and write report to "reports" -->
+    <!-- run findbugs" and write report to "reports" -->
     <macrodef name="findbugsReport">
         <attribute name="name" />  <!-- artifact name -->
         <attribute name="dir" />   <!-- destination directory -->
