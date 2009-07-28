@@ -30,7 +30,7 @@ import java.net.URL;
 public final class SourcePosition implements Serializable {
 
     /** Address of input, for identifying source. */
-    private final URL address;
+    private final String address;
 
     /** Line number, starting with 1. */
     private int line;
@@ -45,7 +45,7 @@ public final class SourcePosition implements Serializable {
      * @param   line            Line number.
      * @param   column          Column number.
      */
-    public SourcePosition(final URL address, final int line, final int column) {
+    public SourcePosition(final String address, final int line, final int column) {
         this.address = address;
         this.line = line;
         this.column = column;
@@ -59,7 +59,7 @@ public final class SourcePosition implements Serializable {
      * @param   line            Line number.
      * @param   column          Column number.
      */
-    public SourcePosition(final URL address, final URL localAddress,
+    public SourcePosition(final String address, final URL localAddress,
             final int line, final int column) {
         this.address = address;
         this.line = line;
@@ -71,7 +71,7 @@ public final class SourcePosition implements Serializable {
      *
      * @return  address of input source
      */
-    public final URL getAddress() {
+    public final String getAddress() {
         return this.address;
     }
 

@@ -18,7 +18,6 @@
 package org.qedeq.kernel.bo.log;
 
 import java.io.PrintStream;
-import java.net.URL;
 
 import org.qedeq.base.utility.DateUtility;
 
@@ -58,17 +57,17 @@ public final class LogListenerImpl implements LogListener {
         this.out = stream;
     }
 
-    public final void logMessageState(final String text, final URL url) {
+    public final void logMessageState(final String text, final String url) {
         out.println(DateUtility.getTimestamp() + " state:   " + text + "\n\t" + url);
     }
 
-    public final void logFailureState(final String text, final URL url,
+    public final void logFailureState(final String text, final String url,
             final String description) {
         out.println(DateUtility.getTimestamp() + " failure: " + text + "\n\t" + url + "\n\t"
             + description);
     }
 
-    public final void logSuccessfulState(final String text, final URL url) {
+    public final void logSuccessfulState(final String text, final String url) {
         out.println(DateUtility.getTimestamp() + " success: " + text + "\n\t" + url);
     }
 

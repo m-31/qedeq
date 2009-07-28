@@ -111,7 +111,6 @@ public class IoUtilityTest extends QedeqTestCase {
         System.err.println("^ above text is ok, this was intended test behaviour");
         assertEquals("UTF-8", IoUtility.getWorkingEncoding("UTF-8"));
         assertEquals("UTF-16", IoUtility.getWorkingEncoding("UTF-16"));
-        assertEquals("UTF16", IoUtility.getWorkingEncoding("UTF16"));
         assertEquals("UTF8", IoUtility.getWorkingEncoding("UTF8"));
         assertEquals("ISO-8859-1", IoUtility.getWorkingEncoding(null));
         System.err.println("^ above text is ok, this was intended test behaviour");
@@ -991,8 +990,8 @@ public class IoUtilityTest extends QedeqTestCase {
         assertTrue(IoUtility.compareTextFiles(file2, file1, "ISO-8859-1"));
         assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF8"));
         assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF8"));
-        assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF16"));
-        assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF16"));
+        assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF-16"));
+        assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF-16"));
 
         IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "ISO-8859-1");
         IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\012"), "UTF8");
@@ -1000,25 +999,25 @@ public class IoUtilityTest extends QedeqTestCase {
         assertTrue(IoUtility.compareTextFiles(file2, file1, "ISO-8859-1"));
         assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF8"));
         assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF8"));
-        assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF16"));
-        assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF16"));
+        assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF-16"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF-16"));
 
         IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "UTF16");
         IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\012"), "UTF8");
-        assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF16"));
+        assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF-16"));
         assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF8"));
 
-        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "UTF16");
-        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\012"), "UTF16");
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "UTF-16");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\012"), "UTF-16");
         assertTrue(IoUtility.compareTextFiles(file1, file2, "ISO-8859-1"));
         assertTrue(IoUtility.compareTextFiles(file2, file1, "ISO-8859-1"));
         assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF8"));
         assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF8"));
-        assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF16"));
-        assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF16"));
+        assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF-16"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF-16"));
 
-        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "UTF16");
-        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\012\015"), "UTF16");
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "UTF-16");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\012\015"), "UTF-16");
         assertFalse(IoUtility.compareTextFiles(file1, file2, "ISO-8859-1"));
         assertFalse(IoUtility.compareTextFiles(file2, file1, "ISO-8859-1"));
         assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF8"));
@@ -1026,14 +1025,14 @@ public class IoUtilityTest extends QedeqTestCase {
         assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF16"));
         assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF16"));
 
-        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "UTF16");
-        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\015\012"), "UTF16");
+        IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "UTF-16");
+        IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\015\012"), "UTF-16");
         assertFalse(IoUtility.compareTextFiles(file1, file2, "ISO-8859-1"));
         assertFalse(IoUtility.compareTextFiles(file2, file1, "ISO-8859-1"));
         assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF8"));
         assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF8"));
-        assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF16"));
-        assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF16"));
+        assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF-16"));
+        assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF-16"));
 
         IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\012"), "ISO-8859-1");
         IoUtility.saveFile(file2, StringUtility.replace(text, "@", "\015"), "ISO-8859-1");
@@ -1041,8 +1040,8 @@ public class IoUtilityTest extends QedeqTestCase {
         assertTrue(IoUtility.compareTextFiles(file2, file1, "ISO-8859-1"));
         assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF8"));
         assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF8"));
-        assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF16"));
-        assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF16"));
+        assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF-16"));
+        assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF-16"));
 
         IoUtility.saveFile(file1, StringUtility.replace(text, "@", "\015\012"), "ISO-8859-1");
         IoUtility.saveFile(file2, StringUtility.replace(text, "@", "" + (char) 0x2029),
@@ -1051,8 +1050,8 @@ public class IoUtilityTest extends QedeqTestCase {
         assertTrue(IoUtility.compareTextFiles(file2, file1, "ISO-8859-1"));
         assertTrue(IoUtility.compareTextFiles(file1, file2, "UTF8"));
         assertTrue(IoUtility.compareTextFiles(file2, file1, "UTF8"));
-        assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF16"));
-        assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF16"));
+        assertFalse(IoUtility.compareTextFiles(file1, file2, "UTF-16"));
+        assertFalse(IoUtility.compareTextFiles(file2, file1, "UTF-16"));
 
         assertTrue(file1.delete());
         assertTrue(file2.delete());

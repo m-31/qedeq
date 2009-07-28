@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry path="src" kind="src"/>
-	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" kind="con"/>
-	<classpathentry path="/QedeqKernelSe" kind="src"/>
-	<classpathentry path="JAVA_HOME/lib/tools.jar" kind="var"/>
-	<classpathentry path="/QedeqLib/xsddoc.jar" kind="lib"/>
-	<classpathentry path="/QedeqLib/log4j-1.2.14.jar" kind="lib"/>
-	<classpathentry path="/QedeqKernelXml" combineaccessrules="false" kind="src"/>
-	<classpathentry path="/QedeqBase" combineaccessrules="false" kind="src"/>
-	<classpathentry path="/QedeqKernelBo" combineaccessrules="false" kind="src"/>
-	<classpathentry path="bin" kind="output"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="/QedeqKernelSe"/>
+	<classpathentry kind="lib" path="/QedeqLib/xsddoc.jar"/>
+	<classpathentry kind="lib" path="/QedeqLib/log4j-1.2.14.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/QedeqKernelXml"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/QedeqBase"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/QedeqKernelBo"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

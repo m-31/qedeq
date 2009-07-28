@@ -18,7 +18,6 @@
 package org.qedeq.kernel.common;
 
 import java.io.IOException;
-import java.net.URL;
 
 import org.qedeq.kernel.base.module.Specification;
 
@@ -71,7 +70,7 @@ public interface ModuleAddress {
      *
      * @return  URL for QEDEQ module.
      */
-    public URL getURL();
+    public String getUrl();
 
     /**
      * Was this module address created relatively?

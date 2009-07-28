@@ -254,7 +254,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             }
         } catch (SourceFileExceptionList e) {
             Trace.trace(CLASS, this, method, e);
-            QedeqLog.getInstance().logFailureState("Loading of module failed!", address.getURL(),
+            QedeqLog.getInstance().logFailureState("Loading of module failed!", address.getUrl(),
                 e.toString());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
@@ -551,7 +551,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         InputStream in = null;
         final File f = getLocalFilePath(prop.getModuleAddress());
         try {
-            final URLConnection connection = prop.getUrl().openConnection();
+            final URLConnection connection = new URL(prop.getUrl()).openConnection();
 
             if (connection instanceof HttpURLConnection) {
                 final HttpURLConnection httpConnection = (HttpURLConnection) connection;
@@ -574,7 +574,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 in = connection.getInputStream();
             }
 
-            if (!prop.getUrl().equals(connection.getURL())) {
+            if (!prop.getUrl().toString().equals(connection.getURL().toString())) {
                 throw new FileNotFoundException("\"" + prop.getUrl() + "\" was substituted by "
                     + "\"" + connection.getURL() + "\" from server");
             }
@@ -701,10 +701,16 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      */
     public final File getLocalFilePath(final ModuleAddress address) {
         final String method = "localizeInFileSystem(URL)";
-        if (address.isFileAddress()) {
-            return new File(address.getURL().getFile());
+        URL url;
+        try {
+            url = new URL(address.getUrl());
+        } catch (MalformedURLException e) {
+            // should not happen    FIXME mime 20090728: check it out
+            throw new RuntimeException(e);
         }
-        final URL url = address.getURL();
+        if (address.isFileAddress()) {
+            return new File(url.getFile());
+        }
         Trace.param(CLASS, this, method, "protocol", url.getProtocol());
         Trace.param(CLASS, this, method, "host", url.getHost());
         Trace.param(CLASS, this, method, "port", url.getPort());
@@ -810,11 +816,11 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful for \"" + prop.getUrl() + "\"");
         } catch (final SourceFileExceptionList e) {
-            final String msg = "Check of logical correctness failed for \"" + address.getURL()
+            final String msg = "Check of logical correctness failed for \"" + address.getUrl()
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
         } catch (final RuntimeException e) {
-            final String msg = "Check of logical correctness failed for \"" + address.getURL()
+            final String msg = "Check of logical correctness failed for \"" + address.getUrl()
                 + "\"";
             Trace.fatal(CLASS, this, method, msg, e);
             final SourceFileExceptionList xl = new DefaultSourceFileExceptionList(e);

@@ -797,6 +797,20 @@ public final class IoUtility {
     }
 
     /**
+     * Convert file in URL string.
+     *
+     * @param   file    File.
+     * @return  URL string.
+     */
+    public static String toUrlString(final File file) {
+        try {
+            return file.toURI().toURL().toString();
+        } catch (MalformedURLException e) { // should only happen if there is a bug in the JDK
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * Creates necessary parent directories for a file.
      *
      * @param   file    File.

@@ -30,7 +30,7 @@ import java.net.URL;
 public final class SourceArea implements Serializable {
 
     /** Address of input, for identifying source. */
-    private final URL address;
+    private final String address;
 
     /** Start position. */
     private final SourcePosition startPosition;
@@ -45,7 +45,7 @@ public final class SourceArea implements Serializable {
      * @param   startPosition   Start position. Must not be <code>null</code>.
      * @param   endPosition     Start position. Must not be <code>null</code>.
      */
-    public SourceArea(final URL address, final SourcePosition startPosition,
+    public SourceArea(final String address, final SourcePosition startPosition,
             final SourcePosition endPosition) {
         this.address = address;
         if (startPosition == null || endPosition == null) {
@@ -60,7 +60,7 @@ public final class SourceArea implements Serializable {
      *
      * @return  address of input source
      */
-    public final URL getAddress() {
+    public final String getAddress() {
         return this.address;
     }
 

@@ -21,7 +21,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,7 +89,7 @@ public final class XPathLocationParser extends SimpleHandler {
     private int level;
 
     /** Original file location. */
-    private URL original;
+    private String original;
 
     /**
      * Search simple XPath within an XML file.
@@ -104,7 +103,7 @@ public final class XPathLocationParser extends SimpleHandler {
      * @throws  IOException
      */
     public static final SimpleXPath getXPathLocation(final File xmlFile, final String xpath,
-            final URL original)
+            final String original)
             throws ParserConfigurationException, SAXException, IOException {
         final XPathLocationParser parser = new XPathLocationParser(xpath);
         parser.parse(xmlFile, original);
@@ -123,7 +122,7 @@ public final class XPathLocationParser extends SimpleHandler {
      * @throws  IOException
      */
     public static final SimpleXPath getXPathLocation(final File xmlFile, final SimpleXPath xpath,
-            final URL original)
+            final String original)
             throws ParserConfigurationException, SAXException, IOException {
         return getXPathLocation(xmlFile, xpath.toString(), original);
     }
@@ -172,7 +171,7 @@ public final class XPathLocationParser extends SimpleHandler {
      * @throws SAXException Syntactical or semantical problem occurred.
      * @throws IOException  Technical problem occurred.
      */
-    public final void parse(final String fileName, final URL original) throws SAXException,
+    public final void parse(final String fileName, final String original) throws SAXException,
             IOException {
         final File file = new File(fileName);
         parse(file, original);
@@ -186,7 +185,8 @@ public final class XPathLocationParser extends SimpleHandler {
      * @throws SAXException Syntactical or semantical problem occurred.
      * @throws IOException Technical problem occurred.
      */
-    public final void parse(final File file, final URL original) throws SAXException, IOException {
+    public final void parse(final File file, final String original) throws SAXException,
+            IOException {
         this.xmlFile = file;
         this.original = original;
         elements.clear();

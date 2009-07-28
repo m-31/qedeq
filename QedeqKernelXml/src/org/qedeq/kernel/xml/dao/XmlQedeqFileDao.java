@@ -134,11 +134,11 @@ public class XmlQedeqFileDao implements QedeqFileDao {
             find = XPathLocationParser.getXPathLocation(
                 services.getLocalFilePath(ctext.getModuleLocation()),
                 xpath,
-                ctext.getModuleLocation().getURL());
+                ctext.getModuleLocation().getUrl());
             if (find.getStartLocation() == null) {
                 return null;
             }
-            return new SourceArea(ctext.getModuleLocation().getURL(), find.getStartLocation(),
+            return new SourceArea(ctext.getModuleLocation().getUrl(), find.getStartLocation(),
                 find.getEndLocation());
         } catch (ParserConfigurationException e) {
             Trace.trace(CLASS, method, e);

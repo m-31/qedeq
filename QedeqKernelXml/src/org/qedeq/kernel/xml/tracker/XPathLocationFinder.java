@@ -99,7 +99,7 @@ public final class XPathLocationFinder {
         System.out.println(StringUtility.getClassName(XPathLocationFinder.class) + ", running on: "
             + KernelContext.getInstance().getDescriptiveKernelVersion());
         XPathLocationParser.getXPathLocation(new File(from), xpath,
-            IoUtility.toUrl(new File(from)));
+            IoUtility.toUrlString(new File(from)));
     }
 
     /**

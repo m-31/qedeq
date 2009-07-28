@@ -17,7 +17,6 @@
 
 package org.qedeq.kernel.bo.log;
 
-import java.net.URL;
 
 /**
  * Log event listener. Here one can listen to high level application events.
@@ -62,7 +61,7 @@ public interface LogListener {
      * @param   text    Message state.
      * @param   url     URL.
      */
-    public void logMessageState(String text, URL url);
+    public void logMessageState(String text, String url);
 
     /**
      * Log failure state for URL.
@@ -71,7 +70,7 @@ public interface LogListener {
      * @param   url     URL.
      * @param   description Reason.
      */
-    public void logFailureState(String text, URL url, String description);
+    public void logFailureState(String text, String url, String description);
 
     /**
      * Log successful state for URL.
@@ -79,6 +78,6 @@ public interface LogListener {
      * @param   text    State.
      * @param   url     URL.
      */
-    public void logSuccessfulState(String text, URL url);
+    public void logSuccessfulState(String text, String url);
 
 }

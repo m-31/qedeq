@@ -17,8 +17,6 @@
 
 package org.qedeq.kernel.bo;
 
-import java.net.URL;
-
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
@@ -110,7 +108,7 @@ public interface QedeqBo {
      *
      * @return  URL of module.
      */
-    public URL getUrl();
+    public String getUrl();
 
     /**
      * Is this module already loaded?

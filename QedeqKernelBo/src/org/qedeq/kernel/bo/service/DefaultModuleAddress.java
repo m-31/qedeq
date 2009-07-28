@@ -41,7 +41,7 @@ public class DefaultModuleAddress implements ModuleAddress {
     private static final Class CLASS = DefaultModuleAddress.class;
 
     /** URL form of this address. */
-    private final URL url;
+    private final String url;
 
     /** Header (including protocol, host, port, user) but without file path. */
     private final String header;
@@ -117,7 +117,7 @@ public class DefaultModuleAddress implements ModuleAddress {
         URL urmel;
         try {
             if (parent != null) {
-                urmel = new URL(parent.getURL(), address);
+                urmel = new URL(new URL(parent.getUrl()), address);
             } else {
                 urmel = new URL(address);
             }
@@ -128,7 +128,7 @@ public class DefaultModuleAddress implements ModuleAddress {
             try {
                 final String newAddress = "file:" + address;
                 if (parent != null) {
-                    urmel = new URL(parent.getURL(), newAddress);
+                    urmel = new URL(new URL(parent.getUrl()), newAddress);
                 } else {
                     urmel = new URL(newAddress);
                 }
@@ -137,8 +137,8 @@ public class DefaultModuleAddress implements ModuleAddress {
             }
         }
         Trace.trace(CLASS, this, method, "protocol=" + urmel.getProtocol());
-        url = urmel;
-        fileAddress = url.getProtocol().equalsIgnoreCase("file");
+        url = urmel.toString();
+        fileAddress = urmel.getProtocol().equalsIgnoreCase("file");
 /*
         Trace.trace(this, METHOD, "url.getFile=" + this.url.getFile());
         Trace.trace(this, METHOD, "url.getPath=" + this.url.getPath());
@@ -229,7 +229,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      *
      * @return  URL for QEDEQ module.
      */
-    public URL getURL() {
+    public String getUrl() {
         return this.url;
     }
 

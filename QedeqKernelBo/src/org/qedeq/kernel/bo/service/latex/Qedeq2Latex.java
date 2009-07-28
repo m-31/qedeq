@@ -388,7 +388,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             return "";
         }
         try {
-            return address.getModulePaths(specification)[0].getURL().toString();
+            return address.getModulePaths(specification)[0].getUrl().toString();
         } catch (IOException e) {
             return "";
         }

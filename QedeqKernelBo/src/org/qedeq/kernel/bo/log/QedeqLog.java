@@ -17,7 +17,6 @@
 
 package org.qedeq.kernel.bo.log;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +77,7 @@ public final class QedeqLog implements LogListener {
         Trace.paramInfo(CLASS, this, "removeLog(LogListener)", "log", log.getClass());
     }
 
-    public void logMessageState(final String text, final URL url) {
+    public void logMessageState(final String text, final String url) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logMessageState(text, url);
@@ -89,7 +88,7 @@ public final class QedeqLog implements LogListener {
         }
     }
 
-    public void logFailureState(final String text, final URL url, final String description) {
+    public void logFailureState(final String text, final String url, final String description) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logFailureState(text, url, description);
@@ -100,7 +99,7 @@ public final class QedeqLog implements LogListener {
         }
     }
 
-    public void logSuccessfulState(final String text, final URL url) {
+    public void logSuccessfulState(final String text, final String url) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logSuccessfulState(text, url);

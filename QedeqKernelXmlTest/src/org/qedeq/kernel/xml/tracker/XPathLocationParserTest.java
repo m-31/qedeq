@@ -84,7 +84,7 @@ public class XPathLocationParserTest extends QedeqTestCase {
             int endRow, int endCol) throws Exception {
         final File file = getFile(fileName);
         final SimpleXPath result = XPathLocationParser.getXPathLocation(file, xpath,
-            IoUtility.toUrl(file));
+            IoUtility.toUrlString(file));
         Trace.param(CLASS, this, "checkPosition", "Start position", result.getStartLocation());
         assertEquals(startRow, result.getStartLocation().getLine());
         assertEquals(startCol, result.getStartLocation().getColumn());

@@ -79,7 +79,7 @@ public class TestParser {
      * @throws  SAXException    Syntactical or semantical problem occurred.
      * @throws  IOException     Technical problem occurred.
      */
-    private void parse(final URL url, final Reader in)
+    private void parse(final String url, final Reader in)
             throws IOException, SAXException {
         final String method = "parse(URL, boolean, InputStream)";
         BufferedReader dis = null;

@@ -17,8 +17,6 @@
 
 package org.qedeq.kernel.bo.service;
 
-import java.net.URL;
-
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.ModuleReferenceList;
@@ -377,11 +375,11 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return qedeq.getHeader().getSpecification().getRuleVersion();
     }
 
-    public URL getUrl() {
+    public String getUrl() {
         if (this.address == null) {
             return null;
         }
-        return this.address.getURL();
+        return this.address.getUrl();
     }
 
     /**
@@ -524,7 +522,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public String toString() {
-       return address.getURL().toString();
+       return address.getUrl().toString();
     }
 
 }

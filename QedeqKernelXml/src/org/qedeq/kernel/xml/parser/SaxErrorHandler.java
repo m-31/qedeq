@@ -17,8 +17,6 @@
 
 package org.qedeq.kernel.xml.parser;
 
-import java.net.URL;
-
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.SourceArea;
@@ -44,7 +42,7 @@ public class SaxErrorHandler implements ErrorHandler {
     public static final int SAX_PARSER_EXCEPTION = 9001;
 
     /** File that is parsed. */
-    private final URL url;
+    private final String url;
 
     /** Collects errors. */
     private final DefaultSourceFileExceptionList list;
@@ -55,7 +53,7 @@ public class SaxErrorHandler implements ErrorHandler {
      * @param   url     URL that is parsed.
      * @param   list    Collector for the SAX exceptions.
      */
-    public SaxErrorHandler(final URL url, final DefaultSourceFileExceptionList list) {
+    public SaxErrorHandler(final String url, final DefaultSourceFileExceptionList list) {
         super();
         Trace.param(CLASS, this, "SaxErrorHandler", "url", url);
         this.url = url;

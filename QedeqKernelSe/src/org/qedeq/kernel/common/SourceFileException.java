@@ -77,7 +77,7 @@ public class SourceFileException extends QedeqException {
      * @param   url         Parsed file.
      * @param   exception   Exception to wrap.
      */
-    public SourceFileException(final URL url, final Exception exception) {
+    public SourceFileException(final String url, final Exception exception) {
         super(9997, exception.toString(), exception);     // TODO mime 20071116: error code refac
         errorArea = new SourceArea(url, new SourcePosition(url, 1, 1),
             new SourcePosition(url, 1, 1));
@@ -93,7 +93,7 @@ public class SourceFileException extends QedeqException {
      */
     public SourceFileException(final File file, final Exception exception) {
         super(9998, exception.getMessage(), exception);     // TODO mime 20071116: error code refac
-        final URL url = IoUtility.toUrl(file);
+        final String url = IoUtility.toUrlString(file);
         errorArea = new SourceArea(url, new SourcePosition(url, 1, 1),
             new SourcePosition(url, 1, 1));
         referenceArea = null;

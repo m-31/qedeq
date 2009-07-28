@@ -21,7 +21,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.net.URL;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -115,7 +114,7 @@ public class LogPane extends JPanel implements LogListener {
             requestAttrs, Color.blue);
     }
 
-    public final void logMessageState(final String text, final URL url) {
+    public final void logMessageState(final String text, final String url) {
 
         final Runnable runLater = new Runnable() {
             public void run() {
@@ -131,7 +130,7 @@ public class LogPane extends JPanel implements LogListener {
         SwingUtilities.invokeLater(runLater);
     }
 
-    public final void logFailureState(final String text, final URL url, final String description) {
+    public final void logFailureState(final String text, final String url, final String description) {
 
         final Runnable runLater = new Runnable() {
             public void run() {
@@ -147,7 +146,7 @@ public class LogPane extends JPanel implements LogListener {
         SwingUtilities.invokeLater(runLater);
     }
 
-    public final void logSuccessfulState(final String text, final URL url) {
+    public final void logSuccessfulState(final String text, final String url) {
 
         final Runnable runLater = new Runnable() {
             public void run() {

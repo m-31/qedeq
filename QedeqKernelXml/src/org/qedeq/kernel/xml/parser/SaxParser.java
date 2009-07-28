@@ -20,7 +20,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -153,7 +152,7 @@ public final class SaxParser {
      *
      * @throws  SourceFileExceptionList    Loading failed.
      */
-    private void parse(final File in, final boolean validateOnly, final URL original)
+    private void parse(final File in, final boolean validateOnly, final String original)
             throws SourceFileExceptionList {
         final String method = "parse(URL, boolean, InputStream)";
         InputStream stream = null;
@@ -203,7 +202,7 @@ public final class SaxParser {
      *                          file name.
      * @throws  SourceFileExceptionList    Loading failed.
      */
-    public final void parse(final String fileName, final URL original)
+    public final void parse(final String fileName, final String original)
             throws SourceFileExceptionList {
         final File file = new File(fileName);
         parse(file.getAbsoluteFile(), original);
@@ -217,7 +216,7 @@ public final class SaxParser {
      *                          file.
      * @throws  SourceFileExceptionList    Loading failed.
      */
-    public final void parse(final File file, final URL original) throws SourceFileExceptionList {
+    public final void parse(final File file, final String original) throws SourceFileExceptionList {
         parse(file, true, original);
         parse(file, false, original);
     }
