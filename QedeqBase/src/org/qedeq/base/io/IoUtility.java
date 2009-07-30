@@ -38,7 +38,6 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -214,14 +213,18 @@ public final class IoUtility {
             throws IOException {
 
         final int size = (int) file.length();
-        buffer.setLength(0);
-        final FileReader in = new FileReader(file);
         final char[] data = new char[size];
-        int charsread = 0;
-        while (charsread < size) {
-            charsread += in.read(data, charsread, size - charsread);
+        buffer.setLength(0);
+        FileReader in = new FileReader(file);
+        try {
+            in = new FileReader(file);
+            int charsread = 0;
+            while (charsread < size) {
+                charsread += in.read(data, charsread, size - charsread);
+            }
+        } finally {
+            close(in);
         }
-        in.close();
         buffer.insert(0, data);
     }
 
@@ -507,15 +510,19 @@ public final class IoUtility {
         }
         FileInputStream in = new FileInputStream(from);
         FileOutputStream out = new FileOutputStream(to);
+        try {
+            in = new FileInputStream(from);
+            out = new FileOutputStream(to);
 
-        byte[] data = new byte[8 * 1024];
-        int length;
-
-        while ((length = in.read(data)) != -1) {
-            out.write(data, 0, length);
+            byte[] data = new byte[8 * 1024];
+            int length;
+            while ((length = in.read(data)) != -1) {
+                out.write(data, 0, length);
+            }
+        } finally {
+            in.close();
+            out.close();
         }
-        in.close();
-        out.close();
     }
 
     /**
@@ -815,10 +822,13 @@ public final class IoUtility {
      * Creates necessary parent directories for a file.
      *
      * @param   file    File.
+     * @throws  IOException Creation failed.
      */
-    public static void createNecessaryDirectories(final File file) {
+    public static void createNecessaryDirectories(final File file) throws  IOException {
         if (file.getParentFile() != null) {
-            file.getParentFile().mkdirs();
+            if (!file.getParentFile().mkdirs()) {
+                throw new IOException("create folder failed: " + file.getParent());
+            }
         }
     }
 
@@ -1029,11 +1039,12 @@ public final class IoUtility {
                     System.out.println(cl);
                 }
             }
+            if (field == null) {
+                throw new NullPointerException("field not found: " + name);
+            }
             field.setAccessible(true);
         } catch (SecurityException e) {
             throw new RuntimeException(e);
-//        } catch (NoSuchFieldException e) {
-//            throw new RuntimeException(e);
         }
         try {
             return field.get(obj);
