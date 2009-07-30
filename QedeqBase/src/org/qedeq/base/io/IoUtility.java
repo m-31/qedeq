@@ -215,7 +215,7 @@ public final class IoUtility {
         final int size = (int) file.length();
         final char[] data = new char[size];
         buffer.setLength(0);
-        FileReader in = new FileReader(file);
+        FileReader in = null;
         try {
             in = new FileReader(file);
             int charsread = 0;
@@ -508,8 +508,8 @@ public final class IoUtility {
         if (from.getCanonicalFile().equals(to.getCanonicalFile())) {
             return;
         }
-        FileInputStream in = new FileInputStream(from);
-        FileOutputStream out = new FileOutputStream(to);
+        FileInputStream in = null;
+        FileOutputStream out = null;
         try {
             in = new FileInputStream(from);
             out = new FileOutputStream(to);
@@ -520,8 +520,8 @@ public final class IoUtility {
                 out.write(data, 0, length);
             }
         } finally {
-            in.close();
-            out.close();
+            close(in);
+            close(out);
         }
     }
 
@@ -624,10 +624,10 @@ public final class IoUtility {
                     if (crTwo) {
                         readTwo = two.read();
                     }
-                    if (crOne && readOne != 0x0A & isCr(readTwo)) {
+                    if (crOne && readOne != 0x0A && isCr(readTwo)) {
                         readTwo = two.read();
                     }
-                    if (crTwo && readTwo != 0x0A & isCr(readOne)) {
+                    if (crTwo && readTwo != 0x0A && isCr(readOne)) {
                         readOne = one.read();
                     }
                     if (readOne != readTwo && (!isCr(readOne) && !isCr(readTwo))) {
