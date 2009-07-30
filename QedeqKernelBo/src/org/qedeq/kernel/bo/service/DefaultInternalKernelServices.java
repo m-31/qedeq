@@ -74,7 +74,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     private static final Class CLASS = DefaultInternalKernelServices.class;
 
     /** For synchronized waiting. */
-    private final String monitor = "";
+    private final Object monitor = new Object();
 
     /** Number of method calls. */
     private volatile int processCounter = 0;

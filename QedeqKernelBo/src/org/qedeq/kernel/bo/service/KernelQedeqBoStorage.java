@@ -170,7 +170,7 @@ class KernelQedeqBoStorage {
                     list.add(prop.getModuleAddress());
                 }
             }
-            return (ModuleAddress[]) list.toArray(new ModuleAddress[] {});
+            return (ModuleAddress[]) list.toArray(new ModuleAddress[list.size()]);
         } finally {
             Trace.end(CLASS, this, method);
         }
