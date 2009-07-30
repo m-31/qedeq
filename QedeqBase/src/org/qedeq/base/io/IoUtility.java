@@ -826,9 +826,7 @@ public final class IoUtility {
      */
     public static void createNecessaryDirectories(final File file) throws  IOException {
         if (file.getParentFile() != null) {
-            if (!file.getParentFile().mkdirs()) {
-                throw new IOException("create folder failed: " + file.getParent());
-            }
+            file.getParentFile().mkdirs();
         }
     }
 
