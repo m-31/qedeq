@@ -74,7 +74,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     private static final Class CLASS = DefaultInternalKernelServices.class;
 
     /** For synchronized waiting. */
-    private final Object monitor = new Object();
+    private static final Object MONITOR = new Object();
 
     /** Number of method calls. */
     private volatile int processCounter = 0;
@@ -154,9 +154,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 }
             }
             // we must wait for the other processes to stop (so that processCounter == 0)
-            synchronized (monitor) {
+            synchronized (MONITOR) {
                 try {
-                    monitor.wait(10000);
+                    MONITOR.wait(10000);
                 } catch (InterruptedException e) {
                 }
             }
@@ -199,9 +199,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 }
             }
             // we must wait for the other processes to stop (so that processCounter == 0)
-            synchronized (monitor) {
+            synchronized (MONITOR) {
                 try {
-                    this.monitor.wait(10000);
+                    MONITOR.wait(10000);
                 } catch (InterruptedException e) {
                 }
             }
