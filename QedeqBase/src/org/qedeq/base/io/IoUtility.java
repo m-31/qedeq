@@ -38,6 +38,7 @@ import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.security.AccessController;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -1075,7 +1076,7 @@ public final class IoUtility {
      * @param   ms  Milliseconds to wait.
      */
     public static void sleep(final int ms) {
-        final String monitor = "";
+        final Object monitor = new Object();
         synchronized (monitor) {
             try {
                 monitor.wait(ms);
