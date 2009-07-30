@@ -29,6 +29,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 
+import org.qedeq.base.io.IoUtility;
+
 
 /**
  * This class reads entries from property files. This class should not
@@ -58,10 +60,14 @@ final class ConfigAccess {
     public ConfigAccess(final File configFile, final String description) throws IOException {
         this.configFile = configFile;
         this.description = description;
+        FileInputStream stream = null;
         try {
-            load(new FileInputStream(configFile));
+            stream = new FileInputStream(configFile);
+            load(stream);
         } catch (IOException e) {
             System.out.println("no config file found, using default values");
+        } finally {
+            IoUtility.close(stream);
         }
         setString("configFileLocation", configFile.getCanonicalPath());
     }
