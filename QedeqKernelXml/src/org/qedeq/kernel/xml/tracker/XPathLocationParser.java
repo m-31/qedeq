@@ -30,6 +30,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.Enumerator;
@@ -191,15 +192,18 @@ public final class XPathLocationParser extends SimpleHandler {
         this.original = original;
         elements.clear();
         level = 0;
+        InputStream stream = null;
         try {
             current = new SimpleXPath();
             summary = new SimpleXPath();
             reader.setContentHandler(this);
-            InputStream stream = new FileInputStream(file);
+            stream = new FileInputStream(file);
             reader.parse(new InputSource(stream));
         } catch (SAXException e) {
             Trace.trace(CLASS, this, "parse", e);
             throw e;
+        } finally {
+            IoUtility.close(stream);
         }
     }
 
@@ -416,6 +420,8 @@ public final class XPathLocationParser extends SimpleHandler {
                 find.setStartLocation(new SourcePosition(original,
                     getLocator().getLineNumber(), getLocator().getColumnNumber()));
                 return;
+            } finally {
+                IoUtility.close(xmlReader);
             }
             xml.setRow(getLocator().getLineNumber());
             xml.setColumn(getLocator().getColumnNumber());

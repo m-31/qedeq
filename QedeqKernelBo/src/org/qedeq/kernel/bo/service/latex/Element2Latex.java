@@ -373,7 +373,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
     /**
      * Transformer for a subject variable.
      */
-    class Var implements ListType {
+    static class Var implements ListType {
         public String getLatex(final ElementList list, final boolean first) {
             final String text = list.getElement(0).getAtom().getString();
             // interpret variable identifier as number
