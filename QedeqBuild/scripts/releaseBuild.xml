@@ -11,7 +11,11 @@
     <description>
         Release Build for Hilbert II.   
     </description>
-
+    
+    <!-- get content of findbugs environment variable -->
+    <property environment="env" />
+    <property name="findbugs.home" value="${env.FINDBUGS_HOME}" />
+    
     <import file="baseMacros.xml" />
 
     <!-- set global properties for this build -->

@@ -353,7 +353,7 @@
         <attribute name="dir" />   <!-- destination directory -->
         <attribute name="classpath" />   <!-- refid for test runtime classpath -->
         <sequential>
-            <echo>findbugs @{name} with findbugs.home=${findbugs.home}</echo>   
+            <echo>findbugs @{name} with $${findbugs.home}=${findbugs.home}</echo>   
 
             <pathconvert property="findbugs.aux.classpath.@{name}" refid="@{classpath}" />
 
