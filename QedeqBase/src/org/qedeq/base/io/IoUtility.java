@@ -34,6 +34,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.io.Writer;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -446,10 +447,13 @@ public final class IoUtility {
      */
     public static void saveFile(final File file, final String text)
             throws IOException {
-        BufferedWriter out = new BufferedWriter(
-            new FileWriter(file));
-        out.write(text);
-        out.close();
+        BufferedWriter out = null;
+        try {
+            out = new BufferedWriter(new FileWriter(file));
+            out.write(text);
+        } finally {
+            close(out);
+        }
     }
 
     /**
@@ -906,6 +910,21 @@ public final class IoUtility {
         if (in != null) {
             try {
                 in.close();
+            } catch (Exception e) {
+                // ignore
+            }
+        }
+    }
+
+    /**
+     * Closes writer without exception.
+     *
+     * @param   writer  Writer, maybe <code>null</code>.
+     */
+    public static void close(final Writer writer) {
+        if (writer != null) {
+            try {
+                writer.close();
             } catch (Exception e) {
                 // ignore
             }
