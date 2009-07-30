@@ -649,8 +649,8 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
         setLocationWithinModule(context + ".getList().getOperator()");
         if (operator == null) {
             handleElementCheckException(OPERATOR_CONTENT_MUST_NOT_BE_NULL,
-                OPERATOR_CONTENT_MUST_NOT_BE_NULL_TEXT + "\""
-                + operator + "\"", element, getCurrentContext());
+                OPERATOR_CONTENT_MUST_NOT_BE_NULL_TEXT , element,
+                getCurrentContext());
             return false;
         }
         if (operator.length() == 0) {
