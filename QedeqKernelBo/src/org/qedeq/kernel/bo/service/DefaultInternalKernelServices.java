@@ -574,7 +574,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 in = connection.getInputStream();
             }
 
-            if (!prop.getUrl().toString().equals(connection.getURL().toString())) {
+            if (!prop.getUrl().equals(connection.getURL().toString())) {
                 throw new FileNotFoundException("\"" + prop.getUrl() + "\" was substituted by "
                     + "\"" + connection.getURL() + "\" from server");
             }
@@ -652,7 +652,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         }
 
         // Create a method instance.
-        GetMethod httpMethod = new GetMethod(prop.getUrl().toString());
+        GetMethod httpMethod = new GetMethod(prop.getUrl());
 
         try {
             // Provide custom retry handler is necessary
@@ -924,7 +924,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 break; // out of do while
             } while (true);
         }
-        return (String[]) list.toArray(new String[] {});
+        return (String[]) list.toArray(new String[list.size()]);
     }
 
     public QedeqFileDao getQedeqFileDao() {
