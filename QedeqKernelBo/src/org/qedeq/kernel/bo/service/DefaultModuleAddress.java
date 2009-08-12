@@ -168,14 +168,13 @@ public class DefaultModuleAddress implements ModuleAddress {
         final int positionBefore = this.fileName.lastIndexOf(".");
         final String mname = this.fileName.substring(0, positionBefore);
         this.name = mname;
-        final int positionPath
-            = url.toString().lastIndexOf(this.path + this.fileName);
+        final int positionPath = url.lastIndexOf(this.path + this.fileName);
         if (positionPath < 0) {
             throw new IllegalArgumentException(
                 "couldn't determine begin of file path: "
-                + url.toString());
+                + url);
         }
-        this.header = url.toString().substring(0, positionPath);
+        this.header = url.substring(0, positionPath);
     }
 
     /**
@@ -252,7 +251,7 @@ public class DefaultModuleAddress implements ModuleAddress {
     }
 
     public final String toString() {
-        return url.toString();
+        return url;
     }
 
     public final int hashCode() {
