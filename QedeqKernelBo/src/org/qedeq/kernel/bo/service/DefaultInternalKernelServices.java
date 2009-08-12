@@ -724,7 +724,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             encoded = URLEncoder.encode(file.toString(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             // should not occur
-            Trace.trace(DefaultModuleAddress.class, "localizeInFileSystem(String)", e);
+            Trace.trace(CLASS, "getLocalFilePath(ModuleAddress)", e);
         }
         file.setLength(0);
         file.append(encoded);
@@ -736,8 +736,8 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             adr = new StringBuffer(new URL(url.getProtocol(), url.getHost(), url.getPort(), file
                 .toString()).toExternalForm());
         } catch (MalformedURLException e) {
-            Trace.fatal(CLASS, this, "localizeInFileSystem(URL)", "unexpected", e);
-            e.printStackTrace();
+            Trace.fatal(CLASS, this, "getLocalFilePath(ModuleAddress)", "unexpected", e);
+            throw new RuntimeException(e);
         }
         // escape characters:
         StringUtility.replace(adr, "://", "_"); // before host

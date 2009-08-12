@@ -481,8 +481,11 @@ public final class IoUtility {
             throws IOException {
         BufferedWriter out = new BufferedWriter(
             new OutputStreamWriter(new FileOutputStream(file), encoding));
-        out.write(text);
-        out.close();
+        try {
+            out.write(text);
+        } finally {
+            out.close();
+        }
     }
 
     /**
@@ -495,8 +498,11 @@ public final class IoUtility {
     public static void saveFileBinary(final File file, final byte[] data)
             throws IOException {
         BufferedOutputStream out = new BufferedOutputStream(new FileOutputStream(file));
-        out.write(data);
-        out.close();
+        try {
+            out.write(data);
+        } finally {
+            out.close();
+        }
     }
 
     /**

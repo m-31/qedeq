@@ -22,6 +22,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.util.Locale;
 import java.util.Properties;
 
 import org.apache.commons.lang.SystemUtils;
@@ -316,7 +317,7 @@ public final class StringUtility {
             if (b.length() < 2) {
                 buffer.append("0");
             }
-            buffer.append(b.toUpperCase());
+            buffer.append(b.toUpperCase(Locale.US));
         }
         return buffer.toString();
     }

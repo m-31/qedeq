@@ -145,7 +145,7 @@ public final class DateUtility {
         // milliseconds
         factor = factor / 1000;
         mod = rest / factor;
-        rest = rest % factor;
+        // rest = rest % factor;
         buffer.append(StringUtility.format(mod, 3));
 
         return buffer.toString();

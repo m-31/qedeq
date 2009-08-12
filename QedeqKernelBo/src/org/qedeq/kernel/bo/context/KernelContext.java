@@ -81,7 +81,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             config = qedeqConfig;
             checkJavaVersion();
             createAllNecessaryDirectories();
-            checkIfApplicationIsAlreadyRunning();
+            checkIfApplicationIsAlreadyRunningAndLockFile();
             KernelContext.this.services = moduleServices;
             QedeqLog.getInstance().logMessage("This is "
                 + KernelContext.getInstance().getDescriptiveKernelVersion());
@@ -98,12 +98,12 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
         public void shutdown() {
             currentState = initialState;
-            if (lockStream == null) {
-                return;
-            }
+            config = null;
             IoUtility.close(lockStream);
+            lockStream = null;
             if (lockFile != null) {
                 lockFile.delete();
+                lockFile = null;
             }
         }
 
@@ -610,7 +610,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      *
      * @throws  IOException     Application is already running.
      */
-    private void checkIfApplicationIsAlreadyRunning()
+    private void checkIfApplicationIsAlreadyRunningAndLockFile()
             throws IOException {
         lockFile = new File(config.getBufferDirectory(), "qedeq_lock.lck");
         lockFile.deleteOnExit();  // FIXME mime 20090719: perhaps no further IO stream lock neccessary?
