@@ -194,7 +194,7 @@ final class ConfigAccess {
                 list.add(getProperties().get(key));
             }
         }
-        return (String []) list.toArray(new String[] {});
+        return (String []) list.toArray(new String[list.size()]);
     }
 
     /**

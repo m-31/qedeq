@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Locale;
 
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
@@ -159,7 +160,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             Trace.trace(CLASS, "print(QedeqBo, TextOutput, String, String)", e);
         }
         String tex = prop.getModuleAddress().getFileName();
-        if (tex.toLowerCase().endsWith(".xml")) {
+        if (tex.toLowerCase(Locale.US).endsWith(".xml")) {
             tex = tex.substring(0, tex.length() - 4);
         }
         if (language != null && language.length() > 0) {
@@ -208,7 +209,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     }
 
     public final void visitEnter(final Qedeq qedeq) {
-        printer.println("% -*- TeX:" + language.toUpperCase() + " -*-");
+        printer.println("% -*- TeX:" + language.toUpperCase(Locale.US) + " -*-");
         printer.println("%%% ====================================================================");
         printer.println("%%% @LaTeX-file    " + printer.getName());
         printer.println("%%% Generated from " + getQedeqBo().getModuleAddress());
@@ -324,7 +325,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         printer.println("\\mbox{}");
         printer.println("\\vfill");
         printer.println();
-        final String url = getQedeqBo().getUrl().toString();
+        final String url = getQedeqBo().getUrl();
         if (url != null && url.length() > 0) {
             printer.println("\\par");
             if ("de".equals(language)) {
@@ -388,7 +389,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             return "";
         }
         try {
-            return address.getModulePaths(specification)[0].getUrl().toString();
+            return address.getModulePaths(specification)[0].getUrl();
         } catch (IOException e) {
             return "";
         }
@@ -963,7 +964,7 @@ public final class Qedeq2Latex extends ControlVisitor {
      * @return  URL to PDF.
      */
     private String getPdfLink(final KernelQedeqBo prop) {
-        final String url = prop.getUrl().toString();
+        final String url = prop.getUrl();
         final int dot = url.lastIndexOf(".");
         return url.substring(0, dot) + "_" + language + ".pdf";
     }

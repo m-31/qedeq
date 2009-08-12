@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URL;
+import java.util.Locale;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.TextOutput;
@@ -68,7 +69,7 @@ public final class Xml2Xml  {
                 destination = to.getCanonicalFile();
             } else {
                 String xml = from.getName();
-                if (xml.toLowerCase().endsWith(".xml")) {
+                if (xml.toLowerCase(Locale.US).endsWith(".xml")) {
                     xml = xml.substring(0, xml.length() - 4);
                 }
                 destination = new File(from.getParentFile(), xml + "_.xml").getCanonicalFile();

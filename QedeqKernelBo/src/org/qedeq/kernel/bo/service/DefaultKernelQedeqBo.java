@@ -522,7 +522,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public String toString() {
-       return address.getUrl().toString();
+       return address.getUrl();
     }
 
 }

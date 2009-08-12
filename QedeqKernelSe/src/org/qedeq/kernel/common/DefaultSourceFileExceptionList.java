@@ -127,7 +127,8 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
      * @return  All exceptions.
      */
     public final SourceFileException[] toArray() {
-        return (SourceFileException[]) exceptions.toArray(new SourceFileException[0]);
+        return (SourceFileException[]) exceptions.toArray(
+            new SourceFileException[exceptions.size()]);
     }
 
     public String getMessage() {

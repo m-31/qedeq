@@ -18,6 +18,7 @@ package org.qedeq.kernel.xml.tracker;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Locale;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -63,7 +64,7 @@ public final class XPathLocationFinder {
 
         for (int i = 0; i < args.length; i++) {
             if (args[i].startsWith("-")) {  // option
-                final String option = args[i].substring(1).toLowerCase();
+                final String option = args[i].substring(1).toLowerCase(Locale.US);
                 if (option.equals("help") || option.equals("h")
                         || option.equals("?")) {
                     printProgramInformation();
