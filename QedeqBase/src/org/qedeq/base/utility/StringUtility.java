@@ -130,17 +130,18 @@ public final class StringUtility {
      * @throws  NullPointerException if <code>unquoted == null</code>
      */
     public static String quote(final String unquoted) {
-        String result = "\"";
+        StringBuffer result = new StringBuffer(unquoted.length() + 4);
+        result.append('\"');
 
         for (int i = 0; i < unquoted.length(); i++) {
             if (unquoted.charAt(i) == '\"') {
-                result += "\"\"";
+                result.append("\"\"");
             } else {
-                result += unquoted.charAt(i);
+                result.append(unquoted.charAt(i));
             }
         }
-        result += '\"';
-        return result;
+        result.append('\"');
+        return result.toString();
     }
 
     /**
