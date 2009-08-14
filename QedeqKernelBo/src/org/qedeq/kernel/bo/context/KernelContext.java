@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.nio.channels.FileLock;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
@@ -99,12 +100,9 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         public void shutdown() {
             currentState = initialState;
             config = null;
+            // close stream and associated channel
             IoUtility.close(lockStream);
             lockStream = null;
-            if (lockFile != null) {
-                lockFile.delete();
-                lockFile = null;
-            }
         }
 
         public void startup() {
@@ -613,7 +611,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     private void checkIfApplicationIsAlreadyRunningAndLockFile()
             throws IOException {
         lockFile = new File(config.getBufferDirectory(), "qedeq_lock.lck");
-        lockFile.deleteOnExit();  // FIXME mime 20090719: perhaps no further IO stream lock neccessary?
+/* FIXME 20090814 mime: old code, now we test FileLock meachanism
         final String osName = System.getProperty("os.name");
         if (osName.startsWith("Windows")) {
             if ((lockFile.exists() && !lockFile.delete())) {
@@ -628,11 +626,18 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
                     + "\" must be manually deleted!");
             }
         }
+*/
+        FileLock fl = null;
         try {
             lockStream = new FileOutputStream(lockFile);
             lockStream.write("LOCKED".getBytes("UTF8"));
             lockStream.flush();
+            fl = lockStream.getChannel().tryLock();
         } catch (IOException e) {
+            throw new IOException("It seems the application is already running.\n"
+                + "At least accessing the file \"" + lockFile.getAbsolutePath() + "\" failed.");
+        }
+        if (fl == null) {
             throw new IOException("It seems the application is already running.\n"
                 + "At least locking the file \"" + lockFile.getAbsolutePath() + "\" failed.");
         }
