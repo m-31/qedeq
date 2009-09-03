@@ -109,7 +109,7 @@ public class ParserPane extends JFrame {
 
     public static final void main(final String[] args) throws Exception {
         final ParserPane parserPane = new ParserPane();
-        parserPane.show();
+        parserPane.setVisible(true);
         parserPane.updateView();
     }
 
