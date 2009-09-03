@@ -51,9 +51,6 @@ public final class QedeqTreeView extends JPanel {
     /** Delete module .*/
     public static final String DELETE_ACTION = "Delete";
 
-    /** Add new module. */
-    public static final String ADD_ACTION = "Add";
-
     /** Convert module into LaTeX. */
     public static final String LATEX_ACTION = "LaTeX";
 
@@ -71,9 +68,6 @@ public final class QedeqTreeView extends JPanel {
 
     /** Menu entry. */
     private final JMenuItem deleteItem;
-
-    /** Menu entry. */
-    private final JMenuItem addItem;
 
     /** Menu entry. */
     private final JMenuItem htmlItem;
@@ -118,10 +112,6 @@ public final class QedeqTreeView extends JPanel {
         deleteItem.setActionCommand(DELETE_ACTION);
         contextMenu.add(deleteItem);
 
-        addItem = new JMenuItem(ADD_ACTION);
-        addItem.setActionCommand(ADD_ACTION);
-        contextMenu.add(addItem);
-
         latexItem = new JMenuItem(LATEX_ACTION);
         latexItem.setActionCommand(LATEX_ACTION);
         contextMenu.add(latexItem);
@@ -155,7 +145,6 @@ public final class QedeqTreeView extends JPanel {
     public final void addActionCommandToContextMenus(final ActionListener listener) {
         refreshItem.addActionListener(listener);
         deleteItem.addActionListener(listener);
-        addItem.addActionListener(listener);
         htmlItem.addActionListener(listener);
         latexItem.addActionListener(listener);
     }
