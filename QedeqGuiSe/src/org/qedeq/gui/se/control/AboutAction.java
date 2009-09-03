@@ -49,7 +49,7 @@ class AboutAction extends AbstractAction {
         JOptionPane.showMessageDialog(
             controller.getMainFrame(), "GUI for "
                 + KernelContext.getInstance().getDescriptiveKernelVersion() + "\n\n"
-                + "\u00a9 2008 Michael Meyling. All Rights Reserved."
+                + "\u00a9 2009 Michael Meyling. All Rights Reserved."
                 + "\n\n", "About", JOptionPane.INFORMATION_MESSAGE,
                 GuiHelper.readImageIcon("qedeq/32x32/qedeq.png"));
     }
