@@ -104,7 +104,7 @@ class AddFileAction extends AbstractAction {
             return;
         }
 
-        controller.addToModuleHistory(address.getUrl().toString());
+        controller.addToModuleHistory(address.getUrl());
         final Thread thread = new Thread() {
             public void run() {
                 KernelContext.getInstance().loadModule(address);
