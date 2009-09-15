@@ -5,7 +5,7 @@
   <HEADER email="mime@qedeq.org">
     <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
       <LOCATIONS>
-        <LOCATION value="http://qedeq.org/0_03_12/doc/math"/>
+        <LOCATION value="http://wwww.qedeq.org/0_03_12/doc/math"/>
       </LOCATIONS>
     </SPECIFICATION>
     <TITLE>
@@ -61,7 +61,7 @@
         <![CDATA[
 
           The project \textbf{Hilbert II} deals with the formal presentation and documentation of mathematical knowledge. For this reason \textbf{Hilbert II} provides a program suite to accomplish that tasks. The concrete documentation of mathematical basics is also a purpose of this project.   
-          For further informations about the \textbf{Hilbert II} project see under \url{http://www.qedeq.org/index_de.html}.
+          For further informations about the \textbf{Hilbert II} project see under \url{http://www.qedeq.org}.
 
           \par
           This document describes the logical axoims and the rules and meta rules that are used to derive new propositions.
@@ -81,7 +81,7 @@
         <![CDATA[
 
           Das Projekt \textbf{Hilbert II} beschäftigt sich mit der formalen Darstellung und Dokumentation von mathematischem Wissen. Dazu stellt \textbf{Hilbert II} eine Programmsuite zur Lösung der damit zusammenhängenden Aufgaben bereit. Auch die konkrete Dokumentation mathematischen Grundlagenwissens mit diesen Hilfsmitteln gehört zum Ziel dieses Projekts. 
-          Für weitere Information über das Projekt \textbf{Hilbert II} siehe auch unter \url{http://www.qedeq.org/index_de.html}.
+          Für weitere Information über das Projekt \textbf{Hilbert II} siehe auch unter \url{http://www.qedeq.org}.
 
           \par
           Dieses Dokument beschreibt die logischen Axiome, Schluss- und Metaregeln mit denen logische Schlüsse durchgeführt werden können.
@@ -128,7 +128,7 @@
           I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their support and patience.          
 
           \par
-          \vspace*{1cm} Hamburg, January, 2008 \\
+          \vspace*{1cm} Hamburg, September, 2009 \\
           \hspace*{\fill} Michael Meyling
 
         ]]>
@@ -153,7 +153,7 @@
           Besonderer Dank geht an meine Frau \emph{Gesine~Dräger} und unseren Sohn \emph{Lennart} für ihre Unterstützung und ihr Verständnis für ihnen fehlende Zeit -- wobei der Verständnisgrad unseres Kleinkinds vielleicht noch nicht so stark ausgeprägt ist.
 
           \par
-          \vspace*{1cm} Hamburg, Januar 2008 \\
+          \vspace*{1cm} Hamburg, September 2009 \\
           \hspace*{\fill} Michael Meyling
 
         ]]>
@@ -199,7 +199,7 @@
           In the 1928 published book \emph{Grundzüge der theoretischen Logik} (Principles of Theoretical Logic) \emph{D.~Hilbert} and \emph{W.~Ackermann} formalized propositional calculus in a way that build the basis for the logical system used here. 1959 \emph{P.~S.~Novikov} specified a refined axiom and rule system for predicate calculus.
           
           \par
-          In this text we present a first order predicate calculus with identity and functors that is the starting point for the development of the mathematical theory. Only the results without any proofs and in short form are given in the following.
+          In this text we present a first order predicate calculus with identity and functors that is the starting point for the development of the mathematical theory. Only the results without any proofs\footnote{If there is time some proofs may be added.} and in short form are given in the following.
           
         ]]>
       </LATEX>
@@ -243,16 +243,36 @@
       </LATEX>
     </TITLE>
     <INTRODUCTION>
-      <LATEX language="de">
-        <![CDATA[
-          Die Grundlagen der bei \textbf{Hilbert II} verwendeten Logik werden hier zusammengestellt. Die folgende Kalkülsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert}, \emph{W.~Ackermann}, \emph{P.~Bernays} und \emph{P.~S.~Novikov}. Aus den hier angegebenen logischen Axiomen und den elementaren Schlussregeln können weitere Gesetzmäßigkeiten abgeleitet werden. Erst diese neuen Metaregeln führen zu einer komfortablen logischen Argumentation.
-
-        ]]>
-      </LATEX>
       <LATEX language="en">
         <![CDATA[
           The logical foundation of \textbf{Hilbert II} will be introduced here. The language of our calculus bases on the formalizations of \emph{D.~Hilbert}, \emph{W.~Ackermann}, \emph{P.~Bernays} and \emph{P.~S.~Novikov}. New rules 
           can be derived from the herein presented. Only these meta rules lead to a smooth flowing logical argumentation.
+          
+          \par
+          Although this document describes a very formal approach to express mathematical content it is not sufficent to serve as a definition for an computer readable document format. Therefore such an extensive specification has to be done elsewhere. The choosen format is the \emph{Extensible Markup Language} abbreviated \emph{XML}. XML is a set of rules for encoding documents electronically.\footnote{See \url{http://www.w3.org/XML/} for more information.}
+          The according formal syntax specification can be found at \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
+          It specifies a complete mathematical document format that enables the generation of \LaTeX books and makes automatic proof checking possible. 
+          Further syntax restrictions and some explanations can be found at \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.
+          %%% TODO explain XSD, XML etc.
+
+          \par          
+          Even this document is (or was generated) from an XML file that can be found here: \url{http://wwww.qedeq.org/0_03_12/doc/math/qedeq_logic_v1.xml}.
+          But now we just follow the traditional mathematical way to present the elements of mathematical logic.
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          Die Grundlagen der bei \textbf{Hilbert II} verwendeten Logik werden hier zusammengestellt. Die folgende Kalkülsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert}, \emph{W.~Ackermann}, \emph{P.~Bernays} und \emph{P.~S.~Novikov}. Aus den hier angegebenen logischen Axiomen und den elementaren Schlussregeln können weitere Gesetzmäßigkeiten abgeleitet werden. Erst diese neuen Metaregeln führen zu einer komfortablen logischen Argumentation.
+
+          \par
+          Obgleich dieses Dokument mathematischen Inhalt sehr formal beschreibt, reicht es nicht aus um als Definition für ein computerlesbares Dokumentformat zu dienen. Daher muss eine solch extensive Spezifikation an anderer Stelle erfolgen.
+          Das dafür ausgewählte Format ist die \emph{Extensible Markup Language} abgekürzt \emph{XML}. XML beschreibt eine Menge von Regeln für den Aufbau elektronischer Dokumente.\footnote{Siehe \url{http://www.w3.org/XML/} für weitere Informationen.} Die daran ausgerichtete formale Syntaxspezifikation kann hier gelesen werden: \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
+          Damit wird ein mathematisches Dokumentenformat festgelegt, das die Erzeugung von \LaTeX Büchern und eine automatische Beweisüberprüfung ermöglicht. 
+          Weitere Syntaxbeschränkungen und einige Erklärungen werden beschrieben in \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.
+
+          \par
+          Auch dieses Dokument ist eine (oder wurde erzeugt aus einer) XML-Datei, die hier zu finden ist \url{http://wwww.qedeq.org/0_03_12/doc/math/qedeq_logic_v1.xml}.
+          Aber nun folgen wir einfach dem traditionellen mathematischen Weg, die Anfangsgünde der mathematischen Logik vorzustellen.
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -278,10 +298,10 @@
             \mbox{$v_3 = $ `$w$'}, \mbox{$v_4 = $ `$x$'}, \mbox{$v_5 = $ `$y$'}, \mbox{$v_5 = $ `$z$'}.
             Furthermore we use the following short notations: for the predicate variables $p^n_1 = $ `$\phi$' und $p^n_2 = $ `$\psi$', where the appropriate arity $n$ is calculated by counting the subsequent parameters, for the proposition variables
             $a_1 = $ `$A$', $a_2 = $ `$B$' and $a_3 = $ `$C$', for the function variables: $f^n_1 = $ `$f$' und $f^n_2 = $ `$g$', where again the appropriate arity $n$ is calculated by counting the subsequent parameters.  All binary propositional operators are written in infix notation. Parentheses surrounding groups of operands and operators are necessary to indicate the 
-            intended order in which operations are to be performed. E.~g. for the operator $\land$ with the parameters $A$ and $B$ we write $(A \land B)$. 
+            intended order in which operations are to be performed. E.~g. for the operator $\land$ with the parameters $A$ and $B$ we write $(A \land B)$.
             
             
-            In the absence of parentheses the usual precedence rules determine the order of operations. Especially outermost parentheses are omitted.
+            In the absence of parentheses the usual precedence rules determine the order of operations. Especially outermost parentheses are omitted. Also empty parentheses are stripped.
             
             \par
             The operators have the order of precedence described below (starting with the highest).
@@ -351,7 +371,7 @@
             \emph{Aussagenvariablen}\index{Aussagenvariable}\index{Variable!Aussagen-} bezeichnet: $A := \{p_i^0~|~i \in \omega \}$. 
             Für die Subjektvariablen werden abkürzend auch bestimmte Kleinbuchstaben geschrieben. Die Kleinbuchstaben stehen für verschiedene Subjektvariablen: \mbox{$v_1 = $ `$u$'}, \mbox{$v_2 = $ `$v$'}, \mbox{$v_3 = $ `$w$'}, \mbox{$v_4 = $ `$x$'}, \mbox{$v_5 = $ `$y$'}, \mbox{$v_5 = $ `$z$'}. Weiter werden als Abkürzungen verwendet: für die Prädikatenvariablen $p^n_1 = $ `$\phi$' und $p^n_2 = $ `$\psi$', wobei die jeweilige Stellenanzahl $n$ aus der Anzahl der nachfolgenden Parameter ermittelt wird, für die Aussagenvariablen $a_1 = $ `$A$', $a_2 = $ `$B$' und $a_3 = $ `$C$'. Als Abkürzungen für Funktionsvariablen wird festgelegt $f^n_1 = $ `$f$' und $f^n_2 = $ `$g$', wobei wiederum die jeweilige Stellenanzahl $n$ aus der Anzahl der nachfolgenden Parameter ermittelt wird. Bei allen aussagenlogischen zwei\-stelligen Operatoren wird der leichteren Lesbarkeit wegen die Infixschreibweise benutzt, dabei werden die Symbole `(' und `)' verwandt. 
             D.~h. für den Operator $\land$ mit den Argumenten $A$ und $B$ wird $(A \land B)$ geschrieben. 
-            Es gelten die üblichen Operatorprioritäten und die dazugehörigen Klammerregeln. Insbesondere die äußeren Klammern werden in der Regel weggelassen.
+            Es gelten die üblichen Operatorprioritäten und die dazugehörigen Klammerregeln. Insbesondere die äußeren Klammern werden in der Regel weggelassen. Auch werden leere Klammern nicht geschrieben.
 
             \par
             Nachfolgend werden die Operatoren mit absteigender Priorität aufgelistet.
@@ -443,17 +463,20 @@
       <INTRODUCTION>
         <LATEX language="en">
           <![CDATA[
+            We want to present the axioms, definitions and rules in an syntactical manner but to motivate the choosen form we already give some semantical \emph{interpretations}.
+
+            \par
             The logical operators of propositional calculus \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, \mbox{`$\leftrightarrow$'} und \mbox{`$\rightarrow$'} combine arbitrary \emph{propositions} to new propositions.
             A proposition is a statement that affirms or denies something and is either {\glqq true\grqq} or {\glqq false\grqq} (but not both).\footnote{Later on we will define the symbols $\top$ and $\bot$ as truth values.}
-            
-            The new ingredient of predicate calculus is quantification.
           ]]>
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Die aussagenlogischen Operatoren \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, \mbox{`$\leftrightarrow$'} und \mbox{`$\rightarrow$'} verknüpfen beliebige \emph{Aussagen} zu neuen Aussagen. Dabei verstehen wir unter einer Aussage eine Größe, die nur den Wert {\glqq wahr\grqq} und {\glqq falsch\grqq} annehmen kann.\footnote{Später werden wir für die Wahrheitswerte die Symbole $\top$ und $\bot$ definieren.}
+            Die Axiome, Definitionen und Regeln werden in syntaktischer Weise vorgestellt, aber um die gewählte Form zu motivieren, geben wir bereits einige sematische \emph{Interpretationen}.
             
-            Für die Prädikatenlogik wird der Umgang mit Quantoren hinzugefügt. 
+            \par
+            Die aussagenlogischen Operatoren \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, \mbox{`$\leftrightarrow$'} und \mbox{`$\rightarrow$'} verknüpfen beliebige \emph{Aussagen} zu neuen Aussagen. 
+            Dabei verstehen wir unter einer Aussage eine Größe, die nur den Wert {\glqq wahr\grqq} und {\glqq falsch\grqq} annehmen kann.\footnote{Später werden wir für die Wahrheitswerte die Symbole $\top$ und $\bot$ definieren.}
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -1346,6 +1369,18 @@
               </OR>
             </FORMULA>
           </DEFINITION_PREDICATE>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                For a precise definition we should have written something like $p^0_0 = \top$ and $\top :\leftrightarrow (A \vedge \not A)$. In the formal language this predicate has the name \emph{TRUE} and zero arguments. So we just have to map names to natural numbers to fulfill the former definition. In the future we only write the symbol itself. It's arity should be evident from the formula.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Für eine exakte Definiton hätten wir eigentlich soetwas wie $p^0_0 = \top$ und $\top :\leftrightarrow (A \vedge \not A)$ schreiben müssen. In der formalen sprache hat dieses Prädikat den Namen \emph{TRUE} und besitzt keine Argumente. Daher müssten wir nur die Namen auf die natürlichen Zahlen abbilden um der vorherigen Definition gerecht zu werden. In Zukunft schreiben wir jedoch nur das Symbol. Die Stellenzahl sollte aus der Formel ersichtlich sein.
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
         </NODE>
 
         <NODE id="definition:False">
@@ -2682,12 +2717,12 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                At the following definition the replacement formula for $\alpha(x)$ must {\glqq reveal\grqq} its quantification subject variable. This is usually the first following subject variable.\footnote{For example: in the following formula we identify the subject variable $m$ for the second quantification: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n $.} In the exakt syntax of the QEDEQ format\footnote{See \url{http://www.qedeq.org/current/xml/qedeq/}.} the quantification subject variable is always given.
+                At the following definition the replacement formula for $\alpha(x)$ must {\glqq reveal\grqq} its quantification subject variable. This is usually the first following subject variable.\footnote{For example: in the following formula we identify the subject variable $m$ for the second quantification: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n $.} In the exact syntax of the QEDEQ format\footnote{Again see \url{http://www.qedeq.org/current/xml/qedeq/}.} the quantification subject variable is always given.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Bei der folgenden Definition muss die für $\alpha(x)$ eingesetzte Formel {\glqq erkennen lassen\grqq}, über welche Subjektvariable quantifiziert wird. Das ist in der Regel darüber zu entscheiden, welche freie Subjektvariable als erstes in der Formel vorkommt.\footnote{Beispielsweise ist in der folgenden Formel erkennbar, dass die zweite Quantifikation über die Subjektvariable $m$ läuft: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n $.} In der exakten Syntax des QEDEQ-Formats\footnote{Siehe unter \url{http://www.qedeq.org/current/xml/qedeq/}.} ist die Subjektvariable immer angegeben.
+                Bei der folgenden Definition muss die für $\alpha(x)$ eingesetzte Formel {\glqq erkennen lassen\grqq}, über welche Subjektvariable quantifiziert wird. Das ist in der Regel darüber zu entscheiden, welche freie Subjektvariable als erstes in der Formel vorkommt.\footnote{Beispielsweise ist in der folgenden Formel erkennbar, dass die zweite Quantifikation über die Subjektvariable $m$ läuft: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n $.} In der exakten Syntax des QEDEQ-Formats\footnote{Siehe wieder unter \url{http://www.qedeq.org/current/xml/qedeq/}.} ist die Subjektvariable immer angegeben.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2702,10 +2737,10 @@
               <FORALL>
                 <VAR id="x"/>
                 <IMPL>
-                  <PREDVAR id="\phi">
+                  <PREDVAR id="\alpha">
                     <VAR id="x"/>
                   </PREDVAR>
-                  <PREDVAR id="\psi">
+                  <PREDVAR id="\beta">
                     <VAR id="x"/>
                   </PREDVAR>
                 </IMPL>
