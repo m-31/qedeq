@@ -9,5 +9,6 @@
 	<classpathentry path="/QedeqKernelXml" combineaccessrules="false" kind="src"/>
 	<classpathentry path="/QedeqBase" combineaccessrules="false" kind="src"/>
 	<classpathentry path="/QedeqKernelBo" combineaccessrules="false" kind="src"/>
+	<classpathentry sourcepath="/QedeqLib/src/jh-2.0-src.jar" path="/QedeqLib/jh.jar" kind="lib"/>
 	<classpathentry path="bin" kind="output"/>
 </classpath>

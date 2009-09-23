@@ -17,11 +17,18 @@
 
 package org.qedeq.gui.se.control;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
+import java.net.URL;
 
+import javax.help.HelpSet;
+import javax.help.JHelp;
 import javax.swing.AbstractAction;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.ResourceLoaderUtility;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.context.KernelContext;
 
@@ -35,6 +42,9 @@ import org.qedeq.kernel.bo.context.KernelContext;
  */
 class HelpAction extends AbstractAction {
 
+    /** This class. */
+    private static Class CLASS = HelpAction.class;
+    
     /** Controller reference. */
     private final QedeqController controller;
 
@@ -48,12 +58,32 @@ class HelpAction extends AbstractAction {
     }
 
     public void actionPerformed(final ActionEvent e) {
-        JOptionPane.showMessageDialog(
-            controller.getMainFrame(), "Help for "
-                + KernelContext.getInstance().getDescriptiveKernelVersion() + "\n\n"
-                + "Still missing" + "\n\n", "Help",
-                JOptionPane.INFORMATION_MESSAGE,
-                GuiHelper.readImageIcon("qedeq/32x32/qedeq.png"));
+        
+        String pathToHS = "resources/help/Help.hs";
+        URL hsURL = null;
+        HelpSet hs = null;
+        try {
+            hsURL = ResourceLoaderUtility.getResourceUrl(pathToHS);
+            hs = new HelpSet(null, hsURL);
+        } catch (Exception ex) {
+            Trace.fatal(CLASS, this, "actionPerformed(ActionEvent)",
+                "Problems loading help set.", ex);
+            JOptionPane.showMessageDialog(
+                controller.getMainFrame(), "Help for "
+                    + KernelContext.getInstance().getDescriptiveKernelVersion() + "\n\n"
+                    + "Still missing" + "\n\n", "Help",
+                    JOptionPane.INFORMATION_MESSAGE,
+                    GuiHelper.readImageIcon("qedeq/32x32/qedeq.png"));
+            return;
+        }
+        JHelp jHelp = new JHelp(hs);
+        JDialog dialog = new JDialog(controller.getMainFrame(), "Help", true);
+        dialog.add("Center", jHelp);
+        dialog.setSize(new Dimension(950, 700));
+        dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
+        
+        
     }
 
 }

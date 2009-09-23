@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE toc
+  PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN"
+         "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+
+<toc version="1.0">
+
+   <tocitem text="Release Notes" image="chapter">
+       <tocitem text="Contents"           image="topic" target="release.contents"/>
+       <tocitem text="Plan"               image="topic" target="release.plan"/>
+       <tocitem text="Contact"            image="topic" target="release.contact"/>
+       <tocitem text="License Agreements" image="topic" target="release.licenses">
+           <tocitem text="GPL"            image="topic" target="release.gpl"/>
+           <tocitem text="FDL"            image="topic" target="release.fdl"/>
+           <tocitem text="Apache License" image="topic" target="release.apache"/>
+           <tocitem text="Forms License"  image="topic" target="release.forms"/>
+           <tocitem text="Looks License"  image="topic" target="release.looks"/>
+           <tocitem text="LGPL"           image="topic" target="release.lgpl"/>
+       </tocitem>
+   </tocitem>
+
+   <tocitem text="User's Guide" image="chapter">
+       <tocitem text="Introduction"      image="topic" target="guide.introduction"/>
+       <tocitem text="Features"          image="topic" target="guide.features"/>
+       <tocitem text="User Interface"    image="topic" target="guide.user_interface"/>
+   </tocitem>
+
+</toc>
