@@ -21,8 +21,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.net.URL;
 
-import javax.help.HelpSet;
-import javax.help.JHelp;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
