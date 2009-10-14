@@ -21,6 +21,8 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.net.URL;
 
+import javax.help.HelpSet;
+import javax.help.JHelp;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -41,8 +43,8 @@ import org.qedeq.kernel.bo.context.KernelContext;
 class HelpAction extends AbstractAction {
 
     /** This class. */
-    private static Class CLASS = HelpAction.class;
-    
+    private static final Class CLASS = HelpAction.class;
+
     /** Controller reference. */
     private final QedeqController controller;
 
