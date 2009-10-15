@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry path="src" kind="src"/>
-	<classpathentry path="org.eclipse.jdt.launching.JRE_CONTAINER" exported="true" kind="con"/>
-	<classpathentry path="/QedeqKernelSe" exported="true" kind="src"/>
-	<classpathentry sourcepath="/QedeqLib/src/forms-1.1.0-src.jar" path="/QedeqLib/forms-1.1.0.jar" kind="lib"/>
-	<classpathentry sourcepath="/QedeqLib/src/looks-2.1.4-src.jar" path="/QedeqLib/looks-2.1.4.jar" kind="lib"/>
-	<classpathentry sourcepath="/QedeqLib/src/log4j-1.2.14_src.zip" path="/QedeqLib/log4j-1.2.14.jar" kind="lib"/>
-	<classpathentry path="/QedeqKernelXml" combineaccessrules="false" kind="src"/>
-	<classpathentry path="/QedeqBase" combineaccessrules="false" kind="src"/>
-	<classpathentry path="/QedeqKernelBo" combineaccessrules="false" kind="src"/>
-	<classpathentry sourcepath="/QedeqLib/src/jh-2.0-src.jar" path="/QedeqLib/jh.jar" kind="lib"/>
-	<classpathentry path="bin" kind="output"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="src" path="/QedeqKernelSe"/>
+	<classpathentry kind="lib" path="/QedeqLib/forms-1.1.0.jar" sourcepath="/QedeqLib/src/forms-1.1.0-src.jar"/>
+	<classpathentry kind="lib" path="/QedeqLib/looks-2.1.4.jar" sourcepath="/QedeqLib/src/looks-2.1.4-src.jar"/>
+	<classpathentry kind="lib" path="/QedeqLib/log4j-1.2.14.jar" sourcepath="/QedeqLib/src/log4j-1.2.14_src.zip"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/QedeqKernelXml"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/QedeqBase"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/QedeqKernelBo"/>
+	<classpathentry kind="lib" path="/QedeqLib/jh-2.0.5.jar" sourcepath="/QedeqLib/src/jh-2.0.5-src.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>
