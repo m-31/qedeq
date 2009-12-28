@@ -367,7 +367,7 @@ public class TextInputTest extends QedeqTestCase {
             // expected
         }
         try {
-            emptyInput.readLetterDigitString();
+            emptyInput.readCounter();
             fail("IllegalArgumentException expected");
         } catch (IllegalArgumentException e) {
             // expected
