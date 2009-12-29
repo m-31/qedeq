@@ -534,6 +534,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      *
      * @param prop Module properties.
      * @throws SourceFileExceptionList Address was malformed or the file can not be found.
+     * @deprecated use {@link saveQedeqFromWebToBuffer}
      */
     public void saveQedeqFromWebToBufferOld(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
