@@ -13,7 +13,7 @@
 
   <groupId>org.qedeq.gui.maven</groupId>
   <artifactId>qedeq_gui_se</artifactId>
-  <version>1.0</version>
+  <version>@QEDEQ_VERSION@</version>
   <packaging>jar</packaging>
 
   <name>qedeq_gui_se</name>
@@ -38,7 +38,7 @@
     <dependency>
       <groupId>org.qedeq.kernel.maven</groupId>
       <artifactId>qedeq_kernel</artifactId>
-      <version>1.0</version>
+      <version>@QEDEQ_VERSION@</version>
     </dependency>
     <dependency>
       <groupId>com.jgoodies</groupId>
