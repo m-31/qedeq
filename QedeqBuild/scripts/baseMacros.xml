@@ -181,6 +181,9 @@
                 </current>
             </clover-report>
 
+            <!-- save xml report data also to html report directory -->
+            <copy file="@{dir}/target/reports/clover/data/clover.xml" todir="@{dir}/target/reports/clover/report" />
+
             <!-- put things right again, get rid of instrumentation -->   
             <clover-setup initstring="@{dir}/target/reports/clover/data/clover.db" enabled="false" />  
             <delete dir="@{dir}/target/classes" />   
