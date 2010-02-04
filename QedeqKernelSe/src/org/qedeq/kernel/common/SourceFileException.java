@@ -19,7 +19,6 @@ package org.qedeq.kernel.common;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import org.qedeq.base.io.IoUtility;
 

@@ -18,7 +18,6 @@
 package org.qedeq.kernel.common;
 
 import java.io.Serializable;
-import java.net.URL;
 
 
 /**
