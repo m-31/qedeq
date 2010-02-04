@@ -417,11 +417,13 @@
         <attribute name="dir" />   <!-- directory with LaTeX file within -->
         <attribute name="file" />  <!-- LaTeX file name without path -->
         <sequential>
+            <echo>pdflatex -output-directory @{dir} @{dir}/@{file}</echo>
             <exec failonerror="true" executable="pdflatex">
                 <arg value="-output-directory" />
                 <arg value="@{dir}" />
                 <arg value="@{dir}/@{file}" />
             </exec>
+            <echo>pdflatex -output-directory @{dir} @{dir}/@{file}</echo>
             <exec failonerror="true" executable="pdflatex">
                 <arg value="-output-directory" />
                 <arg value="@{dir}" />
