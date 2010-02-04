@@ -1372,12 +1372,12 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-                For a precise definition we should have written something like $p^0_0 = \top$ and $\top :\leftrightarrow (A \vedge \not A)$. In the formal language this predicate has the name \emph{TRUE} and zero arguments. So we just have to map names to natural numbers to fulfill the former definition. In the future we only write the symbol itself. It's arity should be evident from the formula.
+                For a precise definition we should have written something like $p^0_0 = \top$ and $\top :\leftrightarrow (A \wedge \not A)$. In the formal language this predicate has the name \emph{TRUE} and zero arguments. So we just have to map names to natural numbers to fulfill the former definition. In the future we only write the symbol itself. It's arity should be evident from the formula.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für eine exakte Definiton hätten wir eigentlich soetwas wie $p^0_0 = \top$ und $\top :\leftrightarrow (A \vedge \not A)$ schreiben müssen. In der formalen sprache hat dieses Prädikat den Namen \emph{TRUE} und besitzt keine Argumente. Daher müssten wir nur die Namen auf die natürlichen Zahlen abbilden um der vorherigen Definition gerecht zu werden. In Zukunft schreiben wir jedoch nur das Symbol. Die Stellenzahl sollte aus der Formel ersichtlich sein.
+                Für eine exakte Definiton hätten wir eigentlich soetwas wie $p^0_0 = \top$ und $\top :\leftrightarrow (A \wedge \not A)$ schreiben müssen. In der formalen sprache hat dieses Prädikat den Namen \emph{TRUE} und besitzt keine Argumente. Daher müssten wir nur die Namen auf die natürlichen Zahlen abbilden um der vorherigen Definition gerecht zu werden. In Zukunft schreiben wir jedoch nur das Symbol. Die Stellenzahl sollte aus der Formel ersichtlich sein.
               ]]>
             </LATEX>
           </SUCCEEDING>
