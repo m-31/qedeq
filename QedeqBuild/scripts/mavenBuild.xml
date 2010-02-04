@@ -121,7 +121,7 @@
         <echo>++++++++++++++++++++++++++++++++++</echo>
         <echo>${PomDir} mvn ${MvnArguments}</echo>
         <!-- TODO only windows and unix are supported -->
-        <exec dir="${PomDir}" executable="${maven.executable}">
+        <exec failonerror="true" dir="${PomDir}" executable="${maven.executable}">
             <arg line="${maven.argLine}${MvnArguments}"/>
         </exec> 
         <echo>----------------------------------</echo>
