@@ -417,12 +417,12 @@
         <attribute name="dir" />   <!-- directory with LaTeX file within -->
         <attribute name="file" />  <!-- LaTeX file name without path -->
         <sequential>
-            <exec executable="pdflatex">
+            <exec failonerror="true" executable="pdflatex">
                 <arg value="-output-directory" />
                 <arg value="@{dir}" />
                 <arg value="@{dir}/@{file}" />
             </exec>
-            <exec executable="pdflatex">
+            <exec failonerror="true" executable="pdflatex">
                 <arg value="-output-directory" />
                 <arg value="@{dir}" />
                 <arg value="@{dir}/@{file}" />
