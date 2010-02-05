@@ -155,7 +155,7 @@ public final class IoUtility {
     }
 
     /**
-     * Returns contents of a stream into a string buffer, respecting a maximum length.
+     * Returns contents of a stream into a string, respecting a maximum length.
      * No exceptions are thrown. Stream is not closed.
      *
      * @param   in          This stream will be loaded.
@@ -837,6 +837,9 @@ public final class IoUtility {
     public static void createNecessaryDirectories(final File file) throws  IOException {
         if (file.getParentFile() != null) {
             file.getParentFile().mkdirs();
+            if (!file.getParentFile().exists()) {
+            	throw new IOException("creation of directory failed: " + file.getParent());
+            }
         }
     }
 
