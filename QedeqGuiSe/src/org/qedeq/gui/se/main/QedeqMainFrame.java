@@ -35,6 +35,7 @@ import javax.swing.JPanel;
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.xml.DOMConfigurator;
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
@@ -191,53 +192,72 @@ public class QedeqMainFrame extends JFrame {
         try {
             QedeqGuiConfig.init(new File(IoUtility.getStartDirectory("qedeq"),
                 "config/org.qedeq.properties"), IoUtility.getStartDirectory("qedeq"));
-        } catch (IOException e) {
+        } catch (Throwable e) {
             e.printStackTrace();
             JOptionPane.showInternalMessageDialog(null, "Configuration file not found!\n\n"
-                + e.getMessage(), "Hilbert II - Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-        // we make a local file copy of the log4j.properties if it dosen't exist already
-        initLog4J(QedeqGuiConfig.getInstance());
-
-        final GuiOptions options = new GuiOptions();
-        if (args.length > 0) {
-            String lafShortName = args[0];
-            String lafClassName;
-            if ("Windows".equalsIgnoreCase(lafShortName)) {
-                lafClassName = Options.JGOODIES_WINDOWS_NAME;
-            } else if ("Plastic".equalsIgnoreCase(lafShortName)) {
-                lafClassName = Options.PLASTIC_NAME;
-            } else if ("Plastic3D".equalsIgnoreCase(lafShortName)) {
-                lafClassName = Options.PLASTIC3D_NAME;
-            } else if ("PlasticXP".equalsIgnoreCase(lafShortName)) {
-                lafClassName = Options.PLASTICXP_NAME;
-            } else {
-                lafClassName = lafShortName;
-            }
-            options.setSelectedLookAndFeel(lafClassName);
-        }
-        final QedeqMainFrame instance;
-        try {
-            instance = new QedeqMainFrame(options);
-        } catch (IOException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Application start failed!\n\n"
-                + e.getMessage(), "Hilbert II - Error", JOptionPane.ERROR_MESSAGE);
-            KernelContext.getInstance().shutdown();
+                + e, "Hilbert II - Error", JOptionPane.ERROR_MESSAGE);
             System.exit(-1);
             return;
         }
-        instance.setSize(PREFERRED_SIZE);
-        Dimension paneSize = instance.getSize();
-        Dimension screenSize = instance.getToolkit().getScreenSize();
-        instance.setLocation(
-            (screenSize.width  - paneSize.width)  / 2,
-            (screenSize.height - paneSize.height) / 2);
-        instance.setVisible(true);
-        IoUtility.sleep(100);   // TODO mime 20080509: test application when this line is missing
-        // now we are ready to fire up the kernel
-        KernelContext.getInstance().startup();
+
+        try {
+            // we make a local file copy of the log4j.properties if it dosen't exist already
+            initLog4J(QedeqGuiConfig.getInstance());
+        } catch (Throwable e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Initialization of Log4J failed!\n\n"
+                + e, "Hilbert II - Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(-2);
+            return;
+        }
+
+        try {
+            final GuiOptions options = new GuiOptions();
+            if (args.length > 0) {
+                String lafShortName = args[0];
+                String lafClassName;
+                if ("Windows".equalsIgnoreCase(lafShortName)) {
+                    lafClassName = Options.JGOODIES_WINDOWS_NAME;
+                } else if ("Plastic".equalsIgnoreCase(lafShortName)) {
+                    lafClassName = Options.PLASTIC_NAME;
+                } else if ("Plastic3D".equalsIgnoreCase(lafShortName)) {
+                    lafClassName = Options.PLASTIC3D_NAME;
+                } else if ("PlasticXP".equalsIgnoreCase(lafShortName)) {
+                    lafClassName = Options.PLASTICXP_NAME;
+                } else {
+                    lafClassName = lafShortName;
+                }
+                options.setSelectedLookAndFeel(lafClassName);
+            }
+            final QedeqMainFrame instance;
+            try {
+                instance = new QedeqMainFrame(options);
+            } catch (IOException e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Application start failed!\n\n"
+                    + e, "Hilbert II - Error", JOptionPane.ERROR_MESSAGE);
+                KernelContext.getInstance().shutdown();
+                System.exit(-3);
+                return;
+            }
+            instance.setSize(PREFERRED_SIZE);
+            Dimension paneSize = instance.getSize();
+            Dimension screenSize = instance.getToolkit().getScreenSize();
+            instance.setLocation(
+                (screenSize.width  - paneSize.width)  / 2,
+                (screenSize.height - paneSize.height) / 2);
+            instance.setVisible(true);
+            IoUtility.sleep(100);   // TODO mime 20080509: test application when this line is missing
+            // now we are ready to fire up the kernel
+            KernelContext.getInstance().startup();
+        } catch (Throwable e) {
+            e.printStackTrace();
+            Trace.fatal(QedeqMainFrame.class, "main(String[])", null, e);
+            JOptionPane.showMessageDialog(null, "Unexpected major failure!\n\n"
+                + e, "Hilbert II - Error", JOptionPane.ERROR_MESSAGE);
+            System.exit(-4);
+            return;
+        }
     }
 
 }
