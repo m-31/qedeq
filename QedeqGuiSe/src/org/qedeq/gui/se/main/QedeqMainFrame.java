@@ -66,7 +66,11 @@ public class QedeqMainFrame extends JFrame {
         ? new Dimension(650, 510) : new Dimension(730, 560));
 
     /**
-     * Constructor, configures the UI, and builds the content.
+     * Constructor, configures the UI, and builds the content. Also some indirectly some GUI
+     * loggers are added.
+     * 
+     * @param   settings    GUI options.
+     * @throws  IOException Initialization failed for IO reasons.
      */
     public QedeqMainFrame(final GuiOptions settings) throws IOException {
         GuiHelper.configureUI(settings);
