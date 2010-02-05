@@ -31,6 +31,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import org.apache.log4j.PropertyConfigurator;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -247,9 +248,14 @@ public class QedeqMainFrame extends JFrame {
                 (screenSize.width  - paneSize.width)  / 2,
                 (screenSize.height - paneSize.height) / 2);
             instance.setVisible(true);
-            IoUtility.sleep(100);   // TODO mime 20080509: test application when this line is missing
-            // now we are ready to fire up the kernel
-            KernelContext.getInstance().startup();
+
+            // wait till GUI is ready
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() {
+                    // now we are ready to fire up the kernel
+                    KernelContext.getInstance().startup();
+                }
+            });
         } catch (Throwable e) {
             e.printStackTrace();
             Trace.fatal(QedeqMainFrame.class, "main(String[])", null, e);
