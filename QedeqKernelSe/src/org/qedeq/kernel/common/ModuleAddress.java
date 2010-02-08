@@ -1,6 +1,4 @@
-/* $Id: ModuleAddress.java,v 1.2 2008/07/26 07:59:40 m31 Exp $
- *
- * This file is part of the project "Hilbert II" - http://www.qedeq.org
+/* This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
  * Copyright 2000-2009,  Michael Meyling <mime@qedeq.org>.
  *

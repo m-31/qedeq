@@ -1,6 +1,4 @@
-/* $Id: DocumentMarkerPainter.java,v 1.1 2008/05/15 21:26:46 m31 Exp $
- *
- * This file is part of the project "Hilbert II" - http://www.qedeq.org
+/* This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
  * The main author is Santhosh Kumar T. Visit his great home page under:
  * http://www.jroller.com/santhosh/

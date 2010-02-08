@@ -1,6 +1,4 @@
-/* $Id: LoadingStateDescriptions.java,v 1.2 2008/05/15 21:27:48 m31 Exp $
- *
- * This file is part of the project "Hilbert II" - http://www.qedeq.org
+/* This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
  * Copyright 2000-2009,  Michael Meyling <mime@qedeq.org>.
  *

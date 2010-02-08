@@ -1,6 +1,4 @@
-/* $Id: LatexHandler.java,v 1.1 2008/07/26 08:00:51 m31 Exp $
- *
- * This file is part of the project "Hilbert II" - http://www.qedeq.org
+/* This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
  * Copyright 2000-2009,  Michael Meyling <mime@qedeq.org>.
  *

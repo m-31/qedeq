@@ -1,6 +1,4 @@
-/* $Id: NodeType.java,v 1.9 2008/07/26 07:59:44 m31 Exp $
- *
- * This file is part of the project "Hilbert II" - http://www.qedeq.org
+/* This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
  * Copyright 2000-2009,  Michael Meyling <mime@qedeq.org>.
  *

@@ -1,6 +1,4 @@
-/* $Id: LocationListVoTest.java,v 1.7 2008/03/27 05:12:39 m31 Exp $
- *
- * This file is part of the project "Hilbert II" - http://www.qedeq.org
+/* This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
  * Copyright 2000-2009,  Michael Meyling <mime@qedeq.org>.
  *
