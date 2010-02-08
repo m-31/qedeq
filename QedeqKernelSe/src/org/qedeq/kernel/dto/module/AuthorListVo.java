@@ -1,6 +1,6 @@
 /* This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
- * Copyright 2000-2009,  Michael Meyling <mime@qedeq.org>.
+ * Copyright 2000-2010,  Michael Meyling <mime@qedeq.org>.
  *
  * "Hilbert II" is free software; you can redistribute
  * it and/or modify it under the terms of the GNU General Public
