@@ -10,7 +10,7 @@ REM if you need a proxy please remove the leading REM of the following line and 
 REM set QEDEQ_PROXY=-DproxySet=true -DproxyHost=myProxyHost -DproxyPort=myProxyPort
 
 REM set java classpath
-set QEDEQ_CP=config;lib/qedeq_gui_se-@QEDEQ_VERSION@.jar;lib/qedeq_kernel-@QEDEQ_VERSION@.jar;lib/xercesImpl.jar;lib/xml-apis.jar;lib/commons-io-1.4.jar;lib/commons-lang-2.4.jar;lib/commons-logging-1.1.1.jar;lib/commons-httpclient-3.1.jar;lib/commons-codec-1.3.jar;lib/log4j-1.2.14.jar;lib/forms-1.1.0.jar;lib/looks-2.1.4.jar;:lib/jh-2.0.5.jar
+set QEDEQ_CP=config;lib/qedeq_gui_se-@QEDEQ_VERSION@.jar;lib/qedeq_kernel-@QEDEQ_VERSION@.jar;lib/xercesImpl.jar;lib/xml-apis.jar;lib/commons-io-1.4.jar;lib/commons-lang-2.4.jar;lib/commons-logging-1.1.1.jar;lib/commons-httpclient-3.1.jar;lib/commons-codec-1.3.jar;lib/log4j-1.2.14.jar;lib/forms-1.1.0.jar;lib/looks-2.1.4.jar;lib/jh-2.0.5.jar
 
 REM set splash screen (activate for java 1.6)
 REM set QEDEQ_SPLASH=-splash:qedeq.png
