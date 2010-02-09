@@ -338,11 +338,11 @@
             </checkstyle>
             
             <!-- the following line has effect!!! :((( -->
-            <replace file="@{dir}/target/reports/checkstyle/data/checkstyle_report.xml" 
+            <replace file="@{dir}/target/reports/checkstyle/data/checkstyle_report.xml"
                 token="${checkstyle.basedir.@{name}}"
                 value=""
             />
-            <xslt in="@{dir}/target/reports/checkstyle/data/checkstyle_report.xml" 
+            <xslt in="@{dir}/target/reports/checkstyle/data/checkstyle_report.xml"
                 out="@{dir}/target/reports/checkstyle/report/index.html" 
                 style="@{style}">
                 <param name="basedir" expression="${checkstyle.basedir.@{name}}"/>
@@ -356,22 +356,22 @@
         <attribute name="dir" />   <!-- destination directory -->
         <attribute name="classpath" />   <!-- refid for test runtime classpath -->
         <sequential>
-            <echo>findbugs @{name} with $${findbugs.home}=${findbugs.home}</echo>   
+            <echo>findbugs @{name} with $${findbugs.home}=${findbugs.home}</echo>
 
             <pathconvert property="findbugs.aux.classpath.@{name}" refid="@{classpath}" />
 
             <delete dir="@{dir}/target/reports/findbugs" failonerror="false" />
             <mkdir dir="@{dir}/target/reports/findbugs/data" />
             <mkdir dir="@{dir}/target/reports/findbugs/report" />
-		    <findbugs home="${findbugs.home}"
-		              output="xml"
-		              outputFile="@{dir}/target/reports/findbugs/data/@{name}-fb.xml"
-		              jvmargs="-Xmx1024m -Xms1024m -XX:MaxPermSize=512m" 
-		    >
-		      <auxClasspath path="${findbugs.aux.classpath.@{name}}" />
-		      <sourcePath path="@{dir}/src/main/java" />
-		      <class location="@{dir}/target/classes" />
-		    </findbugs>
+            <findbugs home="${findbugs.home}"
+              output="xml"
+              outputFile="@{dir}/target/reports/findbugs/data/@{name}-fb.xml"
+              jvmargs="-Xmx1024m -Xms1024m -XX:MaxPermSize=512m" 
+            >
+                <auxClasspath path="${findbugs.aux.classpath.@{name}}" />
+                <sourcePath path="@{dir}/src/main/java" />
+                <class location="@{dir}/target/classes" />
+            </findbugs>
         </sequential>
     </macrodef>
 
