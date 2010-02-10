@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!-- $Id: mavenBuild.xml,v 1.2 2009/07/08 00:00:57 m31 Exp $ -->
-<!-- $RCSfile: mavenBuild.xml,v $ -->
-<!-- $Revision: 1.1 $ -->
-<!-- author: mime -->
+<!-- author: Michael Meyling -->
 <!-- project: Hilbert II -->
 
 <!-- This is the Ant build file for building the Se release of project Hilbert II via maven -->

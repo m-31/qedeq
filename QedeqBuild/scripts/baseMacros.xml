@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- author: Michael Meyling -->
+<!-- project: Hilbert II -->
 <project name="baseMacros" basedir="../..">
     <description>
         This is the Ant build file library for building the Se release of project Hilbert II.

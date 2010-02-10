@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!-- $Id: releaseBuild.xml,v 1.2 2008/08/02 04:30:57 m31 Exp $ -->
-<!-- $RCSfile: releaseBuild.xml,v $ -->
-<!-- $Revision: 1.2 $ -->
-<!-- author: mime -->
+<!-- author: Michael Meyling -->
 <!-- project: Hilbert II -->
 
 <!-- This is the Ant build file for building the Se release of project Hilbert II -->
