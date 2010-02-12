@@ -170,7 +170,11 @@ public final class IoUtility {
         try {
             int counter = 0;
             int c;
-            while (counter++ < maxLength && (c = in.read()) >= 0) {
+            while (counter++ < maxLength) {
+                c = in.read();
+                if (c < 0) {
+                    break;
+                }
                 buffer.append((char) c);
             }
         } catch (IOException e) {
