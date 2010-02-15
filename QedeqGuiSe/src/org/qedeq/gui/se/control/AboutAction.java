@@ -55,8 +55,8 @@ class AboutAction extends AbstractAction {
                 + "\n\n", "About", JOptionPane.INFORMATION_MESSAGE,
                 GuiHelper.readImageIcon("qedeq/32x32/qedeq.png"));
         Properties sysprops = System.getProperties();
-        for (Enumeration enum = sysprops.propertyNames(); enum.hasMoreElements(); ) {
-            String key = (String) enum.nextElement();
+        for (Enumeration prop = sysprops.propertyNames(); prop.hasMoreElements(); ) {
+            String key = (String) prop.nextElement();
             String value = sysprops.getProperty(key);
             Trace.fatal(AboutAction.class, this, "actionPerformed(ActionEvent)", key + "=" + value, null);
         }
