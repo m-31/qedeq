@@ -16,10 +16,14 @@
 package org.qedeq.gui.se.control;
 
 import java.awt.event.ActionEvent;
+import java.util.Enumeration;
+import java.util.Properties;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.context.KernelContext;
 
@@ -50,6 +54,14 @@ class AboutAction extends AbstractAction {
                 + "\u00a9 2010 Michael Meyling. All Rights Reserved."
                 + "\n\n", "About", JOptionPane.INFORMATION_MESSAGE,
                 GuiHelper.readImageIcon("qedeq/32x32/qedeq.png"));
+        Properties sysprops = System.getProperties();
+        for (Enumeration enum = sysprops.propertyNames(); enum.hasMoreElements(); ) {
+            String key = (String) enum.nextElement();
+            String value = sysprops.getProperty(key);
+            Trace.fatal(AboutAction.class, this, "actionPerformed(ActionEvent)", key + "=" + value, null);
+        }
+
+        IoUtility.printAllSystemProperties();
     }
 
 }
