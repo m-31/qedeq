@@ -801,26 +801,16 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     }
 
     public boolean checkModule(final ModuleAddress address) {
+
         final String method = "checkModule(ModuleAddress)";
         final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
         try {
             QedeqLog.getInstance().logRequest(
                 "Check logical correctness for \"" + prop.getUrl() + "\"");
+
             loadModule(address);
-            if (!prop.isLoaded()) {
-                final String msg = "Check of logical correctness failed for \"" + address.getUrl()
-                + "\"";
-                QedeqLog.getInstance().logFailureReply(msg, "Module could not even be loaded.");
-                return false;
-            }
             LoadRequiredModules.loadRequired(prop);
-            if (!prop.hasLoadedRequiredModules()) {
-                final String msg = "Check of logical correctness failed for \"" + address.getUrl()
-                + "\"";
-                QedeqLog.getInstance().logFailureReply(msg, "Not all required modules could be loaded.");
-                return false;
-            }
-            
+
             QedeqBoFormalLogicChecker.check(prop);
             QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful for \"" + prop.getUrl() + "\"");
@@ -850,10 +840,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 }
             }
             QedeqLog.getInstance().logFailureReply(msg, e.toString());
-        } finally {
-	        if (validate) {
-	            modules.validateDependencies();
-	        }
+        }
+        if (validate) {
+            modules.validateDependencies();
         }
         return prop.isChecked();
     }
