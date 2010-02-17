@@ -22,7 +22,6 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * A class operator was defined twice.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class ClassOperatorAlreadyExistsException extends ModuleDataException {
