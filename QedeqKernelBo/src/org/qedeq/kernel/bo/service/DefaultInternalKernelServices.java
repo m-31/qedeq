@@ -534,7 +534,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * @throws SourceFileExceptionList Address was malformed or the file can not be found.
      * @deprecated use {@link saveQedeqFromWebToBuffer}
      */
-    public void saveQedeqFromWebToBufferOld(final DefaultKernelQedeqBo prop)
+    public void saveQedeqFromWebToBuffer(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
         final String method = "makeLocalCopy";
         Trace.begin(CLASS, this, method);
@@ -625,7 +625,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * @param prop Module properties.
      * @throws SourceFileExceptionList Address was malformed or the file can not be found.
      */
-    public void saveQedeqFromWebToBuffer(final DefaultKernelQedeqBo prop)
+    public void saveQedeqFromWebToBufferNew(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
         final String method = "makeLocalCopy";
         Trace.begin(CLASS, this, method);
