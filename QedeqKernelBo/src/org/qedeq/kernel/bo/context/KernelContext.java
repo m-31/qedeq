@@ -20,10 +20,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
+import java.net.URLConnection;
 import java.nio.channels.FileLock;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
@@ -448,6 +450,41 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         return MAXIMAL_RULE_VERSION.equals(ruleVersion);
     }
 
+    /**
+     * This class ist just for solving the lazy loading problem thread save.
+     * see <a href="http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom">
+     * Initialization_on_demand_holder_idiom</a>.
+     */
+    private static class LazyHolderTimeoutMethods {
+        private static final boolean isSetConnectionTimeOutSupported = YodaUtility.existsMethod(
+            URLConnection.class, "setConnectTimeout",
+            new Class[] {Integer.TYPE});
+        private static final boolean isSetReadTimeOutSupported = YodaUtility.existsMethod(
+                URLConnection.class, "setReadTimeout",
+                new Class[] {Integer.TYPE});
+    }
+ 
+    /**
+     * Does {@link java.net.URLConnection} support the method <code>setConnectionTimeOut</code>
+     * in the currently running JVM. This should be true since version 1.5 but false for 1.4.2.
+     * 
+     * @return Method is supported?
+     */
+    public boolean isSetConnectionTimeOutSupported() {
+        return LazyHolderTimeoutMethods.isSetConnectionTimeOutSupported;
+    }
+
+    
+    /**
+     * Does {@link java.net.URLConnection} support the method <code>setReadTimeOut</code>
+     * in the currently running JVM. This should be true since version 1.5 but false for 1.4.2.
+     * 
+     * @return Method is supported?
+     */
+    public boolean isSetReadTimeoutSupported() {
+        return LazyHolderTimeoutMethods.isSetReadTimeOutSupported;
+    }
+
     public QedeqConfig getConfig() {
         return config;
     }
@@ -609,7 +646,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     private void checkIfApplicationIsAlreadyRunningAndLockFile()
             throws IOException {
         lockFile = new File(config.getBufferDirectory(), "qedeq_lock.lck");
-/* FIXME 20090814 mime: old code, now we test FileLock meachanism
+/* LATER 20100217 mime: remove old code, now we use FileLock mechanism
         final String osName = System.getProperty("os.name");
         if (osName.startsWith("Windows")) {
             if ((lockFile.exists() && !lockFile.delete())) {
