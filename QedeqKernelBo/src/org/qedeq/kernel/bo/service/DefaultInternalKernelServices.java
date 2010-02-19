@@ -22,6 +22,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -39,9 +40,11 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.context.KernelProperties;
 import org.qedeq.kernel.bo.context.KernelServices;
 import org.qedeq.kernel.bo.log.QedeqLog;
@@ -532,7 +535,6 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      *
      * @param prop Module properties.
      * @throws SourceFileExceptionList Address was malformed or the file can not be found.
-     * @deprecated use {@link saveQedeqFromWebToBuffer}
      */
     public void saveQedeqFromWebToBuffer(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
@@ -554,9 +556,33 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
             if (connection instanceof HttpURLConnection) {
                 final HttpURLConnection httpConnection = (HttpURLConnection) connection;
-// FIXME mime 20090701: this is java 1.5 code, how do we do it in 1.4?
-//                httpConnection.setConnectTimeout(kernel.getConfig().getConnectTimeout());
-//                httpConnection.setReadTimeout(kernel.getConfig().getReadTimeout());
+                // FIXME m31 20100219 this is java 1.5 code, how do we do it in 1.4.2?
+                // if we are running at least under Java 1.5 the following code should be executed 
+                if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
+                    try {
+                        YodaUtility.executeMethod(httpConnection, "setConnectTimeout", new Class[] {Integer.TYPE}, 
+                              new Object[] { new Integer(kernel.getConfig().getConnectTimeout())});
+                    } catch (NoSuchMethodException e) {
+                        Trace.fatal(CLASS, this, method,
+                            "URLConnection.setConnectTimeout was previously found", e);
+                    } catch (InvocationTargetException e) {
+                        Trace.fatal(CLASS, this, method,
+                            "URLConnection.setConnectTimeout throwed an error", e);
+                    }
+                }
+                // if we are running at least under Java 1.5 the following code should be executed 
+                if (KernelContext.getInstance().isSetReadTimeoutSupported()) {
+                    try {
+                        YodaUtility.executeMethod(httpConnection, "setReadTimeout", new Class[] {Integer.TYPE}, 
+                              new Object[] { new Integer(kernel.getConfig().getReadTimeout())});
+                    } catch (NoSuchMethodException e) {
+                        Trace.fatal(CLASS, this, method,
+                            "URLConnection.setReadTimeout was previously found", e);
+                    } catch (InvocationTargetException e) {
+                        Trace.fatal(CLASS, this, method,
+                            "URLConnection.setReadTimeout throwed an error", e);
+                    }
+                }
                 int responseCode = httpConnection.getResponseCode();
                 if (responseCode == 200) {
                     in = httpConnection.getInputStream();
@@ -620,6 +646,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     }
 
     /**
+     * FIXME m31 20100217: this method uses apaches HttpClient, but it dosn't work under webstart
+     *      with proxy configuration. If we don't use this method, the apache commons-httpclient
+     *      library can be removed
+     * 
      * Make local copy of a module if it is no file address.
      *
      * @param prop Module properties.
@@ -851,9 +881,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             }
             QedeqLog.getInstance().logFailureReply(msg, e.toString());
         } finally {
-	        if (validate) {
-	            modules.validateDependencies();
-	        }
+            if (validate) {
+                modules.validateDependencies();
+            }
         }
         return prop.isChecked();
     }
