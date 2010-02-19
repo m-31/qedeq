@@ -36,11 +36,51 @@ public abstract class YodaUtility {
     }
 
     /**
+     * Analyze if a class or one of its super classes contains a given method.
+     * <p>
+     * Example: you can test with <code>YodaUtility.existsMethod((URLConnection) httpConnection, 
+     * "setConnectTimeout", new Class[] {Integer.TYPE}</code> with JDK 1.4.2 and if you run it
+     * with a 1.5 JRE or higher then it will be successfully executed.
+     *
+     * @param   clazz           Class to analyze.
+     * @param   name            Method name.
+     * @param   parameterTypes  Parameter types.
+     * @param   parameter       Parameter values.
+     * @return  Does the class (or one of its super classes) have such a method?
+     */
+    public static boolean existsMethod(final Class clazz, final String name,
+            final Class[] parameterTypes) {
+        Method method = null;
+        Class cl = clazz;
+        try {
+            while (!Object.class.equals(cl)) {
+                try {
+                    method = cl.getDeclaredMethod(name, parameterTypes);
+                    break;
+                } catch (NoSuchMethodException ex) {
+                    cl = cl.getSuperclass();
+                }
+            }
+            if (method == null) {
+                return false;
+            }
+            return true;
+        } catch (SecurityException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * This method executes a method on an object or one of its super instances (even if it is
      * private).
+     * <p>
+     * Example: you can compile <code>YodaUtility.executeMethod((URLConnection) httpConnection, 
+     * "setConnectTimeout", new Class[] {Integer.TYPE}, new Object[] { new Integer(100)});</code>
+     * with JDK 1.4.2 and if you run it with a 1.5 JRE or higher then it will be successfully
+     * executed.
      *
      * @param   obj             Object.
-     * @param   name            Variable name
+     * @param   name            Method name
      * @param   parameterTypes  Parameter types.
      * @param   parameter       Parameter values.
      * @return  Execution result.
