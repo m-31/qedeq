@@ -25,7 +25,6 @@ import org.qedeq.base.io.IoUtility;
 /**
  * This class gives a type save access to properties of the application.
  *
- * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public class QedeqConfig {
@@ -305,6 +304,61 @@ public class QedeqConfig {
      */
     public final void setReadTimeout(final int timeout) {
         setKeyValue("readTimeout", timeout);
+    }
+
+    /**
+     * Set http proxy host.
+     *
+     * @param  httpProxy    Http proxy server.
+     */
+    public final void setHttpProxyHost(final String httpProxyHost) {
+        setKeyValue("httpProxyHost", httpProxyHost);
+    }
+
+    /**
+     * Get http proxy host.
+     *
+     * @return  Http proxy host. Is <code>null</code> if webstarted.
+     */
+    public final String getHttpProxyHost() {
+        return (IoUtility.isWebStarted() ? null : getKeyValue("httpProxyHost"));
+    }
+
+    /**
+     * Set http proxy port.
+     *
+     * @param  httpProxy    Http proxy port.
+     */
+    public final void setHttpProxyPort(final String httpProxyPort) {
+        setKeyValue("http.proxyPort", httpProxyPort);
+    }
+
+    /**
+     * Get http proxy port.
+     *
+     * @return  Http proxy port. Is <code>null</code> if webstarted.
+     */
+    public final String getHttpProxyPort() {
+        return (IoUtility.isWebStarted() ? null : getKeyValue("http.proxyPort"));
+    }
+
+    // http.nonProxyHosts
+    /**
+     * Set http non proxy hosts.
+     *
+     * @param  httpNonProxyHosts    Http non proxy hosts.
+     */
+    public final void setHttpNonProxyHosts(final String httpNonProxyHosts) {
+        setKeyValue("http.nonProxyHosts", httpNonProxyHosts);
+    }
+
+    /**
+     * Get non http proxy hosts.
+     *
+     * @return  Http non proxy hosts. Is <code>null</code> if webstarted.
+     */
+    public final String getHttpNonProxyHosts() {
+        return (IoUtility.isWebStarted() ? null : getKeyValue("http.nonProxyHosts"));
     }
 
     /**
