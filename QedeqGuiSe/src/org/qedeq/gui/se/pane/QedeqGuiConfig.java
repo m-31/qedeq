@@ -157,5 +157,5 @@ public final class QedeqGuiConfig extends QedeqConfig {
         setKeyValue("fileBrowserStartDirectory", directory.toString());
     }
 
-
 }
+
