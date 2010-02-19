@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -40,7 +41,9 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.ErrorSelectionListenerList;
 import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.ModuleEventListener;
+import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -51,7 +54,6 @@ import com.jgoodies.forms.layout.RowSpec;
 /**
  * Shows QEDEQ module specific error pane.
  *
- * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 
@@ -68,7 +70,7 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
     private JTable error = new JTable(new AbstractTableModel() {
             public String getColumnName(final int column) {
                 if (column == 0) {
-                    return "Errors for " + (prop != null ? prop.getName() + "("
+                    return "Errors for " + (prop != null ? prop.getName() + " ("
                         + prop.getModuleAddress() + ")" : "");
                 } else if (column == 1) {
                     return "Location";
@@ -105,7 +107,24 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
 
             public void setValueAt(final Object value, final int row, final int col) {
             }
-        });
+
+            
+        }) {
+
+        // Implement table cell tool tips: just return the error message
+        public String getToolTipText(MouseEvent e) {
+            String tip = null;
+            java.awt.Point p = e.getPoint();
+            int rowIndex = rowAtPoint(p);
+            try {
+                tip = sfl.get(rowIndex).getMessage() + "\n";
+            } catch (RuntimeException ex) {
+                return super.getToolTipText(e);
+            }
+            return tip;
+        }
+        
+    };
 
     /** Write with this font attributes. */
     private final SimpleAttributeSet errorAttrs = new SimpleAttributeSet();
