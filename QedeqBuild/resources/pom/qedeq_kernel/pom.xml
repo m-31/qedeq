@@ -12,7 +12,7 @@
   </description>
   <url>http://qedeq.org</url>
   <issueManagement>
-    <system>Mantis</system>
+    <system>mantis</system>
     <url>http://sourceforge.net/apps/mantisbt/pmii/my_view_page.php</url>
   </issueManagement>
   <scm>
@@ -24,6 +24,10 @@
     </developerConnection>
     <url>http://pmii.svn.sourceforge.net/viewvc/pmii/trunk/</url>
   </scm>
+  <ciManagement>
+  	<system>hudson</system>
+  	<url>http://meyling.de:8080/hudson</url>
+  </ciManagement>
   <developers>
     <developer>
       <name>Michael Meyling</name>
