@@ -457,6 +457,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      * Initialization_on_demand_holder_idiom</a>.
      */
     private static class LazyHolderTimeoutMethods {
+
         /** Lazy initialized constant that knows about the existence of the method
          * <code>URLConnection.setConnectTimeout</code>. This depends on the currently running
          * JVM. */
@@ -470,6 +471,14 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         private static final boolean IS_SET_READ_TIMEOUT_SUSPPORTED = YodaUtility.existsMethod(
                 URLConnection.class, "setReadTimeout",
                 new Class[] {Integer.TYPE});
+
+        /**
+         * Hidden constructor.
+         */
+        private LazyHolderTimeoutMethods() {
+            // nothing to do
+        }
+
     }
 
 
