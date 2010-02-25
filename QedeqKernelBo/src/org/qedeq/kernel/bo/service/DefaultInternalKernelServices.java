@@ -562,7 +562,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                     try {
                         YodaUtility.executeMethod(httpConnection, "setConnectTimeout",
                             new Class[] {Integer.TYPE}, new Object[] {new Integer(
-                                kernel.getConfig().getConnectTimeout())});
+                            kernel.getConfig().getConnectTimeout())});
                     } catch (NoSuchMethodException e) {
                         Trace.fatal(CLASS, this, method,
                             "URLConnection.setConnectTimeout was previously found", e);
@@ -574,8 +574,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 // if we are running at least under Java 1.5 the following code should be executed
                 if (KernelContext.getInstance().isSetReadTimeoutSupported()) {
                     try {
-                        YodaUtility.executeMethod(httpConnection, "setReadTimeout", new Class[] { Integer.TYPE },
-                              new Object[] { new Integer(kernel.getConfig().getReadTimeout())});
+                        YodaUtility.executeMethod(httpConnection, "setReadTimeout",
+                            new Class[] {Integer.TYPE}, new Object[] {new Integer(
+                            kernel.getConfig().getReadTimeout())});
                     } catch (NoSuchMethodException e) {
                         Trace.fatal(CLASS, this, method,
                             "URLConnection.setReadTimeout was previously found", e);
