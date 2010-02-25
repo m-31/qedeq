@@ -140,7 +140,7 @@ public abstract class YodaUtility {
     /**
      * This method sets the contents of an object variable. The class hierarchy is recursively
      * searched to find such a field (even if it is private).
-     * 
+     *
      * @param   obj     Object.
      * @param   name    Variable name.
      * @param   value   Value to set.
@@ -161,7 +161,7 @@ public abstract class YodaUtility {
     /**
      * Get field of given name in given object. The class hierarchy is recursively searched
      * to find such a field (even if it is private).
-     * 
+     *
      * @param   obj     Object to work on.
      * @param   name    Search this field.
      * @return  Found field.
