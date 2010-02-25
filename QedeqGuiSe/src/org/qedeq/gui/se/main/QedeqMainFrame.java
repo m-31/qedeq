@@ -66,7 +66,7 @@ public class QedeqMainFrame extends JFrame {
     /**
      * Constructor, configures the UI, and builds the content. Also some indirectly some GUI
      * loggers are added.
-     * 
+     *
      * @param   settings    GUI options.
      * @throws  IOException Initialization failed for IO reasons.
      */
