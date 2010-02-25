@@ -22,7 +22,6 @@ import java.util.Properties;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.context.KernelContext;
@@ -54,14 +53,13 @@ class AboutAction extends AbstractAction {
                 + "\u00a9 2010 Michael Meyling. All Rights Reserved."
                 + "\n\n", "About", JOptionPane.INFORMATION_MESSAGE,
                 GuiHelper.readImageIcon("qedeq/32x32/qedeq.png"));
+        // ISSUE#3 Here we dump the system properties into the log
         Properties sysprops = System.getProperties();
         for (Enumeration prop = sysprops.propertyNames(); prop.hasMoreElements(); ) {
             String key = (String) prop.nextElement();
             String value = sysprops.getProperty(key);
             Trace.fatal(AboutAction.class, this, "actionPerformed(ActionEvent)", key + "=" + value, null);
         }
-
-        IoUtility.printAllSystemProperties();
     }
 
 }
