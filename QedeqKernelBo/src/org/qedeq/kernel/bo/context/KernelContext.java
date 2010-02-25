@@ -456,7 +456,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      * see <a href="http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom">
      * Initialization_on_demand_holder_idiom</a>.
      */
-    private final static class LazyHolderTimeoutMethods {
+    private static final class LazyHolderTimeoutMethods {
 
         /** Lazy initialized constant that knows about the existence of the method
          * <code>URLConnection.setConnectTimeout</code>. This depends on the currently running
