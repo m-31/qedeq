@@ -220,7 +220,14 @@ public class QedeqConfig {
      * @return  File path resolved against basis application directory.
      */
     public final File createAbsolutePath(final String path) {
-        return new File(getBasisDirectory(), path);
+        File result = new File(getBasisDirectory(), path);
+        try {
+            result = result.getCanonicalFile();
+        } catch (IOException e) {
+            // we don't know if we can log something already
+            e.printStackTrace();
+        }
+        return result;
     }
 
     /**
