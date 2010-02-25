@@ -456,10 +456,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      * Initialization_on_demand_holder_idiom</a>.
      */
     private static class LazyHolderTimeoutMethods {
-        private static final boolean isSetConnectionTimeOutSupported = YodaUtility.existsMethod(
+        private static final boolean IS_SET_CONNECTION_TIMEOUT_SUPPORTED = YodaUtility.existsMethod(
             URLConnection.class, "setConnectTimeout",
             new Class[] {Integer.TYPE});
-        private static final boolean isSetReadTimeOutSupported = YodaUtility.existsMethod(
+        private static final boolean IS_SET_READ_TIMEOUT_SUSPPORTED = YodaUtility.existsMethod(
                 URLConnection.class, "setReadTimeout",
                 new Class[] {Integer.TYPE});
     }
@@ -471,7 +471,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      * @return Method is supported?
      */
     public boolean isSetConnectionTimeOutSupported() {
-        return LazyHolderTimeoutMethods.isSetConnectionTimeOutSupported;
+        return LazyHolderTimeoutMethods.IS_SET_CONNECTION_TIMEOUT_SUPPORTED;
     }
 
     
@@ -482,7 +482,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      * @return Method is supported?
      */
     public boolean isSetReadTimeoutSupported() {
-        return LazyHolderTimeoutMethods.isSetReadTimeOutSupported;
+        return LazyHolderTimeoutMethods.IS_SET_READ_TIMEOUT_SUSPPORTED;
     }
 
     public QedeqConfig getConfig() {
