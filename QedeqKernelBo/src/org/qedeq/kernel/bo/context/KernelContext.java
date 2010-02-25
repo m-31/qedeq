@@ -450,6 +450,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         return MAXIMAL_RULE_VERSION.equals(ruleVersion);
     }
 
+
     /**
      * This class ist just for solving the lazy loading problem thread save.
      * see <a href="http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom">
@@ -463,18 +464,18 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
                 URLConnection.class, "setReadTimeout",
                 new Class[] {Integer.TYPE});
     }
- 
+
+
     /**
      * Does {@link java.net.URLConnection} support the method <code>setConnectionTimeOut</code>
      * in the currently running JVM. This should be true since version 1.5 but false for 1.4.2.
-     * 
+     *
      * @return Method is supported?
      */
     public boolean isSetConnectionTimeOutSupported() {
         return LazyHolderTimeoutMethods.IS_SET_CONNECTION_TIMEOUT_SUPPORTED;
     }
 
-    
     /**
      * Does {@link java.net.URLConnection} support the method <code>setReadTimeOut</code>
      * in the currently running JVM. This should be true since version 1.5 but false for 1.4.2.
