@@ -243,11 +243,11 @@ public class PreferencesDialog extends JDialog {
     }
 
     /**
-     * Adds border space to a panel and surrounds it with a title boarder.
-     * 
-     * @param   panel
-     * @param   title
-     * @return  
+     * Adds border space to a panel and surrounds it with a title border.
+     *
+     * @param   panel   Panel to decorate.
+     * @param   title   Title to use.
+     * @return  Panel with more decorations.
      */
     private JComponent addSpaceAndTitle(final JPanel panel, final String title) {
         JPanel withSpace= new JPanel();
@@ -262,6 +262,9 @@ public class PreferencesDialog extends JDialog {
 
     /**
      * Adds boarder space and floats panel to the right.
+     *
+     * @param   panel   Panel to decorate.
+     * @return  Panel with more decorations.
      */
     private JComponent addSpaceAndAlignRight(final JPanel panel) {
         JPanel withSpace= new JPanel();
@@ -273,7 +276,7 @@ public class PreferencesDialog extends JDialog {
         return alignRight;
     }
 
-   /**
+    /**
      * Assembles the GUI components of the panel.
      */
     public final void setupView() {
@@ -288,9 +291,9 @@ public class PreferencesDialog extends JDialog {
         allOptions.add(buildPathsPanel());
         allOptions.add(buildTimeoutPanel());
         add(allOptions);
-       
+
         ButtonBarBuilder builder = ButtonBarBuilder.createLeftToRightBuilder();
-       
+
         JButton ok = new JButton("OK");
         ok.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
@@ -310,7 +313,7 @@ public class PreferencesDialog extends JDialog {
 
         final JPanel buttons = builder.getPanel();
         add(addSpaceAndAlignRight(buttons));
-        
+
         setPreferredSize(new Dimension(400, 400));
         pack();
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize ();
