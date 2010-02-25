@@ -105,11 +105,10 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
             public void setValueAt(final Object value, final int row, final int col) {
             }
 
-            
         }) {
 
         // Implement table cell tool tips: just return the error message
-        public String getToolTipText(MouseEvent e) {
+        public String getToolTipText(final MouseEvent e) {
             String tip = null;
             java.awt.Point p = e.getPoint();
             int rowIndex = rowAtPoint(p);
@@ -120,7 +119,7 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
             }
             return tip;
         }
-        
+
     };
 
     /** Write with this font attributes. */
