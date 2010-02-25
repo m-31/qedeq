@@ -560,7 +560,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 // if we are running at least under Java 1.5 the following code should be executed 
                 if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
                     try {
-                        YodaUtility.executeMethod(httpConnection, "setConnectTimeout", new Class[] {Integer.TYPE}, 
+                        YodaUtility.executeMethod(httpConnection, "setConnectTimeout", new Class[] {Integer.TYPE},
                               new Object[] { new Integer(kernel.getConfig().getConnectTimeout())});
                     } catch (NoSuchMethodException e) {
                         Trace.fatal(CLASS, this, method,
@@ -573,7 +573,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 // if we are running at least under Java 1.5 the following code should be executed 
                 if (KernelContext.getInstance().isSetReadTimeoutSupported()) {
                     try {
-                        YodaUtility.executeMethod(httpConnection, "setReadTimeout", new Class[] {Integer.TYPE}, 
+                        YodaUtility.executeMethod(httpConnection, "setReadTimeout", new Class[] {Integer.TYPE},
                               new Object[] { new Integer(kernel.getConfig().getReadTimeout())});
                     } catch (NoSuchMethodException e) {
                         Trace.fatal(CLASS, this, method,
@@ -649,7 +649,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * FIXME m31 20100217: this method uses apaches HttpClient, but it dosn't work under webstart
      *      with proxy configuration. If we don't use this method, the apache commons-httpclient
      *      library can be removed
-     * 
+     *
      * Make local copy of a module if it is no file address.
      *
      * @param prop Module properties.
@@ -850,7 +850,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 QedeqLog.getInstance().logFailureReply(msg, "Not all required modules could be loaded.");
                 return false;
             }
-            
+
             QedeqBoFormalLogicChecker.check(prop);
             QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful for \"" + prop.getUrl() + "\"");
