@@ -38,7 +38,7 @@ public abstract class YodaUtility {
     /**
      * Analyze if a class or one of its super classes contains a given method.
      * <p>
-     * Example: you can test with <code>YodaUtility.existsMethod((URLConnection) httpConnection, 
+     * Example: you can test with <code>YodaUtility.existsMethod((URLConnection) httpConnection,
      * "setConnectTimeout", new Class[] {Integer.TYPE}</code> with JDK 1.4.2 and if you run it
      * with a 1.5 JRE or higher then it will be successfully executed.
      *
@@ -74,18 +74,18 @@ public abstract class YodaUtility {
      * This method executes a method on an object or one of its super instances (even if it is
      * private).
      * <p>
-     * Example: you can compile <code>YodaUtility.executeMethod((URLConnection) httpConnection, 
+     * Example: you can compile <code>YodaUtility.executeMethod((URLConnection) httpConnection,
      * "setConnectTimeout", new Class[] {Integer.TYPE}, new Object[] { new Integer(100)});</code>
      * with JDK 1.4.2 and if you run it with a 1.5 JRE or higher then it will be successfully
      * executed.
      *
      * @param   obj             Object.
-     * @param   name            Method name
+     * @param   name            Method name.
      * @param   parameterTypes  Parameter types.
      * @param   parameter       Parameter values.
      * @return  Execution result.
      * @throws  NoSuchMethodException       Method not found.
-     * @throws  InvocationTargetException   Wrapped exception. 
+     * @throws  InvocationTargetException   Wrapped exception.
      */
     public static Object executeMethod(final Object obj, final String name,
             final Class[] parameterTypes, final Object[] parameter) throws NoSuchMethodException,
@@ -122,9 +122,9 @@ public abstract class YodaUtility {
      * searched to find such a field (even if it is private).
      *
      * @param   obj     Object.
-     * @param   name    Variable name
+     * @param   name    Variable name.
      * @return  Contents of variable.
-     * @throws  NoSuchFieldException    Variable of given name was not found. 
+     * @throws  NoSuchFieldException    Variable of given name was not found.
      */
     public static Object getFieldValue(final Object obj, final String name) throws NoSuchFieldException {
         final Field field = getField(obj, name);
@@ -136,15 +136,15 @@ public abstract class YodaUtility {
             throw new RuntimeException(e);
         }
     }
-    
+
     /**
      * This method sets the contents of an object variable. The class hierarchy is recursively
-     * searched to find such a field (even if it is private). 
+     * searched to find such a field (even if it is private).
      * 
      * @param   obj     Object.
      * @param   name    Variable name.
      * @param   value   Value to set.
-     * @throws  NoSuchFieldException    Variable of given name was not found. 
+     * @throws  NoSuchFieldException    Variable of given name was not found.
      */
     public static void setFieldContent(final Object obj, final String name, final Object value)
             throws NoSuchFieldException {
@@ -160,7 +160,7 @@ public abstract class YodaUtility {
 
     /**
      * Get field of given name in given object. The class hierarchy is recursively searched
-     * to find such a field (even if it is private). 
+     * to find such a field (even if it is private).
      * 
      * @param   obj     Object to work on.
      * @param   name    Search this field.
@@ -188,6 +188,6 @@ public abstract class YodaUtility {
         }
         return field;
     }
-    
+
 }
 
