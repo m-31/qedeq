@@ -267,7 +267,7 @@ public class PreferencesDialog extends JDialog {
      * @return  Panel with more decorations.
      */
     private JComponent addSpaceAndAlignRight(final JPanel panel) {
-        JPanel withSpace= new JPanel();
+        JPanel withSpace = new JPanel();
         withSpace.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // FIXME dynamize
         withSpace.add(panel);
         JPanel alignRight = new JPanel();
@@ -283,7 +283,7 @@ public class PreferencesDialog extends JDialog {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         //A border that puts 10 extra pixels at the sides and
         //bottom of each pane.
-        Border paneEdge = BorderFactory.createEmptyBorder(0,10,10,10); // FIXME dynamize
+        Border paneEdge = BorderFactory.createEmptyBorder(0, 10, 10, 10); // FIXME dynamize
         JPanel allOptions = new JPanel();
         allOptions.setBorder(paneEdge);
         allOptions.setLayout(new BoxLayout(allOptions, BoxLayout.Y_AXIS));
@@ -309,14 +309,14 @@ public class PreferencesDialog extends JDialog {
             }
         });
 
-        builder.addGriddedButtons( new JButton[] {cancel, ok});
+        builder.addGriddedButtons( new JButton[]{cancel, ok});
 
         final JPanel buttons = builder.getPanel();
         add(addSpaceAndAlignRight(buttons));
 
         setPreferredSize(new Dimension(400, 400));
         pack();
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize ();
+        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
     }
 
