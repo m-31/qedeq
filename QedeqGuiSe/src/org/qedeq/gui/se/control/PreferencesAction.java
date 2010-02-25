@@ -20,6 +20,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 
 import org.qedeq.gui.se.pane.Preferences;
+import org.qedeq.gui.se.pane.PreferencesDialog;
 
 /**
  * Show preferences window.
@@ -29,16 +30,21 @@ import org.qedeq.gui.se.pane.Preferences;
  */
 class PreferencesAction extends AbstractAction {
 
+    /** Controller reference. */
+    private final QedeqController controller;
+
     /**
      * Constructor.
      *
      * @param   controller  Controller.
      */
-    PreferencesAction() {
+    PreferencesAction(final QedeqController controller) {
+        this.controller = controller;
     }
 
     public void actionPerformed(final ActionEvent e) {
-        new Preferences("Preferences").show();
+        new Preferences("Preferences").show();  // FIXME mime 20100222: remove if new code is working
+        new PreferencesDialog(controller.getMainFrame()).setVisible(true);
     }
 
 }
