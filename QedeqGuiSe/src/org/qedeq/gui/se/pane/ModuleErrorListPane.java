@@ -19,7 +19,6 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -41,9 +40,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.ErrorSelectionListenerList;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.ModuleEventListener;
-import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
