@@ -37,7 +37,6 @@ import org.qedeq.base.trace.Trace;
  * Show and edit preferences of this application.
  * TODO mime 20071228: this frame is pixel hardcoded, replace by non pixel layouted version
  *
- * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public final class Preferences extends JFrame {
