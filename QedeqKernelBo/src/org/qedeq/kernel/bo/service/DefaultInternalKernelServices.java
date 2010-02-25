@@ -557,7 +557,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             if (connection instanceof HttpURLConnection) {
                 final HttpURLConnection httpConnection = (HttpURLConnection) connection;
                 // FIXME m31 20100219 this is java 1.5 code, how do we do it in 1.4.2?
-                // if we are running at least under Java 1.5 the following code should be executed 
+                // if we are running at least under Java 1.5 the following code should be executed
                 if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
                     try {
                         YodaUtility.executeMethod(httpConnection, "setConnectTimeout", new Class[] { Integer.TYPE },
@@ -570,7 +570,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                             "URLConnection.setConnectTimeout throwed an error", e);
                     }
                 }
-                // if we are running at least under Java 1.5 the following code should be executed 
+                // if we are running at least under Java 1.5 the following code should be executed
                 if (KernelContext.getInstance().isSetReadTimeoutSupported()) {
                     try {
                         YodaUtility.executeMethod(httpConnection, "setReadTimeout", new Class[] { Integer.TYPE },
