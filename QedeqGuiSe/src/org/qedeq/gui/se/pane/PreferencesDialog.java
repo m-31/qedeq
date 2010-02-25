@@ -306,7 +306,7 @@ public class PreferencesDialog extends JDialog {
             }
         });
 
-        builder.addGriddedButtons( new JButton[] { cancel, ok } );
+        builder.addGriddedButtons( new JButton[] {cancel, ok});
 
         final JPanel buttons = builder.getPanel();
         add(addSpaceAndAlignRight(buttons));
