@@ -32,6 +32,7 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
@@ -53,34 +54,43 @@ public class PreferencesDialog extends JDialog {
     /** This class. */
     private static final Class CLASS = PreferencesDialog.class;
 
-    /** Timeout for making a TCP/IP connection. */
+    /** Timeout for making a TCP/IP connection.*/
     private JTextField connectionTimeout;
 
-    /** Timeout for reading from a TCP/IP connection. */
+    /** Timeout for reading from a TCP/IP connection.*/
     private JTextField readTimeout;
 
-    /** Automatic scroll of log pane. */
+    /** Automatic scroll of log pane.*/
     private JCheckBox automaticLogScrollCB;
 
-    /** Automatic reload of all modules that were successfully checked in last session. */
+    /** Automatic reload of all modules that were successfully checked in last session.*/
     private JCheckBox autoReloadLastSessionCheckedCB;
 
-    /** Response with a message box. */
+    /** Response with a message box.*/
     private JCheckBox directResponseCB;
 
-    /** Automatic start of default HTML browser after HTML generation. */
+    /** Automatic start of default HTML browser after HTML generation.*/
     private JCheckBox autoStartHtmlBrowserCB;
 
-    /** Local QEDEQ module buffer directory. */
-    private File bufferDirectory;
+    /** QEDEQ module buffer directory.*/
+    private JTextField moduleBufferTextField;
 
     /** Generation directory. */
+    private JTextField generationPathTextField;
+
+    /** Directory for new local modules.*/
+    private JTextArea localModulesPathTextField;
+
+    /** Local QEDEQ module buffer directory.*/
+    private File bufferDirectory;
+
+    /** Generation directory.*/
     private File generationDirectory;
 
-    /** Directory for new local modules. */
+    /** Directory for new local modules.*/
     private File localModulesDirectory;
 
-    /** Flag for automatic scroll of log window. */
+    /** Flag for automatic scroll of log window.*/
     private boolean automaticLogScroll;
 
     /** Flag for automatic reload of all QEDEQ modules that were successfully loaded in the last
@@ -90,13 +100,13 @@ public class PreferencesDialog extends JDialog {
     /** Flag for automatic start of the default HTML browser after HTML generation. */
     private boolean autoStartHtmlBrowser;
 
-    /** Flag for direct message box response mode. */
+    /** Flag for direct message box response mode.*/
     private boolean directResponse;
 
-    /** Flag for generating old HTML code. */
+    /** Flag for generating old HTML code.*/
     private boolean oldHtmlCode;
 
-    /** Internal flag for remembering if any value changed. */
+    /** Internal flag for remembering if any value changed.*/
     private boolean changed;
 
 
@@ -143,13 +153,39 @@ public class PreferencesDialog extends JDialog {
     }
 
     /**
+     * Assembles Timeout settings panel.
+     */
+    private JComponent buildPathsPanel() {
+        FormLayout layout = new FormLayout(
+            "left:pref");    // columns
+
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        builder.getPanel().setOpaque(false);
+
+        builder.append("Path for newly created module files");
+        localModulesDirectory = QedeqGuiConfig.getInstance().getLocalModulesDirectory();
+        localModulesPathTextField = new JTextArea(localModulesDirectory.getAbsolutePath());
+        localModulesPathTextField.setEditable(false);
+        builder.append(wrapWithScrollPane(localModulesPathTextField));
+
+        builder.append("Path for newly created module files");
+        localModulesDirectory = QedeqGuiConfig.getInstance().getLocalModulesDirectory();
+        localModulesPathTextField = new JTextArea(localModulesDirectory.getAbsolutePath());
+        localModulesPathTextField.setEditable(false);
+        builder.append(wrapWithScrollPane(localModulesPathTextField));
+
+        return addSpaceAndTitle(builder.getPanel(), "Paths");
+    }
+
+    /**
      * Assembles checkbox settings panel.
      */
     private JComponent buildBinaryOptionPanel() {
         FormLayout layout = new FormLayout(
         "left:pref");    // columns
 //            "right:pref, 5dlu, fill:50dlu:grow");    // columns
-//            + "pref, 3dlu, pref");                  // rows
+//            + "pref, 3dlu, pref");                   // rows
 
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -220,6 +256,7 @@ public class PreferencesDialog extends JDialog {
         JPanel withTitle = new JPanel();
         withTitle.setBorder(BorderFactory.createTitledBorder(title));
         withTitle.add(withSpace);
+        withTitle.setLayout(new FlowLayout(FlowLayout.LEFT));
         return withTitle;
     }
 
@@ -244,12 +281,13 @@ public class PreferencesDialog extends JDialog {
         //A border that puts 10 extra pixels at the sides and
         //bottom of each pane.
         Border paneEdge = BorderFactory.createEmptyBorder(0,10,10,10); // FIXME dynamize
-        JPanel titledBorders = new JPanel();
-        titledBorders.setBorder(paneEdge);
-        titledBorders.setLayout(new BoxLayout(titledBorders, BoxLayout.Y_AXIS));
-        titledBorders.add(buildBinaryOptionPanel());
-        titledBorders.add(buildTimeoutPanel());
-        add(titledBorders);
+        JPanel allOptions = new JPanel();
+        allOptions.setBorder(paneEdge);
+        allOptions.setLayout(new BoxLayout(allOptions, BoxLayout.Y_AXIS));
+        allOptions.add(buildBinaryOptionPanel());
+        allOptions.add(buildPathsPanel());
+        allOptions.add(buildTimeoutPanel());
+        add(allOptions);
        
         ButtonBarBuilder builder = ButtonBarBuilder.createLeftToRightBuilder();
        
@@ -269,14 +307,14 @@ public class PreferencesDialog extends JDialog {
         });
 
         builder.addGriddedButtons( new JButton[] { cancel, ok } );
-        
+
         final JPanel buttons = builder.getPanel();
         add(addSpaceAndAlignRight(buttons));
         
         setPreferredSize(new Dimension(400, 400));
         pack();
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize ();
-        setLocation((screenSize.width - getWidth())/2, (screenSize.height - getHeight())/2);
+        setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
     }
 
     /**
