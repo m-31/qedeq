@@ -457,9 +457,16 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      * Initialization_on_demand_holder_idiom</a>.
      */
     private static class LazyHolderTimeoutMethods {
+        /** Lazy initialized constant that knows about the existence of the method
+         * <code>URLConnection.setConnectTimeout</code>. This depends on the currently running
+         * JVM. */
         private static final boolean IS_SET_CONNECTION_TIMEOUT_SUPPORTED = YodaUtility.existsMethod(
             URLConnection.class, "setConnectTimeout",
             new Class[] {Integer.TYPE});
+
+        /** Lazy initialized constant that knows about the existence of the method
+         * <code>URLConnection.setReadTimeout</code>. This depends on the currently running
+         * JVM. */
         private static final boolean IS_SET_READ_TIMEOUT_SUSPPORTED = YodaUtility.existsMethod(
                 URLConnection.class, "setReadTimeout",
                 new Class[] {Integer.TYPE});
@@ -479,7 +486,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     /**
      * Does {@link java.net.URLConnection} support the method <code>setReadTimeOut</code>
      * in the currently running JVM. This should be true since version 1.5 but false for 1.4.2.
-     * 
+     *
      * @return Method is supported?
      */
     public boolean isSetReadTimeoutSupported() {
