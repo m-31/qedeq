@@ -33,9 +33,6 @@ import org.qedeq.kernel.bo.context.KernelContext;
 /**
  * Show help window.
  *
- * TODO mime 20070606: not implemented
- *
- * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 class HelpAction extends AbstractAction {
@@ -56,7 +53,7 @@ class HelpAction extends AbstractAction {
     }
 
     public void actionPerformed(final ActionEvent e) {
-        
+
         String pathToHS = "resources/help/Help.hs";
         URL hsURL = null;
         HelpSet hs = null;
@@ -80,8 +77,6 @@ class HelpAction extends AbstractAction {
         dialog.setSize(new Dimension(950, 700));
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
-        
-        
     }
 
 }
