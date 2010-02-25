@@ -250,7 +250,7 @@ public class PreferencesDialog extends JDialog {
      * @return  Panel with more decorations.
      */
     private JComponent addSpaceAndTitle(final JPanel panel, final String title) {
-        JPanel withSpace= new JPanel();
+        JPanel withSpace = new JPanel();
         withSpace.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // FIXME dynamize
         withSpace.add(panel);
         JPanel withTitle = new JPanel();
@@ -309,7 +309,7 @@ public class PreferencesDialog extends JDialog {
             }
         });
 
-        builder.addGriddedButtons( new JButton[]{cancel, ok});
+        builder.addGriddedButtons(new JButton[]{cancel, ok});
 
         final JPanel buttons = builder.getPanel();
         add(addSpaceAndAlignRight(buttons));
