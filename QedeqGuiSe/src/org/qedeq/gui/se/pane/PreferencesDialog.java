@@ -16,8 +16,8 @@
 package org.qedeq.gui.se.pane;
 
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -73,13 +73,13 @@ public class PreferencesDialog extends JDialog {
     private JCheckBox autoStartHtmlBrowserCB;
 
     /** QEDEQ module buffer directory.*/
-    private JTextField moduleBufferTextField;
+    private JTextArea moduleBufferTextArea;
 
     /** Generation directory. */
-    private JTextField generationPathTextField;
+    private JTextArea generationPathTextArea;
 
     /** Directory for new local modules.*/
-    private JTextArea localModulesPathTextField;
+    private JTextArea localModulesPathTextArea;
 
     /** Local QEDEQ module buffer directory.*/
     private File bufferDirectory;
@@ -102,9 +102,6 @@ public class PreferencesDialog extends JDialog {
 
     /** Flag for direct message box response mode.*/
     private boolean directResponse;
-
-    /** Flag for generating old HTML code.*/
-    private boolean oldHtmlCode;
 
     /** Internal flag for remembering if any value changed.*/
     private boolean changed;
@@ -157,25 +154,42 @@ public class PreferencesDialog extends JDialog {
      */
     private JComponent buildPathsPanel() {
         FormLayout layout = new FormLayout(
-            "left:pref");    // columns
+            "fill:50dlu:grow");    // columns
 
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         builder.getPanel().setOpaque(false);
 
         builder.append("Path for newly created module files");
-        localModulesDirectory = QedeqGuiConfig.getInstance().getLocalModulesDirectory();
-        localModulesPathTextField = new JTextArea(localModulesDirectory.getAbsolutePath());
-        localModulesPathTextField.setEditable(false);
-        builder.append(wrapWithScrollPane(localModulesPathTextField));
+        bufferDirectory = QedeqGuiConfig.getInstance().getBufferDirectory();
+        moduleBufferTextArea = new JTextArea(bufferDirectory.getAbsolutePath());
+        moduleBufferTextArea.setEditable(false);
+        moduleBufferTextArea.setLineWrap(false);
+        builder.append(wrapWithScrollPane(moduleBufferTextArea));
+
+        builder.append("Path for generated files");
+        generationDirectory = QedeqGuiConfig.getInstance().getGenerationDirectory();
+        generationPathTextArea = new JTextArea(generationDirectory.getAbsolutePath());
+        generationPathTextArea.setEditable(false);
+        builder.append(wrapWithScrollPane(generationPathTextArea));
 
         builder.append("Path for newly created module files");
         localModulesDirectory = QedeqGuiConfig.getInstance().getLocalModulesDirectory();
-        localModulesPathTextField = new JTextArea(localModulesDirectory.getAbsolutePath());
-        localModulesPathTextField.setEditable(false);
-        builder.append(wrapWithScrollPane(localModulesPathTextField));
+        localModulesPathTextArea = new JTextArea(localModulesDirectory.getAbsolutePath());
+        localModulesPathTextArea.setEditable(false);
+        builder.append(wrapWithScrollPane(localModulesPathTextArea));
 
-        return addSpaceAndTitle(builder.getPanel(), "Paths");
+        JPanel withSpace = new JPanel();
+        withSpace.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // FIXME dynamize
+        withSpace.add(builder.getPanel());
+        withSpace.setLayout(new GridLayout(0, 1));
+        JPanel withTitle = new JPanel();
+        withTitle.setBorder(BorderFactory.createTitledBorder("Paths"));
+        withTitle.add(withSpace);
+        withTitle.setLayout(new GridLayout(0, 1));
+        return withTitle;
+
+//        return addSpaceAndTitle(builder.getPanel(), "Paths");
     }
 
     /**
@@ -191,8 +205,9 @@ public class PreferencesDialog extends JDialog {
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         builder.getPanel().setOpaque(false);
 
+        automaticLogScroll = QedeqGuiConfig.getInstance().isAutoReloadLastSessionChecked();
         autoReloadLastSessionCheckedCB = new JCheckBox(" Auto loading of in last session successfully checked modules",
-            QedeqGuiConfig.getInstance().isAutoReloadLastSessionChecked());
+            automaticLogScroll);
         autoReloadLastSessionCheckedCB.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 PreferencesDialog.this.autoReloadLastSessionChecked
@@ -202,8 +217,9 @@ public class PreferencesDialog extends JDialog {
         });
         builder.append(autoReloadLastSessionCheckedCB);
 
+        directResponse = QedeqGuiConfig.getInstance().isDirectResponse();
         directResponseCB = new JCheckBox(" Direct message response for actions",
-            QedeqGuiConfig.getInstance().isDirectResponse());
+            directResponse);
         directResponseCB.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 PreferencesDialog.this.directResponse = PreferencesDialog.this.directResponseCB.isSelected();
@@ -212,8 +228,9 @@ public class PreferencesDialog extends JDialog {
         });
         builder.append(directResponseCB);
 
+        automaticLogScroll = QedeqGuiConfig.getInstance().isAutomaticLogScroll();
         automaticLogScrollCB = new JCheckBox(" Automatic Scroll of Log Window",
-            QedeqGuiConfig.getInstance().isAutomaticLogScroll());
+            automaticLogScroll);
         automaticLogScrollCB.addActionListener(new ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 PreferencesDialog.this.automaticLogScroll
@@ -223,8 +240,16 @@ public class PreferencesDialog extends JDialog {
         });
         builder.append(automaticLogScrollCB);
 
+        autoStartHtmlBrowser = QedeqGuiConfig.getInstance().isAutoStartHtmlBrowser();
         autoStartHtmlBrowserCB = new JCheckBox(" Auto start web browser after HTML generation",
-            QedeqGuiConfig.getInstance().isAutoStartHtmlBrowser());
+            autoStartHtmlBrowser);
+        autoStartHtmlBrowserCB.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                PreferencesDialog.this.autoStartHtmlBrowser
+                    = PreferencesDialog.this.autoStartHtmlBrowserCB.isSelected();
+                PreferencesDialog.this.changed = true;
+            }
+        });
         builder.append(autoStartHtmlBrowserCB);
 /*
         builder.append("Rule Version");
@@ -314,8 +339,9 @@ public class PreferencesDialog extends JDialog {
         final JPanel buttons = builder.getPanel();
         add(addSpaceAndAlignRight(buttons));
 
-        setPreferredSize(new Dimension(400, 400));
+        // let the container calculate the ideal size
         pack();
+
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
     }
@@ -352,7 +378,6 @@ public class PreferencesDialog extends JDialog {
             QedeqGuiConfig.getInstance().setAutoReloadLastSessionChecked(
                 autoReloadLastSessionChecked);
             QedeqGuiConfig.getInstance().setAutoStartHtmlBrowser(autoStartHtmlBrowser);
-            QedeqGuiConfig.getInstance().setOldHtml(oldHtmlCode);
             try {
                 QedeqGuiConfig.getInstance().store();
             } catch (IOException e) {
