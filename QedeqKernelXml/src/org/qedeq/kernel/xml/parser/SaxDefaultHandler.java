@@ -211,15 +211,14 @@ public class SaxDefaultHandler extends SimpleHandler {
     }
 
     /**
-     * Sends <code>characters</code> event to current handler.
+     * Sends <code>characters</code> event to current handler. Whitespace is preserved.
+     * It fires only, if there is something beside whitespace.
      */
     private void sendCharacters() {
         try  {
             if (buffer.length() > 0) {
-// FIXME mime 20090611 we removed trim here. OK? ... final String str = buffer.toString().trim();
                 final String str = buffer.toString();
                 buffer.setLength(0);
-// FIXME mime 20090611 her trim was added OK?
                 if (str.trim().length() > 0) {  // anything there beside whitespace?
                     currentHandler.characters(currentElementName, str);
                 }
