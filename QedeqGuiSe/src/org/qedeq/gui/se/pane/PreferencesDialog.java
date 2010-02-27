@@ -37,6 +37,7 @@ import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
 
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
@@ -55,10 +56,10 @@ public class PreferencesDialog extends JDialog {
     private static final Class CLASS = PreferencesDialog.class;
 
     /** Timeout for making a TCP/IP connection.*/
-    private JTextField connectionTimeout;
+    private JTextField connectionTimeoutTextField;
 
     /** Timeout for reading from a TCP/IP connection.*/
-    private JTextField readTimeout;
+    private JTextField readTimeoutTextField;
 
     /** Automatic scroll of log pane.*/
     private JCheckBox automaticLogScrollCB;
@@ -81,6 +82,15 @@ public class PreferencesDialog extends JDialog {
     /** Directory for new local modules.*/
     private JTextArea localModulesPathTextArea;
 
+    /** HTTP proxy host.*/
+    private JTextField httpProxyHostTextField;
+
+    /** HTTP proxy port.*/
+    private JTextField httpProxyPortTextField;
+
+    /** HTTP non proxy hosts.*/
+    private JTextField httpNonProxyHostsTextField;
+
     /** Local QEDEQ module buffer directory.*/
     private File bufferDirectory;
 
@@ -102,6 +112,21 @@ public class PreferencesDialog extends JDialog {
 
     /** Flag for direct message box response mode.*/
     private boolean directResponse;
+    
+    /** Timeout for creating a TCP/IP connection.*/
+    private int connectionTimeout;
+
+    /** Timeout for reading from a TCP/IP connection.*/
+    private int readTimeout;
+
+    /** HTTP proxy host.*/
+    private String httpProxyHost;
+
+    /** HTTP proxy port.*/
+    private String httpProxyPort;
+
+    /** HTTP non proxy hosts.*/
+    private String httpNonProxyHosts;
 
     /** Internal flag for remembering if any value changed.*/
     private boolean changed;
@@ -138,15 +163,74 @@ public class PreferencesDialog extends JDialog {
         builder.getPanel().setOpaque(false);
 
         builder.append("Connection Timeout");
-        connectionTimeout = createTextField(""
-            + QedeqGuiConfig.getInstance().getConnectTimeout(), true);
-        builder.append(connectionTimeout);
+        connectionTimeout = QedeqGuiConfig.getInstance().getConnectTimeout();
+        connectionTimeoutTextField = createTextField("" + connectionTimeout, true);
+        builder.append(connectionTimeoutTextField);
 
+        readTimeout = QedeqGuiConfig.getInstance().getReadTimeout();
         builder.append("Read Timeout");
-        readTimeout = createTextField(""
-            + QedeqGuiConfig.getInstance().getReadTimeout(), true);
-        builder.append(readTimeout);
+        readTimeoutTextField = createTextField("" + readTimeout , true);
+        builder.append(readTimeoutTextField);
         return addSpaceAndTitle(builder.getPanel(), "Timeouts");
+    }
+
+    /**
+     * Assembles proxy settings panel.
+     */
+    private JComponent buildProxyPanel() {
+
+        if (IoUtility.isWebStarted()) {
+            JPanel panel = new JPanel();
+            JTextArea label = new JTextArea("This application is webstarted. For changing the"
+                + " proxy settings see for example \"Sun Java Plugin Control Panel / General /"
+                + " Network Settings\".");
+            label.setWrapStyleWord(true);
+            label.setLineWrap(true);
+            label.setEditable(false);
+//            JTextArea label = new JTextArea("For webstart");
+//            label.setMinimumSize(new Dimension(400, 30));
+//            label.setPreferredSize(new Dimension(400, 30));
+            panel.add(label);
+//            panel.setMinimumSize(new Dimension(400, 30));
+//            panel.setPreferredSize(new Dimension(400, 30));
+//            panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+            panel.setLayout(new GridLayout(0, 1));
+//            return panel;
+            JPanel withSpace = new JPanel();
+            //        withSpace.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+                    withSpace.add(panel);
+                    withSpace.setLayout(new GridLayout(0, 1));
+                    JPanel withTitle = new JPanel();
+                    withTitle.setBorder(BorderFactory.createTitledBorder("Proxy Settings"));
+                    withTitle.add(withSpace);
+                    withTitle.setLayout(new GridLayout(0, 1));
+                    return withTitle;
+        } else {
+            FormLayout layout = new FormLayout(
+            "right:pref, 5dlu, fill:50dlu:grow");    // columns
+//                "right:pref, 5dlu, fill:50dlu:grow");    // columns
+//                + "pref, 3dlu, pref");                  // rows
+
+            DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+            builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+            builder.getPanel().setOpaque(false);
+            httpProxyHost = QedeqGuiConfig.getInstance().getHttpProxyHost();
+            builder.append("HTTP proxy host");
+            httpProxyHostTextField = createTextField(httpProxyHost, true);
+            builder.append(httpProxyHostTextField);
+    
+            httpProxyPort = QedeqGuiConfig.getInstance().getHttpProxyPort();
+            builder.append("HTTP proxy port");
+            httpProxyPortTextField = createTextField(httpProxyPort, true);
+            builder.append(httpProxyPortTextField);
+    
+            httpNonProxyHosts = QedeqGuiConfig.getInstance().getHttpNonProxyHosts();
+            builder.append("HTTP non proxy hosts");
+            httpNonProxyHostsTextField = createTextField(httpNonProxyHosts, true);
+            builder.append(httpNonProxyHostsTextField);
+            return addSpaceAndTitle(builder.getPanel(), "Proxy Settings");
+        }
+
     }
 
     /**
@@ -251,19 +335,6 @@ public class PreferencesDialog extends JDialog {
             }
         });
         builder.append(autoStartHtmlBrowserCB);
-/*
-        builder.append("Rule Version");
-        ruleVersion = createTextField("", false);
-        builder.append(ruleVersion);
-
-        builder.append("URL");
-//        url = createTextField("", false);
-        url = new JTextArea();
-        url.setEditable(false);
-        url.setLineWrap(false);
-        builder.append(wrapWithScrollPane(url));
-//        builder.append(url);
-*/
         return addSpaceAndTitle(builder.getPanel(), "Miscellaneous Switches");
     }
 
@@ -276,8 +347,9 @@ public class PreferencesDialog extends JDialog {
      */
     private JComponent addSpaceAndTitle(final JPanel panel, final String title) {
         JPanel withSpace = new JPanel();
-        withSpace.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // FIXME dynamize
+//        withSpace.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
         withSpace.add(panel);
+//        withSpace.setLayout(new GridLayout(0, 1));
         JPanel withTitle = new JPanel();
         withTitle.setBorder(BorderFactory.createTitledBorder(title));
         withTitle.add(withSpace);
@@ -293,7 +365,7 @@ public class PreferencesDialog extends JDialog {
      */
     private JComponent addSpaceAndAlignRight(final JPanel panel) {
         JPanel withSpace = new JPanel();
-        withSpace.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // FIXME dynamize
+//        withSpace.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // FIXME dynamize
         withSpace.add(panel);
         JPanel alignRight = new JPanel();
         alignRight.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -308,16 +380,18 @@ public class PreferencesDialog extends JDialog {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         //A border that puts 10 extra pixels at the sides and
         //bottom of each pane.
-        Border paneEdge = BorderFactory.createEmptyBorder(0, 10, 10, 10); // FIXME dynamize
+        Border paneEdge = BorderFactory.createEmptyBorder(10, 10, 10, 10); // FIXME dynamize
         JPanel allOptions = new JPanel();
         allOptions.setBorder(paneEdge);
         allOptions.setLayout(new BoxLayout(allOptions, BoxLayout.Y_AXIS));
         allOptions.add(buildBinaryOptionPanel());
         allOptions.add(buildPathsPanel());
         allOptions.add(buildTimeoutPanel());
+        JComponent proxyPanel = buildProxyPanel();
+        allOptions.add(proxyPanel);
         add(allOptions);
-
-        ButtonBarBuilder builder = ButtonBarBuilder.createLeftToRightBuilder();
+        
+        ButtonBarBuilder bbuilder = ButtonBarBuilder.createLeftToRightBuilder();
 
         JButton ok = new JButton("OK");
         ok.addActionListener(new  ActionListener() {
@@ -334,16 +408,17 @@ public class PreferencesDialog extends JDialog {
             }
         });
 
-        builder.addGriddedButtons(new JButton[]{cancel, ok});
+        bbuilder.addGriddedButtons(new JButton[]{cancel, ok});
 
-        final JPanel buttons = builder.getPanel();
+        final JPanel buttons = bbuilder.getPanel();
         add(addSpaceAndAlignRight(buttons));
 
         // let the container calculate the ideal size
         pack();
 
         java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2);
+        setBounds((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2,
+            getWidth(), getHeight() + (IoUtility.isWebStarted() ? proxyPanel.getHeight() : 0));
     }
 
     /**
@@ -361,8 +436,7 @@ public class PreferencesDialog extends JDialog {
     }
 
     private Component wrapWithScrollPane(final Component c) {
-        return new JScrollPane(
-            c,
+        return new JScrollPane(c,
             ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     }
@@ -378,6 +452,13 @@ public class PreferencesDialog extends JDialog {
             QedeqGuiConfig.getInstance().setAutoReloadLastSessionChecked(
                 autoReloadLastSessionChecked);
             QedeqGuiConfig.getInstance().setAutoStartHtmlBrowser(autoStartHtmlBrowser);
+            QedeqGuiConfig.getInstance().setConnectionTimeout(connectionTimeout);
+            QedeqGuiConfig.getInstance().setReadTimeout(readTimeout);
+            if (!IoUtility.isWebStarted()) {
+                QedeqGuiConfig.getInstance().setHttpProxyHost(httpProxyHost);
+                QedeqGuiConfig.getInstance().setHttpProxyHost(httpProxyPort);
+                QedeqGuiConfig.getInstance().setHttpProxyHost(httpNonProxyHosts);
+            }
             try {
                 QedeqGuiConfig.getInstance().store();
             } catch (IOException e) {
