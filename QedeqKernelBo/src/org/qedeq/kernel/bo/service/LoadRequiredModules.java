@@ -97,7 +97,6 @@ public final class LoadRequiredModules {
         } catch (DefaultSourceFileExceptionList e) {
             sfl = e;
         }
-        loader.getSourceFileExceptionList();
         if (sfl == null) {
             for (int i = 0; i < required.size(); i++) {
                 Trace.trace(CLASS, this, method, "loading required modules of " + prop.getUrl());
@@ -131,6 +130,9 @@ public final class LoadRequiredModules {
                     }
                     continue;
                 }
+            }
+            if (sfl != null) {
+                throw sfl;
             }
         }
 
