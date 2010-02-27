@@ -112,7 +112,7 @@ public class PreferencesDialog extends JDialog {
 
     /** Flag for direct message box response mode.*/
     private boolean directResponse;
-    
+
     /** Timeout for creating a TCP/IP connection.*/
     private int connectionTimeout;
 
@@ -218,12 +218,12 @@ public class PreferencesDialog extends JDialog {
             builder.append("HTTP proxy host");
             httpProxyHostTextField = createTextField(httpProxyHost, true);
             builder.append(httpProxyHostTextField);
-    
+
             httpProxyPort = QedeqGuiConfig.getInstance().getHttpProxyPort();
             builder.append("HTTP proxy port");
             httpProxyPortTextField = createTextField(httpProxyPort, true);
             builder.append(httpProxyPortTextField);
-    
+
             httpNonProxyHosts = QedeqGuiConfig.getInstance().getHttpNonProxyHosts();
             builder.append("HTTP non proxy hosts");
             httpNonProxyHostsTextField = createTextField(httpNonProxyHosts, true);
@@ -390,7 +390,7 @@ public class PreferencesDialog extends JDialog {
         JComponent proxyPanel = buildProxyPanel();
         allOptions.add(proxyPanel);
         add(allOptions);
-        
+
         ButtonBarBuilder bbuilder = ButtonBarBuilder.createLeftToRightBuilder();
 
         JButton ok = new JButton("OK");
