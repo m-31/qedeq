@@ -454,8 +454,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     public void loadRequiredModules(final ModuleAddress address) throws SourceFileExceptionList {
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) loadModule(address);
         if (prop.hasFailures()) {
-            throw prop.getException(); // FIXME mime 20080603: remove exception from signature
-            // of this function and also from loadRequired
+            throw prop.getException();
         }
         LoadRequiredModules.loadRequired(prop);
     }
@@ -736,7 +735,6 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         try {
             url = new URL(address.getUrl());
         } catch (MalformedURLException e) {
-            // should not happen    FIXME mime 20090728: check it out
             throw new RuntimeException(e);
         }
         if (address.isFileAddress()) {
