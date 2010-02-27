@@ -291,7 +291,7 @@ public class QedeqConfig {
      *
      * @param   timeout Connection timeout, especially for TCP/IP connections. In milliseconds.
      */
-    public final void setConnectTimeout(final int timeout) {
+    public final void setConnectionTimeout(final int timeout) {
         setKeyValue("connectionTimeout", timeout);
     }
 
@@ -343,7 +343,7 @@ public class QedeqConfig {
     /**
      * Get http proxy port.
      *
-     * @return  Http proxy port. Is <code>null</code> if webstarted.
+     * @return  Http proxy port. Also <code>null</code> if webstarted.
      */
     public final String getHttpProxyPort() {
         return (IoUtility.isWebStarted() ? null : getKeyValue("http.proxyPort"));
@@ -362,7 +362,7 @@ public class QedeqConfig {
     /**
      * Get non http proxy hosts.
      *
-     * @return  Http non proxy hosts. Is <code>null</code> if webstarted.
+     * @return  Http non proxy hosts. Also <code>null</code> if webstarted.
      */
     public final String getHttpNonProxyHosts() {
         return (IoUtility.isWebStarted() ? null : getKeyValue("http.nonProxyHosts"));
