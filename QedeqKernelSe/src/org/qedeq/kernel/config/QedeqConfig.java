@@ -319,16 +319,17 @@ public class QedeqConfig {
      * @param  httpProxy    Http proxy server.
      */
     public final void setHttpProxyHost(final String httpProxyHost) {
-        setKeyValue("httpProxyHost", httpProxyHost);
+        setKeyValue("http.proxyHost", httpProxyHost);
     }
 
     /**
-     * Get http proxy host.
+     * Get http proxy host. It might be a good idea to ignore this value, if the application
+     * was started via Java Webstart.
      *
-     * @return  Http proxy host. Is <code>null</code> if webstarted.
+     * @return  Http proxy host.
      */
     public final String getHttpProxyHost() {
-        return (IoUtility.isWebStarted() ? null : getKeyValue("httpProxyHost"));
+        return getKeyValue("http.proxyHost");
     }
 
     /**
@@ -341,15 +342,15 @@ public class QedeqConfig {
     }
 
     /**
-     * Get http proxy port.
+     * Get http proxy port. It might be a good idea to ignore this value, if the application
+     * was started via Java Webstart.
      *
-     * @return  Http proxy port. Also <code>null</code> if webstarted.
+     * @return  Http proxy port.
      */
     public final String getHttpProxyPort() {
-        return (IoUtility.isWebStarted() ? null : getKeyValue("http.proxyPort"));
+        return getKeyValue("http.proxyPort");
     }
 
-    // http.nonProxyHosts
     /**
      * Set http non proxy hosts.
      *
@@ -360,12 +361,13 @@ public class QedeqConfig {
     }
 
     /**
-     * Get non http proxy hosts.
+     * Get non http proxy hosts. It might be a good idea to ignore this value, if the application
+     * was started via Java Webstart.
      *
-     * @return  Http non proxy hosts. Also <code>null</code> if webstarted.
+     * @return  Http non proxy hosts.
      */
     public final String getHttpNonProxyHosts() {
-        return (IoUtility.isWebStarted() ? null : getKeyValue("http.nonProxyHosts"));
+        return getKeyValue("http.nonProxyHosts");
     }
 
     /**
