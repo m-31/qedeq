@@ -16,6 +16,7 @@
 package org.qedeq.gui.se.pane;
 
 import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -30,6 +31,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -39,6 +41,7 @@ import javax.swing.border.Border;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.context.KernelContext;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -140,6 +143,7 @@ public class PreferencesDialog extends JDialog {
         final String method = "Constructor";
         Trace.begin(CLASS, this, method);
         try {
+            setModalityType(DEFAULT_MODALITY_TYPE);
             setupView();
             updateView();
         } catch (Throwable e) {
@@ -187,24 +191,16 @@ public class PreferencesDialog extends JDialog {
             label.setWrapStyleWord(true);
             label.setLineWrap(true);
             label.setEditable(false);
-//            JTextArea label = new JTextArea("For webstart");
-//            label.setMinimumSize(new Dimension(400, 30));
-//            label.setPreferredSize(new Dimension(400, 30));
             panel.add(label);
-//            panel.setMinimumSize(new Dimension(400, 30));
-//            panel.setPreferredSize(new Dimension(400, 30));
-//            panel.setLayout(new FlowLayout(FlowLayout.LEFT));
             panel.setLayout(new GridLayout(0, 1));
-//            return panel;
             JPanel withSpace = new JPanel();
-            //        withSpace.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-                    withSpace.add(panel);
-                    withSpace.setLayout(new GridLayout(0, 1));
-                    JPanel withTitle = new JPanel();
-                    withTitle.setBorder(BorderFactory.createTitledBorder("Proxy Settings"));
-                    withTitle.add(withSpace);
-                    withTitle.setLayout(new GridLayout(0, 1));
-                    return withTitle;
+                withSpace.add(panel);
+                withSpace.setLayout(new GridLayout(0, 1));
+                JPanel withTitle = new JPanel();
+                withTitle.setBorder(BorderFactory.createTitledBorder("Proxy Settings"));
+                withTitle.add(withSpace);
+                withTitle.setLayout(new GridLayout(0, 1));
+                return withTitle;
         } else {
             FormLayout layout = new FormLayout(
             "right:pref, 5dlu, fill:50dlu:grow");    // columns
@@ -230,7 +226,6 @@ public class PreferencesDialog extends JDialog {
             builder.append(httpNonProxyHostsTextField);
             return addSpaceAndTitle(builder.getPanel(), "Proxy Settings");
         }
-
     }
 
     /**
@@ -416,7 +411,7 @@ public class PreferencesDialog extends JDialog {
         // let the container calculate the ideal size
         pack();
 
-        java.awt.Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2,
             getWidth(), getHeight() + (IoUtility.isWebStarted() ? proxyPanel.getHeight() : 0));
     }
@@ -444,25 +439,37 @@ public class PreferencesDialog extends JDialog {
     final void save() {
         if (changed) {
 // TODO mime 20070903: setting still unsupported
-            QedeqGuiConfig.getInstance().setBufferDirectory(bufferDirectory);
-            QedeqGuiConfig.getInstance().setGenerationDirectory(generationDirectory);
-            QedeqGuiConfig.getInstance().setLocalModulesDirectory(localModulesDirectory);
-            QedeqGuiConfig.getInstance().setAutomaticLogScroll(automaticLogScroll);
-            QedeqGuiConfig.getInstance().setDirectResponse(directResponse);
-            QedeqGuiConfig.getInstance().setAutoReloadLastSessionChecked(
-                autoReloadLastSessionChecked);
-            QedeqGuiConfig.getInstance().setAutoStartHtmlBrowser(autoStartHtmlBrowser);
-            QedeqGuiConfig.getInstance().setConnectionTimeout(connectionTimeout);
-            QedeqGuiConfig.getInstance().setReadTimeout(readTimeout);
-            if (!IoUtility.isWebStarted()) {
-                QedeqGuiConfig.getInstance().setHttpProxyHost(httpProxyHost);
-                QedeqGuiConfig.getInstance().setHttpProxyHost(httpProxyPort);
-                QedeqGuiConfig.getInstance().setHttpProxyHost(httpNonProxyHosts);
+            try {
+                QedeqGuiConfig.getInstance().setBufferDirectory(bufferDirectory);
+                QedeqGuiConfig.getInstance().setGenerationDirectory(generationDirectory);
+                QedeqGuiConfig.getInstance().setLocalModulesDirectory(localModulesDirectory);
+                QedeqGuiConfig.getInstance().setAutomaticLogScroll(automaticLogScroll);
+                QedeqGuiConfig.getInstance().setDirectResponse(directResponse);
+                QedeqGuiConfig.getInstance().setAutoReloadLastSessionChecked(
+                    autoReloadLastSessionChecked);
+                QedeqGuiConfig.getInstance().setAutoStartHtmlBrowser(autoStartHtmlBrowser);
+                if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
+                    QedeqGuiConfig.getInstance().setConnectionTimeout(Integer.parseInt(connectionTimeoutTextField.getText()));
+                }
+                if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
+                    QedeqGuiConfig.getInstance().setReadTimeout(Integer.parseInt(readTimeoutTextField.getText()));
+                }
+                if (!IoUtility.isWebStarted()) {
+                    QedeqGuiConfig.getInstance().setHttpProxyHost(httpProxyHostTextField.getText());
+                    QedeqGuiConfig.getInstance().setHttpProxyPort(httpProxyPortTextField.getText());
+                    QedeqGuiConfig.getInstance().setHttpNonProxyHosts(httpNonProxyHostsTextField.getText());
+                }
+            } catch (RuntimeException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", 
+                    JOptionPane.ERROR_MESSAGE);
             }
+
             try {
                 QedeqGuiConfig.getInstance().store();
             } catch (IOException e) {
                 Trace.fatal(CLASS, this, "save", "couldn't save preferences", e);
+                JOptionPane.showMessageDialog(this, "Couldn't save preferences", "Error", 
+                        JOptionPane.ERROR_MESSAGE);
             }
         }
     }
