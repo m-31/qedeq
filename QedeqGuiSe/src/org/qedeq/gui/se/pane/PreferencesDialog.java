@@ -449,7 +449,8 @@ public class PreferencesDialog extends JDialog {
                     autoReloadLastSessionChecked);
                 QedeqGuiConfig.getInstance().setAutoStartHtmlBrowser(autoStartHtmlBrowser);
                 if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
-                    QedeqGuiConfig.getInstance().setConnectionTimeout(Integer.parseInt(connectionTimeoutTextField.getText()));
+                    QedeqGuiConfig.getInstance().setConnectionTimeout(Integer.parseInt(
+                        connectionTimeoutTextField.getText()));
                 }
                 if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
                     QedeqGuiConfig.getInstance().setReadTimeout(Integer.parseInt(readTimeoutTextField.getText()));
@@ -460,7 +461,7 @@ public class PreferencesDialog extends JDialog {
                     QedeqGuiConfig.getInstance().setHttpNonProxyHosts(httpNonProxyHostsTextField.getText());
                 }
             } catch (RuntimeException e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", 
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);
             }
 
@@ -468,8 +469,7 @@ public class PreferencesDialog extends JDialog {
                 QedeqGuiConfig.getInstance().store();
             } catch (IOException e) {
                 Trace.fatal(CLASS, this, "save", "couldn't save preferences", e);
-                JOptionPane.showMessageDialog(this, "Couldn't save preferences", "Error", 
-                        JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Couldn't save preferences", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
