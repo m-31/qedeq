@@ -35,9 +35,11 @@ import org.qedeq.base.trace.Trace;
 
 /**
  * Show and edit preferences of this application.
- * TODO mime 20071228: this frame is pixel hardcoded, replace by non pixel layouted version
+ *
+ * FIXME m31 20100302: remove this old pixel hardcoded JFrame if new class PreferencesDialog is fully working
  *
  * @author  Michael Meyling
+ * @deprecated use {@link PreferencesDialog} instead
  */
 public final class Preferences extends JFrame {
 
