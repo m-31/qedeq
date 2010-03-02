@@ -540,6 +540,13 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         final String method = "makeLocalCopy";
         Trace.begin(CLASS, this, method);
 
+        // set proxy properties according to kernel configuration (if not webstarted)
+        if (!IoUtility.isWebStarted()) {
+            System.setProperty("http.proxyHost", kernel.getConfig().getHttpProxyHost());
+            System.setProperty("http.proxyPort", kernel.getConfig().getHttpProxyPort());
+            System.setProperty("http.nonProxyHosts", kernel.getConfig().getHttpNonProxyHosts());
+        }
+
         if (prop.getModuleAddress().isFileAddress()) { // this is already a local file
             Trace.fatal(CLASS, this, method, "tried to make a local copy for a local module", null);
             Trace.end(CLASS, this, method);
@@ -672,10 +679,13 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         // Create an instance of HttpClient.
         HttpClient client = new HttpClient();
 
-        final String pHost = System.getProperty("proxyHost", "");
-        final int pPort = Integer.parseInt(System.getProperty("proxyPort", "80"));
-//        System.out.println("proxyHost=" + pHost);
-//        System.out.println("proxyPort=" + pPort);
+// FIXME m31 20100302: validate
+        //        final String pHost = System.getProperty("proxyHost", "");
+        final String pHost = kernel.getConfig().getHttpProxyHost();
+//        final int pPort = Integer.parseInt(System.getProperty("proxyPort", "80"));
+        final int pPort = Integer.parseInt(kernel.getConfig().getHttpProxyPort());
+        System.out.println("proxyHost=" + pHost);
+        System.out.println("proxyPort=" + pPort);
 //        System.out.println(0 / 0);
         if (pHost.length() > 0) {
             client.getHostConfiguration().setProxy(pHost, pPort);
