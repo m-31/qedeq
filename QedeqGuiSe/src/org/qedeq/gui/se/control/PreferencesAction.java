@@ -43,7 +43,6 @@ class PreferencesAction extends AbstractAction {
     }
 
     public void actionPerformed(final ActionEvent e) {
-        new Preferences("Preferences").show();  // FIXME mime 20100222: remove if new code is working
         new PreferencesDialog(controller.getMainFrame()).setVisible(true);
     }
 
