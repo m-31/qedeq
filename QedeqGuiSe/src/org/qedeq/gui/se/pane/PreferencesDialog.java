@@ -30,6 +30,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -38,9 +39,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.Border;
+import javax.swing.filechooser.FileFilter;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.context.KernelContext;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
@@ -94,47 +97,6 @@ public class PreferencesDialog extends JDialog {
     /** HTTP non proxy hosts.*/
     private JTextField httpNonProxyHostsTextField;
 
-    /** Local QEDEQ module buffer directory.*/
-    private File bufferDirectory;
-
-    /** Generation directory.*/
-    private File generationDirectory;
-
-    /** Directory for new local modules.*/
-    private File localModulesDirectory;
-
-    /** Flag for automatic scroll of log window.*/
-    private boolean automaticLogScroll;
-
-    /** Flag for automatic reload of all QEDEQ modules that were successfully loaded in the last
-     * session. */
-    private boolean autoReloadLastSessionChecked;
-
-    /** Flag for automatic start of the default HTML browser after HTML generation. */
-    private boolean autoStartHtmlBrowser;
-
-    /** Flag for direct message box response mode.*/
-    private boolean directResponse;
-
-    /** Timeout for creating a TCP/IP connection.*/
-    private int connectionTimeout;
-
-    /** Timeout for reading from a TCP/IP connection.*/
-    private int readTimeout;
-
-    /** HTTP proxy host.*/
-    private String httpProxyHost;
-
-    /** HTTP proxy port.*/
-    private String httpProxyPort;
-
-    /** HTTP non proxy hosts.*/
-    private String httpNonProxyHosts;
-
-    /** Internal flag for remembering if any value changed.*/
-    private boolean changed;
-
-
     /**
      * Creates new Panel.
      */
@@ -147,7 +109,7 @@ public class PreferencesDialog extends JDialog {
             setupView();
             updateView();
         } catch (Throwable e) {
-            Trace.trace(CLASS, this, method, e);
+            Trace.fatal(CLASS, this, "Initalization of PreferencesDialog failed.", method, e);
         } finally {
             Trace.end(CLASS, this, method);
         }
@@ -167,13 +129,11 @@ public class PreferencesDialog extends JDialog {
         builder.getPanel().setOpaque(false);
 
         builder.append("Connection Timeout");
-        connectionTimeout = QedeqGuiConfig.getInstance().getConnectTimeout();
-        connectionTimeoutTextField = createTextField("" + connectionTimeout, true);
+        connectionTimeoutTextField = createTextField("" + QedeqGuiConfig.getInstance().getConnectTimeout(), true);
         builder.append(connectionTimeoutTextField);
 
-        readTimeout = QedeqGuiConfig.getInstance().getReadTimeout();
         builder.append("Read Timeout");
-        readTimeoutTextField = createTextField("" + readTimeout , true);
+        readTimeoutTextField = createTextField("" + QedeqGuiConfig.getInstance().getReadTimeout() , true);
         builder.append(readTimeoutTextField);
         return addSpaceAndTitle(builder.getPanel(), "Timeouts");
     }
@@ -210,19 +170,17 @@ public class PreferencesDialog extends JDialog {
             DefaultFormBuilder builder = new DefaultFormBuilder(layout);
             builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
             builder.getPanel().setOpaque(false);
-            httpProxyHost = QedeqGuiConfig.getInstance().getHttpProxyHost();
+
             builder.append("HTTP proxy host");
-            httpProxyHostTextField = createTextField(httpProxyHost, true);
+            httpProxyHostTextField = createTextField(QedeqGuiConfig.getInstance().getHttpProxyHost(), true);
             builder.append(httpProxyHostTextField);
 
-            httpProxyPort = QedeqGuiConfig.getInstance().getHttpProxyPort();
             builder.append("HTTP proxy port");
-            httpProxyPortTextField = createTextField(httpProxyPort, true);
+            httpProxyPortTextField = createTextField(QedeqGuiConfig.getInstance().getHttpProxyPort(), true);
             builder.append(httpProxyPortTextField);
 
-            httpNonProxyHosts = QedeqGuiConfig.getInstance().getHttpNonProxyHosts();
             builder.append("HTTP non proxy hosts");
-            httpNonProxyHostsTextField = createTextField(httpNonProxyHosts, true);
+            httpNonProxyHostsTextField = createTextField(QedeqGuiConfig.getInstance().getHttpNonProxyHosts(), true);
             builder.append(httpNonProxyHostsTextField);
             return addSpaceAndTitle(builder.getPanel(), "Proxy Settings");
         }
@@ -233,30 +191,134 @@ public class PreferencesDialog extends JDialog {
      */
     private JComponent buildPathsPanel() {
         FormLayout layout = new FormLayout(
-            "fill:50dlu:grow");    // columns
+//            "fill:200dlu:grow, 5dlu, right:pref");    // columns
+            "left:pref, fill:5dlu:grow, right:pref");    // columns
 
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         builder.getPanel().setOpaque(false);
 
         builder.append("Path for newly created module files");
-        bufferDirectory = QedeqGuiConfig.getInstance().getBufferDirectory();
-        moduleBufferTextArea = new JTextArea(bufferDirectory.getAbsolutePath());
+        moduleBufferTextArea = new JTextArea(QedeqGuiConfig.getInstance().getBufferDirectory().getPath());
         moduleBufferTextArea.setEditable(false);
         moduleBufferTextArea.setLineWrap(false);
-        builder.append(wrapWithScrollPane(moduleBufferTextArea));
+        final JButton chooseBufferLocation = new JButton("Choose");
+        builder.append(chooseBufferLocation);
+        builder.append(wrapWithScrollPane(moduleBufferTextArea), 3);
+        chooseBufferLocation.setEnabled(true);
+//        chooseBufferLocation.setBounds(33 + 600 - 90, 180 + y, 90, 21);
+        chooseBufferLocation.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                try {
+                    QedeqGuiConfig.getInstance().getBufferDirectory().mkdirs();
+                    JFileChooser chooser = new JFileChooser(QedeqGuiConfig.getInstance().getBufferDirectory());
+                    FileFilter filter = new FileFilter() {
+                        public boolean accept(final File f) {
+                            if (f.isDirectory()) {
+                                return true;
+                            }
+                            return false;
+                        }
+
+                        // description of this filter
+                        public String getDescription() {
+                            return "Directory";
+                        }
+                    };
+
+                    chooser.setFileFilter(filter);
+                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    final int returnVal = chooser.showOpenDialog(PreferencesDialog.this);
+
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        moduleBufferTextArea.setText(chooser.getSelectedFile().getPath());
+                    }
+                } catch (Exception e) {
+                     JOptionPane.showMessageDialog(PreferencesDialog.this, e.getMessage(), "Alert",
+                     JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
 
         builder.append("Path for generated files");
-        generationDirectory = QedeqGuiConfig.getInstance().getGenerationDirectory();
-        generationPathTextArea = new JTextArea(generationDirectory.getAbsolutePath());
+        generationPathTextArea = new JTextArea(QedeqGuiConfig.getInstance().getGenerationDirectory().getPath());
         generationPathTextArea.setEditable(false);
-        builder.append(wrapWithScrollPane(generationPathTextArea));
+        final JButton chooseGenerationLocation = new JButton("Choose");
+        builder.append(chooseGenerationLocation);
+        builder.append(wrapWithScrollPane(generationPathTextArea), 3);
+        chooseGenerationLocation.setEnabled(true);
+//        chooseGenerationLocation.setBounds(33 + 600 - 90, 250 + y, 90, 21);
+        chooseGenerationLocation.addActionListener(new  ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                try {
+                    QedeqGuiConfig.getInstance().getGenerationDirectory().mkdirs();
+                    JFileChooser chooser = new JFileChooser(QedeqGuiConfig.getInstance().getGenerationDirectory());
+                    FileFilter filter = new FileFilter() {
+                        public boolean accept(final File f) {
+                            if (f.isDirectory()) {
+                                return true;
+                            }
+                            return false;
+                        }
+
+                        // description of this filter
+                        public String getDescription() {
+                            return "Directory";
+                        }
+                    };
+                    chooser.setFileFilter(filter);
+                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    final int returnVal = chooser.showOpenDialog(PreferencesDialog.this);
+
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        generationPathTextArea.setText(chooser.getSelectedFile().getPath());
+                    }
+                } catch (Exception e) {
+                     JOptionPane.showMessageDialog(PreferencesDialog.this, e.getMessage(), "Alert",
+                     JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
 
         builder.append("Path for newly created module files");
-        localModulesDirectory = QedeqGuiConfig.getInstance().getLocalModulesDirectory();
-        localModulesPathTextArea = new JTextArea(localModulesDirectory.getAbsolutePath());
+        localModulesPathTextArea = new JTextArea(QedeqGuiConfig.getInstance().getLocalModulesDirectory().getPath());
         localModulesPathTextArea.setEditable(false);
-        builder.append(wrapWithScrollPane(localModulesPathTextArea));
+        final JButton chooselocalModulesLocation = new JButton("Choose");
+        builder.append(chooselocalModulesLocation);
+        builder.append(wrapWithScrollPane(localModulesPathTextArea), 3);
+        chooselocalModulesLocation.setEnabled(true);
+        chooselocalModulesLocation.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                try {
+                    QedeqGuiConfig.getInstance().getLocalModulesDirectory().mkdirs();
+                    JFileChooser chooser = new JFileChooser(QedeqGuiConfig.getInstance().getLocalModulesDirectory());
+                    FileFilter filter = new FileFilter() {
+                        public boolean accept(final File f) {
+                            if (f.isDirectory()) {
+                                return true;
+                            }
+                            return false;
+                        }
+                        // description of this filter
+                        public String getDescription() {
+                            return "Directory";
+                        }
+                    };
+                    chooser.setFileFilter(filter);
+                    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+                    final int returnVal = chooser.showOpenDialog(PreferencesDialog.this);
+                    if (returnVal == JFileChooser.APPROVE_OPTION) {
+                        localModulesPathTextArea.setText(chooser.getSelectedFile().getPath());
+                    }
+                } catch (Exception e) {
+                     JOptionPane.showMessageDialog(PreferencesDialog.this, e.getMessage(), "Alert",
+                     JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
+
 
         JPanel withSpace = new JPanel();
         withSpace.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // FIXME dynamize
@@ -284,52 +346,22 @@ public class PreferencesDialog extends JDialog {
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         builder.getPanel().setOpaque(false);
 
-        automaticLogScroll = QedeqGuiConfig.getInstance().isAutoReloadLastSessionChecked();
         autoReloadLastSessionCheckedCB = new JCheckBox(" Auto loading of in last session successfully checked modules",
-            automaticLogScroll);
-        autoReloadLastSessionCheckedCB.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent actionEvent) {
-                PreferencesDialog.this.autoReloadLastSessionChecked
-                    = PreferencesDialog.this.autoReloadLastSessionCheckedCB.isSelected();
-                PreferencesDialog.this.changed = true;
-            }
-        });
+            QedeqGuiConfig.getInstance().isAutoReloadLastSessionChecked());
         builder.append(autoReloadLastSessionCheckedCB);
 
-        directResponse = QedeqGuiConfig.getInstance().isDirectResponse();
         directResponseCB = new JCheckBox(" Direct message response for actions",
-            directResponse);
-        directResponseCB.addActionListener(new  ActionListener() {
-            public void actionPerformed(final ActionEvent actionEvent) {
-                PreferencesDialog.this.directResponse = PreferencesDialog.this.directResponseCB.isSelected();
-                PreferencesDialog.this.changed = true;
-            }
-        });
+            QedeqGuiConfig.getInstance().isDirectResponse());
         builder.append(directResponseCB);
 
-        automaticLogScroll = QedeqGuiConfig.getInstance().isAutomaticLogScroll();
         automaticLogScrollCB = new JCheckBox(" Automatic Scroll of Log Window",
-            automaticLogScroll);
-        automaticLogScrollCB.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent actionEvent) {
-                PreferencesDialog.this.automaticLogScroll
-                    = PreferencesDialog.this.automaticLogScrollCB.isSelected();
-                PreferencesDialog.this.changed = true;
-            }
-        });
+            QedeqGuiConfig.getInstance().isAutomaticLogScroll());
         builder.append(automaticLogScrollCB);
 
-        autoStartHtmlBrowser = QedeqGuiConfig.getInstance().isAutoStartHtmlBrowser();
         autoStartHtmlBrowserCB = new JCheckBox(" Auto start web browser after HTML generation",
-            autoStartHtmlBrowser);
-        autoStartHtmlBrowserCB.addActionListener(new ActionListener() {
-            public void actionPerformed(final ActionEvent actionEvent) {
-                PreferencesDialog.this.autoStartHtmlBrowser
-                    = PreferencesDialog.this.autoStartHtmlBrowserCB.isSelected();
-                PreferencesDialog.this.changed = true;
-            }
-        });
+            QedeqGuiConfig.getInstance().isAutoStartHtmlBrowser());
         builder.append(autoStartHtmlBrowserCB);
+
         return addSpaceAndTitle(builder.getPanel(), "Miscellaneous Switches");
     }
 
@@ -436,23 +468,57 @@ public class PreferencesDialog extends JDialog {
             ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
-    final void save() {
-        if (changed) {
-// TODO mime 20070903: setting still unsupported
+    boolean changed() {
+        boolean result = false;
+        result = result || (EqualsUtility.equals(moduleBufferTextArea.getText(),
+            QedeqGuiConfig.getInstance().getBufferDirectory()));
+        result = result || (EqualsUtility.equals(generationPathTextArea.getText(),
+                QedeqGuiConfig.getInstance().getGenerationDirectory()));
+        result = result || (EqualsUtility.equals(localModulesPathTextArea.getText(),
+                QedeqGuiConfig.getInstance().getLocalModulesDirectory()));
+        result = result || (automaticLogScrollCB.isSelected()
+                == QedeqGuiConfig.getInstance().isAutomaticLogScroll());
+        result = result || (directResponseCB.isSelected()
+                == QedeqGuiConfig.getInstance().isDirectResponse());
+        result = result || (autoReloadLastSessionCheckedCB.isSelected()
+                == QedeqGuiConfig.getInstance().isAutoReloadLastSessionChecked());
+        result = result || (autoStartHtmlBrowserCB.isSelected()
+                == QedeqGuiConfig.getInstance().isAutoStartHtmlBrowser());
+        if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
+            result = result || EqualsUtility.equals(connectionTimeoutTextField.getText(),
+                    "" + QedeqGuiConfig.getInstance().getConnectTimeout());
+        }
+        if (KernelContext.getInstance().isSetReadTimeoutSupported()) {
+            result = result || EqualsUtility.equals(readTimeoutTextField.getText(),
+                    "" + QedeqGuiConfig.getInstance().getReadTimeout());
+        }
+        if (!IoUtility.isWebStarted()) {
+            result = result || EqualsUtility.equals(httpProxyHostTextField.getText(),
+                    QedeqGuiConfig.getInstance().getHttpProxyHost());
+            result = result || EqualsUtility.equals(httpProxyPortTextField.getText(),
+                    QedeqGuiConfig.getInstance().getHttpProxyPort());
+            result = result || EqualsUtility.equals(httpNonProxyHostsTextField.getText(),
+                    QedeqGuiConfig.getInstance().getHttpNonProxyHosts());
+        }
+        return result;
+    }
+
+    void save() {
+        if (changed()) {
             try {
-                QedeqGuiConfig.getInstance().setBufferDirectory(bufferDirectory);
-                QedeqGuiConfig.getInstance().setGenerationDirectory(generationDirectory);
-                QedeqGuiConfig.getInstance().setLocalModulesDirectory(localModulesDirectory);
-                QedeqGuiConfig.getInstance().setAutomaticLogScroll(automaticLogScroll);
-                QedeqGuiConfig.getInstance().setDirectResponse(directResponse);
+                QedeqGuiConfig.getInstance().setBufferDirectory(new File(moduleBufferTextArea.getText()));
+                QedeqGuiConfig.getInstance().setGenerationDirectory(new File(generationPathTextArea.getText()));
+                QedeqGuiConfig.getInstance().setLocalModulesDirectory(new File(localModulesPathTextArea.getText()));
+                QedeqGuiConfig.getInstance().setAutomaticLogScroll(automaticLogScrollCB.isSelected());
+                QedeqGuiConfig.getInstance().setDirectResponse(directResponseCB.isSelected());
                 QedeqGuiConfig.getInstance().setAutoReloadLastSessionChecked(
-                    autoReloadLastSessionChecked);
-                QedeqGuiConfig.getInstance().setAutoStartHtmlBrowser(autoStartHtmlBrowser);
+                    autoReloadLastSessionCheckedCB.isSelected());
+                QedeqGuiConfig.getInstance().setAutoStartHtmlBrowser(autoStartHtmlBrowserCB.isSelected());
                 if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
                     QedeqGuiConfig.getInstance().setConnectionTimeout(Integer.parseInt(
                         connectionTimeoutTextField.getText()));
                 }
-                if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
+                if (KernelContext.getInstance().isSetReadTimeoutSupported()) {
                     QedeqGuiConfig.getInstance().setReadTimeout(Integer.parseInt(readTimeoutTextField.getText()));
                 }
                 if (!IoUtility.isWebStarted()) {
