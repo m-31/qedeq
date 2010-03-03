@@ -329,7 +329,7 @@ public class QedeqConfig {
      * @return  Http proxy host.
      */
     public final String getHttpProxyHost() {
-        return getKeyValue("http.proxyHost");
+        return getKeyValue("http.proxyHost", System.getProperty("http.proxyHost"));
     }
 
     /**
@@ -348,7 +348,7 @@ public class QedeqConfig {
      * @return  Http proxy port.
      */
     public final String getHttpProxyPort() {
-        return getKeyValue("http.proxyPort");
+        return getKeyValue("http.proxyPort", System.getProperty("http.proxyPort"));
     }
 
     /**
@@ -367,7 +367,7 @@ public class QedeqConfig {
      * @return  Http non proxy hosts.
      */
     public final String getHttpNonProxyHosts() {
-        return getKeyValue("http.nonProxyHosts");
+        return getKeyValue("http.nonProxyHosts", System.getProperty("http.nonProxyHosts"));
     }
 
     /**
