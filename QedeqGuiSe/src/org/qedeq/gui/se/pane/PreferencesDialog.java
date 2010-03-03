@@ -44,6 +44,7 @@ import javax.swing.filechooser.FileFilter;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.context.KernelContext;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
@@ -51,50 +52,53 @@ import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.FormLayout;
 
 /**
- * View for {@link QedeqBo}s.
+ * Configures the application.
  *
  * @author  Michael Meyling
  */
 
 public class PreferencesDialog extends JDialog {
 
+    /**  FIXME m31 20100303: dynamize pixel number for empty border */
+    private static final int DEFAULT_EMPTY_BORDER_PIXEL = 10;
+
     /** This class. */
     private static final Class CLASS = PreferencesDialog.class;
 
-    /** Timeout for making a TCP/IP connection.*/
+    /** Timeout for making a TCP/IP connection. */
     private JTextField connectionTimeoutTextField;
 
-    /** Timeout for reading from a TCP/IP connection.*/
+    /** Timeout for reading from a TCP/IP connection. */
     private JTextField readTimeoutTextField;
 
-    /** Automatic scroll of log pane.*/
+    /** Automatic scroll of log pane. */
     private JCheckBox automaticLogScrollCB;
 
-    /** Automatic reload of all modules that were successfully checked in last session.*/
+    /** Automatic reload of all modules that were successfully checked in last session. */
     private JCheckBox autoReloadLastSessionCheckedCB;
 
-    /** Response with a message box.*/
+    /** Response with a message box. */
     private JCheckBox directResponseCB;
 
-    /** Automatic start of default HTML browser after HTML generation.*/
+    /** Automatic start of default HTML browser after HTML generation. */
     private JCheckBox autoStartHtmlBrowserCB;
 
-    /** QEDEQ module buffer directory.*/
+    /** QEDEQ module buffer directory. */
     private JTextArea moduleBufferTextArea;
 
     /** Generation directory. */
     private JTextArea generationPathTextArea;
 
-    /** Directory for new local modules.*/
+    /** Directory for new local modules. */
     private JTextArea localModulesPathTextArea;
 
     /** HTTP proxy host.*/
     private JTextField httpProxyHostTextField;
 
-    /** HTTP proxy port.*/
+    /** HTTP proxy port. */
     private JTextField httpProxyPortTextField;
 
-    /** HTTP non proxy hosts.*/
+    /** HTTP non proxy hosts. */
     private JTextField httpNonProxyHostsTextField;
 
     /**
@@ -106,6 +110,7 @@ public class PreferencesDialog extends JDialog {
         Trace.begin(CLASS, this, method);
         try {
             setModalityType(DEFAULT_MODALITY_TYPE);
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             setupView();
             updateView();
         } catch (Throwable e) {
@@ -120,9 +125,7 @@ public class PreferencesDialog extends JDialog {
      */
     private JComponent buildTimeoutPanel() {
         FormLayout layout = new FormLayout(
-        "right:pref, 5dlu, fill:50dlu:grow");    // columns
-//            "right:pref, 5dlu, fill:50dlu:grow");    // columns
-//            + "pref, 3dlu, pref");                  // rows
+        "right:pref, 5dlu, fill:50dlu");    // columns
 
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -130,10 +133,17 @@ public class PreferencesDialog extends JDialog {
 
         builder.append("Connection Timeout");
         connectionTimeoutTextField = createTextField("" + QedeqGuiConfig.getInstance().getConnectTimeout(), true);
+        connectionTimeoutTextField.setToolTipText("Sets a specified timeout value, in milliseconds, to be used when"
+            + " opening a communications link a remote QEDEQ module. If the timeout expires before the connection can"
+            + " be established, an error occurs. A timeout of zero is interpreted as an infinite timeout.");
         builder.append(connectionTimeoutTextField);
 
         builder.append("Read Timeout");
         readTimeoutTextField = createTextField("" + QedeqGuiConfig.getInstance().getReadTimeout() , true);
+        readTimeoutTextField.setToolTipText("Sets the read timeout to a specified timeout, in milliseconds. A"
+           + " non-zero value specifies the timeout when reading from Input stream when a connection is established"
+           + " to a resource. If the timeout expires before there is data available for read, an error occurs. A"
+           + " timeout of zero is interpreted as an infinite timeout.");
         builder.append(readTimeoutTextField);
         return addSpaceAndTitle(builder.getPanel(), "Timeouts");
     }
@@ -163,9 +173,7 @@ public class PreferencesDialog extends JDialog {
                 return withTitle;
         } else {
             FormLayout layout = new FormLayout(
-            "right:pref, 5dlu, fill:50dlu:grow");    // columns
-//                "right:pref, 5dlu, fill:50dlu:grow");    // columns
-//                + "pref, 3dlu, pref");                  // rows
+                "left:pref, 5dlu, fill:pref:grow");    // columns
 
             DefaultFormBuilder builder = new DefaultFormBuilder(layout);
             builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -173,15 +181,22 @@ public class PreferencesDialog extends JDialog {
 
             builder.append("HTTP proxy host");
             httpProxyHostTextField = createTextField(QedeqGuiConfig.getInstance().getHttpProxyHost(), true);
+            httpProxyHostTextField.setToolTipText("Proxy server for the http protocol.");
             builder.append(httpProxyHostTextField);
 
             builder.append("HTTP proxy port");
             httpProxyPortTextField = createTextField(QedeqGuiConfig.getInstance().getHttpProxyPort(), true);
+            httpProxyPortTextField.setToolTipText("Proxy server port for the http protocol.");
             builder.append(httpProxyPortTextField);
 
             builder.append("HTTP non proxy hosts");
-            httpNonProxyHostsTextField = createTextField(QedeqGuiConfig.getInstance().getHttpNonProxyHosts(), true);
+            httpNonProxyHostsTextField = createTextField(StringUtility.replace(QedeqGuiConfig.getInstance()
+                .getHttpNonProxyHosts(), "|", ","), true);
             builder.append(httpNonProxyHostsTextField);
+            httpNonProxyHostsTextField.setToolTipText("Lists the hosts which should be connected to directly and"
+                + " not through the proxy server. The value can be a comma separated list of hosts, and in addition"
+                + " a wildcard character (*) can be used for matching. For example: *.foo.com,localhost");
+
             return addSpaceAndTitle(builder.getPanel(), "Proxy Settings");
         }
     }
@@ -319,18 +334,20 @@ public class PreferencesDialog extends JDialog {
             }
         });
 
+        return addSpaceAndTitle(builder.getPanel(), "Paths");
+    }
 
+    private JComponent addSpaceAndTitle(final JPanel panel, final String title) {
         JPanel withSpace = new JPanel();
-        withSpace.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // FIXME dynamize
-        withSpace.add(builder.getPanel());
+        withSpace.setBorder(BorderFactory.createEmptyBorder(DEFAULT_EMPTY_BORDER_PIXEL, DEFAULT_EMPTY_BORDER_PIXEL,
+            DEFAULT_EMPTY_BORDER_PIXEL, DEFAULT_EMPTY_BORDER_PIXEL));
+        withSpace.add(panel);
         withSpace.setLayout(new GridLayout(0, 1));
         JPanel withTitle = new JPanel();
-        withTitle.setBorder(BorderFactory.createTitledBorder("Paths"));
+        withTitle.setBorder(BorderFactory.createTitledBorder(title));
         withTitle.add(withSpace);
         withTitle.setLayout(new GridLayout(0, 1));
         return withTitle;
-
-//        return addSpaceAndTitle(builder.getPanel(), "Paths");
     }
 
     /**
@@ -339,8 +356,6 @@ public class PreferencesDialog extends JDialog {
     private JComponent buildBinaryOptionPanel() {
         FormLayout layout = new FormLayout(
         "left:pref");    // columns
-//            "right:pref, 5dlu, fill:50dlu:grow");    // columns
-//            + "pref, 3dlu, pref");                   // rows
 
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
@@ -366,25 +381,6 @@ public class PreferencesDialog extends JDialog {
     }
 
     /**
-     * Adds border space to a panel and surrounds it with a title border.
-     *
-     * @param   panel   Panel to decorate.
-     * @param   title   Title to use.
-     * @return  Panel with more decorations.
-     */
-    private JComponent addSpaceAndTitle(final JPanel panel, final String title) {
-        JPanel withSpace = new JPanel();
-//        withSpace.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        withSpace.add(panel);
-//        withSpace.setLayout(new GridLayout(0, 1));
-        JPanel withTitle = new JPanel();
-        withTitle.setBorder(BorderFactory.createTitledBorder(title));
-        withTitle.add(withSpace);
-        withTitle.setLayout(new FlowLayout(FlowLayout.LEFT));
-        return withTitle;
-    }
-
-    /**
      * Adds boarder space and floats panel to the right.
      *
      * @param   panel   Panel to decorate.
@@ -392,7 +388,6 @@ public class PreferencesDialog extends JDialog {
      */
     private JComponent addSpaceAndAlignRight(final JPanel panel) {
         JPanel withSpace = new JPanel();
-//        withSpace.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // FIXME dynamize
         withSpace.add(panel);
         JPanel alignRight = new JPanel();
         alignRight.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -405,9 +400,9 @@ public class PreferencesDialog extends JDialog {
      */
     public final void setupView() {
         setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        //A border that puts 10 extra pixels at the sides and
-        //bottom of each pane.
-        Border paneEdge = BorderFactory.createEmptyBorder(10, 10, 10, 10); // FIXME dynamize
+        // A border that puts extra pixels at the sides and bottom of each pane.
+        Border paneEdge = BorderFactory.createEmptyBorder(DEFAULT_EMPTY_BORDER_PIXEL, DEFAULT_EMPTY_BORDER_PIXEL,
+             DEFAULT_EMPTY_BORDER_PIXEL, DEFAULT_EMPTY_BORDER_PIXEL);
         JPanel allOptions = new JPanel();
         allOptions.setBorder(paneEdge);
         allOptions.setLayout(new BoxLayout(allOptions, BoxLayout.Y_AXIS));
@@ -522,9 +517,16 @@ public class PreferencesDialog extends JDialog {
                     QedeqGuiConfig.getInstance().setReadTimeout(Integer.parseInt(readTimeoutTextField.getText()));
                 }
                 if (!IoUtility.isWebStarted()) {
-                    QedeqGuiConfig.getInstance().setHttpProxyHost(httpProxyHostTextField.getText());
-                    QedeqGuiConfig.getInstance().setHttpProxyPort(httpProxyPortTextField.getText());
-                    QedeqGuiConfig.getInstance().setHttpNonProxyHosts(httpNonProxyHostsTextField.getText());
+                    QedeqGuiConfig.getInstance().setHttpProxyHost(httpProxyHostTextField.getText().trim());
+                    QedeqGuiConfig.getInstance().setHttpProxyPort(httpProxyPortTextField.getText().trim());
+                    StringBuffer httpNonProxyHosts = new StringBuffer(httpNonProxyHostsTextField.getText().trim());
+                    StringUtility.replace(httpNonProxyHosts, " ", "|");
+                    StringUtility.replace(httpNonProxyHosts, "\t", "|");
+                    StringUtility.replace(httpNonProxyHosts, "\r", "|");
+                    StringUtility.replace(httpNonProxyHosts, ",", "|");
+                    StringUtility.replace(httpNonProxyHosts, ";", "|");
+                    StringUtility.replace(httpNonProxyHosts, "||", "|");
+                    QedeqGuiConfig.getInstance().setHttpNonProxyHosts(httpNonProxyHosts.toString());
                 }
             } catch (RuntimeException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Error",
@@ -541,3 +543,4 @@ public class PreferencesDialog extends JDialog {
     }
 
 }
+
