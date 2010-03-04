@@ -200,12 +200,12 @@ currently in ants classpath
     </target>
                 
     <target name="findbugs" description="run findbugs" depends="">
-        <findbugsReport  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"     />
-        <findbugsReport  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"     />
-        <findbugsReport  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"     />
-        <findbugsReport  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"     />
-        <findbugsReport  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate"  /> 
-        <findbugsReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.aggregate"  />
+        <findbugsReport  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" />
+        <findbugsReport  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" />
+        <findbugsReport  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" />
+        <findbugsReport  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" />
+        <findbugsReport  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate" excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" /> 
+        <findbugsReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.aggregate" excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" />
     </target>
                 
     <target name="package" description="generate jars" depends="compile">

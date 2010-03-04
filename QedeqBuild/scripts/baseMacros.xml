@@ -356,7 +356,8 @@
     <macrodef name="findbugsReport">
         <attribute name="name" />  <!-- artifact name -->
         <attribute name="dir" />   <!-- destination directory -->
-        <attribute name="classpath" />   <!-- refid for test runtime classpath -->
+        <attribute name="classpath" />      <!-- refid for test runtime classpath -->
+    	<attribute name="excludeFilter" />  <!-- exclude these bug types -->
         <sequential>
             <echo>findbugs @{name} with $${findbugs.home}=${findbugs.home}</echo>
 
@@ -364,12 +365,14 @@
 
             <delete dir="@{dir}/target/reports/findbugs" failonerror="false" />
             <mkdir dir="@{dir}/target/reports/findbugs/data" />
+            <copy file="" todir="@{dir}/target/reports/findbugs/data" />
             <mkdir dir="@{dir}/target/reports/findbugs/report" />
 <!--            jvmargs="-Xmx1024m -Xms1024m -XX:MaxPermSize=512m" -->
             <findbugs home="${findbugs.home}"
               output="xml"
               outputFile="@{dir}/target/reports/findbugs/data/@{name}-fb.xml"
-              jvmargs="-Xmx512m -Xms512m -XX:MaxPermSize=256m" 
+              jvmargs="-Xmx512m -Xms512m -XX:MaxPermSize=256m"
+              excludeFilter="@{excludeFilter}"
             >
                 <auxClasspath path="${findbugs.aux.classpath.@{name}}" />
                 <sourcePath path="@{dir}/src/main/java" />
