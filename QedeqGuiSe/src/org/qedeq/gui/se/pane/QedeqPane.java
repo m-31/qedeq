@@ -137,10 +137,6 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
     }
 
 
-    public QedeqBo getModel() {
-        return prop;
-    }
-
     public void setLineWrap(final boolean wrap) {
         qedeq.setLineWrap(wrap);
     }
@@ -304,7 +300,7 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
      * @param   errorNumber Selected error number. Starts with 0.
      * @param   sf          Selected error.
      */
-    public void selectError(final int errorNumber, final SourceFileException sf) {
+    public synchronized void selectError(final int errorNumber, final SourceFileException sf) {
         if (marker != null) {
             this.requestFocus();
             qedeq.requestFocus();
