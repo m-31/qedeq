@@ -19,13 +19,11 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import org.qedeq.gui.se.pane.Preferences;
 import org.qedeq.gui.se.pane.PreferencesDialog;
 
 /**
  * Show preferences window.
  *
- * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 class PreferencesAction extends AbstractAction {
