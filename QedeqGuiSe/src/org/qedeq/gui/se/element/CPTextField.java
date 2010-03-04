@@ -28,7 +28,6 @@ import javax.swing.JTextField;
 /**
  * TextField with Cut and Paste.
  *
- * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public class CPTextField extends JTextField {
@@ -56,10 +55,9 @@ public class CPTextField extends JTextField {
     /**
      * Clipboard listener.
      *
-     * @version $Revision: 1.2 $
-     * @author    Michael Meyling
+     * @author  Michael Meyling
      */
-    private class ClipboardListener extends MouseAdapter implements ActionListener {
+    private static class ClipboardListener extends MouseAdapter implements ActionListener {
 
         /** Popup menu. */
         private final JPopupMenu popedit;
