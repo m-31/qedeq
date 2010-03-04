@@ -107,7 +107,12 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
 
         }) {
 
-        // Implement table cell tool tips: just return the error message
+        /**
+         * Just return the error message of the row.
+         *
+         * @param  e   Mouse event.
+         * @return Tool tip text.
+         */
         public String getToolTipText(final MouseEvent e) {
             String tip = null;
             java.awt.Point p = e.getPoint();
@@ -229,11 +234,16 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
      *
      * @param   prop
      */
-    public void setModel(final QedeqBo prop) {
+    public synchronized void setModel(final QedeqBo prop) {
         Trace.trace(CLASS, this, "setModel", prop);
         if (!EqualsUtility.equals(this.prop, prop)) {
             this.prop = prop;
-            updateView();
+            Runnable setModel = new Runnable() {
+                public void run() {
+                    updateView();
+                }
+            };
+            SwingUtilities.invokeLater(setModel);
         }
     }
 
@@ -253,37 +263,38 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
     }
 
     public void addModule(final QedeqBo p) {
-        Runnable addModule = new Runnable() {
-            public void run() {
-                if (prop != null && prop.equals(p)) {
+        if (prop != null && prop.equals(p)) {
+            Runnable addModule = new Runnable() {
+                public void run() {
                     updateView();
                 }
-            }
-        };
-        SwingUtilities.invokeLater(addModule);
+            };
+            SwingUtilities.invokeLater(addModule);
+        }
     }
 
     public void stateChanged(final QedeqBo p) {
-        Runnable stateChanged = new Runnable() {
-            public void run() {
-                if (prop != null && prop.equals(p)) {
+        if (prop != null && prop.equals(p)) {
+            Runnable stateChanged = new Runnable() {
+                public void run() {
                     updateView();
                 }
-            }
-        };
-        SwingUtilities.invokeLater(stateChanged);
+            };
+            SwingUtilities.invokeLater(stateChanged);
+        }
     }
 
     public void removeModule(final QedeqBo p) {
-        Runnable removeModule = new Runnable() {
-            public void run() {
-                if (prop != null && prop.equals(p)) {
-                    prop = null;
+        if (prop != null && prop.equals(p)) {
+            prop = null;
+            Runnable removeModule = new Runnable() {
+                public void run() {
                     updateView();
                 }
-            }
+            };
+            SwingUtilities.invokeLater(removeModule);
         };
-        SwingUtilities.invokeLater(removeModule);
     }
 
 }
+

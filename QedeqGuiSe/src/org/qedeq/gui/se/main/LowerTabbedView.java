@@ -77,21 +77,14 @@ public final class LowerTabbedView extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
     }
 
-
     public void setQedeqModel(final QedeqBo model) {
+        prop = model;
         errorListPane.setModel(model);
-        if (prop != model) {
-            prop = model;
-            updateView();
-        }
     }
 
     public QedeqBo getQedeqModel() {
         return prop;
     }
 
-    public final void updateView() {
-        errorListPane.updateView();
-    }
-
 }
+
