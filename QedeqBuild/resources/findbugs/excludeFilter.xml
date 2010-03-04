@@ -1,4 +1,4 @@
-<FindBugsFilter>
+<BugCollection>
 
 <!--  DOCUMENTATION SAMPLES, PRODUCTIVE SEE BELOW -->
 
@@ -36,4 +36,4 @@
         <Bug code="RV" />
     </Match>
 
-</FindBugsFilter>
+</BugCollection>
