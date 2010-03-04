@@ -293,7 +293,7 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
                 }
             };
             SwingUtilities.invokeLater(removeModule);
-        };
+        }
     }
 
 }
