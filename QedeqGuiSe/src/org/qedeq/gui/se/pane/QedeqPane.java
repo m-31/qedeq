@@ -180,9 +180,8 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
                                         to, sa.getEndPosition().getColumn() - 1);
                                     continue;
                                 }
-                            } catch (BadLocationException e) {
-                                // TODO Auto-generated catch block
-                                e.printStackTrace();
+                            } catch (BadLocationException e) {  // should not occur
+                                Trace.fatal(CLASS, this, "updateView", "Programming error?", e);
                             }
                         }
                         marker.addEmptyBlock();
