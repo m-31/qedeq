@@ -25,11 +25,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JViewport;
+import javax.swing.SwingUtilities;
 import javax.swing.plaf.TextUI;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.BadLocationException;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.ErrorSelectionListener;
 import org.qedeq.gui.se.control.ErrorSelectionListenerList;
 import org.qedeq.gui.se.util.CurrentLineHighlighterUtility;
@@ -121,10 +123,17 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
      *
      * @param   prop
      */
-    public void setModel(final QedeqBo prop) {
+    public synchronized void setModel(final QedeqBo prop) {
         Trace.trace(CLASS, this, "setModel", prop);
-        this.prop = prop;
-        updateView();
+        if (!EqualsUtility.equals(this.prop, prop)) {
+            this.prop = prop;
+            Runnable setModel = new Runnable() {
+                public void run() {
+                    updateView();
+                }
+            };
+            SwingUtilities.invokeLater(setModel);
+        }
     }
 
 
