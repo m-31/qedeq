@@ -59,7 +59,7 @@ import com.jgoodies.forms.layout.FormLayout;
 
 public class PreferencesDialog extends JDialog {
 
-    /**  FIXME m31 20100303: dynamize pixel number for empty border */
+    /**  Width of empty border. TODO m31 20100303: dynamize pixel number for empty border */
     private static final int DEFAULT_EMPTY_BORDER_PIXEL = 10;
 
     /** This class. */
