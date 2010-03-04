@@ -93,9 +93,9 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
     /**
      * Creates new Panel.
      */
-    public QedeqPane(final QedeqBo prop) {
+    public QedeqPane() {
         super(false);
-        this.prop = prop;
+        this.prop = null;
         setupView();
         updateView();
         // add this instance as error selection listener

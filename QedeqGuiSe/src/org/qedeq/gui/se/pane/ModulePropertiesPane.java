@@ -60,9 +60,9 @@ public class ModulePropertiesPane extends JPanel {
     /**
      * Creates new Panel.
      */
-    public ModulePropertiesPane(final QedeqBo prop) {
+    public ModulePropertiesPane() {
         super();
-        this.prop = prop;
+        this.prop = null;
         setupView();
         updateView();
     }

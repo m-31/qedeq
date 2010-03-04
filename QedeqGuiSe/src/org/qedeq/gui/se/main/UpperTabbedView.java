@@ -66,9 +66,9 @@ public final class UpperTabbedView extends JPanel implements ErrorSelectionListe
      */
     public UpperTabbedView() {
         try {
-            propertiesPane = new ModulePropertiesPane(prop);
-            qedeqPane = new QedeqPane(prop);
-            htmlPane = new HtmlPane(prop);
+            propertiesPane = new ModulePropertiesPane();
+            qedeqPane = new QedeqPane();
+            htmlPane = new HtmlPane();
             tabbedPane.addTab("State", null, propertiesPane, "Shows Status of Module");
             tabbedPane.addTab("QEDEQ", null, qedeqPane, "Shows Module in QEDEQ Syntax");
 /*

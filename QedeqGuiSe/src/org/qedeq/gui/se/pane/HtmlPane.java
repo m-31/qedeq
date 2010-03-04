@@ -71,11 +71,11 @@ public class HtmlPane extends JPanel {
     /**
      * Creates new Panel.
      */
-    public HtmlPane(final QedeqBo prop) {
+    public HtmlPane() {
         super(false);
-        this.prop = prop;
-        this.currentAddress = prop == null ? null : prop.getModuleAddress();
-        this.currentState = prop == null ? null : prop.getLoadingState();
+        this.prop = null;
+        this.currentAddress = null;
+        this.currentState = null;
         setupView();
         updateView();
     }
