@@ -6,7 +6,7 @@
         This is the Ant build file library for building the Se release of project Hilbert II.
         Herein are macro definitons to make releasing easier.   
     </description>
-    
+
     <!-- Delete all generated files -->
     <macrodef name="clean">
         <attribute name="name" />  <!-- artifact name -->
@@ -365,9 +365,8 @@
 
             <delete dir="@{dir}/target/reports/findbugs" failonerror="false" />
             <mkdir dir="@{dir}/target/reports/findbugs/data" />
-            <copy file="" todir="@{dir}/target/reports/findbugs/data" />
+            <copy file="@{excludeFilter}" todir="@{dir}/target/reports/findbugs/data" />
             <mkdir dir="@{dir}/target/reports/findbugs/report" />
-<!--            jvmargs="-Xmx1024m -Xms1024m -XX:MaxPermSize=512m" -->
             <findbugs home="${findbugs.home}"
               output="xml"
               outputFile="@{dir}/target/reports/findbugs/data/@{name}-fb.xml"
