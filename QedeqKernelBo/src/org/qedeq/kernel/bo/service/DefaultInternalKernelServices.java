@@ -21,6 +21,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.Reader;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
@@ -836,7 +837,12 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             // throw new IllegalStateException("module is not yet buffered " + address);
         }
         final StringBuffer buffer = new StringBuffer();
-        IoUtility.loadReader(getQedeqFileDao().getModuleReader(bo), buffer);
+        final Reader reader = getQedeqFileDao().getModuleReader(bo);
+        try {
+            IoUtility.loadReader(reader, buffer);
+        } finally {
+            IoUtility.close(reader);
+        }
         return buffer.toString();
     }
 
