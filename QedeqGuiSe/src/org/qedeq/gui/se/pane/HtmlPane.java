@@ -41,7 +41,7 @@ import org.qedeq.kernel.common.ModuleAddress;
  *
  * TODO mime 20070606: not implemented yet
  *
- * @version $Revision: 1.6 $
+ * @deprecated  Not ready for usage.
  * @author  Michael Meyling
  */
 
