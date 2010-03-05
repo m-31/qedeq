@@ -333,7 +333,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     private void setCopiedQedeq(final DefaultKernelQedeqBo prop, final Qedeq qedeq)
             throws SourceFileExceptionList {
-        final String method = "setCopiedQedeq(KernelQedeqBo, Qedeq)";
+        final String method = "setCopiedQedeq(DefaultKernelQedeqBo, Qedeq)";
         prop.setLoadingProgressState(LoadingState.STATE_LOADING_INTO_MEMORY);
         QedeqVo vo = null;
         try {
@@ -363,7 +363,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * @throws ModuleFileNotFoundException File doesn't exist or is not readable.
      */
     private File getCanonicalReadableFile(final QedeqBo prop) throws ModuleFileNotFoundException {
-        final String method = "checkLocalBuffer(File)";
+        final String method = "getCanonicalReadableFile(File)";
         final File localFile = getLocalFilePath(prop.getModuleAddress());
         final File file;
         try {
@@ -537,7 +537,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      */
     public void saveQedeqFromWebToBuffer(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
-        final String method = "makeLocalCopy";
+        final String method = "saveQedeqFromWebToBuffer(DefaultKernelQedeqBo)";
         Trace.begin(CLASS, this, method);
 
         // set proxy properties according to kernel configuration (if not webstarted)
@@ -665,7 +665,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      */
     public void saveQedeqFromWebToBufferNew(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
-        final String method = "makeLocalCopy";
+        final String method = "saveQedeqFromWebToBufferNew(DefaultKernelQedeqBo)";
         Trace.begin(CLASS, this, method);
 
         if (prop.getModuleAddress().isFileAddress()) { // this is already a local file
@@ -740,21 +740,27 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * @return Result of transformation.
      */
     public final File getLocalFilePath(final ModuleAddress address) {
-        final String method = "localizeInFileSystem(URL)";
+        final String method = "getLocalFilePath(ModuleAddress)";
         URL url;
         try {
             url = new URL(address.getUrl());
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         }
-        if (address.isFileAddress()) {
-            return new File(url.getFile());
-        }
         Trace.param(CLASS, this, method, "protocol", url.getProtocol());
         Trace.param(CLASS, this, method, "host", url.getHost());
         Trace.param(CLASS, this, method, "port", url.getPort());
         Trace.param(CLASS, this, method, "path", url.getPath());
         Trace.param(CLASS, this, method, "file", url.getFile());
+        if (address.isFileAddress()) {
+            try {
+                return IoUtility.toFile(url.getFile());
+            } catch (IllegalArgumentException e) {
+                // should not occur because check for validy must be done in constructor of address
+                Trace.fatal(CLASS, this, method, "Loading failed of local file with URL=" + url, e);
+                throw new RuntimeException(e);
+            }
+        }
         StringBuffer file = new StringBuffer(url.getFile());
         StringUtility.replace(file, "_", "_1"); // remember all '_'
         StringUtility.replace(file, "/", "_2"); // preserve all '/'
@@ -763,7 +769,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             encoded = URLEncoder.encode(file.toString(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             // should not occur
-            Trace.trace(CLASS, "getLocalFilePath(ModuleAddress)", e);
+            Trace.trace(CLASS, method, e);
         }
         file.setLength(0);
         file.append(encoded);
@@ -775,7 +781,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             adr = new StringBuffer(new URL(url.getProtocol(), url.getHost(), url.getPort(), file
                 .toString()).toExternalForm());
         } catch (MalformedURLException e) {
-            Trace.fatal(CLASS, this, "getLocalFilePath(ModuleAddress)", "unexpected", e);
+            Trace.fatal(CLASS, this, method, "unexpected", e);
             throw new RuntimeException(e);
         }
         // escape characters:
