@@ -37,7 +37,6 @@ import org.qedeq.kernel.bo.log.LogListener;
 /**
  * Global log. All events are displayed here.
  *
- * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 
@@ -231,3 +230,4 @@ public class LogPane extends JPanel implements LogListener {
     }
 
 }
+
