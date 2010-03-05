@@ -67,8 +67,7 @@ import org.qedeq.kernel.dto.module.QedeqVo;
 /**
  * This class provides a default implementation for the QEDEQ module services.
  *
- * @version $Revision: 1.2 $
- * @author Michael Meyling
+ * @author  Michael Meyling
  */
 public class DefaultInternalKernelServices implements KernelServices, InternalKernelServices {
 

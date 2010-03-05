@@ -22,7 +22,6 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * Check failed error for an required QEDEQ module.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class CheckRequiredModuleException extends ModuleDataException {
