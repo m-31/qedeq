@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.bo.QedeqBo;
@@ -64,7 +65,7 @@ class RemoveModuleAction extends AbstractAction {
                     try {
                         for (int i = 0; i < props.length; i++) {
                             QedeqLog.getInstance().logRequest("Removing module \""
-                                + props[i].getUrl() + "\"");
+                                + IoUtility.easyUrl(props[i].getUrl()) + "\"");
                             KernelContext.getInstance().removeModule(props[i].getModuleAddress());
                         }
                     } catch (final RuntimeException e) {
