@@ -236,7 +236,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 if (prop.isLoaded()) {
                     return prop;
                 }
-                QedeqLog.getInstance().logRequest("Load module \"" + address + "\"");
+                QedeqLog.getInstance().logRequest("Load module \"" + IoUtility.easyUrl(address.getUrl()) + "\"");
                 if (prop.getModuleAddress().isFileAddress()) {
                     loadLocalModule(prop);
                 } else {
@@ -255,7 +255,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             }
         } catch (SourceFileExceptionList e) {
             Trace.trace(CLASS, this, method, e);
-            QedeqLog.getInstance().logFailureState("Loading of module failed!", address.getUrl(),
+            QedeqLog.getInstance().logFailureState("Loading of module failed!", IoUtility.easyUrl(address.getUrl()),
                 e.toString());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
@@ -856,7 +856,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
         try {
             QedeqLog.getInstance().logRequest(
-                "Check logical correctness for \"" + prop.getUrl() + "\"");
+                "Check logical correctness for \"" + IoUtility.easyUrl(prop.getUrl()) + "\"");
             loadModule(address);
             if (!prop.isLoaded()) {
                 final String msg = "Check of logical correctness failed for \"" + address.getUrl()
@@ -866,7 +866,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             }
             LoadRequiredModules.loadRequired(prop);
             if (!prop.hasLoadedRequiredModules()) {
-                final String msg = "Check of logical correctness failed for \"" + address.getUrl()
+                final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())
                 + "\"";
                 QedeqLog.getInstance().logFailureReply(msg, "Not all required modules could be loaded.");
                 return false;
@@ -874,13 +874,13 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
             QedeqBoFormalLogicChecker.check(prop);
             QedeqLog.getInstance().logSuccessfulReply(
-                "Check of logical correctness successful for \"" + prop.getUrl() + "\"");
+                "Check of logical correctness successful for \"" + IoUtility.easyUrl(prop.getUrl()) + "\"");
         } catch (final SourceFileExceptionList e) {
-            final String msg = "Check of logical correctness failed for \"" + address.getUrl()
+            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
         } catch (final RuntimeException e) {
-            final String msg = "Check of logical correctness failed for \"" + address.getUrl()
+            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())
                 + "\"";
             Trace.fatal(CLASS, this, method, msg, e);
             final SourceFileExceptionList xl = new DefaultSourceFileExceptionList(e);
