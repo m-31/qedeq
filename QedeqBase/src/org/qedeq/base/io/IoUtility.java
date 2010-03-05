@@ -1175,4 +1175,20 @@ public final class IoUtility {
         return result;
     }
 
+    public static String easyUrl(final String url) {
+        String result = url;
+        try {
+            final URL u = new URL(url);
+            // is this a file URL?
+            if (u.getProtocol().equalsIgnoreCase("file")) {
+                return toFile(u.getFile()).getCanonicalPath();
+            }
+        } catch (RuntimeException e) {
+            //  ignore
+        } catch (IOException e) {
+            //  ignore
+        }
+        return result;
+    }
+
 }
