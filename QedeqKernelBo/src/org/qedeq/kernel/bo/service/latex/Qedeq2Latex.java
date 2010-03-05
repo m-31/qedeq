@@ -155,7 +155,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             KernelContext.getInstance().checkModule(prop.getModuleAddress());
         } catch (Exception e) {
             // we continue and ignore external predicates
-            Trace.trace(CLASS, "print(QedeqBo, TextOutput, String, String)", e);
+            Trace.trace(CLASS, "generateLatex(KernelQedeqBo, TextOutput, String, String)", e);
         }
         String tex = prop.getModuleAddress().getFileName();
         if (tex.toLowerCase(Locale.US).endsWith(".xml")) {
