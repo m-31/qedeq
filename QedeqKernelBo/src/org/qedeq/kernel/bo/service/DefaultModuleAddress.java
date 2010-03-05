@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.module.LocationList;
 import org.qedeq.kernel.base.module.Specification;
@@ -92,8 +93,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      * @throws  MalformedURLException   Address is formally incorrect.
      */
     public DefaultModuleAddress(final File file) throws MalformedURLException {
-// FIXME 20080804: now less bugs?        this(IoUtility.toUrl(file));
-        this(file.toURL());
+        this(IoUtility.toUrl(file));
     }
 
     /**
