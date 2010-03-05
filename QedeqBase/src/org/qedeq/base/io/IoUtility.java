@@ -36,6 +36,7 @@ import java.io.Writer;
 import java.lang.reflect.Field;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -812,6 +813,21 @@ public final class IoUtility {
         try {
             return file.toURI().toURL();
         } catch (MalformedURLException e) { // should only happen if there is a bug in the JDK
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
+     * Convert URL path in file. Call this method with the value of URL.getQuery().
+     *
+     * @param   path    Convert this URL path.
+     * @throws  IllegalArgumentException    Path has not the correct format.
+     * @return  File.
+     */
+    public static File toFile(final String path) {
+        try {
+            return new File(URLDecoder.decode(path, "UTF-8"));
+        } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
     }
