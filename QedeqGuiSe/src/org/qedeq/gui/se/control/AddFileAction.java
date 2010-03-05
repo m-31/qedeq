@@ -81,11 +81,7 @@ class AddFileAction extends AbstractAction {
         final ModuleAddress address;
 
         try {
-//              LATER causes problems: leads to "%20" entries for spaces
-//                url = chooser.getSelectedFile().toURI().toURL().toString();
-//              these must be converted like:
-//                "URI File=" + new File(new URI(this.address)).getAbsoluteFile()
-            // remember directory
+            // remember parent directory
             file = chooser.getSelectedFile().getParentFile();
 
             QedeqGuiConfig.getInstance().setFileBrowserStartDirecty(file);
