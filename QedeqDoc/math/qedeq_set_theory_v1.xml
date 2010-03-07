@@ -1113,7 +1113,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Direkt aus \qref{rule:classDefinition} bekommen wir a) mittels Quantorenelimination und einam Identitätsgestz. Mit \qref{theorem:extensonalityEquivalence} erhalten wir b) und c). Ebenfalls mit Identitätsgesetzen  bekommen wir d) und e). 
+                  Direkt aus \qref{rule:classDefinition} bekommen wir a) mittels Quantorenelimination und einem Identitätsgesetz. Mit \qref{theorem:extensonalityEquivalence} erhalten wir b) und c). Ebenfalls mit Identitätsgesetzen  bekommen wir d) und e). 
                 ]]>
               </LATEX>
             </PROOF>
