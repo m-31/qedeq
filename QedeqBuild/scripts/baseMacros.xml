@@ -380,7 +380,7 @@
         </sequential>
     </macrodef>
 
-    <!-- run jdepend" and write report to "reports" -->
+    <!-- run "jdepend" and write report to "reports" -->
     <macrodef name="jdependReport">
         <attribute name="name" />  <!-- artifact name -->
         <attribute name="dir" />   <!-- destination directory -->
@@ -393,7 +393,10 @@
                      outputfile="@{dir}/target/reports/jdepend/report/jdepend-report.txt">
               <exclude name="java.*"/>
               <exclude name="javax.*"/>
-              <classpath refid="@{classpath}" />
+              <classespath refid="@{classpath}" />
+              <classpath>
+                  <pathelement location="${qedeq.lib}/jdepend-2.9.jar" /> 
+              </classpath>
             </jdepend> 
         </sequential>
     </macrodef>
