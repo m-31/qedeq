@@ -389,8 +389,9 @@
             <echo>jdepend @{name}</echo>
             <delete dir="@{dir}/target/reports/jdepend" failonerror="false" />
             <mkdir dir="@{dir}/target/reports/jdepend/report" />
-            <jdepend fork="yes" 
-                     outputfile="@{dir}/target/reports/jdepend/report/jdepend-report.txt">
+            <jdepend fork="yes"
+                     format="xml"
+                     outputfile="@{dir}/target/reports/jdepend/report/jdepend-report.xml">
               <exclude name="java.*"/>
               <exclude name="javax.*"/>
               <classespath refid="@{classpath}" />
