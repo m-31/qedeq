@@ -72,7 +72,6 @@ import org.qedeq.kernel.dto.module.NodeVo;
  * TODO mime 20080330: we should be able to generate a authors help LaTeX document that contains the
  *                     labels in the generated document. So referencing is a lot easier...
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Qedeq2Latex extends ControlVisitor {
@@ -113,7 +112,7 @@ public final class Qedeq2Latex extends ControlVisitor {
      * @param   prop            QEDEQ BO object.
      * @param   printer         Print herein.
      * @param   language        Filter text to get and produce text in this language only.
-     * @param   level           Filter for this detail level. LATER mime 20050205: not supported
+     * @param   level           Filter for this detail level. LATER mime 20050205: not yet supported
      *                          yet.
      */
     private Qedeq2Latex(final KernelQedeqBo prop,
@@ -830,10 +829,15 @@ public final class Qedeq2Latex extends ControlVisitor {
                 if (pos2 < 0) {
                     break;
                     // just let LaTeX find the errors
-                    // LATER mime 20080325: add warning
+                    // FIXME mime 20100308: add warning
                 }
-                String ref = result.substring(pos, pos2);
+                String ref = result.substring(pos, pos2).trim();
                 Trace.param(CLASS, this, method, "1 ref", ref);
+                if (ref.length() <= 0) {
+                    break;
+                    // just let LaTeX find the errors
+                    // FIXME mime 20100308: add warning
+                }
 
                 // exists a sub reference?
                 String sub = "";
@@ -843,7 +847,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                     if (pos2 < 0) {
                         break;
                         // just let LaTeX find the errors
-                        // LATER mime 20080325: add warning
+                        // FIXME mime 20100308: add warning
                     }
                     sub = result.substring(posb + 1, pos2);
                     Trace.param(CLASS, this, method, "sub", sub);
@@ -880,14 +884,14 @@ public final class Qedeq2Latex extends ControlVisitor {
                     Trace.info(CLASS, this, method, "node not found for " + ref);
                 }
                 if (label.length() <= 0) {
-                    final String display = getDisplay(ref, node);
+                    final String display = getDisplay(ref, node, false);
                     result.replace(pos1, pos2 + 1, display + "~\\ref{" + ref + "}"
                         + (sub.length() > 0 ? " (" + sub + ")" : ""));
                 } else {
                     if (ref.length() <= 0) {
                         result.replace(pos1, pos2 + 1, "\\url{" + getPdfLink(prop) + "}");
                     } else {
-                        final String display = getDisplay(ref, node);
+                        final String display = getDisplay(ref, node, false);
                         result.replace(pos1, pos2 + 1, "\\hyperref{" + getPdfLink(prop) + "}{}{"
                             + ref + (sub.length() > 0 ? ":" + sub : "")
                             + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "") + "}");
@@ -901,16 +905,17 @@ public final class Qedeq2Latex extends ControlVisitor {
 
     /**
      * Get text to display for a link.
-     * TODO mime 20080330: refactor language dependent code
+     * LATER m31 20100308: refactor language dependent code
      *
      * @param   ref     Reference label.
      * @param   node    Node to link to. Might be <code>null</code>.
+     * @param   useName Use name if it exists.
      * @return  Display text.
      */
-    private String getDisplay(final String ref, final NodeVo node) {
+    private String getDisplay(final String ref, final NodeVo node, final boolean useName) {
         String display = ref;
         if (node != null) {
-            if (node.getName() != null) {
+            if (useName && node.getName() != null) {
                 display = getLatexListEntry(node.getName());
             } else {
                 if (node.getNodeType() instanceof Axiom) {
