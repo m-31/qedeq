@@ -42,7 +42,11 @@ currently in ants classpath
     <taskdef resource="checkstyletask.properties" classpath="${qedeq.lib}/checkstyle-all-4.4.jar" />
 
     <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${qedeq.lib}/findbugs-ant.jar" />
-    
+
+<!--
+    <taskdef name="jdepend" classname="org.apache.tools.ant.taskdefs.optional.jdepend.JDependTask" classpath="${qedeq.lib}/jdepend-2.9.jar" />
+-->
+
     <tstamp>
         <format property="qedeq.se.timestamp" pattern="yyyy-MM-dd HH:mm:ss" timezone="GMT"/>
         <format property="qedeq.se.buildId" pattern="yyyyMMddHHmmss" timezone="GMT"/>
@@ -72,6 +76,7 @@ currently in ants classpath
         <pathelement location="${qedeq.lib}/looks-2.1.4.jar" />
         <pathelement location="${qedeq.lib}/clover-2.3.1.jar" />
         <pathelement location="${qedeq.lib}/jh-2.0.5.jar" />
+        <pathelement location="${qedeq.lib}/jdepend-2.9.jar" />
     </path>
     
     <path id="classpath.common">
@@ -207,7 +212,16 @@ currently in ants classpath
         <findbugsReport  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate" excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" /> 
         <findbugsReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.aggregate" excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" />
     </target>
-                
+
+    <target name="jdepend" description="run jdepend" depends="">
+        <jdependReport  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" />
+        <jdependReport  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" />
+        <jdependReport  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common" />
+        <jdependReport  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common" />
+        <jdependReport  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate" />
+        <jdependReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.aggregate" />
+    </target>
+
     <target name="package" description="generate jars" depends="compile">
         <delete dir="${qedeq.temp}" />
         <mkdir dir="${qedeq.temp}" />
@@ -311,7 +325,7 @@ currently in ants classpath
         </copy>
     </target>
 
-    <target name="assemble" depends="doc,package,test,pest,sourceHtml,checkstyle,findbugs">
+    <target name="assemble" depends="doc,package,test,pest,sourceHtml,checkstyle,findbugs,jdepend">
         <!-- copy libraries -->   
         <delete dir="${qedeq.dest}/lib" />
         <mkdir dir="${qedeq.dest}/lib" />

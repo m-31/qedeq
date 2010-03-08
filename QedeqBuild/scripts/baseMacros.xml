@@ -380,6 +380,24 @@
         </sequential>
     </macrodef>
 
+    <!-- run jdepend" and write report to "reports" -->
+    <macrodef name="jdependReport">
+        <attribute name="name" />  <!-- artifact name -->
+        <attribute name="dir" />   <!-- destination directory -->
+        <attribute name="classpath" />      <!-- refid for test runtime classpath -->
+        <sequential>
+            <echo>jdepend @{name}</echo>
+            <delete dir="@{dir}/target/reports/jdepend" failonerror="false" />
+            <mkdir dir="@{dir}/target/reports/jdepend/report" />
+            <jdepend fork="yes" 
+                     outputfile="@{dir}/target/reports/jdepend/report/jdepend-report.txt">
+              <exclude name="java.*"/>
+              <exclude name="javax.*"/>
+              <classpath refid="@{classpath}" />
+            </jdepend> 
+        </sequential>
+    </macrodef>
+
     <!-- copy "reports" entries to assembly -->
     <macrodef name="assembleReports">
         <attribute name="name" />  <!-- artifact name -->
