@@ -589,7 +589,7 @@
                 ]]>
               </LATEX>
             </PROOF>
-            <PROOF kind="informal" level="1">
+            <PROOF kind="informal" level="2">
               <LATEX language="en">
                 <![CDATA[
                   \mbox{}
