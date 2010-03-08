@@ -392,8 +392,11 @@
             <jdepend fork="yes"
                      format="xml"
                      outputfile="@{dir}/target/reports/jdepend/report/jdepend-report.xml">
-              <exclude name="java.*"/>
-              <exclude name="javax.*"/>
+              <exclude name="clover.*" />
+              <exclude name="org.apache.*" />
+              <exclude name="java.*" />
+              <exclude name="javax.*" />
+              <exclude name="com.jgoodies.*" />
               <classespath refid="@{classpath}" />
               <classpath>
                   <pathelement location="${qedeq.lib}/jdepend-2.9.jar" /> 
