@@ -30,7 +30,7 @@
     <!-- Java2Html - java2html.de -->
     <taskdef name="java2html" classname="de.java2html.anttasks.Java2HtmlTask"
         classpath="${qedeq.lib}/java2html.jar" />
- <!--    
+ <!--
 currently in ants classpath
     <taskdef name="junit" class="org.apache.tools.ant.taskdefs.optional.junit.JUnitTask" 
         classpathref="classpath.common" />   
@@ -43,7 +43,10 @@ currently in ants classpath
 
     <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${qedeq.lib}/findbugs-ant.jar" />
 
+<!--
+currently in ants classpath
     <taskdef name="jdepend" classname="org.apache.tools.ant.taskdefs.optional.jdepend.JDependTask" classpath="${qedeq.lib}/jdepend-2.9.jar" />
+-->
 
     <tstamp>
         <format property="qedeq.se.timestamp" pattern="yyyy-MM-dd HH:mm:ss" timezone="GMT"/>
