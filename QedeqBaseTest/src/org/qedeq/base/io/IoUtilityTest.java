@@ -39,7 +39,6 @@ import org.qedeq.base.utility.StringUtility;
 /**
  * Test {@link org.qedeq.kernel.utility.TextInput}.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class IoUtilityTest extends QedeqTestCase {
@@ -58,7 +57,6 @@ public class IoUtilityTest extends QedeqTestCase {
     protected void tearDown() throws Exception {
         super.tearDown();
     }
-
 
     /**
      * Test {@link IoUtility#getDefaultEncoding()}. TODO mime 20090630 throws no exception no more
