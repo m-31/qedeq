@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.base.utility;
+package org.qedeq.base.io;
 
 import java.io.File;
 import java.io.IOException;
@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.lang.reflect.Method;
 import java.net.URL;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 
 /**
