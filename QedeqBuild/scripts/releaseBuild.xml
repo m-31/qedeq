@@ -43,6 +43,8 @@ currently in ants classpath
 
     <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${qedeq.lib}/findbugs-ant.jar" />
 
+    <taskdef resource="cloverlib.xml" classpath="${qedeq.lib}/clover-2.3.1.jar" />
+
 <!--
 currently in ants classpath
     <taskdef name="jdepend" classname="org.apache.tools.ant.taskdefs.optional.jdepend.JDependTask" classpath="${qedeq.lib}/jdepend-2.9.jar" />
@@ -112,8 +114,6 @@ currently in ants classpath
     </path>
 
    
-    <taskdef resource="cloverlib.xml" classpath="${qedeq.lib}/clover-2.3.1.jar" />
-
     <target name="clean">
         <delete dir="${qedeq.dest}" failonerror="true" />
         <mkdir dir="${qedeq.dest}" />
@@ -215,12 +215,8 @@ currently in ants classpath
     </target>
 
     <target name="jdepend" description="run jdepend" depends="">
-        <jdependReport  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" />
-        <jdependReport  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" />
-        <jdependReport  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common" />
-        <jdependReport  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common" />
-        <jdependReport  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate" />
-        <jdependReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.aggregate" />
+        <jdependReport  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="${qedeq.dest.module}/qedeq_kernel/target/classes" />
+        <jdependReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="${qedeq.dest.module}/qedeq_gui_se/target/classes" />
     </target>
 
     <target name="package" description="generate jars" depends="compile">

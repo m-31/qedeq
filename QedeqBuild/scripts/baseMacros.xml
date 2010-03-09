@@ -389,15 +389,27 @@
             <echo>jdepend @{name}</echo>
             <delete dir="@{dir}/target/reports/jdepend" failonerror="false" />
             <mkdir dir="@{dir}/target/reports/jdepend/report" />
-            <jdepend fork="yes"
-                     format="xml"
+            <jdepend format="xml"
                      outputfile="@{dir}/target/reports/jdepend/report/jdepend-report.xml">
               <exclude name="clover.*" />
+              <exclude name="clover*.*" />
+              <exclude name="com.cenqua.*" />
               <exclude name="org.apache.*" />
+              <exclude name="com.sun.*" />
+              <exclude name="com_cenqua*.*" />
+              <exclude name="java_cup.*" />
+              <exclude name="jdepend.*" />
+              <exclude name="junit.*" />
+              <exclude name="org.xml.*" />
+              <exclude name="org.qedeq.*.*Test" />
+              <exclude name="org.qedeq.*.*Suite" />
+              <exclude name="org.qedeq.*.test.*" />
               <exclude name="java.*" />
               <exclude name="javax.*" />
               <exclude name="com.jgoodies.*" />
-              <classespath refid="@{classpath}" />
+              <classespath>
+                  <pathelement location="@{classpath}" />
+              </classespath>
               <classpath>
                   <pathelement location="${qedeq.lib}/jdepend-2.9.jar" /> 
               </classpath>
