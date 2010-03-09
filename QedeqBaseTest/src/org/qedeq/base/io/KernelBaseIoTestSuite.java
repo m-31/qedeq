@@ -22,8 +22,7 @@ import org.qedeq.base.test.QedeqTestSuite;
 /**
  * Run all JUnit tests for package org.qedeq.kernel.utility.
  *
- * @version $Revision: 1.1 $
- * @author    Michael Meyling
+ * @author  Michael Meyling
  */
 public class KernelBaseIoTestSuite extends QedeqTestSuite {
 
@@ -43,5 +42,7 @@ public class KernelBaseIoTestSuite extends QedeqTestSuite {
         super();
         addTestSuite(TextInputTest.class);
         addTestSuite(IoUtilityTest.class);
+        addTestSuite(ResourceLoaderUtilityTest.class);
     }
 }
+
