@@ -27,8 +27,7 @@ import org.qedeq.kernel.visitor.QedeqNotNullTraverser;
  * Basic visitor that gives some error collecting features. Also hides the
  * traverser that does the work.
  *
- * @version $Revision: 1.1 $
- * @author Michael Meyling
+ * @author  Michael Meyling
  */
 public abstract class ControlVisitor extends AbstractModuleVisitor {
 
