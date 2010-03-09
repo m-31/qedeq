@@ -23,11 +23,11 @@ import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
+import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.ModuleLabels;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
 

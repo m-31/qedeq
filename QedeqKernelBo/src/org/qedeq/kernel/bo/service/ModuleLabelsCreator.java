@@ -16,23 +16,26 @@
 package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.base.module.Axiom;
+import org.qedeq.kernel.base.module.Chapter;
 import org.qedeq.kernel.base.module.FunctionDefinition;
 import org.qedeq.kernel.base.module.Import;
 import org.qedeq.kernel.base.module.Node;
 import org.qedeq.kernel.base.module.PredicateDefinition;
+import org.qedeq.kernel.base.module.Proposition;
+import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.ModuleLabels;
 import org.qedeq.kernel.dto.module.NodeVo;
 
 
 /**
  * Create mapping from labels to {@link org.qedeq.kernel.dto.module.NodeVo} for a QEDEQ module.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class ModuleLabelsCreator extends ControlVisitor {
@@ -43,6 +46,24 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /** QEDEQ module labels. */
     private ModuleLabels labels;
 
+    /** Chapter number. */
+    private int chapterNumber;
+
+    /** Rule number. */
+    private int ruleNumber;
+
+    /** Axiom number. */
+    private int axiomNumber;
+
+    /** Proposition number. */
+    private int propositionNumber;
+
+    /** Function definition number. */
+    private int functionDefinitionNumber;
+
+    /** Predicate definition number. */
+    private int predicateDefinitionNumber;
+
     /**
      * Constructor.
      *
@@ -50,6 +71,15 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public ModuleLabelsCreator(final KernelQedeqBo prop) {
         super(prop);
+    }
+
+    public void visitEnter(final Qedeq qedeq) {
+        chapterNumber = 0;
+        ruleNumber = 0;
+        axiomNumber = 0;
+        predicateDefinitionNumber = 0;
+        functionDefinitionNumber = 0;
+        propositionNumber = 0;
     }
 
     /**
@@ -69,20 +99,44 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     /**
+     * Visit chapter. Increases chapter number, if this chapter doesn't forbid it.
+     * 
+     * @param   chapter             Visit this chapter.
+     */
+    public void visitEnter(final Chapter chapter) {
+        if (Boolean.TRUE.equals(chapter.getNoNumber())) {
+            chapterNumber++;
+        }
+    }
+
+    /**
+     * Visit chapter. Increases axiom number.
+     * 
+     * @param   chapter             Visit this chapter.
+     */
+    public void visitEnter(final Axiom axiom) {
+        axiomNumber++;
+        setBlocked(true);   // block further traverse
+    }
+
+    /**
+     * Visit chapter. Increases chapter number, if this chapter doesn't forbid it.
+     * 
+     * @param   chapter             Visit this chapter.
+     */
+    public void visitEnter(final Proposition proposition) {
+        propositionNumber++;
+        setBlocked(true);   // block further traverse
+    }
+
+    /**
      * Visit import. Loads referenced QEDEQ module and saves reference.
      *
      * @param   funcDef             Begin visit of this element.
      */
     public void visitEnter(final FunctionDefinition funcDef) {
-        try {
-            this.labels.checkLabel(new ModuleContext(getCurrentContext()),
-                funcDef.getName());
-            Trace.param(CLASS, "visitEnter(FunctionDefinition)", "adding context",
-                getCurrentContext());
-        } catch (ModuleDataException me) {
-            addModuleDataException(me);
-            Trace.trace(CLASS, this, "visitEnter(FunctionDefinition)", me);
-        }
+        functionDefinitionNumber++;
+        setBlocked(true);   // block further traverse
     }
 
     /**
@@ -91,15 +145,19 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      * @param   predDef             Begin visit of this element.
      */
     public void visitEnter(final PredicateDefinition predDef) {
+        predicateDefinitionNumber++;
+        setBlocked(true);   // block further traverse
+    }
+
+    public void visitLeave(final Node node) throws ModuleDataException {
         try {
-            this.labels.checkLabel(new ModuleContext(getCurrentContext()),
-                predDef.getName());
-            Trace.param(CLASS, "visitEnter(PredicateDefinition)", "adding context",
-                getCurrentContext());
+            this.labels.addNode(getCurrentContext(), (NodeVo) node, chapterNumber, ruleNumber,
+                propositionNumber, axiomNumber, predicateDefinitionNumber, functionDefinitionNumber);
         } catch (ModuleDataException me) {
             addModuleDataException(me);
-            Trace.trace(CLASS, this, "visitEnter(PredicateDefinition)", me);
+            Trace.trace(CLASS, this, "visitEnter(Node)", me);
         }
+        setBlocked(false);   // allow further traverse
     }
 
     /**
@@ -116,18 +174,5 @@ public final class ModuleLabelsCreator extends ControlVisitor {
         return this.labels;
     }
 
-    public void visitEnter(final Node node) throws ModuleDataException {
-        try {
-            this.labels.addNode(getCurrentContext(), (NodeVo) node);
-        } catch (ModuleDataException me) {
-            addModuleDataException(me);
-            Trace.trace(CLASS, this, "visitEnter(Node)", me);
-        }
-        setBlocked(true);   // block further traverse of sub nodes
-    }
-
-    public void visitLeave(final Node node) {
-        setBlocked(false);  // allow further traverse
-    }
-
 }
+
