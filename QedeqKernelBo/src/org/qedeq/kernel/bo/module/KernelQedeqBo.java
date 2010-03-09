@@ -3,7 +3,6 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.ModuleLabels;
 import org.qedeq.kernel.common.SourceFileException;
 
 /**
