@@ -35,9 +35,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JViewport;
 
+import org.qedeq.base.io.ResourceLoaderUtility;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.base.utility.ResourceLoaderUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.element.CPTextArea;
 import org.qedeq.kernel.bo.context.KernelContext;

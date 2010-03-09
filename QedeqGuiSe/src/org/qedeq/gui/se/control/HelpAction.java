@@ -25,8 +25,8 @@ import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import org.qedeq.base.io.ResourceLoaderUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.base.utility.ResourceLoaderUtility;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.context.KernelContext;
 
