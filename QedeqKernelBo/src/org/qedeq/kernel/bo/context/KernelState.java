@@ -22,7 +22,6 @@ import org.qedeq.kernel.config.QedeqConfig;
 /**
  * State changing methods for the kernel.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface KernelState extends KernelServices {

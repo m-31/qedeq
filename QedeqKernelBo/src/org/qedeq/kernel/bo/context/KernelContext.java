@@ -37,7 +37,6 @@ import org.qedeq.kernel.config.QedeqConfig;
 /**
  * This class provides static access methods for basic informations.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class KernelContext implements KernelProperties, KernelState, KernelServices {

@@ -21,7 +21,6 @@ import org.qedeq.kernel.config.QedeqConfig;
 /**
  * QEDEQ kernel.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface KernelProperties {

@@ -28,7 +28,6 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * The main QEDEQ kernel methods are assembled here.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface KernelServices {

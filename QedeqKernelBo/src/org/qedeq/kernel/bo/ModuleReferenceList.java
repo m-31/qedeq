@@ -23,7 +23,6 @@ import org.qedeq.kernel.common.ModuleContext;
  * module. This module label acts as a prefix for all references to that module. The module label
  * must be an unique String.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public interface ModuleReferenceList {
