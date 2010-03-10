@@ -103,21 +103,21 @@ public final class ModuleLabelsCreator extends ControlVisitor {
 
     /**
      * Visit chapter. Increases chapter number, if this chapter doesn't forbid it.
-     * 
+     *
      * @param   chapter             Visit this chapter.
      */
     public void visitEnter(final Chapter chapter) {
         if (Boolean.TRUE.equals(chapter.getNoNumber())) {
             chapterNumbering = true;
             chapterNumber++;
-        } {
+        } else {
             chapterNumbering = false;
         }
     }
 
     /**
      * Visit chapter. Increases axiom number.
-     * 
+     *
      * @param   chapter             Visit this chapter.
      */
     public void visitEnter(final Axiom axiom) {
@@ -127,7 +127,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
 
     /**
      * Visit chapter. Increases chapter number, if this chapter doesn't forbid it.
-     * 
+     *
      * @param   chapter             Visit this chapter.
      */
     public void visitEnter(final Proposition proposition) {
