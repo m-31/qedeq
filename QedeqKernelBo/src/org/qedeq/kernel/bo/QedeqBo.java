@@ -26,7 +26,6 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * Represents a module and its states.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface QedeqBo {
