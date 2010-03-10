@@ -24,7 +24,6 @@ import org.qedeq.base.trace.Trace;
 /**
  * This class organizes the logging.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class QedeqLog implements LogListener {

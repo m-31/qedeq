@@ -21,7 +21,6 @@ import org.qedeq.kernel.bo.QedeqBo;
 /**
  * Listener that writes events to the {@link org.qedeq.kernel.bo.log.QedeqLog}.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class ModuleEventListenerLog implements ModuleEventListener {

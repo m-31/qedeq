@@ -23,7 +23,6 @@ import org.qedeq.kernel.bo.QedeqBo;
 /**
  * Listener that writes events to a stream.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class DefaultModuleEventListener implements ModuleEventListener {

@@ -19,7 +19,6 @@ package org.qedeq.kernel.bo.log;
 /**
  * Log event listener. Here one can listen to high level application events.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface LogListener {

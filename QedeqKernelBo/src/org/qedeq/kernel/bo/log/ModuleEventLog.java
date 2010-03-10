@@ -28,7 +28,6 @@ import org.qedeq.kernel.bo.QedeqBo;
  *
  * TODO mime 20080317: must this be a singleton?
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class ModuleEventLog implements ModuleEventListener {

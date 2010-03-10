@@ -22,7 +22,6 @@ import org.qedeq.base.utility.DateUtility;
 /**
  * Listener that writes events to a stream.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class LogListenerImpl implements LogListener {

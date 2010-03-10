@@ -21,7 +21,6 @@ import org.qedeq.kernel.bo.QedeqBo;
 /**
  * Interface for an QEDEQ module event listener.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface ModuleEventListener {
