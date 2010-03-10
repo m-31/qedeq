@@ -22,7 +22,6 @@ import org.qedeq.kernel.base.list.Element;
  * Encapsulates a logical formula.
  * LATER mime 20050205: what for is this anyway???
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 final class EqualFormula {

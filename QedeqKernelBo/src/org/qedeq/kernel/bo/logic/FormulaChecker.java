@@ -39,7 +39,6 @@ import org.qedeq.kernel.dto.list.ElementSet;
  * an {@link org.qedeq.kernel.base.list.ElementList#getOperator()} string. Perhaps these
  * strings must be translated into the original input format and a mapping must be done.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class FormulaChecker implements Operators, FormulaBasicErrors {

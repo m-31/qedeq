@@ -29,7 +29,6 @@ import org.qedeq.kernel.base.list.ElementList;
  * This class represents a set of {@link Element}s.
  *
  * @version $Revision: 1.1 $
- * @author  Michael Meyling
  */
 public class EqualFormulaSet {
 

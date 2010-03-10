@@ -27,7 +27,6 @@ import org.qedeq.kernel.bo.logic.wf.Operators;
  *
  * LATER mime 20050205: work in progress
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class LogicalEquivalence {
