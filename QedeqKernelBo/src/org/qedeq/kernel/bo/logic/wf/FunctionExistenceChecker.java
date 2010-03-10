@@ -19,7 +19,6 @@ package org.qedeq.kernel.bo.logic.wf;
 /**
  * Check if a function is already defined.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface FunctionExistenceChecker {

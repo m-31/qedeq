@@ -24,9 +24,8 @@ import org.qedeq.kernel.common.ModuleContext;
  * For example:
  * An element is not an atom but should be one, an atom has <code>null</code>
  * content or an element list was expected but is not there, an element list
- *  has an <code>null</code> operator or an <code>null</code> entry.
+ * has an <code>null</code> operator or an <code>null</code> entry.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class ElementCheckException extends LogicalCheckException {

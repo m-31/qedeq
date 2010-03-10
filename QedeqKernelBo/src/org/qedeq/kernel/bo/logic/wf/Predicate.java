@@ -20,7 +20,6 @@ import org.qedeq.base.utility.EqualsUtility;
 /**
  * Predicate constant key, describing a predicate constant.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Predicate {

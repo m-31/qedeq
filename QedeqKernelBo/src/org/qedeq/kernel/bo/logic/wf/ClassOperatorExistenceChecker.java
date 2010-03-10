@@ -19,7 +19,6 @@ package org.qedeq.kernel.bo.logic.wf;
 /**
  * Check if the class operator is already defined.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface ClassOperatorExistenceChecker {

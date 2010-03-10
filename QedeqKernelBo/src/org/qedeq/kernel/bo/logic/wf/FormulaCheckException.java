@@ -26,7 +26,6 @@ import org.qedeq.kernel.common.ModuleContext;
  * element list that is has a subject variable operator but has not
  * exactly one element that is an atom.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class FormulaCheckException extends LogicalCheckException {

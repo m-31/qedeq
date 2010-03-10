@@ -20,7 +20,6 @@ package org.qedeq.kernel.bo.logic.wf;
  * This implementation gives always the answer <code>true</code> to the question
  * <em>exists this predicate?</em>.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class EverythingExists implements ExistenceChecker {

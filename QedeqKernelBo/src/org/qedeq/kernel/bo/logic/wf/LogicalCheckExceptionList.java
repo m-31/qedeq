@@ -21,7 +21,6 @@ import java.util.List;
 /**
  * Type save {@link org.qedeq.kernel.bo.logic.wf.LogicalCheckException} list.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class LogicalCheckExceptionList {

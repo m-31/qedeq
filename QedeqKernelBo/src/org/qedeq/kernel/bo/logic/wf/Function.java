@@ -20,7 +20,6 @@ import org.qedeq.base.utility.EqualsUtility;
 /**
  * Function constant key, describing a function constant.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Function {

@@ -22,7 +22,6 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * This is the basis for an exception for logical errors within a QEDEQ module.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public abstract class LogicalCheckException extends ModuleDataException {

@@ -23,7 +23,6 @@ import org.qedeq.kernel.common.ModuleContext;
  *
  * This exception occurs if an element should be a term but is not.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class TermCheckException extends LogicalCheckException {

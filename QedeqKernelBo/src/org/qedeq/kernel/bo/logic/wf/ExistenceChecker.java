@@ -23,7 +23,6 @@ package org.qedeq.kernel.bo.logic.wf;
  * the call to {@link #predicateExists(String, int)} with the arguments
  * {@link #getIdentityOperator()} and 2 must return <code>true</code>.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface ExistenceChecker extends PredicateExistenceChecker, FunctionExistenceChecker,

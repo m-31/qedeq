@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.logic.wf;
 /**
  * Error codes and messages for formula checker.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface FormulaBasicErrors {
