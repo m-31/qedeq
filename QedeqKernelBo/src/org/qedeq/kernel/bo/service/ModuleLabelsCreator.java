@@ -46,6 +46,9 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /** QEDEQ module labels. */
     private ModuleLabels labels;
 
+    /** Chapter numbering currently on? */
+    private boolean chapterNumbering;
+
     /** Chapter number. */
     private int chapterNumber;
 
@@ -105,7 +108,10 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public void visitEnter(final Chapter chapter) {
         if (Boolean.TRUE.equals(chapter.getNoNumber())) {
+            chapterNumbering = true;
             chapterNumber++;
+        } {
+            chapterNumbering = false;
         }
     }
 
@@ -151,8 +157,10 @@ public final class ModuleLabelsCreator extends ControlVisitor {
 
     public void visitLeave(final Node node) throws ModuleDataException {
         try {
-            this.labels.addNode(getCurrentContext(), (NodeVo) node, chapterNumber, ruleNumber,
-                propositionNumber, axiomNumber, predicateDefinitionNumber, functionDefinitionNumber);
+            this.labels.addNode(getCurrentContext(), (NodeVo) node,
+                (chapterNumbering ? chapterNumber : -1), ruleNumber,
+                propositionNumber, axiomNumber, predicateDefinitionNumber,
+                functionDefinitionNumber);
         } catch (ModuleDataException me) {
             addModuleDataException(me);
             Trace.trace(CLASS, this, "visitEnter(Node)", me);
