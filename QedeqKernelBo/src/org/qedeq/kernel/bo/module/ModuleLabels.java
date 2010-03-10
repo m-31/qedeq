@@ -44,16 +44,16 @@ public final class ModuleLabels {
     }
 
     /**
-     * Add node with certain id.
+     * Add node with certain id. All numbers should start with 1.
      *
-     * @param   node    For this node.
-     * @param   context With this context.
-     * @param   chapterNumber
-     * @param   functionDefinitionNumber 
-     * @param   predicateDefinitionNumber 
-     * @param   axiomNumber 
-     * @param   propositionNumber 
-     * @param   ruleNumber 
+     * @param   node                        Add this node.
+     * @param   context                     The node has this context.
+     * @param   chapterNumber               Chapter number. If no chapter numbering is on, please provide -1.
+     * @param   functionDefinitionNumber    Global function definition number.
+     * @param   predicateDefinitionNumber   Global predicate definition number.
+     * @param   axiomNumber                 Global axiom number.
+     * @param   propositionNumber           Global proposition number.
+     * @param   ruleNumber                  Global rule number.
      * @throws  IllegalModuleDataException  The <code>id</code> already exists (perhaps as a label)
      *          or is <code>null</code>.
      */
@@ -62,7 +62,6 @@ public final class ModuleLabels {
             final int predicateDefinitionNumber, final int functionDefinitionNumber)
             throws IllegalModuleDataException {
         // FIXME m31 20100309: use these parameters, put them into new NodeBo and make them usable for LaTeX generation
-        
         // don't forget to use the copy constructor because the context could change!
         final ModuleContext con = new ModuleContext(context);
         if (null == node.getId()) {
@@ -79,8 +78,7 @@ public final class ModuleLabels {
      *
      * @param   label   Add this label.
      * @param   context With this context.
-     * @throws  IllegalModuleDataException  The <code>id</code> already exists or is
-     *          <code>null</code>.
+     * @throws  IllegalModuleDataException  The <code>id</code> already exists or is <code>null</code>.
      */
     public final void addLabel(final ModuleContext context,  final String label)
             throws IllegalModuleDataException {
