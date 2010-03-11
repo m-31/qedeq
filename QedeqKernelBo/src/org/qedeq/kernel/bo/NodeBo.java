@@ -15,9 +15,7 @@
 
 package org.qedeq.kernel.bo;
 
-import org.qedeq.kernel.base.module.NodeType;
 import org.qedeq.kernel.dto.module.NodeVo;
-
 
 /**
  * Represents a module and its states.
@@ -41,46 +39,37 @@ public interface NodeBo {
     public int getChapterNumber();
 
     /**
-     * Get rule number if the {@link NodeType} is accordingly. Throws {@link UnsupportedOperationException}
+     * Get number of rules before this node. Including this one, if node is of that type.
      *
      * @return  Rule number. Should start with 1.
-     * @throws  UnsupportedOperationException   This is no rule node.
      */
     public int getRuleNumber();
 
     /**
-     * Get axiom number if the {@link NodeType} is accordingly.
-     * Throws {@link UnsupportedOperationException}
+     * Get number of axioms before this node. Including this one, if node is of that type.
      *
      * @return  Axiom number. Should start with 1.
-     * @throws  UnsupportedOperationException   This is no axiom node.
      */
     public int getAxiomNumber();
 
     /**
-     * Get proposition number if the {@link NodeType} is accordingly.
-     * Throws {@link UnsupportedOperationException}.
+     * Get number of propositions before this node. Including this one, if node is of that type.
      *
      * @return  Proposition number. Should start with 1.
-     * @throws  UnsupportedOperationException   This is no proposition node.
      */
     public int getPropositionNumber();
 
     /**
-     * Get function definition number if the {@link NodeType} is accordingly.
-     * Throws {@link UnsupportedOperationException}.
+     * Get number of function definitions before this node. Including this one, if node is of that type.
      *
      * @return  Function definition number. Should start with 1.
-     * @throws  UnsupportedOperationException   This is no function definition node.
      */
     public int getFunctionDefinitionNumber();
 
     /**
-     * Get predicate definition number if the {@link NodeType} is accordingly.
-     * Throws {@link UnsupportedOperationException}.
+     * Get number of predicate definitions before this node. Including this one, if node is of that type.
      *
      * @return  Predicate definition number. Should start with 1.
-     * @throws  UnsupportedOperationException   This is no function definition node.
      */
     public int getPredicateDefinitionNumber();
 
