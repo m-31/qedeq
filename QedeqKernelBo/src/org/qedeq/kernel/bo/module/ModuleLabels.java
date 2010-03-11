@@ -71,7 +71,9 @@ public final class ModuleLabels {
         }
         checkLabelIntern(con, node.getId());
         label2Context.put(node.getId(), con);
-        label2Bo.put(node.getId(), node);
+        final KernelNodeBo nodeBo = new KernelNodeBo(node, context, qedeq, chapterNumber, axiomNumber, 
+                ruleNumber, functionDefinitionNumber, predicateDefinitionNumber, propositionNumber);
+        label2Bo.put(node.getId(), nodeBo);
     }
 
     /**
