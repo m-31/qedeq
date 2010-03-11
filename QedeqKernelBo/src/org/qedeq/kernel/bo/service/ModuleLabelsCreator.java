@@ -92,9 +92,8 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public void visitEnter(final Import imp) {
         try {
-            this.labels.addLabel(new ModuleContext(getCurrentContext()),
+            this.labels.addLabel(getCurrentContext(),
                 imp.getLabel());
-            Trace.param(CLASS, "visitEnter(Import)", "adding context", getCurrentContext());
         } catch (ModuleDataException me) {
             addModuleDataException(me);
             Trace.trace(CLASS, this, "visitEnter(Import)", me);
@@ -157,7 +156,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
 
     public void visitLeave(final Node node) throws ModuleDataException {
         try {
-            this.labels.addNode(getCurrentContext(), (NodeVo) node,
+            this.labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(),
                 (chapterNumbering ? chapterNumber : -1), ruleNumber,
                 propositionNumber, axiomNumber, predicateDefinitionNumber,
                 functionDefinitionNumber);
