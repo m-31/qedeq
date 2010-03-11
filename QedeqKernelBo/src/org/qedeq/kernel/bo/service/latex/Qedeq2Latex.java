@@ -56,10 +56,10 @@ import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.dto.module.NodeVo;
 
 
 /**
@@ -872,7 +872,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                 if (label.length() > 0) {
                     prop = prop.getKernelRequiredModules().getKernelQedeqBo(label);
                 }
-                NodeVo node = null;
+                KernelNodeBo node = null;
                 if (prop != null) {
                     if (prop.getLabels() != null) {
                         node = prop.getLabels().getNode(ref);
@@ -899,6 +899,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                 }
             }
         } catch (RuntimeException e) {
+            e.printStackTrace(); // FIXME FIXME FIXME
             Trace.trace(CLASS, this, method, e);
         }
     }
@@ -912,42 +913,52 @@ public final class Qedeq2Latex extends ControlVisitor {
      * @param   useName Use name if it exists.
      * @return  Display text.
      */
-    private String getDisplay(final String ref, final NodeVo node, final boolean useName) {
+    private String getDisplay(final String ref, final KernelNodeBo nodeBo, final boolean useName) {
         String display = ref;
-        if (node != null) {
+        if (nodeBo != null) {
+            Node node = nodeBo.getNodeVo();
             if (useName && node.getName() != null) {
                 display = getLatexListEntry(node.getName());
             } else {
                 if (node.getNodeType() instanceof Axiom) {
                     if ("de".equals(language)) {
-                        display = "Axiom";
+                        display = "Axiom ";
                     } else {
-                        display = "axiom";
+                        display = "axiom ";
                     }
+                    display += nodeBo.getAxiomNumber();
                 } else if (node.getNodeType() instanceof Proposition) {
                     if ("de".equals(language)) {
-                        display = "Proposition";
+                        display = "Proposition ";
                     } else {
-                        display = "proposition";
+                        display = "proposition ";
+                    }
+                    if (nodeBo.getChapterNumber() >= 0) {
+                        display += nodeBo.getChapterNumber() + "." + nodeBo.getPropositionNumber();
+                    } else {
+                        display += nodeBo.getPropositionNumber();
                     }
                 } else if (node.getNodeType() instanceof FunctionDefinition) {
                     if ("de".equals(language)) {
-                        display = "Definition";
+                        display = "Definition ";
                     } else {
-                        display = "definition";
+                        display = "definition ";
                     }
+                    display += nodeBo.getPredicateDefinitionNumber() + nodeBo.getFunctionDefinitionNumber();
                 } else if (node.getNodeType() instanceof PredicateDefinition) {
                     if ("de".equals(language)) {
-                        display = "Definition";
+                        display = "Definition ";
                     } else {
-                        display = "definition";
+                        display = "definition ";
                     }
+                    display += nodeBo.getPredicateDefinitionNumber() + nodeBo.getFunctionDefinitionNumber();
                 } else if (node.getNodeType() instanceof Rule) {
                     if ("de".equals(language)) {
-                        display = "Regel";
+                        display = "Regel ";
                     } else {
-                        display = "rule";
+                        display = "rule ";
                     }
+                    display += nodeBo.getRuleNumber();
                 } else {
                     if ("de".equals(language)) {
                         display = "Unbekannt";
