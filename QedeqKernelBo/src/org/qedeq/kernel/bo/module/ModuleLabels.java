@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.module;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.qedeq.kernel.bo.NodeBo;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.dto.module.NodeVo;
@@ -57,9 +58,9 @@ public final class ModuleLabels {
      * @throws  IllegalModuleDataException  The <code>id</code> already exists (perhaps as a label)
      *          or is <code>null</code>.
      */
-    public final void addNode(final ModuleContext context, final NodeVo node, final int chapterNumber,
-            final int ruleNumber, final int propositionNumber, final int axiomNumber,
-            final int predicateDefinitionNumber, final int functionDefinitionNumber)
+    public final void addNode(final ModuleContext context, final NodeVo node, final KernelQedeqBo qedeq,
+            final int chapterNumber, final int ruleNumber, final int propositionNumber,
+            final int axiomNumber, final int predicateDefinitionNumber, final int functionDefinitionNumber)
             throws IllegalModuleDataException {
         // FIXME m31 20100309: use these parameters, put them into new NodeBo and make them usable for LaTeX generation
         // don't forget to use the copy constructor because the context could change!
@@ -92,28 +93,13 @@ public final class ModuleLabels {
      * Check that label doesn't exist.
      *
      * @param   label   Check this label.
-     * @param   context With this context.
-     * @throws  IllegalModuleDataException  The <code>id</code> already exists or is
-     *          <code>null</code>.
-     */
-    public final void checkLabel(final ModuleContext context,  final String label)
-            throws IllegalModuleDataException {
-        // don't forget to use the copy constructor because the context could change!
-        final ModuleContext con = new ModuleContext(context);
-        checkLabelIntern(con, label);
-    }
-
-    /**
-     * Check that label doesn't exist.
-     *
-     * @param   label   Check this label.
      * @param   context With this context (already copied).
      * @throws  IllegalModuleDataException  The <code>id</code> already exists or is
      *          <code>null</code>.
      */
     private final void checkLabelIntern(final ModuleContext context,  final String label)
             throws IllegalModuleDataException {
-        if (label2Context.containsKey(label)) {
+        if (label2Bo.containsKey(label)) {
             // LATER mime 20071026: organize exception codes
             throw new IllegalModuleDataException(10002, "Id or label \"" + label
                 + "\" defined more than once.", context,
@@ -127,8 +113,8 @@ public final class ModuleLabels {
      * @param   id   Label to search node for.
      * @return  Node for given label. Maybe <code>null</code>.
      */
-    public final NodeVo getNode(final String id) {
-        return (NodeVo) label2Bo.get(id);
+    public final KernelNodeBo getNode(final String id) {
+        return (KernelNodeBo) label2Bo.get(id);
     }
 
 }
