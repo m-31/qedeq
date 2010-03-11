@@ -850,7 +850,6 @@ public final class Qedeq2Latex extends ControlVisitor {
                         // FIXME mime 20100308: add warning
                     }
                     sub = result.substring(posb + 1, pos2);
-                    Trace.param(CLASS, this, method, "sub", sub);
                 }
 
                 // get module label (if any)
@@ -860,19 +859,25 @@ public final class Qedeq2Latex extends ControlVisitor {
                     label = ref.substring(0, dot);
                     ref = ref.substring(dot + 1);
                 }
+
+                // check if reference is in fact a module label
                 if (label.length() == 0) {
                     if (getQedeqBo().getKernelRequiredModules().getQedeqBo(ref) != null) {
                         label = ref;
                         ref = "";
                     }
                 }
-                Trace.param(CLASS, this, method, "2 ref", ref);
-                Trace.param(CLASS, this, method, "2 label", label);
-                KernelQedeqBo prop = getQedeqBo();
-                if (label.length() > 0) {
+
+                Trace.param(CLASS, this, method, "2 ref", ref);     // reference within module
+                Trace.param(CLASS, this, method, "2 sub", sub);     // sub reference (if any)
+                Trace.param(CLASS, this, method, "2 label", label); // module label (if any)
+
+                KernelQedeqBo prop = getQedeqBo();  // the module we point to
+                if (label.length() > 0) {           // do we reference to an external module?
                     prop = prop.getKernelRequiredModules().getKernelQedeqBo(label);
                 }
-                KernelNodeBo node = null;
+
+                KernelNodeBo node = null;           // the node we point to
                 if (prop != null) {
                     if (prop.getLabels() != null) {
                         node = prop.getLabels().getNode(ref);
@@ -883,14 +888,18 @@ public final class Qedeq2Latex extends ControlVisitor {
                 if (node == null) {
                     Trace.info(CLASS, this, method, "node not found for " + ref);
                 }
-                if (label.length() <= 0) {
+
+                // do we have an external module?
+                if (label.length() <= 0) {      // local reference
                     final String display = getDisplay(ref, node, false);
-                    result.replace(pos1, pos2 + 1, display + "~\\ref{" + ref + "}"
+                    result.replace(pos1, pos2 + 1, "\\ref{" + ref + " " + display + "}"
                         + (sub.length() > 0 ? " (" + sub + ")" : ""));
-                } else {
+                } else {                        // external reference
                     if (ref.length() <= 0) {
+                        // we have an external module reference without node
                         result.replace(pos1, pos2 + 1, "\\url{" + getPdfLink(prop) + "}");
                     } else {
+                        // we have an external module reference with node 
                         final String display = getDisplay(ref, node, false);
                         result.replace(pos1, pos2 + 1, "\\hyperref{" + getPdfLink(prop) + "}{}{"
                             + ref + (sub.length() > 0 ? ":" + sub : "")
