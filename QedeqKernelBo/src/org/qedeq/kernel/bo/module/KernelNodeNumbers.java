@@ -1,5 +1,10 @@
 package org.qedeq.kernel.bo.module;
 
+/**
+ * Contains various counter values for a {@link KernelNodeBo}.
+ *
+ * @author  Michael Meyling
+ */
 public class KernelNodeNumbers {
 
     /** Chapter numbering currently on? */
@@ -44,7 +49,7 @@ public class KernelNodeNumbers {
         ruleNumber = original.ruleNumber;
     }
 
-    public void setChapterNumbering(boolean chapterNumbering) {
+    public void setChapterNumbering(final boolean chapterNumbering) {
         this.chapterNumbering = chapterNumbering;
     }
 
@@ -60,7 +65,7 @@ public class KernelNodeNumbers {
         chapterNumber++;
     }
 
-    public void setChapterNumber(int chapterNumber) {
+    public void setChapterNumber(final int chapterNumber) {
         this.chapterNumber = chapterNumber;
     }
 
@@ -72,7 +77,7 @@ public class KernelNodeNumbers {
         axiomNumber++;
     }
 
-    public void setAxiomNumber(int axiomNumber) {
+    public void setAxiomNumber(final int axiomNumber) {
         this.axiomNumber = axiomNumber;
     }
 
@@ -84,7 +89,7 @@ public class KernelNodeNumbers {
         functionDefinitionNumber++;
     }
 
-    public void setFunctionDefinitionNumber(int functionDefinitionNumber) {
+    public void setFunctionDefinitionNumber(final int functionDefinitionNumber) {
         this.functionDefinitionNumber = functionDefinitionNumber;
     }
 
@@ -96,7 +101,7 @@ public class KernelNodeNumbers {
         predicateDefinitionNumber++;
     }
 
-    public void setPredicateDefinitionNumber(int predicateDefinitionNumber) {
+    public void setPredicateDefinitionNumber(final int predicateDefinitionNumber) {
         this.predicateDefinitionNumber = predicateDefinitionNumber;
     }
 
@@ -108,7 +113,7 @@ public class KernelNodeNumbers {
         propositionNumber++;
     }
 
-    public void setPropositionNumber(int propositionNumber) {
+    public void setPropositionNumber(final int propositionNumber) {
         this.propositionNumber = propositionNumber;
     }
 
@@ -125,3 +130,4 @@ public class KernelNodeNumbers {
     }
 
 }
+
