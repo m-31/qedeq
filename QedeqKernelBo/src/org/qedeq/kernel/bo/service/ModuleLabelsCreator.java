@@ -76,6 +76,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     public void visitEnter(final Qedeq qedeq) {
+        chapterNumbering = false;
         chapterNumber = 0;
         ruleNumber = 0;
         axiomNumber = 0;
@@ -106,10 +107,10 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public void visitEnter(final Chapter chapter) {
         if (Boolean.TRUE.equals(chapter.getNoNumber())) {
-            chapterNumbering = true;
-            chapterNumber++;
+            chapterNumbering = false;
         } else {
             chapterNumbering = false;
+            chapterNumber++;
         }
     }
 
