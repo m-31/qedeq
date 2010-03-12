@@ -28,7 +28,6 @@ import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.dto.module.NodeVo;
 
