@@ -35,6 +35,7 @@ public class KernelNodeBo {
     /** Parent module the node is within. */
     private final KernelQedeqBo qedeq;
 
+    /** Herein are the results of various counters for the node. */
     private KernelNodeNumbers data = new KernelNodeNumbers();
 
 
