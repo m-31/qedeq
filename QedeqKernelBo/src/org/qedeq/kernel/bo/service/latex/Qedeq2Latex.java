@@ -893,7 +893,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                 if (label.length() <= 0) {      // local reference
                     final String display = getDisplay(ref, node, false);
 //                        result.replace(pos1, pos2 + 1, display + "~\\autoref{" + ref + "}"
-                        result.replace(pos1, pos2 + 1, "\\hyperref[" + ref + "]{" + display + "~\ref{"
+                        result.replace(pos1, pos2 + 1, "\\hyperref[" + ref + "]{" + display + "~\ref*{"
                         + ref + "}}"
                         + (sub.length() > 0 ? " (" + sub + ")" : ""));
                 } else {                        // external reference
