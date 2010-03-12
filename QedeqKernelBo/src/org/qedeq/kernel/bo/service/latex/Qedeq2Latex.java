@@ -242,7 +242,9 @@ public final class Qedeq2Latex extends ControlVisitor {
         printer.println("\\usepackage{tabularx}");
         printer.println();
         if ("de".equals(language)) {
-            printer.println("\\newtheorem{thm}{Theorem}[chapter]");
+// FIXME FIXME FIXME
+//            printer.println("\\newtheorem{thm}{Theorem}[chapter]");
+            printer.println("\\newtheorem{thm}{Theorem}");
             printer.println("\\newtheorem{cor}[thm]{Korollar}");
             printer.println("\\newtheorem{lem}[thm]{Lemma}");
             printer.println("\\newtheorem{prop}[thm]{Proposition}");
@@ -260,7 +262,9 @@ public final class Qedeq2Latex extends ControlVisitor {
             if (!"en".equals(language)) {
                 printer.println("%%% TODO unknown language: " + language);
             }
-            printer.println("\\newtheorem{thm}{Theorem}[chapter]");
+// FIXME FIXME FIXME
+//            printer.println("\\newtheorem{thm}{Theorem}[chapter]");
+            printer.println("\\newtheorem{thm}{Theorem}");
             printer.println("\\newtheorem{cor}[thm]{Corollary}");
             printer.println("\\newtheorem{lem}[thm]{Lemma}");
             printer.println("\\newtheorem{prop}[thm]{Proposition}");
