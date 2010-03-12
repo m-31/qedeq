@@ -22,7 +22,7 @@ import org.qedeq.kernel.dto.module.NodeVo;
 
 /**
  * Business object for node access.
- * 
+ *
  * @author  Michael Meyling
  */
 public class KernelNodeBo implements NodeBo {
@@ -68,7 +68,6 @@ public class KernelNodeBo implements NodeBo {
         this.functionDefinitionNumber = functionDefinitionNumber;
         this.predicateDefinitionNumber = predicateDefinitionNumber;
         this.propositionNumber = propositionNumber;
-        
     }
 
     public NodeVo getNodeVo() {
