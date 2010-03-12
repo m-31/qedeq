@@ -125,7 +125,7 @@ public class KernelNodeNumbers {
         ruleNumber++;
     }
 
-    public void setRuleNumber(int ruleNumber) {
+    public void setRuleNumber(final int ruleNumber) {
         this.ruleNumber = ruleNumber;
     }
 
