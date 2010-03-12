@@ -46,6 +46,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /** QEDEQ module labels. */
     private ModuleLabels labels;
 
+    /** Herein are various counters for the current node. */
     private KernelNodeNumbers data = new KernelNodeNumbers();
 
     /**
@@ -85,7 +86,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
         if (Boolean.TRUE.equals(chapter.getNoNumber())) {
             data.setChapterNumbering(false);
         } else {
-            data.setChapterNumbering (true);
+            data.setChapterNumbering(true);
             data.increaseChapterNumber();
         }
     }
