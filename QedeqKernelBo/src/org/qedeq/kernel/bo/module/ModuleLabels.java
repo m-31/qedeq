@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.module;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.qedeq.kernel.bo.NodeBo;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.dto.module.NodeVo;
@@ -71,7 +70,7 @@ public final class ModuleLabels {
         }
         checkLabelIntern(con, node.getId());
         label2Context.put(node.getId(), con);
-        final KernelNodeBo nodeBo = new KernelNodeBo(node, context, qedeq, chapterNumber, axiomNumber, 
+        final KernelNodeBo nodeBo = new KernelNodeBo(node, context, qedeq, chapterNumber, axiomNumber,
                 ruleNumber, functionDefinitionNumber, predicateDefinitionNumber, propositionNumber);
         label2Bo.put(node.getId(), nodeBo);
     }
