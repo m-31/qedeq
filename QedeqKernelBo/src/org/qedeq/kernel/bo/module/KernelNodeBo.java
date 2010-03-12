@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.bo.NodeBo;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.dto.module.NodeVo;
@@ -25,7 +24,7 @@ import org.qedeq.kernel.dto.module.NodeVo;
  *
  * @author  Michael Meyling
  */
-public class KernelNodeBo implements NodeBo {
+public class KernelNodeBo {
 
     /** The plain node date. */
     private final NodeVo node;
@@ -36,38 +35,15 @@ public class KernelNodeBo implements NodeBo {
     /** Parent module the node is within. */
     private final KernelQedeqBo qedeq;
 
-    /** Chapter number the node is within. */
-    private final int chapterNumber;
-
-    /** Axioms before node (including this one). */
-    private final int axiomNumber;
-
-    /** Function definitions before node (including this one). */
-    private final int functionDefinitionNumber;
-
-    /** Predicate definitions before node (including this one). */
-    private final int predicateDefinitionNumber;
-
-    /** Propositions before node (including this one). */
-    private final int propositionNumber;
-
-    /** Rule definitions before node (including this one). */
-    private final int ruleNumber;
+    private KernelNodeNumbers data = new KernelNodeNumbers();
 
 
     public KernelNodeBo(final NodeVo node, final ModuleContext context, final KernelQedeqBo qedeq,
-            final int chapterNumber, final int axiomNumber, final int ruleNumber,
-            final int functionDefinitionNumber, final int predicateDefinitionNumber,
-            final int propositionNumber) {
+            final KernelNodeNumbers data) {
         this.node = node;
         this.context = new ModuleContext(context);
         this.qedeq = qedeq;
-        this.chapterNumber = chapterNumber;
-        this.axiomNumber = axiomNumber;
-        this.ruleNumber = ruleNumber;
-        this.functionDefinitionNumber = functionDefinitionNumber;
-        this.predicateDefinitionNumber = predicateDefinitionNumber;
-        this.propositionNumber = propositionNumber;
+        this.data = new KernelNodeNumbers(data);
     }
 
     public NodeVo getNodeVo() {
@@ -82,28 +58,7 @@ public class KernelNodeBo implements NodeBo {
         return qedeq;
     }
 
-    public int getChapterNumber() {
-        return chapterNumber;
+    public KernelNodeNumbers getNumbers() {
+        return data;
     }
-
-    public int getAxiomNumber() {
-        return axiomNumber;
-    }
-
-    public int getFunctionDefinitionNumber() {
-        return functionDefinitionNumber;
-    }
-
-    public int getPredicateDefinitionNumber() {
-        return predicateDefinitionNumber;
-    }
-
-    public int getPropositionNumber() {
-        return propositionNumber;
-    }
-
-    public int getRuleNumber() {
-        return ruleNumber;
-    }
-
 }

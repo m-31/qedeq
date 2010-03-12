@@ -58,10 +58,7 @@ public final class ModuleLabels {
      *          or is <code>null</code>.
      */
     public final void addNode(final ModuleContext context, final NodeVo node, final KernelQedeqBo qedeq,
-            final int chapterNumber, final int ruleNumber, final int propositionNumber,
-            final int axiomNumber, final int predicateDefinitionNumber, final int functionDefinitionNumber)
-            throws IllegalModuleDataException {
-        // FIXME m31 20100309: use these parameters, put them into new NodeBo and make them usable for LaTeX generation
+            final KernelNodeNumbers data) throws IllegalModuleDataException {
         // don't forget to use the copy constructor because the context could change!
         final ModuleContext con = new ModuleContext(context);
         if (null == node.getId()) {
@@ -70,8 +67,7 @@ public final class ModuleLabels {
         }
         checkLabelIntern(con, node.getId());
         label2Context.put(node.getId(), con);
-        final KernelNodeBo nodeBo = new KernelNodeBo(node, context, qedeq, chapterNumber, axiomNumber,
-                ruleNumber, functionDefinitionNumber, predicateDefinitionNumber, propositionNumber);
+        final KernelNodeBo nodeBo = new KernelNodeBo(node, context, qedeq, data);
         label2Bo.put(node.getId(), nodeBo);
     }
 

@@ -57,6 +57,7 @@ import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
+import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
@@ -928,6 +929,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         String display = ref;
         if (nodeBo != null) {
             Node node = nodeBo.getNodeVo();
+            KernelNodeNumbers data = nodeBo.getNumbers();
             if (useName && node.getName() != null) {
                 display = getLatexListEntry(node.getName());
             } else {
@@ -937,17 +939,17 @@ public final class Qedeq2Latex extends ControlVisitor {
                     } else {
                         display = "axiom ";
                     }
-                    display += nodeBo.getAxiomNumber();
+                    display += data.getAxiomNumber();
                 } else if (node.getNodeType() instanceof Proposition) {
                     if ("de".equals(language)) {
                         display = "Proposition ";
                     } else {
                         display = "proposition ";
                     }
-                    if (nodeBo.getChapterNumber() >= 0) {
-                        display += nodeBo.getChapterNumber() + "." + nodeBo.getPropositionNumber();
+                    if (data.getChapterNumber() >= 0) {
+                        display += data.getChapterNumber() + "." + data.getPropositionNumber();
                     } else {
-                        display += nodeBo.getPropositionNumber();
+                        display += data.getPropositionNumber();
                     }
                 } else if (node.getNodeType() instanceof FunctionDefinition) {
                     if ("de".equals(language)) {
@@ -955,21 +957,21 @@ public final class Qedeq2Latex extends ControlVisitor {
                     } else {
                         display = "definition ";
                     }
-                    display += nodeBo.getPredicateDefinitionNumber() + nodeBo.getFunctionDefinitionNumber();
+                    display += data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber();
                 } else if (node.getNodeType() instanceof PredicateDefinition) {
                     if ("de".equals(language)) {
                         display = "Definition ";
                     } else {
                         display = "definition ";
                     }
-                    display += nodeBo.getPredicateDefinitionNumber() + nodeBo.getFunctionDefinitionNumber();
+                    display += data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber();
                 } else if (node.getNodeType() instanceof Rule) {
                     if ("de".equals(language)) {
                         display = "Regel ";
                     } else {
                         display = "rule ";
                     }
-                    display += nodeBo.getRuleNumber();
+                    display += data.getRuleNumber();
                 } else {
                     if ("de".equals(language)) {
                         display = "Unbekannt";

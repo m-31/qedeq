@@ -25,6 +25,7 @@ import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
@@ -45,26 +46,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /** QEDEQ module labels. */
     private ModuleLabels labels;
 
-    /** Chapter numbering currently on? */
-    private boolean chapterNumbering;
-
-    /** Chapter number. */
-    private int chapterNumber;
-
-    /** Rule number. */
-    private int ruleNumber;
-
-    /** Axiom number. */
-    private int axiomNumber;
-
-    /** Proposition number. */
-    private int propositionNumber;
-
-    /** Function definition number. */
-    private int functionDefinitionNumber;
-
-    /** Predicate definition number. */
-    private int predicateDefinitionNumber;
+    private KernelNodeNumbers data = new KernelNodeNumbers();
 
     /**
      * Constructor.
@@ -76,13 +58,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     public void visitEnter(final Qedeq qedeq) {
-        chapterNumbering = false;
-        chapterNumber = 0;
-        ruleNumber = 0;
-        axiomNumber = 0;
-        predicateDefinitionNumber = 0;
-        functionDefinitionNumber = 0;
-        propositionNumber = 0;
+        data = new KernelNodeNumbers();
     }
 
     /**
@@ -107,10 +83,10 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public void visitEnter(final Chapter chapter) {
         if (Boolean.TRUE.equals(chapter.getNoNumber())) {
-            chapterNumbering = false;
+            data.setChapterNumbering(false);
         } else {
-            chapterNumbering = false;
-            chapterNumber++;
+            data.setChapterNumbering (true);
+            data.increaseChapterNumber();
         }
     }
 
@@ -120,7 +96,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      * @param   chapter             Visit this chapter.
      */
     public void visitEnter(final Axiom axiom) {
-        axiomNumber++;
+        data.increaseAxiomNumber();
         setBlocked(true);   // block further traverse
     }
 
@@ -130,7 +106,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      * @param   chapter             Visit this chapter.
      */
     public void visitEnter(final Proposition proposition) {
-        propositionNumber++;
+        data.increasePropositionNumber();
         setBlocked(true);   // block further traverse
     }
 
@@ -140,7 +116,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      * @param   funcDef             Begin visit of this element.
      */
     public void visitEnter(final FunctionDefinition funcDef) {
-        functionDefinitionNumber++;
+        data.increaseFunctionDefinitionNumber();
         setBlocked(true);   // block further traverse
     }
 
@@ -150,16 +126,13 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      * @param   predDef             Begin visit of this element.
      */
     public void visitEnter(final PredicateDefinition predDef) {
-        predicateDefinitionNumber++;
+        data.increasePredicateDefinitionNumber();
         setBlocked(true);   // block further traverse
     }
 
     public void visitLeave(final Node node) throws ModuleDataException {
         try {
-            this.labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(),
-                (chapterNumbering ? chapterNumber : -1), ruleNumber,
-                propositionNumber, axiomNumber, predicateDefinitionNumber,
-                functionDefinitionNumber);
+            this.labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(), data);
         } catch (ModuleDataException me) {
             addModuleDataException(me);
             Trace.trace(CLASS, this, "visitEnter(Node)", me);
