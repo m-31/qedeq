@@ -253,7 +253,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.println();
             printer.println("\\theoremstyle{definition}");
             printer.println("\\newtheorem{defn}{Definition}");
-            printer.println("\\newtheorem{idefn}{Initiale Definition}");
+            printer.println("\\newtheorem{idefn}[defn]{Initiale Definition}");
             printer.println();
             printer.println("\\theoremstyle{remark}");
             printer.println("\\newtheorem{rem}[thm]{Bemerkung}");
@@ -273,7 +273,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.println();
             printer.println("\\theoremstyle{definition}");
             printer.println("\\newtheorem{defn}{Definition}");
-            printer.println("\\newtheorem{idefn}{Initial Definition}");
+            printer.println("\\newtheorem{idefn}[defn]{Initial Definition}");
             printer.println();
             printer.println("\\theoremstyle{remark}");
             printer.println("\\newtheorem{rem}[thm]{Remark}");
