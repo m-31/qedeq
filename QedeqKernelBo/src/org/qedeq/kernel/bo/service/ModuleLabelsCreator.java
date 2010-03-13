@@ -24,6 +24,7 @@ import org.qedeq.kernel.base.module.Node;
 import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Qedeq;
+import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -128,6 +129,16 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public void visitEnter(final PredicateDefinition predDef) {
         data.increasePredicateDefinitionNumber();
+        setBlocked(true);   // block further traverse
+    }
+
+    /**
+     * Visit import. Loads referenced QEDEQ module and saves reference.
+     *
+     * @param   predDef             Begin visit of this element.
+     */
+    public void visitEnter(final Rule rule) {
+        data.increaseRuleNumber();
         setBlocked(true);   // block further traverse
     }
 
