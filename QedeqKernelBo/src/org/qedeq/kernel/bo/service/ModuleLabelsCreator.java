@@ -93,9 +93,9 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     /**
-     * Visit chapter. Increases axiom number.
+     * Increase axiom counter.
      *
-     * @param   chapter             Visit this chapter.
+     * @param   axiom               Visit this element.
      */
     public void visitEnter(final Axiom axiom) {
         data.increaseAxiomNumber();
@@ -103,9 +103,9 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     /**
-     * Visit chapter. Increases chapter number, if this chapter doesn't forbid it.
+     * Increase proposition counter.
      *
-     * @param   chapter             Visit this chapter.
+     * @param   proposition         Begin  visit of this element.
      */
     public void visitEnter(final Proposition proposition) {
         data.increasePropositionNumber();
@@ -113,7 +113,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     /**
-     * Visit import. Loads referenced QEDEQ module and saves reference.
+     * Increase function definition counter.
      *
      * @param   funcDef             Begin visit of this element.
      */
@@ -123,7 +123,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     /**
-     * Visit import. Loads referenced QEDEQ module and saves reference.
+     * Increase predicate definition counter.
      *
      * @param   predDef             Begin visit of this element.
      */
@@ -133,15 +133,20 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     /**
-     * Visit import. Loads referenced QEDEQ module and saves reference.
+     * Increase rule counter.
      *
-     * @param   predDef             Begin visit of this element.
+     * @param   rule                Begin visit of this element.
      */
     public void visitEnter(final Rule rule) {
         data.increaseRuleNumber();
         setBlocked(true);   // block further traverse
     }
 
+    /**
+     * Add node and counter informations.
+     *
+     * @param  node                 End visit of this element.
+     */
     public void visitLeave(final Node node) throws ModuleDataException {
         try {
             this.labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(), data);
