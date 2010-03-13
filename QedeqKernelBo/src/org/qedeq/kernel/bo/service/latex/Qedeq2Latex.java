@@ -904,13 +904,14 @@ public final class Qedeq2Latex extends ControlVisitor {
                 } else {                        // external reference
                     if (ref.length() <= 0) {
                         // we have an external module reference without node
-                        result.replace(pos1, pos2 + 1, "\\url{" + getPdfLink(prop) + "}");
+                        result.replace(pos1, pos2 + 1, "\\url{" + getPdfLink(prop) + "}~\\cite{" + label + "}");
                     } else {
                         // we have an external module reference with node
                         final String display = getDisplay(ref, node, false, true);
                         result.replace(pos1, pos2 + 1, "\\hyperref{" + getPdfLink(prop) + "}{}{"
                             + ref + (sub.length() > 0 ? ":" + sub : "")
-                            + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "") + "}");
+                            + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "") + "}~\\cite{"
+                            + label + "}");
                     }
                 }
             }
