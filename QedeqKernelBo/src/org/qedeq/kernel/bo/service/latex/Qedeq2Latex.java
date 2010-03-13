@@ -896,7 +896,7 @@ public final class Qedeq2Latex extends ControlVisitor {
 
                 // do we have an external module?
                 if (label.length() <= 0) {      // local reference
-                    final String display = getDisplay(ref, node, false);
+                    final String display = getDisplay(ref, node, false, false);
 //                        result.replace(pos1, pos2 + 1, display + "~\\autoref{" + ref + "}"
                         result.replace(pos1, pos2 + 1, "\\hyperref[" + ref + "]{" + display + "~\\ref*{"
                         + ref + "}}"
@@ -907,7 +907,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                         result.replace(pos1, pos2 + 1, "\\url{" + getPdfLink(prop) + "}");
                     } else {
                         // we have an external module reference with node
-                        final String display = getDisplay(ref, node, false);
+                        final String display = getDisplay(ref, node, false, true);
                         result.replace(pos1, pos2 + 1, "\\hyperref{" + getPdfLink(prop) + "}{}{"
                             + ref + (sub.length() > 0 ? ":" + sub : "")
                             + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "") + "}");
@@ -924,12 +924,14 @@ public final class Qedeq2Latex extends ControlVisitor {
      * Get text to display for a link.
      * LATER m31 20100308: refactor language dependent code
      *
-     * @param   ref     Reference label.
-     * @param   node    Node to link to. Might be <code>null</code>.
-     * @param   useName Use name if it exists.
-     * @return  Display text.
+     * @param   ref         Reference label.
+     * @param   node        Node to link to. Might be <code>null</code>.
+     * @param   useName     Use name if it exists.
+     * @param   external    Is this an external node?
+     * @return  Display     text.
      */
-    private String getDisplay(final String ref, final KernelNodeBo nodeBo, final boolean useName) {
+    private String getDisplay(final String ref, final KernelNodeBo nodeBo, final boolean useName,
+            final boolean external) {
         String display = ref;
         if (nodeBo != null) {
             Node node = nodeBo.getNodeVo();
@@ -939,39 +941,49 @@ public final class Qedeq2Latex extends ControlVisitor {
             } else {
                 if (node.getNodeType() instanceof Axiom) {
                     if ("de".equals(language)) {
-                        display = "Axiom ";
+                        display = "Axiom";
                     } else {
-                        display = "axiom ";
+                        display = "axiom";
                     }
-                    display += data.getAxiomNumber();
+                    if (external) {
+                        display += " " + data.getAxiomNumber();
+                    }
                 } else if (node.getNodeType() instanceof Proposition) {
                     if ("de".equals(language)) {
-                        display = "Proposition ";
+                        display = "Proposition";
                     } else {
-                        display = "proposition ";
+                        display = "proposition";
                     }
-                    display += data.getPropositionNumber();
+                    if (external) {
+                        display += " " + data.getPropositionNumber();
+                    }
                 } else if (node.getNodeType() instanceof FunctionDefinition) {
                     if ("de".equals(language)) {
-                        display = "Definition ";
+                        display = "Definition";
                     } else {
-                        display = "definition ";
+                        display = "definition";
                     }
-                    display += data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber();
+                    if (external) {
+                        display += " " + data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber();
+                    }
                 } else if (node.getNodeType() instanceof PredicateDefinition) {
                     if ("de".equals(language)) {
-                        display = "Definition ";
+                        display = "Definition";
                     } else {
-                        display = "definition ";
+                        display = "definition";
                     }
-                    display += data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber();
+                    if (external) {
+                        display += " " + data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber();
+                    }
                 } else if (node.getNodeType() instanceof Rule) {
                     if ("de".equals(language)) {
-                        display = "Regel ";
+                        display = "Regel";
                     } else {
-                        display = "rule ";
+                        display = "rule";
                     }
-                    display += data.getRuleNumber();
+                    if (external) {
+                        display += " " + data.getRuleNumber();
+                    }
                 } else {
                     if ("de".equals(language)) {
                         display = "Unbekannt";
