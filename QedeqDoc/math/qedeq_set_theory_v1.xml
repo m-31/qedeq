@@ -90,7 +90,7 @@
           I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their support and patience.
 
           \par
-          \vspace*{1cm} Hamburg, march 2008 \\
+          \vspace*{1cm} Hamburg, march 2010 \\
           \hspace*{\fill} Michael Meyling
         ]]>
       </LATEX>
@@ -111,7 +111,7 @@
           Besondere Dank geht an meine Frau \emph{Gesine~Dräger} und unseren Sohn \emph{Lennart} für ihre Unterstützung und ihr Verständnis für ihnen fehlende Zeit.
 
           \par
-          \vspace*{1cm} Hamburg, März 2008 \\
+          \vspace*{1cm} Hamburg, März 2010 \\
           \hspace*{\fill} Michael Meyling
         ]]>
       </LATEX>
@@ -424,10 +424,10 @@
             </FORMULA>
             <PROOF kind="informal" level="1">
               <LATEX language="en">
-                 This a simple consequence of the second identity axiom. We assume $x=y$. Then follows $\phi(x) \leftrightarrow \phi(y)$ for any predicate $\phi$. So follows $z \in x \leftrightarrow z \in y$ for any $z$. Therefore we have $\forall \ z \ z  \in x \leftrightarrow \ z \in y$. So we derived $x = y \ \rightarrow \ \forall \ z \ z  \in x \leftrightarrow \ z \in y$. Together with the axiom of extensionality~\ref{axiom:extensionality} we get the desired result.
+                 This a simple consequence of the second identity axiom. We assume $x=y$. Then follows $\phi(x) \leftrightarrow \phi(y)$ for any predicate $\phi$. So follows $z \in x \leftrightarrow z \in y$ for any $z$. Therefore we have $\forall \ z \ z  \in x \leftrightarrow \ z \in y$. So we derived $x = y \ \rightarrow \ \forall \ z \ z  \in x \leftrightarrow \ z \in y$. Together with \qref{axiom:extensionality} we get the desired result.
               </LATEX>
               <LATEX language="de">
-                 Dies ist eine einfache Anwendung des zweiten identitätslogischen Axioms. Wir setzen $x=y$ voraus. Nun folgt $\phi(x) \leftrightarrow \phi(y)$ für jedes Prädikat $\phi$. So bekommen wir $z \in x \leftrightarrow z \in y$ für beliebiges $z$. Also haben wir $\forall \ z \ z  \in x \leftrightarrow \ z \in y$. Damit zeigten wir $x = y \ \rightarrow \ \forall \ z \ z  \in x \leftrightarrow \ z \in y$. Zusammen mit dem Extensionalitätsaxiom~\ref{axiom:extensionality} erhalten wir das gewünschte Ergebnis.
+                 Dies ist eine einfache Anwendung des zweiten identitätslogischen Axioms. Wir setzen $x=y$ voraus. Nun folgt $\phi(x) \leftrightarrow \phi(y)$ für jedes Prädikat $\phi$. So bekommen wir $z \in x \leftrightarrow z \in y$ für beliebiges $z$. Also haben wir $\forall \ z \ z  \in x \leftrightarrow \ z \in y$. Damit zeigten wir $x = y \ \rightarrow \ \forall \ z \ z  \in x \leftrightarrow \ z \in y$. Zusammen mit dem \qref{axiom:extensionality} erhalten wir das gewünschte Ergebnis.
               </LATEX>
             </PROOF>
           </THEOREM>
@@ -572,20 +572,20 @@
             <PROOF kind="informal" level="1">
               <LATEX language="en">
                 <![CDATA[
-                  `$\Rightarrow$': Simulary to proof of~\ref{theorem:extensonalityEquivalence} we get the first implication by the second identity axiom.
+                  `$\Rightarrow$': Simulary to proof of \qref{theorem:extensonalityEquivalence} we get the first implication by the second identity axiom.
                   
                   \par
                   `$\Leftarrow$': 
-                  Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $u$ be an arbitrary class. If $u \in x$ then $u$ is a set by definition~\ref{definition:isSet}, and hence by the assumption, $u \in y$. similarly $u \in y \ \rightarrow \ u \in x$. Since $u$ is arbitrary, it follows that $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Thus by the \qref{axiom:extensionality}, $x = y$.
+                  Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $u$ be an arbitrary class. If $u \in x$ then $u$ is a set by \qref{definition:isSet}, and hence by the assumption, $u \in y$. similarly $u \in y \ \rightarrow \ u \in x$. Since $u$ is arbitrary, it follows that $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Thus by the \qref{axiom:extensionality}, $x = y$.
                 ]]>
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  `$\Rightarrow$': Genauso wie im Beweis zu~\ref{theorem:extensonalityEquivalence} erhalten wir die erste Implikation mit dem zweiten idenitätslogischen Axiom.
+                  `$\Rightarrow$': Genauso wie im Beweis zu \qref{theorem:extensonalityEquivalence} erhalten wir die erste Implikation mit dem zweiten idenitätslogischen Axiom.
                   
                   \par
                   `$\Leftarrow$': 
-                  Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $u$ eine beliebige Klasse. Falls $u \in x$ dann gilt $u$ ist eine Menge nach Definition~\ref{definition:isSet}, und daraus folgt mit der Annahme $u \in y$. Analog folgt $u \in y \ \rightarrow \ u \in x$. Da $u$ beliebig, haben wir $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Und mit dem \qref{axiom:extensionality} erhalten wir daraus $x = y$. 
+                  Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $u$ eine beliebige Klasse. Falls $u \in x$ dann gilt $u$ ist eine Menge nach \qref{definition:isSet}, und daraus folgt mit der Annahme $u \in y$. Analog folgt $u \in y \ \rightarrow \ u \in x$. Da $u$ beliebig, haben wir $\forall u \ (u \in x \ \leftrightarrow \ u \in y)$. Und mit dem \qref{axiom:extensionality} erhalten wir daraus $x = y$. 
                 ]]>
               </LATEX>
             </PROOF>
@@ -776,7 +776,7 @@
                   Dann folgt mit \qref{l.theorem:predicateCalculus}[f]: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
 
                   \par
-                  Daraus erhalten wir mit \qref{l.theorem:predicateCalculus}[bg]: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit Proposition~\ref{theorem:extensonalityEquivalence} folgt nun $u = v$. Also haben wir gezeigt:
+                  Daraus erhalten wir mit \qref{l.theorem:predicateCalculus}[bg]: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit \qref{theorem:extensonalityEquivalence} folgt nun $u = v$. Also haben wir gezeigt:
 
                   \par
                   $\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
@@ -801,12 +801,12 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                Starting with \ref{theorem:comprehension} we can extend the syntax and provide a new abbreviation.
+                Starting with \qref{theorem:comprehension} we can extend the syntax and provide a new abbreviation.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Ausgehend von \ref{theorem:comprehension} können wir die Sprachsyntax erweitern und eine neue abkürzende Schreibweise einführen.
+                Ausgehend von \qref{theorem:comprehension} können wir die Sprachsyntax erweitern und eine neue abkürzende Schreibweise einführen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1749,7 +1749,7 @@
         <LATEX language="en">
           <![CDATA[
 
-            With rule~\ref{rule:classDefinition} we can define new class operators with the
+            With \qref{rule:classDefinition} we can define new class operators with the
             help of logical connectives.
 
           ]]>
@@ -1757,7 +1757,7 @@
         <LATEX language="de">
           <![CDATA[
 
-            Die Schreibweise bzw. Regel~\ref{rule:classDefinition} ermöglicht die Definition von Klassenperatoren mithilfe
+            Die Schreibweise bzw. \qref{rule:classDefinition} ermöglicht die Definition von Klassenperatoren mithilfe
             der logischen Verknüpfungen.
 
           ]]>
@@ -2923,14 +2923,14 @@
             <LATEX language="en">
               <![CDATA[
                 Especially by saying that one element is inside the class we can define the so called \emph{singleton}.
-                With rule \ref{theorem:comprehension} again we can extend the syntax and provide a new abbreviation.
+                With \qref{theorem:comprehension} again we can extend the syntax and provide a new abbreviation.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
                 Insbesondere kann durch Angabe eines Elements die sogenannte \emph{Einerklasse} 
               festgelegt werden.
-                Wiederum mit Regel \ref{rule:classDefinition} können wir die Sprachsyntax erweitern und eine neue abkürzende Schreibweise einführen.
+                Wiederum mit \qref{rule:classDefinition} können wir die Sprachsyntax erweitern und eine neue abkürzende Schreibweise einführen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3595,7 +3595,7 @@
               <![CDATA[
 
                 This function can be viewed as a generalization of the intersection operation.
-                See also proposition~\ref{theorem:setPairSetSumProduct}.
+                See also \qref{theorem:setPairSetSumProduct}.
 
                 \par
                 We also say the class $x$ defines a \emph{family of sets}\index{family!of sets}\index{set!family}. 
@@ -3607,7 +3607,7 @@
               <![CDATA[
               
                 Diese Funktion kann als Verallgemeinerung der Schnittklassenbildung angesehen werden.
-                Siehe auch Proposition~\ref{theorem:setPairSetSumProduct}.
+                Siehe auch \qref{theorem:setPairSetSumProduct}.
                 
                 \par
                 Wir sagen auch, dass die Klasse $x$ eine \emph{Mengenfamilie}\index{Familie}\index{Mengenfamilie}
@@ -4265,12 +4265,12 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                Starting with rule~\ref{rule:classDefinition} we can extend the syntax and provide a new abbreviation.
+                Starting with \qref{rule:classDefinition} we can extend the syntax and provide a new abbreviation.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Ausgehend von Regel~\ref{rule:classDefinition} können wir die Sprachsyntax erweitern und eine neue abkürzende Schreibweise einführen.
+                Ausgehend von \qref{rule:classDefinition} können wir die Sprachsyntax erweitern und eine neue abkürzende Schreibweise einführen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -4322,14 +4322,14 @@
     $$ \bigcup_{\phi(x)} x \ := \ \{y~|~\exists \phi(x) \ (y \in x) \}$$
     \end{defn}
 
-    In Analogie zu \ref{inSetEqual} gilt nun:
+    In Analogie zu \qref{inSetEqual} gilt nun:
     \begin{thm}
     \begin{eqnarray}
     y \in \bigcap_{\phi(x)} x & \leftrightarrow & \mathfrak{M}(y) \land \forall \phi(x) \ (y \in x) \label{inUnionEqual}\\
     y \in \bigcup_{\phi(x)} x & \leftrightarrow & \exists \phi(x) \ (y \in x) \label{inIntersectionEqual}
     \end{eqnarray}
     \end{thm}
-    Die Einschränkung auf Mengen in (\ref{inUnionEqual}) ist notwendig, da sonst bei einem nicht
+    Die Einschränkung auf Mengen in (\qref{inUnionEqual}) ist notwendig, da sonst bei einem nicht
     erfüllbaren $\phi$ auch alle Klassen $y$, die keine Mengen sind, die rechte Seite der Äquivalenz
     erfüllen würden.
     \par
@@ -4997,8 +4997,8 @@
               <![CDATA[
 
                 The above set axioms enables us to construct sets. Starting with 
-                axiom~\ref{axiom:emptySet} we have one first set $\emptyset$. By applying
-                axiom~\ref{axiom:powerSet} we get the set $\{ \emptyset \}$. Building the
+                \qref{axiom:emptySet} we have one first set $\emptyset$. By applying
+                \qref{axiom:powerSet} we get the set $\{ \emptyset \}$. Building the
                 power class again provides the set $\{ \emptyset, \{ \emptyset \} \}$. 
                 By repeating this procedure we get an infinite number of 
                 sets.\footnote{One can easily show that they are all different.}
@@ -5015,8 +5015,8 @@
               <![CDATA[
 
                 Die obigen Mengenaxiome ermöglichen es uns Mengen zu konstruieren.
-                Durch das Axiom~\ref{axiom:emptySet} haben wir eine erste Menge $\emptyset$. 
-                Durch die Anwendung von Axiom~\ref{axiom:powerSet} erhalten wir die Menge
+                Durch das \qref{axiom:emptySet} haben wir eine erste Menge $\emptyset$. 
+                Durch die Anwendung von \qref{axiom:powerSet} erhalten wir die Menge
                 $\{ \emptyset \}$. Die erneute Bildung der Potenzmenge erzeugt die Menge
                 $\{ \emptyset, \{ \emptyset \} \}$. Durch wiederholtes Anwendung der Prozedur
                 bekommen wir eine beliebige Anzahl von Mengen.\footnote{Dass die Mengen alle
@@ -5499,7 +5499,7 @@
         <LATEX language="de">
           <![CDATA[
           
-            Für die geordenten Klassenpaare brauchen wir eine Metastruktur. Dafür fassen wir einfach geordete
+            Für die geordneten Klassenpaare brauchen wir eine Metastruktur. Dafür fassen wir einfach geordnete
             Paare in einer Klasse zusammen.
 
           ]]>
