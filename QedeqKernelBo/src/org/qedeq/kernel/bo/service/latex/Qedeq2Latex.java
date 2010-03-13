@@ -242,7 +242,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         printer.println("\\usepackage{tabularx}");
         printer.println();
         if ("de".equals(language)) {
-// FIXME FIXME FIXME
+// TODO m31 20100313: validate different counter types
 //            printer.println("\\newtheorem{thm}{Theorem}[chapter]");
             printer.println("\\newtheorem{thm}{Theorem}");
             printer.println("\\newtheorem{cor}[thm]{Korollar}");
@@ -252,8 +252,8 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.println("\\newtheorem{rul}{Regel}");
             printer.println();
             printer.println("\\theoremstyle{definition}");
-            printer.println("\\newtheorem{defn}[thm]{Definition}");
-            printer.println("\\newtheorem{idefn}[thm]{Initiale Definition}");
+            printer.println("\\newtheorem{defn}{Definition}");
+            printer.println("\\newtheorem{idefn}{Initiale Definition}");
             printer.println();
             printer.println("\\theoremstyle{remark}");
             printer.println("\\newtheorem{rem}[thm]{Bemerkung}");
@@ -262,7 +262,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             if (!"en".equals(language)) {
                 printer.println("%%% TODO unknown language: " + language);
             }
-// FIXME FIXME FIXME
+// TODO m31 20100313: validate different counter types
 //            printer.println("\\newtheorem{thm}{Theorem}[chapter]");
             printer.println("\\newtheorem{thm}{Theorem}");
             printer.println("\\newtheorem{cor}[thm]{Corollary}");
@@ -272,8 +272,8 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.println("\\newtheorem{rul}{Rule}");
             printer.println();
             printer.println("\\theoremstyle{definition}");
-            printer.println("\\newtheorem{defn}[thm]{Definition}");
-            printer.println("\\newtheorem{idefn}[thm]{Initial Definition}");
+            printer.println("\\newtheorem{defn}{Definition}");
+            printer.println("\\newtheorem{idefn}{Initial Definition}");
             printer.println();
             printer.println("\\theoremstyle{remark}");
             printer.println("\\newtheorem{rem}[thm]{Remark}");
@@ -950,11 +950,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                     } else {
                         display = "proposition ";
                     }
-                    if (data.getChapterNumber() >= 0) {
-                        display += data.getChapterNumber() + "." + data.getPropositionNumber();
-                    } else {
-                        display += data.getPropositionNumber();
-                    }
+                    display += data.getPropositionNumber();
                 } else if (node.getNodeType() instanceof FunctionDefinition) {
                     if ("de".equals(language)) {
                         display = "Definition ";
