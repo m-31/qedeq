@@ -55,13 +55,16 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     private int loadingCompleteness;
 
     /** Describes QEDEQ module loading state. */
-    private State loadingState;
+    private LoadingState loadingState;
 
     /** Describes QEDEQ module dependency state. */
     private DependencyState dependencyState;
 
     /** Describes QEDEQ module logical state. */
     private LogicalState logicalState;
+
+    /** Describes QEDEQ module plugin states. */
+//    private PluginStates pluginStates;
 
     /** Loaded QEDEQ module. */
     private QedeqVo qedeq;
@@ -173,7 +176,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      * @param   state   Module loading state. Must not be <code>null</code>.
      * @throws  IllegalStateException   State is a failure state or module loaded state.
      */
-    public void setLoadingProgressState(final State state) {
+    public void setLoadingProgressState(final LoadingState state) {
         stateManager.setLoadingProgressState(state);
     }
 
@@ -189,7 +192,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         stateManager.setLoadingFailureState(state, e);
     }
 
-    public State getLoadingState() {
+    public LoadingState getLoadingState() {
         return this.loadingState;
     }
 
@@ -458,7 +461,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      *
      * @param   state   Set this loading state.
      */
-    protected void setLoadingState(final State state) {
+    protected void setLoadingState(final LoadingState state) {
         this.loadingState = state;
     }
 
