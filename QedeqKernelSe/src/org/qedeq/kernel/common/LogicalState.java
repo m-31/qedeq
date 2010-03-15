@@ -18,10 +18,9 @@ package org.qedeq.kernel.common;
 /**
  * Represents a mathematical module state. Every instance of this class is unique.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public final class LogicalState {
+public final class LogicalState implements State{
 
     /** Unchecked. */
     public static final LogicalState STATE_UNCHECKED
@@ -81,29 +80,14 @@ public final class LogicalState {
         this.code = code;
     }
 
-    /**
-     * Get meaning of module state.
-     *
-     * @return  meaning of module state.
-     */
     public String getText() {
         return this.text;
     }
 
-    /**
-     * Is this a failure state?
-     *
-     * @return  is this a failure state?
-     */
     public boolean isFailure() {
         return this.failure;
     }
 
-    /**
-     * Get module state code.
-     *
-     * @return  Module state.
-     */
     public int getCode() {
         return this.code;
     }

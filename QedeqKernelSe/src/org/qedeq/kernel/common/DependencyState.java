@@ -20,10 +20,9 @@ package org.qedeq.kernel.common;
  * Represents a mathematical module state. All existing instances of this class are the public
  * constants of this class.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public final class DependencyState {
+public final class DependencyState implements State {
 
     /** Undefined loading state. */
     public static final DependencyState STATE_UNDEFINED = new DependencyState(
@@ -72,20 +71,10 @@ public final class DependencyState {
         this.code = code;
     }
 
-    /**
-     * Get meaning of module state.
-     *
-     * @return  meaning of module state.
-     */
     public String getText() {
         return this.text;
     }
 
-    /**
-     * Is this a failure state?
-     *
-     * @return  is this a failure state?
-     */
     public boolean isFailure() {
         return this.failure;
     }
@@ -99,11 +88,6 @@ public final class DependencyState {
         return this.code == STATE_LOADED_REQUIRED_MODULES.getCode();
     }
 
-    /**
-     * Get module state code.
-     *
-     * @return  Module state.
-     */
     public int getCode() {
         return this.code;
     }
