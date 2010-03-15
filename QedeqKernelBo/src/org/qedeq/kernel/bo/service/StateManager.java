@@ -29,7 +29,6 @@ import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.common.State;
 import org.qedeq.kernel.dto.module.QedeqVo;
 
 
@@ -82,7 +81,7 @@ public class StateManager {
      * @param   state   Module loading state. Must not be <code>null</code>.
      * @throws  IllegalStateException   State is a failure state or module loaded state.
      */
-    public void setLoadingProgressState(final State state) {
+    public void setLoadingProgressState(final LoadingState state) {
         checkIfDeleted();
         if (state == LoadingState.STATE_LOADED) {
             throw new IllegalArgumentException(
@@ -122,7 +121,7 @@ public class StateManager {
      * @param   e       Exception that occurred during loading. Must not be <code>null</code>.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public void setLoadingFailureState(final State state,
+    public void setLoadingFailureState(final LoadingState state,
             final SourceFileExceptionList e) {
         checkIfDeleted();
         if (!state.isFailure()) {
