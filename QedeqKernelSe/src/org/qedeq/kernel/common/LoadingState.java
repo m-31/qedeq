@@ -23,67 +23,67 @@ package org.qedeq.kernel.common;
 public final class LoadingState implements State {
 
     /** Undefined loading state. */
-    public static final State STATE_UNDEFINED = new LoadingState(
+    public static final LoadingState STATE_UNDEFINED = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_UNDEFINED, false,
         LoadingStateDescriptions.STATE_CODE_UNDEFINED);
 
     /** Trying to access web address. */
-    public static final State STATE_LOCATING_WITHIN_WEB = new LoadingState(
+    public static final LoadingState STATE_LOCATING_WITHIN_WEB = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_LOCATING_WITHIN_WEB, false,
         LoadingStateDescriptions.STATE_CODE_LOCATING_WITHIN_WEB);
 
     /** Try to access web address failed. */
-    public static final State STATE_LOCATING_WITHIN_WEB_FAILED = new LoadingState(
+    public static final LoadingState STATE_LOCATING_WITHIN_WEB_FAILED = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_LOCATING_WITHIN_WEB_FAILED, true,
         LoadingStateDescriptions.STATE_CODE_LOCATING_WITHIN_WEB_FAILED);
 
     /** Loading from web address. */
-    public static final State STATE_LOADING_FROM_WEB = new LoadingState(
+    public static final LoadingState STATE_LOADING_FROM_WEB = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_LOADING_FROM_WEB, false,
         LoadingStateDescriptions.STATE_CODE_LOADING_FROM_WEB);
 
     /** Loading from web address failed. */
-    public static final State STATE_LOADING_FROM_WEB_FAILED = new LoadingState(
+    public static final LoadingState STATE_LOADING_FROM_WEB_FAILED = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_LOADING_FROM_WEB_FAILED, true,
         LoadingStateDescriptions.STATE_CODE_LOADING_FROM_WEB_FAILED);
 
     /** Loading from local file. */
-    public static final State STATE_LOADING_FROM_LOCAL_FILE = new LoadingState(
+    public static final LoadingState STATE_LOADING_FROM_LOCAL_FILE = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_LOADING_FROM_LOCAL_FILE, false,
         LoadingStateDescriptions.STATE_CODE_LOADING_FROM_LOCAL_FILE);
 
     /** Loading from web address failed. */
-    public static final State STATE_LOADING_FROM_LOCAL_FILE_FAILED = new LoadingState(
+    public static final LoadingState STATE_LOADING_FROM_LOCAL_FILE_FAILED = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_LOADING_FROM_WEB_FAILED, true,
         LoadingStateDescriptions.STATE_CODE_LOADING_FROM_LOCAL_FILE_FAILED);
 
     /** Loading from local file buffer. */
-    public static final State STATE_LOADING_FROM_BUFFER = new LoadingState(
+    public static final LoadingState STATE_LOADING_FROM_BUFFER = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_LOADING_FROM_BUFFER, false,
         LoadingStateDescriptions.STATE_CODE_LOADING_FROM_BUFFER);
 
     /** Loading from local file buffer failed. */
-    public static final State STATE_LOADING_FROM_BUFFER_FAILED = new LoadingState(
+    public static final LoadingState STATE_LOADING_FROM_BUFFER_FAILED = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_LOADING_FROM_BUFFER_FAILED, true,
         LoadingStateDescriptions.STATE_CODE_LOADING_FROM_BUFFER_FAILED);
 
     /** Loading into memory. */
-    public static final State STATE_LOADING_INTO_MEMORY = new LoadingState(
+    public static final LoadingState STATE_LOADING_INTO_MEMORY = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_LOADING_INTO_MEMORY, false,
         LoadingStateDescriptions.STATE_CODE_LOADING_INTO_MEMORY);
 
     /** Loading into memory failed. */
-    public static final State STATE_LOADING_INTO_MEMORY_FAILED = new LoadingState(
+    public static final LoadingState STATE_LOADING_INTO_MEMORY_FAILED = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_LOADING_INTO_MEMORY_FAILED, true,
         LoadingStateDescriptions.STATE_CODE_LOADING_INTO_MEMORY_FAILED);
 
     /** Completely loaded. */
-    public static final State STATE_LOADED = new LoadingState(
+    public static final LoadingState STATE_LOADED = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_LOADED, false,
         LoadingStateDescriptions.STATE_CODE_LOADED);
 
     /** Deleted. */
-    public static final State STATE_DELETED = new LoadingState(
+    public static final LoadingState STATE_DELETED = new LoadingState(
         LoadingStateDescriptions.STATE_STRING_DELETED, false,
         LoadingStateDescriptions.STATE_CODE_DELETED);
 
