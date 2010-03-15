@@ -35,7 +35,6 @@ import org.qedeq.kernel.dto.module.QedeqVo;
 /**
  * Changes the states of {@link org.qedeq.kernel.bo.service.DefaultKernelQedeqBo}s.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class StateManager {
