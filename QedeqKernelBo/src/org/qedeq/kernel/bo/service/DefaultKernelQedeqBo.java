@@ -34,7 +34,6 @@ import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.common.State;
 import org.qedeq.kernel.dto.module.QedeqVo;
 
 
