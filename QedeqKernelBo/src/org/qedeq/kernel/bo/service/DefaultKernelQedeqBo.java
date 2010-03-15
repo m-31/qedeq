@@ -40,7 +40,6 @@ import org.qedeq.kernel.dto.module.QedeqVo;
 /**
  * Represents a module and its states. This is a kernel intern representation.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class DefaultKernelQedeqBo implements KernelQedeqBo {
