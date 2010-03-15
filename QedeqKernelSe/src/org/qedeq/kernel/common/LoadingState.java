@@ -18,7 +18,6 @@ package org.qedeq.kernel.common;
 /**
  * Represents a module state. Every instance of this class is unique.
  *
- * @version $Revision: 1.2 $
  * @author Michael Meyling
  */
 public final class LoadingState {
