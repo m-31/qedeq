@@ -187,7 +187,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      * @param   e       Exception that occurred during loading. Must not be <code>null</code>.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public void setLoadingFailureState(final State state,
+    public void setLoadingFailureState(final LoadingState state,
             final SourceFileExceptionList e) {
         stateManager.setLoadingFailureState(state, e);
     }
