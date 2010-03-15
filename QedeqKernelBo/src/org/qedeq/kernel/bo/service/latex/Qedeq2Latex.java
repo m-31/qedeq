@@ -905,6 +905,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                     if (ref.length() <= 0) {
                         // we have an external module reference without node
                         result.replace(pos1, pos2 + 1, "\\url{" + getPdfLink(prop) + "}~\\cite{" + label + "}");
+                        // if we want to show the text "description": \href{my_url}{description}
                     } else {
                         // we have an external module reference with node
                         final String display = getDisplay(ref, node, false, true);
