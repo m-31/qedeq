@@ -30,7 +30,6 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * Load all required QEDEQ modules.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class LoadRequiredModules {
@@ -55,8 +54,7 @@ public final class LoadRequiredModules {
      * @throws  SourceFileExceptionList Failure(s).
      * @throws  IllegalArgumentException    BO is not loaded
      */
-    public static void loadRequired(final DefaultKernelQedeqBo prop)
-            throws SourceFileExceptionList {
+    public static void loadRequired(final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
         // did we check this already?
         if (prop.getDependencyState().areAllRequiredLoaded()) {
             return; // everything is OK
