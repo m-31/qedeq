@@ -34,6 +34,7 @@ import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.common.State;
 import org.qedeq.kernel.dto.module.QedeqVo;
 
 
@@ -54,7 +55,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     private int loadingCompleteness;
 
     /** Describes QEDEQ module loading state. */
-    private LoadingState loadingState;
+    private State loadingState;
 
     /** Describes QEDEQ module dependency state. */
     private DependencyState dependencyState;
@@ -172,7 +173,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      * @param   state   Module loading state. Must not be <code>null</code>.
      * @throws  IllegalStateException   State is a failure state or module loaded state.
      */
-    public void setLoadingProgressState(final LoadingState state) {
+    public void setLoadingProgressState(final State state) {
         stateManager.setLoadingProgressState(state);
     }
 
@@ -183,12 +184,12 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      * @param   e       Exception that occurred during loading. Must not be <code>null</code>.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public void setLoadingFailureState(final LoadingState state,
+    public void setLoadingFailureState(final State state,
             final SourceFileExceptionList e) {
         stateManager.setLoadingFailureState(state, e);
     }
 
-    public LoadingState getLoadingState() {
+    public State getLoadingState() {
         return this.loadingState;
     }
 
@@ -457,7 +458,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      *
      * @param   state   Set this loading state.
      */
-    protected void setLoadingState(final LoadingState state) {
+    protected void setLoadingState(final State state) {
         this.loadingState = state;
     }
 
