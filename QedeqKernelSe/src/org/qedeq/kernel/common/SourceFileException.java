@@ -24,7 +24,6 @@ import org.qedeq.base.io.IoUtility;
 /**
  * Data validation error. Shows an error within a source file.
  *
- * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public class SourceFileException extends QedeqException {
