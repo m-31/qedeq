@@ -40,7 +40,7 @@ public class SourceFileException extends QedeqException {
     /** End of error location. */
     private final SourceArea referenceArea;
 
-    
+
     /**
      * Constructor.
      *

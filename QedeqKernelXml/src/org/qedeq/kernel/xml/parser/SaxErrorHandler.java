@@ -70,7 +70,7 @@ public class SaxErrorHandler implements ErrorHandler {
      */
     public final void warning(final SAXParseException e) throws SAXException {
         final SourceFileException sf = new SourceFileException(plugin, SAX_PARSER_EXCEPTION, e.getMessage(),
-            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(), 1), 
+            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(), 1),
             new SourcePosition(url, e.getLineNumber(), e.getColumnNumber())), null);
         Trace.trace(CLASS, this, "warning", e);
         Trace.trace(CLASS, this, "warning", sf);
@@ -82,7 +82,7 @@ public class SaxErrorHandler implements ErrorHandler {
      */
     public final void error(final SAXParseException e) throws SAXException {
         final SourceFileException sf = new SourceFileException(plugin, SAX_PARSER_EXCEPTION, e.getMessage(),
-            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(), 1), 
+            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(), 1),
             new SourcePosition(url, e.getLineNumber(), e.getColumnNumber())), null);
         Trace.trace(CLASS, this, "error", e);
         Trace.trace(CLASS, this, "error", sf);

@@ -62,7 +62,8 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
 
                 public String getPluginName() {
                     return "language doublets";
-                }}, prop);
+                }
+            }, prop);
         checker.traverse();
     }
 

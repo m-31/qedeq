@@ -56,7 +56,8 @@ public final class LoadRequiredModules {
      * @throws  SourceFileExceptionList Failure(s).
      * @throws  IllegalArgumentException    BO is not loaded
      */
-    public static void loadRequired(Plugin plugin, final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
+    public static void loadRequired(final Plugin plugin, final DefaultKernelQedeqBo prop)
+            throws SourceFileExceptionList {
         // did we check this already?
         if (prop.getDependencyState().areAllRequiredLoaded()) {
             return; // everything is OK

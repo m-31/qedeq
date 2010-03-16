@@ -44,7 +44,7 @@ public final class Xml2Xml implements Plugin {
     private static final Class CLASS = Xml2Xml.class;
 
     /** This instance. */
-    private static final Xml2Xml instance = new Xml2Xml();
+    private static final Xml2Xml INSTANCE = new Xml2Xml();
 
     /**
      * Constructor.
@@ -77,7 +77,7 @@ public final class Xml2Xml implements Plugin {
             }
         } catch (IOException e) {
             Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(instance, e);
+            throw new DefaultSourceFileExceptionList(INSTANCE, e);
         }
         return generate(IoUtility.toUrl(from), destination);
     }
@@ -112,10 +112,10 @@ public final class Xml2Xml implements Plugin {
             return to.getCanonicalPath();
         } catch (IOException e) {
             Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(instance, e);
+            throw new DefaultSourceFileExceptionList(INSTANCE, e);
         } catch (RuntimeException e) {
             Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(instance, e);
+            throw new DefaultSourceFileExceptionList(INSTANCE, e);
         } finally {
             if (printer != null) {
                 printer.close();

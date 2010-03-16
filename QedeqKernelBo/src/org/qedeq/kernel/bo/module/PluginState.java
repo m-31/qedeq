@@ -23,7 +23,7 @@ import org.qedeq.kernel.common.State;
  *
  * @author  Michael Meyling
  */
-public class PluginState implements State{
+public class PluginState implements State {
 
     /** meaning of this state. */
     private final String text;

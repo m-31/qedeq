@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.xml.common;
 
-import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.QedeqException;
 import org.qedeq.kernel.common.SourcePosition;
 
@@ -25,8 +24,7 @@ import org.qedeq.kernel.common.SourcePosition;
  * It can also mark a lack of inner consistence of something.
  * Also a programming error can lead to this exception.
  *
- * @version $Revision: 1.1 $
- * @author    Michael Meyling
+ * @author  Michael Meyling
  */
 public final class XmlSyntaxException extends QedeqException {
 

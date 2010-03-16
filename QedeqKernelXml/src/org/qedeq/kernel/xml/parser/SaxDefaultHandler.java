@@ -39,7 +39,7 @@ import org.xml.sax.SAXParseException;
  *
  * @author  Michael Meyling
  */
-public class SaxDefaultHandler extends SimpleHandler implements Plugin {    // FIXME m31 20100315: must this realy be a plugin?
+public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXME m31 20100315: must this be a plugin?
 
     /** This class. */
     private static final Class CLASS = SaxDefaultHandler.class;
