@@ -956,13 +956,12 @@ public final class Qedeq2Latex extends ControlVisitor {
 
     /**
      * Add warning.
-     * 
+     *
      * @param   code    Error code.
      * @param   msg     Error message.
      */
     private void addWarning(final int code, final String msg) {
         addWarning(new LaTeXContentException(code, msg, getCurrentContext()));
-        
     }
 
     /**
