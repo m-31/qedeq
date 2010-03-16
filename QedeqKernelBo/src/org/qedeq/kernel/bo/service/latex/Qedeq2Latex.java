@@ -84,28 +84,28 @@ public final class Qedeq2Latex extends ControlVisitor {
 // TODO m31 20100316: check number area for error codes
 
     /** Error (or warning) number for: ending "}" for "\qref{" not found.*/
-    public final static int QREF_END_NOT_FOUND_CODE = 80007;
+    public static final int QREF_END_NOT_FOUND_CODE = 80007;
 
     /** Error (or warning) text for: ending "}" for "\qref{" not found. */
-    public final static String QREF_END_NOT_FOUND_MSG = "ending \"}\" for \"\\qref{\" not found";
+    public static final String QREF_END_NOT_FOUND_MSG = "ending \"}\" for \"\\qref{\" not found";
 
     /** Error (or warning) number for: ending "}" for "\qref{" not found. */
-    public final static int QREF_EMPTY_CODE = 80008;
+    public static final int QREF_EMPTY_CODE = 80008;
 
     /** Error (or warning) text for: empty reference: "\qref{}". */
-    public final static String QREF_EMPTY_MSG = "empty reference: \"\\qref{}\"";
+    public static final String QREF_EMPTY_MSG = "empty reference: \"\\qref{}\"";
 
     /** Error (or warning) number for: ending "}" for "\qref{..}[" not found.*/
-    public final static int QREF_SUB_END_NOT_FOUND_CODE = 80009;
+    public static final int QREF_SUB_END_NOT_FOUND_CODE = 80009;
 
     /** Error (or warning) text for: ending "]" for "\qref{..}[" not found. */
-    public final static String QREF_SUB_END_NOT_FOUND_MSG = "ending \"]\" for \"\\qref{..}[\" not found";
+    public static final String QREF_SUB_END_NOT_FOUND_MSG = "ending \"]\" for \"\\qref{..}[\" not found";
 
     /** Error (or warning) number for: parsing of "\qref{" failed. */
-    public final static int QREF_PARSING_EXCEPTION_CODE = 80010;
+    public static final int QREF_PARSING_EXCEPTION_CODE = 80010;
 
     /** Error (or warning) text for: parsing of "\qref{" failed. */
-    public final static String QREF_PARSING_EXCEPTION_MSG = "parsing of \"\\qref{\" failed";
+    public static final String QREF_PARSING_EXCEPTION_MSG = "parsing of \"\\qref{\" failed";
 
     /** Output goes here. */
     private final TextOutput printer;
