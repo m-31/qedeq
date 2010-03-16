@@ -92,7 +92,7 @@ public final class LoadDirectlyRequiredModules extends ControlVisitor {
                 "import of module with label \"" + imp.getLabel() + "\" failed: "
                 + e.get(0).getMessage(), context);
             // TODO mime 20080227: also include reference area in sf creation?
-            addModuleDataException(me);
+            addError(me);
             Trace.trace(CLASS, this, "visitEnter(Import)", e);
         }
     }

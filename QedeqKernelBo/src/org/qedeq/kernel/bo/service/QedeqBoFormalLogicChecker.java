@@ -119,7 +119,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
         try {
             this.existence = new ModuleConstantsExistenceChecker(getQedeqBo());
         } catch (ModuleDataException me) {
-            addModuleDataException(me);
+            addError(me);
             throw getSourceFileExceptionList();
         }
         super.traverse();
@@ -136,7 +136,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
             LogicalCheckExceptionList list =
                 FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
             for (int i = 0; i < list.size(); i++) {
-                addModuleDataException(list.get(i));
+                addError(list.get(i));
             }
         }
         setLocationWithinModule(context);
@@ -172,7 +172,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
             LogicalCheckExceptionList list =
                 FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
             for (int i = 0; i < list.size(); i++) {
-                addModuleDataException(list.get(i));
+                addError(list.get(i));
             }
         }
         existence.add(definition);
@@ -204,7 +204,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
             LogicalCheckExceptionList list =
                 FormulaChecker.checkTerm(term.getElement(), getCurrentContext(), existence);
             for (int i = 0; i < list.size(); i++) {
-                addModuleDataException(list.get(i));
+                addError(list.get(i));
             }
         }
         existence.add(definition);
@@ -228,7 +228,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
             LogicalCheckExceptionList list =
                 FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
             for (int i = 0; i < list.size(); i++) {
-                addModuleDataException(list.get(i));
+                addError(list.get(i));
             }
         }
         setLocationWithinModule(context);

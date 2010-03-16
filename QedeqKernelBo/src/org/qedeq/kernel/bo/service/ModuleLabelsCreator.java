@@ -75,7 +75,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
             this.labels.addLabel(getCurrentContext(),
                 imp.getLabel());
         } catch (ModuleDataException me) {
-            addModuleDataException(me);
+            addError(me);
             Trace.trace(CLASS, this, "visitEnter(Import)", me);
         }
     }
@@ -153,7 +153,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
         try {
             this.labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(), data);
         } catch (ModuleDataException me) {
-            addModuleDataException(me);
+            addError(me);
             Trace.trace(CLASS, this, "visitEnter(Node)", me);
         }
         setBlocked(false);   // allow further traverse

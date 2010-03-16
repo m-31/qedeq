@@ -41,8 +41,11 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     /** Traverse QEDEQ module with this traverser. */
     private final QedeqNotNullTraverser traverser;
 
-    /** List of Exceptions during Module load. */
+    /** List of Exceptions of type error during Module visit. */
     private DefaultSourceFileExceptionList errorList;
+
+    /** List of Exceptions of type warnings during Module visit. */
+    private DefaultSourceFileExceptionList warningList;
 
 
     /**
@@ -74,8 +77,8 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * Start traverse of QedeqBo. If during the traverse a {@link ModuleDataException}
      * occurs it is thrown till high level and transformed into a
      * {@link DefaultSourceFileExceptionList}. Otherwise all collected exceptions
-     * (via {@link #addModuleDataException(ModuleDataException)} and
-     * {@link #addSourceFileException(SourceFileException)}) are thrown.
+     * (via {@link #addError(ModuleDataException)} and
+     * {@link #addError(SourceFileException)}) are thrown.
      *
      * @throws  DefaultSourceFileExceptionList  All collected exceptions.
      */
@@ -83,7 +86,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         try {
             this.traverser.accept(this.prop.getQedeq());
         } catch (ModuleDataException me) {
-            addModuleDataException(me);
+            addError(me);
         }
         if (errorList != null) {
             throw errorList;
@@ -108,8 +111,8 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @param   me  Exception to be added.
      */
-    protected void addModuleDataException(final ModuleDataException me) {
-        addSourceFileException(prop.createSourceFileException(plugin, me));
+    protected void addError(final ModuleDataException me) {
+        addError(prop.createSourceFileException(plugin, me));
     }
 
     /**
@@ -117,11 +120,33 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @param   sf  Exception to be added.
      */
-    protected void addSourceFileException(final SourceFileException sf) {
+    protected void addError(final SourceFileException sf) {
         if (errorList == null) {
             errorList = new DefaultSourceFileExceptionList(sf);
         } else {
             errorList.add(sf);
+        }
+    }
+
+    /**
+     * Add exception to warning collection.
+     *
+     * @param   me  Exception to be added.
+     */
+    protected void addWarning(final ModuleDataException me) {
+        addWarning(prop.createSourceFileException(plugin, me));
+    }
+
+    /**
+     * Add exception to warning collection.
+     *
+     * @param   sf  Exception to be added.
+     */
+    protected void addWarning(final SourceFileException sf) {
+        if (warningList == null) {
+            warningList = new DefaultSourceFileExceptionList(sf);
+        } else {
+            warningList.add(sf);
         }
     }
 
