@@ -20,7 +20,7 @@ package org.qedeq.kernel.common;
  *
  * @author  Michael Meyling
  */
-public final class LogicalState implements State{
+public final class LogicalState implements State {
 
     /** Unchecked. */
     public static final LogicalState STATE_UNCHECKED
