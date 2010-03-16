@@ -22,7 +22,6 @@ import java.net.URL;
 /**
  * Describes a file position within a text file.
  *
- * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class SourcePosition implements Serializable {
