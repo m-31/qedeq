@@ -29,19 +29,22 @@ import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
 /**
  * Test application.
  *
- * @version $Revision: 1.1 $
- * @author    Michael Meyling
+ * @author  Michael Meyling
  */
-public final class Xml2Xml  {
+public final class Xml2Xml implements Plugin {
 
     /** This class. */
     private static final Class CLASS = Xml2Xml.class;
+
+    /** This instance. */
+    private static final Xml2Xml instance = new Xml2Xml();
 
     /**
      * Constructor.
@@ -74,7 +77,7 @@ public final class Xml2Xml  {
             }
         } catch (IOException e) {
             Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(instance, e);
         }
         return generate(IoUtility.toUrl(from), destination);
     }
@@ -109,16 +112,24 @@ public final class Xml2Xml  {
             return to.getCanonicalPath();
         } catch (IOException e) {
             Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(instance, e);
         } catch (RuntimeException e) {
             Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(instance, e);
         } finally {
             if (printer != null) {
                 printer.close();
             }
             Trace.end(CLASS, method);
         }
+    }
+
+    public String getPluginDescription() {
+        return "transform XML QEDEQ module in a new XML file";
+    }
+
+    public String getPluginName() {
+        return "Xml2Xml";
     }
 
 }

@@ -3,6 +3,7 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
 
 /**
@@ -45,10 +46,11 @@ public interface KernelQedeqBo extends QedeqBo {
     /**
      * Create exception out of {@link ModuleDataException}.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   exception   Take this exception.
      * @return  Newly created instance.
      */
-    public SourceFileException createSourceFileException(final ModuleDataException
+    public SourceFileException createSourceFileException(final Plugin plugin, final ModuleDataException
             exception);
 
 }

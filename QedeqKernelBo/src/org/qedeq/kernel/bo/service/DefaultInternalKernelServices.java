@@ -59,6 +59,7 @@ import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
@@ -69,7 +70,7 @@ import org.qedeq.kernel.dto.module.QedeqVo;
  *
  * @author  Michael Meyling
  */
-public class DefaultInternalKernelServices implements KernelServices, InternalKernelServices {
+public class DefaultInternalKernelServices implements KernelServices, InternalKernelServices, Plugin {
 
     /** This class. */
     private static final Class CLASS = DefaultInternalKernelServices.class;
@@ -289,7 +290,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         try {
             qedeq = getQedeqFileDao().loadQedeq(prop, localFile);
         } catch (IOException e) {
-            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(e);
+            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this, e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
             throw sfl;
         } catch (SourceFileExceptionList sfl) {
@@ -321,7 +322,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         try {
             qedeq = getQedeqFileDao().loadQedeq(prop, localFile);
         } catch (IOException e) {
-            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(e);
+            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this, e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
             throw sfl;
         } catch (SourceFileExceptionList sfl) {
@@ -340,12 +341,12 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             vo = QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq);
         } catch (ModuleDataException e) {
             Trace.trace(CLASS, this, method, e);
-            final SourceFileExceptionList xl = prop.createSourceFileExceptionList(e, qedeq);
+            final SourceFileExceptionList xl = prop.createSourceFileExceptionList(this, e, qedeq);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
             throw xl;
         }
         prop.setQedeqVo(vo);
-        ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(prop);
+        ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(this, prop);
         try {
             prop.setLoaded(vo, moduleNodesCreator.createLabels());
         } catch (SourceFileExceptionList sfl) {
@@ -456,7 +457,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         if (prop.hasFailures()) {
             throw prop.getException();
         }
-        LoadRequiredModules.loadRequired(prop);
+        LoadRequiredModules.loadRequired(this, prop);
     }
 
     /**
@@ -642,7 +643,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             } catch (Exception ex) {
                 Trace.trace(CLASS, this, method, ex);
             }
-            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(e);
+            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this, e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
             Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
             throw sfl;
@@ -721,7 +722,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             } catch (Exception ex) {
                 Trace.trace(CLASS, this, method, ex);
             }
-            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(e);
+            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this, e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
             Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
             throw sfl;
@@ -864,7 +865,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 QedeqLog.getInstance().logFailureReply(msg, "Module could not even be loaded.");
                 return false;
             }
-            LoadRequiredModules.loadRequired(prop);
+            LoadRequiredModules.loadRequired(this, prop);
             if (!prop.hasLoadedRequiredModules()) {
                 final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())
                 + "\"";
@@ -883,7 +884,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())
                 + "\"";
             Trace.fatal(CLASS, this, method, msg, e);
-            final SourceFileExceptionList xl = new DefaultSourceFileExceptionList(e);
+            final SourceFileExceptionList xl = new DefaultSourceFileExceptionList(this, e);
             // TODO mime 20080124: every state must be able to change into
             // a failure state, here we only assume three cases
             if (!prop.isLoaded()) {
@@ -929,12 +930,12 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     }
 
     private SourceFileExceptionList createSourceFileExceptionList(final IOException e) {
-        return new DefaultSourceFileExceptionList(e);
+        return new DefaultSourceFileExceptionList(this, e);
     }
 
     private SourceFileExceptionList createSourcelFileExceptionList(
             final ModuleFileNotFoundException e) {
-        return new DefaultSourceFileExceptionList(new IOException(e.getMessage()));
+        return new DefaultSourceFileExceptionList(this, new IOException(e.getMessage()));
     }
 
     /**
@@ -990,6 +991,14 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     public QedeqFileDao getQedeqFileDao() {
         return qedeqFileDao;
+    }
+
+    public String getPluginDescription() {
+        return "provides basic services for loading QEDEQ modules";
+    }
+
+    public String getPluginName() {
+        return "Basis";
     }
 
 }

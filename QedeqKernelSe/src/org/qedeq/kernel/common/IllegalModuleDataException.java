@@ -20,7 +20,6 @@ package org.qedeq.kernel.common;
  * Data validation error for a QEDEQ module. Occurs if a set or add method leads to wrong or
  * inconsistent data.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class IllegalModuleDataException extends ModuleDataException {

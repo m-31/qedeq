@@ -27,6 +27,7 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.common.DummyPlugin;
 import org.qedeq.kernel.xml.handler.list.ElementHandler;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxErrorHandler;
@@ -85,7 +86,7 @@ public class TestParser {
             dis = new BufferedReader(in);
             final InputSource input = new InputSource(dis);
 
-            reader.setErrorHandler(new SaxErrorHandler(url, exceptionList));
+            reader.setErrorHandler(new SaxErrorHandler(DummyPlugin.getInstance(), url, exceptionList));
             handler.setExceptionList(exceptionList);
             reader.setContentHandler(handler);
             handler.setUrl(url);

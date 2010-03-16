@@ -31,50 +31,58 @@ public class SourceFileException extends QedeqException {
     /** Serialization information. */
     private static final long serialVersionUID = -4109767904038020052L;
 
+    /** Error code of this Exception. */
+    private final Plugin plugin;
+
     /** Start of error location. */
     private final SourceArea errorArea;
 
     /** End of error location. */
     private final SourceArea referenceArea;
 
+    
     /**
      * Constructor.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   errorCode   Error code.
      * @param   errorText   Error text.
      * @param   exception   Exception to wrap.
      * @param   errorArea   Error location.
      * @param   referenceArea   Error reference location.
      */
-    public SourceFileException(final int errorCode, final String errorText,
+    public SourceFileException(final Plugin plugin, final int errorCode, final String errorText,
             final Throwable exception, final SourceArea errorArea, final SourceArea referenceArea) {
         super(errorCode, errorText, exception);
+        this.plugin = plugin;
         this.errorArea = errorArea;
         this.referenceArea = referenceArea;
     }
 
-
     /**
      * Constructor.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   exception   Exception to wrap.
      * @param   errorArea   Error location.
      * @param   referenceArea   Error reference location.
      */
-    public SourceFileException(final QedeqException exception, final SourceArea errorArea,
-            final SourceArea referenceArea) {
-        this(exception.getErrorCode(), exception.getMessage(), exception, errorArea, referenceArea);
+    public SourceFileException(final Plugin plugin, final QedeqException exception,
+            final SourceArea errorArea, final SourceArea referenceArea) {
+        this(plugin, exception.getErrorCode(), exception.getMessage(), exception,
+            errorArea, referenceArea);
     }
-
 
     /**
      * Constructor.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   url         Parsed file.
      * @param   exception   Exception to wrap.
      */
-    public SourceFileException(final String url, final Exception exception) {
-        super(9997, exception.toString(), exception);     // TODO mime 20071116: error code refac
+    public SourceFileException(final Plugin plugin, final String url, final Exception exception) {
+        super(9997, exception.toString(), exception);     // TODO mime 20071116: error code refactor
+        this.plugin = plugin;
         errorArea = new SourceArea(url, new SourcePosition(url, 1, 1),
             new SourcePosition(url, 1, 1));
         referenceArea = null;
@@ -83,12 +91,14 @@ public class SourceFileException extends QedeqException {
     /**
      * Constructor.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   file        Parsed file.
      * @param   exception   Exception to wrap.
      * @deprecated  use URL
      */
-    public SourceFileException(final File file, final Exception exception) {
-        super(9998, exception.getMessage(), exception);     // TODO mime 20071116: error code refac
+    public SourceFileException(final Plugin plugin, final File file, final Exception exception) {
+        super(9998, exception.getMessage(), exception);     // TODO mime 20071116: error code refactor
+        this.plugin = plugin;
         final String url = IoUtility.toUrlString(file);
         errorArea = new SourceArea(url, new SourcePosition(url, 1, 1),
             new SourcePosition(url, 1, 1));
@@ -98,10 +108,12 @@ public class SourceFileException extends QedeqException {
     /**
      * Constructor.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   exception   Exception to wrap.
      */
-    public SourceFileException(final Exception exception) {
-        super(9999, exception.getMessage(), exception);     // TODO mime 20071116: error code refac
+    public SourceFileException(final Plugin plugin, final Exception exception) {
+        super(9999, exception.getMessage(), exception);     // TODO mime 20071116: error code refactor
+        this.plugin = plugin;
         errorArea = null;
         referenceArea = null;
     }
@@ -109,10 +121,12 @@ public class SourceFileException extends QedeqException {
     /**
      * Constructor.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   exception   Exception to wrap.
      */
-    public SourceFileException(final Throwable exception) {
+    public SourceFileException(final Plugin plugin, final Throwable exception) {
         super(1000, exception.toString(), exception);     // TODO mime 20071116: error code refac
+        this.plugin = plugin;
         errorArea = null;
         referenceArea = null;
     }
@@ -120,12 +134,23 @@ public class SourceFileException extends QedeqException {
     /**
      * Constructor.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   exception   Exception to wrap.
      */
-    public SourceFileException(final IOException exception) {
+    public SourceFileException(final Plugin plugin, final IOException exception) {
         super(9997, exception.toString(), exception);     // TODO mime 20071116: error code refac
+        this.plugin = plugin;
         errorArea = null;
         referenceArea = null;
+    }
+
+    /**
+     * Get plugin that found the error.
+     *
+     * @return  Plugin.
+     */
+    public Plugin getPlugin() {
+        return plugin;
     }
 
     /**
@@ -181,4 +206,5 @@ public class SourceFileException extends QedeqException {
     public String toString() {
         return getDescription();
     }
+
 }

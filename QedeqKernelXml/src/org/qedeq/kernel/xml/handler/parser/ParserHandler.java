@@ -28,7 +28,6 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Parses list of operators. Result is a list of all parsed operators.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class ParserHandler extends AbstractSimpleHandler {

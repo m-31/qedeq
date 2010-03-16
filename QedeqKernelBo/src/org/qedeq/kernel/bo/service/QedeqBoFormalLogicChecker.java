@@ -36,6 +36,7 @@ import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
@@ -56,10 +57,11 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
     /**
      * Constructor.
      *
-     * @param   prop              QEDEQ module properties object.
+     * @param   plugin  This plugin we work for.
+     * @param   prop    QEDEQ module properties object.
      */
-    private QedeqBoFormalLogicChecker(final KernelQedeqBo prop) {
-        super(prop);
+    private QedeqBoFormalLogicChecker(final Plugin plugin, final KernelQedeqBo prop) {
+        super(plugin, prop);
     }
 
     /**
@@ -79,6 +81,16 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
         }
         prop.setLogicalProgressState(LogicalState.STATE_EXTERNAL_CHECKING);
         KernelModuleReferenceList list = (KernelModuleReferenceList) prop.getRequiredModules();
+        final QedeqBoFormalLogicChecker checker = new QedeqBoFormalLogicChecker(new Plugin() {
+
+            public String getPluginDescription() {
+                return "checks mathematical correctness";
+            }
+
+            public String getPluginName() {
+                return "Verifier";
+            }
+        }, prop);
         for (int i = 0; i < list.size(); i++) {
             try {
                 Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label",
@@ -88,13 +100,12 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
                 ModuleDataException md = new CheckRequiredModuleException(11231,
                     "import check failed: " + list.getQedeqBo(i).getModuleAddress(),
                     list.getModuleContext(i));
-                final SourceFileExceptionList sfl = prop.createSourceFileExceptionList(md);
+                final SourceFileExceptionList sfl = prop.createSourceFileExceptionList(checker.getPlugin(), md);
                 prop.setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
                 throw e;
             }
         }
         prop.setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
-        final QedeqBoFormalLogicChecker checker = new QedeqBoFormalLogicChecker(prop);
         try {
             checker.traverse();
         } catch (SourceFileExceptionList sfl) {

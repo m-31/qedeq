@@ -25,7 +25,6 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Parse a rule.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class RuleHandler extends AbstractSimpleHandler {

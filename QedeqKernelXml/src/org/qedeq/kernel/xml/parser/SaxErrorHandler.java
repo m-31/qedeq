@@ -17,6 +17,7 @@ package org.qedeq.kernel.xml.parser;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourcePosition;
@@ -39,6 +40,9 @@ public class SaxErrorHandler implements ErrorHandler {
     /** Error code for Exceptions thrown by the SAXParser. */
     public static final int SAX_PARSER_EXCEPTION = 9001;
 
+    /** This plugin is currently working. */
+    private final Plugin plugin;
+
     /** File that is parsed. */
     private final String url;
 
@@ -48,12 +52,15 @@ public class SaxErrorHandler implements ErrorHandler {
     /**
      * Constructor.
      *
+     * @param   plugin  This plugin generated the error.
      * @param   url     URL that is parsed.
      * @param   list    Collector for the SAX exceptions.
      */
-    public SaxErrorHandler(final String url, final DefaultSourceFileExceptionList list) {
+    public SaxErrorHandler(final Plugin plugin, final String url,
+            final DefaultSourceFileExceptionList list) {
         super();
         Trace.param(CLASS, this, "SaxErrorHandler", "url", url);
+        this.plugin = plugin;
         this.url = url;
         this.list = list;
     }
@@ -62,10 +69,9 @@ public class SaxErrorHandler implements ErrorHandler {
      * @see org.xml.sax.ErrorHandler#warning(org.xml.sax.SAXParseException)
      */
     public final void warning(final SAXParseException e) throws SAXException {
-        final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
-            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
-            1), new SourcePosition(url, e.getLineNumber(),
-            e.getColumnNumber())), null);
+        final SourceFileException sf = new SourceFileException(plugin, SAX_PARSER_EXCEPTION, e.getMessage(),
+            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(), 1), 
+            new SourcePosition(url, e.getLineNumber(), e.getColumnNumber())), null);
         Trace.trace(CLASS, this, "warning", e);
         Trace.trace(CLASS, this, "warning", sf);
         list.add(sf);
@@ -75,10 +81,9 @@ public class SaxErrorHandler implements ErrorHandler {
      * @see org.xml.sax.ErrorHandler#error(org.xml.sax.SAXParseException)
      */
     public final void error(final SAXParseException e) throws SAXException {
-        final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
-            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
-                1), new SourcePosition(url, e.getLineNumber(),
-                e.getColumnNumber())), null);
+        final SourceFileException sf = new SourceFileException(plugin, SAX_PARSER_EXCEPTION, e.getMessage(),
+            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(), 1), 
+            new SourcePosition(url, e.getLineNumber(), e.getColumnNumber())), null);
         Trace.trace(CLASS, this, "error", e);
         Trace.trace(CLASS, this, "error", sf);
         list.add(sf);
@@ -88,10 +93,9 @@ public class SaxErrorHandler implements ErrorHandler {
      * @see org.xml.sax.ErrorHandler#fatalError(org.xml.sax.SAXParseException)
      */
     public final void fatalError(final SAXParseException e) throws SAXException {
-        final SourceFileException sf = new SourceFileException(SAX_PARSER_EXCEPTION, e.getMessage(),
-            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(),
-                1), new SourcePosition(url, e.getLineNumber(),
-                e.getColumnNumber())), null);
+        final SourceFileException sf = new SourceFileException(plugin, SAX_PARSER_EXCEPTION, e.getMessage(),
+            e, new SourceArea(url, new SourcePosition(url, e.getLineNumber(), 1),
+            new SourcePosition(url, e.getLineNumber(), e.getColumnNumber())), null);
         Trace.trace(CLASS, this, "fatalError", e);
         Trace.trace(CLASS, this, "fatalError", sf);
         list.add(sf);

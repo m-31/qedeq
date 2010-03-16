@@ -25,12 +25,12 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 
 
 /**
  * Checks if all formulas of a QEDEQ module are well formed.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
@@ -38,22 +38,31 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
     /**
      * Constructor.
      *
-     * @param   bo  BO QEDEQ module object.
+     * @param   plugin  Plugin we work for.
+     * @param   bo      BO QEDEQ module object.
      */
-    private QedeqBoDuplicateLanguageChecker(final KernelQedeqBo bo) {
-        super(bo);
+    private QedeqBoDuplicateLanguageChecker(final Plugin plugin, final KernelQedeqBo bo) {
+        super(plugin, bo);
     }
 
     /**
      * Checks if all formulas of a QEDEQ module are well formed.
      *
      * @param   prop              QEDEQ BO.
-     * @throws  DefaultSourceFileExceptionList An error occured.
+     * @throws  DefaultSourceFileExceptionList An error occurred.
      */
     public static void check(final KernelQedeqBo prop)
             throws DefaultSourceFileExceptionList {
         final QedeqBoDuplicateLanguageChecker checker
-            = new QedeqBoDuplicateLanguageChecker(prop);
+            = new QedeqBoDuplicateLanguageChecker(new Plugin() {
+
+                public String getPluginDescription() {
+                    return "checks double entries for same language exist";
+                }
+
+                public String getPluginName() {
+                    return "language doublets";
+                }}, prop);
         checker.traverse();
     }
 

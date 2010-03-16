@@ -31,6 +31,7 @@ import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -63,7 +64,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     private LogicalState logicalState;
 
     /** Describes QEDEQ module plugin states. */
-//    private PluginStates pluginStates;
+// FIXME    private PluginStates pluginStates;
 
     /** Loaded QEDEQ module. */
     private QedeqVo qedeq;
@@ -398,13 +399,14 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Create exception out of {@link ModuleDataException}.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   exception   Take this exception.
      * @return  Newly created instance.
      */
-    public SourceFileExceptionList createSourceFileExceptionList(
+    public SourceFileExceptionList createSourceFileExceptionList(final Plugin plugin,
             final ModuleDataException exception) {
-        final SourceFileException e = new SourceFileException(exception, createSourceArea(qedeq,
-            exception.getContext()), loader.createSourceArea(qedeq,
+        final SourceFileException e = new SourceFileException(plugin, exception,
+            createSourceArea(qedeq, exception.getContext()), loader.createSourceArea(qedeq,
                 exception.getReferenceContext()));
         final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
         return list;
@@ -413,24 +415,25 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Create exception out of {@link ModuleDataException}.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   exception   Take this exception.
      * @param   qedeq       Take this QEDEQ source. (This might not be accessible via
      *                      {@link #getQedeq()}.
      * @return  Newly created instance.
      */
-    public SourceFileExceptionList createSourceFileExceptionList(
+    public SourceFileExceptionList createSourceFileExceptionList(final Plugin plugin,
             final ModuleDataException exception, final Qedeq qedeq) {
-        final SourceFileException e = new SourceFileException(exception, createSourceArea(qedeq,
-            exception.getContext()), loader.createSourceArea(qedeq,
+        final SourceFileException e = new SourceFileException(plugin, exception,
+            createSourceArea(qedeq, exception.getContext()), loader.createSourceArea(qedeq,
                 exception.getReferenceContext()));
         final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
         return list;
     }
 
-    public SourceFileException createSourceFileException(final ModuleDataException
+    public SourceFileException createSourceFileException(final Plugin plugin, final ModuleDataException
             exception) {
-        final SourceFileException e = new SourceFileException(exception, createSourceArea(qedeq,
-            exception.getContext()), loader.createSourceArea(qedeq,
+        final SourceFileException e = new SourceFileException(plugin, exception,
+            createSourceArea(qedeq, exception.getContext()), loader.createSourceArea(qedeq,
                 exception.getReferenceContext()));
         return e;
     }

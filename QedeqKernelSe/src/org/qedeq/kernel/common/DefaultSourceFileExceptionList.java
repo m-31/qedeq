@@ -23,7 +23,6 @@ import java.util.List;
  * Type save {@link org.qedeq.kernel.common.SourceFileException} list.
  * TODO mime 20080109: shouldn't this list have some informations about the source being parsed?
  *
- * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
@@ -40,19 +39,21 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
     /**
      * Constructor.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   e   Wrap me.
      */
-    public DefaultSourceFileExceptionList(final IOException e) {
-        add(e);
+    public DefaultSourceFileExceptionList(final Plugin plugin, final IOException e) {
+        add(plugin, e);
     }
 
     /**
      * Constructor.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   e   Wrap me.
      */
-    public DefaultSourceFileExceptionList(final RuntimeException e) {
-        add(e);
+    public DefaultSourceFileExceptionList(final Plugin plugin, final RuntimeException e) {
+        add(plugin, e);
     }
 
     /**
@@ -79,25 +80,27 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
     /**
      * Add exception.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   e   Exception to add.
      */
-    public final void add(final IOException e) {
+    public final void add(final Plugin plugin, final IOException e) {
         if (size() == 0) {
             initCause(e);
         }
-        exceptions.add(new SourceFileException(e));
+        exceptions.add(new SourceFileException(plugin, e));
     }
 
     /**
      * Add exception.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   e   Exception to add.
      */
-    public void add(final RuntimeException e) {
+    public void add(final Plugin plugin, final RuntimeException e) {
         if (size() == 0) {
             initCause(e);
         }
-        exceptions.add(new SourceFileException(e));
+        exceptions.add(new SourceFileException(plugin, e));
     }
 
     /**

@@ -31,6 +31,7 @@ import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.QedeqVoBuilder;
 import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.common.DummyPlugin;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
@@ -45,7 +46,6 @@ import org.xml.sax.SAXException;
 /**
  * For testing QEDEQ BO generation.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class QedeqBoFactoryAssert extends QedeqVoBuilder {
@@ -84,7 +84,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
             vo = creator.create(original);
         } catch (ModuleDataException e) {
             final SourceFileExceptionList xl
-                = prop.createSourceFileExceptionList(e, original);
+                = prop.createSourceFileExceptionList(DummyPlugin.getInstance(), e, original);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
             throw xl;
         }
@@ -94,7 +94,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         loader.setServices(services);
         prop.setQedeqFileDao(loader);
         prop.setQedeqVo(vo);
-        prop.setLoaded(vo, new ModuleLabelsCreator(prop).createLabels());
+        prop.setLoaded(vo, new ModuleLabelsCreator(DummyPlugin.getInstance(), prop).createLabels());
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
         if (!prop.isChecked()) {

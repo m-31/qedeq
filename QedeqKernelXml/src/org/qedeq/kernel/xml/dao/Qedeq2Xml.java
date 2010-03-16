@@ -52,6 +52,7 @@ import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
@@ -61,10 +62,9 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  * TODO mime 20080309: escape XML attributes like &gt;, &amp; and other.
  * See {@link org.qedeq.base.utility.StringUtility#decodeXmlMarkup(StringBuffer)}.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public final class Qedeq2Xml extends ControlVisitor {
+public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     /** Output goes here. */
     private TextOutput printer;
@@ -72,11 +72,12 @@ public final class Qedeq2Xml extends ControlVisitor {
     /**
      * Constructor.
      *
-     * @param   bo                  QEDEQ BO.
-     * @param   printer             Print herein.
+     * @param   plugin  This plugin we work for.
+     * @param   bo      QEDEQ BO.
+     * @param   printer Print herein.
      */
-    private Qedeq2Xml(final KernelQedeqBo bo, final TextOutput printer) {
-        super(bo);
+    private Qedeq2Xml(final Plugin plugin, final KernelQedeqBo bo, final TextOutput printer) {
+        super(plugin, bo);
         this.printer = printer;
     }
 
@@ -86,11 +87,21 @@ public final class Qedeq2Xml extends ControlVisitor {
      * @param   bo                  BO QEDEQ module object.
      * @param   printer             Print herein.
      * @throws  SourceFileExceptionList Major problem occurred.
-     * @throws  IOException
+     * @throws  IOException         Writing failed.
      */
     public static void print(final KernelQedeqBo bo, final TextOutput printer) throws
             SourceFileExceptionList, IOException {
-        final Qedeq2Xml converter = new Qedeq2Xml(bo, printer);
+        final Qedeq2Xml converter = new Qedeq2Xml(new Plugin() {
+
+                public String getPluginDescription() {
+                    return "transforms a QEDEQ module into XML";
+                }
+
+                public String getPluginName() {
+                    return "QEDEQ2XML";
+                }
+
+            }, bo, printer);
         try {
             converter.traverse();
         } finally {
@@ -556,6 +567,16 @@ public final class Qedeq2Xml extends ControlVisitor {
     public void visitLeave(final LiteratureItem item) {
         printer.popLevel();
         printer.levelPrintln("</ITEM>");
+    }
+
+    public String getPluginDescription() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getPluginName() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

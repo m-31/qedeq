@@ -23,6 +23,7 @@ import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
@@ -43,10 +44,11 @@ public final class LoadDirectlyRequiredModules extends ControlVisitor {
     /**
      * Constructor.
      *
+     * @param   plugin      This plugin generated the error.
      * @param   prop        Internal QedeqBo.
      */
-    LoadDirectlyRequiredModules(final KernelQedeqBo prop) {
-        super(prop);
+    LoadDirectlyRequiredModules(final Plugin plugin, final KernelQedeqBo prop) {
+        super(plugin, prop);
         this.required = new KernelModuleReferenceList();
     }
 

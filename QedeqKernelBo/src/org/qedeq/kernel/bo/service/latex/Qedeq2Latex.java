@@ -61,6 +61,7 @@ import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.Plugin;
 
 
 /**
@@ -110,16 +111,16 @@ public final class Qedeq2Latex extends ControlVisitor {
     /**
      * Constructor.
      *
-     * @param   prop            QEDEQ BO object.
-     * @param   printer         Print herein.
-     * @param   language        Filter text to get and produce text in this language only.
-     * @param   level           Filter for this detail level. LATER mime 20050205: not yet supported
-     *                          yet.
+     * @param   plugin      This plugin we work for.
+     * @param   prop        QEDEQ BO object.
+     * @param   printer     Print herein.
+     * @param   language    Filter text to get and produce text in this language only.
+     * @param   level       Filter for this detail level. LATER mime 20050205: not yet supported
+     *                      yet.
      */
-    private Qedeq2Latex(final KernelQedeqBo prop,
-            final TextOutput printer,
-            final String language, final String level) {
-        super(prop);
+    private Qedeq2Latex(final Plugin plugin, final KernelQedeqBo prop,
+            final TextOutput printer, final String language, final String level) {
+        super(plugin, prop);
         this.printer = printer;
         if (language == null) {
             this.language = "en";
@@ -171,8 +172,16 @@ public final class Qedeq2Latex extends ControlVisitor {
         TextOutput printer = null;
         try {
             printer = new TextOutput(prop.getName(), new FileOutputStream(destination));
-            final Qedeq2Latex converter = new Qedeq2Latex(prop, printer,
-                language, level);
+            final Qedeq2Latex converter = new Qedeq2Latex(new Plugin() {
+
+                public String getPluginDescription() {
+                    return "transforms QEDEQ module into LaTeX";
+                }
+
+                public String getPluginName() {
+                    return "to LaTeX";
+                }
+            }, prop, printer, language, level);
             converter.traverse();
         } finally {
             if (printer != null) {

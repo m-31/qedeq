@@ -33,6 +33,7 @@ import org.qedeq.kernel.bo.service.QedeqBoFormalLogicChecker;
 import org.qedeq.kernel.bo.service.QedeqVoBuilder;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.common.DummyPlugin;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileException;
@@ -164,7 +165,7 @@ public final class CheckLogicTest extends QedeqTestCase {
         SaxDefaultHandler handler = new SaxDefaultHandler();
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
-        SaxParser parser = new SaxParser(handler);
+        SaxParser parser = new SaxParser(DummyPlugin.getInstance(), handler);
         parser.parse(xmlFile, null);
         final QedeqVo qedeq = (QedeqVo) simple.getQedeq();
         final InternalKernelServices services = (InternalKernelServices) IoUtility
@@ -176,7 +177,7 @@ public final class CheckLogicTest extends QedeqTestCase {
         prop.setQedeqFileDao(loader);
         IoUtility.setFieldContent(prop, "qedeq", qedeq);
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
-            new ModuleLabelsCreator(prop).createLabels());
+            new ModuleLabelsCreator(DummyPlugin.getInstance(), prop).createLabels());
         prop.setLoadedRequiredModules(new KernelModuleReferenceList());
         QedeqBoFormalLogicChecker.check(prop);
     }

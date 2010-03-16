@@ -22,7 +22,6 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * Loading an required QEDEQ module failed.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class LoadRequiredModuleException extends ModuleDataException {

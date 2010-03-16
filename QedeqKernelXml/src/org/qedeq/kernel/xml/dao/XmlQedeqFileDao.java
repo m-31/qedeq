@@ -33,6 +33,7 @@ import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
@@ -49,10 +50,9 @@ import com.sun.syndication.io.XmlReader;
 /**
  * This class provides access methods for loading QEDEQ modules from XML files.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public class XmlQedeqFileDao implements QedeqFileDao {
+public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
 
     /** This class. */
     private static final Class CLASS = XmlQedeqFileDao.class;
@@ -82,16 +82,16 @@ public class XmlQedeqFileDao implements QedeqFileDao {
         handler.setBasisDocumentHandler(simple);
         SaxParser parser = null;
         try {
-            parser = new SaxParser(handler);
+            parser = new SaxParser(this, handler);
         } catch (SAXException e) {
             Trace.trace(CLASS, this, method, e);
-            final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(
+            final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this,
                 // TODO mime 20080404: search for better solution
                 new RuntimeException(e));
             throw sfl;
         } catch (ParserConfigurationException e) {
             Trace.trace(CLASS, this, method, e);
-            final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(
+            final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this,
                 // TODO mime 20080404: search for better solution
                 new RuntimeException("XML parser configuration error", e));
             throw sfl;
@@ -151,6 +151,14 @@ public class XmlQedeqFileDao implements QedeqFileDao {
     public Reader getModuleReader(final KernelQedeqBo bo)
             throws IOException {
         return new XmlReader(services.getLocalFilePath(bo.getModuleAddress()));
+    }
+
+    public String getPluginDescription() {
+        return "can read and write XML QEDEQ modules";
+    }
+
+    public String getPluginName() {
+        return "XML Worker";
     }
 
 }

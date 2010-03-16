@@ -23,6 +23,7 @@ import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
@@ -50,27 +51,30 @@ public final class LoadRequiredModules {
     /**
      * Load all required QEDEQ modules for a given QEDEQ module.
      *
+     * @param   plugin      We work for this plugin.
      * @param   prop        QEDEQ module BO. This module must be loaded.
      * @throws  SourceFileExceptionList Failure(s).
      * @throws  IllegalArgumentException    BO is not loaded
      */
-    public static void loadRequired(final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
+    public static void loadRequired(Plugin plugin, final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
         // did we check this already?
         if (prop.getDependencyState().areAllRequiredLoaded()) {
             return; // everything is OK
         }
-        (new LoadRequiredModules()).loadAllRequired(prop);
+        (new LoadRequiredModules()).loadAllRequired(plugin, prop);
     }
 
     /**
      * Load all required QEDEQ modules for a given QEDEQ module.
      *
+     * @param   plugin      We work for this plugin.
      * @param   prop        QEDEQ module BO. This module must be loaded.
      * @throws  SourceFileExceptionList Failure(s).
      * @throws  IllegalArgumentException    BO is not loaded
      */
-    private void loadAllRequired(final DefaultKernelQedeqBo prop) throws SourceFileExceptionList {
-        final String method = "loadRequired(DefaultQedeqBo, DefaultKernelServices, Map)";
+    private void loadAllRequired(final Plugin plugin, final DefaultKernelQedeqBo prop)
+            throws SourceFileExceptionList {
+        final String method = "loadRequired(DefaultQedeqBo)";
         Trace.param(CLASS, this, method, "prop.getModuleAddress", prop.getModuleAddress());
         synchronized (prop) {
             if (prop.getDependencyState().areAllRequiredLoaded()) {
@@ -87,7 +91,7 @@ public final class LoadRequiredModules {
 
         }
         DefaultSourceFileExceptionList sfl = null;
-        final LoadDirectlyRequiredModules loader = new LoadDirectlyRequiredModules(prop);
+        final LoadDirectlyRequiredModules loader = new LoadDirectlyRequiredModules(plugin, prop);
         KernelModuleReferenceList required = null;
         try {
             required = loader.load();
@@ -105,7 +109,7 @@ public final class LoadRequiredModules {
                         "recursive import of modules is forbidden, label \""
                         + required.getLabel(i) + "\"",
                         required.getModuleContext(i));
-                    final SourceFileException sf = prop.createSourceFileException(me);
+                    final SourceFileException sf = prop.createSourceFileException(plugin, me);
                     if (sfl == null) {
                         sfl = new DefaultSourceFileExceptionList(sf);
                     } else {
@@ -114,13 +118,13 @@ public final class LoadRequiredModules {
                     continue;
                 }
                 try {
-                    loadAllRequired(current);
+                    loadAllRequired(plugin, current);
                 } catch (SourceFileExceptionList e) {
                     ModuleDataException me = new LoadRequiredModuleException(13,
                         "import of module \"" + required.getLabel(i) + "\" failed: "
                         + e.get(0).getMessage(),
                     required.getModuleContext(i));
-                    final SourceFileException sf = prop.createSourceFileException(me);
+                    final SourceFileException sf = prop.createSourceFileException(plugin, me);
                     if (sfl == null) {
                         sfl = new DefaultSourceFileExceptionList(sf);
                     } else {

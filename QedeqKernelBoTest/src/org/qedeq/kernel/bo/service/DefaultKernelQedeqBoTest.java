@@ -31,6 +31,7 @@ import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
+import org.qedeq.kernel.common.DummyPlugin;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -122,14 +123,14 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasFailures());
         bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
-            new DefaultSourceFileExceptionList(new NullPointerException()));
+            new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), new NullPointerException()));
         assertTrue(bo.hasFailures());
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
         assertFalse(bo.hasFailures());
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
         bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
-            new DefaultSourceFileExceptionList(new NullPointerException()));
+            new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), new NullPointerException()));
         assertTrue(bo.hasFailures());
         bo.setLoadedRequiredModules(new KernelModuleReferenceList());
         assertFalse(bo.hasFailures());
@@ -150,7 +151,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             // expected
         }
         final DefaultSourceFileExceptionList defaultSourceFileExceptionList
-            = new DefaultSourceFileExceptionList(new NullPointerException());
+            = new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), new NullPointerException());
         try {
             bo.setLoadingFailureState(null,
                 defaultSourceFileExceptionList);
@@ -283,7 +284,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             // expected
         }
         final DefaultSourceFileExceptionList defaultSourceFileExceptionList
-            = new DefaultSourceFileExceptionList(new NullPointerException());
+            = new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), new NullPointerException());
         try {
             bo.setLoadingFailureState(null,
                 defaultSourceFileExceptionList);

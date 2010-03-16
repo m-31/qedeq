@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.xml.parser;
 
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 
 
@@ -23,7 +24,6 @@ import org.qedeq.kernel.xml.common.XmlSyntaxException;
  * {@link org.qedeq.kernel.xml.parser.SaxDefaultHandler} and are delegated to the
  * current {@link AbstractSimpleHandler}.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public abstract class AbstractSimpleHandler {
@@ -130,6 +130,15 @@ public abstract class AbstractSimpleHandler {
                 + elementName + "\"");
         }
         defaultHandler.changeHandler(newHandler, elementName, attributes);
+    }
+
+    /**
+     * Get current plugin we work for.
+     *
+     * @return  Plugin in use.
+     */
+    public final Plugin getPlugin() {
+        return defaultHandler;
     }
 
     /**

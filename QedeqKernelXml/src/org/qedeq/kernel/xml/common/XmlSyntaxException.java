@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.xml.common;
 
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.QedeqException;
 import org.qedeq.kernel.common.SourcePosition;
 
@@ -101,7 +102,6 @@ public final class XmlSyntaxException extends QedeqException {
         return position;
     }
 
-
     /**
      * Set error position.
      *
@@ -117,7 +117,8 @@ public final class XmlSyntaxException extends QedeqException {
      * @param   name    Tag name.
      * @return  Exception.
      */
-    public static final XmlSyntaxException createUnexpectedTagException(final String name) {
+    public static final XmlSyntaxException createUnexpectedTagException(
+            final String name) {
         return new XmlSyntaxException(UNEXPECTED_TAG_CODE, UNEXPECTED_TAG_TEXT + name);
     }
 
@@ -128,8 +129,8 @@ public final class XmlSyntaxException extends QedeqException {
      * @param   value   Data found.
      * @return  Exception.
      */
-    public static final XmlSyntaxException createUnexpectedTextDataException(final String name,
-            final String value) {
+    public static final XmlSyntaxException createUnexpectedTextDataException(
+            final String name, final String value) {
         return new XmlSyntaxException(UNEXPECTED_DATA_CODE, UNEXPECTED_DATA_TEXT + name);
     }
 
@@ -140,7 +141,8 @@ public final class XmlSyntaxException extends QedeqException {
      * @param   attribute   Attribute name.
      * @return  Exception.
      */
-    public static final XmlSyntaxException createMissingAttributeException(final String name,
+    public static final XmlSyntaxException createMissingAttributeException(
+            final String name,
             final String attribute) {
         return new XmlSyntaxException(MISSING_ATTRIBUTE_CODE, MISSING_ATTRIBUTE_TEXT_1 + attribute
             + MISSING_ATTRIBUTE_TEXT_2 + name);
@@ -153,8 +155,8 @@ public final class XmlSyntaxException extends QedeqException {
      * @param   attribute   Attribute name.
      * @return  Exception.
      */
-    public static final XmlSyntaxException createEmptyAttributeException(final String name,
-            final String attribute) {
+    public static final XmlSyntaxException createEmptyAttributeException(
+            final String name, final String attribute) {
         return new XmlSyntaxException(EMPTY_ATTRIBUTE_CODE, EMPTY_ATTRIBUTE_TEXT_1 + attribute
             + EMPTY_ATTRIBUTE_TEXT_2 + name);
     }
@@ -165,7 +167,8 @@ public final class XmlSyntaxException extends QedeqException {
      * @param   e       Exception.
      * @return  Created exception.
      */
-    public static final XmlSyntaxException createByRuntimeException(final RuntimeException e) {
+    public static final XmlSyntaxException createByRuntimeException(
+            final RuntimeException e) {
         return new XmlSyntaxException(PROGRAMMING_ERROR_CODE, PROGRAMMING_ERROR_TEXT, e);
     }
 

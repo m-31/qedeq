@@ -19,7 +19,6 @@ package org.qedeq.kernel.common;
  * Data validation error for a QEDEQ module. An error has always a reference to its
  * location. Maybe an additional reference for another location is provided.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public abstract class ModuleDataException extends QedeqException {

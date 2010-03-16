@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.visitor.QedeqNotNullTraverser;
@@ -31,6 +32,9 @@ import org.qedeq.kernel.visitor.QedeqNotNullTraverser;
  */
 public abstract class ControlVisitor extends AbstractModuleVisitor {
 
+    /** This plugin we work for. */
+    private final Plugin plugin;
+
     /** QEDEQ BO object to work on. */
     private final KernelQedeqBo prop;
 
@@ -43,13 +47,16 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
 
     /**
      * Constructor.
+     *
+     * @param   plugin      This plugin we work for.
      * @param   prop        Internal QedeqBo.
      */
-    protected ControlVisitor(final KernelQedeqBo prop) {
+    protected ControlVisitor(final Plugin plugin, final KernelQedeqBo prop) {
         if (prop.getQedeq() == null) {
             throw new NullPointerException("Programming error, Module not loaded: "
                 + prop.getModuleAddress());
         }
+        this.plugin = plugin;
         this.prop = prop;
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
     }
@@ -102,7 +109,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   me  Exception to be added.
      */
     protected void addModuleDataException(final ModuleDataException me) {
-        addSourceFileException(prop.createSourceFileException(me));
+        addSourceFileException(prop.createSourceFileException(plugin, me));
     }
 
     /**
@@ -111,11 +118,11 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   sf  Exception to be added.
      */
     protected void addSourceFileException(final SourceFileException sf) {
-            if (errorList == null) {
-                errorList = new DefaultSourceFileExceptionList(sf);
-            } else {
-                errorList.add(sf);
-            }
+        if (errorList == null) {
+            errorList = new DefaultSourceFileExceptionList(sf);
+        } else {
+            errorList.add(sf);
+        }
     }
 
     /**
@@ -125,6 +132,15 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     protected void setBlocked(final boolean blocked) {
         traverser.setBlocked(blocked);
+    }
+
+    /**
+     * Get plugin we work for.
+     *
+     * @return  Plugin we work for.
+     */
+    public Plugin getPlugin() {
+        return plugin;
     }
 
 }

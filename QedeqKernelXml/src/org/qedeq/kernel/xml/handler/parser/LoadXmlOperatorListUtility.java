@@ -22,6 +22,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxParser;
@@ -32,10 +33,9 @@ import org.xml.sax.SAXParseException;
 /**
  * Load operator list from an XML file.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public final class LoadXmlOperatorListUtility  {
+public final class LoadXmlOperatorListUtility implements Plugin {
 
     /** This class. */
     private static final Class CLASS = LoadXmlOperatorListUtility.class;
@@ -56,43 +56,52 @@ public final class LoadXmlOperatorListUtility  {
      */
     public static List getOperatorList(final File from) throws SourceFileExceptionList {
         final String method = "List getOperatorList(String)";
+        final LoadXmlOperatorListUtility util = new LoadXmlOperatorListUtility();
         try {
             Trace.begin(CLASS, method);
             Trace.param(CLASS, method, "from", from);
             SaxDefaultHandler handler = new SaxDefaultHandler();
             ParserHandler simple = new ParserHandler(handler);
             handler.setBasisDocumentHandler(simple);
-            SaxParser parser = new SaxParser(handler);
+            SaxParser parser = new SaxParser(util, handler);
             parser.parse(from, null);
             return simple.getOperators();
         } catch (RuntimeException e) {
             Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(e);
+            throw new DefaultSourceFileExceptionList(util, e);
         } catch (ParserConfigurationException e) {
             Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(
+            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(util,
                 new RuntimeException(e));   // TODO mime 20080404: search for better solution
             throw list;
         } catch (final SAXParseException e) {
             Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(
+            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(util,
                 new RuntimeException(e));   // TODO mime 20080404: search for better solution
             throw list;
         } catch (SAXException e) {
             Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(
+            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(util,
                 new RuntimeException(e));   // TODO mime 20080404: search for better solution
             throw list;
         } catch (javax.xml.parsers.FactoryConfigurationError e) {
             Trace.trace(CLASS, method, e);
             final String msg = "SAX Parser not in classpath, "
                 + "add for example \"xercesImpl.jar\" and \"xml-apis.jar\".";
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(
+            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(util,
                 new RuntimeException(msg));   // TODO mime 20080404: search for better solution
             throw list;
         } finally {
             Trace.end(CLASS, method);
         }
+    }
+
+    public String getPluginDescription() {
+        return "loads XML descriptoin of mathematical operators";
+    }
+
+    public String getPluginName() {
+        return "Operator Loader";
     }
 
 }

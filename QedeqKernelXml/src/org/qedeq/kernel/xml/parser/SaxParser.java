@@ -25,6 +25,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.xml.sax.InputSource;
@@ -36,7 +37,6 @@ import org.xml.sax.XMLReader;
 /**
  * Parser for XML files. This class uses features specific for Xerces.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public final class SaxParser {
@@ -71,19 +71,24 @@ public final class SaxParser {
     /** Saved errors of parsing. */
     private DefaultSourceFileExceptionList exceptionList;
 
+    /** Plugin we work for. */
+    private Plugin plugin;
+
     /**
      * Constructor.
      *
+     * @param   plugin    We work for this plugin.
      * @param   handler   Default handler for this application.
      * @throws  ParserConfigurationException    Severe parser configuration problem.
      * @throws  SAXException
      */
-    public SaxParser(final SaxDefaultHandler handler) throws ParserConfigurationException,
-            SAXException {
+    public SaxParser(final Plugin plugin, final SaxDefaultHandler handler)
+            throws ParserConfigurationException, SAXException {
         super();
 
         this.handler = handler;
         this.deflt = new SimpleHandler();
+        this.plugin = plugin;
 
         final String factoryImpl = System.getProperty("javax.xml.parsers.SAXParserFactory");
         if (factoryImpl == null) {
@@ -158,7 +163,7 @@ public final class SaxParser {
         try {
             stream = new FileInputStream(in);
             final InputSource input = new InputSource(stream);
-            reader.setErrorHandler(new SaxErrorHandler(original, exceptionList));
+            reader.setErrorHandler(new SaxErrorHandler(plugin, original, exceptionList));
             handler.setUrl(original);
             deflt.setUrl(original);
             if (validateOnly) {
@@ -170,13 +175,13 @@ public final class SaxParser {
                 reader.parse(input);
             }
         } catch (SAXException e) {
-            final SourceFileException ex = new SourceFileException(e);
+            final SourceFileException ex = new SourceFileException(plugin, e);
             if (exceptionList.size() <= 0) {
                 exceptionList.add(ex);
             }
             throw exceptionList;
         } catch (IOException e) {
-            exceptionList.add(e);
+            exceptionList.add(plugin, e);
             throw exceptionList;
         } finally {
             if (stream != null) {
@@ -236,4 +241,5 @@ public final class SaxParser {
     public String getEncoding() {
         return deflt.getEncoding();
     }
+
 }

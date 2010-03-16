@@ -31,6 +31,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.dto.module.NodeVo;
 
 
@@ -53,10 +54,11 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /**
      * Constructor.
      *
+     * @param   plugin      This plugin we work for.
      * @param   prop        Internal QedeqBo.
      */
-    public ModuleLabelsCreator(final KernelQedeqBo prop) {
-        super(prop);
+    public ModuleLabelsCreator(final Plugin plugin, final KernelQedeqBo prop) {
+        super(plugin, prop);
     }
 
     public void visitEnter(final Qedeq qedeq) {

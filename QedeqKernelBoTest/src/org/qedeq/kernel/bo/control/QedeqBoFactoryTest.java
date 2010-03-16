@@ -30,6 +30,7 @@ import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.common.DummyPlugin;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
@@ -108,7 +109,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             QedeqBoFactoryAssert.createQedeq(prop, error);
             // TODO mime 20080306: move this test to another location, building doesn't include
             // checking any longer
-            final ModuleLabelsCreator creator = new ModuleLabelsCreator(prop);
+            final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(), prop);
             creator.createLabels();
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList e) {
@@ -200,7 +201,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
         SaxDefaultHandler handler = new SaxDefaultHandler();
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
-        SaxParser parser = new SaxParser(handler);
+        SaxParser parser = new SaxParser(DummyPlugin.getInstance(), handler);
         parser.parse(file, null);
         return simple.getQedeq();
     }

@@ -19,7 +19,6 @@ package org.qedeq.kernel.common;
 /**
  * Base class for all exceptions of this application.
  *
- * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public abstract class QedeqException extends Exception {
@@ -56,7 +55,7 @@ public abstract class QedeqException extends Exception {
      *
      * @return  Error code.
      */
-    public final int getErrorCode() {
+    public int getErrorCode() {
         return errorCode;
     }
 

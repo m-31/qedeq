@@ -18,6 +18,7 @@ import java.util.Stack;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourcePosition;
@@ -36,10 +37,9 @@ import org.xml.sax.SAXParseException;
  * Before anything is parsed the method {@link #setExceptionList(DefaultSourceFileExceptionList)}
  * must be called.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public class SaxDefaultHandler extends SimpleHandler {
+public class SaxDefaultHandler extends SimpleHandler implements Plugin {    // FIXME m31 20100315: must this realy be a plugin?
 
     /** This class. */
     private static final Class CLASS = SaxDefaultHandler.class;
@@ -145,12 +145,12 @@ public class SaxDefaultHandler extends SimpleHandler {
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
             setLocationInformation(e);
-            errorList.add(new SourceFileException(e, createSourceArea(), null));
+            errorList.add(new SourceFileException(this, e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            final SourceFileException sfe = new SourceFileException(ex.getErrorCode(),
+            final SourceFileException sfe = new SourceFileException(this, ex.getErrorCode(),
                 ex.getMessage(), ex,
                 createSourceArea(),
                 null);
@@ -173,12 +173,12 @@ public class SaxDefaultHandler extends SimpleHandler {
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
             setLocationInformation(e);
-            errorList.add(new SourceFileException(e, createSourceArea(), null));
+            errorList.add(new SourceFileException(this, e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            errorList.add(new SourceFileException(ex, createSourceArea(), null));
+            errorList.add(new SourceFileException(this, ex, createSourceArea(), null));
         }
         try {
             currentElementName = null;
@@ -190,7 +190,7 @@ public class SaxDefaultHandler extends SimpleHandler {
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
             setLocationInformation(e);
-            final SourceFileException sfe = new SourceFileException(e.getErrorCode(),
+            final SourceFileException sfe = new SourceFileException(this, e.getErrorCode(),
                 e.getMessage(), e,
                 createSourceArea(),
                 null);
@@ -199,7 +199,7 @@ public class SaxDefaultHandler extends SimpleHandler {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            errorList.add(new SourceFileException(ex, createSourceArea(), null));
+            errorList.add(new SourceFileException(this, ex, createSourceArea(), null));
         }
     }
 
@@ -226,12 +226,12 @@ public class SaxDefaultHandler extends SimpleHandler {
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, "sendCharacters", e);
             setLocationInformation(e);
-            errorList.add(new SourceFileException(e, createSourceArea(), null));
+            errorList.add(new SourceFileException(this, e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, "sendCharacters", e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            errorList.add(new SourceFileException(ex, createSourceArea(), null));
+            errorList.add(new SourceFileException(this, ex, createSourceArea(), null));
         }
     }
 
@@ -351,6 +351,14 @@ public class SaxDefaultHandler extends SimpleHandler {
         }
         return new SourceArea(getUrl(), new SourcePosition(getUrl(), 1 , 1),
             new SourcePosition(getUrl(), 1 , 1));
+    }
+
+    public String getPluginDescription() {
+        return "parse XML files";
+    }
+
+    public String getPluginName() {
+        return "XML Reader";
     }
 
 }

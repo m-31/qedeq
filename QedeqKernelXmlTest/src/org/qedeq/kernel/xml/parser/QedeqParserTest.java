@@ -15,6 +15,7 @@
 package org.qedeq.kernel.xml.parser;
 
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.kernel.common.DummyPlugin;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
 
 /**
@@ -56,13 +57,13 @@ public class QedeqParserTest extends QedeqTestCase {
 
             };
             handler.setBasisDocumentHandler(simple);
-            parser1 = new SaxParser(handler);
+            parser1 = new SaxParser(DummyPlugin.getInstance(), handler);
         }
         {
             SaxDefaultHandler handler = new SaxDefaultHandler();
             AbstractSimpleHandler simple = new QedeqHandler(handler);
             handler.setBasisDocumentHandler(simple);
-            parser2 = new SaxParser(handler);
+            parser2 = new SaxParser(DummyPlugin.getInstance(), handler);
         }
     }
 
