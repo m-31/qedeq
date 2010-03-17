@@ -29,9 +29,9 @@ import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.NodeVo;
 
 
@@ -107,7 +107,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /**
      * Increase proposition counter.
      *
-     * @param   proposition         Begin  visit of this element.
+     * @param   proposition         Begin visit of this element.
      */
     public void visitEnter(final Proposition proposition) {
         data.increasePropositionNumber();
@@ -163,9 +163,9 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      * Get QEDEQ module labels.
      *
      * @return  QEDEQ module labels.
-     * @throws  DefaultSourceFileExceptionList  Traverse lead to errors.
+     * @throws  SourceFileExceptionList Traverse lead to errors.
      */
-    public ModuleLabels createLabels() throws DefaultSourceFileExceptionList {
+    public ModuleLabels createLabels() throws SourceFileExceptionList {
         if (this.labels == null) {
             this.labels = new ModuleLabels();
             traverse();

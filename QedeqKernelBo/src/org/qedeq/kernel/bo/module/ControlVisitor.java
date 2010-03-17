@@ -20,6 +20,7 @@ import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.visitor.QedeqNotNullTraverser;
 
@@ -80,9 +81,9 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * (via {@link #addError(ModuleDataException)} and
      * {@link #addError(SourceFileException)}) are thrown.
      *
-     * @throws  DefaultSourceFileExceptionList  All collected exceptions.
+     * @throws  SourceFileExceptionList  All collected exceptions.
      */
-    public void traverse() throws DefaultSourceFileExceptionList {
+    public void traverse() throws SourceFileExceptionList {
         try {
             this.traverser.accept(this.prop.getQedeq());
         } catch (ModuleDataException me) {
@@ -95,15 +96,6 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
 
     protected ModuleContext getCurrentContext() {
         return this.traverser.getCurrentContext();
-    }
-
-    /**
-     * Get list of exceptions that occurred during loading referenced modules.
-     *
-     * @return  Exception list.
-     */
-    public DefaultSourceFileExceptionList getSourceFileExceptionList() {
-        return errorList;
     }
 
     /**
@@ -129,6 +121,15 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     }
 
     /**
+     * Get list of errors that occurred during visit.
+     *
+     * @return  Exception list.
+     */
+    public SourceFileExceptionList getErrorList() {
+        return errorList;
+    }
+
+    /**
      * Add exception to warning collection.
      *
      * @param   me  Exception to be added.
@@ -148,6 +149,15 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         } else {
             warningList.add(sf);
         }
+    }
+
+    /**
+     * Get list of warnings that occurred during visit.
+     *
+     * @return  Exception list.
+     */
+    public SourceFileExceptionList getWarningList() {
+        return warningList;
     }
 
     /**

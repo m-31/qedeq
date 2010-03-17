@@ -23,6 +23,7 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
+import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
@@ -50,21 +51,6 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
 
     /** Address and module specification. */
     private final ModuleAddress address;
-
-    /** Completeness during loading from web. */
-    private int loadingCompleteness;
-
-    /** Describes QEDEQ module loading state. */
-    private LoadingState loadingState;
-
-    /** Describes QEDEQ module dependency state. */
-    private DependencyState dependencyState;
-
-    /** Describes QEDEQ module logical state. */
-    private LogicalState logicalState;
-
-    /** Describes QEDEQ module plugin states. */
-// FIXME    private PluginStates pluginStates;
 
     /** Loaded QEDEQ module. */
     private QedeqVo qedeq;
@@ -104,10 +90,6 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         if (address == null) {
             throw new NullPointerException("ModuleAddress must not be null");
         }
-        loadingState = LoadingState.STATE_UNDEFINED;
-        loadingCompleteness = 0;
-        dependencyState = DependencyState.STATE_UNDEFINED;
-        logicalState = LogicalState.STATE_UNCHECKED;
         required = new KernelModuleReferenceList();
         dependent = new KernelModuleReferenceList();
         stateManager = new StateManager(this);
@@ -132,7 +114,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public boolean hasFailures() {
-        return loadingState.isFailure() || dependencyState.isFailure() || logicalState.isFailure();
+        return stateManager.hasFailures();
     }
 
     public ModuleAddress getModuleAddress() {
@@ -151,16 +133,14 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Set completeness percentage.
      *
-     * LATER manage per state handler?
-     *
      * @param   completeness    Completeness of loading into memory.
      */
     public void setLoadingCompleteness(final int completeness) {
-        this.loadingCompleteness = completeness;
+        stateManager.setLoadingCompleteness(completeness);
     }
 
     public int getLoadingCompleteness() {
-        return this.loadingCompleteness;
+        return stateManager.getLoadingCompleteness();
     }
 
     /**
@@ -193,11 +173,11 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public LoadingState getLoadingState() {
-        return this.loadingState;
+        return stateManager.getLoadingState();
     }
 
     public boolean isLoaded() {
-        return loadingState == LoadingState.STATE_LOADED;
+        return stateManager.isLoaded();
     }
 
     /**
@@ -243,7 +223,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public DependencyState getDependencyState() {
-        return this.dependencyState;
+        return stateManager.getDependencyState();
     }
 
     /**
@@ -270,7 +250,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public boolean hasLoadedRequiredModules() {
-        return isLoaded() && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES;
+        return stateManager.hasLoadedRequiredModules();
     }
 
     /**
@@ -296,8 +276,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public boolean isChecked() {
-        return isLoaded() && hasLoadedRequiredModules()
-            && logicalState == LogicalState.STATE_CHECKED;
+        return stateManager.isChecked();
     }
 
    /**
@@ -322,7 +301,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public LogicalState getLogicalState() {
-        return this.logicalState;
+        return stateManager.getLogicalState();
     }
 
     public SourceFileExceptionList getException() {
@@ -341,22 +320,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     public String getStateDescription() {
-        if (loadingState == LoadingState.STATE_LOADING_FROM_WEB) {
-            return loadingState.getText() + " (" + loadingCompleteness + "%)";
-        } else if (!isLoaded()) {
-            return loadingState.getText();
-        } else if (!hasLoadedRequiredModules()) {
-            if (dependencyState == DependencyState.STATE_UNDEFINED) {
-                return loadingState.getText();
-            }
-            return dependencyState.getText();
-        } else if (!isChecked()) {
-            if (logicalState == LogicalState.STATE_UNCHECKED) {
-                return dependencyState.getText();
-            }
-            return logicalState.getText();
-        }
-        return logicalState.getText();
+        return stateManager.getStateDescription();
     }
 
     public String getName() {
@@ -459,38 +423,11 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     /**
-     * Set {@link LoadingState}. Doesn't do any status handling. Only for internal use.
-     *
-     * @param   state   Set this loading state.
-     */
-    protected void setLoadingState(final LoadingState state) {
-        this.loadingState = state;
-    }
-
-    /**
-     * Set {@link DependencyState}. Doesn't do any status handling. Only for internal use.
-     *
-     * @param   state   Set this dependency state.
-     */
-    protected void setDependencyState(final DependencyState state) {
-        this.dependencyState = state;
-    }
-
-    /**
-     * Set {@link LogicalState}. Doesn't do any status handling. Only for internal use.
-     *
-     * @param   state   Set this logical state.
-     */
-    protected void setLogicalState(final LogicalState state) {
-        this.logicalState = state;
-    }
-
-    /**
      * Set {@link SourceFileExceptionList}. Doesn't do any status handling. Only for internal use.
      *
      * @param   exception   Set this exception.
      */
-    protected void setException(final SourceFileExceptionList exception) {
+    protected void setErrors(final SourceFileExceptionList exception) {
         this.exception = exception;
     }
 
@@ -526,6 +463,18 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
 
     public String toString() {
        return address.getUrl();
+    }
+
+    public void addPluginErrors(PluginBo plugin,
+            SourceFileExceptionList errorList) {
+        // FIXME FIXME Auto-generated method stub
+        
+    }
+
+    public void addPluginWarnings(PluginBo plugin,
+            SourceFileExceptionList warningList) {
+        // FIXME FIXME Auto-generated method stub
+        
     }
 
 }

@@ -2,9 +2,11 @@ package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
+import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
  * Kernel internal QedeqBo with additional methods.
@@ -52,5 +54,21 @@ public interface KernelQedeqBo extends QedeqBo {
      */
     public SourceFileException createSourceFileException(final Plugin plugin, final ModuleDataException
             exception);
+
+    /**
+     * Add errors for plugin.
+     *
+     * @param plugin    Add errors for this plugin.
+     * @param errorList These errors occurred.
+     */
+    public void addPluginErrors(PluginBo plugin, SourceFileExceptionList errorList);
+
+    /**
+     * Add warnings for plugin.
+     *
+     * @param plugin    Add warnings for this plugin.
+     * @param errorList These warnings occurred.
+     */
+    public void addPluginWarnings(PluginBo plugin, SourceFileExceptionList warningList);
 
 }

@@ -31,19 +31,11 @@ import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
 /**
- * Transfer a QEDEQ module into a LaTeX file.
- * <p>
- * <b>This is just a quick written generator. No parsing or validation
- * of inline LaTeX text is done. This class just generates some LaTeX output to be able to
- * get a visual impression of a QEDEQ module.</b>
- * <p>
- * TODO mime 20080330: we should be able to generate a authors help LaTeX document that contains the
- *                     labels in the generated document. So referencing is a lot easier...
+ * Plugin to transfer a QEDEQ module into a LaTeX file.
  *
  * @author  Michael Meyling
  */
@@ -111,11 +103,11 @@ public final class Qedeq2LatexPlugin implements PluginBo {
      * @param   level           Filter for this detail level. LATER mime 20050205: not supported
      *                          yet.
      * @return  Resulting LaTeX.
-     * @throws  DefaultSourceFileExceptionList Major problem occurred.
+     * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException
      */
     public File generateLatex(final KernelQedeqBo prop, final String language,
-            final String level) throws DefaultSourceFileExceptionList, IOException {
+            final String level) throws SourceFileExceptionList, IOException {
 
         // first we try to get more information about required modules and their predicates..
         try {
@@ -123,7 +115,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
             KernelContext.getInstance().checkModule(prop.getModuleAddress());
         } catch (Exception e) {
             // we continue and ignore external predicates
-            Trace.trace(CLASS, "generateLatex(KernelQedeqBo, TextOutput, String, String)", e);
+            Trace.trace(CLASS, "generateLatex(KernelQedeqBo, String, String)", e);
         }
         String tex = prop.getModuleAddress().getFileName();
         if (tex.toLowerCase(Locale.US).endsWith(".xml")) {
@@ -141,6 +133,8 @@ public final class Qedeq2LatexPlugin implements PluginBo {
             printer = new TextOutput(prop.getName(), new FileOutputStream(destination));
             final Qedeq2Latex converter = new Qedeq2Latex(this, prop, printer, language, level);
             converter.traverse();
+            prop.addPluginErrors(this, converter.getErrorList());
+            converter.getWarningList();
         } finally {
             if (printer != null) {
                 printer.flush();
@@ -150,16 +144,16 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         if (printer.checkError()) {
             throw printer.getError();
         }
-        // TODO mime 20080520: just for testing purpose the following check is
+        // TODO m31 20080520: just for testing purpose the following check is
         // integrated here after the LaTeX print. The checking results should be maintained
         // later on as additional information to a module. (Warnings...)
         QedeqBoDuplicateLanguageChecker.check(prop);
         return destination.getCanonicalFile();
     }
 
-    // TODO mime 20070704: this should be part of QedeqBo
+    // TODO m31 20070704: this should be part of QedeqBo
     String[] getSupportedLanguages(final QedeqBo prop) {
-        // TODO mime 20070704: there should be a better way to
+        // TODO m31 20070704: there should be a better way to
         // get all supported languages. Time for a new visitor?
         if (!prop.isLoaded()) {
             return new String[]{};
@@ -173,9 +167,8 @@ public final class Qedeq2LatexPlugin implements PluginBo {
     }
 
     public InputStream createLatex(final KernelQedeqBo prop, final String language, final String level)
-            throws DefaultSourceFileExceptionList, IOException {
+            throws SourceFileExceptionList, IOException {
         return new FileInputStream(generateLatex(prop, language, level));
     }
-
 
 }

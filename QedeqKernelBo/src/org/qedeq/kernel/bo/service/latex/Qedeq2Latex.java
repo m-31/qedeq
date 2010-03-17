@@ -65,7 +65,7 @@ import org.qedeq.kernel.common.Plugin;
  * of inline LaTeX text is done. This class just generates some LaTeX output to be able to
  * get a visual impression of a QEDEQ module.</b>
  * <p>
- * TODO mime 20080330: we should be able to generate a authors help LaTeX document that contains the
+ * TODO m31 20080330: we should be able to generate a authors help LaTeX document that contains the
  *                     labels in the generated document. So referencing is a lot easier...
  *
  * @author  Michael Meyling
@@ -107,7 +107,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     /** Filter text to get and produce text in this language. */
     private final String language;
 
-    /** Filter for this detail level. TODO mime 20080330: not used yet, but we should use it */
+    /** Filter for this detail level. */
     private final String level;
 
     /** Transformer to get LaTeX out of {@link Element}s. */

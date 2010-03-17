@@ -91,12 +91,12 @@ public final class LoadRequiredModules {
             loadingRequiredInProgress.put(prop, prop);
 
         }
-        DefaultSourceFileExceptionList sfl = null;
+        SourceFileExceptionList sfl = null;
         final LoadDirectlyRequiredModules loader = new LoadDirectlyRequiredModules(plugin, prop);
         KernelModuleReferenceList required = null;
         try {
             required = loader.load();
-            sfl = loader.getSourceFileExceptionList();
+            sfl = loader.getErrorList();
         } catch (DefaultSourceFileExceptionList e) {
             sfl = e;
         }

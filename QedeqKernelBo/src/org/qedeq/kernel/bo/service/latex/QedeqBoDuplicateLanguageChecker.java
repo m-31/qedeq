@@ -22,14 +22,14 @@ import org.qedeq.kernel.base.module.Latex;
 import org.qedeq.kernel.base.module.LatexList;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
 /**
- * Checks if all formulas of a QEDEQ module are well formed.
+ * Checks if no duplicate language entries exist.
  *
  * @author  Michael Meyling
  */
@@ -49,10 +49,9 @@ public final class QedeqBoDuplicateLanguageChecker extends ControlVisitor {
      * Checks if all formulas of a QEDEQ module are well formed.
      *
      * @param   prop              QEDEQ BO.
-     * @throws  DefaultSourceFileExceptionList An error occurred.
+     * @throws  SourceFileExceptionList An error occurred.
      */
-    public static void check(final KernelQedeqBo prop)
-            throws DefaultSourceFileExceptionList {
+    public static void check(final KernelQedeqBo prop) throws SourceFileExceptionList {
         final QedeqBoDuplicateLanguageChecker checker
             = new QedeqBoDuplicateLanguageChecker(new Plugin() {
 

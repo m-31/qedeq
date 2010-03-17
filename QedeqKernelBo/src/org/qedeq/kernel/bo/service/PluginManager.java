@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.service;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -51,8 +52,10 @@ public class PluginManager {
     synchronized void addPlugin(final PluginBo plugin) {
         if (plugins.get(plugin.getPluginName()) != null) {
             final PluginBo oldPlugin = (PluginBo) plugins.get(plugin.getPluginName());
-            throw new IllegalArgumentException("plugin with that name already added: "
-                + oldPlugin.getPluginName() + ": " + plugin.getPluginDescription());
+            final RuntimeException e = new IllegalArgumentException("plugin with that name already added: "
+                    + oldPlugin.getPluginName() + ": " + plugin.getPluginDescription());
+            Trace.fatal(CLASS, this, "addPlugin", "Programing error", e);
+            throw e;
         }
         plugins.put(plugin.getPluginName(), plugin);
     }
