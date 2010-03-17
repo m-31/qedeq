@@ -95,8 +95,8 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             public InputStream createLatex(ModuleAddress address, String language, String level) throws DefaultSourceFileExceptionList, IOException {
                 return null;
             }
-            public String generateLatex(ModuleAddress address, String language, String level) throws DefaultSourceFileExceptionList, IOException {
-                return null;
+            public void executePlugin(String pluginName, ModuleAddress address) throws SourceFileExceptionList {
+                return;
             }
             public QedeqFileDao getQedeqFileDao() {
                 return null;
