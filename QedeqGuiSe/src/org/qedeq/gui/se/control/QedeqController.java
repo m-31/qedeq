@@ -24,7 +24,6 @@ import javax.swing.JOptionPane;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.gui.se.tree.QedeqTreeCtrl;
 import org.qedeq.gui.se.util.DataDictionary;
-import org.qedeq.kernel.base.module.LatexList;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
 
@@ -320,21 +319,6 @@ public class QedeqController {
             "Error",
             JOptionPane.ERROR_MESSAGE,
             null);
-    }
-
-    // TODO mime 20070704: this should be part of QedeqBo
-    String[] getSupportedLanguages(final QedeqBo prop) {
-        // TODO mime 20070704: there should be a better way to
-        // get all supported languages. Time for a new visitor?
-        if (!prop.isLoaded()) {
-            return new String[]{};
-        }
-        final LatexList list = prop.getQedeq().getHeader().getTitle();
-        final String[] result = new String[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i).getLanguage();
-        }
-        return result;
     }
 
 }

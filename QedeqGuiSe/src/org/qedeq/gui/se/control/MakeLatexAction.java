@@ -16,16 +16,13 @@
 package org.qedeq.gui.se.control;
 
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 import javax.swing.AbstractAction;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
@@ -66,41 +63,9 @@ class MakeLatexAction extends AbstractAction {
                 public void run() {
                     for (int i = 0; i < props.length; i++) {
                         try {
-                            QedeqLog.getInstance().logRequest("Generate LaTeX from \""
-                                + IoUtility.easyUrl(props[i].getUrl()) + "\"");
-                            final String[] languages = controller.getSupportedLanguages(props[i]);
-                            for (int j = 0; j < languages.length; j++) {
-                                final String result =
-                                    KernelContext.getInstance().generateLatex(
-                                        props[i].getModuleAddress(), languages[j],
-                                        "1");
-                                if (languages[j] != null) {
-                                    QedeqLog.getInstance().logSuccessfulReply(
-                                        "LaTeX for language \"" + languages[j]
-                                        + "\" was generated from \""
-                                        + IoUtility.easyUrl(props[i].getUrl()) + "\" into \"" + result + "\"");
-                                } else {
-                                    QedeqLog.getInstance().logSuccessfulReply(
-                                        "LaTeX for default language "
-                                        + "was generated from \""
-                                        + IoUtility.easyUrl(props[i].getUrl()) + "\" into \"" + result + "\"");
-                                }
-                            }
+                            KernelContext.getInstance().executePlugin("to LaTeX", props[i].getModuleAddress());
                         } catch (final SourceFileExceptionList e) {
-                            final String msg = "Generation failed for \""
-                                + IoUtility.easyUrl(props[i].getUrl()) + "\"";
-                            Trace.fatal(CLASS, this, method, msg, e);
-                            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
-                        } catch (IOException e) {
-                            final String msg = "Generation failed for \""
-                                + IoUtility.easyUrl(props[i].getUrl()) + "\"";
-                            Trace.fatal(CLASS, this, method, msg, e);
-                            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
-                        } catch (final RuntimeException e) {
-                            Trace.fatal(CLASS, controller, "actionPerformed", "unexpected problem",
-                                e);
-                            QedeqLog.getInstance().logFailureReply(
-                                "Generation failed", e.getMessage());
+                            // TODO m31 20100317: should this exception really be thrown?
                         }
                     }
                 }
