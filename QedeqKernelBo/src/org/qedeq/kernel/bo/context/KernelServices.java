@@ -21,7 +21,6 @@ import java.io.InputStream;
 import java.net.URL;
 
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
@@ -33,12 +32,12 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 public interface KernelServices {
 
     /**
-     * Initialisation of services. This method should be called from the kernel
+     * Initialization of services. This method should be called from the kernel
      * directly after switching into ready state. Calling this method in ready state is not
      * supported.
      *
-     * TODO mime 20070411: what about an appropriate closing method?
-     * TODO mime 20080213: should not be here! Implementation detail!
+     * TODO m31 20070411: what about an appropriate closing method?
+     * TODO m31 20080213: should not be here! Implementation detail!
      */
     public void startup();
 
@@ -56,7 +55,7 @@ public interface KernelServices {
 
     /**
      * Get a certain module. You can check the status to know if the loading was successful.
-     *
+     * FIXME m31 20100317: add SourceFileExceptionList to signature and implementation
      * @param   address     Address of module.
      * @return  Wanted module.
      */
@@ -148,6 +147,7 @@ public interface KernelServices {
 
 
     /**
+     * FIXME m31 20100317: find a solution for server-client connection and plugin execution
      * Creates a LaTeX representation of given QEDEQ module.
      *
      * @param   address QEDEQ module address
@@ -158,18 +158,15 @@ public interface KernelServices {
      * @throws  IOException
      */
     public InputStream createLatex(final ModuleAddress address, String language, String level)
-            throws DefaultSourceFileExceptionList, IOException;
+            throws SourceFileExceptionList, IOException;
 
     /**
-     * Creates a LaTeX representation of given QEDEQ module and returns the server path for it.
+     * Execute plugin on given QEDEQ module.
      *
-     * @param   address QEDEQ module address
-     * @param   language Filter text to get and produce text in this language only.
-     * @param   level Filter for this detail level. LATER mime 20050205: not supported yet.
-     * @return  LaTeX data.
-     * @throws  DefaultSourceFileExceptionList Major problem occurred.
-     * @throws  IOException
+     * @param   name    Plugin name
+     * @param   address QEDEQ module address.
+     * @throws  SourceFileExceptionList Major problem occurred.
      */
-    public String generateLatex(final ModuleAddress address, String language, String level)
-            throws DefaultSourceFileExceptionList, IOException;
+    public void executePlugin(final String name, final ModuleAddress address) throws SourceFileExceptionList;
+
 }

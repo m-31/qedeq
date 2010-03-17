@@ -115,7 +115,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
         prop.setChecked(checker.existence);
     }
 
-    protected void traverse() throws DefaultSourceFileExceptionList {
+    public void traverse() throws DefaultSourceFileExceptionList {
         try {
             this.existence = new ModuleConstantsExistenceChecker(getQedeqBo());
         } catch (ModuleDataException me) {

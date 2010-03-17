@@ -52,7 +52,7 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
-import org.qedeq.kernel.bo.service.latex.Qedeq2Latex;
+import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
@@ -90,6 +90,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     /** This instance nows how to load a module from the file system. */
     private final QedeqFileDao qedeqFileDao;
 
+    /** This instance manages plugins. */
+    private final PluginManager pluginManager;
+
     /** Validate module dependencies and status. */
     private boolean validate = true;
 
@@ -101,6 +104,8 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      */
     public DefaultInternalKernelServices(final KernelProperties kernel, final QedeqFileDao loader) {
         modules = new KernelQedeqBoStorage();
+        pluginManager = new PluginManager();
+        pluginManager.addPlugin(new Qedeq2LatexPlugin());
         this.kernel = kernel;
         this.qedeqFileDao = loader;
         loader.setServices(this);
@@ -912,12 +917,13 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     public InputStream createLatex(final ModuleAddress address, final String language,
             final String level) throws DefaultSourceFileExceptionList, IOException {
-        return Qedeq2Latex.createLatex(getKernelQedeqBo(address), language, level);
+        return null;
+// FIXME        return Qedeq2Latex.createLatex(getKernelQedeqBo(address), language, level);
     }
 
-    public String generateLatex(final ModuleAddress address, final String language,
-            final String level) throws DefaultSourceFileExceptionList, IOException {
-        return Qedeq2Latex.generateLatex(getKernelQedeqBo(address), language, level).toString();
+    public void executePlugin(final String pluginName, final ModuleAddress address)
+            throws SourceFileExceptionList {
+        pluginManager.executePlugin(pluginName, getKernelQedeqBo(address));
     }
 
     /**

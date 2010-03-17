@@ -82,7 +82,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @throws  DefaultSourceFileExceptionList  All collected exceptions.
      */
-    protected void traverse() throws DefaultSourceFileExceptionList {
+    public void traverse() throws DefaultSourceFileExceptionList {
         try {
             this.traverser.accept(this.prop.getQedeq());
         } catch (ModuleDataException me) {

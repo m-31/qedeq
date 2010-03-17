@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.State;
 
 /**
@@ -42,7 +41,7 @@ public class PluginState implements State {
      * @param   code    code of this state.
      * @throws  IllegalArgumentException    text == <code>null</code>
      */
-    public PluginState(final Plugin plugin, final String text, final boolean failure, final int code) {
+    public PluginState(final String text, final boolean failure, final int code) {
         this.text = text;
         if (this.text == null) {
             throw new IllegalArgumentException("text==null");

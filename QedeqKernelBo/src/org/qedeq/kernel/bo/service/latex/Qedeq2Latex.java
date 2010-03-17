@@ -15,11 +15,7 @@
 
 package org.qedeq.kernel.bo.service.latex;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Locale;
 
 import org.qedeq.base.io.TextOutput;
@@ -54,12 +50,10 @@ import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.Plugin;
 
@@ -144,7 +138,7 @@ public final class Qedeq2Latex extends ControlVisitor {
      * @param   level       Filter for this detail level. LATER mime 20050205: not yet supported
      *                      yet.
      */
-    private Qedeq2Latex(final Plugin plugin, final KernelQedeqBo prop,
+    Qedeq2Latex(final Plugin plugin, final KernelQedeqBo prop,
             final TextOutput printer, final String language, final String level) {
         super(plugin, prop);
         this.printer = printer;
@@ -160,85 +154,6 @@ public final class Qedeq2Latex extends ControlVisitor {
         }
         this.elementConverter = new Element2Latex((prop.hasLoadedRequiredModules()
             ? prop.getRequiredModules() : null));
-    }
-
-    /**
-     * Gives a LaTeX representation of given QEDEQ module as InputStream.
-     *
-     * @param   prop            QEDEQ module.
-     * @param   language        Filter text to get and produce text in this language only.
-     * @param   level           Filter for this detail level. LATER mime 20050205: not supported
-     *                          yet.
-     * @return  Resulting LaTeX.
-     * @throws  DefaultSourceFileExceptionList Major problem occurred.
-     * @throws  IOException
-     */
-    public static File generateLatex(final KernelQedeqBo prop, final String language,
-            final String level) throws DefaultSourceFileExceptionList, IOException {
-
-        // first we try to get more information about required modules and their predicates..
-        try {
-            KernelContext.getInstance().loadRequiredModules(prop.getModuleAddress());
-            KernelContext.getInstance().checkModule(prop.getModuleAddress());
-        } catch (Exception e) {
-            // we continue and ignore external predicates
-            Trace.trace(CLASS, "generateLatex(KernelQedeqBo, TextOutput, String, String)", e);
-        }
-        String tex = prop.getModuleAddress().getFileName();
-        if (tex.toLowerCase(Locale.US).endsWith(".xml")) {
-            tex = tex.substring(0, tex.length() - 4);
-        }
-        if (language != null && language.length() > 0) {
-            tex = tex + "_" + language;
-        }
-        // the destination is the configured destination directory plus the (relative)
-        // localized file (or path) name
-        File destination = new File(KernelContext.getInstance().getConfig()
-            .getGenerationDirectory(), tex + ".tex").getCanonicalFile();
-        TextOutput printer = null;
-        try {
-            printer = new TextOutput(prop.getName(), new FileOutputStream(destination));
-            final Qedeq2Latex converter = new Qedeq2Latex(new Plugin() {
-
-                public String getPluginDescription() {
-                    return "transforms QEDEQ module into LaTeX";
-                }
-
-                public String getPluginName() {
-                    return "to LaTeX";
-                }
-            }, prop, printer, language, level);
-            converter.traverse();
-        } finally {
-            if (printer != null) {
-                printer.flush();
-                printer.close();
-            }
-        }
-        if (printer.checkError()) {
-            throw printer.getError();
-        }
-        // TODO mime 20080520: just for testing purpose the following check is
-        // integrated here after the LaTeX print. The checking results should be maintained
-        // later on as additional information to a module. (Warnings...)
-        QedeqBoDuplicateLanguageChecker.check(prop);
-        return destination.getCanonicalFile();
-    }
-
-    /**
-     * Gives a LaTeX representation of given QEDEQ module as InputStream.
-     *
-     * @param   prop            QEDEQ module.
-     * @param   language        Filter text to get and produce text in this language only.
-     * @param   level           Filter for this detail level. LATER mime 20050205: not supported
-     *                          yet.
-     * @return  Resulting LaTeX.
-     * @throws  DefaultSourceFileExceptionList Major problem occurred.
-     * @throws  IOException
-     */
-    public static InputStream createLatex(final KernelQedeqBo prop, final String language,
-            final String level) throws IOException, DefaultSourceFileExceptionList {
-        return new FileInputStream(generateLatex(prop, language, level));
     }
 
     public final void visitEnter(final Qedeq qedeq) {
