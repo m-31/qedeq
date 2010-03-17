@@ -21,7 +21,7 @@ import java.util.List;
 
 /**
  * Type save {@link org.qedeq.kernel.common.SourceFileException} list.
- * TODO mime 20080109: shouldn't this list have some informations about the source being parsed?
+ * TODO m31 20080109: shouldn't this list have some informations about the source being parsed?
  *
  * @author  Michael Meyling
  */
@@ -65,6 +65,10 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
         add(e);
     }
 
+    public void clear() {
+        exceptions.clear();
+    }
+
     /**
      * Add exception.
      *
@@ -75,6 +79,14 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
             initCause(e);
         }
         exceptions.add(e);
+    }
+
+    public void add(SourceFileExceptionList e) {
+        for (int i = 0; i < e.size(); i++) {
+            if (!exceptions.contains(e.get(i))) {
+                exceptions.add(e.get(i));
+            }
+        }
     }
 
     /**

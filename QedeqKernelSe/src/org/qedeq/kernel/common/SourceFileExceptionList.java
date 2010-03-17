@@ -40,6 +40,13 @@ public abstract class SourceFileExceptionList extends Exception {
     public abstract SourceFileException get(int i);
 
     /**
+     * Add exception.
+     *
+     * @param   e   Exception to add.
+     */
+    public abstract void add(SourceFileException e);
+
+    /**
      * Get all exceptions.
      *
      * @return  All exceptions.
