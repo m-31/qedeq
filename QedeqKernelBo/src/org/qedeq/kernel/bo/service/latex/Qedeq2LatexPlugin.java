@@ -17,7 +17,6 @@ package org.qedeq.kernel.bo.service.latex;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -53,7 +52,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
     /** This class. */
     private static final Class CLASS = Qedeq2LatexPlugin.class;
 
-    public Qedeq2LatexPlugin() { 
+    public Qedeq2LatexPlugin() {
     }
 
     public String getPluginDescription() {
@@ -64,8 +63,8 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         return "to LaTeX";
     }
 
-    public void executePlugin(KernelQedeqBo qedeq) throws SourceFileExceptionList {
-        final String method ="execute(QedeqBo)";
+    public void executePlugin(final KernelQedeqBo qedeq) throws SourceFileExceptionList {
+        final String method = "execute(QedeqBo)";
         try {
             QedeqLog.getInstance().logRequest("Generate LaTeX from \""
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
