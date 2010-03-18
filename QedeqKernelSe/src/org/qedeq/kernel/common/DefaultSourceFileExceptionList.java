@@ -65,6 +65,19 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
         add(e);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param   e   Wrap me.
+     */
+    public DefaultSourceFileExceptionList(final SourceFileExceptionList e) {
+        if (e != null) {
+            for (int i = 0; i < e.size(); i++) {
+                add(e.get(i));
+            }
+        }
+    }
+
     public void clear() {
         exceptions.clear();
     }
@@ -82,6 +95,9 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
     }
 
     public void add(final SourceFileExceptionList e) {
+        if (e == null) {
+            return;
+        }
         for (int i = 0; i < e.size(); i++) {
             if (!exceptions.contains(e.get(i))) {
                 exceptions.add(e.get(i));

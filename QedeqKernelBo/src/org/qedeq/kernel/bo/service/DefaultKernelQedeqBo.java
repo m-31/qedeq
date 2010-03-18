@@ -55,9 +55,6 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /** Loaded QEDEQ module. */
     private QedeqVo qedeq;
 
-    /** Failure exceptions. */
-    private SourceFileExceptionList exception;
-
     /** Required QEDEQ modules. */
     private KernelModuleReferenceList required;
 
@@ -304,19 +301,12 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return stateManager.getLogicalState();
     }
 
-    public SourceFileExceptionList getException() {
-        return this.exception;
+    public SourceFileExceptionList getErrors() {
+        return stateManager.getErrors();
     }
 
-    /**
-     * Get warnings for this BO.
-     * <p>
-     * FIXME mime 20080324: implement this method. Put in interface and use in GUI.
-     *
-     * @return  Warnings for this BO.
-     */
     public SourceFileExceptionList getWarnings() {
-        return null;
+        return stateManager.getWarnings();
     }
 
     public String getStateDescription() {
@@ -423,15 +413,6 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     /**
-     * Set {@link SourceFileExceptionList}. Doesn't do any status handling. Only for internal use.
-     *
-     * @param   exception   Set this exception.
-     */
-    protected void setErrors(final SourceFileExceptionList exception) {
-        this.exception = exception;
-    }
-
-    /**
      * Get {@link StateManager}. Only for internal use.
      *
      * @return StateManager
@@ -465,12 +446,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
        return address.getUrl();
     }
 
-    public void addPluginErrors(final PluginBo plugin, final SourceFileExceptionList errorList) {
-        // FIXME FIXME Auto-generated method stub
-    }
-
-    public void addPluginWarnings(final PluginBo plugin, final SourceFileExceptionList warningList) {
-        // FIXME FIXME Auto-generated method stub
+    public void addPluginErrors(final PluginBo plugin, final SourceFileExceptionList errors, final SourceFileExceptionList warnings) {
+        stateManager.addPluginResults(plugin, errors, warnings);
     }
 
 }

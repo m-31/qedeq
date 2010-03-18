@@ -103,7 +103,7 @@ public final class Xml2Xml implements Plugin {
             final KernelQedeqBo prop = (KernelQedeqBo) KernelContext.getInstance()
                 .loadModule(address);
             if (prop.getLoadingState().isFailure()) {
-                throw prop.getException();
+                throw prop.getErrors();
             }
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);

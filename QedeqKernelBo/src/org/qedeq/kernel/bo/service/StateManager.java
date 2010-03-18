@@ -24,12 +24,16 @@ import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
+import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
+
+import com.sun.corba.se.impl.legacy.connection.DefaultSocketFactory;
 
 
 /**
@@ -59,7 +63,11 @@ public class StateManager {
     private LogicalState logicalState;
 
     /** Holds QEDEQ module plugin results. */
-    private PluginResultManager pluginStates;
+    private PluginResultManager pluginResults;
+
+    /** Failure exceptions for basic operations. */
+    private SourceFileExceptionList errors;
+
 
     StateManager(final DefaultKernelQedeqBo bo) {
         this.bo = bo;
@@ -67,6 +75,7 @@ public class StateManager {
         loadingCompleteness = 0;
         dependencyState = DependencyState.STATE_UNDEFINED;
         logicalState = LogicalState.STATE_UNCHECKED;
+        pluginResults = new PluginResultManager();
     }
 
     /**
@@ -82,7 +91,7 @@ public class StateManager {
         bo.setLabels(null);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setLogicalState(LogicalState.STATE_UNCHECKED);
-        bo.setErrors(null);
+        setErrors(null);
         ModuleEventLog.getInstance().removeModule(bo);
     }
 
@@ -146,7 +155,7 @@ public class StateManager {
         bo.setLabels(null);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setLogicalState(LogicalState.STATE_UNCHECKED);
-        bo.setErrors(null);
+        setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -177,7 +186,7 @@ public class StateManager {
         setLoadingState(state);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setLogicalState(LogicalState.STATE_UNCHECKED);
-        bo.setErrors(e);
+        setErrors(e);
         if (e == null) {
             throw new NullPointerException("Exception must not be null");
         }
@@ -205,7 +214,7 @@ public class StateManager {
         bo.setLabels(labels);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setLogicalState(LogicalState.STATE_UNCHECKED);
-        bo.setErrors(null);
+        setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -237,7 +246,7 @@ public class StateManager {
         setLogicalState(LogicalState.STATE_UNCHECKED);
         setDependencyState(state);
         bo.getKernelRequiredModules().clear();
-        bo.setErrors(null);
+        setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -262,7 +271,7 @@ public class StateManager {
         }
         invalidateOtherDependentModulesToLoadedRequired();
         setDependencyState(state);
-        bo.setErrors(e);
+        setErrors(e);
         if (e == null) {
             throw new NullPointerException("Exception must not be null");
         }
@@ -386,7 +395,7 @@ public class StateManager {
         setLoadingState(LoadingState.STATE_LOADED);
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setLogicalState(LogicalState.STATE_UNCHECKED);
-        bo.setErrors(null);
+        setErrors(null);
     }
 
     public boolean hasLoadedRequiredModules() {
@@ -464,7 +473,7 @@ public class StateManager {
                 "set with setChecked(ExistenceChecker)");
         }
         invalidateOtherDependentModulesToLoadedRequired();
-        bo.setErrors(null);
+        setErrors(null);
         setLogicalState(state);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
@@ -489,7 +498,7 @@ public class StateManager {
         }
         invalidateDependentModulesToLoadedRequired();
         setLogicalState(state);
-        bo.setErrors(e);
+        setErrors(e);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -499,7 +508,7 @@ public class StateManager {
      * @throws  IllegalStateException   Module is already deleted.
      */
     private void checkIfDeleted() {
-        if (bo.getLoadingState() == LoadingState.STATE_DELETED) {
+        if (getLoadingState() == LoadingState.STATE_DELETED) {
             throw new IllegalStateException("module is already deleted: " + bo.getUrl());
         }
     }
@@ -557,6 +566,33 @@ public class StateManager {
      */
     protected void setLogicalState(final LogicalState state) {
         this.logicalState = state;
+    }
+
+    public SourceFileExceptionList getErrors() {
+        final DefaultSourceFileExceptionList result = new DefaultSourceFileExceptionList(errors);
+        result.add(pluginResults.getAllErrors());
+        // FIXME m31 20100317: remove warnings
+        result.add(pluginResults.getAllWarnings());
+        return result;
+    }
+
+    public SourceFileExceptionList getWarnings() {
+        final DefaultSourceFileExceptionList result = new DefaultSourceFileExceptionList();
+        result.add(pluginResults.getAllWarnings());
+        return result;
+    }
+
+    /**
+     * Set {@link SourceFileExceptionList}. Doesn't do any status handling. Only for internal use.
+     *
+     * @param   exception   Set this exception.
+     */
+    protected void setErrors(final SourceFileExceptionList exception) {
+        this.errors = exception;
+    }
+
+    public void addPluginResults(final PluginBo plugin, final SourceFileExceptionList errors, final SourceFileExceptionList warnings) {
+        pluginResults.addResult(plugin, errors, warnings);
     }
 
     /**

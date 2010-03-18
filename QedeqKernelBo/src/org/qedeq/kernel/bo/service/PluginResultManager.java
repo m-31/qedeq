@@ -59,7 +59,7 @@ public class PluginResultManager {
         }
         results.clear();
         results.addErrors(errors);
-        results.addWarnings(errors);
+        results.addWarnings(warnings);
     }
 
     /**
@@ -75,7 +75,7 @@ public class PluginResultManager {
             plugins.put(plugin, results);
         }
         results.addErrors(errors);
-        results.addWarnings(errors);
+        results.addWarnings(warnings);
     }
 
     public SourceFileExceptionList getAllErrors() {

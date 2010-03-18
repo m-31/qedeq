@@ -95,7 +95,7 @@ public class CharsetParserTest extends QedeqTestCase {
     public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
         final List list = new ArrayList();
         final SourceFileExceptionList sfl = KernelContext.getInstance().getQedeqBo(address)
-            .getException();
+            .getErrors();
         if (sfl != null) {
             final StringBuffer buffer
                 = new StringBuffer(KernelContext.getInstance().getSource(address));

@@ -278,19 +278,19 @@ public class GenerateLatexTest extends QedeqTestCase {
         final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(
             address);
         if (prop.hasFailures()) {
-            throw prop.getException();
+            throw prop.getErrors();
         }
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         if (prop.hasFailures()) {
-            throw prop.getException();
+            throw prop.getErrors();
         }
         KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
         if (prop.hasFailures()) {
-            throw prop.getException();
+            throw prop.getErrors();
         }
         QedeqBoDuplicateLanguageChecker.check(prop);
         if (prop.hasFailures()) {
-            throw prop.getException();
+            throw prop.getErrors();
         }
 
         final String web = "http://qedeq.org/"

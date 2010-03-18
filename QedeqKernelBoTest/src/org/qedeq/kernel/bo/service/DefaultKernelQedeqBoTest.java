@@ -142,7 +142,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         DefaultKernelQedeqBo bo;
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasFailures());
-        assertNull(bo.getException());
+        assertNull(bo.getErrors());
         try {
             bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
                 null);
@@ -163,7 +163,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             defaultSourceFileExceptionList);
         assertEquals(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
             bo.getLoadingState());
-        assertEquals(defaultSourceFileExceptionList, bo.getException());
+        assertEquals(defaultSourceFileExceptionList, bo.getErrors());
         bo.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED,
             defaultSourceFileExceptionList);
         assertEquals(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED,
@@ -272,10 +272,10 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         DefaultKernelQedeqBo bo;
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasFailures());
-        assertNull(bo.getException());
+        assertNull(bo.getErrors());
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
         assertTrue(bo.isLoaded());
-        assertNull(bo.getException());
+        assertNull(bo.getErrors());
         try {
             bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
                 null);
@@ -293,7 +293,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             // expected
         }
         bo.setLoadingProgressState(LoadingState.STATE_UNDEFINED);
-        assertNull(bo.getException());
+        assertNull(bo.getErrors());
         try {
             bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
                 defaultSourceFileExceptionList);
@@ -312,15 +312,15 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         }
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
         assertTrue(bo.isLoaded());
-        assertNull(bo.getException());
+        assertNull(bo.getErrors());
         bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
             defaultSourceFileExceptionList);
         assertEquals(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
             bo.getDependencyState());
-        assertEquals(defaultSourceFileExceptionList, bo.getException());
+        assertEquals(defaultSourceFileExceptionList, bo.getErrors());
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
         assertTrue(bo.isLoaded());
-        assertNull(bo.getException());
+        assertNull(bo.getErrors());
         bo.setDependencyProgressState(DependencyState.STATE_UNDEFINED);
         try {
             bo.setDependencyFailureState(DependencyState.STATE_UNDEFINED,
@@ -330,7 +330,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             // expected
         }
         assertEquals(DependencyState.STATE_UNDEFINED, bo.getDependencyState());
-        assertNull(bo.getException());
+        assertNull(bo.getErrors());
         try {
             bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES,
                 defaultSourceFileExceptionList);
@@ -339,7 +339,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             // expected
         }
         assertEquals(DependencyState.STATE_UNDEFINED, bo.getDependencyState());
-        assertNull(bo.getException());
+        assertNull(bo.getErrors());
         try {
             bo.setDependencyFailureState(DependencyState.STATE_LOADED_REQUIRED_MODULES,
                 defaultSourceFileExceptionList);
@@ -348,7 +348,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             // expected
         }
         assertEquals(DependencyState.STATE_UNDEFINED, bo.getDependencyState());
-        assertNull(bo.getException());
+        assertNull(bo.getErrors());
         try {
             bo.setDependencyFailureState(DependencyState.STATE_LOADED_REQUIRED_MODULES,
                 defaultSourceFileExceptionList);
@@ -357,7 +357,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             // expected
         }
         assertEquals(DependencyState.STATE_UNDEFINED, bo.getDependencyState());
-        assertNull(bo.getException());
+        assertNull(bo.getErrors());
     }
 
 }

@@ -876,6 +876,8 @@ public final class Qedeq2Latex extends ControlVisitor {
      * @param   msg     Error message.
      */
     private void addWarning(final int code, final String msg) {
+        Trace.param(CLASS, this, "addWarning", "getCurrentContext()", getCurrentContext());
+        Trace.param(CLASS, this, "addWarning", "msg", msg);
         addWarning(new LaTeXContentException(code, msg, getCurrentContext()));
     }
 

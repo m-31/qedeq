@@ -98,7 +98,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
         if (!prop.isChecked()) {
-            throw prop.getException();
+            throw prop.getErrors();
         }
         QedeqBoDuplicateLanguageChecker.check(prop);
     }

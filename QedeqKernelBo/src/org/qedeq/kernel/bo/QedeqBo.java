@@ -73,11 +73,18 @@ public interface QedeqBo {
     public LogicalState getLogicalState();
 
     /**
-     * Get exception.
+     * Get error list.
      *
-     * @return  exception.
+     * @return  Error list.
      */
-    public SourceFileExceptionList getException();
+    public SourceFileExceptionList getErrors();
+
+    /**
+     * Get warning list.
+     *
+     * @return  Warning list.
+     */
+    public SourceFileExceptionList getWarnings();
 
     /**
      * Get module state description.

@@ -88,10 +88,11 @@ public final class Qedeq2LatexPlugin implements PluginBo {
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
         } catch (final RuntimeException e) {
-            Trace.fatal(CLASS, this, method, "unexpected problem",
-                e);
+            // TODO m31 20100318: transform into source file exception
+            Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply(
-                "Generation failed", e.getMessage());
+                "Generation failed", "unexpected problem: "
+                + (e.getMessage() != null ? e.getMessage() : e.toString()));
         }
     }
 
@@ -133,8 +134,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
             printer = new TextOutput(prop.getName(), new FileOutputStream(destination));
             final Qedeq2Latex converter = new Qedeq2Latex(this, prop, printer, language, level);
             converter.traverse();
-            prop.addPluginErrors(this, converter.getErrorList());
-            converter.getWarningList();
+            prop.addPluginErrors(this, converter.getErrorList(), converter.getWarningList());
         } finally {
             if (printer != null) {
                 printer.flush();
