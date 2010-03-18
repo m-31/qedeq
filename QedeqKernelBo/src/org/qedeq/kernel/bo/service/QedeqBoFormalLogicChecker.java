@@ -32,7 +32,6 @@ import org.qedeq.kernel.bo.logic.wf.Predicate;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleDataException;
