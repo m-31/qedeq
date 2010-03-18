@@ -465,16 +465,12 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
        return address.getUrl();
     }
 
-    public void addPluginErrors(PluginBo plugin,
-            SourceFileExceptionList errorList) {
+    public void addPluginErrors(final PluginBo plugin, SourceFileExceptionList errorList) {
         // FIXME FIXME Auto-generated method stub
-        
     }
 
-    public void addPluginWarnings(PluginBo plugin,
-            SourceFileExceptionList warningList) {
+    public void addPluginWarnings(final PluginBo plugin, SourceFileExceptionList warningList) {
         // FIXME FIXME Auto-generated method stub
-        
     }
 
 }
