@@ -11,7 +11,6 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * Kernel internal QedeqBo with additional methods.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface KernelQedeqBo extends QedeqBo {
