@@ -78,7 +78,7 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
                 if (j > 0) {
                     buffer.append("<br>");
                 }
-                buffer.append((prop.getException().get(((Integer) errNos.get(j)).intValue())
+                buffer.append((prop.getErrors().get(((Integer) errNos.get(j)).intValue())
                     .getMessage()));    // TODO mime 20080417: escape for HTML presenatation
             }
             buffer.append("</html>");
@@ -155,8 +155,8 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
                 qedeq.setText(KernelContext.getInstance().getSource(prop.getModuleAddress()));
                 CurrentLineHighlighterUtility.install(qedeq);
                 qedeq.setLineWrap(getLineWrap());
-                if (prop.hasFailures()) {
-                    final SourceFileExceptionList pe = prop.getException();
+//                if (prop.hasFailures()) {
+                    final SourceFileExceptionList pe = prop.getErrors();
                     if (prop.getModuleAddress().isFileAddress()) {
                         qedeq.setEditable(true);
                     } else {
@@ -187,18 +187,18 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
                         marker.addEmptyBlock();
 
                     }
-                } else {    // TODO if file module is edited status must change
-                    if (prop.getModuleAddress().isFileAddress()) {
-                        qedeq.setEditable(true);
-                    } else {
-                        qedeq.setEditable(false);
-                    }
-                    qedeq.getCaret().setSelectionVisible(false);
-                    qedeq.setCaretPosition(0);
-                    // LATER mime 20080131: is this a valid setting for the default colors?
-                    qedeq.setSelectedTextColor(MetalLookAndFeel.getHighlightedTextColor());
-                    qedeq.setSelectionColor(MetalLookAndFeel.getTextHighlightColor());
-                }
+//                } else {    // TODO if file module is edited status must change
+//                    if (prop.getModuleAddress().isFileAddress()) {
+//                        qedeq.setEditable(true);
+//                    } else {
+//                        qedeq.setEditable(false);
+//                    }
+//                    qedeq.getCaret().setSelectionVisible(false);
+//                    qedeq.setCaretPosition(0);
+//                    // LATER mime 20080131: is this a valid setting for the default colors?
+//                    qedeq.setSelectedTextColor(MetalLookAndFeel.getHighlightedTextColor());
+//                    qedeq.setSelectionColor(MetalLookAndFeel.getTextHighlightColor());
+//                }
                 Trace.trace(CLASS, this, "updateView", "Text updated");
             } catch (IOException ioException) {
                 qedeq.setEditable(false);
@@ -300,10 +300,14 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
      * @param   sf          Selected error.
      */
     public synchronized void selectError(final int errorNumber, final SourceFileException sf) {
+        System.out.println("Select error " + errorNumber + "\n" + sf);
         if (marker != null) {
             this.requestFocus();
             qedeq.requestFocus();
+            System.out.println("setting error position");
             qedeq.setCaretPosition(marker.getLandmarkOffsetForBlock(errorNumber));
+        } else {
+            System.out.println("marker == null!!!!");
         }
     }
 

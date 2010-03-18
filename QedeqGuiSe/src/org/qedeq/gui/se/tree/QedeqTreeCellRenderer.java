@@ -140,18 +140,18 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
             final boolean hasFocus) {
 
         final String method = "getTreeCellRendererComponent";
-        Trace.paramInfo(CLASS, this, method, row + " is selected", isSelected);
-        Trace.paramInfo(CLASS, this, method, row + " is expanded", expanded);
-        Trace.paramInfo(CLASS, this, method, row + " hasFocus", hasFocus);
-        Trace.paramInfo(CLASS, this, method, row + " leaf", leaf);
-        Trace.paramInfo(CLASS, this, method, row + " maxSelectionRow", tree.getMaxSelectionRow());
-        Trace.paramInfo(CLASS, this, method, row + " selectionCount", tree.getSelectionCount());
-        Trace.paramInfo(CLASS, this, method, row + " rowCount", tree.getRowCount());
-        Trace.paramInfo(CLASS, this, method, row + " tree path", tree.getPathForRow(row));
+        Trace.param(CLASS, this, method, row + " is selected", isSelected);
+        Trace.param(CLASS, this, method, row + " is expanded", expanded);
+        Trace.param(CLASS, this, method, row + " hasFocus", hasFocus);
+        Trace.param(CLASS, this, method, row + " leaf", leaf);
+        Trace.param(CLASS, this, method, row + " maxSelectionRow", tree.getMaxSelectionRow());
+        Trace.param(CLASS, this, method, row + " selectionCount", tree.getSelectionCount());
+        Trace.param(CLASS, this, method, row + " rowCount", tree.getRowCount());
+        Trace.param(CLASS, this, method, row + " tree path", tree.getPathForRow(row));
 
         ModuleElement unit;
         QedeqBo prop;
-/* mime 20080502: Debugging code
+/* m31 20080502: Debugging code
         TreeModel model = tree.getModel();
         BasicTreeUI ui = (BasicTreeUI) tree.getUI();
         VariableHeightLayoutCache vhlc = null;
@@ -249,7 +249,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 }
             }
         }
-    // LATER mime 20080502: do we want to leave it for our alternative "paint" or do we delete it?
+    // LATER m31 20080502: do we want to leave it for our alternative "paint" or do we delete it?
 /*
         if (isSelected) {
             setBackground(backgroundSelectionColor);
@@ -272,7 +272,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         return this;
     }
 
-    // LATER mime 20080502: do we want to rename it back to "paint" or do we delete it?
+    // LATER m31 20080502: do we want to rename it back to "paint" or do we delete it?
     /**
      * paint is subclassed to draw the background correctly.  JLabel
      * currently does not allow backgrounds other than white, and it

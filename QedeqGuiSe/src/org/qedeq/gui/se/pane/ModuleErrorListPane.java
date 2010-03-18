@@ -150,6 +150,8 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
     }
 
     private void selectError() {
+        Trace.param(CLASS, this, "selectError", "sfl", sfl);
+        Trace.param(CLASS, this, "selectError", "errNo", errNo);
         if (sfl != null && errNo >= 0 && errNo < sfl.size()) {
             ErrorSelectionListenerList.getInstance().selectError(errNo, sfl.get(errNo));
         }
@@ -253,7 +255,7 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
     public synchronized void updateView() {
         final String method = "updateView";
         Trace.begin(CLASS, this, method);
-        this.sfl = (prop != null ? prop.getException() : null);
+        this.sfl = (prop != null ? prop.getErrors() : null);
         ((AbstractTableModel) error.getModel()).fireTableDataChanged();
         ((AbstractTableModel) error.getModel()).fireTableStructureChanged();
         changeHeaderWidth();
