@@ -2,7 +2,6 @@ package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
-import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
