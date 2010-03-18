@@ -81,7 +81,7 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
         exceptions.add(e);
     }
 
-    public void add(SourceFileExceptionList e) {
+    public void add(final SourceFileExceptionList e) {
         for (int i = 0; i < e.size(); i++) {
             if (!exceptions.contains(e.get(i))) {
                 exceptions.add(e.get(i));
