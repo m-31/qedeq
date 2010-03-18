@@ -50,7 +50,7 @@ public interface KernelQedeqBo extends QedeqBo {
      * @param   exception   Take this exception.
      * @return  Newly created instance.
      */
-    public SourceFileException createSourceFileException(final Plugin plugin, final ModuleDataException
+    public SourceFileException createSourceFileException(Plugin plugin, ModuleDataException
             exception);
 
     /**
