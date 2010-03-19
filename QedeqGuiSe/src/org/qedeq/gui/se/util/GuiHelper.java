@@ -32,6 +32,7 @@ import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
+import javax.swing.plaf.ColorUIResource;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.BadLocationException;
@@ -83,6 +84,9 @@ public final class GuiHelper  {
         Options.setTabIconsEnabled(options.isTabIconsEnabled());
         UIManager.put(Options.POPUP_DROP_SHADOW_ENABLED_KEY,
                 options.isPopupDropShadowEnabled());
+// LATER m31 20100319: we make this now direct in QedeqPane, this line didn't help. Why?
+        // we want our disabled TextAreas to look same if not editable
+        UIManager.put("TextArea.disabledBackground", UIManager.get("TextArea.background"));
 
         // Swing Settings
         LookAndFeel selectedLaf = options.getSelectedLookAndFeel();

@@ -26,6 +26,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.plaf.TextUI;
 import javax.swing.text.BadLocationException;
 
@@ -157,35 +158,41 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
 //                if (prop.hasFailures()) {
                     final SourceFileExceptionList pe = prop.getErrors();
                     if (prop.getModuleAddress().isFileAddress()) {
+                        // TODO m31 20100319: show "readonly" as label somewhere
                         qedeq.setEditable(true);
                     } else {
                         qedeq.setEditable(false);
                     }
+                    // we want the background be same even if area is not editable
+                    qedeq.setBackground(UIManager.getColor("TextArea.background"));
                     qedeq.setCaretPosition(0);
                     qedeq.getCaret().setSelectionVisible(true);
                     marker = new DocumentMarker(qedeq);
-                    for (int i = 0; i < pe.size(); i++) {
-                        if (pe.get(i).getSourceArea() != null) {
-                            try {
-                                final SourceArea sa = pe.get(i).getSourceArea();
-                                if (sa != null) {
-                                    final int from = sa.getStartPosition().getLine() - 1;
-                                    int to = sa.getEndPosition().getLine() - 1;
-// for line marking only:
-//                                    marker.addMarkedLines(from, to,
-//                                        sa.getStartPosition().getColumn() - 1);
-                                    marker.addMarkedBlock(from,
-                                        sa.getStartPosition().getColumn() - 1,
-                                        to, sa.getEndPosition().getColumn() - 1);
-                                    continue;
+                    if (pe != null) {
+                        for (int i = 0; i < pe.size(); i++) {
+                            if (pe.get(i).getSourceArea() != null) {
+                                try {
+                                    final SourceArea sa = pe.get(i).getSourceArea();
+                                    if (sa != null) {
+                                        final int from = sa.getStartPosition().getLine() - 1;
+                                        int to = sa.getEndPosition().getLine() - 1;
+    // for line marking only:
+    //                                    marker.addMarkedLines(from, to,
+    //                                        sa.getStartPosition().getColumn() - 1);
+                                        marker.addMarkedBlock(from,
+                                            sa.getStartPosition().getColumn() - 1,
+                                            to, sa.getEndPosition().getColumn() - 1);
+                                        continue;
+                                    }
+                                } catch (BadLocationException e) {  // should not occur
+                                    Trace.fatal(CLASS, this, "updateView", "Programming error?", e);
                                 }
-                            } catch (BadLocationException e) {  // should not occur
-                                Trace.fatal(CLASS, this, "updateView", "Programming error?", e);
                             }
+                            marker.addEmptyBlock();
+    
                         }
-                        marker.addEmptyBlock();
-
                     }
+// FIXME m31 20100319: remove if warnings integration is complete
 //                } else {    // TODO if file module is edited status must change
 //                    if (prop.getModuleAddress().isFileAddress()) {
 //                        qedeq.setEditable(true);

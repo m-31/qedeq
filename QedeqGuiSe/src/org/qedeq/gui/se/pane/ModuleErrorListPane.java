@@ -56,56 +56,18 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
 
+
     /** This class. */
     private static final Class CLASS = ModuleErrorListPane.class;
 
     /** Currently selected error. */
     private int errNo = -1;
 
+    /** Table model. */
+    ModuleErrorListModel model = new ModuleErrorListModel();
 
     /** This table holds the error descriptions. */
-    private JTable error = new JTable(new AbstractTableModel() {
-            public String getColumnName(final int column) {
-                if (column == 0) {
-                    return "Errors for " + (prop != null ? prop.getName() + " ("
-                        + prop.getModuleAddress() + ")" : "");
-                } else if (column == 1) {
-                    return "Location";
-                } else {
-                    return "";
-                }
-            }
-
-            public int getRowCount() {
-                return (sfl != null ? sfl.size() : 0);
-            }
-
-            public int getColumnCount() {
-                return 2;
-            }
-
-            public Object getValueAt(final int row, final int col) {
-                if (sfl == null) {
-                    return "";
-                }
-                if (col == 0) {
-                    return sfl.get(row).getMessage();
-                } else if (col == 1) {
-                    if (sfl.get(row).getSourceArea() != null) {
-                        return "line " + sfl.get(row).getSourceArea().getStartPosition().getLine();
-                    }
-                }
-                return "";
-            }
-
-            public boolean isCellEditable(final int row, final int column) {
-                return false;
-            }
-
-            public void setValueAt(final Object value, final int row, final int col) {
-            }
-
-        }) {
+    private JTable error = new JTable(model) {
 
         /**
          * Just return the error message of the row.
@@ -146,7 +108,6 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
         super(false);
         setModel(null);
         setupView();
-
     }
 
     private void selectError() {
@@ -238,6 +199,7 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
      */
     public synchronized void setModel(final QedeqBo prop) {
         Trace.trace(CLASS, this, "setModel", prop);
+        model.setQedeq(prop);
         if (!EqualsUtility.equals(this.prop, prop)) {
             this.prop = prop;
             Runnable setModel = new Runnable() {
