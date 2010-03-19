@@ -27,7 +27,6 @@ import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.swing.plaf.TextUI;
-import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.BadLocationException;
 
 import org.qedeq.base.trace.Trace;
