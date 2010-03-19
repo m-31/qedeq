@@ -35,7 +35,7 @@ public class ModuleErrorListModel extends AbstractTableModel {
             return "";
         }
         if (column == 1) {
-            return "Errors for " + (qedeq != null ? qedeq.getName() + " ("
+            return (qedeq != null ? qedeq.getName() + " ("
                 + qedeq.getModuleAddress() + ")" : "");
         } else if (column == 2) {
             return "Location";
