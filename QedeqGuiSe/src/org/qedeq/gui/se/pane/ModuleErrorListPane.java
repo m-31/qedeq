@@ -273,7 +273,7 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
      *
      * @author  Michael Meyling
      */
-    private class IconCellRenderer extends DefaultTableCellRenderer {
+    private static class IconCellRenderer extends DefaultTableCellRenderer {
 
         protected void setValue(final Object value) {
             if (value instanceof Icon) {
