@@ -163,6 +163,14 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
             new SourceFileException[exceptions.size()]);
     }
 
+    public int hashCode() {
+        int result = 71;
+        for (int i = 0; i < size(); i++) {
+            result = result ^ (get(i) != null ? get(i).hashCode() : 0);
+        }
+        return result;
+    }
+
     public boolean equals(final Object object) {
         if (!(object instanceof SourceFileExceptionList)) {
             return false;
