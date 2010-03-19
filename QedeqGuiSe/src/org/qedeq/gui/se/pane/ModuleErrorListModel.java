@@ -15,6 +15,8 @@
 
 package org.qedeq.gui.se.pane;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
 import org.qedeq.kernel.bo.QedeqBo;
@@ -27,6 +29,16 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  */
 
 public class ModuleErrorListModel extends AbstractTableModel {
+
+    /** Error icon. */
+    private static ImageIcon errorIcon = new ImageIcon(
+        ModuleErrorListPane.class.getResource(
+            "/images/eclipse/error_tsk.gif"));
+
+    /** Warning icon. */
+    private static ImageIcon warningIcon = new ImageIcon(
+        ModuleErrorListPane.class.getResource(
+            "/images/eclipse/warn_tsk.gif"));
 
     /** We want to show errors and warnings from this module. */
     private QedeqBo qedeq;
@@ -76,7 +88,8 @@ public class ModuleErrorListModel extends AbstractTableModel {
         }
         if (row < maxErrors) {
             if (col == 0) {
-                return "E";
+                return errorIcon;
+//                return "E";
             } else if (col == 1) {
                 return errors.get(row).getMessage();
             } else if (col == 2 && errors.get(row).getSourceArea() != null) {
@@ -84,7 +97,8 @@ public class ModuleErrorListModel extends AbstractTableModel {
             }
         } else if (row >= maxErrors && warnings != null && row < maxErrors + warnings.size()) {
             if (col == 0) {
-                return "W";
+                return warningIcon;
+//                return "W";
             } else if (col == 1) {
                 return warnings.get(row - maxErrors).getMessage();
             } else if (col == 2 && warnings.get(row - maxErrors).getSourceArea() != null) {
@@ -100,6 +114,10 @@ public class ModuleErrorListModel extends AbstractTableModel {
 
     public void setValueAt(final Object value, final int row, final int col) {
     }
+
+    public Class getColumnClass(int col) {
+        return col == 0 ? Icon.class : Object.class;
+   }
 
     /**
      * Set QEDEQ module.

@@ -22,6 +22,8 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -31,6 +33,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
 import javax.swing.table.TableColumnModel;
 import javax.swing.text.SimpleAttributeSet;
@@ -39,6 +42,7 @@ import javax.swing.text.StyleConstants;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.ErrorSelectionListenerList;
+import org.qedeq.gui.se.tree.QedeqTreeCellRenderer;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.ModuleEventListener;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -130,6 +134,9 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
 
         final CellConstraints cc = new CellConstraints();
         builder.appendRow(new RowSpec("0:grow"));
+        
+        list.setDefaultRenderer(Icon.class, new IconCellRenderer());
+
 
         final ListSelectionModel rowSM = list.getSelectionModel();
         rowSM.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -187,9 +194,12 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
      */
     private void changeHeaderWidth() {
         TableColumnModel columnModel = list.getColumnModel();
-        columnModel.getColumn(0).setPreferredWidth(10);
-        columnModel.getColumn(1).setPreferredWidth(300);
-        columnModel.getColumn(2).setPreferredWidth(30);
+        columnModel.getColumn(0).setPreferredWidth(24);
+        columnModel.getColumn(0).setMinWidth(24);
+        columnModel.getColumn(1).setPreferredWidth(2000);
+        columnModel.getColumn(1).setMinWidth(100);
+        columnModel.getColumn(2).setPreferredWidth(100);
+        columnModel.getColumn(2).setMinWidth(100);
     }
 
     /**
@@ -257,6 +267,19 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
                 }
             };
             SwingUtilities.invokeLater(removeModule);
+        }
+    }
+
+    class IconCellRenderer extends DefaultTableCellRenderer {
+        protected void setValue(Object value) {
+            if (value instanceof Icon) {
+                System.out.println("It works!");
+                setIcon((Icon) value);
+                super.setValue(null);
+            } else {
+                setIcon(null);
+                super.setValue(value);
+            }
         }
     }
 
