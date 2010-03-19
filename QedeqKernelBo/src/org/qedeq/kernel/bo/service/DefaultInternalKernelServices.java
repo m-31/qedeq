@@ -548,9 +548,15 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
         // set proxy properties according to kernel configuration (if not webstarted)
         if (!IoUtility.isWebStarted()) {
-            System.setProperty("http.proxyHost", kernel.getConfig().getHttpProxyHost());
-            System.setProperty("http.proxyPort", kernel.getConfig().getHttpProxyPort());
-            System.setProperty("http.nonProxyHosts", kernel.getConfig().getHttpNonProxyHosts());
+            if (kernel.getConfig().getHttpProxyHost() != null) {
+                System.setProperty("http.proxyHost", kernel.getConfig().getHttpProxyHost());
+            }
+            if (kernel.getConfig().getHttpProxyPort() != null) {
+                System.setProperty("http.proxyPort", kernel.getConfig().getHttpProxyPort());
+            }
+            if (kernel.getConfig().getHttpNonProxyHosts() != null) {
+                System.setProperty("http.nonProxyHosts", kernel.getConfig().getHttpNonProxyHosts());
+            }
         }
 
         if (prop.getModuleAddress().isFileAddress()) { // this is already a local file
