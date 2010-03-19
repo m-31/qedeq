@@ -18,6 +18,7 @@ package org.qedeq.base.io;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.URL;
 
@@ -192,7 +193,13 @@ public final class ResourceLoaderUtility {
         try {
             final Method method = Thread.class.getMethod("getContextClassLoader", null);
             return (ClassLoader) method.invoke(Thread.currentThread(), null);
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
+            return null;
+        } catch (IllegalAccessException e) {
+            return null;
+        } catch (InvocationTargetException e) {
+            return null;
+        } catch (NoSuchMethodException e) {
             return null;
         }
     }
