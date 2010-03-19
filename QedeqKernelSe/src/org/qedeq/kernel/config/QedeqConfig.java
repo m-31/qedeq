@@ -329,7 +329,11 @@ public class QedeqConfig {
      * @return  Http proxy host.
      */
     public final String getHttpProxyHost() {
-        return getKeyValue("http.proxyHost", System.getProperty("http.proxyHost"));
+        final String def = System.getProperty("http.proxyHost");
+        if (def != null) {
+            return getKeyValue("http.proxyHost", def);
+        }
+        return getKeyValue("http.proxyHost");
     }
 
     /**
@@ -348,7 +352,11 @@ public class QedeqConfig {
      * @return  Http proxy port.
      */
     public final String getHttpProxyPort() {
-        return getKeyValue("http.proxyPort", System.getProperty("http.proxyPort"));
+        final String def = System.getProperty("http.proxyPort");
+        if (def != null) {
+            return getKeyValue("http.proxyPort", def);
+        }
+        return getKeyValue("http.proxyPort");
     }
 
     /**
@@ -367,7 +375,11 @@ public class QedeqConfig {
      * @return  Http non proxy hosts.
      */
     public final String getHttpNonProxyHosts() {
-        return getKeyValue("http.nonProxyHosts", System.getProperty("http.nonProxyHosts"));
+        final String def = System.getProperty("http.nonProxyHosts");
+        if (def != null) {
+            return getKeyValue("http.nonProxyHosts", def);
+        }
+        return getKeyValue("http.nonProxyHosts");
     }
 
     /**
@@ -376,7 +388,7 @@ public class QedeqConfig {
      * @param   key     Get value for this key.
      * @return  Value, maybe <code>null</code>.
      */
-    protected String getKeyValue(final String key) {
+    protected synchronized String getKeyValue(final String key) {
         return configAccess.getString(key);
     }
 
@@ -388,7 +400,7 @@ public class QedeqConfig {
      * @return  Value. If value for key is originally <code>null</code> <code>defaultValue</code>
      *          is returned..
      */
-    protected String getKeyValue(final String key, final String defaultValue) {
+    protected synchronized String getKeyValue(final String key, final String defaultValue) {
         return configAccess.getString(key, defaultValue);
     }
 
@@ -398,7 +410,7 @@ public class QedeqConfig {
      * @param   key     For this key.
      * @param   value   Set this value.
      */
-    protected void setKeyValue(final String key, final String value) {
+    protected synchronized void setKeyValue(final String key, final String value) {
         configAccess.setString(key, value);
     }
 
@@ -410,7 +422,7 @@ public class QedeqConfig {
      * @return  Value. If value for key is originally <code>null</code> <code>defaultValue</code>
      *          is returned..
      */
-    protected int getKeyValue(final String key, final int defaultValue) {
+    protected synchronized int getKeyValue(final String key, final int defaultValue) {
         return configAccess.getInteger(key, defaultValue);
     }
 
@@ -420,7 +432,7 @@ public class QedeqConfig {
      * @param   key     For this key.
      * @param   value   Set this value.
      */
-    protected void setKeyValue(final String key, final int value) {
+    protected synchronized void setKeyValue(final String key, final int value) {
         configAccess.setInteger(key, value);
     }
 
