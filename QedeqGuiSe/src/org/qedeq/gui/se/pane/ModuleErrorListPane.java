@@ -188,8 +188,9 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
      */
     private void changeHeaderWidth() {
         TableColumnModel model = error.getColumnModel();
-        model.getColumn(0).setPreferredWidth(300);
-        model.getColumn(1).setPreferredWidth(30);
+        model.getColumn(0).setPreferredWidth(10);
+        model.getColumn(1).setPreferredWidth(300);
+        model.getColumn(2).setPreferredWidth(30);
     }
 
     /**
