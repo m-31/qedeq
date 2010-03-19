@@ -56,7 +56,6 @@ import com.jgoodies.forms.layout.RowSpec;
 
 public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
 
-
     /** This class. */
     private static final Class CLASS = ModuleErrorListPane.class;
 
@@ -64,10 +63,10 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
     private int errNo = -1;
 
     /** Table model. */
-    ModuleErrorListModel model = new ModuleErrorListModel();
+    private ModuleErrorListModel model = new ModuleErrorListModel();
 
     /** This table holds the error descriptions. */
-    private JTable error = new JTable(model) {
+    private JTable list = new JTable(model) {
 
         /**
          * Just return the error message of the row.
@@ -132,7 +131,7 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
         final CellConstraints cc = new CellConstraints();
         builder.appendRow(new RowSpec("0:grow"));
 
-        final ListSelectionModel rowSM = error.getSelectionModel();
+        final ListSelectionModel rowSM = list.getSelectionModel();
         rowSM.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         // if selection changes remember the error number (= selected row (starting with 0))
@@ -141,13 +140,13 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
                 if (e.getValueIsAdjusting()) {
                     return;
                 }
-                errNo = error.getSelectionModel().getLeadSelectionIndex();
+                errNo = list.getSelectionModel().getLeadSelectionIndex();
                 Trace.param(CLASS, this, "setupView$valueChanged", "errNo" , errNo);
             }
         });
 
         // doing a click shall open the edit window
-        error.addMouseListener(new MouseAdapter()  {
+        list.addMouseListener(new MouseAdapter()  {
             public void mouseClicked(final MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     Trace.trace(CLASS, this, "setupView$vmouseClicked", "doubleClick");
@@ -157,14 +156,14 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
         });
 
         // pressing the enter key shall open the edit window
-        error.getActionMap().put("selectNextRowCell", new AbstractAction() {
+        list.getActionMap().put("selectNextRowCell", new AbstractAction() {
             public void actionPerformed(final ActionEvent event) {
                 Trace.param(CLASS, this, "setupView$actionPerformed", "event" , event);
                 selectError();
             }
         });
 
-        scrollPane = new JScrollPane(error);
+        scrollPane = new JScrollPane(list);
         builder.add(scrollPane,
             cc.xywh(builder.getColumn(), builder.getRow(), 1, 2, "fill, fill"));
 
@@ -177,7 +176,7 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
         // the default table cell renderer uses a JLabel to render the heading and we want to
         // left align the header columns
         // TODO mime 20080415: left align with small spaces would be better
-        final JTableHeader header = error.getTableHeader();
+        final JTableHeader header = list.getTableHeader();
         ((JLabel) header.getDefaultRenderer()).setHorizontalAlignment(JLabel.LEFT);
 
         changeHeaderWidth();
@@ -187,10 +186,10 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
      * Make 2. column smaller.
      */
     private void changeHeaderWidth() {
-        TableColumnModel model = error.getColumnModel();
-        model.getColumn(0).setPreferredWidth(10);
-        model.getColumn(1).setPreferredWidth(300);
-        model.getColumn(2).setPreferredWidth(30);
+        TableColumnModel columnModel = list.getColumnModel();
+        columnModel.getColumn(0).setPreferredWidth(10);
+        columnModel.getColumn(1).setPreferredWidth(300);
+        columnModel.getColumn(2).setPreferredWidth(30);
     }
 
     /**
@@ -219,11 +218,11 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
         final String method = "updateView";
         Trace.begin(CLASS, this, method);
         this.sfl = (prop != null ? prop.getErrors() : null);
-        ((AbstractTableModel) error.getModel()).fireTableDataChanged();
-        ((AbstractTableModel) error.getModel()).fireTableStructureChanged();
+        ((AbstractTableModel) list.getModel()).fireTableDataChanged();
+        ((AbstractTableModel) list.getModel()).fireTableStructureChanged();
         changeHeaderWidth();
-        error.invalidate();
-        error.repaint();
+        list.invalidate();
+        list.repaint();
         this.repaint();
     }
 
