@@ -189,7 +189,6 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
                                 }
                             }
                             marker.addEmptyBlock();
-    
                         }
                     }
 // FIXME m31 20100319: remove if warnings integration is complete
