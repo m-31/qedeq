@@ -25,7 +25,6 @@ import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.bo.module.PluginResults;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
@@ -596,7 +595,8 @@ public class StateManager {
         }
     }
 
-    public void addPluginResults(final PluginBo plugin, final SourceFileExceptionList errors, final SourceFileExceptionList warnings) {
+    public void addPluginResults(final PluginBo plugin, final SourceFileExceptionList errors,
+            final SourceFileExceptionList warnings) {
         pluginResults.addResult(plugin, errors, warnings);
     }
 
