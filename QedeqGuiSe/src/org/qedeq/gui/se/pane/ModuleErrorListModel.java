@@ -28,6 +28,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 
 public class ModuleErrorListModel extends AbstractTableModel {
 
+    /** We want to show errors and warnings from this module. */
     private QedeqBo qedeq;
 
     public String getColumnName(final int column) {
@@ -48,8 +49,8 @@ public class ModuleErrorListModel extends AbstractTableModel {
         if (qedeq == null) {
             return 0;
         }
-        SourceFileExceptionList errors = qedeq.getErrors();
-        SourceFileExceptionList warnings = qedeq.getWarnings();
+        final SourceFileExceptionList errors = qedeq.getErrors();
+        final SourceFileExceptionList warnings = qedeq.getWarnings();
         int size = 0;
         if (errors != null) {
             size += errors.size();
@@ -68,8 +69,8 @@ public class ModuleErrorListModel extends AbstractTableModel {
         if (qedeq == null) {
             return "";
         }
-        SourceFileExceptionList errors = qedeq.getErrors();
-        SourceFileExceptionList warnings = qedeq.getWarnings();
+        final SourceFileExceptionList errors = qedeq.getErrors();
+        final SourceFileExceptionList warnings = qedeq.getWarnings();
         int maxErrors = 0;
         if (errors != null) {
             maxErrors += errors.size();
@@ -106,7 +107,7 @@ public class ModuleErrorListModel extends AbstractTableModel {
      *
      * @param   qedeq   QEDEQ module.
      */
-    public void setQedeq(QedeqBo qedeq) {
+    public void setQedeq(final QedeqBo qedeq) {
         this.qedeq = qedeq;
     }
 
