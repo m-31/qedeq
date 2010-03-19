@@ -446,7 +446,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
        return address.getUrl();
     }
 
-    public void addPluginErrors(final PluginBo plugin, final SourceFileExceptionList errors, final SourceFileExceptionList warnings) {
+    public void addPluginErrors(final PluginBo plugin, final SourceFileExceptionList errors,
+            final SourceFileExceptionList warnings) {
         stateManager.addPluginResults(plugin, errors, warnings);
     }
 
