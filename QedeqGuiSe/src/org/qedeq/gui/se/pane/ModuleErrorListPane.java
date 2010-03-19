@@ -23,7 +23,6 @@ import java.awt.event.MouseEvent;
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
 import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -42,7 +41,6 @@ import javax.swing.text.StyleConstants;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.ErrorSelectionListenerList;
-import org.qedeq.gui.se.tree.QedeqTreeCellRenderer;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.ModuleEventListener;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -134,9 +132,8 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
 
         final CellConstraints cc = new CellConstraints();
         builder.appendRow(new RowSpec("0:grow"));
-        
-        list.setDefaultRenderer(Icon.class, new IconCellRenderer());
 
+        list.setDefaultRenderer(Icon.class, new IconCellRenderer());
 
         final ListSelectionModel rowSM = list.getSelectionModel();
         rowSM.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -270,8 +267,15 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
         }
     }
 
-    class IconCellRenderer extends DefaultTableCellRenderer {
-        protected void setValue(Object value) {
+
+    /**
+     * We render our cells with this class.
+     *
+     * @author  Michael Meyling
+     */
+    private class IconCellRenderer extends DefaultTableCellRenderer {
+
+        protected void setValue(final Object value) {
             if (value instanceof Icon) {
                 System.out.println("It works!");
                 setIcon((Icon) value);
@@ -281,7 +285,7 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
                 super.setValue(value);
             }
         }
+
     }
 
 }
-

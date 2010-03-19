@@ -115,7 +115,7 @@ public class ModuleErrorListModel extends AbstractTableModel {
     public void setValueAt(final Object value, final int row, final int col) {
     }
 
-    public Class getColumnClass(int col) {
+    public Class getColumnClass(final int col) {
         return col == 0 ? Icon.class : Object.class;
    }
 
