@@ -27,9 +27,6 @@ import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
  */
 public final class ExtendedGenerateLatexTest extends GenerateLatexTest {
 
-    /** This class. */
-    private static final Class CLASS = ExtendedGenerateLatexTest.class;
-
     public void setUp() throws Exception {
         super.setUp();
     }
