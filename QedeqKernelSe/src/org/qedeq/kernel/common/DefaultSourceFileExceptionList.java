@@ -19,6 +19,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.qedeq.base.utility.EqualsUtility;
+import org.qedeq.kernel.dto.list.DefaultAtom;
+
 /**
  * Type save {@link org.qedeq.kernel.common.SourceFileException} list.
  * TODO m31 20080109: shouldn't this list have some informations about the source being parsed?
@@ -158,6 +161,22 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
     public final SourceFileException[] toArray() {
         return (SourceFileException[]) exceptions.toArray(
             new SourceFileException[exceptions.size()]);
+    }
+
+    public boolean equals(final Object object) {
+        if (!(object instanceof SourceFileExceptionList)) {
+            return false;
+        }
+        SourceFileExceptionList sfl = (SourceFileExceptionList) object;
+        if (size() != sfl.size()) {
+            return false;
+        }
+        for (int i = 0; i < size(); i++) {
+            if (!EqualsUtility.equals(get(i), sfl.get(i))) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public String getMessage() {

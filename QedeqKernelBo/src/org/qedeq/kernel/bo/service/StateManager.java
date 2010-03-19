@@ -25,6 +25,7 @@ import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginResults;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
@@ -32,8 +33,6 @@ import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
-
-import com.sun.corba.se.impl.legacy.connection.DefaultSocketFactory;
 
 
 /**
@@ -573,6 +572,9 @@ public class StateManager {
         result.add(pluginResults.getAllErrors());
         // FIXME m31 20100317: remove warnings
         result.add(pluginResults.getAllWarnings());
+        if (result.size() <= 0) {
+            return null;
+        }
         return result;
     }
 
@@ -589,6 +591,9 @@ public class StateManager {
      */
     protected void setErrors(final SourceFileExceptionList exception) {
         this.errors = exception;
+        if (exception == null) {
+            pluginResults = new PluginResultManager();
+        }
     }
 
     public void addPluginResults(final PluginBo plugin, final SourceFileExceptionList errors, final SourceFileExceptionList warnings) {
