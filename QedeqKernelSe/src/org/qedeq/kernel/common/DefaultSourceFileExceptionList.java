@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.kernel.dto.list.DefaultAtom;
 
 /**
  * Type save {@link org.qedeq.kernel.common.SourceFileException} list.
