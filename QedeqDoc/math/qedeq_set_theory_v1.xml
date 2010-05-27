@@ -3884,7 +3884,7 @@
                 <FUNCON ref="setSum" >
                   <FUNCON ref="emptySet" />
                 </FUNCON>
-                <FUNCON ref="universalClass" />
+                <FUNCON ref="emptySet" />
               </PREDCON>
             </FORMULA>
           </THEOREM>
