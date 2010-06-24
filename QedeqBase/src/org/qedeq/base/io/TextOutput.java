@@ -23,7 +23,6 @@ import java.io.UnsupportedEncodingException;
 /**
  * Wraps a text output stream.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class TextOutput {
