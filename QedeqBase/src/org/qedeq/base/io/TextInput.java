@@ -26,7 +26,6 @@ import org.qedeq.base.utility.StringUtility;
 /**
  * This class provides convenient methods for parsing input.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class TextInput extends InputStream {
@@ -403,7 +402,6 @@ public class TextInput extends InputStream {
         }
         return buffer.toString();
     }
-
 
     /**
      * Reads the next (big) integer, leading whitespace is skipped.
