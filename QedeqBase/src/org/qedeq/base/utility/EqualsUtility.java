@@ -21,7 +21,6 @@ import java.util.Arrays;
 /**
  * A collection of useful static methods for equality.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class EqualsUtility {
