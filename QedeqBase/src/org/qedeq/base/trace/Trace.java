@@ -22,7 +22,6 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Developer trace.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Trace {
