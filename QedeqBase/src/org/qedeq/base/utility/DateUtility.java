@@ -25,7 +25,6 @@ import org.apache.commons.lang.time.FastDateFormat;
 /**
  * Various methods for date and time handling.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public final class DateUtility {
