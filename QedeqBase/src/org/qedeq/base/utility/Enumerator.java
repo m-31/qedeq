@@ -19,7 +19,6 @@ package org.qedeq.base.utility;
  * An object of this class represents a number, that could be
  * compared and increased.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Enumerator {
@@ -43,7 +42,6 @@ public final class Enumerator {
         this.number = number;
     }
 
-
     /**
      * Gets current number.
      *
@@ -52,7 +50,6 @@ public final class Enumerator {
     public final int getNumber() {
         return number;
     }
-
 
     /**
      * Increases current number by one.
