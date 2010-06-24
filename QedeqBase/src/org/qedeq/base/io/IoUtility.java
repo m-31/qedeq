@@ -53,7 +53,6 @@ import org.apache.commons.lang.SystemUtils;
  *
  * LATER mime 20070101: use StringBuilder instead of StringBuffer if working under JDK 1.5
  *
- * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public final class IoUtility {
@@ -78,7 +77,6 @@ public final class IoUtility {
 // but it was: file.encoding="ANSI_X3.41968"
     }
 
-
     /**
      * Get working Java encoding.
      *
@@ -97,7 +95,7 @@ public final class IoUtility {
                 // ignore
             }
         }
-        // TODO mime 20080309: we must inform someone, but using
+        // we must inform someone, but using
         // Trace within this class is not wise, because it is used
         // before the Trace is initialized.
         System.err.println("not supported encoding: " + encoding);
@@ -521,6 +519,7 @@ public final class IoUtility {
         if (from.getCanonicalFile().equals(to.getCanonicalFile())) {
             return;
         }
+        createNecessaryDirectories(to);
         FileInputStream in = null;
         FileOutputStream out = null;
         try {
@@ -538,6 +537,44 @@ public final class IoUtility {
         }
     }
 
+    /**
+     * Copy one directory to another location.
+     * If targetLocation does not exist, it will be created.
+     * 
+     * @param   sourceLocation  Copy from here.
+     * @param   targetLocation  Copy to this location
+     * @throws  IOException     Something went wrong.
+     */
+    public static void copy(final String sourceLocation, final String targetLocation)
+            throws IOException {
+        copyDirectory(new File(sourceLocation), new File(targetLocation));
+    }
+
+    /**
+     * Copy one directory to another location.
+     * If targetLocation does not exist, it will be created.
+     * 
+     * @param   sourceLocation  Copy from here.
+     * @param   targetLocation  Copy to this location
+     * @throws  IOException     Something went wrong.
+     */
+    public static void copyDirectory(final File sourceLocation, final File targetLocation)
+            throws IOException {
+        
+        if (sourceLocation.isDirectory()) {
+            if (!targetLocation.exists()) {
+                targetLocation.mkdir();
+            }
+            String[] children = sourceLocation.list();
+            for (int i = 0; i < children.length; i++) { // recursive call for all children
+                copyDirectory(new File(sourceLocation, children[i]),
+                        new File(targetLocation, children[i]));
+            }
+        } else {    // copy file
+            copyFile(sourceLocation, targetLocation);
+        }
+    }    
+    
     /**
      * Compare two files binary.
      *
@@ -647,6 +684,63 @@ public final class IoUtility {
                         return false;
                     }
                 }
+            } while (true);
+            return true;
+        } finally {
+            close(fromIn);
+            close(one);
+            close(two);
+            close(withIn);
+        }
+    }
+
+    /**
+     * Compare two text files. Ignores different line separators. As there are:
+     * LF, CR, CR + LF, NEL, FF, LS, PS.
+     *
+     * @param   from        Compare source.
+     * @param   with        Compare with this file.
+     * @param   startAtLine Start comparing at this line (beginning with 0).
+     * @param   encoding    Use this character encoding. Must not be <code>null</code>.
+     * @return  Is the contents of the two text files equal?
+     * @throws  IOException File exception occurred or encoding is not supported.
+     * @throws  NullPointerException    Is encoding different from <code>null</code>?
+     */
+    public static boolean compareTextFiles(final File from, final File with, final int startAtLine, 
+    		final String encoding)
+            throws IOException {
+        if (from == null && with == null) {
+            return true;
+        }
+        if (from == null || with == null) {
+            return false;
+        }
+        if (from.getAbsoluteFile().equals(with.getAbsoluteFile())) {
+            return true;
+        }
+
+        BufferedReader one = null;
+        BufferedReader two = null;
+        FileInputStream fromIn = null;
+        FileInputStream withIn = null;
+        try {
+            fromIn = new FileInputStream(from);
+            one = new BufferedReader(new InputStreamReader(fromIn, encoding));
+            withIn = new FileInputStream(with);
+            two = new BufferedReader(new InputStreamReader(withIn, encoding));
+            int pos = 0;
+            do {
+	            String lineOne = one.readLine();
+	            String lineTwo = two.readLine();
+	            if (lineOne == null) {
+	            	if (lineTwo == null) {
+	            		break;
+	            	}
+	            	return false;
+	            }
+	            if (pos++ >= startAtLine && !lineOne.equals(lineTwo)) {
+	            	return false;
+	            }
             } while (true);
             return true;
         } finally {
