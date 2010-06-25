@@ -325,38 +325,42 @@ public final class XPathLocationParser extends SimpleHandler {
                     getLocator().getLineNumber(), getLocator().getColumnNumber()));
                 return;
             }
-            xml.setRow(getLocator().getLineNumber());
-            xml.setColumn(getLocator().getColumnNumber());
-
             try {
-                xml.skipBackToBeginOfXmlTag();
-            } catch (RuntimeException e) {
-                Trace.trace(CLASS, this, method, e);
-            }
-            find.setStartLocation(new SourcePosition(original, xml.getRow(), xml
-                .getColumn()));
-            if (find.getAttribute() != null) {
-                xml.read(); // skip <
-                xml.readNextXmlName(); // must be element name
-                String tag;
-                do {
-                    xml.skipWhiteSpace();
-                    int row = xml.getRow();
-                    int col = xml.getColumn();
-                    try {
-                        tag = xml.readNextXmlName();
-                    } catch (IllegalArgumentException e) {
-                        break; // LATER mime 20050621: create named exception in readNextXmlName
-                    }
-                    if (tag.equals(find.getAttribute())) {
-                        find.setStartLocation(new SourcePosition(original, row, col));
+                xml.setRow(getLocator().getLineNumber());
+                xml.setColumn(getLocator().getColumnNumber());
+    
+                try {
+                    xml.skipBackToBeginOfXmlTag();
+                } catch (RuntimeException e) {
+                    Trace.trace(CLASS, this, method, e);
+                }
+                find.setStartLocation(new SourcePosition(original, xml.getRow(), xml
+                    .getColumn()));
+                if (find.getAttribute() != null) {
+                    xml.read(); // skip <
+                    xml.readNextXmlName(); // must be element name
+                    String tag;
+                    do {
+                        xml.skipWhiteSpace();
+                        int row = xml.getRow();
+                        int col = xml.getColumn();
+                        try {
+                            tag = xml.readNextXmlName();
+                        } catch (IllegalArgumentException e) {
+                            break; // LATER mime 20050621: create named exception in readNextXmlName
+                        }
+                        if (tag.equals(find.getAttribute())) {
+                            find.setStartLocation(new SourcePosition(original, row, col));
+                            xml.readNextAttributeValue();
+                            find.setEndLocation(new SourcePosition(original, xml.getRow(),
+                                xml.getColumn()));
+                            break;
+                        }
                         xml.readNextAttributeValue();
-                        find.setEndLocation(new SourcePosition(original, xml.getRow(),
-                            xml.getColumn()));
-                        break;
-                    }
-                    xml.readNextAttributeValue();
-                } while (true);
+                    } while (true);
+                }
+            } finally {
+                IoUtility.close(xml);   // findbugs
             }
         }
     }
