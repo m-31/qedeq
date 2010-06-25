@@ -975,28 +975,32 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                     break; // out of do while
                 }
                 final TextInput input = new TextInput(buffer);
-                input.setPosition(0);
-                final StringBuffer buf = new StringBuffer();
-                for (int i = 0; i < sfl.size(); i++) {
-                    buf.setLength(0);
-                    final SourceFileException sf = sfl.get(i);
-                    buf.append(sf.getDescription());
-                    try {
-                        if (sf.getSourceArea() != null
-                            && sf.getSourceArea().getStartPosition() != null) {
-                            buf.append("\n");
-                            input.setRow(sf.getSourceArea().getStartPosition().getLine());
-                            buf.append(StringUtility.replace(input.getLine(), "\t", " "));
-                            buf.append("\n");
-                            final StringBuffer whitespace = StringUtility.getSpaces(sf
-                                .getSourceArea().getStartPosition().getColumn() - 1);
-                            buffer.append(whitespace);
-                            buffer.append("^");
+                try {
+                    input.setPosition(0);
+                    final StringBuffer buf = new StringBuffer();
+                    for (int i = 0; i < sfl.size(); i++) {
+                        buf.setLength(0);
+                        final SourceFileException sf = sfl.get(i);
+                        buf.append(sf.getDescription());
+                        try {
+                            if (sf.getSourceArea() != null
+                                && sf.getSourceArea().getStartPosition() != null) {
+                                buf.append("\n");
+                                input.setRow(sf.getSourceArea().getStartPosition().getLine());
+                                buf.append(StringUtility.replace(input.getLine(), "\t", " "));
+                                buf.append("\n");
+                                final StringBuffer whitespace = StringUtility.getSpaces(sf
+                                    .getSourceArea().getStartPosition().getColumn() - 1);
+                                buffer.append(whitespace);
+                                buffer.append("^");
+                            }
+                        } catch (Exception e) {
+                            Trace.trace(CLASS, this, "getSourceFileExceptionList(ModuleAddress)", e);
                         }
-                    } catch (Exception e) {
-                        Trace.trace(CLASS, this, "getSourceFileExceptionList(ModuleAddress)", e);
+                        list.add(buf.toString());
                     }
-                    list.add(buf.toString());
+                } finally {
+                    IoUtility.close(input);
                 }
                 break; // out of do while
             } while (true);
