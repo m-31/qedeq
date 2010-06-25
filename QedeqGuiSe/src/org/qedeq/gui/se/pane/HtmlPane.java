@@ -117,7 +117,7 @@ public class HtmlPane extends JPanel {
      *
      * @param   prop
      */
-    public void setModel(final QedeqBo prop) {
+    public synchronized void setModel(final QedeqBo prop) {
         Trace.trace(CLASS, this, "setModel", prop);
         this.prop = prop;
     }
