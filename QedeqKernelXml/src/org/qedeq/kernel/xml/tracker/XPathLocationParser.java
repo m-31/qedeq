@@ -328,7 +328,6 @@ public final class XPathLocationParser extends SimpleHandler {
             try {
                 xml.setRow(getLocator().getLineNumber());
                 xml.setColumn(getLocator().getColumnNumber());
-    
                 try {
                     xml.skipBackToBeginOfXmlTag();
                 } catch (RuntimeException e) {
