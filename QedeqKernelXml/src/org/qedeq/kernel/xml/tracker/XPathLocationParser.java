@@ -421,11 +421,15 @@ public final class XPathLocationParser extends SimpleHandler {
             } finally {
                 IoUtility.close(xmlReader);
             }
-            xml.setRow(getLocator().getLineNumber());
-            xml.setColumn(getLocator().getColumnNumber());
-            // xml.skipForwardToEndOfXmlTag(); // LATER mime 20050810: remove? comment in?
-            find.setEndLocation(new SourcePosition(original, xml.getRow(), xml
-                .getColumn()));
+            try {
+                xml.setRow(getLocator().getLineNumber());
+                xml.setColumn(getLocator().getColumnNumber());
+                // xml.skipForwardToEndOfXmlTag(); // LATER mime 20050810: remove? comment in?
+                find.setEndLocation(new SourcePosition(original, xml.getRow(), xml
+                    .getColumn()));
+            } finally {
+                IoUtility.close(xml);   // findbugs
+            }
         }
         current.deleteLastElement();
         summary.deleteLastElement();
