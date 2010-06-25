@@ -392,7 +392,6 @@ public final class IoUtility {
         }
     }
 
-
     /**
      * Saves a <code>String</code> into a file. Existing files are overwritten.
      *
@@ -560,7 +559,7 @@ public final class IoUtility {
      */
     public static void copyDirectory(final File sourceLocation, final File targetLocation)
             throws IOException {
-        
+
         if (sourceLocation.isDirectory()) {
             if (!targetLocation.exists()) {
                 targetLocation.mkdir();
@@ -574,7 +573,7 @@ public final class IoUtility {
             copyFile(sourceLocation, targetLocation);
         }
     }    
-    
+
     /**
      * Compare two files binary.
      *
@@ -730,17 +729,17 @@ public final class IoUtility {
             two = new BufferedReader(new InputStreamReader(withIn, encoding));
             int pos = 0;
             do {
-	            String lineOne = one.readLine();
-	            String lineTwo = two.readLine();
-	            if (lineOne == null) {
-	            	if (lineTwo == null) {
-	            		break;
-	            	}
-	            	return false;
-	            }
-	            if (pos++ >= startAtLine && !lineOne.equals(lineTwo)) {
-	            	return false;
-	            }
+                String lineOne = one.readLine();
+                String lineTwo = two.readLine();
+                if (lineOne == null) {
+                    if (lineTwo == null) {
+                        break;
+                    }
+                    return false;
+                }
+                if (pos++ >= startAtLine && !lineOne.equals(lineTwo)) {
+                    return false;
+                }
             } while (true);
             return true;
         } finally {
