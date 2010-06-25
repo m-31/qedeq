@@ -705,7 +705,7 @@ public final class IoUtility {
      * @throws  IOException File exception occurred or encoding is not supported.
      * @throws  NullPointerException    Is encoding different from <code>null</code>?
      */
-    public static boolean compareTextFiles(final File from, final File with, final int startAtLine, 
+    public static boolean compareTextFiles(final File from, final File with, final int startAtLine,
             final String encoding) throws IOException {
 
         if (from == null && with == null) {
