@@ -788,7 +788,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         StringUtility.replace(file, "#", "##"); // escape all '#'
         StringUtility.replace(file, "_2", "#"); // from '/' into '#'
         StringUtility.replace(file, "_1", "_"); // from '_' into '_'
-        StringBuffer adr = new StringBuffer(url.toExternalForm());
+        // mime 2010-06-25: use if we throw no RuntimException
+        // StringBuffer adr = new StringBuffer(url.toExternalForm());
+        final StringBuffer adr;
         try {
             adr = new StringBuffer(new URL(url.getProtocol(), url.getHost(), url.getPort(), file
                 .toString()).toExternalForm());
