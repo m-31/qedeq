@@ -124,7 +124,7 @@ public class HtmlPane extends JPanel {
 
     /**
      * Get current model.
-     * 
+     *
      * @return  Model.
      */
     public synchronized QedeqBo getModel() {
