@@ -963,9 +963,12 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         if (sfl != null) {
             final StringBuffer buffer = new StringBuffer();
             do {
+                Reader reader = null;
                 try {
-                    IoUtility.loadReader(getQedeqFileDao().getModuleReader(bo), buffer);
+                    reader = getQedeqFileDao().getModuleReader(bo);
+                    IoUtility.loadReader(reader, buffer);
                 } catch (IOException e) {
+                    IoUtility.close(reader);
                     for (int i = 0; i < sfl.size(); i++) {
                         list.add(sfl.get(i).getDescription());
                     }
