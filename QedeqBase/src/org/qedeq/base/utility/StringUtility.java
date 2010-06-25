@@ -31,7 +31,6 @@ import org.apache.commons.lang.SystemUtils;
  *
  * LATER mime 20070101: use StringBuilder instead of StringBuffer if working under JDK 1.5
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class StringUtility {
