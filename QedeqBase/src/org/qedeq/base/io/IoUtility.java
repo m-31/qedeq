@@ -539,7 +539,7 @@ public final class IoUtility {
     /**
      * Copy one directory to another location.
      * If targetLocation does not exist, it will be created.
-     * 
+     *
      * @param   sourceLocation  Copy from here.
      * @param   targetLocation  Copy to this location
      * @throws  IOException     Something went wrong.
@@ -552,7 +552,7 @@ public final class IoUtility {
     /**
      * Copy one directory to another location.
      * If targetLocation does not exist, it will be created.
-     * 
+     *
      * @param   sourceLocation  Copy from here.
      * @param   targetLocation  Copy to this location
      * @throws  IOException     Something went wrong.
@@ -572,7 +572,7 @@ public final class IoUtility {
         } else {    // copy file
             copyFile(sourceLocation, targetLocation);
         }
-    }    
+    }
 
     /**
      * Compare two files binary.
@@ -706,8 +706,8 @@ public final class IoUtility {
      * @throws  NullPointerException    Is encoding different from <code>null</code>?
      */
     public static boolean compareTextFiles(final File from, final File with, final int startAtLine, 
-    		final String encoding)
-            throws IOException {
+            final String encoding) throws IOException {
+
         if (from == null && with == null) {
             return true;
         }
