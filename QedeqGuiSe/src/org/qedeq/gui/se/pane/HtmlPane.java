@@ -122,12 +122,14 @@ public class HtmlPane extends JPanel {
         this.prop = prop;
     }
 
-
-    public QedeqBo getModel() {
+    /**
+     * Get current model.
+     * 
+     * @return  Model.
+     */
+    public synchronized QedeqBo getModel() {
         return this.prop;
     }
-
-
 
     /**
      * Update from model.
