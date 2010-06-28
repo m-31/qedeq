@@ -71,11 +71,9 @@ import org.qedeq.kernel.xml.tracker.XPathLocationParser;
 import org.xml.sax.SAXException;
 
 
-
 /**
- * Basic visitor that makes nothing.
+ * Test context of {@link QedeqNotNullTraverser}.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
