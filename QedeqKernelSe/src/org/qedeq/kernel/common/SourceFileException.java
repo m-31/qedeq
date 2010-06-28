@@ -204,11 +204,11 @@ public class SourceFileException extends QedeqException {
         return buffer.toString();
     }
 
-    public int hashCode() {
+    public final int hashCode() {
         return getErrorCode() ^ (errorArea != null ? errorArea.hashCode() : 13);
     }
 
-    public boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if (!(obj instanceof SourceFileException)) {
             return false;
         }
@@ -217,7 +217,7 @@ public class SourceFileException extends QedeqException {
             &&  EqualsUtility.equals(errorArea, other.errorArea);
     }
 
-    public String toString() {
+    public final String toString() {
         return getDescription();
     }
 
