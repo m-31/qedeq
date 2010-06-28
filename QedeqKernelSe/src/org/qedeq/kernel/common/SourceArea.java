@@ -21,7 +21,6 @@ import java.io.Serializable;
 /**
  * Describes an area of an URL contents.
  *
- * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class SourceArea implements Serializable {
@@ -38,14 +37,14 @@ public final class SourceArea implements Serializable {
     /**
      * Constructs file position object.
      *
-     * @param   address         For identifying source.
+     * @param   address         For identifying source. Must not be <code>null</code>.
      * @param   startPosition   Start position. Must not be <code>null</code>.
      * @param   endPosition     Start position. Must not be <code>null</code>.
      */
     public SourceArea(final String address, final SourcePosition startPosition,
             final SourcePosition endPosition) {
         this.address = address;
-        if (startPosition == null || endPosition == null) {
+        if (address == null || startPosition == null || endPosition == null) {
             throw new NullPointerException();
         }
         this.startPosition = startPosition;
@@ -79,13 +78,23 @@ public final class SourceArea implements Serializable {
         return endPosition;
     }
 
+    public int hashCode() {
+        return getAddress().hashCode() ^ getStartPosition().hashCode() ^ getEndPosition().hashCode();
+    }
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof SourceArea)) {
+            return false;
+        }
+        final SourceArea other = (SourceArea) obj;
+        return getAddress().equals(other.getAddress())
+            && getStartPosition().equals(other.getStartPosition())
+            && getEndPosition().equals(other.getEndPosition());
+    }
 
     public final String toString() {
-        return getAddress()
-            + (getStartPosition() != null ? ":" + getStartPosition().getLine() + ":"
-            + getStartPosition().getColumn() : "")
-            + (getEndPosition() != null ? ":" + getEndPosition().getLine() + ":"
-            + getEndPosition().getColumn() : "");
+        return getAddress() + ":" + getStartPosition().getLine() + ":" + getStartPosition().getColumn()
+            + ":" + getEndPosition().getLine() + ":" + getEndPosition().getColumn();
     }
 
 }
