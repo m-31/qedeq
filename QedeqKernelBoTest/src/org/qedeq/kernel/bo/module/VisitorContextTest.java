@@ -403,7 +403,7 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
             "xpath   < ", xpath);
         try {
             final SimpleXPath find = XPathLocationParser.getXPathLocation(moduleFile,
-                xpath.toString(), IoUtility.toUrlString(moduleFile));
+                xpath.toString());
             if (find.getStartLocation() == null) {
                 System.out.println(traverser.getCurrentContext());
                 throw new RuntimeException("start not found: " + find + "\ncontext: "
