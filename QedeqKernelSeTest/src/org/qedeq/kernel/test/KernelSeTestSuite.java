@@ -18,6 +18,7 @@ package org.qedeq.kernel.test;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
+import org.qedeq.kernel.common.KernelCommonTestSuite;
 import org.qedeq.kernel.dto.module.KernelDtoModuleTestSuite;
 
 /**
@@ -53,6 +54,7 @@ public class KernelSeTestSuite extends QedeqTestSuite {
     public KernelSeTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
         addTest(KernelDtoModuleTestSuite.suite());
+        addTest(KernelCommonTestSuite.suite());
     }
 
 }
