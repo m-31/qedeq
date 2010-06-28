@@ -144,10 +144,11 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         if (printer.checkError()) {
             throw printer.getError();
         }
-        // TODO m31 20080520: just for testing purpose the following check is
-        // integrated here after the LaTeX print. The checking results should be maintained
-        // later on as additional information to a module. (Warnings...)
-        QedeqBoDuplicateLanguageChecker.check(prop);
+        try {
+            QedeqBoDuplicateLanguageChecker.check(prop);
+        } catch (SourceFileExceptionList warnings) {
+            prop.addPluginErrors(this, null, warnings);
+        }
         return destination.getCanonicalFile();
     }
 
