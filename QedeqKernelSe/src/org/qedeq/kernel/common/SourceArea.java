@@ -78,11 +78,11 @@ public final class SourceArea implements Serializable {
         return endPosition;
     }
 
-    public int hashCode() {
+    public final int hashCode() {
         return getAddress().hashCode() ^ getStartPosition().hashCode() ^ getEndPosition().hashCode();
     }
 
-    public boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if (!(obj instanceof SourceArea)) {
             return false;
         }
