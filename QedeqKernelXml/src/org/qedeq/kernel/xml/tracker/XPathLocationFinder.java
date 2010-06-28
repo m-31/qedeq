@@ -20,7 +20,6 @@ import java.util.Locale;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.xml.sax.SAXException;

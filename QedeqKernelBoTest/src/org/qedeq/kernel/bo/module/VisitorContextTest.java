@@ -21,7 +21,6 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
