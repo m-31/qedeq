@@ -60,11 +60,11 @@ public final class SourcePosition implements Serializable {
         return column;
     }
 
-    public int hashCode() {
+    public final int hashCode() {
         return getLine() ^ (getColumn() * 13);
     }
 
-    public boolean equals(Object obj) {
+    public final boolean equals(final Object obj) {
         if (!(obj instanceof SourcePosition)) {
             return false;
         }
