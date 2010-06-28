@@ -24,6 +24,7 @@ import org.qedeq.kernel.bo.latex.GenerateLatexTest;
 import org.qedeq.kernel.bo.logic.wf.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
 import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
+import org.qedeq.kernel.bo.service.KernelBoServiceTestSuite;
 
 /**
  * Run all tests for the project.
@@ -62,6 +63,7 @@ public class KernelBoTestSuite extends QedeqTestSuite {
         addTest(KernelBoLogicTestSuite.suite());
         addTest(KernelBoModuleTestSuite.suite());
         addTest(KernelBoParserTestSuite.suite());
+        addTest(KernelBoServiceTestSuite.suite());
         addTestSuite(GenerateLatexTest.class);
         // very slow:
         addTestSuite(ExtendedGenerateLatexTest.class);
