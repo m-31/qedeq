@@ -166,7 +166,7 @@ public final class CheckLogicTest extends QedeqTestCase {
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
         SaxParser parser = new SaxParser(DummyPlugin.getInstance(), handler);
-        parser.parse(xmlFile, null);
+        parser.parse(xmlFile, xmlFile.getPath());
         final QedeqVo qedeq = (QedeqVo) simple.getQedeq();
         final InternalKernelServices services = (InternalKernelServices) IoUtility
             .getFieldContent(KernelFacade.getKernelContext(), "services");
