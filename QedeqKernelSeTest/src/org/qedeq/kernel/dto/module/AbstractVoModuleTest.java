@@ -57,7 +57,6 @@ import org.qedeq.kernel.test.AbstractValueObjectTest;
 /**
  * Test helper. Gives concrete class for an interface.
  *
- * @version $Revision: 1.7 $
  * @author    Michael Meyling
  */
 public abstract class AbstractVoModuleTest extends AbstractValueObjectTest {
