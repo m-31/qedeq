@@ -130,9 +130,7 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         SimpleXPath find = null;
         try {
             find = XPathLocationParser.getXPathLocation(
-                services.getLocalFilePath(ctext.getModuleLocation()),
-                xpath,
-                ctext.getModuleLocation().getUrl());
+                services.getLocalFilePath(ctext.getModuleLocation()), xpath);
             if (find.getStartLocation() == null) {
                 return null;
             }
