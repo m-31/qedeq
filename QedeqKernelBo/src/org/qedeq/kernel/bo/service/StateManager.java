@@ -166,6 +166,9 @@ public class StateManager {
      */
     public void setLoadingFailureState(final LoadingState state,
             final SourceFileExceptionList e) {
+        if (e == null) {
+            throw new NullPointerException("Exception must not be null");
+        }
         checkIfDeleted();
         if (!state.isFailure()) {
             throw new IllegalArgumentException(
@@ -185,9 +188,6 @@ public class StateManager {
         setDependencyState(DependencyState.STATE_UNDEFINED);
         setLogicalState(LogicalState.STATE_UNCHECKED);
         setErrors(e);
-        if (e == null) {
-            throw new NullPointerException("Exception must not be null");
-        }
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -259,6 +259,9 @@ public class StateManager {
     */
     public void setDependencyFailureState(final DependencyState state,
             final SourceFileExceptionList e) {
+        if (e == null) {
+            throw new NullPointerException("Exception must not be null");
+        }
         checkIfDeleted();
         if (!isLoaded()) {
             throw new IllegalStateException("module is not yet loaded");
@@ -270,9 +273,6 @@ public class StateManager {
         invalidateOtherDependentModulesToLoadedRequired();
         setDependencyState(state);
         setErrors(e);
-        if (e == null) {
-            throw new NullPointerException("Exception must not be null");
-        }
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -471,8 +471,8 @@ public class StateManager {
                 "set with setChecked(ExistenceChecker)");
         }
         invalidateOtherDependentModulesToLoadedRequired();
-        setErrors(null);
         setLogicalState(state);
+        setErrors(null);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
@@ -569,8 +569,6 @@ public class StateManager {
     public SourceFileExceptionList getErrors() {
         final DefaultSourceFileExceptionList result = new DefaultSourceFileExceptionList(errors);
         result.add(pluginResults.getAllErrors());
-        // FIXME m31 20100317: remove warnings
-        result.add(pluginResults.getAllWarnings());
         if (result.size() <= 0) {
             return null;
         }
@@ -586,11 +584,12 @@ public class StateManager {
     /**
      * Set {@link SourceFileExceptionList}. Doesn't do any status handling. Only for internal use.
      *
-     * @param   exception   Set this exception.
+     * @param   errors   Set this error list.
      */
-    protected void setErrors(final SourceFileExceptionList exception) {
-        this.errors = exception;
-        if (exception == null) {
+    protected void setErrors(final SourceFileExceptionList errors) {
+        this.errors = errors;
+        // TODO mime 20100625: "if errors==null" this should be a new function "clearErrors" or other
+        if (errors == null) {
             pluginResults = new PluginResultManager();
         }
     }
