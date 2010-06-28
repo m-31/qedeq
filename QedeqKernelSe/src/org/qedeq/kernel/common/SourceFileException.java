@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.utility.EqualsUtility;
 
 
 /**
@@ -83,8 +84,8 @@ public class SourceFileException extends QedeqException {
     public SourceFileException(final Plugin plugin, final String url, final Exception exception) {
         super(9997, exception.toString(), exception);     // TODO mime 20071116: error code refactor
         this.plugin = plugin;
-        errorArea = new SourceArea(url, new SourcePosition(url, 1, 1),
-            new SourcePosition(url, 1, 1));
+        errorArea = new SourceArea(url, new SourcePosition(1, 1),
+            new SourcePosition(1, 1));
         referenceArea = null;
     }
 
@@ -100,8 +101,8 @@ public class SourceFileException extends QedeqException {
         super(9998, exception.getMessage(), exception);     // TODO mime 20071116: error code refactor
         this.plugin = plugin;
         final String url = IoUtility.toUrlString(file);
-        errorArea = new SourceArea(url, new SourcePosition(url, 1, 1),
-            new SourcePosition(url, 1, 1));
+        errorArea = new SourceArea(url, new SourcePosition(1, 1),
+            new SourcePosition(1, 1));
         referenceArea = null;
     }
 
@@ -201,6 +202,19 @@ public class SourceFileException extends QedeqException {
                 + start.getColumn());
         }
         return buffer.toString();
+    }
+
+    public int hashCode() {
+        return getErrorCode() ^ (errorArea != null ? errorArea.hashCode() : 13);
+    }
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof SourceFileException)) {
+            return false;
+        }
+        final SourceFileException other = (SourceFileException) obj;
+        return  (getErrorCode() == other.getErrorCode())
+            &&  EqualsUtility.equals(errorArea, other.errorArea);
     }
 
     public String toString() {

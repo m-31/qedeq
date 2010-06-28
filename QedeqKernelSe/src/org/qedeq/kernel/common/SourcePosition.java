@@ -16,7 +16,6 @@
 package org.qedeq.kernel.common;
 
 import java.io.Serializable;
-import java.net.URL;
 
 
 /**
@@ -25,9 +24,6 @@ import java.net.URL;
  * @author  Michael Meyling
  */
 public final class SourcePosition implements Serializable {
-
-    /** Address of input, for identifying source. */
-    private final String address;
 
     /** Line number, starting with 1. */
     private int line;
@@ -38,38 +34,12 @@ public final class SourcePosition implements Serializable {
     /**
      * Constructs source position object.
      *
-     * @param   address    source address
      * @param   line            Line number.
      * @param   column          Column number.
      */
-    public SourcePosition(final String address, final int line, final int column) {
-        this.address = address;
+    public SourcePosition(final int line, final int column) {
         this.line = line;
         this.column = column;
-    }
-
-    /**
-     * Constructs file position object.
-     *
-     * @param   address         for identifying source
-     * @param   localAddress    source address
-     * @param   line            Line number.
-     * @param   column          Column number.
-     */
-    public SourcePosition(final String address, final URL localAddress,
-            final int line, final int column) {
-        this.address = address;
-        this.line = line;
-        this.column = column;
-    }
-
-    /**
-     * Get address (or something to identify it) of input source.
-     *
-     * @return  address of input source
-     */
-    public final String getAddress() {
-        return this.address;
     }
 
     /**
@@ -90,8 +60,21 @@ public final class SourcePosition implements Serializable {
         return column;
     }
 
+    public int hashCode() {
+        return getLine() ^ (getColumn() * 13);
+    }
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof SourcePosition)) {
+            return false;
+        }
+        final SourcePosition other = (SourcePosition) obj;
+        return (getLine() == other.getLine())
+            && (getColumn() == other.getColumn());
+    }
+
     public final String toString() {
-        return getAddress() + ":" + getLine() + ":" + getColumn();
+        return getLine() + ":" + getColumn();
     }
 
 }
