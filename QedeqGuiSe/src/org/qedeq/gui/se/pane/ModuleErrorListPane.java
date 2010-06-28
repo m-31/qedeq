@@ -277,7 +277,6 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
 
         protected void setValue(final Object value) {
             if (value instanceof Icon) {
-                System.out.println("It works!");
                 setIcon((Icon) value);
                 super.setValue(null);
             } else {
