@@ -87,25 +87,20 @@ public final class XPathLocationParser extends SimpleHandler {
     /** Current stack level. */
     private int level;
 
-    /** Original file location. */
-    private String original;
-
     /**
      * Search simple XPath within an XML file.
      *
      * @param   xmlFile Search this file.
      * @param   xpath   Search for this simple XPath.
-     * @param   original    Original file location.
      * @return  Source position information.
      * @throws  ParserConfigurationException
      * @throws  SAXException
      * @throws  IOException
      */
-    public static final SimpleXPath getXPathLocation(final File xmlFile, final String xpath,
-            final String original)
+    public static final SimpleXPath getXPathLocation(final File xmlFile, final String xpath)
             throws ParserConfigurationException, SAXException, IOException {
         final XPathLocationParser parser = new XPathLocationParser(xpath);
-        parser.parse(xmlFile, original);
+        parser.parse(xmlFile);
         return parser.getFind();
     }
 
@@ -114,16 +109,14 @@ public final class XPathLocationParser extends SimpleHandler {
      *
      * @param   xmlFile Search this file.
      * @param   xpath   Search for this simple XPath.
-     * @param   original    Original file location.
      * @return  Source position information.
      * @throws  ParserConfigurationException
      * @throws  SAXException
      * @throws  IOException
      */
-    public static final SimpleXPath getXPathLocation(final File xmlFile, final SimpleXPath xpath,
-            final String original)
+    public static final SimpleXPath getXPathLocation(final File xmlFile, final SimpleXPath xpath)
             throws ParserConfigurationException, SAXException, IOException {
-        return getXPathLocation(xmlFile, xpath.toString(), original);
+        return getXPathLocation(xmlFile, xpath.toString());
     }
 
     /**
@@ -173,21 +166,19 @@ public final class XPathLocationParser extends SimpleHandler {
     public final void parse(final String fileName, final String original) throws SAXException,
             IOException {
         final File file = new File(fileName);
-        parse(file, original);
+        parse(file);
     }
 
     /**
      * Parses XML file.
      *
      * @param   file        Parse this input.
-     * @param   original    Original file location.
      * @throws SAXException Syntactical or semantical problem occurred.
      * @throws IOException Technical problem occurred.
      */
-    public final void parse(final File file, final String original) throws SAXException,
+    public final void parse(final File file) throws SAXException,
             IOException {
         this.xmlFile = file;
-        this.original = original;
         elements.clear();
         level = 0;
         InputStream stream = null;
