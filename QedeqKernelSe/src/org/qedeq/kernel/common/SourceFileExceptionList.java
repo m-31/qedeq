@@ -19,7 +19,6 @@ package org.qedeq.kernel.common;
 /**
  * List of {@link org.qedeq.kernel.common.SourceFileException}s.
  *
- * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public abstract class SourceFileExceptionList extends Exception {
