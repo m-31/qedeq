@@ -332,7 +332,7 @@ public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXM
      */
     private final void setLocationInformation(final XmlSyntaxException e) {
         if (getLocator() != null && getUrl() != null) {
-            e.setErrorPosition(new SourcePosition(getUrl(), getLocator().getLineNumber(),
+            e.setErrorPosition(new SourcePosition(getLocator().getLineNumber(),
                 getLocator().getColumnNumber()));
         }
     }
@@ -344,13 +344,11 @@ public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXM
      */
     private final SourceArea createSourceArea() {
         if (getLocator() != null && getUrl() != null) {
-            return new SourceArea(getUrl(), new SourcePosition(getUrl(),
-                getLocator().getLineNumber(), 1),
-                new SourcePosition(getUrl(), getLocator().getLineNumber(),
-                getLocator().getColumnNumber()));
+            return new SourceArea(getUrl(), new SourcePosition(getLocator().getLineNumber(), 1),
+                new SourcePosition(getLocator().getLineNumber(), getLocator().getColumnNumber()));
         }
-        return new SourceArea(getUrl(), new SourcePosition(getUrl(), 1 , 1),
-            new SourcePosition(getUrl(), 1 , 1));
+        return new SourceArea(getUrl(), new SourcePosition(1 , 1),
+            new SourcePosition(1 , 1));
     }
 
     public String getPluginDescription() {
