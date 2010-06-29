@@ -307,7 +307,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             services.clearLocalBuffer();
         }
 
-        public QedeqBo loadModule(final ModuleAddress address) {
+        public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
             return services.loadModule(address);
         }
 
@@ -531,7 +531,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         currentState.clearLocalBuffer();
     }
 
-    public QedeqBo loadModule(final ModuleAddress address) {
+    public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
         return currentState.loadModule(address);
     }
 

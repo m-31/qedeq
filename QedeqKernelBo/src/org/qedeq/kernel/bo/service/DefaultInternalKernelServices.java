@@ -233,7 +233,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         }
     }
 
-    public QedeqBo loadModule(final ModuleAddress address) {
+    public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
         final String method = "loadModule(ModuleAddress)";
         processInc();
         final DefaultKernelQedeqBo prop = getModules().getKernelQedeqBo(this, address);
@@ -263,9 +263,11 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             Trace.trace(CLASS, this, method, e);
             QedeqLog.getInstance().logFailureState("Loading of module failed!", IoUtility.easyUrl(address.getUrl()),
                 e.toString());
+            throw e;
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply("Loading failed", e.getMessage());
+            throw e;
         } finally {
             processDec();
         }
@@ -486,6 +488,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                     Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
                         "internal error: " + "saved URLs are malformed", e);
                     errors = true;
+                } catch (SourceFileExceptionList e) {
+                    Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
+                            "loading error: " + "module could not be loaded", e);
+                    errors = true;
                 }
             }
             return !errors;
@@ -526,6 +532,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 } catch (IOException e) {
                     Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
                         "internal error: " + "saved URLs are malformed", e);
+                    errors = true;
+                } catch (SourceFileExceptionList e) {
+                    Trace.fatal(CLASS, this, "loadPreviouslySuccessfullyLoadedModules",
+                            "loading error: " + "module could not be loaded", e);
                     errors = true;
                 }
             }

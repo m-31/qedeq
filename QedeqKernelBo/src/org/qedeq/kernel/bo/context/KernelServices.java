@@ -55,11 +55,12 @@ public interface KernelServices {
 
     /**
      * Get a certain module. You can check the status to know if the loading was successful.
-     * FIXME m31 20100317: add SourceFileExceptionList to signature and implementation
+     *
      * @param   address     Address of module.
      * @return  Wanted module.
+     * @throws  SourceFileExceptionList Loading or QEDEQ module failed.
      */
-    public QedeqBo loadModule(ModuleAddress address);
+    public QedeqBo loadModule(ModuleAddress address) throws SourceFileExceptionList;
 
     /**
      * Get a certain module.
