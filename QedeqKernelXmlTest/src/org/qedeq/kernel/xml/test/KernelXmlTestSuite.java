@@ -24,6 +24,8 @@ import org.qedeq.kernel.xml.parser.QedeqParserTest;
 import org.qedeq.kernel.xml.schema.SchemaTest;
 import org.qedeq.kernel.xml.tracker.KernelXmlTrackerTestSuite;
 
+import com.sun.syndication.io.XmlReaderExceptionTest;
+
 /**
  * Run all tests for the project.
  *
@@ -61,6 +63,7 @@ public class KernelXmlTestSuite extends QedeqTestSuite {
         addTestSuite(SchemaTest.class);
         addTestSuite(XmlSyntaxExceptionTest.class);
         addTest(KernelXmlTrackerTestSuite.suite());
+        addTestSuite(XmlReaderExceptionTest.class);
     }
 
 }
