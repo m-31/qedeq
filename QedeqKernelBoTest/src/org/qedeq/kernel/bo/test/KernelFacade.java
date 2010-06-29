@@ -54,10 +54,6 @@ public final class KernelFacade {
             cf.getParentFile().mkdirs();
             cf.createNewFile();
             final QedeqConfig config = new QedeqConfig(
-// FIXME mime 20080603: remove if below is working
-//                new File(new File("../../../qedeq_gen/test"), "config/org.qedeq.properties"),
-//                "This file is part of the project *Hilbert II* - http://www.qedeq.org",
-//                new File("../../../qedeq_gen/test"));
                 cf,
                 "This file is part of the project *Hilbert II* - http://www.qedeq.org",
                 dir);
