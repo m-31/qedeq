@@ -56,7 +56,7 @@ public class XmlSyntaxExceptionTest extends QedeqTestCase {
     }
     
     /**
-     * Test creator.
+     * Test getter.
      *
      * @throws  Exception   Something bad happened.
      */
@@ -65,7 +65,5 @@ public class XmlSyntaxExceptionTest extends QedeqTestCase {
         assertNull(xse.getCause());
         assertEquals(XmlSyntaxException.UNEXPECTED_TAG_CODE, xse.getErrorCode());
     }
-    
-    
-    
+
 }
