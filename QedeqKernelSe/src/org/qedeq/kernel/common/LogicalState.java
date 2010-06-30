@@ -32,7 +32,7 @@ public final class LogicalState implements State {
         = new LogicalState(LogicalStateDescriptions.STATE_STRING_EXTERNAL_CHECKING,
             false, LogicalStateDescriptions.STATE_CODE_EXTERNAL_CHECKING);
 
-    /** Successfully created. */
+    /** External checking failed. */
     public static final LogicalState STATE_EXTERNAL_CHECKING_FAILED
         =  new LogicalState(LogicalStateDescriptions.STATE_STRING_EXTERNAL_CHECKING_FAILED,
             true, LogicalStateDescriptions.STATE_CODE_EXTERNAL_CHECKING_FAILED);
