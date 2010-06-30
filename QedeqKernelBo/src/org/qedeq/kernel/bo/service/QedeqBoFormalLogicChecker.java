@@ -92,8 +92,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor {
         }, prop);
         for (int i = 0; i < list.size(); i++) {
             try {
-                Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label",
-                    list.getLabel(i));
+                Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
                 check((DefaultKernelQedeqBo) list.getKernelQedeqBo(i));
             } catch (SourceFileExceptionList e) {   // TODO mime 20080114: hard coded codes
                 ModuleDataException md = new CheckRequiredModuleException(11231,

@@ -18,12 +18,12 @@ package org.qedeq.kernel.bo.control;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
+import org.qedeq.kernel.bo.service.LoadRequiredModulesTest;
 
 /**
  * Run all JUnit tests for package org.qedeq.kernel.utility.
  *
- * @version $Revision: 1.1 $
- * @author    Michael Meyling
+ * @author  Michael Meyling
  */
 public class KernelBoControlTestSuite extends QedeqTestSuite {
 
@@ -41,7 +41,6 @@ public class KernelBoControlTestSuite extends QedeqTestSuite {
      */
     public KernelBoControlTestSuite() {
         super();
-        addTestSuite(LoadRequiredModulesTest.class);
         addTestSuite(QedeqBoFactoryTest.class);
         addTestSuite(QedeqNotNullTraverserTest.class);
     }

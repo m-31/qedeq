@@ -40,8 +40,7 @@ import org.qedeq.kernel.dto.module.QedeqVo;
 /**
  * Test class {@link org.qedeq.kernel.bo.module.QedeqBo}.
  *
- * @version $Revision: 1.1 $
- * @author    Michael Meyling
+ * @author  Michael Meyling
  */
 public class DefaultKernelQedeqBoTest extends QedeqTestCase {
 

@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<QEDEQ 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_12/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="qedeq_sample6_error" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="http://qedeq.org/0_03_12/sample"/>
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE>
+      <LATEX language="en">
+         Mathematical Error Example Module
+      </LATEX>
+      <LATEX language="de">
+         Mathematisches Fehlerbeispielmodul
+      </LATEX>
+    </TITLE>
+    <ABSTRACT>
+      <LATEX language="en">
+         With this QEDEQ module error handling is demonstrated.
+         \par
+         Usage of an unkown predicate constant. See line 284.
+      </LATEX>
+      <LATEX language="de">
+         Mit diesem QEDEQ-Modul wird die Fehlerbehandlung demonstriert.
+         \par
+         Eine unbekanne Prädikatskonstante wird verwendet. Siehe Zeile 284.
+      </LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME>
+          <LATEX language="de">
+            Michael Meyling
+          </LATEX>
+        </NAME>
+      </AUTHOR>
+    </AUTHORS>
+    <IMPORTS>
+      <IMPORT label="l">
+        <SPECIFICATION name="predlogic" ruleVersion="1.00.00">
+          <LOCATIONS>
+            <LOCATION value="."/>
+            <LOCATION value="http://qedeq.org/0_03_12/sample"/>
+          </LOCATIONS>
+        </SPECIFICATION>
+      </IMPORT>
+      <IMPORT label="proplogic">
+        <SPECIFICATION name="proplogic" ruleVersion="1.00.00">
+          <LOCATIONS>
+            <LOCATION value="."/>
+            <LOCATION value="http://qedeq.org/0_03_12/sample"/>
+          </LOCATIONS>
+        </SPECIFICATION>
+      </IMPORT>
+    </IMPORTS>
+    <USEDBY>
+      <SPECIFICATION name="module2" ruleVersion="1.00.00">
+        <LOCATIONS>
+          <LOCATION value="."/>
+        </LOCATIONS>
+      </SPECIFICATION>
+    </USEDBY>
+  </HEADER>
+  <CHAPTER noNumber="false">
+    <TITLE>
+      <LATEX language="en">
+        Basics
+      </LATEX>
+      <LATEX language="de">
+        Anfangsgründe
+      </LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        <![CDATA[
+          In this chapter we start with the very basic axioms and definitions of set theory. We shall make no attempt to introduce a formal language but shall be content with the common logical operators. To be more precise: precondition is a first-order predicate calculus with equality.
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          In diesem Kapitel beginnen wir mit den ganz elementaren Axiomen und Definitionen der Mengenlehre. Wir versuchen nicht eine formale Sprache einzuführen und setzen das Wissen um den Gebrauch von logischen Symbolen voraus. Noch genauer formuliert: wir arbeiten mit einer Prädikatenlogik erster Stufe mit Gleichheit.
+        ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Classes and Sets</LATEX>
+        <LATEX language="de">Klassen und Mengen</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            Although we want to speak about \emph{sets} at the very beginning we have \emph{classes}. No formal definition of a class will be given. Informally, a class is a collection of objects, the involved objects are called the elements or members of the class. 
+            Sets will be construed as a special kind of class. 
+            The following definitions and axioms are due to a strengthened version of \emph{von~Neumann-Bernays-Gödel's} set theory (\emph{NBG}). This version is called \emph{MK} which is short for \emph{Morse-Kelley}. 
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Obgleich wir im Wesentlichen über \emph{Mengen} sprechen wollen, haben wir am Anfang nur \emph{Klassen}. Dieser Begriff wird nicht formal definiert. Anschaulich gesprochen, ist eine Klasse eine Zusammenfassung von Objekten. Die beteiligten Objekte heissen auch Elemente der Klasse.
+            Mengen werden dann als eine besondere Art von Klassen charakterisiert. 
+            Die folgenden Definitionen und Axiome folgen dem Aufbau einer vereinfachten Version der Mengenlehre nach \emph{von~Neumann-Bernays-Gödel}. Diese Version wird auch \emph{MK} nach \emph{Morse-Kelley} genannt.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE id="in">
+          <NAME>
+            <LATEX language="en">is a member of</LATEX>
+            <LATEX language="de">ist enthalten in</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Membership Operator</LATEX>
+            <LATEX language="de">Elementbeziehung</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              The theory of sets introduced here has initial objects, called \emph{classes}. Furthermore a binary relation called \emph{memberschip} is provided.
+            </LATEX>
+            <LATEX language="de">
+              Die hier vorgestellte Mengenlehre hat als Ausgangsobjekte \emph{Klassen}.
+              Weiterhin wird eine binäre Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="2" name="in">
+            <LATEXPATTERN>#1 \in #2</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+              <VAR id="y"/>
+            </VARLIST>
+          </DEFINITION_PREDICATE>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                We also say $x$ \emph{is element of} $y$.
+                Beside equalitiy this is the only predicate we start with. All other will be defined.\footnote{One could also define the equality predicate within the set theory, but then another axiom is needed and the theory presentation is not so smooth for technical reasons (derivation of the equality axioms).}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Wir sagen auch $x$ \emph{ist Element von} $y$.
+                Neben der Gleichheit ist dies das einzige Prädikat welches wir zu Beginn haben. Alle anderen werden definiert.\footnote{Das Gleichheitsprädikat könnte auch innerhalb der Mengenlehre definiert werden, aber dann wird auch ein Axiom benötigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Gleichheitsaxiome.}
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
+        </NODE>
+        <NODE id="axiom:extensionality">
+          <NAME>
+            <LATEX language="en">axiom of extensionality</LATEX>
+            <LATEX language="de">Extensionalitätsaxiom</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Axiom of Extensionality</LATEX>
+            <LATEX language="de">Extensionalitätsaxiom</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+               Our first axiom states that, for any classes $x$ and $y$, if the membership of $x$ and $y$ are the same, then $x$ and $y$ are the same.\footnote{If equality were not part of our underlying logic, then we should need to take this as a definition of equality.}
+            </LATEX>
+            <LATEX language="de">
+               Unser erstes Axiom besagt, dass beliebige Klassen $x$ und $y$ genau dann gleich sind, wenn sie dieselben Elemente enthalten.\footnote{Falls wir das Gleichheitsprädikat nicht als logisches Symbol voraussetzen würden, dann würden wir es hiermit definieren.}
+            </LATEX>
+          </PRECEDING>
+          <AXIOM>
+            <FORMULA>
+              <FORALL>
+                <VAR id="x"/>
+                <FORALL>
+                  <VAR id="y"/>
+                  <IMPL>
+                    <FORALL>
+                      <VAR id="z"/>
+                      <EQUI>
+                        <PREDCON ref="in">
+                          <VAR id="z"/>
+                          <VAR id="x"/>
+                        </PREDCON>
+                        <PREDCON ref="in">
+                          <VAR id="z"/>
+                          <VAR id="y"/>
+                        </PREDCON>
+                      </EQUI>
+                    </FORALL>
+                    <PREDCON ref="l.equal">
+                      <VAR id="x"/>
+                      <VAR id="y"/>
+                    </PREDCON>
+                  </IMPL>
+                </FORALL>
+              </FORALL>
+            </FORMULA>
+          </AXIOM>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                The classes $x$ and $y$ may be defined in entirely different ways, for example:
+                \par
+                \begin{tabularx}{\linewidth}{rcX}
+                  $x$ & = & class of all nonnegative integers, \\
+                  $y$ & = & class of all integers, that can be written as sum of four squares,
+                \end{tabularx}
+                \par
+                but if they have the same members, they are the same class.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Die Klassen $x$ and $y$ können verschieden definiert sein, beispielsweise:
+                \par
+                \begin{tabularx}{\linewidth}{rcX}
+                  $x$ & = & Klasse aller nichtnegativen ganzen Zahlen, \\
+                  $y$ & = & Klasse aller ganzen Zahlen, die als Summe von vier Quadraten geschreiben werden können,
+                \end{tabularx}
+                \par
+                aber wenn sie dieselben Elemente besitzen, sind sie gleich.
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
+        </NODE>
+        <NODE id="isSet">
+          <NAME>
+            <LATEX language="en">is set</LATEX>
+            <LATEX language="de">ist Menge</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Set Definition</LATEX>
+            <LATEX language="de">Mengendefinition</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              Now we specify \emph{sets}.
+            </LATEX>
+            <LATEX language="de">
+              Jetzt legen wir fest, was eine \emph{Menge} ist.
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="1" name="isSet">
+            <LATEXPATTERN>\mathfrak{M}(#1)</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+            </VARLIST>
+            <FORMULA>
+              <EXISTS>
+                <VAR id="x"/>
+                <PREDCON ref="in">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </PREDCON>
+              </EXISTS>
+            </FORMULA>
+          </DEFINITION_PREDICATE>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                So sets are nothing else than special classes. A class is a set iff it is a member of any class.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Mengen sind also nichts anderes, als Klassen mit einer besonderen Eigenschaft. Eine Klasse ist genau dann eine Menge, wenn sie Element irgendeiner Klasse ist.
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
+        </NODE>
+        <NODE id="module1:theorem" level="formal">
+          <PRECEDING>
+            <LATEX language="en">
+               As a consequence of the axiom of extensionality we have the following.\footnote{The quantification over $z$ is restricted to sets.}
+            </LATEX>
+            <LATEX language="de">
+               Als erste Folgerung aus dem Extensionalitätsaxiom erhalten wir das Folgende.\footnote{Es wird ein eingeschränkter Allquantor benutzt, $z$ läuft nur über Mengen.}
+            </LATEX>
+          </PRECEDING>
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <FORALL>
+                  <VAR id="z"/>
+                  <PREDCON ref="isSet">
+                    <VAR id="z"/>
+                  </PREDCON>
+                  <EQUI>
+                    <!-- here comes an unknown predicate constant -->
+                    <PREDCON ref="unknown">
+                      <VAR id="z"/>
+                      <VAR id="x"/>
+                    </PREDCON>
+                    <PREDCON ref="in">
+                      <VAR id="z"/>
+                      <VAR id="y"/>
+                    </PREDCON>
+                  </EQUI>
+                </FORALL>
+                <PREDCON ref="l.equal">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </PREDCON>
+              </IMPL>
+            </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                 Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $z$ be an arbitrary class. If $z \in x$ then $z$ is a set by definition~\ref{isSet}, and hence by the assumption, $z \in y$. Similarly $z \in y \ \rightarrow \ z \in x$. Since $z$ is arbitrary, it follows that $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Thus by the axiom of extensionality~\ref{axiom:extensionality}, $x = y$. 
+              </LATEX>
+              <LATEX language="de">
+                 Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $z$ eine beliebige Klasse. Falls $z \in x$ dann gilt $z$ ist eine Menge nach Definition~\ref{isSet}, und daraus folgt mit der Annahme $z \in y$. Analog folgt $z \in y \ \rightarrow \ z \in x$. Da $z$ beliebig, haben wir $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Und mit dem Extensionalitätsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$. 
+              </LATEX>
+            </PROOF>
+          </THEOREM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>

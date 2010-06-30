@@ -22,8 +22,7 @@ import org.qedeq.base.test.QedeqTestSuite;
 /**
  * Run all JUnit tests for package org.qedeq.kernel.bo.module.
  *
- * @version $Revision: 1.1 $
- * @author    Michael Meyling
+ * @author  Michael Meyling
  */
 public class KernelBoServiceTestSuite extends QedeqTestSuite {
 
@@ -42,5 +41,8 @@ public class KernelBoServiceTestSuite extends QedeqTestSuite {
     public KernelBoServiceTestSuite() {
         super();
         addTestSuite(DefaultKernelQedeqBoTest.class);
+        addTestSuite(LoadRequiredModulesTest.class);
+        addTestSuite(CheckRequiredModuleExceptionTest.class);
+        addTestSuite(QedeqBoFormalLogicCheckerTest.class);
     }
 }
