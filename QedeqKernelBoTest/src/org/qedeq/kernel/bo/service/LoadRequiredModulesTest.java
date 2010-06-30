@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
-package org.qedeq.kernel.bo.control;
+package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.context.KernelContext;
@@ -24,8 +24,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * For testing of loading required QEDEQ modules.
  *
- * @version $Revision: 1.1 $
- * @author Michael Meyling
+ * @author  Michael Meyling
  */
 public class LoadRequiredModulesTest extends QedeqTestCase {
 
