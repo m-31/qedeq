@@ -45,10 +45,17 @@ public class ModuleContext {
     /**
      * Constructor.
      *
-     * @param   moduleLocation  Module location information.
-     * @param   locationWithinModule    Location within module.
+     * @param   moduleLocation  Module location information. Must not be <code>null</code>.
+     * @param   locationWithinModule    Location within module. Must not be <code>null</code>.
+     * @throws  NullPointerException At least one parameter is null.
      */
     public ModuleContext(final ModuleAddress moduleLocation, final String locationWithinModule) {
+        if (moduleLocation == null) {
+            throw new NullPointerException("module adress should not be null");
+        }
+        if (locationWithinModule == null) {
+            throw new NullPointerException("location within module should not be null");
+        }
         this.moduleLocation = moduleLocation;
         this.locationWithinModule = locationWithinModule;
     }
@@ -74,8 +81,8 @@ public class ModuleContext {
     /**
      * Constructor.
      *
-     * @param   main            Main context.
-     * @param   moduleLocation  Module location information.
+     * @param   main            Main context. Must not be <code>null</code>.
+     * @param   moduleLocation  Module location information. Must not be <code>null</code>.
      */
     public ModuleContext(final ModuleContext main, final String moduleLocation) {
         this(main.getModuleLocation(), moduleLocation);
@@ -119,9 +126,19 @@ public class ModuleContext {
         Trace.param(CLASS, this, method, "locationWithinModule", locationWithinModule);
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
-     */
+    public final int hashCode() {
+        return getModuleLocation().hashCode() ^ getLocationWithinModule().hashCode();
+    }
+
+    public final boolean equals(final Object obj) {
+        if (!(obj instanceof ModuleContext)) {
+            return false;
+        }
+        final ModuleContext other = (ModuleContext) obj;
+        return getModuleLocation().equals(other.getModuleLocation())
+            && getLocationWithinModule().equals(other.getLocationWithinModule());
+    }
+
     public final String toString() {
         return getModuleLocation() + ":" + getLocationWithinModule();
     }
