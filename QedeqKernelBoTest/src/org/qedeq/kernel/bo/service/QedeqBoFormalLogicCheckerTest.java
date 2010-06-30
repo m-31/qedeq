@@ -58,7 +58,7 @@ public class QedeqBoFormalLogicCheckerTest extends QedeqTestCase {
         assertTrue(bo.getLogicalState().isFailure());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(1, bo.getErrors().size());
-        assertEquals(1, bo.getErrors().get(1).getErrorCode());
+        assertEquals(11231, bo.getErrors().get(0).getErrorCode());
     }
 
 }
