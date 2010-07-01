@@ -24,6 +24,7 @@ import java.net.URL;
 
 import org.qedeq.base.trace.Trace;
 
+
 /**
  * Utility methods for accessing classes and resources using an appropriate class loader.
  * Adapted from org.apache.myfaces.trinidad.util.ClassLoaderUtils.
