@@ -13,19 +13,19 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.control;
+package org.qedeq.kernel.visitor;
 
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
-import org.qedeq.kernel.bo.service.LoadRequiredModulesTest;
+import org.qedeq.kernel.visitor.QedeqNotNullTraverserTest;
 
 /**
  * Run all JUnit tests for package org.qedeq.kernel.utility.
  *
  * @author  Michael Meyling
  */
-public class KernelBoControlTestSuite extends QedeqTestSuite {
+public class KernelVisitorTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelVoModuleTestSuite</code>.
@@ -33,15 +33,14 @@ public class KernelBoControlTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelBoControlTestSuite();
+        return new KernelVisitorTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelBoControlTestSuite() {
+    public KernelVisitorTestSuite() {
         super();
-        addTestSuite(QedeqBoFactoryTest.class);
         addTestSuite(QedeqNotNullTraverserTest.class);
     }
 }

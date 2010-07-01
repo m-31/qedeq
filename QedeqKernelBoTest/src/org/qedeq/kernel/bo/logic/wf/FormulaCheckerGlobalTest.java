@@ -21,7 +21,7 @@ import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.bo.logic.FormulaChecker;
-import org.qedeq.kernel.bo.service.DefaultModuleAddress;
+import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.dto.list.DefaultAtom;
 import org.qedeq.kernel.dto.list.DefaultElementList;

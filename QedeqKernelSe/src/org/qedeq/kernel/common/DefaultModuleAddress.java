@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service;
+package org.qedeq.kernel.common;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,8 +24,6 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.module.LocationList;
 import org.qedeq.kernel.base.module.Specification;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleContext;
 
 
 /**
@@ -69,7 +67,6 @@ public class DefaultModuleAddress implements ModuleAddress {
      * @throws  MalformedURLException    Address is formally incorrect.
      */
     public DefaultModuleAddress(final String u) throws MalformedURLException {
-
         this(u, (DefaultModuleAddress) null);
     }
 

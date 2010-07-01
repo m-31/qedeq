@@ -53,6 +53,7 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
+import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;

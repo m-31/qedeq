@@ -17,7 +17,7 @@ package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.bo.logic.FormulaChecker;
-import org.qedeq.kernel.bo.service.DefaultModuleAddress;
+import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 
 /**

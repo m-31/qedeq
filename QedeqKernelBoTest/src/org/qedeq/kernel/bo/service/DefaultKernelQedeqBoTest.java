@@ -29,6 +29,7 @@ import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.DummyPlugin;

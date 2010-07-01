@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.control;
+package org.qedeq.kernel.bo.service;
 
 import java.io.File;
 import java.io.IOException;

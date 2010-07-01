@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.control;
+package org.qedeq.kernel.visitor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -25,7 +25,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
-import org.qedeq.kernel.bo.service.DefaultModuleAddress;
+import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.dto.list.DefaultAtom;
 import org.qedeq.kernel.dto.list.DefaultElementList;
@@ -34,9 +34,9 @@ import org.qedeq.kernel.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.visitor.QedeqVisitor;
 
 /**
- * Test visitor concept for {@link org.qedeq.kernel.bo.visitor.ListVisitor}.
+ * Test visitor concept for {@link org.qedeq.kernel.visitor.ListVisitor}.
  * This class doesn't test much existing code directly, but checks that the
- * {@link org.qedeq.kernel.bo.visitor.QedeqNotNullTraverser} works correctly for
+ * {@link QedeqNotNullTraverser} works correctly for
  * the list part.
  *
  * @version $Revision: 1.1 $

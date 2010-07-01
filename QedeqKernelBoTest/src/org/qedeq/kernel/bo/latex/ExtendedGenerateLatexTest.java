@@ -17,7 +17,7 @@ package org.qedeq.kernel.bo.latex;
 
 import java.io.File;
 
-import org.qedeq.kernel.bo.control.QedeqBoFactoryTest;
+import org.qedeq.kernel.bo.service.QedeqBoFactoryTest;
 
 /**
  * Test generating LaTeX files for all known samples.
