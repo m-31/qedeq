@@ -20,6 +20,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
+
 /**
  * Wraps a text output stream.
  *
@@ -172,7 +173,7 @@ public class TextOutput {
     /**
      * Get IO exception that occurred - if any.
      * <p>
-     * TODO mime 20070131: use something else than PrintStream to get better error support?
+     * LATER mime 20070131: use something else than PrintStream to get better error support?
      *
      * @return  Occurred IO exception. Could be <code>null</code>.
      */
