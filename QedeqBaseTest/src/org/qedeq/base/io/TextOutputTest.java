@@ -18,6 +18,7 @@ package org.qedeq.base.io;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.lang.SystemUtils;
 import org.qedeq.base.test.QedeqTestCase;
@@ -76,7 +77,7 @@ public class TextOutputTest extends QedeqTestCase {
      */
     public void testComplete() throws Exception {
         final ByteArrayOutputStream to = new ByteArrayOutputStream();
-        TextOutput out = new TextOutput("flying toasters", to);
+        final TextOutput out = new TextOutput("flying toasters", to);
         out.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
         out.println("<QEDEQ ");
         out.pushLevel();
@@ -137,6 +138,15 @@ public class TextOutputTest extends QedeqTestCase {
             "ISO-8859-1"), StringUtility.byte2Hex(to.toByteArray()));
     }
 
+    public void testPushPop() throws Exception {
+        final ByteArrayOutputStream to = new ByteArrayOutputStream();
+        final TextOutput out = new TextOutput("jumper", to);
+        out.popLevel();
+        out.popLevel();
+        out.levelPrint("James Bond");
+        assertEquals("James Bond", to.toString("UTF-8"));
+    }
+    
     /**
      * Test IO error handling.
      * 
@@ -155,6 +165,9 @@ public class TextOutputTest extends QedeqTestCase {
         out.println("i am not written");
         out.flush();
         assertTrue(out.checkError());
+        out.getError().printStackTrace(System.out);
+        // the message is still hard coded in TextOutput
+        assertEquals("Writing failed.", out.getError().getMessage());
 
     }
 }
