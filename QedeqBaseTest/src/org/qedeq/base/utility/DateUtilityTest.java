@@ -20,8 +20,7 @@ import org.qedeq.base.test.QedeqTestCase;
 /**
  * Test {@link DateUtility}.
  *
- * @version $Revision: 1.1 $
- * @author Michael Meyling
+ * @author  Michael Meyling
  */
 public class DateUtilityTest extends QedeqTestCase {
 
