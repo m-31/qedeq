@@ -126,8 +126,7 @@ public class TextOutputTest extends QedeqTestCase {
         out.levelPrintln("</AUTHOR>");
         out.popLevel();
         out.levelPrintln("</AUTHORS>");
-        out.popLevel();
-        out.levelPrintln("</HEADER>");
+        out.println((Object) "  </HEADER>");
         out.pushLevel();
         out.clearLevel();
         out.levelPrintln("</QEDEQ>");
