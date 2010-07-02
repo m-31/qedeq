@@ -127,7 +127,7 @@ public class StateManager {
      * @param   completeness    Completeness of loading into memory.
      */
     public void setLoadingCompleteness(final int completeness) {
-        bo.setLoadingCompleteness(completeness);
+        this.loadingCompleteness = completeness;
     }
 
     public int getLoadingCompleteness() {
