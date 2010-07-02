@@ -164,7 +164,6 @@ public class TextOutputTest extends QedeqTestCase {
         out.println("i am not written");
         out.flush();
         assertTrue(out.checkError());
-        out.getError().printStackTrace(System.out);
         // the message is still hard coded in TextOutput
         assertEquals("Writing failed.", out.getError().getMessage());
 
