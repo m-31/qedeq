@@ -116,6 +116,17 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
         QedeqTreeCellRenderer.class.getResource(
             "/images/qedeq/16x16/module_checked.gif"));
 
+    /** Status icon. */
+    private static ImageIcon warningsIcon = new ImageIcon(
+        QedeqTreeCellRenderer.class.getResource(
+            "/images/qedeq/16x16/module_warnings.gif"));
+
+    /** Status icon. */
+    private static ImageIcon errorsIcon = new ImageIcon(
+        QedeqTreeCellRenderer.class.getResource(
+            "/images/qedeq/16x16/module_errors.gif"));
+
+
 // LATER mime 20080502: do we want to leave it for our alternative "paint" or do we delete it?
 //
 //    /** Color to use for the foreground for selected nodes. */
@@ -210,29 +221,30 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
                 } else if (loadingState == LoadingState.STATE_LOADING_INTO_MEMORY_FAILED) {
                     setIcon(memoryLoadingErrorIcon);
                 } else if (loadingState == LoadingState.STATE_LOADED) {
-                    setIcon(loadedIcon);
+                    setPositiveIcon(prop, loadedIcon);
                     if (dependencyState != DependencyState.STATE_UNDEFINED) {
-                        if (dependencyState == DependencyState.STATE_LOADING_REQUIRED_MODULES) {
+                        if (dependencyState
+                                == DependencyState.STATE_LOADING_REQUIRED_MODULES) {
                             setIcon(loadingRequiredIcon);
                         } else if (dependencyState
                                 == DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED) {
                             setIcon(loadingRequiredErrorIcon);
                         } else if (dependencyState
                                 == DependencyState.STATE_LOADED_REQUIRED_MODULES) {
-                            setIcon(loadedRequiredIcon);
+                            setPositiveIcon(prop, loadedRequiredIcon);
                             if (logicalState != LogicalState.STATE_UNCHECKED) {
                                 if (logicalState == LogicalState.STATE_EXTERNAL_CHECKING) {
-                                 setIcon(checkingRequiredIcon);
+                                    setPositiveIcon(prop, checkingRequiredIcon);
                                 } else if (logicalState
                                         == LogicalState.STATE_EXTERNAL_CHECKING_FAILED) {
                                     setIcon(checkingRequiredErrorIcon);
                                 } else if (logicalState == LogicalState.STATE_INTERNAL_CHECKING) {
-                                    setIcon(checkingIcon);
+                                    setPositiveIcon(prop, checkingIcon);
                                 } else if (logicalState
                                         == LogicalState.STATE_INTERNAL_CHECKING_FAILED) {
                                     setIcon(checkingErrorIcon);
                                 } else if (logicalState == LogicalState.STATE_CHECKED) {
-                                    setIcon(checkedIcon);
+                                    setPositiveIcon(prop, checkedIcon);
                                 } else {    // unknown logical state
                                     throw new IllegalStateException("unknown module state: "
                                         + logicalState.getText());
@@ -294,6 +306,16 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
            g.fillRect(0, 0, getWidth() - 1, getHeight() - 1);
        }
        super.paint(g);
+    }
+
+    private void setPositiveIcon(final QedeqBo qedeq, final Icon icon) {
+        if (qedeq.hasErrors()) {
+            setIcon(errorsIcon);
+        } else if (qedeq.hasWarnings()) {
+            setIcon(warningsIcon);
+        } else {
+            setIcon(icon);
+        }
     }
 
 }
