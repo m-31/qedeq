@@ -521,7 +521,8 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 prefix + "sample/qedeq_sample4_error.xml",
                 prefix + "sample/qedeq_sample5_error.xml",
                 prefix + "sample/qedeq_sample6_error.xml",
-                prefix + "sample/qedeq_sample7_error.xml", };
+                prefix + "sample/qedeq_sample7_error.xml",
+                prefix + "sample/qedeq_sample8_error.xml", };
             boolean errors = false;
             for (int i = 0; i < list.length; i++) {
                 try {
