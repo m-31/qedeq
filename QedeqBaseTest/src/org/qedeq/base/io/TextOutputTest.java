@@ -18,7 +18,6 @@ package org.qedeq.base.io;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 
 import org.apache.commons.lang.SystemUtils;
 import org.qedeq.base.test.QedeqTestCase;
@@ -92,8 +91,8 @@ public class TextOutputTest extends QedeqTestCase {
         out.print(SystemUtils.LINE_SEPARATOR);
         out.pushLevel();
         out.levelPrintln("<LOCATIONS>");
-        out.print((Object) "   \t\r   <LOCATION value=\"http://qedeq.org/0.01.06/sample1\"/>"
-                + SystemUtils.LINE_SEPARATOR);
+        out.print((Object) ("   \t\r   <LOCATION value=\"http://qedeq.org/0.01.06/sample1\"/>"
+                + SystemUtils.LINE_SEPARATOR));
         out.levelPrintln("</LOCATIONS>");
         out.popLevel();
         out.levelPrintln("</SPEC>");
@@ -159,6 +158,7 @@ public class TextOutputTest extends QedeqTestCase {
         };
         TextOutput out = new TextOutput("flying toasters", to);
         assertFalse(out.checkError());
+        assertNull(out.getError());
         out.flush();
         assertFalse(out.checkError());
         out.println("i am not written");
