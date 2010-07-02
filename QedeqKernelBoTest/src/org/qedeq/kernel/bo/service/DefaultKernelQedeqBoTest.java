@@ -121,27 +121,27 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
     public void testHasFailures() throws Exception {
         DefaultKernelQedeqBo bo;
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
-        assertFalse(bo.hasFailures());
+        assertFalse(bo.hasErrors());
         bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
             new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), new NullPointerException()));
-        assertTrue(bo.hasFailures());
+        assertTrue(bo.hasErrors());
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
-        assertFalse(bo.hasFailures());
+        assertFalse(bo.hasErrors());
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
         bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
             new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), new NullPointerException()));
-        assertTrue(bo.hasFailures());
+        assertTrue(bo.hasErrors());
         bo.setLoadedRequiredModules(new KernelModuleReferenceList());
-        assertFalse(bo.hasFailures());
+        assertFalse(bo.hasErrors());
         bo.setChecked(new DefaultExistenceChecker());
-        assertFalse(bo.hasFailures());
+        assertFalse(bo.hasErrors());
     }
 
     public void testSetLoadingFailureState() throws Exception {
         DefaultKernelQedeqBo bo;
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
-        assertFalse(bo.hasFailures());
+        assertFalse(bo.hasErrors());
         assertNull(bo.getErrors());
         try {
             bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
@@ -219,7 +219,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
     public void testSetLoadingProgressState() throws Exception {
         DefaultKernelQedeqBo bo;
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
-        assertFalse(bo.hasFailures());
+        assertFalse(bo.hasErrors());
         assertFalse(bo.isLoaded());
         assertEquals(LoadingState.STATE_UNDEFINED, bo.getLoadingState());
         try {
@@ -271,7 +271,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
     public void testSetDependencyFailureState() throws Exception {
         DefaultKernelQedeqBo bo;
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
-        assertFalse(bo.hasFailures());
+        assertFalse(bo.hasErrors());
         assertNull(bo.getErrors());
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
         assertTrue(bo.isLoaded());

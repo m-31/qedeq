@@ -110,8 +110,16 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return this.loader;
     }
 
-    public boolean hasFailures() {
-        return stateManager.hasFailures();
+    public boolean hasBasicFailures() {
+        return stateManager.hasBasicFailures();
+    }
+
+    public boolean hasErrors() {
+        return stateManager.hasErrors();
+    }
+
+    public boolean hasWarnings() {
+        return stateManager.hasWarnings();
     }
 
     public ModuleAddress getModuleAddress() {

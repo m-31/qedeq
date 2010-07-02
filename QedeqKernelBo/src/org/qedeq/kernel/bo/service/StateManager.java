@@ -93,8 +93,32 @@ public class StateManager {
         ModuleEventLog.getInstance().removeModule(bo);
     }
 
-    public boolean hasFailures() {
+    /**
+     * Is the module in a failure state? That is the case if loading of module or imported modules
+     * failed or the logical check failed. Possible plugin failures don't matter. 
+     *
+     * @return  Failure during loading or logical check occurred.
+     */
+    public boolean hasBasicFailures() {
         return loadingState.isFailure() || dependencyState.isFailure() || logicalState.isFailure();
+    }
+
+    /**
+     * Has the module any errors? This includes loading, importing, logical and plugin errors.
+     *
+     * @return  Errors occurred.
+     */
+    public boolean hasErrors() {
+        return hasBasicFailures() || (getErrors() != null && getErrors().size() > 0);
+    }
+
+    /**
+     * Has the module any warnings? This includes loading, importing, logical and plugin warnings.
+     *
+     * @return  Warnings occurred.
+     */
+    public boolean hasWarnings() {
+        return (getWarnings() != null && getWarnings().size() > 0);
     }
 
     /**
@@ -597,6 +621,7 @@ public class StateManager {
     public void addPluginResults(final PluginBo plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
         pluginResults.addResult(plugin, errors, warnings);
+        ModuleEventLog.getInstance().stateChanged(bo);
     }
 
     /**

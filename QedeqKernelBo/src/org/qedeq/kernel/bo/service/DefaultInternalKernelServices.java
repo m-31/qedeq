@@ -462,7 +462,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     public void loadRequiredModules(final ModuleAddress address) throws SourceFileExceptionList {
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) loadModule(address);
-        if (prop.hasFailures()) {
+        if (prop.hasBasicFailures()) {
             throw prop.getErrors();
         }
         LoadRequiredModules.loadRequired(this, prop);
@@ -482,7 +482,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 try {
                     final ModuleAddress address = getModuleAddress(list[i]);
                     final QedeqBo prop = loadModule(address);
-                    if (prop.hasFailures()) {
+                    if (prop.hasErrors()) {
                         errors = true;
                     }
                 } catch (IOException e) {
@@ -527,7 +527,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 try {
                     final ModuleAddress address = getModuleAddress(list[i]);
                     final QedeqBo prop = loadModule(address);
-                    if (prop.hasFailures()) {
+                    if (prop.hasErrors()) {
                         errors = true;
                     }
                 } catch (IOException e) {

@@ -277,19 +277,19 @@ public class GenerateLatexTest extends QedeqTestCase {
             IoUtility.toUrl(xmlFile));
         final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(
             address);
-        if (prop.hasFailures()) {
+        if (prop.hasErrors()) {
             throw prop.getErrors();
         }
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
-        if (prop.hasFailures()) {
+        if (prop.hasErrors()) {
             throw prop.getErrors();
         }
         KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
-        if (prop.hasFailures()) {
+        if (prop.hasErrors()) {
             throw prop.getErrors();
         }
         QedeqBoDuplicateLanguageChecker.check(prop);
-        if (prop.hasFailures()) {
+        if (prop.hasErrors()) {
             throw prop.getErrors();
         }
 

@@ -31,23 +31,38 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 public interface QedeqBo {
 
     /**
-     * Is this a failure state the module is in?
+     * Has the module any basic failures? This includes errors during loading the module, during load
+     * of imported modules and logical checking. This includes no plugin errors.
      *
-     * @return  were there any errors?
+     * @return  wWre there any basic errors?
      */
-    public boolean hasFailures();
+    public boolean hasBasicFailures();
+
+    /**
+     * Is this a error state the module is in?
+     *
+     * @return  Were there any errors?
+     */
+    public boolean hasErrors();
+
+    /**
+     * Is this a warning state the module is in?
+     *
+     * @return  Were there any warnings?
+     */
+    public boolean hasWarnings();
 
     /**
      * Get {@link ModuleAddress} of module.
      *
-     * @return  address of module.
+     * @return  Address of module.
      */
     public ModuleAddress getModuleAddress();
 
     /**
      * Get module loading state.
      *
-     * @return  module state.
+     * @return  Module state.
      */
     public LoadingState getLoadingState();
 
