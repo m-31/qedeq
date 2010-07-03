@@ -26,11 +26,52 @@ import org.apache.commons.logging.LogFactory;
  */
 public final class Trace {
 
+    /** Logger for business messages. */
+    static final Log logger = LogFactory.getFactory().getInstance(Trace.class);
+
+    
     /**
      * Constructor.
      */
     private Trace() {
         // don't call me
+    }
+
+    /**
+     * Trace business log message. The message is logged on "error" level.
+     *
+     * @param   message         Business log message.
+     */
+    public static void log(final String message) {
+        logger.error(message);
+    }
+
+    /**
+     * Trace business log message. The message is logged on "error" level.
+     *
+     * @param   message         Business log message.
+     * @param   additional      Extra info for the next line.
+     */
+    public static void log(final String message, final String additional) {
+        if (logger.isErrorEnabled()) {
+            logger.error(message);
+            logger.error("    " + additional);
+        }
+    }
+
+    /**
+     * Trace business log message. The message is logged on "error" level.
+     *
+     * @param   message         Business log message.
+     * @param   additional      Extra info for the next line.
+     * @param   additional      Further description.
+     */
+    public static void log(final String message, final String additional, final String description) {
+        if (logger.isErrorEnabled()) {
+            logger.error(message);
+            logger.error("    " + additional);
+            logger.error("    " + description);
+        }
     }
 
     /**
