@@ -27,9 +27,9 @@ import org.apache.commons.logging.LogFactory;
 public final class Trace {
 
     /** Logger for business messages. */
-    static final Log logger = LogFactory.getFactory().getInstance(Trace.class);
+    static final Log BUSINESS = LogFactory.getFactory().getInstance(Trace.class);
 
-    
+
     /**
      * Constructor.
      */
@@ -43,7 +43,7 @@ public final class Trace {
      * @param   message         Business log message.
      */
     public static void log(final String message) {
-        logger.error(message);
+        BUSINESS.error(message);
     }
 
     /**
@@ -53,9 +53,9 @@ public final class Trace {
      * @param   additional      Extra info for the next line.
      */
     public static void log(final String message, final String additional) {
-        if (logger.isErrorEnabled()) {
-            logger.error(message);
-            logger.error("    " + additional);
+        if (BUSINESS.isErrorEnabled()) {
+            BUSINESS.error(message);
+            BUSINESS.error("    " + additional);
         }
     }
 
@@ -67,10 +67,10 @@ public final class Trace {
      * @param   additional      Further description.
      */
     public static void log(final String message, final String additional, final String description) {
-        if (logger.isErrorEnabled()) {
-            logger.error(message);
-            logger.error("    " + additional);
-            logger.error("    " + description);
+        if (BUSINESS.isErrorEnabled()) {
+            BUSINESS.error(message);
+            BUSINESS.error("    " + additional);
+            BUSINESS.error("    " + description);
         }
     }
 
