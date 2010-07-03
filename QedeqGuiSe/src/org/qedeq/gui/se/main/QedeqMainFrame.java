@@ -44,6 +44,7 @@ import org.qedeq.kernel.bo.log.LogListenerImpl;
 import org.qedeq.kernel.bo.log.ModuleEventListenerLog;
 import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.log.QedeqLog;
+import org.qedeq.kernel.bo.log.TraceListener;
 import org.qedeq.kernel.bo.service.DefaultInternalKernelServices;
 import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 
@@ -77,6 +78,7 @@ public class QedeqMainFrame extends JFrame {
 
         // add various loggers
         QedeqLog.getInstance().addLog(new LogListenerImpl());   // System.out
+        QedeqLog.getInstance().addLog(new TraceListener());     // trace file
         QedeqLog.getInstance()                                  // log file
             .addLog(new LogListenerImpl(new PrintStream(
             new FileOutputStream(new File(QedeqGuiConfig.getInstance().getBasisDirectory(),
