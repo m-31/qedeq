@@ -83,6 +83,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             createAllNecessaryDirectories();
             checkIfApplicationIsAlreadyRunningAndLockFile();
             KernelContext.this.services = moduleServices;
+            Trace.log("-----------------------------------------------------------------------------------------");
             QedeqLog.getInstance().logMessage("This is "
                 + KernelContext.getInstance().getDescriptiveKernelVersion());
             QedeqLog.getInstance().logMessage("  see \"http://www.qedeq.org\" for more "
@@ -586,6 +587,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      * @throws  IOException     Application is running below java 1.4.2.
      */
     private void checkJavaVersion() throws IOException {
+        Trace.log("running on java version " + System.getProperty("java.version"));
         final int[] versions = IoUtility.getJavaVersion();
         if (versions == null) {
             Trace.fatal(CLASS, this, "checkJavaVersion", "running java version unknown", null);
