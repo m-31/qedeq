@@ -530,7 +530,13 @@ currently in ants classpath
         <delete dir="${qedeq.webstart}" />
         <mkdir dir="${qedeq.webstart}" />
         <copy todir="${qedeq.webstart}">
-            <fileset dir="${qedeq.dest}/lib" />
+            <fileset dir="${qedeq.dest}/lib" >
+                <include name="/qedeq_*.jar" />
+                <include name="/commons-*.jar" />
+                <include name="/log4j-*.jar" />
+                <include name="/forms-*.jar" />
+                <include name="/looks-*.jar" />
+            </fileset>
         </copy>
         <signjar jar="${qedeq.webstart}/qedeq_kernel-${qedeq.release.version}.jar" alias="qedeqkey"
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
@@ -554,9 +560,6 @@ currently in ants classpath
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
 <!-- mime 20100705: the signed XML-Parser Jars and the JHjar have to be replaced by other ones
              so that it works under an old JNLP version
-
-        <signjar jar="${qedeq.webstart}/jh-2.0.5.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
 -->
         <copy todir="${qedeq.webstart}">
             <fileset dir="${qedeq.resources}/webstart/lib" />
