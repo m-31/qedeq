@@ -527,7 +527,7 @@ currently in ants classpath
       </target>
         
     <target name="webstart" depends="assemble" description="sign jars to be able to webstart">
-        <delete dir="${qedeq.webstart}" />
+        <delete dir="${qedeq.webstart}" failonerror="true" />
         <mkdir dir="${qedeq.webstart}" />
         <copy todir="${qedeq.webstart}">
             <fileset dir="${qedeq.dest}/lib" >
