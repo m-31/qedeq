@@ -95,7 +95,7 @@ public class StateManager {
 
     /**
      * Is the module in a failure state? That is the case if loading of module or imported modules
-     * failed or the logical check failed. Possible plugin failures don't matter. 
+     * failed or the logical check failed. Possible plugin failures don't matter.
      *
      * @return  Failure during loading or logical check occurred.
      */
@@ -127,7 +127,7 @@ public class StateManager {
      * @param   completeness    Completeness of loading into memory.
      */
     public void setLoadingCompleteness(final int completeness) {
-        this.loadingCompleteness = completeness;
+        bo.setLoadingCompleteness(completeness);
     }
 
     public int getLoadingCompleteness() {
@@ -452,8 +452,6 @@ public class StateManager {
 
 
         setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
-        setLogicalState(LogicalState.STATE_UNCHECKED);
-        setErrors(null);
         bo.getKernelRequiredModules().set(required);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
