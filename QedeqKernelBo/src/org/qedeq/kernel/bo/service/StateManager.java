@@ -452,6 +452,8 @@ public class StateManager {
 
 
         setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
+        setLogicalState(LogicalState.STATE_UNCHECKED);
+        setErrors(null);
         bo.getKernelRequiredModules().set(required);
         ModuleEventLog.getInstance().stateChanged(bo);
     }
