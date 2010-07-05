@@ -552,10 +552,12 @@ currently in ants classpath
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
         <signjar jar="${qedeq.webstart}/looks-2.1.4.jar" alias="qedeqkey"
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+<!-- mime 20100705: the signed XML-Parser Jars and the JHjar have to be replaced by other ones
+             so that it works under an old JNLP version
+
         <signjar jar="${qedeq.webstart}/jh-2.0.5.jar" alias="qedeqkey"
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
-<!-- mime 20100705: the signed XML-Parser Jars and the JHjar have to be replaced by other ones
-             so that it works under an old JNLP version -->
+-->
         <copy todir="${qedeq.webstart}">
             <fileset dir="${qedeq.resources}/webstart/lib" />
         </copy>
