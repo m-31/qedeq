@@ -554,12 +554,11 @@ currently in ants classpath
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
         <signjar jar="${qedeq.webstart}/jh-2.0.5.jar" alias="qedeqkey"
             storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
-        <!-- FIXME mime 20090920: the signed XML-Parser Jars have to be replaced by other ones
-             so that it works under an old JNLP version !? -->
-        <signjar jar="${qedeq.webstart}/xercesImpl.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
-        <signjar jar="${qedeq.webstart}/xml-apis.jar" alias="qedeqkey"
-            storepass="Iewsss#WhadUg" keystore="${qedeq.resources}/webstart/qedeqKey.bin"/>
+<!-- mime 20100705: the signed XML-Parser Jars and the JHjar have to be replaced by other ones
+             so that it works under an old JNLP version -->
+        <copy todir="${qedeq.webstart}">
+            <fileset dir="${qedeq.resources}/webstart/lib" />
+        </copy>
         <copy todir="${qedeq.webstart}">
             <fileset file="${qedeq.resources}/webstart/qedeq.jnlp" />
             <filterset refid="qedeq_filter" />
