@@ -58,7 +58,7 @@
 
     <target name="assemble" depends="source">
         <!-- create also maven structure with POM s -->   
-        <delete dir="${qedeq.dest}/src/maven" failonerror="false" />
+        <delete dir="${qedeq.dest}/src/maven" failonerror="true" />
         <mkdir dir="${qedeq.dest}/src/maven" />
         <copy todir="${qedeq.dest}/src/maven">
             <fileset dir="${qedeq.dest.module}">
