@@ -15,8 +15,8 @@
     <!-- set global properties for this build -->
     <property file="${basedir}/QedeqBuild/scripts/build.properties" />
     <property name="qedeq.dest"            value="${basedir}/../../maven/qedeq" />
-    <property name="qedeq.resources"       value="${basedir}/QedeqBuild/resources" />
     <property name="qedeq.dest.module"     value="${basedir}/../../maven/modules" />
+    <property name="qedeq.resources"       value="${basedir}/QedeqBuild/resources" />
 
     <filterset id="qedeq_filter" begintoken="@" endtoken="@">
         <filter token="QEDEQ_VERSION"     value="${qedeq.release.version}" />
@@ -30,6 +30,7 @@
     
     <target name="clean">
         <delete dir="${qedeq.dest}" failonerror="true" />
+        <delete dir="${qedeq.dest.module}" failonerror="true" />
     </target>
 
 
