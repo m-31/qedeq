@@ -531,11 +531,11 @@ currently in ants classpath
         <mkdir dir="${qedeq.webstart}" />
         <copy todir="${qedeq.webstart}">
             <fileset dir="${qedeq.dest}/lib" >
-                <include name="/qedeq_*.jar" />
-                <include name="/commons-*.jar" />
-                <include name="/log4j-*.jar" />
-                <include name="/forms-*.jar" />
-                <include name="/looks-*.jar" />
+                <include name="qedeq_*.jar" />
+                <include name="commons-*.jar" />
+                <include name="log4j-*.jar" />
+                <include name="forms-*.jar" />
+                <include name="looks-*.jar" />
             </fileset>
         </copy>
         <signjar jar="${qedeq.webstart}/qedeq_kernel-${qedeq.release.version}.jar" alias="qedeqkey"
