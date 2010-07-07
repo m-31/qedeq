@@ -63,8 +63,10 @@ public final class UpperTabbedView extends JPanel implements SelectionListener {
 
     /**
      * Constructor.
+     *
+     *  @param  listener    This listener gets all selection events.
      */
-    public UpperTabbedView(SelectionListenerList listener) {
+    public UpperTabbedView(final SelectionListenerList listener) {
         try {
             propertiesPane = new ModulePropertiesPane();
             qedeqPane = new QedeqPane();
