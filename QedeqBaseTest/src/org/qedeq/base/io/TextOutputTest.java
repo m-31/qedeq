@@ -131,7 +131,7 @@ public class TextOutputTest extends QedeqTestCase {
         out.levelPrintln("</QEDEQ>");
         out.close();
         
-        System.out.println(to.toString());
+//        System.out.println(to.toString());
         assertEquals(StringUtility.string2Hex(XML_DATA.replace("\n", SystemUtils.LINE_SEPARATOR),
             "ISO-8859-1"), StringUtility.byte2Hex(to.toByteArray()));
     }
