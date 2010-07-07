@@ -102,14 +102,19 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
 
     /**
      * Creates new panel.
+     *
+     * @param   listener    Send selecting events to this listener.
      */
-    public ModuleErrorAndWarningListPane(SelectionListenerList listener) {
+    public ModuleErrorAndWarningListPane(final SelectionListenerList listener) {
         super(false);
         this.listener = listener;
         setModel(null);
         setupView();
     }
 
+    /**
+     * Send selection events.
+     */
     private void selectLine() {
         Trace.param(CLASS, this, "selectLine", "selectedLine", selectedLine);
         if (model.isError(selectedLine)) {
