@@ -175,7 +175,7 @@ public class QedeqPane extends JPanel implements SelectionListener {
                 qedeq.setBackground(UIManager.getColor("TextArea.background"));
                 qedeq.setCaretPosition(0);
                 qedeq.getCaret().setSelectionVisible(true);
-                
+
                 // TODO m31 20100707: duplicate code, refactor
                 errorMarker = new DocumentMarker(qedeq, new DocumentMarkerPainter(
                     GuiHelper.getErrorTextBackgroundColor()));
