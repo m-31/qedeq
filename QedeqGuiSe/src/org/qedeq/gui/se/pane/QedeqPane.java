@@ -175,8 +175,10 @@ public class QedeqPane extends JPanel implements SelectionListener {
                 qedeq.setBackground(UIManager.getColor("TextArea.background"));
                 qedeq.setCaretPosition(0);
                 qedeq.getCaret().setSelectionVisible(true);
+                
+                // TODO m31 20100707: duplicate code, refactor
                 errorMarker = new DocumentMarker(qedeq, new DocumentMarkerPainter(
-                    GuiHelper.getMarkedTextBackgroundColor()));
+                    GuiHelper.getErrorTextBackgroundColor()));
                 final SourceFileExceptionList pe = prop.getErrors();
                 if (pe != null) {
                     for (int i = 0; i < pe.size(); i++) {
@@ -203,7 +205,7 @@ public class QedeqPane extends JPanel implements SelectionListener {
                     }
                 }
                 warningMarker = new DocumentMarker(qedeq, new DocumentMarkerPainter(
-                        GuiHelper.getCurrentAndMarkedBackgroundColor()));
+                        GuiHelper.getWarningTextBackgroundColor()));
                 final SourceFileExceptionList pw = prop.getWarnings();
                 if (pw != null) {
                     for (int i = 0; i < pw.size(); i++) {

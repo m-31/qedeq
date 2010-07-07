@@ -61,8 +61,11 @@ public final class GuiHelper  {
     /** Color for line highlighter and marked areas. */
     private static Color markedAndHiglightedBackgroundColor = new Color(232, 242, 254, 128);
 
-    /** Color for marked text areas. */
-    private static Color markedTextBackgroundColor = new Color(255, 255, 190);
+    /** Color for error text areas. */
+    private static Color errorTextBackgroundColor = new Color(180, 206, 255);
+
+    /** Color for warning text areas. */
+    private static Color warningTextBackgroundColor = new Color(255, 255, 190);
 
     /**
      * Hidden constructor.
@@ -179,12 +182,21 @@ public final class GuiHelper  {
     }
 
     /**
-     * Get background color for marked text areas.
+     * Get background color for error text areas.
      *
      * @return  Background color.
      */
-    public static Color getMarkedTextBackgroundColor() {
-        return markedTextBackgroundColor;
+    public static Color getErrorTextBackgroundColor() {
+        return errorTextBackgroundColor;
+    }
+
+    /**
+     * Get background color for warning text areas.
+     *
+     * @return  Background color.
+     */
+    public static Color getWarningTextBackgroundColor() {
+        return warningTextBackgroundColor;
     }
 
     /**
