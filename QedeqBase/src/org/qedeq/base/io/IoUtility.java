@@ -1173,7 +1173,6 @@ public final class IoUtility {
                     break;
                 } catch (NoSuchFieldException ex) {
                     cl = cl.getSuperclass();
-                    System.out.println(cl);
                 }
             }
             if (field == null) {
