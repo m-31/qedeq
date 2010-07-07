@@ -98,6 +98,7 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
     /** Our scroll area. */
     private JScrollPane scrollPane;
 
+    /** This listener gets all selection messages from us. */
     private SelectionListenerList listener;
 
     /**
