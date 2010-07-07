@@ -33,9 +33,8 @@ public class DocumentMarker {
     /** We mark areas in this text component. */
     private JTextArea textComp;
 
-    /** Our error highlighter for the text areas. */
-    private Highlighter.HighlightPainter highlightPainter = new DocumentMarkerPainter(
-        GuiHelper.getMarkedTextBackgroundColor());
+    /** Our highlighter for the text areas. */
+    private Highlighter.HighlightPainter highlightPainter;
 
 
     /** Contains all positions. Each entry is of type {@link Position}[3]. The first position is
@@ -47,9 +46,10 @@ public class DocumentMarker {
     /**
      * Constructor.
      *
-     * @param   textComp Text component with marked areas.
+     * @param   textComp Text       Component with marked areas.
+     * @param   highlightPainter    Our highlighter.
      */
-    public DocumentMarker(final JTextArea textComp, Highlighter.HighlightPainter highlightPainter) {
+    public DocumentMarker(final JTextArea textComp, final Highlighter.HighlightPainter highlightPainter) {
         this.textComp = textComp;
         this.highlightPainter = highlightPainter;
     }
