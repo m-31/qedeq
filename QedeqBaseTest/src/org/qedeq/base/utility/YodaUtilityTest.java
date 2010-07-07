@@ -84,7 +84,7 @@ public class YodaUtilityTest extends QedeqTestCase {
     public void testSetFieldValue() throws Exception {
         try {
             YodaUtility.setFieldContent(this, "secret", new Integer(37846));
-            System.out.println("secret=" + secret);
+//            System.out.println("secret=" + secret);
             fail("Exception expected");
         } catch (Exception e) {
             // expected;
