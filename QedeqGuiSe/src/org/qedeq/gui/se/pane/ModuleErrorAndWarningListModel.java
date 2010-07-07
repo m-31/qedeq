@@ -70,19 +70,7 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
     }
 
     public int getRowCount() {
-        if (qedeq == null) {
-            return 0;
-        }
-        final SourceFileExceptionList errors = qedeq.getErrors();
-        final SourceFileExceptionList warnings = qedeq.getWarnings();
-        int size = 0;
-        if (errors != null) {
-            size += errors.size();
-        }
-        if (warnings != null) {
-            size += warnings.size();
-        }
-        return size;
+        return maxEntries;
     }
 
     public int getColumnCount() {
@@ -104,12 +92,16 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
                 } else if (isWarning(row)) {
                     return warningIcon;
                 }
-                return "";
-        case 1:
-                return getSourceFileException(row).getMessage();
-        case 2: if (getSourceFileException(row).getSourceArea() != null) {
+                break;
+        case 1: if (getSourceFileException(row) != null) {
+                    return getSourceFileException(row).getMessage();
+                }
+                break;
+        case 2: if (getSourceFileException(row) != null && getSourceFileException(row).getSourceArea() != null) {
                     return "line " + getSourceFileException(row).getSourceArea().getStartPosition().getLine();
                 }
+                break;
+        default:
                 return "";
         }
         return "";
