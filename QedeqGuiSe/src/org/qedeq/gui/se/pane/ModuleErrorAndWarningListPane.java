@@ -40,10 +40,9 @@ import javax.swing.text.StyleConstants;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.gui.se.control.ErrorSelectionListenerList;
+import org.qedeq.gui.se.control.SelectionListenerList;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.ModuleEventListener;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -56,16 +55,16 @@ import com.jgoodies.forms.layout.RowSpec;
  * @author  Michael Meyling
  */
 
-public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
+public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEventListener {
 
     /** This class. */
-    private static final Class CLASS = ModuleErrorListPane.class;
+    private static final Class CLASS = ModuleErrorAndWarningListPane.class;
 
     /** Currently selected error. */
-    private int errNo = -1;
+    private int selectedLine = -1;
 
     /** Table model. */
-    private ModuleErrorListModel model = new ModuleErrorListModel();
+    private ModuleErrorAndWarningListModel model = new ModuleErrorAndWarningListModel();
 
     /** This table holds the error descriptions. */
     private JTable list = new JTable(model) {
@@ -79,9 +78,9 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
         public String getToolTipText(final MouseEvent e) {
             String tip = null;
             java.awt.Point p = e.getPoint();
-            int rowIndex = rowAtPoint(p);
+            int row = rowAtPoint(p);
             try {
-                tip = sfl.get(rowIndex).getMessage() + "\n";
+                tip = model.getSourceFileException(row).getMessage() + "\n";
             } catch (RuntimeException ex) {
                 return super.getToolTipText(e);
             }
@@ -93,29 +92,30 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
     /** Write with this font attributes. */
     private final SimpleAttributeSet errorAttrs = new SimpleAttributeSet();
 
-    /** For this module properties the errors are shown. */
+    /** For this module properties the warnings and errors are shown. */
     private QedeqBo prop;
-
-    /** These errors are shown. */
-    private SourceFileExceptionList sfl;
 
     /** Our scroll area. */
     private JScrollPane scrollPane;
 
+    private SelectionListenerList listener;
+
     /**
      * Creates new panel.
      */
-    public ModuleErrorListPane() {
+    public ModuleErrorAndWarningListPane(SelectionListenerList listener) {
         super(false);
+        this.listener = listener;
         setModel(null);
         setupView();
     }
 
-    private void selectError() {
-        Trace.param(CLASS, this, "selectError", "sfl", sfl);
-        Trace.param(CLASS, this, "selectError", "errNo", errNo);
-        if (sfl != null && errNo >= 0 && errNo < sfl.size()) {
-            ErrorSelectionListenerList.getInstance().selectError(errNo, sfl.get(errNo));
+    private void selectLine() {
+        Trace.param(CLASS, this, "selectLine", "selectedLine", selectedLine);
+        if (model.isError(selectedLine)) {
+            listener.selectError(model.getErrorNumber(selectedLine), model.getSourceFileException(selectedLine));
+        } else if (model.isWarning(selectedLine)) {
+            listener.selectWarning(model.getWarningNumber(selectedLine), model.getSourceFileException(selectedLine));
         }
     }
 
@@ -144,8 +144,8 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
                 if (e.getValueIsAdjusting()) {
                     return;
                 }
-                errNo = list.getSelectionModel().getLeadSelectionIndex();
-                Trace.param(CLASS, this, "setupView$valueChanged", "errNo" , errNo);
+                selectedLine = list.getSelectionModel().getLeadSelectionIndex();
+                Trace.param(CLASS, this, "setupView$valueChanged", "selectedLine" , selectedLine);
             }
         });
 
@@ -155,7 +155,7 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
                 if (e.getClickCount() == 2) {
                     Trace.trace(CLASS, this, "setupView$vmouseClicked", "doubleClick");
                 }
-                selectError();
+                selectLine();
             }
         });
 
@@ -163,7 +163,7 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
         list.getActionMap().put("selectNextRowCell", new AbstractAction() {
             public void actionPerformed(final ActionEvent event) {
                 Trace.param(CLASS, this, "setupView$actionPerformed", "event" , event);
-                selectError();
+                selectLine();
             }
         });
 
@@ -224,7 +224,6 @@ public class ModuleErrorListPane extends JPanel implements ModuleEventListener {
     public synchronized void updateView() {
         final String method = "updateView";
         Trace.begin(CLASS, this, method);
-        this.sfl = (prop != null ? prop.getErrors() : null);
         ((AbstractTableModel) list.getModel()).fireTableDataChanged();
         ((AbstractTableModel) list.getModel()).fireTableStructureChanged();
         changeHeaderWidth();

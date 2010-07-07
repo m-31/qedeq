@@ -23,37 +23,22 @@ import org.qedeq.kernel.common.SourceFileException;
 
 
 /**
- * This class organizes the listening to error selection events.
+ * This class organizes the listening to error and warning selection events.
  *
- * LATER mime 20080415: must this be a singleton?
- *
- * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
-public final class ErrorSelectionListenerList implements ErrorSelectionListener {
+public final class SelectionListenerList implements SelectionListener {
 
     /** This class. */
-    private static final Class CLASS = ErrorSelectionListenerList.class;
-
-    /** The one and only instance. */
-    private static ErrorSelectionListenerList instance = new ErrorSelectionListenerList();
+    private static final Class CLASS = SelectionListenerList.class;
 
     /** The loggers. */
     private List listeners = new ArrayList();
 
     /**
-     * Get instance of master listener.
-     *
-     * @return  singleton
+     * Constructor.
      */
-    public static final ErrorSelectionListenerList getInstance() {
-        return instance;
-    }
-
-    /**
-     * Don't use me outside of this class.
-     */
-    private ErrorSelectionListenerList() {
+    public SelectionListenerList() {
     }
 
     /**
@@ -61,7 +46,7 @@ public final class ErrorSelectionListenerList implements ErrorSelectionListener 
      *
      * @param   log Add this listener.
      */
-    public final void addListener(final ErrorSelectionListener list) {
+    public final void addListener(final SelectionListener list) {
         listeners.add(list);
     }
 
@@ -70,19 +55,29 @@ public final class ErrorSelectionListenerList implements ErrorSelectionListener 
      *
      * @param   log Remove this listener.
      */
-    public final void removeListener(final ErrorSelectionListener list) {
+    public final void removeListener(final SelectionListener list) {
         listeners.remove(list);
     }
 
-    public void selectError(final int errorNumber, final SourceFileException sf) {
+    public void selectError(final int number, final SourceFileException sf) {
         for (int i = 0; i < listeners.size(); i++) {
             try {   // we don't know if the ModuleEventListener is free of programming errors...
-                ((ErrorSelectionListener) listeners.get(i)).selectError(errorNumber, sf);
+                ((SelectionListener) listeners.get(i)).selectError(number, sf);
             } catch (RuntimeException e) {
                 Trace.fatal(CLASS, this, "selectError",
-                    "ErrorSelectionListener throwed RuntimeException", e);
+                    "SelectionListener throwed RuntimeException", e);
             }
         }
     }
 
+    public void selectWarning(final int number, final SourceFileException sf) {
+        for (int i = 0; i < listeners.size(); i++) {
+            try {   // we don't know if the ModuleEventListener is free of programming errors...
+                ((SelectionListener) listeners.get(i)).selectWarning(number, sf);
+            } catch (RuntimeException e) {
+                Trace.fatal(CLASS, this, "selectWarning",
+                    "SelectionListener throwed RuntimeException", e);
+            }
+        }
+    }
 }

@@ -32,10 +32,11 @@ import javax.swing.text.BadLocationException;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.gui.se.control.ErrorSelectionListener;
-import org.qedeq.gui.se.control.ErrorSelectionListenerList;
+import org.qedeq.gui.se.control.SelectionListener;
 import org.qedeq.gui.se.util.CurrentLineHighlighterUtility;
 import org.qedeq.gui.se.util.DocumentMarker;
+import org.qedeq.gui.se.util.DocumentMarkerPainter;
+import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.common.SourceArea;
@@ -49,7 +50,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  * @author  Michael Meyling
  */
 
-public class QedeqPane extends JPanel implements ErrorSelectionListener {
+public class QedeqPane extends JPanel implements SelectionListener {
 
     /** This class. */
     private static final Class CLASS = QedeqPane.class;
@@ -60,15 +61,16 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
     /** Here is the QEDEQ module source. */
     private JTextArea qedeq = new JTextArea() {
         public String getToolTipText(final MouseEvent e) {
-            if (marker == null) {
+            if (errorMarker == null || warningMarker == null) {
                 setToolTipText(null);
                 return super.getToolTipText();
             }
             // --- determine locations ---
             TextUI mapper = qedeq.getUI();
             final int i = mapper.viewToModel(qedeq, e.getPoint());
-            final List errNos =  marker.getBlockNumbersForOffset(i);
-            if (errNos.size() == 0) {
+            final List errNos =  errorMarker.getBlockNumbersForOffset(i);
+            final List warningNos =  warningMarker.getBlockNumbersForOffset(i);
+            if (errNos.size() == 0 && warningNos.size() == 0) {
                 setToolTipText(null);
                 return super.getToolTipText(e);
             }
@@ -81,14 +83,24 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
                 buffer.append((prop.getErrors().get(((Integer) errNos.get(j)).intValue())
                     .getMessage()));    // TODO mime 20080417: escape for HTML presenatation
             }
+            for (int j = 0; j < warningNos.size(); j++) {
+                if (j > 0) {
+                    buffer.append("<br>");
+                }
+                buffer.append((prop.getWarnings().get(((Integer) warningNos.get(j)).intValue())
+                    .getMessage()));    // TODO mime 20080417: escape for HTML presenatation
+            }
             buffer.append("</html>");
             setToolTipText(buffer.toString());
             return getToolTipText();
         }
     };
 
-    /** Marks error areas. */
-    private DocumentMarker marker;
+    /** Our error highlighter for the text areas. */
+    private DocumentMarker errorMarker;
+
+    /** Our warning highlighter for the text areas. */
+    private DocumentMarker warningMarker;
 
     /**
      * Creates new Panel.
@@ -98,8 +110,6 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
         this.prop = null;
         setupView();
         updateView();
-        // add this instance as error selection listener
-        ErrorSelectionListenerList.getInstance().addListener(this);
     }
 
     /**
@@ -155,18 +165,19 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
                 qedeq.setText(KernelContext.getInstance().getSource(prop.getModuleAddress()));
                 CurrentLineHighlighterUtility.install(qedeq);
                 qedeq.setLineWrap(getLineWrap());
-                final SourceFileExceptionList pe = prop.getErrors();
                 if (prop.getModuleAddress().isFileAddress()) {
-                    // TODO m31 20100319: show "readonly" as label somewhere
                     qedeq.setEditable(true);
                 } else {
+                    // TODO m31 20100319: show "readonly" as label somewhere
                     qedeq.setEditable(false);
                 }
                 // we want the background be same even if area is not editable
                 qedeq.setBackground(UIManager.getColor("TextArea.background"));
                 qedeq.setCaretPosition(0);
                 qedeq.getCaret().setSelectionVisible(true);
-                marker = new DocumentMarker(qedeq);
+                errorMarker = new DocumentMarker(qedeq, new DocumentMarkerPainter(
+                    GuiHelper.getMarkedTextBackgroundColor()));
+                final SourceFileExceptionList pe = prop.getErrors();
                 if (pe != null) {
                     for (int i = 0; i < pe.size(); i++) {
                         if (pe.get(i).getSourceArea() != null) {
@@ -176,9 +187,9 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
                                     final int from = sa.getStartPosition().getLine() - 1;
                                     int to = sa.getEndPosition().getLine() - 1;
 // for line marking only:
-//                                    marker.addMarkedLines(from, to,
+//                                    errorMarker.addMarkedLines(from, to,
 //                                        sa.getStartPosition().getColumn() - 1);
-                                    marker.addMarkedBlock(from,
+                                    errorMarker.addMarkedBlock(from,
                                         sa.getStartPosition().getColumn() - 1,
                                         to, sa.getEndPosition().getColumn() - 1);
                                     continue;
@@ -186,8 +197,36 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
                             } catch (BadLocationException e) {  // should not occur
                                 Trace.fatal(CLASS, this, "updateView", "Programming error?", e);
                             }
+                        } else {
+                            errorMarker.addEmptyBlock();
                         }
-                        marker.addEmptyBlock();
+                    }
+                }
+                warningMarker = new DocumentMarker(qedeq, new DocumentMarkerPainter(
+                        GuiHelper.getCurrentAndMarkedBackgroundColor()));
+                final SourceFileExceptionList pw = prop.getWarnings();
+                if (pw != null) {
+                    for (int i = 0; i < pw.size(); i++) {
+                        if (pw.get(i).getSourceArea() != null) {
+                            try {
+                                final SourceArea sa = pw.get(i).getSourceArea();
+                                if (sa != null) {
+                                    final int from = sa.getStartPosition().getLine() - 1;
+                                    int to = sa.getEndPosition().getLine() - 1;
+// for line marking only:
+//                                    warningMarker.addWarningLines(from, to,
+//                                        sa.getStartPosition().getColumn() - 1);
+                                    warningMarker.addMarkedBlock(from,
+                                        sa.getStartPosition().getColumn() - 1,
+                                        to, sa.getEndPosition().getColumn() - 1);
+                                    continue;
+                                }
+                            } catch (BadLocationException e) {  // should not occur
+                                Trace.fatal(CLASS, this, "updateView", "Programming error?", e);
+                            }
+                        } else {
+                            warningMarker.addEmptyBlock();
+                        }
                     }
                 }
                 Trace.trace(CLASS, this, "updateView", "Text updated");
@@ -197,7 +236,8 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
                 Trace.trace(CLASS, this, "updateView", ioException);
             }
         } else {
-            marker = null;
+            errorMarker = null;
+            warningMarker = null;
             CurrentLineHighlighterUtility.uninstall(qedeq);
             qedeq.setEditable(false);
             qedeq.setText("");
@@ -285,23 +325,40 @@ public class QedeqPane extends JPanel implements ErrorSelectionListener {
 */
 
     /**
-     * Jump to error location. Uses only <code>errorNumber</code> to select correct marker.
+     * Jump to error location. Uses only <code>error</code> to select correct marker.
      *
-     * @param   errorNumber Selected error number. Starts with 0.
-     * @param   sf          Selected error.
+     * @param   error   Selected error number. Starts with 0.
+     * @param   sf      Selected error.
      */
-    public synchronized void selectError(final int errorNumber, final SourceFileException sf) {
-        System.out.println("Select error " + errorNumber + "\n" + sf);
-        if (marker != null) {
+    public synchronized void selectError(final int error, final SourceFileException sf) {
+        if (errorMarker != null) {
             this.requestFocus();
             qedeq.requestFocus();
-            System.out.println("setting error position");
-            qedeq.setCaretPosition(marker.getLandmarkOffsetForBlock(errorNumber));
+            qedeq.setCaretPosition(errorMarker.getLandmarkOffsetForBlock(error));
         } else {
-            System.out.println("marker == null!!!!");
+            Trace.paramInfo(CLASS, "selectError", "errorMarker", "null");
         }
     }
 
+    /**
+     * Jump to warning location. Uses only <code>warning</code> to select correct marker.
+     *
+     * @param   warning Selected warning number. Starts with 0.
+     * @param   sf      Selected warning.
+     */
+    public synchronized void selectWarning(final int warning, final SourceFileException sf) {
+        int block = warning;
+        if (prop != null && prop.getErrors() != null && prop.getErrors().size() > 0) {
+            block += prop.getErrors().size();
+        }
+        if (warningMarker != null) {
+            this.requestFocus();
+            qedeq.requestFocus();
+            qedeq.setCaretPosition(warningMarker.getLandmarkOffsetForBlock(block));
+        } else {
+            Trace.paramInfo(CLASS, "selectWarning", "warningMarker", "null");
+        }
+    }
 
 }
 

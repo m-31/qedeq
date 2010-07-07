@@ -18,18 +18,18 @@ package org.qedeq.gui.se.control;
 import org.qedeq.kernel.common.SourceFileException;
 
 /**
- * Listener for error selection events.
+ * Listener for warning selection events.
  *
  * @author  Michael Meyling
  */
-public interface ErrorSelectionListener {
+public interface WarningSelectionListener {
 
     /**
-     * This error was selected.
+     * This warning was selected.
      *
-     * @param   number      Selected error number. Starts with 0.
-     * @param   sf          Selected error.
+     * @param   number      Selected warning number. Starts with 0.
+     * @param   sf          Selected warning.
      */
-    public void selectError(int number, SourceFileException sf);
+    public void selectWarning(int number, SourceFileException sf);
 
 }

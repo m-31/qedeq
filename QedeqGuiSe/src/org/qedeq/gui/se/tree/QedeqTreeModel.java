@@ -73,7 +73,6 @@ public final class QedeqTreeModel extends DefaultTreeModel implements ModuleEven
         Runnable addModule = new Runnable() {
             public void run() {
                 synchronized (QedeqTreeModel.class) {
-                    System.out.println("adding " + prop);
                     final QedeqTreeNode root = (QedeqTreeNode) getRoot();
                     final QedeqTreeNode node = new QedeqTreeNode(prop, false);
                     Trace.trace(CLASS, this, "addModule", "calls insertNodeInto=" + node);

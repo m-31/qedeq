@@ -22,8 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.gui.se.control.ErrorSelectionListener;
-import org.qedeq.gui.se.control.ErrorSelectionListenerList;
+import org.qedeq.gui.se.control.SelectionListener;
+import org.qedeq.gui.se.control.SelectionListenerList;
 import org.qedeq.gui.se.pane.HtmlPane;
 import org.qedeq.gui.se.pane.ModulePropertiesPane;
 import org.qedeq.gui.se.pane.QedeqPane;
@@ -37,7 +37,7 @@ import org.qedeq.kernel.common.SourceFileException;
  * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
-public final class UpperTabbedView extends JPanel implements ErrorSelectionListener {
+public final class UpperTabbedView extends JPanel implements SelectionListener {
 
     /** This class. */
     private static final Class CLASS = UpperTabbedView.class;
@@ -64,10 +64,13 @@ public final class UpperTabbedView extends JPanel implements ErrorSelectionListe
     /**
      * Constructor.
      */
-    public UpperTabbedView() {
+    public UpperTabbedView(SelectionListenerList listener) {
         try {
             propertiesPane = new ModulePropertiesPane();
             qedeqPane = new QedeqPane();
+            // add this instance as error selection listener
+            listener.addListener(qedeqPane);
+
             htmlPane = new HtmlPane();
             tabbedPane.addTab("State", null, propertiesPane, "Shows Status of Module");
             tabbedPane.addTab("QEDEQ", null, qedeqPane, "Shows Module in QEDEQ Syntax");
@@ -87,7 +90,6 @@ public final class UpperTabbedView extends JPanel implements ErrorSelectionListe
         // Add the tabbed pane to this panel.
         add(tabbedPane);
         setLayout(new GridLayout(1, 1));
-        ErrorSelectionListenerList.getInstance().addListener(this);
     }
 
     public final void setHtmlView(final boolean enable) {
@@ -146,7 +148,11 @@ public final class UpperTabbedView extends JPanel implements ErrorSelectionListe
         return qedeqPane.getEditedQedeq();
     }
 
-    public void selectError(final int errorNumber, final SourceFileException sf) {
+    public void selectError(final int number, final SourceFileException sf) {
+        tabbedPane.setSelectedComponent(qedeqPane);
+    }
+
+    public void selectWarning(final int number, final SourceFileException sf) {
         tabbedPane.setSelectedComponent(qedeqPane);
     }
 

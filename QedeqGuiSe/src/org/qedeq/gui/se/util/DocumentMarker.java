@@ -25,7 +25,6 @@ import javax.swing.text.Position;
  * Mark text areas (aka blocks) in another background color. Precondition is an installed
  * {@link org.qedeq.gui.se.util.CurrentLineHighlighterUtility}.
  *
- * @version $Revision: 1.1 $
  * @author  Santhosh Kumar T
  * @author  Michael Meyling
  */
@@ -34,9 +33,10 @@ public class DocumentMarker {
     /** We mark areas in this text component. */
     private JTextArea textComp;
 
-    /** Our highlighter for the text areas. */
+    /** Our error highlighter for the text areas. */
     private Highlighter.HighlightPainter highlightPainter = new DocumentMarkerPainter(
         GuiHelper.getMarkedTextBackgroundColor());
+
 
     /** Contains all positions. Each entry is of type {@link Position}[3]. The first position is
      * the starting offset, second is the end offset and third is the landmark position. It is
@@ -49,8 +49,9 @@ public class DocumentMarker {
      *
      * @param   textComp Text component with marked areas.
      */
-    public DocumentMarker(final JTextArea textComp) {
+    public DocumentMarker(final JTextArea textComp, Highlighter.HighlightPainter highlightPainter) {
         this.textComp = textComp;
+        this.highlightPainter = highlightPainter;
     }
 
     public int getOffsetOfFistLineFromBlock(final int blockNumber) {
@@ -111,23 +112,22 @@ public class DocumentMarker {
         addMarkedBlock(fromOffset, toOffset, fromOffset + off);
     }
 
-    private void addMarkedBlock(final int fromOffset, final int toOffset, final int pos)
-            throws BadLocationException {
-        AbstractDocument doc = (AbstractDocument) textComp.getDocument();
-        addMarkedBlock(doc.createPosition(fromOffset), doc.createPosition(toOffset - 1), doc
-            .createPosition(pos));
-        textComp.getHighlighter().addHighlight(fromOffset + 1, toOffset - 1, highlightPainter);
-    }
-
     public void addMarkedBlock(final int startLine, final int startLineOffset, final int endLine,
-            final int endLineOffset)
-            throws BadLocationException {
+            final int endLineOffset) throws BadLocationException {
         AbstractDocument doc = (AbstractDocument) textComp.getDocument();
         int fromOffset = textComp.getLineStartOffset(startLine) + startLineOffset;
         int toOffset = textComp.getLineStartOffset(endLine) + endLineOffset;
         addMarkedBlock(doc.createPosition(fromOffset), doc.createPosition(toOffset - 1), doc
             .createPosition(fromOffset));
         textComp.getHighlighter().addHighlight(fromOffset, toOffset - 1, highlightPainter);
+    }
+
+    private void addMarkedBlock(final int fromOffset, final int toOffset, final int pos)
+            throws BadLocationException {
+        AbstractDocument doc = (AbstractDocument) textComp.getDocument();
+        addMarkedBlock(doc.createPosition(fromOffset), doc.createPosition(toOffset - 1), doc
+            .createPosition(pos));
+        textComp.getHighlighter().addHighlight(fromOffset + 1, toOffset - 1, highlightPainter);
     }
 
     private void addMarkedBlock(final Position start, final Position end, final Position pos)

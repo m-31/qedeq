@@ -24,6 +24,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 import org.qedeq.gui.se.control.QedeqController;
+import org.qedeq.gui.se.control.SelectionListenerList;
 import org.qedeq.gui.se.tree.QedeqTreeCtrl;
 import org.qedeq.gui.se.tree.QedeqTreeModel;
 import org.qedeq.gui.se.tree.QedeqTreeView;
@@ -63,8 +64,10 @@ public class QedeqMainPane extends JPanel {
         ModuleEventLog.getInstance().addLog(treeModel);
         final QedeqTreeView treeView = new QedeqTreeView(treeModel);
 
-        final UpperTabbedView tabbedView = new UpperTabbedView();
-        final LowerTabbedView lowerView = new LowerTabbedView();
+        SelectionListenerList listener = new SelectionListenerList();
+        final UpperTabbedView tabbedView = new UpperTabbedView(listener);
+        listener.addListener(tabbedView);
+        final LowerTabbedView lowerView = new LowerTabbedView(listener);
 
         tabbedView.putClientProperty(Options.EMBEDDED_TABS_KEY, Boolean.TRUE);
 

@@ -20,6 +20,7 @@ import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
 import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
@@ -28,20 +29,28 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  * @author  Michael Meyling
  */
 
-public class ModuleErrorListModel extends AbstractTableModel {
+public class ModuleErrorAndWarningListModel extends AbstractTableModel {
 
     /** Error icon. */
     private static ImageIcon errorIcon = new ImageIcon(
-        ModuleErrorListPane.class.getResource(
+        ModuleErrorAndWarningListPane.class.getResource(
             "/images/eclipse/error_tsk.gif"));
 
     /** Warning icon. */
     private static ImageIcon warningIcon = new ImageIcon(
-        ModuleErrorListPane.class.getResource(
+        ModuleErrorAndWarningListPane.class.getResource(
             "/images/eclipse/warn_tsk.gif"));
 
     /** We want to show errors and warnings from this module. */
     private QedeqBo qedeq;
+
+    private SourceFileExceptionList errors;
+
+    private SourceFileExceptionList warnings;
+
+    private int maxErrors;
+
+    private int maxEntries;
 
     public String getColumnName(final int column) {
         if (qedeq == null) {
@@ -77,33 +86,27 @@ public class ModuleErrorListModel extends AbstractTableModel {
     }
 
     public Object getValueAt(final int row, final int col) {
+//        System.out.println("row: " + row + " col: " + col);
         if (qedeq == null) {
             return "";
         }
-        final SourceFileExceptionList errors = qedeq.getErrors();
-        final SourceFileExceptionList warnings = qedeq.getWarnings();
-        int maxErrors = 0;
-        if (errors != null) {
-            maxErrors += errors.size();
+        final SourceFileException e = getSourceFileException(row);
+        if (e == null) {
+            return "";
         }
-        if (row < maxErrors) {
-            if (col == 0) {
-                return errorIcon;
-//                return "E";
-            } else if (col == 1) {
-                return errors.get(row).getMessage();
-            } else if (col == 2 && errors.get(row).getSourceArea() != null) {
-                return "line " + errors.get(row).getSourceArea().getStartPosition().getLine();
-            }
-        } else if (row >= maxErrors && warnings != null && row < maxErrors + warnings.size()) {
-            if (col == 0) {
-                return warningIcon;
-//                return "W";
-            } else if (col == 1) {
-                return warnings.get(row - maxErrors).getMessage();
-            } else if (col == 2 && warnings.get(row - maxErrors).getSourceArea() != null) {
-                return "line " + warnings.get(row - maxErrors).getSourceArea().getStartPosition().getLine();
-            }
+        switch (col) {
+        case 0: if (isError(row)) {
+                    return errorIcon;
+                } else if (isWarning(row)) {
+                    return warningIcon;
+                }
+                return "";
+        case 1:
+                return getSourceFileException(row).getMessage();
+        case 2: if (getSourceFileException(row).getSourceArea() != null) {
+                    return "line " + getSourceFileException(row).getSourceArea().getStartPosition().getLine();
+                }
+                return "";
         }
         return "";
     }
@@ -128,4 +131,59 @@ public class ModuleErrorListModel extends AbstractTableModel {
         this.qedeq = qedeq;
     }
 
+    public void fireTableDataChanged() {
+        if (qedeq != null) {
+            this.errors = qedeq.getErrors();
+            this.warnings = qedeq.getWarnings();
+        } else {
+            this.errors = null;
+            this.warnings = null;
+        }
+        maxErrors = 0;
+        if (errors != null) {
+            maxErrors += errors.size();
+        }
+        maxEntries = maxErrors;
+        if (warnings != null) {
+            maxEntries += warnings.size();
+        }
+        super.fireTableDataChanged();
+    }
+    
+    public SourceFileException getSourceFileException(final int row) {
+        if (isError(row)) {
+            return errors.get(row);
+        } else if (isWarning(row)) {
+            return warnings.get(row - maxErrors);
+        }
+        return null;
+    }
+
+    public int getErrorNumber(final int row) {
+        if (!isError(row)) {
+            throw new IllegalArgumentException("This is not an error row: " + row);
+        }
+        return row;
+    }
+
+    public int getWarningNumber(final int row) {
+        if (!isWarning(row)) {
+            throw new IllegalArgumentException("This is not an warning row: " + row);
+        }
+        return row - maxErrors;
+    }
+
+    public boolean isError(final int row) {
+        if (row >= 0 && row < maxErrors) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean isWarning(final int row) {
+        if (row >= maxErrors && row < maxEntries) {
+            return true;
+        }
+        return false;
+    }
 }

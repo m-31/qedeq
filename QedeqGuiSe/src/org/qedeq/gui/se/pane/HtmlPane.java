@@ -174,8 +174,6 @@ public class HtmlPane extends JPanel {
         Trace.end(CLASS, this, "updateView");
     }
 
-
-
     public HyperlinkListener createHyperLinkListener() {
         return new HyperlinkListener() {
             public void hyperlinkUpdate(final HyperlinkEvent e) {
@@ -187,13 +185,13 @@ public class HtmlPane extends JPanel {
                         try {
                             html.setPage(e.getURL());
                         } catch (IOException ioe) {
-                            System.out.println("IOE: " + ioe);
+                            Trace.fatal(CLASS, this, "createHyperLinkListener",
+                                "page not found", ioe);
                         }
                     }
                 }
             }
         };
     }
-
 
 }

@@ -22,8 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.gui.se.control.SelectionListenerList;
 import org.qedeq.gui.se.pane.LogPane;
-import org.qedeq.gui.se.pane.ModuleErrorListPane;
+import org.qedeq.gui.se.pane.ModuleErrorAndWarningListPane;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.log.QedeqLog;
@@ -47,7 +48,7 @@ public final class LowerTabbedView extends JPanel {
     private LogPane logPane;
 
     /** Selected module specific errors. */
-    private ModuleErrorListPane errorListPane;
+    private ModuleErrorAndWarningListPane errorListPane;
 
     /** Selected module has this properties. */
     private QedeqBo prop;
@@ -55,12 +56,12 @@ public final class LowerTabbedView extends JPanel {
     /**
      * Constructor.
      */
-    public LowerTabbedView() {
+    public LowerTabbedView(SelectionListenerList listener) {
         try {
             logPane = new LogPane();
             QedeqLog.getInstance().addLog(logPane);
 
-            errorListPane = new ModuleErrorListPane();
+            errorListPane = new ModuleErrorAndWarningListPane(listener);
             ModuleEventLog.getInstance().addLog(errorListPane);
 
             tabbedPane.putClientProperty("jgoodies.noContentBorder", Boolean.TRUE);
