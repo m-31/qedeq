@@ -44,12 +44,16 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
     /** We want to show errors and warnings from this module. */
     private QedeqBo qedeq;
 
+    /** Errors of current module. Might be <code>null</code>. */
     private SourceFileExceptionList errors;
 
+    /** Warnings of current module. Might be <code>null</code>. */
     private SourceFileExceptionList warnings;
 
+    /** Number of errors of current module. */
     private int maxErrors;
 
+    /** Number of errors plus number of warnings of current module. */
     private int maxEntries;
 
     public String getColumnName(final int column) {
@@ -149,7 +153,13 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
         }
         super.fireTableDataChanged();
     }
-    
+
+    /**
+     * Get exception that is at given row.
+     *
+     * @param   row     Look into this row.
+     * @return  Exception of this row. Might be <code>null</code> if row doesn't exist.
+     */
     public SourceFileException getSourceFileException(final int row) {
         if (isError(row)) {
             return errors.get(row);
@@ -159,6 +169,14 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
         return null;
     }
 
+    /**
+     * Get number of error (that is position in error list) that is in the given row.
+     * If at the given row is no error an IllegalArgumentException is thrown.
+     *
+     * @param   row     Look at this row.
+     * @return  Error list number of error at this row.
+     * @throws  IllegalArgumentException    At given row is no error.
+     */
     public int getErrorNumber(final int row) {
         if (!isError(row)) {
             throw new IllegalArgumentException("This is not an error row: " + row);
@@ -166,6 +184,14 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
         return row;
     }
 
+    /**
+     * Get number of warning (that is position in warning list) that is in the given row.
+     * If at the given row is no warning an IllegalArgumentException is thrown.
+     *
+     * @param   row     Look at this row.
+     * @return  Warning list number of warning at this row.
+     * @throws  IllegalArgumentException    At given row is no warning.
+     */
     public int getWarningNumber(final int row) {
         if (!isWarning(row)) {
             throw new IllegalArgumentException("This is not an warning row: " + row);
@@ -173,6 +199,12 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
         return row - maxErrors;
     }
 
+    /**
+     * Is there an error at given row?
+     *
+     * @param   row     Look at this row.
+     * @return  Is there an error?
+     */
     public boolean isError(final int row) {
         if (row >= 0 && row < maxErrors) {
             return true;
@@ -180,10 +212,17 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
         return false;
     }
 
+    /**
+     * Is there an warning at given row?
+     *
+     * @param   row     Look at this row.
+     * @return  Is there an warning?
+     */
     public boolean isWarning(final int row) {
         if (row >= maxErrors && row < maxEntries) {
             return true;
         }
         return false;
     }
+
 }
