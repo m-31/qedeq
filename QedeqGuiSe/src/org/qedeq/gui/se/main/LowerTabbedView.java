@@ -55,8 +55,10 @@ public final class LowerTabbedView extends JPanel {
 
     /**
      * Constructor.
+     *
+     * @param   listener    Listener that gets selection events.
      */
-    public LowerTabbedView(SelectionListenerList listener) {
+    public LowerTabbedView(final SelectionListenerList listener) {
         try {
             logPane = new LogPane();
             QedeqLog.getInstance().addLog(logPane);
