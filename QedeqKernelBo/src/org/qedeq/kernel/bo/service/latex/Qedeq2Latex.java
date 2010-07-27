@@ -633,7 +633,8 @@ public final class Qedeq2Latex extends ControlVisitor {
                     printer.print(" ");
                     // TODO mime 20070205: later on here must stand the location that was used
                     //   to verify the document contents
-                    // TODO mime 20070205: convert relative address into absolute
+                    // TODO m31 20100727: get other informations like authors, title, etc
+                    // TODO m31 20100727: link to pdf?
                     printer.print("\\url{" + getUrl(getQedeqBo().getModuleAddress(), spec) + "}");
                 }
                 printer.println();
