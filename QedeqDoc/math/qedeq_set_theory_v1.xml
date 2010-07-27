@@ -84,13 +84,13 @@
           Lets start by the roots\ldots
 
           \par
-          This document is not finished and is updated from time to time. Especially at the locations marked with {\glqq+++\grqq} additions or changes will be made.
+          This document is not finished and is updated from time to time. Especially at the locations marked with {``+++''} additions or changes will be made.
 
           \par
           I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their support and patience.
 
           \par
-          \vspace*{1cm} Hamburg, march 2010 \\
+          \vspace*{1cm} Hamburg, august 2010 \\
           \hspace*{\fill} Michael Meyling
         ]]>
       </LATEX>
@@ -148,7 +148,7 @@
           Nachdem durch die Logik die Art der mathematischen Argumentation vorgegeben wird, wird in der Mengenlehre ganz allgemein über Objekte und ihre Zusammenfassungen gesprochen. Besonders interessant ist die Mengenlehre dadurch, dass sie zum einen von eigentlich allen mathematischen Disziplinen verwendet wird. Zum anderen lässt sich jede mathematische Disziplin innerhalb der Mengenlehre definieren. Zahlentheorie, Algebra, Analysis und alle weiteren Gebiete lassen sich darauf aufbauen.
         
           \par
-          Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen Disziplinen benötigt werden. Nach den Grundlagen wird die Boolsche Algebra der Klassen betrachtet. Es schliessen sich Betrachtungen über Relationen und Funktionen an. Ein weiteres wichtiges Ergebnis sind die Definition der natürlichen Zahlen und die Erfüllung der Peano-Axiome durch diese, auch auf den Begriff der Rekursion wird eingegangen. Anschließend wird auf das Auswahlaxiom eingegangen. Zum Ende geht es um das Kontinuum.
+          Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen Disziplinen benötigt werden. Nach den Grundlagen wird die Boolsche Algebra der Klassen betrachtet. Es schliessen sich Betrachtungen über Relationen und Funktionen an. Ein weiteres wichtiges Ergebnis sind die Definition der natürlichen Zahlen und die Erfüllung der Peano-Axiome durch diese, auch auf den Begriff der Rekursion wird eingegangen. Anschließend wird das Auswahlaxiom behandelt. Am Schluss geht es um das Kontinuum.
          
           \par
           Die Darstellung erfolgt in axiomatischer Weise, soll aber im Ergebnis der mathematischen Praxis entsprechen. Daher wird auch das Axiomensystem der Mengenlehre von \emph{A.~P.~Morse} und  \emph{J.~L.~Kelley} (MK\index{MK}) verwendet. Der Aufbau lehnt sich stark an das exzellente und sehr empfehlenswerte Buch von \emph{E.~J.~Lemmon}~\cite{lemmon} an.
@@ -170,7 +170,7 @@
     <INTRODUCTION>
       <LATEX language="en">
         <![CDATA[
-          In this chapter we start with the very basic axioms and definitions of set theory. We shall make no attempt to introduce a formal language\footnote{Despite of this, in the original text of this document the formulas of axioms, definitions and propositions are written in a formal language. The original text is a XML file with a syntax defined by the XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd}.} but shall be content with the common logical operators. To be more precise: precondition is a first-order predicate calculus with identity.
+          In this chapter we start with the very basic axioms and definitions of set theory. We shall make no attempt to introduce a formal language\footnote{Despite of this, in the original text of this document the formulas of axioms, definitions and propositions are written in a formal language. The original text is a XML file with a syntax defined by the XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd}. A more detailed description of the formula language is given in \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.} but shall be content with the common logical operators. To be more precise: precondition is a first-order predicate calculus with identity.
           
           \par\index{Cantor}\index{set!definition}
           \emph{G.~Cantor}, who is considered the founder of set theory, gave in a publication in 1895 a description of the term \emph{set}.
@@ -189,7 +189,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          In diesem Kapitel beginnen wir mit den ganz elementaren Axiomen und Definitionen der Mengenlehre. Wir versuchen nicht eine formale Sprache einzuführen\footnote{Dessen ungeachtet sind die Formeln der Axiome, Definitionen und Propositionen in dem Ursprungstext dieses Dokuments in einer formalen Sprache notiert. Der Ursprungstext ist eine XML-Datei, deren Syntax mittels der XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd} definiert wird.} und setzen das Wissen um den Gebrauch von logischen Symbolen voraus. Noch genauer formuliert: wir arbeiten mit einer Prädikatenlogik erster Stufe mit Gleichheit.
+          In diesem Kapitel beginnen wir mit den ganz elementaren Axiomen und Definitionen der Mengenlehre. Wir versuchen nicht eine formale Sprache einzuführen\footnote{Dessen ungeachtet sind die Formeln der Axiome, Definitionen und Propositionen in dem Ursprungstext dieses Dokuments in einer formalen Sprache notiert. Der Ursprungstext ist eine XML-Datei, deren Syntax mittels der XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd} definiert wird. Eine nähere Beschreibung der Formelsprache ist unter \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_de.pdf} zu finden.} und setzen das Wissen um den Gebrauch von logischen Symbolen voraus. Noch genauer formuliert: wir arbeiten mit einer Prädikatenlogik erster Stufe mit Identität.
 
           \par\index{Cantor}\index{Menge!Definition}
           \emph{G.~Cantor}, der als Begründer der Mengenlehre gilt, hat in einer Veröffentlichung im Jahre 1895 eine Beschreibung des Begriffs \emph{Menge} gegeben.
@@ -264,13 +264,13 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-                We also say $x$ \emph{is element of} $y$, $x$ \emph{belongs to} $y$, $x$ \emph{is a member of} $y$, $x$ \emph{is in} $y$.
+                We also say ``$x$ \emph{is element of} $y$'', ``$x$ \emph{belongs to} $y$'', ``$x$ \emph{is a member of} $y$'' or ``$x$ \emph{is in} $y$''.
                 Beside identity this is the only predicate we start with. All other will be defined.\footnote{One could also define the identity predicate within the set theory, but then another axiom is needed and the theory presentation is not so smooth for technical reasons (derivation of the equality axioms).} Also no function constants are initially given.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Wir sagen auch $x$ \emph{ist Element von} $y$, $x$ \emph{gehört zu} $y$, $x$ \emph{liegt in} $y$, $x$ \emph{ist in} $y$.
+                Wir sagen auch \glqq$x$ \emph{ist Element von} $y$\grqq, \glqq$x$ \emph{gehört zu} $y$\grqq, \glqq$x$ \emph{liegt in} $y$\grqq oder auch \glqq$x$ \emph{ist in} $y$\grqq.
                 Neben der Identität ist dies das einzige Prädikat welches wir zu Beginn haben. Alle anderen werden definiert.\footnote{Das Gleichheitsprädikat könnte auch innerhalb der Mengenlehre definiert werden, aber dann wird auch ein weiters Axiom benötigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Gleichheitsaxiome.} Zu Anfang haben wir auch noch keine Funktionskonstanten.
               ]]>
             </LATEX>
