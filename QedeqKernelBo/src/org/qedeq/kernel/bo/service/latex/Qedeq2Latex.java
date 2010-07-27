@@ -258,13 +258,20 @@ public final class Qedeq2Latex extends ControlVisitor {
         printer.println("}");
         printer.println("\\author{");
         final AuthorList authors = getQedeqBo().getQedeq().getHeader().getAuthorList();
+        final StringBuffer authorList = new StringBuffer();
         for (int i = 0; i < authors.size(); i++) {
             if (i > 0) {
+                authorList.append(", ");
                 printer.println(", ");
             }
             final Author author = authors.get(i);
-            printer.print(author.getName().getLatex().trim());
-// TODO mime 20070206            if (author.getEmail() != null)
+            final String name = author.getName().getLatex().trim();
+            printer.print(name);
+            authorList.append(name);
+            if (author.getEmail() != null) {
+                authorList.append(" ");
+                authorList.append(author.getEmail());
+            }
         }
         printer.println();
         printer.println("}");
@@ -309,8 +316,12 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.println("\\par");
             if ("de".equals(language)) {
                 printer.println("Bei Fragen, Anregungen oder Bitte um Aufnahme in die Liste der"
-                    + " abh{\"a}ngigen Module schicken Sie bitte eine EMail an die Addresse "
+                    + " abh{\"a}ngigen Module schicken Sie bitte eine EMail an die Adresse "
                     + emailUrl);
+                printer.println();
+                printer.println("\\par");
+                printer.println("Die Autoren dieses Dokuments sind:");
+                printer.println(authorList);
             } else {
                 if (!"en".equals(language)) {
                     printer.println("%%% TODO unknown language: " + language);
@@ -318,6 +329,10 @@ public final class Qedeq2Latex extends ControlVisitor {
                 printer.println("If you have any questions, suggestions or want to add something"
                     + " to the list of modules that use this one, please send an email to the"
                     + " address " + emailUrl);
+                printer.println();
+                printer.println("\\par");
+                printer.println("The Authors of this document are:");
+                printer.println(authorList);
             }
             printer.println();
         }
