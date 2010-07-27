@@ -78,7 +78,7 @@
           
           \par
           This document wants to provide some help to accomplish this task. What we aim at is to get an understandable
-          presentation of the set theoretic roots. But despite all comprehensibility it is possible to drill very deep into details. Even into the level of a formal proof. For that purpose this document exists in different detail levels. The original source of this document is written in a formal language. So it is possible to prove the propositions automatically with a computer program.
+          presentation of the set theoretic roots. But despite all comprehensibility it is possible to drill very deep into details. Even into the level of a formal proof. For that purpose this document will exist in different detail levels. The original source of this document is written in a formal language. So it is possible to prove the propositions automatically with a computer program.
           
           \par
           Lets start by the roots\ldots
@@ -99,19 +99,19 @@
           Mathematik ist eine Wissenschaft mit einer Struktur, die im Laufe der Zeit riesige Dimensionen erreicht hat. Diese unglaublich hohe Burg besitzt nur ein ganz schmales Fundament und ihre Festigkeit gründet sich auf einfachen prädikatenlogischen Mörtel. Im Prinzip kann der Aufbau von jeder Mathematikerin verstanden werden. Von dem neuesten Gipfel mathematischer Erkenntnis kann jeder Pfad logisch folgerichtig bis in die mengentheoretischen Wurzeln nachvollzogen werden.
           
           \par
-          Bei diesem Unternehmen will dieses Dokument Hilfestellung geben. Ziel ist eine Präsentation der mengentheoretischen Wurzeln in verständlicher Weise. Bei aller Verständlichkeit soll es jedoch jederzeit möglich sein, tief in die Details einzusteigen. Ja sogar bis auf die Ebene eines formal korrekten Beweises hinab. Dazu gibt es dieses Dokument in verschiedenen Detailierungen. Für alle aber gilt, dass die Formeln in Axiomen, Definitionen und Propositionen in formal korrekter Form vorliegen.
+          Bei diesem Unternehmen will dieses Dokument Hilfestellung geben. Ziel ist eine Präsentation der mengentheoretischen Wurzeln in verständlicher Weise. Bei aller Verständlichkeit soll es jedoch jederzeit möglich sein, tief in die Details einzusteigen. Ja sogar bis auf die Ebene eines formal korrekten Beweises hinab. Dazu soll es dieses Dokument in verschiedenen Detailierungen geben. Für alle aber gilt, dass die Formeln in Axiomen, Definitionen und Propositionen in formal korrekter Form vorliegen.
 
           \par
           Wir wollen bei den Wurzeln anfangen\ldots
 
           \par
-          Dieses Dokument ist noch im Entstehen und wird von Zeit zu Zeit aktualisiert. Insbesondere werden an den durch {\glqq+++\grqq} gekennzeichneten Stellen noch Ergänzungen oder Änderungen vorgenommen.
+          Dieses Dokument ist im Entstehen begriffen und wird von Zeit zu Zeit aktualisiert. Insbesondere werden an den durch {\glqq+++\grqq} gekennzeichneten Stellen noch Ergänzungen oder Änderungen vorgenommen.
           
           \par
           Besondere Dank geht an meine Frau \emph{Gesine~Dräger} und unseren Sohn \emph{Lennart} für ihre Unterstützung und ihr Verständnis für ihnen fehlende Zeit.
 
           \par
-          \vspace*{1cm} Hamburg, März 2010 \\
+          \vspace*{1cm} Hamburg, August 2010 \\
           \hspace*{\fill} Michael Meyling
         ]]>
       </LATEX>
@@ -136,10 +136,10 @@
           After mathematical logic has provided us with the methods of reasoning we start with a very basic theory. Set theory deals with objects and their collections. This theory is interesting for two reasons. First, nearly all mathematical fields use it. Second, every mathematical statement or proof could be cast into formulas within set theory. Number theory, algebra, analysis an all other theories could be constructed within.
 
           \par          
-          This document contains the mathematical foundation of set theory. Goal is the presentation of elementary results which are needed in other mathematical disciplines. After the basics the {\emph boolean algebra of classes} is in focus. Next are some thoughts about \emph{relations} and \emph{functions}. An important achievement is the definition of the \emph{natural~ numbers} and their fulfillment of the \emph{Peano axioms}. Also the concept of \emph{recursion} is discussed.
+          This document contains the mathematical foundation of set theory. Goal is the presentation of elementary results which are needed in other mathematical disciplines. After the basics the {\emph boolean algebra of classes} is in focus. Next are some thoughts about \emph{relations} and \emph{functions}. An important achievement is the definition of the \emph{natural~ numbers} and their fulfillment of the \emph{Peano axioms}. Also the concept of \emph{recursion} is discussed. Furthermore the axiom of choice is examined. At the end the continuum is thematised.
           
           \par
-          Although the presentation is axiomatic the results shall match the mathematical usage. Therefore the set theoretic axiom system of \emph{A.~P.~Morse} and \emph{J.~L.~Kelley} (MK\index{MK}) was chosen.
+          Although the presentation is axiomatic the results shall match the mathematical usage. Therefore the set theoretic axiom system of \emph{A.~P.~Morse} and \emph{J.~L.~Kelley} (MK\index{MK}) was chosen. The presentation is very much along the lines of \emph{E.~J.~Lemmon}s excellent and strongly recommended book~\cite{lemmon}.
         ]]>
       </LATEX>
       <LATEX language="de">
@@ -148,10 +148,10 @@
           Nachdem durch die Logik die Art der mathematischen Argumentation vorgegeben wird, wird in der Mengenlehre ganz allgemein über Objekte und ihre Zusammenfassungen gesprochen. Besonders interessant ist die Mengenlehre dadurch, dass sie zum einen von eigentlich allen mathematischen Disziplinen verwendet wird. Zum anderen lässt sich jede mathematische Disziplin innerhalb der Mengenlehre definieren. Zahlentheorie, Algebra, Analysis und alle weiteren Gebiete lassen sich darauf aufbauen.
         
           \par
-          Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen Disziplinen benötigt werden. Nach den Grundlagen wird die Boolsche Algebra der Klassen betrachtet. Es schliessen sich Betrachtungen über Relationen und Funktionen an. Ein weiteres wichtiges Ergebnis sind die Definition der natürlichen Zahlen und die Erfüllung der Peano-Axiome durch diese, auch auf den Begriff der Rekursion wird eingegangen.
+          Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen Disziplinen benötigt werden. Nach den Grundlagen wird die Boolsche Algebra der Klassen betrachtet. Es schliessen sich Betrachtungen über Relationen und Funktionen an. Ein weiteres wichtiges Ergebnis sind die Definition der natürlichen Zahlen und die Erfüllung der Peano-Axiome durch diese, auch auf den Begriff der Rekursion wird eingegangen. Anschließend wird auf das Auswahlaxiom eingegangen. Zum Ende geht es um das Kontinuum.
          
           \par
-          Die Darstellung erfolgt in axiomatischer Weise soll aber im Ergebnis der mathematischen Praxis entsprechen. Daher wird auch das Axiomensystem der Mengenlehre von \emph{A.~P.~Morse} und  \emph{J.~L.~Kelley} (MK\index{MK}) verwendet.
+          Die Darstellung erfolgt in axiomatischer Weise, soll aber im Ergebnis der mathematischen Praxis entsprechen. Daher wird auch das Axiomensystem der Mengenlehre von \emph{A.~P.~Morse} und  \emph{J.~L.~Kelley} (MK\index{MK}) verwendet. Der Aufbau lehnt sich stark an das exzellente und sehr empfehlenswerte Buch von \emph{E.~J.~Lemmon}~\cite{lemmon} an.
          
         ]]>
       </LATEX>
