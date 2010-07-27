@@ -268,9 +268,9 @@ public final class Qedeq2Latex extends ControlVisitor {
             final String name = author.getName().getLatex().trim();
             printer.print(name);
             authorList.append(name);
-            if (author.getEmail() != null) {
-                authorList.append(" ");
-                authorList.append(author.getEmail());
+            String email = author.getEmail();
+            if (email != null && email.trim().length() > 0) {
+                authorList.append(" \\href{mailto:" + email + "}{" + email + "}");
             }
         }
         printer.println();
@@ -312,7 +312,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         }
         final String email = header.getEmail();
         if (email != null && email.length() > 0) {
-            final String emailUrl = "\\url{mailto:" + email + "}";
+            final String emailUrl = "\\href{mailto:" + email + "}{" + email + "}";
             printer.println("\\par");
             if ("de".equals(language)) {
                 printer.println("Bei Fragen, Anregungen oder Bitte um Aufnahme in die Liste der"
