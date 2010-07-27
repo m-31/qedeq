@@ -331,7 +331,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                     + " address " + emailUrl);
                 printer.println();
                 printer.println("\\par");
-                printer.println("The Authors of this document are:");
+                printer.println("The authors of this document are:");
                 printer.println(authorList);
             }
             printer.println();
