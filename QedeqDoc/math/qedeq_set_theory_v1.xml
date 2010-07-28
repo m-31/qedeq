@@ -271,7 +271,7 @@
             <LATEX language="de">
               <![CDATA[
                 Wir sagen auch \glqq$x$ \emph{ist Element von} $y$\grqq, \glqq$x$ \emph{gehört zu} $y$\grqq, \glqq$x$ \emph{liegt in} $y$\grqq oder auch \glqq$x$ \emph{ist in} $y$\grqq.
-                Neben der Identität ist dies das einzige Prädikat welches wir zu Beginn haben. Alle anderen werden definiert.\footnote{Das Gleichheitsprädikat könnte auch innerhalb der Mengenlehre definiert werden, aber dann wird auch ein weiters Axiom benötigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Gleichheitsaxiome.} Zu Anfang haben wir auch noch keine Funktionskonstanten.
+                Neben der Identität ist dies das einzige Prädikat welches wir zu Beginn haben. Alle anderen werden definiert.\footnote{Wir könnten die Identität auch innerhalb der Mengenlehre definieren werden, aber dann wird auch ein weiters Axiom benötigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Gleichheitsaxiome.} Auch Funktionskonstanten haben wir zu Anfang nicht.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -330,7 +330,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Unser erstes Axiom besagt, dass beliebige Klassen $x$ und $y$ genau dann gleich sind, wenn sie dieselben Elemente enthalten.\footnote{Falls wir das Gleichheitsprädikat nicht als logisches Symbol voraussetzen würden, dann würden wir es hiermit definieren.}
+                Unser erstes Axiom besagt, dass beliebige Klassen $x$ und $y$ genau dann identisch sind, wenn sie dieselben Elemente enthalten.\footnote{Falls wir das Identitätsprädikat nicht als logisches Symbol voraussetzen würden, dann würden wir es hiermit definieren.}
               ]]>
             </LATEX>
           </PRECEDING>
@@ -379,7 +379,7 @@
                   $y$ & = & Klasse aller ganzen Zahlen, die als Summe von vier Quadraten geschreiben werden können,
                 \end{tabularx}
                 \par
-                aber wenn sie dieselben Elemente besitzen, sind sie gleich.
+                aber wenn sie dieselben Elemente besitzen, sind sie identisch.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -699,7 +699,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Durch das Komprehensionsaxiom und die Extensionalität wird nun der Zusammenhang zwischen einer Aussage $\phi(y)$ und der durch sie definierten Klasse festgelegt. Dabei behauptet das Komprehensionsaxiom die Existenz mindestens einer Klasse, deren Elemente die Aussage $\mathfrak{M}(y) \land \phi(y)$ erfüllen. Das Extensionalitätsaxiom und die Gleichheitsaxiome sichern ab, dass es höchstens eine solche Klasse gibt: irgend zwei Klassen, welche dieselben Elemente besitzen, sind gleich im Sinne der Ersetzbarkeit in allen einschlägigen Aussagen. Mit anderen Worten: es gibt nur genau eine solche Klasse.
+                Durch das Komprehensionsaxiom und die Extensionalität wird nun der Zusammenhang zwischen einer Aussage $\phi(y)$ und der durch sie definierten Klasse festgelegt. Dabei behauptet das Komprehensionsaxiom die Existenz mindestens einer Klasse, deren Elemente die Aussage $\mathfrak{M}(y) \land \phi(y)$ erfüllen. Das Extensionalitätsaxiom und die Identitätsaxiome sichern ab, dass es höchstens eine solche Klasse gibt: irgend zwei Klassen, welche dieselben Elemente besitzen, sind gleich im Sinne der Ersetzbarkeit in allen einschlägigen Aussagen. Mit anderen Worten: es gibt nur genau eine solche Klasse.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -815,30 +815,19 @@
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
-                  For every formula $\alpha(x)$ we define the term expression $\{ x \ | \ \alpha(x)\}$ by
-                  $$
-                    \exists y \ (y = \{x \ | \ \alpha(x) \} \ \land \ \forall x \ x \in y \ \leftrightarrow \mathfrak{M}(x) \ \land \alpha(x))
-                  $$
-                  
+                  For every formula $\alpha(x_1)$ we define the term expression $\{ x_1 \ | \ \alpha(x_1)\}$ where $x_1$ is a subject variable that is not bound within $\alpha(x_1)$. The free variables of $\{ x_1 \ | \ \alpha(x_1)\}$ are the are the free variables of $\alpha(x_1)$. The bound variables correspond to the bound variables of $\alpha(x_1)$ enhanced by $x_1$. 
                   \par
-                  The free variables from $\{ x \ | \ \alpha(x)\}$ are the free variables from $\alpha(x)$ without $\{ x \}$. The bound variables correspond to the bound variables of $\alpha(x)$. All deduction rules are accordingly extended.
+                  All deduction rules are accordingly extended.
                   
                 ]]>
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Für jede Formel $\alpha(x)$ definieren wir den Termausdruck $\{ x \ | \ \alpha(x)\}$ durch 
-                  $$
-                    \exists y \ (y = \{x \ | \ \alpha(x) \} \ \land \ \forall x \ x \in y \ \leftrightarrow \mathfrak{M}(x) \ \land \alpha(x))
-                  $$
+                  Für jede Formel $\alpha(x_1)$ definieren wir den Termausdruck $\{ x_1 \ | \ \alpha(x_1)\}$, wobei $x_1$ eine Subjektvariable ist, die in $\alpha(x_1)$ nicht gebunden ist. Die freien Variablen von $\{ x_1 \ | \ \alpha(x_1)\}$ sind die freien Variablen von $\alpha(x_1)$. Die gebundenen Variablen entsprechen den gebundenen Variablen von $\alpha(x_1)$ ergänzt um $x_1$.
                   
-                  \par
-                  Die freien Variablen von $\{ x \ | \ \alpha(x)\}$ sind die freien Variablen von $\alpha(x)$ vermindert um $\{ x \}$. Die gebunden Variablen entsprechen den gebunden Variablen von $\alpha(x)$. Alle Ableitungsregln werden entsprechend erweitert.
-                
-%old                
-%                  Der Ausdruck $\{ x | \alpha(x)\}$ bezeichnet ebenfalls einen Term. Sei $\beta(y)$ eine Formel und $beta(\{x | \alpha(x)\}$ die Formel, die bei Ersetzung von y durch den angegebenen Term entstehende Formel. Diese Formel kann ersetzt werden durch $\beta(y) \ \land \ \forall x \ x \in y \leftrightarrow \mathfrak{M}(x) \ \land \ \alpha(y)$. 
-%                  \par
-%                  In dem Term $\{ x | \alpha(x)\}$ gilt $x$ als gebunden und der Term besitzt zusätzlich die gebunden Variablen von $\alpha$ als gebundene Variablen. Die freien Variablen von $\alpha$ sind auch die freien Variablen des neuen Termausdrucks.
+                  \\par
+                  Alle Ableitungsregeln werden entsprechend erweitert.
+                  
                 ]]>
               </LATEX>
             </DESCRIPTION>
@@ -846,45 +835,84 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-                In particular the substitution rules must be adapted.\footnote{Because now a term can have bound subject variables. Luckily we formulated the substitution rules with this extension already in our mind, so we have nothing to do.} This is a \emph{conservative} extension of our formal language. This means that no new mathematical content can be derived. It is just convenient to have an elegant new notation.\footnote{
-                A conservative extension is defined by the following.
-                Let $\mathfrak{L}$ be a language and $\mathfrak{L'}$ an extension of $\mathfrak{L}$. Because $\mathfrak{L'} \supset \mathfrak{L}$ it follows $\mbox{Formula}_\mathfrak{L'} \supset \mbox{Formula}_\mathfrak{L}$. If now for every set of formulas $\Gamma \subseteq \mbox{Formula}_\mathfrak{L}$ and each formula $\alpha \in \mbox{Formula}_\mathfrak{L}$ this proposition holds: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, then $\mathfrak{L'}$ is called a \emph{conservative} extension of $\mathfrak{L}$.} 
-                
-                
+                In particular the substitution rules must be adapted because now a term can have bound subject variables. \footnote{Luckily we formulated the substitution rules with this extension already in our mind, so we have nothing to do.}
                 In the following this new notation is used.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                 Insbesondere müssen die Substitutionsregeln angepasst werden.\footnote{Weil nun ein Term auch gebundene Subjektvariablen besitzen kann. Glücklicherweise haben wir das jedoch schon bei der Formulierung unserer Substitutionsregeln berücksichtigt, so dass wir nichts tun müssen.} Es handelt sich hierbei um eine \emph{konservative} Erweiterung unser formalen Sprache. Das bedeutet, dass wir keine neuen mathematischen Inhalte erhalten. Es ist nur bequem, eine neue elegante Schreibweise zu besitzen.\footnote{
-                 Unter einer konservativen Erweiterung  verstehen wir das Folgende: Sei $\mathfrak{L}$ eine Sprache und $\mathfrak{L'}$ eine Erweiterung von $\mathfrak{L}$. Da $\mathfrak{L'} \supset \mathfrak{L}$ gilt auch $\mbox{Formel}_\mathfrak{L'} \supset \mbox{Formel}_\mathfrak{L}$. Falls nun für jede Formelmenge $\Gamma \subseteq \mbox{Formel}_\mathfrak{L}$ und jede Formel $\alpha \in \mbox{Formel}_\mathfrak{L}$ gilt: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, dann heißt $\mathfrak{L'}$ eine \emph{konservative} Erweiterung von $\mathfrak{L}$.}.
-
-%old                
-%                { x | alpha (x)} = { x | alpha (x)}
-%                y = y n All x x in y <-> M(x) n alpha(x)
-                
+                Insbesondere müssen die Substitutionsregeln überprüft werden, weil ein Term nun auch gebnundene Subjektvariablen enthalten kann.\footnote{Glücklicherweise haben wir das jedoch schon bei der Formulierung unserer Substitutionsregeln berücksichtigt, so dass wir nichts tun müssen.}
                 Im Folgenden wird auf diese neue Schreibweise zurückgegriffen.
               ]]>
             </LATEX>
           </SUCCEEDING>
         </NODE>
 
-        <SUBSECTION>
-          <TEXT>
+        <NODE id="axiom:classDefinition" level="formal">
+          <NAME>
+            <LATEX language="en">class definition axiom</LATEX>
+            <LATEX language="de">Klassenschreibweisenaxiom</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Class Definition Axiom\index{axiom!class definition}</LATEX>
+            <LATEX language="de">Axiom der Klassenschreibweise\index{Axiom!der Klassenschreibweise}</LATEX>
+          </TITLE>
+          <PRECEDING>
             <LATEX language="en">
               <![CDATA[
+                
                 +++ TODO Perhaps it is better to extend the term syntax and add the following axiom?
                 $x \in \{ y \ | \ \phi(y) \} \ \leftrightarrow \ \phi(x)$
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                +++ TODO Vielleicht ist es besser die Termsyntax zu erweitern und das folgende Axiom hinzuzufügen?
+                Um der neu eingeführten Syntax eine Bedeutung zu geben müssen wir noch beschreiben, wie eine solche Klasse aufgebaut ist, führen wir das folgende Axiom ein.
+
                 $x \in \{ y | \phi(y) \} \ \leftrightarrow \ \phi(x)$
               ]]>
             </LATEX>
-          </TEXT>
-        </SUBSECTION>
+          </PRECEDING>
+          <AXIOM>
+            <FORMULA>
+              <EQUI>
+                  <PREDCON ref="in">
+                    <VAR id="y"/>
+                    <CLASS>
+                      <VAR id="x"/>
+                      <PREDVAR id="\phi">
+                        <VAR id="x"/>
+                      </PREDVAR>
+                    </CLASS>
+                  </PREDCON>
+                  <AND>
+                    <PREDCON ref="isSet">
+                      <VAR id="y"/>
+                    </PREDCON>
+                    <PREDVAR id="\phi">
+                      <VAR id="y"/>
+                    </PREDVAR>
+                  </AND>
+              </EQUI>
+            </FORMULA>
+          </AXIOM>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                This axiom together with \qref{rule:classDefinition} is a \emph{conservative} extension of our formal language. This means that no additional formulas that fulfill the old syntax can be derived. It is just convenient to have an elegant new notation.\footnote{
+                A conservative extension is defined by the following.
+                Let $\mathfrak{L}$ be a language and $\mathfrak{L'}$ an extension of $\mathfrak{L}$. Because $\mathfrak{L'} \supset \mathfrak{L}$ it follows $\mbox{Formula}_\mathfrak{L'} \supset \mbox{Formula}_\mathfrak{L}$. If now for every set of formulas $\Gamma \subseteq \mbox{Formula}_\mathfrak{L}$ and each formula $\alpha \in \mbox{Formula}_\mathfrak{L}$ this proposition holds: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, then $\mathfrak{L'}$ is called a \emph{conservative} extension of $\mathfrak{L}$.} 
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                 Dies Axiom zusammen mit \qref{rule:classDefinition} führt nur zu einer \emph{konservativen} Erweiterung unser formalen Sprache. Das bedeutet, dass wir mit der Erweiterung nicht mehr Formeln, die der alten Syntax genügen, abgeleitet werden können. Es ist nur bequem, eine neue elegante Schreibweise zu besitzen.\footnote{
+                 Unter einer konservativen Erweiterung  verstehen wir das Folgende:
+                 Sei $\mathfrak{L}$ eine Sprache und $\mathfrak{L'}$ eine Erweiterung von $\mathfrak{L}$. Da $\mathfrak{L'} \supset \mathfrak{L}$ gilt auch $\mbox{Formel}_\mathfrak{L'} \supset \mbox{Formel}_\mathfrak{L}$. Falls nun für jede Formelmenge $\Gamma \subseteq \mbox{Formel}_\mathfrak{L}$ und jede Formel $\alpha \in \mbox{Formel}_\mathfrak{L}$ gilt: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, dann heißt $\mathfrak{L'}$ eine \emph{konservative} Erweiterung von $\mathfrak{L}$.}.
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
+        </NODE>
 
         <NODE id="theorem:setNotation" level="1">
           <PRECEDING>
