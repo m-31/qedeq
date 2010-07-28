@@ -1132,12 +1132,12 @@
             <PROOF kind="informal" level="1">
               <LATEX language="en">
                 <![CDATA[
-                  Directly from class definition we get a) by quantor elimination and an identity rule. With \qref{theorem:extensonalityEquivalence} we get b) and c). Also from identity theormes we get d) and e). 
+                  The formula a) is simply \qref{axiom:classDefinition}. We get b) and c) with \qref{theorem:extensonalityEquivalence}. And d) and e) come from identity theormes. 
                 ]]>
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Direkt aus \qref{rule:classDefinition} bekommen wir a) mittels Quantorenelimination und einem Identitätsgesetz. Mit \qref{theorem:extensonalityEquivalence} erhalten wir b) und c). Ebenfalls mit Identitätsgesetzen  bekommen wir d) und e). 
+                  Die Formel in a) ist einfach \qref{axiom:classDefinition}. Mit \qref{theorem:extensonalityEquivalence} erhalten wir b) und c). Mit Identitätsgesetzen bekommen wir d) und e). 
                 ]]>
               </LATEX>
             </PROOF>
