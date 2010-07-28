@@ -825,7 +825,7 @@
                 <![CDATA[
                   Für jede Formel $\alpha(x_1)$ definieren wir den Termausdruck $\{ x_1 \ | \ \alpha(x_1)\}$, wobei $x_1$ eine Subjektvariable ist, die in $\alpha(x_1)$ nicht gebunden ist. Die freien Variablen von $\{ x_1 \ | \ \alpha(x_1)\}$ sind die freien Variablen von $\alpha(x_1)$. Die gebundenen Variablen entsprechen den gebundenen Variablen von $\alpha(x_1)$ ergänzt um $x_1$.
                   
-                  \\par
+                  \par
                   Alle Ableitungsregeln werden entsprechend erweitert.
                   
                 ]]>
@@ -860,39 +860,35 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                
-                +++ TODO Perhaps it is better to extend the term syntax and add the following axiom?
-                $x \in \{ y \ | \ \phi(y) \} \ \leftrightarrow \ \phi(x)$
+                We introduce a new axiom to to give the new syntax a meaning. We describe which sets are within the new class.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
                 Um der neu eingeführten Syntax eine Bedeutung zu geben müssen wir noch beschreiben, wie eine solche Klasse aufgebaut ist, führen wir das folgende Axiom ein.
-
-                $x \in \{ y | \phi(y) \} \ \leftrightarrow \ \phi(x)$
               ]]>
             </LATEX>
           </PRECEDING>
           <AXIOM>
             <FORMULA>
               <EQUI>
-                  <PREDCON ref="in">
-                    <VAR id="y"/>
-                    <CLASS>
-                      <VAR id="x"/>
-                      <PREDVAR id="\phi">
-                        <VAR id="x"/>
-                      </PREDVAR>
-                    </CLASS>
-                  </PREDCON>
-                  <AND>
-                    <PREDCON ref="isSet">
-                      <VAR id="y"/>
-                    </PREDCON>
+                <PREDCON ref="in">
+                  <VAR id="y"/>
+                  <CLASS>
+                    <VAR id="x"/>
                     <PREDVAR id="\phi">
-                      <VAR id="y"/>
+                      <VAR id="x"/>
                     </PREDVAR>
-                  </AND>
+                  </CLASS>
+                </PREDCON>
+                <AND>
+                  <PREDCON ref="isSet">
+                    <VAR id="y"/>
+                  </PREDCON>
+                  <PREDVAR id="\phi">
+                    <VAR id="y"/>
+                  </PREDVAR>
+                </AND>
               </EQUI>
             </FORMULA>
           </AXIOM>
