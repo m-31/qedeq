@@ -841,7 +841,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Insbesondere müssen die Substitutionsregeln überprüft werden, weil ein Term nun auch gebnundene Subjektvariablen enthalten kann.\footnote{Glücklicherweise haben wir das jedoch schon bei der Formulierung unserer Substitutionsregeln berücksichtigt, so dass wir nichts tun müssen.}
+                Insbesondere müssen die Substitutionsregeln überprüft werden, weil ein Term nun auch gebundene Subjektvariablen enthalten kann.\footnote{Glücklicherweise haben wir das jedoch schon bei der Formulierung unserer Substitutionsregeln berücksichtigt, so dass wir nichts tun müssen.}
                 Im Folgenden wird auf diese neue Schreibweise zurückgegriffen.
               ]]>
             </LATEX>
@@ -860,12 +860,12 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                We introduce a new axiom to to give the new syntax a meaning. We describe which sets are within the new class.
+                We want to give the new syntax a meaning and by looking at \qref{theorem:comprehension} we introduce a new axiom.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Um der neu eingeführten Syntax eine Bedeutung zu geben müssen wir noch beschreiben, wie eine solche Klasse aufgebaut ist, führen wir das folgende Axiom ein.
+                Wir wollen der neu eingeführten Syntax eine Bedeutung geben und nach einem Blick auf \qref{theorem:comprehension} führen wir das folgende Axiom ein.
               ]]>
             </LATEX>
           </PRECEDING>
