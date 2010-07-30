@@ -860,12 +860,12 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                We want to give the new syntax a meaning and by looking at \qref{theorem:comprehension} we introduce a new axiom.
+                We want to give the new syntax a meaning and by looking at \qref{theorem:comprehension} we introduce the following axiom.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Wir wollen der neu eingeführten Syntax eine Bedeutung geben und nach einem Blick auf \qref{theorem:comprehension} führen wir das folgende Axiom ein.
+                Wir wollen der neu eingeführten Syntax eine Bedeutung geben, und nach einem Blick auf \qref{theorem:comprehension} führen wir das folgende Axiom ein.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1250,20 +1250,50 @@
                 </FORALL>
                 <PREDCON ref="l.equal">
                   <CLASS>
-                    <VAR id="y" />
+                    <VAR id="x" />
                     <PREDVAR id="\phi">
-                      <VAR id="y" />
+                      <VAR id="x" />
                     </PREDVAR>
                   </CLASS>
                   <CLASS>
-                    <VAR id="y" />
+                    <VAR id="x" />
                     <PREDVAR id="\psi">
-                      <VAR id="y" />
+                      <VAR id="x" />
                     </PREDVAR>
                   </CLASS>
                 </PREDCON>
               </IMPL>
             </FORMULA>
+            <PROOF kind="informal" level="2">
+              <LATEX language="en">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $\forall \ x ( \phi(x) \leftrightarrow \psi(x)$ & $\rightarrow$ & $\forall \ x ( \phi(x) \land \mathfrak({M}(x) \ \leftrightarrow \ \psi(x) \land \mathfrak{M}(x)$
+                      & this is elementary logic \\
+                    & $\rightarrow$ & $\forall \ x \ x \in \{ y | \phi(y) \} \ \leftrightarrow \ x \in \{ y | \psi(y) \}$ 
+                      & \qref{theorem:inSetEqualInSetAndIsSet} \\
+                    & $\rightarrow$ & $ \{ y | \phi(y) \} = \{ y | \psi(y) \} 
+                      & \qref{theorem:setNotation}[b]
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $\forall \ x ( \phi(x) \leftrightarrow \psi(x)$ & $\rightarrow$ & $\forall \ x ( \phi(x) \land \mathfrak({M}(x) \ \leftrightarrow \ \psi(x) \land \mathfrak{M}(x)$
+                      & this is elementary logic \\
+                    & $\rightarrow$ & $\forall \ x \ x \in \{ y | \phi(y) \} \ \leftrightarrow \ x \in \{ y | \psi(y) \}$ 
+                      & \qref{theorem:inSetEqualInSetAndIsSet} \\
+                    & $\rightarrow$ & $ \{ y | \phi(y) \} = \{ y | \psi(y) \} 
+                      & \qref{theorem:setNotation}[b]
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
           <SUCCEEDING>
             <LATEX language="en">
