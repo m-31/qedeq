@@ -1275,7 +1275,7 @@
                     & $\rightarrow$ & $\forall \ x \ ( x \in \{ y \ | \ \phi(y) \} \ \leftrightarrow \ x \in \{ y \ | \ \psi(y) \})$ 
                       & \qref{theorem:inSetEqualInSetAndIsSet} \\
                     & $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
-                      & \qref{theorem:setNotation}[b]
+                      & \qref{theorem:setNotation}[c]
                   \end{tabularx}
                 ]]>
               </LATEX>
@@ -1289,7 +1289,7 @@
                     & $\rightarrow$ & $\forall \ x \ ( x \in \{ y \ | \ \phi(y) \} \ \leftrightarrow \ x \in \{ y \ | \ \psi(y) \})$ 
                       & \qref{theorem:inSetEqualInSetAndIsSet} \\
                     & $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
-                      & \qref{theorem:setNotation}[b]
+                      & \qref{theorem:setNotation}[c]
                   \end{tabularx}
                 ]]>
               </LATEX>
