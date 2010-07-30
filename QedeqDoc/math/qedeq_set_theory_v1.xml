@@ -1269,11 +1269,12 @@
                 <![CDATA[
                   \mbox{}
                   \par
+                  $\forall \ x \ ( \phi(x) \leftrightarrow \psi(x))$
                   \begin{tabularx}{\linewidth}{rclX}
-                    $\forall \ x \ ( \phi(x) \leftrightarrow \psi(x))$ & $\rightarrow$ & $\forall \ x (\phi(x) \land \mathfrak{M}(x) \ \leftrightarrow \ \psi(x) \land \mathfrak{M}(x))$
+                    & $\rightarrow$ & $\forall \ x (\phi(x) \land \mathfrak{M}(x) \ \leftrightarrow \ \psi(x) \land \mathfrak{M}(x))$
                       & elementary logic \\
                     & $\rightarrow$ & $\forall \ x \ ( x \in \{ y \ | \ \phi(y) \} \ \leftrightarrow \ x \in \{ y \ | \ \psi(y) \})$ 
-                      & \qref{theorem:inSetEqualInSetAndIsSet} \\
+                      & \qref{theorem:setNotation}[a] \\
                     & $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
                       & \qref{theorem:setNotation}[c]
                   \end{tabularx}
@@ -1283,11 +1284,12 @@
                 <![CDATA[
                   \mbox{}
                   \par
+                  $\forall \ x \ ( \phi(x) \leftrightarrow \psi(x))$
                   \begin{tabularx}{\linewidth}{rclX}
-                    $\forall \ x \ ( \phi(x) \leftrightarrow \psi(x))$ & $\rightarrow$ & $\forall \ x (\phi(x) \land \mathfrak{M}(x) \ \leftrightarrow \ \psi(x) \land \mathfrak{M}(x))$
+                    & $\rightarrow$ & $\forall \ x (\phi(x) \land \mathfrak{M}(x) \ \leftrightarrow \ \psi(x) \land \mathfrak{M}(x))$
                       & elementary logic \\
                     & $\rightarrow$ & $\forall \ x \ ( x \in \{ y \ | \ \phi(y) \} \ \leftrightarrow \ x \in \{ y \ | \ \psi(y) \})$ 
-                      & \qref{theorem:inSetEqualInSetAndIsSet} \\
+                      & \qref{theorem:setNotation}[a] \\
                     & $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
                       & \qref{theorem:setNotation}[c]
                   \end{tabularx}
