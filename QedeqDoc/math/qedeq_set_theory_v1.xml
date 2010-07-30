@@ -1270,6 +1270,7 @@
                   \mbox{}
                   \par
                   $\forall \ x \ ( \phi(x) \leftrightarrow \psi(x))$
+                  \par
                   \begin{tabularx}{\linewidth}{rclX}
                     & $\rightarrow$ & $\forall \ x (\phi(x) \land \mathfrak{M}(x) \ \leftrightarrow \ \psi(x) \land \mathfrak{M}(x))$
                       & elementary logic \\
@@ -1285,6 +1286,7 @@
                   \mbox{}
                   \par
                   $\forall \ x \ ( \phi(x) \leftrightarrow \psi(x))$
+                  \par
                   \begin{tabularx}{\linewidth}{rclX}
                     & $\rightarrow$ & $\forall \ x (\phi(x) \land \mathfrak{M}(x) \ \leftrightarrow \ \psi(x) \land \mathfrak{M}(x))$
                       & elementary logic \\
