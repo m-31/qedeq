@@ -338,7 +338,7 @@
           <TEXT>
             <LATEX>
               <![CDATA[
-                Similar to \emph{REMAHTML} the browsing is done with an Java pplet or a web started Java program. Some dependency analyzing capablities are included.
+                Similar to \emph{REMAHTML} the browsing is done with an Java applet or a web started Java program. Some dependency analyzing capablities are included.
               ]]>
             </LATEX>
           </TEXT>
