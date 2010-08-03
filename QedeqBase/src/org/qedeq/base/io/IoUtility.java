@@ -1267,6 +1267,12 @@ public final class IoUtility {
         return result;
     }
 
+    /**
+     * Simplify file URL by returning a file path.
+     *
+     * @param   url     Url to simplify.
+     * @return  File path (if protocol is "file"). Otherwise just return <code>url</code>.
+     */
     public static String easyUrl(final String url) {
         String result = url;
         try {
