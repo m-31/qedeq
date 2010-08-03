@@ -23,7 +23,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 
 /**
  * Create LaTeX file out of selected QEDEQ module files.
@@ -62,11 +62,8 @@ class MakeLatexAction extends AbstractAction {
             final Thread thread = new Thread() {
                 public void run() {
                     for (int i = 0; i < props.length; i++) {
-                        try {
-                            KernelContext.getInstance().executePlugin("to LaTeX", props[i].getModuleAddress());
-                        } catch (final SourceFileExceptionList e) {
-                            // TODO m31 20100317: should this exception really be thrown?
-                        }
+                        KernelContext.getInstance().executePlugin(Qedeq2LatexPlugin.CLASS.getName(),
+                            props[i].getModuleAddress(), null);
                     }
                 }
             };
