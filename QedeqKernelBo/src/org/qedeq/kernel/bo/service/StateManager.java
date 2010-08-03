@@ -547,22 +547,29 @@ public class StateManager {
     }
 
     public String getStateDescription() {
+        String result = "";
         if (loadingState == LoadingState.STATE_LOADING_FROM_WEB) {
-            return loadingState.getText() + " (" + loadingCompleteness + "%)";
+            result = loadingState.getText() + " (" + loadingCompleteness + "%)";
         } else if (!isLoaded()) {
-            return loadingState.getText();
+            result = loadingState.getText();
         } else if (!hasLoadedRequiredModules()) {
             if (dependencyState == DependencyState.STATE_UNDEFINED) {
-                return loadingState.getText();
+                result = loadingState.getText();
             }
-            return dependencyState.getText();
+            result = dependencyState.getText();
         } else if (!isChecked()) {
             if (logicalState == LogicalState.STATE_UNCHECKED) {
-                return dependencyState.getText();
+                result = dependencyState.getText();
             }
-            return logicalState.getText();
+            result = logicalState.getText();
+        } else {
+            result =  logicalState.getText();
         }
-        return logicalState.getText();
+        final String pluginState = pluginResults.getPluginStateDescription();
+        if (pluginState.length() > 0) {
+            result += "; " + pluginState;
+        }
+        return result;
     }
 
     /**
@@ -604,6 +611,9 @@ public class StateManager {
     public SourceFileExceptionList getWarnings() {
         final DefaultSourceFileExceptionList result = new DefaultSourceFileExceptionList();
         result.add(pluginResults.getAllWarnings());
+        if (result.size() <= 0) {
+            return null;
+        }
         return result;
     }
 
@@ -643,6 +653,5 @@ public class StateManager {
             ref.getStateManager().printDependencyTree(newTab);
         }
     }
-
 
 }

@@ -34,6 +34,7 @@ import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DummyPlugin;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.xml.sax.SAXParseException;
@@ -288,7 +289,20 @@ public class GenerateLatexTest extends QedeqTestCase {
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        QedeqBoDuplicateLanguageChecker.check(prop);
+        QedeqBoDuplicateLanguageChecker.check(new Plugin() {
+                public String getPluginId() {
+                    return QedeqBoDuplicateLanguageChecker.class.getName();
+                }
+    
+                public String getPluginName() {
+                    return "duplicate language checker";
+                }
+    
+                public String getPluginDescription() {
+                    return "Test for duplicate language entries within LaTeX sections";
+                }
+
+            }, prop);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }

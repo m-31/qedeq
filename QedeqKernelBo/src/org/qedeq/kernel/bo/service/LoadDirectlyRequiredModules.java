@@ -44,7 +44,6 @@ public final class LoadDirectlyRequiredModules extends ControlVisitor {
     /**
      * Constructor.
      *
-     * @param   plugin      This plugin generated the error.
      * @param   prop        Internal QedeqBo.
      */
     LoadDirectlyRequiredModules(final Plugin plugin, final KernelQedeqBo prop) {

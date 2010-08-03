@@ -21,6 +21,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
+import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.TextOutput;
@@ -42,29 +43,31 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 public final class Qedeq2LatexPlugin implements PluginBo {
 
     /** This class. */
-    private static final Class CLASS = Qedeq2LatexPlugin.class;
+    public static final Class CLASS = Qedeq2LatexPlugin.class;
 
     public Qedeq2LatexPlugin() {
     }
 
-    public String getPluginDescription() {
-        return "transforms QEDEQ module into LaTeX";
+    public String getPluginId() {
+        return CLASS.getName();
     }
 
     public String getPluginName() {
-        return "to LaTeX";
+        return "generate LaTeX";
     }
 
-    public void executePlugin(final KernelQedeqBo qedeq) throws SourceFileExceptionList {
-        final String method = "execute(QedeqBo)";
+    public String getPluginDescription() {
+        return "transforms QEDEQ module into LaTeX file";
+    }
+
+    public Object executePlugin(final KernelQedeqBo qedeq, final Map parameters) {
+        final String method = "executePlugin(QedeqBo, Map)";
         try {
             QedeqLog.getInstance().logRequest("Generate LaTeX from \""
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
             final String[] languages = getSupportedLanguages(qedeq);
             for (int j = 0; j < languages.length; j++) {
-                final String result = generateLatex(
-                        qedeq, languages[j],
-                        "1").toString();
+                final String result = generateLatex(qedeq, languages[j], "1").toString();
                 if (languages[j] != null) {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "LaTeX for language \"" + languages[j]
@@ -88,12 +91,12 @@ public final class Qedeq2LatexPlugin implements PluginBo {
             Trace.fatal(CLASS, this, method, msg, e);
             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
         } catch (final RuntimeException e) {
-            // TODO m31 20100318: transform into source file exception
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply(
                 "Generation failed", "unexpected problem: "
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         }
+        return null;
     }
 
     /**
@@ -145,7 +148,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
             throw printer.getError();
         }
         try {
-            QedeqBoDuplicateLanguageChecker.check(prop);
+            QedeqBoDuplicateLanguageChecker.check(this, prop);
         } catch (SourceFileExceptionList warnings) {
             prop.addPluginErrors(this, null, warnings);
         }

@@ -17,8 +17,8 @@ package org.qedeq.kernel.bo.context;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
+import java.util.Map;
 
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.ModuleAddress;
@@ -146,28 +146,14 @@ public interface KernelServices {
      */
     public boolean checkModule(ModuleAddress address);
 
-
-    /**
-     * FIXME m31 20100317: find a solution for server-client connection and plugin execution
-     * Creates a LaTeX representation of given QEDEQ module.
-     *
-     * @param   address QEDEQ module address
-     * @param   language Filter text to get and produce text in this language only.
-     * @param   level Filter for this detail level. LATER mime 20050205: not supported yet.
-     * @return  LaTeX data.
-     * @throws  DefaultSourceFileExceptionList Major problem occurred.
-     * @throws  IOException
-     */
-    public InputStream createLatex(final ModuleAddress address, String language, String level)
-            throws SourceFileExceptionList, IOException;
-
     /**
      * Execute plugin on given QEDEQ module.
      *
-     * @param   name    Plugin name
-     * @param   address QEDEQ module address.
-     * @throws  SourceFileExceptionList Major problem occurred.
+     * @param   name        Plugin name
+     * @param   address     QEDEQ module address.
+     * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
+     * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public void executePlugin(final String name, final ModuleAddress address) throws SourceFileExceptionList;
+    public Object executePlugin(final String name, final ModuleAddress address, final Map parameters);
 
 }

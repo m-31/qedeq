@@ -18,17 +18,16 @@ package org.qedeq.kernel.bo.context;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.FileLock;
+import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.config.QedeqConfig;
@@ -161,14 +160,8 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
-        public InputStream createLatex(final ModuleAddress prop, final String language,
-                final String level)
-                throws DefaultSourceFileExceptionList, IOException {
-            throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
-        }
-
-        public void executePlugin(final String pluginName, final ModuleAddress prop)
-                throws SourceFileExceptionList {
+        public Object executePlugin(final String pluginName, final ModuleAddress address,
+                final Map parameters) {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
@@ -250,14 +243,8 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
-        public InputStream createLatex(final ModuleAddress prop, final String language,
-                final String level)
-                throws DefaultSourceFileExceptionList, IOException {
-            throw new IllegalStateException(KERNEL_NOT_STARTED);
-        }
-
-        public void executePlugin(final String pluginName, final ModuleAddress prop)
-                throws DefaultSourceFileExceptionList {
+        public Object executePlugin(final String pluginName, final ModuleAddress address,
+                final Map parameters) {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -349,15 +336,9 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             return services.checkModule(address);
         }
 
-        public InputStream createLatex(final ModuleAddress address, final String language,
-                final String level)
-                throws SourceFileExceptionList, IOException {
-            return services.createLatex(address, language, level);
-        }
-
-        public void executePlugin(final String pluginName, final ModuleAddress address)
-                throws SourceFileExceptionList {
-            services.executePlugin(pluginName, address);
+        public Object executePlugin(final String pluginName, final ModuleAddress address,
+                final Map parameters) {
+            return services.executePlugin(pluginName, address, parameters);
         }
 
     };
@@ -572,15 +553,11 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         return currentState.checkModule(address);
     }
 
-    public InputStream createLatex(final ModuleAddress address, final String language,
-            final String level) throws SourceFileExceptionList, IOException {
-        return currentState.createLatex(address, language, level);
+    public Object executePlugin(final String pluginName, final ModuleAddress address,
+            final Map parameters) {
+        return currentState.executePlugin(pluginName, address, parameters);
     }
 
-    public void executePlugin(final String pluginName, final ModuleAddress address)
-            throws SourceFileExceptionList {
-        currentState.executePlugin(pluginName, address);
-    }
     /**
      * Check java version. We want to be shure that the kernel is run at least with java 1.4.2
      *

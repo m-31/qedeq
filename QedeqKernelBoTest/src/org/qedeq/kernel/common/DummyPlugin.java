@@ -24,12 +24,16 @@ public class DummyPlugin implements Plugin {
         return instance;
     }
     
-    public String getPluginDescription() {
-        return "Dummy Description";
+    public String getPluginId() {
+        return DummyPlugin.class.getName();
     }
 
     public String getPluginName() {
         return "Dummy Plugin";
+    }
+
+    public String getPluginDescription() {
+        return "Dummy Description";
     }
 
 

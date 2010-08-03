@@ -84,24 +84,15 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     /**
      * Prints a XML representation of given QEDEQ module into a given output stream.
      *
+     * @param   plugin              Plugin we work for.
      * @param   bo                  BO QEDEQ module object.
      * @param   printer             Print herein.
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException         Writing failed.
      */
-    public static void print(final KernelQedeqBo bo, final TextOutput printer) throws
+    public static void print(final Plugin plugin, final KernelQedeqBo bo, final TextOutput printer) throws
             SourceFileExceptionList, IOException {
-        final Qedeq2Xml converter = new Qedeq2Xml(new Plugin() {
-
-                public String getPluginDescription() {
-                    return "transforms a QEDEQ module into XML";
-                }
-
-                public String getPluginName() {
-                    return "QEDEQ2XML";
-                }
-
-            }, bo, printer);
+        final Qedeq2Xml converter = new Qedeq2Xml(plugin, bo, printer);
         try {
             converter.traverse();
         } finally {
@@ -569,14 +560,16 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         printer.levelPrintln("</ITEM>");
     }
 
-    public String getPluginDescription() {
-        // TODO Auto-generated method stub
-        return null;
+    public String getPluginId() {
+        return this.getClass().getName();
     }
 
     public String getPluginName() {
-        // TODO Auto-generated method stub
-        return null;
+        return "generate XML";
+    }
+
+    public String getPluginDescription() {
+        return "Transformes QEDEQ module into XML data";
     }
 
 }

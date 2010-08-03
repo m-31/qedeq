@@ -21,10 +21,9 @@ import java.util.Map;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
- * Holds all known QEDEQ modules.
+ * Manage all known plugins.
  */
 public class PluginManager {
 
@@ -50,14 +49,14 @@ public class PluginManager {
      * @param   Plugin to add. A plugin with same name can not be added twice.
      */
     synchronized void addPlugin(final PluginBo plugin) {
-        if (plugins.get(plugin.getPluginName()) != null) {
-            final PluginBo oldPlugin = (PluginBo) plugins.get(plugin.getPluginName());
+        if (plugins.get(plugin.getPluginId()) != null) {
+            final PluginBo oldPlugin = (PluginBo) plugins.get(plugin.getPluginId());
             final RuntimeException e = new IllegalArgumentException("plugin with that name already added: "
-                    + oldPlugin.getPluginName() + ": " + plugin.getPluginDescription());
+                    + oldPlugin.getPluginId() + ": " + plugin.getPluginDescription());
             Trace.fatal(CLASS, this, "addPlugin", "Programing error", e);
             throw e;
         }
-        plugins.put(plugin.getPluginName(), plugin);
+        plugins.put(plugin.getPluginId(), plugin);
     }
 
     /**
@@ -65,11 +64,13 @@ public class PluginManager {
      *
      * @param   name    Plugin to use.
      * @param   qedeq   QEDEQ module to work on.
-     * @throws  SourceFileExceptionList     Problems during execution.
+     * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
+     * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    synchronized void executePlugin(final String name, final KernelQedeqBo qedeq) throws SourceFileExceptionList {
+    synchronized Object executePlugin(final String name, final KernelQedeqBo qedeq,
+            final Map parameters) {
         final PluginBo plugin = (PluginBo) plugins.get(name);
-        plugin.executePlugin(qedeq);
+        return plugin.executePlugin(qedeq, parameters);
     }
 
 }

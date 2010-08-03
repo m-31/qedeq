@@ -83,7 +83,7 @@ public final class Xml2Xml implements Plugin {
     }
 
     /**
-     * Generate LaTeX file out of XML file.
+     * Generate XML file out of XML file.
      *
      * @param   from            Read this XML file.
      * @param   to              Write to this file. Could not be <code>null</code>.
@@ -108,7 +108,7 @@ public final class Xml2Xml implements Plugin {
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
             printer = new TextOutput(to.getName(), outputStream);
-            Qedeq2Xml.print(prop, printer);
+            Qedeq2Xml.print(new Xml2Xml(), prop, printer);
             return to.getCanonicalPath();
         } catch (IOException e) {
             Trace.trace(CLASS, method, e);
@@ -124,12 +124,14 @@ public final class Xml2Xml implements Plugin {
         }
     }
 
-    public String getPluginDescription() {
-        return "transform XML QEDEQ module in a new XML file";
+    public String getPluginId() {
+        return CLASS.getName();
     }
-
     public String getPluginName() {
         return "Xml2Xml";
+    }
+    public String getPluginDescription() {
+        return "transform XML QEDEQ module in a new XML file";
     }
 
 }

@@ -17,8 +17,8 @@ package org.qedeq.kernel.bo.service;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
+import java.util.Map;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.base.module.Specification;
@@ -92,11 +92,8 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             public boolean checkModule(ModuleAddress address) {
                 return false;
             }
-            public InputStream createLatex(ModuleAddress address, String language, String level) throws DefaultSourceFileExceptionList, IOException {
+            public Object executePlugin(String pluginName, ModuleAddress address, Map parameters) {
                 return null;
-            }
-            public void executePlugin(String pluginName, ModuleAddress address) throws SourceFileExceptionList {
-                return;
             }
             public QedeqFileDao getQedeqFileDao() {
                 return null;

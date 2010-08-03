@@ -50,6 +50,21 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
 
 
     /**
+     * Constructor. Can only be used if instance also implements {@link Plugin}.
+     *
+     * @param   prop        Internal QedeqBo.
+     */
+    protected ControlVisitor(final KernelQedeqBo prop) {
+        if (prop.getQedeq() == null) {
+            throw new NullPointerException("Programming error, Module not loaded: "
+                + prop.getModuleAddress());
+        }
+        this.prop = prop;
+        this.plugin = (Plugin) this;
+        this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
+    }
+
+    /**
      * Constructor.
      *
      * @param   plugin      This plugin we work for.
@@ -81,6 +96,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * (via {@link #addError(ModuleDataException)} and
      * {@link #addError(SourceFileException)}) are thrown.
      *
+     * @param   plugin  This plugin we work for.
      * @throws  SourceFileExceptionList  All collected exceptions.
      */
     public void traverse() throws SourceFileExceptionList {
@@ -104,7 +120,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   me  Exception to be added.
      */
     protected void addError(final ModuleDataException me) {
-        addError(prop.createSourceFileException(plugin, me));
+        addError(prop.createSourceFileException(getPlugin(), me));
     }
 
     /**
@@ -135,7 +151,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   me  Exception to be added.
      */
     protected void addWarning(final ModuleDataException me) {
-        addWarning(prop.createSourceFileException(plugin, me));
+        addWarning(prop.createSourceFileException(getPlugin(), me));
     }
 
     /**

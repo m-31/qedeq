@@ -31,6 +31,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
@@ -880,6 +881,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     public boolean checkModule(final ModuleAddress address) {
         final String method = "checkModule(ModuleAddress)";
         final DefaultKernelQedeqBo prop = modules.getKernelQedeqBo(this, address);
+        // did we check this already?
+        if (prop.isChecked()) {
+            return true; // everything is OK
+        }
         try {
             QedeqLog.getInstance().logRequest(
                 "Check logical correctness for \"" + IoUtility.easyUrl(prop.getUrl()) + "\"");
@@ -935,15 +940,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         return prop.isChecked();
     }
 
-    public InputStream createLatex(final ModuleAddress address, final String language,
-            final String level) throws DefaultSourceFileExceptionList, IOException {
-        return null;
-// FIXME        return Qedeq2Latex.createLatex(getKernelQedeqBo(address), language, level);
-    }
-
-    public void executePlugin(final String pluginName, final ModuleAddress address)
-            throws SourceFileExceptionList {
-        pluginManager.executePlugin(pluginName, getKernelQedeqBo(address));
+    public Object executePlugin(final String pluginName, final ModuleAddress address,
+            final Map parameters) {
+        return pluginManager.executePlugin(pluginName, getKernelQedeqBo(address), parameters);
     }
 
     /**
@@ -1022,16 +1021,19 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         return (String[]) list.toArray(new String[list.size()]);
     }
 
+    public String getPluginId() {
+        return CLASS.getName();
+    }
+
+    public String getPluginName() {
+        return "Basis";
+    }
     public QedeqFileDao getQedeqFileDao() {
         return qedeqFileDao;
     }
 
     public String getPluginDescription() {
         return "provides basic services for loading QEDEQ modules";
-    }
-
-    public String getPluginName() {
-        return "Basis";
     }
 
 }

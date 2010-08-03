@@ -351,12 +351,16 @@ public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXM
             new SourcePosition(1 , 1));
     }
 
-    public String getPluginDescription() {
-        return "parse XML files";
+    public String getPluginId() {
+        return CLASS.getName();
     }
 
     public String getPluginName() {
         return "XML Reader";
+    }
+
+    public String getPluginDescription() {
+        return "parse XML files";
     }
 
 }

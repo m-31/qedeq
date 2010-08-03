@@ -24,6 +24,13 @@ package org.qedeq.kernel.common;
 public interface Plugin {
 
     /**
+     * Get plugin id.
+     *
+     * @return  Plugin id
+     */
+    public String getPluginId();
+
+    /**
      * Get plugin name.
      *
      * @return  Plugin name

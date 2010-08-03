@@ -60,8 +60,12 @@ public class PluginResults {
         this.warnings.add(warnings);
     }
 
-    public boolean isFailure() {
+    public boolean hasErrors() {
         return errors.size() > 0;
+    }
+
+    public boolean hasWarnings() {
+        return warnings.size() > 0;
     }
 
 }

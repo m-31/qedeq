@@ -15,8 +15,9 @@
 
 package org.qedeq.kernel.bo.module;
 
+import java.util.Map;
+
 import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
 /**
@@ -30,15 +31,9 @@ public interface PluginBo extends Plugin {
      * Execute plugin for given QEDEQ module.
      *
      * @param   qedeq   QEDEQ module to work on.
-     * @throws  SourceFileExceptionList Execution lead to errors.
+     * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
+     * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public void executePlugin(KernelQedeqBo qedeq) throws SourceFileExceptionList;
-
-    /**
-     * Get plugin description.
-     *
-     * @return  Description of plugin.
-     */
-    public String getPluginDescription();
+    public Object executePlugin(KernelQedeqBo qedeq, Map parameters);
 
 }

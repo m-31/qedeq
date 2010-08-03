@@ -22,6 +22,7 @@ import java.util.Map;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.module.PluginResults;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
@@ -37,9 +38,9 @@ public class PluginResultManager {
 
 
     /**
-     * Get all registered plugins.
+     * Get all used plugins.
      *
-     * @return  Registered plugins.
+     * @return  Used plugins.
      */
     synchronized PluginBo[] getPlugins() {
         return (PluginBo[]) plugins.keySet().toArray(new PluginBo[] {});
@@ -63,7 +64,7 @@ public class PluginResultManager {
     }
 
     /**
-     * Add a plugin results.
+     * Add results of a plugin.
      *
      * @param   Set plugin execution results.
      */
@@ -95,5 +96,31 @@ public class PluginResultManager {
         }
         return warnings;
     }
+
+    public synchronized String getPluginStateDescription() {
+        final StringBuffer text = new StringBuffer();
+        Iterator iterator = plugins.keySet().iterator();
+        while (iterator.hasNext()) {
+            if (text.length() > 0) {
+                text.append(", ");
+            }
+            final PluginBo key = (PluginBo) iterator.next();
+            PluginResults result = (PluginResults) plugins.get(key);
+            text.append(key.getPluginName());
+            text.append(" ");
+            if (result.hasErrors() && result.hasWarnings()) {
+                text.append("has errors and warnings");
+            } else if (result.hasErrors()) {
+                text.append("has errors");
+            } else if (result.hasWarnings()) {
+                text.append("has warnings");
+            } else {
+                text.append("successful");
+            }
+        }
+        return text.toString();
+        
+    }
+    
 }
 

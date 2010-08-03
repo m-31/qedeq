@@ -109,7 +109,7 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
             throws SourceFileExceptionList, IOException {
         final OutputStream outputStream = new FileOutputStream(localFile);
         final TextOutput printer = new TextOutput(localFile.getName(), outputStream);
-        Qedeq2Xml.print(prop, printer);
+        Qedeq2Xml.print(this, prop, printer);
     }
 
     public SourceArea createSourceArea(final Qedeq qedeq, final ModuleContext context) {
@@ -151,12 +151,16 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         return new XmlReader(services.getLocalFilePath(bo.getModuleAddress()));
     }
 
-    public String getPluginDescription() {
-        return "can read and write XML QEDEQ modules";
+    public String getPluginId() {
+        return CLASS.getName();
     }
 
     public String getPluginName() {
         return "XML Worker";
+    }
+
+    public String getPluginDescription() {
+        return "can read and write XML QEDEQ modules";
     }
 
 }
