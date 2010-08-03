@@ -57,7 +57,7 @@ public class QedeqBoFormalLogicCheckerTest extends QedeqTestCase {
         KernelContext.getInstance().checkModule(address);
         final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
         assertTrue(bo.getLogicalState().isFailure());
-        assertEquals(0, bo.getWarnings().size());
+        assertNull(bo.getWarnings());
         assertEquals(1, bo.getErrors().size());
         assertEquals(11231, bo.getErrors().get(0).getErrorCode());
     }
