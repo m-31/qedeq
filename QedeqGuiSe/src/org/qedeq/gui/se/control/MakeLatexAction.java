@@ -16,6 +16,8 @@
 package org.qedeq.gui.se.control;
 
 import java.awt.event.ActionEvent;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.AbstractAction;
 
@@ -61,9 +63,11 @@ class MakeLatexAction extends AbstractAction {
 
             final Thread thread = new Thread() {
                 public void run() {
+                    final Map parameters = new HashMap();
+                    parameters.put("info", Boolean.TRUE);
                     for (int i = 0; i < props.length; i++) {
                         KernelContext.getInstance().executePlugin(Qedeq2LatexPlugin.CLASS.getName(),
-                            props[i].getModuleAddress(), null);
+                            props[i].getModuleAddress(), parameters);
                     }
                 }
             };
