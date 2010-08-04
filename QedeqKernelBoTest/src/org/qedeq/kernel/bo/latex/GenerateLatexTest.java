@@ -347,7 +347,7 @@ public class GenerateLatexTest extends QedeqTestCase {
             Trace.param(CLASS, method, "to", to);
             Trace.param(CLASS, method, "language", language);
             Trace.param(CLASS, method, "level", level);
-            final InputStream latex = (new Qedeq2LatexPlugin()).createLatex(prop, language, level);
+            final InputStream latex = (new Qedeq2LatexPlugin()).createLatex(prop, language, level, false);
             if (to != null) {
                 IoUtility.createNecessaryDirectories(to);
                 IoUtility.saveFile(latex, to);
