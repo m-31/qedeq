@@ -1302,16 +1302,12 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-
-                We remark that the reverse implication is false.
-
+                We remark that the reverse implication is false. This is due to the fact that the class notation embraces only sets. For example: if $phi(x) \leftrightarrow x \neq x$ and $psi(x) \leftrightarrow \all y \ (y \in x \rightarrow y \notin y)$ then the associated classes are identical to the empty class (\qref(definition:emptySet}). No class fulfills $phi(x) but Russells class (\qref{definition:RussellClass} satifies $\psi(x)$.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-
-                Die Umkehrung gilt jedoch nicht.
-
+                Die Umkehrung gilt jedoch nicht. Das liegt daran, dass mit der Klassenschreibweise nur Mengen zusammengefasst werden. Beispiel: wenn $phi(x) \leftrightarrow x \neq x$ und $psi(x) \leftrightarrow \all y \ (y \in x \rightarrow y \notin y)$, dann sind die durch beide Aussageformen erzeugten Klassen identisch mit der leeren Klasse (\qref(definition:emptySet}). Keine Klasse erfüllt $phi(x), allerdings erfüllt die Russellsche Klasse (\qref{definition:RussellClass} die Bedingung $\psi(x)$.
               ]]>
             </LATEX>
           </SUCCEEDING>
