@@ -111,6 +111,9 @@ public final class Qedeq2Latex extends ControlVisitor {
     /** Filter for this detail level. */
     private final String level;
 
+    /** Should additional information be put into LaTeX output? E.g. QEDEQ reference names. */
+    private final boolean info;
+
     /** Transformer to get LaTeX out of {@link Element}s. */
     private final Element2Latex elementConverter;
 
@@ -138,9 +141,13 @@ public final class Qedeq2Latex extends ControlVisitor {
      * @param   language    Filter text to get and produce text in this language only.
      * @param   level       Filter for this detail level. LATER mime 20050205: not yet supported
      *                      yet.
+     * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
+     *                      names. That makes it easier to write new documents, because one can
+     *                      read the QEDEQ reference names in the written document.
      */
     Qedeq2Latex(final Plugin plugin, final KernelQedeqBo prop,
-            final TextOutput printer, final String language, final String level) {
+            final TextOutput printer, final String language, final String level,
+            final boolean info) {
         super(plugin, prop);
         this.printer = printer;
         if (language == null) {
@@ -153,6 +160,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         } else {
             this.level = level;
         }
+        this.info = info;
         this.elementConverter = new Element2Latex((prop.hasLoadedRequiredModules()
             ? prop.getRequiredModules() : null));
     }
@@ -464,6 +472,9 @@ public final class Qedeq2Latex extends ControlVisitor {
     public void visitEnter(final Axiom axiom) {
         printer.println("\\begin{ax}" + (title != null ? "[" + title + "]" : ""));
         printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+        if (info) {
+            printer.println("{\\tt \\[" + id + "\\]}");
+        }
         printFormula(axiom.getFormula().getElement());
         printer.println(getLatexListEntry(axiom.getDescription()));
         printer.println("\\end{ax}");

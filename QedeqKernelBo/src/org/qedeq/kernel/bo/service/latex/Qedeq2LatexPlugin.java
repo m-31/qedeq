@@ -62,12 +62,13 @@ public final class Qedeq2LatexPlugin implements PluginBo {
 
     public Object executePlugin(final KernelQedeqBo qedeq, final Map parameters) {
         final String method = "executePlugin(QedeqBo, Map)";
+        final boolean info = parameters != null && parameters.get("info") != null;
         try {
             QedeqLog.getInstance().logRequest("Generate LaTeX from \""
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
             final String[] languages = getSupportedLanguages(qedeq);
             for (int j = 0; j < languages.length; j++) {
-                final String result = generateLatex(qedeq, languages[j], "1").toString();
+                final String result = generateLatex(qedeq, languages[j], "1", info).toString();
                 if (languages[j] != null) {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "LaTeX for language \"" + languages[j]
@@ -106,12 +107,15 @@ public final class Qedeq2LatexPlugin implements PluginBo {
      * @param   language        Filter text to get and produce text in this language only.
      * @param   level           Filter for this detail level. LATER mime 20050205: not supported
      *                          yet.
+     * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
+     *                      names. That makes it easier to write new documents, because one can
+     *                      read the QEDEQ reference names in the written document.
      * @return  Resulting LaTeX.
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException
      */
     public File generateLatex(final KernelQedeqBo prop, final String language,
-            final String level) throws SourceFileExceptionList, IOException {
+            final String level, final boolean info) throws SourceFileExceptionList, IOException {
 
         // first we try to get more information about required modules and their predicates..
         try {
@@ -135,7 +139,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         TextOutput printer = null;
         try {
             printer = new TextOutput(prop.getName(), new FileOutputStream(destination));
-            final Qedeq2Latex converter = new Qedeq2Latex(this, prop, printer, language, level);
+            final Qedeq2Latex converter = new Qedeq2Latex(this, prop, printer, language, level, info);
             converter.traverse();
             prop.addPluginErrors(this, converter.getErrorList(), converter.getWarningList());
         } finally {
@@ -170,9 +174,10 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         return result;
     }
 
-    public InputStream createLatex(final KernelQedeqBo prop, final String language, final String level)
+    public InputStream createLatex(final KernelQedeqBo prop, final String language, final String level,
+            final boolean info)
             throws SourceFileExceptionList, IOException {
-        return new FileInputStream(generateLatex(prop, language, level));
+        return new FileInputStream(generateLatex(prop, language, level, info));
     }
 
 }
