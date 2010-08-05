@@ -473,7 +473,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         printer.println("\\begin{ax}" + (title != null ? "[" + title + "]" : ""));
         printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
         if (info) {
-            printer.println("{\\tt \\tiny [" + id + "]}");
+            printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
         }
         printFormula(axiom.getFormula().getElement());
         printer.println(getLatexListEntry(axiom.getDescription()));
@@ -484,7 +484,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         printer.println("\\begin{prop}" + (title != null ? "[" + title + "]" : ""));
         printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
         if (info) {
-            printer.println("{\\tt \\tiny [" + id + "]}");
+            printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
         }
         printTopFormula(proposition.getFormula().getElement(), id);
         printer.println(getLatexListEntry(proposition.getDescription()));
@@ -518,7 +518,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.println("\\begin{defn}" + (title != null ? "[" + title + "]" : ""));
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
             if (info) {
-                printer.println("{\\tt \\tiny [" + id + "]}");
+                printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
             }
             define.append("\\ :\\leftrightarrow \\ ");
             define.append(getLatex(definition.getFormula().getElement()));
@@ -526,7 +526,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.println("\\begin{idefn}" + (title != null ? "[" + title + "]" : ""));
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
             if (info) {
-                printer.println("{\\tt \\tiny [" + id + "]}");
+                printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
             }
         }
         define.append("$$");
@@ -555,7 +555,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.println("\\begin{defn}" + (title != null ? "[" + title + "]" : ""));
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
             if (info) {
-                printer.println("{\\tt \\tiny [" + id + "]}");
+                printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
             }
             define.append("\\ := \\ ");
             define.append(getLatex(definition.getTerm().getElement()));
@@ -563,7 +563,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.println("\\begin{idefn}" + (title != null ? "[" + title + "]" : ""));
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
             if (info) {
-                printer.println("{\\tt \\tiny [" + id + "]}");
+                printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
             }
         }
         define.append("$$");
@@ -586,7 +586,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         printer.println("\\begin{rul}" + (title != null ? "[" + title + "]" : ""));
         printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
         if (info) {
-            printer.println("{\\tt \\tiny [" + id + "]}");
+            printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
         }
         printer.println(getLatexListEntry(rule.getDescription()));
         printer.println("\\end{rul}");
