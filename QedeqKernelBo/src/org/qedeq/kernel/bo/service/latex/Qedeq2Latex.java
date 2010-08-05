@@ -473,7 +473,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         printer.println("\\begin{ax}" + (title != null ? "[" + title + "]" : ""));
         printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
         if (info) {
-            printer.println("{\\tt \\[" + id + "\\]}");
+            printer.println("{\\tt \\tiny [" + id + "]}");
         }
         printFormula(axiom.getFormula().getElement());
         printer.println(getLatexListEntry(axiom.getDescription()));
@@ -483,6 +483,9 @@ public final class Qedeq2Latex extends ControlVisitor {
     public void visitEnter(final Proposition proposition) {
         printer.println("\\begin{prop}" + (title != null ? "[" + title + "]" : ""));
         printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+        if (info) {
+            printer.println("{\\tt \\tiny [" + id + "]}");
+        }
         printTopFormula(proposition.getFormula().getElement(), id);
         printer.println(getLatexListEntry(proposition.getDescription()));
         printer.println("\\end{prop}");
@@ -514,11 +517,17 @@ public final class Qedeq2Latex extends ControlVisitor {
         if (definition.getFormula() != null) {
             printer.println("\\begin{defn}" + (title != null ? "[" + title + "]" : ""));
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+            if (info) {
+                printer.println("{\\tt \\tiny [" + id + "]}");
+            }
             define.append("\\ :\\leftrightarrow \\ ");
             define.append(getLatex(definition.getFormula().getElement()));
         } else {
             printer.println("\\begin{idefn}" + (title != null ? "[" + title + "]" : ""));
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+            if (info) {
+                printer.println("{\\tt \\tiny [" + id + "]}");
+            }
         }
         define.append("$$");
         // we always save the definition, even if there already exists an entry
@@ -545,11 +554,17 @@ public final class Qedeq2Latex extends ControlVisitor {
         if (definition.getTerm() != null) {
             printer.println("\\begin{defn}" + (title != null ? "[" + title + "]" : ""));
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+            if (info) {
+                printer.println("{\\tt \\tiny [" + id + "]}");
+            }
             define.append("\\ := \\ ");
             define.append(getLatex(definition.getTerm().getElement()));
         } else {
             printer.println("\\begin{idefn}" + (title != null ? "[" + title + "]" : ""));
             printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+            if (info) {
+                printer.println("{\\tt \\tiny [" + id + "]}");
+            }
         }
         define.append("$$");
         // we always save the definition, even if there already exists an entry
@@ -570,6 +585,9 @@ public final class Qedeq2Latex extends ControlVisitor {
     public void visitEnter(final Rule rule) {
         printer.println("\\begin{rul}" + (title != null ? "[" + title + "]" : ""));
         printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+        if (info) {
+            printer.println("{\\tt \\tiny [" + id + "]}");
+        }
         printer.println(getLatexListEntry(rule.getDescription()));
         printer.println("\\end{rul}");
 
