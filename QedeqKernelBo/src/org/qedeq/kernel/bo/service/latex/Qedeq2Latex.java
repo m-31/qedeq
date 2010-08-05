@@ -76,7 +76,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     private static final Class CLASS = Qedeq2Latex.class;
 
 // TODO m31 20100316: check number area for error codes
-// FIXME m31 20100803: add JUnit tests for all error codes 
+// FIXME m31 20100803: add JUnit tests for all error codes
 
     /** Error (or warning) number for: ending "}" for "\qref{" not found.*/
     public static final int QREF_END_NOT_FOUND_CODE = 80007;
