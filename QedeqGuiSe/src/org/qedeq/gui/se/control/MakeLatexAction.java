@@ -64,7 +64,7 @@ class MakeLatexAction extends AbstractAction {
             final Thread thread = new Thread() {
                 public void run() {
                     final Map parameters = new HashMap();
-                    parameters.put("info", Boolean.TRUE);
+                    parameters.put("info", "true");
                     for (int i = 0; i < props.length; i++) {
                         KernelContext.getInstance().executePlugin(Qedeq2LatexPlugin.CLASS.getName(),
                             props[i].getModuleAddress(), parameters);
