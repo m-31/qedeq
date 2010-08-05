@@ -1553,16 +1553,15 @@
             <LATEX language="en">
               <![CDATA[
 
-                Being in the universal class is therefore the same as being a set.
+                It is no wonder that the following is true because a class has only sets as elements.
                 
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
 
-                Mitgliedschaft in der Allklasse ist daher gleichbedeutet mit der 
-                Eigenschaft eine Menge zu sein.
-                
+                Da in einer Klasse nur Mengen als Elemente vorkommen, verwundert es nicht, dass folgendes gilt.
+
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1597,10 +1596,38 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                ]]>
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $x \in \{ y \ | \ \phi(y) \} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land \phi(x)$
+                      & dies ist \qref{theorem:setNotation}[a] \\
+                    $x \in \{ y \ | \ y = y \} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land y = y$
+                      & Substitution für $\phi$ \\
+                    $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land y = y$
+                      & \qref{definition:universalClass} \\
+                    $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x)$
+                      & \qref{l.theorem:propositionalCalculus}[au] und \qref{l.axiom:identityIsReflexive}
+                  \end{tabularx}                ]]>
               </LATEX>
             </PROOF>
           </THEOREM>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+
+                Being in the universal class is therefore the same as being a set.
+                
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+
+                Mitgliedschaft in der Allklasse ist daher gleichbedeutet mit der 
+                Eigenschaft eine Menge zu sein.
+                
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
         </NODE>
 
         <NODE id="theorem:universalClassContainsAllSets" level="formal">
