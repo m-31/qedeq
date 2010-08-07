@@ -1267,13 +1267,11 @@
             <PROOF kind="informal" level="2">
               <LATEX language="en">
                 <![CDATA[
-                  \mbox{}
-                  \par
-                  $\forall \ x \ ( \phi(x) \leftrightarrow \psi(x))$
                   \par
                   \begin{tabularx}{\linewidth}{rclX}
-                    & $\rightarrow$ & $\forall \ x \ (\phi(x) \land \mathfrak{M}(x) \ \leftrightarrow \ \psi(x) \land \mathfrak{M}(x))$
-                      & \qref{l.rule:replacePred} \\
+                    $(\phi(x) \leftrightarrow \psi(x))$ & $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & \qref{l.theorem:propositionalCalculus}[bl] \\
+                    $\forall x \ ((\phi(x) \leftrightarrow \psi(x))$ & $\rightarrow  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x)))$ & \qref{l.rule:derivedQuantification} \\                    
+                    $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ & $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & \qref{l.theorem:predicateCalculus} \\
                     & $\rightarrow$ & $\forall \ x \ ( x \in \{ y \ | \ \phi(y) \} \ \leftrightarrow \ x \in \{ y \ | \ \psi(y) \})$ 
                       & \qref{theorem:setNotation}[a] \\
                     & $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
