@@ -1857,6 +1857,23 @@
                 </EQUI>
 
                 <IMPL>
+                  <IMPL>
+                    <PREDVAR id="A" />
+                    <PREDVAR id="B" />
+                  </IMPL>
+                  <IMPL>
+                    <AND>
+                      <PREDVAR id="A" />
+                      <PREDVAR id="C" />
+                    </AND>
+                    <AND>
+                      <PREDVAR id="B" />
+                      <PREDVAR id="C" />
+                    </AND>
+                  </IMPL>
+                </IMPL>
+
+                <IMPL>
                   <EQUI>
                     <PREDVAR id="A" />
                     <PREDVAR id="B" />
@@ -2295,6 +2312,35 @@
                   Sei die Aussage $\alpha \leftrightarrow \beta$ bereits bewiesen. Wird dann aus der Formel $\delta$ eine neue Formel $\gamma$ dadurch gewonnen, dass ein beliebiges Vorkommen von $\alpha$ durch $\beta$ ersetzt\footnote{Bei dieser Ersetzung kann es erforderlich sein, dass gebundene Variablen von $\beta$ umbenannt werden müssen, damit sich wieder eine Formel ergibt.} wird und besitzt $\gamma$ zumindest die freien Variablen von $\delta$, dann gilt $\delta \leftrightarrow \gamma$.
                 ]]>
               </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+
+        <NODE id="rule:derivedQuantification">
+          <NAME>
+            <LATEX language="en">derived quantification</LATEX>
+            <LATEX language="de">abgeleitete Quantifizierung</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Derived Quantification</LATEX>
+            <LATEX language="de">Abgeleitete Quantifizierung</LATEX>
+          </TITLE>
+          <RULE name="derivedQuantification">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+
+                  If we have already derived the true formula $\alpha(x)$ and $x$ is not bound in $\alpha(x)$ then the formula $\forall x \ \alpha(x)$ is also true.
+
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+
+                  Falls wir die wahre Formel $\alpha(x)$ bereits abgeleitet haben und $x$ in $\alpha(x)$ nicht gebunden vorkommt, dann ist die Formel $\forall x \ \alpha(x)$ ebenfalls wahr.
+                ]]>
+              </LATEX>
+
             </DESCRIPTION>
           </RULE>
         </NODE>
