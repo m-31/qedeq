@@ -307,7 +307,7 @@ public class GenerateLatexTest extends QedeqTestCase {
             throw prop.getErrors();
         }
 
-        final String web = "http://qedeq.org/"
+        final String web = "http://www.qedeq.org/"
             + KernelFacade.getKernelContext().getKernelVersionDirectory() + "/doc/" + xml;
         final InternalKernelServices services = (InternalKernelServices) IoUtility.getFieldContent(
             KernelFacade.getKernelContext(), "services");
