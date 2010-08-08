@@ -1268,6 +1268,7 @@
               <LATEX language="en">
                 <![CDATA[
                   \mbox{}
+                  \par
                   \begin{tabularx}{\linewidth}{rlX}
 %%                  \begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
                     $(\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:propositionalCalculus}[bl]} \\
@@ -1284,6 +1285,7 @@
               <LATEX language="de">
                 <![CDATA[
                   \mbox{}
+                  \par
                   \begin{tabularx}{\linewidth}{rlX}
 %%                  \begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
                     $(\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:propositionalCalculus}[bl]} \\
