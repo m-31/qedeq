@@ -1269,14 +1269,14 @@
                 <![CDATA[
                   \mbox{}
                   \par
-                  \begin{tabularx}{\linewidth}{rclX}
+                  \begin{tabularx}{\linewidth}{rlX}
 %%                  \begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
-                    $(\phi(x) \leftrightarrow \psi(x))$ & $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:propositionalCalculus}[bl]} \\
-                    $\forall x \ ((\phi(x) \leftrightarrow \psi(x))$ & $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x)))$ & {\tiny \qref{l.rule:derivedQuantification}} \\                    
-                    $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ & $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:predicateCalculus}} \\
-                    & $\rightarrow$ & $\forall \ x \ ( x \in \{ y \ | \ \phi(y) \} \ \leftrightarrow \ x \in \{ y \ | \ \psi(y) \})$ 
+                    $(\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:propositionalCalculus}[bl]} \\
+                    $\forall x \ ((\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x)))$ & {\tiny \qref{l.rule:derivedQuantification}} \\                    
+                    $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:predicateCalculus}} \\
+                    $\rightarrow$ & $\forall \ x \ ( x \in \{ y \ | \ \phi(y) \} \ \leftrightarrow \ x \in \{ y \ | \ \psi(y) \})$ 
                       & {\tiny \qref{theorem:setNotation}[a]} \\
-                    & $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
+                    $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
                       & {\tiny \qref{theorem:setNotation}[c]}
                   \end{tabularx}
 %%                  \end{longtable}
@@ -1302,7 +1302,7 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-                We remark that the reverse implication is false. This is due to the fact that the class notation embraces only sets. For example: if $phi(x) \leftrightarrow x \neq x$ and $\psi(x) \leftrightarrow \forall y \ (y \in x \rightarrow y \notin y)$ then the associated classes are identical to the empty class (\qref{definition:emptySet}). No class fulfills $phi(x)$ but Russells class (\qref{definition:RussellClass} satifies $\psi(x)$.
+                We remark that the reverse implication is false. This is due to the fact that the class notation embraces only sets. For example: if $\phi(x) \leftrightarrow x \neq x$ and $\psi(x) \leftrightarrow \forall y \ (y \in x \rightarrow y \notin y)$ then the associated classes are identical to the empty class (\qref{definition:emptySet}). No class fulfills $phi(x)$ but Russells class (\qref{definition:RussellClass} satifies $\psi(x)$.
               ]]>
             </LATEX>
             <LATEX language="de">
