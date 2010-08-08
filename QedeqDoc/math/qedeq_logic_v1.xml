@@ -67,7 +67,7 @@
           This document describes the logical axoims and the rules and meta rules that are used to derive new propositions.
 
           \par
-          The presentation is axiomatic and in a formal form. A formal calculus is given that enables us to derive all true formulas. Additional derived rules, definitions, abbreviations and syntax extensions basically correspond with the mathematical practice.
+          The presentation is axiomatic and in a formal form. A formal calculus is given that enables us to derive all true formulas. Additional derived rules, theorems, definitions, abbreviations and syntax extensions basically correspond with the mathematical practice.
 
           \par
           This document is also written in a formal language, the original text is a XML file with a syntax defined by the XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
@@ -87,7 +87,7 @@
           Dieses Dokument beschreibt die logischen Axiome, Schluss- und Metaregeln mit denen logische Schlüsse durchgeführt werden können.
 
           \par
-          Die Darstellung erfolgt in axiomatischer Weise und in formaler Form. Dazu wird ein Kalkül angegeben, der es gestattet alle wahren Formeln abzuleiten. Weitere abgeleitete Regeln, Definitionen, Abkürzungen und Syntaxerweiterungen entsprechen im Wesentlichen der mathematischen Praxis.
+          Die Darstellung erfolgt in axiomatischer Weise und in formaler Form. Dazu wird ein Kalkül angegeben, der es gestattet alle wahren Formeln abzuleiten. Weitere abgeleitete Regeln, Sätze, Definitionen, Abkürzungen und Syntaxerweiterungen entsprechen im Wesentlichen der mathematischen Praxis.
 
           \par
           Dieses Dokument liegt auch selbst in einer formalen Sprache vor, der Ursprungstext ist eine XML-Datei, deren Syntax mittels der XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd} definiert wird.
@@ -128,7 +128,7 @@
           I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their support and patience.          
 
           \par
-          \vspace*{1cm} Hamburg, September, 2009 \\
+          \vspace*{1cm} Hamburg, August, 2010 \\
           \hspace*{\fill} Michael Meyling
 
         ]]>
@@ -153,7 +153,7 @@
           Besonderer Dank geht an meine Frau \emph{Gesine~Dräger} und unseren Sohn \emph{Lennart} für ihre Unterstützung und ihr Verständnis für ihnen fehlende Zeit -- wobei der Verständnisgrad unseres Kleinkinds vielleicht noch nicht so stark ausgeprägt ist.
 
           \par
-          \vspace*{1cm} Hamburg, September 2009 \\
+          \vspace*{1cm} Hamburg, August 2010 \\
           \hspace*{\fill} Michael Meyling
 
         ]]>
