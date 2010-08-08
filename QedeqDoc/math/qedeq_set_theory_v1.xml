@@ -265,13 +265,13 @@
             <LATEX language="en">
               <![CDATA[
                 We also say ``$x$ \emph{is element of} $y$'', ``$x$ \emph{belongs to} $y$'', ``$x$ \emph{is a member of} $y$'' or ``$x$ \emph{is in} $y$''.
-                Beside identity this is the only predicate we start with. All other will be defined.\footnote{One could also define the identity predicate within the set theory, but then another axiom is needed and the theory presentation is not so smooth for technical reasons (derivation of the equality axioms).} Also no function constants are initially given.
+                Beside identity this is the only predicate we start with. All other will be defined. Also no function constants are initially given. Later on we will successively fix their meaning.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
                 Wir sagen auch \glqq$x$ \emph{ist Element von} $y$\grqq, \glqq$x$ \emph{gehört zu} $y$\grqq, \glqq$x$ \emph{liegt in} $y$\grqq oder auch \glqq$x$ \emph{ist in} $y$\grqq.
-                Neben der Identität ist dies das einzige Prädikat welches wir zu Beginn haben. Alle anderen werden definiert.\footnote{Wir könnten die Identität auch innerhalb der Mengenlehre definieren werden, aber dann wird auch ein weiters Axiom benötigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Gleichheitsaxiome.} Auch Funktionskonstanten haben wir zu Anfang nicht.
+                Neben der Identität ist dies das einzige Prädikat welches wir zu Beginn haben. Alle anderen werden definiert. Auch Funktionskonstanten haben wir zu Anfang nicht, ihre Bedeutung wird sukzessive im weiteren Verlauf festgelegt.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -325,12 +325,12 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                 Our first axiom states that, for any classes $x$ and $y$, if the membership of $x$ and $y$ are the same, then $x$ and $y$ are the same.\footnote{If identity were not part of our underlying logic, then we should need to take this as a definition of identity.}
+                 Our first axiom states that, for any classes $x$ and $y$, if the membership of $x$ and $y$ are the same, then $x$ and $y$ are the same.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Unser erstes Axiom besagt, dass beliebige Klassen $x$ und $y$ genau dann identisch sind, wenn sie dieselben Elemente enthalten.\footnote{Falls wir das Identitätsprädikat nicht als logisches Symbol voraussetzen würden, dann würden wir es hiermit definieren.}
+                Unser erstes Axiom besagt, dass beliebige Klassen $x$ und $y$ identisch sind, wenn sie dieselben Elemente enthalten.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -431,6 +431,20 @@
               </LATEX>
             </PROOF>
           </THEOREM>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                If identity were not part of our underlying logic, then we should need to take this as a definition of identity. But then another axiom is needed and the theory presentation is not so smooth for technical reasons (derivation of the identy axioms).\footnote{
+                  Additional to the identy definition we need the following form of the extensionality axiom: $(x = y \land x \in z) \ \rightarrow y \in z$. This is a special case of the Leibniz's replacement rule that we know already as \qref{l.axiom:leibnizReplacement}. The correctness of the general rule can be proved by recursion over formula building. See also \cite{schmidt} \S 6.}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Falls wir das Identitätsprädikat nicht als logisches Symbol voraussetzen würden, dann würden wir es hiermit definieren.Aber dann wird auch ein weiteres Axiom benötigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Identitätsaxiome.\footnote{
+                  Zusätzlich zur Definition der Identität muss das Axiom der Extensionalität in folgender Formulierung treten: $(x = y \land x \in z) \ \rightarrow y \in z$. Das ist ein Spezialfall der Leibnizschen Ersetzbarkeit, die wir bereits als \qref{l.axiom:leibnizReplacement} kennen. Die Gültigkeit im allgemeinen Fall kann durch Rekursion über den Aufbau der Fromeln nachgeweisen werden. Siehe auch \cite{schmidt} \S 6.}
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
         </NODE>
 
         <NODE id="definition:isSet">
