@@ -1730,21 +1730,21 @@
                   \mbox{}
                   \par
                   \begin{tabularx}{\linewidth}{rclX}
-                    $\mathfrak{V} & $=$ & $\{ x \ | \ x = x\}$
+                    $\mathfrak{V}$ & $=$ & $\{ x \ | \ x = x\}$
                       & \qref{definition:universalClass} \\
-                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $y \in \{ x \ | \ x = x\}$
+                    $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $y \in \{ x \ | \ x = x\}$
                       & \qref{theorem:extensonalityEquivalence} \\
-                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $\mathfrak{M}(y) \land y = y$
+                    $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land y = y$
                       & \qref{theorem:setNotation}[a] \\
-                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $\mathfrak{M}(y) \land \top$
+                    $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land \top$
                       & \qref{replaceTrueFormulaByTrue} \\
-                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $\mathfrak{M}(y)$
+                    $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y)$
                       & \qref{l.theorem:propositionalCalculus}[au] \\
-                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $ \mathfrak{M}(y) \land \mathfrak{M}(y)$
+                    $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $ \mathfrak{M}(y) \land \mathfrak{M}(y)$
                       & \qref{l.theorem:propositionalCalculus}[al] \\
-                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $y \in \{ x \ | \ \mathfrak{M}(x)\}$
+                    $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $y \in \{ x \ | \ \mathfrak{M}(x)\}$
                       & \qref{theorem:setNotation} \\
-                    $\mathfrak{V} & $=$ & $\{ x \ | \ \mathfrak{M}(x)\}$
+                    $\mathfrak{V}$ & $=$ & $\{ x \ | \ \mathfrak{M}(x)\}$
                       & \qref{theorem:extensonalityEquivalence}
                   \end{tabularx}
                 ]]>
