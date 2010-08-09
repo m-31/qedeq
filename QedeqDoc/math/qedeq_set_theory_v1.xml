@@ -1367,7 +1367,7 @@
                   \begin{tabularx}{\linewidth}{rclX}
                     $z \in x$ & $\leftrightarrow$ & $z \in x \land \mathfrak{M}(z)$ & \qref{theorem:inSetEqualInSetAndIsSet} \\
                     $z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \}$ & \qref{theorem:setNotation}[a] \\
-                    $\forall z \ (z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \})$ & \qref{rule:derivedQuantification} \\
+                    $\forall z \ (z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \})$ & \qref{l.rule:derivedQuantification} \\
                     $x$ & $=$ & $\{y \ | \ y \}$ & \qref{theorem:extensonalityEquivalence}
                   \end{tabularx}
                 ]]>
@@ -1379,7 +1379,7 @@
                   \begin{tabularx}{\linewidth}{rclX}
                     $z \in x$ & $\leftrightarrow$ & $z \in x \land \mathfrak{M}(z)$ & \qref{theorem:inSetEqualInSetAndIsSet} \\
                     $z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \}$ & \qref{theorem:setNotation}[a] \\
-                    $\forall z \ (z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \})$ & \qref{rule:derivedQuantification} \\
+                    $\forall z \ (z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \})$ & \qref{l.rule:derivedQuantification} \\
                     $x$ & $=$ & $\{y \ | \ y \}$ & \qref{theorem:extensonalityEquivalence}
                   \end{tabularx}                ]]>
               </LATEX>
@@ -1713,7 +1713,7 @@
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land y = y$
                       & \qref{theorem:setNotation}[a] \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land \top$
-                      & \qref{replaceTrueFormulaByTrue} \\
+                      & \qref{l.rule:replaceTrueFormulaByTrue} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y)$
                       & \qref{l.theorem:propositionalCalculus}[au] \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $ \mathfrak{M}(y) \land \mathfrak{M}(y)$
@@ -1737,7 +1737,7 @@
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land y = y$
                       & \qref{theorem:setNotation}[a] \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land \top$
-                      & \qref{replaceTrueFormulaByTrue} \\
+                      & \qref{l.rule:replaceTrueFormulaByTrue} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y)$
                       & \qref{l.theorem:propositionalCalculus}[au] \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $ \mathfrak{M}(y) \land \mathfrak{M}(y)$
