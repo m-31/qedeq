@@ -887,8 +887,9 @@ public final class Qedeq2Latex extends ControlVisitor {
                         Trace.info(CLASS, this, method, "no labels found");
                     }
                 }
-                if (node == null) {
+                if (node == null && ref.length() > 0) {
                     Trace.info(CLASS, this, method, "node not found for " + ref);
+                    addWarning(QREF_PARSING_EXCEPTION_CODE, QREF_PARSING_EXCEPTION_MSG + ": " + "node not found for " + ref);
                 }
 
                 // do we have an external module?
