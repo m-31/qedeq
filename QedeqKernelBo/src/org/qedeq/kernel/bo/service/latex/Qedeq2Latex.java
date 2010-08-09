@@ -78,11 +78,11 @@ public final class Qedeq2Latex extends ControlVisitor {
 // TODO m31 20100316: check number area for error codes
 // FIXME m31 20100803: add JUnit tests for all error codes
 
-    /** Error (or warning) number for: ending "}" for "\qref{" not found.*/
+    /** Error (or warning) number for: ending "}" for "\qref{" not found within 1024 characters.*/
     public static final int QREF_END_NOT_FOUND_CODE = 80007;
 
     /** Error (or warning) text for: ending "}" for "\qref{" not found. */
-    public static final String QREF_END_NOT_FOUND_MSG = "ending \"}\" for \"\\qref{\" not found";
+    public static final String QREF_END_NOT_FOUND_MSG = "ending \"}\" for \"\\qref{\" not found within 1024 characters";
 
     /** Error (or warning) number for: ending "}" for "\qref{" not found. */
     public static final int QREF_EMPTY_CODE = 80008;
@@ -828,6 +828,10 @@ public final class Qedeq2Latex extends ControlVisitor {
                 int pos = pos1 + qref.length();
                 int pos2 = result.indexOf("}", pos);
                 if (pos2 < 0) {
+                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
+                    break;
+                }
+                if (pos2 - pos > 1024) {
                     addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
                     break;
                 }
