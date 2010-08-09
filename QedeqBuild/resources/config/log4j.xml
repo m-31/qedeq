@@ -18,7 +18,7 @@
     <!-- console logging -->
     <appender name="ConsoleAppender" class="org.apache.log4j.ConsoleAppender">
         <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%d %c{2}%m%n" />
+            <param name="ConversionPattern" value="%d %c{2} %m%n" />
         </layout>
     </appender>
 
