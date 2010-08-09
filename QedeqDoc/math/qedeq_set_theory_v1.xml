@@ -1700,6 +1700,36 @@
                 </CLASS>
               </PREDCON>
             </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $\mathfrak{V} & $=$ & $\{ x \ | \ x = x\}$
+                      & \qref{definition:universalClass} \\
+                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $y \in \{ x \ | \ x = x\}$
+                      & \qref{theorem:extensonalityEquivalence} \\
+                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $\mathfrak{M}(y) \land y = y$
+                      & \qref{\qref{theorem:setNotation}[a]} \\
+                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $\mathfrak{M}(y) \land \top$
+                      & \qref{replaceTrueFormulaByTrue} \\
+                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $\mathfrak{M}(y)$
+                      & \qref{l.theorem:propositionalCalculus}[au] \\
+                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $ \mathfrak{M}(y) \land \mathfrak{M}(y)$
+                      & \qref{l.theorem:propositionalCalculus}[al] \\
+                    $\forall y \ (y \in \mathfrak{V} & $\leftrightarrow$ & $y \in \{ x \ | \ \mathfrak{M}(x)\}$
+                      & \qref{theorem:setNotation} \\
+                    $\mathfrak{V} & $=$ & $\{ x \ | \ \mathfrak{M}(x)\}$
+                      & \qref{theorem:extensonalityEquivalence}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
         </NODE>
 
