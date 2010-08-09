@@ -2316,6 +2316,64 @@
           </RULE>
         </NODE>
 
+        <NODE id="rule:replaceTrueByTrueFormula">
+          <NAME>
+            <LATEX language="en">replace $\top$ by true formula</LATEX>
+            <LATEX language="de">Ersetzung von $\top$ durch wahre Formel</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Replacement of $\top$ by already derived formula</LATEX>
+            <LATEX language="de">Ersetzung von $\top$ durch bereits abgeleitete Formel</LATEX>
+          </TITLE>
+          <RULE name="replaceTrueByTrueFormula">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+
+                  Let $\alpha$ be an already derived true formula and $\beta$ a formula that contains $\top$. If we get a well formed formula $\gamma$ by replacing an arbitray occurence of $\top$ in $\beta$ with $\alpha$ then the following formula is also true: $\beta \leftrightarrow \gamma$
+
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+
+                  Sei $\alpha$ eine bereits abgeleitete wahre Formel und $\beta$ eine Formel, die $\top$ enthält. Falls wir durch Ersetzung eines beliebigen Vorkommens von $\top$ in $\beta$ durch $\alpha$ eine wohlgeformte Formel $\gamma$ erhalten, dann ist die folgende Formel ebenfalls wahr: $\beta \leftrightarrow \gamma$
+
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+
+        <NODE id="rule:replaceTrueFormulaByTrue">
+          <NAME>
+            <LATEX language="en">replace true formula by $\top$</LATEX>
+            <LATEX language="de">Ersetzung von wahrer Formel durch $\top$</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Replacement of already derived formula by $\top$</LATEX>
+            <LATEX language="de">Ersetzung von bereits abgeleiteter Formel durch $\top$</LATEX>
+          </TITLE>
+          <RULE name="replaceTrueFormulaByTrue">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+
+                  Let $\alpha$ be an already derived true formula and $\beta$ a formula that contains $\alpha$. If we get a well formed formula $\gamma$ by replacing an arbitray occurence of $\alpha$ in $\beta$ by $\top$ then the following formula is also true: $\beta \leftrightarrow \gamma$
+
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+
+                  Sei $\alpha$ eine bereits abgeleitete wahre Formel und $\beta$ eine Formel, die $\alpha$ enthält. Falls wir durch Ersetzung eines beliebigen Vorkommens von $\alpha$ in $\beta$ durch $\top$ eine wohlgeformte Formel $\gamma$ erhalten, dann ist die folgende Formel ebenfalls wahr: $\beta \leftrightarrow \gamma$
+
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+
         <NODE id="rule:derivedQuantification">
           <NAME>
             <LATEX language="en">derived quantification</LATEX>
