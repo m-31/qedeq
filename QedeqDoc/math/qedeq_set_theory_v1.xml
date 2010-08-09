@@ -1359,6 +1359,24 @@
                  </CLASS>
               </PREDCON>
             </FORMULA>
+            <PROOF kind="informal" level="2">
+              <LATEX language="en">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $z \in x$ $\leftrightarrow$ & $z \in x \land \mathfrak{M}(z)$ & {\tiny \qref{theorem:inSetEqualInSetAndIsSet}} \\
+                    $z \in x$ $\leftrightarrow$ & $z \in \{y \ | \ y }$ & {\tiny \qref{theorem:setNotation}[a]} \\
+                    $\forall z \ (z \in x$ $\leftrightarrow$ & $z \in \{y \ | \ y })$ & {\tiny \qref{rule:derivedQuantification}} \\
+                    $x$ & $=$ & $\{y \ | \ y })$ & {\tiny \qref{theorem:extensonalityEquivalence}}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
         </NODE>
         
