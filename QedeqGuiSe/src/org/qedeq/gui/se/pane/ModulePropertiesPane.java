@@ -77,7 +77,7 @@ public class ModulePropertiesPane extends JPanel {
         builder.getPanel().setOpaque(false);
         builder.setDefaultDialogBorder();
 
-        builder.append("Loading State");
+        builder.append("State");
         state = createTextField("", false);
         builder.append(state);
 
