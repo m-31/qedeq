@@ -25,7 +25,6 @@ import org.xml.sax.helpers.DefaultHandler;
  * SAX handler that remembers {@link org.xml.sax.Locator} and possibly
  * encoding of XML document.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class SimpleHandler extends DefaultHandler {
