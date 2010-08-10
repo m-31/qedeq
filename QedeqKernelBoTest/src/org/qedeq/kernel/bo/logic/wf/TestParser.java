@@ -106,7 +106,7 @@ public class TestParser {
             SAXException, IOException {
         try {
             String data = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + xml;
-            SaxDefaultHandler handler = new SaxDefaultHandler();
+            SaxDefaultHandler handler = new SaxDefaultHandler(new DummyPlugin());
             ElementHandler simple = new ElementHandler(handler);
             handler.setBasisDocumentHandler(simple);
             TestParser parser = new TestParser(handler);

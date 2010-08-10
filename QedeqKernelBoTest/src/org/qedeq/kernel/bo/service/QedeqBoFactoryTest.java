@@ -198,7 +198,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
     public static final Qedeq createQedeqFromFile(final File file)
             throws ParserConfigurationException, SAXException, IOException,
             SourceFileExceptionList {
-        SaxDefaultHandler handler = new SaxDefaultHandler();
+        SaxDefaultHandler handler = new SaxDefaultHandler(new DummyPlugin());
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
         SaxParser parser = new SaxParser(DummyPlugin.getInstance(), handler);

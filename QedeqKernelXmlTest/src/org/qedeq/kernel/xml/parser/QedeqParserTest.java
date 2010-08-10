@@ -35,7 +35,7 @@ public class QedeqParserTest extends QedeqTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         {
-            SaxDefaultHandler handler = new SaxDefaultHandler();
+            SaxDefaultHandler handler = new SaxDefaultHandler(new DummyPlugin());
             AbstractSimpleHandler simple = new AbstractSimpleHandler(handler, null) {
 
                 public void startElement(final String name, final SimpleAttributes attributes) {
@@ -60,7 +60,7 @@ public class QedeqParserTest extends QedeqTestCase {
             parser1 = new SaxParser(DummyPlugin.getInstance(), handler);
         }
         {
-            SaxDefaultHandler handler = new SaxDefaultHandler();
+            SaxDefaultHandler handler = new SaxDefaultHandler(new DummyPlugin());
             AbstractSimpleHandler simple = new QedeqHandler(handler);
             handler.setBasisDocumentHandler(simple);
             parser2 = new SaxParser(DummyPlugin.getInstance(), handler);

@@ -138,7 +138,7 @@ public abstract class AbstractSimpleHandler {
      * @return  Plugin in use.
      */
     public final Plugin getPlugin() {
-        return defaultHandler;
+        return defaultHandler.getPlugin();
     }
 
     /**

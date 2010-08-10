@@ -162,7 +162,7 @@ public final class CheckLogicTest extends QedeqTestCase {
             SourceFileExceptionList {
         final ModuleAddress context = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(xmlFile.getAbsoluteFile()));
-        SaxDefaultHandler handler = new SaxDefaultHandler();
+        SaxDefaultHandler handler = new SaxDefaultHandler(new DummyPlugin());
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
         SaxParser parser = new SaxParser(DummyPlugin.getInstance(), handler);

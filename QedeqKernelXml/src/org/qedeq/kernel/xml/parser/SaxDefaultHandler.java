@@ -39,7 +39,7 @@ import org.xml.sax.SAXParseException;
  *
  * @author  Michael Meyling
  */
-public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXME m31 20100315: must this be a plugin?
+public class SaxDefaultHandler extends SimpleHandler {
 
     /** This class. */
     private static final Class CLASS = SaxDefaultHandler.class;
@@ -68,11 +68,17 @@ public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXM
     /** Current tag name. Could be <code>null</code>. */
     private String currentElementName;
 
+    /** The plugin we work for. */
+    private final Plugin plugin;
+
     /**
      * Constructor.
+     *
+     * @param   plugin  The plugin we work for.
      */
-    public SaxDefaultHandler() {
+    public SaxDefaultHandler(final Plugin plugin) {
         super();
+        this.plugin = plugin;
     }
 
     /**
@@ -145,12 +151,12 @@ public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXM
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
             setLocationInformation(e);
-            errorList.add(new SourceFileException(this, e, createSourceArea(), null));
+            errorList.add(new SourceFileException(plugin, e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            final SourceFileException sfe = new SourceFileException(this, ex.getErrorCode(),
+            final SourceFileException sfe = new SourceFileException(plugin, ex.getErrorCode(),
                 ex.getMessage(), ex,
                 createSourceArea(),
                 null);
@@ -173,12 +179,12 @@ public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXM
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
             setLocationInformation(e);
-            errorList.add(new SourceFileException(this, e, createSourceArea(), null));
+            errorList.add(new SourceFileException(plugin, e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            errorList.add(new SourceFileException(this, ex, createSourceArea(), null));
+            errorList.add(new SourceFileException(plugin, ex, createSourceArea(), null));
         }
         try {
             currentElementName = null;
@@ -190,7 +196,7 @@ public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXM
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
             setLocationInformation(e);
-            final SourceFileException sfe = new SourceFileException(this, e.getErrorCode(),
+            final SourceFileException sfe = new SourceFileException(plugin, e.getErrorCode(),
                 e.getMessage(), e,
                 createSourceArea(),
                 null);
@@ -199,7 +205,7 @@ public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXM
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            errorList.add(new SourceFileException(this, ex, createSourceArea(), null));
+            errorList.add(new SourceFileException(plugin, ex, createSourceArea(), null));
         }
     }
 
@@ -226,12 +232,12 @@ public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXM
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, "sendCharacters", e);
             setLocationInformation(e);
-            errorList.add(new SourceFileException(this, e, createSourceArea(), null));
+            errorList.add(new SourceFileException(plugin, e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, "sendCharacters", e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
             setLocationInformation(ex);
-            errorList.add(new SourceFileException(this, ex, createSourceArea(), null));
+            errorList.add(new SourceFileException(plugin, ex, createSourceArea(), null));
         }
     }
 
@@ -351,16 +357,13 @@ public class SaxDefaultHandler extends SimpleHandler implements Plugin { // FIXM
             new SourcePosition(1 , 1));
     }
 
-    public String getPluginId() {
-        return CLASS.getName();
-    }
-
-    public String getPluginName() {
-        return "XML Reader";
-    }
-
-    public String getPluginDescription() {
-        return "parse XML files";
+    /**
+     * Get plugin we work for.
+     *
+     * @return  Plugin.
+     */
+    public Plugin getPlugin() {
+        return plugin;
     }
 
 }

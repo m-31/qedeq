@@ -77,7 +77,7 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
     public Qedeq loadQedeq(final QedeqBo prop, final File file)
             throws SourceFileExceptionList {
         final String method = "loadLocalModule";
-        SaxDefaultHandler handler = new SaxDefaultHandler();
+        SaxDefaultHandler handler = new SaxDefaultHandler(this);
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
         SaxParser parser = null;

@@ -60,7 +60,7 @@ public final class LoadXmlOperatorListUtility implements Plugin {
         try {
             Trace.begin(CLASS, method);
             Trace.param(CLASS, method, "from", from);
-            SaxDefaultHandler handler = new SaxDefaultHandler();
+            SaxDefaultHandler handler = new SaxDefaultHandler(util);
             ParserHandler simple = new ParserHandler(handler);
             handler.setBasisDocumentHandler(simple);
             SaxParser parser = new SaxParser(util, handler);
