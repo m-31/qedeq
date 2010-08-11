@@ -73,7 +73,7 @@ class HelpAction extends AbstractAction {
         }
         JHelp jHelp = new JHelp(hs);
         JDialog dialog = new JDialog(controller.getMainFrame(), "Help", true);
-        dialog.add("Center", jHelp);
+        dialog.getContentPane().add("Center", jHelp);
         dialog.setSize(new Dimension(950, 700));
         dialog.setLocationRelativeTo(null);
         dialog.setVisible(true);
