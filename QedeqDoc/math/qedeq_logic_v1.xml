@@ -199,7 +199,7 @@
           In the 1928 published book \emph{Grundzüge der theoretischen Logik} (Principles of Theoretical Logic) \emph{D.~Hilbert} and \emph{W.~Ackermann} formalized propositional calculus in a way that build the basis for the logical system used here. 1959 \emph{P.~S.~Novikov} specified a refined axiom and rule system for predicate calculus.
           
           \par
-          In this text we present a first order predicate calculus with identity and functors that is the starting point for the development of the mathematical theory. Only the results without any proofs\footnote{If there is time some proofs may be added.} and in short form are given in the following.
+          In this text we present a first order predicate calculus with identity and functors that is the starting point for the development of the mathematical theory. Only the results without any proofs and in short form are given in the following.\footnote{If there is time proofs will be added.}
           
         ]]>
       </LATEX>
@@ -228,7 +228,7 @@
           In dem 1928 erschienenen Buch \emph{Grundzüge der theoretischen Logik} formulierten \emph{D.~Hilbert} und \emph{W.~Ackermann} ein axiomatisches System der Aussagenlogik, welches die Basis für das hier verwendete bildet. Durch das von \emph{P.~S.~Novikov} 1959 angegebene Axiomensystem und Regelwerk der Prädikatenlogik wird das System verfeinert.
           
           \par
-          In diesem Text wird ein Prädikatenkalkül erster Stufe mit Identität und Funktoren vorgestellt, der die Grundlagen für die Entwicklung der mathematischen Theorie schafft. Es werden im Folgenden nur die Ergebnisse ohne weitere Beweise und in knapper Form präsentiert.
+          In diesem Text wird ein Prädikatenkalkül erster Stufe mit Identität und Funktoren vorgestellt, der die Grundlagen für die Entwicklung der mathematischen Theorie schafft. Es werden im Folgenden nur die Ergebnisse ohne weitere Beweise und in knapper Form präsentiert.\footnote{Die Beweise werden zu einem späteren Zeitpunkt ergänzt.}
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -245,11 +245,7 @@
     <INTRODUCTION>
       <LATEX language="en">
         <![CDATA[
-          The logical foundation of \textbf{Hilbert II} will be introduced here. The language of our calculus bases on the formalizations of \emph{D.~Hilbert}, \emph{W.~Ackermann}, \emph{P.~Bernays} and \emph{P.~S.~Novikov}. New rules 
-          can be derived from the herein presented. Only these meta rules lead to a smooth flowing logical argumentation.
-          
-          \par
-          Although this document describes a very formal approach to express mathematical content it is not sufficent to serve as a definition for an computer readable document format. Therefore such an extensive specification has to be done elsewhere. The choosen format is the \emph{Extensible Markup Language} abbreviated \emph{XML}. XML is a set of rules for encoding documents electronically.\footnote{See \url{http://www.w3.org/XML/} for more information.}
+          In this chapter we define a formal language to express mathematical propositions in a very precise way. Although this document describes a very formal approach to express mathematical content it is not sufficent to serve as a definition for an computer readable document format. Therefore such an extensive specification has to be done elsewhere. The choosen format is the \emph{Extensible Markup Language} abbreviated \emph{XML}. XML is a set of rules for encoding documents electronically.\footnote{See \url{http://www.w3.org/XML/} for more information.}
           The according formal syntax specification can be found at \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
           It specifies a complete mathematical document format that enables the generation of \LaTeX books and makes automatic proof checking possible. 
           Further syntax restrictions and some explanations can be found at \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.
@@ -262,10 +258,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Die Grundlagen der bei \textbf{Hilbert II} verwendeten Logik werden hier zusammengestellt. Die folgende Kalkülsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert}, \emph{W.~Ackermann}, \emph{P.~Bernays} und \emph{P.~S.~Novikov}. Aus den hier angegebenen logischen Axiomen und den elementaren Schlussregeln können weitere Gesetzmäßigkeiten abgeleitet werden. Erst diese neuen Metaregeln führen zu einer komfortablen logischen Argumentation.
-
-          \par
-          Obgleich dieses Dokument mathematischen Inhalt sehr formal beschreibt, reicht es nicht aus um als Definition für ein computerlesbares Dokumentformat zu dienen. Daher muss eine solch extensive Spezifikation an anderer Stelle erfolgen.
+          Um mathematische Aussagen präzise formulieren zu können, wird in diesem Kapitel eine formale Sprache definiert. Obgleich dieses Dokument mathematischen Inhalt sehr formal beschreibt, reicht es nicht aus um als Definition für ein computerlesbares Dokumentformat zu dienen. Daher muss eine solch extensive Spezifikation an anderer Stelle erfolgen.
           Das dafür ausgewählte Format ist die \emph{Extensible Markup Language} abgekürzt \emph{XML}. XML beschreibt eine Menge von Regeln für den Aufbau elektronischer Dokumente.\footnote{Siehe \url{http://www.w3.org/XML/} für weitere Informationen.} Die daran ausgerichtete formale Syntaxspezifikation kann hier gelesen werden: \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
           Damit wird ein mathematisches Dokumentenformat festgelegt, das die Erzeugung von \LaTeX Büchern und eine automatische Beweisüberprüfung ermöglicht. 
           Weitere Syntaxbeschränkungen und einige Erklärungen werden beschrieben in \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.
@@ -463,6 +456,10 @@
       <INTRODUCTION>
         <LATEX language="en">
           <![CDATA[
+            The language of our calculus bases on the formalizations of \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~Bernays} and \emph{P.~S.~Novikov}\cite{novikov}. New rules 
+          can be derived from the herein presented. Only these meta rules lead to a smooth flowing logical argumentation.
+          
+          
             We want to present the axioms, definitions and rules in an syntactical manner but to motivate the choosen form we already give some semantical \emph{interpretations}.
 
             \par
@@ -472,6 +469,10 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
+            
+            Die Grundlagen der bei \textbf{Hilbert II} verwendeten Logik werden hier zusammengestellt. Die folgende Kalkülsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~Bernays} und \emph{P.~S.~Novikov}\cite{novikov}. Aus den hier angegebenen logischen Axiomen und den elementaren Schlussregeln können weitere Gesetzmäßigkeiten abgeleitet werden. Erst diese neuen Metaregeln führen zu einer komfortablen logischen Argumentation.
+            
+            \par
             Die Axiome, Definitionen und Regeln werden in syntaktischer Weise vorgestellt, aber um die gewählte Form zu motivieren, geben wir bereits einige sematische \emph{Interpretationen}.
             
             \par
