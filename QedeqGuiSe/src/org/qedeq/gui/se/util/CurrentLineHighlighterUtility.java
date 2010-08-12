@@ -29,7 +29,7 @@ import javax.swing.text.JTextComponent;
  *
  * @author  Santhosh Kumar T
  * @author  Peter De Bruycker
- * @author  Michael Meyling (small adaptions).
+ * @author  Michael Meyling (small adaption).
  */
 public final class CurrentLineHighlighterUtility {
 
