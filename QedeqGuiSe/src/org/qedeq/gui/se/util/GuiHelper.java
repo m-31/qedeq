@@ -84,7 +84,7 @@ public final class GuiHelper {
     private static final int DEFAULT_EMPTY_BORDER_PIXEL_X = 10;
 
     /** Width of empty border. */
-    private static final int DEFAULT_EMPTY_BORDER_PIXEL_Y = 5;
+    private static final int DEFAULT_EMPTY_BORDER_PIXEL_Y = 10;
 
     /**
      * Hidden constructor.
@@ -309,6 +309,18 @@ public final class GuiHelper {
         return BorderFactory.createEmptyBorder(GuiHelper
                 .getEmptyBorderPixelsY(), GuiHelper.getEmptyBoderPixelsX(),
                 GuiHelper.getEmptyBorderPixelsY(), GuiHelper
+                        .getEmptyBoderPixelsX());
+    }
+
+    /**
+     * A border that puts extra pixels at the sides and bottom of each pane.
+     * 
+     * @return Border with extra space.
+     */
+    public static Border getEmptyBorderStackable() {
+        return BorderFactory.createEmptyBorder(GuiHelper
+                .getEmptyBorderPixelsY() / 2, GuiHelper.getEmptyBoderPixelsX(),
+                GuiHelper.getEmptyBorderPixelsY() / 2, GuiHelper
                         .getEmptyBoderPixelsX());
     }
 
