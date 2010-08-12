@@ -18,7 +18,6 @@ package org.qedeq.gui.se.pane;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -39,13 +38,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
-import javax.swing.border.Border;
 import javax.swing.filechooser.FileFilter;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.context.KernelContext;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
@@ -59,9 +58,6 @@ import com.jgoodies.forms.layout.FormLayout;
  */
 
 public class PreferencesDialog extends JDialog {
-
-    /**  Width of empty border. TODO m31 20100303: dynamize pixel number for empty border */
-    private static final int DEFAULT_EMPTY_BORDER_PIXEL = 10;
 
     /** This class. */
     private static final Class CLASS = PreferencesDialog.class;
@@ -340,8 +336,7 @@ public class PreferencesDialog extends JDialog {
 
     private JComponent addSpaceAndTitle(final JPanel panel, final String title) {
         JPanel withSpace = new JPanel();
-        withSpace.setBorder(BorderFactory.createEmptyBorder(DEFAULT_EMPTY_BORDER_PIXEL, DEFAULT_EMPTY_BORDER_PIXEL,
-            DEFAULT_EMPTY_BORDER_PIXEL, DEFAULT_EMPTY_BORDER_PIXEL));
+        withSpace.setBorder(GuiHelper.getEmptyBorder());
         withSpace.add(panel);
         withSpace.setLayout(new GridLayout(0, 1));
         JPanel withTitle = new JPanel();
@@ -382,31 +377,13 @@ public class PreferencesDialog extends JDialog {
     }
 
     /**
-     * Adds boarder space and floats panel to the right.
-     *
-     * @param   panel   Panel to decorate.
-     * @return  Panel with more decorations.
-     */
-    private JComponent addSpaceAndAlignRight(final JPanel panel) {
-        JPanel withSpace = new JPanel();
-        withSpace.add(panel);
-        JPanel alignRight = new JPanel();
-        alignRight.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        alignRight.add(withSpace);
-        return alignRight;
-    }
-
-    /**
      * Assembles the GUI components of the panel.
      */
     public final void setupView() {
         final Container content = getContentPane();
         content.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        // A border that puts extra pixels at the sides and bottom of each pane.
-        Border paneEdge = BorderFactory.createEmptyBorder(DEFAULT_EMPTY_BORDER_PIXEL, DEFAULT_EMPTY_BORDER_PIXEL,
-             DEFAULT_EMPTY_BORDER_PIXEL, DEFAULT_EMPTY_BORDER_PIXEL);
         JPanel allOptions = new JPanel();
-        allOptions.setBorder(paneEdge);
+        allOptions.setBorder(GuiHelper.getEmptyBorder());
         allOptions.setLayout(new BoxLayout(allOptions, BoxLayout.Y_AXIS));
         allOptions.add(buildBinaryOptionPanel());
         allOptions.add(buildPathsPanel());
@@ -435,7 +412,7 @@ public class PreferencesDialog extends JDialog {
         bbuilder.addGriddedButtons(new JButton[]{cancel, ok});
 
         final JPanel buttons = bbuilder.getPanel();
-        content.add(addSpaceAndAlignRight(buttons));
+        content.add(GuiHelper.addSpaceAndAlignRight(buttons));
 
         // let the container calculate the ideal size
         pack();
