@@ -132,8 +132,9 @@ public class TextOutputTest extends QedeqTestCase {
         out.close();
         
 //        System.out.println(to.toString());
-        assertEquals(StringUtility.string2Hex(XML_DATA.replace("\n", SystemUtils.LINE_SEPARATOR),
-            "ISO-8859-1"), StringUtility.byte2Hex(to.toByteArray()));
+        assertEquals(StringUtility.string2Hex(StringUtility.replace(XML_DATA,
+            "\n", SystemUtils.LINE_SEPARATOR), "ISO-8859-1"),
+            StringUtility.byte2Hex(to.toByteArray()));
     }
 
     public void testPushPop() throws Exception {
