@@ -506,7 +506,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     public boolean loadAllModulesFromQedeq() {
         processInc();
         try {
-            final String prefix = "http://qedeq.org/" + kernel.getKernelVersionDirectory() + "/";
+            final String prefix = "http://www.qedeq.org/" + kernel.getKernelVersionDirectory() + "/";
             final String[] list = new String[] {
                 prefix + "doc/math/qedeq_logic_v1.xml",
                 prefix + "doc/math/qedeq_set_theory_v1.xml",
@@ -558,6 +558,12 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             throws SourceFileExceptionList {
         final String method = "saveQedeqFromWebToBuffer(DefaultKernelQedeqBo)";
         Trace.begin(CLASS, this, method);
+
+        if (!KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
+            saveQedeqFromWebToBufferOld(prop);
+            Trace.end(CLASS, this, method);
+            return;
+        }
 
         // set proxy properties according to kernel configuration (if not webstarted)
         if (!IoUtility.isWebStarted()) {
@@ -688,9 +694,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * @param prop Module properties.
      * @throws SourceFileExceptionList Address was malformed or the file can not be found.
      */
-    public void saveQedeqFromWebToBufferNew(final DefaultKernelQedeqBo prop)
+    public void saveQedeqFromWebToBufferOld(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
-        final String method = "saveQedeqFromWebToBufferNew(DefaultKernelQedeqBo)";
+        final String method = "saveQedeqFromWebToBufferOld(DefaultKernelQedeqBo)";
         Trace.begin(CLASS, this, method);
 
         if (prop.getModuleAddress().isFileAddress()) { // this is already a local file
@@ -705,15 +711,21 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         HttpClient client = new HttpClient();
 
 // FIXME m31 20100302: validate
-        //        final String pHost = System.getProperty("proxyHost", "");
-        final String pHost = kernel.getConfig().getHttpProxyHost();
-//        final int pPort = Integer.parseInt(System.getProperty("proxyPort", "80"));
-        final int pPort = Integer.parseInt(kernel.getConfig().getHttpProxyPort());
-        System.out.println("proxyHost=" + pHost);
-        System.out.println("proxyPort=" + pPort);
-//        System.out.println(0 / 0);
-        if (pHost.length() > 0) {
-            client.getHostConfiguration().setProxy(pHost, pPort);
+        // set proxy properties according to kernel configuration (if not webstarted)
+        if (!IoUtility.isWebStarted() && kernel.getConfig().getHttpProxyHost() != null) {
+            final String pHost = kernel.getConfig().getHttpProxyHost();
+            int pPort = 80;
+            if (kernel.getConfig().getHttpProxyPort() != null) {
+                try {
+                    pPort = Integer.parseInt(kernel.getConfig().getHttpProxyPort());
+                } catch (RuntimeException e) {
+                    Trace.fatal(CLASS, this, method, "proxy port not numeric: "
+                        + kernel.getConfig().getHttpProxyPort(), e);
+                }
+            }
+            if (pHost.length() > 0) {
+                client.getHostConfiguration().setProxy(pHost, pPort);
+            }
         }
 
         // Create a method instance.
