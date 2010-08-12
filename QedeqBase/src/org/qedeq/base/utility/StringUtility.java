@@ -119,8 +119,9 @@ public final class StringUtility {
       }
 
     /**
-     * Returns a readable presentation of a String array.
-     * 
+     * Returns a readable presentation of a String array. Something like "{a, null, c}" if the
+     * Strings are "a", null, "c"
+     *
      * @param   list  List of Strings.
      * @return  Set notation for list.
      */
