@@ -38,7 +38,34 @@ public abstract class YodaUtility {
     /**
      * Analyze if a class or one of its super classes contains a given method.
      * <p>
-     * Example: you can test with <code>YodaUtility.existsMethod((URLConnection) httpConnection,
+     * Example: you can test with <code>YodaUtility.existsMethod("java.net.URLConnection",
+     * "setConnectTimeout", new Class[] {Integer.TYPE}</code> with JDK 1.4.2 and if you run it
+     * with a 1.5 JRE or higher then it will be successfully executed.
+     *
+     * @param   clazz           Class to analyze.
+     * @param   name            Method name.
+     * @param   parameterTypes  Parameter types.
+     * @param   parameter       Parameter values.
+     * @return  Does the class (or one of its super classes) have such a method?
+     */
+    public static boolean existsMethod(final String clazz, final String name,
+            final Class[] parameterTypes) {
+        Class c;
+        try {
+            c = Class.forName(clazz);
+        } catch (ClassNotFoundException e) {
+            return false;
+        }
+        if (c == null) {
+            return false;
+        }
+        return existsMethod(c, name, parameterTypes);
+    }
+
+    /**
+     * Analyze if a class or one of its super classes contains a given method.
+     * <p>
+     * Example: you can test with <code>YodaUtility.existsMethod(URLConnection.class,
      * "setConnectTimeout", new Class[] {Integer.TYPE}</code> with JDK 1.4.2 and if you run it
      * with a 1.5 JRE or higher then it will be successfully executed.
      *
