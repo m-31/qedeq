@@ -57,8 +57,7 @@ import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 
 /**
  * Various GUI utility methods.
- * 
- * @version $Revision: 1.6 $
+ *
  * @author Michael Meyling
  */
 public final class GuiHelper {
