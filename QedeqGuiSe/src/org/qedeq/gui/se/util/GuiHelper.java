@@ -16,6 +16,7 @@
 package org.qedeq.gui.se.util;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
@@ -31,6 +32,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
@@ -38,6 +40,11 @@ import javax.swing.UIManager;
 import javax.swing.border.Border;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.table.JTableHeader;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.table.TableColumnModel;
+import javax.swing.table.TableModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.JTextComponent;
 
@@ -50,20 +57,22 @@ import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 
 /**
  * Various GUI utility methods.
- *
+ * 
  * @version $Revision: 1.6 $
- * @author  Michael Meyling
+ * @author Michael Meyling
  */
-public final class GuiHelper  {
+public final class GuiHelper {
 
     /** This class. */
     private static final Class CLASS = GuiHelper.class;
 
     /** Color for line highlighter. */
-    private static Color lineHighlighterBackgroundColor = new Color(232, 242, 254);
+    private static Color lineHighlighterBackgroundColor = new Color(232, 242,
+            254);
 
     /** Color for line highlighter and marked areas. */
-    private static Color markedAndHiglightedBackgroundColor = new Color(232, 242, 254, 128);
+    private static Color markedAndHiglightedBackgroundColor = new Color(232,
+            242, 254, 128);
 
     /** Color for error text areas. */
     private static Color errorTextBackgroundColor = new Color(180, 206, 255);
@@ -71,10 +80,10 @@ public final class GuiHelper  {
     /** Color for warning text areas. */
     private static Color warningTextBackgroundColor = new Color(255, 255, 190);
 
-    /**  Width of empty border. */
+    /** Width of empty border. */
     private static final int DEFAULT_EMPTY_BORDER_PIXEL_X = 10;
 
-    /**  Width of empty border. */
+    /** Width of empty border. */
     private static final int DEFAULT_EMPTY_BORDER_PIXEL_Y = 5;
 
     /**
@@ -85,8 +94,8 @@ public final class GuiHelper  {
     }
 
     /**
-     * Configures the user interface; requests Swing settings and
-     * JGoodies Looks options from the launcher.
+     * Configures the user interface; requests Swing settings and JGoodies Looks
+     * options from the launcher.
      */
     public static void configureUI(final GuiOptions options) {
         UIManager.put("ClassLoader", CLASS.getClassLoader());
@@ -94,19 +103,21 @@ public final class GuiHelper  {
         Options.setDefaultIconSize(new Dimension(18, 18));
         Options.setUseNarrowButtons(options.isUseNarrowButtons());
         Options.setTabIconsEnabled(options.isTabIconsEnabled());
-        UIManager.put(Options.POPUP_DROP_SHADOW_ENABLED_KEY,
-                options.isPopupDropShadowEnabled());
-// LATER m31 20100319: we make this now direct in QedeqPane, this line didn't help. Why?
+        UIManager.put(Options.POPUP_DROP_SHADOW_ENABLED_KEY, options
+                .isPopupDropShadowEnabled());
+        // LATER m31 20100319: we make this now direct in QedeqPane, this line
+        // didn't help. Why?
         // we want our disabled TextAreas to look same if not editable
-        UIManager.put("TextArea.disabledBackground", UIManager.get("TextArea.background"));
+        UIManager.put("TextArea.disabledBackground", UIManager
+                .get("TextArea.background"));
 
         // Swing Settings
         LookAndFeel selectedLaf = options.getSelectedLookAndFeel();
         if (selectedLaf instanceof PlasticLookAndFeel) {
             PlasticLookAndFeel.setPlasticTheme(options.getSelectedTheme());
             PlasticLookAndFeel.setTabStyle(options.getPlasticTabStyle());
-            PlasticLookAndFeel.setHighContrastFocusColorsEnabled(
-                options.isPlasticHighContrastFocusEnabled());
+            PlasticLookAndFeel.setHighContrastFocusColorsEnabled(options
+                    .isPlasticHighContrastFocusEnabled());
         } else if (selectedLaf.getClass() == MetalLookAndFeel.class) {
             MetalLookAndFeel.setCurrentTheme(new DefaultMetalTheme());
         }
@@ -127,10 +138,12 @@ public final class GuiHelper  {
 
     /**
      * Creates a JButton configured for use in a JToolBar.
-     *
-     * @param   iconName    Name of icon.
-     * @param   toolTipText Tool tip text.
-     * @return  Button.
+     * 
+     * @param iconName
+     *            Name of icon.
+     * @param toolTipText
+     *            Tool tip text.
+     * @return Button.
      */
     public static AbstractButton createToolBarButton(final String iconName,
             final String toolTipText) {
@@ -142,30 +155,39 @@ public final class GuiHelper  {
 
     /**
      * Creates a JButton configured for use in a JToolBar.
-     *
-     * @param   iconName    Name of icon.
-     * @param   toolTipText Tool tip text.
-     * @param   action      Action for this button.
-     * @param   keyStroke   Short cut key.
-     * @return  Button.
+     * 
+     * @param iconName
+     *            Name of icon.
+     * @param toolTipText
+     *            Tool tip text.
+     * @param action
+     *            Action for this button.
+     * @param keyStroke
+     *            Short cut key.
+     * @return Button.
      */
     public static AbstractButton createToolBarButton(final String iconName,
-            final String toolTipText, final ActionListener action, final KeyStroke keyStroke) {
+            final String toolTipText, final ActionListener action,
+            final KeyStroke keyStroke) {
         AbstractButton button = createToolBarButton(iconName, toolTipText);
-        button.registerKeyboardAction(action, keyStroke, JComponent.WHEN_IN_FOCUSED_WINDOW);
+        button.registerKeyboardAction(action, keyStroke,
+                JComponent.WHEN_IN_FOCUSED_WINDOW);
         return button;
     }
 
     /**
      * Creates a JToggleButton configured for use in a JToolBar.
-     *
-     * @param   iconName    Name of icon.
-     * @param   toolTipText Tool tip text.
-     * @return  Radio button.
+     * 
+     * @param iconName
+     *            Name of icon.
+     * @param toolTipText
+     *            Tool tip text.
+     * @return Radio button.
      */
-    public static AbstractButton createToolBarRadioButton(final String iconName,
-            final String toolTipText) {
-        final JToggleButton button = new JToggleButton(GuiHelper.readImageIcon(iconName));
+    public static AbstractButton createToolBarRadioButton(
+            final String iconName, final String toolTipText) {
+        final JToggleButton button = new JToggleButton(GuiHelper
+                .readImageIcon(iconName));
         button.setToolTipText(toolTipText);
         button.setFocusable(false);
         return button;
@@ -173,9 +195,10 @@ public final class GuiHelper  {
 
     /**
      * Get an icon for given filename postfix.
-     *
-     * @param   filename    Look for this icon.
-     * @return  Icon.
+     * 
+     * @param filename
+     *            Look for this icon.
+     * @return Icon.
      */
     public static ImageIcon readImageIcon(final String filename) {
         URL url = ResourceLoaderUtility.getResourceUrl("images/" + filename);
@@ -184,8 +207,8 @@ public final class GuiHelper  {
 
     /**
      * Get background color for highlighting the current line.
-     *
-     * @return  Background color.
+     * 
+     * @return Background color.
      */
     public static Color getLineHighlighterBackgroundColor() {
         return lineHighlighterBackgroundColor;
@@ -193,8 +216,8 @@ public final class GuiHelper  {
 
     /**
      * Get background color for error text areas.
-     *
-     * @return  Background color.
+     * 
+     * @return Background color.
      */
     public static Color getErrorTextBackgroundColor() {
         return errorTextBackgroundColor;
@@ -202,8 +225,8 @@ public final class GuiHelper  {
 
     /**
      * Get background color for warning text areas.
-     *
-     * @return  Background color.
+     * 
+     * @return Background color.
      */
     public static Color getWarningTextBackgroundColor() {
         return warningTextBackgroundColor;
@@ -211,22 +234,24 @@ public final class GuiHelper  {
 
     /**
      * Get background color for marked and highlightted text areas.
-     *
-     * @return  Background color.
+     * 
+     * @return Background color.
      */
     public static Color getCurrentAndMarkedBackgroundColor() {
         return markedAndHiglightedBackgroundColor;
     }
 
-
     /**
-     * Paint current line background area with {@link #getLineHighlighterBackgroundColor()}.
-     *
-     * @param   g   Graphics to use.
-     * @param   c   Text component to work on.
+     * Paint current line background area with
+     * {@link #getLineHighlighterBackgroundColor()}.
+     * 
+     * @param g
+     *            Graphics to use.
+     * @param c
+     *            Text component to work on.
      */
-    public static void paintCurrentLineBackground(final Graphics g, final JTextComponent c,
-            final Color col)  {
+    public static void paintCurrentLineBackground(final Graphics g,
+            final JTextComponent c, final Color col) {
         // if something is selected we don't highlight
         if (c.getSelectionStart() != c.getSelectionEnd()) {
             return;
@@ -243,9 +268,10 @@ public final class GuiHelper  {
 
     /**
      * Adds boarder space and floats panel to the right.
-     *
-     * @param   panel   Panel to decorate.
-     * @return  Panel with more decorations.
+     * 
+     * @param panel
+     *            Panel to decorate.
+     * @return Panel with more decorations.
      */
     public static JComponent addSpaceAndAlignRight(final JPanel panel) {
         JPanel withSpace = new JPanel();
@@ -258,16 +284,16 @@ public final class GuiHelper  {
 
     /**
      * Width of horizontal empty border.
-     *
+     * 
      * Return horizontal empty boarder pixel distance.
      */
     public static int getEmptyBoderPixelsX() {
         return DEFAULT_EMPTY_BORDER_PIXEL_X;
     }
 
-    /** 
+    /**
      * Width of vertical empty border.
-     *
+     * 
      * Return vertical empty boarder pixel distance.
      */
     public static int getEmptyBorderPixelsY() {
@@ -276,14 +302,62 @@ public final class GuiHelper  {
 
     /**
      * A border that puts extra pixels at the sides and bottom of each pane.
-     *
+     * 
      * @return Border with extra space.
      */
     public static Border getEmptyBorder() {
-        return BorderFactory.createEmptyBorder(GuiHelper.getEmptyBorderPixelsY(),
-            GuiHelper.getEmptyBoderPixelsX(), GuiHelper.getEmptyBorderPixelsY(),
-            GuiHelper.getEmptyBoderPixelsX());
+        return BorderFactory.createEmptyBorder(GuiHelper
+                .getEmptyBorderPixelsY(), GuiHelper.getEmptyBoderPixelsX(),
+                GuiHelper.getEmptyBorderPixelsY(), GuiHelper
+                        .getEmptyBoderPixelsX());
+    }
+
+    /**
+     * Caclulate table column width according to contents.
+     *
+     * @author  Christian Kaufhold
+     * See <a href="http://www.chka.de/swing/table/cell-sizes.html">Calculating initial
+     * column widths based on contents<a>
+     *
+     * @param   table   Calculate width for this table.
+     */
+    public static void calcColumnWidths(JTable table) {
+        JTableHeader header = table.getTableHeader();
+        TableCellRenderer defaultHeaderRenderer = null;
+        if (header != null) {
+            defaultHeaderRenderer = header.getDefaultRenderer();
+        }
+        TableColumnModel columns = table.getColumnModel();
+        TableModel data = table.getModel();
+        int margin = columns.getColumnMargin(); // only JDK1.3
+        int rowCount = data.getRowCount();
+        int totalWidth = 0;
+        for (int i = columns.getColumnCount() - 1; i >= 0; --i) {
+            final TableColumn column = columns.getColumn(i);
+            final int columnIndex = column.getModelIndex();
+            int width = -1;
+            TableCellRenderer h = column.getHeaderRenderer();
+            if (h == null) {
+                h = defaultHeaderRenderer;
+            }
+            if (h != null) { // Not explicitly impossible
+                Component c = h.getTableCellRendererComponent(table, column.getHeaderValue(),
+                    false, false, -1, i);
+                width = c.getPreferredSize().width;
+            }
+            for (int row = rowCount - 1; row >= 0; --row) {
+                TableCellRenderer r = table.getCellRenderer(row, i);
+                Component c = r.getTableCellRendererComponent(table, data.getValueAt(row,
+                    columnIndex), false, false, row, i);
+                width = Math.max(width, c.getPreferredSize().width);
+            }
+            if (width >= 0) {
+                column.setPreferredWidth(width + margin);
+            } else {
+                // ???
+            }
+            totalWidth += column.getPreferredWidth();
+        }
     }
 
 }
-
