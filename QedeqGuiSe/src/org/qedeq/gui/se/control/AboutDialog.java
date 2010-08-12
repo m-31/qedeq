@@ -17,7 +17,6 @@ package org.qedeq.gui.se.control;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
-import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
@@ -28,11 +27,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.Iterator;
-import java.util.Properties;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
@@ -46,6 +42,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.gui.se.util.GuiHelper;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
@@ -69,23 +66,23 @@ public class AboutDialog extends JDialog {
         final JPanel content = new JPanel(new BorderLayout());
         getContentPane().add(content);
 
-//        final ImageIcon icon = GuiHelper.readImageIcon("qedeq/32x32/qedeq.png");
-//        final JLabel logo = new JLabel(icon, JLabel.RIGHT);
-//        logo.setHorizontalTextPosition(JLabel.RIGHT);
+        final ImageIcon icon = GuiHelper.readImageIcon("qedeq/32x32/qedeq.png");
+        final JLabel logo = new JLabel(icon, JLabel.RIGHT);
+        logo.setText("GUI for Hilbert II ");
+        logo.setHorizontalTextPosition(JLabel.LEFT);
+        logo.setFont(UIManager.getFont("TitledBorder.font"));
 //        logo.setOpaque(true);
-//        logo.setBorder(new CompoundBorder(new EmptyBorder(5, 5, -5, 5),
-//                logo.getBorder()));
-        final JLabel text = new JLabel("GUI for " + "Hilbert II ", JLabel.RIGHT);
-        text.setFont(UIManager.getFont("TitledBorder.font"));
-        text.setBorder(new CompoundBorder(new EmptyBorder(5, 5, 5, 5),
-                text.getBorder()));
+        logo.setBorder(new CompoundBorder(new EmptyBorder(5, 5, 0, 10),
+                logo.getBorder()));
 
         final String url = "http://www.qedeq.org/";
 
-        final JPanel logoPanel = new JPanel(new GridLayout(1, 1));
-//        logoPanel.add(logo);
-        logoPanel.add(text);
-        logoPanel.setOpaque(true);
+        final JPanel logoPanel = new JPanel();
+//        logoPanel.setLayout(new BoxLayout(logoPanel, BoxLayout.X_AXIS));
+        logoPanel.setLayout(new GridLayout(1, 1));
+        logoPanel.add(logo);
+
+//      logoPanel.setOpaque(true);
         logoPanel.setToolTipText(url);
         logoPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         logoPanel.addMouseListener(new MouseAdapter() {
@@ -96,24 +93,29 @@ public class AboutDialog extends JDialog {
             }
         });
 
+        
+        
 //        logoPanel.setBorder(new CompoundBorder(new EmptyBorder(5, 5, 5, 5),
 //                new EtchedBorder()));
         content.add(logoPanel, BorderLayout.NORTH);
 
         final JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.putClientProperty("jgoodies.noContentBorder", Boolean.TRUE);
-        tabbedPane.putClientProperty(Options.EMBEDDED_TABS_KEY, Boolean.TRUE);
+        tabbedPane.setOpaque(false);
+//        tabbedPane.putClientProperty("jgoodies.noContentBorder", Boolean.TRUE);
+//        tabbedPane.putClientProperty(Options.EMBEDDED_TABS_KEY, Boolean.TRUE);
         tabbedPane.addTab("About", createAboutTab());
         tabbedPane.addTab("System Properties", createSystemPropertiesTab());
-        tabbedPane.setBorder(GuiHelper.getEmptyBorder());
-//        tabbedPane.setBorder(new CompoundBorder(new EmptyBorder(-5, 0, 0, 0),
-//                tabbedPane.getBorder()));
+//        tabbedPane.setBorder(GuiHelper.getEmptyBorder());
+        tabbedPane.setBorder(new CompoundBorder(new EmptyBorder(0, 10, 10, 10),
+                tabbedPane.getBorder()));
         content.add(tabbedPane, BorderLayout.CENTER);
 
         content.add(createBottomBar(), BorderLayout.SOUTH);
 
+
+        
         // let the container calculate the ideal size
-//        this.pack();
+        this.pack();
 
         int width = 540;
         int height = 320;
@@ -160,40 +162,22 @@ public class AboutDialog extends JDialog {
     }
 
     private JComponent createSystemPropertiesTab() {
-        final Properties props = System.getProperties();
-        String[][] rowData = new String[props.size()][2];
-        int rowNum = 0;
-        final Iterator iterator = props.keySet().iterator();
-        while (iterator.hasNext()) {
-            String key = (String) iterator.next();
-            String value = (String) props.get(key);
-            rowData[rowNum][0] = key;
-            rowData[rowNum][1] = value;
-            rowNum++;
-        }
-        Arrays.sort(rowData, new Comparator() {
-            public int compare(Object o1, Object o2) {
-                String[] s1 = (String[]) o1;
-                String[] s2 = (String[]) o2;
-                return s1[0].compareTo(s2[0]);
-            }
-        });
+        String[][] rowData = IoUtility.getSortedSystemProperties();
         String[] nvStrings = new String[] { "Property", "Value" };
         DefaultTableModel model = new DefaultTableModel(rowData, nvStrings) {
             public boolean isCellEditable(int row, int col) {
                 return false;
             }
         };
-        JTable table = new JTable(model);
-        table.setPreferredScrollableViewportSize(new Dimension(1500, 70));
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-        table.setAutoscrolls(true);
-        //        JScrollPane scroller = new BorderlessScrollPane(table);
+        JTable table = new JTable(model) {
+        };
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        GuiHelper.calcColumnWidths(table);
         JScrollPane scroller = new JScrollPane(table);
 //        scroller.setBorder(new LineBorder(UIManager.getColor("controlHighlight"),1));
         scroller.setBorder(GuiHelper.getEmptyBorder());
         scroller.setBackground(UIManager.getColor("controlShadow"));
-        scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+//        scroller.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 //        scroller.setBorder(new CompoundBorder(new EmptyBorder(5, 0, 0, 0), scroller.getBorder()));
         return scroller;
 //        JPanel propTab = new JPanel(new BorderLayout());
