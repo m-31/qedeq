@@ -41,9 +41,13 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import org.apache.commons.lang.SystemUtils;
 
@@ -1287,6 +1291,25 @@ public final class IoUtility {
             //  ignore
         }
         return result;
+    }
+
+    /**
+     * Get key sorted list of all System Properties.
+     *
+     * @return  Array with the two columns key and value.
+     */
+    public static String[][] getSortedSystemProperties() {
+        final Map map = new TreeMap(System.getProperties());
+        String[][] rowData = new String[map.size()][2];
+        int rowNum = 0;
+        final Iterator iterator = map.entrySet().iterator();
+        while (iterator.hasNext()) {
+            Map.Entry entry = (Map.Entry) iterator.next();
+            rowData[rowNum][0] = (String) entry.getKey();
+            rowData[rowNum][1] = (String) entry.getValue();
+            rowNum++;
+        }
+        return rowData;
     }
 
 }
