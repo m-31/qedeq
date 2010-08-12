@@ -310,8 +310,8 @@ public final class GuiHelper {
     }
 
     /**
-     * Calculate table column width according to contents.
-     * See <a href="http://www.chka.de/swing/table/cell-sizes.html">
+     * Calculate table column width according to contents. See
+     * <a href="http://www.chka.de/swing/table/cell-sizes.html">
      * Calculating initial column widths based on contents<a>.
      *
      * @author  Christian Kaufhold
