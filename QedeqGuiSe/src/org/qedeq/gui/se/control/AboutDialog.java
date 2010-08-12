@@ -46,7 +46,6 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.gui.se.util.GuiHelper;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
-import com.jgoodies.looks.Options;
 
 /**
  * Shows the application's "About" dialog box.
@@ -73,7 +72,7 @@ public class AboutDialog extends JDialog {
         logo.setFont(UIManager.getFont("TitledBorder.font"));
 //        logo.setOpaque(true);
         logo.setBorder(new CompoundBorder(new EmptyBorder(5, 5, 0, 10),
-                logo.getBorder()));
+            logo.getBorder()));
 
         final String url = "http://www.qedeq.org/";
 
@@ -93,8 +92,6 @@ public class AboutDialog extends JDialog {
             }
         });
 
-        
-        
 //        logoPanel.setBorder(new CompoundBorder(new EmptyBorder(5, 5, 5, 5),
 //                new EtchedBorder()));
         content.add(logoPanel, BorderLayout.NORTH);
@@ -113,7 +110,6 @@ public class AboutDialog extends JDialog {
         content.add(createBottomBar(), BorderLayout.SOUTH);
 
 
-        
         // let the container calculate the ideal size
         this.pack();
 
@@ -156,7 +152,6 @@ public class AboutDialog extends JDialog {
 
         bbuilder.addGriddedButtons(new JButton[]{copyButton, ok});
 
-        
         return GuiHelper.addSpaceAndAlignRight(bbuilder.getPanel());
 
     }
