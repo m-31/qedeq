@@ -164,8 +164,7 @@ public class AboutDialog extends JDialog {
                 return false;
             }
         };
-        JTable table = new JTable(model) {
-        };
+        JTable table = new JTable(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         GuiHelper.calcColumnWidths(table);
         JScrollPane scroller = new JScrollPane(table);
