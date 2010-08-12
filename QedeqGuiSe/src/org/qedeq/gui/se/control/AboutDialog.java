@@ -87,7 +87,7 @@ public class AboutDialog extends JDialog {
         logoPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(MouseEvent e) {
                 try {
-                } catch(Exception ex) { // ignore, just not open web page
+                } catch (Exception ex) { // ignore, just not open web page
                 }
             }
         });
