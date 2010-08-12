@@ -119,6 +119,34 @@ public final class StringUtility {
       }
 
     /**
+     * Returns a readable presentation of a String array.
+     * 
+     * @param   list  List of Strings.
+     * @return  Set notation for list.
+     */
+    public static String toString(final Object[] list) {
+        final StringBuffer buffer = new StringBuffer(30);
+        buffer.append("{");
+        if (list != null) {
+            for (int i = 0; i < list.length; i++) {
+                if (i > 0) {
+                    buffer.append(", ");
+                }
+                if (list[i] == null) {
+                    buffer.append("null");
+                } else {
+                    buffer.append("\"");
+                    buffer.append(list[i]);
+                    buffer.append("\"");
+                }
+            }
+        }
+        buffer.append("}");
+        return buffer.toString();
+    }
+
+
+    /**
      * Quotes a <code>String</code>. A a quote character &quot; is appended at the
      * beginning and the end of the <code>String</code>. If a quote character occurs
      * within the string it is replaced by two quotes.
