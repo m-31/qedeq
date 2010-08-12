@@ -312,14 +312,14 @@ public final class GuiHelper {
 
     /**
      * Calculate table column width according to contents.
+     * See <a href="http://www.chka.de/swing/table/cell-sizes.html">
+     * Calculating initial column widths based on contents<a>.
      *
      * @author  Christian Kaufhold
-     * See <a href="http://www.chka.de/swing/table/cell-sizes.html">Calculating initial
-     * column widths based on contents<a>
      *
      * @param   table   Calculate width for this table.
      */
-    public static void calcColumnWidths(JTable table) {
+    public static void calcColumnWidths(final JTable table) {
         final JTableHeader header = table.getTableHeader();
         TableCellRenderer defaultHeaderRenderer = null;
         if (header != null) {
