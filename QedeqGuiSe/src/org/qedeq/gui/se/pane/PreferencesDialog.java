@@ -25,6 +25,7 @@ import java.io.File;
 import java.io.IOException;
 
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -336,7 +337,7 @@ public class PreferencesDialog extends JDialog {
 
     private JComponent addSpaceAndTitle(final JPanel panel, final String title) {
         JPanel withSpace = new JPanel();
-        withSpace.setBorder(GuiHelper.getEmptyBorder());
+        withSpace.setBorder(GuiHelper.getEmptyBorderStackable());
         withSpace.add(panel);
         withSpace.setLayout(new GridLayout(0, 1));
         JPanel withTitle = new JPanel();
@@ -386,9 +387,12 @@ public class PreferencesDialog extends JDialog {
         allOptions.setBorder(GuiHelper.getEmptyBorder());
         allOptions.setLayout(new BoxLayout(allOptions, BoxLayout.Y_AXIS));
         allOptions.add(buildBinaryOptionPanel());
+        allOptions.add(Box.createVerticalStrut(GuiHelper.getEmptyBorderPixelsY()));
         allOptions.add(buildPathsPanel());
+        allOptions.add(Box.createVerticalStrut(GuiHelper.getEmptyBorderPixelsY()));
         allOptions.add(buildTimeoutPanel());
         JComponent proxyPanel = buildProxyPanel();
+        allOptions.add(Box.createVerticalStrut(GuiHelper.getEmptyBorderPixelsY()));
         allOptions.add(proxyPanel);
         content.add(allOptions);
 
