@@ -16,20 +16,12 @@
 package org.qedeq.gui.se.control;
 
 import java.awt.event.ActionEvent;
-import java.util.Enumeration;
-import java.util.Properties;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
-
-import org.qedeq.base.trace.Trace;
-import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.bo.context.KernelContext;
 
 /**
  * Shows the "about" dialog.
  *
- * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 class AboutAction extends AbstractAction {
