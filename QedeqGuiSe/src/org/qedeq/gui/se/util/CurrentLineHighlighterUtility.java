@@ -27,7 +27,6 @@ import javax.swing.text.JTextComponent;
  * This class can be used to highlight the current line for any JTextComponent.
  * To be used as a static utility
  *
- * @version $Revision: 1.1 $
  * @author  Santhosh Kumar T
  * @author  Peter De Bruycker
  * @author  Michael Meyling (small adaptions).
