@@ -49,7 +49,7 @@ import com.jgoodies.forms.builder.ButtonBarBuilder;
 
 /**
  * Shows the application's "About" dialog box.
- * 
+ *
  * @author  Michael Meyling
  */
 
@@ -85,7 +85,7 @@ public class AboutDialog extends JDialog {
         logoPanel.setToolTipText(url);
         logoPanel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         logoPanel.addMouseListener(new MouseAdapter() {
-            public void mouseClicked(MouseEvent e) {
+            public void mouseClicked(final MouseEvent e) {
                 try {
                 } catch (Exception ex) { // ignore, just not open web page
                 }
@@ -118,19 +118,16 @@ public class AboutDialog extends JDialog {
 
         this.setSize(width, height);
         this.addWindowListener(new WindowAdapter() {
-            public void windowClosing(WindowEvent e) {
+            public void windowClosing(final WindowEvent e) {
                 AboutDialog.this.dispose();
             }
-            
         });
 
     }
 
     private JComponent createBottomBar() {
-        
-        ButtonBarBuilder bbuilder = ButtonBarBuilder.createLeftToRightBuilder();
-
-        JButton ok = new JButton("Close");
+        final ButtonBarBuilder bbuilder = ButtonBarBuilder.createLeftToRightBuilder();
+        final JButton ok = new JButton("Close");
         ok.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
                 String command = actionEvent.getActionCommand();
@@ -158,9 +155,9 @@ public class AboutDialog extends JDialog {
 
     private JComponent createSystemPropertiesTab() {
         String[][] rowData = IoUtility.getSortedSystemProperties();
-        String[] nvStrings = new String[] { "Property", "Value" };
-        DefaultTableModel model = new DefaultTableModel(rowData, nvStrings) {
-            public boolean isCellEditable(int row, int col) {
+        String[] nvStrings = new String[] {"Property", "Value" };
+        final DefaultTableModel model = new DefaultTableModel(rowData, nvStrings) {
+            public boolean isCellEditable(final int row, final int col) {
                 return false;
             }
         };
