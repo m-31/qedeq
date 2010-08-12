@@ -17,21 +17,25 @@ package org.qedeq.gui.se.util;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.net.URL;
 
 import javax.swing.AbstractButton;
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JToggleButton;
 import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
+import javax.swing.border.Border;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.text.BadLocationException;
@@ -66,6 +70,12 @@ public final class GuiHelper  {
 
     /** Color for warning text areas. */
     private static Color warningTextBackgroundColor = new Color(255, 255, 190);
+
+    /**  Width of empty border. */
+    private static final int DEFAULT_EMPTY_BORDER_PIXEL_X = 10;
+
+    /**  Width of empty border. */
+    private static final int DEFAULT_EMPTY_BORDER_PIXEL_Y = 5;
 
     /**
      * Hidden constructor.
@@ -229,6 +239,50 @@ public final class GuiHelper  {
         }
         g.setColor(col);
         g.fillRect(0, r.y, c.getWidth(), r.height);
+    }
+
+    /**
+     * Adds boarder space and floats panel to the right.
+     *
+     * @param   panel   Panel to decorate.
+     * @return  Panel with more decorations.
+     */
+    public static JComponent addSpaceAndAlignRight(final JPanel panel) {
+        JPanel withSpace = new JPanel();
+        withSpace.add(panel);
+        JPanel alignRight = new JPanel();
+        alignRight.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        alignRight.add(withSpace);
+        return alignRight;
+    }
+
+    /**
+     * Width of horizontal empty border.
+     *
+     * Return horizontal empty boarder pixel distance.
+     */
+    public static int getEmptyBoderPixelsX() {
+        return DEFAULT_EMPTY_BORDER_PIXEL_X;
+    }
+
+    /** 
+     * Width of vertical empty border.
+     *
+     * Return vertical empty boarder pixel distance.
+     */
+    public static int getEmptyBorderPixelsY() {
+        return DEFAULT_EMPTY_BORDER_PIXEL_Y;
+    }
+
+    /**
+     * A border that puts extra pixels at the sides and bottom of each pane.
+     *
+     * @return Border with extra space.
+     */
+    public static Border getEmptyBorder() {
+        return BorderFactory.createEmptyBorder(GuiHelper.getEmptyBorderPixelsY(),
+            GuiHelper.getEmptyBoderPixelsX(), GuiHelper.getEmptyBorderPixelsY(),
+            GuiHelper.getEmptyBoderPixelsX());
     }
 
 }

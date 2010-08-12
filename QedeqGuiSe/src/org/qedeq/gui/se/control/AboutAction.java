@@ -47,19 +47,21 @@ class AboutAction extends AbstractAction {
     }
 
     public void actionPerformed(final ActionEvent e) {
-        JOptionPane.showMessageDialog(
-            controller.getMainFrame(), "GUI for "
-                + KernelContext.getInstance().getDescriptiveKernelVersion() + "\n\n"
-                + "\u00a9 2010 Michael Meyling. All Rights Reserved."
-                + "\n\n", "About", JOptionPane.INFORMATION_MESSAGE,
-                GuiHelper.readImageIcon("qedeq/32x32/qedeq.png"));
-        // ISSUE#3 Here we dump the system properties into the log
-        Properties sysprops = System.getProperties();
-        for (Enumeration prop = sysprops.propertyNames(); prop.hasMoreElements(); ) {
-            String key = (String) prop.nextElement();
-            String value = sysprops.getProperty(key);
-            Trace.fatal(AboutAction.class, this, "actionPerformed(ActionEvent)", key + "=" + value, null);
-        }
+        (new AboutDialog(controller.getMainFrame()
+                )).show();
+//        JOptionPane.showMessageDialog(
+//            controller.getMainFrame(), "GUI for "
+//                + KernelContext.getInstance().getDescriptiveKernelVersion() + "\n\n"
+//                + "\u00a9 2010 Michael Meyling. All Rights Reserved."
+//                + "\n\n", "About", JOptionPane.INFORMATION_MESSAGE,
+//                GuiHelper.readImageIcon("qedeq/32x32/qedeq.png"));
+//        // ISSUE#3 Here we dump the system properties into the log
+//        Properties sysprops = System.getProperties();
+//        for (Enumeration prop = sysprops.propertyNames(); prop.hasMoreElements(); ) {
+//            String key = (String) prop.nextElement();
+//            String value = sysprops.getProperty(key);
+//            Trace.fatal(AboutAction.class, this, "actionPerformed(ActionEvent)", key + "=" + value, null);
+//        }
     }
 
 }
