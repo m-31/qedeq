@@ -16,6 +16,7 @@
 package org.qedeq.gui.se.pane;
 
 import java.awt.Component;
+import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -109,7 +110,7 @@ public class PreferencesDialog extends JDialog {
         final String method = "Constructor";
         Trace.begin(CLASS, this, method);
         try {
-            setModalityType(DEFAULT_MODALITY_TYPE);
+            setModal(true);
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             setupView();
             updateView();
@@ -399,7 +400,8 @@ public class PreferencesDialog extends JDialog {
      * Assembles the GUI components of the panel.
      */
     public final void setupView() {
-        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        final Container content = getContentPane();
+        content.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         // A border that puts extra pixels at the sides and bottom of each pane.
         Border paneEdge = BorderFactory.createEmptyBorder(DEFAULT_EMPTY_BORDER_PIXEL, DEFAULT_EMPTY_BORDER_PIXEL,
              DEFAULT_EMPTY_BORDER_PIXEL, DEFAULT_EMPTY_BORDER_PIXEL);
@@ -411,7 +413,7 @@ public class PreferencesDialog extends JDialog {
         allOptions.add(buildTimeoutPanel());
         JComponent proxyPanel = buildProxyPanel();
         allOptions.add(proxyPanel);
-        add(allOptions);
+        content.add(allOptions);
 
         ButtonBarBuilder bbuilder = ButtonBarBuilder.createLeftToRightBuilder();
 
@@ -433,7 +435,7 @@ public class PreferencesDialog extends JDialog {
         bbuilder.addGriddedButtons(new JButton[]{cancel, ok});
 
         final JPanel buttons = bbuilder.getPanel();
-        add(addSpaceAndAlignRight(buttons));
+        content.add(addSpaceAndAlignRight(buttons));
 
         // let the container calculate the ideal size
         pack();
