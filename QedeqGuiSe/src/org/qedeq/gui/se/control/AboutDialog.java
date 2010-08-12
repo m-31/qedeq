@@ -61,7 +61,7 @@ public class AboutDialog extends JDialog {
      *
      * @param   parent  Parent frame.
      */
-    public AboutDialog(Frame parent) {
+    public AboutDialog(final Frame parent) {
         super(parent, "About", true);
         final JPanel content = new JPanel(new BorderLayout());
         getContentPane().add(content);
@@ -190,14 +190,6 @@ public class AboutDialog extends JDialog {
     private JComponent createAboutTab() {
         // TODO Auto-generated method stub
         return new JPanel();
-    }
-
-    public void actionPerformed(ActionEvent evt) {
-        String command = evt.getActionCommand();
-
-        if (command.compareTo("Close") == 0) {
-            this.dispose();
-        }
     }
 
 }
