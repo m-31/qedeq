@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <fileset-config file-format-version="1.2.0" simple-config="false">
-    <fileset name="formal" enabled="true" check-config-name="QedeqFormalChecks" local="false">
-        <file-match-pattern match-pattern=".java$" include-pattern="true"/>
-        <file-match-pattern match-pattern=".+/com/jgoodies/.+\.java" include-pattern="false"/>
-    </fileset>
-    <filter name="NonSrcDirs" enabled="true"/>
+  <fileset name="formal" enabled="true" check-config-name="QEDEQ Java Formal Checks 2" local="false">
+    <file-match-pattern match-pattern=".java$" include-pattern="true"/>
+    <file-match-pattern match-pattern=".+/com/jgoodies/.+\.java" include-pattern="false"/>
+  </fileset>
+  <filter name="NonSrcDirs" enabled="true"/>
 </fileset-config>
