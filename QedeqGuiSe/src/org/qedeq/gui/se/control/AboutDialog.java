@@ -217,8 +217,8 @@ public class AboutDialog extends JDialog {
         final JPanel panel = new JPanel(new BorderLayout());
 
         final StringBuffer sb = new StringBuffer();
-        sb.append("This is Hilbert II - a project to create a formal correct (checkable by a proof" +
-            " verifier) but readable (like an ordinary LaTeX textbook) mathematical knowledge base.");
+        sb.append("This is Hilbert II - a project to create a formal correct (checkable by a proof"
+            + " verifier) but readable (like an ordinary LaTeX textbook) mathematical knowledge base.");
         sb.append("\n\nWritten by Michael Meyling <mime@qedeq.org>");
         sb.append("\nCopyright \u00a9 2010 Michael Meyling. All Rights Reserved.");
         sb.append("\n\nHilbert II comes with ABSOLUTELY NO WARRANTY. This is free software, and you"
