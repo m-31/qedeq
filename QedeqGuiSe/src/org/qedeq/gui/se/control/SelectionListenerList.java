@@ -44,7 +44,7 @@ public final class SelectionListenerList implements SelectionListener {
     /**
      * Add listener.
      *
-     * @param   log Add this listener.
+     * @param   list    Add this listener.
      */
     public final void addListener(final SelectionListener list) {
         listeners.add(list);
@@ -53,7 +53,7 @@ public final class SelectionListenerList implements SelectionListener {
     /**
      * Remove listener.
      *
-     * @param   log Remove this listener.
+     * @param   list    Remove this listener.
      */
     public final void removeListener(final SelectionListener list) {
         listeners.remove(list);
