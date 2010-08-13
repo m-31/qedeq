@@ -15,7 +15,6 @@
 
 package org.qedeq.gui.se.util;
 
-import java.io.IOException;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
@@ -54,14 +53,13 @@ public final class DataDictionary {
         return instance;
     }
 
-
     /**
      * Set resource name for this context. Must be called at first. Couldn't be called again.
      *
      * @param   baseName          name of resource file
      * @throws  IllegalStateException   {@link #setup} was called once before
      */
-    public static void init(final String baseName) throws IOException {
+    public static void init(final String baseName) {
         if (instance != null) {
             throw new IllegalStateException(DataDictionary.class.getName()
                 + " is already initialized!");
@@ -76,17 +74,20 @@ public final class DataDictionary {
         }
     }
 
-
     /**
      * Don't use me outside of this class.
+     *
+     * @param   baseName    Get bundle for this name.
      */
     private DataDictionary(final String baseName) {
         bundle = ResourceBundle.getBundle(baseName);
     }
 
-
     /**
      * This method returns a string from the resource bundle.
+     *
+     * @param   key Key.
+     * @return  String value.
      */
     public String getString(final String key) {
         String value = null;
@@ -102,7 +103,6 @@ public final class DataDictionary {
         return value;
     }
 
-
     /**
      * Returns the resource bundle associated with this application.
      *
@@ -112,16 +112,15 @@ public final class DataDictionary {
         return this.bundle;
     }
 
-
     /**
      * Returns a mnemonic from the resource bundle. Typically used as
      * keyboard shortcuts in menu items.
+     *
+     * @param   key Key.
+     * @return  Mnemonic for key.
      */
     public final char getMnemonic(final String key) {
         return (getString(key)).charAt(0);
     }
-
-
-
 
 }
