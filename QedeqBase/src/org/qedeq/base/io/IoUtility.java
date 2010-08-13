@@ -49,7 +49,6 @@ import java.util.StringTokenizer;
 import java.util.TreeMap;
 
 import org.apache.commons.lang.SystemUtils;
-import org.qedeq.base.utility.StringUtility;
 
 
 /**
