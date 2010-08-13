@@ -6,7 +6,8 @@
 -->
 <!--
     Checkstyle-Configuration: QEDEQ Java Formal Checks 2
-    Description: none
+    Description: 
+this are the Checkstyle settings for the Hilbert II project
 -->
 <module name="Checker">
   <property name="severity" value="warning"/>
@@ -36,7 +37,9 @@
       <property name="tabWidth" value="4"/>
     </module>
     <module name="MethodLength"/>
-    <module name="ParameterNumber"/>
+    <module name="ParameterNumber">
+      <property name="max" value="9"/>
+    </module>
     <module name="EmptyForIteratorPad">
       <property name="option" value="space"/>
     </module>
