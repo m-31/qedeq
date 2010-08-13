@@ -45,9 +45,9 @@ public final class XPathLocationFinder {
      *
      * @param   args    Various parameters. See implementation of
      *                  {@link #printProgramInformation()}.
-     * @throws  ParserConfigurationException
-     * @throws  SAXException
-     * @throws  IOException
+     * @throws  ParserConfigurationException    Severe parser configuration problem.
+     * @throws  SAXException                    XML problem.
+     * @throws  IOException                     IO problem.
      */
     public static final void main(final String[] args) throws ParserConfigurationException,
             SAXException, IOException {
