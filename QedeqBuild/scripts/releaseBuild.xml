@@ -197,12 +197,12 @@ currently in ants classpath
     </target>
         
     <target name="checkstyle" description="run checkstyle" depends="">
-        <checkstyleReport  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"    checks="${qedeq.resources}/checkstyle/QedeqFormalChecks.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" />
-        <checkstyleReport  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"    checks="${qedeq.resources}/checkstyle/QedeqFormalChecks.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" />
-        <checkstyleReport  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"    checks="${qedeq.resources}/checkstyle/QedeqFormalChecks.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" />
-        <checkstyleReport  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"    checks="${qedeq.resources}/checkstyle/QedeqFormalChecks.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" />
-        <checkstyleReport  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate" checks="${qedeq.resources}/checkstyle/QedeqFormalChecks.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" /> 
-        <checkstyleReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.aggregate" checks="${qedeq.resources}/checkstyle/QedeqFormalChecks.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" />
+        <checkstyleReport  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"    checks="${qedeq.resources}/checkstyle/QedeqFormalChecks2.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" />
+        <checkstyleReport  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"    checks="${qedeq.resources}/checkstyle/QedeqFormalChecks2.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" />
+        <checkstyleReport  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"    checks="${qedeq.resources}/checkstyle/QedeqFormalChecks2.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" />
+        <checkstyleReport  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"    checks="${qedeq.resources}/checkstyle/QedeqFormalChecks2.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" />
+        <checkstyleReport  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate" checks="${qedeq.resources}/checkstyle/QedeqFormalChecks2.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" /> 
+        <checkstyleReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.aggregate" checks="${qedeq.resources}/checkstyle/QedeqFormalChecks2.xml" style="${qedeq.resources}/checkstyle/checkstyle-no-frames-detailed.xsl" />
     </target>
                 
     <target name="findbugs" description="run findbugs" depends="">
