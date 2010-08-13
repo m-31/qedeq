@@ -50,7 +50,7 @@ class AddFileAction extends AbstractAction {
     /**
      * Constructor.
      *
-     * @param   controller
+     * @param   controller  Controler access.
      */
     AddFileAction(final QedeqController controller) {
         this.controller = controller;
