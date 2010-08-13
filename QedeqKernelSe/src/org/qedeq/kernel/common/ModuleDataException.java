@@ -24,10 +24,10 @@ package org.qedeq.kernel.common;
 public abstract class ModuleDataException extends QedeqException {
 
     /** Error location. */
-    private ModuleContext context;
+    private final ModuleContext context;
 
     /** Reference location to explain the error. */
-    private ModuleContext referenceContext;
+    private final ModuleContext referenceContext;
 
     /**
      * Constructor.

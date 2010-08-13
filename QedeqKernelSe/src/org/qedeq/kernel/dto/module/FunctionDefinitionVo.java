@@ -100,7 +100,7 @@ public class FunctionDefinitionVo implements FunctionDefinition {
      * Set function name. Together with {@link #getArgumentNumber()} this
      * identifies a function.
      *
-     * @param name
+     * @param   name    Function name.
      */
     public void setName(final String name) {
         this.name = name;

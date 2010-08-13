@@ -69,7 +69,7 @@ public class QedeqConfig {
     /**
      * Store properties in config file.
      *
-     * @throws  IOException
+     * @throws  IOException Writing failed.
      */
     public final void store() throws IOException {
         configAccess.store();
@@ -316,7 +316,7 @@ public class QedeqConfig {
     /**
      * Set http proxy host.
      *
-     * @param  httpProxy    Http proxy server.
+     * @param  httpProxyHost    Http proxy server.
      */
     public final void setHttpProxyHost(final String httpProxyHost) {
         setKeyValue("http.proxyHost", httpProxyHost);
@@ -339,7 +339,7 @@ public class QedeqConfig {
     /**
      * Set http proxy port.
      *
-     * @param  httpProxy    Http proxy port.
+     * @param  httpProxyPort    Http proxy port.
      */
     public final void setHttpProxyPort(final String httpProxyPort) {
         setKeyValue("http.proxyPort", httpProxyPort);

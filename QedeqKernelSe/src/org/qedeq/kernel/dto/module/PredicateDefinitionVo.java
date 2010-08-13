@@ -103,7 +103,7 @@ public class PredicateDefinitionVo implements PredicateDefinition {
      * Set predicate name. Together with {@link #getArgumentNumber()} this
      * identifies a predicate.
      *
-     * @param name
+     * @param   name    Predicate name.
      */
     public void setName(final String name) {
         this.name = name;
