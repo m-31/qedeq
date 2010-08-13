@@ -64,7 +64,7 @@ public class ParserPane extends JFrame {
         + "(x \\land z)\n\n\\{ x | y \\in x \\} = \\{ z | y \\in x \\}";
 
     /** Source to parse. */
-    private CPTextArea source = new CPTextArea(SAMPLE);
+    private CPTextArea source = new CPTextArea(SAMPLE, true);
 
     /** Parse result. */
     private CPTextArea resultField = new CPTextArea();

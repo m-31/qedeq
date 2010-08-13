@@ -44,9 +44,11 @@ public class CPTextArea extends JTextArea {
      * Constructor with initial text.
      *
      * @param   initialText Initial value.
+     * @param   editable    Is this text area editable.
      */
-    public CPTextArea(final String initialText) {
+    public CPTextArea(final String initialText, final boolean editable) {
         setDragEnabled(true);
+        setEditable(editable);
         ClipboardListener clipboardactivator = new ClipboardListener(this);
         addMouseListener(clipboardactivator);
         setText(initialText);
@@ -80,12 +82,14 @@ public class CPTextArea extends JTextArea {
             JMenuItem jmenuitem1 = new JMenuItem("Cut");
             jmenuitem1.addActionListener(this);
             jmenuitem1.setActionCommand("cut");
-            JMenuItem jmenuitem2 = new JMenuItem("Paste");
-            jmenuitem2.addActionListener(this);
-            jmenuitem2.setActionCommand("paste");
             popedit.add(jmenuitem);
             popedit.add(jmenuitem1);
-            popedit.add(jmenuitem2);
+            if (outer.isEditable()) {
+                JMenuItem jmenuitem2 = new JMenuItem("Paste");
+                jmenuitem2.addActionListener(this);
+                jmenuitem2.setActionCommand("paste");
+                popedit.add(jmenuitem2);
+            }
         }
 
         public void mousePressed(final MouseEvent mouseevent) {

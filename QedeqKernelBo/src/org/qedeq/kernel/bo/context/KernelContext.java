@@ -55,9 +55,12 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     /** Version dependent directory of this kernel. */
     private static final String KERNEL_VERSION_DIRECTORY = KERNEL_VERSION.replace('.', '_');
 
+    /** Version code . */
+    private static final String KERNEL_CODE_NAME = "mongaga";
+
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
-        = "Hilbert II - Version " + KERNEL_VERSION + " (mongaga) ["
+        = "Hilbert II - Version " + KERNEL_VERSION + " (" + KERNEL_CODE_NAME + ") ["
         + getBuildIdFromManifest() + "]";
 
     /** Maximal supported rule version of this kernel. */
@@ -389,6 +392,15 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      */
     public final String getKernelVersion() {
         return KERNEL_VERSION;
+    }
+
+    /**
+     * Get code name of this kernel.
+     *
+     * @return  Kernel code name.
+     */
+    public final String getKernelCodeName() {
+        return KERNEL_CODE_NAME;
     }
 
     /**

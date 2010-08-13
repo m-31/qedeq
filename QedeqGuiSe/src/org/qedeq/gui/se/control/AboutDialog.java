@@ -21,6 +21,7 @@ import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -37,13 +38,20 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
+import javax.swing.JViewport;
 import javax.swing.UIManager;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.utility.DateUtility;
+import org.qedeq.base.utility.StringUtility;
+import org.qedeq.gui.se.element.CPTextArea;
+import org.qedeq.gui.se.util.BareBonesBrowserLaunch;
 import org.qedeq.gui.se.util.GuiHelper;
+import org.qedeq.kernel.bo.context.KernelContext;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 
@@ -87,6 +95,7 @@ public class AboutDialog extends JDialog {
         logoPanel.addMouseListener(new MouseAdapter() {
             public void mouseClicked(final MouseEvent e) {
                 try {
+                    BareBonesBrowserLaunch.openURL(url);
                 } catch (Exception ex) { // ignore, just not open web page
                 }
             }
@@ -113,10 +122,10 @@ public class AboutDialog extends JDialog {
         // let the container calculate the ideal size
         this.pack();
 
-        int width = 540;
-        int height = 320;
+//        int width = 540;
+//        int height = 400;
+//        this.setSize(width, height);
 
-        this.setSize(width, height);
         this.addWindowListener(new WindowAdapter() {
             public void windowClosing(final WindowEvent e) {
                 AboutDialog.this.dispose();
@@ -141,7 +150,26 @@ public class AboutDialog extends JDialog {
         JButton copyButton = new JButton("Copy System Properties");
         copyButton.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
-                Clipboard clip = Toolkit.getDefaultToolkit().getSystemClipboard();
+                final StringBuffer sb = new StringBuffer(1000);
+                final String[][] prop = IoUtility.getSortedSystemProperties();
+                sb.append("# Copied Java system properties during run of ");
+                sb.append(KernelContext.getInstance().getDescriptiveKernelVersion());
+                sb.append("\n");
+                sb.append("# GMT: ");
+                sb.append(DateUtility.getGmtTimestamp());
+                sb.append("\n#");
+                sb.append("\n# The following list contains excaped characters as defined for"
+                    + " \"properties\" files");
+                sb.append("\n#\n");
+                for (int i = 0; i < prop.length; i++) {
+                    sb.append(StringUtility.escapeProperty(prop[i][0]));
+                    sb.append("=");
+                    sb.append(StringUtility.escapeProperty(prop[i][1]));
+                    sb.append("\n");
+                }
+                Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+                StringSelection sel = new StringSelection(sb.toString());
+                cb.setContents(sel, null);
             }
         });
         copyButton.setToolTipText("Copy Java system information into "
@@ -154,8 +182,15 @@ public class AboutDialog extends JDialog {
     }
 
     private JComponent createSystemPropertiesTab() {
-        String[][] rowData = IoUtility.getSortedSystemProperties();
-        String[] nvStrings = new String[] {"Property", "Value" };
+        final String[][] rowData = IoUtility.getSortedSystemProperties();
+        for (int i = 0; i < rowData.length; i++) {
+            // escape following property also for view
+            if ("line.separator".equals(rowData[i][0])) {
+                rowData[i][1] = StringUtility.escapeProperty(rowData[i][1]);
+                break;  // no further search
+            }
+        }
+        String[] nvStrings = new String[] {"Property", "Value"};
         final DefaultTableModel model = new DefaultTableModel(rowData, nvStrings) {
             public boolean isCellEditable(final int row, final int col) {
                 return false;
@@ -179,8 +214,53 @@ public class AboutDialog extends JDialog {
     }
 
     private JComponent createAboutTab() {
-        // TODO Auto-generated method stub
-        return new JPanel();
+        final JPanel panel = new JPanel(new BorderLayout());
+
+        final StringBuffer sb = new StringBuffer();
+        sb.append("This is Hilbert II - a project to create a formal correct (checkable by a proof" +
+            " verifier) but readable (like an ordinary LaTeX textbook) mathematical knowledge base.");
+        sb.append("\n\nWritten by Michael Meyling <mime@qedeq.org>");
+        sb.append("\nCopyright \u00a9 2010 Michael Meyling. All Rights Reserved.");
+        sb.append("\n\nHilbert II comes with ABSOLUTELY NO WARRANTY. This is free software, and you"
+            + " are welcome to redistribute it under certain conditions.");
+        sb.append(" Please take a look at the license argreements section in the online help.");
+        sb.append("\n\nKernel Version: " + KernelContext.getInstance().getKernelVersion());
+        sb.append("\nCode Name: " + KernelContext.getInstance().getKernelCodeName());
+        sb.append("\nBuild: " + KernelContext.getBuildIdFromManifest());
+        sb.append("\n\n");
+        sb.append("\nUsed memory: ");
+        sb.append(Runtime.getRuntime().totalMemory()
+            - Runtime.getRuntime().freeMemory());
+        sb.append("\nFree memory: ");
+        sb.append(Runtime.getRuntime().freeMemory());
+        sb.append("\nTotal memory: ");
+        sb.append(Runtime.getRuntime().totalMemory());
+        sb.append("\nMaximum memory: ");
+        sb.append(Runtime.getRuntime().maxMemory());
+        sb.append("\n\nNumber of processors/cores: ");
+        sb.append(Runtime.getRuntime().availableProcessors());
+        final JComponent copy = createTextScroller(sb.toString());
+        copy.setBorder(GuiHelper.getEmptyBorder());
+        // add to panel
+        panel.add(copy, BorderLayout.CENTER);
+        return panel;
+    }
+
+    public static JScrollPane createTextScroller(final String text) {
+        final JScrollPane scroller = new JScrollPane();
+        final JViewport vp = scroller.getViewport();
+        vp.add(createTextArea(text));
+        scroller.setBackground(UIManager.getColor("controlShadow"));
+        return scroller;
+    }
+
+    public static JTextArea createTextArea(final String text) {
+        JTextArea textArea = new CPTextArea(text, false);
+        textArea.setLineWrap(true);
+        textArea.setWrapStyleWord(true);
+        textArea.setCaretPosition(0);
+        textArea.setBackground(UIManager.getColor("controlHighlight"));
+        return textArea;
     }
 
 }
