@@ -93,9 +93,9 @@ public final class XPathLocationParser extends SimpleHandler {
      * @param   xmlFile Search this file.
      * @param   xpath   Search for this simple XPath.
      * @return  Source position information.
-     * @throws  ParserConfigurationException
-     * @throws  SAXException
-     * @throws  IOException
+     * @throws  ParserConfigurationException    Parser configuration problem.
+     * @throws  SAXException                    XML problem.
+     * @throws  IOException                     IO problem.
      */
     public static final SimpleXPath getXPathLocation(final File xmlFile, final String xpath)
             throws ParserConfigurationException, SAXException, IOException {
@@ -110,9 +110,9 @@ public final class XPathLocationParser extends SimpleHandler {
      * @param   xmlFile Search this file.
      * @param   xpath   Search for this simple XPath.
      * @return  Source position information.
-     * @throws  ParserConfigurationException
-     * @throws  SAXException
-     * @throws  IOException
+     * @throws  ParserConfigurationException    Severe parser configuration problem.
+     * @throws  SAXException                    XML problem.
+     * @throws  IOException                     IO problem.
      */
     public static final SimpleXPath getXPathLocation(final File xmlFile, final SimpleXPath xpath)
             throws ParserConfigurationException, SAXException, IOException {
@@ -123,8 +123,9 @@ public final class XPathLocationParser extends SimpleHandler {
      * Constructor.
      *
      * @param   xpath XML file path.
-     * @throws  ParserConfigurationException Severe parser configuration problem.
+     * @throws  ParserConfigurationException    Severe parser configuration problem.
      * @throws  SAXException
+     * @throws  SAXException                    XML problem.
      */
     private XPathLocationParser(final String xpath) throws ParserConfigurationException,
             SAXException {
