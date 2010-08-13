@@ -48,6 +48,8 @@ public final class CurrentLineHighlighterUtility {
 
     /**
      * Installs CurrentLineHighlighterUtility for the given JTextComponent.
+     *
+     * @param   c   Install highlighter here.
      */
     public static void install(final JTextComponent c) {
         try {
@@ -63,6 +65,8 @@ public final class CurrentLineHighlighterUtility {
 
     /**
      * Uninstall CurrentLineHighligher for the given JTextComponent.
+     *
+     * @param   c   Uninstall highlighter here.
      */
     public static void uninstall(final JTextComponent c) {
         c.putClientProperty(LINE_HIGHLIGHT, null);

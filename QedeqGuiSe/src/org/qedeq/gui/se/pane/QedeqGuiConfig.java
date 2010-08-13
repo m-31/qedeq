@@ -51,8 +51,8 @@ public final class QedeqGuiConfig extends QedeqConfig {
      * Load config file from start directory. This method must be called at the beginning.
      * Look at {link IoUtility#getStartDirectory(String)} with parameter <code>qedeq</code>
      *
-     * @param   configFileName   Name of config file.
-     * @param   basisDirectory   Start directory of application. Basis for all relative paths.
+     * @param   configFile      Config file.
+     * @param   basisDirectory  Start directory of application. Basis for all relative paths.
      * @throws  IOException Config file not found or readable.
      */
     public static void init(final File configFile, final File basisDirectory) throws IOException {
@@ -64,11 +64,10 @@ public final class QedeqGuiConfig extends QedeqConfig {
     /**
      * Constructor.
      *
-     * @param   configDirectory  Directory location of config file.
-     * @param   configFileName   Name of config file.
-     * @param   description      Config file description
-     * @param   basisDirectory   Start directory of application. Basis for all relative paths.
-     * @throws  IOException      Config file couldn't be loaded.
+     * @param   configFile      Config file.
+     * @param   description     Config file description
+     * @param   basisDirectory  Start directory of application. Basis for all relative paths.
+     * @throws  IOException     Config file couldn't be loaded.
      */
     private QedeqGuiConfig(final File configFile,
             final String description, final File basisDirectory) throws IOException {
@@ -88,7 +87,7 @@ public final class QedeqGuiConfig extends QedeqConfig {
     /**
      * Should the log window scroll automatically to the last line?
      *
-     * @return  Automatic scroll for log window?
+     * @param   value   Automatic scroll for log window?
      */
     public final void setAutomaticLogScroll(final boolean value) {
         setKeyValue("automaticLogScroll", (value ? "true" : "false"));

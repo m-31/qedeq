@@ -150,7 +150,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
      * @param   find    Find this location.
      * @param   qedeq   Within this QEDEQ object.
      * @return  XPath for this location in the XML document.
-     * @throws  ModuleDataException
+     * @throws  ModuleDataException Problem with module data.
      */
     public static SimpleXPath getXPath(final ModuleContext find, final Qedeq qedeq)
             throws ModuleDataException {
@@ -773,8 +773,8 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
      * throw a {@link LocationNotFoundException}.
      *
      * @param   method  Method we were called from.
-     * @throws  LocationNotFoundException
-     * @throws  LocationFoundException
+     * @throws  LocationNotFoundException   Not found.
+     * @throws  LocationFoundException      Success!
      */
     private final void checkMatching(final String method)
             throws LocationNotFoundException, LocationFoundException {

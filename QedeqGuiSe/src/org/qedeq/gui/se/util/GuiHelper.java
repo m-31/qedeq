@@ -95,6 +95,8 @@ public final class GuiHelper {
     /**
      * Configures the user interface; requests Swing settings and JGoodies Looks
      * options from the launcher.
+     *
+     * @param   options Set these options.
      */
     public static void configureUI(final GuiOptions options) {
         UIManager.put("ClassLoader", CLASS.getClassLoader());
@@ -237,6 +239,7 @@ public final class GuiHelper {
      *
      * @param   g   Graphics to use.
      * @param   c   Text component to work on.
+     * @param   col Color to work with.
      */
     public static void paintCurrentLineBackground(final Graphics g,
             final JTextComponent c, final Color col) {

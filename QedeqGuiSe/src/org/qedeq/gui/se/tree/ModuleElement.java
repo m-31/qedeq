@@ -17,9 +17,8 @@ package org.qedeq.gui.se.tree;
 
 
 /**
- * Some kind of Element of a Module.
+ * Some kind of element of a Module.
  *
- * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public final class ModuleElement {
@@ -38,7 +37,6 @@ public final class ModuleElement {
      *
      */
     public ModuleElement() {
-
         this.name = null;
         this.listName = null;
         this.atom = false;
@@ -48,9 +46,9 @@ public final class ModuleElement {
     /**
      * Constructs a new ModuleElement object.
      *
-     * @param   name    name of this element
-     * @param   listName   element belongs to this list
-     * @param   atom    is this element an atom?
+     * @param   name        Name of this element
+     * @param   listName    Element belongs to this list
+     * @param   atom        Is this element an atom?
      */
     public ModuleElement(final String name, final String listName,
             final boolean atom) {
@@ -60,25 +58,23 @@ public final class ModuleElement {
     }
 
     /**
-     * @return
+     * Get name.
+     *
+     * @return  Name.
      */
     public final String getName() {
         return name;
     }
 
     /**
+     * Set name.
      *
-     * @param
-     * @return
+     * @param   name    Name.
      */
     public final void setName(final String name) {
         this.name = name;
     }
 
-    /**
-     * @param
-     * @return
-     */
     public final String toString() {
         return super.toString() + ":" + listName + ";" + name + ";" + atom;
     }

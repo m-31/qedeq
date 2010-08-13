@@ -112,6 +112,11 @@ public final class MenuHelper  {
     /**
      * Creates and returns a JRadioButtonMenuItem
      * with the given enablement and selection state.
+     *
+     * @param   text        Text to show.
+     * @param   enabled     Enablement state.
+     * @param   selected    Selection state.
+     * @return  Created element.
      */
     public static JRadioButtonMenuItem createRadioItem(final String text, final boolean enabled,
             final boolean selected) {
@@ -129,6 +134,11 @@ public final class MenuHelper  {
     /**
      * Creates and returns a JCheckBoxMenuItem
      * with the given enablement and selection state.
+     *
+     * @param   text        Text to show.
+     * @param   enabled     Enablement state.
+     * @param   selected    Selection state.
+     * @return  Created element.
      */
     public static JCheckBoxMenuItem createCheckItem(final String text, final boolean enabled,
             final boolean selected) {

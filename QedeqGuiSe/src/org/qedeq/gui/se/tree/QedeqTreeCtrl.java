@@ -269,6 +269,8 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
         /**
          * Removes the selected item as long as it isn't root.
+         *
+         * @param   e   Event.
          */
        public void actionPerformed(final ActionEvent e) {
            try {

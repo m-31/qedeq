@@ -101,6 +101,8 @@ public class PreferencesDialog extends JDialog {
 
     /**
      * Creates new Panel.
+     *
+     * @param   parent  Parent frame.
      */
     public PreferencesDialog(final JFrame parent) {
         super(parent, "Preferences");
@@ -120,6 +122,8 @@ public class PreferencesDialog extends JDialog {
 
     /**
      * Assembles Timeout settings panel.
+     *
+     * @return  Timeout settings panel.
      */
     private JComponent buildTimeoutPanel() {
         FormLayout layout = new FormLayout(
@@ -148,6 +152,8 @@ public class PreferencesDialog extends JDialog {
 
     /**
      * Assembles proxy settings panel.
+     *
+     * @return  Proxy settings panel.
      */
     private JComponent buildProxyPanel() {
 
@@ -200,7 +206,9 @@ public class PreferencesDialog extends JDialog {
     }
 
     /**
-     * Assembles Timeout settings panel.
+     * Assembles path settings panel.
+     *
+     * @return  Created panel.
      */
     private JComponent buildPathsPanel() {
         FormLayout layout = new FormLayout(
@@ -349,6 +357,8 @@ public class PreferencesDialog extends JDialog {
 
     /**
      * Assembles checkbox settings panel.
+     *
+     * @return  Created panel.
      */
     private JComponent buildBinaryOptionPanel() {
         FormLayout layout = new FormLayout(

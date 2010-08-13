@@ -285,7 +285,7 @@ public final class QedeqTreeCellRenderer extends DefaultTreeCellRenderer {
     }
 
     // LATER m31 20080502: do we want to rename it back to "paint" or do we delete it?
-    /**
+    /*
      * paint is subclassed to draw the background correctly.  JLabel
      * currently does not allow backgrounds other than white, and it
      * will also fill behind the icon. Something that isn't desirable.

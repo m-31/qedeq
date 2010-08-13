@@ -65,6 +65,8 @@ public class QedeqMenuBar extends JMenuBar {
 
     /**
      * Create "File" menu.
+     *
+     * @return  Created menu.
      */
     private JMenu createFileMenu() {
         JMenuItem item;
