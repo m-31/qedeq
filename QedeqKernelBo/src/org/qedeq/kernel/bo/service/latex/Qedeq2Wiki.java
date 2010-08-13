@@ -101,7 +101,7 @@ public class Qedeq2Wiki {
      * @param   level           Filter for this detail level. LATER mime 20050205: not supported
      *                          yet.
      * @param   outputDirectory Write files to this directory.
-     * @throws  IOException
+     * @throws  IOException     Writing failed.
      */
     public final synchronized void printWiki(final String language, final String level,
             final File outputDirectory) throws IOException {

@@ -95,7 +95,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Set loader used for loading this object.
      *
-     * @param loader
+     * @param   loader  Responsible loader.
      */
     public void setQedeqFileDao(final QedeqFileDao loader) {
         this.loader = loader;

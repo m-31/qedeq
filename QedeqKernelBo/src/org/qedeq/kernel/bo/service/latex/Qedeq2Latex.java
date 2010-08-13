@@ -938,6 +938,7 @@ public final class Qedeq2Latex extends ControlVisitor {
      * LATER m31 20100308: refactor language dependent code
      *
      * @param   ref         Reference label.
+     * @param   nodeBo      Reference to this node. Might be <code>null</code>.
      * @param   useName     Use name if it exists.
      * @param   external    Is this an external node?
      * @return  Display     text.
