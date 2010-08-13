@@ -39,7 +39,7 @@ currently in ants classpath
 <!-- we add the xerces libraries, so that parsing works for JDK >= 1.5 also -->
     <taskdef name="xsddoc" classname="net.sf.xframe.xsddoc.Task" classpath="${qedeq.lib}/xsddoc.jar:${qedeq.lib}/xercesImpl.jar:${qedeq.lib}/xalan.jar:${qedeq.lib}/xml-apis.jar" />
 
-    <taskdef resource="checkstyletask.properties" classpath="${qedeq.lib}/checkstyle-all-4.4.jar" />
+    <taskdef resource="checkstyletask.properties" classpath="${qedeq.lib}/checkstyle-all-5.1.jar" />
 
     <taskdef name="findbugs" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" classpath="${qedeq.lib}/findbugs-ant.jar" />
 
