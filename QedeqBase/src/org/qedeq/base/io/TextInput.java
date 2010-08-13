@@ -273,7 +273,7 @@ public class TextInput extends InputStream {
      * Skip current position forward to end of an XML tag.
      * This is mainly something like <code>&gt;</code>. Quoted data is skipped.
      *
-     * @throws  IllegalArgumentException    No en of XML tag found.
+     * @throws  IllegalArgumentException    No end of XML tag found.
      */
     public final void skipForwardToEndOfXmlTag() {
         if ('>' == getChar()) {

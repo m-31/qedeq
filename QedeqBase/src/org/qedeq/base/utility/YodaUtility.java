@@ -45,7 +45,6 @@ public abstract class YodaUtility {
      * @param   clazz           Class to analyze.
      * @param   name            Method name.
      * @param   parameterTypes  Parameter types.
-     * @param   parameter       Parameter values.
      * @return  Does the class (or one of its super classes) have such a method?
      */
     public static boolean existsMethod(final String clazz, final String name,
@@ -72,7 +71,6 @@ public abstract class YodaUtility {
      * @param   clazz           Class to analyze.
      * @param   name            Method name.
      * @param   parameterTypes  Parameter types.
-     * @param   parameter       Parameter values.
      * @return  Does the class (or one of its super classes) have such a method?
      */
     public static boolean existsMethod(final Class clazz, final String name,

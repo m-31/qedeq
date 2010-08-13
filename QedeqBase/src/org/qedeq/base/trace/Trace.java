@@ -64,7 +64,7 @@ public final class Trace {
      *
      * @param   message         Business log message.
      * @param   additional      Extra info for the next line.
-     * @param   additional      Further description.
+     * @param   description     Further description.
      */
     public static void log(final String message, final String additional, final String description) {
         if (BUSINESS.isErrorEnabled()) {

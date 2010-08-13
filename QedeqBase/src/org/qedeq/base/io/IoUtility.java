@@ -917,7 +917,6 @@ public final class IoUtility {
      * Convert URL path in file. Call this method with the value of URL.getQuery().
      *
      * @param   path    Convert this URL path.
-     * @throws  IllegalArgumentException    Path has not the correct format.
      * @return  File.
      */
     public static File toFile(final String path) {
@@ -1121,7 +1120,6 @@ public final class IoUtility {
      *
      * @param   url     URL to load properties from.
      * @return  Loaded properties.
-     * @throws  MalformedURLException   Invalid URL.
      * @throws  IOException             Reading error.
      */
     public static Properties loadProperties(final URL url)
