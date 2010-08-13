@@ -133,7 +133,7 @@ public class QedeqMainFrame extends JFrame {
      */
     private static void initLog4J(final QedeqGuiConfig config) {
         final String resourceName = "log4j.xml";
-        // TODO mime 20070927: hard coded entry "config":
+        // LATER mime 20070927: hard coded entry "config":
         String resourceDirectoryName = "config";
         final File resourceDir = new File(config.getBasisDirectory(), resourceDirectoryName);
         final File resource = new File(resourceDir, resourceName);
@@ -186,7 +186,7 @@ public class QedeqMainFrame extends JFrame {
     /**
      * Print error message. Writes to <code>System.err</code>.
      *
-     * @param   Message to print.
+     * @param   message Message to print.
      */
     private static void errorPrintln(final String message) {
         System.err.println("ERROR>>> " + message);
