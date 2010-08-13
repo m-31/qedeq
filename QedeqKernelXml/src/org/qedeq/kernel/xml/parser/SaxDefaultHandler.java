@@ -282,11 +282,11 @@ public class SaxDefaultHandler extends SimpleHandler {
     }
 
     /**
-     * Restore previous handler if there is any. An endElement event is also send to the restored
+     * Restore previous handler if there is any. An {@link #endElement} event is also send to the restored
      * handler.
      *
-     * @param   elementName
-     * @throws  XmlSyntaxException
+     * @param   elementName Current element.
+     * @throws  XmlSyntaxException  Handler dosen't like this event.
      */
     private final void restoreHandler(final String elementName) throws XmlSyntaxException {
         while (level <= 0 && !handlerStack.empty()) {

@@ -832,16 +832,6 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     /**
-     * Enter first occurrence of XML element of one level.
-     *
-     * @param element
-     */
-    private final void enterFirst(final String element) {
-        level++;
-        current.addElement(element);
-    }
-
-    /**
      * Leave last XML element.
      */
     private final void leave() {

@@ -75,7 +75,7 @@ public class ProofVo implements Proof {
     /**
      * Set LaTeX text for non formal proof.
      *
-     * @param nonFormalProof
+     * @param   nonFormalProof  The proof text.
      */
     public final void setNonFormalProof(final LatexList nonFormalProof) {
         this.nonFormalProof = nonFormalProof;
