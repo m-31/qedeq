@@ -6,13 +6,22 @@
 -->
 <!--
     Checkstyle-Configuration: QEDEQ Java Formal Checks 2
-    Description: 
-this are the Checkstyle settings for the Hilbert II project
+    Description: none
 -->
 <module name="Checker">
+    <!--
+        If you set the basedir property below, then all reported file
+        names will be relative to the specified directory. See
+        http://checkstyle.sourceforge.net/5.x/config.html#Checker
+
+        <property name="basedir" value="${basedir}"/>
+    -->
   <property name="severity" value="warning"/>
   <module name="TreeWalker">
-    <module name="JavadocMethod"/>
+    <module name="JavadocMethod">
+      <property name="allowUndeclaredRTE" value="true"/>
+      <property name="allowMissingJavadoc" value="true"/>
+    </module>
     <module name="JavadocType"/>
     <module name="JavadocVariable"/>
     <module name="JavadocStyle"/>
@@ -30,7 +39,7 @@ this are the Checkstyle settings for the Hilbert II project
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
     <module name="LineLength">
-      <property name="max" value="100"/>
+      <property name="max" value="120"/>
       <property name="tabWidth" value="4"/>
     </module>
     <module name="MethodLength"/>
@@ -58,11 +67,19 @@ this are the Checkstyle settings for the Hilbert II project
     <module name="LeftCurly"/>
     <module name="NeedBraces"/>
     <module name="RightCurly"/>
-    <module name="AvoidInlineConditionals"/>
+    <module name="AvoidInlineConditionals">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="DoubleCheckedLocking"/>
-    <module name="EmptyStatement"/>
+    <module name="EmptyStatement">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="EqualsHashCode"/>
-    <module name="HiddenField"/>
+    <module name="HiddenField">
+      <property name="tokens" value="VARIABLE_DEF"/>
+    </module>
     <module name="IllegalInstantiation"/>
     <module name="InnerAssignment"/>
     <module name="MagicNumber">
@@ -73,7 +90,10 @@ this are the Checkstyle settings for the Hilbert II project
     <module name="RedundantThrows"/>
     <module name="SimplifyBooleanExpression"/>
     <module name="SimplifyBooleanReturn"/>
-    <module name="DesignForExtension"/>
+    <module name="DesignForExtension">
+      <property name="severity" value="ignore"/>
+      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
     <module name="FinalClass"/>
     <module name="HideUtilityClassConstructor"/>
     <module name="InterfaceIsType"/>
@@ -90,8 +110,11 @@ this are the Checkstyle settings for the Hilbert II project
       <property name="tokens" value="LITERAL_DO,LITERAL_ELSE,LITERAL_FINALLY,LITERAL_IF,LITERAL_FOR,LITERAL_TRY,LITERAL_WHILE,STATIC_INIT"/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
+    <module name="MutableException"/>
   </module>
-  <module name="JavadocPackage"/>
+  <module name="JavadocPackage">
+    <property name="allowLegacy" value="true"/>
+  </module>
   <module name="NewlineAtEndOfFile"/>
   <module name="Translation"/>
   <module name="FileLength"/>
