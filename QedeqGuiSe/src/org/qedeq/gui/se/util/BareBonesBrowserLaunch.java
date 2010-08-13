@@ -1,5 +1,7 @@
 package org.qedeq.gui.se.util;
 
+import java.lang.reflect.InvocationTargetException;
+
 import javax.swing.JOptionPane;
 
 import org.qedeq.base.utility.StringUtility;
@@ -34,24 +36,32 @@ public final class BareBonesBrowserLaunch {
        // nothing to do
    }
 
-   /**
-    * Opens the specified web page in the user's default browser.
-    *
-    * @param url A web address (URL) of a web page (ex: "http://www.google.com/")
-    */
-   public static void openURL(final String url) {
-       System.out.println("openURL"); // FIXME remove me
-       if (YodaUtility.existsMethod("java.awt.Desktop", "browse", new Class[] {java.net.URI.class})) {
-           try {  //attempt to use Desktop library from JDK 1.6+
-               Class d = Class.forName("java.awt.Desktop");
-               d.getDeclaredMethod("browse", new Class[] {java.net.URI.class}).invoke(
-                   d.getDeclaredMethod("getDesktop", new Class[] {}).invoke(null, new Class[] {}),
-                   new Object[] {java.net.URI.create(url)});
-               return;
-               //above code mimicks:  java.awt.Desktop.getDesktop().browse()
-          } catch (Exception ignore) {
-              //library not available or failed
-          }
+    /**
+     * Opens the specified web page in the user's default browser.
+     *
+     * @param url A web address (URL) of a web page (ex: "http://www.google.com/")
+     */
+    public static void openURL(final String url) {
+        System.out.println("openURL"); // FIXME remove me
+        if (YodaUtility.existsMethod("java.awt.Desktop", "browse", new Class[] {java.net.URI.class})) {
+            try {  //attempt to use Desktop library from JDK 1.6+
+                Class d = Class.forName("java.awt.Desktop");
+                d.getDeclaredMethod("browse", new Class[] {java.net.URI.class}).invoke(
+                    d.getDeclaredMethod("getDesktop", new Class[] {}).invoke(null, new Class[] {}),
+                    new Object[] {java.net.URI.create(url)});
+                return;
+                //above code mimicks:  java.awt.Desktop.getDesktop().browse()
+            } catch (RuntimeException ignore) {
+               //library not available or failed
+            } catch (ClassNotFoundException ignore) {
+                // ignore
+            } catch (IllegalAccessException ignore) {
+                // ignore
+            } catch (InvocationTargetException ignore) {
+                // ignore
+            } catch (NoSuchMethodException ignore) {
+                // ignore
+            }
        }
        final String osName = System.getProperty("os.name");
        try {
