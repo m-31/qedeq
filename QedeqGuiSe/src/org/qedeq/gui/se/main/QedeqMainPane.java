@@ -44,6 +44,8 @@ public class QedeqMainPane extends JPanel {
 
     /**
      * Constructor.
+     *
+     * @param   controller  Enables controller access.
      */
     public QedeqMainPane(final QedeqController controller) {
         setLayout(new BorderLayout());
@@ -55,7 +57,7 @@ public class QedeqMainPane extends JPanel {
     /**
      * Creates the two main stripped split panes.
      *
-     * @param   controller
+     * @param   controller  Enables controller access.
      * @return  Splits.
      */
     private JComponent createSplits(final QedeqController controller) {
