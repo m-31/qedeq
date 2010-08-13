@@ -38,7 +38,7 @@ class RemoveLocalBufferAction extends AbstractAction {
     /**
      * Constructor.
      *
-     * @param controller
+     * @param   controller  Enables controller access.
      */
     RemoveLocalBufferAction(final QedeqController controller) {
         this.controller = controller;
