@@ -131,7 +131,7 @@ public class QedeqPane extends JPanel implements SelectionListener {
     /**
      * Set new model. To make the new model visible {@link #updateView} must be called.
      *
-     * @param   prop
+     * @param   prop    New QEDEQ module.
      */
     public synchronized void setModel(final QedeqBo prop) {
         Trace.trace(CLASS, this, "setModel", prop);
