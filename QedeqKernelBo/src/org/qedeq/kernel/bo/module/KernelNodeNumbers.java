@@ -38,6 +38,8 @@ public class KernelNodeNumbers {
 
     /**
      * Copy constructor.
+     *
+     * @param   original    Original to copy from.
      */
     public KernelNodeNumbers(final KernelNodeNumbers original) {
         chapterNumbering = original.chapterNumbering;
@@ -130,4 +132,3 @@ public class KernelNodeNumbers {
     }
 
 }
-

@@ -46,9 +46,11 @@ public class PluginResultManager {
     }
 
     /**
-     * Set a plugin results.
+     * Set a plugin execution results.
      *
-     * @param   Set plugin execution results.
+     * @param   plugin      Set results for this plugin.
+     * @param   errors      Plugin errors.
+     * @param   warnings    Plugin warnings.
      */
     public synchronized void setResult(final PluginBo plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
@@ -65,7 +67,9 @@ public class PluginResultManager {
     /**
      * Add results of a plugin.
      *
-     * @param   Set plugin execution results.
+     * @param   plugin      Add results for this plugin.
+     * @param   errors      Plugin errors.
+     * @param   warnings    Plugin warnings.
      */
     public synchronized void addResult(final PluginBo plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {

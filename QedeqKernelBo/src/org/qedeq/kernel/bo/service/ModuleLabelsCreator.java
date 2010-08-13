@@ -149,7 +149,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      *
      * @param  node                 End visit of this element.
      */
-    public void visitLeave(final Node node) throws ModuleDataException {
+    public void visitLeave(final Node node) {
         try {
             this.labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(), data);
         } catch (ModuleDataException me) {

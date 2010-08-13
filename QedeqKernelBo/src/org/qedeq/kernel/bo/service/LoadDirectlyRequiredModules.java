@@ -30,7 +30,6 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * Load all required QEDEQ modules.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class LoadDirectlyRequiredModules extends ControlVisitor {
@@ -44,6 +43,7 @@ public final class LoadDirectlyRequiredModules extends ControlVisitor {
     /**
      * Constructor.
      *
+     * @param   plugin      Plugin we work for.
      * @param   prop        Internal QedeqBo.
      */
     LoadDirectlyRequiredModules(final Plugin plugin, final KernelQedeqBo prop) {

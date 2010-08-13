@@ -113,7 +113,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
      *                      read the QEDEQ reference names in the written document.
      * @return  Resulting LaTeX.
      * @throws  SourceFileExceptionList Major problem occurred.
-     * @throws  IOException
+     * @throws  IOException     File IO failed.
      */
     public File generateLatex(final KernelQedeqBo prop, final String language,
             final String level, final boolean info) throws SourceFileExceptionList, IOException {

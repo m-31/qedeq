@@ -30,24 +30,22 @@ public interface ModuleEventListener {
      *
      * @param   prop    add module with this properties.
      */
-    void addModule(final QedeqBo prop);
+    public void addModule(final QedeqBo prop);
 
 
     /**
      * Module properties (i.e. the status) have changed.
      *
-     * @param   prop
+     * @param   prop    The state of this module changed.
      */
-    void stateChanged(QedeqBo prop);
+    public void stateChanged(final QedeqBo prop);
 
 
     /**
      * Remove module.
      *
-     * @param   prop    remove module with this properties.
+     * @param   prop    This module was removed.
      */
-    void removeModule(QedeqBo prop);
-
-
+    public void removeModule(final QedeqBo prop);
 
 }

@@ -96,7 +96,6 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * (via {@link #addError(ModuleDataException)} and
      * {@link #addError(SourceFileException)}) are thrown.
      *
-     * @param   plugin  This plugin we work for.
      * @throws  SourceFileExceptionList  All collected exceptions.
      */
     public void traverse() throws SourceFileExceptionList {

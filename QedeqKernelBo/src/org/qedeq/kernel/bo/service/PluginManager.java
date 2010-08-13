@@ -46,7 +46,7 @@ public class PluginManager {
     /**
      * Add a plugin.
      *
-     * @param   Plugin to add. A plugin with same name can not be added twice.
+     * @param   plugin  Plugin to add. A plugin with same name can not be added twice.
      */
     synchronized void addPlugin(final PluginBo plugin) {
         if (plugins.get(plugin.getPluginId()) != null) {

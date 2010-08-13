@@ -60,7 +60,7 @@ public interface KernelQedeqBo extends QedeqBo {
      * @param errors    These errors occurred.
      * @param warnings  These warnings occurred.
      */
-    public void addPluginErrors(PluginBo plugin, SourceFileExceptionList errors, SourceFileExceptionList warinings);
+    public void addPluginErrors(PluginBo plugin, SourceFileExceptionList errors, SourceFileExceptionList warnings);
 
 
 }

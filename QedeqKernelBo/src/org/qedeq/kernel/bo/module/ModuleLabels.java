@@ -46,14 +46,10 @@ public final class ModuleLabels {
     /**
      * Add node with certain id. All numbers should start with 1.
      *
-     * @param   node                        Add this node.
-     * @param   context                     The node has this context.
-     * @param   chapterNumber               Chapter number. If no chapter numbering is on, please provide -1.
-     * @param   functionDefinitionNumber    Global function definition number.
-     * @param   predicateDefinitionNumber   Global predicate definition number.
-     * @param   axiomNumber                 Global axiom number.
-     * @param   propositionNumber           Global proposition number.
-     * @param   ruleNumber                  Global rule number.
+     * @param   node        Add this node.
+     * @param   context     The node has this context.
+     * @param   qedeq       Parent module the node is within.
+     * @param   data        Various number counters.
      * @throws  IllegalModuleDataException  The <code>id</code> already exists (perhaps as a label)
      *          or is <code>null</code>.
      */

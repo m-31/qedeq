@@ -24,7 +24,7 @@ package org.qedeq.kernel.bo.parser;
 public abstract class ParserException extends Exception {
 
     /** Error position within input. */
-    private long position;
+    private final long position;
 
     /**
      * Constructor.
