@@ -39,9 +39,6 @@ public final class QedeqTreeNode extends DefaultMutableTreeNode {
     }
 
 
-    /**
-     * @see javax.swing.tree.MutableTreeNode#setUserObject(java.lang.Object)
-     */
     public final void setUserObject(final Object userObject) {
 
         if (userObject instanceof QedeqBo) {
