@@ -42,7 +42,6 @@ public final class BareBonesBrowserLaunch {
      * @param url A web address (URL) of a web page (ex: "http://www.google.com/")
      */
     public static void openURL(final String url) {
-        System.out.println("openURL"); // FIXME remove me
         if (YodaUtility.existsMethod("java.awt.Desktop", "browse", new Class[] {java.net.URI.class})) {
             try {  //attempt to use Desktop library from JDK 1.6+
                 Class d = Class.forName("java.awt.Desktop");
