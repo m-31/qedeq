@@ -124,7 +124,6 @@ public final class XPathLocationParser extends SimpleHandler {
      *
      * @param   xpath XML file path.
      * @throws  ParserConfigurationException    Severe parser configuration problem.
-     * @throws  SAXException
      * @throws  SAXException                    XML problem.
      */
     private XPathLocationParser(final String xpath) throws ParserConfigurationException,
