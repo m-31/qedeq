@@ -551,16 +551,19 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     /**
      * Make local copy of a module if it is no file address.
      *
-     * @param prop Module properties.
-     * @throws SourceFileExceptionList Address was malformed or the file can not be found.
+     * @param   prop    Module properties.
+     * @throws  SourceFileExceptionList Address was malformed or the file can not be found.
      */
     public void saveQedeqFromWebToBuffer(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
         final String method = "saveQedeqFromWebToBuffer(DefaultKernelQedeqBo)";
         Trace.begin(CLASS, this, method);
 
-        if (!KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
-            saveQedeqFromWebToBufferOld(prop);
+        // if we are not web started and running under Java 1.4 we use apache commons
+        // httpclient library (so we can set timeouts) 
+        if (!KernelContext.getInstance().isSetConnectionTimeOutSupported()
+                && !IoUtility.isWebStarted()) {
+            saveQedeqFromWebToBufferApache(prop);
             Trace.end(CLASS, this, method);
             return;
         }
@@ -593,7 +596,6 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
             if (connection instanceof HttpURLConnection) {
                 final HttpURLConnection httpConnection = (HttpURLConnection) connection;
-                // FIXME m31 20100219 this is java 1.5 code, how do we do it in 1.4.2?
                 // if we are running at least under Java 1.5 the following code should be executed
                 if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
                     try {
@@ -685,16 +687,15 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     }
 
     /**
-     * FIXME m31 20100217: this method uses apaches HttpClient, but it dosn't work under webstart
-     *      with proxy configuration. If we don't use this method, the apache commons-httpclient
-     *      library can be removed
+     * Make local copy of a http accessable module if it is no file address.
+     * This method uses apaches HttpClient, but it dosn't work under webstart with proxy
+     * configuration. If we don't use this method, the apache commons-httpclient
+     * library can be removed
      *
-     * Make local copy of a module if it is no file address.
-     *
-     * @param prop Module properties.
-     * @throws SourceFileExceptionList Address was malformed or the file can not be found.
+     * @param   prop    Module properties.
+     * @throws  SourceFileExceptionList Address was malformed or the file can not be found.
      */
-    public void saveQedeqFromWebToBufferOld(final DefaultKernelQedeqBo prop)
+    public void saveQedeqFromWebToBufferApache(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
         final String method = "saveQedeqFromWebToBufferOld(DefaultKernelQedeqBo)";
         Trace.begin(CLASS, this, method);
@@ -710,7 +711,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         // Create an instance of HttpClient.
         HttpClient client = new HttpClient();
 
-// FIXME m31 20100302: validate
+// FIXME m31 20100816: validate if this is working:
         // set proxy properties according to kernel configuration (if not webstarted)
         if (!IoUtility.isWebStarted() && kernel.getConfig().getHttpProxyHost() != null) {
             final String pHost = kernel.getConfig().getHttpProxyHost();
