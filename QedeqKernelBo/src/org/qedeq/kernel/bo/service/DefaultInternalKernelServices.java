@@ -711,7 +711,6 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         // Create an instance of HttpClient.
         HttpClient client = new HttpClient();
 
-// FIXME m31 20100816: validate if this is working:
         // set proxy properties according to kernel configuration (if not webstarted)
         if (!IoUtility.isWebStarted() && kernel.getConfig().getHttpProxyHost() != null) {
             final String pHost = kernel.getConfig().getHttpProxyHost();
