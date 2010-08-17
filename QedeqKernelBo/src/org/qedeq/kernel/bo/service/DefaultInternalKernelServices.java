@@ -560,7 +560,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         Trace.begin(CLASS, this, method);
 
         // if we are not web started and running under Java 1.4 we use apache commons
-        // httpclient library (so we can set timeouts) 
+        // httpclient library (so we can set timeouts)
         if (!KernelContext.getInstance().isSetConnectionTimeOutSupported()
                 && !IoUtility.isWebStarted()) {
             saveQedeqFromWebToBufferApache(prop);
