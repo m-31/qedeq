@@ -671,7 +671,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             IoUtility.close(out);
             out = null;
             try {
-                f.delete(); // FIXME do we really want to delete it? Perhaps there are infos in it!!
+                f.delete();
             } catch (Exception ex) {
                 Trace.trace(CLASS, this, method, ex);
             }
@@ -754,7 +754,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         } catch (IOException e) {
             Trace.trace(CLASS, this, method, e);
             try {
-                f.delete(); // FIXME do we really want to delete it? Perhaps there are infos in it!!
+                f.delete();
             } catch (Exception ex) {
                 Trace.trace(CLASS, this, method, ex);
             }
