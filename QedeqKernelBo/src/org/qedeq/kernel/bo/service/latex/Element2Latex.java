@@ -275,9 +275,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
                             final String shortName = name.substring(external + 1);
                             if (newProp.getExistenceChecker().predicateExists(shortName,
                                     arguments)) {
-                                // FIXME mime 20080120: Quick and very dirty!
-                                final DefaultExistenceChecker checker = (DefaultExistenceChecker)
-                                    newProp.getExistenceChecker();
+                                final DefaultExistenceChecker checker = newProp.getExistenceChecker();
                                 definition = checker.getPredicate(shortName, arguments);
                             }
                         }
@@ -335,9 +333,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
                             final String shortName = name.substring(external + 1);
                             if (newProp.getExistenceChecker().functionExists(shortName,
                                     arguments)) {
-                                // FIXME mime 20080120: Quick and very dirty!
-                                final DefaultExistenceChecker checker = (DefaultExistenceChecker)
-                                    newProp.getExistenceChecker();
+                                final DefaultExistenceChecker checker = newProp.getExistenceChecker();
                                 definition = checker.getFunction(shortName, arguments);
                             }
                         }
