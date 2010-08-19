@@ -79,9 +79,9 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     private FormulaChecker(final ModuleContext context,
             final ExistenceChecker existenceChecker) {
         this.existenceChecker = existenceChecker;
-        if (existenceChecker.equalityOperatorExists()
+        if (existenceChecker.identityOperatorExists()
                 && !existenceChecker.predicateExists(existenceChecker.getIdentityOperator(), 2)) {
-            throw new IllegalArgumentException("equality predicate should exist, but it doesn't");
+            throw new IllegalArgumentException("identy predicate should exist, but it doesn't");
         }
         currentContext = new ModuleContext(context);
         exceptions = new LogicalCheckExceptionList();
@@ -287,7 +287,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
 
         // check if unique existential operator could be used
         if (operator.equals(UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR)
-                && !existenceChecker.equalityOperatorExists()) {
+                && !existenceChecker.identityOperatorExists()) {
             setLocationWithinModule(listContext + ".getOperator()");
             handleFormulaCheckException(EQUALITY_PREDICATE_NOT_YET_DEFINED,
                 EQUALITY_PREDICATE_NOT_YET_DEFINED_TEXT, element, getCurrentContext());

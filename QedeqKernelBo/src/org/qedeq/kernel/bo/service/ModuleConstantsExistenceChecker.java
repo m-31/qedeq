@@ -16,6 +16,8 @@
 package org.qedeq.kernel.bo.service;
 
 import org.qedeq.kernel.bo.ModuleReferenceList;
+import org.qedeq.kernel.bo.logic.wf.Function;
+import org.qedeq.kernel.bo.logic.wf.Predicate;
 import org.qedeq.kernel.bo.module.DefaultExistenceChecker;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.common.ModuleDataException;
@@ -24,7 +26,6 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * Checks if all formulas of a QEDEQ module are well formed.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
@@ -56,20 +57,18 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
      */
     public final void init() throws ModuleDataException {
         clear();
-        boolean identityOperatorExists = false;
         boolean classOperatorExists = false;
         final ModuleReferenceList list = prop.getRequiredModules();
         String identityOperator = null;
         for (int i = 0; i < list.size(); i++) {
             final KernelQedeqBo bo = (KernelQedeqBo) list
                 .getQedeqBo(i);
-            if (bo.getExistenceChecker().equalityOperatorExists()) {
-                if (identityOperatorExists) {
+            if (bo.getExistenceChecker().identityOperatorExists()) {
+                if (identityOperator != null) {
                     // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
                     throw new IdentityOperatorAlreadyExistsException(123476,
                         "identity operator already defined", list.getModuleContext(i));
                 }
-                identityOperatorExists = true;
                 identityOperator = list.getLabel(i) + "."
                     + bo.getExistenceChecker().getIdentityOperator();
             }
@@ -82,14 +81,16 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
                 classOperatorExists = true;
             }
         }
-        setIdentityOperatorDefined(identityOperatorExists, identityOperator);
+        setIdentityOperatorDefined(identityOperator);
         setClassOperatorExists(classOperatorExists);
     }
 
-    public boolean predicateExists(final String name, final int arguments) {
+    public boolean predicateExists(final Predicate predicate) {
+        final String name = predicate.getName();
+        final String arguments = predicate.getArguments();
         final int external = name.indexOf('.');
         if (external < 0) {
-            return super.predicateExists(name, arguments);
+            return super.predicateExists(predicate);
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
@@ -100,20 +101,22 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
             return false;
         }
         final String shortName = name.substring(external + 1);
-        return newProp.getExistenceChecker().predicateExists(shortName, arguments);
+        return newProp.getExistenceChecker().predicateExists(new Predicate(shortName, arguments));
     }
 
-    public boolean functionExists(final String name, final int arguments) {
+    public boolean functionExists(final Function function) {
+        final String name = function.getName();
+        final String arguments = function.getArguments();
         final int external = name.indexOf(".");
         if (external < 0) {
-            return super.functionExists(name, arguments);
+            return super.functionExists(function);
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
         final KernelQedeqBo newProp = (KernelQedeqBo) ref
             .getQedeqBo(label);
         final String shortName = name.substring(external + 1);
-        return newProp.getExistenceChecker().functionExists(shortName, arguments);
+        return newProp.getExistenceChecker().functionExists(new Function(shortName, arguments));
     }
 
 }

@@ -30,7 +30,6 @@ import org.qedeq.kernel.bo.logic.wf.Predicate;
 /**
  * Checks if all predicate and function constants exist already.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class DefaultExistenceChecker implements ExistenceChecker {
@@ -47,10 +46,7 @@ public class DefaultExistenceChecker implements ExistenceChecker {
     /** Is the class operator already defined? */
     private boolean setDefinitionByFormula;
 
-    /** Is the identity operator already defined? */
-    private boolean identityOperatorDefined;
-
-    /** Identity operator name. */
+    /** Identity operator. */
     private String identityOperator;
 
 
@@ -68,17 +64,10 @@ public class DefaultExistenceChecker implements ExistenceChecker {
         Trace.trace(CLASS, this, "setClassOperatorExists", "clear");
         predicateDefinitions.clear();
         functionDefinitions.clear();
-        identityOperatorDefined = false;
         identityOperator = null;
         setDefinitionByFormula = false;
     }
 
-    /**
-     * Check if a predicate constant is already defined.
-     *
-     * @param   predicate   Predicate.
-     * @return  Predicate is already defined.
-     */
     public boolean predicateExists(final Predicate predicate) {
         final PredicateDefinition definition = (PredicateDefinition) predicateDefinitions
             .get(predicate);
@@ -87,9 +76,7 @@ public class DefaultExistenceChecker implements ExistenceChecker {
 
     public boolean predicateExists(final String name, final int arguments) {
         final Predicate predicate = new Predicate(name, "" + arguments);
-        final PredicateDefinition definition = (PredicateDefinition) predicateDefinitions
-            .get(predicate);
-        return null != definition;
+        return predicateExists(predicate);
     }
 
     /**
@@ -146,9 +133,7 @@ public class DefaultExistenceChecker implements ExistenceChecker {
 
     public boolean functionExists(final String name, final int arguments) {
         final Function function = new Function(name, "" + arguments);
-        final FunctionDefinition definition = (FunctionDefinition) functionDefinitions
-            .get(function);
-        return null != definition;
+        return functionExists(function);
     }
 
     /**
@@ -205,31 +190,26 @@ public class DefaultExistenceChecker implements ExistenceChecker {
         setDefinitionByFormula = existence;
     }
 
-    public boolean equalityOperatorExists() {
-        return identityOperatorDefined;
+    public boolean identityOperatorExists() {
+        return this.identityOperator != null;
+    }
+
+    public String getIdentityOperator() {
+        return this.identityOperator;
     }
 
     /**
      * Set the identity operator.
      *
-     * @param   defined             Is the operator defined?
-     * @param   identityOperator    Operator name.
+     * @param   identityOperator    Operator name. Might be <code>null</code>.
      */
-    public void setIdentityOperatorDefined(final boolean defined, final String identityOperator) {
-        Trace.param(CLASS, this, "setIdentityOperatorDefined", "defined", defined);
-        this.identityOperatorDefined = defined;
-        if (defined) {
-            this.identityOperator = identityOperator;
-        } else {
-            this.identityOperator = null;
-        }
+    public void setIdentityOperatorDefined(final String identityOperator) {
+        Trace.param(CLASS, this, "setIdentityOperatorDefined", "identityOperator", identityOperator);
+        this.identityOperator = identityOperator;
     }
 
-    public String getIdentityOperator() {
-        if (!equalityOperatorExists()) {
-            return null;
-        }
-        return this.identityOperator;
+    public PredicateDefinition getIdentityOperatorDefiniton() {
+        return getPredicate(getIdentityOperator(), 2);
     }
 
 }

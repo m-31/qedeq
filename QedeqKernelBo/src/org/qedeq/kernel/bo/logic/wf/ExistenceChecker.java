@@ -19,16 +19,16 @@ package org.qedeq.kernel.bo.logic.wf;
 /**
  * Check if operators are already defined.
  * <p>
- * If {@link #equalityOperatorExists()} returns <code>true</code> then
+ * If {@link #identityOperatorExists()} returns <code>true</code> then
  * the call to {@link #predicateExists(String, int)} with the arguments
  * {@link #getIdentityOperator()} and 2 must return <code>true</code>.
  *
  * @author  Michael Meyling
  */
 public interface ExistenceChecker extends PredicateExistenceChecker, FunctionExistenceChecker,
-        ClassOperatorExistenceChecker, EqualityOperatorExistenceChecker {
+        ClassOperatorExistenceChecker, IdentityOperatorExistenceChecker {
 
-    /** Name of equal operator. */
+    /** Name of identity operator. */
     public static final String NAME_EQUAL = "equal";
 
 

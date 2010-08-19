@@ -54,7 +54,7 @@ public final class EverythingExists implements ExistenceChecker {
         return true;
     }
 
-    public boolean equalityOperatorExists() {
+    public boolean identityOperatorExists() {
         return true;
     }
 

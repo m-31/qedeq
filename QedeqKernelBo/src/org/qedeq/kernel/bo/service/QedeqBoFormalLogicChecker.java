@@ -162,10 +162,6 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
                 HigherLogicalErrors.PREDICATE_ALREADY_DEFINED_TEXT + predicate,
                 getCurrentContext());
         }
-        if ("2".equals(predicate.getArguments())
-                && ExistenceChecker.NAME_EQUAL.equals(predicate.getName())) {
-            existence.setIdentityOperatorDefined(true, predicate.getName());
-        }
         if (definition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Formula formula = definition.getFormula();
@@ -176,6 +172,10 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
             }
         }
         existence.add(definition);
+        if ("2".equals(predicate.getArguments())
+                && ExistenceChecker.NAME_EQUAL.equals(predicate.getName())) {
+            existence.setIdentityOperatorDefined(predicate.getName());
+        }
         setLocationWithinModule(context);
         setBlocked(true);
     }

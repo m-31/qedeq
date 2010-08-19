@@ -76,7 +76,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return true;
         }
 
-        public boolean equalityOperatorExists() {
+        public boolean identityOperatorExists() {
             return true;
         }
 
@@ -130,7 +130,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
-        public boolean equalityOperatorExists() {
+        public boolean identityOperatorExists() {
             return true;
         }
 

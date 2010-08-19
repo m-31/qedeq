@@ -18,24 +18,24 @@ package org.qedeq.kernel.bo.logic.wf;
 
 
 /**
- * Check if the predicate for equality is already defined.
+ * Check if the predicate for identity is already defined.
  *
  * @author  Michael Meyling
  */
-public interface EqualityOperatorExistenceChecker {
+public interface IdentityOperatorExistenceChecker {
 
     /**
-     * Check if the equality operator is already defined.
+     * Check if the identity operator is already defined.
      *
-     * @return  Equality operator is already defined.
+     * @return  Identity operator is already defined.
      */
-    public boolean equalityOperatorExists();
+    public boolean identityOperatorExists();
 
     /**
-     * Get equality operator. This is the operator string of a predicate.
+     * Get identity operator. This is the operator string of a predicate.
      *
-     * @return  Equality operator. Should be <code>null</code>
-     *          if !{@link #equalityOperatorExists()}.
+     * @return  Identity operator. Should be <code>null</code>
+     *          if !{@link #identityOperatorExists()}.
      */
     public String getIdentityOperator();
 
