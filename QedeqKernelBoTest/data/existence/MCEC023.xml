@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<QEDEQ 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_12/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="MCEC023" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="file:///."/>
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE>
+      <LATEX language="en">
+         Identity Definition
+      </LATEX>
+    </TITLE>
+    <ABSTRACT>
+      <LATEX language="en">
+         We define the identity constant and have some atoms and a proposition.
+      </LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME>
+          <LATEX language="de">
+            Michael Meyling
+          </LATEX>
+        </NAME>
+      </AUTHOR>
+    </AUTHORS>
+  </HEADER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">
+        The Only One
+      </LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        <![CDATA[
+          This module is for testing purposes only.
+        ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Identity</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            We have a definition some axioms and a proposition.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE id="definition:identity">
+          <NAME>
+            <LATEX language="en">identity definition</LATEX>
+            <LATEX language="de">Definition der Identität</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Identity\index{identity}\index{definition!of identity}</LATEX>
+            <LATEX language="de">Identität\index{Identität}\index{Definition!der Identität}</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                We define a predicate constant of arity two that shall stand for the identity of subjects.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Es wird eine zweistellige Prädikatskonstante festgelegt, welche in der Interpretation die Identität von Subjekten ausdrücken soll.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="2" name="equal">
+            <LATEXPATTERN>#1 \ =  \ #2</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+              <VAR id="y"/>
+            </VARLIST>
+          </DEFINITION_PREDICATE>
+        </NODE>
+        
+        <NODE id="definition:notEqual">
+          <NAME>
+            <LATEX language="en">not identical definition</LATEX>
+            <LATEX language="de">Definition der Verschiedenheit</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Not Identical\index{identical!is not}</LATEX>
+            <LATEX language="de">Verschiedenheit\index{Verschiedenheit}\index{Definition!der Verschiedenheit}</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                For convenience we also define the negation of the identity a predicate constant.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Aus Bequemlichkeit definieren wir auch die Negation der Identitätskonstante.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="2" name="notEqual">
+            <LATEXPATTERN>#1 \ \neq \ #2</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+              <VAR id="y"/>
+            </VARLIST>
+            <FORMULA>
+              <NOT>
+                <PREDCON ref="equal">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </PREDCON>
+               </NOT>
+            </FORMULA>
+          </DEFINITION_PREDICATE>
+        </NODE>
+        
+        <NODE id="axiom:identityIsReflexive">
+          <NAME>
+            <LATEX language="en">reflexivity of identity</LATEX>
+            <LATEX language="de">Reflexivität der Identität</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Reflexivity of Identity\index{reflexivity!of identity}\index{identy!reflexivity of}</LATEX>
+            <LATEX language="de">Reflexivität der Identität\index{Reflexivität!der Identität}\index{Identität!Reflexivität der}</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <VAR id="x" />
+                <VAR id="x" />
+              </PREDCON>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+
+        <NODE id="axiom:leibnizReplacement">
+          <NAME>
+            <LATEX language="en">Leibniz' replacement</LATEX>
+            <LATEX language="de">Leibnizsche Ersetzbarkeit</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Leibniz' replacement\index{Leibniz' replacement}</LATEX>
+            <LATEX language="de">Leibnizsche Ersetzbarkeit\index{Leibnizsche Ersetzbarkeit}</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <PREDCON ref="equal">
+                  <VAR id="x" />
+                  <VAR id="y" />
+                </PREDCON>
+                <IMPL>
+                  <PREDVAR id="\phi">
+                    <VAR id="x" />
+                  </PREDVAR>
+                  <PREDVAR id="\phi">
+                    <VAR id="y" />
+                  </PREDVAR>
+                </IMPL>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+
+        <NODE id="axiom:symmetryOfIdentity">
+          <NAME>
+            <LATEX language="en">symmetry of identity</LATEX>
+            <LATEX language="de">Symmetrie der Identität</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Symmetrie of identity\index{identity!symmetry of}</LATEX>
+            <LATEX language="de">Symmetrie der Identität\index{Identität!Symmetrie der}</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <PREDCON ref="equal">
+                  <VAR id="x" />
+                  <VAR id="y" />
+                </PREDCON>
+                <PREDCON ref="equal">
+                  <VAR id="y" />
+                  <VAR id="x" />
+                </PREDCON>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+
+        <NODE id="axiom:transitivityOfIdentity">
+          <NAME>
+            <LATEX language="en">transetivity of identity</LATEX>
+            <LATEX language="de">Transitivität der Identität</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Transitivity of identity\index{identity!transetivity of}</LATEX>
+            <LATEX language="de">Transitivität der Identität\index{Identität!Transitivität der}</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <AND>
+                  <PREDCON ref="equal">
+                    <VAR id="x" />
+                    <VAR id="y" />
+                  </PREDCON>
+                  <PREDCON ref="equal">
+                    <VAR id="y" />
+                    <VAR id="z" />
+                  </PREDCON>
+                </AND>
+                <PREDCON ref="equal">
+                  <VAR id="x" />
+                  <VAR id="z" />
+                </PREDCON>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+        
+        <NODE id="theorem:leibnizEquivalence" level="formal">
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                We can reverse the second implication in the Leibniz replacement.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Bei der Leibnizschen Ersetzbarkeit können wir die zweite Implikation umkehren.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <PREDCON ref="equal">
+                  <VAR id="x" />
+                  <VAR id="y" />
+                </PREDCON>
+                <EQUI>
+                  <PREDVAR id="\phi">
+                    <VAR id="x" />
+                  </PREDVAR>
+                  <PREDVAR id="\phi">
+                    <VAR id="y" />
+                  </PREDVAR>
+                </EQUI>
+              </IMPL>
+            </FORMULA>
+          </THEOREM>
+       </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>
