@@ -61,16 +61,16 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final ModuleReferenceList list = prop.getRequiredModules();
         String identityOperator = null;
         for (int i = 0; i < list.size(); i++) {
-            final KernelQedeqBo bo = (KernelQedeqBo) list
+            final DefaultKernelQedeqBo bo = (DefaultKernelQedeqBo) list
                 .getQedeqBo(i);
             if (bo.getExistenceChecker().identityOperatorExists()) {
                 if (identityOperator != null
                         && !getQedeq(new Predicate(identityOperator, "" + 2)).equals(
                             bo.getExistenceChecker().getQedeq(new Predicate(bo.getExistenceChecker()
                                 .getIdentityOperator(), "" + 2)))) {
-                    // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
                     throw new IdentityOperatorAlreadyExistsException(123476,
-                        "identity operator already defined", list.getModuleContext(i));
+                        "identity operator already defined with " + identityOperator,
+                        list.getModuleContext(i));
                 }
                 identityOperator = list.getLabel(i) + "."
                     + bo.getExistenceChecker().getIdentityOperator();
