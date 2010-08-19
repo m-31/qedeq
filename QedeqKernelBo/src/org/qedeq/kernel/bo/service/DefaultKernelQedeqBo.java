@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.service;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.ModuleReferenceList;
-import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -62,7 +61,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     private KernelModuleReferenceList dependent;
 
     /** Predicate and function constant existence checker. */
-    private ExistenceChecker checker;
+    private ModuleConstantsExistenceChecker checker;
 
     /** Labels for this module. */
     private ModuleLabels labels;
@@ -272,11 +271,11 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      *
      * @param   checker Checks if a predicate or function constant is defined.
      */
-    public void setChecked(final ExistenceChecker checker) {
+    public void setChecked(final ModuleConstantsExistenceChecker checker) {
         stateManager.setChecked(checker);
     }
 
-    public ExistenceChecker getExistenceChecker() {
+    public ModuleConstantsExistenceChecker getExistenceChecker() {
         return checker;
     }
 
@@ -430,11 +429,12 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     /**
-     * Set {@link ExistenceChecker}. Doesn't do any status handling. Only for internal use.
+     * Set {@link ModuleConstantsExistenceChecker}. Doesn't do any status handling. Only for
+     * internal use.
      *
      * @param   checker Set this checker.
      */
-    protected void setExistenceChecker(final ExistenceChecker checker) {
+    protected void setExistenceChecker(final ModuleConstantsExistenceChecker checker) {
         this.checker = checker;
     }
 

@@ -21,7 +21,6 @@ import java.util.List;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.log.ModuleEventLog;
-import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.PluginBo;
@@ -463,7 +462,7 @@ public class StateManager {
      *
      * @param   checker Checks if a predicate or function constant is defined.
      */
-    public void setChecked(final ExistenceChecker checker) {
+    public void setChecked(final ModuleConstantsExistenceChecker checker) {
         checkIfDeleted();
         if (!hasLoadedRequiredModules()) {
             throw new IllegalStateException(

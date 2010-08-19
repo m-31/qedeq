@@ -64,7 +64,10 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
             final KernelQedeqBo bo = (KernelQedeqBo) list
                 .getQedeqBo(i);
             if (bo.getExistenceChecker().identityOperatorExists()) {
-                if (identityOperator != null) {
+                if (identityOperator != null
+                        && !getQedeq(new Function(identityOperator, "" + 2)).equals(
+                            bo.getExistenceChecker().getQedeq(new Function(bo.getExistenceChecker()
+                                .getIdentityOperator(), "" + 2)))) {
                     // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
                     throw new IdentityOperatorAlreadyExistsException(123476,
                         "identity operator already defined", list.getModuleContext(i));
@@ -117,6 +120,21 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
             .getQedeqBo(label);
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().functionExists(new Function(shortName, arguments));
+    }
+
+    public KernelQedeqBo getQedeq(final Function function) {
+        final String name = function.getName();
+        final String arguments = function.getArguments();
+        final int external = name.indexOf(".");
+        if (external < 0) {
+            return prop;
+        }
+        final String label = name.substring(0, external);
+        final ModuleReferenceList ref = prop.getRequiredModules();
+        final KernelQedeqBo newProp = (KernelQedeqBo) ref
+            .getQedeqBo(label);
+        final String shortName = name.substring(external + 1);
+        return newProp.getExistenceChecker().getQedeq(new Function(shortName, arguments));
     }
 
 }

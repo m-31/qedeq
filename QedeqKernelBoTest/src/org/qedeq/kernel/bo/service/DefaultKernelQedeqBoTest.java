@@ -23,7 +23,6 @@ import java.util.Map;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.module.DefaultExistenceChecker;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -131,7 +130,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         assertTrue(bo.hasErrors());
         bo.setLoadedRequiredModules(new KernelModuleReferenceList());
         assertFalse(bo.hasErrors());
-        bo.setChecked(new DefaultExistenceChecker());
+        bo.setChecked(new ModuleConstantsExistenceChecker(bo));
         assertFalse(bo.hasErrors());
     }
 

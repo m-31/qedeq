@@ -1,7 +1,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
+import org.qedeq.kernel.bo.service.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
@@ -35,13 +35,13 @@ public interface KernelQedeqBo extends QedeqBo {
      */
     public ModuleLabels getLabels();
 
-        /**
+    /**
      * Get the predicate and function existence checker. Is only not <code>null</code>
      * if logic was successfully checked.
      *
      * @return  Checker. Checks if a predicate or function constant is defined.
      */
-    public ExistenceChecker getExistenceChecker();
+    public ModuleConstantsExistenceChecker getExistenceChecker();
 
     /**
      * Create exception out of {@link ModuleDataException}.
