@@ -50,7 +50,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
      * Check if required QEDEQ modules mix without problems. If for example the identity operator
      * is defined in two different modules in two different ways we have got a problem.
      * Also the basic properties (for example
-     * {@link DefaultExistenceChecker#setIdentityOperatorDefined(boolean, String)} and
+     * {@link DefaultExistenceChecker#setIdentityOperatorDefined(String)} and
      * {@link DefaultExistenceChecker#setClassOperatorExists(boolean)}) are set accordingly.
      *
      * @throws ModuleDataException  Required modules doesn't mix.
@@ -65,8 +65,8 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
                 .getQedeqBo(i);
             if (bo.getExistenceChecker().identityOperatorExists()) {
                 if (identityOperator != null
-                        && !getQedeq(new Function(identityOperator, "" + 2)).equals(
-                            bo.getExistenceChecker().getQedeq(new Function(bo.getExistenceChecker()
+                        && !getQedeq(new Predicate(identityOperator, "" + 2)).equals(
+                            bo.getExistenceChecker().getQedeq(new Predicate(bo.getExistenceChecker()
                                 .getIdentityOperator(), "" + 2)))) {
                     // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
                     throw new IdentityOperatorAlreadyExistsException(123476,
@@ -122,6 +122,12 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         return newProp.getExistenceChecker().functionExists(new Function(shortName, arguments));
     }
 
+    /**
+     * Get QEDEQ module where given function constant is defined.
+     *
+     * @param   function    Function we look for.
+     * @return  QEDEQ module where function constant is defined.x
+     */
     public KernelQedeqBo getQedeq(final Function function) {
         final String name = function.getName();
         final String arguments = function.getArguments();
@@ -131,10 +137,29 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final KernelQedeqBo newProp = (KernelQedeqBo) ref
-            .getQedeqBo(label);
+        final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(label);
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().getQedeq(new Function(shortName, arguments));
+    }
+
+    /**
+     * Get QEDEQ module where given predicate constant is defined.
+     *
+     * @param   predicate   Predicate we look for.
+     * @return  QEDEQ module where predicate constant is defined.x
+     */
+    public KernelQedeqBo getQedeq(final Predicate predicate) {
+        final String name = predicate.getName();
+        final String arguments = predicate.getArguments();
+        final int external = name.indexOf(".");
+        if (external < 0) {
+            return prop;
+        }
+        final String label = name.substring(0, external);
+        final ModuleReferenceList ref = prop.getRequiredModules();
+        final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(label);
+        final String shortName = name.substring(external + 1);
+        return newProp.getExistenceChecker().getQedeq(new Predicate(shortName, arguments));
     }
 
 }
