@@ -176,12 +176,33 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertNull(checker.getQedeq(new Predicate("unknown." + ExistenceChecker.NAME_EQUAL, "" + 2)));
         assertEquals(KernelContext.getInstance().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC052.xml"))),
                 checker.getQedeq(new Predicate("MCEC052." + ExistenceChecker.NAME_EQUAL, "" + 2)));
-        final PredicateDefinition def = checker.get(new Predicate("MCEC052." + ExistenceChecker.NAME_EQUAL, "" + 2));
-        assertEquals("#1 \\ =  \\ #2", def.getLatexPattern());
-        assertEquals("" + 2, def.getArgumentNumber());
-        assertNull(def.getFormula());
-        assertEquals("equal", def.getName());
-        assertEquals(2, def.getVariableList().size());
+        {
+            final PredicateDefinition def = checker.get(new Predicate("MCEC052." + ExistenceChecker.NAME_EQUAL, "" + 2));
+            assertEquals("#1 \\ =  \\ #2", def.getLatexPattern());
+            assertEquals("" + 2, def.getArgumentNumber());
+            assertNull(def.getFormula());
+            assertEquals("equal", def.getName());
+            assertEquals(2, def.getVariableList().size());
+        }
+
+        {
+            final PredicateDefinition def = checker.getPredicate("MCEC052." + ExistenceChecker.NAME_EQUAL, 2);
+            assertEquals("#1 \\ =  \\ #2", def.getLatexPattern());
+            assertEquals("" + 2, def.getArgumentNumber());
+            assertNull(def.getFormula());
+            assertEquals("equal", def.getName());
+            assertEquals(2, def.getVariableList().size());
+        }
+
+        {
+            final PredicateDefinition def = checker.get(new Predicate("MCEC052x." + ExistenceChecker.NAME_EQUAL, "" + 2));
+            assertNull(def);
+        }
+
+        {
+            final PredicateDefinition def = checker.getPredicate("MCEC052x." + ExistenceChecker.NAME_EQUAL, 2);
+            assertNull(def);
+        }
 
         assertEquals("MCEC052.equal", checker.getIdentityOperator());
         assertFalse(qedeq.equals(checker.getQedeq(new Function("union", "" + 2))));
@@ -189,6 +210,14 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertNull(checker.getQedeq(new Function("unknown." + "union", "" + 2)));
         assertEquals(KernelContext.getInstance().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC052.xml"))),
                 checker.getQedeq(new Function("MCEC052." + "union", "" + 2)));
+        {
+            final Function function = new Function("MCEC052x." + "union", "" + 2);
+            assertFalse(checker.functionExists(function));
+        }
+        {
+            final Function function = new Function("MCEC05." + "union", "" + 2);
+            assertFalse(checker.functionExists(function));
+        }
         {
             final Function function = new Function("MCEC052." + "uniont", "" + 2);
             assertFalse(checker.functionExists(function));
@@ -287,6 +316,30 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
             assertEquals(123478, errors.get(0).getErrorCode());
             assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getLine());
             assertEquals(15, errors.get(0).getSourceArea().getStartPosition().getColumn());
+        } else {
+            fail("failure for double definition of class operator expected");
+        }
+    }
+
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 081 -> 082 -> 083
+     * </pre>
+     * In <code>081</code> and <code>083</code> the the class operator is defined.
+     *
+     * @throws Exception
+     */
+    public void testModuleConstancsExistenceChecker_08() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC081.xml"));
+        if (!KernelContext.getInstance().checkModule(address)) {
+            SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
+            SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
+            assertNull(warnings);
+            assertEquals(1, errors.size());
+            assertEquals(123478, errors.get(0).getErrorCode());
+            assertEquals(118, errors.get(0).getSourceArea().getStartPosition().getLine());
+            assertEquals(11, errors.get(0).getSourceArea().getStartPosition().getColumn());
         } else {
             fail("failure for double definition of class operator expected");
         }
