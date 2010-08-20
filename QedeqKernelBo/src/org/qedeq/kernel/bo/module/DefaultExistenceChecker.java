@@ -174,15 +174,16 @@ public class DefaultExistenceChecker implements ExistenceChecker {
         return setDefinitionByFormula;
     }
 
-    /**
-     * Set if the class operator is already defined.
-     *
-     * @param   existence  Class operator is defined.
-     */
-    public void setClassOperatorExists(final boolean existence) {
-        Trace.param(CLASS, this, "setClassOperatorExists", "existence", existence);
-        setDefinitionByFormula = existence;
-    }
+//    /**
+//     * Set if the class operator is already defined.
+//     *
+//     * @param   existence  Class operator is defined.
+//     */
+// TODO m31 20100820: write some tests that use this feature
+//    public void setClassOperatorExists(final boolean existence) {
+//        Trace.param(CLASS, this, "setClassOperatorExists", "existence", existence);
+//        setDefinitionByFormula = existence;
+//    }
 
     public boolean identityOperatorExists() {
         return this.identityOperator != null;

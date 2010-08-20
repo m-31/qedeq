@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.bo.service;
 
+import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.module.FunctionDefinition;
 import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.ModuleReferenceList;
@@ -35,6 +36,9 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
     /** QEDEQ module properties. */
     private final KernelQedeqBo prop;
 
+    /** Is the class operator already defined? */
+    private DefaultKernelQedeqBo classOperatorModule;
+
     /**
      * Constructor.
      *
@@ -52,14 +56,15 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
      * Check if required QEDEQ modules mix without problems. If for example the identity operator
      * is defined in two different modules in two different ways we have got a problem.
      * Also the basic properties (for example
-     * {@link DefaultExistenceChecker#setIdentityOperatorDefined(String)} and
-     * {@link DefaultExistenceChecker#setClassOperatorExists(boolean)}) are set accordingly.
+     * {@link ModuleConstantsExistenceChecker#setIdentityOperatorDefined(String)} and
+     * {@link ModuleConstantsExistenceChecker#setClassOperatorModule(DefaultKernelQedeqBo)}) are set accordingly.
      *
      * @throws ModuleDataException  Required modules doesn't mix.
      */
     public final void init() throws ModuleDataException {
         clear();
-        boolean classOperatorExists = false;
+        // module where class operator is defined
+        DefaultKernelQedeqBo classOperatorDefinitionModule = null;
         final ModuleReferenceList list = prop.getRequiredModules();
         String identityOperator = null;
         for (int i = 0; i < list.size(); i++) {
@@ -80,16 +85,20 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
                 }
             }
             if (bo.getExistenceChecker().classOperatorExists()) {
-                if (classOperatorExists) {
-                    // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
-                    throw new ClassOperatorAlreadyExistsException(123478,
-                        "class operator already defined", list.getModuleContext(i));
+                if (classOperatorDefinitionModule != null) {
+                    if (!classOperatorDefinitionModule.equals(bo)) {
+                        // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
+                        throw new ClassOperatorAlreadyExistsException(123478,
+                            "class operator already defined within " + classOperatorDefinitionModule.getUrl(),
+                            list.getModuleContext(i));
+                    }
+                } else {
+                    classOperatorDefinitionModule = bo;
                 }
-                classOperatorExists = true;
             }
         }
         setIdentityOperatorDefined(identityOperator);
-        setClassOperatorExists(classOperatorExists);
+        setClassOperatorModule(classOperatorDefinitionModule);
     }
 
     public boolean predicateExists(final Predicate predicate) {
@@ -213,5 +222,19 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().getQedeq(new Predicate(shortName, arguments));
     }
+
+    public boolean classOperatorExists() {
+        return classOperatorModule != null;
+    }
+
+    /**
+     * Set if the class operator is already defined.
+     *
+     * @param   classOperatorModule  Module where class operator is defined.
+     */
+    public void setClassOperatorModule(final DefaultKernelQedeqBo classOperatorModule) {
+        this.classOperatorModule = classOperatorModule;
+    }
+
 
 }

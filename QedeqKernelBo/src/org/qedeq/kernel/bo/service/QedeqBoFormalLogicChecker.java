@@ -246,7 +246,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
         if (rule.getName() != null) {
             if ("SET_DEFINION_BY_FORMULA".equals(rule.getName())) {
                 // LATER mime 20080114: check if this rule can be proposed
-                existence.setClassOperatorExists(true);
+                existence.setClassOperatorModule((DefaultKernelQedeqBo) getQedeqBo());
             }
         }
         setBlocked(true);

@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_12/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
-    <SPECIFICATION name="MCEC061" ruleVersion="1.00.00">
+    <SPECIFICATION name="MCEC071" ruleVersion="1.00.00">
       <LOCATIONS>
         <LOCATION value="file:///."/>
       </LOCATIONS>
@@ -28,15 +28,15 @@
       </AUTHOR>
     </AUTHORS>
     <IMPORTS>
-      <IMPORT label="MCEC062a">
-        <SPECIFICATION name="MCEC062" ruleVersion="1.00.00">
+      <IMPORT label="MCEC072">
+        <SPECIFICATION name="MCEC072" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
           </LOCATIONS>
         </SPECIFICATION>
       </IMPORT>
-      <IMPORT label="MCEC062b">
-        <SPECIFICATION name="MCEC062" ruleVersion="1.00.00">
+      <IMPORT label="MCEC073">
+        <SPECIFICATION name="MCEC073" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
           </LOCATIONS>
