@@ -213,14 +213,17 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         {
             final Function function = new Function("MCEC052x." + "union", "" + 2);
             assertFalse(checker.functionExists(function));
+            assertNull(checker.get(function));
         }
         {
             final Function function = new Function("MCEC05." + "union", "" + 2);
             assertFalse(checker.functionExists(function));
+            assertNull(checker.get(function));
         }
         {
             final Function function = new Function("MCEC052." + "uniont", "" + 2);
             assertFalse(checker.functionExists(function));
+            assertNull(checker.get(function));
         }
         {
             final Function function = new Function("MCEC052." + "union", "" + 2);
@@ -240,6 +243,9 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
             assertEquals("CLASS ( VAR ( \"z\"), OR ( PREDCON ( \"in\", VAR ( \"z\"), VAR ( \"x\")),"
                 + " PREDCON ( \"in\", VAR ( \"z\"), VAR ( \"y\"))))", def3.getTerm().toString());
             assertEquals("union", def3.getName());
+        }
+        {
+            assertFalse(checker.functionExists("MCEC052x." + "union", 2));
         }
 
     }
