@@ -46,6 +46,34 @@ public class PluginManager {
     /**
      * Add a plugin.
      *
+     * @param   pluginClass Class that extends {@link PluginBo} to add.
+     *                      A plugin with same name can not be added twice.
+     */
+    synchronized void addPlugin(final String pluginClass) {
+        PluginBo plugin = null;
+        try {
+            Class cl = Class.forName(pluginClass);
+            plugin = (PluginBo) cl.newInstance();
+        } catch (ClassNotFoundException e) {
+            throw new IllegalArgumentException(e);
+        } catch (InstantiationException e) {
+            throw new IllegalArgumentException(e);
+        } catch (IllegalAccessException e) {
+            throw new IllegalArgumentException(e);
+        }
+        if (plugins.get(plugin.getPluginId()) != null) {
+            final PluginBo oldPlugin = (PluginBo) plugins.get(plugin.getPluginId());
+            final RuntimeException e = new IllegalArgumentException("plugin with that name already added: "
+                    + oldPlugin.getPluginId() + ": " + plugin.getPluginDescription());
+            Trace.fatal(CLASS, this, "addPlugin", "Programing error", e);
+            throw e;
+        }
+        plugins.put(plugin.getPluginId(), plugin);
+    }
+
+    /**
+     * Add a plugin.
+     *
      * @param   plugin  Plugin to add. A plugin with same name can not be added twice.
      */
     synchronized void addPlugin(final PluginBo plugin) {
