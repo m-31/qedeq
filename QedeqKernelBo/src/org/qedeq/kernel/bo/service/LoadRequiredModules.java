@@ -134,9 +134,6 @@ public final class LoadRequiredModules {
                     continue;
                 }
             }
-            if (sfl != null) {
-                throw sfl;
-            }
         }
 
         synchronized (prop) {
