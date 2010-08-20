@@ -47,7 +47,7 @@ public final class KernelFacade {
 
     public static void startup() {
         log = new LogListenerImpl();
-        // QedeqLog.getInstance().addLog(log);
+        QedeqLog.getInstance().addLog(log);
         try {
             final File dir = (new QedeqTestCase() {}).getOutdir();
             final File cf = new File(dir, "config/org.qedeq.properties");
