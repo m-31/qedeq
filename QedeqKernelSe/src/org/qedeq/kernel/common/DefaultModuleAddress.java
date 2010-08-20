@@ -253,6 +253,7 @@ public class DefaultModuleAddress implements ModuleAddress {
         return url.hashCode();
     }
 
+    // FIXME m31 20100820: what if we have "hoho/hello/sample.xml" and "hoho/hello/../hello/sample.xml"
     public final boolean equals(final Object object) {
         if (object == null || !(object instanceof DefaultModuleAddress)) {
             return false;
