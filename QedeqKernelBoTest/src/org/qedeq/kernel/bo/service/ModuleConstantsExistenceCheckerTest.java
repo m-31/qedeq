@@ -189,12 +189,29 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertNull(checker.getQedeq(new Function("unknown." + "union", "" + 2)));
         assertEquals(KernelContext.getInstance().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC052.xml"))),
                 checker.getQedeq(new Function("MCEC052." + "union", "" + 2)));
-        final FunctionDefinition def2 = checker.get(new Function("MCEC052." + "union", "" + 2));
-        assertEquals("(#1 \\cup #2)", def2.getLatexPattern());
-        assertEquals("" + 2, def2.getArgumentNumber());
-        assertEquals("CLASS ( VAR ( \"z\"), OR ( PREDCON ( \"in\", VAR ( \"z\"), VAR ( \"x\")),"
-            + " PREDCON ( \"in\", VAR ( \"z\"), VAR ( \"y\"))))", def2.getTerm().toString());
-        assertEquals("union", def2.getName());
+        {
+            final Function function = new Function("MCEC052." + "uniont", "" + 2);
+            assertFalse(checker.functionExists(function));
+        }
+        {
+            final Function function = new Function("MCEC052." + "union", "" + 2);
+            assertTrue(checker.functionExists(function));
+            final FunctionDefinition def2 = checker.get(function);
+            assertEquals("(#1 \\cup #2)", def2.getLatexPattern());
+            assertEquals("" + 2, def2.getArgumentNumber());
+            assertEquals("CLASS ( VAR ( \"z\"), OR ( PREDCON ( \"in\", VAR ( \"z\"), VAR ( \"x\")),"
+                + " PREDCON ( \"in\", VAR ( \"z\"), VAR ( \"y\"))))", def2.getTerm().toString());
+            assertEquals("union", def2.getName());
+        }
+        {
+            assertTrue(checker.functionExists("MCEC052." + "union", 2));
+            final FunctionDefinition def3 = checker.getFunction("MCEC052." + "union", 2);
+            assertEquals("(#1 \\cup #2)", def3.getLatexPattern());
+            assertEquals("" + 2, def3.getArgumentNumber());
+            assertEquals("CLASS ( VAR ( \"z\"), OR ( PREDCON ( \"in\", VAR ( \"z\"), VAR ( \"x\")),"
+                + " PREDCON ( \"in\", VAR ( \"z\"), VAR ( \"y\"))))", def3.getTerm().toString());
+            assertEquals("union", def3.getName());
+        }
 
     }
 
@@ -204,12 +221,12 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
      * 061 -> 062(a)
      * 061 -> 062(b)
      * </pre>
-     * In <code>062</code> the identity operator is defined.
+     * In <code>062</code> the identity operator and the class operator is defined.
      *
      * @throws Exception
      */
     public void pestModuleConstancsExistenceChecker_06() throws Exception {
-        final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC051.xml"));
+        final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC061.xml"));
         if (!KernelContext.getInstance().checkModule(address)) {
             KernelContext.getInstance().getQedeqBo(address).getErrors().printStackTrace(System.out);
             throw KernelContext.getInstance().getQedeqBo(address).getErrors();
@@ -222,26 +239,26 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
 
         ModuleConstantsExistenceChecker checker = qedeq.getExistenceChecker();
 
-        assertEquals("MCEC052a.equal", checker.getIdentityOperator());
+        assertEquals("MCEC062a.equal", checker.getIdentityOperator());
         assertFalse(qedeq.equals(checker.getQedeq(new Predicate(ExistenceChecker.NAME_EQUAL, "" + 2))));
         assertNull(checker.getQedeq(new Predicate(ExistenceChecker.NAME_EQUAL, "" + 2)));
         assertNull(checker.getQedeq(new Predicate("unknown." + ExistenceChecker.NAME_EQUAL, "" + 2)));
         assertEquals(KernelContext.getInstance().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC052.xml"))),
-                checker.getQedeq(new Predicate("MCEC052a." + ExistenceChecker.NAME_EQUAL, "" + 2)));
-        final PredicateDefinition def = checker.get(new Predicate("MCEC052a." + ExistenceChecker.NAME_EQUAL, "" + 2));
+                checker.getQedeq(new Predicate("MCEC062a." + ExistenceChecker.NAME_EQUAL, "" + 2)));
+        final PredicateDefinition def = checker.get(new Predicate("MCEC062a." + ExistenceChecker.NAME_EQUAL, "" + 2));
         assertEquals("#1 \\ =  \\ #2", def.getLatexPattern());
         assertEquals("" + 2, def.getArgumentNumber());
         assertNull(def.getFormula());
         assertEquals("equal", def.getName());
         assertEquals(2, def.getVariableList().size());
 
-        assertEquals("MCEC052a.equal", checker.getIdentityOperator());
+        assertEquals("MCEC062a.equal", checker.getIdentityOperator());
         assertFalse(qedeq.equals(checker.getQedeq(new Function("union", "" + 2))));
         assertNull(checker.getQedeq(new Function("union", "" + 2)));
         assertNull(checker.getQedeq(new Function("unknown." + "union", "" + 2)));
         assertEquals(KernelContext.getInstance().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC052.xml"))),
-                checker.getQedeq(new Predicate("MCEC052a." + "union", "" + 2)));
-        final FunctionDefinition def2 = checker.get(new Function("MCEC052a." + "union", "" + 2));
+                checker.getQedeq(new Predicate("MCEC062a." + "union", "" + 2)));
+        final FunctionDefinition def2 = checker.get(new Function("MCEC062a." + "union", "" + 2));
         assertEquals("#1 \\ =  \\ #2", def2.getLatexPattern());
         assertEquals("" + 2, def2.getArgumentNumber());
         assertNull(def2.getTerm());
