@@ -112,19 +112,13 @@ public class DefaultExistenceChecker implements ExistenceChecker {
      *
      * @param   name        Name of predicate.
      * @param   arguments   Arguments of predicate.
-     * @return  Definition.
+     * @return  Definition. Might be <code>null</code>.
      */
     public PredicateDefinition getPredicate(final String name, final int arguments) {
         final Predicate predicate = new Predicate(name, "" + arguments);
         return get(predicate);
     }
 
-    /**
-     * Check if a function constant is already defined.
-     *
-     * @param   function    Function.
-     * @return  Function is already defined.
-     */
     public boolean functionExists(final Function function) {
         final FunctionDefinition definition = (FunctionDefinition) functionDefinitions
             .get(function);
@@ -158,7 +152,7 @@ public class DefaultExistenceChecker implements ExistenceChecker {
      * Get function constant definition.
      *
      * @param   function    Get definition of this predicate.
-     * @return  Definition.
+     * @return  Definition. Might be <code>null</code>.
      */
     public FunctionDefinition get(final Function function) {
         return (FunctionDefinition) functionDefinitions.get(function);
@@ -169,7 +163,7 @@ public class DefaultExistenceChecker implements ExistenceChecker {
      *
      * @param   name        Name of function.
      * @param   arguments   Arguments of function.
-     * @return  Definition.
+     * @return  Definition. Might be <code>null</code>.
      */
     public FunctionDefinition getFunction(final String name, final int arguments) {
         final Function function = new Function(name, "" + arguments);

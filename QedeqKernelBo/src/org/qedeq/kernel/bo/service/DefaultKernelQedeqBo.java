@@ -275,10 +275,6 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         stateManager.setChecked(checker);
     }
 
-    public ModuleConstantsExistenceChecker getExistenceChecker() {
-        return checker;
-    }
-
     public boolean isChecked() {
         return stateManager.isChecked();
     }
@@ -426,6 +422,16 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      */
     protected StateManager getStateManager() {
         return this.stateManager;
+    }
+
+    /**
+     * Get the predicate and function existence checker. Is only not <code>null</code>
+     * if logic was successfully checked.
+     *
+     * @return  Checker. Checks if a predicate or function constant is defined.
+     */
+    public ModuleConstantsExistenceChecker getExistenceChecker() {
+        return checker;
     }
 
     /**

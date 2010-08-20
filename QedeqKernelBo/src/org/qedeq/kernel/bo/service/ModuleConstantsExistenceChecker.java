@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.bo.service;
 
+import org.qedeq.kernel.base.module.FunctionDefinition;
+import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.Predicate;
@@ -64,16 +66,18 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
             final DefaultKernelQedeqBo bo = (DefaultKernelQedeqBo) list
                 .getQedeqBo(i);
             if (bo.getExistenceChecker().identityOperatorExists()) {
-                if (identityOperator != null
-                        && !getQedeq(new Predicate(identityOperator, "" + 2)).equals(
+                if (identityOperator != null) {
+                    if (!getQedeq(new Predicate(identityOperator, "" + 2)).equals(
                             bo.getExistenceChecker().getQedeq(new Predicate(bo.getExistenceChecker()
                                 .getIdentityOperator(), "" + 2)))) {
-                    throw new IdentityOperatorAlreadyExistsException(123476,
-                        "identity operator already defined with " + identityOperator,
-                        list.getModuleContext(i));
+                        throw new IdentityOperatorAlreadyExistsException(123476,
+                            "identity operator already defined with " + identityOperator,
+                            list.getModuleContext(i));
+                    }
+                } else {
+                    identityOperator = list.getLabel(i) + "."
+                        + bo.getExistenceChecker().getIdentityOperator();
                 }
-                identityOperator = list.getLabel(i) + "."
-                    + bo.getExistenceChecker().getIdentityOperator();
             }
             if (bo.getExistenceChecker().classOperatorExists()) {
                 if (classOperatorExists) {
@@ -98,7 +102,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
 
-        final KernelQedeqBo newProp = (KernelQedeqBo) ref
+        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref
             .getQedeqBo(label);
         if (newProp == null) {
             return false;
@@ -116,28 +120,69 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final KernelQedeqBo newProp = (KernelQedeqBo) ref
+        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref
             .getQedeqBo(label);
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().functionExists(new Function(shortName, arguments));
+    }
+
+    public PredicateDefinition get(final Predicate predicate) {
+        final String name = predicate.getName();
+        final String arguments = predicate.getArguments();
+        final int external = name.indexOf('.');
+        if (external < 0) {
+            return super.get(predicate);
+        }
+        final String label = name.substring(0, external);
+        final ModuleReferenceList ref = prop.getRequiredModules();
+
+        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref
+            .getQedeqBo(label);
+        if (newProp == null) {
+            return null;
+        }
+        final String shortName = name.substring(external + 1);
+        return newProp.getExistenceChecker().get(new Predicate(shortName, arguments));
+    }
+
+    public FunctionDefinition get(final Function function) {
+        final String name = function.getName();
+        final String arguments = function.getArguments();
+        final int external = name.indexOf(".");
+        if (external < 0) {
+            return super.get(function);
+        }
+        final String label = name.substring(0, external);
+        final ModuleReferenceList ref = prop.getRequiredModules();
+        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref
+            .getQedeqBo(label);
+        final String shortName = name.substring(external + 1);
+        return newProp.getExistenceChecker().get(new Function(shortName, arguments));
     }
 
     /**
      * Get QEDEQ module where given function constant is defined.
      *
      * @param   function    Function we look for.
-     * @return  QEDEQ module where function constant is defined.x
+     * @return  QEDEQ module where function constant is defined.
      */
     public KernelQedeqBo getQedeq(final Function function) {
         final String name = function.getName();
         final String arguments = function.getArguments();
         final int external = name.indexOf(".");
         if (external < 0) {
-            return prop;
+            if (functionExists(function)) {
+                return prop;
+            } else {
+                return null;
+            }
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(label);
+        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref.getQedeqBo(label);
+        if (newProp == null) {
+            return newProp;
+        }
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().getQedeq(new Function(shortName, arguments));
     }
@@ -153,11 +198,18 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final String arguments = predicate.getArguments();
         final int external = name.indexOf(".");
         if (external < 0) {
-            return prop;
+            if (predicateExists(predicate)) {
+                return prop;
+            } else {
+                return null;
+            }
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(label);
+        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref.getQedeqBo(label);
+        if (newProp == null) {
+            return newProp;
+        }
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().getQedeq(new Predicate(shortName, arguments));
     }

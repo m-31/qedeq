@@ -26,7 +26,7 @@ import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.module.DefaultExistenceChecker;
-import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
 import org.qedeq.kernel.visitor.AbstractModuleVisitor;
 
@@ -269,7 +269,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
                     if (external >= 0 && Element2Latex.this.getReferences() != null
                             && Element2Latex.this.getReferences().size() > 0) {
                         final String label = name.substring(0, external);
-                        final KernelQedeqBo newProp = (KernelQedeqBo)
+                        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
                             Element2Latex.this.getReferences().getQedeqBo(label);
                         if (newProp != null) {
                             final String shortName = name.substring(external + 1);
@@ -327,7 +327,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
                     if (external >= 0 && Element2Latex.this.getReferences() != null
                             && Element2Latex.this.getReferences().size() > 0) {
                         final String label = name.substring(0, external);
-                        final KernelQedeqBo newProp = (KernelQedeqBo)
+                        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
                             Element2Latex.this.getReferences().getQedeqBo(label);
                         if (newProp != null) {
                             final String shortName = name.substring(external + 1);
