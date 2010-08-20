@@ -87,10 +87,10 @@ public class DefaultModuleAddress implements ModuleAddress {
      *
      * @param   file    File path of module. Must address a file
      *                  with extension ".xml".
-     * @throws  MalformedURLException   Address is formally incorrect.
+     * @throws  IOException Problem with file location.
      */
-    public DefaultModuleAddress(final File file) throws MalformedURLException {
-        this(IoUtility.toUrl(file));
+    public DefaultModuleAddress(final File file) throws IOException {
+        this(IoUtility.toUrl(file.getCanonicalFile()));
     }
 
     /**
