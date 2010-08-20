@@ -151,6 +151,9 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         final ModuleReferenceList ref = prop.getRequiredModules();
         final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref
             .getQedeqBo(label);
+        if (newProp == null) {
+            return null;
+        }
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().get(new Function(shortName, arguments));
     }
