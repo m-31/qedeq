@@ -254,4 +254,30 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
         }
     }
 
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 101 -> 102
+     * 101 -> notThere
+     * 101 -> 103
+     * 101 -> alsoNotThere
+     * 101 -> 104
+     * </pre>
+     *
+     * @throws Exception
+     */
+    public void testLoadRequiredModules_10() throws Exception {
+        try {
+            final ModuleAddress address = new DefaultModuleAddress(
+                getFile("loadRequired/LRM101.xml"));
+            KernelContext.getInstance().loadRequiredModules(address);
+            fail("two imports don't exist: \"notThere\" and \"alsoNotThere\"\n");
+        } catch (SourceFileExceptionList e) {
+            assertEquals(38, e.get(0).getSourceArea().getStartPosition().getLine());
+            assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(2, e.size());
+            // TODO mime 20100820: check if exception code and description is ok
+        }
+    }
+
 }
