@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.service;
 
-import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.module.FunctionDefinition;
 import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.ModuleReferenceList;
@@ -23,6 +22,7 @@ import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.Predicate;
 import org.qedeq.kernel.bo.module.DefaultExistenceChecker;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 
 
@@ -36,8 +36,11 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
     /** QEDEQ module properties. */
     private final KernelQedeqBo prop;
 
-    /** Is the class operator already defined? */
+    /** In this module the class operator is defined. */
     private DefaultKernelQedeqBo classOperatorModule;
+
+    /** In this class the identityOperator is defined. */
+    private DefaultKernelQedeqBo identityOperatorModule;
 
     /**
      * Constructor.
@@ -56,49 +59,29 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
      * Check if required QEDEQ modules mix without problems. If for example the identity operator
      * is defined in two different modules in two different ways we have got a problem.
      * Also the basic properties (for example
-     * {@link ModuleConstantsExistenceChecker#setIdentityOperatorDefined(String)} and
+     * {@link ModuleConstantsExistenceChecker#setIdentityOperatorDefined(String,
+     * DefaultKernelQedeqBo, ModuleContext)}and
      * {@link ModuleConstantsExistenceChecker#setClassOperatorModule(DefaultKernelQedeqBo)}) are set accordingly.
      *
      * @throws ModuleDataException  Required modules doesn't mix.
      */
     public final void init() throws ModuleDataException {
         clear();
-        // module where class operator is defined
-        DefaultKernelQedeqBo classOperatorDefinitionModule = null;
         final ModuleReferenceList list = prop.getRequiredModules();
-        String identityOperator = null;
         for (int i = 0; i < list.size(); i++) {
             final DefaultKernelQedeqBo bo = (DefaultKernelQedeqBo) list
                 .getQedeqBo(i);
             if (bo.getExistenceChecker().identityOperatorExists()) {
-                if (identityOperator != null) {
-                    if (!getQedeq(new Predicate(identityOperator, "" + 2)).equals(
-                            bo.getExistenceChecker().getQedeq(new Predicate(bo.getExistenceChecker()
-                                .getIdentityOperator(), "" + 2)))) {
-                        throw new IdentityOperatorAlreadyExistsException(123476,
-                            "identity operator already defined with " + identityOperator,
-                            list.getModuleContext(i));
-                    }
-                } else {
-                    identityOperator = list.getLabel(i) + "."
-                        + bo.getExistenceChecker().getIdentityOperator();
-                }
+                final String identityOperator = list.getLabel(i) + "."
+                    + bo.getExistenceChecker().getIdentityOperator();
+                setIdentityOperatorDefined(identityOperator, bo.getExistenceChecker().identityOperatorModule,
+                    list.getModuleContext(i));
             }
             if (bo.getExistenceChecker().classOperatorExists()) {
-                if (classOperatorDefinitionModule != null) {
-                    if (!classOperatorDefinitionModule.equals(bo)) {
-                        // FIXME mime 20089116: check if both definitions are the same (Module URL ==)
-                        throw new ClassOperatorAlreadyExistsException(123478,
-                            "class operator already defined within " + classOperatorDefinitionModule.getUrl(),
-                            list.getModuleContext(i));
-                    }
-                } else {
-                    classOperatorDefinitionModule = bo;
-                }
+                setClassOperatorModule(bo.getExistenceChecker().classOperatorModule,
+                    list.getModuleContext(i));
             }
         }
-        setIdentityOperatorDefined(identityOperator);
-        setClassOperatorModule(classOperatorDefinitionModule);
     }
 
     public boolean predicateExists(final Predicate predicate) {
@@ -228,13 +211,45 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
     }
 
     /**
+     * Set the identity operator.
+     *
+     * @param   identityOperator        Operator name. Might be <code>null</code>.
+     * @param   identityOperatorModule  In this module the identity operator is defined.
+     * @param   context                 Here we are within the module.
+     * @throws  IdentityOperatorAlreadyExistsException  Already defined.
+     */
+    public void setIdentityOperatorDefined(final String identityOperator,
+            final DefaultKernelQedeqBo identityOperatorModule, final ModuleContext context)
+            throws IdentityOperatorAlreadyExistsException {
+        if (this.identityOperatorModule != null && identityOperatorModule != null) {
+            if (!this.identityOperatorModule.equals(identityOperatorModule)) {
+                throw new IdentityOperatorAlreadyExistsException(123476,
+                    "identity operator already defined with " + getIdentityOperator(), context);
+            }
+        } else {
+            this.identityOperatorModule = identityOperatorModule;
+            super.setIdentityOperatorDefined(identityOperator);
+        }
+    }
+
+    /**
      * Set if the class operator is already defined.
      *
      * @param   classOperatorModule  Module where class operator is defined.
+     * @param   context              Context where we try to set new class operator.
+     * @throws  ClassOperatorAlreadyExistsException Operator already defined.
      */
-    public void setClassOperatorModule(final DefaultKernelQedeqBo classOperatorModule) {
-        this.classOperatorModule = classOperatorModule;
+    public void setClassOperatorModule(final DefaultKernelQedeqBo classOperatorModule,
+            final ModuleContext context) throws  ClassOperatorAlreadyExistsException {
+        if (this.classOperatorModule != null && classOperatorModule != null) {
+            if (!this.classOperatorModule.equals(classOperatorModule)) {
+                throw new ClassOperatorAlreadyExistsException(123478,
+                    "class operator already defined within " + this.classOperatorModule.getUrl(),
+                    context);
+            }
+        } else {
+            this.classOperatorModule = classOperatorModule;
+        }
     }
-
 
 }
