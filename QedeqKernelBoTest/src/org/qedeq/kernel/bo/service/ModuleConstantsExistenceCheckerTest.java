@@ -128,15 +128,13 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
      *
      * @throws Exception
      */
-    public void pestModuleConstancsExistenceChecker_04() throws Exception {
+    public void testModuleConstancsExistenceChecker_04() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC041.xml"));
         if (!KernelContext.getInstance().checkModule(address)) {
             SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
             SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
-//            errors.printStackTrace(System.out);
-//            warnings.printStackTrace(System.out);
-//            KernelContext.getInstance().getQedeqBo(address).getErrors().printStackTrace(System.out);
-            throw KernelContext.getInstance().getQedeqBo(address).getErrors();
+            errors.printStackTrace(System.out);
+            throw errors;
         }
         SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
         SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
