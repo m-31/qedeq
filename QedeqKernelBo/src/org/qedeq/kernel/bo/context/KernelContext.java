@@ -58,10 +58,14 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     /** Version code . */
     private static final String KERNEL_CODE_NAME = "mongaga";
 
+    /** Kernel version dedication. */
+    private static final String KERNEL_DEDICATED
+        = "dedicated to Therese Schirrmacher, who died on 2010-08-20";
+
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
         = "Hilbert II - Version " + KERNEL_VERSION + " (" + KERNEL_CODE_NAME + ") ["
-        + getBuildIdFromManifest() + "]";
+        + getBuildIdFromManifest() + "] " + KERNEL_DEDICATED;
 
     /** Maximal supported rule version of this kernel. */
     private static final String MAXIMAL_RULE_VERSION = "1.00.00";
@@ -375,14 +379,23 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      * Get build information from JAR manifest file. Is also non empty string if no manifest
      * information is available.
      *
-     * @return  Implementation-Version.
+     * @return  Implementation-version.
      */
-    public static String getBuildIdFromManifest() {
+    private static String getBuildIdFromManifest() {
         String build = KernelContext.class.getPackage().getImplementationVersion();
         if (build == null) {
             build = "no regular build";
         }
         return build;
+    }
+
+    /**
+     * Get build information.
+     *
+     * @return  Implementation-version.
+     */
+    public String getBuildId() {
+        return getBuildIdFromManifest();
     }
 
     /**
@@ -419,6 +432,15 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      */
     public final String getDescriptiveKernelVersion() {
         return DESCRIPTIVE_KERNEL_VERSION;
+    }
+
+    /**
+     * Get dedication for this kernel.
+     *
+     * @return  Kernel code dedication.
+     */
+    public final String getDedication() {
+        return KERNEL_DEDICATED;
     }
 
     /**

@@ -226,7 +226,8 @@ public class AboutDialog extends JDialog {
         sb.append(" Please take a look at the license argreements section in the online help.");
         sb.append("\n\nKernel Version: " + KernelContext.getInstance().getKernelVersion());
         sb.append("\nCode Name: " + KernelContext.getInstance().getKernelCodeName());
-        sb.append("\nBuild: " + KernelContext.getBuildIdFromManifest());
+        sb.append("\nBuild: " + KernelContext.getInstance().getBuildId());
+        sb.append("\n" + KernelContext.getInstance().getDedication());
         sb.append("\n\n");
         sb.append("\nUsed memory: ");
         sb.append(Runtime.getRuntime().totalMemory()
