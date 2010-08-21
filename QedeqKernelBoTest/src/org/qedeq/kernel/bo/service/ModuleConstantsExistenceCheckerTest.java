@@ -177,7 +177,9 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertEquals(KernelContext.getInstance().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC052.xml"))),
                 checker.getQedeq(new Predicate("MCEC052." + ExistenceChecker.NAME_EQUAL, "" + 2)));
         {
-            final PredicateDefinition def = checker.get(new Predicate("MCEC052." + ExistenceChecker.NAME_EQUAL, "" + 2));
+            final Predicate predicate = new Predicate("MCEC052." + ExistenceChecker.NAME_EQUAL, "" + 2);
+            assertTrue(checker.predicateExists(predicate));
+            final PredicateDefinition def = checker.get(predicate);
             assertEquals("#1 \\ =  \\ #2", def.getLatexPattern());
             assertEquals("" + 2, def.getArgumentNumber());
             assertNull(def.getFormula());
@@ -186,6 +188,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         }
 
         {
+            assertTrue(checker.predicateExists("MCEC052." + ExistenceChecker.NAME_EQUAL, 2));
             final PredicateDefinition def = checker.getPredicate("MCEC052." + ExistenceChecker.NAME_EQUAL, 2);
             assertEquals("#1 \\ =  \\ #2", def.getLatexPattern());
             assertEquals("" + 2, def.getArgumentNumber());
@@ -195,11 +198,14 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         }
 
         {
-            final PredicateDefinition def = checker.get(new Predicate("MCEC052x." + ExistenceChecker.NAME_EQUAL, "" + 2));
+            final Predicate predicate = new Predicate("MCEC052x." + ExistenceChecker.NAME_EQUAL, "" + 2);
+            assertFalse(checker.predicateExists(predicate));
+            final PredicateDefinition def = checker.get(predicate);
             assertNull(def);
         }
 
         {
+            assertFalse(checker.predicateExists("MCEC052x." + ExistenceChecker.NAME_EQUAL, 2));
             final PredicateDefinition def = checker.getPredicate("MCEC052x." + ExistenceChecker.NAME_EQUAL, 2);
             assertNull(def);
         }
