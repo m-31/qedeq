@@ -357,4 +357,28 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         }
     }
 
+    /**
+     * Load following dependencies:
+     * <pre>
+     * 091 -> 092 -> 093
+     * </pre>
+     * In <code>091</code> and <code>093</code> the the identity predicate is defined.
+     *
+     * @throws Exception
+     */
+    public void testModuleConstancsExistenceChecker_09() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC091.xml"));
+        if (!KernelContext.getInstance().checkModule(address)) {
+            SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
+            SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
+            assertNull(warnings);
+            assertEquals(1, errors.size());
+            assertEquals(123476, errors.get(0).getErrorCode());
+            assertEquals(125, errors.get(0).getSourceArea().getStartPosition().getLine());
+            assertEquals(11, errors.get(0).getSourceArea().getStartPosition().getColumn());
+        } else {
+            fail("failure for double definition of class operator expected");
+        }
+    }
+
 }

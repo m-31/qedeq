@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<QEDEQ 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_12/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="MCEC091" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="file:///."/>
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE>
+      <LATEX language="en">
+         Identity Predicate Definition
+      </LATEX>
+    </TITLE>
+    <ABSTRACT>
+      <LATEX language="en">
+         We define the class operator constant and some other things.
+      </LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME>
+          <LATEX language="de">
+            Michael Meyling
+          </LATEX>
+        </NAME>
+      </AUTHOR>
+    </AUTHORS>
+    <IMPORTS>
+      <IMPORT label="MCEC092">
+        <SPECIFICATION name="MCEC092" ruleVersion="1.00.00">
+          <LOCATIONS>
+            <LOCATION value="."/>
+          </LOCATIONS>
+        </SPECIFICATION>
+      </IMPORT>
+    </IMPORTS>
+  </HEADER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">
+        The Only One
+      </LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        <![CDATA[
+          This module is for testing purposes only.
+        ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Identity</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            We have a definition.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE id="definition:in">
+          <NAME>
+            <LATEX language="en">is a member of</LATEX>
+            <LATEX language="de">ist enthalten in</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Membership Operator</LATEX>
+            <LATEX language="de">Elementbeziehung</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                The theory of sets introduced here has initial objects, called \emph{classes}. Furthermore the only predefined symbol is for a binary relation called \emph{membership}.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Die hier vorgestellte Mengenlehre hat als Ausgangsobjekte \emph{Klassen}.
+                Weiterhin wird nur ein einziges Symbol für eine binäre Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="2" name="in">
+            <LATEXPATTERN>#1 \in #2</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+              <VAR id="y"/>
+            </VARLIST>
+          </DEFINITION_PREDICATE>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                We also say ``$x$ \emph{is element of} $y$'', ``$x$ \emph{belongs to} $y$'', ``$x$ \emph{is a member of} $y$'' or ``$x$ \emph{is in} $y$''.
+                Beside identity this is the only predicate we start with. All other will be defined. Also no function constants are initially given. Later on we will successively fix their meaning.
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
+        </NODE>
+
+        <NODE id="definition:identity">
+          <NAME>
+            <LATEX language="en">identity definition</LATEX>
+            <LATEX language="de">Definition der Identität</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Identity\index{identity}\index{definition!of identity}</LATEX>
+            <LATEX language="de">Identität\index{Identität}\index{Definition!der Identität}</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                We define a predicate constant of arity two that shall stand for the identity of subjects.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Es wird eine zweistellige Prädikatskonstante festgelegt, welche in der Interpretation die Identität von Subjekten ausdrücken soll.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="2" name="equal">
+            <LATEXPATTERN>#1 \ =  \ #2</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+              <VAR id="y"/>
+            </VARLIST>
+          </DEFINITION_PREDICATE>
+        </NODE>
+        
+
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>
