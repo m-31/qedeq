@@ -876,8 +876,6 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             || bo.getLoadingState().equals(LoadingState.STATE_LOADING_FROM_WEB)
             || bo.getLoadingState().equals(LoadingState.STATE_LOADING_FROM_WEB_FAILED)) {
             return null;
-            // TODO mime 20080313: remove me
-            // throw new IllegalStateException("module is not yet buffered " + address);
         }
         final StringBuffer buffer = new StringBuffer();
         final Reader reader = getQedeqFileDao().getModuleReader(bo);
