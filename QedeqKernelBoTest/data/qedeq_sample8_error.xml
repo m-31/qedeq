@@ -5,7 +5,7 @@
   <HEADER email="mime@qedeq.org">
     <SPECIFICATION name="qedeq_sample8_error" ruleVersion="1.00.00">
       <LOCATIONS>
-        <LOCATION value="http://qedeq.org/0_03_12/sample"/>
+        <LOCATION value="http://www.qedeq.org/0_03_12/sample"/>
       </LOCATIONS>
     </SPECIFICATION>
     <TITLE>
@@ -42,7 +42,7 @@
         <SPECIFICATION name="predlogic" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
-            <LOCATION value="http://qedeq.org/0_03_12/sample"/>
+            <LOCATION value="http://www.qedeq.org/0_03_12/sample"/>
           </LOCATIONS>
         </SPECIFICATION>
       </IMPORT>
@@ -50,7 +50,7 @@
         <SPECIFICATION name="proplogic" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
-            <LOCATION value="http://qedeq.org/0_03_12/sample"/>
+            <LOCATION value="http://www.qedeq.org/0_03_12/sample"/>
           </LOCATIONS>
         </SPECIFICATION>
       </IMPORT>
