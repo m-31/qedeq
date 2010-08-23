@@ -24,7 +24,8 @@ import org.qedeq.kernel.common.ModuleAddress;
 /**
  * For testing of loading required QEDEQ modules.
  *
- * @version $Revision: 1.1 $
+ * FIXME m31 20100823: integrate some unit tests here!
+ *
  * @author Michael Meyling
  */
 public class QedeqBoFormalLogicCheckerTest extends QedeqTestCase {
