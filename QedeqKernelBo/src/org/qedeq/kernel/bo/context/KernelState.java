@@ -39,7 +39,7 @@ public interface KernelState extends KernelServices {
     /**
      * Start all kernel activity now.
      */
-    public void startup();
+    public void startupServices();
 
     /**
      * Is the kernel ready to perform its main tasks.

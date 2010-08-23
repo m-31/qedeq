@@ -111,7 +111,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             lockStream = null;
         }
 
-        public void startup() {
+        public void startupServices() {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
@@ -192,8 +192,8 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             initialState.shutdown();
         }
 
-        public void startup() {
-            services.startup();
+        public void startupServices() {
+            services.startupServices();
             currentState = readyState;
             QedeqLog.getInstance().logMessage("QEDEQ kernel opened.");
         }
@@ -286,7 +286,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             initializedState.shutdown();
         }
 
-        public void startup() {
+        public void startupServices() {
             throw new IllegalStateException("Kernel is already initialized");
         }
 
@@ -531,8 +531,8 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         currentState.shutdown();
     }
 
-    public void startup() {
-        currentState.startup();
+    public void startupServices() {
+        currentState.startupServices();
     }
 
     public void removeAllModules() {

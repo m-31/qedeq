@@ -39,7 +39,7 @@ public interface KernelServices {
      * TODO m31 20070411: what about an appropriate closing method?
      * TODO m31 20080213: should not be here! Implementation detail!
      */
-    public void startup();
+    public void startupServices();
 
     /**
      * Remove all modules from memory.

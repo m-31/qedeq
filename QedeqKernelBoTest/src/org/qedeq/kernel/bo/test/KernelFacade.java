@@ -68,7 +68,7 @@ public final class KernelFacade {
         }
         mod = new ModuleEventListenerLog();
         ModuleEventLog.getInstance().addLog(mod);
-        KernelContext.getInstance().startup();
+        KernelContext.getInstance().startupServices();
         context = KernelContext.getInstance();
     }
 

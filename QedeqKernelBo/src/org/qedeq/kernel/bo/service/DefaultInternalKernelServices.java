@@ -112,7 +112,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         loader.setServices(this);
     }
 
-    public void startup() {
+    public void startupServices() {
         if (kernel.getConfig().isAutoReloadLastSessionChecked()) {
             autoReloadLastSessionChecked();
         }

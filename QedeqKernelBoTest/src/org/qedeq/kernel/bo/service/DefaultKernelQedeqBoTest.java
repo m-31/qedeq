@@ -54,7 +54,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             public File getLocalFilePath(ModuleAddress address) {
                 return null;
             }
-            public void startup() {
+            public void startupServices() {
             }
             public void removeAllModules() {
             }
