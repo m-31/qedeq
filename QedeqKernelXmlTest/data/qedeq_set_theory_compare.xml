@@ -5,7 +5,7 @@
   <HEADER email="mime@qedeq.org">
     <SPECIFICATION name="qedeq_set_theory_v1" ruleVersion="1.00.00">
       <LOCATIONS>
-        <LOCATION value="http://qedeq.org/0_03_12/doc/math" />
+        <LOCATION value="http://www.qedeq.org/0_03_12/doc/math" />
       </LOCATIONS>
     </SPECIFICATION>
     <TITLE>
@@ -59,7 +59,7 @@
       <IMPORT label="qedeq_logic_v1">
         <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
           <LOCATIONS>
-            <LOCATION value="http://qedeq.org/0_03_12/doc/math" />
+            <LOCATION value="http://www.qedeq.org/0_03_12/doc/math" />
           </LOCATIONS>
         </SPECIFICATION>
       </IMPORT>

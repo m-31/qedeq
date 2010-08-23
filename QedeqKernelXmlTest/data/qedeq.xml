@@ -6,7 +6,7 @@
 	<HEADER email="mime@qedeq.org">
 		<SPECIFICATION name="module1" ruleVersion="1.00.00">
 			<LOCATIONS>
-				<LOCATION value="http://qedeq.org/0_03_12/"/>
+				<LOCATION value="http://www.qedeq.org/0_03_12/"/>
 			</LOCATIONS>
 		</SPECIFICATION>
 		<TITLE>
@@ -38,14 +38,14 @@
 			<IMPORT label="predlogic">
 				<SPECIFICATION name="predlogic" ruleVersion="1.00.00">
 					<LOCATIONS>
-						<LOCATION value="http://qedeq.org/0_03_12/"/>
+						<LOCATION value="http://www.qedeq.org/0_03_12/"/>
 					</LOCATIONS>
 				</SPECIFICATION>
 			</IMPORT>
 			<IMPORT label="proplogic">
 				<SPECIFICATION name="proplogic" ruleVersion="1.00.00">
 					<LOCATIONS>
-						<LOCATION value="http://qedeq.org/0_03_12/"/>
+						<LOCATION value="http://www.qedeq.org/0_03_12/"/>
 					</LOCATIONS>
 				</SPECIFICATION>
 			</IMPORT>
