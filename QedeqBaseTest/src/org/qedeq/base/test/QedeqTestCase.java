@@ -28,7 +28,6 @@ import org.apache.log4j.xml.DOMConfigurator;
 /**
  * Basis class for all tests.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public abstract class QedeqTestCase extends TestCase {

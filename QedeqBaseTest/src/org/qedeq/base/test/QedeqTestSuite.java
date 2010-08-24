@@ -38,7 +38,6 @@ import junit.framework.TestSuite;
  * The basic source code is based on the superclass source code (JUnit 3.7).
  *
  * @see junit.framework.TestSuite
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class QedeqTestSuite extends TestSuite {
