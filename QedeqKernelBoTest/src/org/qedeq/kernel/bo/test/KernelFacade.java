@@ -36,7 +36,6 @@ import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 /**
  * This class provides static access methods for basic informations.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class KernelFacade {
