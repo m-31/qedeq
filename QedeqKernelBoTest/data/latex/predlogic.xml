@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<QEDEQ 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_03_12/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="predlogic" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="http://www.qedeq.org/0_03_12/sample"/>
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE>
+      <LATEX language="en">
+         Mathematical Example Module
+      </LATEX>
+      <LATEX language="de">
+         Mathematisches Beispielmodul
+      </LATEX>
+    </TITLE>
+    <ABSTRACT>
+      <LATEX language="en">
+         This should contain predicate logic formulas.
+      </LATEX>
+      <LATEX language="de">
+         Hier sollen prädikatenlogische Formeln stehen.
+      </LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME>
+          <LATEX language="de">
+            Michael Meyling
+          </LATEX>
+        </NAME>
+      </AUTHOR>
+    </AUTHORS>
+    <IMPORTS>
+      <IMPORT label="proplogic">
+        <SPECIFICATION name="proplogic" ruleVersion="1.00.00">
+          <LOCATIONS>
+            <LOCATION value="."/>
+            <LOCATION value="http://www.qedeq.org/0_03_12/sample"/>
+          </LOCATIONS>
+        </SPECIFICATION>
+      </IMPORT>
+    </IMPORTS>
+  </HEADER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">
+        Predicate Logic
+      </LATEX>
+      <LATEX language="de">
+        Prädikatenlogik
+      </LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        <![CDATA[
+          Here are some predicate logic propositions.
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          Hier sind ein paar prädikatenlogische Formeln.
+        ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Simple Formulas</LATEX>
+        <LATEX language="de">Einfache Formeln</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            These are the first ones.
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Das sind die ersten.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE id="first:theorem" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <AND>
+                <IMPL>
+                  <FORALL>
+                    <VAR id="x" />
+                    <IMPL>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </IMPL>
+                  </FORALL>
+                  <IMPL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                  </IMPL>
+                </IMPL>
+                
+
+                <IMPL>
+                  <FORALL>
+                    <VAR id="x" />
+                    <IMPL>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </IMPL>
+                  </FORALL>
+                  <IMPL>
+                    <EXISTS>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EXISTS>
+                    <EXISTS>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EXISTS>
+                  </IMPL>
+                </IMPL>
+
+              </AND>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
+        
+        <NODE id="definition:identity">
+          <NAME>
+            <LATEX language="en">identity definition</LATEX>
+            <LATEX language="de">Definition der Identität</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Identity\index{identity}\index{definition!of identity}</LATEX>
+            <LATEX language="de">Identität\index{Identität}\index{Definition!der Identität}</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                We define a predicate constant of arity two that shall stand for the identity of subjects.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Es wird eine zweistellige Prädikatskonstante festgelegt, welche in der Interpretation die Identität von Subjekten ausdrücken soll.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_PREDICATE arguments="2" name="equal">
+            <LATEXPATTERN>#1 \ =  \ #2</LATEXPATTERN>
+            <VARLIST>
+              <VAR id="x"/>
+              <VAR id="y"/>
+            </VARLIST>
+          </DEFINITION_PREDICATE>
+        </NODE>
+        
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>
