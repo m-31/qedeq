@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.common;
 
+import org.qedeq.base.utility.EqualsUtility;
+
 /**
  * Data validation error for a QEDEQ module. An error has always a reference to its
  * location. Maybe an additional reference for another location is provided.
@@ -113,5 +115,22 @@ public abstract class ModuleDataException extends QedeqException {
     public final ModuleContext getReferenceContext() {
         return referenceContext;
     }
+
+    public final int hashCode() {
+        return getErrorCode() ^ context.hashCode() ^ getMessage().hashCode()
+            ^ (referenceContext != null ? referenceContext.hashCode() : 13);
+    }
+
+    public final boolean equals(final Object obj) {
+        if (!(obj instanceof ModuleDataException)) {
+            return false;
+        }
+        final ModuleDataException other = (ModuleDataException) obj;
+        return  (getErrorCode() == other.getErrorCode())
+            && EqualsUtility.equals(getMessage(), other.getMessage())
+            && EqualsUtility.equals(context, other.context)
+            && EqualsUtility.equals(referenceContext, other.referenceContext);
+    }
+
 
 }

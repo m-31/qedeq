@@ -201,4 +201,12 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
         return buffer.toString();
     }
 
+    public String toString() {
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append(getClass().getName());
+        buffer.append("\n");
+        buffer.append(getMessage());
+        return buffer.toString();
+    }
+
 }

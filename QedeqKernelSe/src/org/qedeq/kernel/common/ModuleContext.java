@@ -28,7 +28,6 @@ import org.qedeq.base.trace.Trace;
  * context (at least the module location information) and if the called method
  * throws an exception a try/catch block can retrieve the context information.
  *
- * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public class ModuleContext {
@@ -42,6 +41,43 @@ public class ModuleContext {
     /** Location within the module. */
     private String locationWithinModule;
 
+    /** Skip this number of characters. */
+    private final int start;
+
+    /** Mark this number of characters. */
+    private final int length;
+
+    /**
+     * Constructor.
+     *
+     * @param   moduleLocation          Module location information. Must not be <code>null</code>.
+     * @param   locationWithinModule    Location within module. Must not be <code>null</code>.
+     * @param   start                   Skip this number of characters. Must not be below minus one.
+     * @param   length                  Mark this number of characters. Must not be below minus one.
+     *                                  Minus one characterizes "until the end".
+     * @throws  NullPointerException    At least one parameter is null.
+     * @throws  IllegalArgumentException    One parameter is below its allowed minimum.
+     */
+    public ModuleContext(final ModuleAddress moduleLocation, final String locationWithinModule,
+            final int start, final int length) {
+        if (moduleLocation == null) {
+            throw new NullPointerException("module adress should not be null");
+        }
+        if (locationWithinModule == null) {
+            throw new NullPointerException("location within module should not be null");
+        }
+        if (start < -1) {
+            throw new IllegalArgumentException("start must be not below minus one");
+        }
+        if (length < -1) {
+            throw new IllegalArgumentException("length must be not below minus one");
+        }
+        this.moduleLocation = moduleLocation;
+        this.locationWithinModule = locationWithinModule;
+        this.start = start;
+        this.length = length;
+    }
+
     /**
      * Constructor.
      *
@@ -50,14 +86,7 @@ public class ModuleContext {
      * @throws  NullPointerException At least one parameter is null.
      */
     public ModuleContext(final ModuleAddress moduleLocation, final String locationWithinModule) {
-        if (moduleLocation == null) {
-            throw new NullPointerException("module adress should not be null");
-        }
-        if (locationWithinModule == null) {
-            throw new NullPointerException("location within module should not be null");
-        }
-        this.moduleLocation = moduleLocation;
-        this.locationWithinModule = locationWithinModule;
+        this(moduleLocation, locationWithinModule, -1, -1);
     }
 
     /**
@@ -75,7 +104,8 @@ public class ModuleContext {
      * @param   original    Original context.
      */
     public ModuleContext(final ModuleContext original) {
-        this(original.getModuleLocation(), original.getLocationWithinModule());
+        this(original.getModuleLocation(), original.getLocationWithinModule(),
+            original.getStart(), original.getLength());
     }
 
     /**
@@ -98,15 +128,6 @@ public class ModuleContext {
     }
 
     /**
-     * Set location information about module.
-     *
-     * @param   moduleLocation  Module location information.
-     */
-    public final void setModuleLocation(final ModuleAddress moduleLocation) {
-        this.moduleLocation = moduleLocation;
-    }
-
-    /**
      * Get location information where are we within the module.
      *
      * @return  Location within module.
@@ -126,8 +147,29 @@ public class ModuleContext {
         Trace.param(CLASS, this, method, "locationWithinModule", locationWithinModule);
     }
 
+    /**
+     * Location start plus this number of characters is the real starting position.
+     *
+     * @return  Skip this number of characters.
+     */
+    public final int getStart() {
+        return start;
+    }
+
+    /**
+     * Length of location in characters. If this is <code>-1</code> the location takes the
+     * complete space of the location.
+     *
+     * @return  Skip this number of characters.
+     */
+    public final int getLength() {
+        return length;
+    }
+
+
     public final int hashCode() {
-        return getModuleLocation().hashCode() ^ getLocationWithinModule().hashCode();
+        return getModuleLocation().hashCode() ^ getLocationWithinModule().hashCode() ^ start
+            ^ length;
     }
 
     public final boolean equals(final Object obj) {
@@ -136,11 +178,12 @@ public class ModuleContext {
         }
         final ModuleContext other = (ModuleContext) obj;
         return getModuleLocation().equals(other.getModuleLocation())
-            && getLocationWithinModule().equals(other.getLocationWithinModule());
+            && getLocationWithinModule().equals(other.getLocationWithinModule())
+            && start == other.start && length == other.length;
     }
 
     public final String toString() {
-        return getModuleLocation() + ":" + getLocationWithinModule();
+        return getModuleLocation() + ":" + getLocationWithinModule() + ":" + start + ":" + length;
     }
 
 }

@@ -23,7 +23,7 @@ import org.qedeq.base.utility.EqualsUtility;
 
 
 /**
- * Data validation error. Shows an error within a source file.
+ * Data validation error. Shows an error or warning within a source file.
  *
  * @author  Michael Meyling
  */
@@ -194,18 +194,19 @@ public class SourceFileException extends QedeqException {
      */
     public String getDescription() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append(getErrorCode() + ": " + getMessage());
         if (errorArea != null && errorArea.getStartPosition() != null) {
             final SourcePosition start = errorArea.getStartPosition();
-            buffer.append("\n");
             buffer.append(errorArea.getAddress() + ":" + start.getLine() + ":"
-                + start.getColumn());
+                    + start.getColumn());
+            buffer.append("\n");
         }
+        buffer.append("\t" + getErrorCode() + ": " + getMessage());
         return buffer.toString();
     }
 
     public final int hashCode() {
-        return getErrorCode() ^ (errorArea != null ? errorArea.hashCode() : 13);
+        return getErrorCode() ^ (errorArea != null ? errorArea.hashCode() : 13)
+            ^ (getMessage() != null ? getMessage().hashCode() : 13);
     }
 
     public final boolean equals(final Object obj) {
@@ -214,6 +215,7 @@ public class SourceFileException extends QedeqException {
         }
         final SourceFileException other = (SourceFileException) obj;
         return  (getErrorCode() == other.getErrorCode())
+            &&  EqualsUtility.equals(getMessage(), other.getMessage())
             &&  EqualsUtility.equals(errorArea, other.errorArea);
     }
 
