@@ -61,9 +61,9 @@ public class CharsetParserTest extends QedeqTestCase {
 //        }
         assertEquals(2, errors.length);
         String[] lines = errors[0].split("\n");
-        assertTrue(lines[0].endsWith("\"\u00e4\u00f6\u00fc\u00c4\u00d6\u00dc\u00df\u00e8\u00e9"
+        assertTrue(lines[0].endsWith(":105:19"));
+        assertTrue(lines[1].endsWith("\"\u00e4\u00f6\u00fc\u00c4\u00d6\u00dc\u00df\u00e8\u00e9"
             + "\u00ea\u00eb\u00c8\u00c9\u00ca\u00cb\u20ac\" [2]"));
-        assertTrue(lines[1].endsWith(":105:19"));
     }
 
     /**
@@ -79,9 +79,9 @@ public class CharsetParserTest extends QedeqTestCase {
         final String[] errors = getSourceFileExceptionList(address);
         assertEquals(2, errors.length);
         String[] lines = errors[0].split("\n");
-        assertTrue(lines[0].endsWith("\"\u00e4\u00f6\u00fc\u00c4\u00d6\u00dc\u00df\u00e8\u00e9"
+        assertTrue(lines[0].endsWith(":105:19"));
+        assertTrue(lines[1].endsWith("\"\u00e4\u00f6\u00fc\u00c4\u00d6\u00dc\u00df\u00e8\u00e9"
             + "\u00ea\u00eb\u00c8\u00c9\u00ca\u00cb\u20ac\" [2]"));
-        assertTrue(lines[1].endsWith(":105:19"));
     }
 
     /**
