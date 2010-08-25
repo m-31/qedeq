@@ -194,6 +194,38 @@ public class TextInput extends InputStream {
     }
 
     /**
+     * Skips a given amount of characters and increments the reading position
+     * accordingly.
+     *
+     * @param   number  Amount of characters to read
+     */
+    public final void forward(final int number) {
+        for (int i = 0; i < number; i++) {
+            final int c = read();
+            if (c == -1) {
+                break;
+            }
+        }
+    }
+
+    /**
+     * Skips until a given keyword is reached. The position afterwards is at the start
+     * of the keyword or at the end of the text (if the keyword is not found).
+     *
+     * @param   search  Look for this keyword.
+     * @return  Was the keyword found?
+     */
+    public final boolean forward(final String search) {
+        final int pos = source.indexOf(search, position);
+        if (pos < 0) {
+            setPosition(getMaximumPosition());
+            return false;
+        }
+        setPosition(pos);
+        return true;
+    }
+
+    /**
      * Reads a single character and does not change the reading
      * position. If no characters are left, <code>-1</code> is returned.
      * Otherwise a cast to <code>char</code> gives the character read.
@@ -225,6 +257,42 @@ public class TextInput extends InputStream {
         return source.charAt(position + skip);
     }
 
+
+   /**
+    * Reads a string and does not change the reading
+    * position. If characters out of scope are ignored.
+    *
+    * @param   from Absolute reading position.
+    * @param   to   Read to this position.
+    * @return  Resulting string.
+    */
+   public final String getString(final int from, final int to) {
+       final StringBuffer buffer = new StringBuffer();
+       for (int i = 0; i < to - from; i++) {
+           if (from + i >= 0 && from + i < source.length()) {
+               buffer.append(source.charAt(from + i));
+           }
+       }
+       return buffer.toString();
+   }
+
+   /**
+    * Replace given interval with given string.
+    * If the current reading position is in the interval it is set
+    * to the end of the interval.
+    *
+    * @param   from         Absolute reading position.
+    * @param   to           Read to this position.
+    * @param   replacement  Replacement for interval.
+    */
+   public final void replace(final int from, final int to, final String replacement) {
+       source.replace(from, to, replacement);
+       if (position > from && to < to) {
+           setPosition(from + replacement.length());
+       } else if (position > from) {    // correct row (and column) information
+           setPosition(position - to + from + replacement.length());
+       }
+   }
 
     /**
      * Skips white space, beginning from reading position.
@@ -540,7 +608,8 @@ public class TextInput extends InputStream {
     public final void setPosition(final int position) {
         if (position >= source.length()) {
             this.position = source.length();
-        } else if (this.position != position) {
+        }
+        if (this.position != position) {
             this.position = 0;
             this.lineNumber = 0;
             this.column = 0;
