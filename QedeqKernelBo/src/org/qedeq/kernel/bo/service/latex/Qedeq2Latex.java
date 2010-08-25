@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.service.latex;
 import java.io.IOException;
 import java.util.Locale;
 
+import org.qedeq.base.io.TextInput;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
@@ -82,7 +83,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     /** Error (or warning) text for: ending "}" for "\qref{" not found. */
     public static final String QREF_END_NOT_FOUND_MSG = "ending \"}\" for \"\\qref{\" not found within 1024 characters";
 
-    /** Error (or warning) number for: ending "}" for "\qref{" not found. */
+    /** Error (or warning) number for: empty reference: "\qref{}". */
     public static final int QREF_EMPTY_CODE = 80008;
 
     /** Error (or warning) text for: empty reference: "\qref{}". */
@@ -843,124 +844,229 @@ public final class Qedeq2Latex extends ControlVisitor {
      */
     private void transformQref(final StringBuffer result) {
         final String method = "transformQref(StringBuffer)";
-        int pos1 = 0;
-        final String qref = "\\qref{";
-        try {
-            while (0 <= (pos1 = result.indexOf(qref, pos1))) {
-                int start = pos1;
-                pos1 = pos1 + qref.length();
-                int pos2 = pos1;
-                boolean found = false;
-                for ( ; pos2 < result.length() && pos2 < pos1 + 1024; pos2++) {
-                    if (result.charAt(pos2) == '}') {
-                        found = true;
-                        break;
-                    }
-                    if ("{".indexOf(result.charAt(pos2)) >= 0) {
-                        addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, pos2);
-                        break;
-                    }
-                }
-                if (!found) {
-                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, pos2);
-                    continue;
-                }
-//                int pos2 = result.indexOf("}", pos);
-//                if (pos2 < 0) {
-//                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
-//                    break;
-//                }
-//                if (pos2 - pos > 1024) {
-//                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
-//                    break;
-//                }
-                String ref = result.substring(pos1, pos2).trim();
-                Trace.param(CLASS, this, method, "1 ref", ref);
-                if (ref.length() <= 0) {
-                    addWarning(QREF_EMPTY_CODE, QREF_EMPTY_MSG, start, pos2);
-                    continue;
-                }
+        final TextInput input = new TextInput(result);
+        while (input.forward("\\qref{")) {
+            final int start = input.getPosition();
+            if (!input.forward("}")) {
+                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, input.getPosition());
+                continue;
+            }
+            String ref = input.getString(start + "\\qref{".length(), input.getPosition()).trim();
+            input.read();   // read }
+            int pos2 = input.getPosition();
+            Trace.param(CLASS, this, method, "1 ref", ref);
+            if (ref.length() == 0) {
+                addWarning(QREF_EMPTY_CODE, QREF_EMPTY_MSG, start, pos2 - start);
+                continue;
+            }
+            if (ref.length() > 1024) {
+                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, input.getPosition());
+                continue;
+            }
+            if (ref.indexOf("{") >= 0) {
+                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, input.getPosition());
+                continue;
+            }
 
-                // exists a sub reference?
-                String sub = "";
-                final int posb = pos2 + 1;
-                if (posb < result.length() && result.charAt(posb) == '[') {
-                    pos2 = result.indexOf("]", posb + 1);
-                    if (pos2 < 0) {
-                        addWarning(QREF_SUB_END_NOT_FOUND_CODE, QREF_SUB_END_NOT_FOUND_MSG, start,
+            // exists a sub reference?
+            String sub = "";
+            if ('[' == input.getChar(0)) {
+                input.read();   // read [
+                int posb = input.getPosition();
+                if (!input.forward("]")) {
+                    addWarning(QREF_SUB_END_NOT_FOUND_CODE, QREF_SUB_END_NOT_FOUND_MSG, start,
                             -1);
                         continue;
-                    }
-                    sub = result.substring(posb + 1, pos2);
                 }
+                sub = result.substring(posb, input.getPosition());
+                input.read();   // read ]
+            }
+            final int end = input.getPosition();
 
-                // get module label (if any)
-                String label = "";
-                int dot = ref.indexOf(".");
-                if (dot >= 0) {
-                    label = ref.substring(0, dot);
-                    ref = ref.substring(dot + 1);
-                }
+            // get module label (if any)
+            String label = "";
+            int dot = ref.indexOf(".");
+            if (dot >= 0) {
+                label = ref.substring(0, dot);
+                ref = ref.substring(dot + 1);
+            }
 
-                // check if reference is in fact a module label
-                if (label.length() == 0) {
-                    if (getQedeqBo().getKernelRequiredModules().getQedeqBo(ref) != null) {
-                        label = ref;
-                        ref = "";
-                    }
-                }
-
-                Trace.param(CLASS, this, method, "2 ref", ref);     // reference within module
-                Trace.param(CLASS, this, method, "2 sub", sub);     // sub reference (if any)
-                Trace.param(CLASS, this, method, "2 label", label); // module label (if any)
-
-                KernelQedeqBo prop = getQedeqBo();  // the module we point to
-                if (label.length() > 0) {           // do we reference to an external module?
-                    prop = prop.getKernelRequiredModules().getKernelQedeqBo(label);
-                }
-
-                KernelNodeBo node = null;           // the node we point to
-                if (prop != null) {
-                    if (prop.getLabels() != null) {
-                        node = prop.getLabels().getNode(ref);
-                    } else {
-                        Trace.info(CLASS, this, method, "no labels found");
-                    }
-                }
-                if (node == null && ref.length() > 0) {
-                    Trace.info(CLASS, this, method, "node not found for " + ref);
-                    System.out.println("node not found for " + ref);    // FIXME remove me
-                    addWarning(QREF_PARSING_EXCEPTION_CODE, QREF_PARSING_EXCEPTION_MSG
-                        + ": " + "node not found for " + ref, start, pos2);
-                }
-
-                // do we have an external module?
-                if (label.length() <= 0) {      // local reference
-                    final String display = getDisplay(ref, node, false, false);
-//                        result.replace(pos1, pos2 + 1, display + "~\\autoref{" + ref + "}"
-                        result.replace(pos1, pos2 + 1, "\\hyperref[" + ref + "]{" + display + "~\\ref*{"
-                        + ref + "}}"
-                        + (sub.length() > 0 ? " (" + sub + ")" : ""));
-                } else {                        // external reference
-                    if (ref.length() <= 0) {
-                        // we have an external module reference without node
-                        result.replace(pos1, pos2 + 1, "\\url{" + getPdfLink(prop) + "}~\\cite{" + label + "}");
-                        // if we want to show the text "description": \href{my_url}{description}
-                    } else {
-                        // we have an external module reference with node
-                        final String display = getDisplay(ref, node, false, true);
-                        result.replace(pos1, pos2 + 1, "\\hyperref{" + getPdfLink(prop) + "}{}{"
-                            + ref + (sub.length() > 0 ? ":" + sub : "")
-                            + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "") + "}~\\cite{"
-                            + label + "}");
-                    }
+            // check if reference is in fact a module label
+            if (label.length() == 0) {
+                if (getQedeqBo().getKernelRequiredModules().getQedeqBo(ref) != null) {
+                    label = ref;
+                    ref = "";
                 }
             }
-        } catch (RuntimeException e) {
-            addWarning(QREF_PARSING_EXCEPTION_CODE, QREF_PARSING_EXCEPTION_MSG + ": " + e.toString(), pos1, -1);
-            Trace.fatal(CLASS, this, method, "programming error", e);
+
+            Trace.param(CLASS, this, method, "2 ref", ref);     // reference within module
+            Trace.param(CLASS, this, method, "2 sub", sub);     // sub reference (if any)
+            Trace.param(CLASS, this, method, "2 label", label); // module label (if any)
+
+            KernelQedeqBo prop = getQedeqBo();  // the module we point to
+            if (label.length() > 0) {           // do we reference to an external module?
+                prop = prop.getKernelRequiredModules().getKernelQedeqBo(label);
+            }
+
+            KernelNodeBo node = null;           // the node we point to
+            if (prop != null) {
+                if (prop.getLabels() != null) {
+                    node = prop.getLabels().getNode(ref);
+                } else {
+                    Trace.info(CLASS, this, method, "no labels found");
+                }
+            }
+            if (node == null && ref.length() > 0) {
+                Trace.info(CLASS, this, method, "node not found for " + ref);
+                System.out.println("node not found for " + ref);    // FIXME remove me
+                addWarning(QREF_PARSING_EXCEPTION_CODE, QREF_PARSING_EXCEPTION_MSG
+                    + ": " + "node not found for " + ref, start, input.getPosition());
+            }
+
+            // do we have an external module?
+            if (label.length() <= 0) {      // local reference
+                final String display = getDisplay(ref, node, false, false);
+//                    result.replace(pos1, pos2 + 1, display + "~\\autoref{" + ref + "}"
+                    input.replace(start, end, "\\hyperref[" + ref + "]{" + display + "~\\ref*{"
+                    + ref + "}}"
+                    + (sub.length() > 0 ? " (" + sub + ")" : ""));
+            } else {                        // external reference
+                if (ref.length() <= 0) {
+                    // we have an external module reference without node
+                    input.replace(start, end, "\\url{" + getPdfLink(prop) + "}~\\cite{" + label + "}");
+                    // if we want to show the text "description": \href{my_url}{description}
+                } else {
+                    // we have an external module reference with node
+                    final String display = getDisplay(ref, node, false, true);
+                    input.replace(start, end, "\\hyperref{" + getPdfLink(prop) + "}{}{"
+                        + ref + (sub.length() > 0 ? ":" + sub : "")
+                        + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "") + "}~\\cite{"
+                        + label + "}");
+                }
+            }
+
         }
     }
+
+// FIXME remove code if above is ok
+//        int pos1 = 0;
+//        final String qref = "\\qref{";
+//        try {
+//            while (0 <= (pos1 = result.indexOf(qref, pos1))) {
+//                int start = pos1;
+//                pos1 = pos1 + qref.length();
+//                int pos2 = pos1;
+//                boolean found = false;
+//                for ( ; pos2 < result.length() && pos2 < pos1 + 1024; pos2++) {
+//                    if (result.charAt(pos2) == '}') {
+//                        found = true;
+//                        break;
+//                    }
+//                    if ("{".indexOf(result.charAt(pos2)) >= 0) {
+//                        addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, pos2);
+//                        break;
+//                    }
+//                }
+//                if (!found) {
+//                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, pos2);
+//                    continue;
+//                }
+////                int pos2 = result.indexOf("}", pos);
+////                if (pos2 < 0) {
+////                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
+////                    break;
+////                }
+////                if (pos2 - pos > 1024) {
+////                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
+////                    break;
+////                }
+//                String ref = result.substring(pos1, pos2).trim();
+//                Trace.param(CLASS, this, method, "1 ref", ref);
+//                if (ref.length() <= 0) {
+//                    addWarning(QREF_EMPTY_CODE, QREF_EMPTY_MSG, start, pos2);
+//                    continue;
+//                }
+//
+//                // exists a sub reference?
+//                String sub = "";
+//                final int posb = pos2 + 1;
+//                if (posb < result.length() && result.charAt(posb) == '[') {
+//                    pos2 = result.indexOf("]", posb + 1);
+//                    if (pos2 < 0) {
+//                        addWarning(QREF_SUB_END_NOT_FOUND_CODE, QREF_SUB_END_NOT_FOUND_MSG, start,
+//                            -1);
+//                        continue;
+//                    }
+//                    sub = result.substring(posb + 1, pos2);
+//                }
+//
+//                // get module label (if any)
+//                String label = "";
+//                int dot = ref.indexOf(".");
+//                if (dot >= 0) {
+//                    label = ref.substring(0, dot);
+//                    ref = ref.substring(dot + 1);
+//                }
+//
+//                // check if reference is in fact a module label
+//                if (label.length() == 0) {
+//                    if (getQedeqBo().getKernelRequiredModules().getQedeqBo(ref) != null) {
+//                        label = ref;
+//                        ref = "";
+//                    }
+//                }
+//
+//                Trace.param(CLASS, this, method, "2 ref", ref);     // reference within module
+//                Trace.param(CLASS, this, method, "2 sub", sub);     // sub reference (if any)
+//                Trace.param(CLASS, this, method, "2 label", label); // module label (if any)
+//
+//                KernelQedeqBo prop = getQedeqBo();  // the module we point to
+//                if (label.length() > 0) {           // do we reference to an external module?
+//                    prop = prop.getKernelRequiredModules().getKernelQedeqBo(label);
+//                }
+//
+//                KernelNodeBo node = null;           // the node we point to
+//                if (prop != null) {
+//                    if (prop.getLabels() != null) {
+//                        node = prop.getLabels().getNode(ref);
+//                    } else {
+//                        Trace.info(CLASS, this, method, "no labels found");
+//                    }
+//                }
+//                if (node == null && ref.length() > 0) {
+//                    Trace.info(CLASS, this, method, "node not found for " + ref);
+//                    System.out.println("node not found for " + ref);    // FIXME remove me
+//                    addWarning(QREF_PARSING_EXCEPTION_CODE, QREF_PARSING_EXCEPTION_MSG
+//                        + ": " + "node not found for " + ref, start, pos2);
+//                }
+//
+//                // do we have an external module?
+//                if (label.length() <= 0) {      // local reference
+//                    final String display = getDisplay(ref, node, false, false);
+////                        result.replace(pos1, pos2 + 1, display + "~\\autoref{" + ref + "}"
+//                        result.replace(pos1, pos2 + 1, "\\hyperref[" + ref + "]{" + display + "~\\ref*{"
+//                        + ref + "}}"
+//                        + (sub.length() > 0 ? " (" + sub + ")" : ""));
+//                } else {                        // external reference
+//                    if (ref.length() <= 0) {
+//                        // we have an external module reference without node
+//                        result.replace(pos1, pos2 + 1, "\\url{" + getPdfLink(prop) + "}~\\cite{" + label + "}");
+//                        // if we want to show the text "description": \href{my_url}{description}
+//                    } else {
+//                        // we have an external module reference with node
+//                        final String display = getDisplay(ref, node, false, true);
+//                        result.replace(pos1, pos2 + 1, "\\hyperref{" + getPdfLink(prop) + "}{}{"
+//                            + ref + (sub.length() > 0 ? ":" + sub : "")
+//                            + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "") + "}~\\cite{"
+//                            + label + "}");
+//                    }
+//                }
+//            }
+//        } catch (RuntimeException e) {
+//            addWarning(QREF_PARSING_EXCEPTION_CODE, QREF_PARSING_EXCEPTION_MSG + ": " + e.toString(), pos1, -1);
+//            Trace.fatal(CLASS, this, method, "programming error", e);
+//        }
+//    }
 
     public ModuleContext getCurrentContext(final int start, final int length) {
         if (subContext.length() == 0) {
