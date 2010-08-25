@@ -120,8 +120,11 @@ public class Qedeq2LatexTest extends QedeqTestCase {
         KernelContext.getInstance().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
         assertFalse(bo.getLogicalState().isFailure());
         assertNull(bo.getErrors());
-        assertEquals(1, bo.getWarnings().size());
+        System.out.println("\n" + bo.getWarnings());
+        assertEquals(3, bo.getWarnings().size());
         assertEquals(80008, bo.getWarnings().get(0).getErrorCode());
+        assertEquals(80010, bo.getWarnings().get(1).getErrorCode());
+        assertEquals(80010, bo.getWarnings().get(2).getErrorCode());
         
     }
 
