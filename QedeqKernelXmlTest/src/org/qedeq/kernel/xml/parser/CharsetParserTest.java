@@ -31,7 +31,6 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  * Tests correct charset handling by {@link SaxParser},
  * {@link org.qedeq.kernel.xml.parser.SaxDefaultHandler} (and higher level classes).
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class CharsetParserTest extends QedeqTestCase {
