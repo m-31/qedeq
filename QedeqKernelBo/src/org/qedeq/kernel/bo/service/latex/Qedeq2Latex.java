@@ -55,6 +55,7 @@ import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.Plugin;
 
 
@@ -125,6 +126,9 @@ public final class Qedeq2Latex extends ControlVisitor {
 
     /** Current node title. */
     private String title;
+
+    /** Sub context like "getIntroduction()". */
+    private String subContext = "";
 
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
@@ -260,7 +264,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     public void visitEnter(final Header header) {
         final LatexList tit = header.getTitle();
         printer.print("\\title{");
-        printer.print(getLatexListEntry(tit));
+        printer.print(getLatexListEntry("getTitle()", tit));
         printer.println("}");
         printer.println("\\author{");
         final AuthorList authors = getQedeqBo().getQedeq().getHeader().getAuthorList();
@@ -374,22 +378,22 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.print("*");
         }
         printer.print("{");
-        printer.print(getLatexListEntry(chapter.getTitle()));
+        printer.print(getLatexListEntry("getTitle()", chapter.getTitle()));
         final String label = "chapter" + chapterNumber;
         printer.println("} \\label{" + label + "} \\hypertarget{" + label + "}{}");
         if (chapter.getNoNumber() != null && chapter.getNoNumber().booleanValue()) {
             printer.println("\\addcontentsline{toc}{chapter}{"
-                + getLatexListEntry(chapter.getTitle()) + "}");
+                + getLatexListEntry("getTitle()", chapter.getTitle()) + "}");
         }
         printer.println();
         if (chapter.getIntroduction() != null) {
-            printer.println(getLatexListEntry(chapter.getIntroduction()));
+            printer.println(getLatexListEntry("getIntroduction()", chapter.getIntroduction()));
             printer.println();
         }
     }
 
     public void visitLeave(final Chapter chapter) {
-        printer.println("%% end of chapter " + getLatexListEntry(chapter.getTitle()));
+        printer.println("%% end of chapter " + getLatexListEntry("getTitle()", chapter.getTitle()));
         printer.println();
         chapterNumber++;    // increase global chapter number
         sectionNumber = 0;  // reset section number
@@ -406,10 +410,10 @@ public final class Qedeq2Latex extends ControlVisitor {
         }
 */
         printer.print("\\section{");
-        printer.print(getLatexListEntry(section.getTitle()));
+        printer.print(getLatexListEntry("getTitle()", section.getTitle()));
         final String label = "chapter" + chapterNumber + "_section" + sectionNumber;
         printer.println("} \\label{" + label + "} \\hypertarget{" + label + "}{}");
-        printer.println(getLatexListEntry(section.getIntroduction()));
+        printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
         printer.println();
     }
 
@@ -428,14 +432,14 @@ public final class Qedeq2Latex extends ControlVisitor {
 */
         if (subsection.getTitle() != null) {
             printer.print("\\subsection{");
-            printer.println(getLatexListEntry(subsection.getTitle()));
+            printer.println(getLatexListEntry("getTitle()", subsection.getTitle()));
             printer.println("}");
         }
         if (subsection.getId() != null) {
             printer.println("\\label{" + subsection.getId() + "} \\hypertarget{"
                 + subsection.getId() + "}{}");
         }
-        printer.println(getLatexListEntry(subsection.getLatex()));
+        printer.println(getLatexListEntry("getLatex()", subsection.getLatex()));
     }
 
     public void visitLeave(final Subsection subsection) {
@@ -450,18 +454,18 @@ public final class Qedeq2Latex extends ControlVisitor {
         }
 */
         printer.println("\\par");
-        printer.println(getLatexListEntry(node.getPrecedingText()));
+        printer.println(getLatexListEntry("getPrecedingText()", node.getPrecedingText()));
         printer.println();
         id = node.getId();
         title = null;
         if (node.getTitle() != null) {
-            title = getLatexListEntry(node.getTitle());
+            title = getLatexListEntry("getTitle()", node.getTitle());
         }
     }
 
     public void visitLeave(final Node node) {
         printer.println();
-        printer.println(getLatexListEntry(node.getSucceedingText()));
+        printer.println(getLatexListEntry("getSucceedingText()", node.getSucceedingText()));
         printer.println();
         printer.println();
     }
@@ -473,7 +477,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
         }
         printFormula(axiom.getFormula().getElement());
-        printer.println(getLatexListEntry(axiom.getDescription()));
+        printer.println(getLatexListEntry("getDescription()", axiom.getDescription()));
         printer.println("\\end{ax}");
     }
 
@@ -484,7 +488,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
         }
         printTopFormula(proposition.getFormula().getElement(), id);
-        printer.println(getLatexListEntry(proposition.getDescription()));
+        printer.println(getLatexListEntry("getDescription()", proposition.getDescription()));
         printer.println("\\end{prop}");
     }
 
@@ -498,7 +502,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         }
 */
         printer.println("\\begin{proof}");
-        printer.println(getLatexListEntry(proof.getNonFormalProof()));
+        printer.println(getLatexListEntry("getNonFormalProof()", proof.getNonFormalProof()));
         printer.println("\\end{proof}");
     }
 
@@ -531,7 +535,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         elementConverter.addPredicate(definition);
         Trace.param(CLASS, this, "printPredicateDefinition", "define", define);
         printer.println(define);
-        printer.println(getLatexListEntry(definition.getDescription()));
+        printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
         if (definition.getFormula() != null) {
             printer.println("\\end{defn}");
         } else {
@@ -568,7 +572,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         elementConverter.addFunction(definition);
         Trace.param(CLASS, this, "printFunctionDefinition", "define", define);
         printer.println(define);
-        printer.println(getLatexListEntry(definition.getDescription()));
+        printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
         if (definition.getTerm() != null) {
             printer.println("\\end{defn}");
         } else {
@@ -585,7 +589,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         if (info) {
             printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
         }
-        printer.println(getLatexListEntry(rule.getDescription()));
+        printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
         printer.println("\\end{rul}");
 
 // LATER mime 20051210: are these informations equivalent to a formal proof?
@@ -604,7 +608,7 @@ public final class Qedeq2Latex extends ControlVisitor {
         if (rule.getProofList() != null) {
             for (int i = 0; i < rule.getProofList().size(); i++) {
                 printer.println("\\begin{proof}");
-                printer.println(getLatexListEntry(rule.getProofList().get(i)
+                printer.println(getLatexListEntry("getProofList().get(" + i + ")", rule.getProofList().get(i)
                     .getNonFormalProof()));
                 printer.println("\\end{proof}");
             }
@@ -698,7 +702,7 @@ public final class Qedeq2Latex extends ControlVisitor {
 
     public void visitEnter(final LiteratureItem item) {
         printer.print("\\bibitem{" + item.getLabel() + "} ");
-        printer.println(getLatexListEntry(item.getItem()));
+        printer.println(getLatexListEntry("getItem()", item.getItem()));
         printer.println();
     }
 
@@ -764,28 +768,49 @@ public final class Qedeq2Latex extends ControlVisitor {
      * language.
      * TODO mime 20050205: filter level too?
      *
+     * @param   method  This method was called. Used to get the correct sub context.
+     *                  Should not be null. If it is empty the <code>subContext</code>
+     *                  is not changed.
      * @param   list    List of LaTeX texts.
      * @return  Filtered text.
      */
-    private String getLatexListEntry(final LatexList list) {
+    private String getLatexListEntry(final String method, final LatexList list) {
         if (list == null) {
             return "";
         }
-        for (int i = 0; i < list.size(); i++) {
-            if (language.equals(list.get(i).getLanguage())) {
-                return getLatex(list.get(i));
+        if (method.length() > 0) {
+            subContext = method;
+        }
+        try {
+            for (int i = 0; i < list.size(); i++) {
+                if (language.equals(list.get(i).getLanguage())) {
+                    if (method.length() > 0) {
+                        subContext = method + ".get(" + i + ")";
+                    }
+                    return getLatex(list.get(i));
+                }
+            }
+            // assume entry with missing language as default
+            for (int i = 0; i < list.size(); i++) {
+                if (list.get(i).getLanguage() == null) {
+                    if (method.length() > 0) {
+                        subContext = method + ".get(" + i + ")";
+                    }
+                    return getLatex(list.get(i));
+                }
+            }
+            for (int i = 0; i < list.size(); i++) { // LATER mime 20050222: evaluate default?
+                if (method.length() > 0) {
+                    subContext = method + ".get(" + i + ")";
+                }
+                return "MISSING! OTHER: " + getLatex(list.get(i));
+            }
+            return "MISSING!";
+        } finally {
+            if (method.length() > 0) {
+                subContext = "";
             }
         }
-        // assume entry with missing language as default
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).getLanguage() == null) {
-                return getLatex(list.get(i));
-            }
-        }
-        for (int i = 0; i < list.size(); i++) { // LATER mime 20050222: evaluate default?
-            return "MISSING! OTHER: " + getLatex(list.get(i));
-        }
-        return "MISSING!";
     }
 
     /**
@@ -799,13 +824,13 @@ public final class Qedeq2Latex extends ControlVisitor {
         if (latex == null || latex.getLatex() == null) {
             return "";
         }
-        StringBuffer result = new StringBuffer(escapeUmlauts(latex.getLatex()));
+        StringBuffer result = new StringBuffer(latex.getLatex());
 
         // LATER mime 20080324: check if LaTeX is correct and no forbidden tags are used
 
         transformQref(result);
 
-        return result.toString();
+        return escapeUmlauts(result.toString());
     }
 
     /**
@@ -821,17 +846,24 @@ public final class Qedeq2Latex extends ControlVisitor {
         int pos1 = 0;
         final String qref = "\\qref{";
         try {
-while1:     while (0 <= (pos1 = result.indexOf(qref))) {
-                int pos = pos1 + qref.length();
-                int pos2 = pos;
-                for ( ; pos2 < result.length(); pos2++) {
+            while (0 <= (pos1 = result.indexOf(qref, pos1))) {
+                int start = pos1;
+                pos1 = pos1 + qref.length();
+                int pos2 = pos1;
+                boolean found = false;
+                for ( ; pos2 < result.length() && pos2 < pos1 + 1024; pos2++) {
                     if (result.charAt(pos2) == '}') {
+                        found = true;
                         break;
                     }
-                    if (" \t\r\n".indexOf(result.charAt(pos2)) >= 0) {
-                        addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
-                        break while1;
+                    if ("{".indexOf(result.charAt(pos2)) >= 0) {
+                        addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, pos2);
+                        break;
                     }
+                }
+                if (!found) {
+                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, pos2);
+                    continue;
                 }
 //                int pos2 = result.indexOf("}", pos);
 //                if (pos2 < 0) {
@@ -842,11 +874,11 @@ while1:     while (0 <= (pos1 = result.indexOf(qref))) {
 //                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
 //                    break;
 //                }
-                String ref = result.substring(pos, pos2).trim();
+                String ref = result.substring(pos1, pos2).trim();
                 Trace.param(CLASS, this, method, "1 ref", ref);
                 if (ref.length() <= 0) {
-                    addWarning(QREF_EMPTY_CODE, QREF_EMPTY_MSG);
-                    break;
+                    addWarning(QREF_EMPTY_CODE, QREF_EMPTY_MSG, start, pos2);
+                    continue;
                 }
 
                 // exists a sub reference?
@@ -855,8 +887,9 @@ while1:     while (0 <= (pos1 = result.indexOf(qref))) {
                 if (posb < result.length() && result.charAt(posb) == '[') {
                     pos2 = result.indexOf("]", posb + 1);
                     if (pos2 < 0) {
-                        addWarning(QREF_SUB_END_NOT_FOUND_CODE, QREF_SUB_END_NOT_FOUND_MSG);
-                        break;
+                        addWarning(QREF_SUB_END_NOT_FOUND_CODE, QREF_SUB_END_NOT_FOUND_MSG, start,
+                            -1);
+                        continue;
                     }
                     sub = result.substring(posb + 1, pos2);
                 }
@@ -896,8 +929,9 @@ while1:     while (0 <= (pos1 = result.indexOf(qref))) {
                 }
                 if (node == null && ref.length() > 0) {
                     Trace.info(CLASS, this, method, "node not found for " + ref);
+                    System.out.println("node not found for " + ref);    // FIXME remove me
                     addWarning(QREF_PARSING_EXCEPTION_CODE, QREF_PARSING_EXCEPTION_MSG
-                        + ": " + "node not found for " + ref);
+                        + ": " + "node not found for " + ref, start, pos2);
                 }
 
                 // do we have an external module?
@@ -923,21 +957,36 @@ while1:     while (0 <= (pos1 = result.indexOf(qref))) {
                 }
             }
         } catch (RuntimeException e) {
-            addWarning(QREF_PARSING_EXCEPTION_CODE, QREF_PARSING_EXCEPTION_MSG + ": " + e.toString());
-            Trace.trace(CLASS, this, method, e);
+            addWarning(QREF_PARSING_EXCEPTION_CODE, QREF_PARSING_EXCEPTION_MSG + ": " + e.toString(), pos1, -1);
+            Trace.fatal(CLASS, this, method, "programming error", e);
         }
+    }
+
+    public ModuleContext getCurrentContext(final int start, final int length) {
+        if (subContext.length() == 0) {
+            return super.getCurrentContext();
+        }
+        return new ModuleContext(super.getCurrentContext().getModuleLocation(),
+            super.getCurrentContext().getLocationWithinModule() + "." + subContext,
+            start, length);
+    }
+
+    public ModuleContext getCurrentContext() {
+        throw new IllegalStateException("programming error");
     }
 
     /**
      * Add warning.
      *
-     * @param   code    Error code.
-     * @param   msg     Error message.
+     * @param   code    Warning code.
+     * @param   msg     Warning message.
+     * @param   start   Start of warning location after begin of element.
+     * @param   length  Length of warning block.
      */
-    private void addWarning(final int code, final String msg) {
-        Trace.param(CLASS, this, "addWarning", "getCurrentContext()", getCurrentContext());
+    private void addWarning(final int code, final String msg, final int start, final int length) {
         Trace.param(CLASS, this, "addWarning", "msg", msg);
-        addWarning(new LaTeXContentException(code, msg, getCurrentContext()));
+        System.out.println("addWarning " + code + " " + msg + " " + start + ", " + length); // FIXME remove me
+        addWarning(new LaTeXContentException(code, msg, getCurrentContext(start, length)));
     }
 
     /**
@@ -957,7 +1006,7 @@ while1:     while (0 <= (pos1 = result.indexOf(qref))) {
             Node node = nodeBo.getNodeVo();
             KernelNodeNumbers data = nodeBo.getNumbers();
             if (useName && node.getName() != null) {
-                display = getLatexListEntry(node.getName());
+                display = getLatexListEntry("", node.getName());
             } else {
                 if (node.getNodeType() instanceof Axiom) {
                     if ("de".equals(language)) {
