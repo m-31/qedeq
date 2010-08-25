@@ -85,7 +85,7 @@ public class Qedeq2LatexTest extends QedeqTestCase {
     }
 
     /**
-     * Check that there are no LaTeX Errors in Q2L001.
+     * Check that there is one LaTeX warning in Q2L001.
      *
      * @throws  Exception
      */
@@ -99,8 +99,29 @@ public class Qedeq2LatexTest extends QedeqTestCase {
         KernelContext.getInstance().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
         assertFalse(bo.getLogicalState().isFailure());
         assertNull(bo.getErrors());
+        System.out.println(bo.getWarnings());
         assertEquals(1, bo.getWarnings().size());
-        assertEquals(80010, bo.getWarnings().get(0).getErrorCode());
+        assertEquals(80007, bo.getWarnings().get(0).getErrorCode());
+        
+    }
+
+    /**
+     * Check that there is one LaTeX warning in Q2L003.
+     *
+     * @throws  Exception
+     */
+    public void testQ2L003() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(getFile("latex/Q2L003.xml"));
+        KernelContext.getInstance().checkModule(address);
+        final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
+        assertFalse(bo.getLogicalState().isFailure());
+        assertNull(bo.getWarnings());
+        assertNull(bo.getErrors());
+        KernelContext.getInstance().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
+        assertFalse(bo.getLogicalState().isFailure());
+        assertNull(bo.getErrors());
+        assertEquals(1, bo.getWarnings().size());
+        assertEquals(80008, bo.getWarnings().get(0).getErrorCode());
         
     }
 
