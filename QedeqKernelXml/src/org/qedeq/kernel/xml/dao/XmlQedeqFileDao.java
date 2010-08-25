@@ -123,25 +123,27 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         try {
             xpath = Context2SimpleXPath.getXPath(ctext, qedeq).toString();
         } catch (ModuleDataException e) {
-            Trace.trace(CLASS, method, e);
+            Trace.fatal(CLASS, method, "within \"" + qedeq + "\" not found: \"" + ctext + "\\", e);
             return null;
         }
 
         SimpleXPath find = null;
+        final File local = services.getLocalFilePath(ctext.getModuleLocation());
+        final String message = "Could not find \"" + find + "\" within \"" + local + "\"";
         try {
-            find = XPathLocationParser.getXPathLocation(
-                services.getLocalFilePath(ctext.getModuleLocation()), xpath);
+            find = XPathLocationParser.getXPathLocation(local, xpath);
             if (find.getStartLocation() == null) {
+                Trace.fatal(CLASS, method, message, null);
                 return null;
             }
             return new SourceArea(ctext.getModuleLocation().getUrl(), find.getStartLocation(),
                 find.getEndLocation());
         } catch (ParserConfigurationException e) {
-            Trace.trace(CLASS, method, e);
+            Trace.fatal(CLASS, method, message, e);
         } catch (SAXException e) {
-            Trace.trace(CLASS, method, e);
+            Trace.fatal(CLASS, method, message, e);
         } catch (IOException e) {
-            Trace.trace(CLASS, method, e);
+            Trace.fatal(CLASS, method, message, e);
         }
         return null;
     }

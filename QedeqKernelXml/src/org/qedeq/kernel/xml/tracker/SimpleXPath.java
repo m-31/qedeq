@@ -26,7 +26,6 @@ import org.qedeq.kernel.common.SourcePosition;
 /**
  * Simple XPath like description of a location in an XML file.
  *
- * @version $Revision: 1.1 $
  * @author    Michael Meyling
  */
 public class SimpleXPath {
@@ -45,6 +44,12 @@ public class SimpleXPath {
 
     /** Ending position in source. */
     private SourcePosition end;
+
+    /** Starting position within element (if below zero). */
+    private final int position;
+
+    /** Starting length within element (if below zero). */
+    private final int length;
 
     /**
      * Constructor with simple XPath string as parameter.
@@ -69,6 +74,24 @@ public class SimpleXPath {
         elements = new ArrayList();
         numbers = new ArrayList();
         attribute = null;
+        this.position = -1;
+        this.length = -1;
+        init(xpath);
+    }
+
+    /**
+     * Constructor with simple XPath string as parameter.
+     * @param   xpath       String with the syntax as described above. If the syntax is violated
+     *                      RuntimeExceptions may occur. {@link #SimpleXPath(String)}
+     * @param   position    Starting position within element (if not less than zero).
+     * @param   length      Length of area within element (if not less than zero).
+     */
+    public SimpleXPath(final String xpath, final int position, final int length) {
+        elements = new ArrayList();
+        numbers = new ArrayList();
+        attribute = null;
+        this.position = position;
+        this.length = length;
         init(xpath);
     }
 
@@ -79,6 +102,8 @@ public class SimpleXPath {
         elements = new ArrayList();
         numbers = new ArrayList();
         attribute = null;
+        this.position = -1;
+        this.length = -1;
     }
 
     /**
@@ -90,6 +115,24 @@ public class SimpleXPath {
         elements = new ArrayList();
         numbers = new ArrayList();
         attribute = null;
+        this.position = original.position;
+        this.length = original.length;
+        init(original.toString());
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param   original    XPath to copy.
+     * @param   position    Starting position within element (if not less than zero).
+     * @param   length      Length of area within element (if not less than zero).
+     */
+    public SimpleXPath(final SimpleXPath original, final int position, final int length) {
+        elements = new ArrayList();
+        numbers = new ArrayList();
+        attribute = null;
+        this.position = position;
+        this.length = length;
         init(original.toString());
     }
 
@@ -292,6 +335,26 @@ public class SimpleXPath {
         return end;
     }
 
+    /**
+     * Is there a further restriction for this element? If so one can get the relative starting
+     * position by calling {@link getRelativeStart}.
+     *
+     * @return  Are there further position restrictions?
+     */
+    public final boolean portion() {
+        return position >= 0;
+    }
+
+    //FIXME javadoc
+    public final int getRelativeStart() {
+        return position;
+    }
+
+    //FIXME javadoc
+    public final int getLength() {
+        return length;
+    }
+
     public final boolean equals(final Object obj) {
         if (!(obj instanceof SimpleXPath)) {
             return false;
@@ -300,20 +363,10 @@ public class SimpleXPath {
         if (!EqualsUtility.equals(this.getAttribute(), other.getAttribute())) {
             return false;
         }
-        final int size = this.size();
-        if (size != other.size()) {
+        if (position != other.position || length != other.length) {
             return false;
         }
-
-        for (int i = 0; i < size; i++) {
-            if (!EqualsUtility.equals(this.getElementName(i), other.getElementName(i))) {
-                return false;
-            }
-            if (this.getElementOccurrence(i) != other.getElementOccurrence(i)) {
-                return false;
-            }
-        }
-        return true;
+        return equalsElements(other);
     }
 
     /**

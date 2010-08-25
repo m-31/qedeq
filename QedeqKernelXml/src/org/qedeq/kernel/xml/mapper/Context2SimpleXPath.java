@@ -168,6 +168,9 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
             traverser.accept(qedeq);
         } catch (LocationFoundException e) {
             Trace.paramInfo(CLASS, this, method, "location found", current);
+            if (find.getStart() >= 0) {
+                return new SimpleXPath(current, find.getStart(), find.getLength());
+            }
             return current;
         }
         Trace.param(CLASS, this, method, "level", level);  // level should be equal to zero now
