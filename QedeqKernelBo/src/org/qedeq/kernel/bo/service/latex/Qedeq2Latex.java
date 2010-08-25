@@ -64,9 +64,6 @@ import org.qedeq.kernel.common.Plugin;
  * <b>This is just a quick written generator. No parsing or validation
  * of inline LaTeX text is done. This class just generates some LaTeX output to be able to
  * get a visual impression of a QEDEQ module.</b>
- * <p>
- * TODO m31 20080330: we should be able to generate a authors help LaTeX document that contains the
- *                     labels in the generated document. So referencing is a lot easier...
  *
  * @author  Michael Meyling
  */
@@ -824,17 +821,27 @@ public final class Qedeq2Latex extends ControlVisitor {
         int pos1 = 0;
         final String qref = "\\qref{";
         try {
-            while (0 <= (pos1 = result.indexOf(qref))) {
+while1:     while (0 <= (pos1 = result.indexOf(qref))) {
                 int pos = pos1 + qref.length();
-                int pos2 = result.indexOf("}", pos);
-                if (pos2 < 0) {
-                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
-                    break;
+                int pos2 = pos;
+                for ( ; pos2 < result.length(); pos2++) {
+                    if (result.charAt(pos2) == '}') {
+                        break;
+                    }
+                    if (" \t\r\n".indexOf(result.charAt(pos2)) >= 0) {
+                        addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
+                        break while1;
+                    }
                 }
-                if (pos2 - pos > 1024) {
-                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
-                    break;
-                }
+//                int pos2 = result.indexOf("}", pos);
+//                if (pos2 < 0) {
+//                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
+//                    break;
+//                }
+//                if (pos2 - pos > 1024) {
+//                    addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG);
+//                    break;
+//                }
                 String ref = result.substring(pos, pos2).trim();
                 Trace.param(CLASS, this, method, "1 ref", ref);
                 if (ref.length() <= 0) {
