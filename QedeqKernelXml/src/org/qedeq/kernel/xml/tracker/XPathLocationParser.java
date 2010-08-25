@@ -97,12 +97,10 @@ public final class XPathLocationParser extends SimpleHandler {
      * @throws  SAXException                    XML problem.
      * @throws  IOException                     IO problem.
      */
-    public static final SimpleXPath getXPathLocation(final File xmlFile, final String xpath)
-            throws ParserConfigurationException, SAXException, IOException {
-        final XPathLocationParser parser = new XPathLocationParser(xpath);
-        parser.parse(xmlFile);
-        return parser.getFind();
-    }
+//    public static final SimpleXPath getXPathLocation(final File xmlFile, final String xpath)
+//            throws ParserConfigurationException, SAXException, IOException {
+//        return getXPathLocation(xmlFile, new SimpleXPath(xpath));
+//    }
 
     /**
      * Search simple XPath within an XML file.
@@ -116,7 +114,9 @@ public final class XPathLocationParser extends SimpleHandler {
      */
     public static final SimpleXPath getXPathLocation(final File xmlFile, final SimpleXPath xpath)
             throws ParserConfigurationException, SAXException, IOException {
-        return getXPathLocation(xmlFile, xpath.toString());
+        final XPathLocationParser parser = new XPathLocationParser(xpath);
+        parser.parse(xmlFile);
+        return parser.getFind();
     }
 
     /**
@@ -126,11 +126,11 @@ public final class XPathLocationParser extends SimpleHandler {
      * @throws  ParserConfigurationException    Severe parser configuration problem.
      * @throws  SAXException                    XML problem.
      */
-    private XPathLocationParser(final String xpath) throws ParserConfigurationException,
+    private XPathLocationParser(final SimpleXPath xpath) throws ParserConfigurationException,
             SAXException {
         super();
 
-        find = new SimpleXPath(xpath);
+        find = xpath;
         elements = new ArrayList(20);
         level = 0;
 
@@ -319,6 +319,21 @@ public final class XPathLocationParser extends SimpleHandler {
             try {
                 xml.setRow(getLocator().getLineNumber());
                 xml.setColumn(getLocator().getColumnNumber());
+                if (find.portion()) {
+                    xml.skipWhiteSpace();
+                    final String cdata = "<![CDATA[";
+                    final String read = xml.readString(cdata.length());
+                    xml.setRow(getLocator().getLineNumber());
+                    xml.setColumn(getLocator().getColumnNumber());
+                    if (!cdata.equals(cdata)) {
+                        xml.forward(find.getRelativeStart());
+                    } else {
+                        xml.forward(find.getRelativeStart() + cdata.length());
+                    }
+                    find.setStartLocation(new SourcePosition(xml.getRow(), xml
+                            .getColumn()));
+                    return;
+                }
                 try {
                     xml.skipBackToBeginOfXmlTag();
                 } catch (RuntimeException e) {

@@ -119,9 +119,9 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
             return null;
         }
         ModuleContext ctext = new ModuleContext(context);
-        final String xpath;
+        final SimpleXPath xpath;
         try {
-            xpath = Context2SimpleXPath.getXPath(ctext, qedeq).toString();
+            xpath = Context2SimpleXPath.getXPath(ctext, qedeq);
         } catch (ModuleDataException e) {
             Trace.fatal(CLASS, method, "within \"" + qedeq + "\" not found: \"" + ctext + "\\", e);
             return null;
