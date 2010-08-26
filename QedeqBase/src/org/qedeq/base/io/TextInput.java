@@ -287,7 +287,7 @@ public class TextInput extends InputStream {
     */
    public final void replace(final int from, final int to, final String replacement) {
        source.replace(from, to, replacement);
-       if (position > from && to < to) {
+       if (position > from && position < to) {
            setPosition(from + replacement.length());
        } else if (position > from) {    // correct row (and column) information
            setPosition(position - to + from + replacement.length());
