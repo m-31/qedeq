@@ -201,7 +201,7 @@ public class ModuleContext {
      * @return  Start column.
      */
     public final int getEndColumn() {
-        return startColumn;
+        return endColumn;
     }
 
 

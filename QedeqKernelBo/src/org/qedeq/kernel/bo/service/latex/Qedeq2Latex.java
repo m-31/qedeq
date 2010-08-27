@@ -1080,9 +1080,11 @@ public final class Qedeq2Latex extends ControlVisitor {
         if (subContext.length() == 0) {
             return super.getCurrentContext();
         }
-        return new ModuleContext(super.getCurrentContext().getModuleLocation(),
+        final ModuleContext c = new ModuleContext(super.getCurrentContext().getModuleLocation(),
             super.getCurrentContext().getLocationWithinModule() + "." + subContext,
             startRow, startColumn, endRow, endColumn);
+        System.out.println("ModuleCOntext=" + c);
+        return c;
     }
 
     public ModuleContext getCurrentContext() {

@@ -124,6 +124,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         this.qedeq = qedeq;
         traverser = new QedeqNotNullTraverser(find.getModuleLocation(), this);
         this.find = find;
+        System.out.println("Context2SimpleXPath " + find);
         elements = new ArrayList(20);
     }
 
@@ -161,6 +162,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     private final SimpleXPath find() throws ModuleDataException {
         final String method = "find()";
         Trace.paramInfo(CLASS, this, method, "find", find);
+        System.out.println("Find1: " + find);
         elements.clear();
         level = 0;
         current = new SimpleXPath();
@@ -169,8 +171,11 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         } catch (LocationFoundException e) {
             Trace.paramInfo(CLASS, this, method, "location found", current);
             if (find.getStartRow() >= 0) {
-                return new SimpleXPath(current, find.getStartRow(), find.getStartColumn(),
+                final SimpleXPath result = new SimpleXPath(current,
+                    find.getStartRow(), find.getStartColumn(),
                     find.getEndRow(), find.getEndColumn());
+                System.out.println("Result: " + result);
+                return result;
             }
             return current;
         }

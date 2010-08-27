@@ -131,6 +131,7 @@ public final class XPathLocationParser extends SimpleHandler {
         super();
 
         find = xpath;
+        System.out.println("Begin Relative interval: " + find.getStartRow() + ", " + find.getStartColumn() + "; " + find.getEndRow() + ", " + find.getEndColumn());
         elements = new ArrayList(20);
         level = 0;
 

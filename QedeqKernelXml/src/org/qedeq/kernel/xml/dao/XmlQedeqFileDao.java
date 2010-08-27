@@ -118,7 +118,9 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         if (qedeq == null || context == null) {
             return null;
         }
+        System.out.println("createSourceArea context1 = " + context);
         ModuleContext ctext = new ModuleContext(context);
+        System.out.println("createSourceArea context2 = " + ctext);
         final SimpleXPath xpath;
         try {
             xpath = Context2SimpleXPath.getXPath(ctext, qedeq);

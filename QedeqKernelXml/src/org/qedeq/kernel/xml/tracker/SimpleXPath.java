@@ -45,6 +45,7 @@ public class SimpleXPath {
     /** Ending position in source. */
     private SourcePosition end;
 
+    // FIXME these infos must not stay in SimpleXPath, because this no XPath information!
     /** Start precise position this number of rows later. Must be not less
      *  than minus one. Minus one means no precise location is given. */
     private int startRow;
@@ -391,12 +392,12 @@ public class SimpleXPath {
 
     //FIXME javadoc
     public final int getEndRow() {
-        return startRow;
+        return endRow;
     }
 
     //FIXME javadoc
     public final int getEndColumn() {
-        return startColumn;
+        return endColumn;
     }
 
     public final boolean equals(final Object obj) {
