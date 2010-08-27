@@ -15,12 +15,12 @@
 
 package org.qedeq.kernel.xml.parser;
 
+import org.qedeq.base.io.SourceArea;
+import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourcePosition;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;

@@ -108,7 +108,7 @@ public class CharsetParserTest extends QedeqTestCase {
                 if (sf.getSourceArea() != null && sf.getSourceArea().getStartPosition()
                         != null) {
                     buf.append("\n");
-                    input.setRow(sf.getSourceArea().getStartPosition().getLine());
+                    input.setRow(sf.getSourceArea().getStartPosition().getRow());
                     buf.append(StringUtility.replace(input.getLine(), "\t", " "));
                     buf.append("\n");
                     final StringBuffer whitespace = StringUtility.getSpaces(

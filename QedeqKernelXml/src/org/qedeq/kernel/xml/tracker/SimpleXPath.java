@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.kernel.common.SourcePosition;
 
 
 /**
@@ -38,29 +37,6 @@ public class SimpleXPath {
 
     /** Attribute of element. */
     private String attribute;
-
-    /** Starting position in source. */
-    private SourcePosition start;
-
-    /** Ending position in source. */
-    private SourcePosition end;
-
-    // FIXME these infos must not stay in SimpleXPath, because this no XPath information!
-    /** Start precise position this number of rows later. Must be not less
-     *  than minus one. Minus one means no precise location is given. */
-    private int startRow;
-
-    /** Start precise position with this column. Must be added to element
-     *  column start if <code>startRow == 0</code>. */
-    private int startColumn;
-
-    /** End precise position this number of rows later. Must be not less
-     * than minus one. Minus one means no precise location is given. */
-    private int endRow;
-
-    /** End precise position with this column. Must be added to element
-     * column start if <code>endRow == 0</code>. */
-    private int endColumn;
 
     /**
      * Constructor with simple XPath string as parameter.
@@ -85,35 +61,6 @@ public class SimpleXPath {
         elements = new ArrayList();
         numbers = new ArrayList();
         attribute = null;
-        this.startRow = -1;
-        this.startColumn = 1;
-        this.endRow = -1;
-        this.endColumn = 1;
-        init(xpath);
-    }
-
-    /**
-     * Constructor with simple XPath string as parameter.
-     * @param   xpath       String with the syntax as described above. If the syntax is violated
-     *                      RuntimeExceptions may occur. {@link #SimpleXPath(String)}
-     * @param   startRow    Start precise position this number of rows later. Must be not less
-     *                      than minus one. Minus one means no precise location is given.
-     * @param   startColumn Start precise position with this column. Must be added to element
-     *                      column start if <code>startRow == 0</code>.
-     * @param   endRow      End precise position this number of rows later. Must be not less
-     *                      than minus one. Minus one means no precise location is given.
-     * @param   endColumn   End precise position with this column. Must be added to element
-     *                      column start if <code>endRow == 0</code>.
-     */
-    public SimpleXPath(final String xpath, final int startRow, final int startColumn,
-            final int endRow, final int endColumn) {
-        elements = new ArrayList();
-        numbers = new ArrayList();
-        attribute = null;
-        this.startRow = startRow;
-        this.startColumn = startColumn;
-        this.endRow = endRow;
-        this.endColumn = endColumn;
         init(xpath);
     }
 
@@ -124,10 +71,6 @@ public class SimpleXPath {
         elements = new ArrayList();
         numbers = new ArrayList();
         attribute = null;
-        this.startRow = -1;
-        this.startColumn = 1;
-        this.endRow = -1;
-        this.endColumn = 1;
     }
 
     /**
@@ -139,35 +82,6 @@ public class SimpleXPath {
         elements = new ArrayList();
         numbers = new ArrayList();
         attribute = null;
-        this.startRow = original.startRow;
-        this.startColumn = original.startColumn;
-        this.endRow = original.endRow;
-        this.endColumn = original.endColumn;
-        init(original.toString());
-    }
-
-    /**
-     * Copy constructor.
-     *
-     * @param   original    XPath to copy.
-     * @param   startRow    Start precise position this number of rows later. Must be not less
-     *                      than minus one. Minus one means no precise location is given.
-     * @param   startColumn Start precise position with this column. Must be added to element
-     *                      column start if <code>startRow == 0</code>.
-     * @param   endRow      End precise position this number of rows later. Must be not less
-     *                      than minus one. Minus one means no precise location is given.
-     * @param   endColumn   End precise position with this column. Must be added to element
-     *                      column start if <code>endRow == 0</code>.
-     */
-    public SimpleXPath(final SimpleXPath original, final int startRow, final int startColumn,
-            final int endRow, final int endColumn) {
-        elements = new ArrayList();
-        numbers = new ArrayList();
-        attribute = null;
-        this.startRow = startRow;
-        this.startColumn = startColumn;
-        this.endRow = endRow;
-        this.endColumn = endColumn;
         init(original.toString());
     }
 
@@ -334,71 +248,6 @@ public class SimpleXPath {
         return attribute;
     }
 
-    /**
-     * Set starting location of XPath.
-     *
-     * @param   position    Starting point of this XPath.
-     */
-    public final void setStartLocation(final SourcePosition position) {
-        start = position;
-    }
-
-    /**
-     * Get start location.
-     *
-     * @return  File position.
-     */
-    public final SourcePosition getStartLocation() {
-        return start;
-    }
-
-    /**
-     * Set ending location of XPath.
-     *
-     * @param   position    Ending point of this XPath.
-     */
-    public final void setEndLocation(final SourcePosition position) {
-        end = position;
-    }
-
-    /**
-     * Get end location.
-     *
-     * @return  File position.
-     */
-    public final SourcePosition getEndLocation() {
-        return end;
-    }
-
-    /**
-     * Is there a further restriction for this element? If so one can get the relative starting
-     * position by calling {@link getRelativeStart}.
-     *
-     * @return  Are there further position restrictions?
-     */
-    public final boolean portion() {
-        return startRow >= 0;
-    }
-
-    //FIXME javadoc
-    public final int getStartRow() {
-        return startRow;
-    }
-
-    //FIXME javadoc
-    public final int getStartColumn() {
-        return startColumn;
-    }
-
-    //FIXME javadoc
-    public final int getEndRow() {
-        return endRow;
-    }
-
-    //FIXME javadoc
-    public final int getEndColumn() {
-        return endColumn;
-    }
 
     public final boolean equals(final Object obj) {
         if (!(obj instanceof SimpleXPath)) {
@@ -406,10 +255,6 @@ public class SimpleXPath {
         }
         final SimpleXPath other = (SimpleXPath) obj;
         if (!EqualsUtility.equals(this.getAttribute(), other.getAttribute())) {
-            return false;
-        }
-        if (startRow != other.startRow || startColumn != other.startColumn
-                || endRow != other.endRow || endColumn != other.endColumn) {
             return false;
         }
         return equalsElements(other);
@@ -536,7 +381,6 @@ public class SimpleXPath {
         if (attribute != null) {
             code ^= attribute.hashCode();
         }
-        code ^= startRow ^ startColumn ^ endRow ^ endColumn;
         for (int i = 0; i < size(); i++) {
             code ^= i + 1;
             code ^= getElementName(i).hashCode();

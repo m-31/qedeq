@@ -23,6 +23,7 @@ import java.io.Reader;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.module.Qedeq;
@@ -34,7 +35,6 @@ import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
@@ -118,9 +118,7 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         if (qedeq == null || context == null) {
             return null;
         }
-        System.out.println("createSourceArea context1 = " + context);
         ModuleContext ctext = new ModuleContext(context);
-        System.out.println("createSourceArea context2 = " + ctext);
         final SimpleXPath xpath;
         try {
             xpath = Context2SimpleXPath.getXPath(ctext, qedeq);
@@ -129,25 +127,9 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
             return null;
         }
 
-        SimpleXPath find = null;
         final File local = services.getLocalFilePath(ctext.getModuleLocation());
-        final String message = "Could not find \"" + find + "\" within \"" + local + "\"";
-        try {
-            find = XPathLocationParser.getXPathLocation(local, xpath);
-            if (find.getStartLocation() == null) {
-                Trace.fatal(CLASS, method, message, null);
-                return null;
-            }
-            return new SourceArea(ctext.getModuleLocation().getUrl(), find.getStartLocation(),
-                find.getEndLocation());
-        } catch (ParserConfigurationException e) {
-            Trace.fatal(CLASS, method, message, e);
-        } catch (SAXException e) {
-            Trace.fatal(CLASS, method, message, e);
-        } catch (IOException e) {
-            Trace.fatal(CLASS, method, message, e);
-        }
-        return null;
+        return XPathLocationParser.findSourceArea(ctext.getModuleLocation().getUrl(), xpath,
+            ctext.getStartDelta(), ctext.getEndDelta(), local);
     }
 
     public Reader getModuleReader(final KernelQedeqBo bo)

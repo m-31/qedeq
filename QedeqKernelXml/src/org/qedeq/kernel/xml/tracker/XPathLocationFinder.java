@@ -20,6 +20,7 @@ import java.util.Locale;
 
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.xml.sax.SAXException;
@@ -28,8 +29,7 @@ import org.xml.sax.SAXException;
 /**
  * Find position of simple XPath expressions within an XML file.
  *
- * @version $Revision: 1.1 $
- * @author Michael Meyling
+ * @author  Michael Meyling
  */
 public final class XPathLocationFinder {
 
@@ -96,7 +96,8 @@ public final class XPathLocationFinder {
         }
         System.out.println(StringUtility.getClassName(XPathLocationFinder.class) + ", running on: "
             + KernelContext.getInstance().getDescriptiveKernelVersion());
-        XPathLocationParser.getXPathLocation(new File(from), new SimpleXPath(xpath));
+        SourceArea result = XPathLocationParser.findSourceArea(new File(from), new SimpleXPath(xpath));
+        System.out.println(result);
     }
 
     /**

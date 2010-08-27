@@ -16,12 +16,12 @@ package org.qedeq.kernel.xml.parser;
 
 import java.util.Stack;
 
+import org.qedeq.base.io.SourceArea;
+import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourcePosition;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;

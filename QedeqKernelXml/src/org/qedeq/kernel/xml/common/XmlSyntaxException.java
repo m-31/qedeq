@@ -15,8 +15,8 @@
 
 package org.qedeq.kernel.xml.common;
 
+import org.qedeq.base.io.SourcePosition;
 import org.qedeq.kernel.common.QedeqException;
-import org.qedeq.kernel.common.SourcePosition;
 
 
 /**

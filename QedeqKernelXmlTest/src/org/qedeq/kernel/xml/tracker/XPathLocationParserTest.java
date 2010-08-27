@@ -17,6 +17,7 @@ package org.qedeq.kernel.xml.tracker;
 
 import java.io.File;
 
+import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
 
@@ -80,13 +81,13 @@ public class XPathLocationParserTest extends QedeqTestCase {
     private void checkPosition(String fileName, String xpath, int startRow, int startCol,
             int endRow, int endCol) throws Exception {
         final File file = getFile(fileName);
-        final SimpleXPath result = XPathLocationParser.getXPathLocation(file, new SimpleXPath(xpath));
-        Trace.param(CLASS, this, "checkPosition", "Start position", result.getStartLocation());
-        assertEquals(startRow, result.getStartLocation().getLine());
-        assertEquals(startCol, result.getStartLocation().getColumn());
-        Trace.param(CLASS, this, "checkPosition", "End   position", result.getEndLocation());
-        assertEquals(endRow, result.getEndLocation().getLine());
-        assertEquals(endCol, result.getEndLocation().getColumn());
+        final SourceArea result = XPathLocationParser.findSourceArea(file, new SimpleXPath(xpath));
+        Trace.param(CLASS, this, "checkPosition", "Start position", result.getStartPosition());
+        assertEquals(startRow, result.getStartPosition().getRow());
+        assertEquals(startCol, result.getStartPosition().getColumn());
+        Trace.param(CLASS, this, "checkPosition", "End   position", result.getEndPosition());
+        assertEquals(endRow, result.getEndPosition().getRow());
+        assertEquals(endCol, result.getEndPosition().getColumn());
     }
 
 }

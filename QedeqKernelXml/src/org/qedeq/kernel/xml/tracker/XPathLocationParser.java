@@ -29,10 +29,11 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.SourceArea;
+import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.Enumerator;
-import org.qedeq.kernel.common.SourcePosition;
 import org.qedeq.kernel.xml.parser.SimpleHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
@@ -87,6 +88,18 @@ public final class XPathLocationParser extends SimpleHandler {
     /** Current stack level. */
     private int level;
 
+    /** Add this to found position. */
+    private SourcePosition startDelta;
+
+    /** Add this to found position. */
+    private SourcePosition endDelta;
+
+    /** Here the found element starts. */
+    private SourcePosition start;
+
+    /** Here the found element ends. */
+    private SourcePosition end;
+
     /**
      * Search simple XPath within an XML file.
      *
@@ -105,33 +118,67 @@ public final class XPathLocationParser extends SimpleHandler {
     /**
      * Search simple XPath within an XML file.
      *
-     * @param   xmlFile Search this file.
-     * @param   xpath   Search for this simple XPath.
+     * @param   address     Name description (for example URL) for this XML file.
+     * @param   xpath       Search for this simple XPath.
+     * @param   startDelta  Skip position (relative to location start). Could be
+     *                      <code>null</code>.
+     * @param   endDelta    Mark until this column (relative to location start). Could
+     *                      be <code>null</code>.
+     * @param   file        Search this file.
      * @return  Source position information.
-     * @throws  ParserConfigurationException    Severe parser configuration problem.
-     * @throws  SAXException                    XML problem.
-     * @throws  IOException                     IO problem.
      */
-    public static final SimpleXPath getXPathLocation(final File xmlFile, final SimpleXPath xpath)
-            throws ParserConfigurationException, SAXException, IOException {
-        final XPathLocationParser parser = new XPathLocationParser(xpath);
-        parser.parse(xmlFile);
-        return parser.getFind();
+    public static SourceArea findSourceArea(final String address, final SimpleXPath xpath,
+            final SourcePosition startDelta, final SourcePosition endDelta,  final File file) {
+        final String method = "findSourceArea(String, SimpleXPath, File)";
+        final String message = "Could not find \"" + xpath + "\" within \"" + file + "\"";
+        try {
+            XPathLocationParser parser = new XPathLocationParser(xpath, startDelta, endDelta);
+            parser.parse(file);
+            if (parser.getStart() == null) {
+                Trace.fatal(CLASS, method, message, null);
+                return null;
+            }
+            return new SourceArea(address, parser.getStart(), parser.getEnd());
+        } catch (ParserConfigurationException e) {
+            Trace.fatal(CLASS, method, message, e);
+        } catch (SAXException e) {
+            Trace.fatal(CLASS, method, message, e);
+        } catch (IOException e) {
+            Trace.fatal(CLASS, method, message, e);
+        }
+        return null;
+    }
+
+    /**
+     * Search simple XPath within an XML file.
+     *
+     * @param   file        Search this file.
+     * @param   xpath       Search for this simple XPath.
+     * @return  Source position information.
+     */
+    public static SourceArea findSourceArea(final File file, final SimpleXPath xpath) {
+        return findSourceArea(file.toString(), xpath, null, null, file);
     }
 
     /**
      * Constructor.
      *
-     * @param   xpath XML file path.
+     * @param   xpath                   XML file path.
+     * @param   startDelta              Skip position (relative to location start). Could be
+     *                                  <code>null</code>.
+     * @param   endDelta                Mark until this column (relative to location start). Could
+     *                                  be <code>null</code>.
      * @throws  ParserConfigurationException    Severe parser configuration problem.
      * @throws  SAXException                    XML problem.
      */
-    private XPathLocationParser(final SimpleXPath xpath) throws ParserConfigurationException,
+    public XPathLocationParser(final SimpleXPath xpath, final SourcePosition startDelta,
+        final SourcePosition endDelta) throws ParserConfigurationException,
             SAXException {
         super();
 
-        find = xpath;
-        System.out.println("Begin Relative interval: " + find.getStartRow() + ", " + find.getStartColumn() + "; " + find.getEndRow() + ", " + find.getEndColumn());
+        this.find = xpath;
+        this.startDelta = startDelta;
+        this.endDelta = endDelta;
         elements = new ArrayList(20);
         level = 0;
 
@@ -154,20 +201,6 @@ public final class XPathLocationParser extends SimpleHandler {
         // set parser features
         reader.setFeature(NAMESPACES_FEATURE_ID, false);
         reader.setFeature(VALIDATION_FEATURE_ID, false);
-    }
-
-    /**
-     * Parses XML file.
-     *
-     * @param   fileName    Parse this input.
-     * @param   original    Original file location.
-     * @throws SAXException Syntactical or semantical problem occurred.
-     * @throws IOException  Technical problem occurred.
-     */
-    public final void parse(final String fileName, final String original) throws SAXException,
-            IOException {
-        final File file = new File(fileName);
-        parse(file);
     }
 
     /**
@@ -313,24 +346,23 @@ public final class XPathLocationParser extends SimpleHandler {
                     throw new SAXException("Locator unexpectedly null");
                 }
                 // at least we can set the current location as find location
-                find.setStartLocation(new SourcePosition(
-                    getLocator().getLineNumber(), getLocator().getColumnNumber()));
+                start = new SourcePosition(
+                    getLocator().getLineNumber(), getLocator().getColumnNumber());
                 return;
             }
             try {
                 xml.setRow(getLocator().getLineNumber());
                 xml.setColumn(getLocator().getColumnNumber());
-                if (find.portion()) {
-                    System.out.println("Relative interval: " + find.getStartRow() + ", " + find.getStartColumn() + "; " + find.getEndRow() + ", " + find.getEndColumn());
+                if (startDelta != null) {
                     xml.skipWhiteSpace();
                     final String cdata = "<![CDATA[";
                     final String read = xml.readString(cdata.length());
                     if (cdata.equals(read)) {
-                        find.setStartLocation(getLocation(xml, cdata.length(), find.getStartRow(), find.getStartColumn()));
-                        find.setEndLocation(getLocation(xml, cdata.length(), find.getEndRow(), find.getEndColumn()));
+                        start = getLocation(xml, cdata.length(), startDelta);
+                        this.end = getLocation(xml, cdata.length(), endDelta);
                     } else {
-                        find.setStartLocation(getLocation(xml, 0, find.getStartRow(), find.getStartColumn()));
-                        find.setEndLocation(getLocation(xml, 0, find.getEndRow(), find.getEndColumn()));
+                        start = getLocation(xml, 0, startDelta);
+                        this.end = getLocation(xml, 0, endDelta);
                     }
                     return;
                 }
@@ -339,8 +371,7 @@ public final class XPathLocationParser extends SimpleHandler {
                 } catch (RuntimeException e) {
                     Trace.trace(CLASS, this, method, e);
                 }
-                find.setStartLocation(new SourcePosition(xml.getRow(), xml
-                    .getColumn()));
+                start = new SourcePosition(xml.getRow(), xml.getColumn());
                 if (find.getAttribute() != null) {
                     xml.read(); // skip <
                     xml.readNextXmlName(); // must be element name
@@ -355,10 +386,10 @@ public final class XPathLocationParser extends SimpleHandler {
                             break; // LATER mime 20050621: create named exception in readNextXmlName
                         }
                         if (tag.equals(find.getAttribute())) {
-                            find.setStartLocation(new SourcePosition(row, col));
+                            start = new SourcePosition(row, col);
                             xml.readNextAttributeValue();
-                            find.setEndLocation(new SourcePosition(xml.getRow(),
-                                xml.getColumn()));
+                            this.end = new SourcePosition(xml.getRow(),
+                            xml.getColumn());
                             break;
                         }
                         xml.readNextAttributeValue();
@@ -371,29 +402,20 @@ public final class XPathLocationParser extends SimpleHandler {
     }
 
     /**
-     * @param xml
-     * @param cdata
+     * FIXME refactor
      */
-    private SourcePosition getLocation(TextInput xml, final int cdataLength, final int rows, final int columns) {
+    private SourcePosition getLocation(TextInput xml, final int cdataLength, final SourcePosition pos) {
         xml.setRow(getLocator().getLineNumber());
         xml.setColumn(getLocator().getColumnNumber());
-        System.out.println("Current location: " + xml.getRow() + ", " + xml.getColumn());
         if (cdataLength == 0) {
-            System.out.println("adding rows " + rows);
-            xml.addRow(rows);
-            System.out.println("adding columns " + columns);
-            xml.addColumn(columns);
+            xml.addPosition(pos);
         } else {
-            if (find.getStartRow() == 0) {
-                xml.addColumn(cdataLength + columns);
+            if (pos.getRow() == 1) {
+                xml.addColumn(cdataLength + pos.getColumn() - 1);
             } else {
-                System.out.println("adding rows " + rows);
-                xml.addRow(rows);
-                System.out.println("adding columns " + columns);
-                xml.addColumn(columns);
+                xml.addPosition(pos);
             }
         }
-        System.out.println("New location: " + xml.getRow() + ", " + xml.getColumn());
         return new SourcePosition(xml.getRow(), xml.getColumn());
     }
 
@@ -437,7 +459,8 @@ public final class XPathLocationParser extends SimpleHandler {
             summary.deleteLastElement();
             throw new SAXException("Locator unexpectly null");
         }
-        if (find.matchesElements(current, summary) && find.getAttribute() == null && !find.portion()) {
+        if (find.matchesElements(current, summary) && find.getAttribute() == null
+                && startDelta == null) {
             TextInput xml = null;
             Reader xmlReader = null;
             try {
@@ -451,8 +474,8 @@ public final class XPathLocationParser extends SimpleHandler {
                     throw new SAXException("Locator unexpectedly null");
                 }
                 // at least we can set the current location as find location
-                find.setStartLocation(new SourcePosition(getLocator().getLineNumber(),
-                    getLocator().getColumnNumber()));
+                start = new SourcePosition(getLocator().getLineNumber(),
+                    getLocator().getColumnNumber());
                 return;
             } finally {
                 IoUtility.close(xmlReader);
@@ -461,7 +484,7 @@ public final class XPathLocationParser extends SimpleHandler {
                 xml.setRow(getLocator().getLineNumber());
                 xml.setColumn(getLocator().getColumnNumber());
                 // xml.skipForwardToEndOfXmlTag(); // LATER mime 20050810: remove? comment in?
-                find.setEndLocation(new SourcePosition(xml.getRow(), xml.getColumn()));
+                this.end = new SourcePosition(xml.getRow(), xml.getColumn());
             } finally {
                 IoUtility.close(xml);   // findbugs
             }
@@ -471,12 +494,21 @@ public final class XPathLocationParser extends SimpleHandler {
     }
 
     /**
-     * Get searched XPath. Hopefully the start and end location are set.
+     * Get starting source position of found element. Could be <code>null</code>.
      *
-     * @return Searched XPath.
+     * @return  Start position.
      */
-    public SimpleXPath getFind() {
-        return find;
+    private SourcePosition getStart() {
+        return start;
+    }
+
+    /**
+     * Get ending source position of found element. Could be <code>null</code>.
+     *
+     * @return  End position.
+     */
+    private SourcePosition getEnd() {
+        return end;
     }
 
 }
