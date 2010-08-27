@@ -119,7 +119,7 @@ public class DocumentMarker {
         int toOffset = textComp.getLineStartOffset(endLine) + endLineOffset;
         addMarkedBlock(doc.createPosition(fromOffset), doc.createPosition(toOffset - 1), doc
             .createPosition(fromOffset));
-        textComp.getHighlighter().addHighlight(fromOffset, toOffset - 1, highlightPainter);
+        textComp.getHighlighter().addHighlight(fromOffset + 1, toOffset - 1, highlightPainter);
     }
 
     private void addMarkedBlock(final int fromOffset, final int toOffset, final int pos)
