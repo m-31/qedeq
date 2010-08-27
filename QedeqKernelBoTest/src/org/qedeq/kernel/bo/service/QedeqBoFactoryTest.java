@@ -114,9 +114,9 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList e) {
             SourceFileException sf = e.get(0);
-            assertEquals(221, sf.getSourceArea().getStartPosition().getLine());
+            assertEquals(221, sf.getSourceArea().getStartPosition().getRow());
             assertEquals(9, sf.getSourceArea().getStartPosition().getColumn());
-            assertEquals(265, sf.getSourceArea().getEndPosition().getLine());
+            assertEquals(265, sf.getSourceArea().getEndPosition().getRow());
             assertEquals(16, sf.getSourceArea().getEndPosition().getColumn());
             Trace.trace(CLASS, this, method, e);
         }

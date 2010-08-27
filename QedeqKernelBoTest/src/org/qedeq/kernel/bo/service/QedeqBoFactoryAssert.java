@@ -15,12 +15,10 @@
 
 package org.qedeq.kernel.bo.service;
 
-import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.xml.parsers.ParserConfigurationException;
-
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.module.Qedeq;
@@ -39,7 +37,6 @@ import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 import org.qedeq.kernel.xml.mapper.Context2SimpleXPath;
 import org.qedeq.kernel.xml.tracker.SimpleXPath;
 import org.qedeq.kernel.xml.tracker.XPathLocationParser;
-import org.xml.sax.SAXException;
 
 /**
  * For testing QEDEQ BO generation.
@@ -143,29 +140,20 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         }
         Trace.param(CLASS, "setLocationWithinModule(String)",
             "xpath                < ", xpath);
-        try {
-            final InternalKernelServices services = (InternalKernelServices) IoUtility
-                .getFieldContent(KernelFacade.getKernelContext(), "services");
-            final SimpleXPath find = XPathLocationParser.getXPathLocation(
-                services.getLocalFilePath(
-                    getCurrentContext().getModuleLocation()), xpath);
-            if (find.getStartLocation() == null) {
-                System.out.println(getCurrentContext());
-                throw new RuntimeException("start not found: " + find + "\ncontext: "
-                    + getCurrentContext().getLocationWithinModule());
-            }
-            if (find.getEndLocation() == null) {
-                System.out.println(getCurrentContext());
-                throw new RuntimeException("end not found: " + find + "\ncontext: "
-                    + getCurrentContext().getLocationWithinModule());
-            }
-
-        } catch (ParserConfigurationException e) {
-            throw new RuntimeException(e);
-        } catch (SAXException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        final InternalKernelServices services = (InternalKernelServices) IoUtility
+            .getFieldContent(KernelFacade.getKernelContext(), "services");
+        final SourceArea find = XPathLocationParser.findSourceArea(
+            services.getLocalFilePath(
+                getCurrentContext().getModuleLocation()), xpath);
+        if (find.getStartPosition() == null) {
+            System.out.println(getCurrentContext());
+            throw new RuntimeException("start not found: " + find + "\ncontext: "
+                + getCurrentContext().getLocationWithinModule());
+        }
+        if (find.getEndPosition() == null) {
+            System.out.println(getCurrentContext());
+            throw new RuntimeException("end not found: " + find + "\ncontext: "
+                + getCurrentContext().getLocationWithinModule());
         }
     }
 }

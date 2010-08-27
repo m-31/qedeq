@@ -92,7 +92,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
             assertNull(warnings);
             assertEquals(1, errors.size());
             assertEquals(123476, errors.get(0).getErrorCode());
-            assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getLine());
+            assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, errors.get(0).getSourceArea().getStartPosition().getColumn());
         } else {
             fail("failure for double definition of identity operator expected");
@@ -117,7 +117,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
             assertNull(warnings);
             assertEquals(1, errors.size());
             assertEquals(123476, errors.get(0).getErrorCode());
-            assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getLine());
+            assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, errors.get(0).getSourceArea().getStartPosition().getColumn());
         } else {
             fail("failure for double definition of identity operator expected");
@@ -326,7 +326,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
             assertNull(warnings);
             assertEquals(1, errors.size());
             assertEquals(123478, errors.get(0).getErrorCode());
-            assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getLine());
+            assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, errors.get(0).getSourceArea().getStartPosition().getColumn());
         } else {
             fail("failure for double definition of class operator expected");
@@ -350,7 +350,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
             assertNull(warnings);
             assertEquals(1, errors.size());
             assertEquals(123478, errors.get(0).getErrorCode());
-            assertEquals(118, errors.get(0).getSourceArea().getStartPosition().getLine());
+            assertEquals(118, errors.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(11, errors.get(0).getSourceArea().getStartPosition().getColumn());
         } else {
             fail("failure for double definition of class operator expected");
@@ -374,7 +374,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
             assertNull(warnings);
             assertEquals(1, errors.size());
             assertEquals(123476, errors.get(0).getErrorCode());
-            assertEquals(125, errors.get(0).getSourceArea().getStartPosition().getLine());
+            assertEquals(125, errors.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(11, errors.get(0).getSourceArea().getStartPosition().getColumn());
         } else {
             fail("failure for double definition of class operator expected");
