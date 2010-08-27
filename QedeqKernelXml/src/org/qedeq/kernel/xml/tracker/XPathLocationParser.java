@@ -357,13 +357,23 @@ public final class XPathLocationParser extends SimpleHandler {
                     xml.skipWhiteSpace();
                     final String cdata = "<![CDATA[";
                     final String read = xml.readString(cdata.length());
-                    if (cdata.equals(read)) {
-                        start = getLocation(xml, cdata.length(), startDelta);
-                        this.end = getLocation(xml, cdata.length(), endDelta);
+                    int cdataLength = (cdata.equals(read) ? cdata.length() : 0);
+                    xml.setRow(getLocator().getLineNumber());
+                    xml.setColumn(getLocator().getColumnNumber());
+                    if (startDelta.getRow() == 1 && cdataLength > 0) {
+                        xml.addColumn(cdataLength + startDelta.getColumn() - 1);
                     } else {
-                        start = getLocation(xml, 0, startDelta);
-                        this.end = getLocation(xml, 0, endDelta);
+                        xml.addPosition(startDelta);
                     }
+                    start = new SourcePosition(xml.getRow(), xml.getColumn());
+                    xml.setRow(getLocator().getLineNumber());
+                    xml.setColumn(getLocator().getColumnNumber());
+                    if (endDelta.getRow() == 1 && cdataLength > 0) {
+                        xml.addColumn(cdataLength + endDelta.getColumn() - 1);
+                    } else {
+                        xml.addPosition(endDelta);
+                    }
+                    end = new SourcePosition(xml.getRow(), xml.getColumn());
                     return;
                 }
                 try {
@@ -399,24 +409,6 @@ public final class XPathLocationParser extends SimpleHandler {
                 IoUtility.close(xml);   // findbugs
             }
         }
-    }
-
-    /**
-     * FIXME refactor
-     */
-    private SourcePosition getLocation(TextInput xml, final int cdataLength, final SourcePosition pos) {
-        xml.setRow(getLocator().getLineNumber());
-        xml.setColumn(getLocator().getColumnNumber());
-        if (cdataLength == 0) {
-            xml.addPosition(pos);
-        } else {
-            if (pos.getRow() == 1) {
-                xml.addColumn(cdataLength + pos.getColumn() - 1);
-            } else {
-                xml.addPosition(pos);
-            }
-        }
-        return new SourcePosition(xml.getRow(), xml.getColumn());
     }
 
     /**
