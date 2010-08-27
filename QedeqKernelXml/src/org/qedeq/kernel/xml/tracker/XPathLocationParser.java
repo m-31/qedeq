@@ -357,23 +357,9 @@ public final class XPathLocationParser extends SimpleHandler {
                     xml.skipWhiteSpace();
                     final String cdata = "<![CDATA[";
                     final String read = xml.readString(cdata.length());
-                    int cdataLength = (cdata.equals(read) ? cdata.length() : 0);
-                    xml.setRow(getLocator().getLineNumber());
-                    xml.setColumn(getLocator().getColumnNumber());
-                    if (startDelta.getRow() == 1 && cdataLength > 0) {
-                        xml.addColumn(cdataLength + startDelta.getColumn() - 1);
-                    } else {
-                        xml.addPosition(startDelta);
-                    }
-                    start = new SourcePosition(xml.getRow(), xml.getColumn());
-                    xml.setRow(getLocator().getLineNumber());
-                    xml.setColumn(getLocator().getColumnNumber());
-                    if (endDelta.getRow() == 1 && cdataLength > 0) {
-                        xml.addColumn(cdataLength + endDelta.getColumn() - 1);
-                    } else {
-                        xml.addPosition(endDelta);
-                    }
-                    end = new SourcePosition(xml.getRow(), xml.getColumn());
+                    final int cdataLength = (cdata.equals(read) ? cdata.length() : 0);
+                    start = addDelta(xml, cdataLength, startDelta);
+                    end = addDelta(xml, cdataLength, endDelta);
                     return;
                 }
                 try {
@@ -409,6 +395,26 @@ public final class XPathLocationParser extends SimpleHandler {
                 IoUtility.close(xml);   // findbugs
             }
         }
+    }
+
+    /**
+     * Set text input position according to locator and add delta plus tag length.
+     *
+     * @param   xml         This is the stream we work on.
+     * @param   cdataLength Length of extra skip data.
+     * @param   delta       Add this delta
+     * @return  Resulting source position.
+     */
+    private SourcePosition addDelta(final TextInput xml, final int cdataLength,
+            final SourcePosition delta) {
+        xml.setRow(getLocator().getLineNumber());
+        xml.setColumn(getLocator().getColumnNumber());
+        if (delta.getRow() == 1 && cdataLength > 0) {
+            xml.addColumn(cdataLength + delta.getColumn() - 1);
+        } else {
+            xml.addPosition(delta);
+        }
+        return new SourcePosition(xml.getRow(), xml.getColumn());
     }
 
     /**
