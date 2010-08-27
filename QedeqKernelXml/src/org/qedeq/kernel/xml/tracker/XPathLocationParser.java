@@ -320,18 +320,17 @@ public final class XPathLocationParser extends SimpleHandler {
                 xml.setRow(getLocator().getLineNumber());
                 xml.setColumn(getLocator().getColumnNumber());
                 if (find.portion()) {
+                    System.out.println("Relative interval: " + find.getStartRow() + ", " + find.getStartColumn() + "; " + find.getEndRow() + ", " + find.getEndColumn());
                     xml.skipWhiteSpace();
                     final String cdata = "<![CDATA[";
                     final String read = xml.readString(cdata.length());
-                    xml.setRow(getLocator().getLineNumber());
-                    xml.setColumn(getLocator().getColumnNumber());
-                    if (!cdata.equals(cdata)) {
-                        xml.forward(find.getRelativeStart());
+                    if (cdata.equals(read)) {
+                        find.setStartLocation(getLocation(xml, cdata.length(), find.getStartRow(), find.getStartColumn()));
+                        find.setEndLocation(getLocation(xml, cdata.length(), find.getEndRow(), find.getEndColumn()));
                     } else {
-                        xml.forward(find.getRelativeStart() + cdata.length());
+                        find.setStartLocation(getLocation(xml, 0, find.getStartRow(), find.getStartColumn()));
+                        find.setEndLocation(getLocation(xml, 0, find.getEndRow(), find.getEndColumn()));
                     }
-                    find.setStartLocation(new SourcePosition(xml.getRow(), xml
-                            .getColumn()));
                     return;
                 }
                 try {
@@ -368,6 +367,33 @@ public final class XPathLocationParser extends SimpleHandler {
                 IoUtility.close(xml);   // findbugs
             }
         }
+    }
+
+    /**
+     * @param xml
+     * @param cdata
+     */
+    private SourcePosition getLocation(TextInput xml, final int cdataLength, final int rows, final int columns) {
+        xml.setRow(getLocator().getLineNumber());
+        xml.setColumn(getLocator().getColumnNumber());
+        System.out.println("Current location: " + xml.getRow() + ", " + xml.getColumn());
+        if (cdataLength == 0) {
+            System.out.println("adding rows " + rows);
+            xml.addRow(rows);
+            System.out.println("adding columns " + columns);
+            xml.addColumn(columns);
+        } else {
+            if (find.getStartRow() == 0) {
+                xml.addColumn(cdataLength + columns);
+            } else {
+                System.out.println("adding rows " + rows);
+                xml.addRow(rows);
+                System.out.println("adding columns " + columns);
+                xml.addColumn(columns);
+            }
+        }
+        System.out.println("New location: " + xml.getRow() + ", " + xml.getColumn());
+        return new SourcePosition(xml.getRow(), xml.getColumn());
     }
 
     /**
@@ -410,7 +436,7 @@ public final class XPathLocationParser extends SimpleHandler {
             summary.deleteLastElement();
             throw new SAXException("Locator unexpectly null");
         }
-        if (find.matchesElements(current, summary) && find.getAttribute() == null) {
+        if (find.matchesElements(current, summary) && find.getAttribute() == null && !find.portion()) {
             TextInput xml = null;
             Reader xmlReader = null;
             try {

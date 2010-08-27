@@ -847,8 +847,11 @@ public final class Qedeq2Latex extends ControlVisitor {
         final TextInput input = new TextInput(result);
         while (input.forward("\\qref{")) {
             final int start = input.getPosition();
+            final int startRow = input.getRow();
+            final int startColumn = input.getColumn();
             if (!input.forward("}")) {
-                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, input.getPosition());
+                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, startRow, startColumn,
+                    input.getRow(), input.getColumn());
                 continue;
             }
             String ref = input.getString(start + "\\qref{".length(), input.getPosition()).trim();
@@ -856,15 +859,18 @@ public final class Qedeq2Latex extends ControlVisitor {
             int pos2 = input.getPosition();
             Trace.param(CLASS, this, method, "1 ref", ref);
             if (ref.length() == 0) {
-                addWarning(QREF_EMPTY_CODE, QREF_EMPTY_MSG, start, pos2 - start);
+                addWarning(QREF_EMPTY_CODE, QREF_EMPTY_MSG, startRow, startColumn, input.getRow(),
+                    input.getColumn());
                 continue;
             }
             if (ref.length() > 1024) {
-                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, input.getPosition());
+                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, startRow, startColumn,
+                    input.getRow(), input.getColumn());
                 continue;
             }
             if (ref.indexOf("{") >= 0) {
-                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, start, input.getPosition());
+                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, startRow, startColumn,
+                        input.getRow(), input.getColumn());
                 continue;
             }
 
@@ -874,8 +880,8 @@ public final class Qedeq2Latex extends ControlVisitor {
                 input.read();   // read [
                 int posb = input.getPosition();
                 if (!input.forward("]")) {
-                    addWarning(QREF_SUB_END_NOT_FOUND_CODE, QREF_SUB_END_NOT_FOUND_MSG, start,
-                            -1);
+                    addWarning(QREF_SUB_END_NOT_FOUND_CODE, QREF_SUB_END_NOT_FOUND_MSG, startRow,
+                        startColumn, input.getRow(), input.getColumn());
                         continue;
                 }
                 sub = result.substring(posb, input.getPosition());
@@ -920,7 +926,8 @@ public final class Qedeq2Latex extends ControlVisitor {
                 Trace.info(CLASS, this, method, "node not found for " + ref);
                 System.out.println("node not found for " + ref);    // FIXME remove me
                 addWarning(QREF_PARSING_EXCEPTION_CODE, QREF_PARSING_EXCEPTION_MSG
-                    + ": " + "node not found for " + ref, start, input.getPosition());
+                    + ": " + "node not found for " + ref, startRow, startColumn, input.getRow(),
+                    input.getColumn());
             }
 
             // do we have an external module?
@@ -1068,13 +1075,14 @@ public final class Qedeq2Latex extends ControlVisitor {
 //        }
 //    }
 
-    public ModuleContext getCurrentContext(final int start, final int length) {
+    public ModuleContext getCurrentContext(final int startRow, final int startColumn,
+            final int endRow, final int endColumn) {
         if (subContext.length() == 0) {
             return super.getCurrentContext();
         }
         return new ModuleContext(super.getCurrentContext().getModuleLocation(),
             super.getCurrentContext().getLocationWithinModule() + "." + subContext,
-            start, length);
+            startRow, startColumn, endRow, endColumn);
     }
 
     public ModuleContext getCurrentContext() {
@@ -1084,15 +1092,24 @@ public final class Qedeq2Latex extends ControlVisitor {
     /**
      * Add warning.
      *
-     * @param   code    Warning code.
-     * @param   msg     Warning message.
-     * @param   start   Start of warning location after begin of element.
-     * @param   length  Length of warning block.
+     * @param   code        Warning code.
+     * @param   msg         Warning message.
+     * @param   startRow    Start of precise warning location after begin of element in rows + 1.
+     * @param   startColumn Start of precise warning location in columns + 1.
+     *                      If <code>startRow == 1</code>
+     *                      this number has to be added to the beginning column location of
+     *                      the element.
+     * @param   endRow      End of precise warning location after begin of element in rows + 1.
+     * @param   endColumn   End of precise warning location in columns + 1.
+     *                      If <code>endRow == 1</code>
+     *                      this number has to be added to the beginning column location of
+     *                      the element.
      */
-    private void addWarning(final int code, final String msg, final int start, final int length) {
+    private void addWarning(final int code, final String msg, final int startRow,
+            final int startColumn, final int endRow, final int endColumn) {
         Trace.param(CLASS, this, "addWarning", "msg", msg);
-        System.out.println("addWarning " + code + " " + msg + " " + start + ", " + length); // FIXME remove me
-        addWarning(new LaTeXContentException(code, msg, getCurrentContext(start, length)));
+        System.out.println("addWarning " + code + " " + msg + " " + startRow + ", " + startColumn + "; " + endRow + ", " + endColumn); // FIXME remove me
+        addWarning(new LaTeXContentException(code, msg, getCurrentContext(startRow - 1, startColumn - 1, endRow - 1, endColumn - 1)));
     }
 
     /**

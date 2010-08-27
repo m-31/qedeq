@@ -41,41 +41,59 @@ public class ModuleContext {
     /** Location within the module. */
     private String locationWithinModule;
 
-    /** Skip this number of characters. */
-    private final int start;
+    /** Skip this number of rows (beginning from location start). */
+    private final int startRow;
 
-    /** Mark this number of characters. */
-    private final int length;
+    /** Go to this column. */
+    private final int startColumn;
+
+    /** Mark until this row. */
+    private final int endRow;
+
+    /** Mark until this column. */
+    private final int endColumn;
 
     /**
      * Constructor.
      *
      * @param   moduleLocation          Module location information. Must not be <code>null</code>.
      * @param   locationWithinModule    Location within module. Must not be <code>null</code>.
-     * @param   start                   Skip this number of characters. Must not be below minus one.
-     * @param   length                  Mark this number of characters. Must not be below minus one.
-     *                                  Minus one characterizes "until the end".
+     * @param   startRow                Skip this number of rows. Must not be below minus one.
+     *                                  Minus one means no further location precision.
+     * @param   startColumn             Starting column. Must not be below one.
+     * @param   endRow                  Also relative to location begin. Must not be below minus
+     *                                  one.
+     *                                  Minus one means no further location precision.
+     * @param   endColumn               Ending column. Must not be below one.
      * @throws  NullPointerException    At least one parameter is null.
      * @throws  IllegalArgumentException    One parameter is below its allowed minimum.
      */
     public ModuleContext(final ModuleAddress moduleLocation, final String locationWithinModule,
-            final int start, final int length) {
+            final int startRow, final int startColumn, final int endRow, final int endColumn) {
         if (moduleLocation == null) {
             throw new NullPointerException("module adress should not be null");
         }
         if (locationWithinModule == null) {
             throw new NullPointerException("location within module should not be null");
         }
-        if (start < -1) {
-            throw new IllegalArgumentException("start must be not below minus one");
+        if (startRow < -1) {
+            throw new IllegalArgumentException("start row must be not below minus one");
         }
-        if (length < -1) {
-            throw new IllegalArgumentException("length must be not below minus one");
+        if (startColumn < 1) {
+            throw new IllegalArgumentException("start column must be not below one");
+        }
+        if (endRow < -1) {
+            throw new IllegalArgumentException("end row must be not below minus one");
+        }
+        if (endColumn < 1) {
+            throw new IllegalArgumentException("end column must be not below one");
         }
         this.moduleLocation = moduleLocation;
         this.locationWithinModule = locationWithinModule;
-        this.start = start;
-        this.length = length;
+        this.startRow = startRow;
+        this.startColumn = startColumn;
+        this.endRow = endRow;
+        this.endColumn = endColumn;
     }
 
     /**
@@ -86,7 +104,7 @@ public class ModuleContext {
      * @throws  NullPointerException At least one parameter is null.
      */
     public ModuleContext(final ModuleAddress moduleLocation, final String locationWithinModule) {
-        this(moduleLocation, locationWithinModule, -1, -1);
+        this(moduleLocation, locationWithinModule, -1, 1, -1, 1);
     }
 
     /**
@@ -105,7 +123,8 @@ public class ModuleContext {
      */
     public ModuleContext(final ModuleContext original) {
         this(original.getModuleLocation(), original.getLocationWithinModule(),
-            original.getStart(), original.getLength());
+            original.getStartRow(), original.getStartColumn(), original.getEndRow(),
+            original.getEndColumn());
     }
 
     /**
@@ -148,28 +167,47 @@ public class ModuleContext {
     }
 
     /**
-     * Location start plus this number of characters is the real starting position.
+     * Location start plus this number of rows is the real starting position.
      *
-     * @return  Skip this number of characters.
+     * @return  Skip this number of rows.
      */
-    public final int getStart() {
-        return start;
+    public final int getStartRow() {
+        return startRow;
     }
 
     /**
-     * Length of location in characters. If this is <code>-1</code> the location takes the
-     * complete space of the location.
+     * Column of precise location start. If {@link #getStartColumn()} == 0 this is added to
+     * the column value of the location beginning.
      *
-     * @return  Skip this number of characters.
+     * @return  Start column.
      */
-    public final int getLength() {
-        return length;
+    public final int getStartColumn() {
+        return startColumn;
+    }
+
+    /**
+     * Location start plus this number of rows is the real end position.
+     *
+     * @return  Skip this number of rows.
+     */
+    public final int getEndRow() {
+        return endRow;
+    }
+
+    /**
+     * Column of precise location end. If {@link #getEndColumn()} == 0 this is added to
+     * the column value of the location beginning.
+     *
+     * @return  Start column.
+     */
+    public final int getEndColumn() {
+        return startColumn;
     }
 
 
     public final int hashCode() {
-        return getModuleLocation().hashCode() ^ getLocationWithinModule().hashCode() ^ start
-            ^ length;
+        return getModuleLocation().hashCode() ^ getLocationWithinModule().hashCode()
+         ^ startRow ^ startColumn ^ endRow ^ endColumn;
     }
 
     public final boolean equals(final Object obj) {
@@ -179,11 +217,13 @@ public class ModuleContext {
         final ModuleContext other = (ModuleContext) obj;
         return getModuleLocation().equals(other.getModuleLocation())
             && getLocationWithinModule().equals(other.getLocationWithinModule())
-            && start == other.start && length == other.length;
+            && startRow == other.startRow && startColumn == other.startColumn
+            && endRow == other.endRow && endColumn == other.endColumn;
     }
 
     public final String toString() {
-        return getModuleLocation() + ":" + getLocationWithinModule() + ":" + start + ":" + length;
+        return getModuleLocation() + ":" + getLocationWithinModule() + ":" + startRow + ":"
+            + startColumn + ":" + endRow + ":" + endColumn;
     }
 
 }
