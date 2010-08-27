@@ -652,6 +652,15 @@ public class TextInput extends InputStream {
     }
 
     /**
+     * Add the following rows and reset column (if <code>number == 0</code>).
+     *
+     * @param  number   Add this number of rows.
+     */
+    public final void addRow(final int number) {
+        setRow(getRow() + number);
+    }
+
+    /**
      * Sets the current column position (and indirectly the position).
      * If <code>column</code> is out of range the minimum value (1) or the maximum possible column
      * value is taken.
@@ -678,6 +687,15 @@ public class TextInput extends InputStream {
         while (getChar() != CR && getChar() != EOF && getColumn() < c) {
             read();
         }
+    }
+
+    /**
+     * Add the following columns.
+     *
+     * @param  number   Add this number of columns.
+     */
+    public final void addColumn(final int number) {
+        setColumn(getColumn() + number);
     }
 
     /**
