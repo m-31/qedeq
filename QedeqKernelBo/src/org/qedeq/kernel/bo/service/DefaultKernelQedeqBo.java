@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.bo.service;
 
+import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.ModuleReferenceList;
@@ -32,7 +33,6 @@ import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;

@@ -19,10 +19,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Reader;
 
+import org.qedeq.base.io.SourceArea;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
