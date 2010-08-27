@@ -98,7 +98,7 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
                 }
                 break;
         case 2: if (getSourceFileException(row) != null && getSourceFileException(row).getSourceArea() != null) {
-                    return "line " + getSourceFileException(row).getSourceArea().getStartPosition().getLine();
+                    return "line " + getSourceFileException(row).getSourceArea().getStartPosition().getRow();
                 }
                 break;
         default:

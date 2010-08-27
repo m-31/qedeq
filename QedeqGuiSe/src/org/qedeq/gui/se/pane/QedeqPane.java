@@ -30,6 +30,7 @@ import javax.swing.UIManager;
 import javax.swing.plaf.TextUI;
 import javax.swing.text.BadLocationException;
 
+import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.SelectionListener;
@@ -39,7 +40,6 @@ import org.qedeq.gui.se.util.DocumentMarkerPainter;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.common.SourceArea;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
@@ -186,8 +186,8 @@ public class QedeqPane extends JPanel implements SelectionListener {
                             try {
                                 final SourceArea sa = pe.get(i).getSourceArea();
                                 if (sa != null) {
-                                    final int from = sa.getStartPosition().getLine() - 1;
-                                    int to = sa.getEndPosition().getLine() - 1;
+                                    final int from = sa.getStartPosition().getRow() - 1;
+                                    int to = sa.getEndPosition().getRow() - 1;
 // for line marking only:
 //                                    errorMarker.addMarkedLines(from, to,
 //                                        sa.getStartPosition().getColumn() - 1);
@@ -213,8 +213,8 @@ public class QedeqPane extends JPanel implements SelectionListener {
                             try {
                                 final SourceArea sa = pw.get(i).getSourceArea();
                                 if (sa != null) {
-                                    final int from = sa.getStartPosition().getLine() - 1;
-                                    int to = sa.getEndPosition().getLine() - 1;
+                                    final int from = sa.getStartPosition().getRow() - 1;
+                                    int to = sa.getEndPosition().getRow() - 1;
 // for line marking only:
 //                                    warningMarker.addWarningLines(from, to,
 //                                        sa.getStartPosition().getColumn() - 1);
