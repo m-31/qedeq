@@ -582,12 +582,22 @@ public class TextInput extends InputStream {
     }
 
     /**
-     * Returns the current position. Starting with 0.
+     * Returns the current position. Starting with 0. This is the number of characters
+     * from the beginning.
      *
      * @return  Current position.
      */
     public final int getPosition() {
         return position;
+    }
+
+    /**
+     * Returns the current position.
+     *
+     * @return  Current position.
+     */
+    public final SourcePosition getSourcePosition() {
+        return new SourcePosition(getRow(), getColumn());
     }
 
     /**
@@ -601,7 +611,7 @@ public class TextInput extends InputStream {
     }
 
     /**
-     * Sets the current position (and indirectly the line number).
+     * Sets the current position (and indirectly the row and column number).
      *
      * @param  position Set current position to this value.
      */
@@ -617,6 +627,27 @@ public class TextInput extends InputStream {
                 read();
             }
         }
+    }
+
+    /**
+     * Sets the current position (and indirectly the row and column number).
+     *
+     * @param  position Set current position to this value.
+     */
+    public final void setPosition(final SourcePosition position) {
+        setRow(position.getRow());
+        setColumn(position.getColumn());
+    }
+
+    /**
+     * Adds a given position to the current one and changes the row and column number accordingly.
+     * A delta position with one row and one column doesn't change the current position.
+     *
+     * @param  delta Add this position to current one.
+     */
+    public final void addPosition(final SourcePosition delta) {
+        addRow(delta.getRow() - 1);
+        addColumn(delta.getColumn() - 1);
     }
 
     /**
