@@ -17,6 +17,7 @@ package org.qedeq.kernel.common;
 
 import junit.framework.Test;
 
+import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.test.QedeqTestSuite;
 
 /**
@@ -40,7 +41,5 @@ public class KernelCommonTestSuite extends QedeqTestSuite {
      */
     public KernelCommonTestSuite() {
         super();
-        addTestSuite(SourceAreaTest.class);
-        addTestSuite(SourcePosition.class);
     }
 }
