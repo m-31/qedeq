@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.SourceArea;
+import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.utility.EqualsUtility;
 
 
@@ -196,7 +198,7 @@ public class SourceFileException extends QedeqException {
         final StringBuffer buffer = new StringBuffer();
         if (errorArea != null && errorArea.getStartPosition() != null) {
             final SourcePosition start = errorArea.getStartPosition();
-            buffer.append(errorArea.getAddress() + ":" + start.getLine() + ":"
+            buffer.append(errorArea.getAddress() + ":" + start.getRow() + ":"
                     + start.getColumn());
             buffer.append("\n");
         }
