@@ -50,7 +50,7 @@ public final class LoadXmlOperatorListUtility implements Plugin {
     /**
      * Get operator list out of XML file.
      *
-     * @param   services        Kernel services.
+     * @param   services        Kernel services.    TODO m31 20100830: is this really necessary?
      * @param   from            Read this XML file.
      * @return  Operator list.
      * @throws  SourceFileExceptionList    Loading failed.
