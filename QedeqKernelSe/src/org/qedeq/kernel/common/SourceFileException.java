@@ -15,10 +15,8 @@
 
 package org.qedeq.kernel.common;
 
-import java.io.File;
 import java.io.IOException;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.utility.EqualsUtility;
@@ -80,55 +78,10 @@ public class SourceFileException extends QedeqException {
      * Constructor.
      *
      * @param   plugin      This plugin generated the error.
-     * @param   url         Parsed file.
-     * @param   exception   Exception to wrap.
-     */
-    public SourceFileException(final Plugin plugin, final String url, final Exception exception) {
-        super(9997, exception.toString(), exception);     // TODO mime 20071116: error code refactor
-        this.plugin = plugin;
-        errorArea = new SourceArea(url, new SourcePosition(1, 1),
-            new SourcePosition(1, 1));
-        referenceArea = null;
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   plugin      This plugin generated the error.
-     * @param   file        Parsed file.
-     * @param   exception   Exception to wrap.
-     * @deprecated  use URL
-     */
-    public SourceFileException(final Plugin plugin, final File file, final Exception exception) {
-        super(9998, exception.getMessage(), exception);     // TODO mime 20071116: error code refactor
-        this.plugin = plugin;
-        final String url = IoUtility.toUrlString(file);
-        errorArea = new SourceArea(url, new SourcePosition(1, 1),
-            new SourcePosition(1, 1));
-        referenceArea = null;
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   plugin      This plugin generated the error.
      * @param   exception   Exception to wrap.
      */
     public SourceFileException(final Plugin plugin, final Exception exception) {
         super(9999, exception.getMessage(), exception);     // TODO mime 20071116: error code refactor
-        this.plugin = plugin;
-        errorArea = null;
-        referenceArea = null;
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   plugin      This plugin generated the error.
-     * @param   exception   Exception to wrap.
-     */
-    public SourceFileException(final Plugin plugin, final Throwable exception) {
-        super(1000, exception.toString(), exception);     // TODO mime 20071116: error code refac
         this.plugin = plugin;
         errorArea = null;
         referenceArea = null;
