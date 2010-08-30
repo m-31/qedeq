@@ -31,7 +31,6 @@ import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.DummyPlugin;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
@@ -358,10 +357,7 @@ public class GenerateLatexTest extends QedeqTestCase {
             }
         } catch (IOException e) {
             Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), e);
-        } catch (RuntimeException e) {
-            Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), e);
+            throw new RuntimeException(e);
         } finally {
             Trace.end(CLASS, method);
         }
