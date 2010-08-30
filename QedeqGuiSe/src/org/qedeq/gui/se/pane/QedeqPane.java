@@ -274,7 +274,7 @@ public class QedeqPane extends JPanel implements SelectionListener {
     }
 
 
-// TODO not used any longer
+// LATER m31 20100830: not used any longer
 /*
     private final int findCaretPosition(final int i) {
         if (i == 1) {
