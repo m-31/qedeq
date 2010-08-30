@@ -13,31 +13,23 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
+package org.qedeq.kernel.bo.service;
 
 import org.qedeq.kernel.common.ErrorCodes;
 
 /**
- * Error codes and messages for formula checker.
+ * Error codes and messages for service package.
  *
  * @author  Michael Meyling
  */
-public interface HigherLogicalErrors extends ErrorCodes {
+public interface ServiceErrors extends ErrorCodes {
 
     /** Error code. */
-    public static final int PREDICATE_ALREADY_DEFINED = 40400;
+    public static final int IDENTITY_OPERATOR_ALREADY_EXISTS = 123476;
 
     /** Error message. */
-    public static final String PREDICATE_ALREADY_DEFINED_TEXT
-        = "predicate was already defined for this argument number: ";
-
-
-    /** Error code. */
-    public static final int FUNCTION_ALREADY_DEFINED = 40400;
-
-    /** Error message. */
-    public static final String FUNCTION_ALREADY_DEFINED_TEXT
-        = "function was already defined for this argument number: ";
+    public static final String IDENTITY_OPERATOR_ALREADY_EXISTS_TEXT
+        = "identity operator already defined with";
 
 
 }

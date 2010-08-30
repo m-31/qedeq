@@ -15,12 +15,14 @@
 
 package org.qedeq.kernel.bo.logic.wf;
 
+import org.qedeq.kernel.common.ErrorCodes;
+
 /**
  * Error codes and messages for formula checker.
  *
  * @author  Michael Meyling
  */
-public interface FormulaBasicErrors {
+public interface FormulaBasicErrors extends ErrorCodes {
 
     /** Error code. */
     public static final int ELEMENT_MUST_NOT_BE_NULL = 30400;

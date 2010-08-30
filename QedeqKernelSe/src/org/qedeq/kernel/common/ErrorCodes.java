@@ -13,31 +13,13 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
-
-import org.qedeq.kernel.common.ErrorCodes;
+package org.qedeq.kernel.common;
 
 /**
- * Error codes and messages for formula checker.
+ * Mark all classes that contain application error codes.
  *
  * @author  Michael Meyling
  */
-public interface HigherLogicalErrors extends ErrorCodes {
-
-    /** Error code. */
-    public static final int PREDICATE_ALREADY_DEFINED = 40400;
-
-    /** Error message. */
-    public static final String PREDICATE_ALREADY_DEFINED_TEXT
-        = "predicate was already defined for this argument number: ";
-
-
-    /** Error code. */
-    public static final int FUNCTION_ALREADY_DEFINED = 40400;
-
-    /** Error message. */
-    public static final String FUNCTION_ALREADY_DEFINED_TEXT
-        = "function was already defined for this argument number: ";
-
+public interface ErrorCodes {
 
 }

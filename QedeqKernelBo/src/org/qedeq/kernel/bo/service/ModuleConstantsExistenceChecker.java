@@ -229,8 +229,8 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
             throws IdentityOperatorAlreadyExistsException {
         if (this.identityOperatorModule != null && identityOperatorModule != null) {
             if (!this.identityOperatorModule.equals(identityOperatorModule)) {
-                throw new IdentityOperatorAlreadyExistsException(123476,
-                    "identity operator already defined with " + getIdentityOperator(), context);
+                throw new IdentityOperatorAlreadyExistsException(ServiceErrors.IDENTITY_OPERATOR_ALREADY_EXISTS,
+                    ServiceErrors.IDENTITY_OPERATOR_ALREADY_EXISTS_TEXT + " " + getIdentityOperator(), context);
             }
         } else {
             this.identityOperatorModule = identityOperatorModule;
