@@ -21,7 +21,7 @@ import java.util.List;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
@@ -50,11 +50,13 @@ public final class LoadXmlOperatorListUtility implements Plugin {
     /**
      * Get operator list out of XML file.
      *
+     * @param   services        Kernel services.
      * @param   from            Read this XML file.
      * @return  Operator list.
      * @throws  SourceFileExceptionList    Loading failed.
      */
-    public static List getOperatorList(final File from) throws SourceFileExceptionList {
+    public static List getOperatorList(final InternalKernelServices services, final File from)
+            throws SourceFileExceptionList {
         final String method = "List getOperatorList(String)";
         final LoadXmlOperatorListUtility util = new LoadXmlOperatorListUtility();
         try {
@@ -68,29 +70,20 @@ public final class LoadXmlOperatorListUtility implements Plugin {
             return simple.getOperators();
         } catch (RuntimeException e) {
             Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(util, e);
+            throw services.createSourceFileExceptionList(e);
         } catch (ParserConfigurationException e) {
             Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(util,
-                new RuntimeException(e));   // TODO mime 20080404: search for better solution
-            throw list;
+            throw services.createSourceFileExceptionList(e);
         } catch (final SAXParseException e) {
             Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(util,
-                new RuntimeException(e));   // TODO mime 20080404: search for better solution
-            throw list;
+            throw services.createSourceFileExceptionList(e);
         } catch (SAXException e) {
-            Trace.trace(CLASS, method, e);
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(util,
-                new RuntimeException(e));   // TODO mime 20080404: search for better solution
-            throw list;
+            throw services.createSourceFileExceptionList(e);
         } catch (javax.xml.parsers.FactoryConfigurationError e) {
             Trace.trace(CLASS, method, e);
             final String msg = "SAX Parser not in classpath, "
                 + "add for example \"xercesImpl.jar\" and \"xml-apis.jar\".";
-            final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(util,
-                new RuntimeException(msg));   // TODO mime 20080404: search for better solution
-            throw list;
+            throw services.createSourceFileExceptionList(new RuntimeException(msg, e));
         } finally {
             Trace.end(CLASS, method);
         }

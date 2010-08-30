@@ -15,26 +15,18 @@
 
 package org.qedeq.kernel.bo.service;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.Map;
-
 import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.base.module.Specification;
-import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
-import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
 import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.DummyPlugin;
 import org.qedeq.kernel.common.LoadingState;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.common.QedeqException;
+import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.dto.module.QedeqVo;
 
 /**
@@ -44,65 +36,7 @@ import org.qedeq.kernel.dto.module.QedeqVo;
  */
 public class DefaultKernelQedeqBoTest extends QedeqTestCase {
 
-    final InternalKernelServices services = new InternalKernelServices() {
-            public File getBufferDirectory() {
-                return null;
-            }
-            public File getGenerationDirectory() {
-                return null;
-            }
-            public File getLocalFilePath(ModuleAddress address) {
-                return null;
-            }
-            public void startupServices() {
-            }
-            public void removeAllModules() {
-            }
-            public void clearLocalBuffer() throws IOException {
-            }
-            public QedeqBo loadModule(ModuleAddress address) {
-                return null;
-            }
-            public void loadRequiredModules(ModuleAddress address) throws SourceFileExceptionList {
-            }
-            public boolean loadAllModulesFromQedeq() {
-                return false;
-            }
-            public void removeModule(ModuleAddress address) {
-            }
-            public ModuleAddress[] getAllLoadedModules() {
-                return null;
-            }
-            public QedeqBo getQedeqBo(ModuleAddress address) {
-                return null;
-            }
-            public String getSource(ModuleAddress address) throws IOException {
-                return null;
-            }
-            public ModuleAddress getModuleAddress(URL url) throws IOException {
-                return null;
-            }
-            public ModuleAddress getModuleAddress(String url) throws IOException {
-                return null;
-            }
-            public ModuleAddress getModuleAddress(File file) throws IOException {
-                return null;
-            }
-            public boolean checkModule(ModuleAddress address) {
-                return false;
-            }
-            public Object executePlugin(String pluginName, ModuleAddress address, Map parameters) {
-                return null;
-            }
-            public QedeqFileDao getQedeqFileDao() {
-                return null;
-            }
-            public KernelQedeqBo getKernelQedeqBo(ModuleAddress address) {
-                return null;
-            }
-            public KernelQedeqBo loadModule(ModuleAddress parent, Specification spec) throws SourceFileExceptionList {
-                return null;
-            }};
+    final InternalKernelServices services = new DummyInternalKernalServices();
 
     public void testConstructor() throws Exception {
         try {
@@ -119,14 +53,16 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
         assertFalse(bo.hasErrors());
         bo.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED,
-            new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), new NullPointerException()));
+            new DefaultSourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
+                new QedeqException(1, "myError") {}, null, null)));
         assertTrue(bo.hasErrors());
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
         assertFalse(bo.hasErrors());
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
         bo.setLoaded(new QedeqVo(), new ModuleLabels());
         bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
-            new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), new NullPointerException()));
+            new DefaultSourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
+                    new QedeqException(1, "myError") {}, null, null)));
         assertTrue(bo.hasErrors());
         bo.setLoadedRequiredModules(new KernelModuleReferenceList());
         assertFalse(bo.hasErrors());
@@ -147,7 +83,8 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             // expected
         }
         final DefaultSourceFileExceptionList defaultSourceFileExceptionList
-            = new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), new NullPointerException());
+            = new DefaultSourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
+                new QedeqException(1, "myError") {}, null, null));
         try {
             bo.setLoadingFailureState(null,
                 defaultSourceFileExceptionList);
@@ -280,7 +217,8 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             // expected
         }
         final DefaultSourceFileExceptionList defaultSourceFileExceptionList
-            = new DefaultSourceFileExceptionList(DummyPlugin.getInstance(), new NullPointerException());
+            = new DefaultSourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
+                new QedeqException(1, "myError") {}, null, null));
         try {
             bo.setLoadingFailureState(null,
                 defaultSourceFileExceptionList);

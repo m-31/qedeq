@@ -55,10 +55,9 @@ public interface QedeqFileDao {
      * @param   localFile   Load XML file from tbis location.
      * @return  Loaded QEDEQ.
      * @throws  SourceFileExceptionList     Module could not be successfully loaded.
-     * @throws  IOException                 File loading failed.
      */
     public Qedeq loadQedeq(QedeqBo prop, final File localFile)
-            throws SourceFileExceptionList, IOException;
+            throws SourceFileExceptionList;
 
     /**
      * Save a QEDEQ module as file.

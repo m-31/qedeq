@@ -55,9 +55,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
-import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
@@ -288,7 +286,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         try {
             localFile = getCanonicalReadableFile(prop);
         } catch (ModuleFileNotFoundException e) {
-            final SourceFileExceptionList sfl = createSourcelFileExceptionList(e);
+            final SourceFileExceptionList sfl = createSourceFileExceptionList(e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
             throw sfl;
         }
@@ -297,10 +295,6 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         final Qedeq qedeq;
         try {
             qedeq = getQedeqFileDao().loadQedeq(prop, localFile);
-        } catch (IOException e) {
-            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this, e);
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
-            throw sfl;
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
             throw sfl;
@@ -320,7 +314,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         try {
             localFile = getCanonicalReadableFile(prop);
         } catch (ModuleFileNotFoundException e) {
-            final SourceFileExceptionList sfl = createSourcelFileExceptionList(e);
+            final SourceFileExceptionList sfl = createSourceFileExceptionList(e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED, sfl);
             throw sfl;
         }
@@ -329,10 +323,6 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         final Qedeq qedeq;
         try {
             qedeq = getQedeqFileDao().loadQedeq(prop, localFile);
-        } catch (IOException e) {
-            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this, e);
-            prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
-            throw sfl;
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED, sfl);
             throw sfl;
@@ -449,7 +439,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 }
             }
             return prop; // never called, only here to soothe the compiler
-
+        } catch (final RuntimeException e) {
+            Trace.fatal(CLASS, this, method, "unexpected problem", e);
+            QedeqLog.getInstance().logFailureReply("Loading failed", e.getMessage());
+            throw e;
         } finally {
             processDec();
             Trace.end(CLASS, this, method);
@@ -553,7 +546,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * @param   prop    Module properties.
      * @throws  SourceFileExceptionList Address was malformed or the file can not be found.
      */
-    public void saveQedeqFromWebToBuffer(final DefaultKernelQedeqBo prop)
+    private void saveQedeqFromWebToBuffer(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
         final String method = "saveQedeqFromWebToBuffer(DefaultKernelQedeqBo)";
         Trace.begin(CLASS, this, method);
@@ -674,7 +667,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             } catch (Exception ex) {
                 Trace.trace(CLASS, this, method, ex);
             }
-            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this, e);
+            final SourceFileExceptionList sfl = createSourceFileExceptionList(e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
             Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
             throw sfl;
@@ -694,7 +687,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * @param   prop    Module properties.
      * @throws  SourceFileExceptionList Address was malformed or the file can not be found.
      */
-    public void saveQedeqFromWebToBufferApache(final DefaultKernelQedeqBo prop)
+    private void saveQedeqFromWebToBufferApache(final DefaultKernelQedeqBo prop)
             throws SourceFileExceptionList {
         final String method = "saveQedeqFromWebToBufferOld(DefaultKernelQedeqBo)";
         Trace.begin(CLASS, this, method);
@@ -757,7 +750,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             } catch (Exception ex) {
                 Trace.trace(CLASS, this, method, ex);
             }
-            final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this, e);
+            final SourceFileExceptionList sfl = createSourceFileExceptionList(e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
             Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
             throw sfl;
@@ -923,24 +916,8 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())
                 + "\"";
             Trace.fatal(CLASS, this, method, msg, e);
-            final SourceFileExceptionList xl = new DefaultSourceFileExceptionList(this, e);
-            // TODO mime 20080124: every state must be able to change into
-            // a failure state, here we only assume three cases
-            if (!prop.isLoaded()) {
-                if (!prop.getLoadingState().isFailure()) {
-                    prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
-                }
-            } else if (!prop.hasLoadedRequiredModules()) {
-                if (!prop.getDependencyState().isFailure()) {
-                    prop.setDependencyFailureState(
-                        DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, xl);
-                }
-            } else {
-                if (!prop.getLogicalState().isFailure()) {
-                    prop.setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, xl);
-                }
-            }
-            QedeqLog.getInstance().logFailureReply(msg, e.toString());
+            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            throw e;
         } finally {
             if (validate) {
                 modules.validateDependencies();
@@ -963,13 +940,22 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         return modules;
     }
 
-    private SourceFileExceptionList createSourceFileExceptionList(final IOException e) {
-        return new DefaultSourceFileExceptionList(this, e);
+    public SourceFileExceptionList createSourceFileExceptionList(final IOException e) {
+        return new DefaultSourceFileExceptionList(new SourceFileException(this,
+            ServiceErrors.IO_ERROR, ServiceErrors.IO_ERROR_TEXT,
+            e, null, null));
     }
 
-    private SourceFileExceptionList createSourcelFileExceptionList(
-            final ModuleFileNotFoundException e) {
-        return new DefaultSourceFileExceptionList(this, new IOException(e.getMessage()));
+    public SourceFileExceptionList createSourceFileExceptionList(final RuntimeException e) {
+        return new DefaultSourceFileExceptionList(new SourceFileException(this,
+                ServiceErrors.RUNTIME_ERROR, ServiceErrors.RUNTIME_ERROR_TEXT,
+                e, null, null));
+    }
+
+    public SourceFileExceptionList createSourceFileExceptionList(final Exception e) {
+        return new DefaultSourceFileExceptionList(new SourceFileException(this,
+                ServiceErrors.EXCEPTION_ERROR, ServiceErrors.EXCEPTION_ERROR_TEXT,
+                e, null, null));
     }
 
     /**

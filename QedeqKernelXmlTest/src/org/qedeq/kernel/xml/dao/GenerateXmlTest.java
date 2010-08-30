@@ -20,14 +20,14 @@ import java.io.IOException;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
  * Test generating LaTeX files for all known samples.
  *
- * @version $Revision: 1.1 $
- * @author Michael Meyling
+ * @author  Michael Meyling
  */
 public final class GenerateXmlTest extends QedeqTestCase {
 
@@ -77,7 +77,7 @@ public final class GenerateXmlTest extends QedeqTestCase {
             final File destinationDirectory) throws IOException, SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
         final File destination = new File(destinationDirectory, xml + "_").getAbsoluteFile();
-        Xml2Xml.generate(xmlFile, destination);
+        Xml2Xml.generate(new DummyInternalKernalServices(), xmlFile, destination);
 //        assertEquals(IoUtility.loadFile(xmlFile.getAbsolutePath(), "ISO-8859-1"), 
 //            IoUtility.loadFile(destination.getAbsolutePath(), "ISO-8859-1"));
         assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination, "ISO-8859-1"));

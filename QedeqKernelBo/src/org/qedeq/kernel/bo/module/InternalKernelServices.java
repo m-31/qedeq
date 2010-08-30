@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.module;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.context.KernelServices;
@@ -79,5 +80,11 @@ public interface InternalKernelServices extends KernelServices {
      * @return  DAO.
      */
     public QedeqFileDao getQedeqFileDao();
+
+    public SourceFileExceptionList createSourceFileExceptionList(final IOException e);
+
+    public SourceFileExceptionList createSourceFileExceptionList(final RuntimeException e);
+
+    public SourceFileExceptionList createSourceFileExceptionList(final Exception e);
 
 }

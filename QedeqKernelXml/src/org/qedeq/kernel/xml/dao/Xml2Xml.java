@@ -26,8 +26,8 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -56,12 +56,14 @@ public final class Xml2Xml implements Plugin {
     /**
      * Generate XML file out of XML file.
      *
+     * @param   services        Use this kernel services.
      * @param   from            Read this XML file.
      * @param   to              Write to this file. Could be <code>null</code>.
      * @throws  SourceFileExceptionList    Module could not be successfully loaded.
      * @return  File name of generated LaTeX file.
      */
-    public static String generate(final File from, final File to)
+    public static String generate(final InternalKernelServices services,
+            final File from, final File to)
             throws SourceFileExceptionList {
         final String method = "generate(File, File)";
         File destination;
@@ -75,11 +77,11 @@ public final class Xml2Xml implements Plugin {
                 }
                 destination = new File(from.getParentFile(), xml + "_.xml").getCanonicalFile();
             }
+            return generate(IoUtility.toUrl(from), destination);
         } catch (IOException e) {
-            Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(INSTANCE, e);
+            Trace.fatal(CLASS, "Reading or writing failed", method, e);
+            throw services.createSourceFileExceptionList(e);
         }
-        return generate(IoUtility.toUrl(from), destination);
     }
 
     /**
@@ -87,11 +89,12 @@ public final class Xml2Xml implements Plugin {
      *
      * @param   from            Read this XML file.
      * @param   to              Write to this file. Could not be <code>null</code>.
-     * @throws  SourceFileExceptionList    Module could not be successfully loaded.
+     * @throws  SourceFileExceptionList     Module could not be successfully loaded.
+     * @throws  IOException                 Writing (or reading) failed.
      * @return  File name of generated LaTeX file.
      */
     public static String generate(final URL from, final File to)
-            throws SourceFileExceptionList {
+            throws SourceFileExceptionList, IOException {
         final String method = "generate(URL, File)";
         Trace.begin(CLASS, method);
         Trace.param(CLASS, method, "from", from);
@@ -110,12 +113,6 @@ public final class Xml2Xml implements Plugin {
             printer = new TextOutput(to.getName(), outputStream);
             Qedeq2Xml.print(new Xml2Xml(), prop, printer);
             return to.getCanonicalPath();
-        } catch (IOException e) {
-            Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(INSTANCE, e);
-        } catch (RuntimeException e) {
-            Trace.trace(CLASS, method, e);
-            throw new DefaultSourceFileExceptionList(INSTANCE, e);
         } finally {
             if (printer != null) {
                 printer.close();

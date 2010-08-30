@@ -32,4 +32,28 @@ public interface ServiceErrors extends ErrorCodes {
         = "identity operator already defined with";
 
 
+    /** Error code. */
+    public static final int IO_ERROR = 9090;
+
+    /** Error message. */
+    public static final String IO_ERROR_TEXT
+        = "Reading or writing failed.";
+
+
+    /** Error code. */
+    public static final int RUNTIME_ERROR = 90100;
+
+    /** Error message. */
+    public static final String RUNTIME_ERROR_TEXT
+        = "Programming error occured.";
+
+
+    /** Error code. */
+    public static final int EXCEPTION_ERROR = 90999;
+
+    /** Error message. */
+    public static final String EXCEPTION_ERROR_TEXT
+        = "Text FIXME.";
+
+
 }

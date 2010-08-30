@@ -81,7 +81,7 @@ public final class SaxParser {
      * @param   plugin    We work for this plugin.
      * @param   handler   Default handler for this application.
      * @throws  ParserConfigurationException    Severe parser configuration problem.
-     * @throws  SAXException                    XML problem found.
+     * @throws  SAXException                    Option not recognized or supported.
      */
     public SaxParser(final Plugin plugin, final SaxDefaultHandler handler)
             throws ParserConfigurationException, SAXException {

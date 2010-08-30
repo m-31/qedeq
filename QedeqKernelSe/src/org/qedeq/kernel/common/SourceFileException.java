@@ -75,32 +75,6 @@ public class SourceFileException extends QedeqException {
     }
 
     /**
-     * Constructor.
-     *
-     * @param   plugin      This plugin generated the error.
-     * @param   exception   Exception to wrap.
-     */
-    public SourceFileException(final Plugin plugin, final Exception exception) {
-        super(9999, exception.getMessage(), exception);     // TODO mime 20071116: error code refactor
-        this.plugin = plugin;
-        errorArea = null;
-        referenceArea = null;
-    }
-
-    /**
-     * Constructor.
-     *
-     * @param   plugin      This plugin generated the error.
-     * @param   exception   Exception to wrap.
-     */
-    public SourceFileException(final Plugin plugin, final IOException exception) {
-        super(9997, exception.toString(), exception);     // TODO mime 20071116: error code refac
-        this.plugin = plugin;
-        errorArea = null;
-        referenceArea = null;
-    }
-
-    /**
      * Get plugin that found the error.
      *
      * @return  Plugin.

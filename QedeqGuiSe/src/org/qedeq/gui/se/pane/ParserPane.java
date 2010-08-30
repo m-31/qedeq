@@ -39,8 +39,10 @@ import org.qedeq.base.io.ResourceLoaderUtility;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.element.CPTextArea;
 import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.parser.LatexMathParser;
 import org.qedeq.kernel.bo.parser.ParserException;
 import org.qedeq.kernel.bo.parser.Term;
@@ -97,10 +99,15 @@ public class ParserPane extends JFrame {
         final String resourceDirectoryName = "config";
         // TODO mime 20080725: change name and loading mechanism (no resource file in source folder)
         final String resourceName = "mengenlehreMathOperators.xml";
-        operators = LoadXmlOperatorListUtility.getOperatorList(
-            ResourceLoaderUtility.getResourceFile(
-                KernelContext.getInstance().getConfig().getBasisDirectory(), resourceDirectoryName,
-                resourceName));
+        try {
+            operators = LoadXmlOperatorListUtility.getOperatorList(
+                (InternalKernelServices) YodaUtility.getFieldValue(KernelContext.getInstance(), "services"),
+                ResourceLoaderUtility.getResourceFile(
+                    KernelContext.getInstance().getConfig().getBasisDirectory(), resourceDirectoryName,
+                    resourceName));
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        }
         setupView();
         updateView();
     }

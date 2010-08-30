@@ -31,7 +31,6 @@ import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
@@ -84,17 +83,11 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         try {
             parser = new SaxParser(this, handler);
         } catch (SAXException e) {
-            Trace.trace(CLASS, this, method, e);
-            final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this,
-                // TODO mime 20080404: search for better solution
-                new RuntimeException(e));
-            throw sfl;
+            Trace.fatal(CLASS, this, method, "XML Parser: Severe configuration problem.", e);
+            throw services.createSourceFileExceptionList(e);
         } catch (ParserConfigurationException e) {
-            Trace.trace(CLASS, this, method, e);
-            final DefaultSourceFileExceptionList sfl = new DefaultSourceFileExceptionList(this,
-                // TODO mime 20080404: search for better solution
-                new RuntimeException("XML parser configuration error", e));
-            throw sfl;
+            Trace.fatal(CLASS, this, method, "XML Parser: Option not recognized or supported.", e);
+            throw services.createSourceFileExceptionList(e);
         }
         try {
             parser.parse(file, prop.getUrl());
