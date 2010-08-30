@@ -15,8 +15,11 @@
 
 package org.qedeq.kernel.xml.common;
 
-import org.qedeq.base.io.SourcePosition;
+import java.io.IOException;
+
+import org.qedeq.kernel.common.ErrorCodes;
 import org.qedeq.kernel.common.QedeqException;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -26,7 +29,7 @@ import org.qedeq.kernel.common.QedeqException;
  *
  * @author  Michael Meyling
  */
-public final class XmlSyntaxException extends QedeqException {
+public final class XmlSyntaxException extends QedeqException implements ErrorCodes {
 
     /** Error code for Exceptions thrown by the SAXParser. */
     public static final int SAX_PARSER_EXCEPTION = 9001;
@@ -62,13 +65,22 @@ public final class XmlSyntaxException extends QedeqException {
     public static final String EMPTY_ATTRIBUTE_TEXT_2 = " in tag: ";
 
     /** Error code for a programming error. */
+    public static final int IO_ERROR_CODE = 9900;
+
+    /** Unexpected tag message text, part one. */
+    public static final String IO_ERROR_TEXT = "An IO error occurred.";
+
+    /** Error code for a programming error. */
+    public static final int SAX_ERROR_CODE = 9910;
+
+    /** Unexpected tag message text, part one. */
+    public static final String SAX_ERROR_TEXT = "A XML syntax error occurred.";
+
+    /** Error code for a programming error. */
     public static final int PROGRAMMING_ERROR_CODE = 9999;
 
     /** Unexpected tag message text, part one. */
     public static final String PROGRAMMING_ERROR_TEXT = "A programming error occurred.";
-
-    /** Error location. */
-    private SourcePosition position;
 
     /**
      * Constructor.
@@ -87,26 +99,8 @@ public final class XmlSyntaxException extends QedeqException {
      * @param   message Error message.
      * @param   e       Error cause.
      */
-    private XmlSyntaxException(final int code, final String message, final RuntimeException e) {
+    private XmlSyntaxException(final int code, final String message, final Exception e) {
         super(code, message, e);
-    }
-
-    /**
-     * Get error position.
-     *
-     * @return  Error position.
-     */
-    public final SourcePosition getErrorPosition() {
-        return position;
-    }
-
-    /**
-     * Set error position.
-     *
-     * @param   position    Error position.
-     */
-    public final void setErrorPosition(final SourcePosition position) {
-        this.position = position;
     }
 
     /**
@@ -157,6 +151,28 @@ public final class XmlSyntaxException extends QedeqException {
             final String name, final String attribute) {
         return new XmlSyntaxException(EMPTY_ATTRIBUTE_CODE, EMPTY_ATTRIBUTE_TEXT_1 + attribute
             + EMPTY_ATTRIBUTE_TEXT_2 + name);
+    }
+
+    /**
+     * Create exception for a IO error.
+     *
+     * @param   e       Exception.
+     * @return  Created exception.
+     */
+    public static final XmlSyntaxException createByIOException(
+            final IOException e) {
+        return new XmlSyntaxException(PROGRAMMING_ERROR_CODE, PROGRAMMING_ERROR_TEXT, e);
+    }
+
+    /**
+     * Create exception for a SAX parsing error.
+     *
+     * @param   e       Exception.
+     * @return  Created exception.
+     */
+    public static final XmlSyntaxException createBySAXException(
+            final SAXException e) {
+        return new XmlSyntaxException(PROGRAMMING_ERROR_CODE, PROGRAMMING_ERROR_TEXT, e);
     }
 
     /**

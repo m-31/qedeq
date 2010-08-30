@@ -28,6 +28,7 @@ import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
@@ -175,13 +176,15 @@ public final class SaxParser {
                 reader.parse(input);
             }
         } catch (SAXException e) {
-            final SourceFileException ex = new SourceFileException(plugin, e);
-            if (exceptionList.size() <= 0) {
-                exceptionList.add(ex);
+            if (exceptionList.size() <= 0) {    // do we have already exceptions?
+                // no, we must add this one
+                final XmlSyntaxException xml = XmlSyntaxException.createBySAXException(e);
+                exceptionList.add(new SourceFileException(plugin, xml, handler.createSourceArea(), null));
             }
             throw exceptionList;
         } catch (IOException e) {
-            exceptionList.add(plugin, e);
+            final XmlSyntaxException xml = XmlSyntaxException.createByIOException(e);
+            exceptionList.add(new SourceFileException(plugin, xml, handler.createSourceArea(), null));
             throw exceptionList;
         } finally {
             if (stream != null) {

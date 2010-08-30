@@ -150,12 +150,10 @@ public class SaxDefaultHandler extends SimpleHandler {
             currentHandler.startElement(qName, attributes);
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
-            setLocationInformation(e);
             errorList.add(new SourceFileException(plugin, e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
-            setLocationInformation(ex);
             final SourceFileException sfe = new SourceFileException(plugin, ex.getErrorCode(),
                 ex.getMessage(), ex,
                 createSourceArea(),
@@ -178,12 +176,10 @@ public class SaxDefaultHandler extends SimpleHandler {
             currentHandler.endElement(localName);
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
-            setLocationInformation(e);
             errorList.add(new SourceFileException(plugin, e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
-            setLocationInformation(ex);
             errorList.add(new SourceFileException(plugin, ex, createSourceArea(), null));
         }
         try {
@@ -195,7 +191,6 @@ public class SaxDefaultHandler extends SimpleHandler {
             }
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
-            setLocationInformation(e);
             final SourceFileException sfe = new SourceFileException(plugin, e.getErrorCode(),
                 e.getMessage(), e,
                 createSourceArea(),
@@ -204,7 +199,6 @@ public class SaxDefaultHandler extends SimpleHandler {
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
-            setLocationInformation(ex);
             errorList.add(new SourceFileException(plugin, ex, createSourceArea(), null));
         }
     }
@@ -231,12 +225,10 @@ public class SaxDefaultHandler extends SimpleHandler {
             }
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, "sendCharacters", e);
-            setLocationInformation(e);
             errorList.add(new SourceFileException(plugin, e, createSourceArea(), null));
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, "sendCharacters", e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
-            setLocationInformation(ex);
             errorList.add(new SourceFileException(plugin, ex, createSourceArea(), null));
         }
     }
@@ -332,23 +324,11 @@ public class SaxDefaultHandler extends SimpleHandler {
     }
 
     /**
-     * Set current location information within an {@link XmlSyntaxException}.
-     *
-     * @param   e   Set location information within this exception.
-     */
-    private final void setLocationInformation(final XmlSyntaxException e) {
-        if (getLocator() != null && getUrl() != null) {
-            e.setErrorPosition(new SourcePosition(getLocator().getLineNumber(),
-                getLocator().getColumnNumber()));
-        }
-    }
-
-    /**
      * Create current source area.
      *
      * @return  Current area.
      */
-    private final SourceArea createSourceArea() {
+    protected final SourceArea createSourceArea() {
         if (getLocator() != null && getUrl() != null) {
             return new SourceArea(getUrl(), new SourcePosition(getLocator().getLineNumber(), 1),
                 new SourcePosition(getLocator().getLineNumber(), getLocator().getColumnNumber()));
