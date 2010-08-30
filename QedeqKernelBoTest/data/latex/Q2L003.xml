@@ -87,7 +87,8 @@
           \par
           There exist different ways out of those contradictions. In this text we don't restrict the condition for membership but we call the result \emph{class}. Additional axioms allow us to call certain classes sets again. All sets are classes, but not all classes are sets. Sets are classes which are themselves members of classes, whilst a class which is not a set is a class which is not a member of any class.
           \par
-          {\bf this is ok: } \qref{12345628901234562890123456289012345628901234562890123456289012345628901234562890123456289012345628901234}
+          {\bf this is not ok: } \qref{12345628901234562890123456289012345628901234562890123456289012345628901234562890123456289012345628901234}
+          {\bf second warning, this ok: } \qref{l.definition:identity}
           {\bf second warning, this is not ok: } \qref{123456289012345628901234562890123456289012345628901234562890123456289012345628901234562890123456289012345}
         ]]>
       </LATEX>
