@@ -90,7 +90,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     /** Error (or warning) text for: empty reference: "\qref{}". */
     public static final String QREF_EMPTY_MSG = "empty reference: \"\\qref{}\"";
 
-    /** Error (or warning) number for: ending "}" for "\qref{..}[" not found.*/
+    /** Error (or warning) number for: ending "]" for "\qref{..}[" not found.*/
     public static final int QREF_SUB_END_NOT_FOUND_CODE = 80009;
 
     /** Error (or warning) text for: ending "]" for "\qref{..}[" not found. */
