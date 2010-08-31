@@ -170,7 +170,7 @@ public class ModulePropertiesPane extends JPanel {
         this.failureTextField.setFont(this.ruleVersionTextField.getFont());
         this.failureTextField.setCaretPosition(0);
 
-// TODO remove me
+// TODO m31 20100831: remove me
 /*
         final JScrollPane scroller = new JScrollPane();
         final JViewport port = scroller.getViewport();
