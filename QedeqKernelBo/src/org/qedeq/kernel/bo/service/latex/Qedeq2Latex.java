@@ -78,30 +78,6 @@ public final class Qedeq2Latex extends ControlVisitor {
 // TODO m31 20100316: check number area for error codes
 // FIXME m31 20100803: add JUnit tests for all error codes
 
-    /** Error (or warning) number for: ending "}" for "\qref{" not found within 1024 characters.*/
-    public static final int QREF_END_NOT_FOUND_CODE = 80007;
-
-    /** Error (or warning) text for: ending "}" for "\qref{" not found. */
-    public static final String QREF_END_NOT_FOUND_MSG = "ending \"}\" for \"\\qref{\" not found within 1024 characters";
-
-    /** Error (or warning) number for: empty reference: "\qref{}". */
-    public static final int QREF_EMPTY_CODE = 80008;
-
-    /** Error (or warning) text for: empty reference: "\qref{}". */
-    public static final String QREF_EMPTY_MSG = "empty reference: \"\\qref{}\"";
-
-    /** Error (or warning) number for: ending "]" for "\qref{..}[" not found.*/
-    public static final int QREF_SUB_END_NOT_FOUND_CODE = 80009;
-
-    /** Error (or warning) text for: ending "]" for "\qref{..}[" not found. */
-    public static final String QREF_SUB_END_NOT_FOUND_MSG = "ending \"]\" for \"\\qref{..}[\" not found";
-
-    /** Error (or warning) number for: parsing of "\qref{" failed. */
-    public static final int QREF_PARSING_EXCEPTION_CODE = 80010;
-
-    /** Error (or warning) text for: parsing of "\qref{" failed. */
-    public static final String QREF_PARSING_EXCEPTION_MSG = "parsing of \"\\qref{\" failed";
-
     /** Output goes here. */
     private final TextOutput printer;
 
@@ -851,7 +827,8 @@ public final class Qedeq2Latex extends ControlVisitor {
             final SourcePosition startPosition = input.getSourcePosition();
             final int start = input.getPosition();
             if (!input.forward("}")) {
-                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, startPosition,
+                addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
+                    LatexErrorCodes.QREF_END_NOT_FOUND_MSG, startPosition,
                     input.getSourcePosition());
                 continue;
             }
@@ -860,16 +837,19 @@ public final class Qedeq2Latex extends ControlVisitor {
             int pos2 = input.getPosition();
             Trace.param(CLASS, this, method, "1 ref", ref);
             if (ref.length() == 0) {
-                addWarning(QREF_EMPTY_CODE, QREF_EMPTY_MSG, startPosition, input.getSourcePosition());
+                addWarning(LatexErrorCodes.QREF_EMPTY_CODE, LatexErrorCodes.QREF_EMPTY_MSG,
+                    startPosition, input.getSourcePosition());
                 continue;
             }
             if (ref.length() > 1024) {
-                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, startPosition,
+                addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
+                    LatexErrorCodes.QREF_END_NOT_FOUND_MSG, startPosition,
                     input.getSourcePosition());
                 continue;
             }
             if (ref.indexOf("{") >= 0) {
-                addWarning(QREF_END_NOT_FOUND_CODE, QREF_END_NOT_FOUND_MSG, startPosition,
+                addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
+                    LatexErrorCodes.QREF_END_NOT_FOUND_MSG, startPosition,
                     input.getSourcePosition());
                 continue;
             }
@@ -880,7 +860,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                 input.read();   // read [
                 int posb = input.getPosition();
                 if (!input.forward("]")) {
-                    addWarning(QREF_SUB_END_NOT_FOUND_CODE, QREF_SUB_END_NOT_FOUND_MSG,
+                    addWarning(LatexErrorCodes.QREF_SUB_END_NOT_FOUND_CODE, LatexErrorCodes.QREF_SUB_END_NOT_FOUND_MSG,
                         startPosition, input.getSourcePosition());;
                         continue;
                 }
@@ -924,7 +904,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             }
             if (node == null && ref.length() > 0) {
                 Trace.info(CLASS, this, method, "node not found for " + ref);
-                addWarning(QREF_PARSING_EXCEPTION_CODE, QREF_PARSING_EXCEPTION_MSG
+                addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE, LatexErrorCodes.QREF_PARSING_EXCEPTION_MSG
                     + ": " + "node not found for " + ref, startPosition,
                     input.getSourcePosition());
             }
@@ -992,7 +972,7 @@ public final class Qedeq2Latex extends ControlVisitor {
     private void addWarning(final int code, final String msg, final SourcePosition startDelta,
             final SourcePosition endDelta) {
         Trace.param(CLASS, this, "addWarning", "msg", msg);
-        addWarning(new LaTeXContentException(code, msg, getCurrentContext(startDelta, endDelta)));
+        addWarning(new LatexContentException(code, msg, getCurrentContext(startDelta, endDelta)));
     }
 
     /**

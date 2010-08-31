@@ -23,7 +23,7 @@ import org.qedeq.kernel.common.ModuleDataException;
  *
  * @author  Michael Meyling
  */
-public class LaTeXContentException extends ModuleDataException {
+public class LatexContentException extends ModuleDataException {
 
     /**
      * Constructs an exception.
@@ -32,7 +32,7 @@ public class LaTeXContentException extends ModuleDataException {
      * @param   message Error message.
      * @param   context Current context.
      */
-    public LaTeXContentException(final int code, final String message, final ModuleContext context) {
+    public LatexContentException(final int code, final String message, final ModuleContext context) {
         super(code, message, context);
     }
 

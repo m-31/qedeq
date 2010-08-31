@@ -23,7 +23,6 @@ import org.qedeq.kernel.common.ModuleDataException;
  * Data validation error for an {@link org.qedeq.kernel.base.module.LatexList} element of a
  * QEDEQ module.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class LatexListDataException extends ModuleDataException {
