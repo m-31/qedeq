@@ -223,8 +223,12 @@ public final class SaxParser {
      * @throws  SourceFileExceptionList    Loading failed.
      */
     public final void parse(final File file, final String original) throws SourceFileExceptionList {
-        parse(file, true, original);
-        parse(file, false, original);
+        String org = original;
+        if (org == null) {
+            org = "" + file;
+        }
+        parse(file, true, org);
+        parse(file, false, org);
     }
 
     /**
