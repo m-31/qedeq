@@ -134,9 +134,9 @@ public final class XPathLocationParser extends SimpleHandler {
         try {
             XPathLocationParser parser = new XPathLocationParser(xpath, startDelta, endDelta);
             parser.parse(file);
-            if (parser.getStart() == null) {
+            if (parser.getStart() == null || parser.getEnd() == null) {
                 Trace.fatal(CLASS, method, message, null);
-                return null;
+                return new SourceArea(address, SourcePosition.BEGIN, SourcePosition.BEGIN);
             }
             return new SourceArea(address, parser.getStart(), parser.getEnd());
         } catch (ParserConfigurationException e) {

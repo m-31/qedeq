@@ -24,6 +24,9 @@ import java.io.Serializable;
  */
 public final class SourcePosition implements Serializable {
 
+    /** Begin of file. */
+    public static final SourcePosition BEGIN = new SourcePosition(1, 1);
+
     /** Line number, starting with 1. */
     private int row;
 

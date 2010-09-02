@@ -69,13 +69,13 @@ public final class LoadXmlOperatorListUtility implements Plugin {
             parser.parse(from, null);
             return simple.getOperators();
         } catch (RuntimeException e) {
-            Trace.trace(CLASS, method, e);
+            Trace.fatal(CLASS, "Programming error.", method, e);
             throw services.createSourceFileExceptionList(e);
         } catch (ParserConfigurationException e) {
-            Trace.trace(CLASS, method, e);
+            Trace.fatal(CLASS, "Parser configuration error.", method, e);
             throw services.createSourceFileExceptionList(e);
         } catch (final SAXParseException e) {
-            Trace.trace(CLASS, method, e);
+            Trace.fatal(CLASS, "Configuration error, file corrupt: " + from, method, e);
             throw services.createSourceFileExceptionList(e);
         } catch (SAXException e) {
             throw services.createSourceFileExceptionList(e);
