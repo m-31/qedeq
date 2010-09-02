@@ -70,20 +70,20 @@ public final class LoadXmlOperatorListUtility implements Plugin {
             return simple.getOperators();
         } catch (RuntimeException e) {
             Trace.fatal(CLASS, "Programming error.", method, e);
-            throw services.createSourceFileExceptionList(e);
+            throw services.createSourceFileExceptionList("" + from, e);
         } catch (ParserConfigurationException e) {
             Trace.fatal(CLASS, "Parser configuration error.", method, e);
-            throw services.createSourceFileExceptionList(e);
+            throw services.createSourceFileExceptionList(from + "", e);
         } catch (final SAXParseException e) {
             Trace.fatal(CLASS, "Configuration error, file corrupt: " + from, method, e);
-            throw services.createSourceFileExceptionList(e);
+            throw services.createSourceFileExceptionList("" + from, e);
         } catch (SAXException e) {
-            throw services.createSourceFileExceptionList(e);
+            throw services.createSourceFileExceptionList("" + from, e);
         } catch (javax.xml.parsers.FactoryConfigurationError e) {
             Trace.trace(CLASS, method, e);
             final String msg = "SAX Parser not in classpath, "
                 + "add for example \"xercesImpl.jar\" and \"xml-apis.jar\".";
-            throw services.createSourceFileExceptionList(new RuntimeException(msg, e));
+            throw services.createSourceFileExceptionList("" + from, new RuntimeException(msg, e));
         } finally {
             Trace.end(CLASS, method);
         }

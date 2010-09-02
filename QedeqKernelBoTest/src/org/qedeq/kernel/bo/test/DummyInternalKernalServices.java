@@ -88,15 +88,15 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     public KernelQedeqBo loadModule(ModuleAddress parent, Specification spec) throws SourceFileExceptionList {
         return null;
     }
-    public SourceFileExceptionList createSourceFileExceptionList(
+    public SourceFileExceptionList createSourceFileExceptionList(String address,
             IOException e) {
         return null;
     }
-    public SourceFileExceptionList createSourceFileExceptionList(
+    public SourceFileExceptionList createSourceFileExceptionList(String address,
             Exception e) {
         return null;
     }
-    public SourceFileExceptionList createSourceFileExceptionList(
+    public SourceFileExceptionList createSourceFileExceptionList(String address,
             RuntimeException e) {
         return null;
     }

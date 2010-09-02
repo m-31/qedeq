@@ -39,6 +39,8 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.SourceArea;
+import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
@@ -286,7 +288,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         try {
             localFile = getCanonicalReadableFile(prop);
         } catch (ModuleFileNotFoundException e) {
-            final SourceFileExceptionList sfl = createSourceFileExceptionList(e);
+            final SourceFileExceptionList sfl = createSourceFileExceptionList(prop.getUrl(), e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_BUFFER_FAILED, sfl);
             throw sfl;
         }
@@ -314,7 +316,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         try {
             localFile = getCanonicalReadableFile(prop);
         } catch (ModuleFileNotFoundException e) {
-            final SourceFileExceptionList sfl = createSourceFileExceptionList(e);
+            final SourceFileExceptionList sfl = createSourceFileExceptionList(prop.getUrl(), e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_LOCAL_FILE_FAILED, sfl);
             throw sfl;
         }
@@ -400,7 +402,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
                 modulePaths = parent.getModulePaths(spec);
             } catch (IOException e) {
                 Trace.trace(CLASS, this, method, e);
-                throw createSourceFileExceptionList(e);
+                throw createSourceFileExceptionList(parent.getUrl(), e);
             }
 
             // now we iterate over the possible module addresses
@@ -667,7 +669,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             } catch (Exception ex) {
                 Trace.trace(CLASS, this, method, ex);
             }
-            final SourceFileExceptionList sfl = createSourceFileExceptionList(e);
+            final SourceFileExceptionList sfl = createSourceFileExceptionList(prop.getUrl(), e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
             Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
             throw sfl;
@@ -750,7 +752,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             } catch (Exception ex) {
                 Trace.trace(CLASS, this, method, ex);
             }
-            final SourceFileExceptionList sfl = createSourceFileExceptionList(e);
+            final SourceFileExceptionList sfl = createSourceFileExceptionList(prop.getUrl(), e);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_FROM_WEB_FAILED, sfl);
             Trace.trace(CLASS, this, method, "Couldn't access " + prop.getUrl());
             throw sfl;
@@ -940,22 +942,25 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         return modules;
     }
 
-    public SourceFileExceptionList createSourceFileExceptionList(final IOException e) {
+    public SourceFileExceptionList createSourceFileExceptionList(final String address,
+            final IOException e) {
         return new DefaultSourceFileExceptionList(new SourceFileException(this,
             ServiceErrors.IO_ERROR, ServiceErrors.IO_ERROR_TEXT,
-            e, null, null));
+            e, new SourceArea(address, SourcePosition.BEGIN, SourcePosition.BEGIN), null));
     }
 
-    public SourceFileExceptionList createSourceFileExceptionList(final RuntimeException e) {
+    public SourceFileExceptionList createSourceFileExceptionList(final String address,
+            final RuntimeException e) {
         return new DefaultSourceFileExceptionList(new SourceFileException(this,
-                ServiceErrors.RUNTIME_ERROR, ServiceErrors.RUNTIME_ERROR_TEXT,
-                e, null, null));
+            ServiceErrors.RUNTIME_ERROR, ServiceErrors.RUNTIME_ERROR_TEXT,
+            e, new SourceArea(address, SourcePosition.BEGIN, SourcePosition.BEGIN), null));
     }
 
-    public SourceFileExceptionList createSourceFileExceptionList(final Exception e) {
+    public SourceFileExceptionList createSourceFileExceptionList(final String address,
+            final Exception e) {
         return new DefaultSourceFileExceptionList(new SourceFileException(this,
-                ServiceErrors.EXCEPTION_ERROR, ServiceErrors.EXCEPTION_ERROR_TEXT,
-                e, null, null));
+            ServiceErrors.EXCEPTION_ERROR, ServiceErrors.EXCEPTION_ERROR_TEXT,
+            e, new SourceArea(address, SourcePosition.BEGIN, SourcePosition.BEGIN), null));
     }
 
     /**

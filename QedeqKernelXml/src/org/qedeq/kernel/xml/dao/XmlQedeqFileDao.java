@@ -84,10 +84,10 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
             parser = new SaxParser(this, handler);
         } catch (SAXException e) {
             Trace.fatal(CLASS, this, method, "XML Parser: Severe configuration problem.", e);
-            throw services.createSourceFileExceptionList(e);
+            throw services.createSourceFileExceptionList(file + "", e);
         } catch (ParserConfigurationException e) {
             Trace.fatal(CLASS, this, method, "XML Parser: Option not recognized or supported.", e);
-            throw services.createSourceFileExceptionList(e);
+            throw services.createSourceFileExceptionList(file + "", e);
         }
         try {
             parser.parse(file, prop.getUrl());

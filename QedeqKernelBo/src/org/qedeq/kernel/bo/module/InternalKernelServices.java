@@ -81,10 +81,10 @@ public interface InternalKernelServices extends KernelServices {
      */
     public QedeqFileDao getQedeqFileDao();
 
-    public SourceFileExceptionList createSourceFileExceptionList(final IOException e);
+    public SourceFileExceptionList createSourceFileExceptionList(final String address, final IOException e);
 
-    public SourceFileExceptionList createSourceFileExceptionList(final RuntimeException e);
+    public SourceFileExceptionList createSourceFileExceptionList(final String address, final RuntimeException e);
 
-    public SourceFileExceptionList createSourceFileExceptionList(final Exception e);
+    public SourceFileExceptionList createSourceFileExceptionList(final String address, Exception e);
 
 }

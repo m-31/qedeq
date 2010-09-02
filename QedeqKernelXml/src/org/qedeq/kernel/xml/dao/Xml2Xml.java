@@ -80,7 +80,7 @@ public final class Xml2Xml implements Plugin {
             return generate(IoUtility.toUrl(from), destination);
         } catch (IOException e) {
             Trace.fatal(CLASS, "Reading or writing failed", method, e);
-            throw services.createSourceFileExceptionList(e);
+            throw services.createSourceFileExceptionList(to + "", e);
         }
     }
 
