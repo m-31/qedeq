@@ -45,6 +45,9 @@ public final class Qedeq2LatexPlugin implements PluginBo {
     /** This class. */
     public static final Class CLASS = Qedeq2LatexPlugin.class;
 
+    /**
+     * Constructor.
+     */
     public Qedeq2LatexPlugin() {
     }
 
@@ -104,10 +107,10 @@ public final class Qedeq2LatexPlugin implements PluginBo {
     /**
      * Gives a LaTeX representation of given QEDEQ module as InputStream.
      *
-     * @param   prop            QEDEQ module.
-     * @param   language        Filter text to get and produce text in this language only.
-     * @param   level           Filter for this detail level. LATER mime 20050205: not supported
-     *                          yet.
+     * @param   prop        QEDEQ module.
+     * @param   language    Filter text to get and produce text in this language only.
+     * @param   level       Filter for this detail level. LATER mime 20050205: not supported
+     *                      yet.
      * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
      *                      names. That makes it easier to write new documents, because one can
      *                      read the QEDEQ reference names in the written document.
@@ -175,6 +178,20 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         return result;
     }
 
+    /**
+     * Get an input stream for the LaTeX creation.
+     *
+     * @param   prop        QEDEQ module.
+     * @param   language    Filter text to get and produce text in this language only.
+     * @param   level       Filter for this detail level. LATER mime 20050205: not supported
+     *                      yet.
+     * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
+     *                      names. That makes it easier to write new documents, because one can
+     *                      read the QEDEQ reference names in the written document.
+     * @return  Resulting LaTeX.
+     * @throws  SourceFileExceptionList Major problem occurred.
+     * @throws  IOException File IO failed.
+     */
     public InputStream createLatex(final KernelQedeqBo prop, final String language, final String level,
             final boolean info)
             throws SourceFileExceptionList, IOException {
