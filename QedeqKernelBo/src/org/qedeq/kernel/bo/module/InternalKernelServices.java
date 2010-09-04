@@ -21,13 +21,11 @@ import java.io.IOException;
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.context.KernelServices;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
  * The kernel internal service methods are assembled here. Needed by the kernel and its helpers.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface InternalKernelServices extends KernelServices {
@@ -83,7 +81,7 @@ public interface InternalKernelServices extends KernelServices {
     public QedeqFileDao getQedeqFileDao();
 
     /**
-     * Creates a list with a {@link SourceFileException} with dummy position.
+     * Creates a list with a {@link org.qedeq.kernel.common.SourceFileException} with dummy position.
      *
      * @param   address This source had a problem.
      * @param   e       Wrapped exception.
@@ -92,7 +90,7 @@ public interface InternalKernelServices extends KernelServices {
     public SourceFileExceptionList createSourceFileExceptionList(String address, IOException e);
 
     /**
-     * Creates a list with a {@link SourceFileException} with dummy position.
+     * Creates a list with a {@link org.qedeq.kernel.common.SourceFileException} with dummy position.
      *
      * @param   address This source had a problem.
      * @param   e       Wrapped exception.
@@ -101,7 +99,7 @@ public interface InternalKernelServices extends KernelServices {
     public SourceFileExceptionList createSourceFileExceptionList(String address, RuntimeException e);
 
     /**
-     * Creates a list with a {@link SourceFileException} with dummy position.
+     * Creates a list with a {@link org.qedeq.kernel.common.SourceFileException} with dummy position.
      *
      * @param   address This source had a problem.
      * @param   e       Wrapped exception.
