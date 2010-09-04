@@ -50,7 +50,8 @@ class ParserAction extends AbstractAction {
 
     public void actionPerformed(final ActionEvent e) {
         try {
-            new ParserPane().show();
+            final ParserPane pane = new ParserPane();
+            pane.setVisible(true);
         } catch (FileNotFoundException ex) {
             Trace.fatal(CLASS, this, "actionPerformed", "Parser Window can not be opened", ex);
             JOptionPane.showMessageDialog(
