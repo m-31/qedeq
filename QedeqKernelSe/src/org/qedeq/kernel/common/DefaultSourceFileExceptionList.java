@@ -59,6 +59,9 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
         }
     }
 
+    /**
+     * Clear list.
+     */
     public void clear() {
         exceptions.clear();
     }
@@ -77,6 +80,11 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
         }
     }
 
+    /**
+     * Add exceptions of given list if they are not already included.
+     *
+     * @param   e   Add exceptions of this list.
+     */
     public void add(final SourceFileExceptionList e) {
         if (e == null) {
             return;
