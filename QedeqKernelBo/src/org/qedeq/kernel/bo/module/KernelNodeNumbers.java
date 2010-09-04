@@ -51,84 +51,118 @@ public class KernelNodeNumbers {
         ruleNumber = original.ruleNumber;
     }
 
+    /**
+     * Set flag for: chapter numbering currently on?
+     *
+     * @param   chapterNumbering    Should the chapter(s) be counted?
+     */
     public void setChapterNumbering(final boolean chapterNumbering) {
         this.chapterNumbering = chapterNumbering;
     }
 
+    /**
+     * Is chapter numbering currently on?
+     *
+     * @return  Chapter numbering is on.
+     */
     public boolean isChapterNumbering() {
         return chapterNumbering;
     }
 
+    /**
+     * Chapter number the node is within.
+     *
+     * @return  Chapter number.
+     */
     public int getChapterNumber() {
         return chapterNumber;
     }
 
+    /**
+     * Increase chapter number.
+     */
     public void increaseChapterNumber() {
         chapterNumber++;
     }
 
-    public void setChapterNumber(final int chapterNumber) {
-        this.chapterNumber = chapterNumber;
-    }
-
+    /**
+     * Get number of axioms before node (including this one).
+     *
+     * @return  Number of axioms before node (including this one).
+     */
     public int getAxiomNumber() {
         return axiomNumber;
     }
 
+    /**
+     * Increase number of axioms before node (including this one).
+     */
     public void increaseAxiomNumber() {
         axiomNumber++;
     }
 
-    public void setAxiomNumber(final int axiomNumber) {
-        this.axiomNumber = axiomNumber;
-    }
-
+    /**
+     * Get number of function definitions before node (including this one).
+     *
+     * @return  Number function definitions before node (including this one).
+     */
     public int getFunctionDefinitionNumber() {
         return functionDefinitionNumber;
     }
 
+    /**
+     * Increase number of function definitions before node (including this one).
+     */
     public void increaseFunctionDefinitionNumber() {
         functionDefinitionNumber++;
     }
 
-    public void setFunctionDefinitionNumber(final int functionDefinitionNumber) {
-        this.functionDefinitionNumber = functionDefinitionNumber;
-    }
-
+    /**
+     * Get number of predicate definitions before node (including this one).
+     *
+     * @return  Number of predicate definitions before node (including this one).
+     */
     public int getPredicateDefinitionNumber() {
         return predicateDefinitionNumber;
     }
 
+    /**
+     * Increase number of predicate definitions before node (including this one).
+     */
     public void increasePredicateDefinitionNumber() {
         predicateDefinitionNumber++;
     }
 
-    public void setPredicateDefinitionNumber(final int predicateDefinitionNumber) {
-        this.predicateDefinitionNumber = predicateDefinitionNumber;
-    }
-
+    /**
+     * Get number of Propositions before node (including this one).
+     *
+     * @return  Get number of Propositions before node (including this one).
+     */
     public int getPropositionNumber() {
         return propositionNumber;
     }
 
+    /**
+     * Increase number of predicate definitions before node (including this one).
+     */
     public void increasePropositionNumber() {
         propositionNumber++;
     }
 
-    public void setPropositionNumber(final int propositionNumber) {
-        this.propositionNumber = propositionNumber;
-    }
-
+    /**
+     * Get number of rule definitions before node (including this one).
+     *
+     * @return  Number of rule definitions before node (including this one).
+     */
     public int getRuleNumber() {
         return ruleNumber;
     }
 
+    /**
+     * Increase number of rule definitions before node (including this one).
+     */
     public void increaseRuleNumber() {
         ruleNumber++;
-    }
-
-    public void setRuleNumber(final int ruleNumber) {
-        this.ruleNumber = ruleNumber;
     }
 
 }
