@@ -43,9 +43,6 @@ public final class Xml2Xml implements Plugin {
     /** This class. */
     private static final Class CLASS = Xml2Xml.class;
 
-    /** This instance. */
-    private static final Xml2Xml INSTANCE = new Xml2Xml();
-
     /**
      * Constructor.
      */
