@@ -26,7 +26,7 @@ import org.qedeq.kernel.dto.module.NodeVo;
  */
 public class KernelNodeBo {
 
-    /** The plain node date. */
+    /** The plain node data. */
     private final NodeVo node;
 
     /** The module context the node is within. */
@@ -39,6 +39,14 @@ public class KernelNodeBo {
     private KernelNodeNumbers data = new KernelNodeNumbers();
 
 
+    /**
+     * Constructor.
+     *
+     * @param   node    The plain node data.
+     * @param   context The module context the node is within.
+     * @param   qedeq   Parent module the node is within.
+     * @param   data    Herein are the results of various counters for the node.
+     */
     public KernelNodeBo(final NodeVo node, final ModuleContext context, final KernelQedeqBo qedeq,
             final KernelNodeNumbers data) {
         this.node = node;
@@ -47,19 +55,40 @@ public class KernelNodeBo {
         this.data = new KernelNodeNumbers(data);
     }
 
+    /**
+     * Get plain node data.
+     *
+     * @return  The plain node data.
+     */
     public NodeVo getNodeVo() {
         return node;
     }
 
+    /**
+     * Get module context the node is within.
+     *
+     * @return  The module context the node is within.
+     */
     public ModuleContext getModuleContext() {
         return context;
     }
 
+    /**
+     * Get parent module the node is within.
+     *
+     * @return  Parent module the node is within.
+     */
     public QedeqBo getParentQedeqBo() {
         return qedeq;
     }
 
+    /**
+     * Get the results of various counters for the node.
+     *
+     * @return  Herein are the results of various counters for the node.
+     */
     public KernelNodeNumbers getNumbers() {
         return data;
     }
+
 }
