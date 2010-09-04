@@ -129,14 +129,29 @@ public class StateManager {
         this.loadingCompleteness = completeness;
     }
 
+    /**
+     * Get loading completeness percentage.
+     *
+     * @return  Completeness as percent number.
+     */
     public int getLoadingCompleteness() {
         return this.loadingCompleteness;
     }
 
+    /**
+     * Get loading state.
+     *
+     * @return  Loading state.
+     */
     public LoadingState getLoadingState() {
         return this.loadingState;
     }
 
+    /**
+     * Is the module loaded?
+     *
+     * @return  Is the module loaded?
+     */
     public boolean isLoaded() {
         return loadingState == LoadingState.STATE_LOADED;
     }
@@ -299,6 +314,11 @@ public class StateManager {
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
+    /**
+     * Get dependency state.
+     *
+     * @return  Dependency state.
+     */
     public DependencyState getDependencyState() {
         return this.dependencyState;
     }
@@ -419,6 +439,11 @@ public class StateManager {
         setErrors(null);
     }
 
+    /**
+     * Are all required modules loaded?
+     *
+     * @return  All required modules are loaded?
+     */
     public boolean hasLoadedRequiredModules() {
         return isLoaded() && dependencyState == DependencyState.STATE_LOADED_REQUIRED_MODULES;
     }

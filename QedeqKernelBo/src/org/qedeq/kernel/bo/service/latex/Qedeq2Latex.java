@@ -834,7 +834,6 @@ public final class Qedeq2Latex extends ControlVisitor {
             }
             String ref = input.getString(start + "\\qref{".length(), input.getPosition()).trim();
             input.read();   // read }
-            int pos2 = input.getPosition();
             Trace.param(CLASS, this, method, "1 ref", ref);
             if (ref.length() == 0) {
                 addWarning(LatexErrorCodes.QREF_EMPTY_CODE, LatexErrorCodes.QREF_EMPTY_MSG,

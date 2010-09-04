@@ -29,9 +29,6 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  */
 public class PluginResultManager {
 
-    /** This class. */
-    private static final Class CLASS = PluginResultManager.class;
-
     /** Maps plugins to results. */
     private final Map plugins = new HashMap();
 
@@ -82,6 +79,11 @@ public class PluginResultManager {
         results.addWarnings(warnings);
     }
 
+    /**
+     * Get all errors that occurred. The resulting object is never <code>null</code>.
+     *
+     * @return  Error list.
+     */
     public SourceFileExceptionList getAllErrors() {
         final DefaultSourceFileExceptionList errors = new DefaultSourceFileExceptionList();
         Iterator iterator = plugins.keySet().iterator();
@@ -91,6 +93,11 @@ public class PluginResultManager {
         return errors;
     }
 
+    /**
+     * Get all warnings that occurred. The resulting object is never <code>null</code>.
+     *
+     * @return  Warnings list.
+     */
     public SourceFileExceptionList getAllWarnings() {
         final DefaultSourceFileExceptionList warnings = new DefaultSourceFileExceptionList();
         Iterator iterator = plugins.keySet().iterator();
@@ -100,6 +107,11 @@ public class PluginResultManager {
         return warnings;
     }
 
+    /**
+     * Get plugin states description.
+     *
+     * @return  Textual description of plugin states.
+     */
     public synchronized String getPluginStateDescription() {
         final StringBuffer text = new StringBuffer();
         Iterator iterator = plugins.keySet().iterator();
