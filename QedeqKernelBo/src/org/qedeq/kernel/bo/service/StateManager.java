@@ -536,15 +536,30 @@ public class StateManager {
         }
     }
 
+    /**
+     * Was the module successfully checked for logical errors?
+     *
+     * @return  Successfully checked for logical errors?
+     */
     public boolean isChecked() {
         return isLoaded() && hasLoadedRequiredModules()
             && logicalState == LogicalState.STATE_CHECKED;
     }
 
+    /**
+     * Get the logical state.
+     *
+     * @return  Logical state.
+     */
     public LogicalState getLogicalState() {
         return this.logicalState;
     }
 
+    /**
+     * Get a description of the current state the module is in.
+     *
+     * @return  Textual representation of module state.
+     */
     public String getStateDescription() {
         String result = "";
         if (loadingState == LoadingState.STATE_LOADING_FROM_WEB) {
@@ -598,6 +613,12 @@ public class StateManager {
         this.logicalState = state;
     }
 
+    /**
+     * Get all errors.
+     *
+     * @return  Errors. Might be <code>nulll</code>. If this is not <code>null</code>
+     *          it is a newly created list.
+     */
     public SourceFileExceptionList getErrors() {
         final DefaultSourceFileExceptionList result = new DefaultSourceFileExceptionList(errors);
         result.add(pluginResults.getAllErrors());
@@ -607,6 +628,12 @@ public class StateManager {
         return result;
     }
 
+    /**
+     * Get all warnings.
+     *
+     * @return  Warnings. Might be <code>nulll</code>. If this is not <code>null</code>
+     *          it is a newly created list.
+     */
     public SourceFileExceptionList getWarnings() {
         final DefaultSourceFileExceptionList result = new DefaultSourceFileExceptionList();
         result.add(pluginResults.getAllWarnings());
@@ -629,6 +656,13 @@ public class StateManager {
         }
     }
 
+    /**
+     * Add the plugin execution errors and warnings.
+     *
+     * @param   plugin      Plugin that was executed.
+     * @param   errors      Resulting errors.
+     * @param   warnings    Resulting warnings.
+     */
     public void addPluginResults(final PluginBo plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
         pluginResults.addResult(plugin, errors, warnings);
