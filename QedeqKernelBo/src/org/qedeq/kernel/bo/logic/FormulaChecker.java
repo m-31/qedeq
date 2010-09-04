@@ -43,7 +43,7 @@ import org.qedeq.kernel.dto.list.ElementSet;
  */
 public final class FormulaChecker implements Operators, FormulaBasicErrors {
 
-    // TODO mime 20080404: we should do that within a JUnit test!
+    // FIXME mime 20080404: we should do that within a JUnit test!
     // If you want to check if the context information within this class is correct you have to
     // do the following:
     // 1. add "private Qedeq qedeq;" as a new field of this class
