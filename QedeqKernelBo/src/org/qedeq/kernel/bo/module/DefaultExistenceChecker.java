@@ -203,8 +203,4 @@ public class DefaultExistenceChecker implements ExistenceChecker {
         this.identityOperator = identityOperator;
     }
 
-    public PredicateDefinition getIdentityOperatorDefiniton() {
-        return getPredicate(getIdentityOperator(), 2);
-    }
-
 }
