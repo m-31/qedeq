@@ -39,31 +39,64 @@ public class PluginResults {
         warnings = new DefaultSourceFileExceptionList();
     }
 
+    /**
+     * Clear all warnings and errors.
+     */
     public void clear() {
         errors.clear();
         warnings.clear();
     }
 
+    /**
+     * Get list of all errors.
+     *
+     * @return  Error list. Is never <code>null</code>.
+     */
     public SourceFileExceptionList getErrors() {
         return errors;
     }
 
+    /**
+     * Add errors.
+     *
+     * @param   errors  Add these errors.
+     */
     public void addErrors(final SourceFileExceptionList errors) {
         this.errors.add(errors);
     }
 
+    /**
+     * Get list of all warnings.
+     *
+     * @return  Warnings list. Is never <code>null</code>.
+     */
     public SourceFileExceptionList getWarnings() {
         return warnings;
     }
 
+    /**
+     * Add warnings.
+     *
+     * @param   warnings    Add these warnings.
+     */
     public void addWarnings(final SourceFileExceptionList warnings) {
         this.warnings.add(warnings);
     }
 
+    /**
+     * Are there any errors?
+     *
+     * @return  Errors exist.
+     */
     public boolean hasErrors() {
         return errors.size() > 0;
     }
 
+    /**
+     * Are there any warnings.
+     *
+     * @return  Warnings exist.
+     */
     public boolean hasWarnings() {
         return warnings.size() > 0;
     }
