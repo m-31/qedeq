@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.MissingResourceException;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -168,8 +169,13 @@ public final class SaxParser {
             handler.setUrl(original);
             deflt.setUrl(original);
             if (validateOnly) {
-                reader.setContentHandler(deflt);
-                reader.parse(input);
+                try {
+                    reader.setContentHandler(deflt);
+                    reader.parse(input);
+                } catch (MissingResourceException ex) {
+                    throw new SAXException("For " + ex.getClassName() + " we searched for value"
+                        + " of "+ ex.getKey(), ex);
+                }
             } else {
                 handler.setExceptionList(exceptionList);
                 reader.setContentHandler(handler);
