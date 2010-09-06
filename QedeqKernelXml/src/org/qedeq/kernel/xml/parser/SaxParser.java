@@ -174,7 +174,7 @@ public final class SaxParser {
                     reader.parse(input);
                 } catch (MissingResourceException ex) {
                     throw new SAXException("For " + ex.getClassName() + " we searched for value"
-                        + " of "+ ex.getKey(), ex);
+                        + " of " + ex.getKey(), ex);
                 }
             } else {
                 handler.setExceptionList(exceptionList);
