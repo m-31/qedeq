@@ -55,7 +55,6 @@ import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 /**
  * View for QEDEQ XML files.
  *
- * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public class ParserPane extends JFrame {
