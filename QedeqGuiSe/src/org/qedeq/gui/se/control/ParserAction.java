@@ -16,7 +16,6 @@
 package org.qedeq.gui.se.control;
 
 import java.awt.event.ActionEvent;
-import java.io.FileNotFoundException;
 
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
@@ -53,7 +52,7 @@ class ParserAction extends AbstractAction {
         try {
             final ParserPane pane = new ParserPane(resourceName);
             pane.setVisible(true);
-        } catch (SourceFileExceptionList xl) {
+        } catch (final SourceFileExceptionList xl) {
             Trace.fatal(CLASS, this, "actionPerformed", "Parser Window can not be opened", xl);
             JOptionPane.showMessageDialog(
                 controller.getMainFrame(), "Parser Window can not be opened. There is a problem with \""

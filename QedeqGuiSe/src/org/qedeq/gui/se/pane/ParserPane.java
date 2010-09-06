@@ -23,7 +23,8 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import javax.swing.AbstractAction;
@@ -31,6 +32,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JViewport;
@@ -92,18 +94,26 @@ public class ParserPane extends JFrame {
     /** Split between previous split and error pane. */
     private JSplitPane globalPane;
 
+    /** File that contains operator definitions. */
+    private final File resourceFile;
+
 
     public ParserPane(final String resourceName) throws SourceFileExceptionList {
         // LATER mime 20080131: hard coded window, change to FormLayout
         super("QEDEQ LaTeX Parser Sample");
         final String resourceDirectoryName = "config";
+        try {
+            resourceFile = ResourceLoaderUtility.getResourceFile(
+                KernelContext.getInstance().getConfig().getBasisDirectory(), resourceDirectoryName,
+                resourceName).getCanonicalFile();
+        } catch (final IOException e) {     // should not occur
+            throw new RuntimeException(e);
+        }
         // LATER mime 20100906: change name and loading mechanism (don't use source directory for file!!!)
         try {
             operators = LoadXmlOperatorListUtility.getOperatorList(
                 (InternalKernelServices) YodaUtility.getFieldValue(KernelContext.getInstance(), "services"),
-                ResourceLoaderUtility.getResourceFile(
-                    KernelContext.getInstance().getConfig().getBasisDirectory(), resourceDirectoryName,
-                    resourceName));
+                resourceFile);
         } catch (NoSuchFieldException e) {  // programming error
             throw new RuntimeException(e);
         }
@@ -116,7 +126,6 @@ public class ParserPane extends JFrame {
      */
     private final void setupView() {
         final Container pane = getContentPane();
-
         source.setDragEnabled(true);
         source.setFont(new Font("monospaced", Font.PLAIN, pane.getFont().getSize()));
         source.setAutoscrolls(true);
@@ -243,6 +252,25 @@ public class ParserPane extends JFrame {
             transformMenu.add(doSwitch);
         }
         menu.add(transformMenu);
+
+        final JMenu helpMenu = new JMenu("Help");
+        helpMenu.setMnemonic('H');
+        {
+            final JMenuItem about = new JMenuItem("About");
+            about.setMnemonic('A');
+            about.addActionListener(new AbstractAction() {
+                public final void actionPerformed(final ActionEvent action) {
+                    JOptionPane.showMessageDialog(ParserPane.this,
+                        "This dialog enables to transform textual input into the QEDEQ format.\n"
+                        + "The operators and their QEDEQ counterparts are defined int the file:\n"
+                        + resourceFile,
+                        "About", JOptionPane.INFORMATION_MESSAGE);
+                }
+            });
+            helpMenu.add(about);
+        }
+        menu.add(helpMenu);
+
         setJMenuBar(menu);
         setSize(600, 400);
     }
