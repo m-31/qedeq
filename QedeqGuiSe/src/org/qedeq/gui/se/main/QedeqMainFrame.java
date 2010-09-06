@@ -238,7 +238,7 @@ public class QedeqMainFrame extends JFrame {
             try {
                 instance = new QedeqMainFrame(options);
             } catch (IOException e) {
-                e.printStackTrace();
+                e.printStackTrace(System.out);
                 JOptionPane.showMessageDialog(null, "Application start failed!\n\n"
                     + e, "Hilbert II - Error", JOptionPane.ERROR_MESSAGE);
                 KernelContext.getInstance().shutdown();
@@ -261,8 +261,8 @@ public class QedeqMainFrame extends JFrame {
                 }
             });
         } catch (Throwable e) {
-            e.printStackTrace();
-            Trace.fatal(QedeqMainFrame.class, "main(String[])", null, e);
+            e.printStackTrace(System.out);
+            Trace.fatal(QedeqMainFrame.class, "main(String[])", "Unexpected major failure!", e);
             JOptionPane.showMessageDialog(null, "Unexpected major failure!\n\n"
                 + e, "Hilbert II - Error", JOptionPane.ERROR_MESSAGE);
             System.exit(-4);
