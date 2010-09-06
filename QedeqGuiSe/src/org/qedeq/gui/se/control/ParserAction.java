@@ -27,7 +27,6 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 /**
  * Show preferences window.
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 class ParserAction extends AbstractAction {
