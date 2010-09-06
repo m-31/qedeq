@@ -91,8 +91,8 @@ public class SaxEntityResolver implements EntityResolver {
             .getKernelVersionDirectory() + "/xml/qedeq.xsd\"" + " and \n"
             + "\"http://www.qedeq.org/"
             + KernelContext.getInstance().getKernelVersionDirectory()
-            + "/xml/parser.xsd\""
-            + " but the document \"" + handler.getUrl() + "\" referenced \n\"" + systemId + "\"");
+            + "/xml/parser.xsd\" "
+            + "\nbut the document \"" + handler.getUrl() + "\" referenced \n\"" + systemId + "\"");
         throw sax;
         // LATER mime 20070604: this error should have correct location information,
         // but is hasn't! this problem should be solved later...

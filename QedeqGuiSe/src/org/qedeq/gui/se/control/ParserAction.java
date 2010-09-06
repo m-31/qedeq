@@ -49,19 +49,16 @@ class ParserAction extends AbstractAction {
     }
 
     public void actionPerformed(final ActionEvent e) {
+        final String resourceName = "mengenlehreMathOperators.xml";
         try {
-            final ParserPane pane = new ParserPane();
+            final ParserPane pane = new ParserPane(resourceName);
             pane.setVisible(true);
-        } catch (FileNotFoundException ex) {
-            Trace.fatal(CLASS, this, "actionPerformed", "Parser Window can not be opened", ex);
-            JOptionPane.showMessageDialog(
-                controller.getMainFrame(), "Parser Window can not be opened" + "\n"
-                    + ex.toString(), "Error",
-                    JOptionPane.ERROR_MESSAGE);;
         } catch (SourceFileExceptionList xl) {
             Trace.fatal(CLASS, this, "actionPerformed", "Parser Window can not be opened", xl);
             JOptionPane.showMessageDialog(
-                controller.getMainFrame(), "Parser Window can not be opened" + "\n"
+                controller.getMainFrame(), "Parser Window can not be opened. There is a problem with \""
+                + resourceName + "\"\n\n"
+                    + "Just deleting this file in the config directory should fix the error."  + "\n\n"
                     + xl.toString(), "Error",
                     JOptionPane.ERROR_MESSAGE);
         } catch (final RuntimeException ex) {

@@ -61,7 +61,7 @@ public class ParserPane extends JFrame {
     /** This class. */
     private static final Class CLASS = ParserPane.class;
 
-    /** TODO mime 20080118: Only example string. */
+    /** LATER m31 20101006: Only example string. */
     private static final String SAMPLE = "x \\land (y \\lor z) \\leftrightarrow (x \\land y) \\lor "
         + "(x \\land z)\n\n\\{ x | y \\in x \\} = \\{ z | y \\in x \\}";
 
@@ -93,29 +93,22 @@ public class ParserPane extends JFrame {
     private JSplitPane globalPane;
 
 
-    public ParserPane() throws SourceFileExceptionList, FileNotFoundException {
+    public ParserPane(final String resourceName) throws SourceFileExceptionList {
         // LATER mime 20080131: hard coded window, change to FormLayout
         super("QEDEQ LaTeX Parser Sample");
         final String resourceDirectoryName = "config";
-        // TODO mime 20080725: change name and loading mechanism (no resource file in source folder)
-        final String resourceName = "mengenlehreMathOperators.xml";
+        // LATER mime 20100906: change name and loading mechanism (don't use source directory for file!!!)
         try {
             operators = LoadXmlOperatorListUtility.getOperatorList(
                 (InternalKernelServices) YodaUtility.getFieldValue(KernelContext.getInstance(), "services"),
                 ResourceLoaderUtility.getResourceFile(
                     KernelContext.getInstance().getConfig().getBasisDirectory(), resourceDirectoryName,
                     resourceName));
-        } catch (NoSuchFieldException e) {
+        } catch (NoSuchFieldException e) {  // programming error
             throw new RuntimeException(e);
         }
         setupView();
         updateView();
-    }
-
-    public static final void main(final String[] args) throws Exception {
-        final ParserPane parserPane = new ParserPane();
-        parserPane.setVisible(true);
-        parserPane.updateView();
     }
 
     /**
