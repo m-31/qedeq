@@ -31,7 +31,7 @@ information about this project could be found.
 
 This file contains the axioms and first definitions of the axiomatic set 
 theory due to Morse and Kelley (MK) - a variant of the von Neumann-Bernays-
-Gödel set theory (NBG).
+Gï¿½del set theory (NBG).
 
 The following logical operator symbols are used in formulas:
 
@@ -187,10 +187,10 @@ qed
 
 (axiom:extens) 
 Die Definition der Umfangsgleichheit reicht jedoch nicht aus, um eine 
-Klasse durch eine gleiche Klasse ersetzen zu können.
-Der Zusammenhang von Umfangsgleichheit und Ersetzbarkeit für die 
+Klasse durch eine gleiche Klasse ersetzen zu kÃ¶nnen.
+Der Zusammenhang von Umfangsgleichheit und Ersetzbarkeit fÃ¼r die 
 Enthaltenseinsbeziehung in der anderen Richtung (links von $in$) 
-wird erst durch das Axiom der Extensionalität garantiert.
+wird erst durch das Axiom der ExtensionalitÃ¤t garantiert.
 
 Axiom
 x = y & x in z -> y in z
@@ -198,30 +198,30 @@ x = y & x in z -> y in z
 
 (rule:leibniz)
 Rule
-Neben der Reflexivität ist die "Leibniz'sche Ersetzbarkeit" eine 
+Neben der Reflexivitï¿½t ist die "Leibniz'sche Ersetzbarkeit" eine 
 wichtige Forderung an die mathematische Gleichheit:
 \qedeq{(x = y & P(x)) -> P(y)}. Da die Gleichheit hier 
 innerhalb der Mengenlehre definiert wurde, kann die Aussage in dieser
 Form nicht bewiesen werden. Weil jedoch alle Aussagen der Mengenlehre
-aus Prädikaten bestehen, die ausschließlich aus der
+aus PrÃ¤dikaten bestehen, die ausschlieÃŸlich aus der
 Enthaltenseinsbeziehung und logischen Operatoren gebildet werden,
-kann aus [thm:extens2] und [axiom:extens] die Gültigkeit der Leibniz'schen
-Ersetzbarkeit für alle konkreten mengentheoretischen Aussagen
+kann aus [thm:extens2] und [axiom:extens] die GÃ¼ltigkeit der Leibniz'schen
+Ersetzbarkeit fÃ¼r alle konkreten mengentheoretischen Aussagen
 bewiesen werden\footnote{So folgt beispielsweise aus 
 \qedeq{x = y & (x in z v z in x)} nach dem logischen Distributivgesetz
 \qedeq{(x = y & x in z) v (x = y & z in x)} und mit [thm:extens2] und 
 [axiom:extens] folgt dann logisch \qedeq{y in z v z in y}. Entsprechend
-kann auch für die Negation und die Quantifizierung argumentiert werden.}.
+kann auch fÃ¼r die Negation und die Quantifizierung argumentiert werden.}.
 Deshalb wird die Leibniz'sche Ersetzbarkeit als Metaregel aufgenommen.
-Nach ihrer Anwendung muss allerdings das Prädikat durch ein konkretes
-mengentheoretisches Prädikat ersetzt werden. \par
-Aus dieser Form der Leibniz'schen Ersetzbarkeit kann auch die schärfere
+Nach ihrer Anwendung muss allerdings das PrÃ¤dikat durch ein konkretes
+mengentheoretisches PrÃ¤dikat ersetzt werden. \par
+Aus dieser Form der Leibniz'schen Ersetzbarkeit kann auch die schï¿½rfere
 Formulierung \qedeq{(x = y -> (P(x) <-> P(y))} abgeleitet werden.
-Für gleiche Mengen gelten also dieselben Aussagen.
+FÃ¼r gleiche Mengen gelten also dieselben Aussagen.
 
 
 (abr:set1) 
-Deshalb können wir eine neue abkürzende Schreibweise einführen.
+Deshalb kÃ¶nnen wir eine neue abkÃ¼rzende Schreibweise einfÃ¼hren.
 'set builder notation'
 
 Abbreviation
@@ -229,7 +229,7 @@ x in {y | P(y)} :<-> set(x) & P(x)
 
 
 (abr:set2) 
-Für die Beziehung in der anderen Richtung muss das Folgende gelten.
+FÃ¼r die Beziehung in der anderen Richtung muss das Folgende gelten.
 
 Abbreviation
 {y | P(y)} in x :<-> Ez(Ay((set(y) & P(y)) <-> y in z) & z in x)
@@ -237,12 +237,12 @@ Abbreviation
 
 (rule:predset)
 Rule
-Im Folgenden verwenden wir diese abkürzenden Schreibweisen in 
-allen prädikativen Aussagen.
+Im Folgenden verwenden wir diese abkÃ¼rzenden Schreibweisen in 
+allen prÃ¤dikativen Aussagen.
 
 
 (thm:set:equal1) 
-Die Kompatiblität mit dem Extensionalitätsaxiom ist gewährleistet.
+Die KompatiblitÃ¤t mit dem ExtensionalitÃ¤tsaxiom ist gewÃ¤hrleistet.
 
 Proposition 
 {y | P(y)} in x <-> Ez(z = {y | P(y)} & z in x)
@@ -258,7 +258,7 @@ qed
 
 
 (thm:set:equal1) 
-Aus den Abkürzungen ergibt sich für die Gleichheit von derartigen Mengen das Folgende.
+Aus den AbkÃ¼rzungen ergibt sich fÃ¼r die Gleichheit von derartigen Mengen das Folgende.
 
 Proposition 
 {x | P(x)} = {x | Q(x)} <-> (Ax(set(x) -> (P(x) <-> Q(x))))
@@ -276,7 +276,7 @@ qed
 
 
 (thm:set:describe)
-Jede Klasse lässt sich durch eine Aussage beschreiben.
+Jede Klasse lÃ¤sst sich durch eine Aussage beschreiben.
 
 Proposition
 x = {y | y in x}
@@ -290,8 +290,8 @@ Proof
   
     
 (abr:set:union)
-Die Möglichkeit, eine Menge durch eine Aussage zu beschreiben, ermöglicht die 
-Definition einer Verknüpfung zweier Klassen: die Vereinigung zweier Klassen.
+Die MÃ¶glichkeit, eine Menge durch eine Aussage zu beschreiben, ermÃ¶glicht die 
+Definition einer VerknÃ¶pfung zweier Klassen: die Vereinigung zweier Klassen.
 
 Abbreviation
 (x union y) :<-> {z | z in x v z in y}
@@ -305,7 +305,7 @@ Abbreviation
 
 
 (thm:set:in:union)
-Ob eine Menge ein Element der Vereinigung zweier Klassen ist, kann natürlich 
+Ob eine Menge ein Element der Vereinigung zweier Klassen ist, kann natÃ¼rlich 
 auch direkt angegeben werden.
 
 Proposition
@@ -318,7 +318,7 @@ Proof
 
 
 (thm:set:in:intersection)
-Entsprechendes gilt für den Durchschnitt zweier Klassen.
+Entsprechendes gilt fÃ¼r den Durchschnitt zweier Klassen.
 
 Proposition
 z in (x inter y) <-> z in x & z in y
@@ -329,15 +329,15 @@ Proof
   3. <-> z in x & z in y                         ;[abr:set1]
 
 
-Die letzten beiden Sätze [thm:set:in:union] und [thm:set:in:intersection] 
-zeigen die Übertragbarkeit der Eigenschaften der logischen Verknüpfungen 
-\qedeq{v} und\qedeq{&} auf die Mengenverknüpfungen \qedeq{+} und \qedeq{*}. 
-Deshalb lassen sich die entsprechenden logischen Gesetzmässigkeiten direkt 
-auf die Mengenverknüpfungen übertragen.
+Die letzten beiden SÃ¤tze [thm:set:in:union] und [thm:set:in:intersection] 
+zeigen die Ãœbertragbarkeit der Eigenschaften der logischen VerknÃ¼pfungen 
+\qedeq{v} und\qedeq{&} auf die MengenverknÃ¼pfungen \qedeq{+} und \qedeq{*}. 
+Deshalb lassen sich die entsprechenden logischen GesetzmÃ¤ssigkeiten direkt 
+auf die MengenverknÃ¼pfungen ï¿½bertragen.
 
 
 (thm:union:asso)
-Assoziativität der Vereinigung
+AssoziativitÃ¤t der Vereinigung
 
 Proposition
 ((x union y) union z) = (x union (y union z))
@@ -354,7 +354,7 @@ Proof
 
 
 (thm:union:asso)
-Assoziativität des Durchschnitts
+AssoziativitÃ¤t des Durchschnitts
 
 Proposition
 ((x inter y) inter z) = (x inter (y inter z))

@@ -14,7 +14,9 @@ Functional Changes
   - new about dialog with system properties that can be copied into clipboard
   - warnings are now supported: LaTeX generation problems lead to warnings that
     also can be clicked
-  
+  - precise location marking for LaTeX generation problems
+  - proxy settings could be done in preferenes dialog
+
   Fixed Bugs
   ----------
   - within the buffer directory only all *.xml files are deleted when
@@ -26,6 +28,7 @@ Functional Changes
     in clear text. So module authors can easily reference to that node. In some
     future releases this option should be editable in the LaTeX plugin
     preferences page.
+  - preference dialog is now fully resizeable
 
 
 XML Files
