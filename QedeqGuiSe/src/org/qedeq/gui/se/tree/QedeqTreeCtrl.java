@@ -246,7 +246,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
             final String method = "actionPerformed";
             Trace.param(CLASS, this, method, "action", event);
 
-            if (event.getActionCommand() == QedeqTreeView.DELETE_ACTION)  {     // delete
+            if (event.getActionCommand() == QedeqTreeView.REMOVE_ACTION)  {     // delete
                 getRemoveAction().actionPerformed(event);
             } else if (event.getActionCommand() == QedeqTreeView.LATEX_ACTION)  { // add
                 QedeqTreeCtrl.this.controller.getLatexAction().actionPerformed(event);
