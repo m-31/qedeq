@@ -1822,6 +1822,70 @@
                 </PREDCON>
               </FORALL>
             </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  Asumption: $z \in \emptyset$
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{cX}
+                    $z \in \{ x \ | \ x \neq x\}$
+                      & \qref{definition:emptySet} \\
+                    $\mathfrak{M}(z) \ \land z \ \neq z$
+                      & \qref{axiom:classDefinition} \\
+                        $z \neq z$
+                      & elementary logic \\
+                        $\neg \ (z = z)$
+                      & \qref{l.definition:notEqual}
+                  \end{tabularx}
+                  
+                  \par
+                  So we have a contradiction to \qref{l.axiom:identityIsReflexive} and our asumption must be false. So we have $\neg (z \in \emptyset)$ and can conclude the following.
+                  
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{cX}
+                        $\neg \ ( z \in \emptyset)$
+                      &  \\
+                        $z \notin \emptyset$
+                      & \qref{definition:notIn} \\
+                        $\forall z \ z \notin \emptyset$
+                      & \qref{l.rule:derivedQuantification}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                  Annahme: $z \in \emptyset$
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{cX}
+                    $z \in \{ x \ | \ x \neq x\}$
+                      & \qref{definition:emptySet} \\
+                    $\mathfrak{M}(z) \ \land z \ \neq z$
+                      & \qref{axiom:classDefinition} \\
+                        $z \neq z$
+                      & elementary logic \\
+                        $\neg \ (z = z)$
+                      & \qref{l.definition:notEqual}
+                  \end{tabularx}
+                  
+                  \par
+                  Damit haben wir einen Widerspruch zu \qref{l.axiom:identityIsReflexive} und unsere Annahme muss falsch sein. Also gilt $\neg (z \in \emptyset)$ und wir können weiter folgern.
+                  
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{cX}
+                        $\neg \ ( z \in \emptyset)$
+                      &  \\
+                        $z \notin \emptyset$
+                      & \qref{definition:notIn} \\
+                        $\forall z \ z \notin \emptyset$
+                      & \qref{l.rule:derivedQuantification}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
         </NODE>
 
@@ -1858,6 +1922,40 @@
                 </PREDCON>
               </EQUI>
             </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $x = \emptyset$ & $\leftrightarrow$ & $\forall z \ (z \in x \leftrightarrow z \in \emptyset)$
+                      & \qref{theorem:extensonalityEquivalence} \\
+                    & $\leftrightarrow$ & $\forall z \ (z \notin x \leftrightarrow z \notin \emptyset)$
+                      & \qref{l.rule:replaceEquiFormula} with \qref{l.theorem:propositionalCalculus}[ao] \\
+                    & $\leftrightarrow$ & $\forall z \ (z \notin x \leftrightarrow \ \top)$
+                      & \qref{theorem:noClassIsMemberOfEmptySet} \\
+                    & $\leftrightarrow$ & $\forall z \ z \notin x$
+                      & \qref{l.rule:replaceEquiFormula} with \qref{l.theorem:propositionalCalculus}[be]
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $x = \emptyset$ & $\leftrightarrow$ & $\forall z \ (z \in x \leftrightarrow z \in \emptyset)$
+                      & \qref{theorem:extensonalityEquivalence} \\
+                    & $\leftrightarrow$ & $\forall z \ (z \notin x \leftrightarrow z \notin \emptyset)$
+                      & \qref{l.rule:replaceEquiFormula} mit \qref{l.theorem:propositionalCalculus}[ao] \\
+                    & $\leftrightarrow$ & $\forall z \ (z \notin x \leftrightarrow \ \top)$
+                      & \qref{theorem:noClassIsMemberOfEmptySet} \\
+                    & $\leftrightarrow$ & $\forall z \ z \notin x$
+                      & \qref{l.rule:replaceEquiFormula} mit \qref{l.theorem:propositionalCalculus}[be]
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
         </NODE>
 
@@ -1921,7 +2019,7 @@
         <LATEX language="en">
           <![CDATA[
 
-            With \qref{rule:classDefinition} we can define new class operators with the
+            With the classs notation \qref{rule:classDefinition} we can define new class operators with the
             help of logical connectives.
 
           ]]>
@@ -1929,8 +2027,8 @@
         <LATEX language="de">
           <![CDATA[
 
-            Die Schreibweise bzw. \qref{rule:classDefinition} ermöglicht die Definition von Klassenperatoren mithilfe
-            der logischen Verknüpfungen.
+            Die Klassenschreibweise \qref{rule:classDefinition} ermöglicht die Definition von Klassenoperatoren mithilfe
+            logischer Verknüpfungen.
 
           ]]>
         </LATEX>
@@ -2007,7 +2105,7 @@
             <LATEX language="de">
               <![CDATA[
 
-                Entsprechend wird der Durchschnitt zweier Klassen definiert, als Klasse die aus den Elementen besteht, die in beiden Klassen vorhanden sind.
+                Entsprechend wird der Durchschnitt zweier Klassen definiert, als die Klasse, die aus den Elementen besteht, die in beiden Klassen vorhanden sind.
                 
               ]]>
             </LATEX>
@@ -2117,6 +2215,44 @@
                 </OR>
               </EQUI>
             </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $(x \cup y)$ & $=$ & $\{ z \ | \ (z \in x \lor z \in y ) \}$
+                      & \qref{definition:union} \\
+                    $u \in (x \cup y)$ & $\leftrightarrow$ & $u \in \{ z \ | \ (z \in x \lor z \in y ) \}$
+                      & \qref{l.theorem:leibnizEquivalence} \\
+                    $u \in (x \cup y)$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (u \in x \lor u \in y))$
+                      & \qref{axiom:classDefinition} \\
+                    $u \in (x \cup y)$ & $\leftrightarrow$ & $((\mathfrak{M}(u) \land u \in x ) \lor (\mathfrak{M}(u) \land u \in y))$
+                      & \qref{l.theorem:propositionalCalculus}[at] \\
+                    $u \in (x \cup y)$ & $\leftrightarrow$ & $(u \in x \lor u \in y)$
+                      & \qref{theorem:inSetEqualInSetAndIsSet}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $(x \cup y)$ & $=$ & $\{ z \ | \ (z \in x \lor z \in y ) \}$
+                      & \qref{definition:union} \\
+                    $u \in (x \cup y)$ & $\leftrightarrow$ & $u \in \{ z \ | \ (z \in x \lor z \in y ) \}$
+                      & \qref{l.theorem:leibnizEquivalence} \\
+                    $u \in (x \cup y)$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (u \in x \lor u \in y))$
+                      & \qref{axiom:classDefinition} \\
+                    $u \in (x \cup y)$ & $\leftrightarrow$ & $((\mathfrak{M}(u) \land u \in x ) \lor (\mathfrak{M}(u) \land u \in y))$
+                      & \qref{l.theorem:propositionalCalculus}[at] \\
+                    $u \in (x \cup y)$ & $\leftrightarrow$ & $(u \in x \lor u \in y)$
+                      & \qref{theorem:inSetEqualInSetAndIsSet}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
         </NODE>
 
@@ -2159,6 +2295,44 @@
                 </AND>
               </EQUI>
             </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $(x \cap y)$ & $=$ & $\{ z \ | \ (z \in x \land z \in y ) \}$
+                      & \qref{definition:union} \\
+                    $u \in (x \cap y)$ & $\leftrightarrow$ & $u \in \{ z \ | \ (z \in x \land z \in y ) \}$
+                      & \qref{l.theorem:leibnizEquivalence} \\
+                    $u \in (x \cap y)$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (u \in x \land u \in y))$
+                      & \qref{axiom:classDefinition} \\
+                    $u \in (x \cap y)$ & $\leftrightarrow$ & $((\mathfrak{M}(u) \land u \in x ) \land u \in y))$
+                      & \qref{l.theorem:propositionalCalculus}[aj] \\
+                    $u \in (x \cap y)$ & $\leftrightarrow$ & $(u \in x \land u \in y)$
+                      & \qref{theorem:inSetEqualInSetAndIsSet}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $(x \cap y)$ & $=$ & $\{ z \ | \ (z \in x \land z \in y ) \}$
+                      & \qref{definition:union} \\
+                    $u \in (x \cap y)$ & $\leftrightarrow$ & $u \in \{ z \ | \ (z \in x \land z \in y ) \}$
+                      & \qref{l.theorem:leibnizEquivalence} \\
+                    $u \in (x \cap y)$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (u \in x \land u \in y))$
+                      & \qref{axiom:classDefinition} \\
+                    $u \in (x \cap y)$ & $\leftrightarrow$ & $((\mathfrak{M}(u) \land u \in x ) \land u \in y))$
+                      & \qref{l.theorem:propositionalCalculus}[aj] \\
+                    $u \in (x \cap y)$ & $\leftrightarrow$ & $(u \in x \land u \in y)$
+                      & \qref{theorem:inSetEqualInSetAndIsSet}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
         </NODE>
 
@@ -2200,6 +2374,36 @@
                 </AND>
               </EQUI>
             </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $\overline{x}$ & $=$ & $\{ z \ | \ z \notin x \}$
+                      & \qref{definition:complement} \\
+                    $u \in \overline{x}$ & $\leftrightarrow$ & $u \in \{ z \ | \ z \notin x \}$
+                      & \qref{l.theorem:leibnizEquivalence} \\
+                    $u \in \overline{x}$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \notin x)$
+                      & \qref{axiom:classDefinition} 
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $\overline{x}$ & $=$ & $\{ z \ | \ z \notin x \}$
+                      & \qref{definition:complement} \\
+                    $u \in \overline{x}$ & $\leftrightarrow$ & $u \in \{ z \ | \ z \notin x \}$
+                      & \qref{l.theorem:leibnizEquivalence} \\
+                    $u \in \overline{x}$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \notin x)$
+                      & \qref{axiom:classDefinition} 
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
         </NODE>
 
@@ -2450,6 +2654,55 @@
 
               </AND>
             </FORMULA>
+            <PROOF kind="informal" level="1">
+              <LATEX language="de">
+                <![CDATA[
+                  Exemplarisch beweisen wir (g).
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $u \in x$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \in x)$
+                      & \qref{definition:complement} \\
+                              & $\leftrightarrow$ & $(\bot \lor (\mathfrak{M}(u) \land u \in x))$
+                      & \qref{l.theorem:propositionalCalculus}[ax] \\
+                              & $\leftrightarrow$ & $((\mathfrak{M}(u) \land \neg \mathfrak{M}(u)) \lor (\mathfrak{M}(u) \land u \in x))$
+                      & \qref{l.theorem:propositionalCalculus}[az] \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land u \in x))$
+                      & \qref{l.theorem:propositionalCalculus}[at] \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg \neg u \in x))$
+                      & \qref{l.theorem:propositionalCalculus}[am] \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg u \notin x))$
+                      & \qref{definition:notIn} \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (\mathfrak{M}(u)) \lor u \notin x))$
+                      & \qref{l.theorem:propositionalCalculus}[aq] \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (u \in \overline{x}))$
+                      & \qref{theorem:complementMember} \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \notin \overline{x})$
+                      & \qref{definition:notIn} \\
+                              & $\leftrightarrow$ & $u \in \overline{\overline{x}}$
+                      & \qref{theorem:complementMember}
+                  \end{tabularx}
+                  
+                  \par
+                  Also haben wir gezeigt: $u \in x \leftrightarrow u \in \overline{\overline{x}}$
+                  Nun können wir weiter schließen.
+
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+
+                    $u \in x$ & $\leftrightarrow$ & $u \in \overline{\overline{x}}$
+                      &  \\
+                    $\forall u \ (u \in x$ & $\leftrightarrow$ & $u \in \overline{\overline{x}})$
+                      & \qref{l.rule:derivedQuantification} \\
+                    $\forall u \ u \in x$ & $\leftrightarrow$ & $\forall u \ u \in \overline{\overline{x}}$
+                      & \qref{l.theorem:predicateCalculus} \\
+                    $x$ & $=$ & $\overline{\overline{x}}$
+                      & \qref{theorem:extensionalitySetRestricted}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
+            </PROOF>
           </THEOREM>
         </NODE>
 
@@ -6311,7 +6564,7 @@
             <LATEX language="en">
               <![CDATA[
               
-                Because $x \notin x$ the successor function adds just one elment to
+                Because $x \notin x$ the successor function adds just one element to
                 the original class.
                 
               ]]>

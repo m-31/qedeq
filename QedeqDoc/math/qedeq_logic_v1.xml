@@ -2264,6 +2264,34 @@
                   </EQUI>
                 </EQUI>
 
+                <IMPL>
+                  <FORALL>
+                    <VAR id="x" />
+                    <EQUI>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EQUI>
+                  </FORALL>
+                  <EQUI>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                  </EQUI>
+                </IMPL>
+
               </AND>
             </FORMULA>
           </THEOREM>
