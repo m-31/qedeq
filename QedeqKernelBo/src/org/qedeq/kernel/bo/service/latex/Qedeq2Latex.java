@@ -231,8 +231,6 @@ public final class Qedeq2Latex extends ControlVisitor {
     }
 
     public final void visitLeave(final Qedeq qedeq) {
-        printer.println("\\backmatter");
-        printer.println();
         printer.println("\\addcontentsline{toc}{chapter}{\\indexname} \\printindex");
         printer.println();
         printer.println("\\end{document}");
@@ -617,6 +615,8 @@ public final class Qedeq2Latex extends ControlVisitor {
     }
 
     public void visitEnter(final LiteratureItemList list) {
+        printer.println("\\backmatter");
+        printer.println();
         printer.println("\\begin{thebibliography}{99}");
         // TODO mime 20060926: remove language dependency
         if ("de".equals(language)) {
