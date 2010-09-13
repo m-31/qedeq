@@ -240,13 +240,13 @@ currently in ants classpath
 
     <target name="makePdfs" description="create PDF files out of certain *.tex test results" depends="test">
         <property name="qedeq.texdir" value="${qedeq.dest.module}/QedeqKernelBo/target/test-outdir/doc" />
-        <makePdf dir="${qedeq.texdir}/math"    file="qedeq_logic_v1_en.tex" />
-        <makePdf dir="${qedeq.texdir}/math"    file="qedeq_logic_v1_de.tex" />
-        <makePdf dir="${qedeq.texdir}/math"    file="qedeq_set_theory_v1_en.tex" />
-        <makePdf dir="${qedeq.texdir}/math"    file="qedeq_set_theory_v1_de.tex" />
-        <makePdf dir="${qedeq.texdir}/project" file="qedeq_basic_concept_en.tex" />
-        <makePdf dir="${qedeq.texdir}/project" file="qedeq_basic_concept_de.tex" />
-        <makePdf dir="${qedeq.texdir}/project" file="qedeq_logic_language_en.tex" />
+        <makePdf dir="${qedeq.texdir}/math"    file="qedeq_logic_v1_en" />
+        <makePdf dir="${qedeq.texdir}/math"    file="qedeq_logic_v1_de" />
+        <makePdf dir="${qedeq.texdir}/math"    file="qedeq_set_theory_v1_en" />
+        <makePdf dir="${qedeq.texdir}/math"    file="qedeq_set_theory_v1_de" />
+        <makePdf dir="${qedeq.texdir}/project" file="qedeq_basic_concept_en" />
+        <makePdf dir="${qedeq.texdir}/project" file="qedeq_basic_concept_de" />
+        <makePdf dir="${qedeq.texdir}/project" file="qedeq_logic_language_en" />
     </target>
                             
     <target name="doc" description="generate project documentation" depends="source,test,makePdfs">
