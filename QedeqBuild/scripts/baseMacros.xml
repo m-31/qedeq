@@ -470,6 +470,12 @@
                 <arg value="@{dir}" />
                 <arg value="@{dir}/@{file}" />
             </exec>
+            <echo>makeindex -output-directory @{dir} @{dir}/@{file}</echo>
+            <exec failonerror="true" executable="makeindex">
+                <arg value="-output-directory" />
+                <arg value="@{dir}" />
+                <arg value="@{dir}/@{file}" />
+            </exec>
             <echo>pdflatex -output-directory @{dir} @{dir}/@{file}</echo>
             <exec failonerror="true" executable="pdflatex">
                 <arg value="-output-directory" />
