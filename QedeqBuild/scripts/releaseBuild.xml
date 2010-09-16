@@ -72,7 +72,7 @@ currently in ants classpath
         <filter token="QEDEQ_DIRECTORY"       value="${qedeq.release.directory}" />
         <filter token="QEDEQ_TIMESTAMP"       value="${qedeq.se.timestamp}" />
         <filter token="QEDEQ_BUILD_ID"        value="${qedeq.se.buildId}" />
-        <filter token="QEDEQ_BUILD_DEV_BEGIN" value="&lt;-- only for development release" />
+        <filter token="QEDEQ_BUILD_DEV_BEGIN" value="&lt;!-- only for development release" />
         <filter token="QEDEQ_BUILD_DEV_END"   value="--&gt;" />
         <filter token="trace_file_path"       value="./log/trace.txt" />
     </filterset>
