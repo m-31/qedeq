@@ -134,7 +134,7 @@
   </p>
 
   <p>
-  Precondition is a Java Runtime Environment, at least version 1.4. From <a href="http://java.sun.com/j2se/1.4.2/download.html">Download Java 2 Platform</a> you could get the Java Runtime Environment  J2SE v 1.4.2 JRE.
+  Precondition is a Java Runtime Environment, at least version 1.4. From <a href="http://java.sun.com/j2se/1.4.2/download.html">Download Java 2 Platform</a> you could get the Java Runtime Environment  J2SE v 1.4.2 JRE. To work with the created LaTeX documents you need an appropriate LaTeX environment.
   </p>
 
   <p>
@@ -154,10 +154,11 @@
   Sample XML files can be found in the <a href="sample/">sample directory</a>. The main structure of an QEDEQ XML file looks like the LaTeX book format. There is a special kind of subsections called <code>node</code> that contain an axiom, definition or proposition. Each node is labelled and could be referenced by that label. Here is the <a href="xml/qedeq.xsd">XSD</a> and here it's <a href="xml/qedeq.html">documentation</a>. The root element is called <a href="xml/qedeq.html#element_QEDEQ">QEDEQ</a>.
   </p>
 
+@QEDEQ_BUILD_DEV_BEGIN@
   <p>
   This release includes the <a href="src/">source code</a> and the <a href="http://www.junit.org/">JUnit</a> test classes. The code coverage results of these tests where produced by <a href="http://www.atlassian.com/software/clover/">clover&nbsp;<img style="vertical-align:middle" src="res/clover_logo.gif" width="30" height="29" border="0" alt="Clover"></a>.
   </p>
-
+@QEDEQ_BUILD_DEV_END@
 
   <h2><a name="goals"></a>Project Goals</h2>
   <p>
@@ -395,6 +396,7 @@
   <td><a href="sample/qedeq_sample8_error.xml"><code>&nbsp;&nbsp;qedeq_sample8_error.xml</code></a></td>
   <td>semantic error in XML file, duplicate language entries</td>
   </tr>
+@QEDEQ_BUILD_DEV_BEGIN@
   <tr>
   <td><a href="src/"><code>src</code></a></td>
   <td>source code of <font color="#d97d49"><b>Hilbert&nbsp;II</b></font></td>
@@ -427,6 +429,7 @@
   <td><a href="src/reports/qedeq_gui_se/"><code>&nbsp;&nbsp;&nbsp;&nbsp;qedeq_gui_se</code></a></td>
   <td>QEDEQ GUI</td>
   </tr>
+@QEDEQ_BUILD_DEV_END@
   <tr>
   <td><a href="xml/"><code>xml</code></a></td>
   <td>XML schemata and their documentation</td>

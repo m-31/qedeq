@@ -55,13 +55,26 @@ currently in ants classpath
         <format property="qedeq.se.buildId" pattern="yyyyMMddHHmmss" timezone="GMT"/>
     </tstamp>
 
+    <filterset id="qedeq_filter_dev" begintoken="@" endtoken="@">
+        <filter token="QEDEQ_VERSION"         value="${qedeq.release.version}" />
+        <filter token="QEDEQ_CODENAME"        value="${qedeq.release.codename}" />
+        <filter token="QEDEQ_DIRECTORY"       value="${qedeq.release.directory}" />
+        <filter token="QEDEQ_TIMESTAMP"       value="${qedeq.se.timestamp}" />
+        <filter token="QEDEQ_BUILD_ID"        value="${qedeq.se.buildId}" />
+        <filter token="QEDEQ_BUILD_DEV_BEGIN" value="" />
+        <filter token="QEDEQ_BUILD_DEV_END"   value="" />
+        <filter token="trace_file_path"       value="./log/trace.txt" />
+    </filterset>
+
     <filterset id="qedeq_filter" begintoken="@" endtoken="@">
-        <filter token="QEDEQ_VERSION"     value="${qedeq.release.version}" />
-        <filter token="QEDEQ_CODENAME"    value="${qedeq.release.codename}" />
-        <filter token="QEDEQ_DIRECTORY"   value="${qedeq.release.directory}" />
-        <filter token="QEDEQ_TIMESTAMP"   value="${qedeq.se.timestamp}" />
-        <filter token="QEDEQ_BUILD_ID"    value="${qedeq.se.buildId}" />
-        <filter token="trace_file_path"   value="./log/trace.txt" />
+        <filter token="QEDEQ_VERSION"         value="${qedeq.release.version}" />
+        <filter token="QEDEQ_CODENAME"        value="${qedeq.release.codename}" />
+        <filter token="QEDEQ_DIRECTORY"       value="${qedeq.release.directory}" />
+        <filter token="QEDEQ_TIMESTAMP"       value="${qedeq.se.timestamp}" />
+        <filter token="QEDEQ_BUILD_ID"        value="${qedeq.se.buildId}" />
+        <filter token="QEDEQ_BUILD_DEV_BEGIN" value="&lt;-- only for development release" />
+        <filter token="QEDEQ_BUILD_DEV_END"   value="--&gt;" />
+        <filter token="trace_file_path"       value="./log/trace.txt" />
     </filterset>
 
     <path id="classpath.lib">
@@ -225,7 +238,7 @@ currently in ants classpath
         <copy todir="${qedeq.temp}">
           <fileset dir="${qedeq.resources}/jar" includes="readme.txt,manifest.txt,gpl.txt" />
           <fileset dir="${qedeq.resources}/licenses" includes="gpl.txt" />
-          <filterset refid="qedeq_filter" />        
+          <filterset refid="qedeq_filter_dev" />        
         </copy>
         <fileset id="qedeq.jar.includes" dir="${qedeq.temp}" 
             includes="readme.txt,gpl.txt" />
@@ -278,13 +291,6 @@ currently in ants classpath
             </fileset>
         </copy>
 
-        <copy todir="${qedeq.dest}">
-          <fileset dir="${qedeq.resources}"
-            includes="index.html"
-          >
-          </fileset>
-          <filterset refid="qedeq_filter" />
-        </copy>
         <mkdir dir="${qedeq.dest}/res" />
         <copy todir="${qedeq.dest}/res">
           <fileset dir="${qedeq.resources}/clover"
@@ -298,7 +304,7 @@ currently in ants classpath
             includes="changes.txt"
           >
           </fileset>
-          <filterset refid="qedeq_filter" />
+          <filterset refid="qedeq_filter_dev" />
         </copy>
         <copy todir="${qedeq.dest}/doc">
           <fileset dir="${qedeq.dest.module}/QedeqKernelBo/target/test-outdir/doc"
@@ -319,6 +325,13 @@ currently in ants classpath
             includes="projektbeschreibung.tex,projektbeschreibung.pdf"
           >
           </fileset>
+        </copy>
+        <copy todir="${qedeq.dest}">
+          <fileset dir="${qedeq.resources}"
+            includes="index.html"
+          >
+          </fileset>
+          <filterset refid="qedeq_filter_dev" />
         </copy>
     </target>
 
@@ -348,7 +361,7 @@ currently in ants classpath
         <mkdir dir="${qedeq.dest}/license"/>
         <copy todir="${qedeq.dest}/license">
             <fileset dir="${qedeq.resources}/licenses" includes="gpl.html,fdl.html,*license.txt" />
-            <filterset refid="qedeq_filter" />
+            <filterset refid="qedeq_filter_dev" />
         </copy>
         <delete dir="${qedeq.dest}/sample"/>
         <mkdir dir="${qedeq.dest}/sample"/>
@@ -369,11 +382,11 @@ currently in ants classpath
         <mkdir dir="${qedeq.dest}/bin"/>
         <copy todir="${qedeq.dest}/bin">
             <fileset dir="${qedeq.resources}/bin/" includes="*.bat,*.sh" excludes="qedeq_se.*,xml2*.*"/>
-            <filterset refid="qedeq_filter" />
+            <filterset refid="qedeq_filter_dev" />
         </copy>
         <copy todir="${qedeq.dest}">
             <fileset dir="${qedeq.resources}/bin/" includes="qedeq_se.*"/>
-            <filterset refid="qedeq_filter" />
+            <filterset refid="qedeq_filter_dev" />
         </copy>
         <copy todir="${qedeq.dest}">
             <fileset dir="${qedeq.resources}/pictures" includes="qedeq.png" />
@@ -389,7 +402,7 @@ currently in ants classpath
         <copy todir="${qedeq.dest}/config">
             <fileset file="${qedeq.dest.module}/qedeq_gui_se/src/main/resources/config/*" 
                 excludes="**/log4j.properties" />
-            <filterset refid="qedeq_filter" />
+            <filterset refid="qedeq_filter_dev" />
         </copy>
      
         <!-- create buffer directory -->   
@@ -441,14 +454,16 @@ currently in ants classpath
     </target>
              
     <target name="release" depends="assemble">
+        <!-- Windows file system -->
         <!-- we exclude "xml/qedeq/*" because xsddoc seems to hold a lock on these files -->
-        <!-- Windows -->
         <fixcrlf srcdir="${qedeq.dest}"
             eol="dos" 
             eof="remove"
             includes="**/*.sh,**/*.java,**/*.html,**/*.txt,**/*.properties,**/*.tex,**/*.xml,**/*.xsd"
             excludes="xml/qedeq/**"   
         />
+
+        <!-- create Windows development release -->
         <zip whenempty="create"
           zipfile="${qedeq.dist}/qedeq_${qedeq.release.version}_dev_win.zip"
         >
@@ -456,7 +471,22 @@ currently in ants classpath
             includes="${qedeq.directory}/**"
           />
         </zip>
-        
+
+        <!-- change to common release doc -->
+        <copy todir="${qedeq.dest}">
+          <fileset dir="${qedeq.resources}"
+            includes="index.html"
+          >
+          </fileset>
+          <filterset refid="qedeq_filter" />
+        </copy>
+        <fixcrlf srcdir="${qedeq.dest}"
+            eol="dos" 
+            eof="remove"
+            includes="index.html"
+        />
+
+        <!-- create Windows common release -->
         <zip whenempty="create"
           zipfile="${qedeq.dist}/qedeq_${qedeq.release.version}_win.zip"
         >
@@ -468,29 +498,17 @@ currently in ants classpath
             includes="${qedeq.directory}/src/maven/qedeq_kernel/**"
           />
         </zip>
-        
-        <!-- Unix -->
+
+        <!-- Unix file system -->
+        <!-- we exclude "xml/qedeq/*" because xsddoc seems to hold a lock on these files -->
         <fixcrlf srcdir="${qedeq.dest}"
              eol="unix" 
              eof="remove"
             includes="**/*.sh,**/*.java,**/*.html,**/*.txt,**/*.properties,**/*.tex,**/*.xml,**/*.xsd"
             excludes="xml/qedeq/**"   
         />
-        <tar
-          destfile="${qedeq.dist}/qedeq_${qedeq.release.version}_dev_unx.tar.bz2"
-          defaultexcludes="no"
-          compression="bzip2"
-        >
-          <tarfileset dir="${qedeq.dest}/.." 
-            includes="${qedeq.directory}/**/*" 
-            excludes="**/*.sh" 
-          />
-          <tarfileset dir="${qedeq.dest}/.."
-            mode="755"
-            includes="${qedeq.directory}/**/*.sh" 
-          />
-        </tar>
 
+        <!-- create Unix common release -->
         <tar
           destfile="${qedeq.dist}/qedeq_${qedeq.release.version}_unx.tar.bz2"
           defaultexcludes="no"
@@ -509,6 +527,37 @@ currently in ants classpath
             includes="${qedeq.directory}/**/*.sh" 
           />
         </tar>
+
+        <!-- change to development release doc -->
+        <copy todir="${qedeq.dest}">
+          <fileset dir="${qedeq.resources}"
+            includes="index.html"
+          >
+          </fileset>
+          <filterset refid="qedeq_filter_dev" />
+        </copy>
+        <fixcrlf srcdir="${qedeq.dest}"
+            eol="unix" 
+            eof="remove"
+            includes="index.html"
+        />
+
+        <!-- create Unix development release -->
+        <tar
+          destfile="${qedeq.dist}/qedeq_${qedeq.release.version}_dev_unx.tar.bz2"
+          defaultexcludes="no"
+          compression="bzip2"
+        >
+          <tarfileset dir="${qedeq.dest}/.." 
+            includes="${qedeq.directory}/**/*" 
+            excludes="**/*.sh" 
+          />
+          <tarfileset dir="${qedeq.dest}/.."
+            mode="755"
+            includes="${qedeq.directory}/**/*.sh" 
+          />
+        </tar>
+
 
         <!-- mac -->
     <!--
@@ -566,7 +615,7 @@ currently in ants classpath
         </copy>
         <copy todir="${qedeq.webstart}">
             <fileset file="${qedeq.resources}/webstart/qedeq.jnlp" />
-            <filterset refid="qedeq_filter" />
+            <filterset refid="qedeq_filter_dev" />
         </copy>
         <copy todir="${qedeq.webstart}">
             <fileset file="${qedeq.resources}/pictures/splash.gif" />
