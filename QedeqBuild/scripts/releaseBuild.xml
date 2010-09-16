@@ -513,6 +513,7 @@ currently in ants classpath
           destfile="${qedeq.dist}/qedeq_${qedeq.release.version}_unx.tar.bz2"
           defaultexcludes="no"
           compression="bzip2"
+          longfile="gnu"
         >
           <tarfileset dir="${qedeq.dest}/.." 
             includes="${qedeq.directory}/**/*" 
@@ -547,6 +548,7 @@ currently in ants classpath
           destfile="${qedeq.dist}/qedeq_${qedeq.release.version}_dev_unx.tar.bz2"
           defaultexcludes="no"
           compression="bzip2"
+          longfile="gnu"
         >
           <tarfileset dir="${qedeq.dest}/.." 
             includes="${qedeq.directory}/**/*" 
