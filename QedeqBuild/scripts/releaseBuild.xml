@@ -473,6 +473,7 @@ currently in ants classpath
         </zip>
 
         <!-- change to common release doc -->
+        <delete file="${qedeq.dest}/index.html" />
         <copy todir="${qedeq.dest}">
           <fileset dir="${qedeq.resources}"
             includes="index.html"
@@ -530,6 +531,7 @@ currently in ants classpath
         </tar>
 
         <!-- change to development release doc -->
+        <delete file="${qedeq.dest}/index.html" />
         <copy todir="${qedeq.dest}">
           <fileset dir="${qedeq.resources}"
             includes="index.html"
