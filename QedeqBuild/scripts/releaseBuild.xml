@@ -447,8 +447,12 @@ currently in ants classpath
                 <include name="qedeq_gui_se/src/**/*" />
             </fileset>
         </copy>
-        <copy todir="${qedeq.dest}/src/maven/qedeq_kernel" file="${qedeq.resources}/pom/qedeq_kernel/pom.xml" />
-        <copy todir="${qedeq.dest}/src/maven/qedeq_gui_se" file="${qedeq.resources}/pom/qedeq_gui_se/pom.xml" />
+        <copy todir="${qedeq.dest}/src/maven/qedeq_kernel" file="${qedeq.resources}/pom/qedeq_kernel/pom.xml"> 
+            <filterset refid="qedeq_filter_dev" />
+        </copy>
+        <copy todir="${qedeq.dest}/src/maven/qedeq_gui_se" file="${qedeq.resources}/pom/qedeq_gui_se/pom.xml">
+            <filterset refid="qedeq_filter_dev" />
+        </copy>
         <copy todir="${qedeq.dest}/src/maven/qedeq_kernel/target" file="${qedeq.resources}/checkstyle/QedeqFormalChecks.xml" />
         <fail message="JUnit tests had errors" if="qedeq.junitfailure" />
     </target>
