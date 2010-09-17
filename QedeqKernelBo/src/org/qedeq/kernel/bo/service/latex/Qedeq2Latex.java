@@ -821,7 +821,7 @@ public final class Qedeq2Latex extends ControlVisitor {
      */
     private void transformQref(final StringBuffer result) {
         final String method = "transformQref(StringBuffer)";
-        final StringBuffer buffer = new StringBuffer(result);
+        final StringBuffer buffer = new StringBuffer(result.toString());
         final TextInput input = new TextInput(buffer);
         while (input.forward("\\qref{")) {
             final SourcePosition startPosition = input.getSourcePosition();
