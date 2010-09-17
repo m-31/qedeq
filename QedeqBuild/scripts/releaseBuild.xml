@@ -477,8 +477,7 @@ currently in ants classpath
         </zip>
 
         <!-- change to common release doc -->
-        <delete file="${qedeq.dest}/index.html" />
-        <copy todir="${qedeq.dest}">
+        <copy todir="${qedeq.dest}" overwrite="true" >
           <fileset dir="${qedeq.resources}"
             includes="index.html"
           >
@@ -539,8 +538,7 @@ currently in ants classpath
         </tar>
 
         <!-- change to development release doc -->
-        <delete file="${qedeq.dest}/index.html" />
-        <copy todir="${qedeq.dest}">
+        <copy todir="${qedeq.dest}" overwrite="true" >
           <fileset dir="${qedeq.resources}"
             includes="index.html"
           >
@@ -622,7 +620,7 @@ currently in ants classpath
 <!-- mime 20100705: the signed XML-Parser Jars and the JHjar have to be replaced by other ones
              so that it works under an old JNLP version
 -->
-        <copy todir="${qedeq.webstart}">
+        <copy todir="${qedeq.webstart}" overwrite="true" >
             <fileset dir="${qedeq.resources}/webstart/lib" />
         </copy>
         <copy todir="${qedeq.webstart}">
