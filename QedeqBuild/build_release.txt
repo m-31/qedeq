@@ -24,7 +24,8 @@ Preliminary Build
     > look at the messages during build project
   + exame index.html and update it
   + transfer release to WebPage
-    > copy xml-apis.jar and xercesImpl.jar from eclipse/webstart    [TODO: do by script]
+    [ now done by build script: ]
+    > copy xml-apis.jar and xercesImpl.jar from eclipse/webstart
       directory into release webstart directory (they are stripped
       of the original manifest.mf and are signed with jarsigner due 
       to an java webstart bug)
@@ -43,6 +44,7 @@ Update Build Documentation
 - update QedeqRel/inc/se/release.txt (whatfor???)
 
 
+[ not needed any longer:]
 Update CVS Tags
 ---------------
 - commit everything to subversion, nothing must remain marked as
