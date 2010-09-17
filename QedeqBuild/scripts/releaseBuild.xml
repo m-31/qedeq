@@ -495,9 +495,11 @@ currently in ants classpath
             includes="${qedeq.directory}/**"
             excludes="${qedeq.directory}/src/**"
           />
+<!-- also maven source files are not included to save space
           <fileset dir="${qedeq.dest}/.." 
             includes="${qedeq.directory}/src/maven/qedeq_kernel/**,${qedeq.directory}/src/maven/qedeq_gui_se/**" 
           />
+-->
         </zip>
 
         <!-- Unix file system -->
@@ -520,9 +522,11 @@ currently in ants classpath
             includes="${qedeq.directory}/**/*" 
             excludes="**/*.sh,${qedeq.directory}/src/**" 
           />
+<!-- also maven source files are not included to save space
           <tarfileset dir="${qedeq.dest}/.." 
             includes="${qedeq.directory}/src/maven/qedeq_kernel/**,${qedeq.directory}/src/maven/qedeq_gui_se/**" 
           />
+-->
           <tarfileset dir="${qedeq.dest}/.."
             mode="755"
             includes="${qedeq.directory}/**/*.sh" 
