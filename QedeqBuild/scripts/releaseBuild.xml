@@ -496,7 +496,7 @@ currently in ants classpath
             excludes="${qedeq.directory}/src/**"
           />
           <fileset dir="${qedeq.dest}/.." 
-            includes="${qedeq.directory}/src/maven/qedeq_kernel/**"
+            includes="${qedeq.directory}/src/maven/qedeq_kernel/**,${qedeq.directory}/src/maven/qedeq_gui_se/**" 
           />
         </zip>
 
@@ -521,12 +521,12 @@ currently in ants classpath
             excludes="**/*.sh,${qedeq.directory}/src/**" 
           />
           <tarfileset dir="${qedeq.dest}/.." 
-            includes="${qedeq.directory}/src/maven/qedeq_kernel/**" 
-            excludes="**/*.sh" 
+            includes="${qedeq.directory}/src/maven/qedeq_kernel/**,${qedeq.directory}/src/maven/qedeq_gui_se/**" 
           />
           <tarfileset dir="${qedeq.dest}/.."
             mode="755"
             includes="${qedeq.directory}/**/*.sh" 
+            excludes="${qedeq.directory}/src/**" 
           />
         </tar>
 
