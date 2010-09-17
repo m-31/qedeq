@@ -16,6 +16,9 @@ Functional Changes
     also can be clicked
   - precise location marking for LaTeX generation problems
   - proxy settings could be done in preferenes dialog
+  - now it is checked that class definition is only in one unique QEDEQ module
+  - now it is checked that identity operator is defined only in one unique
+    QEDEQ module
 
   Fixed Bugs
   ----------
@@ -29,6 +32,9 @@ Functional Changes
     future releases this option should be editable in the LaTeX plugin
     preferences page.
   - preference dialog is now fully resizeable
+  - renamed "Delete" into "Remove" for local module tree popup
+  - more and better formatted error message if XSD resolution fails
+  -  
 
 
 XML Files
@@ -37,6 +43,7 @@ XML Files
   Extensions
   ----------
   math\qedeq_logic_v1.xml
+  math\qedeq_set_theory_v1.xml
 
   Fixed Bugs
   ----------
@@ -80,7 +87,8 @@ Source Code
     whereas the errors are shown in blue. The error pane shows the eclipse
     icons "error_tsk.gif" or "warn_tsk.gif" accordingly.
   - improved location information of LaTeX warnings
-  - ISSUE#22 now we have a new about dialog that shows the system properties 
+  - ISSUE#22 now we have a new about dialog that shows the system properties
+  - generation of PDF now includes register creation
 
 
 XSD
