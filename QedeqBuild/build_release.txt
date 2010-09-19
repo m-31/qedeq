@@ -39,7 +39,8 @@ Preliminary Build
 Update Build Documentation
 --------------------------
 - compare build with last build and document changes
-  in QedeqRel/inc/se/changes.txt
+  in QedeqBuild/changes.txt
+[not used any longer]
 - update QedeqRel/inc/se/readme.txt
 - update QedeqRel/inc/se/release.txt (whatfor???)
 
