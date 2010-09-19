@@ -22,7 +22,6 @@ import org.qedeq.kernel.bo.parser.MementoTextInput;
 /**
  * Transform LaTeX into QEDEQ format.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class LatexTextParser {
