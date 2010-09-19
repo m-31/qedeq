@@ -60,7 +60,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
     /** Kernel version dedication. */
     private static final String KERNEL_DEDICATED
-        = "dedicated to Therese Schirrmacher, who died on 2010-08-20";
+        = "still dedicated to no one because it is to early for a new release";
 
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
