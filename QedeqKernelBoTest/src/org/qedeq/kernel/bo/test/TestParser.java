@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
+package org.qedeq.kernel.bo.test;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,7 +27,6 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.DummyPlugin;
 import org.qedeq.kernel.xml.handler.list.ElementHandler;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SaxErrorHandler;
@@ -102,7 +101,7 @@ public class TestParser {
         }
     }
 
-    static protected final Element createElement(final String xml) throws ParserConfigurationException,
+    static public final Element createElement(final String xml) throws ParserConfigurationException,
             SAXException, IOException {
         try {
             String data = "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n" + xml;
@@ -110,7 +109,7 @@ public class TestParser {
             ElementHandler simple = new ElementHandler(handler);
             handler.setBasisDocumentHandler(simple);
             TestParser parser = new TestParser(handler);
-            parser.parse(null, IoUtility.stringToReader(data));
+            parser.parse("memory", IoUtility.stringToReader(data));
             return simple.getElement();
         } catch (SAXException e) {
             Trace.trace(TestParser.class, "createElement", e);

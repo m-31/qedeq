@@ -13,7 +13,9 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.common;
+package org.qedeq.kernel.bo.test;
+
+import org.qedeq.kernel.common.Plugin;
 
 
 public class DummyPlugin implements Plugin {

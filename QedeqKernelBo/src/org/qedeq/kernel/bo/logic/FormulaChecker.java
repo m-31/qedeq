@@ -104,7 +104,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
     }
 
     /**
-     * Checks if an {@link Element} is a formula. All predicates and functions are assumed to exit.
+     * Checks if an {@link Element} is a formula. All predicates and functions are assumed to exist.
      * If there are any errors the returned list (which is always not <code>null</code>) has a size
      * greater zero.
      * If the existence context is known you should use
