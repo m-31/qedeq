@@ -15,7 +15,7 @@
 package org.qedeq.kernel.xml.parser;
 
 import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.common.DummyPlugin;
+import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
 
 /**
