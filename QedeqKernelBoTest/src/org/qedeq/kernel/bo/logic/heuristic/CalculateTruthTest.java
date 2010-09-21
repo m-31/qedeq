@@ -17,6 +17,7 @@ package org.qedeq.kernel.bo.logic.heuristic;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.base.list.Element;
+import org.qedeq.kernel.bo.logic.model.CalculateTruth;
 import org.qedeq.kernel.bo.test.TestParser;
 
 /**

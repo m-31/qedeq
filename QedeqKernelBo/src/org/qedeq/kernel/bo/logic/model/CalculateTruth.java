@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.heuristic;
+package org.qedeq.kernel.bo.logic.model;
 
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
@@ -61,7 +61,6 @@ public final class CalculateTruth {
             result &= calculateValue(formula);
             System.out.println(interpretation.toString());
             interpretation.iterate();
-            System.out.println(interpretation.toString());
         } while (result && interpretation.iterationIsNotFinished());
         System.out.println("interpretation finished - and result is = " + result);
         return result;
@@ -117,12 +116,11 @@ public final class CalculateTruth {
             for (int i = 0; i < list.size(); i++) {
                 result &= !calculateValue(list.getElement(i));
             }
+//        } else if (Operators.PREDICATE_VARIABLE.equals(op)) {
+//            final String identifier = list.getElement(0).getAtom().getString();
+//            result = interpretation.getPredValue(identifier);
         } else if (Operators.PREDICATE_VARIABLE.equals(op)) {
-            final String identifier = list.getElement(0).getAtom().getString();
-            if (list.size() > 1) {
-                //FIXME
-            }
-            result = interpretation.getPredValue(identifier);
+            result = interpretation.getFormulaValue(list);
         } else {
             // FIXME
             result = false;
