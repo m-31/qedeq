@@ -52,8 +52,8 @@ public interface Element {
     /**
      * Return this element as a Atom.
      *
-     * @return  This as an instance of {@link Atom}.
-     * @throws  ClassCastException  This is no instance of {@link Atom}.
+     * @return  This as an instance of {@link ElementList}.
+     * @throws  ClassCastException  This is no instance of {@link ElementList}.
      */
     public ElementList getList();
 
