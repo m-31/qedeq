@@ -50,7 +50,7 @@ public interface Element {
     public boolean isList();
 
     /**
-     * Return this element as a Atom.
+     * Return this element as an ElementList.
      *
      * @return  This as an instance of {@link ElementList}.
      * @throws  ClassCastException  This is no instance of {@link ElementList}.
