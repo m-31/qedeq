@@ -183,4 +183,94 @@ public class CalculateTruthTest extends QedeqTestCase {
         assertFalse(CalculateTruth.isTautology(ele));
     }
 
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     A -> A v -A
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology12() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<IMPL><PREDVAR id=\"A\"/><OR><PREDVAR id=\"A\"/><NOT><PREDVAR id=\"A\"/></NOT></OR></IMPL>");
+        // System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     A -> A v B v C v D v E v F v G v H v I v J
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology13() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<IMPL><PREDVAR id=\"A\"/><OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/><PREDVAR id=\"C\"/>"
+            + "<PREDVAR id=\"D\"/><PREDVAR id=\"E\"/><PREDVAR id=\"F\"/><PREDVAR id=\"G\"/>"
+            + "<PREDVAR id=\"H\"/><PREDVAR id=\"I\"/><PREDVAR id=\"J\"/></OR></IMPL>");
+        // System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     A v B <-> B v A
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology14() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EQUI><OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></OR>"
+            + "<OR><PREDVAR id=\"B\"/><PREDVAR id=\"A\"/></OR></EQUI>");
+        // System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     A n B <-> B n A
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology15() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EQUI><AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></AND>"
+            + "<AND><PREDVAR id=\"B\"/><PREDVAR id=\"A\"/></AND></EQUI>");
+        // System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     negative
+     * Data:     A n B <-> B v A
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology16() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EQUI><AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></AND>"
+            + "<OR><PREDVAR id=\"B\"/><PREDVAR id=\"A\"/></OR></EQUI>");
+        // System.out.println(ele.toString());
+        assertFalse(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     -A n B <-> -(-B v A)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology17() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EQUI><AND><NOT><PREDVAR id=\"A\"/></NOT><PREDVAR id=\"B\"/></AND>"
+            + "<NOT><OR><NOT><PREDVAR id=\"B\"/></NOT><PREDVAR id=\"A\"/></OR></NOT></EQUI>");
+        // System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
 }
