@@ -36,7 +36,7 @@ public final class Interpretation {
     /** List of predicate variables. */
     private List predicateVariables;
 
-    /** Model contains entities and predicates. */
+    /** Model contains entities. */
     private Model model;
 
     /**
@@ -47,40 +47,6 @@ public final class Interpretation {
         subjectVariables = new ArrayList();
         model = new Model();
     }
-
-/**
-    public boolean getPredValue(final String identifier) {
-        boolean result = false;
-        if (predVars.contains(identifier)) {
-            result = ((Boolean) predValues.get(predVars.indexOf(identifier))).booleanValue();
-        } else {
-            System.out.println("added predvar " + identifier);
-            result = false;
-            predVars.add(identifier);
-            predValues.add(Boolean.FALSE);
-        }
-        return result;
-    }
-**/
-
-/**
-    public boolean getFormulaValue(final ElementList list) {
-        final String op = list.getOperator();
-        boolean result = false;
-        if (Operators.PREDICATE_VARIABLE.equals(op)) {
-            final String identifier = list.getElement(0).getAtom().getString() + "$" + list.size();
-            if (predVars.contains(identifier)) {
-                result = ((Boolean) predValues.get(predVars.indexOf(identifier))).booleanValue();
-            } else {
-                System.out.println("added predvar " + identifier);
-                result = false;
-                predVars.add(identifier);
-                predValues.add(Boolean.FALSE);
-            }
-        }
-        return result;
-    }
-*/
 
     /**
      * Evaluate truth value of list with current model settings.
@@ -103,7 +69,7 @@ public final class Interpretation {
                 predicateVariables.add(var);
                 selection = 0;
             }
-            Predicate predicate = model.getPredicate(list.size(), selection);
+            Predicate predicate = model.getPredicate(var.getArgumentNumber(), selection);
             result = predicate.calculate(getEntities(list));
         }
         return result;
@@ -137,22 +103,17 @@ public final class Interpretation {
         return result;
     }
 
-    public boolean iterationIsNotFinished() {
-        return !(predicateVariables.isEmpty() && subjectVariables.isEmpty());
-    }
-
     /**
      * Change to next valuation.
+     *
+     * @return  Is there a next new valuation?
      */
-    public void iterate() {
-        if (predicateVariables.isEmpty() && subjectVariables.isEmpty()) {
-            System.out.println("empty");
-            return;
-        }
+    public boolean next() {
         System.out.println("iterate");
+        boolean next = false;
         for (int i = subjectVariables.size() - 1; i >= -1; i--) {
             if (i < 0) {
-                subjectVariables.clear();
+                next = true;
                 break;
             }
             final SubjectVariable var = (SubjectVariable) subjectVariables.get(i);
@@ -164,26 +125,27 @@ public final class Interpretation {
                 var.setSelection(0);
             }
         }
-        for (int i = predicateVariables.size() - 1; i >= -1; i--) {
-            if (i < 0) {
-                predicateVariables.clear();
-                break;
-            }
-            final PredicateVariable var = (PredicateVariable) predicateVariables.get(i);
-            int selection = var.getSelection() + 1;
-            if (selection < model.getPredicateSize(var.getArgumentNumber())) {
-                var.setSelection(selection);
-                break;
-            } else {
-                var.setSelection(0);
+        if (next) {
+            next = false;
+            for (int i = predicateVariables.size() - 1; i >= -1; i--) {
+                if (i < 0) {
+                    next = true;
+                    break;
+                }
+                final PredicateVariable var = (PredicateVariable) predicateVariables.get(i);
+                int selection = var.getSelection() + 1;
+                if (selection < model.getPredicateSize(var.getArgumentNumber())) {
+                    var.setSelection(selection);
+                    break;
+                } else {
+                    var.setSelection(0);
+                }
             }
         }
+        return !next;
     }
 
     public String toString() {
-        if (!iterationIsNotFinished()) {
-            return "{}";
-        }
         final StringBuffer buffer = new StringBuffer();
         buffer.append("{");
         for (int i = 0; i < predicateVariables.size(); i++) {

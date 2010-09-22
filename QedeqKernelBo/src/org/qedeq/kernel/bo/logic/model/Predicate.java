@@ -36,11 +36,22 @@ public abstract class Predicate {
         }
     };
 
+    /** Return true if value is even. */
+    public static final Predicate EVEN = new Predicate(0, 99, "| 2", "is even") {
+        public boolean calculate(final Entity[] entities) {
+            boolean result = true;
+            for (int i = 0; i < entities.length; i++) {
+                result &= entities[i].getValue() % 2 == 0;
+            }
+            return result;
+        }
+    };
+
     /** Are the entities ordered by < ? */
     public static final Predicate LESS = new Predicate(0, 99, "<", "less") {
         public boolean calculate(final Entity[] entities) {
             boolean result = true;
-            for (int i = 0; i < entities.length - 2; i++) {
+            for (int i = 0; i < entities.length - 1; i++) {
                 result &= entities[i].getValue() < entities[i + 1].getValue();
             }
             return result;
@@ -51,7 +62,7 @@ public abstract class Predicate {
     public static final Predicate EQUAL = new Predicate(0, 99, "=", "equal") {
         public boolean calculate(final Entity[] entities) {
             boolean result = true;
-            for (int i = 0; i < entities.length - 2; i++) {
+            for (int i = 0; i < entities.length - 1; i++) {
                 result &= entities[i].getValue() == entities[i + 1].getValue();
             }
             return result;

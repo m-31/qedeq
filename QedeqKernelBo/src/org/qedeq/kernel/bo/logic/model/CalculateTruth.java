@@ -61,8 +61,7 @@ public final class CalculateTruth {
         do {
             result &= calculateValue(formula);
             System.out.println(interpretation.toString());
-            interpretation.iterate();
-        } while (result && interpretation.iterationIsNotFinished());
+        } while (result && interpretation.next());
         System.out.println("interpretation finished - and result is = " + result);
         return result;
     }
@@ -76,7 +75,7 @@ public final class CalculateTruth {
      */
     private boolean calculateValue(final Element formula) {
         if (formula.isAtom()) {
-            throw new IllegalArgumentException("wrong calling convention");
+            throw new IllegalArgumentException("wrong calling convention: " + formula);
         }
         final ElementList list = formula.getList();
         final String op = list.getOperator();
@@ -118,9 +117,6 @@ public final class CalculateTruth {
             for (int i = 0; i < list.size(); i++) {
                 result &= !calculateValue(list.getElement(i));
             }
-//        } else if (Operators.PREDICATE_VARIABLE.equals(op)) {
-//            final String identifier = list.getElement(0).getAtom().getString();
-//            result = interpretation.getPredValue(identifier);
         } else if (Operators.PREDICATE_VARIABLE.equals(op)) {
             result = interpretation.getFormulaValue(list);
         } else {

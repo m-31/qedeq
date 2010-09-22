@@ -56,11 +56,13 @@ public final class Model {
         predicates.add(predicate1);
         predicate1.add(Predicate.FALSE);
         predicate1.add(Predicate.TRUE);
+        predicate1.add(Predicate.EVEN);
 
         final List predicate2 = new ArrayList();
         predicates.add(predicate2);
         predicate2.add(Predicate.FALSE);
         predicate2.add(Predicate.TRUE);
+        predicate1.add(Predicate.EVEN);
         predicate2.add(Predicate.LESS);
         predicate2.add(Predicate.EQUAL);
 
@@ -82,7 +84,8 @@ public final class Model {
     }
 
     public Predicate getPredicate(final int size, final int number) {
-        return (Predicate) ((List) predicates.get(size)).get(number);
+        final List predicateForSize = (List) predicates.get(size);
+        return (Predicate) predicateForSize.get(number);
     }
 
 }
