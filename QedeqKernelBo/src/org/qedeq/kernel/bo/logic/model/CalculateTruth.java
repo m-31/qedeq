@@ -38,10 +38,11 @@ public final class CalculateTruth {
     }
 
     /**
-     * Assures that two words are logically equivalent.
+     * Test if given formula is a tautology. This is done by checking a model and
+     * iterating through variable values.
      *
      * @param   formula         Formula.
-     * @throws  IllegalArgumentException  Check failed.
+     * @return  Is this formula a tautology according to our tests.
      */
     public static boolean isTautology(final Element formula) {
         final CalculateTruth calculator = new CalculateTruth();
@@ -49,13 +50,13 @@ public final class CalculateTruth {
     }
 
     /**
-     * Assures that two words are logically equivalent.
+     * Test if given formula is a tautology. This is done by checking a model and
+     * iterating through variable values.
      *
      * @param   formula         Formula.
-     * @throws  IllegalArgumentException  Check failed.
+     * @return  Is this formula a tautology according to our tests.
      */
     private boolean calculateTautology(final Element formula) {
-        final CalculateTruth calculator = new CalculateTruth();
         boolean result = true;
         do {
             result &= calculateValue(formula);
@@ -67,10 +68,11 @@ public final class CalculateTruth {
     }
 
     /**
-     * Assures that two words are logically equivalent.
+     * Calculate the truth value of a given formula is a tautology. This is done by checking with
+     * a model and certain variable values.
      *
      * @param   formula         Formula.
-     * @throws  IllegalArgumentException  Check failed.
+     * @return  Truth value of formula.
      */
     private boolean calculateValue(final Element formula) {
         if (formula.isAtom()) {

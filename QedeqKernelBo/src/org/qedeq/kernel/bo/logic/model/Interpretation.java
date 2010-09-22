@@ -36,9 +36,9 @@ public final class Interpretation {
     /** List of predicate variables. */
     private List predicateVariables;
 
+    /** Model contains entities and predicates. */
     private Model model;
 
-    
     /**
      * Constructor.
      */
@@ -82,6 +82,12 @@ public final class Interpretation {
     }
 */
 
+    /**
+     * Evaluate truth value of list with current model settings.
+     *
+     * @param   list    Evaluate this.
+     * @return  Resulting truth value according to model and current settings.
+     */
     public boolean getFormulaValue(final ElementList list) {
         final String op = list.getOperator();
         boolean result = false;

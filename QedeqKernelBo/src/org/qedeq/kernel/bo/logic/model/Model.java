@@ -26,13 +26,13 @@ import java.util.List;
 public final class Model {
 
     /** List of all entities in model. */
-    final List entities;
+    private final List entities;
 
     /** List of functions for different argument numbers. */
-    final List functions;
+    private final List functions;
 
     /** List of predicates for different argument numbers. */
-    final List predicates;
+    private final List predicates;
 
     /**
      * Constructor.
