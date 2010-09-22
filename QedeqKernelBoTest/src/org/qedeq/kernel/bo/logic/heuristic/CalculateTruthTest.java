@@ -498,4 +498,64 @@ public class CalculateTruthTest extends QedeqTestCase {
         assertTrue(CalculateTruth.isTautology(ele));
     }
 
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     \exists! y (x = y)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology33() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EXISTSU><VAR id=\"y\"/><PREDCON id=\"equal\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDCON>"
+            + "</EXISTSU>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     negative
+     * Data:     \exists! y (y = y)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology34() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EXISTSU><VAR id=\"y\"/><PREDCON id=\"equal\"><VAR id=\"y\"/><VAR id=\"y\"/></PREDCON>"
+            + "</EXISTSU>");
+//        System.out.println(ele.toString());
+        assertFalse(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     \exists y (y = y)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology35() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EXISTS><VAR id=\"y\"/><PREDCON id=\"equal\"><VAR id=\"y\"/><VAR id=\"y\"/></PREDCON>"
+            + "</EXISTS>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     \exists y (y = y)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology36() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<FORALL><VAR id=\"y\"/><PREDCON id=\"equal\"><VAR id=\"y\"/><VAR id=\"y\"/></PREDCON>"
+            + "</FORALL>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
 }

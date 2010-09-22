@@ -16,7 +16,9 @@
 package org.qedeq.kernel.bo.logic.model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * One entity in our model.
@@ -33,6 +35,9 @@ public final class Model {
 
     /** List of predicates for different argument numbers. */
     private final List predicatePool;
+
+    /** Map of predicate constants. */
+    private final Map predicateConstants;
 
     /**
      * Constructor.
@@ -66,6 +71,10 @@ public final class Model {
         predicate2.add(Predicate.LESS);
         predicate2.add(Predicate.EQUAL);
 
+        predicateConstants = new HashMap();
+        predicateConstants.put(new PredicateVariable("equal", 2, 0), Predicate.EQUAL);
+        predicateConstants.put(new PredicateVariable("in", 2, 0), Predicate.LESS);
+
     }
 
     public int getEntitiesSize() {
@@ -86,6 +95,10 @@ public final class Model {
     public Predicate getPredicate(final int size, final int number) {
         final List predicateForSize = (List) predicatePool.get(size);
         return (Predicate) predicateForSize.get(number);
+    }
+
+    public Predicate getPredicateConst(PredicateVariable var) {
+        return (Predicate) predicateConstants.get(var);
     }
 
 }

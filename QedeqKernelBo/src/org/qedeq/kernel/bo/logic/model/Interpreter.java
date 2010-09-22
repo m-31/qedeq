@@ -125,10 +125,13 @@ public final class Interpreter {
                 } else {  // must be 3
                     result &= !calculateValue(list.getElement(1)) || calculateValue(list.getElement(2));
                 }
+                if (!result) {
+                    break;
+                }
             }
             subjectVariables.remove(var);
         } else if (Operators.EXISTENTIAL_QUANTIFIER_OPERATOR.equals(op)) {
-            result = true;
+            result = false;
             ElementList variable = list.getElement(0).getList();
             final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString(), 0);
             subjectVariables.add(var);
@@ -139,8 +142,43 @@ public final class Interpreter {
                 } else {  // must be 3
                     result |= calculateValue(list.getElement(1)) && calculateValue(list.getElement(2));
                 }
+                if (result) {
+                    break;
+                }
             }
             subjectVariables.remove(var);
+        } else if (Operators.UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR.equals(op)) {
+            result = false;
+            ElementList variable = list.getElement(0).getList();
+            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString(), 0);
+            subjectVariables.add(var);
+            for (int i = 0; i < model.getEntitiesSize(); i++) {
+                var.setSelection(i);
+                boolean val;
+                if (list.size() == 2) {
+                    val = calculateValue(list.getElement(1));
+                } else {  // must be 3
+                    val = calculateValue(list.getElement(1)) && calculateValue(list.getElement(2));
+                }
+                if (val) {
+                    if (result) {
+                        result = false;
+                        break;
+                    } else {
+                        result = true;
+                    }
+                }
+            }
+            subjectVariables.remove(var);
+        } else if (Operators.PREDICATE_CONSTANT.equals(op)) {
+            int selection = -1;
+            final PredicateVariable var = new PredicateVariable(list.getElement(0).getAtom().getString(),
+                    list.size() - 1, 0);
+            Predicate predicate = model.getPredicateConst(var);
+            if (predicate == null) {
+                throw new RuntimeException("Unknown predicate constant: " + var);
+            }
+            result = predicate.calculate(getEntities(list));
         } else {
             throw new RuntimeException("unknown operator " + op);
         }
