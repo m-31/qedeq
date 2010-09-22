@@ -28,7 +28,7 @@ import org.qedeq.kernel.bo.logic.wf.Operators;
  *
  * @author  Michael Meyling
  */
-public final class Interpretation {
+public final class Interpreter {
 
     /** List of subject variables. */
     private List subjectVariables;
@@ -42,25 +42,67 @@ public final class Interpretation {
     /**
      * Constructor.
      */
-    public Interpretation() {
+    public Interpreter() {
         predicateVariables = new ArrayList();
         subjectVariables = new ArrayList();
         model = new Model();
     }
 
     /**
-     * Evaluate truth value of list with current model settings.
+     * Calculate the truth value of a given formula is a tautology. This is done by checking with
+     * a model and certain variable values.
      *
-     * @param   list    Evaluate this.
-     * @return  Resulting truth value according to model and current settings.
+     * @param   formula         Formula.
+     * @return  Truth value of formula.
      */
-    public boolean getFormulaValue(final ElementList list) {
+    public boolean calculateValue(final Element formula) {
+        if (formula.isAtom()) {
+            throw new IllegalArgumentException("wrong calling convention: " + formula);
+        }
+        final ElementList list = formula.getList();
         final String op = list.getOperator();
-        boolean result = false;
-        int selection = -1;
-        if (Operators.PREDICATE_VARIABLE.equals(op)) {
+        boolean result;
+        if (Operators.CONJUNCTION_OPERATOR.equals(op)) {
+            result = true;
+            for (int i = 0; i < list.size(); i++) {
+                result &= calculateValue(list.getElement(i));
+            }
+
+        } else if (Operators.DISJUNCTION_OPERATOR.equals(op)) {
+            result = false;
+            for (int i = 0; i < list.size(); i++) {
+                result |= calculateValue(list.getElement(i));
+            }
+        } else if (Operators.EQUIVALENCE_OPERATOR.equals(op)) {
+            result = true;
+            boolean value = false;
+            for (int i = 0; i < list.size(); i++) {
+                if (i > 0) {
+                    if (value != calculateValue(list.getElement(i))) {
+                        result = false;
+                    }
+                } else {
+                    value = calculateValue(list.getElement(i));
+                }
+            }
+        } else if (Operators.IMPLICATION_OPERATOR.equals(op)) {
+            result = false;
+            for (int i = 0; i < list.size(); i++) {
+                if (i < list.size() - 1) {
+                    result |= !calculateValue(list.getElement(i));
+                } else {
+                    result |= calculateValue(list.getElement(i));
+                }
+            }
+        } else if (Operators.NEGATION_OPERATOR.equals(op)) {
+            result = true;
+            for (int i = 0; i < list.size(); i++) {
+                result &= !calculateValue(list.getElement(i));
+            }
+        } else if (Operators.PREDICATE_VARIABLE.equals(op)) {
+            int selection = -1;
             final PredicateVariable var = new PredicateVariable(list.getElement(0).getAtom().getString(),
-                list.size() - 1, 0);
+                    list.size() - 1, 0);
             if (predicateVariables.contains(var)) {
                 int index = predicateVariables.indexOf(var);
                 selection = ((PredicateVariable) predicateVariables.get(index)).getSelection();
@@ -71,11 +113,41 @@ public final class Interpretation {
             }
             Predicate predicate = model.getPredicate(var.getArgumentNumber(), selection);
             result = predicate.calculate(getEntities(list));
+        } else if (Operators.UNIVERSAL_QUANTIFIER_OPERATOR.equals(op)) {
+            result = true;
+            ElementList variable = list.getElement(0).getList();
+            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString(), 0);
+            subjectVariables.add(var);
+            for (int i = 0; i < model.getEntitiesSize(); i++) {
+                var.setSelection(i);
+                if (list.size() == 2) {
+                    result &= calculateValue(list.getElement(1));
+                } else {  // must be 3
+                    result &= !calculateValue(list.getElement(1)) || calculateValue(list.getElement(2));
+                }
+            }
+            subjectVariables.remove(var);
+        } else if (Operators.EXISTENTIAL_QUANTIFIER_OPERATOR.equals(op)) {
+            result = true;
+            ElementList variable = list.getElement(0).getList();
+            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString(), 0);
+            subjectVariables.add(var);
+            for (int i = 0; i < model.getEntitiesSize(); i++) {
+                var.setSelection(i);
+                if (list.size() == 2) {
+                    result |= calculateValue(list.getElement(1));
+                } else {  // must be 3
+                    result |= calculateValue(list.getElement(1)) && calculateValue(list.getElement(2));
+                }
+            }
+            subjectVariables.remove(var);
+        } else {
+            throw new RuntimeException("unknown operator " + op);
         }
         return result;
     }
 
-    public Entity[] getEntities(final ElementList list) {
+    private Entity[] getEntities(final ElementList list) {
         final Entity[] result =  new Entity[list.size() - 1];    // strip first argument
         for (int i = 0; i < result.length; i++) {
             result[i] = getEntity(list.getElement(i + 1));

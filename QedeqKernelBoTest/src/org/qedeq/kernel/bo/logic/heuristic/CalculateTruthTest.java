@@ -408,4 +408,94 @@ public class CalculateTruthTest extends QedeqTestCase {
         assertFalse(CalculateTruth.isTautology(ele));
     }
 
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     \forall x (A(x) -> A(x))
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology27() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<FORALL><VAR id=\"x\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
+            + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></IMPL></FORALL>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     negative
+     * Data:     \forall x \forall y (A(x) -> A(y))
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology28() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
+            + "<PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR></IMPL></FORALL></FORALL>");
+//        System.out.println(ele.toString());
+        assertFalse(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     \forall x \forall y (A(x,y) -> A(x,y))
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology29() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
+            + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR></IMPL></FORALL></FORALL>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     \forall x \forall A(x,y): A(x,y))
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology30() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
+            + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR></FORALL></FORALL>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     negative
+     * Data:     \forall x \forall A(x,y): A(y,x))
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology31() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
+            + "<PREDVAR id=\"A\"><VAR id=\"y\"/><VAR id=\"x\"/></PREDVAR></FORALL></FORALL>");
+//        System.out.println(ele.toString());
+        assertFalse(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     \forall x \exists y (A(x) -> A(y))
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology32() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<FORALL><VAR id=\"x\"/><EXISTS><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
+            + "<PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR></IMPL></EXISTS></FORALL>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
 }

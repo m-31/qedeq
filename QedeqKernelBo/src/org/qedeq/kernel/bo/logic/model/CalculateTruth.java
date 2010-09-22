@@ -28,13 +28,13 @@ import org.qedeq.kernel.bo.logic.wf.Operators;
 public final class CalculateTruth {
 
     /** Interpretation for variables. */
-    private final Interpretation interpretation;
+    private final Interpreter interpretation;
 
     /**
      * Constructor.
      */
     private CalculateTruth() {
-        interpretation = new Interpretation();
+        interpretation = new Interpreter();
     }
 
     /**
@@ -59,71 +59,12 @@ public final class CalculateTruth {
     private boolean calculateTautology(final Element formula) {
         boolean result = true;
         do {
-            result &= calculateValue(formula);
+            result &= interpretation.calculateValue(formula);
             System.out.println(interpretation.toString());
         } while (result && interpretation.next());
         System.out.println("interpretation finished - and result is = " + result);
         return result;
     }
 
-    /**
-     * Calculate the truth value of a given formula is a tautology. This is done by checking with
-     * a model and certain variable values.
-     *
-     * @param   formula         Formula.
-     * @return  Truth value of formula.
-     */
-    private boolean calculateValue(final Element formula) {
-        if (formula.isAtom()) {
-            throw new IllegalArgumentException("wrong calling convention: " + formula);
-        }
-        final ElementList list = formula.getList();
-        final String op = list.getOperator();
-        boolean result;
-        if (Operators.CONJUNCTION_OPERATOR.equals(op)) {
-            result = true;
-            for (int i = 0; i < list.size(); i++) {
-                result &= calculateValue(list.getElement(i));
-            }
-
-        } else if (Operators.DISJUNCTION_OPERATOR.equals(op)) {
-            result = false;
-            for (int i = 0; i < list.size(); i++) {
-                result |= calculateValue(list.getElement(i));
-            }
-        } else if (Operators.EQUIVALENCE_OPERATOR.equals(op)) {
-            result = true;
-            boolean value = false;
-            for (int i = 0; i < list.size(); i++) {
-                if (i > 0) {
-                    if (value != calculateValue(list.getElement(i))) {
-                        result = false;
-                    }
-                } else {
-                    value = calculateValue(list.getElement(i));
-                }
-            }
-        } else if (Operators.IMPLICATION_OPERATOR.equals(op)) {
-            result = false;
-            for (int i = 0; i < list.size(); i++) {
-                if (i < list.size() - 1) {
-                    result |= !calculateValue(list.getElement(i));
-                } else {
-                    result |= calculateValue(list.getElement(i));
-                }
-            }
-        } else if (Operators.NEGATION_OPERATOR.equals(op)) {
-            result = true;
-            for (int i = 0; i < list.size(); i++) {
-                result &= !calculateValue(list.getElement(i));
-            }
-        } else if (Operators.PREDICATE_VARIABLE.equals(op)) {
-            result = interpretation.getFormulaValue(list);
-        } else {
-            // FIXME
-            result = false;
-        }
-        return result;
-    }
 
 }

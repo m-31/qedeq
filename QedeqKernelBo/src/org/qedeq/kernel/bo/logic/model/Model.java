@@ -25,14 +25,14 @@ import java.util.List;
  */
 public final class Model {
 
-    /** List of all entities in model. */
+    /** List of all entities in this model. */
     private final List entities;
 
     /** List of functions for different argument numbers. */
-    private final List functions;
+    private final List functionPool;
 
     /** List of predicates for different argument numbers. */
-    private final List predicates;
+    private final List predicatePool;
 
     /**
      * Constructor.
@@ -43,23 +43,23 @@ public final class Model {
         entities.add(Entity.ONE);
         entities.add(Entity.TWO);
 
-        functions = new ArrayList();
+        functionPool = new ArrayList();
 
-        predicates = new ArrayList();
+        predicatePool = new ArrayList();
 
         final List predicate0 = new ArrayList();
-        predicates.add(predicate0);
+        predicatePool.add(predicate0);
         predicate0.add(Predicate.FALSE);
         predicate0.add(Predicate.TRUE);
 
         final List predicate1 = new ArrayList();
-        predicates.add(predicate1);
+        predicatePool.add(predicate1);
         predicate1.add(Predicate.FALSE);
         predicate1.add(Predicate.TRUE);
         predicate1.add(Predicate.EVEN);
 
         final List predicate2 = new ArrayList();
-        predicates.add(predicate2);
+        predicatePool.add(predicate2);
         predicate2.add(Predicate.FALSE);
         predicate2.add(Predicate.TRUE);
         predicate1.add(Predicate.EVEN);
@@ -77,14 +77,14 @@ public final class Model {
     }
 
     public int getPredicateSize(final int size) {
-        if (predicates.size() <=  size) {
+        if (predicatePool.size() <=  size) {
             return 0;
         }
-        return ((List) predicates.get(size)).size();
+        return ((List) predicatePool.get(size)).size();
     }
 
     public Predicate getPredicate(final int size, final int number) {
-        final List predicateForSize = (List) predicates.get(size);
+        final List predicateForSize = (List) predicatePool.get(size);
         return (Predicate) predicateForSize.get(number);
     }
 
