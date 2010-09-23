@@ -543,4 +543,49 @@ public class CalculateTruthTest extends QedeqTestCase {
         assertTrue(CalculateTruth.isTautology(ele));
     }
 
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     f(y) = f(y)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology36() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR>"
+            + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     negative
+     * Data:     f(x) = f(y)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology37() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"x\"/></FUNVAR>"
+            + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON>");
+//        System.out.println(ele.toString());
+        assertFalse(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     negative
+     * Data:     \exists y f(x) = f(y)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology38() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EXISTS><VAR id=\"y\"/><PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"x\"/></FUNVAR>"
+            + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON></EXISTS>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
 }

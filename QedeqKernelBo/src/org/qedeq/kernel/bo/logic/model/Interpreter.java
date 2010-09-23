@@ -33,6 +33,9 @@ public final class Interpreter {
     /** List of subject variables. */
     private List subjectVariables;
 
+    /** List of function variables. */
+    private List functionVariables;
+
     /** List of predicate variables. */
     private List predicateVariables;
 
@@ -44,6 +47,7 @@ public final class Interpreter {
      */
     public Interpreter() {
         predicateVariables = new ArrayList();
+        functionVariables = new ArrayList();
         subjectVariables = new ArrayList();
         model = new Model();
     }
@@ -208,6 +212,19 @@ public final class Interpreter {
                 subjectVariables.add(var);
             }
             result = model.getEntity(selection);
+        } else if (Operators.FUNCTION_VARIABLE.equals(op)) {
+            final FunctionVariable var = new FunctionVariable(list.getElement(0).getAtom().getString(),
+                    list.size() - 1, 0);
+            if (functionVariables.contains(var)) {
+                int index = functionVariables.indexOf(var);
+                selection = ((FunctionVariable) functionVariables.get(index)).getSelection();
+            } else {
+                System.out.println("added function var " + var);
+                functionVariables.add(var);
+                selection = 0;
+            }
+            Function function = model.getFunction(var.getArgumentNumber(), selection);
+            result = function.map(getEntities(list));
         }
         return result;
     }
@@ -251,6 +268,25 @@ public final class Interpreter {
                 }
             }
         }
+
+        if (next) {
+            next = false;
+            for (int i = functionVariables.size() - 1; i >= -1; i--) {
+                if (i < 0) {
+                    next = true;
+                    break;
+                }
+                final FunctionVariable var = (FunctionVariable) functionVariables.get(i);
+                int selection = var.getSelection() + 1;
+                if (selection < model.getFunctionSize(var.getArgumentNumber())) {
+                    var.setSelection(selection);
+                    break;
+                } else {
+                    var.setSelection(0);
+                }
+            }
+        }
+
         return !next;
     }
 
@@ -274,7 +310,6 @@ public final class Interpreter {
         buffer.append("}");
         return buffer.toString();
     }
-
 
 
 }

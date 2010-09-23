@@ -50,6 +50,25 @@ public final class Model {
 
         functionPool = new ArrayList();
 
+        final List function0 = new ArrayList();
+        functionPool.add(function0);
+        function0.add(Function.ZERO);
+        function0.add(Function.ONE);
+
+        final List function1 = new ArrayList();
+        functionPool.add(function1);
+        function1.add(Function.ZERO);
+        function1.add(Function.ONE);
+        function1.add(Function.MOD);
+        function1.add(Function.PLUS);
+
+        final List function2 = new ArrayList();
+        functionPool.add(function2);
+        function2.add(Function.ZERO);
+        function2.add(Function.ONE);
+        function2.add(Function.MOD);
+        function2.add(Function.PLUS);
+
         predicatePool = new ArrayList();
 
         final List predicate0 = new ArrayList();
@@ -99,6 +118,18 @@ public final class Model {
 
     public Predicate getPredicateConst(final PredicateVariable var) {
         return (Predicate) predicateConstants.get(var);
+    }
+
+    public int getFunctionSize(final int size) {
+        if (functionPool.size() <=  size) {
+            return 0;
+        }
+        return ((List) functionPool.get(size)).size();
+    }
+
+    public Function getFunction(final int size, final int number) {
+        final List functionForSize = (List) functionPool.get(size);
+        return (Function) functionForSize.get(number);
     }
 
 }
