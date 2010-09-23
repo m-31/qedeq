@@ -97,7 +97,7 @@ public final class Model {
         return (Predicate) predicateForSize.get(number);
     }
 
-    public Predicate getPredicateConst(PredicateVariable var) {
+    public Predicate getPredicateConst(final PredicateVariable var) {
         return (Predicate) predicateConstants.get(var);
     }
 

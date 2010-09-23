@@ -16,8 +16,6 @@
 package org.qedeq.kernel.bo.logic.model;
 
 import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.base.list.ElementList;
-import org.qedeq.kernel.bo.logic.wf.Operators;
 
 
 /**
