@@ -171,9 +171,8 @@ public final class Interpreter {
             }
             subjectVariables.remove(var);
         } else if (Operators.PREDICATE_CONSTANT.equals(op)) {
-            int selection = -1;
             final PredicateVariable var = new PredicateVariable(list.getElement(0).getAtom().getString(),
-                    list.size() - 1, 0);
+                list.size() - 1, 0);
             Predicate predicate = model.getPredicateConst(var);
             if (predicate == null) {
                 throw new RuntimeException("Unknown predicate constant: " + var);
