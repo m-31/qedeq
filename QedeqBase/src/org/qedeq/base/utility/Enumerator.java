@@ -52,6 +52,13 @@ public final class Enumerator {
     }
 
     /**
+     * Reset counter to zero.
+     */
+    public final void reset() {
+        number = 0;
+    }
+
+    /**
      * Increases current number by one.
      */
     public final void increaseNumber() {
