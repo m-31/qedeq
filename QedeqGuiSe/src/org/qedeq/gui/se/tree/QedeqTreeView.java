@@ -17,12 +17,9 @@ package org.qedeq.gui.se.tree;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
-import javax.swing.JPopupMenu;
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.event.TreeSelectionListener;
@@ -43,36 +40,8 @@ import javax.swing.tree.TreeSelectionModel;
  */
 public final class QedeqTreeView extends JPanel {
 
-    /** Refresh module contents. */
-    public static final String REFRESH_ACTION = "Refresh";
-
-    /** Remove module .*/
-    public static final String REMOVE_ACTION = "Remove";
-
-    /** Convert module into LaTeX. */
-    public static final String LATEX_ACTION = "LaTeX";
-
-    /** Convert module into HTML. */
-    public static final String HTML_ACTION = "HTML";
-
     /** Reference to JTree. */
     private final JTree theTree;
-
-    /** Context menu. */
-    private final JPopupMenu contextMenu = new JPopupMenu();
-
-    /** Menu entry. */
-    private final JMenuItem refreshItem;
-
-    /** Menu entry. */
-    private final JMenuItem removeItem;
-
-    /** Menu entry. */
-    private final JMenuItem htmlItem;
-
-    /** Menu entry. */
-    private final JMenuItem latexItem;
-
 
     /**
      * Constructor.
@@ -99,52 +68,12 @@ public final class QedeqTreeView extends JPanel {
 
         this.add(theTree);
         this.setMinimumSize(new Dimension(150, 100));
-
-        // LATER mime 20071022: rework the following items
-        refreshItem = new JMenuItem(REFRESH_ACTION);
-        refreshItem.setActionCommand(REFRESH_ACTION);
-        refreshItem.setEnabled(false);
-        contextMenu.add(refreshItem);
-
-        removeItem = new JMenuItem(REMOVE_ACTION);
-        removeItem.setActionCommand(REMOVE_ACTION);
-        contextMenu.add(removeItem);
-
-        latexItem = new JMenuItem(LATEX_ACTION);
-        latexItem.setActionCommand(LATEX_ACTION);
-        contextMenu.add(latexItem);
-
-        htmlItem = new JMenuItem(HTML_ACTION);
-        htmlItem.setActionCommand(HTML_ACTION);
-        htmlItem.setEnabled(false);
-        contextMenu.add(htmlItem);
     }
 
     /* @see JTree#expandPath
      */
     public final void expandPath(final TreePath path) {
         theTree.expandPath(path);
-    }
-
-    /**
-     * Return context menu.
-     *
-     * @return  context menu
-     */
-    public final JPopupMenu getContextMenu() {
-        return contextMenu;
-    }
-
-    /**
-     * Registers ActionListener for all context menu entries.
-     *
-     * @param   listener    register this one
-     */
-    public final void addActionCommandToContextMenus(final ActionListener listener) {
-        refreshItem.addActionListener(listener);
-        removeItem.addActionListener(listener);
-        htmlItem.addActionListener(listener);
-        latexItem.addActionListener(listener);
     }
 
     /* @see JTree#addTreeSelectionListener

@@ -26,6 +26,7 @@ import org.qedeq.gui.se.tree.QedeqTreeCtrl;
 import org.qedeq.gui.se.util.DataDictionary;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.common.Plugin;
 
 
 /**
@@ -76,6 +77,9 @@ public class QedeqController {
     /** Transform QEDEQ module into LaTeX. */
     private final Action makeLatexAction;
 
+    /** All plugin actions. */
+    private final PluginAction[] pluginActions;
+
     /** Check logical correctness of QEDEQ module. */
     private final Action checkLogicAction;
 
@@ -114,6 +118,13 @@ public class QedeqController {
         removeLocalBufferAction = new RemoveLocalBufferAction(this);
         makeLatexAction = new MakeLatexAction(this);
         checkLogicAction = new CheckLogicAction(this);
+
+        final Plugin[] plugins = KernelContext.getInstance().getPlugins();
+        pluginActions = new PluginAction[plugins.length];
+        for (int i = 0; i < plugins.length; i++) {
+            pluginActions[i] = new PluginAction(this, plugins[i]);
+        }
+
         final String[] list = KernelContext.getInstance().getConfig().getModuleHistory();
         moduleHistory = new ArrayList();
         for (int i = 0; i < list.length; i++) {
@@ -223,6 +234,15 @@ public class QedeqController {
     }
 
     /**
+     * Get all plugin actions.
+     *
+     * @return  Action.
+     */
+    public PluginAction[] getPluginActions() {
+        return pluginActions;
+    }
+
+    /**
      * Get action for checking the logical correctness of the selected QEDEQ modules.
      *
      * @return  Action.
@@ -287,7 +307,6 @@ public class QedeqController {
     public char getMnemonic(final String key) {
         return DataDictionary.getInstance().getMnemonic(key);
     }
-
 
     void addToModuleHistory(final String url) {
         getModuleHistory().add(0, url);

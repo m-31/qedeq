@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
@@ -147,13 +148,20 @@ public interface KernelServices {
     public boolean checkModule(ModuleAddress address);
 
     /**
+     * Get all installed plugins.
+     *
+     * @return  Installed plugins.
+     */
+    public Plugin[] getPlugins();
+
+    /**
      * Execute plugin on given QEDEQ module.
      *
-     * @param   name        Plugin name
+     * @param   id          Plugin id.
      * @param   address     QEDEQ module address.
      * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public Object executePlugin(final String name, final ModuleAddress address, final Map parameters);
+    public Object executePlugin(final String id, final ModuleAddress address, final Map parameters);
 
 }

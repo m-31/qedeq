@@ -928,9 +928,13 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         return prop.isChecked();
     }
 
-    public Object executePlugin(final String pluginName, final ModuleAddress address,
+    public Plugin[] getPlugins() {
+        return pluginManager.getPlugins();
+    }
+
+    public Object executePlugin(final String id, final ModuleAddress address,
             final Map parameters) {
-        return pluginManager.executePlugin(pluginName, getKernelQedeqBo(address), parameters);
+        return pluginManager.executePlugin(id, getKernelQedeqBo(address), parameters);
     }
 
     /**

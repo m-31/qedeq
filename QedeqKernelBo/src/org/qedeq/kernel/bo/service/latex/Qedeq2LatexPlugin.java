@@ -56,7 +56,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
     }
 
     public String getPluginName() {
-        return "generate LaTeX";
+        return "Create LaTeX";
     }
 
     public String getPluginDescription() {

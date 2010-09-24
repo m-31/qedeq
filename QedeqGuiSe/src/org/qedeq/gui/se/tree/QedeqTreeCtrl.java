@@ -15,8 +15,6 @@
 
 package org.qedeq.gui.se.tree;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +32,6 @@ import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.main.LowerTabbedView;
 import org.qedeq.gui.se.main.UpperTabbedView;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.context.KernelContext;
 
 
 /**
@@ -59,17 +56,14 @@ public final class QedeqTreeCtrl implements TreeModelListener {
     /** Tree model. */
     private final QedeqTreeModel treeModel;
 
-    /** Reference to basis controller. */
-    private final QedeqController controller;
+    /** Context menu. */
+    private final QedeqTreeContextMenu contextMenu;
 
     /** Reference to view. */
     private final UpperTabbedView pane;
 
     /** Reference to view. */
     private final LowerTabbedView lower;
-
-    /** Reference to view. */
-    private final ActionListener removeAction;
 
 
     /**
@@ -88,23 +82,12 @@ public final class QedeqTreeCtrl implements TreeModelListener {
         this.treeView = treeView;
         this.treeModel = treeModel;
         this.treeModel.addTreeModelListener(this);
-        this.controller = controller;
-        this.treeView.addActionCommandToContextMenus(new QedeqActionCommand());
+        this.contextMenu = new QedeqTreeContextMenu(controller);
         this.treeView.treeAddMouseListener(new QedeqMouseListener());
         this.treeView.addTreeSelectionListener(new SelectionChangedCommand());
-        this.removeAction = new RemoveAction();
-        // TODO mime 20071024: inform others per listener about this event
+        // LATER mime 20071024: inform others per listener about this event
         this.pane = pane;
         this.lower = lowerView;
-    }
-
-    /**
-     * Get remove action for this tree.
-     *
-     * @return  Remove action.
-     */
-    public final ActionListener getRemoveAction() {
-        return this.removeAction;
     }
 
     /**
@@ -238,63 +221,6 @@ public final class QedeqTreeCtrl implements TreeModelListener {
     }
 
     /**
-     * Start menu actions.
-     */
-    private class QedeqActionCommand implements ActionListener {
-
-        public void actionPerformed(final ActionEvent event) {
-            final String method = "actionPerformed";
-            Trace.param(CLASS, this, method, "action", event);
-
-            if (event.getActionCommand() == QedeqTreeView.REMOVE_ACTION)  {     // delete
-                getRemoveAction().actionPerformed(event);
-            } else if (event.getActionCommand() == QedeqTreeView.LATEX_ACTION)  { // add
-                QedeqTreeCtrl.this.controller.getLatexAction().actionPerformed(event);
-/*  LATER mime 20080131: implement other actions too
-            } else if (event.getActionCommand() == QedeqTreeView.REFRESH_ACTION)  {    // refresh
-            } else if (event.getActionCommand() == PmiiTreeView.ADD_ACTION) {
-                getAddAction().actionPerformed(event);
-            } else if (event.getActionCommand() == PmiiTreeView.HTML_ACTION) {
-                getHtmlAction().actionPerformed(event);
-*/
-            }
-        }
-    }
-
-    /**
-     * RemoveAction removes the selected node from the tree.
-     * TODO mime 20080319: code already in RemoveModuleAction!
-     */
-    private class RemoveAction extends Object implements ActionListener {
-
-        /**
-         * Removes the selected item as long as it isn't root.
-         *
-         * @param   e   Event.
-         */
-       public void actionPerformed(final ActionEvent e) {
-           try {
-               final QedeqBo[] bos = getSelected();
-               final Runnable runExtra = new Runnable() {
-                   public void run() {
-                       for (int i = 0; i < bos.length; i++) {
-                           KernelContext.getInstance().removeModule(bos[i].getModuleAddress());
-                       }
-                   }
-               };
-               final Thread thread = new Thread(runExtra);
-               thread.setDaemon(true);
-               thread.start();
-           } catch (NothingSelectedException e1) {
-               // nothing to do;
-               Trace.trace(QedeqTreeCtrl.RemoveAction.class, this, "actionPerformed(ActionEvent",
-                   e);
-           }
-       }
-
-    }
-
-    /**
      * Handle mouse events.
      */
     private class QedeqMouseListener extends MouseAdapter {
@@ -307,7 +233,7 @@ public final class QedeqTreeCtrl implements TreeModelListener {
                 if (path != null) {
                     treeView.setSelectionPath(path);
                 } // TODO mime 20080126: other ContextMenu if no selection was done
-                treeView.getContextMenu().show(evt.getComponent(),
+                contextMenu.show(evt.getComponent(),
                     evt.getX(), evt.getY());
             }
 //            super.mousePressed(evt);

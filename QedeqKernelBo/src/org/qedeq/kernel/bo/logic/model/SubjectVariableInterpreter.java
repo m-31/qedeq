@@ -131,5 +131,4 @@ public final class SubjectVariableInterpreter {
         return buffer.toString();
     }
 
-
 }

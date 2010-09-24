@@ -26,6 +26,7 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 public class DummyInternalKernalServices implements InternalKernelServices {
@@ -98,6 +99,9 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     }
     public SourceFileExceptionList createSourceFileExceptionList(String address,
             RuntimeException e) {
+        return null;
+    }
+    public Plugin[] getPlugins() {
         return null;
     }
 

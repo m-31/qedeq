@@ -40,7 +40,7 @@ public class PluginManager {
      * @return  Registered plugins.
      */
     synchronized PluginBo[] getPlugins() {
-        return (PluginBo[]) plugins.keySet().toArray(new PluginBo[] {});
+        return (PluginBo[]) plugins.values().toArray(new PluginBo[] {});
     }
 
     /**
@@ -91,14 +91,14 @@ public class PluginManager {
     /**
      * Execute a plugin on an QEDEQ module.
      *
-     * @param   name    Plugin to use.
+     * @param   id      Plugin to use.
      * @param   qedeq   QEDEQ module to work on.
      * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    synchronized Object executePlugin(final String name, final KernelQedeqBo qedeq,
+    synchronized Object executePlugin(final String id, final KernelQedeqBo qedeq,
             final Map parameters) {
-        final PluginBo plugin = (PluginBo) plugins.get(name);
+        final PluginBo plugin = (PluginBo) plugins.get(id);
         return plugin.executePlugin(qedeq, parameters);
     }
 

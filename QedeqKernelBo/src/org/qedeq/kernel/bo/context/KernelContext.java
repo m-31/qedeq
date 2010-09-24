@@ -29,6 +29,7 @@ import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.config.QedeqConfig;
 
@@ -167,6 +168,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
+        public Plugin[] getPlugins() {
+            throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
+        }
+
         public Object executePlugin(final String pluginName, final ModuleAddress address,
                 final Map parameters) {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
@@ -248,6 +253,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
         public boolean checkModule(final ModuleAddress address) {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
+        }
+
+        public Plugin[] getPlugins() {
+            return services.getPlugins();
         }
 
         public Object executePlugin(final String pluginName, final ModuleAddress address,
@@ -341,6 +350,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
         public boolean checkModule(final ModuleAddress address) {
             return services.checkModule(address);
+        }
+
+        public Plugin[] getPlugins() {
+            return services.getPlugins();
         }
 
         public Object executePlugin(final String pluginName, final ModuleAddress address,
@@ -585,6 +598,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
     public boolean checkModule(final ModuleAddress address) {
         return currentState.checkModule(address);
+    }
+
+    public Plugin[] getPlugins() {
+        return currentState.getPlugins();
     }
 
     public Object executePlugin(final String pluginName, final ModuleAddress address,
