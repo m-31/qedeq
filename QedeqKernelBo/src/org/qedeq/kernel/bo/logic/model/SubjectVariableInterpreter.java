@@ -55,7 +55,6 @@ public final class SubjectVariableInterpreter {
      * @return  Is there a next new valuation?
      */
     public boolean next() {
-        System.out.println("iterate");
         boolean next = true;
         for (int i = subjectVariables.size() - 1; i >= -1; i--) {
             if (i < 0) {
@@ -77,7 +76,7 @@ public final class SubjectVariableInterpreter {
         if (subjectVariables.contains(var)) {
             throw new RuntimeException("variable already exists: " + var);
         }
-        System.out.println("added subject variable " + var);
+//        System.out.println("added subject variable " + var);
         subjectVariables.add(var);
         subjectVariableCounters.add(new Enumerator());
     }
@@ -87,7 +86,7 @@ public final class SubjectVariableInterpreter {
         if (index < 0) {
             throw new RuntimeException("variable does not exist: " + var);
         }
-        System.out.println("removed subject variable " + var);
+//        System.out.println("removed subject variable " + var);
         subjectVariables.remove(index);
         subjectVariableCounters.remove(index);
     }
@@ -98,7 +97,7 @@ public final class SubjectVariableInterpreter {
             final int index = subjectVariables.indexOf(var);
             selection = ((Enumerator) subjectVariableCounters.get(index)).getNumber();
         } else {
-            System.out.println("added subject variable " + var);
+//            System.out.println("added subject variable " + var);
             selection = 0;
             subjectVariables.add(var);
             subjectVariableCounters.add(new Enumerator());
@@ -118,12 +117,15 @@ public final class SubjectVariableInterpreter {
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append("{");
+        buffer.append("subject variables {");
         for (int i = 0; i < subjectVariables.size(); i++) {
             if (i > 0) {
                 buffer.append(", ");
             }
+            SubjectVariable var = (SubjectVariable) subjectVariables.get(i);
             buffer.append(subjectVariables.get(i));
+            buffer.append("=");
+            buffer.append(getEntity(var));
         }
         buffer.append("}");
         return buffer.toString();

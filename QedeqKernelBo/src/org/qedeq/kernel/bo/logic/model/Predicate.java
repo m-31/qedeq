@@ -120,7 +120,7 @@ public abstract class Predicate {
      *
      * @return  Representation of this predicate for textual output.
      */
-    public String getDisplay() {
+    public String toString() {
         return display;
     }
 

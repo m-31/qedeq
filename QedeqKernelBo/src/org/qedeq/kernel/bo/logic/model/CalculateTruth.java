@@ -58,9 +58,9 @@ public final class CalculateTruth {
         boolean result = true;
         do {
             result &= interpretation.calculateValue(formula);
-            System.out.println(interpretation.toString());
+//            System.out.println(interpretation.toString());
         } while (result && interpretation.next());
-        System.out.println("interpretation finished - and result is = " + result);
+//        System.out.println("interpretation finished - and result is = " + result);
         return result;
     }
 

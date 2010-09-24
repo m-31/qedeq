@@ -58,7 +58,7 @@ public class SubjectVariable {
     }
 
     public String toString() {
-        return "VAR " + name;
+        return name;
     }
 
 }

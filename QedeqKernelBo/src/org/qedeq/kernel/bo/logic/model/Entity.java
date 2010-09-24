@@ -69,7 +69,7 @@ public final class Entity {
      *
      * @return  Representation of this entity for textual output.
      */
-    public String getDisplay() {
+    public String toString() {
         return display;
     }
 

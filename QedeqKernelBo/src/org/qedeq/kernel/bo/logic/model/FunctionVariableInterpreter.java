@@ -60,7 +60,7 @@ public final class FunctionVariableInterpreter {
             final int index = functionVariables.indexOf(var);
             selection = ((Enumerator) functionVariableCounters.get(index)).getNumber();
         } else {
-            System.out.println("added function variable " + var);
+//            System.out.println("added function variable " + var);
             selection = 0;
             functionVariables.add(var);
             functionVariableCounters.add(new Enumerator());
@@ -106,12 +106,15 @@ public final class FunctionVariableInterpreter {
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append("{");
+        buffer.append("function variables {");
         for (int i = 0; i < functionVariables.size(); i++) {
             if (i > 0) {
                 buffer.append(", ");
             }
+            FunctionVariable var = (FunctionVariable) functionVariables.get(i);
             buffer.append(functionVariables.get(i));
+            buffer.append("=");
+            buffer.append(getFunction(var));
         }
         buffer.append("}");
         return buffer.toString();

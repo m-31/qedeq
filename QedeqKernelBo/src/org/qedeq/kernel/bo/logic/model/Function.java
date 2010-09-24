@@ -122,7 +122,7 @@ public abstract class Function {
      *
      * @return  Representation of this function for textual output.
      */
-    public String getDisplay() {
+    public String toString() {
         return display;
     }
 

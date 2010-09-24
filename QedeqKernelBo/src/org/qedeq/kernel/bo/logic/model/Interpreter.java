@@ -198,7 +198,7 @@ public final class Interpreter {
         if (!term.isList()) {
             throw new RuntimeException("a term should be a list: " + term);
         }
-        final ElementList termList = term.getList(); // FIXME test before
+        final ElementList termList = term.getList();
         final String op = termList.getOperator();
         Entity result = null;
         if (Operators.SUBJECT_VARIABLE.equals(op)) {
@@ -219,16 +219,16 @@ public final class Interpreter {
      * @return  Is there a next new valuation?
      */
     public boolean next() {
-        System.out.println("iterate");
         return subjectVariableInterpreter.next() || predicateVariableInterpreter.next()
             || functionVariableInterpreter.next();
     }
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append(predicateVariableInterpreter.toString());
-        buffer.append(subjectVariableInterpreter.toString());
-        buffer.append(functionVariableInterpreter.toString());
+        buffer.append("Current interpretation:\n");
+        buffer.append("\t" + predicateVariableInterpreter + "\n");
+        buffer.append("\t" + subjectVariableInterpreter + "\n");
+        buffer.append("\t" + functionVariableInterpreter);
         return buffer.toString();
     }
 

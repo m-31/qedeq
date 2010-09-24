@@ -54,7 +54,7 @@ public final class PredicateVariableInterpreter {
             final int index = predicateVariables.indexOf(var);
             selection = ((Enumerator) predicateVariableCounters.get(index)).getNumber();
         } else {
-            System.out.println("added predicate variable " + var);
+//            System.out.println("added predicate variable " + var);
             selection = 0;
             predicateVariables.add(var);
             predicateVariableCounters.add(new Enumerator());
@@ -94,12 +94,15 @@ public final class PredicateVariableInterpreter {
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append("{");
+        buffer.append("predicate variables {");
         for (int i = 0; i < predicateVariables.size(); i++) {
             if (i > 0) {
                 buffer.append(", ");
             }
+            PredicateVariable var = (PredicateVariable) predicateVariables.get(i);
             buffer.append(predicateVariables.get(i));
+            buffer.append("=");
+            buffer.append(getPredicate(var));
         }
         buffer.append("}");
         return buffer.toString();
