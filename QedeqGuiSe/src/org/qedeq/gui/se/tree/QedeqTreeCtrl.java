@@ -227,12 +227,15 @@ public final class QedeqTreeCtrl implements TreeModelListener {
 
         public void mousePressed(final java.awt.event.MouseEvent evt) {
 
-            final TreePath path =  treeView.getPathForLocation(evt.getX(), evt.getY());
-
             if (SwingUtilities.isRightMouseButton(evt)) {
-                if (path != null) {
-                    treeView.setSelectionPath(path);
-                } // TODO mime 20080126: other ContextMenu if no selection was done
+                try {
+                    getSelected();
+                } catch (NothingSelectedException e) {
+                    final TreePath path =  treeView.getPathForLocation(evt.getX(), evt.getY());
+                    if (path != null) {
+                        treeView.setSelectionPath(path);
+                    } // TODO mime 20080126: other ContextMenu if no selection was done
+                }
                 contextMenu.show(evt.getComponent(),
                     evt.getX(), evt.getY());
             }

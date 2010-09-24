@@ -71,7 +71,7 @@ public class PluginAction extends AbstractAction {
             final Thread thread = new Thread() {
                 public void run() {
                     final Map parameters = new HashMap();
-                    parameters.put("info", "true");
+                    parameters.put("info", "true"); // FIXME m31 20100924: these are only LaTeX Parameters
                     for (int i = 0; i < props.length; i++) {
                         KernelContext.getInstance().executePlugin(plugin.getPluginId(),
                             props[i].getModuleAddress(), parameters);
