@@ -30,20 +30,15 @@ public class PredicateVariable {
     /** Argument number for predicate variable. */
     private final int number;
 
-    /** Current selection for this predicate. */
-    private int selection;
-
     /**
      * Constructor.
      *
      * @param   name        Show this to represent the predicate within outputs.
      * @param   number      Number of arguments this predicate has.
-     * @param   selection   Current selection for this predicate.
      */
-    public PredicateVariable(final String name, final int number, final int selection) {
+    public PredicateVariable(final String name, final int number) {
         this.number = number;
         this.name = name;
-        this.selection = selection;
     }
 
     /**
@@ -64,19 +59,6 @@ public class PredicateVariable {
         return number;
     }
 
-    /**
-     * Get predicate selection.
-     *
-     * @return  Predicate selection number.
-     */
-    public int getSelection() {
-        return selection;
-    }
-
-    public void setSelection(final int selection) {
-        this.selection = selection;
-    }
-
     public int hashCode() {
         return name.hashCode() ^ number;
     }
@@ -90,7 +72,7 @@ public class PredicateVariable {
     }
 
     public String toString() {
-        return name + "_" + number + "=" + selection;
+        return name + "_" + number;
     }
 
 }

@@ -27,18 +27,13 @@ public class SubjectVariable {
     /** Text to identify the subject variable. */
     private final String name;
 
-    /** Current selection for this subject variable. */
-    private int selection;
-
     /**
      * Constructor.
      *
      * @param   name        Show this to represent the subject variable within outputs.
-     * @param   selection   Current selection for this subject variable.
      */
-    public SubjectVariable(final String name, final int selection) {
+    public SubjectVariable(final String name) {
         this.name = name;
-        this.selection = selection;
     }
 
     /**
@@ -48,19 +43,6 @@ public class SubjectVariable {
      */
     public String getName() {
         return name;
-    }
-
-    /**
-     * Get subject variable selection.
-     *
-     * @return  Subject variable selection number.
-     */
-    public int getSelection() {
-        return selection;
-    }
-
-    public void setSelection(final int selection) {
-        this.selection = selection;
     }
 
     public int hashCode() {
@@ -76,7 +58,7 @@ public class SubjectVariable {
     }
 
     public String toString() {
-        return name + "=" + selection;
+        return "VAR " + name;
     }
 
 }

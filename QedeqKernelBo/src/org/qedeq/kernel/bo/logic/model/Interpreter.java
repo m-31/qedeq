@@ -15,9 +15,6 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.bo.logic.wf.Operators;
@@ -30,26 +27,26 @@ import org.qedeq.kernel.bo.logic.wf.Operators;
  */
 public final class Interpreter {
 
-    /** List of subject variables. */
-    private List subjectVariables;
+    /** Model contains entities, functions, predicates. */
+    private final Model model;
 
-    /** List of function variables. */
-    private List functionVariables;
+    /** Interpret subject variables. */
+    private final SubjectVariableInterpreter subjectVariableInterpreter;
 
-    /** List of predicate variables. */
-    private List predicateVariables;
+    /** Interpret predicate variables. */
+    private final PredicateVariableInterpreter predicateVariableInterpreter;
 
-    /** Model contains entities. */
-    private Model model;
+    /** Interpret function variables. */
+    private final FunctionVariableInterpreter functionVariableInterpreter;
 
     /**
      * Constructor.
      */
     public Interpreter() {
-        predicateVariables = new ArrayList();
-        functionVariables = new ArrayList();
-        subjectVariables = new ArrayList();
         model = new Model();
+        subjectVariableInterpreter = new SubjectVariableInterpreter(model);
+        predicateVariableInterpreter = new PredicateVariableInterpreter(model);
+        functionVariableInterpreter = new FunctionVariableInterpreter(model);
     }
 
     /**
@@ -71,7 +68,6 @@ public final class Interpreter {
             for (int i = 0; i < list.size(); i++) {
                 result &= calculateValue(list.getElement(i));
             }
-
         } else if (Operators.DISJUNCTION_OPERATOR.equals(op)) {
             result = false;
             for (int i = 0; i < list.size(); i++) {
@@ -104,26 +100,15 @@ public final class Interpreter {
                 result &= !calculateValue(list.getElement(i));
             }
         } else if (Operators.PREDICATE_VARIABLE.equals(op)) {
-            int selection = -1;
             final PredicateVariable var = new PredicateVariable(list.getElement(0).getAtom().getString(),
-                    list.size() - 1, 0);
-            if (predicateVariables.contains(var)) {
-                int index = predicateVariables.indexOf(var);
-                selection = ((PredicateVariable) predicateVariables.get(index)).getSelection();
-            } else {
-                System.out.println("added predvar " + var);
-                predicateVariables.add(var);
-                selection = 0;
-            }
-            Predicate predicate = model.getPredicate(var.getArgumentNumber(), selection);
-            result = predicate.calculate(getEntities(list));
+                    list.size() - 1);
+            result = predicateVariableInterpreter.getPredicate(var).calculate(getEntities(list));
         } else if (Operators.UNIVERSAL_QUANTIFIER_OPERATOR.equals(op)) {
             result = true;
             ElementList variable = list.getElement(0).getList();
-            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString(), 0);
-            subjectVariables.add(var);
+            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
+            subjectVariableInterpreter.addSubjectVariable(var);
             for (int i = 0; i < model.getEntitiesSize(); i++) {
-                var.setSelection(i);
                 if (list.size() == 2) {
                     result &= calculateValue(list.getElement(1));
                 } else {  // must be 3
@@ -132,15 +117,15 @@ public final class Interpreter {
                 if (!result) {
                     break;
                 }
+                subjectVariableInterpreter.increaseSubjectVariableSelection(var);
             }
-            subjectVariables.remove(var);
+            subjectVariableInterpreter.removeSubjectVariable(var);
         } else if (Operators.EXISTENTIAL_QUANTIFIER_OPERATOR.equals(op)) {
             result = false;
             ElementList variable = list.getElement(0).getList();
-            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString(), 0);
-            subjectVariables.add(var);
+            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
+            subjectVariableInterpreter.addSubjectVariable(var);
             for (int i = 0; i < model.getEntitiesSize(); i++) {
-                var.setSelection(i);
                 if (list.size() == 2) {
                     result |= calculateValue(list.getElement(1));
                 } else {  // must be 3
@@ -149,15 +134,15 @@ public final class Interpreter {
                 if (result) {
                     break;
                 }
+                subjectVariableInterpreter.increaseSubjectVariableSelection(var);
             }
-            subjectVariables.remove(var);
+            subjectVariableInterpreter.removeSubjectVariable(var);
         } else if (Operators.UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR.equals(op)) {
             result = false;
             ElementList variable = list.getElement(0).getList();
-            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString(), 0);
-            subjectVariables.add(var);
+            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
+            subjectVariableInterpreter.addSubjectVariable(var);
             for (int i = 0; i < model.getEntitiesSize(); i++) {
-                var.setSelection(i);
                 boolean val;
                 if (list.size() == 2) {
                     val = calculateValue(list.getElement(1));
@@ -172,11 +157,12 @@ public final class Interpreter {
                         result = true;
                     }
                 }
+                subjectVariableInterpreter.increaseSubjectVariableSelection(var);
             }
-            subjectVariables.remove(var);
+            subjectVariableInterpreter.removeSubjectVariable(var);
         } else if (Operators.PREDICATE_CONSTANT.equals(op)) {
             final PredicateVariable var = new PredicateVariable(list.getElement(0).getAtom().getString(),
-                list.size() - 1, 0);
+                list.size() - 1);
             Predicate predicate = model.getPredicateConst(var);
             if (predicate == null) {
                 throw new RuntimeException("Unknown predicate constant: " + var);
@@ -188,43 +174,41 @@ public final class Interpreter {
         return result;
     }
 
-    private Entity[] getEntities(final ElementList list) {
-        final Entity[] result =  new Entity[list.size() - 1];    // strip first argument
+    /**
+     * Interpret terms.
+     *
+     * @param   terms    Interpret these terms. The first entry is stripped.
+     * @return  Values.
+     */
+    private Entity[] getEntities(final ElementList terms) {
+        final Entity[] result =  new Entity[terms.size() - 1];    // strip first argument
         for (int i = 0; i < result.length; i++) {
-            result[i] = getEntity(list.getElement(i + 1));
+            result[i] = getEntity(terms.getElement(i + 1));
         }
         return result;
     }
 
-    private Entity getEntity(final Element element) {
-        final ElementList list = element.getList(); // FIXME test before
-        final String op = list.getOperator();
+    /**
+     * Interpret term.
+     *
+     * @param   term    Interpret this term.
+     * @return  Value.
+     */
+    private Entity getEntity(final Element term) {
+        if (!term.isList()) {
+            throw new RuntimeException("a term should be a list: " + term);
+        }
+        final ElementList termList = term.getList(); // FIXME test before
+        final String op = termList.getOperator();
         Entity result = null;
-        int selection = -1;
         if (Operators.SUBJECT_VARIABLE.equals(op)) {
-            final SubjectVariable var = new SubjectVariable(list.getElement(0).getAtom().getString(), 0);
-            if (subjectVariables.contains(var)) {
-                final int index = subjectVariables.indexOf(var);
-                selection = ((SubjectVariable) subjectVariables.get(index)).getSelection();
-            } else {
-                System.out.println("added subject variable " + var);
-                selection = 0;
-                subjectVariables.add(var);
-            }
-            result = model.getEntity(selection);
+            final SubjectVariable var = new SubjectVariable(termList.getElement(0).getAtom().getString());
+            result = subjectVariableInterpreter.getEntity(var);
         } else if (Operators.FUNCTION_VARIABLE.equals(op)) {
-            final FunctionVariable var = new FunctionVariable(list.getElement(0).getAtom().getString(),
-                    list.size() - 1, 0);
-            if (functionVariables.contains(var)) {
-                int index = functionVariables.indexOf(var);
-                selection = ((FunctionVariable) functionVariables.get(index)).getSelection();
-            } else {
-                System.out.println("added function var " + var);
-                functionVariables.add(var);
-                selection = 0;
-            }
-            Function function = model.getFunction(var.getArgumentNumber(), selection);
-            result = function.map(getEntities(list));
+            final FunctionVariable var = new FunctionVariable(termList.getElement(0).getAtom().getString(),
+                    termList.size() - 1);
+            Function function = functionVariableInterpreter.getFunction(var);
+            result = function.map(getEntities(termList));
         }
         return result;
     }
@@ -236,78 +220,15 @@ public final class Interpreter {
      */
     public boolean next() {
         System.out.println("iterate");
-        boolean next = false;
-        for (int i = subjectVariables.size() - 1; i >= -1; i--) {
-            if (i < 0) {
-                next = true;
-                break;
-            }
-            final SubjectVariable var = (SubjectVariable) subjectVariables.get(i);
-            int selection = var.getSelection() + 1;
-            if (selection < model.getEntitiesSize()) {
-                var.setSelection(selection);
-                break;
-            } else {
-                var.setSelection(0);
-            }
-        }
-        if (next) {
-            next = false;
-            for (int i = predicateVariables.size() - 1; i >= -1; i--) {
-                if (i < 0) {
-                    next = true;
-                    break;
-                }
-                final PredicateVariable var = (PredicateVariable) predicateVariables.get(i);
-                int selection = var.getSelection() + 1;
-                if (selection < model.getPredicateSize(var.getArgumentNumber())) {
-                    var.setSelection(selection);
-                    break;
-                } else {
-                    var.setSelection(0);
-                }
-            }
-        }
-
-        if (next) {
-            next = false;
-            for (int i = functionVariables.size() - 1; i >= -1; i--) {
-                if (i < 0) {
-                    next = true;
-                    break;
-                }
-                final FunctionVariable var = (FunctionVariable) functionVariables.get(i);
-                int selection = var.getSelection() + 1;
-                if (selection < model.getFunctionSize(var.getArgumentNumber())) {
-                    var.setSelection(selection);
-                    break;
-                } else {
-                    var.setSelection(0);
-                }
-            }
-        }
-
-        return !next;
+        return subjectVariableInterpreter.next() || predicateVariableInterpreter.next()
+            || functionVariableInterpreter.next();
     }
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append("{");
-        for (int i = 0; i < predicateVariables.size(); i++) {
-            if (i > 0) {
-                buffer.append(", ");
-            }
-            buffer.append(predicateVariables.get(i));
-        }
-        buffer.append("}");
-        buffer.append("{");
-        for (int i = 0; i < subjectVariables.size(); i++) {
-            if (i > 0) {
-                buffer.append(", ");
-            }
-            buffer.append(subjectVariables.get(i));
-        }
-        buffer.append("}");
+        buffer.append(predicateVariableInterpreter.toString());
+        buffer.append(subjectVariableInterpreter.toString());
+        buffer.append(functionVariableInterpreter.toString());
         return buffer.toString();
     }
 

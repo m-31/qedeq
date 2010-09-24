@@ -91,8 +91,8 @@ public final class Model {
         predicate2.add(Predicate.EQUAL);
 
         predicateConstants = new HashMap();
-        predicateConstants.put(new PredicateVariable("equal", 2, 0), Predicate.EQUAL);
-        predicateConstants.put(new PredicateVariable("in", 2, 0), Predicate.LESS);
+        predicateConstants.put(new PredicateVariable("equal", 2), Predicate.EQUAL);
+        predicateConstants.put(new PredicateVariable("in", 2), Predicate.LESS);
 
     }
 

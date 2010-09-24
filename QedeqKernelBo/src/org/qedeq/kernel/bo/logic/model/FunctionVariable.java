@@ -18,7 +18,7 @@ package org.qedeq.kernel.bo.logic.model;
 import org.qedeq.base.utility.EqualsUtility;
 
 /**
- * One function variable for our model.
+ * One function variable.
  *
  * @author  Michael Meyling
  */
@@ -30,20 +30,15 @@ public class FunctionVariable {
     /** Argument number for function variable. */
     private final int number;
 
-    /** Current selection for this function. */
-    private int selection;
-
     /**
      * Constructor.
      *
      * @param   name        Show this to represent the function within outputs.
      * @param   number      Number of arguments this function has.
-     * @param   selection   Current selection for this function.
      */
-    public FunctionVariable(final String name, final int number, final int selection) {
+    public FunctionVariable(final String name, final int number) {
         this.number = number;
         this.name = name;
-        this.selection = selection;
     }
 
     /**
@@ -64,19 +59,6 @@ public class FunctionVariable {
         return number;
     }
 
-    /**
-     * Get function selection.
-     *
-     * @return  Function selection number.
-     */
-    public int getSelection() {
-        return selection;
-    }
-
-    public void setSelection(final int selection) {
-        this.selection = selection;
-    }
-
     public int hashCode() {
         return name.hashCode() ^ number;
     }
@@ -90,7 +72,7 @@ public class FunctionVariable {
     }
 
     public String toString() {
-        return name + "_" + number + "=" + selection;
+        return name + "_" + number;
     }
 
 }
