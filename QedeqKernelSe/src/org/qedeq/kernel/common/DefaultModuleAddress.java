@@ -94,6 +94,19 @@ public class DefaultModuleAddress implements ModuleAddress {
     }
 
     /**
+     * Constructor for memory modules.
+     */
+    public DefaultModuleAddress() {
+        url = "memory";
+        name = "memory";
+        fileAddress = false;
+        fileName = "";
+        header = "memory://";
+        path = "";
+        relativeAddress = false;
+    }
+
+    /**
      * Constructor.
      *
      * @param   address  Address of module. Must not be <code>null</code>.

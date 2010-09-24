@@ -103,15 +103,32 @@ public class SourceFileException extends QedeqException {
 
     public String getMessage() {
         if (getCause() != null) {
-            if (getCause() instanceof IOException) {
-                return getCause().toString();
-            }
             if (getCause().getCause() != null) {
-                return getCause().getCause().getMessage();
+                return getText(super.getMessage(), getCause().getCause());
             }
-            return getCause().getMessage();
+            return getText(super.getMessage(), getCause());
         }
         return super.getMessage();
+    }
+
+    /**
+     * Format error message.
+     *
+     * @param   message Normal error message.
+     * @param   cause   This caused the exception. Must not be <code>null</code>.
+     * @return  Error message.
+     */
+    private String getText(final String message, final Throwable cause) {
+        if (message != null) {
+            if (message.equals(cause.getMessage())) {
+                return message;
+            }
+            if (cause instanceof IOException || cause instanceof NullPointerException) {
+                return message + "; " + cause.toString();
+            }
+            return message + "; " + cause.getMessage();
+        }
+        return cause.toString();
     }
 
     /**

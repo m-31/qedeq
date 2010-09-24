@@ -103,6 +103,8 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
             this.traverser.accept(this.prop.getQedeq());
         } catch (ModuleDataException me) {
             addError(me);
+        } catch (RuntimeException e) {
+            addError(new RuntimeVisitorException(getCurrentContext(), e));
         }
         if (errorList != null) {
             throw errorList;

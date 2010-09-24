@@ -16,6 +16,8 @@
 package org.qedeq.kernel.bo.logic.model;
 
 import org.qedeq.kernel.base.list.Element;
+import org.qedeq.kernel.common.DefaultModuleAddress;
+import org.qedeq.kernel.common.ModuleContext;
 
 
 /**
@@ -41,23 +43,43 @@ public final class CalculateTruth {
      *
      * @param   formula         Formula.
      * @return  Is this formula a tautology according to our tests.
+     * @throws  HeuristicException  Evaluation failed.
      */
-    public static boolean isTautology(final Element formula) {
+    public static boolean isTautology(final Element formula) throws HeuristicException {
         final CalculateTruth calculator = new CalculateTruth();
-        return calculator.calculateTautology(formula);
+        return calculator.calculateTautology(new ModuleContext(new DefaultModuleAddress()),
+            formula);
     }
 
     /**
      * Test if given formula is a tautology. This is done by checking a model and
      * iterating through variable values.
      *
+     * @param   moduleContext   Here we are within a module.
      * @param   formula         Formula.
      * @return  Is this formula a tautology according to our tests.
+     * @throws  HeuristicException  Evaluation failed.
      */
-    private boolean calculateTautology(final Element formula) {
+    public static boolean isTautology(final ModuleContext moduleContext, final Element formula)
+            throws HeuristicException {
+        final CalculateTruth calculator = new CalculateTruth();
+        return calculator.calculateTautology(moduleContext, formula);
+    }
+
+    /**
+     * Test if given formula is a tautology. This is done by checking a model and
+     * iterating through variable values.
+     *
+     * @param   moduleContext   Here we are within a module.
+     * @param   formula         Formula.
+     * @return  Is this formula a tautology according to our tests.
+     * @throws  HeuristicException  Evaluation failed.
+     */
+    private boolean calculateTautology(final ModuleContext moduleContext, final Element formula)
+            throws HeuristicException {
         boolean result = true;
         do {
-            result &= interpretation.calculateValue(formula);
+            result &= interpretation.calculateValue(moduleContext, formula);
 //            System.out.println(interpretation.toString());
         } while (result && interpretation.next());
 //        System.out.println("interpretation finished - and result is = " + result);
