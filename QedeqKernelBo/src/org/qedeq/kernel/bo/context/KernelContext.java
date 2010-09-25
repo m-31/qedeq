@@ -61,7 +61,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
     /** Kernel version dedication. */
     private static final String KERNEL_DEDICATED
-        = "still dedicated to no one because it is to early for a new release";
+        = "still dedicated to no one because it is too early for a new release";
 
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
