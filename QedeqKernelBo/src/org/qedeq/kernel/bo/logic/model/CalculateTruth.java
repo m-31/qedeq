@@ -82,6 +82,9 @@ public final class CalculateTruth {
             result &= interpretation.calculateValue(moduleContext, formula);
 //            System.out.println(interpretation.toString());
         } while (result && interpretation.next());
+//        if (!result) {
+//            System.out.println(interpretation);
+//        }
 //        System.out.println("interpretation finished - and result is = " + result);
         return result;
     }

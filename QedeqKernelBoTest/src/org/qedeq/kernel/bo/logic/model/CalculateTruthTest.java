@@ -588,4 +588,909 @@ public class CalculateTruthTest extends QedeqTestCase {
         assertTrue(CalculateTruth.isTautology(ele));
     }
 
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     see qedeq_logic_v1.xml theorem:propositionalCalculus from 2010-09-26
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology39() throws Exception {
+        final Element ele = TestParser.createElement(
+            "\n            <AND>\n" +
+            "\n" +
+            "\n                <PREDCON ref=\"TRUE\" />\n" +
+            "\n" +
+            "\n                <NOT>\n" +
+            "\n                  <PREDCON ref=\"FALSE\" />\n" +
+            "\n                </NOT>" +
+            "\n" +
+            "\n                <IMPL>" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                </IMPL>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <OR>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                  </OR>" +
+            "\n                  <OR>" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                  </OR>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <AND>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                  </AND>" +
+            "\n                  <AND>" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                  </AND>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <IMPL>" +
+            "\n                  <AND>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                  </AND>" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                </IMPL>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <EQUI>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                  </EQUI>" +
+            "\n                  <EQUI>" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                  </EQUI>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <OR>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <OR>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </OR>" +
+            "\n                  </OR>" +
+            "\n                  <OR>" +
+            "\n                    <OR>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </OR>" +
+            "\n                    <PREDVAR id=\"C\" />" +
+            "\n                  </OR>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <AND>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </AND>" +
+            "\n                  </AND>" +
+            "\n                  <AND>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </AND>" +
+            "\n                    <PREDVAR id=\"C\" />" +
+            "\n                  </AND>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                  <OR>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                  </OR>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                  <AND>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                  </AND>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                  <NOT>" +
+            "\n                    <NOT>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                    </NOT>" +
+            "\n                  </NOT>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <IMPL>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                  </IMPL>" +
+            "\n                  <IMPL>" +
+            "\n                    <NOT>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </NOT>" +
+            "\n                    <NOT>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                    </NOT>" +
+            "\n                  </IMPL>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <EQUI>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                  </EQUI>" +
+            "\n                  <EQUI>" +
+            "\n                    <NOT>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                    </NOT>" +
+            "\n                    <NOT>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </NOT>" +
+            "\n                  </EQUI>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <IMPL>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <IMPL>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </IMPL>" +
+            "\n                  </IMPL>" +
+            "\n                  <IMPL>" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                    <IMPL>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </IMPL>" +
+            "\n                  </IMPL>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <NOT>" +
+            "\n                    <OR>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </OR>" +
+            "\n                  </NOT>" +
+            "\n                  <AND>" +
+            "\n                    <NOT>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                    </NOT>" +
+            "\n                    <NOT>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </NOT>" +
+            "\n                  </AND>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <NOT>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </AND>" +
+            "\n                  </NOT>" +
+            "\n                  <OR>" +
+            "\n                    <NOT>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                    </NOT>" +
+            "\n                    <NOT>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </NOT>" +
+            "\n                  </OR>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <OR>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </AND>" +
+            "\n                  </OR>" +
+            "\n                  <AND>" +
+            "\n                    <OR>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </OR>" +
+            "\n                    <OR>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </OR>" +
+            "\n                  </AND>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <AND>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <OR>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </OR>" +
+            "\n                  </AND>" +
+            "\n                  <OR>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </AND>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </AND>" +
+            "\n                  </OR>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <AND>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDCON ref=\"TRUE\" />" +
+            "\n                  </AND>" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <AND>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDCON ref=\"FALSE\" />" +
+            "\n                  </AND>" +
+            "\n                  <PREDCON ref=\"FALSE\" />" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <OR>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDCON ref=\"TRUE\" />" +
+            "\n                  </OR>" +
+            "\n                  <PREDCON ref=\"TRUE\" />" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <OR>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDCON ref=\"FALSE\" />" +
+            "\n                  </OR>" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <OR>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <NOT>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                    </NOT>" +
+            "\n                  </OR>" +
+            "\n                  <PREDCON ref=\"TRUE\" />" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <AND>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <NOT>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                    </NOT>" +
+            "\n                  </AND>" +
+            "\n                  <PREDCON ref=\"FALSE\" />" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <IMPL>" +
+            "\n                    <PREDCON ref=\"TRUE\" />" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                  </IMPL>" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <IMPL>" +
+            "\n                    <PREDCON ref=\"FALSE\" />" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                  </IMPL>" +
+            "\n                  <PREDCON ref=\"TRUE\" />" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <IMPL>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDCON ref=\"FALSE\" />" +
+            "\n                  </IMPL>" +
+            "\n                  <NOT>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                  </NOT>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <IMPL>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDCON ref=\"TRUE\" />" +
+            "\n                  </IMPL>" +
+            "\n                  <PREDCON ref=\"TRUE\" />" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <EQUI>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDCON ref=\"TRUE\" />" +
+            "\n                  </EQUI>" +
+            "\n                  <PREDVAR id=\"A\" />" +
+            "\n                </EQUI>" +
+            "\n                " +
+            "\n                <IMPL>" +
+            "\n                  <AND>" +
+            "\n                    <IMPL>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </IMPL>" +
+            "\n                    <IMPL>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </IMPL>" +
+            "\n                  </AND>" +
+            "\n                  <IMPL>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"C\" />" +
+            "\n                  </IMPL>" +
+            "\n                </IMPL>" +
+            "\n" +
+            "\n                <IMPL>" +
+            "\n                  <AND>" +
+            "\n                    <EQUI>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </EQUI>" +
+            "\n                    <EQUI>" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </EQUI>" +
+            "\n                  </AND>" +
+            "\n                  <EQUI>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"C\" />" +
+            "\n                  </EQUI>" +
+            "\n                </IMPL>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <EQUI>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </AND>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </AND>" +
+            "\n                  </EQUI>" +
+            "\n                  <IMPL>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <EQUI>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </EQUI>" +
+            "\n                  </IMPL>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <EQUI>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </AND>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <NOT>" +
+            "\n                        <PREDVAR id=\"B\" />" +
+            "\n                      </NOT>" +
+            "\n                    </AND>" +
+            "\n                  </EQUI>" +
+            "\n                  <NOT>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                  </NOT>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <EQUI>" +
+            "\n                  <EQUI>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                    </AND>" +
+            "\n                  </EQUI>" +
+            "\n                  <IMPL>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                  </IMPL>" +
+            "\n                </EQUI>" +
+            "\n" +
+            "\n                <IMPL>" +
+            "\n                  <IMPL>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                  </IMPL>" +
+            "\n                  <IMPL>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </AND>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </AND>" +
+            "\n                  </IMPL>" +
+            "\n                </IMPL>" +
+            "\n" +
+            "\n                <IMPL>" +
+            "\n                  <EQUI>" +
+            "\n                    <PREDVAR id=\"A\" />" +
+            "\n                    <PREDVAR id=\"B\" />" +
+            "\n                  </EQUI>" +
+            "\n                  <EQUI>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"A\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </AND>" +
+            "\n                    <AND>" +
+            "\n                      <PREDVAR id=\"B\" />" +
+            "\n                      <PREDVAR id=\"C\" />" +
+            "\n                    </AND>" +
+            "\n                  </EQUI>" +
+            "\n                </IMPL>" +
+            "\n" +
+            "\n              </AND>" +
+            "\n");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     f(y) = f(y)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology40() throws Exception {
+        final Element ele = TestParser.createElement(
+            "                <AND>"
+            + "\n                "
+            + "\n                <IMPL>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <IMPL>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </IMPL>"
+            + "\n                  </FORALL>"
+            + "\n                  <IMPL>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                  </IMPL>"
+            + "\n                </IMPL>"
+            + "\n"
+            + "\n                <IMPL>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <IMPL>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </IMPL>"
+            + "\n                  </FORALL>"
+            + "\n                  <IMPL>"
+            + "\n                    <EXISTS>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </EXISTS>"
+            + "\n                    <EXISTS>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </EXISTS>"
+            + "\n                  </IMPL>"
+            + "\n                </IMPL>"
+            + "\n"
+            + "\n                <IMPL>"
+            + "\n                  <EXISTS>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <AND>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </AND>"
+            + "\n                  </EXISTS>"
+            + "\n                  <AND>"
+            + "\n                    <EXISTS>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </EXISTS>"
+            + "\n                    <EXISTS>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </EXISTS>"
+            + "\n                  </AND>"
+            + "\n                </IMPL>"
+            + "\n"
+            + "\n                <IMPL>"
+            + "\n                  <OR>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                  </OR>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <OR>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </OR>"
+            + "\n                  </FORALL>"
+            + "\n                </IMPL>"
+            + "\n"
+            + "\n                <EQUI>"
+            + "\n                  <EXISTS>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <OR>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </OR>"
+            + "\n                  </EXISTS>"
+            + "\n                  <OR>"
+            + "\n                    <EXISTS>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </EXISTS>"
+            + "\n                    <EXISTS>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </EXISTS>"
+            + "\n                  </OR>"
+            + "\n                </EQUI>"
+            + "\n"
+            + "\n                <EQUI>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <AND>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </AND>"
+            + "\n                  </FORALL>"
+            + "\n                  <AND>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                  </AND>"
+            + "\n                </EQUI>"
+            + "\n"
+            + "\n                <EQUI>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"y\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                        <VAR id=\"y\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                  </FORALL>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"y\" />"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                        <VAR id=\"y\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                  </FORALL>"
+            + "\n                </EQUI>"
+            + "\n"
+            + "\n                <EQUI>"
+            + "\n                  <EXISTS>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <EXISTS>"
+            + "\n                      <VAR id=\"y\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                        <VAR id=\"y\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </EXISTS>"
+            + "\n                  </EXISTS>"
+            + "\n                  <EXISTS>"
+            + "\n                    <VAR id=\"y\" />"
+            + "\n                    <EXISTS>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                        <VAR id=\"y\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </EXISTS>"
+            + "\n                  </EXISTS>"
+            + "\n                </EQUI>"
+            + "\n"
+            + "\n                <IMPL>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <IMPL>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"A\" />"
+            + "\n                    </IMPL>"
+            + "\n                  </FORALL>"
+            + "\n                  <IMPL>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                    <PREDVAR id=\"A\" />"
+            + "\n                  </IMPL>"
+            + "\n                </IMPL>"
+            + "\n"
+            + "\n                <EQUI>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <IMPL>"
+            + "\n                      <PREDVAR id=\"A\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </IMPL>"
+            + "\n                  </FORALL>"
+            + "\n                  <IMPL>"
+            + "\n                    <PREDVAR id=\"A\" />"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                  </IMPL>"
+            + "\n                </EQUI>"
+            + "\n"
+            + "\n                <EQUI>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <AND>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"A\" />"
+            + "\n                    </AND>"
+            + "\n                  </FORALL>"
+            + "\n                  <AND>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                    <PREDVAR id=\"A\" />"
+            + "\n                  </AND>"
+            + "\n                </EQUI>"
+            + "\n"
+            + "\n                <EQUI>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <OR>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"A\" />"
+            + "\n                    </OR>"
+            + "\n                  </FORALL>"
+            + "\n                  <OR>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                    <PREDVAR id=\"A\" />"
+            + "\n                  </OR>"
+            + "\n                </EQUI>"
+            + "\n"
+            + "\n                <IMPL>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <EQUI>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"A\" />"
+            + "\n                    </EQUI>"
+            + "\n                  </FORALL>"
+            + "\n                  <EQUI>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                    <PREDVAR id=\"A\" />"
+            + "\n                  </EQUI>"
+            + "\n                </IMPL>"
+            + "\n"
+            + "\n                <IMPL>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <EQUI>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </EQUI>"
+            + "\n                  </FORALL>"
+            + "\n                  <EQUI>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\psi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                  </EQUI>"
+            + "\n                </IMPL>"
+            + "\n"
+            + "\n              </AND>"
+            + "\n"
+            );
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     negative
+     * Data:     \forall x (\phi(x) <-> A) <-> (\forall x (\phi(x)) <-> A)
+     *           \forall x ( 2 | x) <-> F) <-> (\forall x (2 | x)) <-> F)
+     *           f                                  t
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology41() throws Exception {
+        final Element ele = TestParser.createElement(
+            "\n                <EQUI>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <EQUI>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"A\" />"
+            + "\n                    </EQUI>"
+            + "\n                  </FORALL>"
+            + "\n                  <EQUI>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                    <PREDVAR id=\"A\" />"
+            + "\n                  </EQUI>"
+            + "\n                </EQUI>"
+            );
+        // System.out.println(ele.toString());
+        assertFalse(CalculateTruth.isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     negative
+     * Data:     \forall x (\phi(x) -> A) <-> (\forall x (\phi(x)) -> A)
+     *           \forall x ( 2 | x) -> F) <-> (\forall x (2 | x)) -> F)
+     *           f                                  t
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology42() throws Exception {
+        final Element ele = TestParser.createElement(
+              "\n                <IMPL>"
+              + "\n                  <FORALL>"
+              + "\n                    <VAR id=\"x\" />"
+              + "\n                    <IMPL>"
+              + "\n                      <PREDVAR id=\"\\phi\">"
+              + "\n                        <VAR id=\"x\" />"
+              + "\n                      </PREDVAR>"
+              + "\n                      <PREDVAR id=\"A\" />"
+              + "\n                    </IMPL>"
+              + "\n                  </FORALL>"
+              + "\n                  <IMPL>"
+              + "\n                    <FORALL>"
+              + "\n                      <VAR id=\"x\" />"
+              + "\n                      <PREDVAR id=\"\\phi\">"
+              + "\n                        <VAR id=\"x\" />"
+              + "\n                      </PREDVAR>"
+              + "\n                    </FORALL>"
+              + "\n                    <PREDVAR id=\"A\" />"
+              + "\n                  </IMPL>"
+              + "\n                </IMPL>"
+
+        );
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
 }
