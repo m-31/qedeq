@@ -2159,31 +2159,31 @@
                   </EXISTS>
                 </EQUI>
 
-                <EQUI>
-                  <FORALL>
-                    <VAR id="x" />
-                    <IMPL>
-                      <PREDVAR id="\phi">
-                        <VAR id="x" />
-                      </PREDVAR>
-                      <PREDVAR id="A" />
-                    </IMPL>
-                  </FORALL>
-                  <IMPL>
-                    <FORALL>
-                      <VAR id="x" />
-                      <PREDVAR id="\phi">
-                        <VAR id="x" />
-                      </PREDVAR>
-                    </FORALL>
-                    <PREDVAR id="A" />
-                  </IMPL>
-                </EQUI>
-
                 <IMPL>
                   <FORALL>
                     <VAR id="x" />
                     <IMPL>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="A" />
+                    </IMPL>
+                  </FORALL>
+                  <IMPL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <PREDVAR id="A" />
+                  </IMPL>
+                </IMPL>
+
+                <EQUI>
+                  <FORALL>
+                    <VAR id="x" />
+                    <IMPL>
                       <PREDVAR id="A" />
                       <PREDVAR id="\phi">
                         <VAR id="x" />
@@ -2199,7 +2199,7 @@
                       </PREDVAR>
                     </FORALL>
                   </IMPL>
-                </IMPL>
+                </EQUI>
 
                 <EQUI>
                   <FORALL>
