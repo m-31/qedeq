@@ -72,7 +72,19 @@ public class PredicateVariable {
     }
 
     public String toString() {
-        return name + "_" + number;
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append(name);
+        if (number > 0) {
+            buffer.append("(");
+            for (int i = 0; i < number; i++) {
+                if (i > 0) {
+                    buffer.append(", ");
+                }
+                buffer.append("*");
+            }
+            buffer.append(")");
+        }
+        return buffer.toString();
     }
 
 }
