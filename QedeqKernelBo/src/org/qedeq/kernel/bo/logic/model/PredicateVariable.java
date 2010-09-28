@@ -15,20 +15,13 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
-import org.qedeq.base.utility.EqualsUtility;
 
 /**
  * One predicate variable for our model.
  *
  * @author  Michael Meyling
  */
-public class PredicateVariable {
-
-    /** Text to identify the predicate variable. */
-    private final String name;
-
-    /** Argument number for predicate variable. */
-    private final int number;
+public class PredicateVariable extends Variable {
 
     /**
      * Constructor.
@@ -37,54 +30,7 @@ public class PredicateVariable {
      * @param   number      Number of arguments this predicate has.
      */
     public PredicateVariable(final String name, final int number) {
-        this.number = number;
-        this.name = name;
-    }
-
-    /**
-     * Get predicate name.
-     *
-     * @return  Predicate name.
-     */
-    public String getName() {
-        return name;
-    }
-
-    /**
-     * Get number of arguments this predicate has.
-     *
-     * @return  Number of arguments for this predicate.
-     */
-    public int getArgumentNumber() {
-        return number;
-    }
-
-    public int hashCode() {
-        return name.hashCode() ^ number;
-    }
-
-    public boolean equals(final Object other) {
-        if (!(other instanceof PredicateVariable)) {
-            return false;
-        }
-        final PredicateVariable var = (PredicateVariable) other;
-        return number == var.number && EqualsUtility.equals(name, var.name);
-    }
-
-    public String toString() {
-        final StringBuffer buffer = new StringBuffer();
-        buffer.append(name);
-        if (number > 0) {
-            buffer.append("(");
-            for (int i = 0; i < number; i++) {
-                if (i > 0) {
-                    buffer.append(", ");
-                }
-                buffer.append("*");
-            }
-            buffer.append(")");
-        }
-        return buffer.toString();
+        super(name, number);
     }
 
 }
