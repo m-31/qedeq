@@ -15,20 +15,21 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
+
 /**
- * One function variable.
+ * Predicate constant for our model.
  *
  * @author  Michael Meyling
  */
-public class FunctionVariable extends Operator {
+public class PredicateConstant extends Operator {
 
     /**
      * Constructor.
      *
-     * @param   name        Show this to represent the function within outputs.
-     * @param   number      Number of arguments this function has.
+     * @param   name        Show this to represent the predicate within outputs.
+     * @param   number      Number of arguments this predicate has.
      */
-    public FunctionVariable(final String name, final int number) {
+    public PredicateConstant(final String name, final int number) {
         super(name, number);
     }
 

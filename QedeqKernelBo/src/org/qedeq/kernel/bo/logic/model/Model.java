@@ -39,6 +39,9 @@ public final class Model {
     /** Map of predicate constants. */
     private final Map predicateConstants;
 
+    /** Map of function constants. */
+    private final Map functionConstants;
+
     /**
      * Constructor.
      */
@@ -91,10 +94,20 @@ public final class Model {
         predicate2.add(Predicate.EQUAL);
 
         predicateConstants = new HashMap();
-        predicateConstants.put(new PredicateVariable("TRUE", 0), Predicate.TRUE);
-        predicateConstants.put(new PredicateVariable("FALSE", 0), Predicate.FALSE);
-        predicateConstants.put(new PredicateVariable("equal", 2), Predicate.EQUAL);
-        predicateConstants.put(new PredicateVariable("in", 2), Predicate.LESS);
+        predicateConstants.put(new PredicateConstant("TRUE", 0), Predicate.TRUE);
+        predicateConstants.put(new PredicateConstant("FALSE", 0), Predicate.FALSE);
+        predicateConstants.put(new PredicateConstant("equal", 2), Predicate.EQUAL);
+        predicateConstants.put(new PredicateConstant("notEqual", 2), Predicate.NOT_EQUAL);
+        predicateConstants.put(new PredicateConstant("in", 2), Predicate.NOT_IS_TWO);
+        predicateConstants.put(new PredicateConstant("notIn", 2), Predicate.NOT_LESS);
+        predicateConstants.put(new PredicateConstant("isSet", 1), Predicate.TRUE);
+        predicateConstants.put(new PredicateConstant("subclass", 2), Predicate.LESS);
+
+        functionConstants = new HashMap();
+        functionConstants.put(new FunctionConstant("emptySet", 0), Function.ZERO);
+        functionConstants.put(new FunctionConstant("intersection", 2), Function.MIN);
+        functionConstants.put(new FunctionConstant("union", 2), Function.MIN);
+        functionConstants.put(new FunctionConstant("universalClass", 0), Function.TWO);
 
     }
 
@@ -118,8 +131,8 @@ public final class Model {
         return (Predicate) predicateForSize.get(number);
     }
 
-    public Predicate getPredicateConst(final PredicateVariable var) {
-        return (Predicate) predicateConstants.get(var);
+    public Predicate getPredicateConstant(final PredicateConstant con) {
+        return (Predicate) predicateConstants.get(con);
     }
 
     public int getFunctionSize(final int size) {
@@ -132,6 +145,10 @@ public final class Model {
     public Function getFunction(final int size, final int number) {
         final List functionForSize = (List) functionPool.get(size);
         return (Function) functionForSize.get(number);
+    }
+
+    public Function getFunctionConstant(final FunctionConstant con) {
+        return (Function) functionConstants.get(con);
     }
 
 }

@@ -17,11 +17,11 @@ package org.qedeq.kernel.bo.logic.model;
 
 
 /**
- * One predicate variable for our model.
+ * Predicate variable for our model.
  *
  * @author  Michael Meyling
  */
-public class PredicateVariable extends Variable {
+public class PredicateVariable extends Operator {
 
     /**
      * Constructor.

@@ -18,11 +18,11 @@ package org.qedeq.kernel.bo.logic.model;
 import org.qedeq.base.utility.EqualsUtility;
 
 /**
- * Variables with arguments.
+ * Operators with arguments.
  *
  * @author  Michael Meyling
  */
-public class Variable {
+public abstract class Operator {
 
     /** Text to identify the variable. */
     private final String name;
@@ -33,27 +33,27 @@ public class Variable {
     /**
      * Constructor.
      *
-     * @param   name    Text to identify the variable.
-     * @param   number  Argument number for variable.
+     * @param   name    Text to identify the operator.
+     * @param   number  Argument number for operator.
      */
-    public Variable(final String name, final int number) {
+    public Operator(final String name, final int number) {
         this.name = name;
         this.number = number;
     }
 
     /**
-     * Get predicate name.
+     * Get operator name.
      *
-     * @return  Predicate name.
+     * @return  Operator name.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Get number of arguments this predicate has.
+     * Get number of arguments this operator has.
      *
-     * @return  Number of arguments for this predicate.
+     * @return  Number of arguments for this operator.
      */
     public int getArgumentNumber() {
         return number;
@@ -64,13 +64,13 @@ public class Variable {
     }
 
     public boolean equals(final Object other) {
-        if (!(other instanceof Variable)) {
+        if (!(other instanceof Operator)) {
             return false;
         }
         if (!other.getClass().equals(getClass())) {
             return false;
         }
-        final Variable var = (Variable) other;
+        final Operator var = (Operator) other;
         return number == var.number && EqualsUtility.equals(name, var.name);
     }
 

@@ -58,6 +58,9 @@ public abstract class Predicate {
         }
     };
 
+    /** Are the entities not ordered by < ? */
+    public static final Predicate NOT_LESS = not(LESS);
+
     /** Are the entities are all the same? */
     public static final Predicate EQUAL = new Predicate(0, 99, "=", "equal") {
         public boolean calculate(final Entity[] entities) {
@@ -68,6 +71,23 @@ public abstract class Predicate {
             return result;
         }
     };
+
+    /** Are the entities are not all the same? */
+    public static final Predicate NOT_EQUAL = not(EQUAL);
+
+    /** Are the entities are all equal to 2? */
+    public static final Predicate IS_TWO = new Predicate(0, 99, "= 2", "is_two") {
+        public boolean calculate(final Entity[] entities) {
+            boolean result = true;
+            for (int i = 0; i < entities.length - 1; i++) {
+                result &= entities[i].getValue() == Entity.TWO.getValue();
+            }
+            return result;
+        }
+    };
+
+    /** Are the entities are not all equal to 2? */
+    public static final Predicate NOT_IS_TWO = not(IS_TWO);
 
     /** Minimum number of arguments this predicate has. */
     private final int minimum;
@@ -95,6 +115,22 @@ public abstract class Predicate {
         this.maximum = maximum;
         this.display = display;
         this.description = description;
+    }
+
+    /**
+     * Construct negation of other predicate.
+     *
+     * @param   predicate   Negate this predicate.
+     * @return  Negation of predicate.
+     */
+    public static Predicate not(final Predicate predicate) {
+        return new Predicate(predicate.getMinimumArgumentNumber(),
+            predicate.getMaximumArgumentNumber(), "!" + predicate.toString(),
+            "!" + predicate.getDescription()) {
+                public boolean calculate(final Entity[] entities) {
+                    return !predicate.calculate(entities);
+                }
+        };
     }
 
     /**

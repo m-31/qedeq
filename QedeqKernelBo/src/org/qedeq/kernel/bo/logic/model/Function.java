@@ -36,6 +36,13 @@ public abstract class Function {
         }
     };
 
+    /** Map to two. */
+    public static final Function TWO = new Function(0, 99, "->2", "always 2") {
+        public Entity map(final Entity[] entities) {
+            return Entity.TWO;
+        }
+    };
+
     /** Modulo 3. */
     public static final Function MOD = new Function(0, 99, "% 3", "modulo 3") {
         public Entity map(final Entity[] entities) {
@@ -69,6 +76,43 @@ public abstract class Function {
             }
         }
     };
+
+    /** Minimum. */
+    public static final Function MIN = new Function(0, 99, "min", "minimum") {
+        public Entity map(final Entity[] entities) {
+            int result = 2;
+            for (int i = 0; i < entities.length; i++) {
+                if (result > entities[i].getValue()) {
+                    result = entities[i].getValue();
+                }
+            }
+            switch (result) {
+            case 0: return Entity.ZERO;
+            case 1: return Entity.ONE;
+            case 2: return Entity.TWO;
+            default: return null;
+            }
+        }
+    };
+
+    /** Maximum. */
+    public static final Function MAX = new Function(0, 99, "max", "maximum") {
+        public Entity map(final Entity[] entities) {
+            int result = 0;
+            for (int i = 0; i < entities.length; i++) {
+                if (result < entities[i].getValue()) {
+                    result = entities[i].getValue();
+                }
+            }
+            switch (result) {
+            case 0: return Entity.ZERO;
+            case 1: return Entity.ONE;
+            case 2: return Entity.TWO;
+            default: return null;
+            }
+        }
+    };
+
 
 
     /** Minimum number of arguments this function has. */

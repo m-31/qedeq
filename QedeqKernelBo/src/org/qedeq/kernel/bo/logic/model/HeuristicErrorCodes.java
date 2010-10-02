@@ -61,4 +61,10 @@ public interface HeuristicErrorCodes extends ErrorCodes {
     public static final String UUNKNOWN_TERM_OPERATOR_MSG = "unknown term operator: ";
 
 
+    /** Error (or warning) number for: unknown function constant. */
+    public static final int UNKNOWN_FUNCTION_CONSTANT_CODE = 77092;
+
+    /** Error (or warning) text for: unknown function constant. */
+    public static final String UNKNOWN_FUNCTION_CONSTANT_MSG = "unknown function constant: ";
+
 }

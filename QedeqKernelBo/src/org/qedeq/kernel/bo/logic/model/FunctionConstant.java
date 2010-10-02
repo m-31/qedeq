@@ -16,11 +16,11 @@
 package org.qedeq.kernel.bo.logic.model;
 
 /**
- * One function variable.
+ * One function constant.
  *
  * @author  Michael Meyling
  */
-public class FunctionVariable extends Operator {
+public class FunctionConstant extends Operator {
 
     /**
      * Constructor.
@@ -28,7 +28,7 @@ public class FunctionVariable extends Operator {
      * @param   name        Show this to represent the function within outputs.
      * @param   number      Number of arguments this function has.
      */
-    public FunctionVariable(final String name, final int number) {
+    public FunctionConstant(final String name, final int number) {
         super(name, number);
     }
 

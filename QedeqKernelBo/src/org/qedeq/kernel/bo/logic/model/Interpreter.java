@@ -217,9 +217,9 @@ public final class Interpreter {
             subjectVariableInterpreter.removeSubjectVariable(var);
         } else if (Operators.PREDICATE_CONSTANT.equals(op)) {
             final String text = stripReference(list.getElement(0).getAtom().getString());
-            final PredicateVariable var = new PredicateVariable(text,
+            final PredicateConstant var = new PredicateConstant(text,
                 list.size() - 1);
-            Predicate predicate = model.getPredicateConst(var);
+            Predicate predicate = model.getPredicateConstant(var);
             if (predicate == null) {
                 setLocationWithinModule(context + ".getList().getOperator()");
                 throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
@@ -279,6 +279,18 @@ public final class Interpreter {
             final FunctionVariable var = new FunctionVariable(termList.getElement(0).getAtom().getString(),
                     termList.size() - 1);
             Function function = functionVariableInterpreter.getFunction(var);
+            setLocationWithinModule(context + ".getList()");
+            result = function.map(getEntities(termList));
+        } else if (Operators.FUNCTION_CONSTANT.equals(op)) {
+            final String text = stripReference(termList.getElement(0).getAtom().getString());
+            final FunctionConstant var = new FunctionConstant(text,
+                termList.size() - 1);
+            Function function = model.getFunctionConstant(var);
+            if (function == null) {
+                setLocationWithinModule(context + ".getList().getOperator()");
+                throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
+                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + var, moduleContext);
+            }
             setLocationWithinModule(context + ".getList()");
             result = function.map(getEntities(termList));
         } else {
