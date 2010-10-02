@@ -111,14 +111,31 @@ public final class Model {
 
     }
 
+    /**
+     * Get number of all entities in this model.
+     *
+     * @return  Number of entities.
+     */
     public int getEntitiesSize() {
         return entities.size();
     }
 
+    /**
+     * Get entity <code>number</code>.
+     *
+     * @param   number  Get entity with this number.
+     * @return  Entity.
+     */
     public Entity getEntity(final int number) {
         return (Entity) entities.get(number);
     }
 
+    /**
+     * Get number of predicates with <code>size</code> number of arguments. 
+     *
+     * @param   size    Number of arguments.
+     * @return  Number of predicates in this model.
+     */
     public int getPredicateSize(final int size) {
         if (predicatePool.size() <=  size) {
             return 0;
@@ -126,15 +143,34 @@ public final class Model {
         return ((List) predicatePool.get(size)).size();
     }
 
+    /**
+     * Get predicate of this model.
+     *
+     * @param   size    Number of arguments for predicate.
+     * @param   number  Number of predicate.
+     * @return  Predicate for this model.
+     */
     public Predicate getPredicate(final int size, final int number) {
         final List predicateForSize = (List) predicatePool.get(size);
         return (Predicate) predicateForSize.get(number);
     }
 
+    /**
+     * Get predicate constant of this model.
+     *
+     * @param   con     Predicate constant we are looking for.
+     * @return  Predicate for this model.
+     */
     public Predicate getPredicateConstant(final PredicateConstant con) {
         return (Predicate) predicateConstants.get(con);
     }
 
+    /**
+     * Get number of functions for this model.
+     *
+     * @param   size    Number of arguments for function.
+     * @return  Number of functions in this model.
+     */
     public int getFunctionSize(final int size) {
         if (functionPool.size() <=  size) {
             return 0;
@@ -142,11 +178,24 @@ public final class Model {
         return ((List) functionPool.get(size)).size();
     }
 
+    /**
+     * Get function.
+     *
+     * @param   size    Number of arguments for function.
+     * @param   number  Number of function.
+     * @return  Function in this model.
+     */
     public Function getFunction(final int size, final int number) {
         final List functionForSize = (List) functionPool.get(size);
         return (Function) functionForSize.get(number);
     }
 
+    /**
+     * Get function constant.
+     *
+     * @param   con     Function constant we are looking for.
+     * @return  Function in this model.
+     */
     public Function getFunctionConstant(final FunctionConstant con) {
         return (Function) functionConstants.get(con);
     }
