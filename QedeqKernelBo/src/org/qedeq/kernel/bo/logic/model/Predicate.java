@@ -79,7 +79,7 @@ public abstract class Predicate {
     public static final Predicate IS_TWO = new Predicate(0, 99, "= 2", "is_two") {
         public boolean calculate(final Entity[] entities) {
             boolean result = true;
-            for (int i = 0; i < entities.length - 1; i++) {
+            for (int i = 0; i < entities.length; i++) {
                 result &= entities[i].getValue() == Entity.TWO.getValue();
             }
             return result;
@@ -128,8 +128,62 @@ public abstract class Predicate {
             predicate.getMaximumArgumentNumber(), "!" + predicate.toString(),
             "!" + predicate.getDescription()) {
                 public boolean calculate(final Entity[] entities) {
-                    return !predicate.calculate(entities);
+                    final boolean result = !predicate.calculate(entities);
+                    for (int i = 0; i < entities.length; i++) {
+                        if (i > 0) {
+                            System.out.print(" \\in ");
+                        }
+                        System.out.print(entities[i]);
+                    }
+                    System.out.println(" = " + result);
+                    return result;
                 }
+        };
+    }
+
+    /**
+     * Construct conjunction of two predicates.
+     *
+     * @param   op1     First predicate.
+     * @param   op2     Second predicate.
+     * @return  Conjunction of two predicates.
+     */
+    public static Predicate and(final Predicate op1, final Predicate op2) {
+        if (op1.getMinimumArgumentNumber() > op2.getMaximumArgumentNumber()
+                || op1.getMaximumArgumentNumber() < op2.getMinimumArgumentNumber()) {
+            throw new IllegalArgumentException("Predicates can not be combined " + op1 + " and "
+                + op2);
+        }
+        return new Predicate(Math.max(op1.getMinimumArgumentNumber(),
+                op2.getMinimumArgumentNumber()), Math.min(op1.getMaximumArgumentNumber(),
+                op2.getMaximumArgumentNumber()), op1.toString() + " and " + op2.toString(),
+                op1.getDescription() + " and " + op2.getDescription()) {
+            public boolean calculate(final Entity[] entities) {
+                return op1.calculate(entities) && op2.calculate(entities);
+            }
+        };
+    }
+
+    /**
+     * Construct disjunction of two predicates.
+     *
+     * @param   op1     First predicate.
+     * @param   op2     Second predicate.
+     * @return  Disjunction of two predicates.
+     */
+    public static Predicate or(final Predicate op1, final Predicate op2) {
+        if (op1.getMinimumArgumentNumber() > op2.getMaximumArgumentNumber()
+                || op1.getMaximumArgumentNumber() < op2.getMinimumArgumentNumber()) {
+            throw new IllegalArgumentException("Predicates can not be combined " + op1 + " and "
+                + op2);
+        }
+        return new Predicate(Math.max(op1.getMinimumArgumentNumber(),
+                op2.getMinimumArgumentNumber()), Math.min(op1.getMaximumArgumentNumber(),
+                op2.getMaximumArgumentNumber()), op1.toString() + " or " + op2.toString(),
+                op1.getDescription() + " or " + op2.getDescription()) {
+            public boolean calculate(final Entity[] entities) {
+                return op1.calculate(entities) && op2.calculate(entities);
+            }
         };
     }
 

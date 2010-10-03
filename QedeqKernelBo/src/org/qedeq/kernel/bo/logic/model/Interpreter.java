@@ -353,7 +353,7 @@ public final class Interpreter {
     /**
      * Strips the reference to external modules.
      *
-     * @param   operator    Might refernce to an external module.
+     * @param   operator    Might have reference to an external module.
      * @return  Operator as local reference.
      */
     public String stripReference(final String operator) {

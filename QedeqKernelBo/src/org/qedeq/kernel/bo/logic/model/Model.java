@@ -98,9 +98,17 @@ public final class Model {
         predicateConstants.put(new PredicateConstant("FALSE", 0), Predicate.FALSE);
         predicateConstants.put(new PredicateConstant("equal", 2), Predicate.EQUAL);
         predicateConstants.put(new PredicateConstant("notEqual", 2), Predicate.NOT_EQUAL);
-        predicateConstants.put(new PredicateConstant("in", 2), Predicate.NOT_IS_TWO);
+        predicateConstants.put(new PredicateConstant("in", 2), Predicate.LESS);
         predicateConstants.put(new PredicateConstant("notIn", 2), Predicate.NOT_LESS);
-        predicateConstants.put(new PredicateConstant("isSet", 1), Predicate.TRUE);
+        predicateConstants.put(new PredicateConstant("isSet", 1), new Predicate(2, 2, "isSet",
+            "isSet") {
+            public boolean calculate(final Entity[] entities) {
+                if (entities.length == 1 && entities[0].getValue() != 2) {
+                    return true;
+                }
+                return false;
+            }
+        });
         predicateConstants.put(new PredicateConstant("subclass", 2), Predicate.LESS);
 
         functionConstants = new HashMap();

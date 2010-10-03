@@ -1459,10 +1459,8 @@ public class CalculateTruthTest extends QedeqTestCase {
 
     /**
      * Function: isTautology(Element)
-     * Type:     negative
-     * Data:     \forall x (\phi(x) -> A) <-> (\forall x (\phi(x)) -> A)
-     *           \forall x ( 2 | x) -> F) <-> (\forall x (2 | x)) -> F)
-     *           f                                  t
+     * Type:     positive
+     * Data:     \forall x (\phi(x) -> A) -> (\forall x (\phi(x)) -> A)
      *
      * @throws  Exception   Test failed.
      */
@@ -1489,6 +1487,42 @@ public class CalculateTruthTest extends QedeqTestCase {
               + "\n                  </IMPL>"
               + "\n                </IMPL>"
 
+        );
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     \forall z (z \in x <-> z \in y) -> x = y)
+     *           \forall z (z \in 0) <-> z \in 1) -> 1 = 0)
+     *           t                                  f
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology43() throws Exception {
+        final Element ele = TestParser.createElement(
+            "                <IMPL>\n"
+            + "                <FORALL>\n"
+            + "                  <VAR id=\"z\"/>\n"
+            + "                  <EQUI>\n"
+            + "                    <PREDCON ref=\"in\">\n"
+            + "                      <VAR id=\"z\"/>\n"
+            + "                      <VAR id=\"x\"/>\n"
+            + "                    </PREDCON>\n"
+            + "                    <PREDCON ref=\"in\">\n"
+            + "                      <VAR id=\"z\"/>\n"
+            + "                      <VAR id=\"y\"/>\n"
+            + "                    </PREDCON>\n"
+            + "                  </EQUI>\n"
+            + "                </FORALL>\n"
+            + "                <PREDCON ref=\"l.equal\">\n"
+            + "                  <VAR id=\"x\"/>\n"
+            + "                  <VAR id=\"y\"/>\n"
+            + "                </PREDCON>\n"
+            + "              </IMPL>\n"
         );
 //        System.out.println(ele.toString());
         assertTrue(CalculateTruth.isTautology(ele));
