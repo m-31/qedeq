@@ -350,7 +350,7 @@ public class QedeqPane extends JPanel implements SelectionListener {
      */
     public synchronized void selectWarning(final int warning, final SourceFileException sf) {
         int block = warning;
-        if (prop != null && prop.getErrors() != null && prop.getErrors().size() > 0) {
+        if (prop != null && prop.getErrors().size() > 0) {
             block += prop.getErrors().size();
         }
         if (warningMarker != null) {

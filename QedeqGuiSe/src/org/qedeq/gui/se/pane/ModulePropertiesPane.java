@@ -56,6 +56,9 @@ public class ModulePropertiesPane extends JPanel {
     /** URL of module. */
     private JTextArea url;
 
+    /** Module errors and warnings. */
+    private JTextField errorsAndWarnings;
+
 
     /**
      * Creates new Panel.
@@ -90,12 +93,14 @@ public class ModulePropertiesPane extends JPanel {
         builder.append(ruleVersion);
 
         builder.append("URL");
-//        url = createTextField("", false);
         url = new JTextArea();
         url.setEditable(false);
         url.setLineWrap(false);
         builder.append(wrapWithScrollPane(url));
-//        builder.append(url);
+
+        builder.append("Problems");
+        errorsAndWarnings = createTextField("", false);
+        builder.append(errorsAndWarnings);
 
         return builder.getPanel();
     }
@@ -106,82 +111,6 @@ public class ModulePropertiesPane extends JPanel {
     public final void setupView() {
         this.setLayout(new GridLayout(1, 1));
         this.add(buildTestPanel());
-/*
-        this.stateLabel = new JLabel("State");
-        this.add(this.stateLabel);
-        this.stateLabel.setBounds(33, 20, 150, 17);
-
-        this.stateTextField = new JTextField();
-        this.stateTextField.setEditable(false);
-        this.add(this.stateTextField);
-        this.stateTextField.setBounds(140, 20, 440, 21);
-
-        this.nameLabel = new JLabel("Name");
-        this.add(this.nameLabel);
-        this.nameLabel.setBounds(33, 60, 150, 17);
-
-        this.nameTextField = new JTextField();
-        this.nameTextField.setEditable(false);
-        this.add(this.nameTextField);
-        this.nameTextField.setBounds(140, 60, 440, 21);
-
-        this.moduleVersionLabel = new JLabel("Module version");
-        this.add(this.moduleVersionLabel);
-        this.moduleVersionLabel.setBounds(33, 100, 150, 17);
-
-        this.moduleVersionTextField = new JTextField();
-        this.moduleVersionTextField.setEditable(false);
-        this.add(this.moduleVersionTextField);
-        this.moduleVersionTextField.setBounds(140, 100, 440, 21);
-
-        this.ruleVersionLabel = new JLabel("Rule version");
-        this.add(this.ruleVersionLabel);
-        this.ruleVersionLabel.setBounds(33, 140, 150, 17);
-
-        this.ruleVersionTextField = new JTextField();
-        this.ruleVersionTextField.setEditable(false);
-        this.add(this.ruleVersionTextField);
-        this.ruleVersionTextField.setBounds(140, 140, 440, 21);
-
-        this.urlLabel = new JLabel("URL");
-        this.add(this.urlLabel);
-        this.urlLabel.setBounds(33, 180, 150, 17);
-
-        this.urlTextField = new JTextArea();
-        this.urlTextField.setEditable(false);
-        this.urlTextField.setLineWrap(true);
-        this.urlTextField.setBackground(this.getBackground());
-        this.urlTextField.setFont(this.ruleVersionTextField.getFont());
-        this.urlTextField.setCaretPosition(0);
-        this.urlTextField.setBorder(this.ruleVersionTextField.getBorder());
-        this.add(this.urlTextField);
-        this.urlTextField.setBounds(140, 180, 440, 21 * 2);
-
-        this.failureLabel = new JLabel("Failure");
-        this.add(this.failureLabel);
-        this.failureLabel.setBounds(33, 241, 150, 17);
-
-        this.failureTextField = new JTextArea();
-        this.failureTextField.setEditable(false);
-        this.failureTextField.setLineWrap(true);
-        this.failureTextField.setWrapStyleWord(true);
-        this.failureTextField.setAutoscrolls(true);
-        this.failureTextField.setBackground(this.getBackground());
-        this.failureTextField.setFont(this.ruleVersionTextField.getFont());
-        this.failureTextField.setCaretPosition(0);
-
-// TODO m31 20100831: remove me
-/*
-        final JScrollPane scroller = new JScrollPane();
-        final JViewport port = scroller.getViewport();
-        port.add(failureTextField);
-        this.add(scroller);
-        scroller.setBounds(140, 240, 441, 21 * 4);
-*/
-/*
-        this.add(failureTextField);
-        failureTextField.setBounds(140, 240, 441, 21 * 4);
-*/
         this.setPreferredSize(new Dimension(200, 200));
     }
 
@@ -206,6 +135,7 @@ public class ModulePropertiesPane extends JPanel {
             name.setText(prop.getName());
             ruleVersion.setText(prop.getRuleVersion());
             url.setText(prop.getUrl().toString());
+            errorsAndWarnings.setText(prop.getErrors().size() + " errors, " + prop.getWarnings().size() + " warnings");
         } else {
             state.setText("");
             name.setText("");
