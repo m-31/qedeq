@@ -58,8 +58,12 @@ public class Qedeq2LatexTest extends QedeqTestCase {
         KernelContext.getInstance().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
         assertFalse(bo.getLoadingState().isFailure());
         assertEquals(LogicalState.STATE_UNCHECKED, bo.getLogicalState());
-        assertNull(bo.getErrors());
-        assertNull(bo.getWarnings());
+        assertFalse(bo.hasErrors());
+        assertNotNull(bo.getErrors());
+        assertEquals(0, bo.getErrors().size());
+        assertFalse(bo.hasWarnings());
+        assertNotNull(bo.getWarnings());
+        assertEquals(0, bo.getWarnings().size());
     }
 
     /**
@@ -73,12 +77,16 @@ public class Qedeq2LatexTest extends QedeqTestCase {
         KernelContext.getInstance().checkModule(address);
         final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
         assertTrue(bo.getLogicalState().isFailure());
-        assertNull(bo.getWarnings());
+        assertFalse(bo.hasWarnings());
+        assertNotNull(bo.getWarnings());
+        assertEquals(0, bo.getWarnings().size());
         assertEquals(1, bo.getErrors().size());
         assertEquals(11231, bo.getErrors().get(0).getErrorCode());
         KernelContext.getInstance().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
         assertTrue(bo.getLogicalState().isFailure());
-        assertNull(bo.getWarnings());
+        assertFalse(bo.hasWarnings());
+        assertNotNull(bo.getWarnings());
+        assertEquals(0, bo.getWarnings().size());
         assertEquals(1, bo.getErrors().size());
         assertEquals(11231, bo.getErrors().get(0).getErrorCode());
         
@@ -94,12 +102,18 @@ public class Qedeq2LatexTest extends QedeqTestCase {
         KernelContext.getInstance().checkModule(address);
         final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
         assertFalse(bo.getLogicalState().isFailure());
-        assertNull(bo.getWarnings());
-        assertNull(bo.getErrors());
+        assertFalse(bo.hasWarnings());
+        assertNotNull(bo.getWarnings());
+        assertEquals(0, bo.getWarnings().size());
+        assertFalse(bo.hasErrors());
+        assertNotNull(bo.getErrors());
+        assertEquals(0, bo.getErrors().size());
         KernelContext.getInstance().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
         assertFalse(bo.getLogicalState().isFailure());
-        assertNull(bo.getErrors());
-        System.out.println(bo.getWarnings());
+        assertFalse(bo.hasErrors());
+        assertNotNull(bo.getErrors());
+        assertEquals(0, bo.getErrors().size());
+//        System.out.println(bo.getWarnings());
         assertEquals(1, bo.getWarnings().size());
         assertEquals(80007, bo.getWarnings().get(0).getErrorCode());
         
@@ -115,12 +129,18 @@ public class Qedeq2LatexTest extends QedeqTestCase {
         KernelContext.getInstance().checkModule(address);
         final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
         assertFalse(bo.getLogicalState().isFailure());
-        assertNull(bo.getWarnings());
-        assertNull(bo.getErrors());
+        assertFalse(bo.hasWarnings());
+        assertNotNull(bo.getWarnings());
+        assertEquals(0, bo.getWarnings().size());
+        assertFalse(bo.hasErrors());
+        assertNotNull(bo.getErrors());
+        assertEquals(0, bo.getErrors().size());
         KernelContext.getInstance().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
         assertFalse(bo.getLogicalState().isFailure());
-        assertNull(bo.getErrors());
-        System.out.println("\n" + bo.getWarnings());
+        assertFalse(bo.hasErrors());
+        assertNotNull(bo.getErrors());
+        assertEquals(0, bo.getErrors().size());
+//        System.out.println("\n" + bo.getWarnings());
         assertEquals(3, bo.getWarnings().size());
         assertEquals(80008, bo.getWarnings().get(0).getErrorCode());
         assertEquals(80010, bo.getWarnings().get(1).getErrorCode());
