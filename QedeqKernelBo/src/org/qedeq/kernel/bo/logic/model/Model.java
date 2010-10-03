@@ -131,7 +131,7 @@ public final class Model {
     }
 
     /**
-     * Get number of predicates with <code>size</code> number of arguments. 
+     * Get number of predicates with <code>size</code> number of arguments.
      *
      * @param   size    Number of arguments.
      * @return  Number of predicates in this model.
