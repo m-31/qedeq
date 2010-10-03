@@ -70,8 +70,10 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         final DefaultKernelQedeqBo qedeq = (DefaultKernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
         SourceFileExceptionList errors = qedeq.getErrors();
         SourceFileExceptionList warnings = qedeq.getWarnings();
-        assertNull(warnings);
-        assertNull(errors);
+        assertNotNull(warnings);
+        assertEquals(0, warnings.size());
+        assertNotNull(errors);
+        assertEquals(0, errors.size());
     }
 
     /**
@@ -89,7 +91,8 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         if (!KernelContext.getInstance().checkModule(address)) {
             SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
             SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
-            assertNull(warnings);
+            assertNotNull(warnings);
+            assertEquals(0, warnings.size());
             assertEquals(1, errors.size());
             assertEquals(123476, errors.get(0).getErrorCode());
             assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getRow());
@@ -114,7 +117,8 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         if (!KernelContext.getInstance().checkModule(address)) {
             SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
             SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
-            assertNull(warnings);
+            assertNotNull(warnings);
+            assertEquals(0, warnings.size());
             assertEquals(1, errors.size());
             assertEquals(123476, errors.get(0).getErrorCode());
             assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getRow());
@@ -143,8 +147,10 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         }
         errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
         SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
-        assertNull(warnings);
-        assertNull(errors);
+        assertNotNull(warnings);
+        assertEquals(0, warnings.size());
+        assertNotNull(errors);
+        assertEquals(0, errors.size());
     }
 
     /**
@@ -165,8 +171,10 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         final DefaultKernelQedeqBo qedeq = (DefaultKernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
         SourceFileExceptionList errors = qedeq.getErrors();
         SourceFileExceptionList warnings = qedeq.getWarnings();
-        assertNull(warnings);
-        assertNull(errors);
+        assertNotNull(warnings);
+        assertEquals(0, warnings.size());
+        assertNotNull(errors);
+        assertEquals(0, errors.size());
 
         ModuleConstantsExistenceChecker checker = qedeq.getExistenceChecker();
 
@@ -275,8 +283,10 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         final DefaultKernelQedeqBo qedeq = (DefaultKernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
         SourceFileExceptionList errors = qedeq.getErrors();
         SourceFileExceptionList warnings = qedeq.getWarnings();
-        assertNull(warnings);
-        assertNull(errors);
+        assertNotNull(warnings);
+        assertEquals(0, warnings.size());
+        assertNotNull(errors);
+        assertEquals(0, errors.size());
 
         ModuleConstantsExistenceChecker checker = qedeq.getExistenceChecker();
 
@@ -323,7 +333,8 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         if (!KernelContext.getInstance().checkModule(address)) {
             SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
             SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
-            assertNull(warnings);
+            assertNotNull(warnings);
+            assertEquals(0, warnings.size());
             assertEquals(1, errors.size());
             assertEquals(123478, errors.get(0).getErrorCode());
             assertEquals(38, errors.get(0).getSourceArea().getStartPosition().getRow());
@@ -347,7 +358,8 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         if (!KernelContext.getInstance().checkModule(address)) {
             SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
             SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
-            assertNull(warnings);
+            assertNotNull(warnings);
+            assertEquals(0, warnings.size());
             assertEquals(1, errors.size());
             assertEquals(123478, errors.get(0).getErrorCode());
             assertEquals(118, errors.get(0).getSourceArea().getStartPosition().getRow());
@@ -371,7 +383,8 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         if (!KernelContext.getInstance().checkModule(address)) {
             SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
             SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
-            assertNull(warnings);
+            assertNotNull(warnings);
+            assertEquals(0, warnings.size());
             assertEquals(1, errors.size());
             assertEquals(123476, errors.get(0).getErrorCode());
             assertEquals(125, errors.get(0).getSourceArea().getStartPosition().getRow());

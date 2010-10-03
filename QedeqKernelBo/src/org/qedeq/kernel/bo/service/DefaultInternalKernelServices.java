@@ -978,7 +978,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         final List list = new ArrayList();
         final KernelQedeqBo bo = getKernelQedeqBo(address);
         final SourceFileExceptionList sfl = bo.getErrors();
-        if (sfl != null) {
+        if (sfl.size() > 0) {
             final StringBuffer buffer = new StringBuffer();
             do {
                 Reader reader = null;

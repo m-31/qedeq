@@ -641,30 +641,22 @@ public class StateManager {
     /**
      * Get all errors.
      *
-     * @return  Errors. Might be <code>nulll</code>. If this is not <code>null</code>
-     *          it is a newly created list.
+     * @return  Errors. Is a newly created list.
      */
     public SourceFileExceptionList getErrors() {
         final DefaultSourceFileExceptionList result = new DefaultSourceFileExceptionList(errors);
         result.add(pluginResults.getAllErrors());
-        if (result.size() <= 0) {
-            return null;
-        }
         return result;
     }
 
     /**
      * Get all warnings.
      *
-     * @return  Warnings. Might be <code>nulll</code>. If this is not <code>null</code>
-     *          it is a newly created list.
+     * @return  Warnings. Is a newly created list.
      */
     public SourceFileExceptionList getWarnings() {
         final DefaultSourceFileExceptionList result = new DefaultSourceFileExceptionList();
         result.add(pluginResults.getAllWarnings());
-        if (result.size() <= 0) {
-            return null;
-        }
         return result;
     }
 
