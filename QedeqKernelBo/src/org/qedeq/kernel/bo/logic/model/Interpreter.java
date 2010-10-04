@@ -52,9 +52,11 @@ public final class Interpreter {
 
     /**
      * Constructor.
+     *
+     * @param   model   We work with this model.
      */
-    public Interpreter() {
-        model = new Model();
+    public Interpreter(final Model model) {
+        this.model = new Model();
         subjectVariableInterpreter = new SubjectVariableInterpreter(model);
         predicateVariableInterpreter = new PredicateVariableInterpreter(model);
         functionVariableInterpreter = new FunctionVariableInterpreter(model);

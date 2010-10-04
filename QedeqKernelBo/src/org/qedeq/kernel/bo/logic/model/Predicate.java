@@ -131,7 +131,7 @@ public abstract class Predicate {
                     final boolean result = !predicate.calculate(entities);
                     for (int i = 0; i < entities.length; i++) {
                         if (i > 0) {
-                            System.out.print(" \\in ");
+                            System.out.print(" " + toString() + " ");
                         }
                         System.out.print(entities[i]);
                     }

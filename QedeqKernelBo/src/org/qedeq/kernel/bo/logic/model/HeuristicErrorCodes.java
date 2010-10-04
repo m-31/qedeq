@@ -67,4 +67,11 @@ public interface HeuristicErrorCodes extends ErrorCodes {
     /** Error (or warning) text for: unknown function constant. */
     public static final String UNKNOWN_FUNCTION_CONSTANT_MSG = "unknown function constant: ";
 
+
+    /** Error (or warning) number for: unknown format for argument size. */
+    public static final int UNKNOWN_ARGUMENT_FORMAT_CODE = 77100;
+
+    /** Error (or warning) text for: unknown format for argument size. */
+    public static final String UNKNOWN_ARGUMENT_FORMAT_MSG = "unknown format for argument size: ";
+
 }

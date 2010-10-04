@@ -32,21 +32,39 @@ public final class CalculateTruth {
 
     /**
      * Constructor.
+     *
+     * @param   model           Model we use for testing.
      */
-    private CalculateTruth() {
-        interpretation = new Interpreter();
+    private CalculateTruth(final Model model) {
+        interpretation = new Interpreter(model);
     }
 
     /**
-     * Test if given formula is a tautology. This is done by checking a model and
+     * Test if given formula is a tautology. This is done by checking a default model and
      * iterating through variable values.
      *
      * @param   formula         Formula.
      * @return  Is this formula a tautology according to our tests.
      * @throws  HeuristicException  Evaluation failed.
      */
-    public static boolean isTautology(final Element formula) throws HeuristicException {
-        final CalculateTruth calculator = new CalculateTruth();
+    public static boolean isTautology(final Element formula)
+            throws HeuristicException {
+        final CalculateTruth calculator = new CalculateTruth(new Model());
+        return calculator.calculateTautology(new ModuleContext(new DefaultModuleAddress()),
+            formula);
+    }
+
+    /**
+     * Test if given formula is a tautology. This is done by checking a model and
+     * iterating through variable values.
+     *
+     * @param   model           Model we use for testing.
+     * @param   formula         Formula.
+     * @return  Is this formula a tautology according to our tests.
+     * @throws  HeuristicException  Evaluation failed.
+     */
+    public static boolean isTautology(final Model model, final Element formula) throws HeuristicException {
+        final CalculateTruth calculator = new CalculateTruth(model);
         return calculator.calculateTautology(new ModuleContext(new DefaultModuleAddress()),
             formula);
     }
@@ -56,13 +74,14 @@ public final class CalculateTruth {
      * iterating through variable values.
      *
      * @param   moduleContext   Here we are within a module.
+     * @param   model           Model we use for testing.
      * @param   formula         Formula.
      * @return  Is this formula a tautology according to our tests.
      * @throws  HeuristicException  Evaluation failed.
      */
-    public static boolean isTautology(final ModuleContext moduleContext, final Element formula)
-            throws HeuristicException {
-        final CalculateTruth calculator = new CalculateTruth();
+    public static boolean isTautology(final ModuleContext moduleContext, final Model model,
+            final Element formula) throws HeuristicException {
+        final CalculateTruth calculator = new CalculateTruth(model);
         return calculator.calculateTautology(moduleContext, formula);
     }
 

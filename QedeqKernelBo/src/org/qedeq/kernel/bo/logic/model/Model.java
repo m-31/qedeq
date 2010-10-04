@@ -21,7 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * One entity in our model.
+ * A model for our mathematical world. It has entities, functions and predicates.
+ * There are also predicate and function constants.
  *
  * @author  Michael Meyling
  */

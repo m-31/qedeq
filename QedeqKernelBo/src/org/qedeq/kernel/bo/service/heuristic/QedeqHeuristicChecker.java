@@ -15,17 +15,28 @@
 
 package org.qedeq.kernel.bo.service.heuristic;
 
+import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.module.Axiom;
+import org.qedeq.kernel.base.module.FunctionDefinition;
+import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Rule;
+import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.logic.model.CalculateTruth;
+import org.qedeq.kernel.bo.logic.model.FunctionConstant;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
 import org.qedeq.kernel.bo.logic.model.HeuristicException;
+import org.qedeq.kernel.bo.logic.model.Model;
+import org.qedeq.kernel.bo.logic.model.PredicateConstant;
+import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.dto.list.DefaultAtom;
+import org.qedeq.kernel.dto.list.DefaultElementList;
 
 
 /**
@@ -39,6 +50,9 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
     /** This class. */
     private static final Class CLASS = QedeqHeuristicChecker.class;
 
+    /** Model we use for our heuristic tests. */
+    private Model model;
+
     /**
      * Constructor.
      *
@@ -47,13 +61,14 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
      */
     private QedeqHeuristicChecker(final PluginBo plugin, final KernelQedeqBo prop) {
         super(plugin, prop);
+        model = new Model();
     }
 
     /**
      * Checks if all formulas of a QEDEQ module are tautologies in our model.
      *
      * @param   plugin  This plugin we work for.
-     * @param   prop                QEDEQ module properties object.
+     * @param   prop    QEDEQ module.
      * @throws  SourceFileExceptionList      Major problem occurred.
      */
     public static void check(final PluginBo plugin, final KernelQedeqBo prop)
@@ -68,6 +83,44 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
         }
     }
 
+    /**
+     * Check truth value in our model. If it is no tautology an warning is added.
+     * This also happens if our model doesn't support an operator found in the formula.
+     *
+     * @param   test    Test formula.
+     */
+    private void test(final Element test) {
+        test(getCurrentContext().getLocationWithinModule(), test);
+        try {
+            if (!CalculateTruth.isTautology(getCurrentContext(), model, test)) {
+                addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
+                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_MSG, getCurrentContext()));
+            }
+        } catch (HeuristicException e) {
+            addWarning(e);
+        }
+    }
+
+    /**
+    /**
+     * Check truth value in our model. If it is no tautology an warning is added.
+     * This also happens if our model doesn't support an operator found in the formula.
+     *
+     * @param   context Mark this local context if it is no tautology.
+     * @param   test    Test formula.
+     */
+    private void test(final String context, final Element test) {
+        try {
+            if (!CalculateTruth.isTautology(getCurrentContext(), model, test)) {
+                setLocationWithinModule(context);
+                addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
+                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_MSG, getCurrentContext()));
+            }
+        } catch (HeuristicException e) {
+            addWarning(e);
+        }
+    }
+
     public void visitEnter(final Axiom axiom) throws ModuleDataException {
         if (axiom == null) {
             return;
@@ -75,14 +128,8 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
         final String context = getCurrentContext().getLocationWithinModule();
         if (axiom.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
-            try {
-                if (!CalculateTruth.isTautology(getCurrentContext(), (axiom.getFormula().getElement()))) {
-                    addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
-                        HeuristicErrorCodes.EVALUATED_NOT_TRUE_MSG, getCurrentContext()));
-                }
-            } catch (HeuristicException e) {
-                addWarning(e);
-            }
+            final Element test = axiom.getFormula().getElement();
+            test(test);
         }
         setLocationWithinModule(context);
         setBlocked(true);
@@ -92,22 +139,44 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
         setBlocked(false);
     }
 
-/*
     public void visitEnter(final PredicateDefinition definition)
             throws ModuleDataException {
+        final String method = "visitEnter(PredicateDefinition)";
         if (definition == null) {
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        final Predicate predicate = new Predicate(definition.getName(),
-            definition.getArgumentNumber());
-        if (definition.getFormula() != null) {
-            setLocationWithinModule(context + ".getFormula().getElement()");
-            final Formula formula = definition.getFormula().getElement();
-            if (!CalculateTruth.isTautology((definition.getFormula().getElement()))) {
-                addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
-                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_MSG, getCurrentContext()));
+        try {
+            PredicateConstant predicate = new PredicateConstant(definition.getName(),
+                Integer.parseInt(definition.getArgumentNumber()));
+            if (null == model.getPredicateConstant(predicate)) {
+                setLocationWithinModule(context + ".getName()");
+                addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
+                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_MSG + predicate,
+                    getCurrentContext()));
+            } else if (definition.getFormula() != null) {
+                setLocationWithinModule(context + ".getFormula().getElement()");
+                final VariableList variableList = definition.getVariableList();
+                final int size = (variableList == null ? 0 : variableList.size());
+                final Element[] elements = new Element[size + 1];
+                elements[0] = new DefaultAtom(definition.getName());
+                for (int i = 0; i < size; i++) {
+                    elements[i + 1]  = variableList.get(i);
+                }
+                final Element left = new DefaultElementList(Operators.PREDICATE_CONSTANT,
+                   elements);
+                final Element[] compare = new Element[2];
+                compare[0] = left;
+                compare[1] = definition.getFormula().getElement();
+                test(context, new DefaultElementList(Operators.EQUIVALENCE_OPERATOR, compare));
             }
+        } catch (NumberFormatException e) {
+            Trace.fatal(CLASS, this, method, "not suported argument number: "
+                + definition.getArgumentNumber(), e);
+            setLocationWithinModule(context + ".getArgumentNumber()");
+            addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
+                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_MSG + definition.getArgumentNumber(),
+                getCurrentContext()));
         }
         setLocationWithinModule(context);
         setBlocked(true);
@@ -117,30 +186,47 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
         setBlocked(false);
     }
 
+
     public void visitEnter(final FunctionDefinition definition)
             throws ModuleDataException {
+        final String method = "visitEnter(FunctionDefinition)";
         if (definition == null) {
             return;
         }
-        // TODO mime 20080324: check that no reference (also node references) with same name exist
         final String context = getCurrentContext().getLocationWithinModule();
-        final Function function = new Function(definition.getName(),
-            definition.getArgumentNumber());
-        if (existence.functionExists(function)) {
-            throw new IllegalModuleDataException(HigherLogicalErrors.FUNCTION_ALREADY_DEFINED,
-                HigherLogicalErrors.FUNCTION_ALREADY_DEFINED_TEXT + function,
-                getCurrentContext());
-        }
-        if (definition.getTerm() != null) {
-            setLocationWithinModule(context + ".getTerm().getElement()");
-            final Term term = definition.getTerm();
-            LogicalCheckExceptionList list =
-                FormulaChecker.checkTerm(term.getElement(), getCurrentContext(), existence);
-            for (int i = 0; i < list.size(); i++) {
-                addError(list.get(i));
+        try {
+            FunctionConstant function = new FunctionConstant(definition.getName(),
+                Integer.parseInt(definition.getArgumentNumber()));
+            if (null == model.getFunctionConstant(function)) {
+                setLocationWithinModule(context + ".getName()");
+                addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
+                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + function,
+                    getCurrentContext()));
+            } else if (definition.getTerm() != null) {
+                setLocationWithinModule(context + ".getTerm().getElement()");
+                final VariableList variableList = definition.getVariableList();
+                final int size = (variableList == null ? 0 : variableList.size());
+                final Element[] elements = new Element[size + 1];
+                elements[0] = new DefaultAtom(definition.getName());
+                for (int i = 0; i < size; i++) {
+                    elements[i + 1]  = variableList.get(i);
+                }
+                final Element left = new DefaultElementList(Operators.FUNCTION_CONSTANT,
+                   elements);
+                final Element[] equal = new Element[3];
+                equal[0] = new DefaultAtom("equal");
+                equal[1] = left;
+                equal[2] = definition.getTerm().getElement();
+                test(context, new DefaultElementList(Operators.PREDICATE_CONSTANT, equal));
             }
+        } catch (NumberFormatException e) {
+            Trace.fatal(CLASS, this, method, "not suported argument number: "
+                + definition.getArgumentNumber(), e);
+            setLocationWithinModule(context + ".getArgumentNumber()");
+            addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
+                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_MSG + definition.getArgumentNumber(),
+                getCurrentContext()));
         }
-        existence.add(definition);
         setLocationWithinModule(context);
         setBlocked(true);
     }
@@ -148,7 +234,7 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
     public void visitLeave(final FunctionDefinition definition) {
         setBlocked(false);
     }
-*/
+
 
     public void visitEnter(final Proposition proposition)
             throws ModuleDataException {
@@ -158,14 +244,8 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
         final String context = getCurrentContext().getLocationWithinModule();
         if (proposition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
-            try {
-                if (!CalculateTruth.isTautology(getCurrentContext(), (proposition.getFormula().getElement()))) {
-                    addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
-                        HeuristicErrorCodes.EVALUATED_NOT_TRUE_MSG, getCurrentContext()));
-                }
-            } catch (HeuristicException e) {
-                addWarning(e);
-            }
+            final Element test = proposition.getFormula().getElement();
+            test(test);
         }
         setLocationWithinModule(context);
         setBlocked(true);
