@@ -151,7 +151,8 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
                 Integer.parseInt(definition.getArgumentNumber()));
             if (null == model.getPredicateConstant(predicate)) {
                 setLocationWithinModule(context + ".getName()");
-                addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
+                addWarning(new HeuristicException(
+                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
                     HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_MSG + predicate,
                     getCurrentContext()));
             } else if (definition.getFormula() != null) {
@@ -199,7 +200,8 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
                 Integer.parseInt(definition.getArgumentNumber()));
             if (null == model.getFunctionConstant(function)) {
                 setLocationWithinModule(context + ".getName()");
-                addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
+                addWarning(new HeuristicException(
+                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
                     HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + function,
                     getCurrentContext()));
             } else if (definition.getTerm() != null) {
