@@ -114,6 +114,7 @@ public final class Model {
 
         functionConstants = new HashMap();
         functionConstants.put(new FunctionConstant("emptySet", 0), Function.ZERO);
+        functionConstants.put(new FunctionConstant("RussellClass", 0), Function.TWO);
         functionConstants.put(new FunctionConstant("intersection", 2), Function.MIN);
         functionConstants.put(new FunctionConstant("union", 2), Function.MIN);
         functionConstants.put(new FunctionConstant("universalClass", 0), Function.TWO);
