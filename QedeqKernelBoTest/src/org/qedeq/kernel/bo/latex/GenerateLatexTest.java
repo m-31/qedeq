@@ -334,12 +334,4 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         }
     }
 
-    public File getGenDir() {
-        return getGenDir();
-    }
-
-    public File getDocDir() {
-        return getDocDir();
-    }
-
 }
