@@ -59,7 +59,7 @@ public final class Interpreter {
      * @param   model   We work with this model.
      */
     public Interpreter(final Model model) {
-        this.model = new Model();
+        this.model = new DefaultModel();
         subjectVariableInterpreter = new SubjectVariableInterpreter(model);
         predicateVariableInterpreter = new PredicateVariableInterpreter(model);
         functionVariableInterpreter = new FunctionVariableInterpreter(model);

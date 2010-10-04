@@ -27,6 +27,7 @@ import org.qedeq.kernel.bo.logic.model.CalculateTruth;
 import org.qedeq.kernel.bo.logic.model.FunctionConstant;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
 import org.qedeq.kernel.bo.logic.model.HeuristicException;
+import org.qedeq.kernel.bo.logic.model.DefaultModel;
 import org.qedeq.kernel.bo.logic.model.Model;
 import org.qedeq.kernel.bo.logic.model.PredicateConstant;
 import org.qedeq.kernel.bo.logic.wf.Operators;
@@ -61,7 +62,7 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
      */
     private QedeqHeuristicChecker(final PluginBo plugin, final KernelQedeqBo prop) {
         super(plugin, prop);
-        model = new Model();
+        model = new DefaultModel();
     }
 
     /**

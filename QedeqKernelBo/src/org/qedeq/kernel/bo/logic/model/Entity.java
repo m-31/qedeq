@@ -22,15 +22,6 @@ package org.qedeq.kernel.bo.logic.model;
  */
 public final class Entity {
 
-    /** "Zero" or empty set. */
-    public static final Entity ZERO = new Entity(0, "0", "{} or empty set");
-
-    /** "One" or set that contains the empty set. */
-    public static final Entity ONE = new Entity(1, "1", "{{}} or {0}");
-
-    /** "Two" or set that contains "zero" and "one". */
-    public static final Entity TWO = new Entity(2, "2", "{{}, {{}}} or {0, 1}");
-
     /** Value. This can be used for calculating truth or other values. Each value should
      * be unique to an entity.*/
     private final int value;
