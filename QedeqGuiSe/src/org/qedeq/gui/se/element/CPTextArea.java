@@ -79,12 +79,12 @@ public class CPTextArea extends JTextArea {
             JMenuItem jmenuitem = new JMenuItem("Copy");
             jmenuitem.addActionListener(this);
             jmenuitem.setActionCommand("copy");
-            JMenuItem jmenuitem1 = new JMenuItem("Cut");
-            jmenuitem1.addActionListener(this);
-            jmenuitem1.setActionCommand("cut");
             popedit.add(jmenuitem);
-            popedit.add(jmenuitem1);
             if (outer.isEditable()) {
+                JMenuItem jmenuitem1 = new JMenuItem("Cut");
+                jmenuitem1.addActionListener(this);
+                jmenuitem1.setActionCommand("cut");
+                popedit.add(jmenuitem1);
                 JMenuItem jmenuitem2 = new JMenuItem("Paste");
                 jmenuitem2.addActionListener(this);
                 jmenuitem2.setActionCommand("paste");
