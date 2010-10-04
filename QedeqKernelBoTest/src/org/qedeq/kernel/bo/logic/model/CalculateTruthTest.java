@@ -1417,7 +1417,7 @@ public class CalculateTruthTest extends QedeqTestCase {
             + "\n              </AND>"
             + "\n"
             );
-//        System.out.println(ele.toString());
+        System.out.println(ele.toString());
         assertTrue(CalculateTruth.isTautology(ele));
     }
 
@@ -1497,8 +1497,6 @@ public class CalculateTruthTest extends QedeqTestCase {
      * Function: isTautology(Element)
      * Type:     positive
      * Data:     \forall z (z \in x <-> z \in y) -> x = y)
-     *           \forall z (z \in 0) <-> z \in 1) -> 1 = 0)
-     *           t                                  f
      *
      * @throws  Exception   Test failed.
      */
