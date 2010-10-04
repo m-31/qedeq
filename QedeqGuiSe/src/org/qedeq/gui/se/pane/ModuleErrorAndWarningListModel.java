@@ -127,6 +127,15 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
         this.qedeq = qedeq;
     }
 
+    /**
+     * Get QEDEQ module.
+     *
+     * @return  QEDEQ module.
+     */
+    public QedeqBo getQedeq() {
+        return qedeq;
+    }
+
     public void fireTableDataChanged() {
         if (qedeq != null) {
             this.errors = qedeq.getErrors();

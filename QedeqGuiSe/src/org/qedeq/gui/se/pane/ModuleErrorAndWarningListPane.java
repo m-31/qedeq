@@ -16,7 +16,11 @@
 package org.qedeq.gui.se.pane;
 
 import java.awt.Color;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -43,6 +47,7 @@ import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.SelectionListenerList;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.ModuleEventListener;
+import org.qedeq.kernel.common.SourceFileException;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -55,7 +60,8 @@ import com.jgoodies.forms.layout.RowSpec;
  * @author  Michael Meyling
  */
 
-public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEventListener {
+public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEventListener,
+        ActionListener {
 
     /** This class. */
     private static final Class CLASS = ModuleErrorAndWarningListPane.class;
@@ -89,6 +95,9 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
 
     };
 
+    /** Context menu for right mouse click. */
+    private final ModuleErrorAndWarningListContextMenu contextMenu;
+
     /** Write with this font attributes. */
     private final SimpleAttributeSet errorAttrs = new SimpleAttributeSet();
 
@@ -109,6 +118,7 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
     public ModuleErrorAndWarningListPane(final SelectionListenerList listener) {
         super(false);
         this.listener = listener;
+        this.contextMenu = new ModuleErrorAndWarningListContextMenu(this);
         setModel(null);
         setupView();
     }
@@ -157,6 +167,15 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
 
         // doing a click shall open the edit window
         list.addMouseListener(new MouseAdapter()  {
+            public void mousePressed(final MouseEvent evt) {
+                if (SwingUtilities.isRightMouseButton(evt)) {
+                    contextMenu.show(evt.getComponent(),
+                        evt.getX(), evt.getY());
+                } else {
+                    super.mousePressed(evt);
+                }
+            }
+
             public void mouseClicked(final MouseEvent e) {
                 if (e.getClickCount() == 2) {
                     Trace.trace(CLASS, this, "setupView$vmouseClicked", "doubleClick");
@@ -176,6 +195,18 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
         scrollPane = new JScrollPane(list);
         builder.add(scrollPane,
             cc.xywh(builder.getColumn(), builder.getRow(), 1, 2, "fill, fill"));
+
+        // open context menu on right click
+        scrollPane.addMouseListener(new MouseAdapter() {
+            public void mousePressed(final MouseEvent evt) {
+                if (SwingUtilities.isRightMouseButton(evt)) {
+                    contextMenu.show(evt.getComponent(),
+                        evt.getX(), evt.getY());
+                } else {
+                    super.mousePressed(evt);
+                }
+            }
+        });
 
         StyleConstants.setForeground(this.errorAttrs, Color.red);
         // because we override getScrollableTracksViewportWidth:
@@ -269,6 +300,45 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
                 }
             };
             SwingUtilities.invokeLater(removeModule);
+        }
+    }
+
+    public void actionPerformed(final ActionEvent actionevent) {
+        final String s = actionevent.getActionCommand();
+        if (s.equals("copy")) {
+            if (model.getQedeq() != null) {
+                final StringBuffer sb = new StringBuffer();
+                sb.append("Type\tCode\tFrom\tTo\tDescription\n");
+                for (int i = 0; i < model.getQedeq().getErrors().size(); i++) {
+                    sb.append("Error");
+                    sb.append("\t");
+                    SourceFileException e = model.getQedeq().getErrors().get(i);
+                    sb.append(e.getErrorCode());
+                    sb.append("\t");
+                    sb.append(e.getSourceArea().getStartPosition());
+                    sb.append("\t");
+                    sb.append(e.getSourceArea().getEndPosition());
+                    sb.append("\t");
+                    sb.append(e.getMessage());
+                    sb.append("\n");
+                }
+                for (int i = 0; i < model.getQedeq().getWarnings().size(); i++) {
+                    sb.append("Warning");
+                    sb.append("\t");
+                    SourceFileException e = model.getQedeq().getWarnings().get(i);
+                    sb.append(e.getErrorCode());
+                    sb.append("\t");
+                    sb.append(e.getSourceArea().getStartPosition());
+                    sb.append("\t");
+                    sb.append(e.getSourceArea().getEndPosition());
+                    sb.append("\t");
+                    sb.append(e.getMessage());
+                    sb.append("\n");
+                }
+                final Clipboard cb = Toolkit.getDefaultToolkit().getSystemClipboard();
+                StringSelection sel = new StringSelection(sb.toString());
+                cb.setContents(sel, null);
+            }
         }
     }
 
