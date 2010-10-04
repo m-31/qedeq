@@ -15,6 +15,9 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.bo.logic.wf.Operators;
@@ -295,6 +298,20 @@ public final class Interpreter {
             }
             setLocationWithinModule(context + ".getList()");
             result = function.map(getEntities(termList));
+        } else if (Operators.CLASS_OP.equals(op)) {
+            List fullfillers = new ArrayList();
+            ElementList variable = termList.getElement(0).getList();
+            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
+            subjectVariableInterpreter.addSubjectVariable(var);
+            for (int i = 0; i < model.getEntitiesSize(); i++) {
+                setLocationWithinModule(context + ".getList().getElement(1)");
+                if (calculateValue(termList.getElement(1))) {
+                    fullfillers.add(model.getEntity(i));
+                }
+                subjectVariableInterpreter.increaseSubjectVariableSelection(var);
+            }
+            result = model.map((Entity[]) fullfillers.toArray(new Entity[] {}));
+            subjectVariableInterpreter.removeSubjectVariable(var);
         } else {
             setLocationWithinModule(context + ".getList().getOperator()");
             throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,

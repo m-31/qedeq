@@ -210,4 +210,29 @@ public final class Model {
         return (Function) functionConstants.get(con);
     }
 
+    /**
+     * Create entity out of entity list. This is a transformation of a list
+     * of elements into a class containing these elements.
+     *
+     * @param   array   List of elements.
+     * @return  Class that contains (exactly?) these elements.
+     */
+    public Entity map(final Entity[] array) {
+        if (array.length == 0) {
+            return Entity.ZERO;
+        } else if (array.length == 1) {
+            if (array[0].getValue() == Entity.TWO.getValue()) {
+                return Entity.ZERO;
+            } else if (array[0].getValue() == Entity.ONE.getValue()) {
+                return Entity.TWO;
+            } else if (array[0].getValue() == Entity.ZERO.getValue()) {
+                return Entity.ONE;
+            } else {
+                return Entity.ZERO;
+            }
+        } else {
+            return Entity.TWO;
+        }
+    }
+
 }

@@ -1525,4 +1525,39 @@ public class CalculateTruthTest extends QedeqTestCase {
 //        System.out.println(ele.toString());
         assertTrue(CalculateTruth.isTautology(ele));
     }
+
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     (y \in {x | \phi(x)} <-> (isSet(y) n \phi(y))
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void pestTautology44() throws Exception {
+        final Element ele = TestParser.createElement(
+            "    <EQUI>"
+            + "    <PREDCON ref=\"in\">"
+            + "      <VAR id=\"y\"/>"
+            + "      <CLASS>"
+            + "        <VAR id=\"x\"/>"
+            + "        <PREDVAR id=\"\\phi\">"
+            + "          <VAR id=\"x\"/>"
+            + "        </PREDVAR>"
+            + "      </CLASS>"
+            + "    </PREDCON>"
+            + "    <AND>"
+            + "      <PREDCON ref=\"isSet\">"
+            + "        <VAR id=\"y\"/>"
+            + "      </PREDCON>"
+            + "      <PREDVAR id=\"\\phi\">"
+            + "        <VAR id=\"y\"/>"
+            + "      </PREDVAR>"
+            + "    </AND>"
+            + "  </EQUI>"
+        );
+        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(ele));
+    }
+
 }
