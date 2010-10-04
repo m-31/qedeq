@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.qedeq.base.io.IoUtility;
-import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.logic.wf.LogicalCheckException;
@@ -29,6 +28,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleAddress;
@@ -44,39 +44,10 @@ import org.xml.sax.SAXParseException;
  * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
-public class GenerateLatexTest extends QedeqTestCase {
+public class GenerateLatexTest extends QedeqBoTestCase {
 
     /** This class. */
     private static final Class CLASS = GenerateLatexTest.class;
-
-    /** Here should the result get into. */
-    private File genDir;
-
-    /** Here are the documents within. */
-    private File docDir;
-
-    public void setUp() throws Exception {
-        super.setUp();
-        docDir = new File("../QedeqDoc");
-        genDir = new File("../../../qedeq_gen");
-        // test if we are in the normal development environment, where a project with name
-        // "../QedeqDoc" exists, otherwise we assume to run within the release directory
-        // structure where the docs are in the directory ../doc
-        if (!docDir.exists()) {
-            docDir = getFile("doc");
-            // or are we testing automatically?
-            if (!docDir.exists()) {
-                throw new IOException("unknown source directory for QEDEQ modules");
-            }
-            genDir = new File(getOutdir(), "doc");
-        }
-        KernelFacade.startup();
-    }
-
-    public void tearDown() throws Exception {
-        super.tearDown();
-        KernelFacade.shutdown();
-    }
 
     /**
      * Start main process.
@@ -84,16 +55,16 @@ public class GenerateLatexTest extends QedeqTestCase {
      * @throws Exception
      */
     public void testGeneration() throws Exception {
-        generate(docDir, "math/qedeq_logic_v1.xml", genDir, false);
-        generate(docDir, "math/qedeq_sample1.xml", genDir, false);
-        generate(docDir, "math/qedeq_set_theory_v1.xml", genDir, false);
-        generate(docDir, "project/qedeq_basic_concept.xml", genDir, false);
-        generate(docDir, "project/qedeq_logic_language.xml", genDir, true);
+        generate(getDocDir(), "math/qedeq_logic_v1.xml", getGenDir(), false);
+        generate(getDocDir(), "math/qedeq_sample1.xml", getGenDir(), false);
+        generate(getDocDir(), "math/qedeq_set_theory_v1.xml", getGenDir(), false);
+        generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false);
+        generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true);
     }
 
     public void testNegative02() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample2_error.xml", "de", new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample2_error.xml", "de", new File(getGenDir(), "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -108,7 +79,7 @@ public class GenerateLatexTest extends QedeqTestCase {
 
     public void testNegative03() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample3_error.xml", "en", new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample3_error.xml", "en", new File(getGenDir(), "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -125,7 +96,7 @@ public class GenerateLatexTest extends QedeqTestCase {
 
     public void testNegative04() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample4_error.xml", "en", new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample4_error.xml", "en", new File(getGenDir(), "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -184,7 +155,7 @@ public class GenerateLatexTest extends QedeqTestCase {
 
     public void testNegative05() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample5_error.xml", "en", new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample5_error.xml", "en", new File(getGenDir(), "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -199,7 +170,7 @@ public class GenerateLatexTest extends QedeqTestCase {
 
     public void testNegative06() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample6_error.xml", "en", new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample6_error.xml", "en", new File(getGenDir(), "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -214,7 +185,7 @@ public class GenerateLatexTest extends QedeqTestCase {
 
     public void testNegative07() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample7_error.xml", "en", new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample7_error.xml", "en", new File(getGenDir(), "null"));
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -229,7 +200,7 @@ public class GenerateLatexTest extends QedeqTestCase {
 
     public void testNegative08() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample8_error.xml", "en", new File(genDir, "null"));
+            generate(getIndir(), "qedeq_sample8_error.xml", "en", new File(getGenDir(), "null"));
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -364,11 +335,11 @@ public class GenerateLatexTest extends QedeqTestCase {
     }
 
     public File getGenDir() {
-        return genDir;
+        return getGenDir();
     }
 
     public File getDocDir() {
-        return docDir;
+        return getDocDir();
     }
 
 }

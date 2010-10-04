@@ -30,7 +30,7 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public final class HeuristicCheckerPlugin implements PluginBo {
+public class HeuristicCheckerPlugin implements PluginBo {
 
     /** This class. */
     public static final Class CLASS = HeuristicCheckerPlugin.class;
@@ -39,6 +39,7 @@ public final class HeuristicCheckerPlugin implements PluginBo {
      * Constructor.
      */
     public HeuristicCheckerPlugin() {
+        // nothing to do
     }
 
     public String getPluginId() {
