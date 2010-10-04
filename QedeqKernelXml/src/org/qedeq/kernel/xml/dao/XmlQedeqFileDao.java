@@ -24,6 +24,7 @@ import java.io.Reader;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.base.io.SourceArea;
+import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.module.Qedeq;
@@ -116,8 +117,9 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         try {
             xpath = Context2SimpleXPath.getXPath(ctext, qedeq);
         } catch (ModuleDataException e) {
-            Trace.fatal(CLASS, method, "within \"" + qedeq + "\" not found: \"" + ctext + "\\", e);
-            return null;
+            Trace.fatal(CLASS, method, "not found: \"" + ctext + "\"", e);
+            return new SourceArea(ctext.getModuleLocation().getUrl(), SourcePosition.BEGIN,
+                SourcePosition.BEGIN);
         }
 
         final File local = services.getLocalFilePath(ctext.getModuleLocation());
