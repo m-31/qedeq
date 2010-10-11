@@ -618,13 +618,18 @@ public class TextInput extends InputStream {
     public final void setPosition(final int position) {
         if (position >= source.length()) {
             this.position = source.length();
-        }
-        if (this.position != position) {
-            this.position = 0;
-            this.lineNumber = 0;
-            this.column = 0;
-            for (int i = 0; i < position; i++) {    // Q & D
-                read();
+        } else if (this.position != position) {
+            if (position < this.position) {
+                this.position = 0;
+                this.lineNumber = 0;
+                this.column = 0;
+                for (int i = 0; i < position; i++) {    // Q & D
+                    read();
+                }
+            } else {
+                for (int i = this.position; i < position; i++) {
+                    read();
+                }
             }
         }
     }
