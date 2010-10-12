@@ -3,6 +3,7 @@
 <!-- project: Hilbert II -->
 
 <!-- This part of the Ant build process for project Hilbert II -->
+<!-- depricated - now moving tests away isn't needed any longer  -->
 <project name="fastMacros" basedir="../..">
     <description>
         Macros for the developer build for Hilbert II.   
