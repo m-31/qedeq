@@ -28,6 +28,7 @@ import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.logic.model.ZeroModel;
+import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.common.Plugin;
 
@@ -75,7 +76,7 @@ public class PluginAction extends AbstractAction {
                     final Map parameters = new HashMap();
                     // FIXME m31 20100924: these are only LaTeX Parameters
                     parameters.put(Qedeq2LatexPlugin.class.getName() + "$info", "true");
-                    parameters.put(ZeroModel.class.getName() + "$model",
+                    parameters.put(HeuristicCheckerPlugin.class.getName() + "$model",
                         ZeroModel.class.getName());
                     for (int i = 0; i < props.length; i++) {
                         KernelContext.getInstance().executePlugin(plugin.getPluginId(),
