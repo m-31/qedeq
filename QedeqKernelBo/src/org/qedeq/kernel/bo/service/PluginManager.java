@@ -106,10 +106,18 @@ public class PluginManager {
      * @param   qedeq   QEDEQ module to work on.
      * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
+     * @throws  RuntimeException    Plugin unknown, or execution had a major problem.
      */
     synchronized Object executePlugin(final String id, final KernelQedeqBo qedeq,
             final Map parameters) {
         final PluginBo plugin = (PluginBo) plugins.get(id);
+        if (plugin == null) {
+            final String message = "Kernel does not know about plugin: ";
+            final RuntimeException e = new RuntimeException(message + id);
+            Trace.fatal(CLASS, this, "executePlugin", message + id,
+                e);
+            throw e;
+        }
         return plugin.executePlugin(qedeq, parameters);
     }
 
