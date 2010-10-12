@@ -60,7 +60,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<NOT><NOT><PREDVAR id=\"A\"/></NOT></NOT>");
         // System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -74,7 +74,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<OR><PREDVAR id=\"A\"/><NOT><PREDVAR id=\"A\"/></NOT></OR>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -88,7 +88,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<AND><PREDVAR id=\"A\"/><NOT><PREDVAR id=\"A\"/></NOT></AND>");
         // System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -102,7 +102,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><NOT><PREDVAR id=\"A\"/></NOT></IMPL>");
         // System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -116,7 +116,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<IMPL><NOT><PREDVAR id=\"A\"/></NOT><PREDVAR id=\"A\"/></IMPL>");
         // System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -130,7 +130,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><PREDVAR id=\"A\"/></IMPL>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -144,7 +144,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><NOT><NOT><PREDVAR id=\"A\"/></NOT></NOT></IMPL>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -158,7 +158,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<EQUI><PREDVAR id=\"A\"/><NOT><NOT><PREDVAR id=\"A\"/></NOT></NOT></EQUI>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -172,7 +172,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><OR><PREDVAR id=\"B\"/><PREDVAR id=\"A\"/></OR></IMPL>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -186,7 +186,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><OR><NOT><PREDVAR id=\"B\"/></NOT><PREDVAR id=\"A\"/></OR></IMPL>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -200,7 +200,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><AND><NOT><PREDVAR id=\"B\"/></NOT><PREDVAR id=\"A\"/></AND></IMPL>");
         // System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -214,7 +214,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         final Element ele = TestParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><OR><PREDVAR id=\"A\"/><NOT><PREDVAR id=\"A\"/></NOT></OR></IMPL>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -230,7 +230,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             + "<PREDVAR id=\"D\"/><PREDVAR id=\"E\"/><PREDVAR id=\"F\"/><PREDVAR id=\"G\"/>"
             + "<PREDVAR id=\"H\"/><PREDVAR id=\"I\"/><PREDVAR id=\"J\"/></OR></IMPL>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -245,7 +245,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EQUI><OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></OR>"
             + "<OR><PREDVAR id=\"B\"/><PREDVAR id=\"A\"/></OR></EQUI>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -260,7 +260,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EQUI><AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></AND>"
             + "<AND><PREDVAR id=\"B\"/><PREDVAR id=\"A\"/></AND></EQUI>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -275,7 +275,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EQUI><AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></AND>"
             + "<OR><PREDVAR id=\"B\"/><PREDVAR id=\"A\"/></OR></EQUI>");
         // System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -290,7 +290,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EQUI><AND><NOT><PREDVAR id=\"A\"/></NOT><PREDVAR id=\"B\"/></AND>"
             + "<NOT><OR><NOT><PREDVAR id=\"B\"/></NOT><PREDVAR id=\"A\"/></OR></NOT></EQUI>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -305,7 +305,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR></EQUI>");
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -320,7 +320,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -335,7 +335,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -350,7 +350,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -365,7 +365,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -380,7 +380,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EQUI><PREDVAR id=\"A\"/>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -395,7 +395,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EQUI><PREDVAR id=\"A\"/>"
             + "<PREDVAR id=\"B\"/></EQUI>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -410,7 +410,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<IMPL><PREDVAR id=\"A\"/>"
             + "<PREDVAR id=\"B\"/></IMPL>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -425,7 +425,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<IMPL><PREDVAR id=\"A\"/>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></IMPL>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -440,7 +440,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<FORALL><VAR id=\"x\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></IMPL></FORALL>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -455,7 +455,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR></IMPL></FORALL></FORALL>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -470,7 +470,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR></IMPL></FORALL></FORALL>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -485,7 +485,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR></FORALL></FORALL>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -500,7 +500,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/><VAR id=\"x\"/></PREDVAR></FORALL></FORALL>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -515,7 +515,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<FORALL><VAR id=\"x\"/><EXISTS><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR></IMPL></EXISTS></FORALL>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -530,7 +530,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EXISTSU><VAR id=\"y\"/><PREDCON id=\"equal\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDCON>"
             + "</EXISTSU>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -545,7 +545,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EXISTSU><VAR id=\"y\"/><PREDCON id=\"equal\"><VAR id=\"y\"/><VAR id=\"y\"/></PREDCON>"
             + "</EXISTSU>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -560,7 +560,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EXISTS><VAR id=\"y\"/><PREDCON id=\"equal\"><VAR id=\"y\"/><VAR id=\"y\"/></PREDCON>"
             + "</EXISTS>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -575,7 +575,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR>"
             + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -590,7 +590,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"x\"/></FUNVAR>"
             + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON>");
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -605,7 +605,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "<EXISTS><VAR id=\"y\"/><PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"x\"/></FUNVAR>"
             + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON></EXISTS>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -1073,7 +1073,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             "\n              </AND>" +
             "\n");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -1438,7 +1438,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             + "\n"
             );
         System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -1474,7 +1474,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             + "\n                </EQUI>"
             );
         // System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(model, ele));
+        assertFalse(CalculateTruth.isTautology(getModel(), ele));
     }
 
     /**
@@ -1509,7 +1509,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
 
         );
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
 
@@ -1543,7 +1543,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             + "              </IMPL>\n"
         );
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
 
@@ -1554,7 +1554,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
      *
      * @throws  Exception   Test failed.
      */
-    public void testTautology44() throws Exception {
+    public void pestTautology44() throws Exception {
         final Element ele = TestParser.createElement(
             "    <EQUI>"
             + "    <PREDCON ref=\"in\">"
@@ -1577,7 +1577,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             + "  </EQUI>"
         );
         System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(model, ele));
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
 }
