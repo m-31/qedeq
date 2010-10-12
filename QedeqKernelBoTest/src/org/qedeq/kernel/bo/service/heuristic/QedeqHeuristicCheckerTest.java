@@ -23,6 +23,7 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.logic.model.DefaultModel;
 import org.qedeq.kernel.bo.logic.model.Model;
+import org.qedeq.kernel.bo.logic.model.ZeroModel;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -74,7 +75,7 @@ public class QedeqHeuristicCheckerTest extends QedeqBoTestCase {
         }
 
         final Map parameters = new HashMap();
-        parameters.put("model", model.getClass().getName());
+        parameters.put(model.getClass().getName() + "$model", model.getClass().getName());
         KernelFacade.getKernelContext().executePlugin(
             "org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin", prop.getModuleAddress(), 
             parameters);

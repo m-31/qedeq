@@ -45,6 +45,7 @@ public class KernelBoServiceTestSuite extends QedeqTestSuite {
         addTestSuite(LoadRequiredModulesTest.class);
         addTestSuite(ModuleConstantsExistenceCheckerTest.class);
         addTestSuite(QedeqBoFormalLogicCheckerTest.class);
+        // very slow:
         addTestSuite(QedeqBoFactoryTest.class);
     }
 }

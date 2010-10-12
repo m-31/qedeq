@@ -40,7 +40,9 @@ public final class ExtendedGenerateLatexTest extends GenerateLatexTest {
      * @throws Exception
      */
     public void testGeneration() throws Exception {
-        super.testGeneration();
+        if (slow()) {
+            super.testGeneration();
+        }
     }
 
     /**
@@ -57,14 +59,12 @@ public final class ExtendedGenerateLatexTest extends GenerateLatexTest {
      * @throws  Exception   Failure.
      */
     public void generate(final File dir, final String xml,
-            final File destinationDirectory, final boolean onlyEn) throws Exception {
-        if (slow()) {
-            generate(dir, xml, "en", destinationDirectory);
-            if (!onlyEn) {
-                generate(dir, xml, "de", destinationDirectory);
-            }
-            QedeqBoFactoryTest.loadQedeqAndAssertContext(new File(dir, xml));
+        final File destinationDirectory, final boolean onlyEn) throws Exception {
+        generate(dir, xml, "en", destinationDirectory);
+        if (!onlyEn) {
+            generate(dir, xml, "de", destinationDirectory);
         }
+        QedeqBoFactoryTest.loadQedeqAndAssertContext(new File(dir, xml));
     }
 
 }

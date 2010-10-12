@@ -20,7 +20,8 @@ import junit.framework.Test;
 import org.qedeq.base.test.QedeqTestSuite;
 import org.qedeq.kernel.bo.latex.ExtendedGenerateLatexTest;
 import org.qedeq.kernel.bo.latex.GenerateLatexTest;
-import org.qedeq.kernel.bo.logic.model.CalculateTruthTest;
+import org.qedeq.kernel.bo.logic.model.CalculateTruthDefaultModelTest;
+import org.qedeq.kernel.bo.logic.model.CalculateTruthZeroModelTest;
 import org.qedeq.kernel.bo.logic.wf.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
 import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
@@ -66,7 +67,8 @@ public class KernelBoTestSuite extends QedeqTestSuite {
         addTest(KernelBoServiceTestSuite.suite());
         addTestSuite(Qedeq2LatexTest.class);
         addTestSuite(GenerateLatexTest.class);
-        addTestSuite(CalculateTruthTest.class);
+        addTestSuite(CalculateTruthDefaultModelTest.class);
+        addTestSuite(CalculateTruthZeroModelTest.class);
         // very slow:
         addTestSuite(ExtendedGenerateLatexTest.class);
     }

@@ -44,7 +44,6 @@ import org.xml.sax.SAXException;
 /**
  * For testing QEDEQ generation.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class QedeqBoFactoryTest extends QedeqTestCase {
@@ -155,7 +154,9 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
      * @throws Exception    Unexpected failure of module creation.
      */
     public void testCreateStringQedeq5() throws Exception {
-        loadQedeqAndAssertContext("math/qedeq_set_theory_v1.xml");
+        if (slow()) {
+            loadQedeqAndAssertContext("math/qedeq_set_theory_v1.xml");
+        }
     }
 
     /**
@@ -164,7 +165,9 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
      * @throws Exception    Unexpected failure of module creation.
      */
     public void testCreateStringQedeq6() throws Exception {
-        loadQedeqAndAssertContext("math/qedeq_logic_v1.xml");
+        if (slow()) {
+            loadQedeqAndAssertContext("math/qedeq_logic_v1.xml");
+        }
     }
 
     public void loadQedeqAndAssertContext(final String name) throws IOException,

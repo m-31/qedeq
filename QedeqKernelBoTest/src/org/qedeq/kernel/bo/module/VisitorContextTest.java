@@ -86,11 +86,13 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
     private File moduleFile;
 
     public void testContext() throws Exception {
-        moduleFile = QedeqBoFactoryTest.getQedeqFile("math/qedeq_set_theory_v1.xml");
-        final ModuleAddress globalContext = new DefaultModuleAddress(moduleFile);
-        qedeq = QedeqBoFactoryTest.loadQedeq(moduleFile);
-        traverser = new QedeqNotNullTraverser(globalContext, this);
-        traverser.accept(qedeq);
+        if (slow()) {
+            moduleFile = QedeqBoFactoryTest.getQedeqFile("math/qedeq_set_theory_v1.xml");
+            final ModuleAddress globalContext = new DefaultModuleAddress(moduleFile);
+            qedeq = QedeqBoFactoryTest.loadQedeq(moduleFile);
+            traverser = new QedeqNotNullTraverser(globalContext, this);
+            traverser.accept(qedeq);
+        }
     }
 
     public void visitEnter(final Atom atom) throws ModuleDataException {
