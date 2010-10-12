@@ -131,9 +131,18 @@ public abstract class QedeqTestCase extends TestCase {
      */
     public boolean slow() {
        if (fast()) {
-           final StackTraceElement e = new Exception().getStackTrace()[1];
+           final StackTraceElement[] st = new Exception().getStackTrace();
+           final StackTraceElement e = st[1];
+           // find test method
+           String name = e.getMethodName();
+           for (int i = 1; i < st.length; i++) {
+               if (st[i].getMethodName().startsWith("test")) {
+                   name = st[i].getMethodName();
+                   break;
+               }
+           }
            System.out.println("skipping slow test "
-                   + e.getClassName() + "." + e.getMethodName());
+                   + e.getClassName() + "." + name);
            return false;
        }
        return true;
