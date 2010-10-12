@@ -65,8 +65,11 @@ public final class Qedeq2LatexPlugin implements PluginBo {
 
     public Object executePlugin(final KernelQedeqBo qedeq, final Map parameters) {
         final String method = "executePlugin(QedeqBo, Map)";
-        final boolean info = parameters != null && parameters.get("info") != null
-            && "true".equals(parameters.get("info").toString().toLowerCase());
+        String infoString = null;
+        if (parameters != null) {
+            infoString = parameters.get(getPluginId() + "$info").toString();
+        }
+        final boolean info = "true".equalsIgnoreCase(infoString);
         try {
             QedeqLog.getInstance().logRequest("Generate LaTeX from \""
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
