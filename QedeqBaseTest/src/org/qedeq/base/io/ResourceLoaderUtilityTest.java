@@ -27,7 +27,6 @@ import org.qedeq.base.utility.StringUtility;
 /**
  * Test {@link ResourceLoaderUtility}.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class ResourceLoaderUtilityTest extends QedeqTestCase {
@@ -50,7 +49,7 @@ public class ResourceLoaderUtilityTest extends QedeqTestCase {
 
     /**
      * Test {@link ResourceLoaderUtility#getResourceFile(java.io.File, String, String)}.
-     * TODO mime 2009ß614: This test must be run against a jar file!
+     * TODO mime 20090614: This test must be run against a jar file!
      *
      * @throws  Exception   Test failure.
      */
