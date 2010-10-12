@@ -12,7 +12,6 @@
     <property name="qedeq.test.fast"       value="true" />
 
     <import file="releaseBuild.xml" />
-    <import file="fastMacros.xml" />
 
     <target name="clean">
         <delete dir="${qedeq.dest.module}" failonerror="false" />
@@ -29,22 +28,7 @@
         <clean name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_gui_se" />
     </target>
 
-    <!-- FIXME mime 20101012: remove if control by property 'qedeq.test.fast' is ok -->
-<!--
-    <target name="test" description="run all tests" depends="testCompile">
-        
-        <moveSlowTestsAway/>
 
-        <cloverTest  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"/>
-        <cloverTest  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"/>
-        <cloverTest  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"/>
-        <cloverTest  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"/>
-        <cloverTest  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate"/>
-
-        <putSlowTestsBack/>
-    </target>
-    -->
- 
     <target name="makePdfs" description="create PDF files out of certain *.tex test results" depends="test">
         <!-- fake creation by GenerateLatexText -->
         <mkdir dir="${qedeq.dest.module}/QedeqKernelBo/target/test-outdir/doc" />

@@ -8,8 +8,10 @@
         Developer build for Hilbert II with clover but without pdf generation and release execution.   
     </description>
 
+    <!-- test no slow methods -->
+    <property name="qedeq.test.fast"       value="true" />
+
     <import file="releaseBuild.xml" />
-    <import file="fastMacros.xml" />
 
     <target name="clean">
         <delete dir="${qedeq.dest.module}" failonerror="false" />
@@ -27,16 +29,11 @@
     </target>
 
     <target name="test" description="run all tests" depends="testCompile">
-        
-        <moveSlowTestsAway/>
-
-        <cloverTest  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"/>
-        <cloverTest  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"/>
-        <cloverTest  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"/>
-        <cloverTest  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"/>
-        <cloverTest  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate"/>
-
-        <putSlowTestsBack/>
+        <cloverTest  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" fast="true" />
+        <cloverTest  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" fast="true" />
+        <cloverTest  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common" fast="true" />
+        <cloverTest  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common" fast="true" />
+        <cloverTest  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate" fast="true" />
     </target>
  
     <target name="makePdfs" description="create PDF files out of certain *.tex test results" depends="test">
@@ -47,7 +44,7 @@
     <target name="release" depends="assemble">
        <!-- don't do anything because we want to be fast.. -->   
     </target>
-                
+
 </project>
 
 

@@ -8,8 +8,10 @@
         Developer build for Hilbert II without clover, pdf generation and release build.   
     </description>
 
-    <import file="releaseBuild.xml" />
-    <import file="fastMacros.xml" />
+    <!-- test no slow methods -->
+    <property name="qedeq.test.fast"       value="true" />
+
+	<import file="releaseBuild.xml" />
 
     <target name="clean">
         <delete dir="${qedeq.dest.module}" failonerror="false" />
@@ -27,16 +29,14 @@
     </target>
 
     <target name="test" description="run all tests" depends="testCompile">
-        
-        <moveSlowTestsAway/>
+        <!-- no clover -->
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" fast="true" />
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" fast="true" />
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" fast="true" />
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" fast="true" />
+        <utest       name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common" fast="true" />
+        <utest       name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common" fast="true" />
 
-        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" />
-        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" />
-        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" />
-        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" />
-        <utest       name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common" />
-        <utest       name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common" />
-       
 <!-- takes too long:       
         <utest       name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"  />
 -->
@@ -49,9 +49,6 @@
             <fileset dir="${qedeq.dest.module}/QedeqKernelXml/target/reports/junit/data"  includes="*.xml,*.txt" />
         </copy>
         <testReport reportdir="${qedeq.dest.module}/qedeq_kernel/target/reports/junit" />
-
-        <!-- put slow tests back -->   
-        <putSlowTestsBack/>
     </target>
 
     <target name="release" depends="assemble">
