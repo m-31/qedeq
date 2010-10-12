@@ -1106,6 +1106,7 @@ public class IoUtilityTest extends QedeqTestCase {
         assertFalse(file1.exists());
         assertFalse(file2.exists());
         assertFalse(file3.exists());
+        assertTrue(IoUtility.deleteDir(dir1, true));
     }
 
 }

@@ -24,6 +24,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.apache.log4j.helpers.Loader;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.qedeq.base.io.IoUtility;
 
 /**
  * Basis class for all tests.
@@ -36,9 +37,13 @@ public abstract class QedeqTestCase extends TestCase {
         // init Log4J watchdog
         try {
             URL url = Loader.getResource("config/log4j.xml");
+            if (url == null) {
+                // try development environment
+                url = IoUtility.toUrl(new File("../QedeqBuild/resources/config/log4j.xml"));
+            }
             if (url != null) {
-                // set properties and watch file every 5 seconds
-                DOMConfigurator.configureAndWatch(url.getPath(), 5000);
+                // set properties and watch file every 15 seconds
+                DOMConfigurator.configureAndWatch(url.getPath(), 15000);
             } else {
                 Logger.getRootLogger().setLevel(Level.ERROR);
             }
@@ -53,6 +58,9 @@ public abstract class QedeqTestCase extends TestCase {
     /** Source directory for input files. */
     private final File indir;
 
+    /** Should the methods of this class execute fast? */
+    private final boolean fast;
+
     /**
      * Constructor.
      *
@@ -62,6 +70,7 @@ public abstract class QedeqTestCase extends TestCase {
         super(name);
         outdir = new File(System.getProperty("qedeq.test.outdir", "../../../qedeq_gen"));
         indir = new File(System.getProperty("qedeq.test.indir", "data"));
+        fast = "true".equalsIgnoreCase(System.getProperty("qedeq.test.fast", "true"));
     }
 
     /**
@@ -71,6 +80,7 @@ public abstract class QedeqTestCase extends TestCase {
         super();
         outdir = new File(System.getProperty("qedeq.test.outdir", "../../../qedeq_gen"));
         indir = new File(System.getProperty("qedeq.test.indir", "data"));
+        fast = "true".equalsIgnoreCase(System.getProperty("qedeq.test.fast", "true"));
     }
 
     /**
@@ -101,6 +111,32 @@ public abstract class QedeqTestCase extends TestCase {
      */
     public File getFile(final String fileName) {
         return new File(getIndir(), fileName);
+    }
+
+    /**
+     * Should the test case be finished fast? The test case should ask this method
+     * at the begin of long running test methods.
+     *
+     * @return  Should the test case be finished fast?
+     */
+    public boolean fast() {
+        return fast;
+    }
+
+    /**
+     * Should a slow test method be executed?. Also prints name of current method
+     * to System.out.
+     *
+     * @return  Should even slow test methods be executed?
+     */
+    public boolean slow() {
+       if (fast()) {
+           final StackTraceElement e = new Exception().getStackTrace()[1];
+           System.out.println("skipping slow test "
+                   + e.getClassName() + "." + e.getMethodName());
+           return false;
+       }
+       return true;
     }
 
 }
