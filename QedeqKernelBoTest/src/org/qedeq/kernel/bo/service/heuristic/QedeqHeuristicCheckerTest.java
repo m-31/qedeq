@@ -129,7 +129,7 @@ public class QedeqHeuristicCheckerTest extends QedeqBoTestCase {
     public void testQedeqSetTheoryScript2() throws Exception {
         final QedeqBo bo = check(new ZeroModel(), getDocDir(), "math/qedeq_set_theory_v1.xml");
         assertEquals(0, bo.getErrors().size());
-        assertEquals(59, bo.getWarnings().size());
+        assertEquals(2, bo.getWarnings().size());
     }
 
 }

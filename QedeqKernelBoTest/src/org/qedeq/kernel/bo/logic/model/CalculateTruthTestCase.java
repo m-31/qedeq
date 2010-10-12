@@ -1554,7 +1554,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
      *
      * @throws  Exception   Test failed.
      */
-    public void pestTautology44() throws Exception {
+    public void testTautology44() throws Exception {
         final Element ele = TestParser.createElement(
             "    <EQUI>"
             + "    <PREDCON ref=\"in\">"

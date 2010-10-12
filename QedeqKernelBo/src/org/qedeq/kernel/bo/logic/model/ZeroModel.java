@@ -144,14 +144,13 @@ public final class ZeroModel implements Model {
         predicateConstants.put(new PredicateConstant("in", 2), FALSE);
         predicateConstants.put(new PredicateConstant("notIn", 2), TRUE);
         predicateConstants.put(new PredicateConstant("isSet", 1), FALSE);
-        predicateConstants.put(new PredicateConstant("subclass", 2), LESS);
+        predicateConstants.put(new PredicateConstant("subclass", 2), TRUE);
+        predicateConstants.put(new PredicateConstant("isOrderedPair", 1), TRUE);
+        predicateConstants.put(new PredicateConstant("isRelation", 1), TRUE);
+        predicateConstants.put(new PredicateConstant("isFunction", 1), TRUE);
 
         functionConstants = new HashMap();
-        functionConstants.put(new FunctionConstant("emptySet", 0), FUNCTION_ZERO);
-        functionConstants.put(new FunctionConstant("RussellClass", 0), FUNCTION_ZERO);
-        functionConstants.put(new FunctionConstant("intersection", 2), FUNCTION_ZERO);
-        functionConstants.put(new FunctionConstant("union", 2), FUNCTION_ZERO);
-        functionConstants.put(new FunctionConstant("universalClass", 0), FUNCTION_ZERO);
+        // we always return FUNCTION_ZERO
 
     }
 
@@ -181,19 +180,15 @@ public final class ZeroModel implements Model {
     }
 
     public int getFunctionSize(final int size) {
-        if (functionPool.size() <=  size) {
-            return 0;
-        }
-        return ((List) functionPool.get(size)).size();
+        return 1;
     }
 
     public Function getFunction(final int size, final int number) {
-        final List functionForSize = (List) functionPool.get(size);
-        return (Function) functionForSize.get(number);
+        return FUNCTION_ZERO;
     }
 
     public Function getFunctionConstant(final FunctionConstant con) {
-        return (Function) functionConstants.get(con);
+        return FUNCTION_ZERO;
     }
 
     public Entity map(final Entity[] array) {
