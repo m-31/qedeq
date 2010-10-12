@@ -8,6 +8,9 @@
         Release build for Hilbert II without pdf generation and slow tests.   
     </description>
 
+    <!-- test no slow methods -->
+    <property name="qedeq.test.fast"       value="true" />
+
     <import file="releaseBuild.xml" />
     <import file="fastMacros.xml" />
 
@@ -26,6 +29,8 @@
         <clean name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_gui_se" />
     </target>
 
+    <!-- FIXME mime 20101012: remove if control by property 'qedeq.test.fast' is ok -->
+<!--
     <target name="test" description="run all tests" depends="testCompile">
         
         <moveSlowTestsAway/>
@@ -38,6 +43,7 @@
 
         <putSlowTestsBack/>
     </target>
+    -->
  
     <target name="makePdfs" description="create PDF files out of certain *.tex test results" depends="test">
         <!-- fake creation by GenerateLatexText -->

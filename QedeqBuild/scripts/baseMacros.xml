@@ -145,6 +145,7 @@
         <attribute name="name" />        <!-- artifact name -->
         <attribute name="dir" />         <!-- destination directory -->
         <attribute name="classpath" />   <!-- refid for compile, test compile and run classpath -->
+        <attribute name="fast" />   <!-- should only be fast tests be executed? -->
         <sequential>
             <delete dir="@{dir}/target/classes" />   
             <delete dir="@{dir}/target/test-classes" />
@@ -160,7 +161,7 @@
             </clover-setup>
             <compile     name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
             <testCompile name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
-            <utest       name="@{name}"      dir="@{dir}"      classpath="@{classpath}" />
+            <utest       name="@{name}"      dir="@{dir}"      classpath="@{classpath}" fast="@{fast}" />
             <!-- html report -->
             <clover-report>
                 <current outfile="@{dir}/target/reports/clover/report">
@@ -201,6 +202,7 @@
         <attribute name="name" />  <!-- artifact name -->
         <attribute name="dir" />   <!-- destination directory -->
         <attribute name="classpath" />   <!-- refid for test runtime classpath -->
+        <attribute name="fast" />   <!-- should only be fast tests be executed? -->
         <sequential>
             <echo>test @{name}</echo>   
             <delete dir="@{dir}/target/reports/junit/data" failonerror="false"/>
@@ -219,6 +221,7 @@
                 <formatter type="xml" usefile="yes"/>
                 <sysproperty key="qedeq.test.indir" value="@{dir}/src/test/resources/data"/>
                 <sysproperty key="qedeq.test.outdir" value="@{dir}/target/test-outdir"/>
+                <sysproperty key="qedeq.test.fast" value="@{fast}"/>
                 <batchtest fork="true"
                         todir="@{dir}/target/reports/junit/data"
                         haltonerror="false"

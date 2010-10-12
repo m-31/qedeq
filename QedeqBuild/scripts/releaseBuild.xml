@@ -16,6 +16,7 @@
     <import file="baseMacros.xml" />
 
     <!-- set global properties for this build -->
+    <property name="qedeq.test.fast"       value="false" /> <!-- test all methods, even slow ones -->
     <property file="${basedir}/QedeqBuild/scripts/build.properties" />
     <property name="qedeq.lib"             value="${basedir}/QedeqLib" />
     <property name="qedeq.gen"             value="${basedir}/../../qedeq_gen" />
