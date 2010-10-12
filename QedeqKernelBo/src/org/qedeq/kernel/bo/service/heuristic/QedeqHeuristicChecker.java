@@ -27,7 +27,6 @@ import org.qedeq.kernel.bo.logic.model.CalculateTruth;
 import org.qedeq.kernel.bo.logic.model.FunctionConstant;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
 import org.qedeq.kernel.bo.logic.model.HeuristicException;
-import org.qedeq.kernel.bo.logic.model.DefaultModel;
 import org.qedeq.kernel.bo.logic.model.Model;
 import org.qedeq.kernel.bo.logic.model.PredicateConstant;
 import org.qedeq.kernel.bo.logic.wf.Operators;
@@ -58,23 +57,26 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
      * Constructor.
      *
      * @param   plugin  This plugin we work for.
+     * @param   model   Check with this model.
      * @param   prop    QEDEQ module properties object.
      */
-    private QedeqHeuristicChecker(final PluginBo plugin, final KernelQedeqBo prop) {
+    private QedeqHeuristicChecker(final PluginBo plugin, final Model model,
+            final KernelQedeqBo prop) {
         super(plugin, prop);
-        model = new DefaultModel();
+        this.model = model;
     }
 
     /**
      * Checks if all formulas of a QEDEQ module are tautologies in our model.
      *
      * @param   plugin  This plugin we work for.
+     * @param   model   Check with this model.
      * @param   prop    QEDEQ module.
      * @throws  SourceFileExceptionList      Major problem occurred.
      */
-    public static void check(final PluginBo plugin, final KernelQedeqBo prop)
+    public static void check(final PluginBo plugin, final Model model, final KernelQedeqBo prop)
             throws SourceFileExceptionList {
-        final QedeqHeuristicChecker checker = new QedeqHeuristicChecker(plugin, prop);
+        final QedeqHeuristicChecker checker = new QedeqHeuristicChecker(plugin, model, prop);
         try {
             checker.traverse();
         } catch (SourceFileExceptionList sfl) {

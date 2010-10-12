@@ -16,10 +16,13 @@ package org.qedeq.kernel.bo.service.heuristic;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.logic.model.DefaultModel;
+import org.qedeq.kernel.bo.logic.model.Model;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -51,7 +54,8 @@ public class QedeqHeuristicCheckerTest extends QedeqBoTestCase {
      * @throws IOException File IO failed.
      * @throws XmlFilePositionException File data is invalid.
      */
-    public QedeqBo check(final File dir, final String xml) throws IOException, SourceFileExceptionList {
+    public QedeqBo check(final Model model, final File dir, final String xml) throws IOException,
+            SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(xmlFile));
@@ -68,12 +72,12 @@ public class QedeqHeuristicCheckerTest extends QedeqBoTestCase {
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        QedeqHeuristicChecker.check(new HeuristicCheckerPlugin() {
-            public Object executePlugin(KernelQedeqBo qedeq, Map parameters) {
-                return null;
-            }
-        }, prop);
 
+        final Map parameters = new HashMap();
+        parameters.put("model", model.getClass().getName());
+        KernelFacade.getKernelContext().executePlugin(
+            "org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin", prop.getModuleAddress(), 
+            parameters);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
@@ -81,25 +85,49 @@ public class QedeqHeuristicCheckerTest extends QedeqBoTestCase {
     }
 
     /**
-     * Test logic script for heuristic errors.
+     * Test logic script for heuristic errors with default model.
      *
      * @throws Exception
      */
-    public void testQedeqLogicScript() throws Exception {
-        final QedeqBo bo = check(getDocDir(), "math/qedeq_logic_v1.xml");
+    public void testQedeqLogicScript1() throws Exception {
+        final QedeqBo bo = check(new DefaultModel(), getDocDir(), "math/qedeq_logic_v1.xml");
+        assertEquals(0, bo.getErrors().size());
+        // FIXME m31 20101012: there should be zero warnings! Think about changing
+        //                     definition into axiom!
+        assertEquals(6, bo.getWarnings().size());
+    }
+
+    /**
+     * Test logic script for heuristic errors with zero model.
+     *
+     * @throws Exception
+     */
+    public void testQedeqLogicScript2() throws Exception {
+        final QedeqBo bo = check(new ZeroModel(), getDocDir(), "math/qedeq_logic_v1.xml");
         assertEquals(0, bo.getErrors().size());
         assertEquals(6, bo.getWarnings().size());
     }
 
     /**
-     * Test logic script for heuristic errors.
+     * Test logic script for heuristic errors with default model.
      *
      * @throws Exception
      */
-    public void testQedeqSetTheoryScript() throws Exception {
-        final QedeqBo bo = check(getDocDir(), "math/qedeq_set_theory_v1.xml");
+    public void testQedeqSetTheoryScript1() throws Exception {
+        final QedeqBo bo = check(new DefaultModel(), getDocDir(), "math/qedeq_set_theory_v1.xml");
         assertEquals(0, bo.getErrors().size());
         assertEquals(64, bo.getWarnings().size());
+    }
+
+    /**
+     * Test logic script for heuristic errors with zero model.
+     *
+     * @throws Exception
+     */
+    public void testQedeqSetTheoryScript2() throws Exception {
+        final QedeqBo bo = check(new ZeroModel(), getDocDir(), "math/qedeq_set_theory_v1.xml");
+        assertEquals(0, bo.getErrors().size());
+        assertEquals(59, bo.getWarnings().size());
     }
 
 }

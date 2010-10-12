@@ -20,6 +20,8 @@ import java.util.Map;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.log.QedeqLog;
+import org.qedeq.kernel.bo.logic.model.DefaultModel;
+import org.qedeq.kernel.bo.logic.model.Model;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -59,7 +61,37 @@ public class HeuristicCheckerPlugin implements PluginBo {
         try {
             QedeqLog.getInstance().logRequest("Heuristic test for \""
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
-            QedeqHeuristicChecker.check(this, qedeq);
+            final String modelClass
+                = (parameters != null ? (String) parameters.get("model") : null);
+            Model model = null;
+            if (modelClass != null && modelClass.length() > 0) {
+                try {
+                    Class cl = Class.forName(modelClass);
+                    model = (Model) cl.newInstance();
+                } catch (ClassNotFoundException e) {
+                    Trace.fatal(CLASS, this, method, "Model class not in class path: "
+                        + modelClass, e);
+                    throw new RuntimeException(e);
+                } catch (InstantiationException e) {
+                    Trace.fatal(CLASS, this, method, "Model class could not be instanciated: "
+                        + modelClass, e);
+                    throw new RuntimeException(e);
+                } catch (IllegalAccessException e) {
+                    Trace.fatal(CLASS, this, method,
+                        "Programming error, access for instantiation failed for model: "
+                        + modelClass, e);
+                    throw new RuntimeException(e);
+                } catch (RuntimeException e) {
+                    Trace.fatal(CLASS, this, method,
+                        "Programming error, instantiation failed for model: " + modelClass, e);
+                    throw new RuntimeException(e);
+                }
+            }
+            // fallback is the default model
+            if (model == null) {
+                model = new DefaultModel();
+            }
+            QedeqHeuristicChecker.check(this, model, qedeq);
             QedeqLog.getInstance().logSuccessfulReply(
                 "Heuristic test succesfull for \""
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
