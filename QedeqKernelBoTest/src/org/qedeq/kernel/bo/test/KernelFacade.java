@@ -20,12 +20,6 @@ import java.io.IOException;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.bo.log.LogListener;
-import org.qedeq.kernel.bo.log.LogListenerImpl;
-import org.qedeq.kernel.bo.log.ModuleEventListener;
-import org.qedeq.kernel.bo.log.ModuleEventListenerLog;
-import org.qedeq.kernel.bo.log.ModuleEventLog;
-import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultInternalKernelServices;
@@ -41,12 +35,12 @@ import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 public final class KernelFacade {
 
     private static KernelContext context;
-    private static LogListener log;
-    private static ModuleEventListener mod;
+//    private static LogListener log;
+//    private static ModuleEventListener mod;
 
     public static void startup() {
-        log = new LogListenerImpl();
-        QedeqLog.getInstance().addLog(log);
+//        log = new LogListenerImpl();
+//        QedeqLog.getInstance().addLog(log);
         try {
             final File dir = (new QedeqTestCase() {}).getOutdir();
             final File cf = new File(dir, "config/org.qedeq.properties");
@@ -65,19 +59,19 @@ public final class KernelFacade {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-        mod = new ModuleEventListenerLog();
-        ModuleEventLog.getInstance().addLog(mod);
+//        mod = new ModuleEventListenerLog();
+//        ModuleEventLog.getInstance().addLog(mod);
         KernelContext.getInstance().startupServices();
         context = KernelContext.getInstance();
     }
 
     public static void shutdown() {
         KernelContext.getInstance().shutdown();
-        QedeqLog.getInstance().removeLog(log);
-        ModuleEventLog.getInstance().removeLog(mod);
+//        QedeqLog.getInstance().removeLog(log);
+//        ModuleEventLog.getInstance().removeLog(mod);
         context = null;
-        log = null;
-        mod = null;
+//        log = null;
+//        mod = null;
     }
 
 
