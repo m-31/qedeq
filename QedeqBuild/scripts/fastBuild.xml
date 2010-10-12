@@ -30,12 +30,12 @@
 
     <target name="test" description="run all tests" depends="testCompile">
         <!-- no clover -->
-        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" fast="true" />
-        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" fast="true" />
-        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" fast="true" />
-        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" fast="true" />
-        <utest       name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common" fast="true" />
-        <utest       name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common" fast="true" />
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" fast="${qedeq.test.fast}" />
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" fast="${qedeq.test.fast}" />
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common" fast="${qedeq.test.fast}" />
+        <utest       name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common" fast="${qedeq.test.fast}" />
+        <utest       name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common" fast="${qedeq.test.fast}" />
+        <utest       name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common" fast="${qedeq.test.fast}" />
 
 <!-- takes too long:       
         <utest       name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"  />
