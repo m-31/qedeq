@@ -75,7 +75,8 @@ public class QedeqHeuristicCheckerTest extends QedeqBoTestCase {
         }
 
         final Map parameters = new HashMap();
-        parameters.put(model.getClass().getName() + "$model", model.getClass().getName());
+        parameters.put(HeuristicCheckerPlugin.class.getName() + "$model",
+            model.getClass().getName());
         KernelFacade.getKernelContext().executePlugin(
             "org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin", prop.getModuleAddress(), 
             parameters);
