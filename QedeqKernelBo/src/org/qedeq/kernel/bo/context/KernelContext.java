@@ -90,7 +90,8 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             createAllNecessaryDirectories();
             checkIfApplicationIsAlreadyRunningAndLockFile();
             KernelContext.this.services = moduleServices;
-            Trace.log("-----------------------------------------------------------------------------------------");
+            QedeqLog.getInstance().logMessage("--------------------------------------------------"
+                 + "---------------------------------------");
             QedeqLog.getInstance().logMessage("This is "
                 + KernelContext.getInstance().getDescriptiveKernelVersion());
             QedeqLog.getInstance().logMessage("  see \"http://www.qedeq.org\" for more "
