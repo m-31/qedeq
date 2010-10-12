@@ -186,19 +186,19 @@ currently in ants classpath
     </target>
         
     <target name="test" description="run all tests" depends="testCompile">
-        <cloverTest  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"/>
-        <cloverTest  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"/>
-        <cloverTest  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"/>
-        <cloverTest  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"/>
-        <cloverTest  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate"/>
+        <cloverTest  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"    fast="false"/>
+        <cloverTest  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"    fast="false"/>
+        <cloverTest  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"    fast="false"/>
+        <cloverTest  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"    fast="false"/>
+        <cloverTest  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate" fast="false"/>
     </target>
  
     <target name="pest" description="run all pest tests" depends="test">
-        <pest        name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"/>
-        <pest        name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"/>
-        <pest        name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"/>
-        <pest        name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"/>
-        <pest        name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate"/>
+        <pest        name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"    fast="false"/>
+        <pest        name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"    fast="false"/>
+        <pest        name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"    fast="false"/>
+        <pest        name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"    fast="false"/>
+        <pest        name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate" fast="false"/>
     </target>
         
     <target name="sourceHtml" description="generate HTML for java" depends="test">
