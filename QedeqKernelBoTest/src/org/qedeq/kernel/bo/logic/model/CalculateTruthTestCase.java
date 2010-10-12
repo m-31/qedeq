@@ -40,6 +40,15 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
         this.model = model;
     }
 
+    /** 
+     * Get model we use here.
+     * 
+     * @return  Model.
+     */
+    public Model getModel() {
+        return model;
+    }
+
     /**
      * Function: isTautology(Element)
      * Type:     negative

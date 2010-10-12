@@ -15,6 +15,9 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
+import org.qedeq.kernel.base.list.Element;
+import org.qedeq.kernel.bo.test.TestParser;
+
 
 /**
  * Testing the truth calculation with zero model.
@@ -28,6 +31,145 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
      */
     public CalculateTruthZeroModelTest() {
         super(new ZeroModel());
+    }
+    
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive (only in this model!!!)
+     * Data:     A(x,y) <-> A(y,x)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology19() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
+            + "<PREDVAR id=\"A\"><VAR id=\"y\"/><VAR id=\"x\"/></PREDVAR></EQUI>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Type:     positive (only in this model!!!)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology20() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
+            + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"x\"/></PREDVAR></EQUI>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive (only in this model!!!)
+     * Data:     A(y) <-> A(x)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology21() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EQUI><PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR>"
+            + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></EQUI>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+    }
+    
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive (only in this model!!!)
+     * Data:     \forall x \forall y (A(x) -> A(y))
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology28() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
+            + "<PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR></IMPL></FORALL></FORALL>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive (only in this model!!!)
+     * Data:     \forall x \forall A(x,y): A(y,x))
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology31() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
+            + "<PREDVAR id=\"A\"><VAR id=\"y\"/><VAR id=\"x\"/></PREDVAR></FORALL></FORALL>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive (only in this model!!!)
+     * Data:     \exists! y (y = y)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology34() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EXISTSU><VAR id=\"y\"/><PREDCON id=\"equal\"><VAR id=\"y\"/><VAR id=\"y\"/></PREDCON>"
+            + "</EXISTSU>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive (only in this model!!!)
+     * Data:     f(x) = f(y)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology37() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"x\"/></FUNVAR>"
+            + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON>");
+//        System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+    }
+    
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive (only in this model!!!)
+     * Data:     \forall x (\phi(x) <-> A) <-> (\forall x (\phi(x)) <-> A)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology41() throws Exception {
+        final Element ele = TestParser.createElement(
+            "\n                <EQUI>"
+            + "\n                  <FORALL>"
+            + "\n                    <VAR id=\"x\" />"
+            + "\n                    <EQUI>"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                      <PREDVAR id=\"A\" />"
+            + "\n                    </EQUI>"
+            + "\n                  </FORALL>"
+            + "\n                  <EQUI>"
+            + "\n                    <FORALL>"
+            + "\n                      <VAR id=\"x\" />"
+            + "\n                      <PREDVAR id=\"\\phi\">"
+            + "\n                        <VAR id=\"x\" />"
+            + "\n                      </PREDVAR>"
+            + "\n                    </FORALL>"
+            + "\n                    <PREDVAR id=\"A\" />"
+            + "\n                  </EQUI>"
+            + "\n                </EQUI>"
+            );
+        // System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
 }
