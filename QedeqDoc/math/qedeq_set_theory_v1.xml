@@ -438,7 +438,7 @@
                   Additional to the identy definition we need the following form of the extensionality axiom: $(x = y \land x \in z) \ \rightarrow y \in z$. This is a special case of the Leibniz's replacement rule that we know already as \qref{l.axiom:leibnizReplacement}. The correctness of the general rule can be proved by recursion over formula building. See also \cite{schmidt} \S 6.
                   
                   \par
-                  Alternatively one can define $(x = y \leftrightarrow (\forall z \ (x \in z \ \rightarrow \ y \in z)) \land (\forall z \ (x \in z \ \rightarrow \ z \in y))$.
+                  Alternatively one can define $(x = y \leftrightarrow (\forall z \ (x \in z \ \rightarrow \ y \in z)) \land (\forall z \ (x \in z \ \rightarrow \ z \in y))$.}
               ]]>
             </LATEX>
             <LATEX language="de">
@@ -447,7 +447,7 @@
                   Zusätzlich zur Definition der Identität muss das Axiom der Extensionalität in folgender Formulierung treten: $(x = y \land x \in z) \ \rightarrow y \in z$. Das ist ein Spezialfall der Leibnizschen Ersetzbarkeit, die wir bereits als \qref{l.axiom:leibnizReplacement} kennen. Die Gültigkeit im allgemeinen Fall kann durch Rekursion über den Aufbau der Fromeln nachgeweisen werden. Siehe auch \cite{schmidt} \S 6.}
                   
                   \par
-                  Alternativ können wir definieren $(x = y \leftrightarrow (\forall z \ (x \in z \ \rightarrow \ y \in z)) \land (\forall z \ (x \in z \ \rightarrow \ z \in y))$.
+                  Alternativ können wir definieren $(x = y \leftrightarrow (\forall z \ (x \in z \ \rightarrow \ y \in z)) \land (\forall z \ (x \in z \ \rightarrow \ z \in y))$.}
               ]]>
             </LATEX>
           </SUCCEEDING>
