@@ -615,10 +615,12 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
      * @throws  IOException     Application is running below java 1.4.2.
      */
     private void checkJavaVersion() throws IOException {
-        Trace.log("running on java version " + System.getProperty("java.version"));
+        final String method = "checkJavaVersion";
+        Trace.info(CLASS, this, method, "running on java version "
+            + System.getProperty("java.version"));
         final int[] versions = IoUtility.getJavaVersion();
         if (versions == null) {
-            Trace.fatal(CLASS, this, "checkJavaVersion", "running java version unknown", null);
+            Trace.fatal(CLASS, this, method, "running java version unknown", null);
             // we try to continue
             return;
         }
@@ -629,7 +631,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             }
             version.append(versions[i]);
         }
-        Trace.paramInfo(CLASS, this, "checkJavaVersion", "version", version);
+        Trace.paramInfo(CLASS, this, method, "version", version);
         // >= 1
         if (versions.length < 1 || versions[0] < 1) {
             throw new IOException("This application requires at least Java 1.4.2 but we got "
