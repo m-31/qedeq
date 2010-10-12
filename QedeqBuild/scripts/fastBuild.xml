@@ -2,7 +2,7 @@
 <!-- author: Michael Meyling -->
 <!-- project: Hilbert II -->
 
-<!-- This is the Ant build file for building the Se release of project Hilbert II -->
+<!-- This is the Ant build file for building the developer version of the Se release of project Hilbert II -->
 <project name="fastBuild" default="all" basedir="../..">
     <description>
         Developer build for Hilbert II without clover, pdf generation and release build.   
