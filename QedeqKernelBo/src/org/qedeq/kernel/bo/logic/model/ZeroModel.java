@@ -141,8 +141,8 @@ public final class ZeroModel implements Model {
         predicateConstants.put(new PredicateConstant("FALSE", 0), FALSE);
         predicateConstants.put(new PredicateConstant("equal", 2), EQUAL);
         predicateConstants.put(new PredicateConstant("notEqual", 2), NOT_EQUAL);
-        predicateConstants.put(new PredicateConstant("in", 2), LESS);
-        predicateConstants.put(new PredicateConstant("notIn", 2), NOT_LESS);
+        predicateConstants.put(new PredicateConstant("in", 2), FALSE);
+        predicateConstants.put(new PredicateConstant("notIn", 2), TRUE);
         predicateConstants.put(new PredicateConstant("isSet", 1), FALSE);
         predicateConstants.put(new PredicateConstant("subclass", 2), LESS);
 
