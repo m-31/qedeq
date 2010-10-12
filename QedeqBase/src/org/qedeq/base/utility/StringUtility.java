@@ -35,8 +35,11 @@ import org.apache.commons.lang.SystemUtils;
  */
 public final class StringUtility {
 
-    /** Trimed with zeros. */
+    /** For trimming with zeros. */
     static final String FORMATED_ZERO = "00000000000000000000";
+
+    /** For trimming with spaces. */
+    static final String FORMATED_SPACES = "                    ";
 
     /**
      * Constructor, should never be called.
@@ -304,11 +307,49 @@ public final class StringUtility {
     }
 
     /**
-     * Trim an integer with zeros to a given maximum length.
+     * Trim an integer with leading spaces to a given maximum length.
      *
      * @param   number  Format this long.
      * @param   length  Maximum length. Must not be bigger than 20 and less than 1.
-     * @return  String with minimum <code>length</code>, trimed with leading zeros.
+     * @return  String with minimum <code>length</code>, trimmed with leading zeros.
+     */
+    public static final String alignRight(final long number, final int length) {
+        if (length > FORMATED_SPACES.length()) {
+            throw new IllegalArgumentException("maximum length " + FORMATED_SPACES + " exceeded: "
+                + length);
+        }
+        if (length < 1) {
+            throw new IllegalArgumentException("length must be bigger than 0: " + length);
+        }
+        final String temp = FORMATED_SPACES + number;
+        return temp.substring(temp.length() - length);
+    }
+
+    /**
+     * Trim a String with leading spaces to a given maximum length.
+     *
+     * @param   string  Format this string.
+     * @param   length  Maximum length. Must not be bigger than 20 and less than 1.
+     * @return  String with minimum <code>length</code>, trimmed with leading zeros.
+     */
+    public static final String alignRight(final String string, final int length) {
+        if (length > FORMATED_SPACES.length()) {
+            throw new IllegalArgumentException("maximum length " + FORMATED_SPACES + " exceeded: "
+                + length);
+        }
+        if (length < 1) {
+            throw new IllegalArgumentException("length must be bigger than 0: " + length);
+        }
+        final String temp = FORMATED_SPACES + string;
+        return temp.substring(temp.length() - length);
+    }
+
+    /**
+     * Trim an integer with leading zeros to a given maximum length.
+     *
+     * @param   number  Format this long.
+     * @param   length  Maximum length. Must not be bigger than 20 and less than 1.
+     * @return  String with minimum <code>length</code>, trimmed with leading spaces.
      */
     public static final String format(final long number, final int length) {
         if (length > FORMATED_ZERO.length()) {
