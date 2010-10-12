@@ -25,6 +25,7 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
@@ -61,7 +62,8 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
     /** Kernel version dedication. */
     private static final String KERNEL_DEDICATED
-        = "still dedicated to no one because it is too early for a new release";
+        = "dedicated to Toby (may he rest in peace under the rose bush) "
+        + "and Gerry and Sharif (very warm welcome to them)";
 
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
@@ -98,6 +100,19 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
                 + "information");
             QedeqLog.getInstance().logMessage("  supports rules till version "
                 + KernelContext.getInstance().getMaximalRuleVersion());
+            QedeqLog.getInstance().logMessage("  Java version: "
+                + StringUtility.alignRight(System.getProperty("java.version", "unknown"), 10));
+            QedeqLog.getInstance().logMessage("  used memory:  "
+                + StringUtility.alignRight(Runtime.getRuntime().totalMemory()
+                - Runtime.getRuntime().freeMemory(), 10));
+            QedeqLog.getInstance().logMessage("  free memory:  "
+                + StringUtility.alignRight(Runtime.getRuntime().freeMemory(), 10));
+            QedeqLog.getInstance().logMessage("  total memory: "
+                + StringUtility.alignRight(Runtime.getRuntime().totalMemory(), 10));
+            QedeqLog.getInstance().logMessage("  max. memory:  "
+                + StringUtility.alignRight(Runtime.getRuntime().maxMemory(), 10));
+            QedeqLog.getInstance().logMessage("  processors/cores: "
+                + StringUtility.alignRight(Runtime.getRuntime().availableProcessors(), 6));
             currentState = initializedState;
         }
 
