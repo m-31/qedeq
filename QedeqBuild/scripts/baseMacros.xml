@@ -257,6 +257,7 @@
         <attribute name="name" />  <!-- artifact name -->
         <attribute name="dir" />   <!-- destination directory -->
         <attribute name="classpath" />   <!-- refid for test runtime classpath -->
+        <attribute name="fast" />   <!-- should only be fast tests be executed? -->
         <sequential>
             <echo>pest @{name}</echo>   
             <delete dir="@{dir}/target/reports/junitpest/data" failonerror="false"/>
@@ -274,6 +275,7 @@
                 <formatter type="xml" usefile="yes"/>
                 <sysproperty key="qedeq.test.indir" value="@{dir}/src/test/resources/data"/>
                 <sysproperty key="qedeq.test.outdir" value="@{dir}/target/test-outdir"/>
+                <sysproperty key="qedeq.test.fast" value="@{fast}"/>
                 <batchtest fork="true"
                         todir="@{dir}/target/reports/junitpest/data"
                         haltonerror="false"
