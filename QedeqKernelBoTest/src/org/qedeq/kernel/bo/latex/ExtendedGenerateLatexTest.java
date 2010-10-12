@@ -22,7 +22,6 @@ import org.qedeq.kernel.bo.service.QedeqBoFactoryTest;
 /**
  * Test generating LaTeX files for all known samples.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public final class ExtendedGenerateLatexTest extends GenerateLatexTest {
@@ -59,11 +58,13 @@ public final class ExtendedGenerateLatexTest extends GenerateLatexTest {
      */
     public void generate(final File dir, final String xml,
             final File destinationDirectory, final boolean onlyEn) throws Exception {
-        generate(dir, xml, "en", destinationDirectory);
-        if (!onlyEn) {
-            generate(dir, xml, "de", destinationDirectory);
+        if (slow()) {
+            generate(dir, xml, "en", destinationDirectory);
+            if (!onlyEn) {
+                generate(dir, xml, "de", destinationDirectory);
+            }
+            QedeqBoFactoryTest.loadQedeqAndAssertContext(new File(dir, xml));
         }
-        QedeqBoFactoryTest.loadQedeqAndAssertContext(new File(dir, xml));
     }
 
 }
