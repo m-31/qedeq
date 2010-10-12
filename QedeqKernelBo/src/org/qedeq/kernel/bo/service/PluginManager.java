@@ -51,22 +51,33 @@ public class PluginManager {
      * @throws  RuntimeException    Plugin addition failed.
      */
     synchronized void addPlugin(final String pluginClass) {
+        final String method = "addPlugin";
         PluginBo plugin = null;
         try {
             Class cl = Class.forName(pluginClass);
             plugin = (PluginBo) cl.newInstance();
         } catch (ClassNotFoundException e) {
+            Trace.fatal(CLASS, this, method, "Plugin class not in class path: " + pluginClass, e);
             throw new RuntimeException(e);
         } catch (InstantiationException e) {
+            Trace.fatal(CLASS, this, method, "Plugin class could not be istanciated: "
+                + pluginClass, e);
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
+            Trace.fatal(CLASS, this, method,
+                "Programming error, access for instantiation failed for plugin: " + pluginClass,
+                e);
+            throw new RuntimeException(e);
+        } catch (RuntimeException e) {
+            Trace.fatal(CLASS, this, method,
+                "Programming error, instantiation failed for plugin: " + pluginClass, e);
             throw new RuntimeException(e);
         }
         if (plugins.get(plugin.getPluginId()) != null) {
             final PluginBo oldPlugin = (PluginBo) plugins.get(plugin.getPluginId());
             final RuntimeException e = new IllegalArgumentException("plugin with that name already added: "
                     + oldPlugin.getPluginId() + ": " + plugin.getPluginDescription());
-            Trace.fatal(CLASS, this, "addPlugin", "Programing error", e);
+            Trace.fatal(CLASS, this, method, "Programing error", e);
             throw e;
         }
         plugins.put(plugin.getPluginId(), plugin);
