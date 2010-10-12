@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
 public final class Trace {
 
     /** Logger for business messages. */
-    static final Log BUSINESS = LogFactory.getFactory().getInstance(Trace.class);
+    static final Log BUSINESS = LogFactory.getFactory().getInstance("log");
 
 
     /**
