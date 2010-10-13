@@ -74,7 +74,6 @@ public final class KernelFacade {
 //        mod = null;
     }
 
-
     public static KernelContext getKernelContext() {
         return context;
     }
