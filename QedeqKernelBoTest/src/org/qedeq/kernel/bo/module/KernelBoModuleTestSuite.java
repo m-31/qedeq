@@ -18,12 +18,10 @@ package org.qedeq.kernel.bo.module;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
-import org.qedeq.kernel.bo.service.DefaultKernelQedeqBoTest;
 
 /**
  * Run all JUnit tests for package org.qedeq.kernel.bo.module.
  *
- * @version $Revision: 1.1 $
  * @author    Michael Meyling
  */
 public class KernelBoModuleTestSuite extends QedeqTestSuite {
@@ -42,6 +40,6 @@ public class KernelBoModuleTestSuite extends QedeqTestSuite {
      */
     public KernelBoModuleTestSuite() {
         super();
-        addTestSuite(DefaultKernelQedeqBoTest.class);
+        addTestSuite(VisitorContextTest.class);
     }
 }
