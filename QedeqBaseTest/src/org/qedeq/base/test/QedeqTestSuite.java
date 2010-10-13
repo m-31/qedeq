@@ -17,7 +17,13 @@ package org.qedeq.base.test;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import java.util.Vector;
+
+import org.qedeq.base.utility.StringUtility;
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -68,7 +74,7 @@ public class QedeqTestSuite extends TestSuite {
     /**
      * Constructs a TestSuite from the given class. Adds all the methods starting with "test" and
      * eventually "pest" and test cases to the suite. Parts of this method was written at 2337
-     * meters in the H�ffih�tte, Kanton Uri. Other parts were developed at 4 meters in the
+     * meters in the Huffihutte, Kanton Uri. Other parts were developed at 4 meters in the
      * Stoltenstrasse, Hamburg, Germany.
      *
      * @param   theClass    Take test methods from this class.
@@ -126,6 +132,8 @@ public class QedeqTestSuite extends TestSuite {
 
     /**
      * Adds the tests from the given class to the suite.
+     *
+     * @param   testClass   Add this class.
      */
     public void addTestSuite(final Class testClass) {
         addTest(new QedeqTestSuite(testClass, withTest, withPest));
@@ -161,12 +169,62 @@ public class QedeqTestSuite extends TestSuite {
      * @param   message Log this warning message.
      * @return  Failure test.
      */
-    private static Test warning(final String message) {
+    protected static Test warning(final String message) {
         return new TestCase("warning") {
             protected void runTest() {
                 fail(message);
             }
         };
+    }
+
+    /**
+     * Returns the set of test classes.
+     *
+     * @param   test    TestSuite we want to analyze.
+     * @return  Set of all test classes.
+     */
+    public Set getTestClasses(final TestSuite test) {
+        Set result = new HashSet();
+        Enumeration e = test.tests();
+        while (e.hasMoreElements()) {
+            Test t = (Test) e.nextElement();
+            if (t instanceof TestSuite) {
+                TestSuite suite = (TestSuite) t;
+                result.addAll(getTestClasses(suite));
+            } else {
+                result.add(t.getClass());
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Test if all classes that inherit from {@link QedeqTestCase} are within this
+     * <code>TestSuite</code>. To know about this the class path is analyzed.
+     *
+     * @param   packagePrefix   Tests of this package or its sub packages must occur.
+     */
+    public void addTestIfEveryExistingTestIsCalled(final String packagePrefix) {
+        String prefix = packagePrefix;
+        if (!prefix.endsWith(".")) {
+            prefix += ".";
+        }
+        final Set testClasses = getTestClasses(this);
+        final Set possibleTestClasses = (new ClassFinder()).findSubclasses(
+            QedeqTestCase.class.getName(), prefix);
+        possibleTestClasses.removeAll(testClasses);
+        Iterator i = possibleTestClasses.iterator();
+        HashSet result = new HashSet();
+        while (i.hasNext()) {
+            Class c = (Class) i.next();
+            if (c.getName().indexOf("$") < 0 && !Modifier.isAbstract(c.getModifiers())) {
+                result.add(c);
+            }
+        }
+        if (!result.isEmpty()) {
+            addTest(warning("the following tests are missing in the main test suite: "
+                + StringUtility.toString(result)));
+        }
     }
 
 }

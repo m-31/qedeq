@@ -15,31 +15,16 @@
 
 package org.qedeq.base.test;
 
-import junit.framework.Test;
-
 
 /**
- * Run all "pest" test methods for the project.
+ * Test if all classes of this project have a test case.
  *
- * @version $Revision: 1.1 $
- * @author Michael Meyling
+ * @author  Michael Meyling
  */
-public class BaselPestSuite extends BaseTestSuite {
+public class BaseEachClassHasATest extends EachClassHasATestCase {
 
-    /**
-     * Get a new <code>KernelTestSuiteWithPest</code>.
-     *
-     * @return Test.
-     */
-    public static Test suite() {
-        return new BaselPestSuite();
-    }
-
-    /**
-     * Constructor.
-     */
-    public BaselPestSuite() {
-        super(false, true);
+    public String getPackagePrefix() {
+        return "org.qedeq.base";
     }
 
 }

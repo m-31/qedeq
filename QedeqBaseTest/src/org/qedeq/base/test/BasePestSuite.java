@@ -19,11 +19,11 @@ import junit.framework.Test;
 
 
 /**
- * Run all tests inclusive "pest" methods for the project.
+ * Run all "pest" test methods for the project.
  *
  * @author Michael Meyling
  */
-public class BaseTestAllSuite extends BaseTestSuite {
+public class BasePestSuite extends BaseTestSuite {
 
     /**
      * Get a new <code>KernelTestSuiteWithPest</code>.
@@ -31,14 +31,14 @@ public class BaseTestAllSuite extends BaseTestSuite {
      * @return Test.
      */
     public static Test suite() {
-        return new BaseTestAllSuite();
+        return new BasePestSuite();
     }
 
     /**
      * Constructor.
      */
-    public BaseTestAllSuite() {
-        super(true, true);
+    public BasePestSuite() {
+        super(false, true);
     }
 
 }
