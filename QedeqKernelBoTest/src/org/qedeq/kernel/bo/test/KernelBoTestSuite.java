@@ -71,6 +71,12 @@ public class KernelBoTestSuite extends QedeqTestSuite {
         addTestSuite(CalculateTruthZeroModelTest.class);
         // very slow:
         addTestSuite(ExtendedGenerateLatexTest.class);
+        
+        // test if all classes have tests
+        addTestSuite(KernelBoEachClassHasATest.class);
+
+        // test that we don't missed adding a test to this suite
+        addTestIfEveryExistingTestIsCalled("org.qedeq.kernel.bo");
     }
 
 }
