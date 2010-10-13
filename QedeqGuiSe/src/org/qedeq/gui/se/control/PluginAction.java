@@ -76,8 +76,8 @@ public class PluginAction extends AbstractAction {
                     final Map parameters = new HashMap();
                     // FIXME m31 20100924: these are only LaTeX Parameters
                     parameters.put(Qedeq2LatexPlugin.class.getName() + "$info", "true");
-                    parameters.put(HeuristicCheckerPlugin.class.getName() + "$model",
-                        ZeroModel.class.getName());
+//                    parameters.put(HeuristicCheckerPlugin.class.getName() + "$model",
+//                        ZeroModel.class.getName());
                     for (int i = 0; i < props.length; i++) {
                         KernelContext.getInstance().executePlugin(plugin.getPluginId(),
                             props[i].getModuleAddress(), parameters);

@@ -279,13 +279,13 @@ public final class DefaultModel implements Model {
                 return false;
             }
         });
-        predicateConstants.put(new PredicateConstant("subclass", 2), LESS);
+        predicateConstants.put(new PredicateConstant("subclass", 2), Predicate.or(LESS, EQUAL));
 
         functionConstants = new HashMap();
         functionConstants.put(new FunctionConstant("emptySet", 0), FUNCTION_ZERO);
         functionConstants.put(new FunctionConstant("RussellClass", 0), FUNCTION_TWO);
         functionConstants.put(new FunctionConstant("intersection", 2), FUNCTION_MIN);
-        functionConstants.put(new FunctionConstant("union", 2), FUNCTION_MIN);
+        functionConstants.put(new FunctionConstant("union", 2), FUNCTION_MAX);
         functionConstants.put(new FunctionConstant("universalClass", 0), FUNCTION_TWO);
 
     }

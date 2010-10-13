@@ -303,9 +303,12 @@ public final class Interpreter {
             ElementList variable = termList.getElement(0).getList();
             final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
             subjectVariableInterpreter.addSubjectVariable(var);
+            final PredicateConstant isSetPredicate = new PredicateConstant("isSet", 1);
+            Predicate isSet = model.getPredicateConstant(isSetPredicate);
             for (int i = 0; i < model.getEntitiesSize(); i++) {
                 setLocationWithinModule(context + ".getList().getElement(1)");
-                if (calculateValue(termList.getElement(1))) {
+                if (calculateValue(termList.getElement(1))
+                        && isSet.calculate(new Entity[] {model.getEntity(i)})) {
                     fullfillers.add(model.getEntity(i));
                 }
                 subjectVariableInterpreter.increaseSubjectVariableSelection(var);

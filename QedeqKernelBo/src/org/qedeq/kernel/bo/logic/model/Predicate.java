@@ -115,7 +115,7 @@ public abstract class Predicate {
                 op2.getMaximumArgumentNumber()), op1.toString() + " or " + op2.toString(),
                 op1.getDescription() + " or " + op2.getDescription()) {
             public boolean calculate(final Entity[] entities) {
-                return op1.calculate(entities) && op2.calculate(entities);
+                return op1.calculate(entities) || op2.calculate(entities);
             }
         };
     }
