@@ -17,6 +17,7 @@ package org.qedeq.kernel.test;
 
 import junit.framework.Test;
 
+import org.qedeq.base.test.BaseEachClassHasATest;
 import org.qedeq.base.test.QedeqTestSuite;
 import org.qedeq.kernel.common.KernelCommonTestSuite;
 import org.qedeq.kernel.dto.module.KernelDtoModuleTestSuite;
@@ -57,6 +58,12 @@ public class KernelSeTestSuite extends QedeqTestSuite {
         addTest(KernelDtoModuleTestSuite.suite());
         addTest(KernelCommonTestSuite.suite());
         addTest(KernelVisitorTestSuite.suite());
+
+        // test if all classes have tests
+        addTestSuite(KernelSeEachClassHasATest.class);
+
+        // test that we don't missed adding a test to this suite
+        addTestIfEveryExistingTestIsCalled("org.qedeq.kernel.se");
     }
 
 }
