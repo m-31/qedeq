@@ -1437,7 +1437,7 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
             + "\n              </AND>"
             + "\n"
             );
-        System.out.println(ele.toString());
+//        System.out.println(ele.toString());
         assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
 
