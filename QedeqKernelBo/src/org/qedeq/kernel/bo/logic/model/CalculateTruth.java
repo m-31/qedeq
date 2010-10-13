@@ -102,7 +102,7 @@ public final class CalculateTruth {
 //            System.out.println(interpretation.toString());
         } while (result && interpretation.next());
         if (!result) {
-            System.out.println(interpretation);
+//            System.out.println(interpretation);
         }
 //        System.out.println("interpretation finished - and result is = " + result);
         return result;

@@ -62,13 +62,13 @@ public abstract class Predicate {
             "!" + predicate.getDescription()) {
                 public boolean calculate(final Entity[] entities) {
                     final boolean result = !predicate.calculate(entities);
-                    for (int i = 0; i < entities.length; i++) {
-                        if (i > 0) {
-                            System.out.print(" " + toString() + " ");
-                        }
-                        System.out.print(entities[i]);
-                    }
-                    System.out.println(" = " + result);
+//                    for (int i = 0; i < entities.length; i++) {
+//                        if (i > 0) {
+//                            System.out.print(" " + toString() + " ");
+//                        }
+//                        System.out.print(entities[i]);
+//                    }
+//                    System.out.println(" = " + result);
                     return result;
                 }
         };
