@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.service;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
+import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPluginTest;
 
 /**
  * Run all JUnit tests for package org.qedeq.kernel.bo.module.
@@ -45,6 +46,7 @@ public class KernelBoServiceTestSuite extends QedeqTestSuite {
         addTestSuite(LoadRequiredModulesTest.class);
         addTestSuite(ModuleConstantsExistenceCheckerTest.class);
         addTestSuite(QedeqBoFormalLogicCheckerTest.class);
+        addTestSuite(HeuristicCheckerPluginTest.class);
         // very slow:
         addTestSuite(QedeqBoFactoryTest.class);
     }

@@ -104,7 +104,7 @@ public final class CalculateTruth {
         if (!result) {
             System.out.println(interpretation);
         }
-        System.out.println("interpretation finished - and result is = " + result);
+//        System.out.println("interpretation finished - and result is = " + result);
         return result;
     }
 

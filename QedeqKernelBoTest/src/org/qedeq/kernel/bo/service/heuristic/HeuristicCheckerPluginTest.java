@@ -35,13 +35,13 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  *
  * @author Michael Meyling
  */
-public class QedeqHeuristicCheckerTest extends QedeqBoTestCase {
+public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
 
-    public QedeqHeuristicCheckerTest() {
+    public HeuristicCheckerPluginTest() {
         super();
     }
 
-    public QedeqHeuristicCheckerTest(final String name) {
+    public HeuristicCheckerPluginTest(final String name) {
         super(name);
     }
 
@@ -118,7 +118,7 @@ public class QedeqHeuristicCheckerTest extends QedeqBoTestCase {
     public void testQedeqSetTheoryScript1() throws Exception {
         final QedeqBo bo = check(new DefaultModel(), getDocDir(), "math/qedeq_set_theory_v1.xml");
         assertEquals(0, bo.getErrors().size());
-        assertEquals(64, bo.getWarnings().size());
+        assertEquals(53, bo.getWarnings().size());
     }
 
     /**

@@ -159,7 +159,6 @@ public final class ZeroModel implements Model {
     }
 
     public Entity getEntity(final int number) {
-        System.out.println(number);
         return (Entity) entities.get(number);
     }
 
