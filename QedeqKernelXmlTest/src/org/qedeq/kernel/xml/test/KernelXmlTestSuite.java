@@ -64,6 +64,13 @@ public class KernelXmlTestSuite extends QedeqTestSuite {
         addTestSuite(XmlSyntaxExceptionTest.class);
         addTest(KernelXmlTrackerTestSuite.suite());
         addTestSuite(XmlReaderExceptionTest.class);
+
+        // test if all classes have tests
+        addTestSuite(KernelXmlEachClassHasATest.class);
+
+        // test that we don't missed adding a test to this suite
+        addTestIfEveryExistingTestIsCalled("org.qedeq.kernel.se");
+
     }
 
 }
