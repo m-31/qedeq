@@ -287,6 +287,20 @@ public final class DefaultModel implements Model {
         functionConstants.put(new FunctionConstant("intersection", 2), FUNCTION_MIN);
         functionConstants.put(new FunctionConstant("union", 2), FUNCTION_MAX);
         functionConstants.put(new FunctionConstant("universalClass", 0), FUNCTION_TWO);
+        functionConstants.put(new FunctionConstant("complement", 1), new Function(1, 1, "compement",
+            "complement") {
+            public Entity map(final Entity[] entities) {
+                if (entities.length != 1) {
+                    return ZERO;
+                }
+                switch (entities[0].getValue()) {
+                case 0: return TWO;
+                case 1: return ZERO;
+                case 2: return ZERO;
+                default: throw new IllegalArgumentException("unknown entity value");
+                }
+            }
+        });
 
     }
 
