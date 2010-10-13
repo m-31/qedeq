@@ -43,7 +43,7 @@ public class KernelBaseIoTestSuite extends QedeqTestSuite {
         addTestSuite(IoUtilityTest.class);
         addTestSuite(ResourceLoaderUtilityTest.class);
         addTestSuite(SourceAreaTest.class);
-        addTestSuite(SourcePosition.class);
+        addTestSuite(SourcePositionTest.class);
         addTestSuite(TextInputTest.class);
         addTestSuite(TextOutputTest.class);
     }
