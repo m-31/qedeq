@@ -20,8 +20,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Properties;
+import java.util.Set;
 
 import org.apache.commons.lang.SystemUtils;
 
@@ -146,6 +148,55 @@ public final class StringUtility {
             }
         }
         buffer.append("}");
+        return buffer.toString();
+    }
+
+    /**
+     * Returns a readable presentation of a Set. Something like "{a, null, c}" if the
+     * Strings are "a", null, "c"
+     *
+     * @param   set Set of objects.
+     * @return  Set notation for toString() results.
+     */
+    public static String toString(final Set set) {
+        final StringBuffer buffer = new StringBuffer(30);
+        buffer.append("{");
+        if (set != null) {
+            Iterator e = set.iterator();
+            boolean notFirst = false;
+            while (e.hasNext()) {
+                if (notFirst) {
+                    buffer.append(", ");
+                } else {
+                    notFirst = true;
+                }
+                buffer.append(String.valueOf(e.next()));
+            }
+        }
+        buffer.append("}");
+        return buffer.toString();
+    }
+
+    /**
+     * Evaluates toString at the elements of a Set and returns them as line separated Strings.
+     *
+     * @param   set Set of objects.
+     * @return  List of toString() results.
+     */
+    public static String asLines(final Set set) {
+        final StringBuffer buffer = new StringBuffer(30);
+        if (set != null) {
+            Iterator e = set.iterator();
+            boolean notFirst = false;
+            while (e.hasNext()) {
+                if (notFirst) {
+                    buffer.append("\n");
+                } else {
+                    notFirst = true;
+                }
+                buffer.append(String.valueOf(e.next()));
+            }
+        }
         return buffer.toString();
     }
 
