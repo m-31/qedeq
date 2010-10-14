@@ -124,7 +124,7 @@ public final class StringUtility {
       }
 
     /**
-     * Returns a readable presentation of a String array. Something like "{a, null, c}" if the
+     * Returns a readable presentation of a String array. Something like "(a, null, c)" if the
      * Strings are "a", null, "c"
      *
      * @param   list  List of Strings.
@@ -132,7 +132,7 @@ public final class StringUtility {
      */
     public static String toString(final Object[] list) {
         final StringBuffer buffer = new StringBuffer(30);
-        buffer.append("{");
+        buffer.append("(");
         if (list != null) {
             for (int i = 0; i < list.length; i++) {
                 if (i > 0) {
@@ -147,7 +147,7 @@ public final class StringUtility {
                 }
             }
         }
-        buffer.append("}");
+        buffer.append(")");
         return buffer.toString();
     }
 
