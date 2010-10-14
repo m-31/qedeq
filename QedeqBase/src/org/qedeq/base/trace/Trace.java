@@ -74,6 +74,11 @@ public final class Trace {
         }
     }
 
+    public static boolean isDebugEnabled(final Class tracingClass) {
+        final Log log = LogFactory.getFactory().getInstance(tracingClass);
+        return log.isDebugEnabled();
+    }
+
     /**
      * Trace object.
      * @param   tracingClass    Class that wants to make a trace entry.
