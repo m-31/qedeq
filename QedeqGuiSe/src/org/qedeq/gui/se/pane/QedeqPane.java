@@ -34,6 +34,7 @@ import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.SelectionListener;
+import org.qedeq.gui.se.element.CPTextArea;
 import org.qedeq.gui.se.util.CurrentLineHighlighterUtility;
 import org.qedeq.gui.se.util.DocumentMarker;
 import org.qedeq.gui.se.util.DocumentMarkerPainter;
@@ -59,7 +60,7 @@ public class QedeqPane extends JPanel implements SelectionListener {
     private QedeqBo prop;
 
     /** Here is the QEDEQ module source. */
-    private JTextArea qedeq = new JTextArea() {
+    private JTextArea qedeq = new CPTextArea() {
         public String getToolTipText(final MouseEvent e) {
             if (errorMarker == null || warningMarker == null) {
                 setToolTipText(null);
