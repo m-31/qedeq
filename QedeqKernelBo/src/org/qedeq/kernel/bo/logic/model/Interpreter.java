@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.logic.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.bo.logic.wf.Operators;
@@ -30,6 +31,9 @@ import org.qedeq.kernel.common.ModuleContext;
  * @author  Michael Meyling
  */
 public final class Interpreter {
+
+    /** This class. */
+    private static final Class CLASS = Interpreter.class;
 
     /** Model contains entities, functions, predicates. */
     private final Model model;
@@ -46,6 +50,10 @@ public final class Interpreter {
     /** Module context. Here were are currently. */
     private ModuleContext moduleContext;
 
+    /** For formatting debug trace output. */
+    private final StringBuffer deepness = new StringBuffer();
+
+// FIXME m31 20101014: put into unit test:
 //    /** Start element for calculation. */
 //    private Element startElement;
 //
@@ -91,6 +99,11 @@ public final class Interpreter {
      * @throws  HeuristicException      We couldn't calculate the value.
      */
     private boolean calculateValue(final Element formula) throws  HeuristicException {
+        final String method = "calculateValue(Element)";
+        if (Trace.isDebugEnabled(CLASS)) {
+            Trace.param(CLASS, this, method, deepness.toString() + "formula", formula);
+            deepness.append("-");
+        }
         if (formula.isAtom()) {
             throw new HeuristicException(HeuristicErrorCodes.WRONG_CALLING_CONVENTION_CODE,
                 HeuristicErrorCodes.WRONG_CALLING_CONVENTION_MSG, moduleContext);
@@ -238,6 +251,10 @@ public final class Interpreter {
                 HeuristicErrorCodes.UNKNOWN_OPERATOR_MSG + op, moduleContext);
         }
         setLocationWithinModule(context);
+        if (Trace.isDebugEnabled(CLASS)) {
+            deepness.setLength(deepness.length() > 0 ? deepness.length() - 1 : 0);
+            Trace.param(CLASS, this, method, deepness.toString() + "result ", result);
+        }
         return result;
     }
 
@@ -254,7 +271,7 @@ public final class Interpreter {
         final Entity[] result =  new Entity[terms.size() - 1];    // strip first argument
         for (int i = 0; i < result.length; i++) {
             setLocationWithinModule(context + ".getElement(" + (i + 1) + ")");
-            result[i] = getEntity(terms.getElement(i + 1));
+            result[i] = calculateTerm(terms.getElement(i + 1));
         }
         setLocationWithinModule(context);
         return result;
@@ -267,8 +284,13 @@ public final class Interpreter {
      * @return  Value.
      * @throws  HeuristicException evaluation failed.
      */
-    private Entity getEntity(final Element term)
+    private Entity calculateTerm(final Element term)
             throws  HeuristicException {
+        final String method = "calculateTerm(Element) ";
+        if (Trace.isDebugEnabled(CLASS)) {
+            Trace.param(CLASS, this, method, deepness.toString() + "term   ", term);
+            deepness.append("-");
+        }
         if (!term.isList()) {
             throw new RuntimeException("a term should be a list: " + term);
         }
@@ -282,7 +304,7 @@ public final class Interpreter {
             result = subjectVariableInterpreter.getEntity(var);
         } else if (Operators.FUNCTION_VARIABLE.equals(op)) {
             final FunctionVariable var = new FunctionVariable(termList.getElement(0).getAtom().getString(),
-                    termList.size() - 1);
+                termList.size() - 1);
             Function function = functionVariableInterpreter.getFunction(var);
             setLocationWithinModule(context + ".getList()");
             result = function.map(getEntities(termList));
@@ -321,6 +343,10 @@ public final class Interpreter {
                 HeuristicErrorCodes.UUNKNOWN_TERM_OPERATOR_MSG + op, moduleContext);
         }
         setLocationWithinModule(context);
+        if (Trace.isDebugEnabled(CLASS)) {
+            deepness.setLength(deepness.length() > 0 ? deepness.length() - 1 : 0);
+            Trace.param(CLASS, this, method, deepness.toString() + "result ", result);
+        }
         return result;
     }
 

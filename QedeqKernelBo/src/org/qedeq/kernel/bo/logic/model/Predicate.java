@@ -15,12 +15,18 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
+import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.StringUtility;
+
 /**
  * One predicate for our model.
  *
  * @author  Michael Meyling
  */
 public abstract class Predicate {
+
+    /** This class. */
+    private static final Class CLASS = Predicate.class;
 
     /** Minimum number of arguments this predicate has. */
     private final int minimum;
@@ -61,14 +67,13 @@ public abstract class Predicate {
             predicate.getMaximumArgumentNumber(), "!" + predicate.toString(),
             "!" + predicate.getDescription()) {
                 public boolean calculate(final Entity[] entities) {
+                    final String method = "not.calculate(Entity[])";
+                    if (Trace.isDebugEnabled(CLASS)) {
+                        Trace.param(CLASS, method, "toString", toString());
+                        Trace.param(CLASS, method, "entities", StringUtility.toString(entities));
+                    }
                     final boolean result = !predicate.calculate(entities);
-//                    for (int i = 0; i < entities.length; i++) {
-//                        if (i > 0) {
-//                            System.out.print(" " + toString() + " ");
-//                        }
-//                        System.out.print(entities[i]);
-//                    }
-//                    System.out.println(" = " + result);
+                    Trace.param(CLASS, method, "result  ", result);
                     return result;
                 }
         };
@@ -92,7 +97,14 @@ public abstract class Predicate {
                 op2.getMaximumArgumentNumber()), op1.toString() + " and " + op2.toString(),
                 op1.getDescription() + " and " + op2.getDescription()) {
             public boolean calculate(final Entity[] entities) {
-                return op1.calculate(entities) && op2.calculate(entities);
+                final String method = "and.calculate(Entity[])";
+                if (Trace.isDebugEnabled(CLASS)) {
+                    Trace.param(CLASS, method, "toString", toString());
+                    Trace.param(CLASS, method, "entities", StringUtility.toString(entities));
+                }
+                boolean result = op1.calculate(entities) && op2.calculate(entities);
+                Trace.param(CLASS, method, "result  ", result);
+                return result;
             }
         };
     }
@@ -115,7 +127,17 @@ public abstract class Predicate {
                 op2.getMaximumArgumentNumber()), op1.toString() + " or " + op2.toString(),
                 op1.getDescription() + " or " + op2.getDescription()) {
             public boolean calculate(final Entity[] entities) {
-                return op1.calculate(entities) || op2.calculate(entities);
+                final String method = "or.calculate(Entity[])";
+                if (Trace.isDebugEnabled(CLASS)) {
+                    Trace.param(CLASS, method, "toString", toString());
+                    Trace.param(CLASS, method, "entities", StringUtility.toString(entities));
+                }
+                if (Trace.isDebugEnabled(CLASS)) {
+                    Trace.param(CLASS, method, "toString", toString());
+                    Trace.param(CLASS, method, "entities", StringUtility.toString(entities));
+                }
+                boolean result = op1.calculate(entities) || op2.calculate(entities);
+                return result;
             }
         };
     }

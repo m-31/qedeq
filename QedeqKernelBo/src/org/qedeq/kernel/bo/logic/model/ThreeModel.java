@@ -26,10 +26,10 @@ import java.util.Map;
  *
  * @author  Michael Meyling
  */
-public final class DefaultModel implements Model {
+public final class ThreeModel implements Model {
 
     /** This class. */
-    private static final Class CLASS = DefaultModel.class;
+    private static final Class CLASS = ThreeModel.class;
 
     /** "Zero" or empty set. */
     public static final Entity ZERO = new Entity(0, "0", "{} or empty set");
@@ -247,7 +247,7 @@ public final class DefaultModel implements Model {
     /**
      * Constructor.
      */
-    public DefaultModel() {
+    public ThreeModel() {
         entities = new ArrayList();
         entities.add(ZERO);
         entities.add(ONE);
@@ -308,15 +308,7 @@ public final class DefaultModel implements Model {
         predicateConstants.put(new PredicateConstant("notEqual", 2), NOT_EQUAL);
         predicateConstants.put(new PredicateConstant("in", 2), LESS);
         predicateConstants.put(new PredicateConstant("notIn", 2), NOT_LESS);
-        predicateConstants.put(new PredicateConstant("isSet", 1), new Predicate(2, 2, "isSet",
-            "isSet") {
-            public boolean calculate(final Entity[] entities) {
-                if (entities.length == 1 && entities[0].getValue() != 2) {
-                    return true;
-                }
-                return false;
-            }
-        });
+        predicateConstants.put(new PredicateConstant("isSet", 1), Predicate.not(IS_TWO));
         predicateConstants.put(new PredicateConstant("subclass", 2), Predicate.or(LESS, EQUAL));
 
         functionConstants = new HashMap();
