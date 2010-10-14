@@ -21,8 +21,8 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.logic.model.DefaultModel;
 import org.qedeq.kernel.bo.logic.model.Model;
+import org.qedeq.kernel.bo.logic.model.ThreeModel;
 import org.qedeq.kernel.bo.logic.model.ZeroModel;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
@@ -92,7 +92,7 @@ public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testQedeqLogicScript1() throws Exception {
-        final QedeqBo bo = check(new DefaultModel(), getDocDir(), "math/qedeq_logic_v1.xml");
+        final QedeqBo bo = check(new ThreeModel(), getDocDir(), "math/qedeq_logic_v1.xml");
         assertEquals(0, bo.getErrors().size());
         // FIXME m31 20101012: there should be zero warnings! Think about changing
         //                     definition into axiom!
@@ -116,9 +116,9 @@ public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testQedeqSetTheoryScript1() throws Exception {
-        final QedeqBo bo = check(new DefaultModel(), getDocDir(), "math/qedeq_set_theory_v1.xml");
+        final QedeqBo bo = check(new ThreeModel(), getDocDir(), "math/qedeq_set_theory_v1.xml");
         assertEquals(0, bo.getErrors().size());
-        assertEquals(53, bo.getWarnings().size());
+        assertEquals(52, bo.getWarnings().size());
     }
 
     /**

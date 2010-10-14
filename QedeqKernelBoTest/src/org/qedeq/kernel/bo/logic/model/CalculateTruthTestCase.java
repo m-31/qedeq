@@ -1556,28 +1556,150 @@ public abstract class CalculateTruthTestCase extends QedeqTestCase {
      */
     public void testTautology44() throws Exception {
         final Element ele = TestParser.createElement(
-            "    <EQUI>"
-            + "    <PREDCON ref=\"in\">"
-            + "      <VAR id=\"y\"/>"
-            + "      <CLASS>"
-            + "        <VAR id=\"x\"/>"
-            + "        <PREDVAR id=\"\\phi\">"
-            + "          <VAR id=\"x\"/>"
-            + "        </PREDVAR>"
-            + "      </CLASS>"
-            + "    </PREDCON>"
-            + "    <AND>"
-            + "      <PREDCON ref=\"isSet\">"
-            + "        <VAR id=\"y\"/>"
-            + "      </PREDCON>"
-            + "      <PREDVAR id=\"\\phi\">"
-            + "        <VAR id=\"y\"/>"
-            + "      </PREDVAR>"
-            + "    </AND>"
-            + "  </EQUI>"
+            "    <EQUI>\n"
+            + "    <PREDCON ref=\"in\">\n"
+            + "      <VAR id=\"y\"/>\n"
+            + "      <CLASS>\n"
+            + "        <VAR id=\"x\"/>\n"
+            + "        <PREDVAR id=\"\\phi\">\n"
+            + "          <VAR id=\"x\"/>\n"
+            + "        </PREDVAR>\n"
+            + "      </CLASS>\n"
+            + "    </PREDCON>\n"
+            + "    <AND>\n"
+            + "      <PREDCON ref=\"isSet\">\n"
+            + "        <VAR id=\"y\"/>\n"
+            + "      </PREDCON>\n"
+            + "      <PREDVAR id=\"\\phi\">\n"
+            + "        <VAR id=\"y\"/>\n"
+            + "      </PREDVAR>\n"
+            + "    </AND>\n"
+            + "  </EQUI>\n"
         );
 //        System.out.println(ele.toString());
         assertTrue(CalculateTruth.isTautology(getModel(), ele));
     }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     C(x) = (z | z \nin x}
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology45() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<PREDCON id=\"equal\">\n"
+            + "  <FUNCON id=\"complement\">\n"
+            + "    <VAR id=\"x\" />\n"
+            + "  </FUNCON>\n"
+            + "  <CLASS>\n"
+            + "   <VAR id=\"z\" />\n"
+            + "    <PREDCON ref=\"notIn\">\n"
+            + "      <VAR id=\"z\" />\n"
+            + "      <VAR id=\"x\" />\n"
+            + "    </PREDCON>\n"
+            + "  </CLASS>\n"
+            + "</PREDCON>\n"
+        );
+//      System.out.println(ele.toString());
+      assertTrue(CalculateTruth.isTautology(getModel(), ele));
+  }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     x <= y <-> x n C(y) = 0
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology46() throws Exception {
+        final Element ele = TestParser.createElement(
+            "  <EQUI>\n"
+            + "    <PREDCON ref=\"subclass\">\n"
+            + "      <VAR id=\"x\" />\n"
+            + "      <VAR id=\"y\" />\n"
+            + "    </PREDCON>\n"
+            + "    <PREDCON ref=\"l.equal\">\n"
+            + "      <FUNCON ref=\"intersection\">\n"
+            + "        <VAR id=\"x\" />\n"
+            + "        <FUNCON ref=\"complement\">\n"
+            + "          <VAR id=\"y\" />\n"
+            + "        </FUNCON>\n"
+            + "      </FUNCON>\n"
+            + "      <FUNCON ref=\"emptySet\" />\n"
+            + "    </PREDCON>\n"
+            + "  </EQUI>\n"
+            );
+//      System.out.println(ele.toString());
+        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     see below
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology47() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<AND>\n"
+            + "  <EQUI>\n"
+            + "    <PREDCON ref=\"subclass\">\n"
+            + "      <VAR id=\"x\" />\n"
+            + "      <VAR id=\"y\" />\n"
+            + "    </PREDCON>\n"
+            + "    <PREDCON ref=\"l.equal\">\n"
+            + "      <FUNCON ref=\"union\">\n"
+            + "        <FUNCON ref=\"complement\">\n"
+            + "          <VAR id=\"x\" />\n"
+            + "        </FUNCON>\n"
+            + "        <VAR id=\"y\" />\n"
+            + "      </FUNCON>\n"
+            + "      <FUNCON ref=\"universalClass\" />\n"
+            + "    </PREDCON>\n"
+            + "  </EQUI>\n"
+            + "      \n"
+            + "  <EQUI>\n"
+            + "    <PREDCON ref=\"subclass\">\n"
+            + "      <VAR id=\"x\" />\n"
+            + "      <FUNCON ref=\"complement\">\n"
+            + "        <VAR id=\"y\" />\n"
+            + "      </FUNCON>\n"
+            + "    </PREDCON>\n"
+            + "    <PREDCON ref=\"l.equal\">\n"
+            + "      <FUNCON ref=\"intersection\">\n"
+            + "        <VAR id=\"x\" />\n"
+            + "        <VAR id=\"y\" />\n"
+            + "      </FUNCON>\n"
+            + "      <FUNCON ref=\"emptySet\" />\n"
+            + "    </PREDCON>\n"
+            + "  </EQUI>\n"
+            + "      \n"
+            + "  <EQUI>\n"
+            + "    <PREDCON ref=\"subclass\">\n"
+            + "      <FUNCON ref=\"intersection\">\n"
+            + "        <VAR id=\"x\" />\n"
+            + "        <VAR id=\"y\" />\n"
+            + "      </FUNCON>\n"
+            + "      <VAR id=\"z\" />\n"
+            + "    </PREDCON>\n"
+            + "    <PREDCON ref=\"subclass\">\n"
+            + "      <VAR id=\"x\" />\n"
+            + "      <FUNCON ref=\"union\">\n"
+            + "        <FUNCON ref=\"complement\">\n"
+            + "          <VAR id=\"y\" />\n"
+            + "        </FUNCON>\n"
+            + "        <VAR id=\"z\" />\n"
+            + "      </FUNCON>\n"
+            + "    </PREDCON>\n"
+            + "  </EQUI>              \n"
+            + "      \n"
+            + "</AND>\n"
+        );
+//      System.out.println(ele.toString());
+      assertTrue(CalculateTruth.isTautology(getModel(), ele));
+  }
 
 }
