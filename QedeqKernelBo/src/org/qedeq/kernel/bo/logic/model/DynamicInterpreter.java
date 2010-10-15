@@ -75,7 +75,14 @@ public final class DynamicInterpreter {
         functionVariableInterpreter = new FunctionVariableInterpreter(model);
     }
 
-    public void addPredicateConstant(final PredicateConstant constant, 
+    /**
+     * Add new predicate constant to this model.
+     *
+     * @param   constant        This is the predicate constant.
+     * @param   variableList    Variables to use.
+     * @param   formula         Formula to evaluate for that predicate.
+     */
+    public void addPredicateConstant(final PredicateConstant constant,
             final VariableList variableList, final ElementList formula) {
         model.addPredicateConstant(constant, new Predicate(constant.getArgumentNumber(),
             constant.getArgumentNumber(), "", "") {
@@ -97,10 +104,42 @@ public final class DynamicInterpreter {
                         subjectVariableInterpreter.removeSubjectVariable(var);
                     }
                     return result;
-                }}
-            );
+                }
+            });
     }
 
+    /**
+     * Add new predicate constant to this model.
+     *
+     * @param   constant        This is the predicate constant.
+     * @param   variableList    Variables to use.
+     * @param   term         Formula to evaluate for that predicate.
+     */
+    public void addFunctionConstant(final FunctionConstant constant,
+            final VariableList variableList, final ElementList term) {
+        model.addFunctionConstant(constant, new Function(constant.getArgumentNumber(),
+            constant.getArgumentNumber(), "", "") {
+                public Entity map(final Entity[] entities) {
+                    for (int i = 0; i < entities.length; i++) {
+                        final SubjectVariable var = new SubjectVariable(variableList.get(i).getList()
+                            .getElement(0).getAtom().getString());
+                        subjectVariableInterpreter.forceAddSubjectVariable(var, entities[i].getValue());
+                    }
+                    Entity result;
+                    try {
+                        result = calculateTerm(new ModuleContext(new DefaultModuleAddress()), term);
+                    } catch (HeuristicException e) {
+                        throw new RuntimeException(e);  // TODO 20101014 m31: improve error handling
+                    }
+                    for (int i = entities.length - 1; i >= 0; i--) {
+                        final SubjectVariable var = new SubjectVariable(variableList.get(i).getList()
+                            .getElement(0).getAtom().getString());
+                        subjectVariableInterpreter.removeSubjectVariable(var);
+                    }
+                    return result;
+                }
+            });
+    }
 
     /**
      * Calculate the truth value of a given formula is a tautology. This is done by checking with
@@ -304,6 +343,23 @@ public final class DynamicInterpreter {
         }
         setLocationWithinModule(context);
         return result;
+    }
+
+    /**
+     * Calculate the term value of a given term. This is done by checking with
+     * a model and certain variable values.
+     *
+     * @param   moduleContext   Where we are within an module.
+     * @param   term            Term.
+     * @return  Entity of model.
+     * @throws  HeuristicException      We couldn't calculate the value.
+     */
+    public Entity calculateTerm(final ModuleContext moduleContext, final Element term)
+            throws  HeuristicException {
+//        this.startElement = formula;
+        this.moduleContext = moduleContext;
+//        this.startContext = new ModuleContext(moduleContext);
+        return calculateTerm(term);
     }
 
     /**

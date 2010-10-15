@@ -310,6 +310,10 @@ public final class DynamicModel implements Model {
         predicateConstants.put(constant, predicate);
     }
 
+    public void addFunctionConstant(final FunctionConstant constant, final Function function) {
+        functionConstants.put(constant, function);
+    }
+
     public int getEntitiesSize() {
         return entities.size();
     }

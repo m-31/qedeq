@@ -195,6 +195,13 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
                 compare[1] = definition.getFormula().getElement();
                 setLocationWithinModule(context);
                 test(new DefaultElementList(Operators.EQUIVALENCE_OPERATOR, compare));
+            } else {
+                // check if model contains predicate
+                setLocationWithinModule(context + ".getName()");
+                addWarning(new HeuristicException(
+                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
+                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_MSG + predicate,
+                    getCurrentContext()));
             }
         } catch (NumberFormatException e) {
             Trace.fatal(CLASS, this, method, "not suported argument number: "
@@ -224,9 +231,16 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
             FunctionConstant function = new FunctionConstant(definition.getName(),
                 Integer.parseInt(definition.getArgumentNumber()));
             if (definition.getTerm() != null) {
+
+                // add new predicate constant
                 setLocationWithinModule(context + ".getTerm().getElement()");
                 final VariableList variableList = definition.getVariableList();
                 final int size = (variableList == null ? 0 : variableList.size());
+                interpreter.addFunctionConstant(function, variableList, definition.getTerm()
+                        .getElement().getList());
+
+                // test new predicate constant: must always be successful otherwise there
+                // must be a programming error or the predicate definition is not formal correct
                 final Element[] elements = new Element[size + 1];
                 elements[0] = new DefaultAtom(definition.getName());
                 for (int i = 0; i < size; i++) {
@@ -240,6 +254,13 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
                 equal[2] = definition.getTerm().getElement();
                 setLocationWithinModule(context);
                 test(new DefaultElementList(Operators.PREDICATE_CONSTANT, equal));
+            } else {
+                // check if model contains predicate
+                setLocationWithinModule(context + ".getName()");
+                addWarning(new HeuristicException(
+                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
+                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + function,
+                    getCurrentContext()));
             }
         } catch (NumberFormatException e) {
             Trace.fatal(CLASS, this, method, "not suported argument number: "
