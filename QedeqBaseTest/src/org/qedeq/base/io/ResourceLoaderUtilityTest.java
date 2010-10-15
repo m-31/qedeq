@@ -79,6 +79,7 @@ public class ResourceLoaderUtilityTest extends QedeqTestCase {
         file = ResourceLoaderUtility.getResourceFile(new File("."), directory,
             shortName + ".class");
         assertEquals(lastModifiedAfter, file.lastModified());
+        file.delete();
     }
 
     /**
