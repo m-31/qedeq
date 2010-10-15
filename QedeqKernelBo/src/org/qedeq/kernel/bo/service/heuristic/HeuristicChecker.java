@@ -45,10 +45,10 @@ import org.qedeq.kernel.dto.list.DefaultElementList;
  * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public final class QedeqHeuristicChecker extends ControlVisitor {
+public final class HeuristicChecker extends ControlVisitor {
 
     /** This class. */
-    private static final Class CLASS = QedeqHeuristicChecker.class;
+    private static final Class CLASS = HeuristicChecker.class;
 
     /** Model we use for our heuristic tests. */
     private Model model;
@@ -60,7 +60,7 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
      * @param   model   Check with this model.
      * @param   prop    QEDEQ module properties object.
      */
-    private QedeqHeuristicChecker(final PluginBo plugin, final Model model,
+    private HeuristicChecker(final PluginBo plugin, final Model model,
             final KernelQedeqBo prop) {
         super(plugin, prop);
         this.model = model;
@@ -76,7 +76,7 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
      */
     public static void check(final PluginBo plugin, final Model model, final KernelQedeqBo prop)
             throws SourceFileExceptionList {
-        final QedeqHeuristicChecker checker = new QedeqHeuristicChecker(plugin, model, prop);
+        final HeuristicChecker checker = new HeuristicChecker(plugin, model, prop);
         try {
             checker.traverse();
         } catch (SourceFileExceptionList sfl) {
@@ -93,7 +93,6 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
      * @param   test    Test formula.
      */
     private void test(final Element test) {
-        test(getCurrentContext().getLocationWithinModule(), test);
         try {
             if (!CalculateTruth.isTautology(getCurrentContext(), model, test)) {
                 addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
@@ -104,7 +103,6 @@ public final class QedeqHeuristicChecker extends ControlVisitor {
         }
     }
 
-    /**
     /**
      * Check truth value in our model. If it is no tautology an warning is added.
      * This also happens if our model doesn't support an operator found in the formula.

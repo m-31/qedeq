@@ -35,6 +35,14 @@ public abstract class Function {
     /** Description for this function. */
     private final String description;
 
+    static Function createConstant(final Entity entity) {
+        return new Function(0, 90, "->" + entity, "contant " + entity.getDescription()) {
+            public Entity map(final Entity[] entities) {
+                return entity;
+            }
+        };
+    }
+
     /**
      * Constructor.
      *

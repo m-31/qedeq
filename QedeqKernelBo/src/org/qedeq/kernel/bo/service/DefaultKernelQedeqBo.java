@@ -16,6 +16,8 @@
 package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.io.SourceArea;
+import org.qedeq.base.io.SourcePosition;
+import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.ModuleReferenceList;
@@ -44,6 +46,9 @@ import org.qedeq.kernel.dto.module.QedeqVo;
  * @author  Michael Meyling
  */
 public class DefaultKernelQedeqBo implements KernelQedeqBo {
+
+    /** This class. */
+    private static final Class CLASS = DefaultKernelQedeqBo.class;
 
     /** Internal kernel services. */
     private final InternalKernelServices services;
@@ -389,9 +394,15 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
 
     public SourceFileException createSourceFileException(final Plugin plugin, final ModuleDataException
             exception) {
-        final SourceFileException e = new SourceFileException(plugin, exception,
-            createSourceArea(qedeq, exception.getContext()), loader.createSourceArea(qedeq,
-                exception.getReferenceContext()));
+        SourceArea area = createSourceArea(qedeq, exception.getContext());
+        if (area == null) {
+            Trace.fatal(CLASS, "createSourceFileException", "Didn't found context: "
+                + exception.getContext(), exception);
+            area = new SourceArea(this.getModuleAddress().getUrl(), SourcePosition.BEGIN,
+                SourcePosition.BEGIN);
+        }
+        SourceArea referenceArea = loader.createSourceArea(qedeq, exception.getReferenceContext());
+        final SourceFileException e = new SourceFileException(plugin, exception, area, referenceArea);
         return e;
     }
 

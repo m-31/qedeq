@@ -30,7 +30,7 @@ public class CalculateTruthThreeModelTest extends CalculateTruthTestCase {
      * Constructor.
      */
     public CalculateTruthThreeModelTest() {
-        super(new DefaultModel());
+        super(new ThreeModel());
     }
 
     /**

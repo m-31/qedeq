@@ -21,7 +21,6 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.model.DynamicModel;
-import org.qedeq.kernel.bo.logic.model.Model;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -32,15 +31,15 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public class HeuristicCheckerPlugin implements PluginBo {
+public class DynamicHeuristicCheckerPlugin implements PluginBo {
 
     /** This class. */
-    public static final Class CLASS = HeuristicCheckerPlugin.class;
+    public static final Class CLASS = DynamicHeuristicCheckerPlugin.class;
 
     /**
      * Constructor.
      */
-    public HeuristicCheckerPlugin() {
+    public DynamicHeuristicCheckerPlugin() {
         // nothing to do
     }
 
@@ -49,7 +48,7 @@ public class HeuristicCheckerPlugin implements PluginBo {
     }
 
     public String getPluginName() {
-        return "Heuristic tester";
+        return "Dynamic Heuristic tester";
     }
 
     public String getPluginDescription() {
@@ -63,11 +62,11 @@ public class HeuristicCheckerPlugin implements PluginBo {
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
             final String modelClass
                 = (parameters != null ? (String) parameters.get(getPluginId() + "$model") : null);
-            Model model = null;
+            DynamicModel model = null;
             if (modelClass != null && modelClass.length() > 0) {
                 try {
                     Class cl = Class.forName(modelClass);
-                    model = (Model) cl.newInstance();
+                    model = (DynamicModel) cl.newInstance();
                 } catch (ClassNotFoundException e) {
                     Trace.fatal(CLASS, this, method, "Model class not in class path: "
                         + modelClass, e);
@@ -91,7 +90,7 @@ public class HeuristicCheckerPlugin implements PluginBo {
             if (model == null) {
                 model = new DynamicModel();
             }
-            HeuristicChecker.check(this, model, qedeq);
+            DynamicHeuristicChecker.check(this, model, qedeq);
             QedeqLog.getInstance().logSuccessfulReply(
                 "Heuristic test succesfull for \""
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");

@@ -74,4 +74,10 @@ public interface HeuristicErrorCodes extends ErrorCodes {
     /** Error (or warning) text for: unknown format for argument size. */
     public static final String UNKNOWN_ARGUMENT_FORMAT_MSG = "unknown format for argument size: ";
 
+    /** Error (or warning) number for: unknown format for argument size. */
+    public static final int RUNTIME_EXCEPTION_CODE = 77777;
+
+    /** Error (or warning) text for: unknown format for argument size. */
+    public static final String RUNTIME_EXCEPTION_MSG = "runtime problem: ";
+
 }

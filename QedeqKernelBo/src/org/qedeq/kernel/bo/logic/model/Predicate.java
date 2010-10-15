@@ -137,6 +137,35 @@ public abstract class Predicate {
                     Trace.param(CLASS, method, "entities", StringUtility.toString(entities));
                 }
                 boolean result = op1.calculate(entities) || op2.calculate(entities);
+                Trace.param(CLASS, method, "result  ", result);
+                return result;
+            }
+        };
+    }
+
+    /**
+     * Construct identifying predicate.
+     *
+     * @param   entity  Check if all entities are equal to this.
+     * @return  Predicate to check for this entity.
+     */
+    public static Predicate isEntity(final Entity entity) {
+        return new Predicate(1, 99, "=" + entity, "= " + entity.getDescription()) {
+            public boolean calculate(final Entity[] entities) {
+                final String method = "isEntity.calculate(Entity[])";
+                if (Trace.isDebugEnabled(CLASS)) {
+                    Trace.param(CLASS, method, "toString", toString());
+                    Trace.param(CLASS, method, "entities", StringUtility.toString(entities));
+                }
+                if (Trace.isDebugEnabled(CLASS)) {
+                    Trace.param(CLASS, method, "toString", toString());
+                    Trace.param(CLASS, method, "entities", StringUtility.toString(entities));
+                }
+                boolean result = false;
+                for (int i = 0; i < entities.length; i++) {
+                    result &= entity.getValue() == entities[i].getValue();
+                }
+                Trace.param(CLASS, method, "result  ", result);
                 return result;
             }
         };

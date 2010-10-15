@@ -21,7 +21,9 @@ import java.util.List;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
+import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.logic.wf.Operators;
+import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 
 
@@ -30,13 +32,13 @@ import org.qedeq.kernel.common.ModuleContext;
  *
  * @author  Michael Meyling
  */
-public final class Interpreter {
+public final class DynamicInterpreter {
 
     /** This class. */
-    private static final Class CLASS = Interpreter.class;
+    private static final Class CLASS = DynamicInterpreter.class;
 
     /** Model contains entities, functions, predicates. */
-    private final Model model;
+    private final DynamicModel model;
 
     /** Interpret subject variables. */
     private final SubjectVariableInterpreter subjectVariableInterpreter;
@@ -66,12 +68,39 @@ public final class Interpreter {
      *
      * @param   model   We work with this model.
      */
-    public Interpreter(final Model model) {
+    public DynamicInterpreter(final DynamicModel model) {
         this.model = model;
         subjectVariableInterpreter = new SubjectVariableInterpreter(model);
         predicateVariableInterpreter = new PredicateVariableInterpreter(model);
         functionVariableInterpreter = new FunctionVariableInterpreter(model);
     }
+
+    public void addPredicateConstant(final PredicateConstant constant, 
+            final VariableList variableList, final ElementList formula) {
+        model.addPredicateConstant(constant, new Predicate(constant.getArgumentNumber(),
+            constant.getArgumentNumber(), "", "") {
+                public boolean calculate(final Entity[] entities) {
+                    for (int i = 0; i < entities.length; i++) {
+                        final SubjectVariable var = new SubjectVariable(variableList.get(i).getList()
+                            .getElement(0).getAtom().getString());
+                        subjectVariableInterpreter.forceAddSubjectVariable(var, entities[i].getValue());
+                    }
+                    boolean result;
+                    try {
+                        result = calculateValue(new ModuleContext(new DefaultModuleAddress()), formula);
+                    } catch (HeuristicException e) {
+                        throw new RuntimeException(e);  // TODO 20101014 m31: improve error handling
+                    }
+                    for (int i = entities.length - 1; i >= 0; i--) {
+                        final SubjectVariable var = new SubjectVariable(variableList.get(i).getList()
+                            .getElement(0).getAtom().getString());
+                        subjectVariableInterpreter.removeSubjectVariable(var);
+                    }
+                    return result;
+                }}
+            );
+    }
+
 
     /**
      * Calculate the truth value of a given formula is a tautology. This is done by checking with

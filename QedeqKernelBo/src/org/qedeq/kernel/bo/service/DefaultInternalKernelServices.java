@@ -108,6 +108,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         pluginManager = new PluginManager();
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
+        pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin");
         this.kernel = kernel;
         this.qedeqFileDao = loader;
         loader.setServices(this);
@@ -764,20 +765,14 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         }
     }
 
-    /**
-     * Transform an URL address into a relative local file path. This might also change the file
-     * name. If the URL address is already a file address, the original file path is returned.
-     *
-     * @param address Transform this URL.
-     * @return Result of transformation.
-     */
     public final File getLocalFilePath(final ModuleAddress address) {
         final String method = "getLocalFilePath(ModuleAddress)";
         URL url;
         try {
             url = new URL(address.getUrl());
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            Trace.fatal(CLASS, this, method, "Could not get local file path.", e);
+            return null;
         }
         Trace.param(CLASS, this, method, "protocol", url.getProtocol());
         Trace.param(CLASS, this, method, "host", url.getHost());

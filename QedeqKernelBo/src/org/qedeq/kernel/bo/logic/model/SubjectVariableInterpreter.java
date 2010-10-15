@@ -73,16 +73,23 @@ public final class SubjectVariableInterpreter {
     }
 
     public void addSubjectVariable(final SubjectVariable var) {
-        if (subjectVariables.contains(var)) {
-            throw new RuntimeException("variable already exists: " + var);
-        }
+
+        // FIXME 20101014 m31: just for testing
+//        if (subjectVariables.contains(var)) {
+//            throw new RuntimeException("variable already exists: " + var);
+//        }
 //        System.out.println("added subject variable " + var);
         subjectVariables.add(var);
         subjectVariableCounters.add(new Enumerator());
     }
 
+    public void forceAddSubjectVariable(final SubjectVariable var, final int value) {
+        subjectVariables.add(var);
+        subjectVariableCounters.add(new Enumerator(value));
+    }
+
     public void removeSubjectVariable(final SubjectVariable var) {
-        final int index = subjectVariables.indexOf(var);
+        final int index = subjectVariables.lastIndexOf(var);
         if (index < 0) {
             throw new RuntimeException("variable does not exist: " + var);
         }
@@ -94,7 +101,7 @@ public final class SubjectVariableInterpreter {
     private int getSubjectVariableSelection(final SubjectVariable var) {
         int selection;
         if (subjectVariables.contains(var)) {
-            final int index = subjectVariables.indexOf(var);
+            final int index = subjectVariables.lastIndexOf(var);
             selection = ((Enumerator) subjectVariableCounters.get(index)).getNumber();
         } else {
 //            System.out.println("added subject variable " + var);
@@ -111,7 +118,7 @@ public final class SubjectVariableInterpreter {
     }
 
     public void increaseSubjectVariableSelection(final SubjectVariable var) {
-        final int index = subjectVariables.indexOf(var);
+        final int index = subjectVariables.lastIndexOf(var);
         ((Enumerator) subjectVariableCounters.get(index)).increaseNumber();
     }
 

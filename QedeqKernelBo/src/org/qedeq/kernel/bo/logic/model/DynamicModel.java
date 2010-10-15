@@ -20,47 +20,56 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.qedeq.kernel.base.list.ElementList;
+
 /**
  * A model for our mathematical world. It has entities, functions and predicates.
  * There are also predicate and function constants.
  *
  * @author  Michael Meyling
  */
-public final class DefaultModel implements Model {
+public final class DynamicModel implements Model {
 
     /** This class. */
-    private static final Class CLASS = DefaultModel.class;
+    private static final Class CLASS = DynamicModel.class;
 
     /** "Zero" or empty set. */
-    public static final Entity ZERO = new Entity(0, "0", "{} or empty set");
+    public static final Entity EMPTY = new Entity(0, "{}", "{} or empty set");
 
     /** "One" or set that contains the empty set. */
-    public static final Entity ONE = new Entity(1, "1", "{{}} or {0}");
+    public static final Entity ZERO_ONE = new Entity(1, "1", "1");
 
     /** "Two" or set that contains "zero" and "one". */
-    public static final Entity TWO = new Entity(2, "2", "{{}, {{}}} or {0, 1}");
+    public static final Entity ZERO_TWO = new Entity(2, "2", "2");
 
-    /** Map to zero. */
-    public static final Function FUNCTION_ZERO = new Function(0, 99, "->0", "always 0") {
-        public Entity map(final Entity[] entities) {
-            return ZERO;
-        }
-    };
+    /** "One" or set that contains the empty set. */
+    public static final Entity ONE_ONE = new Entity(3, "{1}", "{1}");
+
+    /** "Two" or set that contains "zero" and "one". */
+    public static final Entity ONE_TWO = new Entity(4, "{2}", "{2}");
+
+    /** "Two" or set that contains "zero" and "one". */
+    public static final Entity TWO_ONE_TWO = new Entity(5, "{1, 2}", "{1, 2}");
+
+    /** Map to empty class. */
+    public static final Function FUNCTION_EMPTY = Function.createConstant(EMPTY);
+
+    /** Map to 1. */
+    public static final Function FUNCTION_ZERO_ONE = Function.createConstant(ZERO_ONE);
+
+    /** Map to 2. */
+    public static final Function FUNCTION_ZERO_TWO = Function.createConstant(ZERO_TWO);
+
+    /** Map to {1}. */
+    public static final Function FUNCTION_ONE_ONE = Function.createConstant(ONE_ONE);
+
+    /** Map to {2}. */
+    public static final Function FUNCTION_ONE_TWO = Function.createConstant(ONE_TWO);
+
+    /** Map to {1, 2}. */
+    public static final Function FUNCTION_TWO_ONE_TWO = Function.createConstant(TWO_ONE_TWO);
 
     /** Map to one. */
-    public static final Function FUNCTION_ONE = new Function(0, 99, "->1", "always 1") {
-        public Entity map(final Entity[] entities) {
-            return ONE;
-        }
-    };
-
-    /** Map to two. */
-    public static final Function FUNCTION_TWO = new Function(0, 99, "->2", "always 2") {
-        public Entity map(final Entity[] entities) {
-            return TWO;
-        }
-    };
-
     /** Modulo 3. */
     public static final Function FUNCTION_MOD = new Function(0, 99, "% 3", "modulo 3") {
         public Entity map(final Entity[] entities) {
@@ -69,12 +78,7 @@ public final class DefaultModel implements Model {
                 result += entities[i].getValue() % 3;
             }
             result = result % 3;
-            switch (result) {
-            case 0: return ZERO;
-            case 1: return ONE;
-            case 2: return TWO;
-            default: return null;
-            }
+            return value2Entity(result);
         }
     };
 
@@ -86,12 +90,7 @@ public final class DefaultModel implements Model {
                 result += entities[i].getValue() % 3;
             }
             result = result % 3;
-            switch (result) {
-            case 0: return ZERO;
-            case 1: return ONE;
-            case 2: return TWO;
-            default: return null;
-            }
+            return value2Entity(result);
         }
     };
 
@@ -104,12 +103,7 @@ public final class DefaultModel implements Model {
                     result = entities[i].getValue();
                 }
             }
-            switch (result) {
-            case 0: return ZERO;
-            case 1: return ONE;
-            case 2: return TWO;
-            default: return null;
-            }
+            return value2Entity(result);
         }
     };
 
@@ -122,12 +116,7 @@ public final class DefaultModel implements Model {
                     result = entities[i].getValue();
                 }
             }
-            switch (result) {
-            case 0: return ZERO;
-            case 1: return ONE;
-            case 2: return TWO;
-            default: return null;
-            }
+            return value2Entity(result);
         }
     };
 
@@ -192,40 +181,25 @@ public final class DefaultModel implements Model {
     public static final Predicate NOT_EQUAL = Predicate.not(EQUAL);
 
     /** Return true if all values are zero. */
-    public static final Predicate IS_ZERO = new Predicate(0, 99, "=0", "is_zero") {
-        public boolean calculate(final Entity[] entities) {
-            boolean result = true;
-            for (int i = 0; i < entities.length; i++) {
-                result &= entities[i].getValue() == ZERO.getValue();
-            }
-            return result;
-        }
-    };
+    public static final Predicate IS_EMPTY = Predicate.isEntity(EMPTY);
 
-    /** Are the entities are all equal to 1? */
-    public static final Predicate IS_ONE = new Predicate(0, 99, "=1", "is_one") {
-        public boolean calculate(final Entity[] entities) {
-            boolean result = true;
-            for (int i = 0; i < entities.length; i++) {
-                result &= entities[i].getValue() == ONE.getValue();
-            }
-            return result;
-        }
-    };
+    /** Return true if all values are 1. */
+    public static final Predicate IS_ZERO_ONE = Predicate.isEntity(ZERO_ONE);
 
-    /** Are the entities are all equal to 2? */
-    public static final Predicate IS_TWO = new Predicate(0, 99, "= 2", "is_two") {
-        public boolean calculate(final Entity[] entities) {
-            boolean result = true;
-            for (int i = 0; i < entities.length; i++) {
-                result &= entities[i].getValue() == TWO.getValue();
-            }
-            return result;
-        }
-    };
+    /** Return true if all values are 2. */
+    public static final Predicate IS_ZERO_TWO = Predicate.isEntity(ZERO_TWO);
 
-    /** Are the entities are not all equal to 2? */
-    public static final Predicate NOT_IS_TWO = Predicate.not(IS_TWO);
+    /** Return true if all values are {1}. */
+    public static final Predicate IS_ONE_ONE = Predicate.isEntity(ONE_ONE);
+
+    /** Return true if all values are {2}. */
+    public static final Predicate IS_ONE_TWO = Predicate.isEntity(ONE_TWO);
+
+    /** Return true if all values are {2}. */
+    public static final Predicate IS_TWO_ONE_TWO = Predicate.isEntity(TWO_ONE_TWO);
+
+    /** Are the entities are not all equal to {2}? */
+    public static final Predicate NOT_IS_ONE_TWO = Predicate.not(IS_ONE_TWO);
 
 
 
@@ -247,30 +221,34 @@ public final class DefaultModel implements Model {
     /**
      * Constructor.
      */
-    public DefaultModel() {
+    public DynamicModel() {
         entities = new ArrayList();
-        entities.add(ZERO);
-        entities.add(ONE);
-        entities.add(TWO);
+        for (int i = 0; i < 5; i++) {
+            entities.add(value2Entity(i));
+        }
 
         functionPool = new ArrayList();
 
         final List function0 = new ArrayList();
         functionPool.add(function0);
-        function0.add(FUNCTION_ZERO);
-        function0.add(FUNCTION_ONE);
+        function0.add(FUNCTION_EMPTY);
+        function0.add(FUNCTION_ZERO_ONE);
+        function0.add(FUNCTION_ZERO_TWO);
+        function0.add(FUNCTION_ONE_ONE);
+        function0.add(FUNCTION_ONE_TWO);
+        function0.add(FUNCTION_TWO_ONE_TWO);
 
         final List function1 = new ArrayList();
         functionPool.add(function1);
-        function1.add(FUNCTION_ZERO);
-        function1.add(FUNCTION_ONE);
+        function1.add(FUNCTION_EMPTY);
+        function1.add(FUNCTION_ZERO_ONE);
         function1.add(FUNCTION_MOD);
         function1.add(FUNCTION_PLUS);
 
         final List function2 = new ArrayList();
         functionPool.add(function2);
-        function2.add(FUNCTION_ZERO);
-        function2.add(FUNCTION_ONE);
+        function2.add(FUNCTION_EMPTY);
+        function2.add(FUNCTION_ZERO_ONE);
         function2.add(FUNCTION_MOD);
         function2.add(FUNCTION_PLUS);
 
@@ -286,9 +264,11 @@ public final class DefaultModel implements Model {
         predicate1.add(FALSE);
         predicate1.add(TRUE);
         predicate1.add(EVEN);
-        predicate1.add(IS_ZERO);
-        predicate1.add(IS_ONE);
-        predicate1.add(IS_TWO);
+        predicate1.add(IS_EMPTY);
+        predicate1.add(IS_ZERO_ONE);
+        predicate1.add(IS_ZERO_TWO);
+        predicate1.add(IS_ONE_ONE);
+        predicate1.add(IS_TWO_ONE_TWO);
 
         final List predicate2 = new ArrayList();
         predicatePool.add(predicate2);
@@ -297,54 +277,37 @@ public final class DefaultModel implements Model {
         predicate2.add(EVEN);
         predicate2.add(LESS);
         predicate2.add(EQUAL);
-        predicate2.add(IS_ZERO);
-        predicate2.add(IS_ONE);
-        predicate2.add(IS_TWO);
+        predicate2.add(IS_EMPTY);
+        predicate2.add(IS_ZERO_ONE);
+        predicate2.add(IS_ZERO_TWO);
+        predicate2.add(IS_ONE_ONE);
+        predicate2.add(IS_ONE_TWO);
 
         predicateConstants = new HashMap();
         predicateConstants.put(new PredicateConstant("TRUE", 0), TRUE);
         predicateConstants.put(new PredicateConstant("FALSE", 0), FALSE);
         predicateConstants.put(new PredicateConstant("equal", 2), EQUAL);
         predicateConstants.put(new PredicateConstant("notEqual", 2), NOT_EQUAL);
-        predicateConstants.put(new PredicateConstant("in", 2), LESS);
-        predicateConstants.put(new PredicateConstant("notIn", 2), NOT_LESS);
-        predicateConstants.put(new PredicateConstant("isSet", 1), new Predicate(2, 2, "isSet",
+        predicateConstants.put(new PredicateConstant("in", 2), new Predicate(2, 2, "in",
             "isSet") {
             public boolean calculate(final Entity[] entities) {
-                if (entities.length == 1 && entities[0].getValue() != 2) {
-                    return true;
+                boolean result = false;
+                final int a = entities[0].getValue();
+                final int b = entities[1].getValue();
+                if (a == 1 && (b == 3 || b == 5)) {
+                    result = true;
                 }
-                return false;
+                if (a == 2 && (b == 4 || b == 5)) {
+                    result = true;
+                }
+                return result;
             }
         });
-        predicateConstants.put(new PredicateConstant("subclass", 2), Predicate.or(LESS, EQUAL));
-
         functionConstants = new HashMap();
-        functionConstants.put(new FunctionConstant("emptySet", 0), FUNCTION_ZERO);
-        functionConstants.put(new FunctionConstant("RussellClass", 0), FUNCTION_TWO);
-        functionConstants.put(new FunctionConstant("intersection", 2), FUNCTION_MIN);
-        functionConstants.put(new FunctionConstant("union", 2), FUNCTION_MAX);
-        functionConstants.put(new FunctionConstant("universalClass", 0), FUNCTION_TWO);
-        functionConstants.put(new FunctionConstant("complement", 1), new Function(1, 1, "compement",
-            "complement") {
-            public Entity map(final Entity[] entities) {
-                if (entities.length != 1) {
-                    return ZERO;
-                }
-                switch (entities[0].getValue()) {
-                case 0: return TWO;
-                case 1: return TWO;
-                case 2: return ZERO;
-                default: throw new IllegalArgumentException("unknown entity value");
-                }
-            }
-        });
-        functionConstants.put(new FunctionConstant("classList", 0), FUNCTION_CLASS_LIST);
-        functionConstants.put(new FunctionConstant("classList", 1), FUNCTION_CLASS_LIST);
-        functionConstants.put(new FunctionConstant("classList", 2), FUNCTION_CLASS_LIST);
-        functionConstants.put(new FunctionConstant("classList", 3), FUNCTION_CLASS_LIST);
-        functionConstants.put(new FunctionConstant("classList", 4), FUNCTION_CLASS_LIST);
+    }
 
+    public void addPredicateConstant(final PredicateConstant constant, final Predicate predicate) {
+        predicateConstants.put(constant, predicate);
     }
 
     public int getEntitiesSize() {
@@ -387,22 +350,46 @@ public final class DefaultModel implements Model {
         return (Function) functionConstants.get(con);
     }
 
-    private static Entity comprehension(final Entity[] array) {
-        if (array.length == 0) {
-            return ZERO;
-        } else if (array.length == 1) {
-            if (array[0].getValue() == TWO.getValue()) {
-                return ZERO;
-            } else if (array[0].getValue() == ONE.getValue()) {
-                return TWO;
-            } else if (array[0].getValue() == ZERO.getValue()) {
-                return ONE;
-            } else {
-                return ZERO;
-            }
-        } else {
-            return TWO;
+    private static Entity value2Entity(final int value) {
+        switch (value) {
+        case 0: return EMPTY;
+        case 1: return ZERO_ONE;
+        case 2: return ZERO_TWO;
+        case 3: return ONE_ONE;
+        case 4: return ONE_TWO;
+        case 5: return TWO_ONE_TWO;
+        default: throw new RuntimeException("unknown entity for value " + value);
         }
+    }
+
+    private static Entity comprehension(final Entity[] array) {
+        Entity result = EMPTY;
+        for (int i = 0; i < array.length; i++) {
+            switch (array[i].getValue()) {
+            case 0:
+            case 3:
+            case 4:
+            case 5: break;
+            case 1: if (result.getValue() != 5) {
+                        if (result.getValue() == 0) {
+                            result = ONE_ONE;
+                        } else if (result.getValue() == 4) {
+                            result = TWO_ONE_TWO;
+                        }
+                    }
+                    break;
+            case 2: if (result.getValue() != 5) {
+                        if (result.getValue() == 0) {
+                            result = ONE_TWO;
+                        } else if (result.getValue() == 4) {
+                            result = TWO_ONE_TWO;
+                        }
+                    }
+                    break;
+            default: throw new RuntimeException("unknown value for entity " + array[i]);
+            }
+        }
+        return result;
     }
 
     public Entity map(final Entity[] array) {

@@ -28,7 +28,7 @@ import org.qedeq.kernel.common.ModuleContext;
 public final class CalculateTruth {
 
     /** Interpretation for variables. */
-    private final Interpreter interpretation;
+    private final Interpreter interpreter;
 
     /**
      * Constructor.
@@ -36,7 +36,7 @@ public final class CalculateTruth {
      * @param   model           Model we use for testing.
      */
     private CalculateTruth(final Model model) {
-        interpretation = new Interpreter(model);
+        interpreter = new Interpreter(model);
     }
 
     /**
@@ -49,7 +49,7 @@ public final class CalculateTruth {
      */
     public static boolean isTautology(final Element formula)
             throws HeuristicException {
-        final CalculateTruth calculator = new CalculateTruth(new DefaultModel());
+        final CalculateTruth calculator = new CalculateTruth(new DynamicModel());
         return calculator.calculateTautology(new ModuleContext(new DefaultModuleAddress()),
             formula);
     }
@@ -98,11 +98,11 @@ public final class CalculateTruth {
             throws HeuristicException {
         boolean result = true;
         do {
-            result &= interpretation.calculateValue(moduleContext, formula);
-//            System.out.println(interpretation.toString());
-        } while (result && interpretation.next());
+            result &= interpreter.calculateValue(moduleContext, formula);
+//            System.out.println(interpreter.toString());
+        } while (result && interpreter.next());
         if (!result) {
-//            System.out.println(interpretation);
+//            System.out.println(interpreter);
         }
 //        System.out.println("interpretation finished - and result is = " + result);
         return result;
