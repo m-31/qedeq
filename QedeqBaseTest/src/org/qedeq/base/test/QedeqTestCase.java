@@ -36,11 +36,20 @@ public abstract class QedeqTestCase extends TestCase {
     static {
         // init Log4J watchdog
         try {
-            URL url = Loader.getResource("config/log4j.xml");
+            final File logConfig = new File(System.getProperty("qedeq.test.log4j",
+            "../../../qedeq_gen/config/log4j.xml"));
+            URL url = null;
+            if (logConfig.canRead()) {
+                url  = IoUtility.toUrl(logConfig);
+            }
+            if (url == null) {
+                url = Loader.getResource("config/log4j.xml");
+            }
             if (url == null) {
                 // try development environment
                 url = IoUtility.toUrl(new File("../QedeqBuild/resources/config/log4j.xml"));
             }
+            System.out.println(url);
             if (url != null) {
                 // set properties and watch file every 15 seconds
                 DOMConfigurator.configureAndWatch(url.getPath(), 15000);

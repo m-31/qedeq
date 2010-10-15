@@ -463,7 +463,8 @@ public class ClassFinder {
             v = finder.findSubclasses(args[0], args[1]);
             errors = finder.getErrors();
         } else {
-            System.out.println("Usage: java ClassFinder <fully.qualified.superclass.name> <look only at classes starting with this>");
+            System.out.println("Usage: java ClassFinder <fully.qualified.superclass.name> "
+                + "<look only at classes starting with this>");
             return;
         }
 

@@ -15,17 +15,11 @@
 
 package org.qedeq.base.test;
 
-import java.util.Enumeration;
-import java.util.HashSet;
-import java.util.Set;
-
 import junit.framework.Test;
-import junit.framework.TestSuite;
 
 import org.qedeq.base.io.KernelBaseIoTestSuite;
 import org.qedeq.base.trace.TraceTest;
 import org.qedeq.base.utility.KernelBaseUtilityTestSuite;
-import org.qedeq.base.utility.StringUtility;
 
 /**
  * Run all tests for the project.
