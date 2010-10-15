@@ -58,7 +58,7 @@ public class DynamicHeuristicCheckerPlugin implements PluginBo {
     public Object executePlugin(final KernelQedeqBo qedeq, final Map parameters) {
         final String method = "executePlugin(QedeqBo, Map)";
         try {
-            QedeqLog.getInstance().logRequest("Heuristic test for \""
+            QedeqLog.getInstance().logRequest("Dynamic heuristic test for \""
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
             final String modelClass
                 = (parameters != null ? (String) parameters.get(getPluginId() + "$model") : null);
