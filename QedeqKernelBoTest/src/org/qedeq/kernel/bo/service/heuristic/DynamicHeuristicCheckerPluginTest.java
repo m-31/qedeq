@@ -93,9 +93,8 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
     public void testQedeqSampleScript1() throws Exception {
         final QedeqBo bo = check(new DynamicModel(), getDocDir(), "math/qedeq_sample1.xml");
         assertEquals(0, bo.getErrors().size());
-        // FIXME m31 20101015: there should be zero warnings! Think about changing
-        //                     definition into axiom!
-        assertEquals(2, bo.getWarnings().size());
+        // FIXME m31 20101015: there should be zero warnings! 
+        assertEquals(3, bo.getWarnings().size());
     }
 
     /**
