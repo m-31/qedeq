@@ -19,11 +19,13 @@ import java.util.ArrayList;
 
 import javax.swing.Action;
 import javax.swing.JFrame;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.gui.se.tree.QedeqTreeCtrl;
 import org.qedeq.gui.se.util.DataDictionary;
+import org.qedeq.gui.se.util.MenuHelper;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.common.Plugin;
@@ -39,7 +41,6 @@ import org.qedeq.kernel.common.Plugin;
  * LATER mime 20070605: encapsulate actions that need another thread
  *                     for later java versions: use Executor framework
  *
- * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public class QedeqController {
@@ -234,12 +235,20 @@ public class QedeqController {
     }
 
     /**
-     * Get all plugin actions.
+     * Get all plugin actions as menu entries.
      *
-     * @return  Action.
+     * @return  Menu entries for plugins.
      */
-    public PluginAction[] getPluginActions() {
-        return pluginActions;
+    public JMenuItem[] getPluginMenuEntries() {
+        JMenuItem[] result = new JMenuItem[pluginActions.length];
+        for (int i = 0; i < pluginActions.length; i++) {
+            final JMenuItem item = MenuHelper.createMenuItem(pluginActions[i].getPlugin()
+                .getPluginName());
+            item.addActionListener(pluginActions[i]);
+            item.setIcon(pluginActions[i].getIcon());
+            result[i] = item;
+        }
+        return result;
     }
 
     /**

@@ -19,7 +19,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import org.qedeq.gui.se.control.PluginAction;
 import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.gui.se.util.MenuHelper;
@@ -137,14 +136,10 @@ public class QedeqMenuBar extends JMenuBar {
      * @return  Menu.
      */
     private JMenu createTransformMenu() {
-        JMenu menu = MenuHelper.createMenu("Transform", 'T');
-        JMenuItem item;
-        PluginAction[] pluginActions = controller.getPluginActions();
-        for (int i = 0; i < pluginActions.length; i++) {
-            item = MenuHelper.createMenuItem(pluginActions[i].getPlugin().getPluginName());
-            item.addActionListener(pluginActions[i]);
-            item.setIcon(pluginActions[i].getIcon());
-            menu.add(item);
+        final JMenu menu = MenuHelper.createMenu("Transform", 'T');
+        final JMenuItem[] pluginMenu = controller.getPluginMenuEntries();
+        for (int i = 0; i < pluginMenu.length; i++) {
+            menu.add(pluginMenu[i]);
         }
         return menu;
     }

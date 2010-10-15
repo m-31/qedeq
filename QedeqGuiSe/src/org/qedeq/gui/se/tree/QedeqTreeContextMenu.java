@@ -45,12 +45,9 @@ public final class QedeqTreeContextMenu extends JPopupMenu {
 
         this.addSeparator();
 
-        PluginAction[] pluginActions = controller.getPluginActions();
-        for (int i = 0; i < pluginActions.length; i++) {
-            item = MenuHelper.createMenuItem(pluginActions[i].getPlugin().getPluginName());
-            item.addActionListener(pluginActions[i]);
-            item.setIcon(pluginActions[i].getIcon());
-            this.add(item);
+        final JMenuItem[] pluginMenu = controller.getPluginMenuEntries();
+        for (int i = 0; i < pluginMenu.length; i++) {
+            this.add(pluginMenu[i]);
         }
     }
 
