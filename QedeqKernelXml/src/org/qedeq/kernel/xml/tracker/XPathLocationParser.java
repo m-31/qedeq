@@ -145,6 +145,8 @@ public final class XPathLocationParser extends SimpleHandler {
             Trace.fatal(CLASS, method, message, e);
         } catch (IOException e) {
             Trace.fatal(CLASS, method, message, e);
+        } catch (RuntimeException e) {
+            Trace.fatal(CLASS, method, message, e);
         }
         return null;
     }
