@@ -22,10 +22,13 @@ import org.qedeq.kernel.bo.latex.ExtendedGenerateLatexTest;
 import org.qedeq.kernel.bo.latex.GenerateLatexTest;
 import org.qedeq.kernel.bo.logic.model.CalculateTruthThreeModelTest;
 import org.qedeq.kernel.bo.logic.model.CalculateTruthZeroModelTest;
+import org.qedeq.kernel.bo.logic.model.DynamicInterpreterTest;
 import org.qedeq.kernel.bo.logic.wf.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
 import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
 import org.qedeq.kernel.bo.service.KernelBoServiceTestSuite;
+import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPluginTest;
+import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPluginTest;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexTest;
 
 /**
@@ -69,9 +72,13 @@ public class KernelBoTestSuite extends QedeqTestSuite {
         addTestSuite(GenerateLatexTest.class);
         addTestSuite(CalculateTruthThreeModelTest.class);
         addTestSuite(CalculateTruthZeroModelTest.class);
+        addTestSuite(HeuristicCheckerPluginTest.class);
+        addTestSuite(DynamicHeuristicCheckerPluginTest.class);
+        addTestSuite(DynamicInterpreterTest.class);
+
         // very slow:
         addTestSuite(ExtendedGenerateLatexTest.class);
-        
+
         // test if all classes have tests
         addTestSuite(KernelBoEachClassHasATest.class);
 

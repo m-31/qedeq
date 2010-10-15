@@ -93,9 +93,6 @@ public final class ZeroModel implements Model {
     /** Map of predicate constants. */
     private final Map predicateConstants;
 
-    /** Map of function constants. */
-    private final Map functionConstants;
-
     /**
      * Constructor.
      */
@@ -148,9 +145,6 @@ public final class ZeroModel implements Model {
         predicateConstants.put(new PredicateConstant("isOrderedPair", 1), TRUE);
         predicateConstants.put(new PredicateConstant("isRelation", 1), TRUE);
         predicateConstants.put(new PredicateConstant("isFunction", 1), TRUE);
-
-        functionConstants = new HashMap();
-        // we always return FUNCTION_ZERO
 
     }
 

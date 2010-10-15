@@ -140,6 +140,14 @@ public final class DynamicInterpreter {
                 }
             });
     }
+    
+    public boolean hasPredicateConstant(final PredicateConstant constant) {
+        return null != model.getPredicateConstant(constant);
+    }
+
+    public boolean hasFunctionConstant(final FunctionConstant constant) {
+        return null != model.getFunctionConstant(constant);
+    }
 
     /**
      * Calculate the truth value of a given formula is a tautology. This is done by checking with

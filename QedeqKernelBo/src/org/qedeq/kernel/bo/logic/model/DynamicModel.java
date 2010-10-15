@@ -286,8 +286,7 @@ public final class DynamicModel implements Model {
         predicateConstants.put(new PredicateConstant("FALSE", 0), FALSE);
         predicateConstants.put(new PredicateConstant("equal", 2), EQUAL);
         predicateConstants.put(new PredicateConstant("notEqual", 2), NOT_EQUAL);
-        predicateConstants.put(new PredicateConstant("in", 2), new Predicate(2, 2, "in",
-            "isSet") {
+        predicateConstants.put(new PredicateConstant("in", 2), new Predicate(2, 2, "in", "isSet") {
             public boolean calculate(final Entity[] entities) {
                 boolean result = false;
                 final int a = entities[0].getValue();
