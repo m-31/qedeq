@@ -19,6 +19,9 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.module.Axiom;
 import org.qedeq.kernel.base.module.FunctionDefinition;
+import org.qedeq.kernel.base.module.Latex;
+import org.qedeq.kernel.base.module.LatexList;
+import org.qedeq.kernel.base.module.Node;
 import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Rule;
@@ -149,6 +152,7 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
+        System.out.println("\ttesting axiom");
         if (axiom.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Element test = axiom.getFormula().getElement();
@@ -168,6 +172,7 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
         if (definition == null) {
             return;
         }
+        System.out.println("\ttesting predicate definition");
         final String context = getCurrentContext().getLocationWithinModule();
         try {
             PredicateConstant predicate = new PredicateConstant(definition.getName(),
@@ -195,7 +200,7 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
                 compare[1] = definition.getFormula().getElement();
                 setLocationWithinModule(context);
                 test(new DefaultElementList(Operators.EQUIVALENCE_OPERATOR, compare));
-            } else {
+            } else if (!interpreter.hasPredicateConstant(predicate)) {
                 // check if model contains predicate
                 setLocationWithinModule(context + ".getName()");
                 addWarning(new HeuristicException(
@@ -226,6 +231,7 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
         if (definition == null) {
             return;
         }
+        System.out.println("\ttesting function definition");
         final String context = getCurrentContext().getLocationWithinModule();
         try {
             FunctionConstant function = new FunctionConstant(definition.getName(),
@@ -254,7 +260,7 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
                 equal[2] = definition.getTerm().getElement();
                 setLocationWithinModule(context);
                 test(new DefaultElementList(Operators.PREDICATE_CONSTANT, equal));
-            } else {
+            } else if (!interpreter.hasFunctionConstant(function)) {
                 // check if model contains predicate
                 setLocationWithinModule(context + ".getName()");
                 addWarning(new HeuristicException(
@@ -279,11 +285,16 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
     }
 
 
+    public void visitEnter(final Node node) {
+        System.out.println(getLatexListEntry(node.getTitle()));
+    }
+
     public void visitEnter(final Proposition proposition)
             throws ModuleDataException {
         if (proposition == null) {
             return;
         }
+        System.out.println("\ttesting proposition definition");
         final String context = getCurrentContext().getLocationWithinModule();
         if (proposition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
@@ -313,6 +324,45 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
+    }
+
+    /**
+     * Filters correct entry out of LaTeX list. Filter criterion is for example the correct
+     * language.
+     *
+     * @return  Filtered text.
+     */
+    private String getLatexListEntry(final LatexList list) {
+        if (list == null) {
+            return "";
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) != null && "en".equals(list.get(i).getLanguage())) {
+                return getLatex(list.get(i));
+            }
+        }
+        // assume entry with missing language as default
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) != null && list.get(i).getLanguage() == null) {
+                return getLatex(list.get(i));
+            }
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) != null) {
+                return getLatex(list.get(i));
+            }
+        }
+        return "";
+    }
+
+    private String getLatex(final Latex latex) {
+        String result = latex.getLatex();
+        if (result == null) {
+            result = "";
+        }
+        result = result.trim();
+        result = result.replaceAll("\\\\index\\{.*\\}", "");
+        return result.trim();
     }
 
 }
