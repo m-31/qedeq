@@ -15,8 +15,6 @@
 
 package org.qedeq.base.io;
 
-import org.qedeq.base.io.SourceArea;
-import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.test.QedeqTestCase;
 
 /**

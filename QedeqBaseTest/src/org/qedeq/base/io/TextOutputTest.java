@@ -71,7 +71,7 @@ public class TextOutputTest extends QedeqTestCase {
 
     /**
      * Test various print methods.
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testComplete() throws Exception {
@@ -130,7 +130,7 @@ public class TextOutputTest extends QedeqTestCase {
         out.clearLevel();
         out.levelPrintln("</QEDEQ>");
         out.close();
-        
+
 //        System.out.println(to.toString());
         assertEquals(StringUtility.string2Hex(StringUtility.replace(XML_DATA,
             "\n", SystemUtils.LINE_SEPARATOR), "ISO-8859-1"),
@@ -145,15 +145,15 @@ public class TextOutputTest extends QedeqTestCase {
         out.levelPrint("James Bond");
         assertEquals("James Bond", to.toString("UTF-8"));
     }
-    
+
     /**
      * Test IO error handling.
-     * 
+     *
      * @throws  Exception   Test failed.
      */
     public void testErrorStream() throws Exception {
         final OutputStream to = new OutputStream() {
-            public void write(int i) throws IOException {
+            public void write(final int i) throws IOException {
                 throw new IOException("i have got you");
             }
         };

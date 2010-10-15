@@ -19,8 +19,6 @@ import java.io.File;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.qedeq.base.io.IoUtility;
-import org.qedeq.base.io.ResourceLoaderUtility;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.StringUtility;
 
