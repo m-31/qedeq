@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.qedeq.kernel.base.list.ElementList;
-
 /**
  * A model for our mathematical world. It has entities, functions and predicates.
  * There are also predicate and function constants.
