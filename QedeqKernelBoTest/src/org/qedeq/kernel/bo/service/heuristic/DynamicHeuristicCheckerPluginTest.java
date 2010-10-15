@@ -103,7 +103,7 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void pestQedeqLogicScript2() throws Exception {
+    public void kestQedeqLogicScript2() throws Exception {
         final QedeqBo bo = check(new DynamicModel(), getDocDir(), "math/qedeq_logic_v1.xml");
         assertEquals(0, bo.getErrors().size());
         assertEquals(6, bo.getWarnings().size());
@@ -114,7 +114,7 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void pestQedeqSetTheoryScript1() throws Exception {
+    public void kestQedeqSetTheoryScript1() throws Exception {
         final QedeqBo bo = check(new DynamicModel(), getDocDir(), "math/qedeq_set_theory_v1.xml");
         assertEquals(0, bo.getErrors().size());
         assertEquals(52, bo.getWarnings().size());
