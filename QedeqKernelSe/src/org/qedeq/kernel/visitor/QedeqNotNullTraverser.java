@@ -59,7 +59,6 @@ import org.qedeq.kernel.common.ModuleDataException;
  * Traverse QEDEQ module. Calls visitors of {@link org.qedeq.kernel.visitor.QedeqVisitor}
  * for non <code>null</code> arguments.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class QedeqNotNullTraverser implements QedeqTraverser {

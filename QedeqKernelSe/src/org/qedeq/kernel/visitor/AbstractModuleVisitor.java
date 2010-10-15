@@ -57,7 +57,6 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * Basic visitor that makes nothing.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public abstract class AbstractModuleVisitor implements QedeqVisitor {
