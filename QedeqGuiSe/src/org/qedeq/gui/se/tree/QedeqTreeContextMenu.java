@@ -18,7 +18,6 @@ package org.qedeq.gui.se.tree;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
-import org.qedeq.gui.se.control.PluginAction;
 import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.gui.se.util.MenuHelper;
