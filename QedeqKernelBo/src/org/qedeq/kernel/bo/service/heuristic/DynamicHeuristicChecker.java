@@ -135,14 +135,19 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
     private boolean isTautology(final ModuleContext moduleContext, final Element formula)
             throws HeuristicException {
         boolean result = true;
-        do {
-            result &= interpreter.calculateValue(moduleContext, formula);
-//            System.out.println(interpreter.toString());
-        } while (result && interpreter.next());
+        ModuleContext context = moduleContext;
+        try {
+            do {
+                result &= interpreter.calculateValue(new ModuleContext(context), formula);
+    //            System.out.println(interpreter.toString());
+            } while (result && interpreter.next());
 //        if (!result) {
 //            System.out.println(interpreter);
 //        }
 //        System.out.println("interpretation finished - and result is = " + result);
+        } finally {
+            interpreter.clearVariables();
+        }
         return result;
     }
 
@@ -294,7 +299,7 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
         if (proposition == null) {
             return;
         }
-        System.out.println("\ttesting proposition definition");
+        System.out.println("\ttesting proposition");
         final String context = getCurrentContext().getLocationWithinModule();
         if (proposition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
