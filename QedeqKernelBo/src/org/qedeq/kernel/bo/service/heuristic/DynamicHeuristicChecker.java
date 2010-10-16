@@ -335,6 +335,7 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
      * Filters correct entry out of LaTeX list. Filter criterion is for example the correct
      * language.
      *
+     * @param   list    List of LaTeX entries.
      * @return  Filtered text.
      */
     private String getLatexListEntry(final LatexList list) {
