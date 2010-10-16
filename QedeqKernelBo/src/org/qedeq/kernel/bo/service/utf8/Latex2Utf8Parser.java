@@ -36,25 +36,31 @@ public final class Latex2Utf8Parser {
 
     /** Herein goes our output. */
     private StringBuffer output;
-    
+
     /** This is our input stream .*/
     private MementoTextInput input;
 
+    /** Math mode on? */
     private boolean mathMode = false;
-    
+
+    /** Mathfrak mode on? */
     private boolean mathfrak = false;
-    
+
+    /** Emphasize on? */
     private boolean emph = false;
 
+    /** Stack for input parser. */
     private Stack inputStack = new Stack();
 
+    /** Stack for math mode. */
     private Stack mathModeStack = new Stack();
-    
+
+    /** Stack for mathfrak mode. */
     private Stack mathfrakStack = new Stack();
 
+    /** Stack for emphasize mode. */
     private Stack emphStack = new Stack();
 
-    
     /**
      * Parse LaTeX text into QEDEQ module string.
      *
@@ -76,17 +82,23 @@ public final class Latex2Utf8Parser {
         this.output = new StringBuffer();
     }
 
-    private String getUtf8(String text) {
+    /**
+     * Get UTF-8 String out of LaTeX text.
+     *
+     * @param   text    LaTeX.
+     * @return  UTF-8.
+     */
+    private String getUtf8(final String text) {
         parseAndPrint(text);
         return output.toString();
     }
 
     /**
-     * Do parsing.
+     * Do parsing and print result.
      *
-     * @return  QEDEQ module string.
+     * @param   text    Parse this LaTeX text and print UTF-8 into output.
      */
-    private void parseAndPrint(String text) {
+    private void parseAndPrint(final String text) {
         // remember old:
         inputStack.push(input);
         mathModeStack.push(Boolean.valueOf(mathMode));
@@ -146,7 +158,6 @@ public final class Latex2Utf8Parser {
                     if ('{' == getChar()) {
                         emph = true;
                         final String content = readCurlyBraceContents();
-                        print(" ");
                         parseAndPrint(content);
                         print(" ");
                         emph = false;
@@ -169,6 +180,12 @@ public final class Latex2Utf8Parser {
         }
     }
 
+    /**
+     * Read until section ends with \{kind}.
+     *
+     * @param   kind    Look for the end of this.
+     * @return  Read text.
+     */
     private String readSection(final String kind) {
         final StringBuffer buffer = new StringBuffer();
         do {
@@ -190,6 +207,7 @@ public final class Latex2Utf8Parser {
      * Get text till <code>token</code> occurs.
      *
      * @param   token   Terminator token.
+     * @return  Read text.
      */
     private String getTillToken(final String token) {
         final StringBuffer buffer = new StringBuffer();
@@ -383,10 +401,10 @@ public final class Latex2Utf8Parser {
             output.append("\u2000");
         } else if (token.equals("\\,")) {
             output.append("\u2009");
-        } else if (token.equals("''")) {
-            output.append("\"");
-        } else if (token.equals("``")) {
-            output.append("\"");
+        } else if (token.equals("''") || token.equals("\\grqq")) {
+            output.append("\u201D");
+        } else if (token.equals("``") || token.equals("\\glqq")) {
+            output.append("\u201E");
         } else {
             if (mathfrak) {
                 for (int i = 0; i < token.length(); i++) {
@@ -402,7 +420,7 @@ public final class Latex2Utf8Parser {
                 for (int i = 0; i < token.length(); i++) {
                     output.append("\u2006");
                     output.append(token.charAt(i));
-/*                    
+/*
                     final char c = token.charAt(i);
                     switch (c) {
                     case 'A':

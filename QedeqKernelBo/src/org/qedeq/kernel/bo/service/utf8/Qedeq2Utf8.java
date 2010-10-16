@@ -186,7 +186,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         if (url != null && url.length() > 0) {
             printer.println();
             if ("de".equals(language)) {
-                printer.println("Die Quelle f\u00FC dieses Dokument ist hier zu finden:");
+                printer.println("Die Quelle f\u00FCr dieses Dokument ist hier zu finden:");
             } else {
                 if (!"en".equals(language)) {
                     printer.println("%%% TODO unknown language: " + language);
@@ -277,22 +277,28 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         }
     }
 
+    public void visitLeave(final Header header) {
+        printer.println();
+        printer.println("___________________________________________________");
+        printer.println();
+        printer.println();
+    }
+
     public void visitLeave(final Chapter chapter) {
         printer.println();
-        sectionNumber = 0;  // reset section number
+        printer.println("___________________________________________________");
+        printer.println();
+        printer.println();
     }
 
     public void visitLeave(final SectionList list) {
-        printer.println();
-        printer.println("__________________________________________________________________________________________________________");
-        printer.println();
-        printer.println();
+        sectionNumber = 0;  // reset section number
     }
 
     public void visitEnter(final Section section) {
         if (section.getNoNumber() == null || !section.getNoNumber().booleanValue()) {
             sectionNumber++;    // increase global chapter number
-            printer.print(chapterNumber + "." + sectionNumber);
+            printer.print(chapterNumber + "." + sectionNumber + " ");
         }
         printer.print(getLatexListEntry("getTitle()", section.getTitle()));
         printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
@@ -521,7 +527,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     }
 
     public void visitEnter(final LiteratureItemList list) {
-        printer.println("\\backmatter");
+        printer.println();
         printer.println();
         printer.println("\\begin{thebibliography}{99}");
         // TODO mime 20060926: remove language dependency
@@ -603,8 +609,6 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             return;
         }
         final ElementList list = element.getList();
-        printer.println("\\mbox{}");
-        printer.println("\\begin{longtable}{{@{\\extracolsep{\\fill}}p{0.9\\linewidth}l}}");
         for (int i = 0; i < list.size(); i++)  {
             String label = "";
             if (list.size() >= ALPHABET.length() * ALPHABET.length()) {
@@ -617,10 +621,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
                 label += ALPHABET.charAt(i % ALPHABET.length());
             }
 //            final String label = (i < ALPHABET.length() ? "" + ALPHABET .charAt(i) : "" + i);
-            printer.println("\\centering $" + getLatex(list.getElement(i)) + "$"
-                + " & \\label{" + mainLabel + ":" + label + "} \\hypertarget{" + mainLabel + ":"
-                + label + "}{} \\mbox{\\emph{(" + label + ")}} "
-                + (i + 1 < list.size() ? "\\\\" : ""));
+            printer.println(getLatex(list.getElement(i)) + " (" + label + ") ");
         }
         printer.println("\\end{longtable}");
     }
@@ -631,10 +632,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
      * @param   element Formula to print.
      */
     private void printFormula(final Element element) {
-        printer.println("\\mbox{}");
-        printer.println("\\begin{longtable}{{@{\\extracolsep{\\fill}}p{\\linewidth}}}");
-        printer.println("\\centering $" + getLatex(element) + "$");
-        printer.println("\\end{longtable}");
+        printer.println(getLatex(element));
     }
 
     /**
@@ -644,7 +642,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
      * @return  LaTeX form of element.
      */
     private String getLatex(final Element element) {
-        return getLatex(elementConverter.getLatex(element));
+        return getLatex("$" + elementConverter.getLatex(element) + "$");
     }
 
     /**
@@ -949,10 +947,10 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     }
 
     /**
-     * Get String from LaTeX.
+     * Get UTF-8 String for LaTeX.
      *
-     * @param   text   Unescaped text.
-     * @return  String.
+     * @param   latex   LaTeX we got.
+     * @return  UTF-8 result string.
      */
     private String getLatex(final Latex latex) {
         if (latex == null) {
@@ -962,9 +960,9 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     }
 
      /**
-     * Get String from LaTeX.
+     * Transform LaTeX into UTF-8 String..
      *
-     * @param   text   Unescaped text.
+     * @param   latex   LaTeX text.
      * @return  String.
      */
     private String getLatex(final String latex) {
@@ -974,18 +972,15 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         return Latex2Utf8Parser.transform(latex.trim());
     }
 
+    /**
+     * Print text in one line and print another line with = to underline it.
+     *
+     * @param   text    Line to print.
+     */
     private void underlineBig(final String text) {
         printer.println(text);
         for (int i = 0; i  < text.length(); i++) {
             printer.print("=");
-        }
-        printer.println();
-    }
-
-    private void underline(final String text) {
-        printer.println(text);
-        for (int i = 0; i  < text.length(); i++) {
-            printer.print("-");
         }
         printer.println();
     }
