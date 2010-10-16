@@ -38,15 +38,26 @@ public class TextOutput {
     private StringBuffer spaces = new StringBuffer();
 
     /**
-     * Constructor.
+     * Constructor. Write in ISO-8859-1 encoding.
      *
-     * @param   name    File name.
-     * @param   output  Write to this output.
+     * @param   name        File name.
+     * @param   output      Write to this output.
      */
     public TextOutput(final String name, final OutputStream output) {
+        this(name, output, "ISO-8859-1");
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param   name        File name.
+     * @param   output      Write to this output.
+     * @param   encoding    Use this encoding.
+     */
+    public TextOutput(final String name, final OutputStream output, final String encoding) {
         this.name = name;
         try {
-            this.output = new PrintStream(output, false, "ISO-8859-1");
+            this.output = new PrintStream(output, false, encoding);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);  // should never occur
         }
