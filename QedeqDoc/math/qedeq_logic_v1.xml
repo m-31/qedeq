@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_00/xml/qedeq.xsd">
@@ -10,7 +10,7 @@
     </SPECIFICATION>
     <TITLE>
       <LATEX language="en">Elements of Mathematical Logic</LATEX>
-      <LATEX language="de">Anfangsgründe der mathematischen Logik</LATEX>
+      <LATEX language="de">AnfangsgrÃ¼nde der mathematischen Logik</LATEX>
     </TITLE>
     <ABSTRACT>
       <LATEX language="en">
@@ -23,7 +23,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          In diesem Text wird eine formale Sprache vorgestellt in der alle Bereiche der Mathematik beschrieben werden können. Es handelt sich um eine Prädikatenlogik erster Stufe mit Gleichheit, die auf dem Text \emph{Grundz{\"u}ge der mathematischen Logik} von P.~S.~Novikov beruhen. Die logischen Axiome und Basisregeln haben ihren Ursprung in dem Buch \emph{Grundzüge der theoretischen Logik} (1928) von D.~Hilbert und W.~Ackermann.
+          In diesem Text wird eine formale Sprache vorgestellt in der alle Bereiche der Mathematik beschrieben werden kÃ¶nnen. Es handelt sich um eine PrÃ¤dikatenlogik erster Stufe mit Gleichheit, die auf dem Text \emph{Grundz{\"u}ge der mathematischen Logik} von P.~S.~Novikov beruhen. Die logischen Axiome und Basisregeln haben ihren Ursprung in dem Buch \emph{GrundzÃ¼ge der theoretischen Logik} (1928) von D.~Hilbert und W.~Ackermann.
          
           \par
           Dieses Dokument ist noch nicht fertiggestellt und wird von Zeit zu Zeit aktualisiert.
@@ -80,20 +80,20 @@
       <LATEX language="de">
         <![CDATA[
 
-          Das Projekt \textbf{Hilbert II} beschäftigt sich mit der formalen Darstellung und Dokumentation von mathematischem Wissen. Dazu stellt \textbf{Hilbert II} eine Programmsuite zur Lösung der damit zusammenhängenden Aufgaben bereit. Auch die konkrete Dokumentation mathematischen Grundlagenwissens mit diesen Hilfsmitteln gehört zum Ziel dieses Projekts. 
-          Für weitere Information über das Projekt \textbf{Hilbert II} siehe auch unter \url{http://www.qedeq.org}.
+          Das Projekt \textbf{Hilbert II} beschÃ¤ftigt sich mit der formalen Darstellung und Dokumentation von mathematischem Wissen. Dazu stellt \textbf{Hilbert II} eine Programmsuite zur LÃ¶sung der damit zusammenhÃ¤ngenden Aufgaben bereit. Auch die konkrete Dokumentation mathematischen Grundlagenwissens mit diesen Hilfsmitteln gehÃ¶rt zum Ziel dieses Projekts. 
+          FÃ¼r weitere Information Ã¼ber das Projekt \textbf{Hilbert II} siehe auch unter \url{http://www.qedeq.org}.
 
           \par
-          Dieses Dokument beschreibt die logischen Axiome, Schluss- und Metaregeln mit denen logische Schlüsse durchgeführt werden können.
+          Dieses Dokument beschreibt die logischen Axiome, Schluss- und Metaregeln mit denen logische SchlÃ¼sse durchgefÃ¼hrt werden kÃ¶nnen.
 
           \par
-          Die Darstellung erfolgt in axiomatischer Weise und in formaler Form. Dazu wird ein Kalkül angegeben, der es gestattet alle wahren Formeln abzuleiten. Weitere abgeleitete Regeln, Sätze, Definitionen, Abkürzungen und Syntaxerweiterungen entsprechen im Wesentlichen der mathematischen Praxis.
+          Die Darstellung erfolgt in axiomatischer Weise und in formaler Form. Dazu wird ein KalkÃ¼l angegeben, der es gestattet alle wahren Formeln abzuleiten. Weitere abgeleitete Regeln, SÃ¤tze, Definitionen, AbkÃ¼rzungen und Syntaxerweiterungen entsprechen im Wesentlichen der mathematischen Praxis.
 
           \par
           Dieses Dokument liegt auch selbst in einer formalen Sprache vor, der Ursprungstext ist eine XML-Datei, deren Syntax mittels der XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd} definiert wird.
 
           \par
-          Dieses Dokument ist noch sehr in Arbeit und wird von Zeit zu Zeit aktualisiert. Insbesondere werden an den durch {\glqq+++\grqq} gekennzeichneten Stellen noch Ergänzungen oder Änderungen vorgenommen.
+          Dieses Dokument ist noch sehr in Arbeit und wird von Zeit zu Zeit aktualisiert. Insbesondere werden an den durch {\glqq+++\grqq} gekennzeichneten Stellen noch ErgÃ¤nzungen oder Ã„nderungen vorgenommen.
 
         ]]>
       </LATEX>
@@ -122,10 +122,10 @@
           This project has its source in a childhood dream to undertake a formalization of mathematics. In the meantime the technical possibilities are highly developed so that a realization seems within reach.
           
           \par
-          Special thanks go to the professors \emph{W.~Kerby} and \emph{V.~Günther} of the university of Hamburg for their inspiring lectures about logic and axiomatic set theory. Without these important impulses this project would not exist.
+          Special thanks go to the professors \emph{W.~Kerby} and \emph{V.~GÃ¼nther} of the university of Hamburg for their inspiring lectures about logic and axiomatic set theory. Without these important impulses this project would not exist.
           
           \par
-          I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their support and patience.          
+          I am deeply grateful to my wife \emph{Gesine~DrÃ¤ger} and our son \emph{Lennart} for their support and patience.          
 
           \par
           \vspace*{1cm} Hamburg, september, 2010 \\
@@ -136,21 +136,21 @@
       <LATEX language="de">
         <![CDATA[
 
-          Das ganze Universium der Mathematik kann mit den Mitteln der Mengenlehre entfaltet werden. Außer den Axiomen der Mengenlehre werden dazu nur noch logische Axiome und Regeln benötigt. Diese elementaren Grundlagen genügen, um die komplexesten mathematischen Strukturen zu definieren und Sätze über solche Strukturen beweisen zu können. Dieses Vorgehen lässt 
-          sich vollständig formalisieren und auf die einfache Manipulation von Zeichenketten zurückführen. Die inhaltliche Deutung der Zeichenfolgen stellt dann das mathematische Universum dar.
+          Das ganze Universium der Mathematik kann mit den Mitteln der Mengenlehre entfaltet werden. AuÃŸer den Axiomen der Mengenlehre werden dazu nur noch logische Axiome und Regeln benÃ¶tigt. Diese elementaren Grundlagen genÃ¼gen, um die komplexesten mathematischen Strukturen zu definieren und SÃ¤tze Ã¼ber solche Strukturen beweisen zu kÃ¶nnen. Dieses Vorgehen lÃ¤sst 
+          sich vollstÃ¤ndig formalisieren und auf die einfache Manipulation von Zeichenketten zurÃ¼ckfÃ¼hren. Die inhaltliche Deutung der Zeichenfolgen stellt dann das mathematische Universum dar.
 
           \par
-          Dabei ist es natürlich mehr als nur bequem, Abkürzungen einzuführen und weitere abgeleitete Regeln zu verwenden. Diese Bequemlichkeiten können aber jederzeit\footnote{Zumindest ist eine solche Rückführung theoretisch immer möglich. Praktisch kann sie jedoch an der Endlichkeit der zur Verfügung stehenden Zeit und des nutzbaren Raums scheitern. So wird es 
-          sicherlich nicht möglich sein, die natürliche Zahl $1.000.000.000$ in Mengenschreibweise anzugeben.} eliminiert und durch die grundlegenden Begrifflichkeiten ersetzt werden.
+          Dabei ist es natÃ¼rlich mehr als nur bequem, AbkÃ¼rzungen einzufÃ¼hren und weitere abgeleitete Regeln zu verwenden. Diese Bequemlichkeiten kÃ¶nnen aber jederzeit\footnote{Zumindest ist eine solche RÃ¼ckfÃ¼hrung theoretisch immer mÃ¶glich. Praktisch kann sie jedoch an der Endlichkeit der zur VerfÃ¼gung stehenden Zeit und des nutzbaren Raums scheitern. So wird es 
+          sicherlich nicht mÃ¶glich sein, die natÃ¼rliche Zahl $1.000.000.000$ in Mengenschreibweise anzugeben.} eliminiert und durch die grundlegenden Begrifflichkeiten ersetzt werden.
 
           \par
-          Dieses Projekt entspringt meinem Kindheitstraum eine solche Formalisierung konkret vorzunehmen. Inzwischen sind die technischen Möglichkeiten so weit entwickelt, dass eine Realisierung möglich erscheint.
+          Dieses Projekt entspringt meinem Kindheitstraum eine solche Formalisierung konkret vorzunehmen. Inzwischen sind die technischen MÃ¶glichkeiten so weit entwickelt, dass eine Realisierung mÃ¶glich erscheint.
 
           \par
-          Dank gebührt den Professoren \emph{W.~Kerby} und \emph{V.~Günther} der Hamburger Universität für ihre inspirierenden Vorlesungen zu den Themen Logik und Axiomatische Mengenlehre. Ohne diese entscheidenden Impulse hätte es dieses Projekt nie gegeben.
+          Dank gebÃ¼hrt den Professoren \emph{W.~Kerby} und \emph{V.~GÃ¼nther} der Hamburger UniversitÃ¤t fÃ¼r ihre inspirierenden Vorlesungen zu den Themen Logik und Axiomatische Mengenlehre. Ohne diese entscheidenden Impulse hÃ¤tte es dieses Projekt nie gegeben.
 
           \par
-          Besonderer Dank geht an meine Frau \emph{Gesine~Dräger} und unseren Sohn \emph{Lennart} für ihre Unterstützung und ihr Verständnis für ihnen fehlende Zeit -- wobei der Verständnisgrad unseres Kleinkinds vielleicht noch nicht so stark ausgeprägt ist.
+          Besonderer Dank geht an meine Frau \emph{Gesine~DrÃ¤ger} und unseren Sohn \emph{Lennart} fÃ¼r ihre UnterstÃ¼tzung und ihr VerstÃ¤ndnis fÃ¼r ihnen fehlende Zeit -- wobei der VerstÃ¤ndnisgrad unseres Kleinkinds vielleicht noch nicht so stark ausgeprÃ¤gt ist.
 
           \par
           \vspace*{1cm} Hamburg, September 2010 \\
@@ -196,7 +196,7 @@
           At the beginning there is logic. Logic is the analysis of methods of reasoning. It helps to derive new propositions from already given ones. Logic is universally applicable.
 
           \par
-          In the 1928 published book \emph{Grundzüge der theoretischen Logik} (Principles of Theoretical Logic) \emph{D.~Hilbert} and \emph{W.~Ackermann} formalized propositional calculus in a way that build the basis for the logical system used here. 1959 \emph{P.~S.~Novikov} specified a refined axiom and rule system for predicate calculus.
+          In the 1928 published book \emph{GrundzÃ¼ge der theoretischen Logik} (Principles of Theoretical Logic) \emph{D.~Hilbert} and \emph{W.~Ackermann} formalized propositional calculus in a way that build the basis for the logical system used here. 1959 \emph{P.~S.~Novikov} specified a refined axiom and rule system for predicate calculus.
           
           \par
           In this text we present a first order predicate calculus with identity and functors that is the starting point for the development of the mathematical theory. Only the results without any proofs and in short form are given in the following.\footnote{If there is time proofs will be added.}
@@ -211,24 +211,24 @@
           \begin{quote} {
           \glqq Der Grundgedanke meiner Beweistheorie ist folgender:
           \par
-          Alles, was im bisherigen Sinne die Mathematik ausmacht, wird streng formalisiert, so daß die eigentliche Mathematik oder die Mathematik in engerem Sinne zu einem Bestande an Formeln wird. Diese unterscheiden sich von den gewöhnlichen Formeln der Mathematik nur dadurch, daß außer den gewöhnlichen Zeichen noch die logischen Zeichen, insbesondere die für {\glqq folgt\grqq} ($\rightarrow$) und für {\glqq nicht\grqq} ($\bar{\quad}$) darin vorkommen. Gewisse Formeln, die als Bausteine des formalen Gebäudes der Mathematik dienen, werden Axiome genannt. Ein Beweis ist die Figur, die uns als solche anschaulich vorliegen muß; er besteht aus Schlüssen vermöge des Schlußschemas\\
+          Alles, was im bisherigen Sinne die Mathematik ausmacht, wird streng formalisiert, so daÃŸ die eigentliche Mathematik oder die Mathematik in engerem Sinne zu einem Bestande an Formeln wird. Diese unterscheiden sich von den gewÃ¶hnlichen Formeln der Mathematik nur dadurch, daÃŸ auÃŸer den gewÃ¶hnlichen Zeichen noch die logischen Zeichen, insbesondere die fÃ¼r {\glqq folgt\grqq} ($\rightarrow$) und fÃ¼r {\glqq nicht\grqq} ($\bar{\quad}$) darin vorkommen. Gewisse Formeln, die als Bausteine des formalen GebÃ¤udes der Mathematik dienen, werden Axiome genannt. Ein Beweis ist die Figur, die uns als solche anschaulich vorliegen muÃŸ; er besteht aus SchlÃ¼ssen vermÃ¶ge des SchluÃŸschemas\\
           \begin{eqnarray*}
           & A & \\
           & A \rightarrow B& \\
           \cline{2-3}
            & B &
           \end{eqnarray*}
-          wo jedesmal die Prämissen, d.~h. die betreffenden Formeln $A$ und $A \rightarrow B$ jede entweder ein Axiom ist bzw. direkt durch Einsetzung aus einem Axiom entsteht oder mit der Endformel $B$ eines Schlusses übereinstimmt, der vorher im Beweise vorkommt bzw. durch Einsetzung aus einer solchen Endformel entsteht. Eine Formel soll beweisbar heißen, wenn sie entweder ein Axiom ist bzw. durch Einsetzen aus einem Axiom entsteht oder die Endformel eines Beweises ist.\grqq}
+          wo jedesmal die PrÃ¤missen, d.~h. die betreffenden Formeln $A$ und $A \rightarrow B$ jede entweder ein Axiom ist bzw. direkt durch Einsetzung aus einem Axiom entsteht oder mit der Endformel $B$ eines Schlusses Ã¼bereinstimmt, der vorher im Beweise vorkommt bzw. durch Einsetzung aus einer solchen Endformel entsteht. Eine Formel soll beweisbar heiÃŸen, wenn sie entweder ein Axiom ist bzw. durch Einsetzen aus einem Axiom entsteht oder die Endformel eines Beweises ist.\grqq}
           \end{quote}
 
           \par
-          Am Anfang steht die Logik. Sie stellt das Rüstzeug zur Argumentation bereit. Sie hilft beim Gewinnen von neuen Aussagen aus bereits vorhandenen. Sie ist universell anwendbar. 
+          Am Anfang steht die Logik. Sie stellt das RÃ¼stzeug zur Argumentation bereit. Sie hilft beim Gewinnen von neuen Aussagen aus bereits vorhandenen. Sie ist universell anwendbar. 
           
           \par
-          In dem 1928 erschienenen Buch \emph{Grundzüge der theoretischen Logik} formulierten \emph{D.~Hilbert} und \emph{W.~Ackermann} ein axiomatisches System der Aussagenlogik, welches die Basis für das hier verwendete bildet. Durch das von \emph{P.~S.~Novikov} 1959 angegebene Axiomensystem und Regelwerk der Prädikatenlogik wird das System verfeinert.
+          In dem 1928 erschienenen Buch \emph{GrundzÃ¼ge der theoretischen Logik} formulierten \emph{D.~Hilbert} und \emph{W.~Ackermann} ein axiomatisches System der Aussagenlogik, welches die Basis fÃ¼r das hier verwendete bildet. Durch das von \emph{P.~S.~Novikov} 1959 angegebene Axiomensystem und Regelwerk der PrÃ¤dikatenlogik wird das System verfeinert.
           
           \par
-          In diesem Text wird ein Prädikatenkalkül erster Stufe mit Identität und Funktoren vorgestellt, der die Grundlagen für die Entwicklung der mathematischen Theorie schafft. Es werden im Folgenden nur die Ergebnisse ohne weitere Beweise und in knapper Form präsentiert.\footnote{Die Beweise werden zu einem späteren Zeitpunkt ergänzt.}
+          In diesem Text wird ein PrÃ¤dikatenkalkÃ¼l erster Stufe mit IdentitÃ¤t und Funktoren vorgestellt, der die Grundlagen fÃ¼r die Entwicklung der mathematischen Theorie schafft. Es werden im Folgenden nur die Ergebnisse ohne weitere Beweise und in knapper Form prÃ¤sentiert.\footnote{Die Beweise werden zu einem spÃ¤teren Zeitpunkt ergÃ¤nzt.}
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -258,14 +258,14 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Um mathematische Aussagen präzise formulieren zu können, wird in diesem Kapitel eine formale Sprache definiert. Obgleich dieses Dokument mathematischen Inhalt sehr formal beschreibt, reicht es nicht aus um als Definition für ein computerlesbares Dokumentformat zu dienen. Daher muss eine solch extensive Spezifikation an anderer Stelle erfolgen.
-          Das dafür ausgewählte Format ist die \emph{Extensible Markup Language} abgekürzt \emph{XML}. XML beschreibt eine Menge von Regeln für den Aufbau elektronischer Dokumente.\footnote{Siehe \url{http://www.w3.org/XML/} für weitere Informationen.} Die daran ausgerichtete formale Syntaxspezifikation kann hier gelesen werden: \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
-          Damit wird ein mathematisches Dokumentenformat festgelegt, das die Erzeugung von \LaTeX Büchern und eine automatische Beweisüberprüfung ermöglicht. 
-          Weitere Syntaxbeschränkungen und einige Erklärungen werden beschrieben in \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.
+          Um mathematische Aussagen prÃ¤zise formulieren zu kÃ¶nnen, wird in diesem Kapitel eine formale Sprache definiert. Obgleich dieses Dokument mathematischen Inhalt sehr formal beschreibt, reicht es nicht aus um als Definition fÃ¼r ein computerlesbares Dokumentformat zu dienen. Daher muss eine solch extensive Spezifikation an anderer Stelle erfolgen.
+          Das dafÃ¼r ausgewÃ¤hlte Format ist die \emph{Extensible Markup Language} abgekÃ¼rzt \emph{XML}. XML beschreibt eine Menge von Regeln fÃ¼r den Aufbau elektronischer Dokumente.\footnote{Siehe \url{http://www.w3.org/XML/} fÃ¼r weitere Informationen.} Die daran ausgerichtete formale Syntaxspezifikation kann hier gelesen werden: \url{http://www.qedeq.org/current/xml/qedeq.xsd}.
+          Damit wird ein mathematisches Dokumentenformat festgelegt, das die Erzeugung von \LaTeX BÃ¼chern und eine automatische BeweisÃ¼berprÃ¼fung ermÃ¶glicht. 
+          Weitere SyntaxbeschrÃ¤nkungen und einige ErklÃ¤rungen werden beschrieben in \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.
 
           \par
           Auch dieses Dokument ist eine (oder wurde erzeugt aus einer) XML-Datei, die hier zu finden ist \url{http://wwww.qedeq.org/0_04_00/doc/math/qedeq_logic_v1.xml}.
-          Aber nun folgen wir einfach dem traditionellen mathematischen Weg, die Anfangsgünde der mathematischen Logik vorzustellen.
+          Aber nun folgen wir einfach dem traditionellen mathematischen Weg, die AnfangsgÃ¼nde der mathematischen Logik vorzustellen.
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -354,20 +354,20 @@
           <![CDATA[
           
             Als Symbole kommen die \emph{logischen Symbole} $L = \{$ \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'},             \mbox{`$\leftrightarrow$'}, \mbox{`$\rightarrow$'}, \mbox{`$\forall$'}, \mbox{`$\exists$'} $\}$, die 
-            \emph{Prädikatenkonstanten}\index{Prädikatenkonstante}\index{Konstante!Prädikaten-} $C = \{c^k_i~|~i, k \in \omega\}$, die 
-            \emph{Funktionsvariablen}\index{Funktionsvariablen}\index{Variable!Funktions-}\footnote{Funktionsvariablen dienen der einfacheren Notation und werden beispielsweise zur Formulierung eines identitätslogischen Satzes benötigt: $x = y \rightarrow f(x) = f(y)$. Ausserdem bereitet ihre Einführung die spätere Syntaxerweiterung zur Anwendung von funktionalen Klassen vor.} $F = \{f^k_i~|~i, k \in \omega \land k > 0\}$, die \emph{Funktionskonstanten}\index{Funktionskonstanten}\index{Konstante!Funktions-}\footnote{Funktionskonstanten dienen ebenfalls der Bequemlichkeit und werden später für direkt 
-            definierte Klassenfunktionen verwendet. So zum Beispiel zur Potenzklassenbildung, zur Vereinigungsklassenbildung und für die
-            Nachfolgerfunktion. All diese Funktionskonstanten können auch als Abkürzungen verstanden werden.}
+            \emph{PrÃ¤dikatenkonstanten}\index{PrÃ¤dikatenkonstante}\index{Konstante!PrÃ¤dikaten-} $C = \{c^k_i~|~i, k \in \omega\}$, die 
+            \emph{Funktionsvariablen}\index{Funktionsvariablen}\index{Variable!Funktions-}\footnote{Funktionsvariablen dienen der einfacheren Notation und werden beispielsweise zur Formulierung eines identitÃ¤tslogischen Satzes benÃ¶tigt: $x = y \rightarrow f(x) = f(y)$. Ausserdem bereitet ihre EinfÃ¼hrung die spÃ¤tere Syntaxerweiterung zur Anwendung von funktionalen Klassen vor.} $F = \{f^k_i~|~i, k \in \omega \land k > 0\}$, die \emph{Funktionskonstanten}\index{Funktionskonstanten}\index{Konstante!Funktions-}\footnote{Funktionskonstanten dienen ebenfalls der Bequemlichkeit und werden spÃ¤ter fÃ¼r direkt 
+            definierte Klassenfunktionen verwendet. So zum Beispiel zur Potenzklassenbildung, zur Vereinigungsklassenbildung und fÃ¼r die
+            Nachfolgerfunktion. All diese Funktionskonstanten kÃ¶nnen auch als AbkÃ¼rzungen verstanden werden.}
             $H = \{h^k_i~|~i, k \in \omega\}$, die \emph{Subjektvariablen}\index{Subjektvariable}\index{Variable!Subjekt-} 
-            $V = \{v_i~|~i \in \omega\}$, sowie die \emph{Prädikatenvariablen}\index{Prädikatenvariable}\index{Variable!Prädikaten-}
-            $P = \{p^k_i~|~i, k \in \omega\}$ vor.\footnote{Unter $\omega$ werden die natürlichen Zahlen, die Null eingeschlossen, verstanden. Alle bei den Mengenbildungen beteiligten Symbole werden als paarweise verschieden vorausgesetzt. Das bedeutet z.~B.: $f^k_i = f^{k'}_{i'} \rightarrow (k = k' \land i = i')$ und $h^k_i \neq v_j$.} Unter der \emph{Stellenzahl} eines Operators wird der obere Index verstanden. Die Menge der nullstelligen Prädikatenvariablen wird auch als Menge der
+            $V = \{v_i~|~i \in \omega\}$, sowie die \emph{PrÃ¤dikatenvariablen}\index{PrÃ¤dikatenvariable}\index{Variable!PrÃ¤dikaten-}
+            $P = \{p^k_i~|~i, k \in \omega\}$ vor.\footnote{Unter $\omega$ werden die natÃ¼rlichen Zahlen, die Null eingeschlossen, verstanden. Alle bei den Mengenbildungen beteiligten Symbole werden als paarweise verschieden vorausgesetzt. Das bedeutet z.~B.: $f^k_i = f^{k'}_{i'} \rightarrow (k = k' \land i = i')$ und $h^k_i \neq v_j$.} Unter der \emph{Stellenzahl} eines Operators wird der obere Index verstanden. Die Menge der nullstelligen PrÃ¤dikatenvariablen wird auch als Menge der
             \emph{Aussagenvariablen}\index{Aussagenvariable}\index{Variable!Aussagen-} bezeichnet: $A := \{p_i^0~|~i \in \omega \}$. 
-            Für die Subjektvariablen werden abkürzend auch bestimmte Kleinbuchstaben geschrieben. Die Kleinbuchstaben stehen für verschiedene Subjektvariablen: \mbox{$v_1 = $ `$u$'}, \mbox{$v_2 = $ `$v$'}, \mbox{$v_3 = $ `$w$'}, \mbox{$v_4 = $ `$x$'}, \mbox{$v_5 = $ `$y$'}, \mbox{$v_5 = $ `$z$'}. Weiter werden als Abkürzungen verwendet: für die Prädikatenvariablen $p^n_1 = $ `$\phi$' und $p^n_2 = $ `$\psi$', wobei die jeweilige Stellenanzahl $n$ aus der Anzahl der nachfolgenden Parameter ermittelt wird, für die Aussagenvariablen $a_1 = $ `$A$', $a_2 = $ `$B$' und $a_3 = $ `$C$'. Als Abkürzungen für Funktionsvariablen wird festgelegt $f^n_1 = $ `$f$' und $f^n_2 = $ `$g$', wobei wiederum die jeweilige Stellenanzahl $n$ aus der Anzahl der nachfolgenden Parameter ermittelt wird. Bei allen aussagenlogischen zwei\-stelligen Operatoren wird der leichteren Lesbarkeit wegen die Infixschreibweise benutzt, dabei werden die Symbole `(' und `)' verwandt. 
-            D.~h. für den Operator $\land$ mit den Argumenten $A$ und $B$ wird $(A \land B)$ geschrieben. 
-            Es gelten die üblichen Operatorprioritäten und die dazugehörigen Klammerregeln. Insbesondere die äußeren Klammern werden in der Regel weggelassen. Auch werden leere Klammern nicht geschrieben.
+            FÃ¼r die Subjektvariablen werden abkÃ¼rzend auch bestimmte Kleinbuchstaben geschrieben. Die Kleinbuchstaben stehen fÃ¼r verschiedene Subjektvariablen: \mbox{$v_1 = $ `$u$'}, \mbox{$v_2 = $ `$v$'}, \mbox{$v_3 = $ `$w$'}, \mbox{$v_4 = $ `$x$'}, \mbox{$v_5 = $ `$y$'}, \mbox{$v_5 = $ `$z$'}. Weiter werden als AbkÃ¼rzungen verwendet: fÃ¼r die PrÃ¤dikatenvariablen $p^n_1 = $ `$\phi$' und $p^n_2 = $ `$\psi$', wobei die jeweilige Stellenanzahl $n$ aus der Anzahl der nachfolgenden Parameter ermittelt wird, fÃ¼r die Aussagenvariablen $a_1 = $ `$A$', $a_2 = $ `$B$' und $a_3 = $ `$C$'. Als AbkÃ¼rzungen fÃ¼r Funktionsvariablen wird festgelegt $f^n_1 = $ `$f$' und $f^n_2 = $ `$g$', wobei wiederum die jeweilige Stellenanzahl $n$ aus der Anzahl der nachfolgenden Parameter ermittelt wird. Bei allen aussagenlogischen zwei\-stelligen Operatoren wird der leichteren Lesbarkeit wegen die Infixschreibweise benutzt, dabei werden die Symbole `(' und `)' verwandt. 
+            D.~h. fÃ¼r den Operator $\land$ mit den Argumenten $A$ und $B$ wird $(A \land B)$ geschrieben. 
+            Es gelten die Ã¼blichen OperatorprioritÃ¤ten und die dazugehÃ¶rigen Klammerregeln. Insbesondere die Ã¤uÃŸeren Klammern werden in der Regel weggelassen. Auch werden leere Klammern nicht geschrieben.
 
             \par
-            Nachfolgend werden die Operatoren mit absteigender Priorität aufgelistet.
+            Nachfolgend werden die Operatoren mit absteigender PrioritÃ¤t aufgelistet.
             $$
             \begin{array}{c}
               \neg, \forall, \exists  \\
@@ -385,7 +385,7 @@
             \end{enumerate}
 
             Alle nullstelligen Funktionskonstanten $\{h^0_i~|~i, \in \omega\}$ sind demzufolge Terme, sie werden auch 
-            \emph{Individuenkonstanten}\index{Individuenkonstante}\index{Konstante!Individuen-} genannt.\footnote{Analog dazu könnten Subjektvariablen auch als nullstellige Funktionsvariablen definiert werden. Da die Subjektvariablen jedoch eine hervorgehobene Rolle spielen, werden sie auch gesondert bezeichnet.}
+            \emph{Individuenkonstanten}\index{Individuenkonstante}\index{Konstante!Individuen-} genannt.\footnote{Analog dazu kÃ¶nnten Subjektvariablen auch als nullstellige Funktionsvariablen definiert werden. Da die Subjektvariablen jedoch eine hervorgehobene Rolle spielen, werden sie auch gesondert bezeichnet.}
 
             \par
             Die Begriffe \emph{Formel\index{Formel}}, \emph{freie\index{freie Subjektvariable}\index{Subjektvariable!freie}} und 
@@ -394,28 +394,28 @@
             \begin{enumerate}
             
             \item Jede Aussagenvariable ist eine Formel, solche Formeln enthalten keine freien oder gebundenen Subjektvariablen. 
-            \item Ist $p^k$ eine $k$-stellige Prädikatenvariable und $c^k$ eine $k$-stellige Prädikatenkonstante und sind $t_1, t_2, \ldots, t_k$ Terme, so sind $p^k(t_1, t_2, \ldots t_k)$ und $c^k(t_1, t_2, \ldots, t_k)$ Formeln. Dabei gelten alle in 
+            \item Ist $p^k$ eine $k$-stellige PrÃ¤dikatenvariable und $c^k$ eine $k$-stellige PrÃ¤dikatenkonstante und sind $t_1, t_2, \ldots, t_k$ Terme, so sind $p^k(t_1, t_2, \ldots t_k)$ und $c^k(t_1, t_2, \ldots, t_k)$ Formeln. Dabei gelten alle in 
             $t_1, t_2, \ldots, t_k$ vorkommenden Subjektvariablen als freie Subjektvariablen, gebundene Subjektvariablen kommen nicht 
-            vor.\footnote{Dieser zweite Punkt umfasst den ersten, welcher nur der Anschaulichkeit wegen extra aufgeführt ist.} 
+            vor.\footnote{Dieser zweite Punkt umfasst den ersten, welcher nur der Anschaulichkeit wegen extra aufgefÃ¼hrt ist.} 
             
             \item Es seien $\alpha, \beta$ Formeln, in denen keine Subjektvariablen vorkommen, die in einer Formel gebunden und in der anderen frei sind. Dann sind auch $\neg \alpha$, $(\alpha \land \beta)$, $(\alpha \lor \beta)$, $(\alpha \rightarrow \beta)$, $(\alpha \leftrightarrow \beta)$ Formeln. Subjektvariablen, welche in $\alpha$ oder $\beta$ frei (bzw. gebunden) vorkommen, bleiben frei (bzw. gebunden).
             
-            \item Falls in der Formel $\alpha$ die Subjektvariable $x_1$ nicht gebunden vorkommt\footnote{D.~h. $x_1$ kommt höchstens frei vor.}, dann sind auch $\forall x_1~\alpha$ und $\exists x_1~\alpha$ Formeln. Dabei wird $\forall$ als
+            \item Falls in der Formel $\alpha$ die Subjektvariable $x_1$ nicht gebunden vorkommt\footnote{D.~h. $x_1$ kommt hÃ¶chstens frei vor.}, dann sind auch $\forall x_1~\alpha$ und $\exists x_1~\alpha$ Formeln. Dabei wird $\forall$ als
             \emph{Allquantor}\index{Allquantor}\index{Quantor!All-} und $\exists$ als \emph{Existenzquantor}\index{Existenzquantor}\index{Quantor!Existenz-} bezeichnet. Bis auf $x_1$ bleiben alle freien Subjektvariablen von $\alpha$ auch frei, und zu den gebundenen Subjektvariablen von $\alpha$ kommt $x_1$ hinzu. 
             
             \end{enumerate}
-            Alle Formeln die nur durch Anwendung von 1. und 3. gebildet werden, heißen Formeln der \emph{Aussagenalgebra}. 
+            Alle Formeln die nur durch Anwendung von 1. und 3. gebildet werden, heiÃŸen Formeln der \emph{Aussagenalgebra}. 
             
             \par
-            Es gilt für jede Formel $\alpha$: die Menge der freien und der gebundenen Subjektvariablen von $\alpha$ sind disjunkt.\footnote{Andere Formalisierungen erlauben z.~B. $\forall x_1~\alpha$ auch dann, wenn $x_1$ schon in $\alpha$ gebunden vorkommt. Auch Ausdrücke wie $\alpha(x) \land (\forall x_1 \beta)$ sind erlaubt. Dort wird dann
-            für ein einzelnes Vorkommen einer Variablen definiert ob es sich um ein freies oder gebundenes Vorkommen handelt.}
+            Es gilt fÃ¼r jede Formel $\alpha$: die Menge der freien und der gebundenen Subjektvariablen von $\alpha$ sind disjunkt.\footnote{Andere Formalisierungen erlauben z.~B. $\forall x_1~\alpha$ auch dann, wenn $x_1$ schon in $\alpha$ gebunden vorkommt. Auch AusdrÃ¼cke wie $\alpha(x) \land (\forall x_1 \beta)$ sind erlaubt. Dort wird dann
+            fÃ¼r ein einzelnes Vorkommen einer Variablen definiert ob es sich um ein freies oder gebundenes Vorkommen handelt.}
             
             \par
-            Falls eine Formel die Gestalt $\forall x_1 ~ \alpha$ bzw. $\exists x_1 ~ \alpha$ besitzt, dann heißt die Formel $\alpha$ der
+            Falls eine Formel die Gestalt $\forall x_1 ~ \alpha$ bzw. $\exists x_1 ~ \alpha$ besitzt, dann heiÃŸt die Formel $\alpha$ der
             \emph{Wirkungsbereich} des Quantors $\forall$ bzw. $\exists$.
             
             \par
-            Alle Formeln, die beim Aufbau einer Formel mittels 1. bis 4. benötigt werden, heißen \emph{Teilformeln}.
+            Alle Formeln, die beim Aufbau einer Formel mittels 1. bis 4. benÃ¶tigt werden, heiÃŸen \emph{Teilformeln}.
 
           ]]>
         </LATEX>
@@ -440,7 +440,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Nun geben wir das Axiomensystem für die Prädikatenlogik an und formulieren die Regeln um daraus neue Formeln zu gewinnen.
+          Nun geben wir das Axiomensystem fÃ¼r die PrÃ¤dikatenlogik an und formulieren die Regeln um daraus neue Formeln zu gewinnen.
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -450,7 +450,7 @@
            Axioms\index{axioms!of predicate calculus}\index{predicate calculus!axioms}
         </LATEX>
         <LATEX language="de">
-           Axiome\index{Axiome!der Prädikatenlogik}\index{Prädikatenlogik!Axiome der}
+           Axiome\index{Axiome!der PrÃ¤dikatenlogik}\index{PrÃ¤dikatenlogik!Axiome der}
         </LATEX>
       </TITLE>
       <INTRODUCTION>
@@ -470,14 +470,14 @@
         <LATEX language="de">
           <![CDATA[
             
-            Die Grundlagen der bei \textbf{Hilbert II} verwendeten Logik werden hier zusammengestellt. Die folgende Kalkülsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~Bernays} und \emph{P.~S.~Novikov}\cite{novikov}. Aus den hier angegebenen logischen Axiomen und den elementaren Schlussregeln können weitere Gesetzmäßigkeiten abgeleitet werden. Erst diese neuen Metaregeln führen zu einer komfortablen logischen Argumentation.
+            Die Grundlagen der bei \textbf{Hilbert II} verwendeten Logik werden hier zusammengestellt. Die folgende KalkÃ¼lsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~Bernays} und \emph{P.~S.~Novikov}\cite{novikov}. Aus den hier angegebenen logischen Axiomen und den elementaren Schlussregeln kÃ¶nnen weitere GesetzmÃ¤ÃŸigkeiten abgeleitet werden. Erst diese neuen Metaregeln fÃ¼hren zu einer komfortablen logischen Argumentation.
             
             \par
-            Die Axiome, Definitionen und Regeln werden in syntaktischer Weise vorgestellt, aber um die gewählte Form zu motivieren, geben wir bereits einige sematische \emph{Interpretationen}.
+            Die Axiome, Definitionen und Regeln werden in syntaktischer Weise vorgestellt, aber um die gewÃ¤hlte Form zu motivieren, geben wir bereits einige sematische \emph{Interpretationen}.
             
             \par
-            Die aussagenlogischen Operatoren \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, \mbox{`$\leftrightarrow$'} und \mbox{`$\rightarrow$'} verknüpfen beliebige \emph{Aussagen} zu neuen Aussagen. 
-            Dabei verstehen wir unter einer Aussage eine Größe, die nur den Wert {\glqq wahr\grqq} und {\glqq falsch\grqq} annehmen kann.\footnote{Später werden wir für die Wahrheitswerte die Symbole $\top$ und $\bot$ definieren.}
+            Die aussagenlogischen Operatoren \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, \mbox{`$\leftrightarrow$'} und \mbox{`$\rightarrow$'} verknÃ¼pfen beliebige \emph{Aussagen} zu neuen Aussagen. 
+            Dabei verstehen wir unter einer Aussage eine GrÃ¶ÃŸe, die nur den Wert {\glqq wahr\grqq} und {\glqq falsch\grqq} annehmen kann.\footnote{SpÃ¤ter werden wir fÃ¼r die Wahrheitswerte die Symbole $\top$ und $\bot$ definieren.}
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -499,14 +499,14 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Der zweistellige Operator \mbox{`$\vee$'} (Oder-Verknüpfung) legt für die Aussagen $\alpha$ und $\beta$ die neue Aussage 
-                $\alpha \vee \beta$ fest. Sie ist dann und nur dann wahr, wenn wenigstens eine der ursprünglichen Aussagen wahr ist.
+                Der zweistellige Operator \mbox{`$\vee$'} (Oder-VerknÃ¼pfung) legt fÃ¼r die Aussagen $\alpha$ und $\beta$ die neue Aussage 
+                $\alpha \vee \beta$ fest. Sie ist dann und nur dann wahr, wenn wenigstens eine der ursprÃ¼nglichen Aussagen wahr ist.
 
                 \par
                 Durch den einstelligen Operator \mbox{`$\neg$'} wird zu einer Aussage $\alpha$ ihre \emph{Negation} definiert. $\neg \alpha$ ist falsch, wenn $\alpha$ wahr ist und wahr wenn $\alpha$ falsch ist.
             
                 \par
-                Die Implikation, die Und-Verknüpfung und die logische Äquivalenz werden als Abkürzungen definiert.\footnote{Eigentlich werden die Abkürzungssymbole $\wedge, \rightarrow, \leftrightarrow$ erst an dieser Stelle definiert und erweitern die Sprachsyntax. Aus Bequemlichkeitsgründen wurden diese Symbole bereits als logische Symbole angegeben.}
+                Die Implikation, die Und-VerknÃ¼pfung und die logische Ã„quivalenz werden als AbkÃ¼rzungen definiert.\footnote{Eigentlich werden die AbkÃ¼rzungssymbole $\wedge, \rightarrow, \leftrightarrow$ erst an dieser Stelle definiert und erweitern die Sprachsyntax. Aus BequemlichkeitsgrÃ¼nden wurden diese Symbole bereits als logische Symbole angegeben.}
               ]]>
             </LATEX>
           </TEXT>
@@ -556,11 +556,11 @@
         <NODE id="definition:conjunction">
           <NAME>
             <LATEX language="en">conjunction definition</LATEX>
-            <LATEX language="de">Definition der Und-Verknüpfung</LATEX>
+            <LATEX language="de">Definition der Und-VerknÃ¼pfung</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Conjunction\index{definition!of conjunction}</LATEX>
-            <LATEX language="de">Und-Verknüpfung\index{Definition!der Und-Verknüpfung}</LATEX>
+            <LATEX language="de">Und-VerknÃ¼pfung\index{Definition!der Und-VerknÃ¼pfung}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -570,7 +570,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Definition der Und-Verknüpfung mittels De-Morgan.
+                Definition der Und-VerknÃ¼pfung mittels De-Morgan.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -599,11 +599,11 @@
         <NODE id="definition:equivalence">
           <NAME>
             <LATEX language="en">equivalence definition</LATEX>
-            <LATEX language="de">Definition der Äquivalenz</LATEX>
+            <LATEX language="de">Definition der Ã„quivalenz</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Equivalence\index{definition!of equivalence}</LATEX>
-            <LATEX language="de">Äquivalenz\index{Definition!der Äquivalenz}</LATEX>
+            <LATEX language="de">Ã„quivalenz\index{Definition!der Ã„quivalenz}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -613,8 +613,8 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die logische Äquivalenz ({\glqq genau dann, wenn\grqq}) wird wie 
-                üblich definiert.
+                Die logische Ã„quivalenz ({\glqq genau dann, wenn\grqq}) wird wie 
+                Ã¼blich definiert.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -642,11 +642,11 @@
         <NODE id="axiom:disjunction_idempotence">
           <NAME>
             <LATEX language="en">axiom of disjunction idempotence</LATEX>
-            <LATEX language="de">Axiom der Oder-Kürzung</LATEX>
+            <LATEX language="de">Axiom der Oder-KÃ¼rzung</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Disjunction Idempotence\index{axiom!of disjunction idempotence}</LATEX>
-            <LATEX language="de">Oder-Kürzung\index{Axiom!der Oder-Kürzung}</LATEX>
+            <LATEX language="de">Oder-KÃ¼rzung\index{Axiom!der Oder-KÃ¼rzung}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -658,7 +658,7 @@
             <LATEX language="de">
               <![CDATA[
                 Nun folgt unser erstes Axiom der Aussagenlogik. Mithilfe dieses 
-                Axioms können überflüssige Oder-Verknüpfungen entfernt werden.
+                Axioms kÃ¶nnen Ã¼berflÃ¼ssige Oder-VerknÃ¼pfungen entfernt werden.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -677,11 +677,11 @@
         <NODE id="axiom:disjunction_weakening">
           <NAME>
             <LATEX language="en">axiom of weakening</LATEX>
-            <LATEX language="de">Axiom der Oder-Verdünnung</LATEX>
+            <LATEX language="de">Axiom der Oder-VerdÃ¼nnung</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Axiom of Weakening\index{axiom!of weakening}</LATEX>
-            <LATEX language="de">Oder-Verdünnung\index{Axiom!der Oder-Verdünnung}</LATEX>
+            <LATEX language="de">Oder-VerdÃ¼nnung\index{Axiom!der Oder-VerdÃ¼nnung}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -691,7 +691,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Wenn eine Aussage wahr ist, dann kann eine beliebige weitere Aussage mittels Oder-Verknüpfung hinzugefügt werden, ohne dass die Aussage falsch wird.
+                Wenn eine Aussage wahr ist, dann kann eine beliebige weitere Aussage mittels Oder-VerknÃ¼pfung hinzugefÃ¼gt werden, ohne dass die Aussage falsch wird.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -711,7 +711,7 @@
         <NODE id="axiom:disjunction_commutative">
           <NAME>
             <LATEX language="en">commutativity of the disjunction</LATEX>
-            <LATEX language="de">Kommutativgesetz der Oder-Verknüpfung</LATEX>
+            <LATEX language="de">Kommutativgesetz der Oder-VerknÃ¼pfung</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Commutativity of the Disjunction\index{axiom!of weakening}</LATEX>
@@ -725,7 +725,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die Oder-Verknüpfung soll kommutativ sein.
+                Die Oder-VerknÃ¼pfung soll kommutativ sein.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -762,7 +762,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Eine Oder-Verknüpfung kann auf beiden Seiten einer Implikation hinzugefügt werden.
+                Eine Oder-VerknÃ¼pfung kann auf beiden Seiten einer Implikation hinzugefÃ¼gt werden.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -805,7 +805,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Wenn ein Prädikat auf alle $x$ zutrifft, so trifft es auch auf ein beliebiges $y$ zu.
+                Wenn ein PrÃ¤dikat auf alle $x$ zutrifft, so trifft es auch auf ein beliebiges $y$ zu.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -843,7 +843,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Wenn ein Prädikat auf irgend ein $y$ zutrifft, so gibt es ein $x$, auf das es zutrifft.
+                Wenn ein PrÃ¤dikat auf irgend ein $y$ zutrifft, so gibt es ein $x$, auf das es zutrifft.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -884,7 +884,7 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Die im folgenden angegebenen Regeln ermöglichen uns aus den wahr angesehenen Axiomen neue wahre Formeln zu gewinnen. Aus diesen können wiederum weitere Formeln abgeleitet werden, so dass sich die Menge der wahren Formeln sukzessive erweitern lässt. 
+            Die im folgenden angegebenen Regeln ermÃ¶glichen uns aus den wahr angesehenen Axiomen neue wahre Formeln zu gewinnen. Aus diesen kÃ¶nnen wiederum weitere Formeln abgeleitet werden, so dass sich die Menge der wahren Formeln sukzessive erweitern lÃ¤sst. 
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -919,11 +919,11 @@
         <NODE id="rule:replaceFree">
           <NAME>
             <LATEX language="en">replace free subject variable</LATEX>
-            <LATEX language="de">Ersetzung für freie Subjektvariable</LATEX>
+            <LATEX language="de">Ersetzung fÃ¼r freie Subjektvariable</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Replace Free Subject Variable</LATEX>
-            <LATEX language="de">Ersetzung für freie Subjektvariable</LATEX>
+            <LATEX language="de">Ersetzung fÃ¼r freie Subjektvariable</LATEX>
           </TITLE>
           <RULE name="replaceFree">
             <DESCRIPTION>
@@ -935,7 +935,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Ausgehend von einer wahren Formel kann jede freie Subjektvariable durch einen Term ersetzt werden, der keine in der Formel bereits gebundenen Subjektvariablen enthält. Die Ersetzung muss durchgängig in der gesamten Formel erfolgen.
+                  Ausgehend von einer wahren Formel kann jede freie Subjektvariable durch einen Term ersetzt werden, der keine in der Formel bereits gebundenen Subjektvariablen enthÃ¤lt. Die Ersetzung muss durchgÃ¤ngig in der gesamten Formel erfolgen.
                 ]]>
               </LATEX>
             </DESCRIPTION>
@@ -970,11 +970,11 @@
                   $\forall x \ \exists y \ \phi(x, y)$ & $\rightarrow$ & $\exists y \ \phi(y,y)$ 
                     & verbotene Ersetzung: $z$ durch $y$, obwohl $y$ bereits gebunden \\
                   $\forall x \ \exists y \ x \neq y$ & $\rightarrow$ & $\exists y \ \neq y$ 
-                    &  Einsetzung von $\neq$ für $\phi$
+                    &  Einsetzung von $\neq$ fÃ¼r $\phi$
                 \end{tabularx}
                 
                 \par
-                Diese letzte Aussage ist in vielen Modellen nicht gültig.
+                Diese letzte Aussage ist in vielen Modellen nicht gÃ¼ltig.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -983,11 +983,11 @@
         <NODE id="rule:renameBound">
           <NAME>
             <LATEX language="en">rename bound subject variable</LATEX>
-            <LATEX language="de">Umbenennung für gebundene Subjektvariable</LATEX>
+            <LATEX language="de">Umbenennung fÃ¼r gebundene Subjektvariable</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Rename Bound Subject Variable</LATEX>
-            <LATEX language="de">Umbenennung für gebundene Subjektvariable</LATEX>
+            <LATEX language="de">Umbenennung fÃ¼r gebundene Subjektvariable</LATEX>
           </TITLE>
           <RULE name="renameBound">
             <DESCRIPTION>
@@ -998,7 +998,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Jede gebundene Subjektvariable kann in eine andere, nicht bereits frei vorkommende, Subjektvariable umbenannt werden. Falls über umzubenennende Variable mehrfach quantifiziert wird, dann braucht die Umbenennung nur im Wirkungsbereich eines bestimmten Quantors zu erfolgen.
+                  Jede gebundene Subjektvariable kann in eine andere, nicht bereits frei vorkommende, Subjektvariable umbenannt werden. Falls Ã¼ber umzubenennende Variable mehrfach quantifiziert wird, dann braucht die Umbenennung nur im Wirkungsbereich eines bestimmten Quantors zu erfolgen.
                 ]]>
               </LATEX>
             </DESCRIPTION>
@@ -1008,11 +1008,11 @@
         <NODE id="rule:replacePred">
           <NAME>
             <LATEX language="en">replace predicate variable</LATEX>
-            <LATEX language="de">Einsetzung für Prädikatenvariable</LATEX>
+            <LATEX language="de">Einsetzung fÃ¼r PrÃ¤dikatenvariable</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Replace Predicate Variable</LATEX>
-            <LATEX language="de">Einsetzung für Prädikatenvariable</LATEX>
+            <LATEX language="de">Einsetzung fÃ¼r PrÃ¤dikatenvariable</LATEX>
           </TITLE>
           <RULE name="replacePred">
             <DESCRIPTION>
@@ -1039,10 +1039,10 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Es sei $\alpha$ eine wahre Formel, die die $n$-stellige Prädikatenvariable $p$ enthält, $x_1$, \ldots, $x_n$ seien Subjektvariable und $\beta(x_1, \ldots, x_n)$ eine beliebige Formel in der die Variablen $x_1$, \ldots, $x_n$ nicht gebunden sind. In der Formel $\beta(x_1, \ldots, x_n)$ müssen jedoch nicht alle $x_1$, \ldots, $x_n$ als freie Subjektvariable vorkommen. 
-                  Weiterhin können auch noch weitere Variable frei oder gebunden vorkommen. 
+                  Es sei $\alpha$ eine wahre Formel, die die $n$-stellige PrÃ¤dikatenvariable $p$ enthÃ¤lt, $x_1$, \ldots, $x_n$ seien Subjektvariable und $\beta(x_1, \ldots, x_n)$ eine beliebige Formel in der die Variablen $x_1$, \ldots, $x_n$ nicht gebunden sind. In der Formel $\beta(x_1, \ldots, x_n)$ mÃ¼ssen jedoch nicht alle $x_1$, \ldots, $x_n$ als freie Subjektvariable vorkommen. 
+                  Weiterhin kÃ¶nnen auch noch weitere Variable frei oder gebunden vorkommen. 
                   
-                  Wenn die folgenden Bedingungen erfüllt sind, dann kann durch die Ersetzung jedes Vorkommens von $p(t_1, \ldots, t_n)$ mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\beta(t_1, \ldots, t_n)$ eine weitere wahre Formel gewonnen werden.
+                  Wenn die folgenden Bedingungen erfÃ¼llt sind, dann kann durch die Ersetzung jedes Vorkommens von $p(t_1, \ldots, t_n)$ mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\beta(t_1, \ldots, t_n)$ eine weitere wahre Formel gewonnen werden.
 
                   \begin{itemize}
 
@@ -1050,7 +1050,7 @@
                   die freien Variablen von $\beta(x_1, \ldots, x_n)$ ohne $x_1$, \ldots, $x_n$ kommen nicht in $\alpha$ als gebundene Variablen vor
                   
                   \item
-                  jedes Vorkommen von $p(t_1, \ldots, t_n)$ in $\alpha$ enthält keine gebundene Variable von $\beta(x_1, \ldots, x_n)$
+                  jedes Vorkommen von $p(t_1, \ldots, t_n)$ in $\alpha$ enthÃ¤lt keine gebundene Variable von $\beta(x_1, \ldots, x_n)$
                   
                   \item
                   das Ergebnis der Substitution ist eine wohlgeformte Formel
@@ -1078,7 +1078,7 @@
               <LATEX language="deold">
                 <![CDATA[
 
-                  Es sei $\alpha$ eine wahre Formel, die die $n$-stellige Prädikatenvariable $p$ enthält und $\beta(x_1, \ldots, x_n)$ eine beliebige Formel mit den freien Variablen $x_1$, \ldots, $x_n$, welche nicht in $\alpha$ vorkommen.\footnote{In der Formel $\beta(x_1, \ldots, x_n)$ können ausser den $n$ Subjektvariablen $x_1$, \ldots, $x_n$ noch weitere Variablen frei vorkommen.} Wenn die folgenden Bedingungen erfüllt sind, dann kann durch die Ersetzung jedes Vorkommens von $p(t_1, \ldots, t_n)$
+                  Es sei $\alpha$ eine wahre Formel, die die $n$-stellige PrÃ¤dikatenvariable $p$ enthÃ¤lt und $\beta(x_1, \ldots, x_n)$ eine beliebige Formel mit den freien Variablen $x_1$, \ldots, $x_n$, welche nicht in $\alpha$ vorkommen.\footnote{In der Formel $\beta(x_1, \ldots, x_n)$ kÃ¶nnen ausser den $n$ Subjektvariablen $x_1$, \ldots, $x_n$ noch weitere Variablen frei vorkommen.} Wenn die folgenden Bedingungen erfÃ¼llt sind, dann kann durch die Ersetzung jedes Vorkommens von $p(t_1, \ldots, t_n)$
                   mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\beta(t_1, \ldots, t_n)$ eine weitere wahre Formel gewonnen werden.
 
                   \begin{itemize}
@@ -1086,7 +1086,7 @@
                   \item die freien Variablen von $\alpha$ sind disjunkt zu den gebundenen Variablen von $\beta(x_1, \ldots, x_n)$ und die gebundenen Variablen von $\alpha$ disjunkt zu den freien Variablen von $\beta(x_1, \ldots, x_n)$ 
 
                   \item liegt das zu ersetzende $p(t_1, \ldots, t_n)$ in $\alpha$ im Wirkungsbereich eines Quantors, so kommt die
-                  zugehörige Subjektvariable in $\beta(x_1, \ldots, x_n)$ nicht vor
+                  zugehÃ¶rige Subjektvariable in $\beta(x_1, \ldots, x_n)$ nicht vor
 
                   \end{itemize}
 
@@ -1126,7 +1126,7 @@
                 Siehe III \S 5 in \cite{hilback}.
                 
                 \par
-                Das Verbot in der Ersetzungsformel keine zusätzliche Subjektvariable zu verwenden, welche in der Originalformel gebunden vorkommt, hat nicht nur der Absicherung der Wohlgeformtheit zum Zweck. Es bewahrt auch die inhaltliche Gültigkeit. Dazu betrachten wir die folgende Ableitung.
+                Das Verbot in der Ersetzungsformel keine zusÃ¤tzliche Subjektvariable zu verwenden, welche in der Originalformel gebunden vorkommt, hat nicht nur der Absicherung der Wohlgeformtheit zum Zweck. Es bewahrt auch die inhaltliche GÃ¼ltigkeit. Dazu betrachten wir die folgende Ableitung.
                 
                 \par
                 \begin{tabularx}{\linewidth}{rclX}
@@ -1143,7 +1143,7 @@
                 \end{tabularx}
                 
                 \par
-                Diese letzte Aussage ist in vielen Modellen nicht gültig.
+                Diese letzte Aussage ist in vielen Modellen nicht gÃ¼ltig.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -1152,11 +1152,11 @@
         <NODE id="rule:replaceFunct">
           <NAME>
             <LATEX language="en">replace function variable</LATEX>
-            <LATEX language="de">Einsetzung für Funktionsvariable</LATEX>
+            <LATEX language="de">Einsetzung fÃ¼r Funktionsvariable</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Replace Function Variable</LATEX>
-            <LATEX language="de">Einsetzung für Funktionsvariable</LATEX>
+            <LATEX language="de">Einsetzung fÃ¼r Funktionsvariable</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -1166,7 +1166,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Analog zu Regel~\ref{rule:replacePred} können wir auch Funktionsvariablen ersetzen.
+                Analog zu Regel~\ref{rule:replacePred} kÃ¶nnen wir auch Funktionsvariablen ersetzen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1196,9 +1196,9 @@
               <LATEX language="de">
                 <![CDATA[
                 
-                  Es sei $\alpha$ eine bereits bewiesene Formel, die die $n$-stellige Funktionsvariable $\sigma$ enthält, $x_1$, \ldots, $x_n$ seien Subjektvariable und $\tau(x_1, \ldots, x_n)$ ein beliebiger Term in dem die Subjektvariablen $x_1$, \ldots, $x_n$ nicht gebunden sind. In dem Term $\tau(x_1, \ldots, x_n)$ müssen nicht alle $x_1$, \ldots, $x_n$ als freie Subjektvariable vorkommen. Weiterhin können auch noch  noch weitere Variable frei oder gebunden vorkommen.
+                  Es sei $\alpha$ eine bereits bewiesene Formel, die die $n$-stellige Funktionsvariable $\sigma$ enthÃ¤lt, $x_1$, \ldots, $x_n$ seien Subjektvariable und $\tau(x_1, \ldots, x_n)$ ein beliebiger Term in dem die Subjektvariablen $x_1$, \ldots, $x_n$ nicht gebunden sind. In dem Term $\tau(x_1, \ldots, x_n)$ mÃ¼ssen nicht alle $x_1$, \ldots, $x_n$ als freie Subjektvariable vorkommen. Weiterhin kÃ¶nnen auch noch  noch weitere Variable frei oder gebunden vorkommen.
                   
-                  Wenn die folgenden Bedingungen erfüllt sind, dann kann durch die Ersetzung jedes Vorkommens von $\sigma(t_1, \ldots, t_n)$ mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\tau(t_1, \ldots, t_n)$ eine weitere wahre Formel gewonnen 
+                  Wenn die folgenden Bedingungen erfÃ¼llt sind, dann kann durch die Ersetzung jedes Vorkommens von $\sigma(t_1, \ldots, t_n)$ mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\tau(t_1, \ldots, t_n)$ eine weitere wahre Formel gewonnen 
                   werden.
                   
                   \begin{itemize}
@@ -1207,7 +1207,7 @@
                   die freien Variablen von $\tau(x_1, \ldots, x_n)$ ohne $x_1$, \ldots, $x_n$ kommen in $\alpha$ nicht als gebundene Variablen vor
                   
                   \item
-                  jedes Vorkommen von $\sigma(t_1, \ldots, t_n)$ in $\alpha$ enthält keine gebundene Variable von $\beta(x_1, \ldots, x_n)$
+                  jedes Vorkommen von $\sigma(t_1, \ldots, t_n)$ in $\alpha$ enthÃ¤lt keine gebundene Variable von $\beta(x_1, \ldots, x_n)$
                   
                   \item
                   das Ergebnis der Substitution ist eine wohlgeformte Formel
@@ -1238,7 +1238,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Wenn $\alpha \rightarrow \beta(x_1)$ eine wahre Formel ist und $\alpha$ die Subjektvariable $x_1$ nicht enthält, dann ist auch $\alpha \rightarrow (\forall x_1~(\beta(x_1)))$ 
+                  Wenn $\alpha \rightarrow \beta(x_1)$ eine wahre Formel ist und $\alpha$ die Subjektvariable $x_1$ nicht enthÃ¤lt, dann ist auch $\alpha \rightarrow (\forall x_1~(\beta(x_1)))$ 
                   eine wahre Formel.
                 ]]>
               </LATEX>
@@ -1266,7 +1266,7 @@
               <LATEX language="de">
                 <![CDATA[
                 
-                  Wenn $\alpha(x_1) \rightarrow \beta$ eine wahre Formel ist und $\beta$ die Subjektvariable $x_1$ nicht enthält, dann ist auch $(\exists x_1~\alpha(x_1)) \rightarrow \beta$ eine wahre Formel.
+                  Wenn $\alpha(x_1) \rightarrow \beta$ eine wahre Formel ist und $\beta$ die Subjektvariable $x_1$ nicht enthÃ¤lt, dann ist auch $(\exists x_1~\alpha(x_1)) \rightarrow \beta$ eine wahre Formel.
                   
                 ]]>
               </LATEX>
@@ -1283,7 +1283,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die Auflösung und der Einsatz von Abkürzungen und Konstanten ist auch mit der Anwendung von Regeln verbunden. In vielen Texten zur mathematischen Logik werden diese Regeln nicht explizit formuliert, auch dieser Text geht darauf nicht weiter ein. In dem exakten QEDEQ-Format gibt es jedoch entsprechende Regeln.
+                Die AuflÃ¶sung und der Einsatz von AbkÃ¼rzungen und Konstanten ist auch mit der Anwendung von Regeln verbunden. In vielen Texten zur mathematischen Logik werden diese Regeln nicht explizit formuliert, auch dieser Text geht darauf nicht weiter ein. In dem exakten QEDEQ-Format gibt es jedoch entsprechende Regeln.
               ]]>
             </LATEX>
           </TEXT>
@@ -1299,7 +1299,7 @@
          Derived Propositions
       </LATEX>
       <LATEX language="de">
-         Abgeleitete Sätze
+         Abgeleitete SÃ¤tze
       </LATEX>
     </TITLE>
     <INTRODUCTION>
@@ -1310,7 +1310,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Mit den im Kapitel~\ref{chapter4} angegebenen Axiomen und Schlussregeln lassen sich elementare logische Gesetzmäßigkeiten ableiten.
+          Mit den im Kapitel~\ref{chapter4} angegebenen Axiomen und Schlussregeln lassen sich elementare logische GesetzmÃ¤ÃŸigkeiten ableiten.
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -1332,7 +1332,7 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Zunächst behandeln wir die Aussagenlogik.
+            ZunÃ¤chst behandeln wir die Aussagenlogik.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -1355,7 +1355,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Um das Prädikat \emph{wahr} zu definieren, kombinieren wir einfach ein Prädikat und seine Negation.
+                Um das PrÃ¤dikat \emph{wahr} zu definieren, kombinieren wir einfach ein PrÃ¤dikat und seine Negation.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1378,7 +1378,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für eine exakte Definiton hätten wir eigentlich soetwas wie $p^0_0 = \top$ und $\top :\leftrightarrow (A \wedge \not A)$ schreiben müssen. In der formalen sprache hat dieses Prädikat den Namen \emph{TRUE} und besitzt keine Argumente. Daher müssten wir nur die Namen auf die natürlichen Zahlen abbilden um der vorherigen Definition gerecht zu werden. In Zukunft schreiben wir jedoch nur das Symbol. Die Stellenzahl sollte aus der Formel ersichtlich sein.
+                FÃ¼r eine exakte Definiton hÃ¤tten wir eigentlich soetwas wie $p^0_0 = \top$ und $\top :\leftrightarrow (A \wedge \not A)$ schreiben mÃ¼ssen. In der formalen sprache hat dieses PrÃ¤dikat den Namen \emph{TRUE} und besitzt keine Argumente. Daher mÃ¼ssten wir nur die Namen auf die natÃ¼rlichen Zahlen abbilden um der vorherigen Definition gerecht zu werden. In Zukunft schreiben wir jedoch nur das Symbol. Die Stellenzahl sollte aus der Formel ersichtlich sein.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -1401,7 +1401,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für das Prädikat \emph{falsch} negieren wir einfach \emph{wahr}.
+                FÃ¼r das PrÃ¤dikat \emph{falsch} negieren wir einfach \emph{wahr}.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1418,11 +1418,11 @@
         <NODE id="theorem:propositionalCalculus">
           <NAME>
             <LATEX language="en">basic propositions</LATEX>
-            <LATEX language="de">Elementare Sätze</LATEX>
+            <LATEX language="de">Elementare SÃ¤tze</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Basic Propositions\index{propositions!of propositional calculus}</LATEX>
-            <LATEX language="de">Elementare Sätze\index{Sätze!der Aussagenlogik}</LATEX>
+            <LATEX language="de">Elementare SÃ¤tze\index{SÃ¤tze!der Aussagenlogik}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -1904,7 +1904,7 @@
            Predicate Calculus
         </LATEX>
         <LATEX language="de">
-           Prädikatenlogik
+           PrÃ¤dikatenlogik
         </LATEX>
       </TITLE>
       <INTRODUCTION>
@@ -1915,7 +1915,7 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Für die Prädikatenlogik ergeben sich die folgenden Sätze.
+            FÃ¼r die PrÃ¤dikatenlogik ergeben sich die folgenden SÃ¤tze.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -1923,11 +1923,11 @@
         <NODE id="theorem:predicateCalculus">
           <NAME>
             <LATEX language="en">basic propositions</LATEX>
-            <LATEX language="de">Elementare Sätze</LATEX>
+            <LATEX language="de">Elementare SÃ¤tze</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Basic Propositions\index{propositions!of predicate calculus}</LATEX>
-            <LATEX language="de">Elementare Sätze\index{Sätze!der Prädikaten}</LATEX>
+            <LATEX language="de">Elementare SÃ¤tze\index{SÃ¤tze!der PrÃ¤dikaten}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -2315,7 +2315,7 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Aus den logischen Grundlagen lassen sich logische Sätze und Metaregeln ableiten, die eine bequemere Argumentation ermöglichen. Erst mit diesem Regelwerk und zusätzlichen Definitionen und Abkürzungen wird die restliche Mathematik entwickelt. Dabei wird stets nur eine \emph{konservative}\index{konservativ} Erweiterung der bisherigen Syntax vorgenommen. D.~h. in dem erweiterten System lassen sich keine Formeln ableiten, die in der alten Syntax formuliert, aber dort nicht ableitbar sind. Im Folgenden werden solche konservativen Erweiterungen vorgestellt.
+            Aus den logischen Grundlagen lassen sich logische SÃ¤tze und Metaregeln ableiten, die eine bequemere Argumentation ermÃ¶glichen. Erst mit diesem Regelwerk und zusÃ¤tzlichen Definitionen und AbkÃ¼rzungen wird die restliche Mathematik entwickelt. Dabei wird stets nur eine \emph{konservative}\index{konservativ} Erweiterung der bisherigen Syntax vorgenommen. D.~h. in dem erweiterten System lassen sich keine Formeln ableiten, die in der alten Syntax formuliert, aber dort nicht ableitbar sind. Im Folgenden werden solche konservativen Erweiterungen vorgestellt.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -2323,11 +2323,11 @@
         <NODE id="rule:replaceEquiFormula">
           <NAME>
             <LATEX language="en">replace by logical equivalent formula</LATEX>
-            <LATEX language="de">Ersetzung durch logisch äquivalente Formel</LATEX>
+            <LATEX language="de">Ersetzung durch logisch Ã¤quivalente Formel</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Replace by Logical Equivalent Formula</LATEX>
-            <LATEX language="de">Ersetzung durch logisch äquivalente Formeln</LATEX>
+            <LATEX language="de">Ersetzung durch logisch Ã¤quivalente Formeln</LATEX>
           </TITLE>
           <RULE name="replaceEquiFormula">
             <DESCRIPTION>
@@ -2338,7 +2338,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Sei die Aussage $\alpha \leftrightarrow \beta$ bereits bewiesen. Wird dann aus der Formel $\delta$ eine neue Formel $\gamma$ dadurch gewonnen, dass ein beliebiges Vorkommen von $\alpha$ durch $\beta$ ersetzt\footnote{Bei dieser Ersetzung kann es erforderlich sein, dass gebundene Variablen von $\beta$ umbenannt werden müssen, damit sich wieder eine Formel ergibt.} wird und besitzt $\gamma$ zumindest die freien Variablen von $\delta$, dann gilt $\delta \leftrightarrow \gamma$.
+                  Sei die Aussage $\alpha \leftrightarrow \beta$ bereits bewiesen. Wird dann aus der Formel $\delta$ eine neue Formel $\gamma$ dadurch gewonnen, dass ein beliebiges Vorkommen von $\alpha$ durch $\beta$ ersetzt\footnote{Bei dieser Ersetzung kann es erforderlich sein, dass gebundene Variablen von $\beta$ umbenannt werden mÃ¼ssen, damit sich wieder eine Formel ergibt.} wird und besitzt $\gamma$ zumindest die freien Variablen von $\delta$, dann gilt $\delta \leftrightarrow \gamma$.
                 ]]>
               </LATEX>
             </DESCRIPTION>
@@ -2366,7 +2366,7 @@
               <LATEX language="de">
                 <![CDATA[
 
-                  Sei $\alpha$ eine bereits abgeleitete wahre Formel und $\beta$ eine Formel, die $\top$ enthält. Falls wir durch Ersetzung eines beliebigen Vorkommens von $\top$ in $\beta$ durch $\alpha$ eine wohlgeformte Formel $\gamma$ erhalten, dann ist die folgende Formel ebenfalls wahr: $\beta \leftrightarrow \gamma$
+                  Sei $\alpha$ eine bereits abgeleitete wahre Formel und $\beta$ eine Formel, die $\top$ enthÃ¤lt. Falls wir durch Ersetzung eines beliebigen Vorkommens von $\top$ in $\beta$ durch $\alpha$ eine wohlgeformte Formel $\gamma$ erhalten, dann ist die folgende Formel ebenfalls wahr: $\beta \leftrightarrow \gamma$
 
                 ]]>
               </LATEX>
@@ -2395,7 +2395,7 @@
               <LATEX language="de">
                 <![CDATA[
 
-                  Sei $\alpha$ eine bereits abgeleitete wahre Formel und $\beta$ eine Formel, die $\alpha$ enthält. Falls wir durch Ersetzung eines beliebigen Vorkommens von $\alpha$ in $\beta$ durch $\top$ eine wohlgeformte Formel $\gamma$ erhalten, dann ist die folgende Formel ebenfalls wahr: $\beta \leftrightarrow \gamma$
+                  Sei $\alpha$ eine bereits abgeleitete wahre Formel und $\beta$ eine Formel, die $\alpha$ enthÃ¤lt. Falls wir durch Ersetzung eines beliebigen Vorkommens von $\alpha$ in $\beta$ durch $\top$ eine wohlgeformte Formel $\gamma$ erhalten, dann ist die folgende Formel ebenfalls wahr: $\beta \leftrightarrow \gamma$
 
                 ]]>
               </LATEX>
@@ -2435,11 +2435,11 @@
         <NODE id="rule:generalAssociativity">
           <NAME>
             <LATEX language="en">general associativity</LATEX>
-            <LATEX language="de">allgemeine Assoziativität</LATEX>
+            <LATEX language="de">allgemeine AssoziativitÃ¤t</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">General Associativity</LATEX>
-            <LATEX language="de">Allgemeine Assoziativität</LATEX>
+            <LATEX language="de">Allgemeine AssoziativitÃ¤t</LATEX>
           </TITLE>
           <RULE name="generalAssociativity">
             <DESCRIPTION>
@@ -2450,7 +2450,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Falls ein zweistelliger Operator das Assoziativitätsgesetz erfüllt, so erfüllt er auch das allgemeine Assoziativitätsgesetz. Dem Operator kann dann eine beliebige Stellenanzahl größer eins zugeschrieben werden. So wird beispielsweise anstelle für $(a + b) + (c + d)$ einfach $a + b + c + d$ geschrieben.\footnote{Der $n$-stellig Operator wird mit einer bestimmten Klammerung definiert, jede andere Klammerreihenfolge liefert jedoch dasselbe Ergebnis.}
+                  Falls ein zweistelliger Operator das AssoziativitÃ¤tsgesetz erfÃ¼llt, so erfÃ¼llt er auch das allgemeine AssoziativitÃ¤tsgesetz. Dem Operator kann dann eine beliebige Stellenanzahl grÃ¶ÃŸer eins zugeschrieben werden. So wird beispielsweise anstelle fÃ¼r $(a + b) + (c + d)$ einfach $a + b + c + d$ geschrieben.\footnote{Der $n$-stellig Operator wird mit einer bestimmten Klammerung definiert, jede andere Klammerreihenfolge liefert jedoch dasselbe Ergebnis.}
                 ]]>
               </LATEX>
 
@@ -2460,12 +2460,12 @@
 
         <NODE id="rule:generalCommutativity">
           <NAME>
-            <LATEX language="en">allgemeine Kommutativität</LATEX>
+            <LATEX language="en">allgemeine KommutativitÃ¤t</LATEX>
             <LATEX language="de">general commutativity</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">General Commutativity</LATEX>
-            <LATEX language="de">Allgemeine Kommutativität</LATEX>
+            <LATEX language="de">Allgemeine KommutativitÃ¤t</LATEX>
           </TITLE>
           <RULE name="generalCommutativity">
             <DESCRIPTION>
@@ -2476,7 +2476,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Falls ein Operator das allgemeine Assoziativitätsgesetz erfüllt und kommutativ ist, so sind alle Permutationen von Parameterreihenfolgen einander gleich oder äquivalent.\footnote{Je nachdem ob es sich um einen Termoperator oder einen Formeloperator handelt.} So gilt beispielsweise $a + b + c + d  = c + a + d + b$.
+                  Falls ein Operator das allgemeine AssoziativitÃ¤tsgesetz erfÃ¼llt und kommutativ ist, so sind alle Permutationen von Parameterreihenfolgen einander gleich oder Ã¤quivalent.\footnote{Je nachdem ob es sich um einen Termoperator oder einen Formeloperator handelt.} So gilt beispielsweise $a + b + c + d  = c + a + d + b$.
                 ]]>
               </LATEX>
 
@@ -2505,7 +2505,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Eine Formel $\beta$ heißt \emph{aus der Formel $\alpha$ ableitbar}, wenn sich $\beta$ mit Hilfe aller Regeln des Prädikatenkalküls und der um $\alpha$ vermehrten Gesamtheit aller wahren Formeln des Prädikatenkalküls herleitbar und $\alpha \rightarrow \beta$ eine Formel ist. Dabei dürfen die beiden SQuantifizierungsregeln, die Einsetzungsregel für Prädikatenvariable und die Umbenennungsregel für freie Subjektvariable nur auf solche Variablen angewendet werden, die in der Formel $\alpha$ nicht auftreten.
+                  Eine Formel $\beta$ heiÃŸt \emph{aus der Formel $\alpha$ ableitbar}, wenn sich $\beta$ mit Hilfe aller Regeln des PrÃ¤dikatenkalkÃ¼ls und der um $\alpha$ vermehrten Gesamtheit aller wahren Formeln des PrÃ¤dikatenkalkÃ¼ls herleitbar und $\alpha \rightarrow \beta$ eine Formel ist. Dabei dÃ¼rfen die beiden SQuantifizierungsregeln, die Einsetzungsregel fÃ¼r PrÃ¤dikatenvariable und die Umbenennungsregel fÃ¼r freie Subjektvariable nur auf solche Variablen angewendet werden, die in der Formel $\alpha$ nicht auftreten.
                   
                   \par
                   Schreibweise: $\alpha \vdash \beta$.
@@ -2521,7 +2521,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die Ableitbarkeit einer Formel $\beta$ aus der Formel $\alpha$ ist streng zu unterscheiden von der Ableitbarkeit einer wahren Formel aus den Axiomen des Kalküls, denn im zweiten Fall stehen mehr Ableitungsregeln zur Verfügung. Falls beispielsweise die Formel $A$ als Axiom aufgenommen wird, so ist die Formel $A$ herleitbar. Hingegen läßt sich aus $A$ nicht $B$ ableiten.
+                Die Ableitbarkeit einer Formel $\beta$ aus der Formel $\alpha$ ist streng zu unterscheiden von der Ableitbarkeit einer wahren Formel aus den Axiomen des KalkÃ¼ls, denn im zweiten Fall stehen mehr Ableitungsregeln zur VerfÃ¼gung. Falls beispielsweise die Formel $A$ als Axiom aufgenommen wird, so ist die Formel $A$ herleitbar. Hingegen lÃ¤ÃŸt sich aus $A$ nicht $B$ ableiten.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -2530,7 +2530,7 @@
 
         <NODE id="rule:deductionTheorem">
           <NAME>
-            <LATEX language="en">allgemeine Kommutativität</LATEX>
+            <LATEX language="en">allgemeine KommutativitÃ¤t</LATEX>
             <LATEX language="de">Deduktionstheorem</LATEX>
           </NAME>
           <TITLE>
@@ -2546,7 +2546,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Wenn eine Formel $\beta$ aus einer Formel $\alpha$ ableitbar ist, so ist die Formel $\alpha \rightarrow \beta$ im Prädikatenkalkül herleitbar.
+                  Wenn eine Formel $\beta$ aus einer Formel $\alpha$ ableitbar ist, so ist die Formel $\alpha \rightarrow \beta$ im PrÃ¤dikatenkalkÃ¼l herleitbar.
                 ]]>
               </LATEX>
             </DESCRIPTION>
@@ -2564,7 +2564,7 @@
          Identity
       </LATEX>
       <LATEX language="de">
-         Identität
+         IdentitÃ¤t
       </LATEX>
     </TITLE>
     <INTRODUCTION>
@@ -2576,7 +2576,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Alles was existiert besitzt eine spezifische Natur. Jede Entität existiert als etwas besonderes und besitzt charakterisierende Merkmale. Identität ist etwas, das eine Entität definierbar und erkennbar macht im Sinne einer Menge von Eigenschaften oder Merkmalen, welche sie von anderen Entitiäten unterscheiden. Eine Entität kann mehrere Merkmale besitzen, aber alle Merkmale die sie besitzt ist Teil ihrer Identität.
+          Alles was existiert besitzt eine spezifische Natur. Jede EntitÃ¤t existiert als etwas besonderes und besitzt charakterisierende Merkmale. IdentitÃ¤t ist etwas, das eine EntitÃ¤t definierbar und erkennbar macht im Sinne einer Menge von Eigenschaften oder Merkmalen, welche sie von anderen EntitiÃ¤ten unterscheiden. Eine EntitÃ¤t kann mehrere Merkmale besitzen, aber alle Merkmale die sie besitzt ist Teil ihrer IdentitÃ¤t.
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -2587,7 +2587,7 @@
            Identity Axioms
         </LATEX>
         <LATEX language="de">
-           Axiome der Identität
+           Axiome der IdentitÃ¤t
         </LATEX>
       </TITLE>
       <INTRODUCTION>
@@ -2598,7 +2598,7 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Wir starten mit den Identitätsaxiomen.
+            Wir starten mit den IdentitÃ¤tsaxiomen.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -2606,11 +2606,11 @@
         <NODE id="definition:identity">
           <NAME>
             <LATEX language="en">identity definition</LATEX>
-            <LATEX language="de">Definition der Identität</LATEX>
+            <LATEX language="de">Definition der IdentitÃ¤t</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Identity\index{identity}\index{definition!of identity}</LATEX>
-            <LATEX language="de">Identität\index{Identität}\index{Definition!der Identität}</LATEX>
+            <LATEX language="de">IdentitÃ¤t\index{IdentitÃ¤t}\index{Definition!der IdentitÃ¤t}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -2620,7 +2620,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Es wird eine zweistellige Prädikatskonstante festgelegt, welche in der Interpretation die Identität von Subjekten ausdrücken soll.
+                Es wird eine zweistellige PrÃ¤dikatskonstante festgelegt, welche in der Interpretation die IdentitÃ¤t von Subjekten ausdrÃ¼cken soll.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2650,7 +2650,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Aus Bequemlichkeit definieren wir auch die Negation der Identitätskonstante.
+                Aus Bequemlichkeit definieren wir auch die Negation der IdentitÃ¤tskonstante.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2674,11 +2674,11 @@
         <NODE id="axiom:identityIsReflexive">
           <NAME>
             <LATEX language="en">reflexivity of identity</LATEX>
-            <LATEX language="de">Reflexivität der Identität</LATEX>
+            <LATEX language="de">ReflexivitÃ¤t der IdentitÃ¤t</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Reflexivity of Identity\index{reflexivity!of identity}\index{identy!reflexivity of}</LATEX>
-            <LATEX language="de">Reflexivität der Identität\index{Reflexivität!der Identität}\index{Identität!Reflexivität der}</LATEX>
+            <LATEX language="de">ReflexivitÃ¤t der IdentitÃ¤t\index{ReflexivitÃ¤t!der IdentitÃ¤t}\index{IdentitÃ¤t!ReflexivitÃ¤t der}</LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
@@ -2722,11 +2722,11 @@
         <NODE id="axiom:symmetryOfIdentity">
           <NAME>
             <LATEX language="en">symmetry of identity</LATEX>
-            <LATEX language="de">Symmetrie der Identität</LATEX>
+            <LATEX language="de">Symmetrie der IdentitÃ¤t</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Symmetrie of identity\index{identity!symmetry of}</LATEX>
-            <LATEX language="de">Symmetrie der Identität\index{Identität!Symmetrie der}</LATEX>
+            <LATEX language="de">Symmetrie der IdentitÃ¤t\index{IdentitÃ¤t!Symmetrie der}</LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
@@ -2747,11 +2747,11 @@
         <NODE id="axiom:transitivityOfIdentity">
           <NAME>
             <LATEX language="en">transetivity of identity</LATEX>
-            <LATEX language="de">Transitivität der Identität</LATEX>
+            <LATEX language="de">TransitivitÃ¤t der IdentitÃ¤t</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Transitivity of identity\index{identity!transetivity of}</LATEX>
-            <LATEX language="de">Transitivität der Identität\index{Identität!Transitivität der}</LATEX>
+            <LATEX language="de">TransitivitÃ¤t der IdentitÃ¤t\index{IdentitÃ¤t!TransitivitÃ¤t der}</LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
@@ -2784,7 +2784,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Bei der Leibnizschen Ersetzbarkeit können wir die zweite Implikation umkehren.
+                Bei der Leibnizschen Ersetzbarkeit kÃ¶nnen wir die zweite Implikation umkehren.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2837,7 +2837,7 @@
            Restricted Quantifiers\index{quantifiers!restriced}
         </LATEX>
         <LATEX language="de">
-           Eingeschränkte Quantoren\index{Quantor!eingeschränkter}
+           EingeschrÃ¤nkte Quantoren\index{Quantor!eingeschrÃ¤nkter}
         </LATEX>
       </TITLE>
       <INTRODUCTION>
@@ -2848,7 +2848,7 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Jede Quantifizierung benötigt eine Subjektvariable und einen Bereich über den die Quantifizierung läuft. Bis jetzt haben wir einen festen Bereich für jede Quantifizierung vorausgesetzt. Die Angabe eines Bereichs ermöglicht uns auszudrücken, dass ein Prädikat nur für einen eingeschränkten Bereich gültig ist.
+            Jede Quantifizierung benÃ¶tigt eine Subjektvariable und einen Bereich Ã¼ber den die Quantifizierung lÃ¤uft. Bis jetzt haben wir einen festen Bereich fÃ¼r jede Quantifizierung vorausgesetzt. Die Angabe eines Bereichs ermÃ¶glicht uns auszudrÃ¼cken, dass ein PrÃ¤dikat nur fÃ¼r einen eingeschrÃ¤nkten Bereich gÃ¼ltig ist.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -2858,11 +2858,11 @@
         <NODE id="definition:restrictedUniversalQuantifier">
           <NAME>
             <LATEX language="en">definition restricted universal quantifier</LATEX>
-            <LATEX language="de">Definition eingeschränker Allquantor</LATEX>
+            <LATEX language="de">Definition eingeschrÃ¤nker Allquantor</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Restricted Universal Quantifier\index{universal quantifier, restricted}</LATEX>
-            <LATEX language="de">Eingeschränkter Allquantor\index{Allquantor!eingeschränkter}</LATEX>
+            <LATEX language="de">EingeschrÃ¤nkter Allquantor\index{Allquantor!eingeschrÃ¤nkter}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -2872,7 +2872,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Bei der folgenden Definition muss die für $\alpha(x)$ eingesetzte Formel {\glqq erkennen lassen\grqq}, über welche Subjektvariable quantifiziert wird. Das ist in der Regel darüber zu entscheiden, welche freie Subjektvariable als erstes in der Formel vorkommt.\footnote{Beispielsweise ist in der folgenden Formel erkennbar, dass die zweite Quantifikation über die Subjektvariable $m$ läuft: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n $.} In der exakten Syntax des QEDEQ-Formats\footnote{Siehe wieder unter \url{http://www.qedeq.org/current/xml/qedeq/}.} ist die Subjektvariable immer angegeben.
+                Bei der folgenden Definition muss die fÃ¼r $\alpha(x)$ eingesetzte Formel {\glqq erkennen lassen\grqq}, Ã¼ber welche Subjektvariable quantifiziert wird. Das ist in der Regel darÃ¼ber zu entscheiden, welche freie Subjektvariable als erstes in der Formel vorkommt.\footnote{Beispielsweise ist in der folgenden Formel erkennbar, dass die zweite Quantifikation Ã¼ber die Subjektvariable $m$ lÃ¤uft: $\forall \ n \in \mathbb{N} \ \forall \ m \in n \ m < n $.} In der exakten Syntax des QEDEQ-Formats\footnote{Siehe wieder unter \url{http://www.qedeq.org/current/xml/qedeq/}.} ist die Subjektvariable immer angegeben.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2903,11 +2903,11 @@
         <NODE id="definition:restrictedExistentialQuantifier">
           <NAME>
             <LATEX language="en">definition restricted existential quantifier</LATEX>
-            <LATEX language="de">Definition eingeschränker Existenzquantor</LATEX>
+            <LATEX language="de">Definition eingeschrÃ¤nker Existenzquantor</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Restricted Existential Quantifier\index{existential quantifier, restricted}</LATEX>
-            <LATEX language="de">Eingeschränkter Existenz\index{Existenzquantor!eingeschränkter}</LATEX>
+            <LATEX language="de">EingeschrÃ¤nkter Existenz\index{Existenzquantor!eingeschrÃ¤nkter}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -2917,7 +2917,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Dazu passt die folgende Definition für den eingeschränkten Existenzquantor.\footnote{Passend, da $\neg \forall \ \psi(x) \ (\phi(x)) \leftrightarrow \exists \ x \ \neg (\psi(x) \rightarrow \phi(x)) \leftrightarrow \exists \ x \ (\psi(x) \land \neg\phi(x)) \leftrightarrow \exists \ \psi(x) \ (\neg\phi(x))$.}
+                Dazu passt die folgende Definition fÃ¼r den eingeschrÃ¤nkten Existenzquantor.\footnote{Passend, da $\neg \forall \ \psi(x) \ (\phi(x)) \leftrightarrow \exists \ x \ \neg (\psi(x) \rightarrow \phi(x)) \leftrightarrow \exists \ x \ (\psi(x) \land \neg\phi(x)) \leftrightarrow \exists \ \psi(x) \ (\neg\phi(x))$.}
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2955,7 +2955,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für eingeschränkte Quantoren gelten analog zu Proposition \ref{theorem:predicateCalculus} entsprechende Formeln.
+                FÃ¼r eingeschrÃ¤nkte Quantoren gelten analog zu Proposition \ref{theorem:predicateCalculus} entsprechende Formeln.
                 \\
                 +++
               ]]>
@@ -2967,11 +2967,11 @@
         <NODE id="definition:restrictedUniquenessQuantifier">
           <NAME>
             <LATEX language="en">definition restricted uniqueness quantifier</LATEX>
-            <LATEX language="de">Definition eingeschränker Existenzquantor für genau ein Individuum</LATEX>
+            <LATEX language="de">Definition eingeschrÃ¤nker Existenzquantor fÃ¼r genau ein Individuum</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Restricted Uniqueness Quantifier\index{uniqueness quantifier, restricted}</LATEX>
-            <LATEX language="de">Eingeschränkter Existenz für genau ein Individuum\index{Existenzquantor!eingeschränkter für ein Individuum}</LATEX>
+            <LATEX language="de">EingeschrÃ¤nkter Existenz fÃ¼r genau ein Individuum\index{Existenzquantor!eingeschrÃ¤nkter fÃ¼r ein Individuum}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -2981,7 +2981,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird nun ein gesonderter Quantor eingeführt.
+                FÃ¼r die Existenz genau eines Individuums mit einer bestimmten Eigenschaft wird nun ein gesonderter Quantor eingefÃ¼hrt.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3035,8 +3035,8 @@
             <LATEX language="de">
               <![CDATA[
                 \begin{rul}[Termdefinition durch Formel]\hypertarget{rule:termdef}{}
-                Falls die Formel $\exists! x \ \alpha(x)$ gilt, dann kann die Termsyntax durch $D(x, \alpha(x))$ erweitert werden. Die Formel $alpha(x)$ möge die Variable $y$ nicht enthalten und $\beta(y)$ sei eine Formel, welche die Variable $x$ nicht enthält. Dann wird durch $\beta(D(x, \alpha(x)))$ eine
-                Formel definiert durch $\beta(y) \land \exists! x \ (\alpha(x) \land x = y)$. Auch in der abkürzenden Schreibweise gilt die Subjektvariable $x$ als gebunden, die Subjektvariable $y$ ist mit den obigen Einschränkungen frei wählbar und wird in der Abkürzung nicht weiter beachtet. Veränderungen von $\alpha$ in eine andere Formel $\alpha'$, die eventuell erforderlich sind, damit keine Variablenkollisionen mit Variablen aus $\beta$ entstehen, müssen jedoch auch in der Abkürzung durchgeführt werden. Alle Termbildungsregeln werden entsprechend erweitert. Der Ausdruck ist auch ersetzbar durch $\exists! y \ (\beta(y) \land \alpha(y)$ oder durch $\beta(y) \land \alpha(y)$.
+                Falls die Formel $\exists! x \ \alpha(x)$ gilt, dann kann die Termsyntax durch $D(x, \alpha(x))$ erweitert werden. Die Formel $alpha(x)$ mÃ¶ge die Variable $y$ nicht enthalten und $\beta(y)$ sei eine Formel, welche die Variable $x$ nicht enthÃ¤lt. Dann wird durch $\beta(D(x, \alpha(x)))$ eine
+                Formel definiert durch $\beta(y) \land \exists! x \ (\alpha(x) \land x = y)$. Auch in der abkÃ¼rzenden Schreibweise gilt die Subjektvariable $x$ als gebunden, die Subjektvariable $y$ ist mit den obigen EinschrÃ¤nkungen frei wÃ¤hlbar und wird in der AbkÃ¼rzung nicht weiter beachtet. VerÃ¤nderungen von $\alpha$ in eine andere Formel $\alpha'$, die eventuell erforderlich sind, damit keine Variablenkollisionen mit Variablen aus $\beta$ entstehen, mÃ¼ssen jedoch auch in der AbkÃ¼rzung durchgefÃ¼hrt werden. Alle Termbildungsregeln werden entsprechend erweitert. Der Ausdruck ist auch ersetzbar durch $\exists! y \ (\beta(y) \land \alpha(y)$ oder durch $\beta(y) \land \alpha(y)$.
                 \end{rul}
               ]]>
             </LATEX>
@@ -3074,13 +3074,13 @@
     <ITEM label="hilback">
       <LATEX language="en">
         <![CDATA[
-           \emph{D. Hilbert, W. Ackermann}, Grundzüge der theoretischen Logik, 2nd ed., Berlin: Springer, 1938. English version: Principles of Mathematical Logic, Chelsea, New York 1950, ed. by R.~E.~Luce.
+           \emph{D. Hilbert, W. Ackermann}, GrundzÃ¼ge der theoretischen Logik, 2nd ed., Berlin: Springer, 1938. English version: Principles of Mathematical Logic, Chelsea, New York 1950, ed. by R.~E.~Luce.
            See also \url{http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert.html}
         ]]>
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          \emph{D. Hilbert, W. Ackermann}, Grundzüge der theoretischen Logik, 2. Ed., Springer, Berlin 1938. Siehe auch \url{http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert.html}
+          \emph{D. Hilbert, W. Ackermann}, GrundzÃ¼ge der theoretischen Logik, 2. Ed., Springer, Berlin 1938. Siehe auch \url{http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert.html}
         ]]>
       </LATEX>
     </ITEM>
@@ -3092,7 +3092,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          \emph{P.S. Novikov}, Grundzüge der mathematischen Logik, VEB Deutscher Verlag der Wissenschaften, Berlin 1973
+          \emph{P.S. Novikov}, GrundzÃ¼ge der mathematischen Logik, VEB Deutscher Verlag der Wissenschaften, Berlin 1973
         ]]>
       </LATEX>
     </ITEM>
@@ -3111,12 +3111,12 @@
     <ITEM label="guenter">
       <LATEX language="en">
         <![CDATA[
-           \emph{V.~Günther}, Lecture {\glqq Mathematik und Logik\grqq}, given at the University of Hamburg, 1994/1995.
+           \emph{V.~GÃ¼nther}, Lecture {\glqq Mathematik und Logik\grqq}, given at the University of Hamburg, 1994/1995.
         ]]>
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          \emph{V.~Günther}, Vorlesung {\glqq Mathematik und Logik\grqq}, gehalten an der Universität Hamburg, Wintersemester 1994/1995
+          \emph{V.~GÃ¼nther}, Vorlesung {\glqq Mathematik und Logik\grqq}, gehalten an der UniversitÃ¤t Hamburg, Wintersemester 1994/1995
         ]]>
       </LATEX>
     </ITEM>
