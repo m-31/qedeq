@@ -22,7 +22,6 @@ import org.qedeq.base.io.TextInput;
 /**
  * Remember TextInput positions.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class MementoTextInput {
@@ -141,6 +140,18 @@ public class MementoTextInput {
      */
     public String getLine() {
         return input.getLine();
+    }
+
+    /**
+     * Decrements the reading position by one and reads a single character.
+     * If no characters are left, <code>-1</code> is returned.
+     * Otherwise a cast to <code>char</code> gives the character read.
+     *
+     * @return  Character read, if there are no more chars
+     *          <code>-1</code> is returned.
+     */
+    public int readInverse() {
+        return input.readInverse();
     }
 
 }
