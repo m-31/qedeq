@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_00/xml/qedeq.xsd">
@@ -115,7 +115,7 @@
           So only the combination of lively mathematical texts with absolutely reliable formal background develops the full potential of mathematical knowledge.
 
           \par
-          I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their support and patience.
+          I am deeply grateful to my wife \emph{Gesine~DrÃ¤ger} and our son \emph{Lennart} for their support and patience.
           \par
           \vspace*{1cm} Hamburg, August 2005 \\
           \hspace*{\fill} Michael Meyling
@@ -167,7 +167,7 @@
       <TITLE>
         <LATEX>
           <![CDATA[
-            Gödel's Incompleteness Theorem
+            GÃ¶del's Incompleteness Theorem
           ]]>
         </LATEX>
       </TITLE>
@@ -177,7 +177,7 @@
             A consistent and complete axiomatization of mathematics is impossible. If an recursive axiomatizable theory is sufficiently strong and consistent it will have undecidable sentences.
             
             \par
-            So there is clearly no hope for a complete formalization of mathematics? In a certain sense this is false! The proof of Gödel's incompleteness theorem could be formulated within a formal language too. One can prove, within this system, that a similar theory\footnote{So the formal system analyzes a theory similar to itself} is incomplete. Because even incompleteness can be proved within a formal system one could propose that the complete world of mathematics is formalizable.
+            So there is clearly no hope for a complete formalization of mathematics? In a certain sense this is false! The proof of GÃ¶del's incompleteness theorem could be formulated within a formal language too. One can prove, within this system, that a similar theory\footnote{So the formal system analyzes a theory similar to itself} is incomplete. Because even incompleteness can be proved within a formal system one could propose that the complete world of mathematics is formalizable.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -270,9 +270,9 @@
           <TEXT>
             <LATEX>
               <![CDATA[
-                In \textbf{Hilbert~II} a formal language is used which enables us to describe most domains of mathematics. It is a first order predicate calculus based on the text \emph{Elements of Mathematical Logic} from P.~S.~Novikov. The logical axioms and basic rules originate from the book \emph{Principles of Mathematical Logic (Grundzüge der theoretischen Logik)} (1928) by D.~Hilbert and W.~Ackermann.
+                In \textbf{Hilbert~II} a formal language is used which enables us to describe most domains of mathematics. It is a first order predicate calculus based on the text \emph{Elements of Mathematical Logic} from P.~S.~Novikov. The logical axioms and basic rules originate from the book \emph{Principles of Mathematical Logic (GrundzÃ¼ge der theoretischen Logik)} (1928) by D.~Hilbert and W.~Ackermann.
                 \par
-                Beside logical ones the only axioms in \textbf{Hilbert II} are those of axiomatic set theory. As usual for mathematics the axioms of all other theories could be expressed as simple predicate constant definitions. The set theoretic axiom system used here is the extended form of Neumann-Bernays-Gödel (extended NBG, also called Morse-Kelley), which fits the needs of the working mathematician\index{set theory}.
+                Beside logical ones the only axioms in \textbf{Hilbert II} are those of axiomatic set theory. As usual for mathematics the axioms of all other theories could be expressed as simple predicate constant definitions. The set theoretic axiom system used here is the extended form of Neumann-Bernays-GÃ¶del (extended NBG, also called Morse-Kelley), which fits the needs of the working mathematician\index{set theory}.
               ]]>
             </LATEX>
           </TEXT>

@@ -104,7 +104,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     }
 
     public final void visitEnter(final Qedeq qedeq) {
-        printer.levelPrintln("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
+        printer.levelPrintln("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
         printer.levelPrintln("<QEDEQ");
         printer.levelPrintln("    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
         printer.levelPrintln("    xsi:noNamespaceSchemaLocation=\"http://www.qedeq.org/"
