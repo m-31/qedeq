@@ -140,11 +140,23 @@ public final class DynamicInterpreter {
                 }
             });
     }
-    
+
+    /**
+     * Is the given predicate constant already defined?
+     *
+     * @param   constant    Predicate constant to check for.
+     * @return  Is the given predicate constant already defined?
+     */
     public boolean hasPredicateConstant(final PredicateConstant constant) {
         return null != model.getPredicateConstant(constant);
     }
 
+    /**
+     * Is the given function constant already defined?
+     *
+     * @param   constant    Function constant to check for.
+     * @return  Is the given function constant already defined?
+     */
     public boolean hasFunctionConstant(final FunctionConstant constant) {
         return null != model.getFunctionConstant(constant);
     }
