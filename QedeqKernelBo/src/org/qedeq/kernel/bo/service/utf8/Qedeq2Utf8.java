@@ -13,10 +13,9 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.latex;
+package org.qedeq.kernel.bo.service.utf8;
 
 import java.io.IOException;
-import java.util.Locale;
 
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextInput;
@@ -56,6 +55,8 @@ import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.latex.LatexContentException;
+import org.qedeq.kernel.bo.service.latex.LatexErrorCodes;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.Plugin;
@@ -70,13 +71,10 @@ import org.qedeq.kernel.common.Plugin;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Latex extends ControlVisitor {
+public final class Qedeq2Utf8 extends ControlVisitor {
 
     /** This class. */
-    private static final Class CLASS = Qedeq2Latex.class;
-
-// TODO m31 20100316: check number area for error codes
-// FIXME m31 20100803: add JUnit tests for all error codes
+    private static final Class CLASS = Qedeq2Utf8.class;
 
     /** Output goes here. */
     private final TextOutput printer;
@@ -90,8 +88,8 @@ public final class Qedeq2Latex extends ControlVisitor {
     /** Should additional information be put into LaTeX output? E.g. QEDEQ reference names. */
     private final boolean info;
 
-    /** Transformer to get LaTeX out of {@link Element}s. */
-    private final Element2Latex elementConverter;
+    /** Transformer to get UTF-8 out of {@link Element}s. */
+    private final Element2Utf8 elementConverter;
 
     /** Current chapter number, starting with 0. */
     private int chapterNumber;
@@ -124,7 +122,7 @@ public final class Qedeq2Latex extends ControlVisitor {
      *                      names. That makes it easier to write new documents, because one can
      *                      read the QEDEQ reference names in the written document.
      */
-    Qedeq2Latex(final Plugin plugin, final KernelQedeqBo prop,
+    Qedeq2Utf8(final Plugin plugin, final KernelQedeqBo prop,
             final TextOutput printer, final String language, final String level,
             final boolean info) {
         super(plugin, prop);
@@ -140,155 +138,69 @@ public final class Qedeq2Latex extends ControlVisitor {
             this.level = level;
         }
         this.info = info;
-        this.elementConverter = new Element2Latex((prop.hasLoadedRequiredModules()
+        this.elementConverter = new Element2Utf8((prop.hasLoadedRequiredModules()
             ? prop.getRequiredModules() : null));
     }
 
     public final void visitEnter(final Qedeq qedeq) {
-        printer.println("% -*- TeX:" + language.toUpperCase(Locale.US) + " -*-");
-        printer.println("%%% ====================================================================");
-        printer.println("%%% @LaTeX-file    " + printer.getName());
-        printer.println("%%% Generated from " + getQedeqBo().getModuleAddress());
-        printer.println("%%% Generated at   " + DateUtility.getTimestamp());
-        printer.println("%%% ====================================================================");
+        printer.println("====================================================================");
+        printer.println("UTF-8-file     " + printer.getName());
+        printer.println("Generated from " + getQedeqBo().getModuleAddress());
+        printer.println("Generated at   " + DateUtility.getTimestamp());
+        printer.println("====================================================================");
         printer.println();
-        printer.println(
-            "%%% Permission is granted to copy, distribute and/or modify this document");
-        printer.println("%%% under the terms of the GNU Free Documentation License, Version 1.2");
-        printer.println("%%% or any later version published by the Free Software Foundation;");
-        printer.println(
-            "%%% with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.");
-        printer.println();
-        printer.println("\\documentclass[a4paper,german,10pt,twoside]{book}");
-        if ("de".equals(language)) {
-            printer.println("\\usepackage[german]{babel}");
-        } else {
-            if (!"en".equals(language)) {
-                printer.println("%%% TODO unknown language: " + language);
-            }
-            printer.println("\\usepackage[english]{babel}");
-        }
-        printer.println("\\usepackage{makeidx}");
-        printer.println("\\usepackage{amsmath,amsthm,amssymb}");
-        printer.println("\\usepackage{color}");
-        printer.println("\\usepackage[bookmarks,bookmarksnumbered,bookmarksopen,");
-        printer.println("   colorlinks,linkcolor=webgreen,pagebackref]{hyperref}");
-        printer.println("\\definecolor{webgreen}{rgb}{0,.5,0}");
-        printer.println("\\usepackage{graphicx}");
-        printer.println("\\usepackage{xr}");
-        printer.println("\\usepackage{epsfig,longtable}");
-        printer.println("\\usepackage{tabularx}");
-        printer.println();
-        if ("de".equals(language)) {
-// TODO m31 20100313: validate different counter types
-//            printer.println("\\newtheorem{thm}{Theorem}[chapter]");
-            printer.println("\\newtheorem{thm}{Theorem}");
-            printer.println("\\newtheorem{cor}[thm]{Korollar}");
-            printer.println("\\newtheorem{lem}[thm]{Lemma}");
-            printer.println("\\newtheorem{prop}[thm]{Proposition}");
-            printer.println("\\newtheorem{ax}{Axiom}");
-            printer.println("\\newtheorem{rul}{Regel}");
-            printer.println();
-            printer.println("\\theoremstyle{definition}");
-            printer.println("\\newtheorem{defn}{Definition}");
-            printer.println("\\newtheorem{idefn}[defn]{Initiale Definition}");
-            printer.println();
-            printer.println("\\theoremstyle{remark}");
-            printer.println("\\newtheorem{rem}[thm]{Bemerkung}");
-            printer.println("\\newtheorem*{notation}{Notation}");
-        } else {
-            if (!"en".equals(language)) {
-                printer.println("%%% TODO unknown language: " + language);
-            }
-// TODO m31 20100313: validate different counter types
-//            printer.println("\\newtheorem{thm}{Theorem}[chapter]");
-            printer.println("\\newtheorem{thm}{Theorem}");
-            printer.println("\\newtheorem{cor}[thm]{Corollary}");
-            printer.println("\\newtheorem{lem}[thm]{Lemma}");
-            printer.println("\\newtheorem{prop}[thm]{Proposition}");
-            printer.println("\\newtheorem{ax}{Axiom}");
-            printer.println("\\newtheorem{rul}{Rule}");
-            printer.println();
-            printer.println("\\theoremstyle{definition}");
-            printer.println("\\newtheorem{defn}{Definition}");
-            printer.println("\\newtheorem{idefn}[defn]{Initial Definition}");
-            printer.println();
-            printer.println("\\theoremstyle{remark}");
-            printer.println("\\newtheorem{rem}[thm]{Remark}");
-            printer.println("\\newtheorem*{notation}{Notation}");
-        }
-        printer.println();
-        printer.println("\\addtolength{\\textheight}{7\\baselineskip}");
-        printer.println("\\addtolength{\\topmargin}{-5\\baselineskip}");
-        printer.println();
-        printer.println("\\setlength{\\parindent}{0pt}");
-        printer.println();
-        printer.println("\\frenchspacing \\sloppy");
-        printer.println();
-        printer.println("\\makeindex");
-        printer.println();
+        printer.println("Permission is granted to copy, distribute and/or modify this document");
+        printer.println("under the terms of the GNU Free Documentation License, Version 1.2");
+        printer.println("or any later version published by the Free Software Foundation;");
+        printer.println("with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.");
         printer.println();
     }
 
     public final void visitLeave(final Qedeq qedeq) {
-        printer.println("\\addcontentsline{toc}{chapter}{\\indexname} \\printindex");
-        printer.println();
-        printer.println("\\end{document}");
         printer.println();
     }
 
     public void visitEnter(final Header header) {
         final LatexList tit = header.getTitle();
-        printer.print("\\title{");
-        printer.print(getLatexListEntry("getTitle()", tit));
-        printer.println("}");
-        printer.println("\\author{");
+        underlineBig(getLatexListEntry("getTitle()", tit));
+        printer.println();
         final AuthorList authors = getQedeqBo().getQedeq().getHeader().getAuthorList();
         final StringBuffer authorList = new StringBuffer();
         for (int i = 0; i < authors.size(); i++) {
             if (i > 0) {
-                authorList.append(", ");
+                authorList.append("    \n");
                 printer.println(", ");
             }
             final Author author = authors.get(i);
             final String name = author.getName().getLatex().trim();
             printer.print(name);
-            authorList.append(name);
+            authorList.append("    " + name);
             String email = author.getEmail();
             if (email != null && email.trim().length() > 0) {
-                authorList.append(" \\href{mailto:" + email + "}{" + email + "}");
+                authorList.append(" <" + email + ">");
             }
         }
         printer.println();
-        printer.println("}");
-        printer.println();
-        printer.println("\\begin{document}");
-        printer.println();
-        printer.println("\\maketitle");
-        printer.println();
-        printer.println("\\setlength{\\parskip}{5pt plus 2pt minus 1pt}");
-        printer.println("\\mbox{}");
-        printer.println("\\vfill");
         printer.println();
         final String url = getQedeqBo().getUrl();
         if (url != null && url.length() > 0) {
-            printer.println("\\par");
+            printer.println();
             if ("de".equals(language)) {
-                printer.println("Die Quelle f{\"ur} dieses Dokument ist hier zu finden:");
+                printer.println("Die Quelle f\u00FC dieses Dokument ist hier zu finden:");
             } else {
                 if (!"en".equals(language)) {
                     printer.println("%%% TODO unknown language: " + language);
                 }
                 printer.println("The source for this document can be found here:");
             }
-            printer.println("\\par");
-            printer.println("\\url{" + url + "}");
+            printer.println();
+            printer.println(url);
             printer.println();
         }
         {
-            printer.println("\\par");
+            printer.println();
             if ("de".equals(language)) {
-                printer.println("Die vorliegende Publikation ist urheberrechtlich gesch{\"u}tzt.");
+                printer.println("Die vorliegende Publikation ist urheberrechtlich gesch\u00FCtzt.");
             } else {
                 if (!"en".equals(language)) {
                     printer.println("%%% TODO unknown language: " + language);
@@ -298,12 +210,12 @@ public final class Qedeq2Latex extends ControlVisitor {
         }
         final String email = header.getEmail();
         if (email != null && email.length() > 0) {
-            final String emailUrl = "\\href{mailto:" + email + "}{" + email + "}";
-            printer.println("\\par");
+            printer.println();
+            printer.println();
             if ("de".equals(language)) {
                 printer.println("Bei Fragen, Anregungen oder Bitte um Aufnahme in die Liste der"
-                    + " abh{\"a}ngigen Module schicken Sie bitte eine EMail an die Adresse "
-                    + emailUrl);
+                    + " abh\u00E4ngigen Module schicken Sie bitte eine EMail an die Adresse "
+                    + email);
                 printer.println();
                 printer.println("\\par");
                 printer.println("Die Autoren dieses Dokuments sind:");
@@ -314,18 +226,15 @@ public final class Qedeq2Latex extends ControlVisitor {
                 }
                 printer.println("If you have any questions, suggestions or want to add something"
                     + " to the list of modules that use this one, please send an email to the"
-                    + " address " + emailUrl);
+                    + " address " + email);
                 printer.println();
-                printer.println("\\par");
+                printer.println();
                 printer.println("The authors of this document are:");
                 printer.println(authorList);
             }
             printer.println();
         }
-        printer.println("\\setlength{\\parskip}{0pt}");
-        printer.println("\\tableofcontents");
         printer.println();
-        printer.println("\\setlength{\\parskip}{5pt plus 2pt minus 1pt}");
         printer.println();
     }
 
@@ -349,18 +258,18 @@ public final class Qedeq2Latex extends ControlVisitor {
     }
 
     public void visitEnter(final Chapter chapter) {
-        printer.print("\\chapter");
-        if (chapter.getNoNumber() != null && chapter.getNoNumber().booleanValue()) {
-            printer.print("*");
+        if (chapter.getNoNumber() == null || !chapter.getNoNumber().booleanValue()) {
+            chapterNumber++;    // increase global chapter number
+            if ("de".equals(language)) {
+                printer.println("Chapter " + chapterNumber + " ");
+            } else {
+                printer.println("Kapitel " + chapterNumber + " ");
+            }
+            printer.println();
+            printer.println();
         }
-        printer.print("{");
         printer.print(getLatexListEntry("getTitle()", chapter.getTitle()));
-        final String label = "chapter" + chapterNumber;
-        printer.println("} \\label{" + label + "} \\hypertarget{" + label + "}{}");
-        if (chapter.getNoNumber() != null && chapter.getNoNumber().booleanValue()) {
-            printer.println("\\addcontentsline{toc}{chapter}{"
-                + getLatexListEntry("getTitle()", chapter.getTitle()) + "}");
-        }
+        printer.println();
         printer.println();
         if (chapter.getIntroduction() != null) {
             printer.println(getLatexListEntry("getIntroduction()", chapter.getIntroduction()));
@@ -369,32 +278,29 @@ public final class Qedeq2Latex extends ControlVisitor {
     }
 
     public void visitLeave(final Chapter chapter) {
-        printer.println("%% end of chapter " + getLatexListEntry("getTitle()", chapter.getTitle()));
         printer.println();
-        chapterNumber++;    // increase global chapter number
         sectionNumber = 0;  // reset section number
     }
 
     public void visitLeave(final SectionList list) {
         printer.println();
+        printer.println("__________________________________________________________________________________________________________");
+        printer.println();
+        printer.println();
     }
 
     public void visitEnter(final Section section) {
-/* LATER mime 20070131: use this information?
-        if (section.getNoNumber() != null) {
-           printer.print(" noNumber=\"" + section.getNoNumber().booleanValue() + "\"");
+        if (section.getNoNumber() == null || !section.getNoNumber().booleanValue()) {
+            sectionNumber++;    // increase global chapter number
+            printer.print(chapterNumber + "." + sectionNumber);
         }
-*/
-        printer.print("\\section{");
         printer.print(getLatexListEntry("getTitle()", section.getTitle()));
-        final String label = "chapter" + chapterNumber + "_section" + sectionNumber;
-        printer.println("} \\label{" + label + "} \\hypertarget{" + label + "}{}");
         printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
         printer.println();
     }
 
     public void visitLeave(final Section section) {
-        sectionNumber++;    // increase global section number
+        printer.println();
     }
 
     public void visitEnter(final Subsection subsection) {
@@ -636,7 +542,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                 final Import imp = imports.get(i);
                 printer.print("\\bibitem{" + imp.getLabel() + "} ");
                 final Specification spec = imp.getSpecification();
-                printer.print(getLatex(spec.getName()));
+                printer.print(spec.getName());
                 if (spec.getLocationList() != null && spec.getLocationList().size() > 0
                         && spec.getLocationList().get(0).getLocation().length() > 0) {
                     printer.print(" ");
@@ -664,7 +570,7 @@ public final class Qedeq2Latex extends ControlVisitor {
             for (int i = 0; i < usedby.size(); i++) {
                 final Specification spec = usedby.get(i);
                 printer.print("\\bibitem{" + spec.getName() + "} ");
-                printer.print(getLatex(spec.getName()));
+                printer.print(spec.getName());
                 final String url = getUrl(getQedeqBo().getModuleAddress(), spec);
                 if (url != null && url.length() > 0) {
                     printer.print(" ");
@@ -738,7 +644,7 @@ public final class Qedeq2Latex extends ControlVisitor {
      * @return  LaTeX form of element.
      */
     private String getLatex(final Element element) {
-        return elementConverter.getLatex(element);
+        return getLatex(elementConverter.getLatex(element));
     }
 
     /**
@@ -789,26 +695,6 @@ public final class Qedeq2Latex extends ControlVisitor {
                 subContext = "";
             }
         }
-    }
-
-    /**
-     * Get really LaTeX. Does some simple character replacements for umlauts. Also transforms
-     * <code>\qref{key}</code> into LaTeX.
-     *
-     * @param   latex   Unescaped text.
-     * @return  Really LaTeX.
-     */
-    private String getLatex(final Latex latex) {
-        if (latex == null || latex.getLatex() == null) {
-            return "";
-        }
-        StringBuffer result = new StringBuffer(latex.getLatex());
-
-        // LATER mime 20080324: check if LaTeX is correct and no forbidden tags are used
-
-        transformQref(result);
-
-        return escapeUmlauts(result.toString());
     }
 
     /**
@@ -1063,56 +949,45 @@ public final class Qedeq2Latex extends ControlVisitor {
     }
 
     /**
-     * Get LaTeX from string. Escapes common characters.
+     * Get String from LaTeX.
      *
      * @param   text   Unescaped text.
-     * @return  LaTeX.
+     * @return  String.
      */
-    private String getLatex(final String text) {
-        final StringBuffer buffer = new StringBuffer(text);
-        StringUtility.replace(buffer, "\\", "\\textbackslash");
-        StringUtility.replace(buffer, "$", "\\$");
-        StringUtility.replace(buffer, "&", "\\&");
-        StringUtility.replace(buffer, "%", "\\%");
-        StringUtility.replace(buffer, "#", "\\#");
-        StringUtility.replace(buffer, "_", "\\_");
-        StringUtility.replace(buffer, "{", "\\{");
-        StringUtility.replace(buffer, "}", "\\}");
-        StringUtility.replace(buffer, "~", "\\textasciitilde");
-        StringUtility.replace(buffer, "^", "\\textasciicircum");
-        StringUtility.replace(buffer, "<", "\\textless");
-        StringUtility.replace(buffer, ">", "\\textgreater");
-        return escapeUmlauts(buffer.toString());
-    }
-
-    /**
-     * Get really LaTeX. Does some simple character replacements for umlauts.
-     * Also gets rid of leading spaces if they are equal among the lines.
-     * LATER mime 20050205: filter more than German umlauts
-     *
-     * @param   nearlyLatex   Unescaped text.
-     * @return  Really LaTeX.
-     */
-    private String escapeUmlauts(final String nearlyLatex) {
-        if (nearlyLatex == null) {
+    private String getLatex(final Latex latex) {
+        if (latex == null) {
             return "";
         }
-        final StringBuffer buffer = new StringBuffer(nearlyLatex);
-//        System.out.println("before");
-//        System.out.println(buffer);
-//        System.out.println();
-//        System.out.println("after");
-        StringUtility.deleteLineLeadingWhitespace(buffer);
-//        System.out.println(buffer);
-//        System.out.println("*******************************************************************");
-        StringUtility.replace(buffer, "\u00fc", "{\\\"u}");
-        StringUtility.replace(buffer, "\u00f6", "{\\\"o}");
-        StringUtility.replace(buffer, "\u00e4", "{\\\"a}");
-        StringUtility.replace(buffer, "\u00dc", "{\\\"U}");
-        StringUtility.replace(buffer, "\u00d6", "{\\\"O}");
-        StringUtility.replace(buffer, "\u00c4", "{\\\"A}");
-        StringUtility.replace(buffer, "\u00df", "{\\ss}");
-        return buffer.toString().trim();
+        return getLatex(latex.getLatex());
+    }
+
+     /**
+     * Get String from LaTeX.
+     *
+     * @param   text   Unescaped text.
+     * @return  String.
+     */
+    private String getLatex(final String latex) {
+        if (latex == null) {
+            return "";
+        }
+        return Latex2Utf8Parser.transform(latex.trim());
+    }
+
+    private void underlineBig(final String text) {
+        printer.println(text);
+        for (int i = 0; i  < text.length(); i++) {
+            printer.print("=");
+        }
+        printer.println();
+    }
+
+    private void underline(final String text) {
+        printer.println(text);
+        for (int i = 0; i  < text.length(); i++) {
+            printer.print("-");
+        }
+        printer.println();
     }
 
 }

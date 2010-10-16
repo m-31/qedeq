@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.latex;
+package org.qedeq.kernel.bo.service.utf8;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -40,15 +40,15 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2LatexPlugin implements PluginBo {
+public final class Qedeq2Utf8Plugin implements PluginBo {
 
     /** This class. */
-    public static final Class CLASS = Qedeq2LatexPlugin.class;
+    public static final Class CLASS = Qedeq2Utf8Plugin.class;
 
     /**
      * Constructor.
      */
-    public Qedeq2LatexPlugin() {
+    public Qedeq2Utf8Plugin() {
     }
 
     public String getPluginId() {
@@ -56,11 +56,11 @@ public final class Qedeq2LatexPlugin implements PluginBo {
     }
 
     public String getPluginName() {
-        return "Create LaTeX";
+        return "Create UTF-8";
     }
 
     public String getPluginDescription() {
-        return "transforms QEDEQ module into LaTeX file";
+        return "transforms QEDEQ module into UTF-8 file";
     }
 
     public Object executePlugin(final KernelQedeqBo qedeq, final Map parameters) {
@@ -71,19 +71,19 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         }
         final boolean info = "true".equalsIgnoreCase(infoString);
         try {
-            QedeqLog.getInstance().logRequest("Generate LaTeX from \""
+            QedeqLog.getInstance().logRequest("Generate UTF-8 from \""
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
             final String[] languages = getSupportedLanguages(qedeq);
             for (int j = 0; j < languages.length; j++) {
-                final String result = generateLatex(qedeq, languages[j], "1", info).toString();
+                final String result = generateUtf8(qedeq, languages[j], "1", info).toString();
                 if (languages[j] != null) {
                     QedeqLog.getInstance().logSuccessfulReply(
-                        "LaTeX for language \"" + languages[j]
+                        "UTF-8 for language \"" + languages[j]
                         + "\" was generated from \""
                         + IoUtility.easyUrl(qedeq.getUrl()) + "\" into \"" + result + "\"");
                 } else {
                     QedeqLog.getInstance().logSuccessfulReply(
-                        "LaTeX for default language "
+                        "UTF-8 for default language "
                         + "was generated from \""
                         + IoUtility.easyUrl(qedeq.getUrl()) + "\" into \"" + result + "\"");
                 }
@@ -121,7 +121,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public File generateLatex(final KernelQedeqBo prop, final String language,
+    public File generateUtf8(final KernelQedeqBo prop, final String language,
             final String level, final boolean info) throws SourceFileExceptionList, IOException {
 
         // first we try to get more information about required modules and their predicates..
@@ -130,23 +130,23 @@ public final class Qedeq2LatexPlugin implements PluginBo {
             KernelContext.getInstance().checkModule(prop.getModuleAddress());
         } catch (Exception e) {
             // we continue and ignore external predicates
-            Trace.trace(CLASS, "generateLatex(KernelQedeqBo, String, String)", e);
+            Trace.trace(CLASS, "generateUtf8(KernelQedeqBo, String, String)", e);
         }
-        String tex = prop.getModuleAddress().getFileName();
-        if (tex.toLowerCase(Locale.US).endsWith(".xml")) {
-            tex = tex.substring(0, tex.length() - 4);
+        String txt = prop.getModuleAddress().getFileName();
+        if (txt.toLowerCase(Locale.US).endsWith(".xml")) {
+            txt = txt.substring(0, txt.length() - 4);
         }
         if (language != null && language.length() > 0) {
-            tex = tex + "_" + language;
+            txt = txt + "_" + language;
         }
         // the destination is the configured destination directory plus the (relative)
         // localized file (or path) name
         File destination = new File(KernelContext.getInstance().getConfig()
-            .getGenerationDirectory(), tex + ".tex").getCanonicalFile();
+            .getGenerationDirectory(), txt + ".txt").getCanonicalFile();
         TextOutput printer = null;
         try {
-            printer = new TextOutput(prop.getName(), new FileOutputStream(destination));
-            final Qedeq2Latex converter = new Qedeq2Latex(this, prop, printer, language, level, info);
+            printer = new TextOutput(prop.getName(), new FileOutputStream(destination), "UTF-8");
+            final Qedeq2Utf8 converter = new Qedeq2Utf8(this, prop, printer, language, level, info);
             converter.traverse();
             prop.addPluginErrors(this, converter.getErrorList(), converter.getWarningList());
         } finally {
@@ -157,11 +157,6 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         }
         if (printer.checkError()) {
             throw printer.getError();
-        }
-        try {
-            QedeqBoDuplicateLanguageChecker.check(this, prop);
-        } catch (SourceFileExceptionList warnings) {
-            prop.addPluginErrors(this, null, warnings);
         }
         return destination.getCanonicalFile();
     }
@@ -198,7 +193,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
     public InputStream createLatex(final KernelQedeqBo prop, final String language, final String level,
             final boolean info)
             throws SourceFileExceptionList, IOException {
-        return new FileInputStream(generateLatex(prop, language, level, info));
+        return new FileInputStream(generateUtf8(prop, language, level, info));
     }
 
 }

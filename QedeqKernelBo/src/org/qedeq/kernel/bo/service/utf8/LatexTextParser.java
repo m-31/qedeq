@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.latex;
+package org.qedeq.kernel.bo.service.utf8;
 
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;

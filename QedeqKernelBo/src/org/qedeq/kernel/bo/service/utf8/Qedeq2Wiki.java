@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.latex;
+package org.qedeq.kernel.bo.service.utf8;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -45,6 +45,7 @@ import org.qedeq.kernel.base.module.SubsectionList;
 import org.qedeq.kernel.base.module.SubsectionType;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.service.latex.Element2Latex;
 
 
 /**
