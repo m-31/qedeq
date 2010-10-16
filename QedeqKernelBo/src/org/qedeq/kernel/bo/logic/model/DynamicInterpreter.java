@@ -509,4 +509,10 @@ public final class DynamicInterpreter {
         return operator;
     }
 
+    public void clearVariables() {
+        subjectVariableInterpreter.clear();
+        predicateVariableInterpreter.clear();
+        functionVariableInterpreter.clear();
+    }
+
 }

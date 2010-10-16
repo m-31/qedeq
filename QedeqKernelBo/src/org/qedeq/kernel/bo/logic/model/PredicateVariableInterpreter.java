@@ -108,5 +108,10 @@ public final class PredicateVariableInterpreter {
         return buffer.toString();
     }
 
+    public void clear() {
+        predicateVariables.clear();
+        predicateVariableCounters.clear();
+    }
+
 
 }
