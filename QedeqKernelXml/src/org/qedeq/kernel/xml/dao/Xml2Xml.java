@@ -107,7 +107,7 @@ public final class Xml2Xml implements Plugin {
             }
             IoUtility.createNecessaryDirectories(to);
             final OutputStream outputStream = new FileOutputStream(to);
-            printer = new TextOutput(to.getName(), outputStream);
+            printer = new TextOutput(to.getName(), outputStream, "UTF-8");
             Qedeq2Xml.print(new Xml2Xml(), prop, printer);
             return to.getCanonicalPath();
         } finally {
