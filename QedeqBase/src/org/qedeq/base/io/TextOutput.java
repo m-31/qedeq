@@ -59,7 +59,7 @@ public class TextOutput {
         try {
             this.output = new PrintStream(output, false, encoding);
         } catch (UnsupportedEncodingException e) {
-            throw new RuntimeException(e);  // should never occur
+            throw new RuntimeException(e);
         }
     }
 
