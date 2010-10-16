@@ -28,6 +28,8 @@ import org.qedeq.kernel.common.ModuleContext;
  */
 public class DynamicInterpreterTest extends QedeqTestCase {
 
+    private DynamicInterpreter interpreter;
+
     /**
      * Constructor.
      *
@@ -35,6 +37,16 @@ public class DynamicInterpreterTest extends QedeqTestCase {
      */
     public DynamicInterpreterTest() {
         super();
+    }
+    
+    public void setUp() throws Exception {
+        super.setUp();
+        interpreter = new DynamicInterpreter(new DynamicModel());
+    }
+
+    public void tearDown() throws Exception {
+        interpreter = null;
+        super.tearDown();
     }
 
     /**
@@ -45,9 +57,8 @@ public class DynamicInterpreterTest extends QedeqTestCase {
      * @return  Is this formula a tautology according to our tests.
      * @throws  HeuristicException  Evaluation failed.
      */
-    public static boolean isTautology(final Element formula)
+    public boolean isTautology(final Element formula)
             throws HeuristicException {
-        DynamicInterpreter interpreter = new DynamicInterpreter(new DynamicModel());
         final ModuleContext context = new ModuleContext(new DefaultModuleAddress());
         boolean result = true;
         do {
@@ -1713,6 +1724,77 @@ public class DynamicInterpreterTest extends QedeqTestCase {
 ////      System.out.println(ele.toString());
 //      assertTrue(isTautology(ele));
 //  }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     A v -A
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology50() throws Exception {
+        final Element ele = TestParser.createElement(
+        "<OR>\n"
+        + "  <PREDVAR id=\"A\"/>\n"
+        + "  <NOT>\n"
+        + "    <PREDVAR id=\"A\"/>\n"
+        + "  </NOT>\n"
+        +"</OR>\n");
+        //System.out.println(ele.toString());
+        assertTrue(isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     TRUE <-> (A v -A)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology51() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<EQUI>\n"
+            + "  <PREDCON id=\"TRUE\"/>\n"
+            + "  <OR>\n"
+            + "    <PREDVAR id=\"A\"/>\n"
+            + "    <NOT>\n"
+            + "      <PREDVAR id=\"A\"/>\n"
+            + "    </NOT>\n"
+            + "  </OR>\n"
+            + "</EQUI>\n");
+        //System.out.println(ele.toString());
+        assertTrue(isTautology(ele));
+    }
+
+    /**
+     * Function: isTautology(Element)
+     * Type:     positive
+     * Data:     \forall x (\phi(x) -> A) -> (\forall x (\phi(x)) -> A)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testTautology52() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<OR>\n"
+            + "  <PREDVAR id=\"A\"/>\n"
+            + "  <NOT>\n"
+            + "    <PREDVAR id=\"A\"/>\n"
+            + "  </NOT>\n"
+            + "</OR>\n");
+        PredicateConstant t = new PredicateConstant("TRUE", 0);
+        interpreter.addPredicateConstant(t, null, ele.getList());
+        final Element formula = TestParser.createElement(
+            "<EQUI>\n"
+            + "  <PREDCON id=\"TRUE\"/>\n"
+            + "  <OR>\n"
+            + "    <PREDVAR id=\"A\"/>\n"
+            + "    <NOT>\n"
+            + "      <PREDVAR id=\"A\"/>\n"
+            + "    </NOT>\n"
+            + "  </OR>\n"
+            + "</EQUI>\n");
+        assertTrue(isTautology(formula));
+    }
 
 
 }
