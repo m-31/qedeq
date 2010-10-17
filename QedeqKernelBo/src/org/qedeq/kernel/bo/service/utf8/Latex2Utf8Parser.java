@@ -109,7 +109,9 @@ public final class Latex2Utf8Parser {
             boolean whitespace = false;
             while (!eof()) {
                 String token = readToken();
-                token = token.trim();
+                if (!token.startsWith("\\")) {
+                    token = token.trim();
+                }
                 if (token.length() == 0) {
                     whitespace = true;
                     continue;
@@ -168,6 +170,8 @@ public final class Latex2Utf8Parser {
                     input.readInverse();
                     final String content = readCurlyBraceContents();
                     parseAndPrint(content);
+                } else if ("\\index".equals(token)) {
+                    // ignore
                 } else {
                     print(token);
                 }
@@ -282,6 +286,11 @@ public final class Latex2Utf8Parser {
                         }
                         break;
                     case '\\':
+                        if (' ' == getChar()) {
+                            token.append("\\");
+                            token.append((char) readChar());
+                            break;
+                        }
                         final String t = readBackslashToken();
                         token.append(t);
                         if ('_' == getChar() || '^' == getChar()) {
@@ -303,6 +312,7 @@ public final class Latex2Utf8Parser {
                 break;
             } while (!eof());
             Trace.param(CLASS, this, method, "Read token", token);
+            System.out.println(token);
             return (token != null ? token.toString() : null);
         } finally {
             Trace.end(CLASS, this, method);
@@ -374,14 +384,13 @@ public final class Latex2Utf8Parser {
      * @param   token    Print this for UTF-8.
      */
     private final void print(final String token) {
-        System.out.println(token);
         if (token.equals("\\par")) {
             output.append("\n\n");
         } else if (token.equals("\\in")) {
             output.append("\u2208");
         } else if (token.equals("\\forall")) {
             output.append("\u2200");
-        } else if (token.equals("\\exists ")) {
+        } else if (token.equals("\\exists")) {
             output.append("\u2203");
         } else if (token.equals("\\emptyset")) {
             output.append("\u2205 ");
@@ -389,6 +398,26 @@ public final class Latex2Utf8Parser {
             output.append("\u2192 ");
         } else if (token.equals("\\leftrightarrow")) {
             output.append("\u2194 ");
+        } else if (token.equals("\\land")) {
+            output.append("\u22C0");
+        } else if (token.equals("\\lor")) {
+            output.append("\u22C1");
+        } else if (token.equals("\\cap")) {
+            output.append("\u22C2");
+        } else if (token.equals("\\cup")) {
+            output.append("\u22C3");
+        } else if (token.equals("\\in")) {
+            output.append("\u2208");
+        } else if (token.equals("\\notin")) {
+            output.append("\u2209");
+        } else if (token.equals("\\alpha")) {
+            output.append("\u03B1");
+        } else if (token.equals("\\beta")) {
+            output.append("\u03B2");
+        } else if (token.equals("\\phi")) {
+            output.append("\u03C6");
+        } else if (token.equals("\\psi")) {
+            output.append("\u03C8");
         } else if (token.equals("\\{")) {
             output.append("{");
         } else if (token.equals("\\}")) {

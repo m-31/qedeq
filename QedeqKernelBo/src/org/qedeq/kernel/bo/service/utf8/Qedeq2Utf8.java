@@ -301,6 +301,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             printer.print(chapterNumber + "." + sectionNumber + " ");
         }
         printer.print(getLatexListEntry("getTitle()", section.getTitle()));
+        printer.println();
         printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
         printer.println();
     }
