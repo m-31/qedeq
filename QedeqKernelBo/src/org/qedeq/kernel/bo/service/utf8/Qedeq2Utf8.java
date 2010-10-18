@@ -622,9 +622,8 @@ public final class Qedeq2Utf8 extends ControlVisitor {
                 label += ALPHABET.charAt(i % ALPHABET.length());
             }
 //            final String label = (i < ALPHABET.length() ? "" + ALPHABET .charAt(i) : "" + i);
-            printer.println(getLatex(list.getElement(i)) + " (" + label + ") ");
+            printer.println(getLatex(list.getElement(i)) + "     (" + label + ") ");
         }
-        printer.println("\\end{longtable}");
     }
 
     /**
@@ -643,7 +642,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
      * @return  LaTeX form of element.
      */
     private String getLatex(final Element element) {
-        return getLatex("$" + elementConverter.getLatex(element) + "$");
+        return getLatex(elementConverter.getLatex(element));
     }
 
     /**
