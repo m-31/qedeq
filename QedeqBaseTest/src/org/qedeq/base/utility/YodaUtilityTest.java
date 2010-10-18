@@ -25,7 +25,7 @@ import org.qedeq.base.test.QedeqTestCase;
 public class YodaUtilityTest extends QedeqTestCase {
 
     /** Very secret number, which is read by yoda with the help of the force. */
-    private final static int secret = 967123;
+    private static final int secret = 967123;
 
     /** Very secret number, which is changed by yoda with the help of the force. */
     private int changeMe = 815;
@@ -33,7 +33,7 @@ public class YodaUtilityTest extends QedeqTestCase {
     /**
      * Test {@link YodaUtility#getFieldValue(Object, String)}.
      *
-     * @throws Exception
+     * @throws Exception    Something bad happened.
      */
     public void testGetFieldValue() throws Exception {
         assertEquals(new Integer(secret), YodaUtility.getFieldValue(this, "secret"));
@@ -43,17 +43,17 @@ public class YodaUtilityTest extends QedeqTestCase {
     /**
      * Test {@link YodaUtility#getField(Object, String)}.
      *
-     * @throws Exception
+     * @throws Exception    Something bad happened.
      */
     public void testGetField() throws Exception {
-        assertEquals(this.getClass().getDeclaredField("secret"), 
+        assertEquals(this.getClass().getDeclaredField("secret"),
             YodaUtility.getField(this, "secret"));
     }
 
     /**
      * Test {@link YodaUtility#executeMethod(Object, String, Class[], Object[])}.
      *
-     * @throws Exception
+     * @throws Exception    Something bad happened.
      */
     public void testExecuteMethod() throws Exception {
         assertEquals(getOutdir(),  YodaUtility.executeMethod(this, "getOutdir",
@@ -63,7 +63,7 @@ public class YodaUtilityTest extends QedeqTestCase {
     /**
      * Test {@link YodaUtility#existsMethod(Class, String, Class[])}.
      *
-     * @throws Exception
+     * @throws Exception    Something bad happened.
      */
     public void testExistsMethod() throws Exception {
         assertTrue(YodaUtility.existsMethod(this.getClass(), "getOutdir",
@@ -79,7 +79,7 @@ public class YodaUtilityTest extends QedeqTestCase {
     /**
      * Test {@link YodaUtility#getFieldValue(Object, String)}.
      *
-     * @throws Exception
+     * @throws Exception    Something bad happened.
      */
     public void testSetFieldValue() throws Exception {
         try {
@@ -94,5 +94,4 @@ public class YodaUtilityTest extends QedeqTestCase {
         assertEquals(37846, changeMe);;
     }
 
-    
 }
