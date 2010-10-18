@@ -131,9 +131,13 @@ public final class Latex2Utf8Parser {
                         println();
                         mathMode = false;
                     } else if ("quote".equals(kind)) {
+                        // TODO 20101018 m31: add margin?
                         println();
                         parseAndPrint(content);
                         println();
+                    } else {
+                        println();
+                        parseAndPrint(content);
                     }
                 } else if ("$$".equals(token)) {
                     mathMode = true;
@@ -170,7 +174,12 @@ public final class Latex2Utf8Parser {
                     input.readInverse();
                     final String content = readCurlyBraceContents();
                     parseAndPrint(content);
-                } else if ("\\index".equals(token)) {
+                } else if ("\\url".equals(token)) {
+                    final String content = readCurlyBraceContents();
+                    parseAndPrint(content);
+                } else if ("\\index{".equals(token) || "\\label{".equals(token)
+                        || token.equals("\\vspace{") || token.equals("\\hspace{")
+                        || token.equals("\\vspace*{") || token.equals("\\hspace*{")) {
                     // ignore content
                     readCurlyBraceContents();
                 } else {
@@ -195,6 +204,10 @@ public final class Latex2Utf8Parser {
         final StringBuffer buffer = new StringBuffer();
         do {
             final String item = readToken();
+            if (item == null) {
+                System.out.println("not found: " + "\\end{" + kind + "}");
+                break;
+            }
             if ("\\end".equals(item)) {
                 final String curly2 = readCurlyBraceContents();
                 if (kind.equals(curly2)) {
@@ -262,27 +275,27 @@ public final class Latex2Utf8Parser {
                 if (SPECIALCHARACTERS.indexOf(c) >= 0) {
                     switch (c) {
                     case '&':
-                    case '%':
                     case '{':
                     case '}':
                     case '~':
                         token.append((char) readChar());
                         break;
                     case '$':
-                        token.append((char) readChar());
-                        if ('$' == getChar()) {
-                            continue;
-                        }
-                        break;
                     case '\'':
-                        token.append((char) readChar());
-                        if ('\'' == getChar()) {
-                            continue;
-                        }
-                        break;
                     case '`':
                         token.append((char) readChar());
-                        if ('`' == getChar()) {
+                        if (c == getChar()) {
+                            continue;
+                        }
+                        break;
+                    case '%':
+                        token.append((char) readChar());
+                        if (c == getChar()) {
+                            // we must skip till end of line
+                            token.append(readln());
+                            System.out.println("skipping comment:");
+                            System.out.println(token);
+                            token.setLength(0);
                             continue;
                         }
                         break;
@@ -438,6 +451,8 @@ public final class Latex2Utf8Parser {
             output.append("\u201D");
         } else if (token.equals("``") || token.equals("\\glqq")) {
             output.append("\u201E");
+        } else if (token.equals("\\ldots")) {
+            output.append("...");
         } else if (token.equals("\\overline")) {    // TODO 20101018 m31: we assume set complement
             output.append("\u2201");
         } else {
@@ -606,6 +621,23 @@ public final class Latex2Utf8Parser {
      */
     protected final int readChar() {
         return input.readChar();
+    }
+
+    /**
+     * Read until end of line.
+     *
+     * @return  Characters read.
+     */
+    protected final String readln() {
+        StringBuffer result = new StringBuffer();
+        int c;
+        while (-1 != (c = readChar())) {
+            if (c == '\n') {
+                break;
+            }
+            result.append((char) c);
+        }
+        return result.toString();
     }
 
     /**

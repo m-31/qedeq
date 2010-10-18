@@ -91,7 +91,7 @@ public class MementoTextInput {
      * by one.
      *
      * @return  character read, if there are no more chars
-     *          <code>Character.MAX_VALUE</code> is returned
+     *          <code>-1</code> is returned
      */
     public int readChar() {
         return input.read();
