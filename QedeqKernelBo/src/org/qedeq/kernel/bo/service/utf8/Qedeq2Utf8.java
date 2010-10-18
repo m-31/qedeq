@@ -406,38 +406,28 @@ public final class Qedeq2Utf8 extends ControlVisitor {
                 StringUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
             }
         }
+        if (title != null && title.length() > 0) {
+            printer.print(title);
+        } else {
+            printer.print("Definition");
+        }
+        if (info) {
+            printer.print("  [" + id + "]");
+        }
+        printer.println();
         if (definition.getFormula() != null) {
-            if (title != null && title.length() > 0) {
-                printer.print(title);
-            } else {
-                printer.print("Definition");
-            }
-            if (info) {
-                printer.print("  [" + id + "]");
-            }
-            printer.println();
-            printer.println();
             define.append("\\ :\\leftrightarrow \\ ");
             define.append(getLatex(definition.getFormula().getElement()));
-        } else {
-            if (title != null && title.length() > 0) {
-                printer.print(title);
-            } else {
-                printer.print("Definition");
-            }
-            if (info) {
-                printer.print("  [" + id + "]");
-            }
-            printer.println();
-            printer.println();
         }
         define.append("$$");
         // we always save the definition, even if there already exists an entry
         elementConverter.addPredicate(definition);
         Trace.param(CLASS, this, "printPredicateDefinition", "define", define);
         printer.println(getLatex(define.toString()));
-        printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
-        printer.println();
+        if (definition.getDescription() != null) {
+            printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
+            printer.println();
+        }
     }
 
     public void visitEnter(final FunctionDefinition definition) {
@@ -449,31 +439,25 @@ public final class Qedeq2Utf8 extends ControlVisitor {
                 StringUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
             }
         }
+        if (title != null && title.length() > 0) {
+            printer.print(title);
+        } else {
+            printer.print("Definition");
+        }
+        if (info) {
+            printer.print("  [" + id + "]");
+        }
         if (definition.getTerm() != null) {
-            printer.println("\\begin{defn}" + (title != null ? "[" + title + "]" : ""));
-            printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
-            if (info) {
-                printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
-            }
             define.append("\\ := \\ ");
             define.append(getLatex(definition.getTerm().getElement()));
-        } else {
-            printer.println("\\begin{idefn}" + (title != null ? "[" + title + "]" : ""));
-            printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
-            if (info) {
-                printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
-            }
         }
         define.append("$$");
         // we always save the definition, even if there already exists an entry
         elementConverter.addFunction(definition);
         Trace.param(CLASS, this, "printFunctionDefinition", "define", define);
         printer.println(define);
-        printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
-        if (definition.getTerm() != null) {
-            printer.println("\\end{defn}");
-        } else {
-            printer.println("\\end{idefn}");
+        if (definition.getDescription() != null) {
+            printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
         }
     }
 
@@ -481,33 +465,27 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     }
 
     public void visitEnter(final Rule rule) {
-        printer.println("\\begin{rul}" + (title != null ? "[" + title + "]" : ""));
-        printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+        if (title != null && title.length() > 0) {
+            printer.print(title);
+        } else {
+            printer.print("Definition");
+        }
         if (info) {
-            printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
+            printer.print("  [" + id + "]");
         }
-        printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
-        printer.println("\\end{rul}");
-
-// LATER mime 20051210: are these informations equivalent to a formal proof?
-/*
-        if (null != rule.getLinkList()) {
-            printer.println("\\begin{proof}");
-            printer.println("Rule name: " + rule.getName());
-            printer.println();
-            printer.println();
-            for (int i = 0; i < rule.getLinkList().size(); i++) {
-                printer.println(rule.getLinkList().get(i));
-            }
-            printer.println("\\end{proof}");
+        if (rule.getDescription() != null) {
+            printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
         }
-*/
         if (rule.getProofList() != null) {
             for (int i = 0; i < rule.getProofList().size(); i++) {
-                printer.println("\\begin{proof}");
+                if ("de".equals(language)) {
+                    printer.println("Beweis:");
+                } else {
+                    printer.println("Proof:");
+                }
                 printer.println(getLatexListEntry("getProofList().get(" + i + ")", rule.getProofList().get(i)
-                    .getNonFormalProof()));
-                printer.println("\\end{proof}");
+                        .getNonFormalProof()));
+                printer.println("q.e.d.");
             }
         }
     }

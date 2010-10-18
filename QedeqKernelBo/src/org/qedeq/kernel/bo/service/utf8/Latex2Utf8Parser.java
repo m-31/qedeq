@@ -177,9 +177,9 @@ public final class Latex2Utf8Parser {
                 } else if ("\\url".equals(token)) {
                     final String content = readCurlyBraceContents();
                     parseAndPrint(content);
-                } else if ("\\index".equals(token) || "\\label".equals(token)
+                } else if ('{' == getChar() && ("\\index".equals(token) || "\\label".equals(token)
                         || token.equals("\\vspace") || token.equals("\\hspace")
-                        || token.equals("\\vspace*") || token.equals("\\hspace*")) {
+                        || token.equals("\\vspace*") || token.equals("\\hspace*"))) {
                     // ignore content
                     readCurlyBraceContents();
                 } else {
