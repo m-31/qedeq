@@ -171,7 +171,8 @@ public final class Latex2Utf8Parser {
                     final String content = readCurlyBraceContents();
                     parseAndPrint(content);
                 } else if ("\\index".equals(token)) {
-                    // ignore
+                    // ignore content
+                    readCurlyBraceContents();
                 } else {
                     print(token);
                 }
@@ -312,7 +313,7 @@ public final class Latex2Utf8Parser {
                 break;
             } while (!eof());
             Trace.param(CLASS, this, method, "Read token", token);
-            System.out.println(token);
+            System.out.println("< " + token);
             return (token != null ? token.toString() : null);
         } finally {
             Trace.end(CLASS, this, method);
@@ -384,6 +385,7 @@ public final class Latex2Utf8Parser {
      * @param   token    Print this for UTF-8.
      */
     private final void print(final String token) {
+        System.out.println("> " + token);
         if (token.equals("\\par")) {
             output.append("\n\n");
         } else if (token.equals("\\in")) {
@@ -418,6 +420,8 @@ public final class Latex2Utf8Parser {
             output.append("\u03C6");
         } else if (token.equals("\\psi")) {
             output.append("\u03C8");
+        } else if (token.equals("\\subseteq")) {
+            output.append("\u2286");
         } else if (token.equals("\\{")) {
             output.append("{");
         } else if (token.equals("\\}")) {
@@ -434,6 +438,8 @@ public final class Latex2Utf8Parser {
             output.append("\u201D");
         } else if (token.equals("``") || token.equals("\\glqq")) {
             output.append("\u201E");
+        } else if (token.equals("\\overline")) {    // TODO 20101018 m31: we assume set complement
+            output.append("\u2201");
         } else {
             if (mathfrak) {
                 for (int i = 0; i < token.length(); i++) {
