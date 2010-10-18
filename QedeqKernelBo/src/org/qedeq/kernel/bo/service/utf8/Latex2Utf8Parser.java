@@ -177,9 +177,9 @@ public final class Latex2Utf8Parser {
                 } else if ("\\url".equals(token)) {
                     final String content = readCurlyBraceContents();
                     parseAndPrint(content);
-                } else if ("\\index{".equals(token) || "\\label{".equals(token)
-                        || token.equals("\\vspace{") || token.equals("\\hspace{")
-                        || token.equals("\\vspace*{") || token.equals("\\hspace*{")) {
+                } else if ("\\index".equals(token) || "\\label".equals(token)
+                        || token.equals("\\vspace") || token.equals("\\hspace")
+                        || token.equals("\\vspace*") || token.equals("\\hspace*")) {
                     // ignore content
                     readCurlyBraceContents();
                 } else {
@@ -358,7 +358,7 @@ public final class Latex2Utf8Parser {
         final StringBuffer buffer = new StringBuffer("\\");
         do {
             buffer.append((char) readChar());
-        } while (!eof() && Character.isLetter((char) getChar()));
+        } while (!eof() && (Character.isLetter((char) getChar()) || '*' == (char) getChar()));
         Trace.param(CLASS, this, method, "return", buffer.toString());
         Trace.end(CLASS, this, method);
         return buffer.toString();
