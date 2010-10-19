@@ -409,9 +409,6 @@ public final class Latex2Utf8Parser {
                     break;
                 }
                 final char c = (char) getChar();
-                if (c > 255) {
-                    throw new RuntimeException("Hold ad char: " + c + " : " + ((int) c));
-                }
                 if (Character.isDigit(c)) {
                     token.append((char) readChar());
                     if (Character.isDigit((char) getChar())) {
@@ -585,10 +582,14 @@ public final class Latex2Utf8Parser {
             output.print("\u22C0");
         } else if (token.equals("\\lor") || token.equals("\\wedge")) {
             output.print("\u22C1");
-        } else if (token.equals("\\cap")) {
+        } else if (token.equals("\\bigcap")) {
             output.print("\u22C2");
-        } else if (token.equals("\\cup")) {
+        } else if (token.equals("\\cap")) {
+            output.print("\u2229");
+        } else if (token.equals("\\bigcup")) {
             output.print("\u22C3");
+        } else if (token.equals("\\cup")) {
+            output.print("\u222A");
         } else if (token.equals("\\in")) {
             output.print("\u2208");
         } else if (token.equals("\\notin")) {
