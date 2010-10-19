@@ -6476,7 +6476,7 @@
               <![CDATA[
               
                 Mengen $x$ sollten sich nicht selbst als Element enthalten oder ein Element besitzen das wiederum
-                $x$ als Element hat. Um diese und andere Enthaltenseinszirkel auszuschließen stellen wir das filgende
+                $x$ als Element hat. Um diese und andere Enthaltenseinszirkel auszuschließen stellen wir das folgende
                 Axiom vor.
                 
               ]]>
@@ -6593,7 +6593,7 @@
           </NAME>
           <TITLE>
             <LATEX language="en">Axiom of Infinity\index{infinity!axiom of}\index{axiom!of infinity}</LATEX>
-            <LATEX language="de">Unendlichkeits\index{Unendlichkeit!-saxiom}\index{Axiom!Unendlichkeits-}</LATEX>
+            <LATEX language="de">Unendlichkeitsaxiom\index{Unendlichkeit!-saxiom}\index{Axiom!Unendlichkeits-}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -6829,7 +6829,7 @@
           Applications of the Axiom of Choice
         </LATEX>
         <LATEX language="de">
-           Anwendungen des Auswahlaxioms
+          Anwendungen des Auswahlaxioms
         </LATEX>
       </TITLE>
       <INTRODUCTION>

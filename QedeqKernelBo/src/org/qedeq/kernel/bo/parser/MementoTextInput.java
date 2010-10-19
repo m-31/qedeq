@@ -80,7 +80,7 @@ public class MementoTextInput {
      * position.
      *
      * @return  character read, if there are no more chars
-     *          <code>Character.MAX_VALUE</code> is returned
+     *          <code>-1</code> is returned
      */
     public int getChar() {
         return input.getChar();

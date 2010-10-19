@@ -91,11 +91,23 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     /** Transformer to get UTF-8 out of {@link Element}s. */
     private final Element2Utf8 elementConverter;
 
-    /** Current chapter number, starting with 0. */
+    /** Current chapter number, starting with 1. */
     private int chapterNumber;
 
-    /** Current section number, starting with 0. */
+    /** Current section number, starting with 1. */
     private int sectionNumber;
+
+    /** Current axiom number, starting with 1. */
+    private int axiomNumber;
+
+    /** Current definition number, starting with 1. */
+    private int definitionNumber;
+
+    /** Current proposition number, starting with 1. */
+    private int propositionNumber;
+
+    /** Current rule number, starting with 1. */
+    private int ruleNumber;
 
     /** Current node id. */
     private String id;
@@ -308,8 +320,11 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         }
         printer.print(getLatexListEntry("getTitle()", section.getTitle()));
         printer.println();
-        printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
         printer.println();
+        if (section.getIntroduction() != null) {
+            printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
+            printer.println();
+        }
     }
 
     public void visitLeave(final Section section) {
@@ -319,7 +334,6 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     public void visitEnter(final Subsection subsection) {
         if (subsection.getTitle() != null) {
             printer.print(getLatexListEntry("getTitle()", subsection.getTitle()));
-            printer.println();
         }
         if (subsection.getId() != null && info) {
             printer.print("  [" + subsection.getId() + "]");
@@ -329,11 +343,10 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             printer.println();
         }
         printer.println(getLatexListEntry("getLatex()", subsection.getLatex()));
+        printer.println();
     }
 
     public void visitLeave(final Subsection subsection) {
-        printer.println();
-        printer.println();
     }
 
     public void visitEnter(final Node node) {
@@ -356,10 +369,10 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     }
 
     public void visitEnter(final Axiom axiom) {
+        axiomNumber++;
+        printer.print("Axiom " + axiomNumber);
         if (title != null && title.length() > 0) {
-            printer.print(title);
-        } else {
-            printer.print("Axiom");
+            printer.print(" (" + title + ")");
         }
         if (info) {
             printer.print("  [" + id + "]");
@@ -367,15 +380,18 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         printer.println();
         printer.println();
         printFormula(axiom.getFormula().getElement());
-        printer.println(getLatexListEntry("getDescription()", axiom.getDescription()));
         printer.println();
+        if (axiom.getDescription() != null) {
+            printer.println(getLatexListEntry("getDescription()", axiom.getDescription()));
+            printer.println();
+        }
     }
 
     public void visitEnter(final Proposition proposition) {
+        propositionNumber++;
+        printer.print("Proposition " + propositionNumber);
         if (title != null && title.length() > 0) {
-            printer.print(title);
-        } else {
-            printer.print("Proposition");
+            printer.print("(" + title + ")");
         }
         if (info) {
             printer.print("  [" + id + "]");
@@ -383,8 +399,11 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         printer.println();
         printer.println();
         printTopFormula(proposition.getFormula().getElement(), id);
-        printer.println(getLatexListEntry("getDescription()", proposition.getDescription()));
         printer.println();
+        if (proposition.getDescription() != null) {
+            printer.println(getLatexListEntry("getDescription()", proposition.getDescription()));
+            printer.println();
+        }
     }
 
     public void visitEnter(final Proof proof) {
@@ -395,10 +414,16 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         }
         printer.println(getLatexListEntry("getNonFormalProof()", proof.getNonFormalProof()));
         printer.println("q.e.d.");
+        printer.println();
     }
 
     public void visitEnter(final PredicateDefinition definition) {
-        final StringBuffer define = new StringBuffer("$$" + definition.getLatexPattern());
+        definitionNumber++;
+        if (definition.getFormula() == null) {
+            printer.print("initiale ");
+        }
+        printer.print("Definition " + definitionNumber);
+        final StringBuffer define = new StringBuffer(getLatex(definition.getLatexPattern()));
         final VariableList list = definition.getVariableList();
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
@@ -407,23 +432,23 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             }
         }
         if (title != null && title.length() > 0) {
-            printer.print(title);
-        } else {
-            printer.print("Definition");
+            printer.print(" (" + title + ")");
         }
         if (info) {
             printer.print("  [" + id + "]");
         }
         printer.println();
+        printer.println();
         if (definition.getFormula() != null) {
-            define.append("\\ :\\leftrightarrow \\ ");
+            define.append("  \uFE55\u2194  ");
             define.append(getLatex(definition.getFormula().getElement()));
         }
-        define.append("$$");
         // we always save the definition, even if there already exists an entry
         elementConverter.addPredicate(definition);
         Trace.param(CLASS, this, "printPredicateDefinition", "define", define);
-        printer.println(getLatex(define.toString()));
+        printer.print("     ");
+        printer.println(define.toString());
+        printer.println();
         if (definition.getDescription() != null) {
             printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
             printer.println();
@@ -431,7 +456,12 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     }
 
     public void visitEnter(final FunctionDefinition definition) {
-        final StringBuffer define = new StringBuffer("$$" + definition.getLatexPattern());
+        definitionNumber++;
+        if (definition.getTerm() == null) {
+            printer.print("initiale ");
+        }
+        printer.print("Definition " + definitionNumber);
+        final StringBuffer define = new StringBuffer(getLatex(definition.getLatexPattern()));
         final VariableList list = definition.getVariableList();
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
@@ -440,24 +470,26 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             }
         }
         if (title != null && title.length() > 0) {
-            printer.print(title);
-        } else {
-            printer.print("Definition");
+            printer.print(" (" + title + ")");
         }
         if (info) {
             printer.print("  [" + id + "]");
         }
+        printer.println();
+        printer.println();
         if (definition.getTerm() != null) {
-            define.append("\\ := \\ ");
+            define.append("  \u2254  ");
             define.append(getLatex(definition.getTerm().getElement()));
         }
-        define.append("$$");
         // we always save the definition, even if there already exists an entry
         elementConverter.addFunction(definition);
         Trace.param(CLASS, this, "printFunctionDefinition", "define", define);
+        printer.print("     ");
         printer.println(define);
+        printer.println();
         if (definition.getDescription() != null) {
             printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
+            printer.println();
         }
     }
 
@@ -465,16 +497,19 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     }
 
     public void visitEnter(final Rule rule) {
+        ruleNumber++;
+        printer.print("Regel " + ruleNumber);
         if (title != null && title.length() > 0) {
-            printer.print(title);
-        } else {
-            printer.print("Definition");
+            printer.print(" (" + title + ")");
         }
         if (info) {
             printer.print("  [" + id + "]");
         }
+        printer.println();
+        printer.println();
         if (rule.getDescription() != null) {
             printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
+            printer.println();
         }
         if (rule.getProofList() != null) {
             for (int i = 0; i < rule.getProofList().size(); i++) {
@@ -486,6 +521,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
                 printer.println(getLatexListEntry("getProofList().get(" + i + ")", rule.getProofList().get(i)
                         .getNonFormalProof()));
                 printer.println("q.e.d.");
+                printer.println();
             }
         }
     }
@@ -592,6 +628,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
      */
     private void printTopFormula(final Element element, final String mainLabel) {
         if (!element.isList() || !element.getList().getOperator().equals("AND")) {
+            printer.print("     ");
             printFormula(element);
             return;
         }
@@ -607,7 +644,6 @@ public final class Qedeq2Utf8 extends ControlVisitor {
                 }
                 label += ALPHABET.charAt(i % ALPHABET.length());
             }
-//            final String label = (i < ALPHABET.length() ? "" + ALPHABET .charAt(i) : "" + i);
             printer.println("  (" + label + ")  " + getLatex(list.getElement(i)));
         }
     }
@@ -634,7 +670,6 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     /**
      * Filters correct entry out of LaTeX list. Filter criterion is for example the correct
      * language.
-     * TODO mime 20050205: filter level too?
      *
      * @param   method  This method was called. Used to get the correct sub context.
      *                  Should not be null. If it is empty the <code>subContext</code>
@@ -824,10 +859,6 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         return c;
     }
 
-//    public ModuleContext getCurrentContext() {
-//        throw new IllegalStateException("programming error");
-//    }
-
     /**
      * Add warning.
      *
@@ -939,10 +970,10 @@ public final class Qedeq2Utf8 extends ControlVisitor {
      * @return  UTF-8 result string.
      */
     private String getLatex(final Latex latex) {
-        if (latex == null) {
+        if (latex == null || latex.getLatex() == null) {
             return "";
         }
-        return getLatex(latex.getLatex());
+        return getLatex(latex.getLatex().trim());
     }
 
      /**
