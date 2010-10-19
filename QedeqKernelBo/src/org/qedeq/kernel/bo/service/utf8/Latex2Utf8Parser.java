@@ -579,9 +579,9 @@ public final class Latex2Utf8Parser {
         } else if (token.equals("\\Leftrightarrow")) {
             output.print("\u21D4");
         } else if (token.equals("\\land") || token.equals("\\vee")) {
-            output.print("\u22C0");
+            output.print("\u2227");
         } else if (token.equals("\\lor") || token.equals("\\wedge")) {
-            output.print("\u22C1");
+            output.print("\u2228");
         } else if (token.equals("\\bigcap")) {
             output.print("\u22C2");
         } else if (token.equals("\\cap")) {
@@ -602,6 +602,10 @@ public final class Latex2Utf8Parser {
             output.print("\u03C6");
         } else if (token.equals("\\psi")) {
             output.print("\u03C8");
+        } else if (token.equals("\\Omega")) {
+            output.print("\u03A9");
+        } else if (token.equals("\\omega")) {
+            output.print("\u03C9");
         } else if (token.equals("\\subseteq")) {
             output.print("\u2286");
         } else if (token.equals("\\{")) {
@@ -642,6 +646,8 @@ public final class Latex2Utf8Parser {
                     case 'E': output.print("\u2130");
                             break;
                     case 'F': output.print("\u2131");
+                        break;
+                    case 'g': output.print("\u0261");
                         break;
                     case 'L': output.print("\u2112");
                         break;
