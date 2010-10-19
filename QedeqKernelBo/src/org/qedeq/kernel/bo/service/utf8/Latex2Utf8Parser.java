@@ -460,7 +460,21 @@ public final class Latex2Utf8Parser {
                 for (int i = 0; i < token.length(); i++) {
                     final char c = token.charAt(i);
                     switch (c) {
+                    case 'B': output.append("\u212C");
+                        break;
+                    case 'C': output.append("\u212D");
+                        break;
+                    case 'E': output.append("\u2130");
+                            break;
+                    case 'F': output.append("\u2131");
+                        break;
+                    case 'L': output.append("\u2112");
+                        break;
                     case 'M': output.append("\u2133");
+                        break;
+                    case 'P': output.append("\u2118");
+                        break;
+                    case 'R': output.append("\u211B");
                         break;
                     default:
                         output.append(c);

@@ -608,7 +608,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
                 label += ALPHABET.charAt(i % ALPHABET.length());
             }
 //            final String label = (i < ALPHABET.length() ? "" + ALPHABET .charAt(i) : "" + i);
-            printer.println(getLatex(list.getElement(i)) + "     (" + label + ") ");
+            printer.println("  (" + label + ")  " + getLatex(list.getElement(i)));
         }
     }
 
