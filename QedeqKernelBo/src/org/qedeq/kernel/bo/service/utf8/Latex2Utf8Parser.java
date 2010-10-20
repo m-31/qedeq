@@ -149,57 +149,9 @@ public final class Latex2Utf8Parser {
                     whitespace = false;
                 }
                 if ("\\begin".equals(token)) {
-                    final String kind = readCurlyBraceContents();  // ignore
-                    current += input.getPosition();
-                    final String content = readSection(kind);
-                    if ("eqnarray".equals(kind)
-                        || "eqnarray*".equals(kind)
-                        || "equation*".equals(kind)) {
-                        mathMode = true;
-                        parseAndPrint(content);
-                        println();
-                        mathMode = false;
-                    } else if ("quote".equals(kind)) {
-                        println();
-                        println();
-                        output.pushLevel();
-                        output.pushLevel();
-                        output.pushLevel();
-                        println();
-                        parseAndPrint(content);
-                        println();
-                        output.popLevel();
-                        output.popLevel();
-                        output.popLevel();
-                    } else {
-                        parseAndPrint(content);
-                    }
+                    parseBegin();
                 } else if ("\\footnote".equals(token)) {
-                    if ('{' == getChar()) {
-                        current += input.getPosition() + 1;
-                        final String content = readCurlyBraceContents();
-                        println();
-                        println();
-                        output.print("\u22D9");
-                        output.pushLevel();
-                        output.pushLevel();
-                        output.pushLevel();
-                        output.pushLevel();
-                        output.pushLevel();
-                        output.pushLevel();
-                        println();
-                        parseAndPrint(content);
-                        output.popLevel();
-                        output.popLevel();
-                        output.popLevel();
-                        output.popLevel();
-                        output.popLevel();
-                        output.popLevel();
-                        println();
-                        output.print("\u22D8");
-                        println();
-                        println();
-                    }
+                    parseFootnote();
                 } else if ("$$".equals(token)) {
                     mathMode = true;
                     current += input.getPosition() + 1;
@@ -263,7 +215,7 @@ public final class Latex2Utf8Parser {
                 } else if ("\\cline".equals(token)) {
                     if ('{' == getChar()) {
                         current += input.getPosition() + 1;
-                        final String content = readCurlyBraceContents();
+                        readCurlyBraceContents();
                         // ignore
                     }
                     output.println("_______________________________________");
@@ -308,6 +260,68 @@ public final class Latex2Utf8Parser {
             emph = ((Boolean) emphStack.pop()).booleanValue();
             bold = ((Boolean) boldStack.pop()).booleanValue();
             current = ((Long) currentStack.pop()).longValue();
+        }
+    }
+
+    /**
+     * Parse after \footnote.
+     */
+    private void parseFootnote() {
+        if ('{' == getChar()) {
+            current += input.getPosition() + 1;
+            final String content = readCurlyBraceContents();
+            println();
+            println();
+            output.print("\u22D9");
+            output.pushLevel();
+            output.pushLevel();
+            output.pushLevel();
+            output.pushLevel();
+            output.pushLevel();
+            output.pushLevel();
+            println();
+            parseAndPrint(content);
+            output.popLevel();
+            output.popLevel();
+            output.popLevel();
+            output.popLevel();
+            output.popLevel();
+            output.popLevel();
+            println();
+            output.print("\u22D8");
+            println();
+            println();
+        }
+    }
+
+    /**
+     * Parse after \begin.
+     */
+    private void parseBegin() {
+        final String kind = readCurlyBraceContents();  // ignore
+        current += input.getPosition();
+        final String content = readSection(kind);
+        if ("eqnarray".equals(kind)
+            || "eqnarray*".equals(kind)
+            || "equation*".equals(kind)) {
+            mathMode = true;
+            parseAndPrint(content);
+            println();
+            mathMode = false;
+        } else if ("quote".equals(kind)) {
+            println();
+            println();
+            output.pushLevel();
+            output.pushLevel();
+            output.pushLevel();
+            println();
+            parseAndPrint(content);
+            println();
+            output.popLevel();
+            output.popLevel();
+            output.popLevel();
+        } else {
+            parseAndPrint(content);
         }
     }
 
