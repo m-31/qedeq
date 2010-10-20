@@ -727,148 +727,175 @@ public final class Latex2Utf8Parser {
             output.print("\u2201");
         } else {
             if (mathfrak) {
-                for (int i = 0; i < token.length(); i++) {
-                    final char c = token.charAt(i);
-                    switch (c) {
-                    case 'A': output.print("\u13AF");
-                        break;
-                    case 'B': output.print("\u212C");
-                        break;
-                    case 'b': output.print("\u13B2");
-                        break;
-                    case 'C': output.print("\u212D");
-                        break;
-                    case 'E': output.print("\u2130");
-                        break;
-                    case 'e': output.print("\u212F");
-                        break;
-                    case 'F': output.print("\u2131");
-                        break;
-                    case 'G': output.print("\u13B6");
-                        break;
-                    case 'g': output.print("\u210A");
-                        break;
-                    case 'L': output.print("\u2112");
-                        break;
-                    case 'l': output.print("\u2113");
-                        break;
-                    case 'M': output.print("\u2133");
-                        break;
-                    case 'o': output.print("\u2134");
-                        break;
-                    case 'P': output.print("\u2118");
-                        break;
-                    case 'R': output.print("\u211B");
-                        break;
-                    case 'S': output.print("\u093D");
-                        break;
-                    case 's': output.print("\u0D1F");
-                        break;
-                    case 'T': output.print("\u01AC");
-                        break;
-                    case 'V': output.print("\u01B2");
-                        break;
-                    case 'Y': output.print("\u01B3");
-                    break;
-                    case 'Z': output.print("\u2128");
-                        break;
-                    default:
-                        output.print(c);
-                    }
-                }
+                mathfrak(token);
             } else if (mathbb) {
-                for (int i = 0; i < token.length(); i++) {
-                    final char c = token.charAt(i);
-                    switch (c) {
-                    case 'C': output.print("\u2102");
-                        break;
-                    case 'H': output.print("\u210D");
-                        break;
-                    case 'N': output.print("\u2115");
-                        break;
-                    case 'P': output.print("\u2119");
-                        break;
-                    case 'Q': output.print("\u211A");
-                        break;
-                    case 'R': output.print("\u211D");
-                        break;
-                    case 'Z': output.print("\u2124");
-                        break;
-                    default:
-                        output.print(c);
-                    }
-                }
+                mathbb(token);
             } else if (emph) {
                 for (int i = 0; i < token.length(); i++) {
                     output.print("\u2006");
                     output.print(token.charAt(i));
                 }
             } else if (bold) {
-                for (int i = 0; i < token.length(); i++) {
-                    final char c = token.charAt(i);
-                    switch (c) {
-                    case 'A':
-                    case 'B':
-                    case 'C':
-                    case 'D':
-                    case 'E':
-                    case 'F':
-                    case 'G':
-                    case 'H':
-                    case 'I':
-                    case 'J':
-                    case 'K':
-                    case 'L':
-                    case 'M':
-                    case 'N':
-                    case 'O':
-                    case 'P':
-                    case 'Q':
-                    case 'R':
-                    case 'S':
-                    case 'T':
-                    case 'U':
-                    case 'V':
-                    case 'W':
-                    case 'X':
-                    case 'Y':
-                    case 'Z':
-                        output.print((char) ('\uFF21' - 'A' + c));
-                        break;
-                    case 'a':
-                    case 'b':
-                    case 'c':
-                    case 'd':
-                    case 'e':
-                    case 'f':
-                    case 'g':
-                    case 'h':
-                    case 'i':
-                    case 'j':
-                    case 'k':
-                    case 'l':
-                    case 'm':
-                    case 'n':
-                    case 'o':
-                    case 'p':
-                    case 'q':
-                    case 'r':
-                    case 's':
-                    case 't':
-                    case 'u':
-                    case 'v':
-                    case 'w':
-                    case 'x':
-                    case 'y':
-                    case 'z':
-                        output.print((char) ('\uFF41' - 'a' + c));
-                        break;
-                    default:
-                        output.print(c);
-                    }
-                }
+                bold(token);
             } else {
                 output.print(token);
+            }
+        }
+    }
+
+    /**
+     * Write token chars in mathbb mode.
+     *
+     * @param   token   Chars to write.
+     */
+    private void mathbb(final String token) {
+        for (int i = 0; i < token.length(); i++) {
+            final char c = token.charAt(i);
+            switch (c) {
+            case 'C': output.print("\u2102");
+                break;
+            case 'H': output.print("\u210D");
+                break;
+            case 'N': output.print("\u2115");
+                break;
+            case 'P': output.print("\u2119");
+                break;
+            case 'Q': output.print("\u211A");
+                break;
+            case 'R': output.print("\u211D");
+                break;
+            case 'Z': output.print("\u2124");
+                break;
+            default:
+                output.print(c);
+            }
+        }
+    }
+
+    /**
+     * Write token chars in mathfrak mode.
+     *
+     * @param   token   Chars to write.
+     */
+    private void mathfrak(final String token) {
+        for (int i = 0; i < token.length(); i++) {
+            final char c = token.charAt(i);
+            switch (c) {
+            case 'A': output.print("\u13AF");
+                break;
+            case 'B': output.print("\u212C");
+                break;
+            case 'b': output.print("\u13B2");
+                break;
+            case 'C': output.print("\u212D");
+                break;
+            case 'E': output.print("\u2130");
+                break;
+            case 'e': output.print("\u212F");
+                break;
+            case 'F': output.print("\u2131");
+                break;
+            case 'G': output.print("\u13B6");
+                break;
+            case 'g': output.print("\u210A");
+                break;
+            case 'L': output.print("\u2112");
+                break;
+            case 'l': output.print("\u2113");
+                break;
+            case 'M': output.print("\u2133");
+                break;
+            case 'o': output.print("\u2134");
+                break;
+            case 'P': output.print("\u2118");
+                break;
+            case 'R': output.print("\u211B");
+                break;
+            case 'S': output.print("\u093D");
+                break;
+            case 's': output.print("\u0D1F");
+                break;
+            case 'T': output.print("\u01AC");
+                break;
+            case 'V': output.print("\u01B2");
+                break;
+            case 'Y': output.print("\u01B3");
+            break;
+            case 'Z': output.print("\u2128");
+                break;
+            default:
+                output.print(c);
+            }
+        }
+    }
+
+    /**
+     * Write chars in bold mode.
+     *
+     * @param   token   Chars to write.
+     */
+    private void bold(final String token) {
+        for (int i = 0; i < token.length(); i++) {
+            final char c = token.charAt(i);
+            switch (c) {
+            case 'A':
+            case 'B':
+            case 'C':
+            case 'D':
+            case 'E':
+            case 'F':
+            case 'G':
+            case 'H':
+            case 'I':
+            case 'J':
+            case 'K':
+            case 'L':
+            case 'M':
+            case 'N':
+            case 'O':
+            case 'P':
+            case 'Q':
+            case 'R':
+            case 'S':
+            case 'T':
+            case 'U':
+            case 'V':
+            case 'W':
+            case 'X':
+            case 'Y':
+            case 'Z':
+                output.print((char) ('\uFF21' - 'A' + c));
+                break;
+            case 'a':
+            case 'b':
+            case 'c':
+            case 'd':
+            case 'e':
+            case 'f':
+            case 'g':
+            case 'h':
+            case 'i':
+            case 'j':
+            case 'k':
+            case 'l':
+            case 'm':
+            case 'n':
+            case 'o':
+            case 'p':
+            case 'q':
+            case 'r':
+            case 's':
+            case 't':
+            case 'u':
+            case 'v':
+            case 'w':
+            case 'x':
+            case 'y':
+            case 'z':
+                output.print((char) ('\uFF41' - 'a' + c));
+                break;
+            default:
+                output.print(c);
             }
         }
     }
