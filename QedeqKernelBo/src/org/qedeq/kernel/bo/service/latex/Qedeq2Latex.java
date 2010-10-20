@@ -618,7 +618,6 @@ public final class Qedeq2Latex extends ControlVisitor {
         printer.println("\\backmatter");
         printer.println();
         printer.println("\\begin{thebibliography}{99}");
-        // TODO mime 20060926: remove language dependency
         if ("de".equals(language)) {
             printer.println("\\addcontentsline{toc}{chapter}{Literaturverzeichnis}");
         } else {
@@ -1018,7 +1017,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                         display = "definition";
                     }
                     if (external) {
-                        display += " " + data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber();
+                        display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
                     }
                 } else if (node.getNodeType() instanceof PredicateDefinition) {
                     if ("de".equals(language)) {
@@ -1027,7 +1026,7 @@ public final class Qedeq2Latex extends ControlVisitor {
                         display = "definition";
                     }
                     if (external) {
-                        display += " " + data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber();
+                        display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
                     }
                 } else if (node.getNodeType() instanceof Rule) {
                     if ("de".equals(language)) {
