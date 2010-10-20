@@ -56,6 +56,9 @@ public final class Latex2Utf8Parser {
     /** Emphasize on? */
     private boolean emph = false;
 
+    /** Bold on? */
+    private boolean bold = false;
+
     /** Offset for current TextInput. */
     private long current;
 
@@ -70,6 +73,9 @@ public final class Latex2Utf8Parser {
 
     /** Stack for emphasize mode. */
     private Stack emphStack = new Stack();
+
+    /** Stack for bold mode. */
+    private Stack boldStack = new Stack();
 
     /** Stack for offset of current TextInput. */
     private Stack currentStack = new Stack();
@@ -117,6 +123,7 @@ public final class Latex2Utf8Parser {
         mathModeStack.push(Boolean.valueOf(mathMode));
         mathfrakStack.push(Boolean.valueOf(mathfrak));
         emphStack.push(Boolean.valueOf(emph));
+        boldStack.push(Boolean.valueOf(bold));
         currentStack.push(new Long(current));
         try {
             this.input = new MementoTextInput(new TextInput(text));
@@ -154,7 +161,9 @@ public final class Latex2Utf8Parser {
                         println();
                         parseAndPrint(content);
                         println();
-                        output.clearLevel();
+                        output.popLevel();
+                        output.popLevel();
+                        output.popLevel();
                     } else {
                         parseAndPrint(content);
                     }
@@ -163,12 +172,26 @@ public final class Latex2Utf8Parser {
                         current += input.getPosition() + 1;
                         final String content = readCurlyBraceContents();
                         println();
-                        output.pushLevel();
-                        output.pushLevel();
-                        output.pushLevel();
-                        parseAndPrint(content);
                         println();
-                        output.clearLevel();
+                        output.print("\u22D9");
+                        output.pushLevel();
+                        output.pushLevel();
+                        output.pushLevel();
+                        output.pushLevel();
+                        output.pushLevel();
+                        output.pushLevel();
+                        println();
+                        parseAndPrint(content);
+                        output.popLevel();
+                        output.popLevel();
+                        output.popLevel();
+                        output.popLevel();
+                        output.popLevel();
+                        output.popLevel();
+                        println();
+                        output.print("\u22D8");
+                        println();
+                        println();
                     }
                 } else if ("$$".equals(token)) {
                     mathMode = true;
@@ -202,6 +225,17 @@ public final class Latex2Utf8Parser {
                         emph = false;
                     } else {
                         emph = true;
+                    }
+                } else if ("\\textbf".equals(token)) {
+                    if ('{' == getChar()) {
+                        bold = true;
+                        current += input.getPosition() + 1;
+                        final String content = readCurlyBraceContents();
+                        parseAndPrint(content);
+                        print(" ");
+                        bold = false;
+                    } else {
+                        bold = true;
                     }
                 } else if ("\\mbox".equals(token)) {
                     if ('{' == getChar()) {
@@ -248,6 +282,7 @@ public final class Latex2Utf8Parser {
             mathMode = ((Boolean) mathModeStack.pop()).booleanValue();
             mathfrak = ((Boolean) mathfrakStack.pop()).booleanValue();
             emph = ((Boolean) emphStack.pop()).booleanValue();
+            bold = ((Boolean) boldStack.pop()).booleanValue();
             current = ((Long) currentStack.pop()).longValue();
         }
     }
@@ -699,7 +734,9 @@ public final class Latex2Utf8Parser {
                 for (int i = 0; i < token.length(); i++) {
                     output.print("\u2006");
                     output.print(token.charAt(i));
-/*
+                }
+            } else if (bold) {
+                for (int i = 0; i < token.length(); i++) {
                     final char c = token.charAt(i);
                     switch (c) {
                     case 'A':
@@ -761,7 +798,6 @@ public final class Latex2Utf8Parser {
                     default:
                         output.print(c);
                     }
-*/
                 }
             } else {
                 output.print(token);
