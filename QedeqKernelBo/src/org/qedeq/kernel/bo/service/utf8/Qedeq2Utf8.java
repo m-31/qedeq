@@ -725,6 +725,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
      * Transform <code>\qref{key}</code> entries into common LaTeX code.
      *
      * @param   text    Work on this text.
+     * @return  Result of transforming \qref into text.
      */
     private String transformQref(final String text) {
         final String method = "transformQref(StringBuffer)";
