@@ -552,40 +552,42 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     public void visitEnter(final LiteratureItemList list) {
         printer.println();
         printer.println();
-        printer.println("\\begin{thebibliography}{99}");
-        // TODO mime 20060926: remove language dependency
         if ("de".equals(language)) {
-            printer.println("\\addcontentsline{toc}{chapter}{Literaturverzeichnis}");
+            underlineBig("Literaturverzeichnis");
         } else {
-            if (!"en".equals(language)) {
-                printer.println("%%% TODO unknown language: " + language);
-            }
-            printer.println("\\addcontentsline{toc}{chapter}{Bibliography}");
+            underlineBig("Bibliography");
         }
+        printer.println();
+        printer.println();
         final ImportList imports = getQedeqBo().getQedeq().getHeader().getImportList();
         if (imports != null && imports.size() > 0) {
             printer.println();
             printer.println();
-            printer.println("%% Used other QEDEQ modules:");
+            if ("de".equals(language)) {
+                printer.println("Benutzte andere QEDEQ-Module:");
+            } else {
+                printer.println("Used other QEDEQ modules:");
+            }
+            printer.println();
             for (int i = 0; i < imports.size(); i++) {
                 final Import imp = imports.get(i);
-                printer.print("\\bibitem{" + imp.getLabel() + "} ");
+                printer.print("[" + imp.getLabel() + "] ");
                 final Specification spec = imp.getSpecification();
                 printer.print(spec.getName());
                 if (spec.getLocationList() != null && spec.getLocationList().size() > 0
                         && spec.getLocationList().get(0).getLocation().length() > 0) {
-                    printer.print(" ");
-                    // TODO mime 20070205: later on here must stand the location that was used
-                    //   to verify the document contents
-                    // TODO m31 20100727: get other informations like authors, title, etc
-                    // TODO m31 20100727: link to pdf?
-                    printer.print("\\url{" + getUrl(getQedeqBo().getModuleAddress(), spec) + "}");
+                    printer.print("  ");
+                    printer.print(getUrl(getQedeqBo().getModuleAddress(), spec));
                 }
                 printer.println();
             }
             printer.println();
             printer.println();
-            printer.println("%% Other references:");
+            if ("de".equals(language)) {
+                printer.println("Andere Referenzen:");
+            } else {
+                printer.println("Other references:");
+            }
             printer.println();
         }
     }
@@ -595,26 +597,29 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         if (usedby != null && usedby.size() > 0) {
             printer.println();
             printer.println();
-            printer.println("%% QEDEQ modules that use this one:");
+            if ("de".equals(language)) {
+                printer.println("QEDEQ-Module, welche dieses hier verwenden:");
+            } else {
+                printer.println("QEDEQ modules that use this one:");
+            }
             for (int i = 0; i < usedby.size(); i++) {
                 final Specification spec = usedby.get(i);
-                printer.print("\\bibitem{" + spec.getName() + "} ");
                 printer.print(spec.getName());
                 final String url = getUrl(getQedeqBo().getModuleAddress(), spec);
                 if (url != null && url.length() > 0) {
-                    printer.print(" ");
-                    printer.print("\\url{" + url + "}");
+                    printer.print("  ");
+                    printer.print(url);
                 }
                 printer.println();
             }
             printer.println();
             printer.println();
         }
-        printer.println("\\end{thebibliography}");
+        printer.println();
     }
 
     public void visitEnter(final LiteratureItem item) {
-        printer.print("\\bibitem{" + item.getLabel() + "} ");
+        printer.print("[" + item.getLabel() + "] ");
         printer.println(getLatexListEntry("getItem()", item.getItem()));
         printer.println();
     }
@@ -719,25 +724,24 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     /**
      * Transform <code>\qref{key}</code> entries into common LaTeX code.
      *
-     * LATER mime 20080324: write JUnitTests to be sure that no runtime exceptions are thrown if
-     * reference is at end of latex etc.
-     *
-     * @param   result  Work on this buffer.
+     * @param   text    Work on this text.
      */
-    private void transformQref(final StringBuffer result) {
+    private String transformQref(final String text) {
         final String method = "transformQref(StringBuffer)";
-        final StringBuffer buffer = new StringBuffer(result.toString());
-        final TextInput input = new TextInput(buffer);
+        final StringBuffer result = new StringBuffer(text.length());
+        final TextInput input = new TextInput(text);
+        int current = input.getPosition();
         while (input.forward("\\qref{")) {
             final SourcePosition startPosition = input.getSourcePosition();
-            final int start = input.getPosition();
+            result.append(text.substring(current, input.getPosition()));
+            current = input.getPosition();
             if (!input.forward("}")) {
                 addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
                     LatexErrorCodes.QREF_END_NOT_FOUND_MSG, startPosition,
                     input.getSourcePosition());
                 continue;
             }
-            String ref = input.getString(start + "\\qref{".length(), input.getPosition()).trim();
+            String ref = input.getString(current + "\\qref{".length(), input.getPosition()).trim();
             input.read();   // read }
             Trace.param(CLASS, this, method, "1 ref", ref);
             if (ref.length() == 0) {
@@ -764,11 +768,12 @@ public final class Qedeq2Utf8 extends ControlVisitor {
                 input.read();   // read [
                 int posb = input.getPosition();
                 if (!input.forward("]")) {
-                    addWarning(LatexErrorCodes.QREF_SUB_END_NOT_FOUND_CODE, LatexErrorCodes.QREF_SUB_END_NOT_FOUND_MSG,
+                    addWarning(LatexErrorCodes.QREF_SUB_END_NOT_FOUND_CODE,
+                        LatexErrorCodes.QREF_SUB_END_NOT_FOUND_MSG,
                         startPosition, input.getSourcePosition());;
                         continue;
                 }
-                sub = result.substring(posb, input.getPosition());
+                sub = text.substring(posb, input.getPosition());
                 input.read();   // read ]
             }
             final int end = input.getPosition();
@@ -816,27 +821,23 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             // do we have an external module?
             if (label.length() <= 0) {      // local reference
                 final String display = getDisplay(ref, node, false, false);
-//                    result.replace(pos1, pos2 + 1, display + "~\\autoref{" + ref + "}"
-                    input.replace(start, end, "\\hyperref[" + ref + "]{" + display + "~\\ref*{"
-                    + ref + "}}"
+                    result.append(display
                     + (sub.length() > 0 ? " (" + sub + ")" : ""));
             } else {                        // external reference
                 if (ref.length() <= 0) {
                     // we have an external module reference without node
-                    input.replace(start, end, "\\url{" + getPdfLink(prop) + "}~\\cite{" + label + "}");
-                    // if we want to show the text "description": \href{my_url}{description}
+                    input.replace(current, end, "[" + label + "]");
                 } else {
                     // we have an external module reference with node
                     final String display = getDisplay(ref, node, false, true);
-                    input.replace(start, end, "\\hyperref{" + getPdfLink(prop) + "}{}{"
-                        + ref + (sub.length() > 0 ? ":" + sub : "")
-                        + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "") + "}~\\cite{"
-                        + label + "}");
+                    result.append(display + (sub.length() > 0 ? " (" + sub + ")" : "") + " ["
+                        + label + "]");
                 }
             }
-            result.setLength(0);
-            result.append(buffer);
+            current = input.getPosition();
         }
+        result.append(text.substring(current));
+        return result.toString();
     }
 
     /**
@@ -877,7 +878,6 @@ public final class Qedeq2Utf8 extends ControlVisitor {
 
     /**
      * Get text to display for a link.
-     * LATER m31 20100308: refactor language dependent code
      *
      * @param   ref         Reference label.
      * @param   nodeBo      Reference to this node. Might be <code>null</code>.
@@ -900,45 +900,35 @@ public final class Qedeq2Utf8 extends ControlVisitor {
                     } else {
                         display = "axiom";
                     }
-                    if (external) {
-                        display += " " + data.getAxiomNumber();
-                    }
+                    display += " " + data.getAxiomNumber();
                 } else if (node.getNodeType() instanceof Proposition) {
                     if ("de".equals(language)) {
                         display = "Proposition";
                     } else {
                         display = "proposition";
                     }
-                    if (external) {
-                        display += " " + data.getPropositionNumber();
-                    }
+                    display += " " + data.getPropositionNumber();
                 } else if (node.getNodeType() instanceof FunctionDefinition) {
                     if ("de".equals(language)) {
                         display = "Definition";
                     } else {
                         display = "definition";
                     }
-                    if (external) {
-                        display += " " + data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber();
-                    }
+                    display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
                 } else if (node.getNodeType() instanceof PredicateDefinition) {
                     if ("de".equals(language)) {
                         display = "Definition";
                     } else {
                         display = "definition";
                     }
-                    if (external) {
-                        display += " " + data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber();
-                    }
+                    display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
                 } else if (node.getNodeType() instanceof Rule) {
                     if ("de".equals(language)) {
                         display = "Regel";
                     } else {
                         display = "rule";
                     }
-                    if (external) {
-                        display += " " + data.getRuleNumber();
-                    }
+                    display += " " + data.getRuleNumber();
                 } else {
                     if ("de".equals(language)) {
                         display = "Unbekannt";
@@ -949,18 +939,6 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             }
         }
         return display;
-    }
-
-    /**
-     * Get URL to for PDF version of module.
-     *
-     * @param   prop    Get URL for this QEDEQ module.
-     * @return  URL to PDF.
-     */
-    private String getPdfLink(final KernelQedeqBo prop) {
-        final String url = prop.getUrl();
-        final int dot = url.lastIndexOf(".");
-        return url.substring(0, dot) + "_" + language + ".pdf";
     }
 
     /**
@@ -986,7 +964,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         if (latex == null) {
             return "";
         }
-        return Latex2Utf8Parser.transform(latex.trim());
+        return Latex2Utf8Parser.transform(transformQref(latex.trim()));
     }
 
     /**
