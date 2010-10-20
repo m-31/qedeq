@@ -59,6 +59,9 @@ public final class Latex2Utf8Parser {
     /** Bold on? */
     private boolean bold = false;
 
+    /** Mathbb on? */
+    private boolean mathbb = false;
+
     /** Offset for current TextInput. */
     private long current;
 
@@ -76,6 +79,9 @@ public final class Latex2Utf8Parser {
 
     /** Stack for bold mode. */
     private Stack boldStack = new Stack();
+
+    /** Stack for mathbb mode. */
+    private Stack mathbbStack = new Stack();
 
     /** Stack for offset of current TextInput. */
     private Stack currentStack = new Stack();
@@ -124,6 +130,7 @@ public final class Latex2Utf8Parser {
         mathfrakStack.push(Boolean.valueOf(mathfrak));
         emphStack.push(Boolean.valueOf(emph));
         boldStack.push(Boolean.valueOf(bold));
+        mathbbStack.push(Boolean.valueOf(mathbb));
         currentStack.push(new Long(current));
         try {
             this.input = new MementoTextInput(new TextInput(text));
@@ -215,6 +222,16 @@ public final class Latex2Utf8Parser {
                     } else {
                         mathfrak = true;
                     }
+                } else if ("\\mathbb".equals(token)) {
+                    if ('{' == getChar()) {
+                        mathbb = true;
+                        final String content = readCurlyBraceContents();
+                        current += input.getPosition() + 1;
+                        parseAndPrint(content);
+                        mathbb = false;
+                    } else {
+                        mathbb = true;
+                    }
                 } else if ("\\emph".equals(token)) {
                     if ('{' == getChar()) {
                         emph = true;
@@ -243,6 +260,13 @@ public final class Latex2Utf8Parser {
                         final String content = readCurlyBraceContents();
                         parseAndPrint(content);
                     }
+                } else if ("\\cline".equals(token)) {
+                    if ('{' == getChar()) {
+                        current += input.getPosition() + 1;
+                        final String content = readCurlyBraceContents();
+                        // ignore
+                    }
+                    output.println("_______________________________________");
                 } else if ("{".equals(token)) {
                     input.readInverse();
                     current += input.getPosition() + 1;
@@ -619,6 +643,8 @@ public final class Latex2Utf8Parser {
             println();
         } else if (token.equals("&")) {
             output.print(" ");
+        } else if (token.equals("\\-")) {
+            // ignore
         } else if (token.equals("`")) {
             output.print("\u2018");
         } else if (token.equals("'")) {
@@ -704,27 +730,69 @@ public final class Latex2Utf8Parser {
                 for (int i = 0; i < token.length(); i++) {
                     final char c = token.charAt(i);
                     switch (c) {
+                    case 'A': output.print("\u13AF");
+                        break;
                     case 'B': output.print("\u212C");
+                        break;
+                    case 'b': output.print("\u13B2");
                         break;
                     case 'C': output.print("\u212D");
                         break;
                     case 'E': output.print("\u2130");
-                            break;
+                        break;
+                    case 'e': output.print("\u212F");
+                        break;
                     case 'F': output.print("\u2131");
                         break;
-                    case 'g': output.print("\u0261");
+                    case 'G': output.print("\u13B6");
+                        break;
+                    case 'g': output.print("\u210A");
                         break;
                     case 'L': output.print("\u2112");
                         break;
+                    case 'l': output.print("\u2113");
+                        break;
                     case 'M': output.print("\u2133");
+                        break;
+                    case 'o': output.print("\u2134");
                         break;
                     case 'P': output.print("\u2118");
                         break;
                     case 'R': output.print("\u211B");
                         break;
+                    case 'S': output.print("\u093D");
+                        break;
+                    case 's': output.print("\u0D1F");
+                        break;
+                    case 'T': output.print("\u01AC");
+                        break;
                     case 'V': output.print("\u01B2");
                         break;
+                    case 'Y': output.print("\u01B3");
+                    break;
                     case 'Z': output.print("\u2128");
+                        break;
+                    default:
+                        output.print(c);
+                    }
+                }
+            } else if (mathbb) {
+                for (int i = 0; i < token.length(); i++) {
+                    final char c = token.charAt(i);
+                    switch (c) {
+                    case 'C': output.print("\u2102");
+                        break;
+                    case 'H': output.print("\u210D");
+                        break;
+                    case 'N': output.print("\u2115");
+                        break;
+                    case 'P': output.print("\u2119");
+                        break;
+                    case 'Q': output.print("\u211A");
+                        break;
+                    case 'R': output.print("\u211D");
+                        break;
+                    case 'Z': output.print("\u2124");
                         break;
                     default:
                         output.print(c);
