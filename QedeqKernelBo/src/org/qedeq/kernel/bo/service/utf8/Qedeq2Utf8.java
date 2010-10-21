@@ -55,6 +55,7 @@ import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.latex.Element2Latex;
 import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.service.latex.LatexErrorCodes;
 import org.qedeq.kernel.common.ModuleAddress;
@@ -89,7 +90,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     private final boolean info;
 
     /** Transformer to get UTF-8 out of {@link Element}s. */
-    private final Element2Utf8 elementConverter;
+    private final Element2Latex elementConverter;
 
     /** Current chapter number, starting with 1. */
     private int chapterNumber;
@@ -150,7 +151,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             this.level = level;
         }
         this.info = info;
-        this.elementConverter = new Element2Utf8((prop.hasLoadedRequiredModules()
+        this.elementConverter = new Element2Latex((prop.hasLoadedRequiredModules()
             ? prop.getRequiredModules() : null));
     }
 

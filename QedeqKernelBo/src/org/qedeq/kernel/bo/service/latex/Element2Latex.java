@@ -419,7 +419,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
 
         public String getLatex(final ElementList list, final boolean first) {
             final StringBuffer buffer = new StringBuffer();
-            final String infix = "\\ " + latex + " \\ ";
+            final String infix = "\\ " + latex + "\\ ";
             if (!first) {
                 buffer.append("(");
             }
