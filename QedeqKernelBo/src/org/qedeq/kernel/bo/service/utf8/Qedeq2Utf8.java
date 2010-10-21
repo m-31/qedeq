@@ -392,7 +392,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         propositionNumber++;
         printer.print("Proposition " + propositionNumber);
         if (title != null && title.length() > 0) {
-            printer.print("(" + title + ")");
+            printer.print(" (" + title + ")");
         }
         if (info) {
             printer.print("  [" + id + "]");
@@ -459,7 +459,11 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     public void visitEnter(final FunctionDefinition definition) {
         definitionNumber++;
         if (definition.getTerm() == null) {
-            printer.print("initiale ");
+            if ("de".equals(language)) {
+                printer.print("initiale ");
+            } else {
+                printer.print("initial ");
+            }
         }
         printer.print("Definition " + definitionNumber);
         final StringBuffer define = new StringBuffer(getLatex(definition.getLatexPattern()));
