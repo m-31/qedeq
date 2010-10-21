@@ -280,9 +280,9 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         if (chapter.getNoNumber() == null || !chapter.getNoNumber().booleanValue()) {
             chapterNumber++;    // increase global chapter number
             if ("de".equals(language)) {
-                printer.println("Chapter " + chapterNumber + " ");
-            } else {
                 printer.println("Kapitel " + chapterNumber + " ");
+            } else {
+                printer.println("Chapter " + chapterNumber + " ");
             }
             printer.println();
             printer.println();
