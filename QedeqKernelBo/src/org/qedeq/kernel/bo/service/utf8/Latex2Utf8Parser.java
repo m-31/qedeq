@@ -33,7 +33,7 @@ public final class Latex2Utf8Parser {
     private static final Class CLASS = Latex2Utf8Parser.class;
 
     /** These characters get a special treatment in LaTeX. */
-    private static final String SPECIALCHARACTERS = "(),{}\\~%$&\'`^_";
+    private static final String SPECIALCHARACTERS = "(),{}\\~%$&\'`^_-";
 
     /** Available subscript characters. */
     private static final String SUBSCRIPT_CHARACTERS = "0123456789()+-=";
@@ -85,6 +85,8 @@ public final class Latex2Utf8Parser {
 
     /** Stack for offset of current TextInput. */
     private Stack currentStack = new Stack();
+
+    private boolean skipWhitespace;
 
     /**
      * Parse LaTeX text into QEDEQ module string.
@@ -156,7 +158,9 @@ public final class Latex2Utf8Parser {
                     mathMode = true;
                     current += input.getPosition() + 1;
                     final String content = getTillToken(token);
+                    println();
                     parseAndPrint(content);
+                    println();
                     mathMode = false;
                 } else if ("$".equals(token)) {
                     mathMode = true;
@@ -190,7 +194,7 @@ public final class Latex2Utf8Parser {
                         current += input.getPosition() + 1;
                         final String content = readCurlyBraceContents();
                         parseAndPrint(content);
-                        print(" ");
+                        output.print("\u2006");
                         emph = false;
                     } else {
                         emph = true;
@@ -201,7 +205,6 @@ public final class Latex2Utf8Parser {
                         current += input.getPosition() + 1;
                         final String content = readCurlyBraceContents();
                         parseAndPrint(content);
-                        print(" ");
                         bold = false;
                     } else {
                         bold = true;
@@ -219,6 +222,7 @@ public final class Latex2Utf8Parser {
                         // ignore
                     }
                     output.println("_______________________________________");
+                    println();
                 } else if ("{".equals(token)) {
                     input.readInverse();
                     current += input.getPosition() + 1;
@@ -227,7 +231,9 @@ public final class Latex2Utf8Parser {
                 } else if ("\\url".equals(token)) {
                     current += input.getPosition() + 1;
                     final String content = readCurlyBraceContents();
+                    output.print(" ");
                     parseAndPrint(content);
+                    output.print(" ");
                 } else if ('{' == getChar() && ("\\index".equals(token) || "\\label".equals(token)
                         || token.equals("\\vspace") || token.equals("\\hspace")
                         || token.equals("\\vspace*") || token.equals("\\hspace*"))) {
@@ -539,6 +545,7 @@ public final class Latex2Utf8Parser {
                     case '$':
                     case '\'':
                     case '`':
+                    case '-':
                         token.append((char) readChar());
                         if (c == getChar()) {
                             continue;
@@ -579,7 +586,7 @@ public final class Latex2Utf8Parser {
             } while (!eof());
             Trace.param(CLASS, this, method, "Read token", token);
 //            System.out.println("< " + token);
-            return (token != null ? token.toString() : null);
+            return token.toString();
         } finally {
             Trace.end(CLASS, this, method);
         }
@@ -651,14 +658,24 @@ public final class Latex2Utf8Parser {
      */
     private final void print(final String token) {
 //        System.out.println("> " + token);
+        if (token.trim().length() == 0) {
+            if (skipWhitespace) {
+                return;
+            }
+        }
+        skipWhitespace = false;
         if (token.equals("\\par")) {
             println();
+            println();
+            skipWhitespace = true;
         } else if (token.equals("\\\\")) {
             println();
         } else if (token.equals("&")) {
             output.print(" ");
         } else if (token.equals("\\-")) {
             // ignore
+        } else if (token.equals("--")) {
+            output.print("\u2012");
         } else if (token.equals("`")) {
             output.print("\u2018");
         } else if (token.equals("'")) {
@@ -687,6 +704,8 @@ public final class Latex2Utf8Parser {
             output.print("\u2227");
         } else if (token.equals("\\lor") || token.equals("\\wedge")) {
             output.print("\u2228");
+        } else if (token.equals("\\bar")) {
+            output.print("\u203E");
         } else if (token.equals("\\bigcap")) {
             output.print("\u22C2");
         } else if (token.equals("\\cap")) {
@@ -734,6 +753,7 @@ public final class Latex2Utf8Parser {
         } else if (token.equals("''") || token.equals("\\grqq")) {
             output.print("\u201D");
         } else if (token.equals("``") || token.equals("\\glqq")) {
+            skipWhitespace = true;
             output.print("\u201E");
         } else if (token.equals("\\ldots")) {
             output.print("...");

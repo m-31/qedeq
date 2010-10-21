@@ -238,6 +238,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
                 printer.println();
                 printer.println();
                 printer.println("Die Autoren dieses Dokuments sind:");
+                printer.println();
                 printer.println(authorList);
             } else {
                 if (!"en".equals(language)) {
@@ -347,9 +348,6 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         printer.println();
     }
 
-    public void visitLeave(final Subsection subsection) {
-    }
-
     public void visitEnter(final Node node) {
         if (node.getPrecedingText() != null) {
             printer.println(getLatexListEntry("getPrecedingText()", node.getPrecedingText()));
@@ -367,6 +365,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             printer.println(getLatexListEntry("getSucceedingText()", node.getSucceedingText()));
             printer.println();
         }
+        printer.println();
     }
 
     public void visitEnter(final Axiom axiom) {
