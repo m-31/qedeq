@@ -20,7 +20,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 import java.util.Set;
@@ -567,6 +569,27 @@ public final class StringUtility {
             throw new RuntimeException(e);
         }
         return buffer.toString();
+    }
+
+    /**
+     * Split String by given delimiter.
+     * "a:b:c" is converted to "a", "b", "c".
+     * "a:b:c:" is converted to "a", "b", "c", "".
+     *
+     * @param   text        Text to split.
+     * @param   delimiter   Split at these points.
+     * @return  Split text.
+     */
+    public static String[] split(final String text, final String delimiter) {
+        final List list = new ArrayList();
+        int start = 0;
+        int found = -delimiter.length();
+        while (-1 < (found = text.indexOf(delimiter, start))) {
+            list.add(text.substring(start, found));
+            start = found + delimiter.length();
+        }
+        list.add(text.substring(start));
+        return (String[]) list.toArray(new String[]{});
     }
 
 }

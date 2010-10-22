@@ -27,14 +27,14 @@ import org.qedeq.base.utility.StringUtility;
 public class StringOutputTest extends QedeqTestCase {
 
     private static final String XML_DATA =
-    /*  1 */      "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\012"
-    /*  2 */    + "<QEDEQ \012"
+    /*  1 */      "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
+    /*  2 */    + "<QEDEQ \n"
     /*  3 */    + "    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n"
     /*  4 */    + "    xsi:noNamespaceSchemaLocation=\"http://www.qedeq.org/0_01_06/xml/qedeq.xsd\">\n"
     /*  5 */    + "  <HEADER email=\"mime@qedeq.org\">\n"
     /*  6 */    + "    <SPEC name=\"qedeq_sample1\" ruleVersion=\"1.00.00\">\n"
     /*  7 */    + "      <LOCATIONS>\n"
-    /*  8 */    + "   \t\r   <LOCATION value=\"http://qedeq.org/0.01.06/sample1\"/>\n"
+    /*  8 */    + "      \t\r   <LOCATION value=\"http://qedeq.org/0.01.06/sample1\"/>\n"
     /*  9 */    + "      </LOCATIONS>\n"
     /* 10 */    + "    </SPEC>\n"
     /* 11 */    + "    <TITLE>\n"
@@ -54,7 +54,7 @@ public class StringOutputTest extends QedeqTestCase {
     /* 25 */    + "        </LATEX>\n"
     /* 26 */    + "      </AUTHOR>\n"
     /* 27 */    + "    </AUTHORS>\n"
-    /* 28 */    + "  </HEADER>\n"
+    /* 28 */    + "      </HEADER>\n"
     /* 29 */    + "</QEDEQ>\n";
 
     protected void setUp() throws Exception {
@@ -76,66 +76,68 @@ public class StringOutputTest extends QedeqTestCase {
         out.println("<QEDEQ ");
         out.pushLevel();
         out.pushLevel();
-        out.levelPrint("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+        out.print("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
         out.println();
-        out.levelPrintln("xsi:noNamespaceSchemaLocation=\"http://www.qedeq.org/0_01_06/xml/qedeq.xsd\">");
+        out.println("xsi:noNamespaceSchemaLocation=\"http://www.qedeq.org/0_01_06/xml/qedeq.xsd\">");
         out.popLevel();
-        out.levelPrintln("<HEADER email=\"mime@qedeq.org\">");
+        out.println("<HEADER email=\"mime@qedeq.org\">");
         out.pushLevel();
-        out.levelPrint("<SPEC name=\"qedeq_sample1\" ruleVersion=\"1.00.00\">");
-        out.print(SystemUtils.LINE_SEPARATOR);
+        out.print("<SPEC name=\"qedeq_sample1\" ruleVersion=\"1.00.00\">");
+        out.print("\n");
         out.pushLevel();
-        out.levelPrintln("<LOCATIONS>");
-        out.print((Object) ("   \t\r   <LOCATION value=\"http://qedeq.org/0.01.06/sample1\"/>"
-                + SystemUtils.LINE_SEPARATOR));
-        out.levelPrintln("</LOCATIONS>");
+        out.println("<LOCATIONS>");
+        out.print((Object) ("\t\r   <LOCATION value=\"http://qedeq.org/0.01.06/sample1\"/>"
+                + "\n"));
+        out.println("</LOCATIONS>");
         out.popLevel();
-        out.levelPrintln("</SPEC>");
-        out.levelPrintln("<TITLE>");
+        out.println("</SPEC>");
+        out.println("<TITLE>");
         out.pushLevel();
-        out.levelPrintln("<LATEX language=\"en\">");
-        out.levelPrintln("   Example1");
-        out.levelPrintln("</LATEX>");
+        out.println("<LATEX language=\"en\">");
+        out.println("   Example1");
+        out.println("</LATEX>");
         out.popLevel();
-        out.levelPrintln("</TITLE>");
-        out.levelPrintln("<ABSTRACT>");
+        out.println("</TITLE>");
+        out.println("<ABSTRACT>");
         out.pushLevel();
-        out.levelPrintln("<LATEX language=\"en\">");
+        out.println("<LATEX language=\"en\">");
         out.pushLevel();
-        out.levelPrintln(" 1789.01239In this very first qedeq module the XML specification is demonstrated.");
+        out.println(" 1789.01239In this very first qedeq module the XML specification is demonstrated.");
         out.popLevel();
-        out.levelPrintln("</LATEX>");
+        out.println("</LATEX>");
         out.popLevel();
-        out.levelPrintln("</ABSTRACT>");
-        out.levelPrintln("<AUTHORS>");
+        out.println("</ABSTRACT>");
+        out.println("<AUTHORS>");
         out.pushLevel();
-        out.levelPrintln("<AUTHOR email=\"michael@meyling.com\">");
+        out.println("<AUTHOR email=\"michael@meyling.com\">");
         out.pushLevel();
-        out.levelPrintln("<LATEX language=\"de\">");
+        out.println("<LATEX language=\"de\">");
         out.pushLevel();
-        out.levelPrintln(" <![CDATA[Michael Meyling]]>");
+        out.println(" <![CDATA[Michael Meyling]]>");
         out.popLevel();
-        out.levelPrintln("</LATEX>");
+        out.println("</LATEX>");
         out.popLevel();
-        out.levelPrintln("</AUTHOR>");
+        out.println("</AUTHOR>");
         out.popLevel();
-        out.levelPrintln("</AUTHORS>");
+        out.println("</AUTHORS>");
         out.println((Object) "  </HEADER>");
         out.pushLevel();
         out.clearLevel();
-        out.levelPrintln("</QEDEQ>");
+        out.println("</QEDEQ>");
+
+        assertEquals(StringUtility.string2Hex(XML_DATA),
+                StringUtility.byte2Hex(out.toString().getBytes()));
+
+        assertEquals(XML_DATA, out.toString());
 
 //        System.out.println(to.toString());
-        assertEquals(StringUtility.string2Hex(StringUtility.replace(XML_DATA,
-            "\n", SystemUtils.LINE_SEPARATOR), "ISO-8859-1"),
-            StringUtility.byte2Hex(out.toString().getBytes("ISO-8859-1")));
     }
 
     public void testPushPop() throws Exception {
         final StringOutput out = new StringOutput();
         out.popLevel();
         out.popLevel();
-        out.levelPrint("James Bond");
+        out.print("James Bond");
         assertEquals("James Bond", out.toString());
     }
 
