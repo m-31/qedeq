@@ -586,7 +586,7 @@ public final class Latex2Utf8Parser {
             } while (!eof());
             Trace.param(CLASS, this, method, "Read token", token);
 //            System.out.println("< " + token);
-            return token.toString();
+            return (token != null ? token.toString() : null);
         } finally {
             Trace.end(CLASS, this, method);
         }
