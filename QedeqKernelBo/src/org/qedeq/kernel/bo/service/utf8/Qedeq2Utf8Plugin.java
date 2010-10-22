@@ -16,10 +16,8 @@
 package org.qedeq.kernel.bo.service.utf8;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.Locale;
 import java.util.Map;
 
@@ -66,16 +64,31 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
     public Object executePlugin(final KernelQedeqBo qedeq, final Map parameters) {
         final String method = "executePlugin(QedeqBo, Map)";
         String infoString = null;
+        String maxColumnsString = "0";
         if (parameters != null) {
-            infoString = String.valueOf(parameters.get(getPluginId() + "$info"));
+            infoString = (String) parameters.get(getPluginId() + "$info");
+            if (infoString == null) {
+                infoString = "false";
+            }
+            maxColumnsString = (String) parameters.get(getPluginId() + "$maxColumns");
+            if (maxColumnsString == null) {
+                maxColumnsString = "0";
+            }
         }
         final boolean info = "true".equalsIgnoreCase(infoString);
+        int maxColumns = 0;
+        try {
+            maxColumns = Integer.parseInt(maxColumnsString.trim());
+        } catch (RuntimeException e) {
+            // ignore
+        }
         try {
             QedeqLog.getInstance().logRequest("Generate UTF-8 from \""
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
             final String[] languages = getSupportedLanguages(qedeq);
             for (int j = 0; j < languages.length; j++) {
-                final String result = generateUtf8(qedeq, languages[j], "1", info).toString();
+                final String result = generateUtf8(qedeq, languages[j], "1", info,
+                    maxColumns).toString();
                 if (languages[j] != null) {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "UTF-8 for language \"" + languages[j]
@@ -117,12 +130,14 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
      * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
      *                      names. That makes it easier to write new documents, because one can
      *                      read the QEDEQ reference names in the written document.
+     * @param   maxColumns  Maximum column number. If zero no line breaking is done automatically.
      * @return  Resulting LaTeX.
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
     public File generateUtf8(final KernelQedeqBo prop, final String language,
-            final String level, final boolean info) throws SourceFileExceptionList, IOException {
+            final String level, final boolean info, final int maxColumns)
+            throws SourceFileExceptionList, IOException {
 
         // first we try to get more information about required modules and their predicates..
         try {
@@ -146,7 +161,8 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
         TextOutput printer = null;
         try {
             printer = new TextOutput(prop.getName(), new FileOutputStream(destination), "UTF-8");
-            final Qedeq2Utf8 converter = new Qedeq2Utf8(this, prop, printer, language, level, info);
+            final Qedeq2Utf8 converter = new Qedeq2Utf8(this, prop, printer, language, level, info,
+                maxColumns);
             converter.traverse();
             prop.addPluginErrors(this, converter.getErrorList(), converter.getWarningList());
         } finally {
@@ -174,26 +190,6 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
             result[i] = list.get(i).getLanguage();
         }
         return result;
-    }
-
-    /**
-     * Get an input stream for the LaTeX creation.
-     *
-     * @param   prop        QEDEQ module.
-     * @param   language    Filter text to get and produce text in this language only.
-     * @param   level       Filter for this detail level. LATER mime 20050205: not supported
-     *                      yet.
-     * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
-     *                      names. That makes it easier to write new documents, because one can
-     *                      read the QEDEQ reference names in the written document.
-     * @return  Resulting LaTeX.
-     * @throws  SourceFileExceptionList Major problem occurred.
-     * @throws  IOException File IO failed.
-     */
-    public InputStream createLatex(final KernelQedeqBo prop, final String language, final String level,
-            final boolean info)
-            throws SourceFileExceptionList, IOException {
-        return new FileInputStream(generateUtf8(prop, language, level, info));
     }
 
 }

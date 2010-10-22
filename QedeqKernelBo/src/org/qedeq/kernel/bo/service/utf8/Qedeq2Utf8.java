@@ -119,6 +119,9 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     /** Sub context like "getIntroduction()". */
     private String subContext = "";
 
+    /** Maximum column number. If zero no line breaking is done automatically. */
+    private final int maxColumns;
+
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
@@ -134,12 +137,14 @@ public final class Qedeq2Utf8 extends ControlVisitor {
      * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
      *                      names. That makes it easier to write new documents, because one can
      *                      read the QEDEQ reference names in the written document.
+     * @param   maxColumns  Maximum column number. If zero no line breaking is done automatically.
      */
     Qedeq2Utf8(final Plugin plugin, final KernelQedeqBo prop,
             final TextOutput printer, final String language, final String level,
-            final boolean info) {
+            final boolean info, final int maxColumns) {
         super(plugin, prop);
         this.printer = printer;
+        this.maxColumns = maxColumns;
         if (language == null) {
             this.language = "en";
         } else {
@@ -288,11 +293,11 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             printer.println();
             printer.println();
         }
-        printer.print(getLatexListEntry("getTitle()", chapter.getTitle()));
-        printer.println();
+        underlineBig(getLatexListEntry("getTitle()", chapter.getTitle()));
         printer.println();
         if (chapter.getIntroduction() != null) {
             printer.println(getLatexListEntry("getIntroduction()", chapter.getIntroduction()));
+            printer.println();
             printer.println();
         }
     }
@@ -316,15 +321,17 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     }
 
     public void visitEnter(final Section section) {
+        final StringBuffer buffer = new StringBuffer();
         if (section.getNoNumber() == null || !section.getNoNumber().booleanValue()) {
             sectionNumber++;    // increase global chapter number
-            printer.print(chapterNumber + "." + sectionNumber + " ");
+            buffer.append(chapterNumber + "." + sectionNumber + " ");
         }
-        printer.print(getLatexListEntry("getTitle()", section.getTitle()));
-        printer.println();
+        buffer.append(getLatexListEntry("getTitle()", section.getTitle()));
+        underline(buffer.toString());
         printer.println();
         if (section.getIntroduction() != null) {
             printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
+            printer.println();
             printer.println();
         }
     }
@@ -370,7 +377,9 @@ public final class Qedeq2Utf8 extends ControlVisitor {
 
     public void visitEnter(final Axiom axiom) {
         axiomNumber++;
+        printer.print("\u2609 ");
         printer.print("Axiom " + axiomNumber);
+        printer.print(" ");
         if (title != null && title.length() > 0) {
             printer.print(" (" + title + ")");
         }
@@ -389,7 +398,9 @@ public final class Qedeq2Utf8 extends ControlVisitor {
 
     public void visitEnter(final Proposition proposition) {
         propositionNumber++;
+        printer.print("\u2609 ");
         printer.print("Proposition " + propositionNumber);
+        printer.print(" ");
         if (title != null && title.length() > 0) {
             printer.print(" (" + title + ")");
         }
@@ -419,10 +430,18 @@ public final class Qedeq2Utf8 extends ControlVisitor {
 
     public void visitEnter(final PredicateDefinition definition) {
         definitionNumber++;
+        printer.print("\u2609 ");
+        final StringBuffer buffer = new StringBuffer();
         if (definition.getFormula() == null) {
-            printer.print("initiale ");
+            if ("de".equals(language)) {
+                buffer.append("initiale ");
+            } else {
+                buffer.append("initial ");
+            }
         }
-        printer.print("Definition " + definitionNumber);
+        buffer.append("Definition " + definitionNumber);
+        printer.print(buffer.toString());
+        printer.print(" ");
         final StringBuffer define = new StringBuffer(getLatex(definition.getLatexPattern()));
         final VariableList list = definition.getVariableList();
         if (list != null) {
@@ -457,14 +476,18 @@ public final class Qedeq2Utf8 extends ControlVisitor {
 
     public void visitEnter(final FunctionDefinition definition) {
         definitionNumber++;
+        printer.print("\u2609 ");
+        final StringBuffer buffer = new StringBuffer();
         if (definition.getTerm() == null) {
             if ("de".equals(language)) {
-                printer.print("initiale ");
+                buffer.append("initiale ");
             } else {
-                printer.print("initial ");
+                buffer.append("initial ");
             }
         }
-        printer.print("Definition " + definitionNumber);
+        buffer.append("Definition " + definitionNumber);
+        printer.print(buffer.toString());
+        printer.print(" ");
         final StringBuffer define = new StringBuffer(getLatex(definition.getLatexPattern()));
         final VariableList list = definition.getVariableList();
         if (list != null) {
@@ -502,7 +525,9 @@ public final class Qedeq2Utf8 extends ControlVisitor {
 
     public void visitEnter(final Rule rule) {
         ruleNumber++;
+        printer.print("\u2609 ");
         printer.print("Regel " + ruleNumber);
+        printer.print(" ");
         if (title != null && title.length() > 0) {
             printer.print(" (" + title + ")");
         }
@@ -969,7 +994,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         if (latex == null) {
             return "";
         }
-        return Latex2Utf8Parser.transform(transformQref(latex.trim()));
+        return Latex2Utf8Parser.transform(transformQref(latex.trim()), maxColumns);
     }
 
     /**
@@ -980,7 +1005,20 @@ public final class Qedeq2Utf8 extends ControlVisitor {
     private void underlineBig(final String text) {
         printer.println(text);
         for (int i = 0; i  < text.length(); i++) {
-            printer.print("=");
+            printer.print("\u2550");
+        }
+        printer.println();
+    }
+
+    /**
+     * Print text in one line and print another line with = to underline it.
+     *
+     * @param   text    Line to print.
+     */
+    private void underline(final String text) {
+        printer.println(text);
+        for (int i = 0; i  < text.length(); i++) {
+            printer.print("\u2015");
         }
         printer.println();
     }

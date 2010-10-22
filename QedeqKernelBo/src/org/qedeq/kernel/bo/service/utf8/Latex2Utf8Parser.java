@@ -95,8 +95,9 @@ public final class Latex2Utf8Parser {
      * @param   input   Parse this input.
      * @return  QEDEQ module string.
      */
-    public static final String transform(final String input) {
+    public static final String transform(final String input, final int columns) {
         final Latex2Utf8Parser parser = new Latex2Utf8Parser(input);
+        parser.output.setColumns(columns);
         parser.getUtf8(input);
         return parser.output.toString();
     }
@@ -279,13 +280,13 @@ public final class Latex2Utf8Parser {
             final String content = readCurlyBraceContents();
             println();
             println();
-            output.print("\u22D9");
+            output.print("\u250C");
             output.pushLevel();
             output.pushLevel();
             output.pushLevel();
             output.pushLevel();
             output.pushLevel();
-            output.pushLevel();
+            output.pushLevel("\u2502 ");
             println();
             parseAndPrint(content);
             output.popLevel();
@@ -295,7 +296,7 @@ public final class Latex2Utf8Parser {
             output.popLevel();
             output.popLevel();
             println();
-            output.print("\u22D8");
+            output.print("\u2514");
             println();
             println();
         }
@@ -316,8 +317,6 @@ public final class Latex2Utf8Parser {
             println();
             mathMode = false;
         } else if ("quote".equals(kind)) {
-            println();
-            println();
             output.pushLevel();
             output.pushLevel();
             output.pushLevel();
@@ -701,6 +700,10 @@ public final class Latex2Utf8Parser {
             output.print("\u21D0");
         } else if (token.equals("\\Leftrightarrow")) {
             output.print("\u21D4");
+        } else if (token.equals("\\langle")) {
+            output.print("\u2329");
+        } else if (token.equals("\\rangle")) {
+            output.print("\u232A");
         } else if (token.equals("\\land") || token.equals("\\vee")) {
             output.print("\u2227");
         } else if (token.equals("\\lor") || token.equals("\\wedge")) {
@@ -870,6 +873,17 @@ public final class Latex2Utf8Parser {
      * @param   token   Chars to write.
      */
     private void bold(final String token) {
+        output.print(transform2Bold(token));
+    }
+
+    /**
+     * Transform into bold characters.
+     *
+     * @param   token   String to transform.
+     * @return  Result of transformation.
+     */
+    public static String transform2Bold(final String token) {
+        final StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < token.length(); i++) {
             final char c = token.charAt(i);
             switch (c) {
@@ -899,7 +913,7 @@ public final class Latex2Utf8Parser {
             case 'X':
             case 'Y':
             case 'Z':
-                output.print((char) ('\uFF21' - 'A' + c));
+                buffer.append((char) ('\uFF21' - 'A' + c));
                 break;
             case 'a':
             case 'b':
@@ -927,12 +941,13 @@ public final class Latex2Utf8Parser {
             case 'x':
             case 'y':
             case 'z':
-                output.print((char) ('\uFF41' - 'a' + c));
+                buffer.append((char) ('\uFF41' - 'a' + c));
                 break;
             default:
-                output.print(c);
+                buffer.append(c);
             }
         }
+        return buffer.toString();
     }
 
     /**
@@ -940,7 +955,6 @@ public final class Latex2Utf8Parser {
      */
     private final void println() {
         output.println();
-        output.levelPrint("");
     }
 
     /**
