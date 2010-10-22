@@ -86,6 +86,7 @@ public final class Latex2Utf8Parser {
     /** Stack for offset of current TextInput. */
     private Stack currentStack = new Stack();
 
+    /** Should I skip whitespace before printing the next token. */
     private boolean skipWhitespace;
 
     /**
