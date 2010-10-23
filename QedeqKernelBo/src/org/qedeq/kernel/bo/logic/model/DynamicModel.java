@@ -303,10 +303,22 @@ public final class DynamicModel implements Model {
         functionConstants = new HashMap();
     }
 
+    /**
+     * Add a predicate constant.
+     *
+     * @param   constant    Add for this constant.
+     * @param   predicate   This interpretation.
+     */
     public void addPredicateConstant(final PredicateConstant constant, final Predicate predicate) {
         predicateConstants.put(constant, predicate);
     }
 
+    /**
+     * Add a function constant.
+     *
+     * @param   constant    Add for this constant.
+     * @param   function    This interpretation.
+     */
     public void addFunctionConstant(final FunctionConstant constant, final Function function) {
         functionConstants.put(constant, function);
     }
