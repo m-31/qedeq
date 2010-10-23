@@ -21,8 +21,6 @@ import org.qedeq.base.utility.StringUtility;
 /**
  * Wraps a text output stream.
  *
- * FIXME m31 20101022: combine with TextOutput
- *
  * @author  Michael Meyling
  */
 public abstract class AbstractOutput {
@@ -102,11 +100,14 @@ public abstract class AbstractOutput {
      * @param   text    Append this.
      */
     private void internalPrint(final String text) {
+        if (text == null) {
+            return;
+        }
         if (col == 0) {
-            if (text != null && text.length() > 0) {
+            if (text.length() > 0) {
                 appendSpaces();
             }
-        } else if (breakAt > 0 && col + (text != null ? text.length() : 0) > breakAt) {
+        } else if (breakAt > 0 && col + text.length() > breakAt) {
             println();
             appendSpaces();
         }
