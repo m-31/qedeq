@@ -120,6 +120,9 @@ public final class FunctionVariableInterpreter {
         return buffer.toString();
     }
 
+    /**
+     * Clear variable interpretation.
+     */
     public void clear() {
         functionVariables.clear();
         functionVariableCounters.clear();
