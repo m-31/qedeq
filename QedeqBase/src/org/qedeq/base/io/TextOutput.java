@@ -26,16 +26,13 @@ import java.io.UnsupportedEncodingException;
  *
  * @author  Michael Meyling
  */
-public class TextOutput {
+public class TextOutput extends AbstractOutput {
 
     /** Wrapped stream. */
     private final PrintStream output;
 
     /** File name. */
     private final String name;
-
-    /** Tab level. */
-    private StringBuffer spaces = new StringBuffer();
 
     /**
      * Constructor. Write in ISO-8859-1 encoding.
@@ -55,75 +52,13 @@ public class TextOutput {
      * @param   encoding    Use this encoding.
      */
     public TextOutput(final String name, final OutputStream output, final String encoding) {
+        super();
         this.name = name;
         try {
             this.output = new PrintStream(output, false, encoding);
         } catch (UnsupportedEncodingException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    /**
-     * Print text to output.
-     *
-     * @param   text    Append this.
-     */
-    public void print(final String text) {
-        output.print(text);
-    }
-
-    /**
-     * Print spaces and text to output.
-     *
-     * @param   text    Append this.
-     */
-    public void levelPrint(final String text) {
-        output.print(spaces);
-        output.print(text);
-    }
-
-    /**
-     * Print object to output.
-     *
-     * @param   object  Append text representation of this.
-     */
-    public void print(final Object object) {
-        output.print(object);
-    }
-
-    /**
-     * Print spaces text and new line to output.
-     *
-     * @param   line    Append this.
-     */
-    public final void println(final String line) {
-        output.println(line);
-    }
-
-    /**
-     * Print spaces, text and new line to output.
-     *
-     * @param   line    Append this.
-     */
-    public final void levelPrintln(final String line) {
-        output.print(spaces);
-        output.println(line);
-    }
-
-    /**
-     * Print object and new line to output.
-     *
-     * @param   object  Append text representation of this.
-     */
-    public final void println(final Object object) {
-        output.println(object);
-    }
-
-    /**
-     * Print new line to output.
-     */
-    public final void println() {
-        output.println();
     }
 
     /**
@@ -138,29 +73,6 @@ public class TextOutput {
      */
     public final void close() {
         output.close();
-    }
-
-    /**
-     * Reset tab level to zero.
-     */
-    public final void clearLevel() {
-        spaces.setLength(0);
-    }
-
-    /**
-     * Decrement tab level.
-     */
-    public final void popLevel() {
-        if (spaces.length() > 0) {
-            spaces.setLength(spaces.length() - 2);
-        }
-    }
-
-    /**
-     * Increment tab level.
-     */
-    public final void pushLevel() {
-        spaces.append("  ");
     }
 
     /**
@@ -194,6 +106,10 @@ public class TextOutput {
         } else {
             return null;
         }
+    }
+
+    protected void append(String text) {
+        output.print(text);
     }
 
 }

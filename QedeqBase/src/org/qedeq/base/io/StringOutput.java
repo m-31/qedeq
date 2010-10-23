@@ -25,175 +25,25 @@ import org.qedeq.base.utility.StringUtility;
  *
  * @author  Michael Meyling
  */
-public class StringOutput {
+public class StringOutput extends AbstractOutput {
 
     /** Our buffer. */
     private final StringBuffer output;
-
-    /** Tab level. */
-    private StringBuffer spaces = new StringBuffer();
-
-    /** Break at this column if greater zero. */
-    private int breakAt;
-
-    /** Current column. */
-    private int col;
 
     /**
      * Constructor.
      */
     public StringOutput() {
+        super();
         output = new StringBuffer();
     }
 
-    /**
-     * Print character to output.
-     *
-     * @param   c   Append this.
-     */
-    public void print(final char c) {
-        if ('\n' == c) {
-            println();
-            return;
-        }
-        if (col == 0) {
-            output.append(spaces);
-            col += spaces.length();
-        } else if (breakAt > 0 && col + 1 > breakAt) {
-            println();
-            output.append(spaces);
-            col += spaces.length();
-        }
-        output.append(c);
-        col++;
-    }
-
-    /**
-     * Print spaces and text to output.
-     *
-     * @param   text    Append this.
-     */
-    public void print(final String text) {
-        if (text == null) {
-            internalPrint("null");
-            return;
-        }
-        final String[] args = StringUtility.split(text, "\n");
-        for (int i = 0; i < args.length; i++) {
-            internalPrint(args[i]);
-            if (i + 1 < args.length) {
-                println();
-            }
-        }
-    }
-
-    /**
-     * Print spaces and text to output.
-     *
-     * @param   text    Append this.
-     */
-    private void internalPrint(final String text) {
-        if (col == 0) {
-            if (text != null && text.length() > 0) {
-                output.append(spaces);
-                col += spaces.length();
-            }
-        } else if (breakAt > 0 && col + (text != null ? text.length() : 0) > breakAt) {
-            println();
-            output.append(spaces);
-            col += spaces.length();
-        }
+    protected void append(final String text) {
         output.append(text);
-        col += text.length();
-    }
-
-    /**
-     * Print object to output.
-     *
-     * @param   object  Append text representation of this.
-     */
-    public void print(final Object object) {
-        print(String.valueOf(object));
-    }
-
-    /**
-     * Print spaces text and new line to output.
-     *
-     * @param   token   Append this.
-     */
-    public final void println(final String token) {
-        print(token);
-        println();
-    }
-
-    /**
-     * Print object and new line to output.
-     *
-     * @param   object  Append text representation of this.
-     */
-    public final void println(final Object object) {
-        println(String.valueOf(object));
-    }
-
-    /**
-     * Print new line to output.
-     */
-    public final void println() {
-        output.append("\n");
-        col = 0;
-    }
-
-    /**
-     * Reset tab level to zero.
-     */
-    public final void clearLevel() {
-        spaces.setLength(0);
-    }
-
-    /**
-     * Decrement tab level.
-     */
-    public final void popLevel() {
-        if (spaces.length() > 0) {
-            spaces.setLength(spaces.length() - 2);
-        }
-    }
-
-    /**
-     * Increment tab level.
-     */
-    public final void pushLevel() {
-        spaces.append("  ");
-    }
-
-    /**
-     * Increment tab level with following symbols.
-     *
-     * @param   symbols Symbols to tab width. Length must be exactly 2 characters!
-     */
-    public final void pushLevel(final String symbols) {
-        if (symbols == null || symbols.length() != 2) {
-            System.out.println("Should have length 2: " + symbols);
-        }
-        spaces.append(symbols);
     }
 
     public String toString() {
         return output.toString();
-    }
-
-    /**
-     * Set number of maximum columns. If possible we break before we reach this column number.
-     * If less or equal to zero no line breaking is done automatically.
-     *
-     * @param   columns Maximum column size.
-     */
-    public void setColumns(final int columns) {
-        if (columns < 0) {
-            breakAt = 0;
-        } else {
-            breakAt = columns;
-        }
     }
 
 }
