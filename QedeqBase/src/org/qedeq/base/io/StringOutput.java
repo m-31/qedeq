@@ -15,13 +15,9 @@
 
 package org.qedeq.base.io;
 
-import org.qedeq.base.utility.StringUtility;
-
 
 /**
  * Wraps a text output stream.
- *
- * FIXME m31 20101022: combine with TextOutput
  *
  * @author  Michael Meyling
  */
