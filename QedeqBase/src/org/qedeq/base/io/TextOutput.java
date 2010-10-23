@@ -108,7 +108,7 @@ public class TextOutput extends AbstractOutput {
         }
     }
 
-    protected void append(String text) {
+    protected void append(final String text) {
         output.print(text);
     }
 
