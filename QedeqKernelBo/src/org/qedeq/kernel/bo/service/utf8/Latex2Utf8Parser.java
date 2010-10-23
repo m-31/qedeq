@@ -94,6 +94,7 @@ public final class Latex2Utf8Parser {
      * Parse LaTeX text into QEDEQ module string.
      *
      * @param   input   Parse this input.
+     * @param   columns Maximum column number. Break (if possible) before.
      * @return  QEDEQ module string.
      */
     public static final String transform(final String input, final int columns) {
