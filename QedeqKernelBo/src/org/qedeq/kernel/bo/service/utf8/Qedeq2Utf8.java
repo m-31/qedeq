@@ -145,6 +145,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         super(plugin, prop);
         this.printer = printer;
         this.maxColumns = maxColumns;
+        printer.setColumns(maxColumns);
         if (language == null) {
             this.language = "en";
         } else {

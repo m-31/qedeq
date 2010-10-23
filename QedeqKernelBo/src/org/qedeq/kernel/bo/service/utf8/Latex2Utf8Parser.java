@@ -17,6 +17,7 @@ package org.qedeq.kernel.bo.service.utf8;
 
 import java.util.Stack;
 
+import org.qedeq.base.io.AbstractOutput;
 import org.qedeq.base.io.StringOutput;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
@@ -42,7 +43,7 @@ public final class Latex2Utf8Parser {
     private static final String SUPERSCRIPT_CHARACTERS = "0123456789()+-=n";
 
     /** Herein goes our output. */
-    private StringOutput output;
+    private AbstractOutput output;
 
     /** This is our input stream .*/
     private MementoTextInput input;

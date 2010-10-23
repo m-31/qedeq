@@ -72,7 +72,7 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
             }
             maxColumnsString = (String) parameters.get(getPluginId() + "$maxColumns");
             if (maxColumnsString == null) {
-                maxColumnsString = "0";
+                maxColumnsString = "80";
             }
         }
         final boolean info = "true".equalsIgnoreCase(infoString);
