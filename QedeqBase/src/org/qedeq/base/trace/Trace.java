@@ -74,6 +74,12 @@ public final class Trace {
         }
     }
 
+    /**
+     * Is debug log currently enabled?
+     *
+     * @param   tracingClass    Class we want to know the debug logging status for.
+     * @return  Debug log enabled.
+     */
     public static boolean isDebugEnabled(final Class tracingClass) {
         final Log log = LogFactory.getFactory().getInstance(tracingClass);
         return log.isDebugEnabled();
