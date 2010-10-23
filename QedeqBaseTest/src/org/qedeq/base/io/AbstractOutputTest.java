@@ -23,7 +23,7 @@ import org.qedeq.base.utility.StringUtility;
  *
  * @author  Michael Meyling
  */
-public class StringOutputTest extends QedeqTestCase {
+public class AbstractOutputTest extends QedeqTestCase {
 
     private static final String XML_DATA =
     /*  1 */      "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>\n"
@@ -56,8 +56,23 @@ public class StringOutputTest extends QedeqTestCase {
     /* 28 */    + "      </HEADER>\n"
     /* 29 */    + "</QEDEQ>\n";
 
+    /** We test this object. */
+    private AbstractOutput out;
+
     protected void setUp() throws Exception {
         super.setUp();
+        out = new AbstractOutput() {
+
+            private StringBuffer buffer = new StringBuffer();
+
+            protected void append(String text) {
+                buffer.append(text);
+            }
+            
+            public String toString() {
+                return buffer.toString();
+            }
+        };
     }
 
     protected void tearDown() throws Exception {
@@ -70,7 +85,6 @@ public class StringOutputTest extends QedeqTestCase {
      * @throws  Exception   Test failed.
      */
     public void testComplete() throws Exception {
-        final AbstractOutput out = new StringOutput();
         out.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
         out.println("<QEDEQ ");
         out.pushLevel();
@@ -133,7 +147,6 @@ public class StringOutputTest extends QedeqTestCase {
     }
 
     public void testPushPop() throws Exception {
-        final AbstractOutput out = new StringOutput();
         out.popLevel();
         out.popLevel();
         out.print("James Bond");

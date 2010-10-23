@@ -40,6 +40,7 @@ public class KernelBaseIoTestSuite extends QedeqTestSuite {
      */
     public KernelBaseIoTestSuite() {
         super();
+        addTestSuite(AbstractOutputTest.class);
         addTestSuite(IoUtilityTest.class);
         addTestSuite(ResourceLoaderUtilityTest.class);
         addTestSuite(SourceAreaTest.class);
