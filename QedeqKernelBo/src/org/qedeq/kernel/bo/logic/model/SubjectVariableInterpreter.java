@@ -138,6 +138,9 @@ public final class SubjectVariableInterpreter {
         return buffer.toString();
     }
 
+    /**
+     * Clear variable interpretation.
+     */
     public void clear() {
         subjectVariables.clear();
         subjectVariableCounters.clear();
