@@ -71,7 +71,7 @@ public class StringOutputTest extends QedeqTestCase {
      * @throws  Exception   Test failed.
      */
     public void testComplete() throws Exception {
-        final StringOutput out = new StringOutput();
+        final AbstractOutput out = new StringOutput();
         out.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
         out.println("<QEDEQ ");
         out.pushLevel();
@@ -134,7 +134,7 @@ public class StringOutputTest extends QedeqTestCase {
     }
 
     public void testPushPop() throws Exception {
-        final StringOutput out = new StringOutput();
+        final AbstractOutput out = new StringOutput();
         out.popLevel();
         out.popLevel();
         out.print("James Bond");
