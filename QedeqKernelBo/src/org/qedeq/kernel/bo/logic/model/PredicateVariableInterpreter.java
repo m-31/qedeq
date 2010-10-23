@@ -108,6 +108,9 @@ public final class PredicateVariableInterpreter {
         return buffer.toString();
     }
 
+    /**
+     * Clear variable interpretation.
+     */
     public void clear() {
         predicateVariables.clear();
         predicateVariableCounters.clear();
