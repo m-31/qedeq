@@ -104,21 +104,21 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     }
 
     public final void visitEnter(final Qedeq qedeq) {
-        printer.levelPrintln("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
-        printer.levelPrintln("<QEDEQ");
-        printer.levelPrintln("    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
-        printer.levelPrintln("    xsi:noNamespaceSchemaLocation=\"http://www.qedeq.org/"
+        printer.println("<?xml version=\"1.0\" encoding=\"UTF-8\"?>");
+        printer.println("<QEDEQ");
+        printer.println("    xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"");
+        printer.println("    xsi:noNamespaceSchemaLocation=\"http://www.qedeq.org/"
             + KernelContext.getInstance().getKernelVersionDirectory() + "/xml/qedeq.xsd\">");
         printer.pushLevel();
     }
 
     public final void visitLeave(final Qedeq qedeq) {
         printer.popLevel();
-        printer.levelPrintln("</QEDEQ>");
+        printer.println("</QEDEQ>");
     }
 
     public void visitEnter(final Header header) {
-        printer.levelPrint("<HEADER");
+        printer.print("<HEADER");
         if (header.getEmail() != null) {
             printer.print(" email=\"" + header.getEmail() + "\"");
         }
@@ -128,11 +128,11 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     public void visitLeave(final Header header) {
         printer.popLevel();
-        printer.levelPrintln("</HEADER>");
+        printer.println("</HEADER>");
     }
 
     public void visitEnter(final Specification specification) {
-        printer.levelPrint("<SPECIFICATION");
+        printer.print("<SPECIFICATION");
         if (specification.getName() != null) {
             printer.print(" name=\"" + specification.getName() + "\"");
         }
@@ -145,27 +145,27 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     public void visitLeave(final Specification specification) {
         printer.popLevel();
-        printer.levelPrintln("</SPECIFICATION>");
+        printer.println("</SPECIFICATION>");
     }
 
     public void visitEnter(final LatexList latexList) {
         final String last = getCurrentContext().getLocationWithinModule();
         if (last.endsWith(".getTitle()")) {
-            printer.levelPrintln("<TITLE>");
+            printer.println("<TITLE>");
         } else if (last.endsWith(".getSummary()")) {
-            printer.levelPrintln("<ABSTRACT>");
+            printer.println("<ABSTRACT>");
         } else if (last.endsWith(".getIntroduction()")) {
-            printer.levelPrintln("<INTRODUCTION>");
+            printer.println("<INTRODUCTION>");
         } else if (last.endsWith(".getName()")) {
-            printer.levelPrintln("<NAME>");
+            printer.println("<NAME>");
         } else if (last.endsWith(".getPrecedingText()")) {
-            printer.levelPrintln("<PRECEDING>");
+            printer.println("<PRECEDING>");
         } else if (last.endsWith(".getSucceedingText()")) {
-            printer.levelPrintln("<SUCCEEDING>");
+            printer.println("<SUCCEEDING>");
         } else if (last.endsWith(".getLatex()")) {
-            printer.levelPrintln("<TEXT>");
+            printer.println("<TEXT>");
         } else if (last.endsWith(".getDescription()")) {
-            printer.levelPrintln("<DESCRIPTION>");
+            printer.println("<DESCRIPTION>");
         }
         printer.pushLevel();
     }
@@ -174,59 +174,61 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         printer.popLevel();
         final String last = getCurrentContext().getLocationWithinModule();
         if (last.endsWith(".getTitle()")) {
-            printer.levelPrintln("</TITLE>");
+            printer.println("</TITLE>");
         } else if (last.endsWith(".getSummary()")) {
-            printer.levelPrintln("</ABSTRACT>");
+            printer.println("</ABSTRACT>");
         } else if (last.endsWith(".getIntroduction()")) {
-            printer.levelPrintln("</INTRODUCTION>");
+            printer.println("</INTRODUCTION>");
         } else if (last.endsWith(".getName()")) {
-            printer.levelPrintln("</NAME>");
+            printer.println("</NAME>");
         } else if (last.endsWith(".getPrecedingText()")) {
-            printer.levelPrintln("</PRECEDING>");
+            printer.println("</PRECEDING>");
         } else if (last.endsWith(".getSucceedingText()")) {
-            printer.levelPrintln("</SUCCEEDING>");
+            printer.println("</SUCCEEDING>");
         } else if (last.endsWith(".getLatex()")) {
-            printer.levelPrintln("</TEXT>");
+            printer.println("</TEXT>");
         } else if (last.endsWith(".getDescription()")) {
-            printer.levelPrintln("</DESCRIPTION>");
+            printer.println("</DESCRIPTION>");
         }
     }
 
     public void visitEnter(final Latex latex) {
-        printer.levelPrint("<LATEX");
+        printer.print("<LATEX");
         if (latex.getLanguage() != null) {
             printer.print(" language=\"" + latex.getLanguage() + "\"");
         }
         printer.println(">");
         if (latex.getLatex() != null) {
             printer.pushLevel();
-            printer.levelPrintln("<![CDATA[");
-            printer.pushLevel();
-            printer.levelPrintln(StringUtility.useSystemLineSeparator(latex.getLatex()).trim());
+            printer.println("<![CDATA[");
+            printer.print("  ");
+            final String tabs = printer.getLevel();
+            printer.clearLevel();
+            printer.println(StringUtility.useSystemLineSeparator(latex.getLatex()).trim());
+            printer.pushLevel(tabs);
         }
     }
 
     public void visitLeave(final Latex latex) {
         if (latex.getLatex() != null) {
-            printer.popLevel();
-            printer.levelPrintln("]]>");
+            printer.println("]]>");
             printer.popLevel();
         }
-        printer.levelPrintln("</LATEX>");
+        printer.println("</LATEX>");
     }
 
     public void visitEnter(final LocationList locationList) {
-        printer.levelPrintln("<LOCATIONS>");
+        printer.println("<LOCATIONS>");
         printer.pushLevel();
     }
 
     public void visitLeave(final LocationList locationList) {
         printer.popLevel();
-        printer.levelPrintln("</LOCATIONS>");
+        printer.println("</LOCATIONS>");
     }
 
     public void visitEnter(final Location location) {
-        printer.levelPrint("<LOCATION");
+        printer.print("<LOCATION");
         if (location.getLocation() != null) {
             printer.print(" value=\"" + location.getLocation() + "\"");
         }
@@ -234,24 +236,24 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     }
 
     public void visitEnter(final AuthorList authorList) {
-        printer.levelPrintln("<AUTHORS>");
+        printer.println("<AUTHORS>");
         printer.pushLevel();
     }
 
     public void visitLeave(final AuthorList authorList) {
         printer.popLevel();
-        printer.levelPrintln("</AUTHORS>");
+        printer.println("</AUTHORS>");
     }
 
     public void visitEnter(final Author author) {
-        printer.levelPrint("<AUTHOR");
+        printer.print("<AUTHOR");
         if (author.getEmail() != null) {
             printer.print(" email=\"" + author.getEmail() + "\"");
         }
         printer.println(">");
         printer.pushLevel();
         if (author.getName() != null) {
-            printer.levelPrintln("<NAME>");
+            printer.println("<NAME>");
         }
         printer.pushLevel();
     }
@@ -259,24 +261,24 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitLeave(final Author author) {
         printer.popLevel();
         if (author.getName() != null) {
-            printer.levelPrintln("</NAME>");
+            printer.println("</NAME>");
         }
         printer.popLevel();
-        printer.levelPrintln("</AUTHOR>");
+        printer.println("</AUTHOR>");
     }
 
     public void visitEnter(final ImportList importList) {
-        printer.levelPrintln("<IMPORTS>");
+        printer.println("<IMPORTS>");
         printer.pushLevel();
     }
 
     public void visitLeave(final ImportList importList) {
         printer.popLevel();
-        printer.levelPrintln("</IMPORTS>");
+        printer.println("</IMPORTS>");
     }
 
     public void visitEnter(final Import imp) {
-        printer.levelPrint("<IMPORT");
+        printer.print("<IMPORT");
         if (imp.getLabel() != null) {
             printer.print(" label=\"" + imp.getLabel() + "\"");
         }
@@ -286,21 +288,21 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     public void visitLeave(final Import imp) {
         printer.popLevel();
-        printer.levelPrintln("</IMPORT>");
+        printer.println("</IMPORT>");
     }
 
     public void visitEnter(final UsedByList usedByList) {
-        printer.levelPrintln("<USEDBY>");
+        printer.println("<USEDBY>");
         printer.pushLevel();
     }
 
     public void visitLeave(final UsedByList usedByList) {
         printer.popLevel();
-        printer.levelPrintln("</USEDBY>");
+        printer.println("</USEDBY>");
     }
 
     public void visitEnter(final Chapter chapter) {
-        printer.levelPrint("<CHAPTER");
+        printer.print("<CHAPTER");
         if (chapter.getNoNumber() != null) {
             printer.print(" noNumber=\"" + chapter.getNoNumber().booleanValue() + "\"");
         }
@@ -310,11 +312,11 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     public void visitLeave(final Chapter chapter) {
         printer.popLevel();
-        printer.levelPrintln("</CHAPTER>");
+        printer.println("</CHAPTER>");
     }
 
     public void visitEnter(final Section section) {
-        printer.levelPrint("<SECTION");
+        printer.print("<SECTION");
         if (section.getNoNumber() != null) {
             printer.print(" noNumber=\"" + section.getNoNumber().booleanValue() + "\"");
         }
@@ -324,21 +326,21 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     public void visitLeave(final Section section) {
         printer.popLevel();
-        printer.levelPrintln("</SECTION>");
+        printer.println("</SECTION>");
     }
 
     public void visitEnter(final SubsectionList subsectionList) {
-        printer.levelPrintln("<SUBSECTIONS>");
+        printer.println("<SUBSECTIONS>");
         printer.pushLevel();
     }
 
     public void visitLeave(final SubsectionList subsectionList) {
         printer.popLevel();
-        printer.levelPrintln("</SUBSECTIONS>");
+        printer.println("</SUBSECTIONS>");
     }
 
     public void visitEnter(final Subsection subsection) {
-        printer.levelPrint("<SUBSECTION");
+        printer.print("<SUBSECTION");
         if (subsection.getId() != null) {
             printer.print(" id=\"" + subsection.getId() + "\"");
         }
@@ -351,11 +353,11 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     public void visitLeave(final Subsection subsection) {
         printer.popLevel();
-        printer.levelPrintln("</SUBSECTION>");
+        printer.println("</SUBSECTION>");
     }
 
     public void visitEnter(final Node node) {
-        printer.levelPrint("<NODE");
+        printer.print("<NODE");
         if (node.getId() != null) {
             printer.print(" id=\"" + node.getId() + "\"");
         }
@@ -368,31 +370,31 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     public void visitLeave(final Node node) {
         printer.popLevel();
-        printer.levelPrintln("</NODE>");
+        printer.println("</NODE>");
     }
 
     public void visitEnter(final Axiom axiom) {
-        printer.levelPrintln("<AXIOM>");
+        printer.println("<AXIOM>");
         printer.pushLevel();
     }
 
     public void visitLeave(final Axiom axiom) {
         printer.popLevel();
-        printer.levelPrintln("</AXIOM>");
+        printer.println("</AXIOM>");
     }
 
     public void visitEnter(final Proposition proposition) {
-        printer.levelPrintln("<THEOREM>");
+        printer.println("<THEOREM>");
         printer.pushLevel();
     }
 
     public void visitLeave(final Proposition proposition) {
         printer.popLevel();
-        printer.levelPrintln("</THEOREM>");
+        printer.println("</THEOREM>");
     }
 
     public void visitEnter(final Proof proof) {
-        printer.levelPrint("<PROOF");
+        printer.print("<PROOF");
         if (proof.getKind() != null) {
             printer.print(" kind=\"" + proof.getKind() + "\"");
         }
@@ -403,11 +405,11 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     }
 
     public void visitLeave(final Proof proof) {
-        printer.levelPrintln("</PROOF>");
+        printer.println("</PROOF>");
     }
 
     public void visitEnter(final PredicateDefinition definition) {
-        printer.levelPrint("<DEFINITION_PREDICATE");
+        printer.print("<DEFINITION_PREDICATE");
         if (definition.getArgumentNumber() != null) {
             printer.print(" arguments=\"" + definition.getArgumentNumber() + "\"");
         }
@@ -417,18 +419,18 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         printer.println(">");
         printer.pushLevel();
         if (definition.getLatexPattern() != null) {
-            printer.levelPrintln("<LATEXPATTERN>" + definition.getLatexPattern()
+            printer.println("<LATEXPATTERN>" + definition.getLatexPattern()
                 + "</LATEXPATTERN>");
         }
     }
 
     public void visitLeave(final PredicateDefinition definition) {
         printer.popLevel();
-        printer.levelPrintln("</DEFINITION_PREDICATE>");
+        printer.println("</DEFINITION_PREDICATE>");
     }
 
     public void visitEnter(final FunctionDefinition definition) {
-        printer.levelPrint("<DEFINITION_FUNCTION");
+        printer.print("<DEFINITION_FUNCTION");
         if (definition.getArgumentNumber() != null) {
             printer.print(" arguments=\"" + definition.getArgumentNumber() + "\"");
         }
@@ -438,18 +440,18 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         printer.println(">");
         printer.pushLevel();
         if (definition.getLatexPattern() != null) {
-            printer.levelPrintln("<LATEXPATTERN>" + definition.getLatexPattern()
+            printer.println("<LATEXPATTERN>" + definition.getLatexPattern()
                 + "</LATEXPATTERN>");
         }
     }
 
     public void visitLeave(final FunctionDefinition definition) {
         printer.popLevel();
-        printer.levelPrintln("</DEFINITION_FUNCTION>");
+        printer.println("</DEFINITION_FUNCTION>");
     }
 
     public void visitEnter(final Rule rule) {
-        printer.levelPrint("<RULE");
+        printer.print("<RULE");
         if (rule.getName() != null) {
             printer.print(" name=\"" + rule.getName() + "\"");
         }
@@ -459,12 +461,12 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     public void visitLeave(final Rule rule) {
         printer.popLevel();
-        printer.levelPrintln("</RULE>");
+        printer.println("</RULE>");
     }
 
     public void visitEnter(final LinkList linkList) {
         for (int i = 0; i < linkList.size(); i++) {
-            printer.levelPrint("<LINK");
+            printer.print("<LINK");
             if (linkList.get(i) != null) {
                 printer.print(" id=\"" + linkList.get(i) + "\"");
             }
@@ -473,40 +475,40 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     }
 
     public void visitEnter(final Formula formula) {
-        printer.levelPrintln("<FORMULA>");
+        printer.println("<FORMULA>");
         printer.pushLevel();
     }
 
     public void visitLeave(final Formula formula) {
         printer.popLevel();
-        printer.levelPrintln("</FORMULA>");
+        printer.println("</FORMULA>");
     }
 
     public void visitEnter(final Term term) {
-        printer.levelPrintln("<TERM>");
+        printer.println("<TERM>");
         printer.pushLevel();
     }
 
     public void visitLeave(final Term term) {
         printer.popLevel();
-        printer.levelPrintln("</TERM>");
+        printer.println("</TERM>");
     }
 
     public void visitEnter(final VariableList variableList) {
-        printer.levelPrintln("<VARLIST>");
+        printer.println("<VARLIST>");
         printer.pushLevel();
     }
 
     public void visitLeave(final VariableList variableList) {
         printer.popLevel();
-        printer.levelPrintln("</VARLIST>");
+        printer.println("</VARLIST>");
     }
 
     // TODO mime 20070217: what do we do if an atom is not first element of a list?
     // we wouldn't get it here!!! But can we think of an output syntax anyway????
     public void visitEnter(final ElementList list) {
         final String operator = list.getOperator();
-        printer.levelPrint("<" + operator);
+        printer.print("<" + operator);
         final boolean firstIsAtom = list.size() > 0 && list.getElement(0).isAtom();
         if (firstIsAtom) {
             final String atom = list.getElement(0).getAtom().getString();
@@ -533,21 +535,21 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         if (list.size() == 0 || list.size() == 1 && list.getElement(0).isAtom()) {
             return;
         }
-        printer.levelPrintln("</" + list.getOperator() + ">");
+        printer.println("</" + list.getOperator() + ">");
     }
 
     public void visitEnter(final LiteratureItemList list) {
-        printer.levelPrintln("<BIBLIOGRAPHY>");
+        printer.println("<BIBLIOGRAPHY>");
         printer.pushLevel();
     }
 
     public void visitLeave(final LiteratureItemList list) {
         printer.popLevel();
-        printer.levelPrintln("</BIBLIOGRAPHY>");
+        printer.println("</BIBLIOGRAPHY>");
     }
 
     public void visitEnter(final LiteratureItem item) {
-        printer.levelPrint("<ITEM");
+        printer.print("<ITEM");
         if (item.getLabel() != null) {
             printer.print(" label=\"" + item.getLabel() + "\"");
         }
@@ -557,7 +559,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     public void visitLeave(final LiteratureItem item) {
         printer.popLevel();
-        printer.levelPrintln("</ITEM>");
+        printer.println("</ITEM>");
     }
 
     public String getPluginId() {
