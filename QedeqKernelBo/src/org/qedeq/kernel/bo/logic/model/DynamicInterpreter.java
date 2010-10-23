@@ -521,6 +521,9 @@ public final class DynamicInterpreter {
         return operator;
     }
 
+    /**
+     * Clear all variable settings.
+     */
     public void clearVariables() {
         subjectVariableInterpreter.clear();
         predicateVariableInterpreter.clear();
