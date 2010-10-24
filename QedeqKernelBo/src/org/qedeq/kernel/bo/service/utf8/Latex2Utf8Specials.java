@@ -26,9 +26,6 @@ public final class Latex2Utf8Specials {
     /** This class. */
     private static final Class CLASS = Latex2Utf8Specials.class;
 
-    /** These characters get a special treatment in LaTeX. */
-    private static final String SPECIALCHARACTERS = "(),{}\\~%$&\'`^_-";
-
     /** Available subscript characters. */
     private static final String SUBSCRIPT_CHARACTERS = "0123456789()+-=";
 

@@ -17,7 +17,6 @@ package org.qedeq.kernel.test;
 
 import junit.framework.Test;
 
-import org.qedeq.base.test.BaseEachClassHasATest;
 import org.qedeq.base.test.QedeqTestSuite;
 import org.qedeq.kernel.common.KernelCommonTestSuite;
 import org.qedeq.kernel.dto.module.KernelDtoModuleTestSuite;

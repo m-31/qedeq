@@ -14,12 +14,7 @@
  */
 package org.qedeq.kernel.bo.service.utf8;
 
-import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.LogicalState;
-import org.qedeq.kernel.common.ModuleAddress;
 
 /**
  * For test of generating Utf8 output.
