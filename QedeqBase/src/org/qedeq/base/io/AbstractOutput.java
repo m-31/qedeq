@@ -15,6 +15,7 @@
 
 package org.qedeq.base.io;
 
+import org.qedeq.base.utility.Splitter;
 import org.qedeq.base.utility.StringUtility;
 
 
@@ -34,10 +35,62 @@ public abstract class AbstractOutput {
     /** Current column. */
     private int col;
 
+    /** Token buffer. */
+    private StringBuffer tokenBuffer = new StringBuffer();
+
+    /** Whitespace buffer. */
+    private StringBuffer wsBuffer = new StringBuffer();
+
     /**
      * Constructor.
      */
     public AbstractOutput() {
+    }
+
+    /**
+     * Add whitespace to output.
+     *
+     * @param   ws  Add this whitespace.
+     */
+    public void addWs(final String ws) {
+        if (tokenBuffer.length() > 0) {
+            if (fits(wsBuffer.length() + tokenBuffer.length())) {
+                if (col == 0) {
+                    appendSpaces();
+                }
+                append(wsBuffer.toString());
+                col += wsBuffer.length();
+                append(tokenBuffer.toString());
+                col += tokenBuffer.length();
+            } else {
+                // forget old whitespace
+                append("\n");
+                col = 0;
+                appendSpaces();
+                append(tokenBuffer.toString());
+                col += tokenBuffer.length();
+            }
+            wsBuffer.setLength(0);
+            tokenBuffer.setLength(0);
+        }
+        wsBuffer.append(ws);
+    }
+
+    /**
+     * Append token to output.
+     *
+     * @param   part    Add this part.
+     */
+    public void addToken(final String part) {
+        tokenBuffer.append(part);
+    }
+
+    /**
+     * Flush output.
+     */
+    public void flush() {
+        addWs("");
+        wsBuffer.setLength(0);
     }
 
     /**
@@ -46,42 +99,46 @@ public abstract class AbstractOutput {
      * @param   c   Append this.
      */
     public void print(final char c) {
-        if ('\n' == c) {
-            println();
-            return;
-        }
-        if (col == 0) {
-            appendSpaces();
-        } else if (breakAt > 0 && col + 1 > breakAt) {
-            println();
-            appendSpaces();
-        }
-        append("" + c);
-        col++;
+        flush();
+        print("" + c);
+//        if ('\n' == c) {
+//            println();
+//            return;
+//        }
+//        if (col == 0) {
+//            appendSpaces();
+//        } else if (breakAt > 0 && col + 1 > breakAt) {
+//            lastColBeforeBreak = col;
+//            println();
+//            appendSpaces();
+//        }
+//        append("" + c);
+//        col++;
     }
 
     /**
-     * Append tabulation and increase current column.
-     */
-    private void appendSpaces() {
-        append(spaces.toString());
-        col += spaces.length();
-    }
-
-    /**
-     * Print spaces and text to output.
+     * Print spaces and text to output. Treads spaces and CR specially.
      *
      * @param   text    Append this.
      */
     public void print(final String text) {
+        flush();
         if (text == null) {
-            internalPrint("null");
+            printWithoutSplit("null");
             return;
         }
-        final String[] args = StringUtility.split(text, "\n");
-        for (int i = 0; i < args.length; i++) {
-            internalPrint(args[i]);
-            if (i + 1 < args.length) {
+        final String[] lines = StringUtility.split(text, "\n");
+        for (int i = 0; i < lines.length; i++) {
+            final Splitter split = new Splitter(lines[i]);
+            while (split.hasNext()) {
+                final String token = split.nextToken();
+//                if (breakNecessary(token) && lastChar() == ' '
+                if (!fits(token) && " ".equals(token)) {
+                } else {
+                    printWithoutSplit(token);
+                }
+            }
+            if (i + 1 < lines.length) {
                 println();
             }
         }
@@ -99,7 +156,8 @@ public abstract class AbstractOutput {
      *
      * @param   text    Append this.
      */
-    private void internalPrint(final String text) {
+    public void printWithoutSplit(final String text) {
+        flush();
         if (text == null) {
             return;
         }
@@ -107,12 +165,35 @@ public abstract class AbstractOutput {
             if (text.length() > 0) {
                 appendSpaces();
             }
-        } else if (breakAt > 0 && col + text.length() > breakAt) {
+        } else if (!fits(text)) {
             println();
             appendSpaces();
         }
         append(text);
         col += text.length();
+    }
+
+    /**
+     * Does the text fit to current line?
+     *
+     * @param   text    Check if this text could be appended without line break.
+     * @return  Does it fit?
+     */
+    private boolean fits(final String text) {
+        if (text == null) {
+            return true;
+        }
+        return fits(text.length());
+    }
+
+    /**
+     * Does a text with given length fit to current line?
+     *
+     * @param   length    Check if a text of this length could be appended without line break.
+     * @return  Does it fit?
+     */
+    private boolean fits(final int length) {
+        return breakAt <= 0 || col + length <= breakAt;
     }
 
     /**
@@ -147,6 +228,7 @@ public abstract class AbstractOutput {
      * Print new line to output.
      */
     public void println() {
+        flush();
         append("\n");
         col = 0;
     }
@@ -155,6 +237,7 @@ public abstract class AbstractOutput {
      * Reset tab level to zero.
      */
     public final void clearLevel() {
+        flush();
         spaces.setLength(0);
     }
 
@@ -162,6 +245,7 @@ public abstract class AbstractOutput {
      * Decrement tab level.
      */
     public final void popLevel() {
+        flush();
         if (spaces.length() > 0) {
             spaces.setLength(spaces.length() - 2);
         }
@@ -180,6 +264,9 @@ public abstract class AbstractOutput {
      * Increment tab level.
      */
     public final void pushLevel() {
+        // FIXME m31 20101024: make flush unnecessary! Perhaps remember old break value?
+        // if not we can not pushLevel popLevel and print further on (the same line)!
+        flush();
         spaces.append("  ");
     }
 
@@ -199,11 +286,20 @@ public abstract class AbstractOutput {
      * @param   columns Maximum column size.
      */
     public void setColumns(final int columns) {
+        System.out.println("columns: " + columns);
         if (columns < 0) {
             breakAt = 0;
         } else {
             breakAt = columns;
         }
+    }
+
+    /**
+     * Append tabulation and increase current column.
+     */
+    private void appendSpaces() {
+        append(spaces.toString());
+        col += spaces.length();
     }
 
 }
