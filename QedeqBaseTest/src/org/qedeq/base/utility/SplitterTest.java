@@ -15,8 +15,6 @@
 
 package org.qedeq.base.utility;
 
-import java.io.IOException;
-
 import org.qedeq.base.test.QedeqTestCase;
 
 /**
