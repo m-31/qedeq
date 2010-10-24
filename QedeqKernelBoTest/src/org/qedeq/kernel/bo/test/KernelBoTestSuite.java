@@ -30,6 +30,7 @@ import org.qedeq.kernel.bo.service.KernelBoServiceTestSuite;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPluginTest;
 import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPluginTest;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexTest;
+import org.qedeq.kernel.bo.service.utf8.Latex2Utf8Test;
 
 /**
  * Run all tests for the project.
@@ -75,6 +76,7 @@ public class KernelBoTestSuite extends QedeqTestSuite {
         addTestSuite(HeuristicCheckerPluginTest.class);
         addTestSuite(DynamicHeuristicCheckerPluginTest.class);
         addTestSuite(DynamicInterpreterTest.class);
+        addTestSuite(Latex2Utf8Test.class);
 
         // very slow:
         addTestSuite(ExtendedGenerateLatexTest.class);
