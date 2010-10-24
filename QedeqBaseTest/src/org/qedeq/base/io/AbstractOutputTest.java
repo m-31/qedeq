@@ -153,5 +153,95 @@ public class AbstractOutputTest extends QedeqTestCase {
         assertEquals("James Bond", out.toString());
     }
 
+    public void testAdd01() throws Exception {
+        out.setColumns(10);
+        out.addToken("Hello");
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("Hello\nHello", out.toString());
+    }
+
+    public void testAdd02() throws Exception {
+        out.setColumns(10);
+        out.addToken(" Hello");
+        out.addWs(" ");
+        out.addToken(" Hello");
+        out.flush();
+        assertEquals(" Hello\n Hello", out.toString());
+    }
+
+    public void testAdd03() throws Exception {
+        out.setColumns(12);
+        out.pushLevel();
+        out.addToken("Hello");
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello\n  Hello", out.toString());
+    }
+
+    public void testAdd04() throws Exception {
+        out.setColumns(13);
+        out.pushLevel();
+        out.addToken("Hello");
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello Hello", out.toString());
+    }
+
+    public void testAdd05() throws Exception {
+        out.setColumns(12);
+        out.pushLevel();
+        out.addToken("Hello");
+        out.addWs("  ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello\n  Hello", out.toString());
+    }
+
+    public void testAdd06() throws Exception {
+        out.setColumns(10);
+        out.pushLevel();
+        out.addToken("Hel");
+        out.addWs(" ");
+        out.addWs(" ");
+        out.addWs(" ");
+        out.addToken("Hel");
+        out.flush();
+        assertEquals("  Hel\n  Hel", out.toString());
+    }
+
+    public void testAdd07() throws Exception {
+        out.setColumns(11);
+        out.pushLevel();
+        out.addToken("Hel");
+        out.addWs(" ");
+        out.addWs(" ");
+        out.addWs(" ");
+        out.addToken("Hel");
+        out.flush();
+        assertEquals("  Hel   Hel", out.toString());
+    }
+
+    public void testAdd08() throws Exception {
+        out.setColumns(10);
+        out.pushLevel();
+        out.addToken("H");
+        out.addToken("e");
+        out.addToken("l");
+        out.addToken("l");
+        out.addToken("o");
+        out.addWs(" ");
+        out.addToken("H");
+        out.addToken("e");
+        out.addToken("l");
+        out.addToken("l");
+        out.addToken("o");
+        out.flush();
+        assertEquals("  Hello\n  Hello", out.toString());
+    }
+
 }
 
