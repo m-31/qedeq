@@ -36,12 +36,6 @@ public final class Latex2Utf8Parser {
     /** These characters get a special treatment in LaTeX. */
     private static final String SPECIALCHARACTERS = "(),{}\\~%$&\'`^_-";
 
-    /** Available subscript characters. */
-    private static final String SUBSCRIPT_CHARACTERS = "0123456789()+-=";
-
-    /** Available superscript characters. */
-    private static final String SUPERSCRIPT_CHARACTERS = "0123456789()+-=n";
-
     /** Herein goes our output. */
     private AbstractOutput output;
 
@@ -100,8 +94,7 @@ public final class Latex2Utf8Parser {
     public static final String transform(final String input, final int columns) {
         final Latex2Utf8Parser parser = new Latex2Utf8Parser(input);
         parser.output.setColumns(columns);
-        parser.getUtf8(input);
-        return parser.output.toString();
+        return parser.getUtf8(input);
     }
 
     /**
@@ -121,6 +114,7 @@ public final class Latex2Utf8Parser {
      */
     private String getUtf8(final String text) {
         parseAndPrint(text);
+        output.flush();
         return output.toString();
     }
 
@@ -198,7 +192,7 @@ public final class Latex2Utf8Parser {
                         current += input.getPosition() + 1;
                         final String content = readCurlyBraceContents();
                         parseAndPrint(content);
-                        output.print("\u2006");
+                        output.addWs("\u2006");
                         emph = false;
                     } else {
                         emph = true;
@@ -235,9 +229,9 @@ public final class Latex2Utf8Parser {
                 } else if ("\\url".equals(token)) {
                     current += input.getPosition() + 1;
                     final String content = readCurlyBraceContents();
-                    output.print(" ");
-                    parseAndPrint(content);
-                    output.print(" ");
+                    output.addToken(" " + content + " ");
+//                    parseAndPrint(content);
+//                    output.printWithoutSplit(" ");
                 } else if ('{' == getChar() && ("\\index".equals(token) || "\\label".equals(token)
                         || token.equals("\\vspace") || token.equals("\\hspace")
                         || token.equals("\\vspace*") || token.equals("\\hspace*"))) {
@@ -281,8 +275,7 @@ public final class Latex2Utf8Parser {
             current += input.getPosition() + 1;
             final String content = readCurlyBraceContents();
             println();
-            println();
-            output.print("\u250C");
+            output.printWithoutSplit("          \u250C");
             output.pushLevel();
             output.pushLevel();
             output.pushLevel();
@@ -298,8 +291,7 @@ public final class Latex2Utf8Parser {
             output.popLevel();
             output.popLevel();
             println();
-            output.print("\u2514");
-            println();
+            output.printWithoutSplit("          \u2514");
             println();
         }
     }
@@ -334,110 +326,11 @@ public final class Latex2Utf8Parser {
     }
 
     private void printSubscript(final String content) {
-        boolean supported = true;
-        for (int i = 0; i < content.length(); i++) {
-            if (SUBSCRIPT_CHARACTERS.indexOf(content.charAt(i)) < 0) {
-                supported = false;
-                break;
-            }
-        }
-        if (!supported) {
-            output.print("_(" + content + ")");
-        } else {
-            for (int i = 0; i < content.length(); i++) {
-                final char c = content.charAt(i);
-                switch (c) {
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    output.print((char) (c - '0' + '\u2080'));
-                    break;
-                case '+':
-                    output.print('\u208A');
-                    break;
-                case '-':
-                    output.print('\u208B');
-                    break;
-                case '=':
-                    output.print('\u208C');
-                    break;
-                case '(':
-                    output.print('\u208D');
-                    break;
-                case ')':
-                    output.print('\u208E');
-                    break;
-                default:
-                    output.print(c);
-                }
-            }
-        }
+        output.addToken(Latex2Utf8Specials.transform2Subscript(content));
     }
 
     private void printSuperscript(final String content) {
-        boolean supported = true;
-        for (int i = 0; i < content.length(); i++) {
-            if (SUPERSCRIPT_CHARACTERS.indexOf(content.charAt(i)) < 0) {
-                supported = false;
-                break;
-            }
-        }
-        if (!supported) {
-            output.print("_(" + content + ")");
-        } else {
-            for (int i = 0; i < content.length(); i++) {
-                final char c = content.charAt(i);
-                switch (c) {
-                case '0':
-                    output.print((char) (c - '0' + '\u2070'));
-                    break;
-                case '1':
-                    output.print((char) (c - '0' + '\u00B9'));
-                    break;
-                case '2':
-                    output.print((char) (c - '0' + '\u00B2'));
-                    break;
-                case '3':
-                    output.print((char) (c - '0' + '\u00B3'));
-                    break;
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    output.print((char) (c - '4' + '\u2074'));
-                    break;
-                case '+':
-                    output.print('\u207A');
-                    break;
-                case '-':
-                    output.print('\u207B');
-                    break;
-                case '=':
-                    output.print('\u207C');
-                    break;
-                case '(':
-                    output.print('\u207D');
-                    break;
-                case ')':
-                    output.print('\u207E');
-                    break;
-                case 'n':
-                    output.print('\u207F');
-                    break;
-                default:
-                    output.print(c);
-                }
-            }
-        }
+        output.addToken(Latex2Utf8Specials.transform2Superscript(content));
     }
 
     /**
@@ -673,113 +566,127 @@ public final class Latex2Utf8Parser {
         } else if (token.equals("\\\\")) {
             println();
         } else if (token.equals("&")) {
-            output.print(" ");
+            output.addWs(" ");
         } else if (token.equals("\\-")) {
             // ignore
         } else if (token.equals("--")) {
-            output.print("\u2012");
+            output.addToken("\u2012");
         } else if (token.equals("`")) {
-            output.print("\u2018");
+            output.addWs("\u2018");
         } else if (token.equals("'")) {
-            output.print("\u2019");
+            output.addToken("\u2019");
         } else if (token.equals("\\neq")) {
-            output.print("\u2260");
+            output.addToken("\u2260");
         } else if (token.equals("\\in")) {
-            output.print("\u2208");
+            output.addToken("\u2208");
         } else if (token.equals("\\forall")) {
-            output.print("\u2200");
+            output.addToken("\u2200");
         } else if (token.equals("\\exists")) {
-            output.print("\u2203");
+            output.addToken("\u2203");
         } else if (token.equals("\\emptyset")) {
-            output.print("\u2205");
+            output.addToken("\u2205");
         } else if (token.equals("\\rightarrow")) {
-            output.print("\u2192");
+            output.addToken("\u2192");
         } else if (token.equals("\\Rightarrow")) {
-            output.print("\u21D2");
+            output.addToken("\u21D2");
         } else if (token.equals("\\leftrightarrow")) {
-            output.print("\u2194");
+            output.addToken("\u2194");
         } else if (token.equals("\\Leftarrow")) {
-            output.print("\u21D0");
+            output.addToken("\u21D0");
         } else if (token.equals("\\Leftrightarrow")) {
-            output.print("\u21D4");
+            output.addToken("\u21D4");
         } else if (token.equals("\\langle")) {
-            output.print("\u2329");
+            output.addToken("\u2329");
         } else if (token.equals("\\rangle")) {
-            output.print("\u232A");
+            output.addToken("\u232A");
         } else if (token.equals("\\land") || token.equals("\\vee")) {
-            output.print("\u2227");
+            output.addToken("\u2227");
         } else if (token.equals("\\lor") || token.equals("\\wedge")) {
-            output.print("\u2228");
+            output.addToken("\u2228");
         } else if (token.equals("\\bar")) {
-            output.print("\u203E");
+            output.addToken("\u203E");
         } else if (token.equals("\\bigcap")) {
-            output.print("\u22C2");
+            output.addToken("\u22C2");
         } else if (token.equals("\\cap")) {
-            output.print("\u2229");
+            output.addToken("\u2229");
         } else if (token.equals("\\bigcup")) {
-            output.print("\u22C3");
+            output.addToken("\u22C3");
         } else if (token.equals("\\cup")) {
-            output.print("\u222A");
+            output.addToken("\u222A");
         } else if (token.equals("\\in")) {
-            output.print("\u2208");
+            output.addToken("\u2208");
         } else if (token.equals("\\notin")) {
-            output.print("\u2209");
+            output.addToken("\u2209");
         } else if (token.equals("\\alpha")) {
-            output.print("\u03B1");
+            output.addToken("\u03B1");
         } else if (token.equals("\\beta")) {
-            output.print("\u03B2");
+            output.addToken("\u03B2");
         } else if (token.equals("\\phi")) {
-            output.print("\u03C6");
+            output.addToken("\u03C6");
         } else if (token.equals("\\psi")) {
-            output.print("\u03C8");
+            output.addToken("\u03C8");
         } else if (token.equals("\\Omega")) {
-            output.print("\u03A9");
+            output.addToken("\u03A9");
         } else if (token.equals("\\omega")) {
-            output.print("\u03C9");
+            output.addToken("\u03C9");
         } else if (token.equals("\\subseteq")) {
-            output.print("\u2286");
+            output.addToken("\u2286");
         } else if (token.equals("\\{")) {
-            output.print("{");
+            output.addToken("{");
         } else if (token.equals("\\}")) {
-            output.print("}");
+            output.addToken("}");
         } else if (token.equals("\\ ")) {
-            output.print(" ");
+            output.addWs(" ");
         } else if (token.equals("~")) {
-            output.print("\u00A0");
+            output.addToken("\u00A0");
         } else if (token.equals("\\quad")) {
-            output.print("\u2000");
+            output.addWs("\u2000");
         } else if (token.equals("\\,")) {
-            output.print("\u2009");
+            output.addWs("\u2009");
         } else if (token.equals("\\neg") || token.equals("\\not")) {
-            output.print("\u00AC");
+            output.addToken("\u00AC");
         } else if (token.equals("\\bot")) {
-            output.print("\u22A5");
+            output.addToken("\u22A5");
         } else if (token.equals("\\top")) {
-            output.print("\u22A4");
+            output.addToken("\u22A4");
         } else if (token.equals("''") || token.equals("\\grqq")) {
-            output.print("\u201D");
+            output.addToken("\u201D");
         } else if (token.equals("``") || token.equals("\\glqq")) {
             skipWhitespace = true;
-            output.print("\u201E");
+            output.addToken("\u201E");
         } else if (token.equals("\\ldots")) {
-            output.print("...");
+            output.addToken("...");
         } else if (token.equals("\\overline")) {    // TODO 20101018 m31: we assume set complement
-            output.print("\u2201");
+            output.addToken("\u2201");
         } else {
             if (mathfrak) {
                 mathfrak(token);
             } else if (mathbb) {
                 mathbb(token);
             } else if (emph) {
-                for (int i = 0; i < token.length(); i++) {
-                    output.print("\u2006");
-                    output.print(token.charAt(i));
-                }
+                emph(token);
             } else if (bold) {
                 bold(token);
             } else {
-                output.print(token);
+                if (isWs(token)) {
+                    output.addWs(token);
+                } else {
+                    output.addToken(token);
+                }
             }
+        }
+    }
+
+    /**
+     * Write token chars in mathbb mode.
+     *
+     * @param   token   Chars to write.
+     */
+    private void emph(final String token) {
+        if (isWs(token)) {
+            output.addWs(Latex2Utf8Specials.transform2Emph(token));
+        } else {
+            output.addToken(Latex2Utf8Specials.transform2Emph(token));
         }
     }
 
@@ -792,24 +699,32 @@ public final class Latex2Utf8Parser {
         for (int i = 0; i < token.length(); i++) {
             final char c = token.charAt(i);
             switch (c) {
-            case 'C': output.print("\u2102");
+            case 'C': output.addToken("\u2102");
                 break;
-            case 'H': output.print("\u210D");
+            case 'H': output.addToken("\u210D");
                 break;
-            case 'N': output.print("\u2115");
+            case 'N': output.addToken("\u2115");
                 break;
-            case 'P': output.print("\u2119");
+            case 'P': output.addToken("\u2119");
                 break;
-            case 'Q': output.print("\u211A");
+            case 'Q': output.addToken("\u211A");
                 break;
-            case 'R': output.print("\u211D");
+            case 'R': output.addToken("\u211D");
                 break;
-            case 'Z': output.print("\u2124");
+            case 'Z': output.addToken("\u2124");
                 break;
             default:
-                output.print(c);
+                if (Character.isWhitespace(c)) {
+                    output.addWs("" + c);
+                } else {
+                    output.addToken("" + c);
+                }
             }
         }
+    }
+
+    private boolean isWs(final String token) {
+        return token == null || token.trim().length() == 0;
     }
 
     /**
@@ -818,138 +733,24 @@ public final class Latex2Utf8Parser {
      * @param   token   Chars to write.
      */
     private void mathfrak(final String token) {
-        for (int i = 0; i < token.length(); i++) {
-            final char c = token.charAt(i);
-            switch (c) {
-            case 'A': output.print("\u13AF");
-                break;
-            case 'B': output.print("\u212C");
-                break;
-            case 'b': output.print("\u13B2");
-                break;
-            case 'C': output.print("\u212D");
-                break;
-            case 'E': output.print("\u2130");
-                break;
-            case 'e': output.print("\u212F");
-                break;
-            case 'F': output.print("\u2131");
-                break;
-            case 'G': output.print("\u13B6");
-                break;
-            case 'g': output.print("\u210A");
-                break;
-            case 'L': output.print("\u2112");
-                break;
-            case 'l': output.print("\u2113");
-                break;
-            case 'M': output.print("\u2133");
-                break;
-            case 'o': output.print("\u2134");
-                break;
-            case 'P': output.print("\u2118");
-                break;
-            case 'R': output.print("\u211B");
-                break;
-            case 'S': output.print("\u093D");
-                break;
-            case 's': output.print("\u0D1F");
-                break;
-            case 'T': output.print("\u01AC");
-                break;
-            case 'V': output.print("\u01B2");
-                break;
-            case 'Y': output.print("\u01B3");
-            break;
-            case 'Z': output.print("\u2128");
-                break;
-            default:
-                output.print(c);
-            }
+        if (isWs(token)) {
+            output.addWs(Latex2Utf8Specials.transform2Mathfrak(token));
+        } else {
+            output.addToken(Latex2Utf8Specials.transform2Mathfrak(token));
         }
     }
 
     /**
-     * Write chars in bold mode.
+     * Write token in bold mode.
      *
      * @param   token   Chars to write.
      */
     private void bold(final String token) {
-        output.print(transform2Bold(token));
-    }
-
-    /**
-     * Transform into bold characters.
-     *
-     * @param   token   String to transform.
-     * @return  Result of transformation.
-     */
-    public static String transform2Bold(final String token) {
-        final StringBuffer buffer = new StringBuffer();
-        for (int i = 0; i < token.length(); i++) {
-            final char c = token.charAt(i);
-            switch (c) {
-            case 'A':
-            case 'B':
-            case 'C':
-            case 'D':
-            case 'E':
-            case 'F':
-            case 'G':
-            case 'H':
-            case 'I':
-            case 'J':
-            case 'K':
-            case 'L':
-            case 'M':
-            case 'N':
-            case 'O':
-            case 'P':
-            case 'Q':
-            case 'R':
-            case 'S':
-            case 'T':
-            case 'U':
-            case 'V':
-            case 'W':
-            case 'X':
-            case 'Y':
-            case 'Z':
-                buffer.append((char) ('\uFF21' - 'A' + c));
-                break;
-            case 'a':
-            case 'b':
-            case 'c':
-            case 'd':
-            case 'e':
-            case 'f':
-            case 'g':
-            case 'h':
-            case 'i':
-            case 'j':
-            case 'k':
-            case 'l':
-            case 'm':
-            case 'n':
-            case 'o':
-            case 'p':
-            case 'q':
-            case 'r':
-            case 's':
-            case 't':
-            case 'u':
-            case 'v':
-            case 'w':
-            case 'x':
-            case 'y':
-            case 'z':
-                buffer.append((char) ('\uFF41' - 'a' + c));
-                break;
-            default:
-                buffer.append(c);
-            }
+        if (isWs(token)) {
+            output.addWs(Latex2Utf8Specials.transform2Bold(token));
+        } else {
+            output.addToken(Latex2Utf8Specials.transform2Bold(token));
         }
-        return buffer.toString();
     }
 
     /**
