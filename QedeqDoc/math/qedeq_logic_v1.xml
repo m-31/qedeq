@@ -64,7 +64,7 @@
           For further informations about the \textbf{Hilbert II} project see under \url{http://www.qedeq.org}.
 
           \par
-          This document describes the logical axoims and the rules and meta rules that are used to derive new propositions.
+          This document describes the logical axioms and the rules and meta rules that are used to derive new propositions.
 
           \par
           The presentation is axiomatic and in a formal form. A formal calculus is given that enables us to derive all true formulas. Additional derived rules, theorems, definitions, abbreviations and syntax extensions basically correspond with the mathematical practice.
