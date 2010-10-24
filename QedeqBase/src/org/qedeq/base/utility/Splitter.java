@@ -15,45 +15,38 @@
 
 package org.qedeq.base.utility;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.StringReader;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Properties;
-import java.util.Set;
-
-import org.apache.commons.lang.SystemUtils;
 
 
 /**
- * Split given string into parts delimited by.
+ * Split given string into parts delimited by space.
  *
  * @author  Michael Meyling
  */
 public final class Splitter implements Iterator {
 
-    final String text;
+    /** Text to split. */
+    private final String text;
 
-    final char delimiter;
+    /** Separating delimiter. */
+    private final char delimiter;
 
+    /** Last found position. */
     private int found;
 
+    /** Start searching from here. */
     private int start;
 
+    /** Current found separator string. Consists of (perhaps several) delimiters. */
     private String separator;
 
+    /** Current found token. */
     private String token;
 
     /**
      * Constructor, should never be called.
      *
      * @param   text        Text to split.
-     * @param   delimiter   Split at these points.
      */
     public Splitter(final String text) {
         this.text = text;
@@ -72,6 +65,11 @@ public final class Splitter implements Iterator {
         return nextToken();
     }
 
+    /**
+     * Qualified next method.
+     *
+     * @return  Get next token.
+     */
     public String nextToken() {
         if (token != null) {
             final String result = token;
@@ -87,6 +85,9 @@ public final class Splitter implements Iterator {
         return null;
     }
 
+    /**
+     * Iterate token and whitespace.
+     */
     private void iterate() {
         found = text.indexOf(delimiter, start);
         if (-1 < found) {
