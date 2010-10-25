@@ -407,7 +407,7 @@
             Alle Formeln die nur durch Anwendung von 1. und 3. gebildet werden, heißen Formeln der \emph{Aussagenalgebra}. 
             
             \par
-            Es gilt für jede Formel $\alpha$: die Menge der freien und der gebundenen Subjektvariablen von $\alpha$ sind disjunkt.\footnote{Andere Formalisierungen erlauben z.~B. $\forall x_1~\alpha$ auch dann, wenn $x_1$ schon in $\alpha$ gebunden vorkommt. Auch Ausdrücke wie $\alpha(x_1)~\land~(\foral~ x_1~\beta)$ sind erlaubt. Es wird dann
+            Es gilt für jede Formel $\alpha$: die Menge der freien und der gebundenen Subjektvariablen von $\alpha$ sind disjunkt.\footnote{Andere Formalisierungen erlauben z.~B. $\forall x_1~\alpha$ auch dann, wenn $x_1$ schon in $\alpha$ gebunden vorkommt. Auch Ausdrücke wie $\alpha(x_1)~\land~(\forall~x_1~\beta)$ sind erlaubt. Es wird dann
             für ein einzelnes Vorkommen einer Variablen definiert, ob es sich um ein freies oder gebundenes Vorkommen handelt.}
             
             \par
