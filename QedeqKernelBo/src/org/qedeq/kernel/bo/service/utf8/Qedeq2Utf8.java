@@ -51,6 +51,7 @@ import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
+import org.qedeq.kernel.bo.NodeBo;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelNodeNumbers;
@@ -72,7 +73,7 @@ import org.qedeq.kernel.common.Plugin;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Utf8 extends ControlVisitor {
+public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder {
 
     /** This class. */
     private static final Class CLASS = Qedeq2Utf8.class;
@@ -389,6 +390,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
         }
         printer.println();
         printer.println();
+        printer.print("     ");
         printFormula(axiom.getFormula().getElement());
         printer.println();
         if (axiom.getDescription() != null) {
@@ -851,7 +853,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
 
             // do we have an external module?
             if (label.length() <= 0) {      // local reference
-                final String display = getDisplay(ref, node, false, false);
+                final String display = getNodeDisplay(node);
                     result.append(display
                     + (sub.length() > 0 ? " (" + sub + ")" : ""));
             } else {                        // external reference
@@ -860,7 +862,7 @@ public final class Qedeq2Utf8 extends ControlVisitor {
                     input.replace(current, end, "[" + label + "]");
                 } else {
                     // we have an external module reference with node
-                    final String display = getDisplay(ref, node, false, true);
+                    final String display = getNodeDisplay(node);
                     result.append(display + (sub.length() > 0 ? " (" + sub + ")" : "") + " ["
                         + label + "]");
                 }
@@ -905,71 +907,6 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             final SourcePosition endDelta) {
         Trace.param(CLASS, this, "addWarning", "msg", msg);
         addWarning(new LatexContentException(code, msg, getCurrentContext(startDelta, endDelta)));
-    }
-
-    /**
-     * Get text to display for a link.
-     *
-     * @param   ref         Reference label.
-     * @param   nodeBo      Reference to this node. Might be <code>null</code>.
-     * @param   useName     Use name if it exists.
-     * @param   external    Is this an external node?
-     * @return  Display     text.
-     */
-    private String getDisplay(final String ref, final KernelNodeBo nodeBo, final boolean useName,
-            final boolean external) {
-        String display = ref;
-        if (nodeBo != null) {
-            Node node = nodeBo.getNodeVo();
-            KernelNodeNumbers data = nodeBo.getNumbers();
-            if (useName && node.getName() != null) {
-                display = getLatexListEntry("", node.getName());
-            } else {
-                if (node.getNodeType() instanceof Axiom) {
-                    if ("de".equals(language)) {
-                        display = "Axiom";
-                    } else {
-                        display = "axiom";
-                    }
-                    display += " " + data.getAxiomNumber();
-                } else if (node.getNodeType() instanceof Proposition) {
-                    if ("de".equals(language)) {
-                        display = "Proposition";
-                    } else {
-                        display = "proposition";
-                    }
-                    display += " " + data.getPropositionNumber();
-                } else if (node.getNodeType() instanceof FunctionDefinition) {
-                    if ("de".equals(language)) {
-                        display = "Definition";
-                    } else {
-                        display = "definition";
-                    }
-                    display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
-                } else if (node.getNodeType() instanceof PredicateDefinition) {
-                    if ("de".equals(language)) {
-                        display = "Definition";
-                    } else {
-                        display = "definition";
-                    }
-                    display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
-                } else if (node.getNodeType() instanceof Rule) {
-                    if ("de".equals(language)) {
-                        display = "Regel";
-                    } else {
-                        display = "rule";
-                    }
-                    display += " " + data.getRuleNumber();
-                } else {
-                    if ("de".equals(language)) {
-                        display = "Unbekannt";
-                    } else {
-                        display = "unknown";
-                    }
-                }
-            }
-        }
-        return display;
     }
 
     /**
@@ -1022,6 +959,95 @@ public final class Qedeq2Utf8 extends ControlVisitor {
             printer.print("\u2015");
         }
         printer.println();
+    }
+
+    public String getExternalReference(final String moduleLabel) {
+        return "[" + moduleLabel + "]";
+    }
+
+    public String getExternalReference(final String moduleLabel, final String label,
+            final String subReference) {
+        String fix = "";
+        if (subReference != null && subReference.length() > 0) {
+            fix = " (" + subReference + ")";
+        }
+        final KernelQedeqBo module = getQedeqBo().getKernelRequiredModules().getKernelQedeqBo(label);
+        if (module != null) {
+            final KernelNodeBo kNode = module.getLabels().getNode(label);
+            if (kNode != null) {
+                return getNodeDisplay(kNode);
+            } else {
+                return label + "?" + fix + " [" + moduleLabel + "]";
+            }
+        } else {
+            return label + "?" + fix + " [" + moduleLabel + "?]";
+        }
+    }
+
+    public String getLocalReference(final String label, final String subReference) {
+        String fix = "";
+        if (subReference != null && subReference.length() > 0) {
+            fix = " (" + subReference + ")";
+        }
+        KernelNodeBo node = getQedeqBo().getLabels().getNode(label);
+        return getNodeDisplay(node) + fix;
+    }
+
+    public boolean isExternalModuleReference(final String moduleLabel) {
+        return getQedeqBo().getLabels().isModule(moduleLabel);
+    }
+
+    public boolean isLocalReference(final String label) {
+        return getQedeqBo().getLabels().isNode(label);
+    }
+
+    private String getNodeDisplay(final KernelNodeBo kNode) {
+        String display = "";
+        KernelNodeNumbers data = kNode.getNumbers();
+        Node node = kNode.getNodeVo();
+        if (node.getNodeType() instanceof Axiom) {
+            if ("de".equals(language)) {
+                display = "Axiom";
+            } else {
+                display = "axiom";
+            }
+            display += " " + data.getAxiomNumber();
+        } else if (node.getNodeType() instanceof Proposition) {
+            if ("de".equals(language)) {
+                display = "Proposition";
+            } else {
+                display = "proposition";
+            }
+            display += " " + data.getPropositionNumber();
+        } else if (node.getNodeType() instanceof FunctionDefinition) {
+            if ("de".equals(language)) {
+                display = "Definition";
+            } else {
+                display = "definition";
+            }
+            display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
+        } else if (node.getNodeType() instanceof PredicateDefinition) {
+            if ("de".equals(language)) {
+                display = "Definition";
+            } else {
+                display = "definition";
+            }
+            display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
+        } else if (node.getNodeType() instanceof Rule) {
+            if ("de".equals(language)) {
+                display = "Regel";
+            } else {
+                display = "rule";
+            }
+            display += " " + data.getRuleNumber();
+        } else {
+            if ("de".equals(language)) {
+                display = "Unbekannt " + node.getId();
+            } else {
+                display = "unknown " + node.getId();
+            }
+        }
+        return display;
     }
 
 }

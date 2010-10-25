@@ -92,7 +92,7 @@ public final class ModuleLabels {
      */
     private final void checkLabelIntern(final ModuleContext context,  final String label)
             throws IllegalModuleDataException {
-        if (label2Bo.containsKey(label)) {
+        if (label2Context.containsKey(label)) {
             // LATER mime 20071026: organize exception codes
             throw new IllegalModuleDataException(10002, "Id or label \"" + label
                 + "\" defined more than once.", context,
@@ -108,6 +108,26 @@ public final class ModuleLabels {
      */
     public final KernelNodeBo getNode(final String id) {
         return (KernelNodeBo) label2Bo.get(id);
+    }
+
+    /**
+     * Is the given label id a node?
+     *
+     * @param   id   Label to search node for.
+     * @return  Is this an node of this module?
+     */
+    public final boolean isNode(final String id) {
+        return label2Bo.get(id) != null;
+    }
+
+    /**
+     * Is the given label id a module?
+     *
+     * @param   id   Label to search module reference for.
+     * @return  Is this an module reference id?
+     */
+    public final boolean isModule(final String id) {
+        return label2Bo.get(id) == null && label2Context.get(id) != null;
     }
 
 }
