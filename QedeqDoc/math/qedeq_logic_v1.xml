@@ -338,7 +338,7 @@
             All formulas that are only built by usage of 1. and 3. are called formulas of the \emph{propositional calculus}\index{propositional calculus}\index{calculus!propositional}.
             
             \par
-            For each formula $\alpha$ the following proposition holds: the set of free subject variables is disjoint with the set of bound subject variables..\footnote{Other formalizations allow for example $\forall x_1~\alpha$ also if $x_1$ occurs already bound within $\alpha$. Also propositions like $\alpha(x) \land (\forall x_1 \beta)$ are allowed. In this formalizations
+            For each formula $\alpha$ the following proposition holds: the set of free subject variables is disjoint with the set of bound subject variables..\footnote{Other formalizations allow for example $\forall x_1~\alpha$ also if $x_1$ occurs already bound within $\alpha$. Also propositions like $\alpha(x_1)~\land~(\forall~x_1~\beta)$ are allowed. In this formalizations
             free and bound are defined for a single occurrence of a variable.}
             
             \par
@@ -407,8 +407,8 @@
             Alle Formeln die nur durch Anwendung von 1. und 3. gebildet werden, heißen Formeln der \emph{Aussagenalgebra}. 
             
             \par
-            Es gilt für jede Formel $\alpha$: die Menge der freien und der gebundenen Subjektvariablen von $\alpha$ sind disjunkt.\footnote{Andere Formalisierungen erlauben z.~B. $\forall x_1~\alpha$ auch dann, wenn $x_1$ schon in $\alpha$ gebunden vorkommt. Auch Ausdrücke wie $\alpha(x) \land (\forall x_1 \beta)$ sind erlaubt. Dort wird dann
-            für ein einzelnes Vorkommen einer Variablen definiert ob es sich um ein freies oder gebundenes Vorkommen handelt.}
+            Es gilt für jede Formel $\alpha$: die Menge der freien und der gebundenen Subjektvariablen von $\alpha$ sind disjunkt.\footnote{Andere Formalisierungen erlauben z.~B. $\forall x_1~\alpha$ auch dann, wenn $x_1$ schon in $\alpha$ gebunden vorkommt. Auch Ausdrücke wie $\alpha(x_1)~\land~(\foral~ x_1~\beta)$ sind erlaubt. Es wird dann
+            für ein einzelnes Vorkommen einer Variablen definiert, ob es sich um ein freies oder gebundenes Vorkommen handelt.}
             
             \par
             Falls eine Formel die Gestalt $\forall x_1 ~ \alpha$ bzw. $\exists x_1 ~ \alpha$ besitzt, dann heißt die Formel $\alpha$ der
