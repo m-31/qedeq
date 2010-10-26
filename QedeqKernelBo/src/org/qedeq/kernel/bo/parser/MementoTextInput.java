@@ -93,7 +93,7 @@ public class MementoTextInput {
      * @return  character read, if there are no more chars
      *          <code>-1</code> is returned
      */
-    public int readChar() {
+    public int read() {
         return input.read();
     }
 
@@ -102,7 +102,7 @@ public class MementoTextInput {
      *
      * @return  Anything left for reading further?
      */
-    public final boolean eof() {
+    public final boolean isEmpty() {
         return input.isEmpty();
     }
 

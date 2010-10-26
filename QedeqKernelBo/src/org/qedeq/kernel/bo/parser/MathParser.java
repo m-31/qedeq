@@ -557,7 +557,7 @@ public abstract class MathParser {
      *          <code>Character.MAX_VALUE</code> is returned
      */
     protected final int readChar() {
-        return input.readChar();
+        return input.read();
     }
 
     /**
@@ -574,7 +574,7 @@ public abstract class MathParser {
      * @return  Anything left for reading further?
      */
     public final boolean eof() {
-        return input.eof();
+        return input.isEmpty();
     }
 
     /**
