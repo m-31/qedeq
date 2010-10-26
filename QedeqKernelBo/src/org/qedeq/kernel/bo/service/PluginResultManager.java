@@ -43,6 +43,13 @@ public class PluginResultManager {
     }
 
     /**
+     * Clear all plugin results.
+     */
+    public void removeAllResults() {
+        plugins.clear();
+    }
+
+    /**
      * Set a plugin execution results.
      *
      * @param   plugin      Set results for this plugin.
@@ -135,5 +142,6 @@ public class PluginResultManager {
         }
         return text.toString();
     }
+
 }
 

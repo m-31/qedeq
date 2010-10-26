@@ -121,4 +121,13 @@ public class PluginManager {
         return plugin.executePlugin(qedeq, parameters);
     }
 
+    /**
+     * Clear all plugin errors and warnings on an QEDEQ module.
+     *
+     * @param   qedeq   Clear reults for this module.
+     */
+    public void clearAllPluginResults(final KernelQedeqBo qedeq) {
+        qedeq.clearAllPluginErrorsAndWarnings();
+    }
+
 }

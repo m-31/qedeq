@@ -934,6 +934,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         return pluginManager.executePlugin(id, getKernelQedeqBo(address), parameters);
     }
 
+    public void clearAllPluginResults(final ModuleAddress address) {
+        pluginManager.clearAllPluginResults(getKernelQedeqBo(address));
+    }
+
     /**
      * Get all loaded QEDEQ modules.
      *

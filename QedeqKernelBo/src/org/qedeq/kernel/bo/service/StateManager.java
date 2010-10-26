@@ -686,6 +686,11 @@ public class StateManager {
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
+    public void removeAllPluginResults() {
+        pluginResults.removeAllResults();
+        ModuleEventLog.getInstance().stateChanged(bo);
+    }
+
     /**
      * Print the dependence tree to <code>System.out</code>.
      */
