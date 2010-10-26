@@ -688,6 +688,28 @@ public class TextInput extends InputStream {
     }
 
     /**
+     * Get given byte position as {@link SourcePosition}.
+     *
+     * @param   find    Get row and column information for this byte position.
+     * @return  Row and column information.
+     */
+    public final SourcePosition getPosition(final int find) {
+        int r = 0;
+        int c = 0;
+        int i = 0;
+        while (i < source.length() && i < find) {
+            if (CR == source.charAt(i)) {
+                r++;
+                c = 0;
+            } else {
+                c++;
+            }
+            i++;
+        }
+        return new SourcePosition(r + 1, c + 1);
+    }
+
+    /**
      * Add the following rows and reset column (if <code>number == 0</code>).
      *
      * @param  number   Add this number of rows.
