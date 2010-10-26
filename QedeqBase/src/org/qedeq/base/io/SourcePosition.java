@@ -36,8 +36,8 @@ public final class SourcePosition implements Serializable {
     /**
      * Constructs source position object.
      *
-     * @param   row     Line number.
-     * @param   column  Column number.
+     * @param   row     Line number, starting with 1.
+     * @param   column  Column number, starting with 1.
      */
     public SourcePosition(final int row, final int column) {
         this.row = row;
