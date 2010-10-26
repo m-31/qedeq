@@ -193,6 +193,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
+        public void clearAllPluginResults(final ModuleAddress address) {
+            throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
+        }
+
     };
 
     /** Initial kernel state. */
@@ -277,6 +281,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
         public Object executePlugin(final String pluginName, final ModuleAddress address,
                 final Map parameters) {
+            throw new IllegalStateException(KERNEL_NOT_STARTED);
+        }
+
+        public void clearAllPluginResults(final ModuleAddress address) {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -375,6 +383,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         public Object executePlugin(final String pluginName, final ModuleAddress address,
                 final Map parameters) {
             return services.executePlugin(pluginName, address, parameters);
+        }
+
+        public void clearAllPluginResults(final ModuleAddress address) {
+            services.clearAllPluginResults(address);
         }
 
     };
@@ -623,6 +635,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     public Object executePlugin(final String pluginName, final ModuleAddress address,
             final Map parameters) {
         return currentState.executePlugin(pluginName, address, parameters);
+    }
+
+    public void clearAllPluginResults(final ModuleAddress address) {
+        currentState.clearAllPluginResults(address);
     }
 
     /**

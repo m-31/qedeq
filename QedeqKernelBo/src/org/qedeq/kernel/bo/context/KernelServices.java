@@ -164,4 +164,11 @@ public interface KernelServices {
      */
     public Object executePlugin(final String id, final ModuleAddress address, final Map parameters);
 
+    /**
+     * Clear all plugin warnings and errors for given module.
+     *
+     * @param   address     QEDEQ module address.
+     */
+    public void clearAllPluginResults(final ModuleAddress address);
+
 }
