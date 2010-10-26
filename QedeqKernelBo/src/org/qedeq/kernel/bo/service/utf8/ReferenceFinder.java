@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.bo.service.utf8;
 
+import org.qedeq.base.io.SourcePosition;
 
 
 /**
@@ -24,15 +25,18 @@ package org.qedeq.kernel.bo.service.utf8;
  */
 public interface ReferenceFinder {
 
-    public boolean isExternalModuleReference(final String moduleLabel);
+    public String getExternalReference(final String reference, final String subReference,
+        final SourcePosition startDelta, final SourcePosition endDelta);
 
-    public String getExternalReference(final String moduleLabel);
-
-    public String getExternalReference(final String moduleLabel, final String label,
-        final String subReference);
-
-    public boolean isLocalReference(final String label);
-
-    public String getLocalReference(final String label, final String subReference);
+    /**
+     * Add warning.
+     *
+     * @param   code        Warning code.
+     * @param   msg         Warning message.
+     * @param   startDelta  Skip position relative to location start).
+     * @param   endDelta    Mark until this column (relative to location start).
+     */
+    public void addWarning(final int code, final String msg, final SourcePosition startDelta,
+            final SourcePosition endDelta);
 
 }

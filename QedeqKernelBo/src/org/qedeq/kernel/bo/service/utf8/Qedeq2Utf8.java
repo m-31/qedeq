@@ -51,7 +51,6 @@ import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.bo.NodeBo;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelNodeNumbers;
@@ -882,7 +881,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
      *                      be <code>null</code>
      * @return  Current module context.
      */
-    public ModuleContext getCurrentContext(final SourcePosition startDelta,
+    private ModuleContext getCurrentContext(final SourcePosition startDelta,
             final SourcePosition endDelta) {
         if (subContext.length() == 0) {
             return super.getCurrentContext();
@@ -900,10 +899,10 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
      * @param   msg         Warning message.
      * @param   startDelta  Skip position (relative to location start). Could be
      *                      <code>null</code>.
-     * @param   endDelta    Mark until this column (relative to location start).
+     * @param   endDelta    Mark until this column (relative to location start). Could be
      *                      be <code>null</code>
      */
-    private void addWarning(final int code, final String msg, final SourcePosition startDelta,
+    public void addWarning(final int code, final String msg, final SourcePosition startDelta,
             final SourcePosition endDelta) {
         Trace.param(CLASS, this, "addWarning", "msg", msg);
         addWarning(new LatexContentException(code, msg, getCurrentContext(startDelta, endDelta)));
@@ -932,7 +931,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         if (latex == null) {
             return "";
         }
-        return Latex2Utf8Parser.transform(transformQref(latex.trim()), maxColumns);
+        return Latex2Utf8Parser.transform(this, latex, maxColumns);
     }
 
     /**
@@ -961,44 +960,57 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         printer.println();
     }
 
-    public String getExternalReference(final String moduleLabel) {
-        return "[" + moduleLabel + "]";
-    }
+    public String getExternalReference(final String reference, final String subReference,
+            final SourcePosition startPosition, final SourcePosition endPosition) {
+        final String method = "getExternalReference(SourcePosition, SourcePosition, String, "
+            + "String)";
 
-    public String getExternalReference(final String moduleLabel, final String label,
-            final String subReference) {
+        // get module label (if any)
+        String moduleLabel = "";
+        String localLabel = reference;
+        int dot = reference.indexOf(".");
+        if (dot >= 0) {
+            moduleLabel = reference.substring(0, dot);
+            localLabel = reference.substring(dot + 1);
+        }
         String fix = "";
         if (subReference != null && subReference.length() > 0) {
-            fix = " (" + subReference + ")";
+            fix += " (" + subReference + ")";
         }
-        final KernelQedeqBo module = getQedeqBo().getKernelRequiredModules().getKernelQedeqBo(label);
-        if (module != null) {
-            final KernelNodeBo kNode = module.getLabels().getNode(label);
-            if (kNode != null) {
-                return getNodeDisplay(kNode);
-            } else {
-                return label + "?" + fix + " [" + moduleLabel + "]";
+        KernelQedeqBo module = getQedeqBo();
+        if (moduleLabel.length() == 0) {
+            // check if local reference is in fact a module label
+            final KernelQedeqBo refModule = module.getKernelRequiredModules()
+                .getKernelQedeqBo(localLabel);
+            if (refModule != null) {
+                moduleLabel = localLabel;
+                localLabel = "";
+                module = refModule;
             }
         } else {
-            return label + "?" + fix + " [" + moduleLabel + "?]";
+            final KernelQedeqBo refModule = module.getKernelRequiredModules()
+                .getKernelQedeqBo(moduleLabel);
+            if (refModule != null) {
+                module = refModule;
+                Trace.info(CLASS, this, method, "module not found for " + moduleLabel);
+                addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
+                    LatexErrorCodes.QREF_PARSING_EXCEPTION_MSG
+                    + ": " + "module not found for " + reference, startPosition,
+                    endPosition);
+                return moduleLabel + "?." + localLabel + fix;
+            }
         }
-    }
-
-    public String getLocalReference(final String label, final String subReference) {
-        String fix = "";
-        if (subReference != null && subReference.length() > 0) {
-            fix = " (" + subReference + ")";
+        final KernelNodeBo kNode = module.getLabels().getNode(localLabel);
+        if (kNode != null) {
+            return getNodeDisplay(kNode) + fix;
+        } else {
+            Trace.info(CLASS, this, method, "node not found for " + reference);
+            addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
+                LatexErrorCodes.QREF_PARSING_EXCEPTION_MSG
+                + ": " + "node not found for " + reference, startPosition,
+                endPosition);
+            return moduleLabel + "?" + fix;
         }
-        KernelNodeBo node = getQedeqBo().getLabels().getNode(label);
-        return getNodeDisplay(node) + fix;
-    }
-
-    public boolean isExternalModuleReference(final String moduleLabel) {
-        return getQedeqBo().getLabels().isModule(moduleLabel);
-    }
-
-    public boolean isLocalReference(final String label) {
-        return getQedeqBo().getLabels().isNode(label);
     }
 
     private String getNodeDisplay(final KernelNodeBo kNode) {

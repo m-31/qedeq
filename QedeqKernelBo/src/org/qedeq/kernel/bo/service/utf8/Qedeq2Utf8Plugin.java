@@ -164,7 +164,7 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
             final Qedeq2Utf8 converter = new Qedeq2Utf8(this, prop, printer, language, level, info,
                 maxColumns);
             converter.traverse();
-            prop.addPluginErrors(this, converter.getErrorList(), converter.getWarningList());
+            prop.addPluginErrorsAndWarnings(this, converter.getErrorList(), converter.getWarningList());
         } finally {
             if (printer != null) {
                 printer.flush();

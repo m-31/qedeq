@@ -371,7 +371,7 @@ public final class LatexTextParser {
      *          <code>Character.MAX_VALUE</code> is returned
      */
     protected final int readChar() {
-        return input.readChar();
+        return input.read();
     }
 
     /**
@@ -380,7 +380,7 @@ public final class LatexTextParser {
      * @return  Anything left for reading further?
      */
     public final boolean eof() {
-        return input.eof();
+        return input.isEmpty();
     }
 
     /**
