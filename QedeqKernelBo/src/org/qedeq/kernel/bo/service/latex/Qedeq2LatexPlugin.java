@@ -148,7 +148,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
             printer = new TextOutput(prop.getName(), new FileOutputStream(destination));
             final Qedeq2Latex converter = new Qedeq2Latex(this, prop, printer, language, level, info);
             converter.traverse();
-            prop.addPluginErrors(this, converter.getErrorList(), converter.getWarningList());
+            prop.addPluginErrorsAndWarnings(this, converter.getErrorList(), converter.getWarningList());
         } finally {
             if (printer != null) {
                 printer.flush();
@@ -161,7 +161,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         try {
             QedeqBoDuplicateLanguageChecker.check(this, prop);
         } catch (SourceFileExceptionList warnings) {
-            prop.addPluginErrors(this, null, warnings);
+            prop.addPluginErrorsAndWarnings(this, null, warnings);
         }
         return destination.getCanonicalFile();
     }
