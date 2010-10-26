@@ -45,13 +45,19 @@ public interface KernelQedeqBo extends QedeqBo {
             exception);
 
     /**
-     * Add errors for plugin.
+     * Add errors and warnings for plugin.
      *
      * @param plugin    Add errors for this plugin.
      * @param errors    These errors occurred.
      * @param warnings  These warnings occurred.
      */
-    public void addPluginErrors(PluginBo plugin, SourceFileExceptionList errors, SourceFileExceptionList warnings);
+    public void addPluginErrorsAndWarnings(PluginBo plugin, SourceFileExceptionList errors,
+            SourceFileExceptionList warnings);
 
+
+    /**
+     * Remove all errors and warnings for all plugins.
+     */
+    public void clearAllPluginErrorsAndWarnings();
 
 }
