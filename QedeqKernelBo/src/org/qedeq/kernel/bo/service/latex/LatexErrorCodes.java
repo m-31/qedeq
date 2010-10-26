@@ -52,4 +52,11 @@ public interface LatexErrorCodes extends ErrorCodes {
     public static final String QREF_PARSING_EXCEPTION_MSG = "parsing of \"\\qref{\" failed";
 
 
+    /** Error (or warning) number for: ending "}" for "{" not found. */
+    public static final int BRACKET_END_NOT_FOUND_CODE = 80017;
+
+    /** Error (or warning) text for: ending "}" for "{" not found. */
+    public static final String BRACKET_END_NOT_FOUND_MSG = "ending \"}\" for \"{\" not found";
+
+
 }

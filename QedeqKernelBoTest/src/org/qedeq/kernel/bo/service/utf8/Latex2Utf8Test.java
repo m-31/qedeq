@@ -14,9 +14,15 @@
  */
 package org.qedeq.kernel.bo.service.utf8;
 
+import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
+import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
+import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
@@ -50,6 +56,12 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             
             public void addWarning(int code, String msg, SourcePosition startDelta,
                     SourcePosition endDelta) {
+                ModuleDataException e = new LatexContentException(code, msg,
+                        new ModuleContext(new DefaultModuleAddress(), "", startDelta, endDelta));
+                final SourceFileException sf = new SourceFileException((Plugin) null, e,
+                        new SourceArea("memory", startDelta, endDelta), null);
+
+                warnings.add(sf);
                 
             }
         };
@@ -173,7 +185,61 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "      else coincides with the end formula B of an inference occurring earlier in\n"
             + "      the proof or results from it by substitution. A formula is said to be\n"
             + "      provable if it is either an axiom or the end formula of a proof.\u201d\n";
+        System.out.println(warnings);
         assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(0, warnings.size());
+    }
+
+    /**
+     * Test if leading whitespace is removed.
+     *
+     * @throws Exception
+     */
+    public void test03() throws Exception {
+        final String text = "   \n \t hi";
+        final String result = "hi";
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(0, warnings.size());
+    }
+
+    /**
+     * Test if leading whitespace is removed.
+     *
+     * @throws Exception
+     */
+    public void test04() throws Exception {
+        final String text  = "    \\qref{123] missing";
+        final String result = "123] missing";
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        System.out.println(warnings);
+        assertEquals(2, warnings.size());
+        final SourceFileException first = warnings.get(0);
+        assertEquals("memory:1:10:1:23", first.getSourceArea().toString());
+        final SourceFileException second = warnings.get(1);
+        assertEquals("memory:1:10:1:11", second.getSourceArea().toString());
+    }
+
+    /**
+     * Test if leading whitespace is removed.
+     *
+     * @throws Exception
+     */
+    public void test05() throws Exception {
+        final String text  = "    {%% ignore me\n  missing\n  still missing";
+        final String result = "123] missing";
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(1, warnings.size());
+    }
+
+    /**
+     * Test if leading whitespace is removed.
+     *
+     * @throws Exception
+     */
+    public void test06() throws Exception {
+        final String text  = "A \\emph{Hilbert} B \\emph{Bernays}.";
+        final String result = "A \u2006H\u2006i\u2006l\u2006b\u2006e\u2006r\u2006t\u2006 B \u2006B\u2006e\u2006r\u2006n\u2006a\u2006y\u2006s\u2006.";
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 0));
         assertEquals(0, warnings.size());
     }
 
