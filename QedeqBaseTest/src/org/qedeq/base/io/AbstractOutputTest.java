@@ -65,10 +65,10 @@ public class AbstractOutputTest extends QedeqTestCase {
 
             private StringBuffer buffer = new StringBuffer();
 
-            protected void append(String text) {
+            protected void append(final String text) {
                 buffer.append(text);
             }
-            
+
             public String toString() {
                 return buffer.toString();
             }
