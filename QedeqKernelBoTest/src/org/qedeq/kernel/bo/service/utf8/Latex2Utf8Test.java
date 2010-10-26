@@ -226,7 +226,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
      */
     public void test05() throws Exception {
         final String text  = "    {%% ignore me\n  missing\n  still missing";
-        final String result = "123] missing";
+        final String result = "missing still missing";
         assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
         assertEquals(1, warnings.size());
     }
