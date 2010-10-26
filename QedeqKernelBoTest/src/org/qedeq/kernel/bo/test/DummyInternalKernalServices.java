@@ -104,5 +104,7 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     public Plugin[] getPlugins() {
         return null;
     }
+    public void clearAllPluginResults(ModuleAddress address) {
+    }
 
 }

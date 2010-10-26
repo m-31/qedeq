@@ -14,7 +14,11 @@
  */
 package org.qedeq.kernel.bo.service.utf8;
 
+import org.qedeq.base.io.SourcePosition;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
+import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
  * For test of generating Utf8 output.
@@ -23,12 +27,33 @@ import org.qedeq.kernel.bo.test.QedeqBoTestCase;
  */
 public class Latex2Utf8Test extends QedeqBoTestCase {
 
+    private ReferenceFinder finder;
+
+    private SourceFileExceptionList warnings;
+    
     public Latex2Utf8Test() {
         super();
     }
 
     public Latex2Utf8Test(final String name) {
         super(name);
+    }
+
+    public void setUp() {
+        finder = new ReferenceFinder() {
+            
+            public String getExternalReference(String reference,
+                    String subReference, SourcePosition startDelta,
+                    SourcePosition endDelta) {
+                return reference + " (" + subReference + ")";
+            }
+            
+            public void addWarning(int code, String msg, SourcePosition startDelta,
+                    SourcePosition endDelta) {
+                
+            }
+        };
+        warnings = new DefaultSourceFileExceptionList();
     }
 
     /**
@@ -82,10 +107,10 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "This document is work in progress "
             + "and is updated from time to time. Especially at the locations marked by \u201e+++\u201d "
             + "additions or changes will take place.";
-        assertEquals(result, Latex2Utf8Parser.transform(text, 0));
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 0));
+        assertEquals(0, warnings.size());
     }
-    
-    
+
     public void test02() throws Exception {
         final String text = "At the beginning we quote \\emph{D. Hilbert} from the lecture "
             + "{\\glqq The Logical Basis of Mathematics\\grqq}, September \n"
@@ -148,7 +173,8 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "      else coincides with the end formula B of an inference occurring earlier in\n"
             + "      the proof or results from it by substitution. A formula is said to be\n"
             + "      provable if it is either an axiom or the end formula of a proof.\u201d\n";
-        assertEquals(result, Latex2Utf8Parser.transform(text, 80));
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(0, warnings.size());
     }
 
 }
