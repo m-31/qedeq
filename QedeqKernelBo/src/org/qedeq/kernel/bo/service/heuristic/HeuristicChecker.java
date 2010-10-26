@@ -82,7 +82,7 @@ public final class HeuristicChecker extends ControlVisitor {
         } catch (SourceFileExceptionList sfl) {
             throw sfl;
         } finally {
-            prop.addPluginErrors(plugin, checker.getErrorList(), checker.getWarningList());
+            prop.addPluginErrorsAndWarnings(plugin, checker.getErrorList(), checker.getWarningList());
         }
     }
 
