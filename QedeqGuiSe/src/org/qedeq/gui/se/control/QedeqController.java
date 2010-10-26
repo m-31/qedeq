@@ -84,6 +84,9 @@ public class QedeqController {
     /** Check logical correctness of QEDEQ module. */
     private final Action checkLogicAction;
 
+    /** Remove all plugin results for QEDEQ module. */
+    private final Action removePluginResultsAction;
+
     /** Show preferences window. */
     private final Action preferencesAction;
 
@@ -119,6 +122,7 @@ public class QedeqController {
         removeLocalBufferAction = new RemoveLocalBufferAction(this);
         makeLatexAction = new MakeLatexAction(this);
         checkLogicAction = new CheckLogicAction(this);
+        removePluginResultsAction = new RemovePluginResultsAction(this);
 
         final Plugin[] plugins = KernelContext.getInstance().getPlugins();
         pluginActions = new PluginAction[plugins.length];
@@ -258,6 +262,15 @@ public class QedeqController {
      */
     public Action getCheckLogicAction() {
         return checkLogicAction;
+    }
+
+    /**
+     * Get action for removing all plugin results for the selected QEDEQ modules.
+     *
+     * @return  Action.
+     */
+    public Action getRemovePluginResultsAction() {
+        return removePluginResultsAction;
     }
 
     /**

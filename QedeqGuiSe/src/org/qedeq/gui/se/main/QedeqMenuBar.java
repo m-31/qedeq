@@ -136,7 +136,13 @@ public class QedeqMenuBar extends JMenuBar {
      * @return  Menu.
      */
     private JMenu createTransformMenu() {
-        final JMenu menu = MenuHelper.createMenu("Transform", 'T');
+        final JMenu menu = MenuHelper.createMenu("Plugins", 'P');
+        JMenuItem item;
+        item = MenuHelper.createMenuItem("Remove Results", 'R');
+        item.addActionListener(controller.getRemovePluginResultsAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-delete.png"));
+        menu.add(item);
+        menu.addSeparator();
         final JMenuItem[] pluginMenu = controller.getPluginMenuEntries();
         for (int i = 0; i < pluginMenu.length; i++) {
             menu.add(pluginMenu[i]);
