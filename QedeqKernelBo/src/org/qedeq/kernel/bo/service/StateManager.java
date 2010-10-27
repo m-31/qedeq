@@ -686,6 +686,9 @@ public class StateManager {
         ModuleEventLog.getInstance().stateChanged(bo);
     }
 
+    /**
+     * Remove all plugin errors and warnings.
+     */
     public void removeAllPluginResults() {
         pluginResults.removeAllResults();
         ModuleEventLog.getInstance().stateChanged(bo);
