@@ -20,6 +20,7 @@ import java.util.Stack;
 import org.qedeq.base.io.AbstractOutput;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.StringOutput;
+import org.qedeq.base.io.SubTextInput;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.service.latex.LatexErrorCodes;
@@ -44,7 +45,7 @@ public final class Latex2Utf8Parser {
     private final ReferenceFinder finder;
 
     /** This is our current input stream .*/
-    private TextInput input;
+    private SubTextInput input;
 
     /** Math mode on? */
     private boolean mathMode = false;
@@ -60,9 +61,6 @@ public final class Latex2Utf8Parser {
 
     /** Mathbb on? */
     private boolean mathbb = false;
-
-    /** Offset for current TextInput to top level TextInput. */
-    private int start;
 
     /** Stack for input parser. */
     private Stack inputStack = new Stack();
@@ -97,7 +95,7 @@ public final class Latex2Utf8Parser {
      * @return  QEDEQ module string.
      */
     public static final String transform(final ReferenceFinder finder, final String input, final int columns) {
-        final Latex2Utf8Parser parser = new Latex2Utf8Parser(finder, input);
+        final Latex2Utf8Parser parser = new Latex2Utf8Parser(finder);
         parser.output.setColumns(columns);
         return parser.getUtf8(input);
     }
@@ -106,11 +104,9 @@ public final class Latex2Utf8Parser {
      * Constructor.
      *
      * @param   finder  Finder for references.
-     * @param   input   Parse this input.
      */
-    private Latex2Utf8Parser(final ReferenceFinder finder, final String input) {
+    private Latex2Utf8Parser(final ReferenceFinder finder) {
         this.finder = finder;
-        this.input = new TextInput(input);
         this.output = new StringOutput();
     }
 
@@ -122,7 +118,7 @@ public final class Latex2Utf8Parser {
      */
     private String getUtf8(final String text) {
         skipWhitespace = true;
-        parseAndPrint(0, text);
+        parseAndPrint(new SubTextInput(text));
         output.flush();
         return output.toString();
     }
@@ -130,28 +126,25 @@ public final class Latex2Utf8Parser {
     /**
      * Do parsing and print result.
      *
-     * @param   start   Absolute position within main {@link TextInput}.
-     * @param   text    Parse this LaTeX text and print UTF-8 into output.
+     * @param   input   Parse this LaTeX text and print UTF-8 into output.
      */
-    private void parseAndPrint(final int start, final String text) {
+    private void parseAndPrint(final SubTextInput input) {
         // remember old:
-        inputStack.push(input);
+        inputStack.push(this.input);
         mathModeStack.push(Boolean.valueOf(mathMode));
         mathfrakStack.push(Boolean.valueOf(mathfrak));
         emphStack.push(Boolean.valueOf(emph));
         boldStack.push(Boolean.valueOf(bold));
         mathbbStack.push(Boolean.valueOf(mathbb));
-        startStack.push(new Integer(this.start));
-        this.start = start;
-        int current = start;
+        int current = input.getAbsolutePosition();
         try {
-            this.input = new TextInput(text);
+            this.input = input;
             boolean whitespace = false;
             while (!eof()) {
-                current = getAbsolutePosition();
+                current = input.getAbsolutePosition();
                 final int tokenBegin = current;
                 String token = readToken();
-                current = getAbsolutePosition();
+                current = input.getAbsolutePosition();
                 final int tokenEnd = current;
                 if (!token.startsWith("\\")) {
                     token = token.trim();
@@ -172,21 +165,21 @@ public final class Latex2Utf8Parser {
                     parseQref();
                 } else if ("$$".equals(token)) {
                     mathMode = true;
-                    final String content = readTilToken(token);
+                    final SubTextInput content = readTilToken(token);
                     println();
-                    parseAndPrint(current, content);
+                    parseAndPrint(content);
                     println();
                     mathMode = false;
                 } else if ("$".equals(token)) {
                     mathMode = true;
-                    final String content = readTilToken(token);
-                    parseAndPrint(tokenEnd, content);
+                    final SubTextInput content = readTilToken(token);
+                    parseAndPrint(content);
                     mathMode = false;
                 } else if ("\\mathfrak".equals(token)) {
                     if ('{' == getChar()) {
                         mathfrak = true;
-                        final String content = readCurlyBraceContents();
-                        parseAndPrint(tokenEnd + 1, content);
+                        final SubTextInput content = readCurlyBraceContents();
+                        parseAndPrint(content);
                         mathfrak = false;
                     } else {
                         mathfrak = true;
@@ -194,8 +187,8 @@ public final class Latex2Utf8Parser {
                 } else if ("\\mathbb".equals(token)) {
                     if ('{' == getChar()) {
                         mathbb = true;
-                        final String content = readCurlyBraceContents();
-                        parseAndPrint(tokenEnd + 1, content);
+                        final SubTextInput content = readCurlyBraceContents();
+                        parseAndPrint(content);
                         mathbb = false;
                     } else {
                         mathbb = true;
@@ -203,8 +196,8 @@ public final class Latex2Utf8Parser {
                 } else if ("\\emph".equals(token)) {
                     if ('{' == getChar()) {
                         emph = true;
-                        final String content = readCurlyBraceContents();
-                        parseAndPrint(tokenEnd + 1, content);
+                        final SubTextInput content = readCurlyBraceContents();
+                        parseAndPrint(content);
                         output.addWs("\u2006");
                         emph = false;
                     } else {
@@ -213,16 +206,16 @@ public final class Latex2Utf8Parser {
                 } else if ("\\textbf".equals(token)) {
                     if ('{' == getChar()) {
                         bold = true;
-                        final String content = readCurlyBraceContents();
-                        parseAndPrint(tokenEnd + 1, content);
+                        final SubTextInput content = readCurlyBraceContents();
+                        parseAndPrint(content);
                         bold = false;
                     } else {
                         bold = true;
                     }
                 } else if ("\\mbox".equals(token)) {
                     if ('{' == getChar()) {
-                        final String content = readCurlyBraceContents();
-                        parseAndPrint(tokenEnd + 1, content);
+                        final SubTextInput content = readCurlyBraceContents();
+                        parseAndPrint(content);
                     }
                 } else if ("\\cline".equals(token)) {
                     if ('{' == getChar()) {
@@ -233,11 +226,11 @@ public final class Latex2Utf8Parser {
                     println();
                 } else if ("{".equals(token)) {
                     input.readInverse();
-                    final String content = readCurlyBraceContents();
-                    parseAndPrint(tokenEnd, content);
+                    final SubTextInput content = readCurlyBraceContents();
+                    parseAndPrint(content);
                 } else if ("\\url".equals(token)) {
-                    final String content = readCurlyBraceContents();
-                    output.addToken(" " + content + " ");
+                    final SubTextInput content = readCurlyBraceContents();
+                    output.addToken(" " + content.asString() + " ");
                 } else if ('{' == getChar() && ("\\index".equals(token) || "\\label".equals(token)
                         || token.equals("\\vspace") || token.equals("\\hspace")
                         || token.equals("\\vspace*") || token.equals("\\hspace*"))) {
@@ -247,7 +240,7 @@ public final class Latex2Utf8Parser {
                     if (mathMode) {
                         String content;
                         if ('{' == getChar()) {
-                            content = readCurlyBraceContents();
+                            content = readCurlyBraceContents().asString();
                         } else {
                             content = readToken();
                         }
@@ -264,12 +257,11 @@ public final class Latex2Utf8Parser {
                 }
             }
         } finally {
-            input = (TextInput) inputStack.pop();
+            this.input = (SubTextInput) inputStack.pop();
             mathMode = ((Boolean) mathModeStack.pop()).booleanValue();
             mathfrak = ((Boolean) mathfrakStack.pop()).booleanValue();
             emph = ((Boolean) emphStack.pop()).booleanValue();
             bold = ((Boolean) boldStack.pop()).booleanValue();
-            this.start = ((Integer) startStack.pop()).intValue();
         }
     }
 
@@ -278,8 +270,7 @@ public final class Latex2Utf8Parser {
      */
     private void parseFootnote() {
         if ('{' == getChar()) {
-            final int current = getAbsolutePosition();
-            final String content = readCurlyBraceContents();
+            final SubTextInput content = readCurlyBraceContents();
             println();
             output.printWithoutSplit("          \u250C");
             output.pushLevel();
@@ -289,7 +280,7 @@ public final class Latex2Utf8Parser {
             output.pushLevel();
             output.pushLevel("\u2502 ");
             println();
-            parseAndPrint(current + 1, content);
+            parseAndPrint(content);
             output.popLevel();
             output.popLevel();
             output.popLevel();
@@ -313,35 +304,35 @@ public final class Latex2Utf8Parser {
      */
     private void parseQref() {
         final String method = "parseQref()";
-        final int localStart1 = getAbsolutePosition();
+        final int localStart1 = input.getAbsolutePosition();
         if ('{' == getChar()) {
-            final String content = readCurlyBraceContents();
-            String ref = content.trim();
+            final SubTextInput content = readCurlyBraceContents();
+            String ref = content.asString().trim();
             Trace.param(CLASS, this, method, "ref", ref);
             if (ref.length() == 0) {
                 finder.addWarning(LatexErrorCodes.QREF_EMPTY_CODE, LatexErrorCodes.QREF_EMPTY_MSG,
-                    getSourcePosition(localStart1), getSourcePosition(getAbsolutePosition()));
+                    getSourcePosition(localStart1), getSourcePosition(input.getAbsolutePosition()));
                 return;
             }
             if (ref.length() > 1024) {
                 finder.addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
                     LatexErrorCodes.QREF_END_NOT_FOUND_MSG,
-                    getSourcePosition(localStart1), getSourcePosition(getAbsolutePosition()));
+                    getSourcePosition(localStart1), getSourcePosition(input.getAbsolutePosition()));
                 return;
             }
             if (ref.indexOf("{") >= 0) {
                 finder.addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
                     LatexErrorCodes.QREF_END_NOT_FOUND_MSG,
-                    getSourcePosition(localStart1), getSourcePosition(getAbsolutePosition()));
+                    getSourcePosition(localStart1), getSourcePosition(input.getAbsolutePosition()));
                 return;
             }
 
             // exists a sub reference?
             String sub = "";
-            int localStart2 = getAbsolutePosition();
+            int localStart2 = input.getAbsolutePosition();
             if ('[' == input.getChar(0)) {
                 read();
-                sub = readTilToken("]");
+                sub = readTilToken("]").asString();
             }
             String display = finder.getExternalReference(ref, sub, getSourcePosition(localStart1),
                 getSourcePosition(localStart2));
@@ -354,15 +345,13 @@ public final class Latex2Utf8Parser {
      * Parse after \begin.
      */
     private void parseBegin() {
-        final String kind = readCurlyBraceContents();   // ignore
-        int current = getAbsolutePosition();
-        final String content = readSection(kind);
-        current = getAbsolutePosition();
+        final String kind = readCurlyBraceContents().asString();   // ignore
+        final SubTextInput content = readSection(kind);
         if ("eqnarray".equals(kind)
             || "eqnarray*".equals(kind)
             || "equation*".equals(kind)) {
             mathMode = true;
-            parseAndPrint(current, content);
+            parseAndPrint(content);
             println();
             mathMode = false;
         } else if ("quote".equals(kind)) {
@@ -370,16 +359,16 @@ public final class Latex2Utf8Parser {
             output.pushLevel();
             output.pushLevel();
             println();
-            parseAndPrint(current, content);
+            parseAndPrint(content);
             println();
             output.popLevel();
             output.popLevel();
             output.popLevel();
         } else if ("tabularx".equals(kind)) {
             skipWhitespace = false;
-            parseAndPrint(current, content);
+            parseAndPrint(content);
         } else {
-            parseAndPrint(current, content);
+            parseAndPrint(content);
         }
     }
 
@@ -397,34 +386,32 @@ public final class Latex2Utf8Parser {
      * @param   kind    Look for the end of this.
      * @return  Read text.
      */
-    private String readSection(final String kind) {
+    private SubTextInput readSection(final String kind) {
         if ('{' == getChar()) { // skip content
             readCurlyBraceContents();
         }
         if ('{' == getChar()) { // skip content
             readCurlyBraceContents();
         }
-        final StringBuffer buffer = new StringBuffer();
-        int localStart = getAbsolutePosition();
+        final int localStart = input.getAbsolutePosition();
+        int current = localStart;
         do {
+            current = input.getAbsolutePosition();
             final String item = readToken();
             if (item == null) {
                 Trace.fatal(CLASS, this, "readSection", "not found: " + "\\end{" + kind + "}",
-                    new IllegalArgumentException("from " + localStart + " to " + getAbsolutePosition()
+                    new IllegalArgumentException("from " + localStart + " to " + input.getAbsolutePosition()
                     + input.getPosition()));
                 break;
             }
             if ("\\end".equals(item)) {
-                final String curly2 = readCurlyBraceContents();
+                final String curly2 = readCurlyBraceContents().asString();
                 if (kind.equals(curly2)) {
                     break;
                 }
-                buffer.append(item + "{" + curly2 + "}");
-            } else {
-                buffer.append(item);
             }
         } while (true);
-        return buffer.toString();
+        return input.getSubTextInput(localStart, current);
     }
 
     /**
@@ -433,15 +420,17 @@ public final class Latex2Utf8Parser {
      * @param   token   Terminator token.
      * @return  Read text before token.
      */
-    private String readTilToken(final String token) {
-        final long localStart = getAbsolutePosition();
+    private SubTextInput readTilToken(final String token) {
+        final int localStart = input.getAbsolutePosition();
         final StringBuffer buffer = new StringBuffer();
+        int current = localStart;
         do {
+            current = input.getAbsolutePosition();
             final String item = readToken();
             if (item == null) {
                 Trace.fatal(CLASS, this, "readSection", "not found: " + token,
-                    new IllegalArgumentException("from " + localStart + " to " + start
-                    + input.getPosition()));
+                    new IllegalArgumentException("from " + localStart + " to " + current
+                    + input.getAbsolutePosition()));
                 break;
             }
             if (token.equals(item)) {
@@ -450,7 +439,7 @@ public final class Latex2Utf8Parser {
                 buffer.append(item);
             }
         } while (true);
-        return buffer.toString();
+        return input.getSubTextInput(localStart, current);
     }
 
     /**
@@ -581,15 +570,14 @@ public final class Latex2Utf8Parser {
      *
      * @return  Contents.
      */
-    private String readCurlyBraceContents() {
-        final int localStart = getAbsolutePosition();
+    private SubTextInput readCurlyBraceContents() {
+        final int localStart = input.getAbsolutePosition();
         final String first = readToken();
         if (!"{".equals(first)) {
             // FIXME add warning
             throw new IllegalArgumentException("\"{\" expected, but was: \"" + first + "\"");
         }
-        final int curlyStart = getAbsolutePosition();
-        final int curlyStartRelative = input.getPosition();
+        final int curlyStart = input.getAbsolutePosition();
         int curlyEnd = curlyStart;
         final StringBuffer buffer = new StringBuffer();
         String next = "";
@@ -605,40 +593,22 @@ public final class Latex2Utf8Parser {
                 break;
             }
             buffer.append(next);
-            curlyEnd = getAbsolutePosition();
+            curlyEnd = input.getAbsolutePosition();
         }
         if (!"}".equals(next)) {
             finder.addWarning(LatexErrorCodes.BRACKET_END_NOT_FOUND_CODE,
                 LatexErrorCodes.BRACKET_END_NOT_FOUND_MSG,
                 getSourcePosition(localStart),
-                getSourcePosition(getAbsolutePosition()));
+                getSourcePosition(input.getAbsolutePosition()));
             buffer.setLength(0);
-            input.setPosition(curlyStartRelative);
+            input.setAbsolutePosition(curlyStart);
             curlyEnd = curlyStart;
         }
         // FIXME: return real subset (for example comments get eaten
-        return buffer.toString();
-//        return getSubstring(curlyStart, curlyEnd);
-    }
-
-    /**
-     * Get current absolute byte position for main {@link TextInput}.
-     *
-     * @return  Byte position.
-     */
-    private int getAbsolutePosition() {
-        return start + input.getPosition();
-    }
-
-    /**
-     * Get substring of main {@link TextInput}.
-     *
-     * @param   absoluteStart   Absolute byte position for main data source.
-     * @param   absoluteEnd     Absolute byte position for main data source.
-     * @return  Substring of main data between both positions.
-     */
-    private String getSubstring(final int absoluteStart, final int absoluteEnd) {
-        return ((TextInput) inputStack.get(0)).getString(absoluteStart, absoluteEnd);
+        System.out.println("size=" + inputStack.size());
+        System.out.println("1. " + buffer.toString());
+        System.out.println("2. " + input.getAbsoluteSubstring(curlyStart, curlyEnd));
+        return input.getSubTextInput(curlyStart, curlyEnd);
     }
 
     /**

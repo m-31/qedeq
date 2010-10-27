@@ -784,7 +784,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
                     input.getSourcePosition());
                 continue;
             }
-            String ref = input.getString(current + "\\qref{".length(), input.getPosition()).trim();
+            String ref = input.getSubstring(current + "\\qref{".length(), input.getPosition()).trim();
             input.read();   // read }
             Trace.param(CLASS, this, method, "1 ref", ref);
             if (ref.length() == 0) {
