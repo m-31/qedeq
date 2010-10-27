@@ -259,21 +259,30 @@ public class TextInput extends InputStream {
 
 
    /**
-    * Reads a string and does not change the reading
-    * position. If characters out of scope are ignored.
+    * Reads a substring. Doesn't change reading position.
     *
     * @param   from Absolute reading position.
     * @param   to   Read to this position.
     * @return  Resulting string.
     */
-   public final String getString(final int from, final int to) {
-       final StringBuffer buffer = new StringBuffer();
-       for (int i = 0; i < to - from; i++) {
-           if (from + i >= 0 && from + i < source.length()) {
-               buffer.append(source.charAt(from + i));
-           }
-       }
-       return buffer.toString();
+   public final String getSubstring(final int from, final int to) {
+//       final StringBuffer buffer = new StringBuffer();
+//       for (int i = 0; i < to - from; i++) {
+//           if (from + i >= 0 && from + i < source.length()) {
+//               buffer.append(source.charAt(from + i));
+//           }
+//       }
+//       return buffer.toString();
+       return source.substring(from, to);
+   }
+
+   /**
+    * Get complete input source. Doesn't change reading position.
+    *
+    * @return  Complete input string.
+    */
+   public final String asString() {
+       return source.toString();
    }
 
    /**
