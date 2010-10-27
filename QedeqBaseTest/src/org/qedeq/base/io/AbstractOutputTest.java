@@ -65,7 +65,7 @@ public class AbstractOutputTest extends QedeqTestCase {
 
             private StringBuffer buffer = new StringBuffer();
 
-            protected void append(final String text) {
+            public void append(final String text) {
                 buffer.append(text);
             }
 
@@ -242,6 +242,16 @@ public class AbstractOutputTest extends QedeqTestCase {
         out.flush();
         assertEquals("  Hello\n  Hello", out.toString());
     }
+
+//    public void testAdd09() throws Exception {
+//        out.setColumns(80);
+//        out.pushLevel();
+//        out.addToken("Hello");
+//        out.addWs(" ");
+//        out.addToken("Hello");
+//        out.flush();
+//        assertEquals("  Hello Hello", out.toString());
+//    }
 
 }
 
