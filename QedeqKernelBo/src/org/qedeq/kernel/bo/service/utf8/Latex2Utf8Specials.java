@@ -17,20 +17,24 @@ package org.qedeq.kernel.bo.service.utf8;
 
 
 /**
- * Transform LaTeX into QEDEQ format.
+ * Special LaTeX into UTF-8 transformations.
  *
  * @author  Michael Meyling
  */
 public final class Latex2Utf8Specials {
-
-    /** This class. */
-    private static final Class CLASS = Latex2Utf8Specials.class;
 
     /** Available subscript characters. */
     private static final String SUBSCRIPT_CHARACTERS = "0123456789()+-=";
 
     /** Available superscript characters. */
     private static final String SUPERSCRIPT_CHARACTERS = "0123456789()+-=n";
+
+    /**
+     * Constructor.
+     */
+    private Latex2Utf8Specials() {
+        // never used
+    }
 
     /**
      * Transform into bold characters.
