@@ -262,14 +262,14 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "precondition is a first-order predicate calculus with identity.\n";
         final String result = "In this chapter we start with the very basic axioms and definitions of set\n"
             + "theory. We shall make no attempt to introduce a formal language\n"
-            + "          ┌\n"
-            + "          │ Despite of this, in the original text of this document the formulas\n"
-            + "          │ of axioms, definitions and propositions are written in a formal\n"
-            + "          │ language. The original text is a XML file with a syntax defined by\n"
-            + "          │ the XSD  http://www.qedeq.org/current/xml/qedeq.xsd . A more\n"
-            + "          │ detailed description of the formula language is given in\n"
-            + "          │  http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf .\n"
-            + "          └\n"
+            + "          \u250c\n"
+            + "          \u2502 Despite of this, in the original text of this document the formulas\n"
+            + "          \u2502 of axioms, definitions and propositions are written in a formal\n"
+            + "          \u2502 language. The original text is a XML file with a syntax defined by\n"
+            + "          \u2502 the XSD  http://www.qedeq.org/current/xml/qedeq.xsd . A more\n"
+            + "          \u2502 detailed description of the formula language is given in\n"
+            + "          \u2502  http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf .\n"
+            + "          \u2514\n"
             + " but shall be content with the common logical operators. To be more precise:\n"
             + "precondition is a first-order predicate calculus with identity.";
         assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
