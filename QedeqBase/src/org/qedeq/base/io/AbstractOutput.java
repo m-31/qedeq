@@ -145,11 +145,11 @@ public abstract class AbstractOutput {
     }
 
     /**
-     * Append text to output device.
+     * Append text directly to output device.
      *
      * @param   text    Append this text.
      */
-    protected abstract void append(final String text);
+    public abstract void append(final String text);
 
     /**
      * Print spaces and text to output.
@@ -229,6 +229,9 @@ public abstract class AbstractOutput {
      */
     public void println() {
         flush();
+        if (col == 0 && spaces.toString().trim().length() > 0) {
+            appendSpaces();
+        }
         append("\n");
         col = 0;
     }
@@ -286,7 +289,6 @@ public abstract class AbstractOutput {
      * @param   columns Maximum column size.
      */
     public void setColumns(final int columns) {
-        System.out.println("columns: " + columns);
         if (columns < 0) {
             breakAt = 0;
         } else {

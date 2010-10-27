@@ -34,7 +34,7 @@ public class StringOutput extends AbstractOutput {
         output = new StringBuffer();
     }
 
-    protected void append(final String text) {
+    public void append(final String text) {
         output.append(text);
     }
 
