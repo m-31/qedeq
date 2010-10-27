@@ -30,6 +30,51 @@ public class ServiceProcess {
     /** The service the thread works for. */
     private final String service;
 
+    /**
+     * Get service.
+     *
+     * @return  service
+     */
+    public String getService() {
+        return service;
+    }
+
+    /**
+     * Get thread the service runs within.
+     *
+     * @return  Service thread.
+     */
+    public Thread getThread() {
+        return thread;
+    }
+
+    /**
+     * Get service parameter.
+     *
+     * @return  Service parameter.
+     */
+    public String getParameter() {
+        return parameter;
+    }
+
+    /**
+     * Get timestamp for service start.
+     *
+     * @return  Service start timestamp.
+     */
+    public Date getStart() {
+        return start;
+    }
+
+    /**
+     * Get timestamp for service stop.
+     *
+     * @return  Service stop timestamp.
+     */
+    public Date getStop() {
+        return stop;
+    }
+
     /** The thread the service is done within. */
     private final Thread thread;
 
