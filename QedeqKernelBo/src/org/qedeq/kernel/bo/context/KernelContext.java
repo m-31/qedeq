@@ -122,7 +122,8 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
         public void shutdown() {
             currentState = initialState;
-            config = null;
+            // TODO 20101027 m31: check if commenting this out leads to problems:
+            // config = null;
             // close stream and associated channel
             IoUtility.close(lockStream);
             lockStream = null;

@@ -297,7 +297,8 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         underlineBig(getLatexListEntry("getTitle()", chapter.getTitle()));
         printer.println();
         if (chapter.getIntroduction() != null) {
-            printer.println(getLatexListEntry("getIntroduction()", chapter.getIntroduction()));
+            printer.append(getLatexListEntry("getIntroduction()", chapter.getIntroduction()));
+            printer.println();
             printer.println();
             printer.println();
         }
@@ -331,7 +332,8 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         underline(buffer.toString());
         printer.println();
         if (section.getIntroduction() != null) {
-            printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
+            printer.append(getLatexListEntry("getIntroduction()", section.getIntroduction()));
+            printer.println();
             printer.println();
             printer.println();
         }
@@ -352,13 +354,15 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
             printer.println();
             printer.println();
         }
-        printer.println(getLatexListEntry("getLatex()", subsection.getLatex()));
+        printer.append(getLatexListEntry("getLatex()", subsection.getLatex()));
+        printer.println();
         printer.println();
     }
 
     public void visitEnter(final Node node) {
         if (node.getPrecedingText() != null) {
-            printer.println(getLatexListEntry("getPrecedingText()", node.getPrecedingText()));
+            printer.append(getLatexListEntry("getPrecedingText()", node.getPrecedingText()));
+            printer.println();
             printer.println();
         }
         id = node.getId();
@@ -370,7 +374,8 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
 
     public void visitLeave(final Node node) {
         if (node.getSucceedingText() != null) {
-            printer.println(getLatexListEntry("getSucceedingText()", node.getSucceedingText()));
+            printer.append(getLatexListEntry("getSucceedingText()", node.getSucceedingText()));
+            printer.println();
             printer.println();
         }
         printer.println();
@@ -393,7 +398,8 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         printFormula(axiom.getFormula().getElement());
         printer.println();
         if (axiom.getDescription() != null) {
-            printer.println(getLatexListEntry("getDescription()", axiom.getDescription()));
+            printer.append(getLatexListEntry("getDescription()", axiom.getDescription()));
+            printer.println();
             printer.println();
         }
     }
@@ -414,7 +420,8 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         printTopFormula(proposition.getFormula().getElement(), id);
         printer.println();
         if (proposition.getDescription() != null) {
-            printer.println(getLatexListEntry("getDescription()", proposition.getDescription()));
+            printer.append(getLatexListEntry("getDescription()", proposition.getDescription()));
+            printer.println();
             printer.println();
         }
     }
@@ -425,7 +432,8 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         } else {
             printer.println("Proof:");
         }
-        printer.println(getLatexListEntry("getNonFormalProof()", proof.getNonFormalProof()));
+        printer.append(getLatexListEntry("getNonFormalProof()", proof.getNonFormalProof()));
+        printer.println();
         printer.println("q.e.d.");
         printer.println();
     }
@@ -444,12 +452,12 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         buffer.append("Definition " + definitionNumber);
         printer.print(buffer.toString());
         printer.print(" ");
-        final StringBuffer define = new StringBuffer(getLatex(definition.getLatexPattern()));
+        final StringBuffer define = new StringBuffer(getUtf8(definition.getLatexPattern()));
         final VariableList list = definition.getVariableList();
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
                 Trace.trace(CLASS, this, "printPredicateDefinition", "replacing!");
-                StringUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
+                StringUtility.replace(define, "#" + (i + 1), getUtf8(list.get(i)));
             }
         }
         if (title != null && title.length() > 0) {
@@ -462,7 +470,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         printer.println();
         if (definition.getFormula() != null) {
             define.append("  \uFE55\u2194  ");
-            define.append(getLatex(definition.getFormula().getElement()));
+            define.append(getUtf8(definition.getFormula().getElement()));
         }
         // we always save the definition, even if there already exists an entry
         elementConverter.addPredicate(definition);
@@ -471,7 +479,8 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         printer.println(define.toString());
         printer.println();
         if (definition.getDescription() != null) {
-            printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
+            printer.append(getLatexListEntry("getDescription()", definition.getDescription()));
+            printer.println();
             printer.println();
         }
     }
@@ -490,12 +499,12 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         buffer.append("Definition " + definitionNumber);
         printer.print(buffer.toString());
         printer.print(" ");
-        final StringBuffer define = new StringBuffer(getLatex(definition.getLatexPattern()));
+        final StringBuffer define = new StringBuffer(getUtf8(definition.getLatexPattern()));
         final VariableList list = definition.getVariableList();
         if (list != null) {
             for (int i = list.size() - 1; i >= 0; i--) {
                 Trace.trace(CLASS, this, "printFunctionDefinition", "replacing!");
-                StringUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
+                StringUtility.replace(define, "#" + (i + 1), getUtf8(list.get(i)));
             }
         }
         if (title != null && title.length() > 0) {
@@ -508,7 +517,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         printer.println();
         if (definition.getTerm() != null) {
             define.append("  \u2254  ");
-            define.append(getLatex(definition.getTerm().getElement()));
+            define.append(getUtf8(definition.getTerm().getElement()));
         }
         // we always save the definition, even if there already exists an entry
         elementConverter.addFunction(definition);
@@ -539,7 +548,8 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         printer.println();
         printer.println();
         if (rule.getDescription() != null) {
-            printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
+            printer.append(getLatexListEntry("getDescription()", rule.getDescription()));
+            printer.println();
             printer.println();
         }
         if (rule.getProofList() != null) {
@@ -549,8 +559,9 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
                 } else {
                     printer.println("Proof:");
                 }
-                printer.println(getLatexListEntry("getProofList().get(" + i + ")", rule.getProofList().get(i)
+                printer.append(getLatexListEntry("getProofList().get(" + i + ")", rule.getProofList().get(i)
                         .getNonFormalProof()));
+                printer.println();
                 printer.println("q.e.d.");
                 printer.println();
             }
@@ -680,7 +691,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
                 }
                 label += ALPHABET.charAt(i % ALPHABET.length());
             }
-            printer.println("  (" + label + ")  " + getLatex(list.getElement(i)));
+            printer.println("  (" + label + ")  " + getUtf8(list.getElement(i)));
         }
     }
 
@@ -690,17 +701,17 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
      * @param   element Formula to print.
      */
     private void printFormula(final Element element) {
-        printer.println(getLatex(element));
+        printer.println(getUtf8(element));
     }
 
     /**
-     * Get LaTeX element presentation.
+     * Get Utf8 element presentation.
      *
-     * @param   element    Print this element.
-     * @return  LaTeX form of element.
+     * @param   element    Get presentation of this element.
+     * @return  UTF-8 form of element.
      */
-    private String getLatex(final Element element) {
-        return getLatex(elementConverter.getLatex(element));
+    private String getUtf8(final Element element) {
+        return getUtf8(elementConverter.getLatex(element));
     }
 
     /**
@@ -726,7 +737,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
                     if (method.length() > 0) {
                         subContext = method + ".get(" + i + ")";
                     }
-                    return getLatex(list.get(i));
+                    return getUtf8(list.get(i));
                 }
             }
             // assume entry with missing language as default
@@ -735,14 +746,14 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
                     if (method.length() > 0) {
                         subContext = method + ".get(" + i + ")";
                     }
-                    return getLatex(list.get(i));
+                    return getUtf8(list.get(i));
                 }
             }
             for (int i = 0; i < list.size(); i++) { // LATER mime 20050222: evaluate default?
                 if (method.length() > 0) {
                     subContext = method + ".get(" + i + ")";
                 }
-                return "MISSING! OTHER: " + getLatex(list.get(i));
+                return "MISSING! OTHER: " + getUtf8(list.get(i));
             }
             return "MISSING!";
         } finally {
@@ -914,20 +925,20 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
      * @param   latex   LaTeX we got.
      * @return  UTF-8 result string.
      */
-    private String getLatex(final Latex latex) {
+    private String getUtf8(final Latex latex) {
         if (latex == null || latex.getLatex() == null) {
             return "";
         }
-        return getLatex(latex.getLatex().trim());
+        return getUtf8(latex.getLatex().trim());
     }
 
-     /**
+    /**
      * Transform LaTeX into UTF-8 String..
      *
      * @param   latex   LaTeX text.
      * @return  String.
      */
-    private String getLatex(final String latex) {
+    private String getUtf8(final String latex) {
         if (latex == null) {
             return "";
         }
@@ -986,11 +997,12 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
                 moduleLabel = localLabel;
                 localLabel = "";
                 module = refModule;
+                return "[" + moduleLabel + "]";
             }
         } else {
             final KernelQedeqBo refModule = module.getKernelRequiredModules()
                 .getKernelQedeqBo(moduleLabel);
-            if (refModule != null) {
+            if (refModule == null) {
                 module = refModule;
                 Trace.info(CLASS, this, method, "module not found for " + moduleLabel);
                 addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
@@ -999,6 +1011,10 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
                     endPosition);
                 return moduleLabel + "?." + localLabel + fix;
             }
+            module = refModule;
+        }
+        if (moduleLabel.length() > 0) {
+            fix += " [" + moduleLabel + "]";
         }
         final KernelNodeBo kNode = module.getLabels().getNode(localLabel);
         if (kNode != null) {
@@ -1009,7 +1025,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
                 LatexErrorCodes.QREF_PARSING_EXCEPTION_MSG
                 + ": " + "node not found for " + reference, startPosition,
                 endPosition);
-            return moduleLabel + "?" + fix;
+            return localLabel + "?" + fix;
         }
     }
 

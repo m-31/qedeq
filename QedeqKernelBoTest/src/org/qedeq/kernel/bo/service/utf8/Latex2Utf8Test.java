@@ -238,8 +238,41 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
      */
     public void test06() throws Exception {
         final String text  = "A \\emph{Hilbert} B \\emph{Bernays}.";
-        final String result = "A \u2006H\u2006i\u2006l\u2006b\u2006e\u2006r\u2006t\u2006 B \u2006B\u2006e\u2006r\u2006n\u2006a\u2006y\u2006s\u2006.";
+        final String result = "A \u2006H\u2006i\u2006l\u2006b\u2006e\u2006r\u2006t\u2006 "
+        + "B \u2006B\u2006e\u2006r\u2006n\u2006a\u2006y\u2006s\u2006.";
         assertEquals(result, Latex2Utf8Parser.transform(finder, text, 0));
+        assertEquals(0, warnings.size());
+    }
+
+    /**
+     * Test if leading whitespace is removed.
+     *
+     * @throws Exception
+     */
+    public void test07() throws Exception {
+        final String text  = "          In this chapter we start with the very basic axioms and "
+            + "definitions of set theory. We shall make no attempt to introduce a formal language"
+            + "\\footnote{Despite of this, in the original text of this document the formulas of "
+            + "axioms, definitions and propositions are written in a formal language. The "
+            + "original text is a XML file with a syntax defined by the XSD "
+            + "\\url{http://www.qedeq.org/current/xml/qedeq.xsd}. A more detailed description of "
+            + "the formula language is given in "
+            + "\\url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}.} but "
+            + "shall be content with the common logical operators. To be more precise: "
+            + "precondition is a first-order predicate calculus with identity.\n";
+        final String result = "In this chapter we start with the very basic axioms and definitions of set\n"
+            + "theory. We shall make no attempt to introduce a formal language\n"
+            + "          ┌\n"
+            + "          │ Despite of this, in the original text of this document the formulas\n"
+            + "          │ of axioms, definitions and propositions are written in a formal\n"
+            + "          │ language. The original text is a XML file with a syntax defined by\n"
+            + "          │ the XSD  http://www.qedeq.org/current/xml/qedeq.xsd . A more\n"
+            + "          │ detailed description of the formula language is given in\n"
+            + "          │  http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf .\n"
+            + "          └\n"
+            + " but shall be content with the common logical operators. To be more precise:\n"
+            + "precondition is a first-order predicate calculus with identity.";
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
         assertEquals(0, warnings.size());
     }
 

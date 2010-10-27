@@ -214,7 +214,6 @@ public final class Latex2Utf8Parser {
                     if ('{' == getChar()) {
                         bold = true;
                         final String content = readCurlyBraceContents();
-                        System.out.println(content);
                         parseAndPrint(tokenEnd + 1, content);
                         bold = false;
                     } else {
@@ -376,6 +375,9 @@ public final class Latex2Utf8Parser {
             output.popLevel();
             output.popLevel();
             output.popLevel();
+        } else if ("tabularx".equals(kind)) {
+            skipWhitespace = false;
+            parseAndPrint(current, content);
         } else {
             parseAndPrint(current, content);
         }
