@@ -16,8 +16,6 @@
 package org.qedeq.kernel.bo.service;
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
 
