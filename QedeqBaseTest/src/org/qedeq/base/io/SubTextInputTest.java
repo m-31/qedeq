@@ -515,4 +515,19 @@ public class SubTextInputTest extends QedeqTestCase {
         fail("not implemented");
     }
 
+    public void testGetAbsolutePosition() {
+        SubTextInput input = new SubTextInput(new SubTextInput("Michael Meyling"), 8, 15);
+        assertEquals(8, input.getAbsolutePosition());
+        input.readLetterDigitString();
+        assertEquals(15, input.getAbsolutePosition());
+    }
+
+    public void testGetAbsoluteSubstring() {
+        SubTextInput input = new SubTextInput(new SubTextInput("Michael Meyling"), 8, 15);
+        assertEquals(8, input.getAbsolutePosition());
+        input.read();
+        input.read();
+        assertEquals("Me", input.getAbsoluteSubstring(8, 10));
+    }
+
 }
