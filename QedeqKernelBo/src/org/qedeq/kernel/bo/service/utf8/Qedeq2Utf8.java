@@ -929,7 +929,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         if (latex == null || latex.getLatex() == null) {
             return "";
         }
-        return getUtf8(latex.getLatex().trim());
+        return getUtf8(latex.getLatex());
     }
 
     /**

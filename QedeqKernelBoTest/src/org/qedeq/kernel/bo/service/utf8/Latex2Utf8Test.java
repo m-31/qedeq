@@ -16,6 +16,7 @@ package org.qedeq.kernel.bo.service.utf8;
 
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
+import org.qedeq.base.io.TextInput;
 import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.common.DefaultModuleAddress;
@@ -51,7 +52,13 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             public String getExternalReference(String reference,
                     String subReference, SourcePosition startDelta,
                     SourcePosition endDelta) {
-                return reference + " (" + subReference + ")";
+                System.out.println("reference: " + reference);
+                if ("missing".equals(reference)) {
+                    addWarning(1, "reference not found: " + reference, startDelta, endDelta);
+                    return "[" + reference + "?]";
+                }
+                return "[" + reference + "]"
+                    + (subReference.length() > 0 ? " (" + subReference + ")" : "");
             }
             
             public void addWarning(int code, String msg, SourcePosition startDelta,
@@ -203,7 +210,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
     }
 
     /**
-     * Test if leading whitespace is removed.
+     * Test problems during "\qref" are found.
      *
      * @throws Exception
      */
@@ -220,7 +227,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
     }
 
     /**
-     * Test if leading whitespace is removed.
+     * Test if missing "}" is correctly warned.
      *
      * @throws Exception
      */
@@ -229,6 +236,8 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
         final String result = "missing still missing";
         assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
         assertEquals(1, warnings.size());
+        final SourceFileException first = warnings.get(0);
+        assertEquals("memory:1:5:3:16", first.getSourceArea().toString());
     }
 
     /**
@@ -274,6 +283,84 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "precondition is a first-order predicate calculus with identity.";
         assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
         assertEquals(0, warnings.size());
+    }
+
+    /**
+     * Test problems during "\qref" are found.
+     *
+     * @throws Exception
+     */
+    public void test08() throws Exception {
+        final String text  = "    in \\qref{gold} we trust.";
+        final String result = "in [gold] we trust.";
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        System.out.println(warnings);
+        assertEquals(0, warnings.size());
+    }
+
+    /**
+     * Test problems during "\qref" are found.
+     *
+     * @throws Exception
+     */
+    public void test09() throws Exception {
+        final String text  = "\n    we {crossed} the \\qref{missing} river at noon";
+        final String result = "we crossed the [missing?] river at noon";
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        System.out.println(warnings);
+        assertEquals(1, warnings.size());
+        final SourceFileException first = warnings.get(0);
+        assertEquals("memory:2:27:2:36", first.getSourceArea().toString());
+    }
+
+    /**
+     * Test problems during "\qref" are found.
+     *
+     * @throws Exception
+     */
+    public void test10() throws Exception {
+        final String text  = "\n    {we {crossed} the \\qref{missing} river at noon}";
+        final String result = "we crossed the [missing?] river at noon";
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        System.out.println(warnings);
+        assertEquals(1, warnings.size());
+        final SourceFileException first = warnings.get(0);
+        assertEquals("memory:2:28:2:37", first.getSourceArea().toString());
+    }
+
+    /**
+     * Test problems during "\qref" are found.
+     *
+     * @throws Exception
+     */
+    public void test11() throws Exception {
+        final String text  = "\n    {we {crossed} the \\qref{missing} river at \\qref{missing} }";
+        final String result = "we crossed the [missing?] river at [missing?]";
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        System.out.println(warnings);
+        assertEquals(2, warnings.size()); 
+        final SourceFileException first = warnings.get(0);
+        System.out.println("Area: " + (new TextInput(text)).getSourceArea(first.getSourceArea()));
+        assertEquals("memory:2:28:2:37", first.getSourceArea().toString());
+        final SourceFileException second = warnings.get(1);
+        System.out.println("Area: " + (new TextInput(text)).getSourceArea(second.getSourceArea()));
+        assertEquals("memory:2:52:2:61", second.getSourceArea().toString());
+    }
+
+    /**
+     * Test problems during "\qref" are found.
+     *
+     * @throws Exception
+     */
+    public void test12() throws Exception {
+        final String text  = "\n    {we {crossed} the \\qref{missing{}} river at \\qref{missing} }";
+        final String result = "we crossed the missing river at [missing?]";
+        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        System.out.println(warnings);
+        assertEquals(2, warnings.size());
+        final SourceFileException first = warnings.get(0);
+        System.out.println("Area: " + (new TextInput(text)).getSourceArea(first.getSourceArea()));
+        assertEquals("memory:2:28:2:39", first.getSourceArea().toString());
     }
 
 }

@@ -118,7 +118,8 @@ public final class Latex2Utf8Parser {
      */
     private String getUtf8(final String text) {
         skipWhitespace = true;
-        parseAndPrint(new SubTextInput(text));
+        this.input = new SubTextInput(text);
+        parseAndPrint(this.input);
         output.flush();
         return output.toString();
     }
@@ -308,6 +309,7 @@ public final class Latex2Utf8Parser {
         if ('{' == getChar()) {
             final SubTextInput content = readCurlyBraceContents();
             String ref = content.asString().trim();
+            System.out.println("qref content: " + ref);
             Trace.param(CLASS, this, method, "ref", ref);
             if (ref.length() == 0) {
                 finder.addWarning(LatexErrorCodes.QREF_EMPTY_CODE, LatexErrorCodes.QREF_EMPTY_MSG,
@@ -324,6 +326,7 @@ public final class Latex2Utf8Parser {
                 finder.addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
                     LatexErrorCodes.QREF_END_NOT_FOUND_MSG,
                     getSourcePosition(localStart1), getSourcePosition(input.getAbsolutePosition()));
+                input.setAbsolutePosition(localStart1);
                 return;
             }
 
@@ -876,11 +879,11 @@ public final class Latex2Utf8Parser {
     /**
      * Convert byte position into row and column information.
      *
-     * @param   position    Find this byte position.
+     * @param   absolutePosition    Find this byte position.
      * @return  Row and column information.
      */
-    public SourcePosition getSourcePosition(final int position) {
-        return input.getPosition(position);
+    public SourcePosition getSourcePosition(final int absolutePosition) {
+        return ((SubTextInput) inputStack.get(0)).getPosition(absolutePosition);
     }
 
 }
