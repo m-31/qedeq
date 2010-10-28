@@ -719,6 +719,39 @@ public class TextInput extends InputStream {
     }
 
     /**
+     * Get given byte position as {@link SourcePosition}.
+     *
+     * @param   position    Get row and column information for this byte position.
+     * @return  Row and column information.
+     */
+    public final int getPosition(final SourcePosition position) {
+        int find = 0;
+        int r = 0;
+        while (++r < position.getRow() && -1 < (find = source.indexOf("" + CR, find))) {
+            // nothing to do
+        }
+        if (find < 0) {
+            find = source.length();
+        }
+        find += position.getColumn();
+        if (find > source.length()) {
+            find = source.length();
+        }
+        return find;
+    }
+
+    /**
+     * Get source area as string.
+     *
+     * @param   area    Get this area as string.
+     * @return  Area itself.
+     */
+    public final String getSourceArea(final SourceArea area) {
+        return source.substring(getPosition(area.getStartPosition()),
+                getPosition(area.getEndPosition()));
+    }
+
+    /**
      * Add the following rows and reset column (if <code>number == 0</code>).
      *
      * @param  number   Add this number of rows.
