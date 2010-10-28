@@ -89,6 +89,8 @@ public final class Latex2Utf8Parser {
     /** Here the last read token ends. This is an absolute position. */
     private int tokenEnd;
 
+    private int itemNumber;
+
     /**
      * Parse LaTeX text into QEDEQ module string.
      *
@@ -211,6 +213,16 @@ public final class Latex2Utf8Parser {
                     } else {
                         bold = true;
                     }
+                } else if ("\\cite".equals(token)) {
+                    if ('{' == getChar()) {
+                        final SubTextInput content = readCurlyBraceContents();
+                        output.addToken("[" + content.asString() + "]");
+                    }
+                } else if ("\\tag".equals(token)) {
+                    if ('{' == getChar()) {
+                        final SubTextInput content = readCurlyBraceContents();
+                        output.addToken("(" + content.asString() + ")");
+                    }
                 } else if ("\\mbox".equals(token)) {
                     if ('{' == getChar()) {
                         final SubTextInput content = readCurlyBraceContents();
@@ -223,6 +235,12 @@ public final class Latex2Utf8Parser {
                     }
                     output.println("_______________________________________");
                     println();
+                } else if ("\\item".equals(token)) {
+                    output.popLevel(3);
+                    itemNumber++;
+                    output.println();
+                    output.addToken(itemNumber + ".");
+                    output.pushLevel("   ");
                 } else if ("{".equals(token)) {
                     input.readInverse();
                     final SubTextInput content = readCurlyBraceContents();
@@ -368,6 +386,11 @@ public final class Latex2Utf8Parser {
         } else if ("tabularx".equals(kind)) {
             skipWhitespace = false;
             parseAndPrint(content);
+        } else if ("enumerate".equals(kind)) {
+            itemNumber = 0;
+            output.pushLevel("   ");
+            parseAndPrint(content);
+            output.popLevel(3);
         } else {
             parseAndPrint(content);
         }
@@ -680,30 +703,138 @@ public final class Latex2Utf8Parser {
             output.addToken("\u2208");
         } else if (token.equals("\\notin")) {
             output.addToken("\u2209");
+        } else if (token.equals("\\Alpha")) {
+            output.addToken("\u0391");
         } else if (token.equals("\\alpha")) {
             output.addToken("\u03B1");
+        } else if (token.equals("\\Beta")) {
+            output.addToken("\u0392");
         } else if (token.equals("\\beta")) {
             output.addToken("\u03B2");
+        } else if (token.equals("\\Gamma")) {
+            output.addToken("\u0393");
+        } else if (token.equals("\\gamma")) {
+            output.addToken("\u03B3");
+        } else if (token.equals("\\Delta")) {
+            output.addToken("\u0394");
+        } else if (token.equals("\\delta")) {
+            output.addToken("\u03B4");
+        } else if (token.equals("\\Epslilon")) {
+            output.addToken("\u0395");
+        } else if (token.equals("\\epsilon")) {
+            output.addToken("\u03B5");
+        } else if (token.equals("\\Zeta")) {
+            output.addToken("\u0396");
+        } else if (token.equals("\\zeta")) {
+            output.addToken("\u03B6");
+        } else if (token.equals("\\Eta")) {
+            output.addToken("\u0397");
+        } else if (token.equals("\\eta")) {
+            output.addToken("\u03B7");
+        } else if (token.equals("\\Theta")) {
+            output.addToken("\u0398");
+        } else if (token.equals("\\theta")) {
+            output.addToken("\u03B8");
+        } else if (token.equals("\\Iota")) {
+            output.addToken("\u0399");
+        } else if (token.equals("\\iota")) {
+            output.addToken("\u03B9");
+        } else if (token.equals("\\Kappa")) {
+            output.addToken("\u039A");
+        } else if (token.equals("\\kappa")) {
+            output.addToken("\u03BA");
+        } else if (token.equals("\\Lamda")) {
+            output.addToken("\u039B");
+        } else if (token.equals("\\lamda")) {
+            output.addToken("\u03BB");
+        } else if (token.equals("\\Mu")) {
+            output.addToken("\u039C");
+        } else if (token.equals("\\mu")) {
+            output.addToken("\u03BC");
+        } else if (token.equals("\\Nu")) {
+            output.addToken("\u039D");
+        } else if (token.equals("\\nu")) {
+            output.addToken("\u03BD");
+        } else if (token.equals("\\Xi")) {
+            output.addToken("\u039E");
+        } else if (token.equals("\\xi")) {
+            output.addToken("\u03BE");
+        } else if (token.equals("\\Omikron")) {
+            output.addToken("\u039F");
+        } else if (token.equals("\\omikron")) {
+            output.addToken("\u03BF");
+        } else if (token.equals("\\Pi")) {
+            output.addToken("\u03A0");
+        } else if (token.equals("\\pi")) {
+            output.addToken("\u03C0");
+        } else if (token.equals("\\Rho")) {
+            output.addToken("\u03A1");
+        } else if (token.equals("\\rho")) {
+            output.addToken("\u03C1");
+        } else if (token.equals("\\Sigma")) {
+            output.addToken("\u03A3");
+        } else if (token.equals("\\sigma")) {
+            output.addToken("\u03C3");
+        } else if (token.equals("\\Tau")) {
+            output.addToken("\u03A4");
+        } else if (token.equals("\\tau")) {
+            output.addToken("\u03C4");
+        } else if (token.equals("\\Upsilon")) {
+            output.addToken("\u03A5");
+        } else if (token.equals("\\upsilon")) {
+            output.addToken("\u03C5");
+        } else if (token.equals("\\Phi")) {
+            output.addToken("\u03A6");
         } else if (token.equals("\\phi")) {
             output.addToken("\u03C6");
+        } else if (token.equals("\\Chi")) {
+            output.addToken("\u03A6");
+        } else if (token.equals("\\chi")) {
+            output.addToken("\u03C7");
+        } else if (token.equals("\\Psi")) {
+            output.addToken("\u03A8");
         } else if (token.equals("\\psi")) {
             output.addToken("\u03C8");
         } else if (token.equals("\\Omega")) {
             output.addToken("\u03A9");
         } else if (token.equals("\\omega")) {
             output.addToken("\u03C9");
+        } else if (token.equals("\\subset")) {
+            output.addToken("\u2282");
+        } else if (token.equals("\\supset")) {
+            output.addToken("\u2283");
         } else if (token.equals("\\subseteq")) {
             output.addToken("\u2286");
+        } else if (token.equals("\\supseteq")) {
+            output.addToken("\u2287");
         } else if (token.equals("\\{")) {
             output.addToken("{");
         } else if (token.equals("\\}")) {
             output.addToken("}");
+        } else if (token.equals("\\&")) {
+            output.addToken("&");
         } else if (token.equals("\\ ")) {
             output.addWs(" ");
+        } else if (token.equals("\\S")) {
+            output.addToken("\u00A7");
+        } else if (token.equals("\\tiny")) {
+            // ignore
+        } else if (token.equals("\\nonumber")) {
+            // ignore
+        } else if (token.equals("\\LaTeX")) {
+            output.addToken("LaTeX");
+        } else if (token.equals("\\vdash")) {
+            output.addToken("\u22A2");
+        } else if (token.equals("\\dashv")) {
+            output.addToken("\u22A3");
+        } else if (token.equals("\\times")) {
+            output.addToken("\u00D7");
         } else if (token.equals("~")) {
             output.addToken("\u00A0");
         } else if (token.equals("\\quad")) {
             output.addWs("\u2000");
+        } else if (token.equals("\\qquad")) {
+            output.addWs("\u2000\u2000");
         } else if (token.equals("\\,")) {
             output.addWs("\u2009");
         } else if (token.equals("\\neg") || token.equals("\\not")) {
