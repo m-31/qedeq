@@ -255,6 +255,18 @@ public abstract class AbstractOutput {
     }
 
     /**
+     * Decrement tab level.
+     *
+     * @param   characters  Numbe of characters to reduce from tab level.
+     */
+    public final void popLevel(final int characters) {
+        flush();
+        if (spaces.length() > 0) {
+            spaces.setLength(Math.max(spaces.length() - characters, 0));
+        }
+    }
+
+    /**
      * Return current tab string.
      *
      * @return  Current tab string.
@@ -279,6 +291,9 @@ public abstract class AbstractOutput {
      * @param   symbols Symbols to tab width. Length should be exactly 2 characters!
      */
     public final void pushLevel(final String symbols) {
+        // FIXME m31 20101024: make flush unnecessary! Perhaps remember old break value?
+        // if not we can not pushLevel popLevel and print further on (the same line)!
+        flush();
         spaces.append(symbols);
     }
 
