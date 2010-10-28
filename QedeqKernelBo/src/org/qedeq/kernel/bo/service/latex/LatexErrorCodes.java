@@ -58,5 +58,12 @@ public interface LatexErrorCodes extends ErrorCodes {
     /** Error (or warning) text for: ending "}" for "{" not found. */
     public static final String BRACKET_END_NOT_FOUND_MSG = "ending \"}\" for \"{\" not found";
 
+    /** Error (or warning) number for: command not supported. */
+    public static final int COMMAND_NOT_SUPPORTED_CODE = 80017;
+
+    /** Error (or warning) text for: command not supported. */
+    public static final String COMMAND_NOT_SUPPORTED_MSG = "command not supported: ";
+
+
 
 }

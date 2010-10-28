@@ -83,6 +83,12 @@ public final class Latex2Utf8Parser {
     /** Should I skip whitespace before printing the next token. */
     private boolean skipWhitespace;
 
+    /** Here the last read token begins. This is an absolute position. */
+    private int tokenBegin;
+
+    /** Here the last read token ends. This is an absolute position. */
+    private int tokenEnd;
+
     /**
      * Parse LaTeX text into QEDEQ module string.
      *
@@ -134,16 +140,11 @@ public final class Latex2Utf8Parser {
         emphStack.push(Boolean.valueOf(emph));
         boldStack.push(Boolean.valueOf(bold));
         mathbbStack.push(Boolean.valueOf(mathbb));
-        int current = input.getAbsolutePosition();
         try {
             this.input = input;
             boolean whitespace = false;
             while (!eof()) {
-                current = input.getAbsolutePosition();
-                final int tokenBegin = current;
                 String token = readToken();
-                current = input.getAbsolutePosition();
-                final int tokenEnd = current;
                 if (!token.startsWith("\\")) {
                     token = token.trim();
                 }
@@ -309,20 +310,20 @@ public final class Latex2Utf8Parser {
             System.out.println("qref content: " + ref);
             Trace.param(CLASS, this, method, "ref", ref);
             if (ref.length() == 0) {
-                finder.addWarning(LatexErrorCodes.QREF_EMPTY_CODE, LatexErrorCodes.QREF_EMPTY_MSG,
-                    getSourcePosition(localStart1), getSourcePosition(input.getAbsolutePosition()));
+                addWarning(LatexErrorCodes.QREF_EMPTY_CODE, LatexErrorCodes.QREF_EMPTY_MSG,
+                    localStart1, input.getAbsolutePosition());
                 return;
             }
             if (ref.length() > 1024) {
-                finder.addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
+                addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
                     LatexErrorCodes.QREF_END_NOT_FOUND_MSG,
-                    getSourcePosition(localStart1), getSourcePosition(input.getAbsolutePosition()));
+                    localStart1, input.getAbsolutePosition());
                 return;
             }
             if (ref.indexOf("{") >= 0) {
-                finder.addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
+                addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
                     LatexErrorCodes.QREF_END_NOT_FOUND_MSG,
-                    getSourcePosition(localStart1), getSourcePosition(input.getAbsolutePosition()));
+                    localStart1, input.getAbsolutePosition());
                 input.setAbsolutePosition(localStart1);
                 return;
             }
@@ -334,8 +335,8 @@ public final class Latex2Utf8Parser {
                 read();
                 sub = readTilToken("]").asString();
             }
-            String display = finder.getReferenceLink(ref, sub, getSourcePosition(localStart1),
-                getSourcePosition(localStart2));
+            String display = finder.getReferenceLink(ref, sub, getAbsoluteSourcePosition(localStart1),
+                getAbsoluteSourcePosition(localStart2));
             output.addToken(display);
         }
     }
@@ -450,6 +451,7 @@ public final class Latex2Utf8Parser {
     protected final String readToken() {
         final String method = "readToken()";
         Trace.begin(CLASS, this, method);
+        tokenBegin = input.getAbsolutePosition();
         StringBuffer token = new StringBuffer();
         try {
             do {
@@ -528,6 +530,7 @@ public final class Latex2Utf8Parser {
             } while (!eof());
             Trace.param(CLASS, this, method, "Read token", token);
 //            System.out.println("< " + token);
+            tokenEnd = input.getAbsolutePosition();
             return (token != null ? token.toString() : null);
         } finally {
             Trace.end(CLASS, this, method);
@@ -596,18 +599,13 @@ public final class Latex2Utf8Parser {
             curlyEnd = input.getAbsolutePosition();
         }
         if (!"}".equals(next)) {
-            finder.addWarning(LatexErrorCodes.BRACKET_END_NOT_FOUND_CODE,
+            addWarning(LatexErrorCodes.BRACKET_END_NOT_FOUND_CODE,
                 LatexErrorCodes.BRACKET_END_NOT_FOUND_MSG,
-                getSourcePosition(localStart),
-                getSourcePosition(input.getAbsolutePosition()));
+                localStart, input.getAbsolutePosition());
             buffer.setLength(0);
             input.setAbsolutePosition(curlyStart);
             curlyEnd = curlyStart;
         }
-        // FIXME: return real subset (for example comments get eaten
-        System.out.println("size=" + inputStack.size());
-        System.out.println("1. " + buffer.toString());
-        System.out.println("2. " + input.getAbsoluteSubstring(curlyStart, curlyEnd));
         return input.getSubTextInput(curlyStart, curlyEnd);
     }
 
@@ -723,6 +721,9 @@ public final class Latex2Utf8Parser {
             output.addToken("...");
         } else if (token.equals("\\overline")) {    // TODO 20101018 m31: we assume set complement
             output.addToken("\u2201");
+        } else if (token.startsWith("\\")) {
+            addWarning(LatexErrorCodes.COMMAND_NOT_SUPPORTED_CODE,
+                LatexErrorCodes.COMMAND_NOT_SUPPORTED_MSG + token, tokenBegin, tokenEnd);
         } else {
             if (mathfrak) {
                 mathfrak(token);
@@ -874,13 +875,28 @@ public final class Latex2Utf8Parser {
     }
 
     /**
-     * Convert byte position into row and column information.
+     * Convert character position into row and column information.
      *
-     * @param   absolutePosition    Find this byte position.
+     * @param   absolutePosition    Find this character position.
      * @return  Row and column information.
      */
-    public SourcePosition getSourcePosition(final int absolutePosition) {
+    public SourcePosition getAbsoluteSourcePosition(final int absolutePosition) {
         return ((SubTextInput) inputStack.get(0)).getPosition(absolutePosition);
     }
+
+    /**
+     * Add warning message.
+     *
+     * @param   code    Message code.
+     * @param   message Message.
+     * @param   from    Absolute character position of problem start.
+     * @param   to      Absolute character position of problem end.
+     */
+    private void addWarning(final int code, final String message, final int from, final int to) {
+        finder.addWarning(code, message, getAbsoluteSourcePosition(from),
+            getAbsoluteSourcePosition(to));
+    }
+
+
 
 }
