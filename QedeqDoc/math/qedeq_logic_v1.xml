@@ -948,7 +948,7 @@
                 \par
                 \begin{tabularx}{\linewidth}{rclX}
                   $\forall x \ \exists y \ \phi(x, y)$ & $\rightarrow$ & $\exists y \ \phi(z,y)$ 
-                    & with axiom~\ref{axiom:universalInstantiation} \\
+                    & with axiom~\qref{axiom:universalInstantiation} \\
                   $\forall x \ \exists y \ \phi(x, y)$ & $\rightarrow$ & $\exists y \ \phi(y,y)$ 
                     & forbidden replacement: $z$ in $y$, despite $y$ is already bound \\
                   $\forall x \ \exists y \ x \neq y$ & $\rightarrow$ & $\exists y \ \neq y$ 
@@ -966,7 +966,7 @@
                 \par
                 \begin{tabularx}{\linewidth}{rclX}
                   $\forall x \ \exists y \ \phi(x, y)$ & $\rightarrow$ & $\exists y \ \phi(z,y)$ 
-                    & mit Axiom~\ref{axiom:universalInstantiation} \\
+                    & mit Axiom~\qref{axiom:universalInstantiation} \\
                   $\forall x \ \exists y \ \phi(x, y)$ & $\rightarrow$ & $\exists y \ \phi(y,y)$ 
                     & verbotene Ersetzung: $z$ durch $y$, obwohl $y$ bereits gebunden \\
                   $\forall x \ \exists y \ x \neq y$ & $\rightarrow$ & $\exists y \ \neq y$ 
@@ -1105,7 +1105,7 @@
                 \par
                 \begin{tabularx}{\linewidth}{rclX}
                   $ \phi(x)$                             & $\rightarrow$ & $\exists y \ \phi(y)$  
-                    & with axiom~\ref{axiom:existencialGeneralization} \\
+                    & with axiom~\qref{axiom:existencialGeneralization} \\
                   $ (\exists y \ y = y) \land \phi(x)$   & $\rightarrow$ & $\exists y \ \phi(y)$  
                     &  \\
                   $ \exists y \ (y = y \land \phi(x))$   & $\rightarrow$ & $\exists y \ \phi(y)$  
@@ -1131,7 +1131,7 @@
                 \par
                 \begin{tabularx}{\linewidth}{rclX}
                   $ \phi(x)$                             & $\rightarrow$ & $\exists y \ \phi(y)$  
-                    & mit Axiom~\ref{axiom:existencialGeneralization} \\
+                    & mit Axiom~\qref{axiom:existencialGeneralization} \\
                   $ (\exists y \ y = y) \land \phi(x)$   & $\rightarrow$ & $\exists y \ \phi(y)$  
                     &  \\
                   $ \exists y \ (y = y \land \phi(x))$   & $\rightarrow$ & $\exists y \ \phi(y)$  
@@ -1161,12 +1161,12 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                Analogous to rule~\ref{rule:replacePred} we can replace function variables too.
+                Analogous to rule~\qref{rule:replacePred} we can replace function variables too.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Analog zu Regel~\ref{rule:replacePred} können wir auch Funktionsvariablen ersetzen.
+                Analog zu Regel~\qref{rule:replacePred} können wir auch Funktionsvariablen ersetzen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2948,14 +2948,14 @@
           <TEXT>
             <LATEX language="en">
               <![CDATA[
-                For restricted quantifiers we find formulas according to Proposition \ref{theorem:predicateCalculus}.
+                For restricted quantifiers we find formulas according to Proposition \qref{theorem:predicateCalculus}.
                 \\
                 +++
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für eingeschränkte Quantoren gelten analog zu Proposition \ref{theorem:predicateCalculus} entsprechende Formeln.
+                Für eingeschränkte Quantoren gelten analog zu Proposition \qref{theorem:predicateCalculus} entsprechende Formeln.
                 \\
                 +++
               ]]>
