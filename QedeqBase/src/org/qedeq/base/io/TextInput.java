@@ -264,16 +264,13 @@ public class TextInput extends InputStream {
     * @param   from Absolute reading position.
     * @param   to   Read to this position.
     * @return  Resulting string.
+    * @throws  StringIndexOutOfBoundsException  If from > to.
     */
    public final String getSubstring(final int from, final int to) {
-//       final StringBuffer buffer = new StringBuffer();
-//       for (int i = 0; i < to - from; i++) {
-//           if (from + i >= 0 && from + i < source.length()) {
-//               buffer.append(source.charAt(from + i));
-//           }
-//       }
-//       return buffer.toString();
-       return source.substring(from, to);
+       final int l = source.length();
+       final int f = (from < 0 ? 0 : (from > l ? l : from));
+       final int t = (to < 0 ? 0 : (to > l ? l : to));
+       return source.substring(f, t);
    }
 
    /**

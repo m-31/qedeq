@@ -24,8 +24,11 @@ package org.qedeq.base.io;
  */
 public class SubTextInput extends TextInput {
 
-    private final int start;
-    private final int end;
+    /** Absolute start of this input relative to base {@link SubTextInput}. */
+    private final int absoluteStart;
+
+    /** Absolute end of this input relative to base {@link SubTextInput}. */
+    private final int absoluteEnd;
 
     /**
      * Constructor.
@@ -34,8 +37,8 @@ public class SubTextInput extends TextInput {
      */
     public SubTextInput(final String source) {
         super(source);
-        this.start = 0;
-        this.end = source.length();
+        this.absoluteStart = 0;
+        this.absoluteEnd = source.length();
     }
 
     /**
@@ -47,39 +50,69 @@ public class SubTextInput extends TextInput {
      */
     public SubTextInput(final SubTextInput original, final int absoluteStart, final int absoluteEnd) {
         super(original.getAbsoluteSubstring(absoluteStart, absoluteEnd));
-        this.start = absoluteStart;
-        this.end = absoluteEnd;
+        this.absoluteStart = absoluteStart;
+        this.absoluteEnd = absoluteEnd;
     }
 
+    /**
+     * Get the absolute start position of the current {@link SubTextInput}.
+     *
+     * @return  Absolute start position.
+     */
     public int getAbsoluteStart() {
-        return start;
+        return absoluteStart;
     }
 
-    public int getEnd() {
-        return end;
+    /**
+     * Get the absolute end position of the current {@link SubTextInput}.
+     *
+     * @return  Absolute end position.
+     */
+    public int getAbsoluteEnd() {
+        return absoluteEnd;
     }
 
+    /**
+     * Get the absolute position of the current position.
+     *
+     * @return  Absolute position of current position.
+     */
     public int getAbsolutePosition() {
         return getAbsoluteStart() + getPosition();
     }
 
-    public void setAbsolutePosition(final int position) {
-        System.out.println("p " + position);
-        System.out.println("a " + getAbsoluteStart());
-        System.out.println("c " + getPosition());
-        System.out.println("s " + asString());
-        System.out.println("1 " + asString().substring(getPosition()));
-        System.out.println("2 " + asString().substring(position - getAbsoluteStart()));
-        setPosition(position - getAbsoluteStart());
+    /**
+     * Set the current position by calculating the relative position
+     * from the given absolute position.
+     *
+     * @param   absolutePosition    This should be the absolute position.
+     */
+    public void setAbsolutePosition(final int absolutePosition) {
+        setPosition(absolutePosition - getAbsoluteStart());
     }
 
+    /**
+     * Get sub string of source. The given parameters have values for the underlying original
+     * SubTextInput at the base.
+     *
+     * @param absoluteFrom  Absolute start of sub string.
+     * @param absoluteTo    Absolute end of sub string.
+     * @return  Sub string.
+     */
     public String getAbsoluteSubstring(final int absoluteFrom, final int absoluteTo) {
         return getSubstring(absoluteFrom - getAbsoluteStart(), absoluteTo - getAbsoluteStart());
     }
 
+    /**
+     * Get sub string of source as a new {@link SubTextInput}. The given parameters have
+     * values for the underlying original SubTextInput at the base.
+     *
+     * @param absoluteFrom  Absolute start of sub string.
+     * @param absoluteTo    Absolute end of sub string.
+     * @return  Sub string.
+     */
     public SubTextInput getSubTextInput(final int absoluteFrom, final int absoluteTo) {
         return new SubTextInput(this, absoluteFrom, absoluteTo);
     }
-
 
 }
