@@ -62,7 +62,7 @@ public interface LatexErrorCodes extends ErrorCodes {
     public static final int COMMAND_NOT_SUPPORTED_CODE = 80017;
 
     /** Error (or warning) text for: command not supported. */
-    public static final String COMMAND_NOT_SUPPORTED_MSG = "command not supported: ";
+    public static final String COMMAND_NOT_SUPPORTED_MSG = "LaTeX command not supported: ";
 
 
 
