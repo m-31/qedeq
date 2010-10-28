@@ -83,11 +83,22 @@ public final class SubjectVariableInterpreter {
         subjectVariableCounters.add(new Enumerator());
     }
 
+    /**
+     * Add subject variable even if already existing.
+     *
+     * @param   var     Remove this subject variable.
+     * @param   value   Set interpretation to this entity number.
+     */
     public void forceAddSubjectVariable(final SubjectVariable var, final int value) {
         subjectVariables.add(var);
         subjectVariableCounters.add(new Enumerator(value));
     }
 
+    /**
+     * Remove existing subject variable interpretation.
+     *
+     * @param   var Remove this subject variable.
+     */
     public void removeSubjectVariable(final SubjectVariable var) {
         final int index = subjectVariables.lastIndexOf(var);
         if (index < 0) {
