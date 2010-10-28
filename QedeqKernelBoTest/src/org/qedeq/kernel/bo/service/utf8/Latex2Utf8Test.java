@@ -49,7 +49,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
     public void setUp() {
         finder = new ReferenceFinder() {
             
-            public String getExternalReference(String reference,
+            public String getReferenceLink(String reference,
                     String subReference, SourcePosition startDelta,
                     SourcePosition endDelta) {
                 System.out.println("reference: " + reference);
