@@ -62,6 +62,12 @@ public final class PredicateVariableInterpreter {
         return selection;
     }
 
+    /**
+     * Get model predicate for predicate variable.
+     *
+     * @param   var     For this predicate variable.
+     * @return  Predicate for model.
+     */
     public Predicate getPredicate(final PredicateVariable var) {
         return model.getPredicate(var.getArgumentNumber(),
             getPredicateVariableSelection(var));

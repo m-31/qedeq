@@ -80,9 +80,6 @@ public final class Latex2Utf8Parser {
     /** Stack for mathbb mode. */
     private Stack mathbbStack = new Stack();
 
-    /** Stack for offset of current TextInput. */
-    private Stack startStack = new Stack();
-
     /** Should I skip whitespace before printing the next token. */
     private boolean skipWhitespace;
 
@@ -337,7 +334,7 @@ public final class Latex2Utf8Parser {
                 read();
                 sub = readTilToken("]").asString();
             }
-            String display = finder.getExternalReference(ref, sub, getSourcePosition(localStart1),
+            String display = finder.getReferenceLink(ref, sub, getSourcePosition(localStart1),
                 getSourcePosition(localStart2));
             output.addToken(display);
         }

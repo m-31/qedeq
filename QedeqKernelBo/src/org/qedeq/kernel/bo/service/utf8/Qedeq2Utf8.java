@@ -971,7 +971,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         printer.println();
     }
 
-    public String getExternalReference(final String reference, final String subReference,
+    public String getReferenceLink(final String reference, final String subReference,
             final SourcePosition startPosition, final SourcePosition endPosition) {
         final String method = "getExternalReference(SourcePosition, SourcePosition, String, "
             + "String)";
