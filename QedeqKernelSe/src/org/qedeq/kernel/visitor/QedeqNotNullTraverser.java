@@ -113,7 +113,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     /**
-     * @throws InterruptException
+     * Check if current thread is interrupted.
+     *
+     * @throws  InterruptException  We were interrupted.
      */
     private void checkForInterrupt() throws InterruptException {
         if (Thread.interrupted()) {
