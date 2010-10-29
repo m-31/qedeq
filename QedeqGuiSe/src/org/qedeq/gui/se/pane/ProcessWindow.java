@@ -24,7 +24,6 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
@@ -135,12 +134,6 @@ public class ProcessWindow extends JFrame {
     public void updateView() {
         invalidate();
         repaint();
-    }
-
-    private JTextField createTextField(final String selectedText, final boolean editable) {
-        JTextField combo = new JTextField(selectedText);
-        combo.setEditable(editable);
-        return combo;
     }
 
 
