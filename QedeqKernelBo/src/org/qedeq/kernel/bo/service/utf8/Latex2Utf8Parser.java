@@ -89,6 +89,7 @@ public final class Latex2Utf8Parser {
     /** Here the last read token ends. This is an absolute position. */
     private int tokenEnd;
 
+    /** Current item number. */
     private int itemNumber;
 
     /**
