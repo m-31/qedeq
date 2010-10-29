@@ -40,12 +40,12 @@ public class ProcessWindow extends JFrame {
 
     /** This class. */
     private static final Class CLASS = ProcessWindow.class;
+
+    /** Here is our process list. */
     private ProcessListPane processList;
 
     /**
      * Creates new Panel.
-     *
-     * @param   parent  Parent frame.
      */
     public ProcessWindow() {
         super("Processes");
