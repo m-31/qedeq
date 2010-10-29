@@ -51,6 +51,7 @@ public class ProcessListModel extends AbstractTableModel {
         ModuleErrorAndWarningListPane.class.getResource(
             "/images/eclipse/complete_task.gif"));
 
+    /** Last process info. */
     private ServiceProcess[] process = new ServiceProcess[] {};
 
     public String getColumnName(final int column) {
@@ -81,13 +82,13 @@ public class ProcessListModel extends AbstractTableModel {
 
     public Object getValueAt(final int row, final int col) {
 //        System.out.println("row: " + row + " col: " + col);
-        final ServiceProcess process = getServiceProcess(row);
-        if (process == null) {
+        final ServiceProcess sp = getServiceProcess(row);
+        if (sp == null) {
             return "";
         }
         long current = System.currentTimeMillis();
-        if (process.getStop() != 0) {
-            current = process.getStop();
+        if (sp.getStop() != 0) {
+            current = sp.getStop();
         }
         switch (col) {
         case 0: if (wasFailure(row)) {
@@ -100,12 +101,12 @@ public class ProcessListModel extends AbstractTableModel {
                     return runningIcon;
                 }
                 break;
-        case 1: return process.getService().getPluginName();
-        case 2: return process.getQedeq().getName();
-        case 3: return DateUtility.getIsoTime(process.getStart());
-        case 4: return process.getStop() != 0 ? DateUtility.getIsoTime(process.getStop()) : "";
-        case 5: return DateUtility.getDuration(current - process.getStart());
-        case 6: return process.getParameterString();
+        case 1: return sp.getService().getPluginName();
+        case 2: return sp.getQedeq().getName();
+        case 3: return DateUtility.getIsoTime(sp.getStart());
+        case 4: return sp.getStop() != 0 ? DateUtility.getIsoTime(sp.getStop()) : "";
+        case 5: return DateUtility.getDuration(current - sp.getStart());
+        case 6: return sp.getParameterString();
         default:
                 return "";
         }
