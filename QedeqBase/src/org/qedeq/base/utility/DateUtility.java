@@ -33,6 +33,10 @@ public final class DateUtility {
     public static final FastDateFormat ISO_8601_TIMESTAMP_FORMATTER = FastDateFormat.getInstance(
         "yyyy-MM-dd'T'HH:mm:ss.SSS");
 
+    /** ISO 8601 time format. */
+    public static final FastDateFormat ISO_8601_TIME_FORMATTER = FastDateFormat.getInstance(
+        "HH:mm:ss.SSS");
+
     /** Date format YYYYMMDD HHmm. */
     public static final FastDateFormat NICE_TIMESTAMP_FORMATTER = FastDateFormat.getInstance(
         "yyyy-MM-dd' 'HH:mm:ss.SSS");
@@ -74,6 +78,16 @@ public final class DateUtility {
      */
     public static final String getIsoTimestamp(final long millis) {
         return ISO_8601_TIMESTAMP_FORMATTER.format(getDate(millis));
+    }
+
+    /**
+     * Times in ISO 8601 format (time).
+     *
+     * @param   millis  Time in UTC milliseconds from the epoch.
+     * @return  Times.
+     */
+    public static final String getIsoTime(final long millis) {
+        return ISO_8601_TIME_FORMATTER.format(getDate(millis));
     }
 
     /**

@@ -201,8 +201,8 @@ public final class StringUtility {
                 }
                 final Object key = e.next();
                 buffer.append(String.valueOf(key));
-                buffer.append("=");
-                buffer.append(String.valueOf(map.get(key)));
+//                buffer.append("=");
+//                buffer.append(String.valueOf(map.get(key)));
             }
         }
         buffer.append("}");
