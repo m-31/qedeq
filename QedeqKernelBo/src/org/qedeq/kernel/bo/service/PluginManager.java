@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 
