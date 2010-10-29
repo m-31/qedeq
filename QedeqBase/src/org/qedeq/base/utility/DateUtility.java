@@ -57,6 +57,26 @@ public final class DateUtility {
     }
 
     /**
+     * Timestamp in ISO 8601 format (date and time).
+     *
+     * @param   date    Date to format.
+     * @return  Timestamp.
+     */
+    public static final String getIsoTimestamp(final Date date) {
+        return ISO_8601_TIMESTAMP_FORMATTER.format(date);
+    }
+
+    /**
+     * Timestamp in ISO 8601 format (date and time).
+     *
+     * @param   millis  Time in UTC milliseconds from the epoch.
+     * @return  Timestamp.
+     */
+    public static final String getIsoTimestamp(final long millis) {
+        return ISO_8601_TIMESTAMP_FORMATTER.format(getDate(millis));
+    }
+
+    /**
      * Current timestamp as ISO 8601 date and time separated by space.
      *
      * @return  Current timestamp.
@@ -146,6 +166,18 @@ public final class DateUtility {
         buffer.append(StringUtility.format(mod, 3));
 
         return buffer.toString();
+    }
+
+    /**
+     * Transform milliseconds from the epoch into date.
+     *
+     * @param   millis  Time in UTC milliseconds from the epoch.
+     * @return  Date.
+     */
+    public static final Date getDate(final long millis) {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(millis);
+        return calendar.getTime();
     }
 
 }

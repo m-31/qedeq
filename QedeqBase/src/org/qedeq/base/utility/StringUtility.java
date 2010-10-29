@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -173,6 +174,35 @@ public final class StringUtility {
                     notFirst = true;
                 }
                 buffer.append(String.valueOf(e.next()));
+            }
+        }
+        buffer.append("}");
+        return buffer.toString();
+    }
+
+    /**
+     * Returns a readable presentation of a Map. Something like "{a=2, b=null, c=12}" if the
+     * Map contains (a, 2), (b, null), (c, 12).
+     *
+     * @param   map Map of objects mappings.
+     * @return  Set notation for toString() results.
+     */
+    public static String toString(final Map map) {
+        final StringBuffer buffer = new StringBuffer(30);
+        buffer.append("{");
+        if (map != null) {
+            Iterator e = map.entrySet().iterator();
+            boolean notFirst = false;
+            while (e.hasNext()) {
+                if (notFirst) {
+                    buffer.append(", ");
+                } else {
+                    notFirst = true;
+                }
+                final Object key = e.next();
+                buffer.append(String.valueOf(key));
+                buffer.append("=");
+                buffer.append(String.valueOf(map.get(key)));
             }
         }
         buffer.append("}");
