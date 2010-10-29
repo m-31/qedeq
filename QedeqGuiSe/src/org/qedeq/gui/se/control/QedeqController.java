@@ -78,6 +78,9 @@ public class QedeqController {
     /** Transform QEDEQ module into LaTeX. */
     private final Action makeLatexAction;
 
+    /** Show all service processes. */
+    private final Action processViewAction;
+
     /** All plugin actions. */
     private final PluginAction[] pluginActions;
 
@@ -123,6 +126,7 @@ public class QedeqController {
         makeLatexAction = new MakeLatexAction(this);
         checkLogicAction = new CheckLogicAction(this);
         removePluginResultsAction = new RemovePluginResultsAction(this);
+        processViewAction = new ProcessViewAction();
 
         final Plugin[] plugins = KernelContext.getInstance().getPlugins();
         pluginActions = new PluginAction[plugins.length];
@@ -307,6 +311,15 @@ public class QedeqController {
      */
     public Action getAddAllModulesFromQedeqAction() {
         return addAllModulesFromQedeqAction;
+    }
+
+    /**
+     * Get action for starting the service process viewer.
+     *
+     * @return  Action.
+     */
+    public Action getProcessViewAction() {
+        return processViewAction;
     }
 
     /**

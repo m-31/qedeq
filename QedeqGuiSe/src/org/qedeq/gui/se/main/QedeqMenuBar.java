@@ -171,6 +171,11 @@ public class QedeqMenuBar extends JMenuBar {
         item.setIcon(GuiHelper.readImageIcon("tango/16x16/categories/preferences-system.png"));
         menu.add(item);
 
+        item = MenuHelper.createMenuItem("Service", 'S');
+        item.addActionListener(controller.getProcessViewAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/16x16/categories/preferences-system.png"));
+        menu.add(item);
+
         return menu;
     }
 
