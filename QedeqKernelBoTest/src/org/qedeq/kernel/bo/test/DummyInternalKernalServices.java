@@ -27,6 +27,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.common.ServiceProcess;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 public class DummyInternalKernalServices implements InternalKernelServices {
@@ -105,6 +106,9 @@ public class DummyInternalKernalServices implements InternalKernelServices {
         return null;
     }
     public void clearAllPluginResults(ModuleAddress address) {
+    }
+    public ServiceProcess[] getServiceProcesses() {
+        return null;
     }
 
 }
