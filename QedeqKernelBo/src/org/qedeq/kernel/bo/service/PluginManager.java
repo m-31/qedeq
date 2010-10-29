@@ -19,8 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.common.ServiceProcess;
 
 /**
  * Manage all known plugins.
@@ -33,6 +35,18 @@ public class PluginManager {
     /** Stores all plugins. */
     private final Map plugins = new HashMap();
 
+    /** Collects process infos. */
+    private ServiceProcessManager processManager;
+
+
+    /**
+     * Constructor.
+     *
+     * @param   processManager  Collects process information.
+     */
+    public PluginManager(final ServiceProcessManager processManager) {
+        this.processManager = processManager;
+    }
 
     /**
      * Get all registered plugins.
@@ -118,7 +132,17 @@ public class PluginManager {
                 e);
             throw e;
         }
-        return plugin.executePlugin(qedeq, parameters);
+        final ServiceProcess process = processManager.createProcess(id,
+            StringUtility.toString(parameters));
+        try {
+            final Object result = plugin.executePlugin(qedeq, parameters);
+            process.setSuccessState();
+            return result;
+        } finally {
+            if (process.isRunning()) {
+                process.setFailureState();
+            }
+        }
     }
 
     /**

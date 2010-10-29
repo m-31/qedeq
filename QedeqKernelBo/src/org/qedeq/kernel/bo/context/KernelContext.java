@@ -31,6 +31,7 @@ import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.common.ServiceProcess;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.config.QedeqConfig;
 
@@ -198,6 +199,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
+        public ServiceProcess[] getServiceProcesses() {
+            throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
+        }
+
     };
 
     /** Initial kernel state. */
@@ -286,6 +291,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         }
 
         public void clearAllPluginResults(final ModuleAddress address) {
+            throw new IllegalStateException(KERNEL_NOT_STARTED);
+        }
+
+        public ServiceProcess[] getServiceProcesses() {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -388,6 +397,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
         public void clearAllPluginResults(final ModuleAddress address) {
             services.clearAllPluginResults(address);
+        }
+
+        public ServiceProcess[] getServiceProcesses() {
+            return services.getServiceProcesses();
         }
 
     };
@@ -640,6 +653,10 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
 
     public void clearAllPluginResults(final ModuleAddress address) {
         currentState.clearAllPluginResults(address);
+    }
+
+    public ServiceProcess[] getServiceProcesses() {
+        return currentState.getServiceProcesses();
     }
 
     /**

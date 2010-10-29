@@ -23,6 +23,7 @@ import java.util.Map;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.common.ServiceProcess;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
@@ -170,5 +171,12 @@ public interface KernelServices {
      * @param   address     QEDEQ module address.
      */
     public void clearAllPluginResults(final ModuleAddress address);
+
+    /**
+     * Get information about all service processes.
+     *
+     * @return  Result.
+     */
+    public ServiceProcess[] getServiceProcesses();
 
 }

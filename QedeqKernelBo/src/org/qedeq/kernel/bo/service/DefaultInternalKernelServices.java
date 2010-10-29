@@ -61,6 +61,7 @@ import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.common.ServiceProcess;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
@@ -94,6 +95,9 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     /** This instance manages plugins. */
     private final PluginManager pluginManager;
 
+    /** This instance manages service processes. */
+    private final ServiceProcessManager processManager;
+
     /** Validate module dependencies and status. */
     private boolean validate = true;
 
@@ -104,15 +108,16 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
      * @param loader For loading QEDEQ modules.
      */
     public DefaultInternalKernelServices(final KernelProperties kernel, final QedeqFileDao loader) {
+        this.kernel = kernel;
+        this.qedeqFileDao = loader;
         modules = new KernelQedeqBoStorage();
-        pluginManager = new PluginManager();
+        loader.setServices(this);
+        processManager = new ServiceProcessManager();
+        pluginManager = new PluginManager(processManager);
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8Plugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin");
-        this.kernel = kernel;
-        this.qedeqFileDao = loader;
-        loader.setServices(this);
     }
 
     public void startupServices() {
@@ -936,6 +941,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
 
     public void clearAllPluginResults(final ModuleAddress address) {
         pluginManager.clearAllPluginResults(getKernelQedeqBo(address));
+    }
+
+    public ServiceProcess[] getServiceProcesses() {
+        return processManager.getServiceProcesses();
     }
 
     /**
