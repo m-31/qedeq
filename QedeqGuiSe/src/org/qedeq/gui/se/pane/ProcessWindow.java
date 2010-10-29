@@ -17,14 +17,11 @@ package org.qedeq.gui.se.pane;
 
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -66,17 +63,6 @@ public class ProcessWindow extends JFrame {
         }
     }
 
-    private JComponent addSpaceAndTitle(final JPanel panel, final String title) {
-        JPanel withSpace = new JPanel();
-        withSpace.setBorder(GuiHelper.getEmptyBorderStackable());
-        withSpace.add(panel);
-        withSpace.setLayout(new GridLayout(0, 1));
-        JPanel withTitle = new JPanel();
-        withTitle.setBorder(BorderFactory.createTitledBorder(title));
-        withTitle.add(withSpace);
-        withTitle.setLayout(new GridLayout(0, 1));
-        return withTitle;
-    }
 
     /**
      * Assembles the GUI components of the panel.
