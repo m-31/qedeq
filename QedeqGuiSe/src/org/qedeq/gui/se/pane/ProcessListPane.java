@@ -61,6 +61,7 @@ public class ProcessListPane extends JPanel  {
     /** Currently selected error. */
     private int selectedLine = -1;
 
+    /** Start automatic refresh thread? */
     private boolean automaticRefresh = true;
 
     /** Table model. */
@@ -270,7 +271,6 @@ public class ProcessListPane extends JPanel  {
                 process.interrupt();
             }
         }
-        
     }
 
     public void stackTraceSelected() {
@@ -283,7 +283,6 @@ public class ProcessListPane extends JPanel  {
                 }
             }
         }
-        
     }
 
 }
