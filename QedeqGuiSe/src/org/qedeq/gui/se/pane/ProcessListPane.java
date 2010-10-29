@@ -115,16 +115,6 @@ public class ProcessListPane extends JPanel  {
     public ProcessListPane() {
         super(false);
         setupView();
-        final Thread refresh = new Thread() {
-            public void run() {
-                while (automaticRefresh) {
-                    updateView();
-                    IoUtility.sleep(5000);
-                }
-            }
-        };
-        refresh.setDaemon(true);
-        refresh.start();
     }
 
     /**
@@ -199,6 +189,16 @@ public class ProcessListPane extends JPanel  {
         ((JLabel) header.getDefaultRenderer()).setHorizontalAlignment(JLabel.LEFT);
 
         changeHeaderWidth();
+        final Thread refresh = new Thread() {
+            public void run() {
+                while (automaticRefresh) {
+                    updateView();
+                    IoUtility.sleep(5000);
+                }
+            }
+        };
+        refresh.setDaemon(true);
+        refresh.start();
     }
 
     /**
