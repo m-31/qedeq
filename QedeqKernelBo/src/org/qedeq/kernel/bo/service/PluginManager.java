@@ -22,7 +22,6 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.common.ServiceProcess;
 
 /**
  * Manage all known plugins.
@@ -122,7 +121,7 @@ public class PluginManager {
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      * @throws  RuntimeException    Plugin unknown, or execution had a major problem.
      */
-    synchronized Object executePlugin(final String id, final KernelQedeqBo qedeq,
+    Object executePlugin(final String id, final KernelQedeqBo qedeq,
             final Map parameters) {
         final PluginBo plugin = (PluginBo) plugins.get(id);
         if (plugin == null) {
@@ -132,15 +131,20 @@ public class PluginManager {
                 e);
             throw e;
         }
-        final ServiceProcess process = processManager.createProcess(id,
-            StringUtility.toString(parameters));
-        try {
-            final Object result = plugin.executePlugin(qedeq, parameters);
-            process.setSuccessState();
-            return result;
-        } finally {
-            if (process.isRunning()) {
-                process.setFailureState();
+        final ServiceProcess process = processManager.createProcess(plugin,
+            qedeq,
+            parameters);
+        process.setBlocked(true);
+        synchronized (qedeq) {
+            process.setBlocked(false);
+            try {
+                final Object result = plugin.executePlugin(qedeq, parameters);
+                process.setSuccessState();
+                return result;
+            } finally {
+                if (process.isRunning()) {
+                    process.setFailureState();
+                }
             }
         }
     }

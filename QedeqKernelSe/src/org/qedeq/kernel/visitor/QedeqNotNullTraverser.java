@@ -88,9 +88,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
 
     public void accept(final Qedeq qedeq) throws ModuleDataException {
         getCurrentContext().setLocationWithinModule("");
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         blocked = false;
         if (qedeq == null) {
             throw new NullPointerException("null QEDEQ module");
@@ -114,10 +112,17 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
     }
 
-    public void accept(final Header header) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
+    /**
+     * @throws InterruptException
+     */
+    private void checkForInterrupt() throws InterruptException {
+        if (Thread.interrupted()) {
             throw new InterruptException(getCurrentContext());
         }
+    }
+
+    public void accept(final Header header) throws ModuleDataException {
+        checkForInterrupt();
         if (blocked || header == null) {
             return;
         }
@@ -153,9 +158,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final UsedByList usedByList) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || usedByList == null) {
             return;
         }
@@ -171,9 +174,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final ImportList importList) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || importList == null) {
             return;
         }
@@ -189,9 +190,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Import imp) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || imp == null) {
             return;
         }
@@ -207,9 +206,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Specification specification) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || specification == null) {
             return;
         }
@@ -225,9 +222,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final LocationList locationList) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || locationList == null) {
             return;
         }
@@ -243,9 +238,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Location location) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || location == null) {
             return;
         }
@@ -257,9 +250,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final AuthorList authorList) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || authorList == null) {
             return;
         }
@@ -275,9 +266,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Author author) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || author == null) {
             return;
         }
@@ -293,9 +282,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final ChapterList chapterList) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || chapterList == null) {
             return;
         }
@@ -311,9 +298,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Chapter chapter) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || chapter == null) {
             return;
         }
@@ -338,9 +323,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
 
     public void accept(final LiteratureItemList literatureItemList)
             throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || literatureItemList == null) {
             return;
         }
@@ -356,9 +339,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final LiteratureItem item) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || item == null) {
             return;
         }
@@ -374,9 +355,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final SectionList sectionList) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || sectionList == null) {
             return;
         }
@@ -392,9 +371,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Section section) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || section == null) {
             return;
         }
@@ -418,9 +395,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final SubsectionList subsectionList) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || subsectionList == null) {
             return;
         }
@@ -446,9 +421,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Subsection subsection) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || subsection == null) {
             return;
         }
@@ -468,9 +441,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Node node) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || node == null) {
             return;
         }
@@ -520,9 +491,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Axiom axiom) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || axiom == null) {
             return;
         }
@@ -543,9 +512,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
 
     public void accept(final PredicateDefinition definition)
             throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || definition == null) {
             return;
         }
@@ -569,9 +536,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final FunctionDefinition definition) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || definition == null) {
             return;
         }
@@ -595,9 +560,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Proposition proposition) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || proposition == null) {
             return;
         }
@@ -621,9 +584,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Rule rule) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || rule == null) {
             return;
         }
@@ -647,9 +608,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final LinkList linkList) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || linkList == null) {
             return;
         }
@@ -661,9 +620,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final VariableList variableList) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || variableList == null) {
             return;
         }
@@ -691,9 +648,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final ProofList proofList) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || proofList == null) {
             return;
         }
@@ -709,9 +664,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Proof proof) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || proof == null) {
             return;
         }
@@ -727,9 +680,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Formula formula) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || formula == null) {
             return;
         }
@@ -745,9 +696,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Term term) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || term == null) {
             return;
         }
@@ -763,9 +712,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Element element) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || element == null) {
             return;
         }
@@ -784,9 +731,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Atom atom) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || atom == null) {
             return;
         }
@@ -798,9 +743,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final ElementList list) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || list == null) {
             return;
         }
@@ -816,9 +759,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final LatexList latexList) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || latexList == null) {
             return;
         }
@@ -834,9 +775,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Latex latex) throws ModuleDataException {
-        if (Thread.currentThread().isInterrupted()) {
-            throw new InterruptException(getCurrentContext());
-        }
+        checkForInterrupt();
         if (blocked || latex == null) {
             return;
         }

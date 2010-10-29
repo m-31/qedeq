@@ -61,7 +61,6 @@ import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.ServiceProcess;
 import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;

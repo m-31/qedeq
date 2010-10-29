@@ -17,8 +17,10 @@ package org.qedeq.kernel.bo.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
-import org.qedeq.kernel.common.ServiceProcess;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.common.Plugin;
 
 /**
  * Manage all known processes.
@@ -45,11 +47,13 @@ public class ServiceProcessManager {
      * Create service process.
      *
      * @param   service     The service that runs in current thread.
-     * @param   parameter   Parameter for the service.
+     * @param   qedeq       QEDEQ module for service.
+     * @param   parameters  Parameter for the service.
      * @return  Created process.
      */
-    public synchronized ServiceProcess createProcess(final String service, final String parameter) {
-        final ServiceProcess process = new ServiceProcess(service, parameter);
+    public synchronized ServiceProcess createProcess(final Plugin service,
+            final KernelQedeqBo qedeq, final Map parameters) {
+        final ServiceProcess process = new ServiceProcess(service, qedeq, parameters);
         processes.add(process);
         return process;
     }

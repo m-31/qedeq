@@ -21,9 +21,9 @@ import java.net.URL;
 import java.util.Map;
 
 import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.service.ServiceProcess;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.ServiceProcess;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**

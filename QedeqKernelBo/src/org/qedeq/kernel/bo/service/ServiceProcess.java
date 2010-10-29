@@ -13,9 +13,14 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.common;
+package org.qedeq.kernel.bo.service;
+
+import java.util.Iterator;
+import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.common.Plugin;
 
 /**
  * Process info for a service.
@@ -26,13 +31,13 @@ public class ServiceProcess {
     private static final Class CLASS = ServiceProcess.class;
 
     /** The service the thread works for. */
-    private final String service;
+    private final Plugin service;
 
     /** The thread the service is done within. */
     private final Thread thread;
 
     /** Some important parameters for the service. For example QEDEQ module address. */
-    private final String parameter;
+    private final Map parameters;
 
     /** Start time for process. */
     private long start;
@@ -43,17 +48,26 @@ public class ServiceProcess {
     /** State for process. 0 = running, 1 = success, -1 failure. */
     private int state;
 
+    /** Is this process blocked? */
+    private boolean blocked;
+
+    /** QEDEQ module the process is working on. */
+    private KernelQedeqBo qedeq;
+
     /**
      * A new service process.
      *
      * @param   service     This service is executed.
+     * @param   qedeq       This QEDEQ module we work on.
      * @param   thread      The process the service is executed within.
-     * @param   parameter   Interesting process parameters (e.g. QEDEQ module).
+     * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
      */
-    public ServiceProcess(final String service, final Thread thread, final String parameter) {
+    public ServiceProcess(final Plugin service, final Thread thread, final KernelQedeqBo qedeq,
+            final Map parameters) {
         this.service = service;
         this.thread = thread;
-        this.parameter = parameter;
+        this.qedeq = qedeq;
+        this.parameters = parameters;
         if (!thread.isAlive()) {
             throw new RuntimeException("thread is already dead");
         }
@@ -64,10 +78,11 @@ public class ServiceProcess {
      * A new service process within the current thread.
      *
      * @param   service     This service is executed.
-     * @param   parameter   Interesting process parameters (e.g. QEDEQ module).
+     * @param   qedeq       Module we work on.
+     * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
      */
-    public ServiceProcess(final String service, final String parameter) {
-        this(service, Thread.currentThread(), parameter);
+    public ServiceProcess(final Plugin service, final KernelQedeqBo qedeq, final Map parameters) {
+        this(service, Thread.currentThread(), qedeq, parameters);
     }
 
     /**
@@ -75,7 +90,7 @@ public class ServiceProcess {
      *
      * @return  service
      */
-    public String getService() {
+    public Plugin getService() {
         return service;
     }
 
@@ -89,12 +104,51 @@ public class ServiceProcess {
     }
 
     /**
+     * Get service.
+     *
+     * @return  service
+     */
+    public KernelQedeqBo getQedeq() {
+        return qedeq;
+    }
+
+    /**
      * Get service parameter.
      *
      * @return  Service parameter.
      */
-    public String getParameter() {
-        return parameter;
+    public Map getParameters() {
+        return parameters;
+    }
+
+    /**
+     * Get service parameter. Filters only for parameters that are explicitly for this plugin.
+     *
+     * @return  Service parameter.
+     */
+    public String getParameterString() {
+        final StringBuffer buffer = new StringBuffer(30);
+        final int len = service.getPluginId().length() + 1;
+        if (parameters != null) {
+            Iterator e = parameters.entrySet().iterator();
+            boolean notFirst = false;
+            while (e.hasNext()) {
+                final Map.Entry entry = (Map.Entry) e.next();
+                String key = String.valueOf(entry.getKey());
+                if (key.startsWith(service.getPluginId() + "$")) {
+                    if (notFirst) {
+                        buffer.append(", ");
+                    } else {
+                        notFirst = true;
+                    }
+                    key = key.substring(len);
+                    buffer.append(key);
+                    buffer.append("=");
+                    buffer.append(String.valueOf(entry.getValue()));
+                }
+            }
+        }
+        return buffer.toString();
     }
 
     /**
@@ -146,6 +200,17 @@ public class ServiceProcess {
         return false;
     }
 
+    public synchronized boolean isBlocked() {
+        if (isRunning()) {
+            return blocked;
+        }
+        return false;
+    }
+
+    public synchronized void setBlocked(final boolean blocked) {
+        this.blocked = blocked;
+    }
+
     public synchronized boolean wasSuccess() {
         return state == 1;
     }
@@ -156,12 +221,6 @@ public class ServiceProcess {
 
     public synchronized void interrupt() {
         thread.interrupt();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
         setFailureState();
     }
 
