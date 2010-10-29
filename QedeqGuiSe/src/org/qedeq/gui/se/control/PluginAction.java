@@ -70,22 +70,23 @@ public class PluginAction extends AbstractAction {
                 return;
             }
 
-            final Thread thread = new Thread() {
-                public void run() {
-                    final Map parameters = new HashMap();
-                    // FIXME m31 20100924: these are only LaTeX Parameters
-                    parameters.put(Qedeq2LatexPlugin.class.getName() + "$info", "true");
-                    parameters.put(Qedeq2Utf8Plugin.class.getName() + "$info", "true");
+            final Map parameters = new HashMap();
+            // FIXME m31 20100924: these are only LaTeX Parameters
+            parameters.put(Qedeq2LatexPlugin.class.getName() + "$info", "true");
+            parameters.put(Qedeq2Utf8Plugin.class.getName() + "$info", "true");
 //                    parameters.put(HeuristicCheckerPlugin.class.getName() + "$model",
 //                        ZeroModel.class.getName());
-                    for (int i = 0; i < props.length; i++) {
+            for (int i = 0; i < props.length; i++) {
+                final QedeqBo prop = props[i];
+                final Thread thread = new Thread() {
+                    public void run() {
                         KernelContext.getInstance().executePlugin(plugin.getPluginId(),
-                            props[i].getModuleAddress(), parameters);
+                            prop.getModuleAddress(), parameters);
                     }
-                }
-            };
-            thread.setDaemon(true);
-            thread.start();
+                };
+                thread.setDaemon(true);
+                thread.start();
+            }
         } finally {
             Trace.end(CLASS, this, method);
         }

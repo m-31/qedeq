@@ -15,7 +15,6 @@
 
 package org.qedeq.gui.se.pane;
 
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -28,11 +27,8 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.ScrollPaneConstants;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
 
@@ -48,6 +44,7 @@ public class ProcessWindow extends JFrame {
 
     /** This class. */
     private static final Class CLASS = ProcessWindow.class;
+    private ProcessListPane processList;
 
     /**
      * Creates new Panel.
@@ -90,11 +87,34 @@ public class ProcessWindow extends JFrame {
         JPanel allOptions = new JPanel();
         allOptions.setBorder(GuiHelper.getEmptyBorder());
         allOptions.setLayout(new BoxLayout(allOptions, BoxLayout.Y_AXIS));
-        final ProcessListPane processList = new ProcessListPane();
+        processList = new ProcessListPane();
         allOptions.add(processList);
         content.add(allOptions);
 
         ButtonBarBuilder bbuilder = ButtonBarBuilder.createLeftToRightBuilder();
+
+        JButton stackTrace = new JButton("Stacktrace");
+        stackTrace.addActionListener(new  ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                ProcessWindow.this.processList.stackTraceSelected();
+            }
+        });
+
+        JButton stop = new JButton("Stop");
+        stop.addActionListener(new  ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                ProcessWindow.this.processList.stopSelected();
+            }
+        });
+
+
+        JButton refresh = new JButton("Refresh");
+        refresh.addActionListener(new  ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                ProcessWindow.this.processList.updateView();
+            }
+        });
+
 
         JButton ok = new JButton("OK");
         ok.addActionListener(new  ActionListener() {
@@ -110,7 +130,7 @@ public class ProcessWindow extends JFrame {
             }
         });
 
-        bbuilder.addGriddedButtons(new JButton[]{cancel, ok});
+        bbuilder.addGriddedButtons(new JButton[]{stackTrace, stop, refresh, cancel, ok});
 
         final JPanel buttons = bbuilder.getPanel();
         content.add(GuiHelper.addSpaceAndAlignRight(buttons));
@@ -120,7 +140,7 @@ public class ProcessWindow extends JFrame {
 
         final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2,
-            getWidth(), getHeight() + (IoUtility.isWebStarted() ? processList.getHeight() : 0));
+            900, 400);
     }
 
     /**
@@ -135,12 +155,6 @@ public class ProcessWindow extends JFrame {
         JTextField combo = new JTextField(selectedText);
         combo.setEditable(editable);
         return combo;
-    }
-
-    private Component wrapWithScrollPane(final Component c) {
-        return new JScrollPane(c,
-            ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER,
-            ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
     }
 
 

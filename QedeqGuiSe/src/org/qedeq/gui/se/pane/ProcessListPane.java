@@ -38,8 +38,9 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.gui.se.control.SelectionListenerList;
+import org.qedeq.kernel.bo.service.ServiceProcess;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -60,6 +61,8 @@ public class ProcessListPane extends JPanel  {
     /** Currently selected error. */
     private int selectedLine = -1;
 
+    private boolean automaticRefresh = true;
+
     /** Table model. */
     private ProcessListModel model = new ProcessListModel();
 
@@ -75,9 +78,22 @@ public class ProcessListPane extends JPanel  {
         public String getToolTipText(final MouseEvent e) {
             String tip = null;
             java.awt.Point p = e.getPoint();
-            int row = rowAtPoint(p);
+            final int row = rowAtPoint(p);
+            final int col = columnAtPoint(p);
             try {
-                tip = model.getServiceProcess(row).getService() + "\n";
+                final ServiceProcess process = model.getServiceProcess(row);
+                switch (col) {
+                case 1:
+                case 2: tip = process.getService().getPluginDescription() + "\n";
+                     break;
+                case 3:
+                case 4:
+                case 5: tip = process.getQedeq().getUrl() + "\n";
+                     break;
+                case 6: tip = process.getParameterString() + "\n";
+                    break;
+                default: tip = "";
+                }
             } catch (RuntimeException ex) {
                 return super.getToolTipText(e);
             }
@@ -98,6 +114,16 @@ public class ProcessListPane extends JPanel  {
     public ProcessListPane() {
         super(false);
         setupView();
+        final Thread refresh = new Thread() {
+            public void run() {
+                while (automaticRefresh) {
+                    updateView();
+                    IoUtility.sleep(5000);
+                }
+            }
+        };
+        refresh.setDaemon(true);
+        refresh.start();
     }
 
     /**
@@ -181,10 +207,18 @@ public class ProcessListPane extends JPanel  {
         TableColumnModel columnModel = list.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(24);
         columnModel.getColumn(0).setMinWidth(24);
-        columnModel.getColumn(1).setPreferredWidth(2000);
-        columnModel.getColumn(1).setMinWidth(100);
-        columnModel.getColumn(2).setPreferredWidth(100);
-        columnModel.getColumn(2).setMinWidth(100);
+        columnModel.getColumn(1).setPreferredWidth(200);
+        columnModel.getColumn(1).setMinWidth(150);
+        columnModel.getColumn(2).setPreferredWidth(200);
+        columnModel.getColumn(2).setMinWidth(150);
+        columnModel.getColumn(3).setPreferredWidth(100);
+        columnModel.getColumn(3).setMinWidth(100);
+        columnModel.getColumn(4).setPreferredWidth(100);
+        columnModel.getColumn(4).setMinWidth(100);
+        columnModel.getColumn(5).setPreferredWidth(100);
+        columnModel.getColumn(5).setMinWidth(100);
+        columnModel.getColumn(6).setPreferredWidth(2000);
+        columnModel.getColumn(6).setMinWidth(100);
     }
 
     /**
@@ -194,8 +228,8 @@ public class ProcessListPane extends JPanel  {
         final String method = "updateView";
         Trace.begin(CLASS, this, method);
         ((AbstractTableModel) list.getModel()).fireTableDataChanged();
-        ((AbstractTableModel) list.getModel()).fireTableStructureChanged();
-        changeHeaderWidth();
+//        ((AbstractTableModel) list.getModel()).fireTableStructureChanged();
+//        changeHeaderWidth();
         list.invalidate();
         list.repaint();
         this.repaint();
@@ -227,6 +261,29 @@ public class ProcessListPane extends JPanel  {
             }
         }
 
+    }
+
+    public void stopSelected() {
+        if (selectedLine >= 0) {
+            final ServiceProcess process = model.getServiceProcess(selectedLine);
+            if (process != null && process.isRunning()) {
+                process.interrupt();
+            }
+        }
+        
+    }
+
+    public void stackTraceSelected() {
+        if (selectedLine >= 0) {
+            final ServiceProcess process = model.getServiceProcess(selectedLine);
+            if (process != null && process.isRunning()) {
+                StackTraceElement[] trace = process.getThread().getStackTrace();
+                for (int i = 0; i < trace.length; i++)  {
+                    System.out.println(trace[i]);
+                }
+            }
+        }
+        
     }
 
 }

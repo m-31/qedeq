@@ -20,9 +20,8 @@ import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
 import org.qedeq.base.utility.DateUtility;
-import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.common.ServiceProcess;
+import org.qedeq.kernel.bo.service.ServiceProcess;
 
 /**
  * Table model for QEDEQ module specific error pane.
@@ -38,25 +37,34 @@ public class ProcessListModel extends AbstractTableModel {
             "/images/eclipse/error_tsk.gif"));
 
     /** Warning icon. */
-    private static ImageIcon warningIcon = new ImageIcon(
+    private static ImageIcon runningIcon = new ImageIcon(
         ModuleErrorAndWarningListPane.class.getResource(
-            "/images/eclipse/warn_tsk.gif"));
+            "/images/eclipse/progress_ok.gif"));
 
-    /** We want to show errors and warnings from this module. */
-    private QedeqBo qedeq;
+    /** Waiting icon. */
+    private static ImageIcon waitingIcon = new ImageIcon(
+        ModuleErrorAndWarningListPane.class.getResource(
+            "/images/eclipse/waiting.gif"));
 
-    private ServiceProcess[] processes = new ServiceProcess[] {};
+    /** Complete icon. */
+    private static ImageIcon successIcon = new ImageIcon(
+        ModuleErrorAndWarningListPane.class.getResource(
+            "/images/eclipse/complete_task.gif"));
+
+    private ServiceProcess[] process = new ServiceProcess[] {};
 
     public String getColumnName(final int column) {
         if (column == 1) {
             return "Service";
         } else if (column == 2) {
-            return "Start";
+            return "Module";
         } else if (column == 3) {
-            return "Stop";
+            return "Start";
         } else if (column == 4) {
-            return "Duration";
+            return "Stop";
         } else if (column == 5) {
+            return "Duration";
+        } else if (column == 6) {
             return "Parameters";
         } else {
             return "";
@@ -64,7 +72,7 @@ public class ProcessListModel extends AbstractTableModel {
     }
 
     public int getRowCount() {
-        return processes.length;
+        return process.length;
     }
 
     public int getColumnCount() {
@@ -73,27 +81,31 @@ public class ProcessListModel extends AbstractTableModel {
 
     public Object getValueAt(final int row, final int col) {
 //        System.out.println("row: " + row + " col: " + col);
-        if (qedeq == null) {
+        final ServiceProcess process = getServiceProcess(row);
+        if (process == null) {
             return "";
         }
-        final ServiceProcess e = getServiceProcess(row);
-        if (e == null) {
-            return "";
+        long current = System.currentTimeMillis();
+        if (process.getStop() != 0) {
+            current = process.getStop();
         }
         switch (col) {
         case 0: if (wasFailure(row)) {
                     return errorIcon;
                 } else if (wasSuccess(row)) {
-                    return warningIcon;
+                    return successIcon;
+                } else if (isWaiting(row)) {
+                    return waitingIcon;
                 } else if (isRunning(row)) {
-                    return warningIcon;
+                    return runningIcon;
                 }
                 break;
-        case 1: return e.getService();
-        case 2: return DateUtility.getIsoTimestamp(e.getStart());
-        case 3: return DateUtility.getIsoTimestamp(e.getStop());
-        case 4: return DateUtility.getDuration(e.getStop() - e.getStart());
-        case 5: return e.getParameter();
+        case 1: return process.getService().getPluginName();
+        case 2: return process.getQedeq().getName();
+        case 3: return DateUtility.getIsoTime(process.getStart());
+        case 4: return process.getStop() != 0 ? DateUtility.getIsoTime(process.getStop()) : "";
+        case 5: return DateUtility.getDuration(current - process.getStart());
+        case 6: return process.getParameterString();
         default:
                 return "";
         }
@@ -111,17 +123,8 @@ public class ProcessListModel extends AbstractTableModel {
         return col == 0 ? Icon.class : Object.class;
    }
 
-    /**
-     * Get QEDEQ module.
-     *
-     * @return  QEDEQ module.
-     */
-    public QedeqBo getQedeq() {
-        return qedeq;
-    }
-
     public void fireTableDataChanged() {
-        processes = KernelContext.getInstance().getServiceProcesses();
+        process = KernelContext.getInstance().getServiceProcesses();
         super.fireTableDataChanged();
     }
 
@@ -132,47 +135,60 @@ public class ProcessListModel extends AbstractTableModel {
      * @return  Process of this row. Might be <code>null</code> if row doesn't exist.
      */
     public ServiceProcess getServiceProcess(final int row) {
-        if (row < processes.length && row >= 0) {
-            return processes[row];
+        if (row < process.length && row >= 0) {
+            return process[row];
         }
         return null;
     }
 
     /**
-     * Is there an error at given row?
+     * Was the process stopped by the user?
      *
      * @param   row     Look at this row.
-     * @return  Is there an error?
+     * @return  Was the process stopped?
      */
     public boolean wasFailure(final int row) {
-        if (row >= 0 && row < processes.length) {
+        if (row >= 0 && row < process.length) {
             return getServiceProcess(row).wasFailure();
         }
         return false;
     }
 
     /**
-     * Is there an warning at given row?
+     * Was the process finished normally?
      *
      * @param   row     Look at this row.
-     * @return  Is there an warning?
+     * @return  Was the process finished normally?
      */
     public boolean wasSuccess(final int row) {
-        if (row >= 0 && row < processes.length) {
+        if (row >= 0 && row < process.length) {
             return getServiceProcess(row).wasSuccess();
         }
         return false;
     }
 
     /**
-     * Is there an warning at given row?
+     * Is this process currently running?
      *
      * @param   row     Look at this row.
-     * @return  Is there an warning?
+     * @return  Is the process running?
      */
     public boolean isRunning(final int row) {
-        if (row >= 0 && row < processes.length) {
+        if (row >= 0 && row < process.length) {
             return getServiceProcess(row).isRunning();
+        }
+        return false;
+    }
+
+    /**
+     * Is the selected process waiting?
+     *
+     * @param   row     Look at this row.
+     * @return  Is the process waiting?
+     */
+    public boolean isWaiting(final int row) {
+        if (row >= 0 && row < process.length) {
+            return getServiceProcess(row).isBlocked();
         }
         return false;
     }

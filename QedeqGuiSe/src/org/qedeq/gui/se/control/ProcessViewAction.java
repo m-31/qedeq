@@ -35,7 +35,8 @@ class ProcessViewAction extends AbstractAction {
     }
 
     public void actionPerformed(final ActionEvent e) {
-        new ProcessWindow().setVisible(true);
+        final ProcessWindow pw = new ProcessWindow();
+        pw.setVisible(true);
     }
 
 }
