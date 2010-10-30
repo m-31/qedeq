@@ -162,77 +162,11 @@ public final class Interpreter {
             result = predicateVariableInterpreter.getPredicate(var)
                 .calculate(getEntities(list));
         } else if (Operators.UNIVERSAL_QUANTIFIER_OPERATOR.equals(op)) {
-            result = true;
-            ElementList variable = list.getElement(0).getList();
-            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
-            subjectVariableInterpreter.addSubjectVariable(var);
-            for (int i = 0; i < model.getEntitiesSize(); i++) {
-                if (list.size() == 2) {
-                    setLocationWithinModule(context + ".getList().getElement(1)");
-                    result &= calculateValue(list.getElement(1));
-                } else {  // must be 3
-                    setLocationWithinModule(context + ".getList().getElement(1)");
-                    final boolean result1 = calculateValue(list.getElement(1));
-                    setLocationWithinModule(context + ".getList().getElement(2)");
-                    final boolean result2 = calculateValue(list.getElement(2));
-                    result &= !result1 || result2;
-                }
-                if (!result) {
-                    break;
-                }
-                subjectVariableInterpreter.increaseSubjectVariableSelection(var);
-            }
-            subjectVariableInterpreter.removeSubjectVariable(var);
+            result = handleUniversalQuantifier(list);
         } else if (Operators.EXISTENTIAL_QUANTIFIER_OPERATOR.equals(op)) {
-            result = false;
-            ElementList variable = list.getElement(0).getList();
-            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
-            subjectVariableInterpreter.addSubjectVariable(var);
-            for (int i = 0; i < model.getEntitiesSize(); i++) {
-                if (list.size() == 2) {
-                    setLocationWithinModule(context + ".getList().getElement(1)");
-                    result |= calculateValue(list.getElement(1));
-                } else {  // must be 3
-                    setLocationWithinModule(context + ".getList().getElement(1)");
-                    final boolean result1 = calculateValue(list.getElement(1));
-                    setLocationWithinModule(context + ".getList().getElement(2)");
-                    final boolean result2 = calculateValue(list.getElement(2));
-                    result |= result1 && result2;
-                }
-                if (result) {
-                    break;
-                }
-                subjectVariableInterpreter.increaseSubjectVariableSelection(var);
-            }
-            subjectVariableInterpreter.removeSubjectVariable(var);
+            result = handleExistentialQuantifier(list);
         } else if (Operators.UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR.equals(op)) {
-            result = false;
-            ElementList variable = list.getElement(0).getList();
-            final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
-            subjectVariableInterpreter.addSubjectVariable(var);
-            for (int i = 0; i < model.getEntitiesSize(); i++) {
-                boolean val;
-                if (list.size() == 2) {
-                    setLocationWithinModule(context + ".getList().getElement(1)");
-                    val = calculateValue(list.getElement(1));
-                } else {  // must be 3
-                    setLocationWithinModule(context + ".getList().getElement(1)");
-                    final boolean result1 = calculateValue(list.getElement(1));
-                    setLocationWithinModule(context + ".getList().getElement(2)");
-                    final boolean result2 = calculateValue(list.getElement(2));
-                    val = result1 && result2;
-                }
-                if (val) {
-                    if (result) {
-                        result = false;
-                        break;
-                    } else {
-                        result = true;
-                    }
-                }
-                subjectVariableInterpreter.increaseSubjectVariableSelection(var);
-            }
-            subjectVariableInterpreter.removeSubjectVariable(var);
+            result = handleUniqueExistentialQuantifier(list);
         } else if (Operators.PREDICATE_CONSTANT.equals(op)) {
             final String text = stripReference(list.getElement(0).getAtom().getString());
             final PredicateConstant var = new PredicateConstant(text,
@@ -255,6 +189,111 @@ public final class Interpreter {
             deepness.setLength(deepness.length() > 0 ? deepness.length() - 1 : 0);
             Trace.param(CLASS, this, method, deepness.toString() + "result ", result);
         }
+        return result;
+    }
+
+    /**
+     * Handle universal quantifier operator.
+     *
+     * @param   list    Work on this formula.
+     * @return  result  Calculated truth value.
+     * @throws  HeuristicException  Calculation not possible.
+     */
+    private boolean handleUniversalQuantifier(final ElementList list) throws HeuristicException {
+        final String context = getLocationWithinModule();
+        boolean result = true;
+        final ElementList variable = list.getElement(0).getList();
+        final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
+        subjectVariableInterpreter.addSubjectVariable(var);
+        for (int i = 0; i < model.getEntitiesSize(); i++) {
+            if (list.size() == 2) {
+                setLocationWithinModule(context + ".getList().getElement(1)");
+                result &= calculateValue(list.getElement(1));
+            } else {  // must be 3
+                setLocationWithinModule(context + ".getList().getElement(1)");
+                final boolean result1 = calculateValue(list.getElement(1));
+                setLocationWithinModule(context + ".getList().getElement(2)");
+                final boolean result2 = calculateValue(list.getElement(2));
+                result &= !result1 || result2;
+            }
+            if (!result) {
+                break;
+            }
+            subjectVariableInterpreter.increaseSubjectVariableSelection(var);
+        }
+        subjectVariableInterpreter.removeSubjectVariable(var);
+        return result;
+    }
+
+    /**
+     * Handle existential quantifier operator.
+     *
+     * @param   list    Work on this formula.
+     * @return  result  Calculated truth value.
+     * @throws  HeuristicException  Calculation not possible.
+     */
+    private boolean handleExistentialQuantifier(final ElementList list) throws HeuristicException {
+        final String context = getLocationWithinModule();
+        boolean result = false;
+        final ElementList variable = list.getElement(0).getList();
+        final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
+        subjectVariableInterpreter.addSubjectVariable(var);
+        for (int i = 0; i < model.getEntitiesSize(); i++) {
+            if (list.size() == 2) {
+                setLocationWithinModule(context + ".getList().getElement(1)");
+                result |= calculateValue(list.getElement(1));
+            } else {  // must be 3
+                setLocationWithinModule(context + ".getList().getElement(1)");
+                final boolean result1 = calculateValue(list.getElement(1));
+                setLocationWithinModule(context + ".getList().getElement(2)");
+                final boolean result2 = calculateValue(list.getElement(2));
+                result |= result1 && result2;
+            }
+            if (result) {
+                break;
+            }
+            subjectVariableInterpreter.increaseSubjectVariableSelection(var);
+        }
+        subjectVariableInterpreter.removeSubjectVariable(var);
+        return result;
+    }
+
+    /**
+     * Handle unique existential quantifier operator.
+     *
+     * @param   list    Work on this formula.
+     * @return  result  Calculated truth value.
+     * @throws  HeuristicException  Calculation not possible.
+     */
+    private boolean handleUniqueExistentialQuantifier(final ElementList list) throws HeuristicException {
+        final String context = getLocationWithinModule();
+        boolean result = false;
+        final ElementList variable = list.getElement(0).getList();
+        final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
+        subjectVariableInterpreter.addSubjectVariable(var);
+        for (int i = 0; i < model.getEntitiesSize(); i++) {
+            boolean val;
+            if (list.size() == 2) {
+                setLocationWithinModule(context + ".getList().getElement(1)");
+                val = calculateValue(list.getElement(1));
+            } else {  // must be 3
+                setLocationWithinModule(context + ".getList().getElement(1)");
+                final boolean result1 = calculateValue(list.getElement(1));
+                setLocationWithinModule(context + ".getList().getElement(2)");
+                final boolean result2 = calculateValue(list.getElement(2));
+                val = result1 && result2;
+            }
+            if (val) {
+                if (result) {
+                    result = false;
+                    break;
+                } else {
+                    result = true;
+                }
+            }
+            subjectVariableInterpreter.increaseSubjectVariableSelection(var);
+        }
+        subjectVariableInterpreter.removeSubjectVariable(var);
         return result;
     }
 
