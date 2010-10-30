@@ -163,7 +163,7 @@ public class QedeqMenuBar extends JMenuBar {
 
         item = MenuHelper.createMenuItem("LaTeX to QEDEQ", 'L');
         item.addActionListener(controller.getParserAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/categories/applications-system.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/format-indent-more.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Preferences", 'P');
@@ -171,9 +171,9 @@ public class QedeqMenuBar extends JMenuBar {
         item.setIcon(GuiHelper.readImageIcon("tango/16x16/categories/preferences-system.png"));
         menu.add(item);
 
-        item = MenuHelper.createMenuItem("Service", 'S');
+        item = MenuHelper.createMenuItem("Threads", 'T');
         item.addActionListener(controller.getProcessViewAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/categories/preferences-system.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/16x16/categories/applications-system.png"));
         menu.add(item);
 
         return menu;

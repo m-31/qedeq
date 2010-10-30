@@ -229,8 +229,6 @@ public class ProcessListPane extends JPanel  {
         final String method = "updateView";
         Trace.begin(CLASS, this, method);
         ((AbstractTableModel) list.getModel()).fireTableDataChanged();
-//        ((AbstractTableModel) list.getModel()).fireTableStructureChanged();
-//        changeHeaderWidth();
         list.invalidate();
         list.repaint();
         this.repaint();
@@ -277,6 +275,7 @@ public class ProcessListPane extends JPanel  {
         if (selectedLine >= 0) {
             final ServiceProcess process = model.getServiceProcess(selectedLine);
             if (process != null && process.isRunning()) {
+                // FIXME 20101030 m31: only for java 1.5
                 StackTraceElement[] trace = process.getThread().getStackTrace();
                 for (int i = 0; i < trace.length; i++)  {
                     System.out.println(trace[i]);

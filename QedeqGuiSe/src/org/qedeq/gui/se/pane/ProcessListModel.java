@@ -125,8 +125,14 @@ public class ProcessListModel extends AbstractTableModel {
    }
 
     public void fireTableDataChanged() {
-        process = KernelContext.getInstance().getServiceProcesses();
-        super.fireTableDataChanged();
+        final ServiceProcess[] changed = KernelContext.getInstance().getServiceProcesses();
+        if (process.length > 0) {
+            super.fireTableRowsUpdated(0, process.length - 1);
+        }
+        if (changed.length > process.length) {
+            super.fireTableRowsInserted(process.length, changed.length - 1);
+        }
+        process = changed;
     }
 
     /**
