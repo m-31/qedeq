@@ -90,7 +90,7 @@ public class ServiceProcess {
      *
      * @return  service
      */
-    public Plugin getService() {
+    public synchronized Plugin getService() {
         return service;
     }
 
@@ -99,7 +99,7 @@ public class ServiceProcess {
      *
      * @return  Service thread.
      */
-    public Thread getThread() {
+    public synchronized Thread getThread() {
         return thread;
     }
 
@@ -108,7 +108,7 @@ public class ServiceProcess {
      *
      * @return  service
      */
-    public KernelQedeqBo getQedeq() {
+    public synchronized KernelQedeqBo getQedeq() {
         return qedeq;
     }
 
@@ -117,7 +117,7 @@ public class ServiceProcess {
      *
      * @return  Service parameter.
      */
-    public Map getParameters() {
+    public synchronized Map getParameters() {
         return parameters;
     }
 
@@ -126,7 +126,7 @@ public class ServiceProcess {
      *
      * @return  Service parameter.
      */
-    public String getParameterString() {
+    public synchronized String getParameterString() {
         final StringBuffer buffer = new StringBuffer(30);
         final int len = service.getPluginId().length() + 1;
         if (parameters != null) {
@@ -156,7 +156,7 @@ public class ServiceProcess {
      *
      * @return  Service start timestamp.
      */
-    public long getStart() {
+    public synchronized long getStart() {
         return start;
     }
 
@@ -165,7 +165,7 @@ public class ServiceProcess {
      *
      * @return  Service stop timestamp.
      */
-    public long getStop() {
+    public synchronized long getStop() {
         return stop;
     }
 
@@ -178,32 +178,47 @@ public class ServiceProcess {
     }
 
     public synchronized void setSuccessState() {
-        state = 1;
-        stop();
+        System.out.println(thread.getId() + " setSuccessState start");
+        if (isRunning()) {
+            state = 1;
+            stop();
+        }
+        System.out.println(thread.getId() + " setSuccessState end");
     }
 
     public synchronized void setFailureState() {
-        state = -1;
-        stop();
+        System.out.println(thread.getId() + " setFailureState start");
+        if (isRunning()) {
+            state = -1;
+            stop();
+        }
+        System.out.println(thread.getId() + " setFailureState end");
     }
 
     public synchronized boolean isRunning() {
+        System.out.println(thread.getId() + " isRunning start");
         if (state == 0) {
             if (!thread.isAlive()) {
                 Trace.fatal(CLASS, this, "isRunning()", "Thread has unexpectly died",
                     new RuntimeException());
                 state = -1;
+                System.out.println(thread.getId() + " isRunning end");
                 return false;
             }
+            System.out.println(thread.getId() + " isRunning end");
             return true;
         }
+        System.out.println(thread.getId() + " isRunning end");
         return false;
     }
 
     public synchronized boolean isBlocked() {
+        System.out.println(thread.getId() + " isBlocked start");
         if (isRunning()) {
+            System.out.println(thread.getId() + " isBlocked end");
             return blocked;
         }
+        System.out.println(thread.getId() + " isBlocked end");
         return false;
     }
 
@@ -220,8 +235,10 @@ public class ServiceProcess {
     }
 
     public synchronized void interrupt() {
+        System.out.println(thread.getId() + " interupt start");
         thread.interrupt();
         setFailureState();
+        System.out.println(thread.getId() + " interupt end");
     }
 
 }
