@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.service.utf8;
 import java.io.IOException;
 
 import org.qedeq.base.io.SourcePosition;
-import org.qedeq.base.io.TextInput;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
