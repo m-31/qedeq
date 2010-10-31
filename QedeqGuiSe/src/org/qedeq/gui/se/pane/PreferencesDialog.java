@@ -147,7 +147,7 @@ public class PreferencesDialog extends JDialog {
            + " to a resource. If the timeout expires before there is data available for read, an error occurs. A"
            + " timeout of zero is interpreted as an infinite timeout.");
         builder.append(readTimeoutTextField);
-        return addSpaceAndTitle(builder.getPanel(), "Timeouts");
+        return GuiHelper.addSpaceAndTitle(builder.getPanel(), "Timeouts");
     }
 
     /**
@@ -201,7 +201,7 @@ public class PreferencesDialog extends JDialog {
                 + " not through the proxy server. The value can be a comma separated list of hosts, and in addition"
                 + " a wildcard character (*) can be used for matching. For example: *.foo.com,localhost");
 
-            return addSpaceAndTitle(builder.getPanel(), "Proxy Settings");
+            return GuiHelper.addSpaceAndTitle(builder.getPanel(), "Proxy Settings");
         }
     }
 
@@ -340,19 +340,7 @@ public class PreferencesDialog extends JDialog {
             }
         });
 
-        return addSpaceAndTitle(builder.getPanel(), "Paths");
-    }
-
-    private JComponent addSpaceAndTitle(final JPanel panel, final String title) {
-        JPanel withSpace = new JPanel();
-        withSpace.setBorder(GuiHelper.getEmptyBorderStackable());
-        withSpace.add(panel);
-        withSpace.setLayout(new GridLayout(0, 1));
-        JPanel withTitle = new JPanel();
-        withTitle.setBorder(BorderFactory.createTitledBorder(title));
-        withTitle.add(withSpace);
-        withTitle.setLayout(new GridLayout(0, 1));
-        return withTitle;
+        return GuiHelper.addSpaceAndTitle(builder.getPanel(), "Paths");
     }
 
     /**
@@ -384,7 +372,7 @@ public class PreferencesDialog extends JDialog {
             QedeqGuiConfig.getInstance().isAutoStartHtmlBrowser());
         builder.append(autoStartHtmlBrowserCB);
 
-        return addSpaceAndTitle(builder.getPanel(), "Miscellaneous Switches");
+        return GuiHelper.addSpaceAndTitle(builder.getPanel(), "Miscellaneous Switches");
     }
 
     /**

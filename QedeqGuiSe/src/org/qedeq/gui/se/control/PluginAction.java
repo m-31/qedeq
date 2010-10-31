@@ -16,19 +16,16 @@
 package org.qedeq.gui.se.control;
 
 import java.awt.event.ActionEvent;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
-import org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8Plugin;
 import org.qedeq.kernel.common.Plugin;
 
 /**
@@ -56,8 +53,6 @@ public class PluginAction extends AbstractAction {
         this.plugin = plugin;
     }
 
-    /* inherited
-     */
     public void actionPerformed(final ActionEvent e) {
         final String method = "actionPerformed";
         Trace.begin(CLASS, this, method);
@@ -70,18 +65,13 @@ public class PluginAction extends AbstractAction {
                 return;
             }
 
-            final Map parameters = new HashMap();
-            // FIXME m31 20100924: these are only LaTeX Parameters
-            parameters.put(Qedeq2LatexPlugin.class.getName() + "$info", "true");
-            parameters.put(Qedeq2Utf8Plugin.class.getName() + "$info", "true");
-//                    parameters.put(HeuristicCheckerPlugin.class.getName() + "$model",
-//                        ZeroModel.class.getName());
             for (int i = 0; i < props.length; i++) {
                 final QedeqBo prop = props[i];
                 final Thread thread = new Thread() {
                     public void run() {
                         KernelContext.getInstance().executePlugin(plugin.getPluginId(),
-                            prop.getModuleAddress(), parameters);
+                            prop.getModuleAddress(),
+                            QedeqGuiConfig.getInstance().getPluginEntries(plugin));
                     }
                 };
                 thread.setDaemon(true);
@@ -92,6 +82,11 @@ public class PluginAction extends AbstractAction {
         }
     }
 
+    /**
+     * Get plugin we work for.
+     *
+     * @return  The plugin we work for.
+     */
     public Plugin getPlugin() {
         return plugin;
     }
@@ -99,7 +94,7 @@ public class PluginAction extends AbstractAction {
     public ImageIcon getIcon() {
         if (plugin.getPluginName().endsWith("LaTeX")) {
             return GuiHelper.readImageIcon("tango/16x16/mimetypes/x-office-document.png");
-        } else if (plugin.getPluginName().startsWith("Test")) {
+        } else if (-1 < plugin.getPluginName().indexOf("tester")) {
             return GuiHelper.readImageIcon("tango/16x16/actions/system-search.png");
         } else if (plugin.getPluginName().endsWith("earch")) {
             return GuiHelper.readImageIcon("tango/16x16/categories/applications-system.png");

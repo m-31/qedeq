@@ -20,6 +20,7 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.net.URL;
@@ -358,6 +359,18 @@ public final class GuiHelper {
             }
             totalWidth += column.getPreferredWidth();
         }
+    }
+
+    public static JComponent addSpaceAndTitle(final JPanel panel, final String title) {
+        JPanel withSpace = new JPanel();
+        withSpace.setBorder(getEmptyBorderStackable());
+        withSpace.add(panel);
+        withSpace.setLayout(new GridLayout(0, 1));
+        JPanel withTitle = new JPanel();
+        withTitle.setBorder(BorderFactory.createTitledBorder(title));
+        withTitle.add(withSpace);
+        withTitle.setLayout(new GridLayout(0, 1));
+        return withTitle;
     }
 
 }

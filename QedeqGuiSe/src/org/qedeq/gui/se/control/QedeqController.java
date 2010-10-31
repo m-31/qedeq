@@ -93,6 +93,9 @@ public class QedeqController {
     /** Show preferences window. */
     private final Action preferencesAction;
 
+    /** Show plugin preferences window. */
+    private final Action pluginPreferencesAction;
+
     /** Show parser window. */
     private final Action parserAction;
 
@@ -115,6 +118,7 @@ public class QedeqController {
         aboutAction = new AboutAction(this);
         helpAction = new HelpAction(this);
         preferencesAction = new PreferencesAction(this);
+        pluginPreferencesAction = new PluginPreferencesAction(this);
         parserAction = new ParserAction(this);
         exitAction = new ExitAction();
         addAction = new AddAction(this);
@@ -195,6 +199,15 @@ public class QedeqController {
      */
     public Action getPreferencesAction() {
         return preferencesAction;
+    }
+
+    /**
+     * Get pluginpreferences window startup action.
+     *
+     * @return  Action.
+     */
+    public Action getPluginPreferencesAction() {
+        return pluginPreferencesAction;
     }
 
     /**

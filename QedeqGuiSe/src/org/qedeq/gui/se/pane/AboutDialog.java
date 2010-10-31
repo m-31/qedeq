@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.gui.se.control;
+package org.qedeq.gui.se.pane;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;

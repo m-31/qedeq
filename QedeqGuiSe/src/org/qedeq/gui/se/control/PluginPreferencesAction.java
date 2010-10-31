@@ -19,29 +19,29 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import org.qedeq.gui.se.pane.AboutDialog;
+import org.qedeq.gui.se.pane.PluginPreferencesDialog;
 
 /**
- * Shows the "about" dialog.
+ * Show preferences window.
  *
  * @author  Michael Meyling
  */
-class AboutAction extends AbstractAction {
+class PluginPreferencesAction extends AbstractAction {
 
-    /** Reference to controller. */
+    /** Controller reference. */
     private final QedeqController controller;
 
     /**
      * Constructor.
      *
-     * @param   controller  Controller reference.
+     * @param   controller  Controller.
      */
-    AboutAction(final QedeqController controller) {
+    PluginPreferencesAction(final QedeqController controller) {
         this.controller = controller;
     }
 
     public void actionPerformed(final ActionEvent e) {
-        (new AboutDialog(controller.getMainFrame())).setVisible(true);
+        new PluginPreferencesDialog(controller.getMainFrame()).setVisible(true);
     }
 
 }
