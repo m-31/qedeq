@@ -23,7 +23,7 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.logic.model.Model;
 import org.qedeq.kernel.bo.logic.model.ThreeModel;
-import org.qedeq.kernel.bo.logic.model.ZeroModel;
+import org.qedeq.kernel.bo.logic.model.UnaryModel;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -105,7 +105,7 @@ public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testQedeqLogicScript2() throws Exception {
-        final QedeqBo bo = check(new ZeroModel(), getDocDir(), "math/qedeq_logic_v1.xml");
+        final QedeqBo bo = check(new UnaryModel(), getDocDir(), "math/qedeq_logic_v1.xml");
         assertEquals(0, bo.getErrors().size());
         assertEquals(6, bo.getWarnings().size());
     }
@@ -127,7 +127,7 @@ public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testQedeqSetTheoryScript2() throws Exception {
-        final QedeqBo bo = check(new ZeroModel(), getDocDir(), "math/qedeq_set_theory_v1.xml");
+        final QedeqBo bo = check(new UnaryModel(), getDocDir(), "math/qedeq_set_theory_v1.xml");
         assertEquals(0, bo.getErrors().size());
         assertEquals(2, bo.getWarnings().size());
     }

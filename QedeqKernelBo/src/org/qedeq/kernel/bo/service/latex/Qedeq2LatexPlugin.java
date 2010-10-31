@@ -67,7 +67,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         final String method = "executePlugin(QedeqBo, Map)";
         String infoString = null;
         if (parameters != null) {
-            infoString = String.valueOf(parameters.get(getPluginId() + "$info"));
+            infoString = (String) parameters.get("info");
         }
         final boolean info = "true".equalsIgnoreCase(infoString);
         try {

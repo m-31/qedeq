@@ -8,6 +8,8 @@ package org.qedeq.kernel.bo.logic.model;
  */
 public interface Model {
 
+    public String getDescription();
+
     /**
      * Get number of all entities in this model.
      *

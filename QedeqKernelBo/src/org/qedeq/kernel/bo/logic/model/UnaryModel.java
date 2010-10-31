@@ -22,12 +22,11 @@ import java.util.Map;
 
 
 /**
- * A model for our mathematical world. It has entities, functions and predicates.
- * There are also predicate and function constants.
+ * A model for our mathematical world. It has only one entity.
  *
  * @author  Michael Meyling
  */
-public final class ZeroModel implements Model {
+public final class UnaryModel implements Model {
 
     /** "Zero" or empty class. */
     public static final Entity ZERO = new Entity(0, "0", "{} or empty set");
@@ -96,7 +95,7 @@ public final class ZeroModel implements Model {
     /**
      * Constructor.
      */
-    public ZeroModel() {
+    public UnaryModel() {
         entities = new ArrayList();
         entities.add(ZERO);
 
@@ -146,6 +145,10 @@ public final class ZeroModel implements Model {
         predicateConstants.put(new PredicateConstant("isRelation", 1), TRUE);
         predicateConstants.put(new PredicateConstant("isFunction", 1), TRUE);
 
+    }
+
+    public String getDescription() {
+        return "This model has only one entity. The element of relation is never fullfilled.";
     }
 
     public int getEntitiesSize() {

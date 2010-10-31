@@ -339,6 +339,11 @@ public final class ThreeModel implements Model {
 
     }
 
+    public String getDescription() {
+        return "This model has three entities. The first is element of the second, "
+            + "the second element of the third.";
+    }
+
     public int getEntitiesSize() {
         return entities.size();
     }

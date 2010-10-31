@@ -24,7 +24,10 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.qedeq.base.io.IoUtility;
@@ -172,13 +175,21 @@ final class ConfigAccess {
      * Get list of String properties with certain prefix.
      * Example:
      * <ul>
+     * <li>qeq=green</li>
+     * <li>module2=tiger</li>
+     * <li>module3=tulip</li>
+     * <li>modula=green</li>
+     * <li>module1=bluebird</li>
+     * </ul>
+     * If namePrefix == "module" we get:
+     * <ul>
      * <li>module1=bluebird</li>
      * <li>module2=tiger</li>
      * <li>module3=tulip</li>
      * </ul>
      * The sequence of resulting properties is sorted by their keys.
      *
-     * @param   namePrefix  Prefix of seeked property name.
+     * @param   namePrefix  Prefix of seek property name.
      * @return  List of key sorted string properties (maybe empty).
      */
     public final String[] getStringProperties(final String namePrefix) {
@@ -193,6 +204,26 @@ final class ConfigAccess {
             }
         }
         return (String []) list.toArray(new String[list.size()]);
+    }
+
+    /**
+     * Get map of String properties with certain prefix.
+     *
+     * @param   namePrefix  Prefix of seek property name.
+     * @return  Map of properties that have String keys that start with <code>namePrefix</code>.
+     *          The prefix is removed of for the resulting map.
+     */
+    public final Map getProperties(final String namePrefix) {
+        final Map result = new HashMap(getProperties());
+        Iterator i = getProperties().entrySet().iterator();
+        while (i.hasNext()) {
+            Map.Entry entry = (Map.Entry) i.next();
+            final String name = String.valueOf(entry.getKey());
+            if (name.startsWith(namePrefix)) {
+                result.put(name.substring(namePrefix.length()), entry.getValue());
+            }
+        }
+        return result;
     }
 
     /**
@@ -238,7 +269,7 @@ final class ConfigAccess {
      */
     public final int getInteger(final String name, final int defaultValue) {
         final String intPropAsString = getProperties().getProperty(name);
-        if (intPropAsString != null) {
+        if (intPropAsString != null && intPropAsString.length() > 0) {
             try {
                 return Integer.parseInt(intPropAsString);
             } catch (NumberFormatException ex) {

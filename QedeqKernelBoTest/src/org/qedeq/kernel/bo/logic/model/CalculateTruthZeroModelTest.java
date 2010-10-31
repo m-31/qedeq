@@ -30,7 +30,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
      * Constructor.
      */
     public CalculateTruthZeroModelTest() {
-        super(new ZeroModel());
+        super(new UnaryModel());
     }
     
     /**

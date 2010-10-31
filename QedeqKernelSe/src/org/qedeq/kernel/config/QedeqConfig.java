@@ -18,8 +18,10 @@ package org.qedeq.kernel.config;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.kernel.common.Plugin;
 
 
 /**
@@ -434,6 +436,110 @@ public class QedeqConfig {
      */
     protected synchronized void setKeyValue(final String key, final int value) {
         configAccess.setInteger(key, value);
+    }
+
+    /**
+     * Get value for given key.
+     *
+     * @param   key             Get value for this key.
+     * @param   defaultValue    Default value..
+     * @return  Value. If value for key is originally <code>null</code> <code>defaultValue</code>
+     *          is returned.
+     */
+    protected boolean getKeyValue(final String key, final boolean defaultValue) {
+        return "true".equals(getKeyValue(key, (defaultValue ? "true" : "false")));
+    }
+
+    /**
+     * Set value for given key.
+     *
+     * @param   key     For this key.
+     * @param   value   Set this value.
+     */
+    protected void setKeyValue(final String key, final boolean value) {
+        setKeyValue(key, (value ? "true" : "false"));
+    }
+
+    /**
+     * Get plugin properties from configuration file.
+     *
+     * @param   plugin  We want to know properties for this plugin
+     * @return  Map with properties for this plugin.
+     */
+    public Map getPluginEntries(final Plugin plugin) {
+        return configAccess.getProperties(plugin.getPluginId() + "$");
+    }
+
+    /**
+     * Get value for given plugin key.
+     *
+     * @param   plugin  Setting for this plugin.
+     * @param   key             Get value for this key.
+     * @param   defaultValue    Default value..
+     * @return  Value. If value for key is originally <code>null</code> <code>defaultValue</code>
+     *          is returned.
+     */
+    public String getPluginKeyValue(final Plugin plugin, final String key, final String defaultValue) {
+        return getKeyValue(plugin.getPluginId() + "$" + key, defaultValue);
+    }
+
+    /**
+     * Set value for given plugin key.
+     *
+     * @param   plugin  Setting for this plugin.
+     * @param   key     For this key.
+     * @param   value   Set this value.
+     */
+    public void setPluginKeyValue(final Plugin plugin, final String key, final String value) {
+        setKeyValue(plugin.getPluginId() + "$" + key, value);
+    }
+
+    /**
+     * Get value for given plugin key.
+     *
+     * @param   plugin  Setting for this plugin.
+     * @param   key             Get value for this key.
+     * @param   defaultValue    Default value..
+     * @return  Value. If value for key is originally <code>null</code> <code>defaultValue</code>
+     *          is returned.
+     */
+    public int getPluginKeyValue(final Plugin plugin, final String key, final int defaultValue) {
+        return getKeyValue(plugin.getPluginId() + "$" + key, defaultValue);
+    }
+
+    /**
+     * Set value for given plugin key.
+     *
+     * @param   plugin  Setting for this plugin.
+     * @param   key     For this key.
+     * @param   value   Set this value.
+     */
+    public void setPluginKeyValue(final Plugin plugin, final String key, final int value) {
+        setKeyValue(plugin.getPluginId() + "$" + key, value);
+    }
+
+    /**
+     * Get value for given plugin key.
+     *
+     * @param   plugin  Setting for this plugin.
+     * @param   key             Get value for this key.
+     * @param   defaultValue    Default value..
+     * @return  Value. If value for key is originally <code>null</code> <code>defaultValue</code>
+     *          is returned.
+     */
+    public boolean getPluginKeyValue(final Plugin plugin, final String key, final boolean defaultValue) {
+        return getKeyValue(plugin.getPluginId() + "$" + key, defaultValue);
+    }
+
+    /**
+     * Set value for given plugin key.
+     *
+     * @param   plugin  Setting for this plugin.
+     * @param   key     For this key.
+     * @param   value   Set this value.
+     */
+    public void setPluginKeyValue(final Plugin plugin, final String key, final boolean value) {
+        setKeyValue(plugin.getPluginId() + "$" + key, value);
     }
 
 }

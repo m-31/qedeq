@@ -66,12 +66,12 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
         String infoString = null;
         String maxColumnsString = "0";
         if (parameters != null) {
-            infoString = (String) parameters.get(getPluginId() + "$info");
+            infoString = (String) parameters.get("info");
             if (infoString == null) {
                 infoString = "false";
             }
-            maxColumnsString = (String) parameters.get(getPluginId() + "$maxColumns");
-            if (maxColumnsString == null) {
+            maxColumnsString = (String) parameters.get("maximumColumn");
+            if (maxColumnsString == null || maxColumnsString.length() == 0) {
                 maxColumnsString = "80";
             }
         }

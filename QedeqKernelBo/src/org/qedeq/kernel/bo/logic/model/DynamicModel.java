@@ -303,6 +303,10 @@ public final class DynamicModel implements Model {
         functionConstants = new HashMap();
     }
 
+    public String getDescription() {
+        return "This model has six entities: {}, {1}, {2}, {{1}}, {{2}} and {1, 2}.";
+    }
+
     /**
      * Add a predicate constant.
      *
