@@ -83,6 +83,8 @@ public class PluginPreferencesDialog extends JDialog {
     /** Plugin for checking formulas with the help of a dynamically calculated static model. */
     private DynamicHeuristicCheckerPlugin dynamciHeuristicChecker;
 
+    private String heuristicCheckerModel;
+
     /**
      * Creates new Panel.
      *
@@ -167,29 +169,54 @@ public class PluginPreferencesDialog extends JDialog {
      */
     private JComponent heuristicCheckerConfig(final Plugin plugin) {
         FormLayout layout = new FormLayout(
-            "left:pref, 5dlu, fill:pref:grow", // columns
-            "top:pref");    // rows
+            "left:pref, 5dlu, fill:pref:grow",          // columns
+            "top:pref:grow, top:pref:grow, top:pref:grow");      // rows
 
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         builder.getPanel().setOpaque(false);
 
-        ButtonGroup heuristicCheckerModelBG = new ButtonGroup();
-        final UnaryModel unary = new UnaryModel();
-        JRadioButton heuristicCheckerZeroModelRB = new JRadioButton("Unary Model");
-        heuristicCheckerModelBG.add(heuristicCheckerZeroModelRB);
         final ThreeModel three = new ThreeModel();
-        JRadioButton heuristicCheckerThreeModelRB = new JRadioButton("Three Model");
+        final UnaryModel unary = new UnaryModel();
+        heuristicCheckerModel = QedeqGuiConfig.getInstance()
+                .getPluginKeyValue(plugin, "model", three.getClass().getName());
+        final ActionListener modelSelectionListener = new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                heuristicCheckerModel = e.getActionCommand();
+            }
+        };
+
+        final ButtonGroup heuristicCheckerModelBG = new ButtonGroup();
+
+        final JRadioButton heuristicCheckerUnaryModelRB = new JRadioButton("Unary Model");
+        if (heuristicCheckerModel.equals(unary.getClass().getName())) {
+            heuristicCheckerUnaryModelRB.setSelected(true);
+        }
+        heuristicCheckerUnaryModelRB.setActionCommand(unary.getClass().getName());
+        heuristicCheckerUnaryModelRB.addActionListener(modelSelectionListener);
+        heuristicCheckerModelBG.add(heuristicCheckerUnaryModelRB);
+
+        final JRadioButton heuristicCheckerThreeModelRB = new JRadioButton("Three Model");
+        if (heuristicCheckerModel.equals(three.getClass().getName())) {
+            heuristicCheckerThreeModelRB.setSelected(true);
+        }
+        heuristicCheckerThreeModelRB.setActionCommand(three.getClass().getName());
+        heuristicCheckerThreeModelRB.addActionListener(modelSelectionListener);
         heuristicCheckerModelBG.add(heuristicCheckerThreeModelRB);
 
-        builder.append(heuristicCheckerZeroModelRB);
+        builder.append(heuristicCheckerUnaryModelRB);
         JTextArea description = new JTextArea(unary.getDescription());
         description.setEditable(false);
         description.setLineWrap(true);
+        description.setWrapStyleWord(true);
         builder.append(description);
 
         builder.append(heuristicCheckerThreeModelRB);
-        builder.append(three.getDescription());
+        description = new JTextArea(three.getDescription());
+        description.setEditable(false);
+        description.setLineWrap(true);
+        description.setWrapStyleWord(true);
+        builder.append(description);
 
         return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
     }
@@ -262,14 +289,18 @@ public class PluginPreferencesDialog extends JDialog {
     void save() {
         try {
             {
-                final Plugin plugin = new Qedeq2LatexPlugin();
+                final Plugin plugin = qedeq2latex;
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "info", qedeq2LatexInfoCB.isSelected());
             }
             {
-                final Plugin plugin = new Qedeq2Utf8Plugin();
+                final Plugin plugin = qedeq2utf8;
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "info", qedeq2Utf8InfoCB.isSelected());
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "maximumColumn",
                     qedeq2Utf8MaximumColumnTF.getText());
+            }
+            {
+                final Plugin plugin = heuristicChecker;
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "model", heuristicCheckerModel);
             }
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error",

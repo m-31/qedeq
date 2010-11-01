@@ -62,7 +62,7 @@ public class HeuristicCheckerPlugin implements PluginBo {
             QedeqLog.getInstance().logRequest("Heuristic test for \""
                 + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
             final String modelClass
-                = (parameters != null ? (String) parameters.get(getPluginId() + "$model") : null);
+                = (parameters != null ? (String) parameters.get("model") : null);
             Model model = null;
             if (modelClass != null && modelClass.length() > 0) {
                 try {
