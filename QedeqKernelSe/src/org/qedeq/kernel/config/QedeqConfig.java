@@ -446,7 +446,7 @@ public class QedeqConfig {
      * @return  Value. If value for key is originally <code>null</code> <code>defaultValue</code>
      *          is returned.
      */
-    protected boolean getKeyValue(final String key, final boolean defaultValue) {
+    protected synchronized boolean getKeyValue(final String key, final boolean defaultValue) {
         return "true".equals(getKeyValue(key, (defaultValue ? "true" : "false")));
     }
 
