@@ -322,8 +322,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             Trace.param(CLASS, method, "level", level);
             final Map parameters = new HashMap();
             parameters.put("info", "true");
-            final Qedeq2Latex exe =(new Qedeq2LatexPlugin()).createExecutor(prop, parameters);
-            final InputStream latex = (new Qedeq2LatexPlugin()).createLatex(prop, language, level, true);
+            final InputStream latex =(new Qedeq2Latex(new Qedeq2LatexPlugin(), prop, parameters)).createLatex(language, "1");
             if (to != null) {
                 IoUtility.createNecessaryDirectories(to);
                 IoUtility.saveFile(latex, to);

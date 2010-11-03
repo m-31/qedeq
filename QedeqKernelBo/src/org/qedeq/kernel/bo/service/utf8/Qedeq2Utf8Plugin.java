@@ -30,6 +30,7 @@ import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
@@ -190,6 +191,11 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
             result[i] = list.get(i).getLanguage();
         }
         return result;
+    }
+
+    public PluginExecutor createExecutor(KernelQedeqBo qedeq, Map parameters) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

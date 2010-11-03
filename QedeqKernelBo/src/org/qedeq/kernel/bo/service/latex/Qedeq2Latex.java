@@ -127,15 +127,9 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
      *
      * @param   plugin      This plugin we work for.
      * @param   prop        QEDEQ BO object.
-     * @param   printer     Print herein.
-     * @param   language    Filter text to get and produce text in this language only.
-     * @param   level       Filter for this detail level. LATER mime 20050205: not yet supported
-     *                      yet.
-     * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
-     *                      names. That makes it easier to write new documents, because one can
-     *                      read the QEDEQ reference names in the written document.
+     * @param   parameters  Parameters.
      */
-    Qedeq2Latex(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
+    public Qedeq2Latex(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
         super(plugin, prop);
         String infoString = null;
         if (parameters != null) {
@@ -155,7 +149,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             for (int j = 0; j < languages.length; j++) {
                 language = languages[j];
                 level = "1";
-                final String result = generateLatex(languages[j], "1", info).toString();
+                final String result = generateLatex(languages[j], "1").toString();
                 if (languages[j] != null) {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "LaTeX for language \"" + languages[j]
@@ -193,17 +187,13 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
      * @param   language    Filter text to get and produce text in this language only.
      * @param   level       Filter for this detail level. LATER mime 20050205: not supported
      *                      yet.
-     * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
-     *                      names. That makes it easier to write new documents, because one can
-     *                      read the QEDEQ reference names in the written document.
      * @return  Resulting LaTeX.
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException File IO failed.
      */
-    public InputStream createLatex(final String language, final String level,
-            final boolean info)
+    public InputStream createLatex(final String language, final String level)
             throws SourceFileExceptionList, IOException {
-        return new FileInputStream(generateLatex(language, level, info));
+        return new FileInputStream(generateLatex(language, level));
     }
 
     // TODO m31 20070704: this should be part of QedeqBo
@@ -227,16 +217,12 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
      * @param   language    Filter text to get and produce text in this language only.
      * @param   level       Filter for this detail level. LATER mime 20050205: not supported
      *                      yet.
-     * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
-     *                      names. That makes it easier to write new documents, because one can
-     *                      read the QEDEQ reference names in the written document.
      * @return  Resulting LaTeX.
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public File generateLatex(final String language,
-            final String level, final boolean info) throws SourceFileExceptionList, IOException {
-
+    public File generateLatex(final String language, final String level)
+            throws SourceFileExceptionList, IOException {
         // first we try to get more information about required modules and their predicates..
         try {
             KernelContext.getInstance().loadRequiredModules(getQedeqBo().getModuleAddress());
@@ -245,6 +231,8 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             // we continue and ignore external predicates
             Trace.trace(CLASS, "generateLatex(KernelQedeqBo, String, String)", e);
         }
+        this.language = language;
+        this.level = level;
         String tex = getQedeqBo().getModuleAddress().getFileName();
         if (tex.toLowerCase(Locale.US).endsWith(".xml")) {
             tex = tex.substring(0, tex.length() - 4);
@@ -256,7 +244,6 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         // localized file (or path) name
         File destination = new File(KernelContext.getInstance().getConfig()
             .getGenerationDirectory(), tex + ".tex").getCanonicalFile();
-        TextOutput printer = null;
         try {
             printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination));
             traverse();
