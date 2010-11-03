@@ -71,10 +71,6 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   prop        Internal QedeqBo.
      */
     protected ControlVisitor(final Plugin plugin, final KernelQedeqBo prop) {
-        if (prop.getQedeq() == null) {
-            throw new NullPointerException("Programming error, Module not loaded: "
-                + prop.getModuleAddress());
-        }
         this.plugin = plugin;
         this.prop = prop;
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);

@@ -115,8 +115,8 @@ public class PluginManager {
     /**
      * Execute a plugin on an QEDEQ module.
      *
-     * @param   id      Plugin to use.
-     * @param   qedeq   QEDEQ module to work on.
+     * @param   id          Plugin to use.
+     * @param   qedeq       QEDEQ module to work on.
      * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      * @throws  RuntimeException    Plugin unknown, or execution had a major problem.
@@ -131,14 +131,18 @@ public class PluginManager {
                 e);
             throw e;
         }
+        Map para = parameters;
+        if (parameters == null) {
+            para = new HashMap();
+        }
         final ServiceProcess process = processManager.createProcess(plugin,
             qedeq,
-            parameters);
+            para);
         process.setBlocked(true);
         synchronized (qedeq) {
             process.setBlocked(false);
             try {
-                final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
+                final PluginExecutor exe = plugin.createExecutor(qedeq, para);
                 final Object result = exe.executePlugin();
                 process.setSuccessState();
                 return result;

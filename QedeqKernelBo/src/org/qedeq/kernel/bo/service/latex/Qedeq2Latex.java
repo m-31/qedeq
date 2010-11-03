@@ -223,16 +223,17 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
      */
     public File generateLatex(final String language, final String level)
             throws SourceFileExceptionList, IOException {
+        final String method = "generateLatex(String, String)";
+        this.language = language;
+        this.level = level;
         // first we try to get more information about required modules and their predicates..
         try {
             KernelContext.getInstance().loadRequiredModules(getQedeqBo().getModuleAddress());
             KernelContext.getInstance().checkModule(getQedeqBo().getModuleAddress());
         } catch (Exception e) {
             // we continue and ignore external predicates
-            Trace.trace(CLASS, "generateLatex(KernelQedeqBo, String, String)", e);
+            Trace.trace(CLASS, method, e);
         }
-        this.language = language;
-        this.level = level;
         String tex = getQedeqBo().getModuleAddress().getFileName();
         if (tex.toLowerCase(Locale.US).endsWith(".xml")) {
             tex = tex.substring(0, tex.length() - 4);
