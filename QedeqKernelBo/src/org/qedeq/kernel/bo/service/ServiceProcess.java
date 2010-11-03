@@ -191,11 +191,11 @@ public class ServiceProcess {
         return stop;
     }
 
-    private void start() {
+    private synchronized void start() {
         start = System.currentTimeMillis();
     }
 
-    private void stop() {
+    private synchronized void stop() {
         stop = System.currentTimeMillis();
     }
 
