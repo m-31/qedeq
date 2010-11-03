@@ -81,8 +81,9 @@ public class PluginPreferencesDialog extends JDialog {
     private HeuristicCheckerPlugin heuristicChecker;
 
     /** Plugin for checking formulas with the help of a dynamically calculated static model. */
-    private DynamicHeuristicCheckerPlugin dynamciHeuristicChecker;
+    private DynamicHeuristicCheckerPlugin dynamicHeuristicChecker;
 
+    /** Plugin for checking formulas with the help of a static model. */
     private String heuristicCheckerModel;
 
     /**
@@ -98,7 +99,7 @@ public class PluginPreferencesDialog extends JDialog {
             qedeq2latex = new Qedeq2LatexPlugin();
             qedeq2utf8 = new Qedeq2Utf8Plugin();
             heuristicChecker = new HeuristicCheckerPlugin();
-            dynamciHeuristicChecker = new DynamicHeuristicCheckerPlugin();
+            dynamicHeuristicChecker = new DynamicHeuristicCheckerPlugin();
             setModal(true);
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             setupView();
@@ -153,7 +154,7 @@ public class PluginPreferencesDialog extends JDialog {
         builder.nextLine();
         builder.append("Maximum row length");
         qedeq2Utf8MaximumColumnTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
-            plugin, "maximumColumn", 80));
+            plugin, "maximumColumn", "80"));
         qedeq2Utf8MaximumColumnTF.setToolTipText("After this character number the line is broken."
             + "0 means no break at all.");
         builder.append(qedeq2Utf8MaximumColumnTF);
