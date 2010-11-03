@@ -111,7 +111,13 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         }
     }
 
-    protected ModuleContext getCurrentContext() {
+    /**
+     * Get current context within original. Remember to use the copy constructor
+     * when trying to remember this context!
+     *
+     * @return  Current context.
+     */
+    public ModuleContext getCurrentContext() {
         return this.traverser.getCurrentContext();
     }
 
@@ -199,5 +205,16 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     public Plugin getPlugin() {
         return plugin;
     }
+
+    public String getExecutionActionDescription() {
+        // FIXME 20101102 m31: implement!
+        return null;
+    }
+
+    public double getExecutionPercentage() {
+        // FIXME 20101102 m31: implement!
+        return 0;
+    }
+
 
 }

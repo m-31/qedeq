@@ -21,6 +21,7 @@ import java.util.Map;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 
 /**
  * Manage all known plugins.
@@ -137,7 +138,8 @@ public class PluginManager {
         synchronized (qedeq) {
             process.setBlocked(false);
             try {
-                final Object result = plugin.executePlugin(qedeq, parameters);
+                final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
+                final Object result = exe.executePlugin();
                 process.setSuccessState();
                 return result;
             } finally {

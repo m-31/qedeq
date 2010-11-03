@@ -52,8 +52,6 @@ import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.common.ModuleDataException;
 
-
-
 /**
  * Basic visitor that makes nothing.
  *

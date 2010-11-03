@@ -23,12 +23,12 @@ import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.DependencyState;
 import org.qedeq.kernel.common.LoadingState;
 import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.dto.module.QedeqVo;
 
@@ -680,7 +680,7 @@ public class StateManager {
      * @param   errors      Resulting errors.
      * @param   warnings    Resulting warnings.
      */
-    public void addPluginResults(final PluginBo plugin, final SourceFileExceptionList errors,
+    public void addPluginResults(final Plugin plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
         pluginResults.addResult(plugin, errors, warnings);
         ModuleEventLog.getInstance().stateChanged(bo);

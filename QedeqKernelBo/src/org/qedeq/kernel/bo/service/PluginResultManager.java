@@ -22,6 +22,7 @@ import java.util.Map;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.module.PluginResults;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
@@ -75,7 +76,7 @@ public class PluginResultManager {
      * @param   errors      Plugin errors.
      * @param   warnings    Plugin warnings.
      */
-    public synchronized void addResult(final PluginBo plugin, final SourceFileExceptionList errors,
+    public synchronized void addResult(final Plugin plugin, final SourceFileExceptionList errors,
             final SourceFileExceptionList warnings) {
         PluginResults results = (PluginResults) plugins.get(plugin);
         if (results == null) {

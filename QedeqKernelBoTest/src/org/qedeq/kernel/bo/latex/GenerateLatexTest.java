@@ -18,6 +18,8 @@ package org.qedeq.kernel.bo.latex;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
@@ -25,6 +27,7 @@ import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.logic.wf.LogicalCheckException;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.service.latex.Qedeq2Latex;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.test.KernelFacade;
@@ -317,6 +320,9 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             Trace.param(CLASS, method, "to", to);
             Trace.param(CLASS, method, "language", language);
             Trace.param(CLASS, method, "level", level);
+            final Map parameters = new HashMap();
+            parameters.put("info", "true");
+            final Qedeq2Latex exe =(new Qedeq2LatexPlugin()).createExecutor(prop, parameters);
             final InputStream latex = (new Qedeq2LatexPlugin()).createLatex(prop, language, level, true);
             if (to != null) {
                 IoUtility.createNecessaryDirectories(to);

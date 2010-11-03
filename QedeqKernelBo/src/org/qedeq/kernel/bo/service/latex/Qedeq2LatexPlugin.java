@@ -15,24 +15,11 @@
 
 package org.qedeq.kernel.bo.service.latex;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Locale;
 import java.util.Map;
 
-import org.qedeq.base.io.IoUtility;
-import org.qedeq.base.io.TextOutput;
-import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.base.module.LatexList;
-import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 
 
 /**
@@ -63,142 +50,8 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         return "transforms QEDEQ module into LaTeX file";
     }
 
-    public Object executePlugin(final KernelQedeqBo qedeq, final Map parameters) {
-        final String method = "executePlugin(QedeqBo, Map)";
-        String infoString = null;
-        if (parameters != null) {
-            infoString = (String) parameters.get("info");
-        }
-        final boolean info = "true".equalsIgnoreCase(infoString);
-        try {
-            QedeqLog.getInstance().logRequest("Generate LaTeX from \""
-                + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
-            final String[] languages = getSupportedLanguages(qedeq);
-            for (int j = 0; j < languages.length; j++) {
-                final String result = generateLatex(qedeq, languages[j], "1", info).toString();
-                if (languages[j] != null) {
-                    QedeqLog.getInstance().logSuccessfulReply(
-                        "LaTeX for language \"" + languages[j]
-                        + "\" was generated from \""
-                        + IoUtility.easyUrl(qedeq.getUrl()) + "\" into \"" + result + "\"");
-                } else {
-                    QedeqLog.getInstance().logSuccessfulReply(
-                        "LaTeX for default language "
-                        + "was generated from \""
-                        + IoUtility.easyUrl(qedeq.getUrl()) + "\" into \"" + result + "\"");
-                }
-            }
-        } catch (final SourceFileExceptionList e) {
-            final String msg = "Generation failed for \""
-                + IoUtility.easyUrl(qedeq.getUrl()) + "\"";
-            Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
-        } catch (IOException e) {
-            final String msg = "Generation failed for \""
-                + IoUtility.easyUrl(qedeq.getUrl()) + "\"";
-            Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
-        } catch (final RuntimeException e) {
-            Trace.fatal(CLASS, this, method, "unexpected problem", e);
-            QedeqLog.getInstance().logFailureReply(
-                "Generation failed", "unexpected problem: "
-                + (e.getMessage() != null ? e.getMessage() : e.toString()));
-        }
-        return null;
-    }
-
-    /**
-     * Gives a LaTeX representation of given QEDEQ module as InputStream.
-     *
-     * @param   prop        QEDEQ module.
-     * @param   language    Filter text to get and produce text in this language only.
-     * @param   level       Filter for this detail level. LATER mime 20050205: not supported
-     *                      yet.
-     * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
-     *                      names. That makes it easier to write new documents, because one can
-     *                      read the QEDEQ reference names in the written document.
-     * @return  Resulting LaTeX.
-     * @throws  SourceFileExceptionList Major problem occurred.
-     * @throws  IOException     File IO failed.
-     */
-    public File generateLatex(final KernelQedeqBo prop, final String language,
-            final String level, final boolean info) throws SourceFileExceptionList, IOException {
-
-        // first we try to get more information about required modules and their predicates..
-        try {
-            KernelContext.getInstance().loadRequiredModules(prop.getModuleAddress());
-            KernelContext.getInstance().checkModule(prop.getModuleAddress());
-        } catch (Exception e) {
-            // we continue and ignore external predicates
-            Trace.trace(CLASS, "generateLatex(KernelQedeqBo, String, String)", e);
-        }
-        String tex = prop.getModuleAddress().getFileName();
-        if (tex.toLowerCase(Locale.US).endsWith(".xml")) {
-            tex = tex.substring(0, tex.length() - 4);
-        }
-        if (language != null && language.length() > 0) {
-            tex = tex + "_" + language;
-        }
-        // the destination is the configured destination directory plus the (relative)
-        // localized file (or path) name
-        File destination = new File(KernelContext.getInstance().getConfig()
-            .getGenerationDirectory(), tex + ".tex").getCanonicalFile();
-        TextOutput printer = null;
-        try {
-            printer = new TextOutput(prop.getName(), new FileOutputStream(destination));
-            final Qedeq2Latex converter = new Qedeq2Latex(this, prop, printer, language, level, info);
-            converter.traverse();
-            prop.addPluginErrorsAndWarnings(this, converter.getErrorList(), converter.getWarningList());
-        } finally {
-            if (printer != null) {
-                printer.flush();
-                printer.close();
-            }
-        }
-        if (printer.checkError()) {
-            throw printer.getError();
-        }
-        try {
-            QedeqBoDuplicateLanguageChecker.check(this, prop);
-        } catch (SourceFileExceptionList warnings) {
-            prop.addPluginErrorsAndWarnings(this, null, warnings);
-        }
-        return destination.getCanonicalFile();
-    }
-
-    // TODO m31 20070704: this should be part of QedeqBo
-    String[] getSupportedLanguages(final QedeqBo prop) {
-        // TODO m31 20070704: there should be a better way to
-        // get all supported languages. Time for a new visitor?
-        if (!prop.isLoaded()) {
-            return new String[]{};
-        }
-        final LatexList list = prop.getQedeq().getHeader().getTitle();
-        final String[] result = new String[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i).getLanguage();
-        }
-        return result;
-    }
-
-    /**
-     * Get an input stream for the LaTeX creation.
-     *
-     * @param   prop        QEDEQ module.
-     * @param   language    Filter text to get and produce text in this language only.
-     * @param   level       Filter for this detail level. LATER mime 20050205: not supported
-     *                      yet.
-     * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
-     *                      names. That makes it easier to write new documents, because one can
-     *                      read the QEDEQ reference names in the written document.
-     * @return  Resulting LaTeX.
-     * @throws  SourceFileExceptionList Major problem occurred.
-     * @throws  IOException File IO failed.
-     */
-    public InputStream createLatex(final KernelQedeqBo prop, final String language, final String level,
-            final boolean info)
-            throws SourceFileExceptionList, IOException {
-        return new FileInputStream(generateLatex(prop, language, level, info));
+    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
+        return new Qedeq2Latex(this, qedeq, parameters);
     }
 
 }

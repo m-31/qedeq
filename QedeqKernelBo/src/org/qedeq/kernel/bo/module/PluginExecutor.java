@@ -17,24 +17,33 @@ package org.qedeq.kernel.bo.module;
 
 import java.util.Map;
 
-import org.qedeq.kernel.common.Plugin;
-
 
 /**
- * Represents a plugin and its services.
+ * Represents a plugin execution.
  *
  * @author  Michael Meyling
  */
-public interface PluginBo extends Plugin {
+public interface PluginExecutor {
 
     /**
-     * Create execution instance for this plugin.
+     * Execute plugin.
      *
-     * @param   qedeq       QEDEQ module to work on.
-     * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
-     * @return  Instance to execute the plugin.
+     * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public PluginExecutor createExecutor(KernelQedeqBo qedeq, Map parameters);
+    public Object executePlugin();
 
+    /**
+     * Get percentage of currently running plugin execution.
+     *
+     * @return  Number between 0 and 100.
+     */
+    public double getExecutionPercentage();
+
+    /**
+     * Get description of currently taken action.
+     *
+     * @return  We are doing this currently.
+     */
+    public String getExecutionActionDescription();
 
 }

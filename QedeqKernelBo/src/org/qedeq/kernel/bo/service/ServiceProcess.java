@@ -19,6 +19,7 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.common.Plugin;
 
@@ -53,6 +54,9 @@ public class ServiceProcess {
 
     /** QEDEQ module the process is working on. */
     private KernelQedeqBo qedeq;
+
+    /** QEDEQ module visitor that is used. */
+    private ControlVisitor vistor;
 
     /**
      * A new service process.
@@ -178,47 +182,36 @@ public class ServiceProcess {
     }
 
     public synchronized void setSuccessState() {
-        System.out.println(thread.getId() + " setSuccessState start");
         if (isRunning()) {
             state = 1;
             stop();
         }
-        System.out.println(thread.getId() + " setSuccessState end");
     }
 
     public synchronized void setFailureState() {
-        System.out.println(thread.getId() + " setFailureState start");
         if (isRunning()) {
             state = -1;
             stop();
         }
-        System.out.println(thread.getId() + " setFailureState end");
     }
 
     public synchronized boolean isRunning() {
-        System.out.println(thread.getId() + " isRunning start");
         if (state == 0) {
             if (!thread.isAlive()) {
                 Trace.fatal(CLASS, this, "isRunning()", "Thread has unexpectly died",
                     new RuntimeException());
                 state = -1;
-                System.out.println(thread.getId() + " isRunning end");
                 return false;
             }
-            System.out.println(thread.getId() + " isRunning end");
             return true;
         }
-        System.out.println(thread.getId() + " isRunning end");
         return false;
     }
 
     public synchronized boolean isBlocked() {
-        System.out.println(thread.getId() + " isBlocked start");
         if (isRunning()) {
-            System.out.println(thread.getId() + " isBlocked end");
             return blocked;
         }
-        System.out.println(thread.getId() + " isBlocked end");
         return false;
     }
 
@@ -235,10 +228,8 @@ public class ServiceProcess {
     }
 
     public synchronized void interrupt() {
-        System.out.println(thread.getId() + " interupt start");
         thread.interrupt();
         setFailureState();
-        System.out.println(thread.getId() + " interupt end");
     }
 
 }

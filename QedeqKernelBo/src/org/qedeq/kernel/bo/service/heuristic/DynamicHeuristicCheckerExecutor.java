@@ -15,6 +15,9 @@
 
 package org.qedeq.kernel.bo.service.heuristic;
 
+import java.util.Map;
+
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.module.Axiom;
@@ -26,6 +29,7 @@ import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.base.module.VariableList;
+import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.model.DynamicInterpreter;
 import org.qedeq.kernel.bo.logic.model.DynamicModel;
 import org.qedeq.kernel.bo.logic.model.FunctionConstant;
@@ -36,6 +40,7 @@ import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
@@ -49,10 +54,10 @@ import org.qedeq.kernel.dto.list.DefaultElementList;
  * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public final class DynamicHeuristicChecker extends ControlVisitor {
+public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implements PluginExecutor {
 
     /** This class. */
-    private static final Class CLASS = DynamicHeuristicChecker.class;
+    private static final Class CLASS = DynamicHeuristicCheckerExecutor.class;
 
     /** Interpretation for variables. */
     private final DynamicInterpreter interpreter;
@@ -60,34 +65,68 @@ public final class DynamicHeuristicChecker extends ControlVisitor {
     /**
      * Constructor.
      *
-     * @param   plugin  This plugin we work for.
-     * @param   model   Check with this model.
-     * @param   prop    QEDEQ module properties object.
+     * @param   plugin      This plugin we work for.
+     * @param   qedeq       QEDEQ module object.
+     * @param   parameters  Execution parameters.
      */
-    private DynamicHeuristicChecker(final PluginBo plugin, final DynamicModel model,
-            final KernelQedeqBo prop) {
-        super(plugin, prop);
+    DynamicHeuristicCheckerExecutor(final PluginBo plugin, final KernelQedeqBo qedeq,
+            final Map parameters) {
+        super(plugin, qedeq);
+        final String method = "DynamicHeuristicChecker(PluginBo, QedeqBo, Map)";
+        final String modelClass
+            = (parameters != null ? (String) parameters.get("model") : null);
+        DynamicModel model = null;
+        if (modelClass != null && modelClass.length() > 0) {
+            try {
+                Class cl = Class.forName(modelClass);
+                model = (DynamicModel) cl.newInstance();
+            } catch (ClassNotFoundException e) {
+                Trace.fatal(CLASS, this, method, "Model class not in class path: "
+                    + modelClass, e);
+                throw new RuntimeException(e);
+            } catch (InstantiationException e) {
+                Trace.fatal(CLASS, this, method, "Model class could not be instanciated: "
+                    + modelClass, e);
+                throw new RuntimeException(e);
+            } catch (IllegalAccessException e) {
+                Trace.fatal(CLASS, this, method,
+                    "Programming error, access for instantiation failed for model: "
+                    + modelClass, e);
+                throw new RuntimeException(e);
+            } catch (RuntimeException e) {
+                Trace.fatal(CLASS, this, method,
+                    "Programming error, instantiation failed for model: " + modelClass, e);
+                throw new RuntimeException(e);
+            }
+        }
+        // fallback is the default model
+        if (model == null) {
+            model = new DynamicModel();
+        }
         this.interpreter = new DynamicInterpreter(model);
     }
 
-    /**
-     * Checks if all formulas of a QEDEQ module are tautologies in our model.
-     *
-     * @param   plugin  This plugin we work for.
-     * @param   model   Check with this model.
-     * @param   prop    QEDEQ module.
-     * @throws  SourceFileExceptionList      Major problem occurred.
-     */
-    public static void check(final PluginBo plugin, final DynamicModel model, final KernelQedeqBo prop)
-            throws SourceFileExceptionList {
-        final DynamicHeuristicChecker checker = new DynamicHeuristicChecker(plugin, model, prop);
+    public Object executePlugin() {
+        final String method = "executePlugin()";
+        final String ref = "\"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
         try {
-            checker.traverse();
-        } catch (SourceFileExceptionList sfl) {
-            throw sfl;
+            QedeqLog.getInstance().logRequest("Dynamic heuristic test for " + ref);
+            traverse();
+            QedeqLog.getInstance().logSuccessfulReply(
+                "Heuristic test succesfull for " + ref);
+        } catch (final SourceFileExceptionList e) {
+            final String msg = "Test failed for " + ref;
+            Trace.fatal(CLASS, this, method, msg, e);
+            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+        } catch (final RuntimeException e) {
+            Trace.fatal(CLASS, this, method, "unexpected problem", e);
+            QedeqLog.getInstance().logFailureReply(
+                "Test failed for " + ref, "unexpected problem: "
+                + (e.getMessage() != null ? e.getMessage() : e.toString()));
         } finally {
-            prop.addPluginErrorsAndWarnings(plugin, checker.getErrorList(), checker.getWarningList());
+            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
+        return null;
     }
 
     /**

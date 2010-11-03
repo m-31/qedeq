@@ -23,6 +23,7 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.model.DynamicModel;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
@@ -55,57 +56,9 @@ public class DynamicHeuristicCheckerPlugin implements PluginBo {
         return "checks mathematical correctness by interpreting within a model";
     }
 
-    public Object executePlugin(final KernelQedeqBo qedeq, final Map parameters) {
-        final String method = "executePlugin(QedeqBo, Map)";
-        try {
-            QedeqLog.getInstance().logRequest("Dynamic heuristic test for \""
-                + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
-            final String modelClass
-                = (parameters != null ? (String) parameters.get(getPluginId() + "$model") : null);
-            DynamicModel model = null;
-            if (modelClass != null && modelClass.length() > 0) {
-                try {
-                    Class cl = Class.forName(modelClass);
-                    model = (DynamicModel) cl.newInstance();
-                } catch (ClassNotFoundException e) {
-                    Trace.fatal(CLASS, this, method, "Model class not in class path: "
-                        + modelClass, e);
-                    throw new RuntimeException(e);
-                } catch (InstantiationException e) {
-                    Trace.fatal(CLASS, this, method, "Model class could not be instanciated: "
-                        + modelClass, e);
-                    throw new RuntimeException(e);
-                } catch (IllegalAccessException e) {
-                    Trace.fatal(CLASS, this, method,
-                        "Programming error, access for instantiation failed for model: "
-                        + modelClass, e);
-                    throw new RuntimeException(e);
-                } catch (RuntimeException e) {
-                    Trace.fatal(CLASS, this, method,
-                        "Programming error, instantiation failed for model: " + modelClass, e);
-                    throw new RuntimeException(e);
-                }
-            }
-            // fallback is the default model
-            if (model == null) {
-                model = new DynamicModel();
-            }
-            DynamicHeuristicChecker.check(this, model, qedeq);
-            QedeqLog.getInstance().logSuccessfulReply(
-                "Heuristic test succesfull for \""
-                + IoUtility.easyUrl(qedeq.getUrl()) + "\"");
-        } catch (final SourceFileExceptionList e) {
-            final String msg = "Test failed for \""
-                + IoUtility.easyUrl(qedeq.getUrl()) + "\"";
-            Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
-        } catch (final RuntimeException e) {
-            Trace.fatal(CLASS, this, method, "unexpected problem", e);
-            QedeqLog.getInstance().logFailureReply(
-                "Test failed", "unexpected problem: "
-                + (e.getMessage() != null ? e.getMessage() : e.toString()));
-        }
-        return null;
+    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
+        return new DynamicHeuristicCheckerExecutor(this, qedeq, parameters);
     }
+
 
 }

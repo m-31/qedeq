@@ -53,7 +53,6 @@ import org.qedeq.kernel.common.ModuleDataException;
 /**
  * Here are all elements to visit assembled that can be visited within a  QEDEQ module.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public interface QedeqVisitor extends ListVisitor {
