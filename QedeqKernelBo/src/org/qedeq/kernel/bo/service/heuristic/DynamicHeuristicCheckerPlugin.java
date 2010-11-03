@@ -17,14 +17,9 @@ package org.qedeq.kernel.bo.service.heuristic;
 
 import java.util.Map;
 
-import org.qedeq.base.io.IoUtility;
-import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.log.QedeqLog;
-import org.qedeq.kernel.bo.logic.model.DynamicModel;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
 /**

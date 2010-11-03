@@ -15,8 +15,13 @@
 
 package org.qedeq.kernel.bo.service.utf8;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
+import java.util.Map;
 
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
@@ -50,16 +55,21 @@ import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
+import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.service.latex.Element2Latex;
 import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.service.latex.LatexErrorCodes;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.common.SourceFileExceptionList;
 
 
 /**
@@ -71,25 +81,25 @@ import org.qedeq.kernel.common.Plugin;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder {
+public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder, PluginExecutor {
 
     /** This class. */
     private static final Class CLASS = Qedeq2Utf8.class;
 
     /** Output goes here. */
-    private final TextOutput printer;
+    private TextOutput printer;
 
     /** Filter text to get and produce text in this language. */
-    private final String language;
+    private String language;
 
     /** Filter for this detail level. */
-    private final String level;
+    private String level;
 
     /** Should additional information be put into LaTeX output? E.g. QEDEQ reference names. */
     private final boolean info;
 
     /** Transformer to get UTF-8 out of {@link Element}s. */
-    private final Element2Latex elementConverter;
+    private Element2Latex elementConverter;
 
     /** Current chapter number, starting with 1. */
     private int chapterNumber;
@@ -119,7 +129,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
     private String subContext = "";
 
     /** Maximum column number. If zero no line breaking is done automatically. */
-    private final int maxColumns;
+    private int maxColumns;
 
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
@@ -129,22 +139,88 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
      *
      * @param   plugin      This plugin we work for.
      * @param   prop        QEDEQ BO object.
-     * @param   printer     Print herein.
-     * @param   language    Filter text to get and produce text in this language only.
-     * @param   level       Filter for this detail level. LATER mime 20050205: not yet supported
-     *                      yet.
-     * @param   info        Put additional informations into LaTeX document. E.g. QEDEQ reference
-     *                      names. That makes it easier to write new documents, because one can
-     *                      read the QEDEQ reference names in the written document.
-     * @param   maxColumns  Maximum column number. If zero no line breaking is done automatically.
+     * @param   parameters  Plugin parameter.
      */
-    Qedeq2Utf8(final Plugin plugin, final KernelQedeqBo prop,
-            final TextOutput printer, final String language, final String level,
-            final boolean info, final int maxColumns) {
+    Qedeq2Utf8(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
         super(plugin, prop);
-        this.printer = printer;
-        this.maxColumns = maxColumns;
-        printer.setColumns(maxColumns);
+        final String method = "Qedeq2Utf8(Plugin, QedeqBo, Map)";
+        String infoString = null;
+        String maxColumnsString = "0";
+        if (parameters != null) {
+            infoString = (String) parameters.get("info");
+            if (infoString == null) {
+                infoString = "false";
+            }
+            maxColumnsString = (String) parameters.get("maximumColumn");
+            if (maxColumnsString == null || maxColumnsString.length() == 0) {
+                maxColumnsString = "80";
+            }
+        }
+        info = "true".equalsIgnoreCase(infoString);
+        maxColumns = 0;
+        try {
+            maxColumns = Integer.parseInt(maxColumnsString.trim());
+        } catch (RuntimeException e) {
+            // ignore
+        }
+    }
+
+    public Object executePlugin() {
+        final String method = "executePlugin()";
+        final String ref = "\"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
+        try {
+            QedeqLog.getInstance().logRequest("Generate UTF-8 from " + ref);
+            final String[] languages = getSupportedLanguages(getQedeqBo());
+            for (int j = 0; j < languages.length; j++) {
+                final String result = generateUtf8(languages[j], "1").toString();
+                if (languages[j] != null) {
+                    QedeqLog.getInstance().logSuccessfulReply(
+                        "UTF-8 for language \"" + languages[j]
+                        + "\" was generated from " + ref + " into \"" + result + "\"");
+                } else {
+                    QedeqLog.getInstance().logSuccessfulReply(
+                        "UTF-8 for default language "
+                        + "was generated from " + ref + " into \"" + result + "\"");
+                }
+            }
+        } catch (final SourceFileExceptionList e) {
+            final String msg = "Generation failed for " + ref;
+            Trace.fatal(CLASS, this, method, msg, e);
+            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+        } catch (IOException e) {
+            final String msg = "Generation failed for " + ref;
+            Trace.fatal(CLASS, this, method, msg, e);
+            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+        } catch (final RuntimeException e) {
+            Trace.fatal(CLASS, this, method, "unexpected problem", e);
+            QedeqLog.getInstance().logFailureReply(
+                "Generation failed", "unexpected problem: "
+                + (e.getMessage() != null ? e.getMessage() : e.toString()));
+        }
+        return null;
+    }
+
+    /**
+     * Gives a UTF-8 representation of given QEDEQ module as InputStream.
+     *
+     * @param   language    Filter text to get and produce text in this language only.
+     * @param   level       Filter for this detail level. LATER mime 20050205: not supported
+     *                      yet.
+     * @return  Resulting LaTeX.
+     * @throws  SourceFileExceptionList Major problem occurred.
+     * @throws  IOException     File IO failed.
+     */
+    public File generateUtf8(final String language, final String level)
+            throws SourceFileExceptionList, IOException {
+
+        // first we try to get more information about required modules and their predicates..
+        try {
+            KernelContext.getInstance().loadRequiredModules(getQedeqBo().getModuleAddress());
+            KernelContext.getInstance().checkModule(getQedeqBo().getModuleAddress());
+        } catch (Exception e) {
+            // we continue and ignore external predicates
+            Trace.trace(CLASS, "generateUtf8(KernelQedeqBo, String, String)", e);
+        }
         if (language == null) {
             this.language = "en";
         } else {
@@ -155,9 +231,50 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder 
         } else {
             this.level = level;
         }
-        this.info = info;
-        this.elementConverter = new Element2Latex((prop.hasLoadedRequiredModules()
-            ? prop.getRequiredModules() : null));
+        this.elementConverter = new Element2Latex((getQedeqBo().hasLoadedRequiredModules()
+            ? getQedeqBo().getRequiredModules() : null));
+        String txt = getQedeqBo().getModuleAddress().getFileName();
+        if (txt.toLowerCase(Locale.US).endsWith(".xml")) {
+            txt = txt.substring(0, txt.length() - 4);
+        }
+        if (language != null && language.length() > 0) {
+            txt = txt + "_" + language;
+        }
+        // the destination is the configured destination directory plus the (relative)
+        // localized file (or path) name
+        File destination = new File(KernelContext.getInstance().getConfig()
+            .getGenerationDirectory(), txt + ".txt").getCanonicalFile();
+        printer = null;
+        try {
+            printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination), "UTF-8");
+            printer.setColumns(maxColumns);
+            traverse();
+            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
+        } finally {
+            if (printer != null) {
+                printer.flush();
+                printer.close();
+            }
+        }
+        if (printer.checkError()) {
+            throw printer.getError();
+        }
+        return destination.getCanonicalFile();
+    }
+
+    // TODO m31 20070704: this should be part of QedeqBo
+    String[] getSupportedLanguages(final QedeqBo prop) {
+        // TODO m31 20070704: there should be a better way to
+        // get all supported languages. Time for a new visitor?
+        if (!prop.isLoaded()) {
+            return new String[]{};
+        }
+        final LatexList list = prop.getQedeq().getHeader().getTitle();
+        final String[] result = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i).getLanguage();
+        }
+        return result;
     }
 
     public final void visitEnter(final Qedeq qedeq) {
