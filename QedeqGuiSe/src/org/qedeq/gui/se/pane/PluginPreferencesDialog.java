@@ -41,6 +41,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.logic.model.ThreeModel;
 import org.qedeq.kernel.bo.logic.model.UnaryModel;
+import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
@@ -72,10 +73,10 @@ public class PluginPreferencesDialog extends JDialog {
     private JTextField qedeq2Utf8MaximumColumnTF;
 
     /** Plugin for converting QEDEQ modules into LaTeX. */
-    private final Plugin qedeq2latex;
+    private final Qedeq2LatexPlugin qedeq2latex;
 
     /** Plugin for converting QEDEQ modules into UTF-8 text. */
-    private final Plugin qedeq2utf8;
+    private final Qedeq2Utf8Plugin qedeq2utf8;
 
     /** Plugin for checking formulas with the help of a static model. */
     private HeuristicCheckerPlugin heuristicChecker;
