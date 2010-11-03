@@ -19,8 +19,8 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.common.Plugin;
 
 /**
@@ -55,8 +55,8 @@ public class ServiceProcess {
     /** QEDEQ module the process is working on. */
     private KernelQedeqBo qedeq;
 
-    /** QEDEQ module visitor that is used. */
-    private ControlVisitor vistor;
+    /** Created execution object. Might be <code>null</code>. */
+    private PluginExecutor executor;
 
     /**
      * A new service process.
@@ -123,6 +123,24 @@ public class ServiceProcess {
      */
     public synchronized Map getParameters() {
         return parameters;
+    }
+
+    /**
+     * Get associated executor.
+     *
+     * @return  Associated executor. Might be <code>null</code>.
+     */
+    public PluginExecutor getExecutor() {
+        return executor;
+    }
+
+    /**
+     * Set associated executor.
+     *
+     * @param   executor    Associated executor.
+     */
+    public void setExecutor(final PluginExecutor executor) {
+        this.executor = executor;
     }
 
     /**
@@ -230,6 +248,40 @@ public class ServiceProcess {
     public synchronized void interrupt() {
         thread.interrupt();
         setFailureState();
+    }
+
+    /**
+     * Get percentage of currently running plugin execution.
+     *
+     * @return  Number between 0 and 100.
+     */
+    public double getExecutionPercentage() {
+        double result = 0;
+        if (isRunning() || isBlocked()) {
+            if (executor != null) {
+                result = executor.getExecutionPercentage();
+            }
+        } else {
+            result = 100;
+        }
+        return result;
+    }
+
+    /**
+     * Get description of currently taken action.
+     *
+     * @return  We are doing this currently.
+     */
+    public String getExecutionActionDescription() {
+        String result = "not started";
+        if (isRunning() || isBlocked()) {
+            if (executor != null) {
+                result = executor.getExecutionActionDescription();
+            }
+        } else {
+            result = "finished";
+        }
+        return result;
     }
 
 }
