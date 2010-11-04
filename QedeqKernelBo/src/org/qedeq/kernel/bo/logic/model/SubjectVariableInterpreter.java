@@ -76,11 +76,11 @@ public final class SubjectVariableInterpreter {
     }
 
     public synchronized double getCompleteness() {
-        double result = 1;
+        double result = 0;
         for (int i = subjectVariableCounters.size() - 1; i >= 0; i--) {
             if (!((Boolean) forcedSubjectVariableCounters.get(i)).booleanValue()) {
-                result = (result + ((Enumerator) subjectVariableCounters.get(i)).getNumber())
-                    / model.getEntitiesSize();
+                result = (result + ((Enumerator) subjectVariableCounters.get(i)).getNumber() + 1)
+                    / (model.getEntitiesSize() + 1);
             }
         }
         System.out.println("SubjectVariableCompleteness: " + result);
