@@ -37,6 +37,9 @@ public final class FunctionVariableInterpreter {
     /** List of counters for function variables. */
     private List functionVariableCounters;
 
+    /** Counter for next calls for one cycle. */
+    private double counter;
+
     /**
      * Constructor.
      *
@@ -85,10 +88,12 @@ public final class FunctionVariableInterpreter {
      * @return  Is there a next new valuation?
      */
     public boolean next() {
+        counter++;
         boolean next = true;
         for (int i = functionVariables.size() - 1; i >= -1; i--) {
             if (i < 0) {
                 next = false;
+                counter = 0;
                 break;
             }
             final FunctionVariable var = (FunctionVariable) functionVariables.get(i);
@@ -102,6 +107,16 @@ public final class FunctionVariableInterpreter {
 
         }
         return next;
+    }
+
+    public double getCompleteness() {
+        double result = counter + 1;
+        for (int i = 0; i < functionVariableCounters.size(); i++) {
+            final FunctionVariable var = (FunctionVariable) functionVariables.get(i);
+            result /= model.getFunctionSize(var.getArgumentNumber());
+        }
+//        System.out.println("FunctionVariableCompleteness: " + result);
+        return result;
     }
 
     public String toString() {

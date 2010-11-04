@@ -37,6 +37,8 @@ public final class SubjectVariableInterpreter {
     /** Model contains entities. */
     private Model model;
 
+    /** Counter for next calls for one cycle. */
+    private double counter;
 
     /**
      * Constructor.
@@ -55,10 +57,12 @@ public final class SubjectVariableInterpreter {
      * @return  Is there a next new valuation?
      */
     public boolean next() {
+        counter++;
         boolean next = true;
         for (int i = subjectVariables.size() - 1; i >= -1; i--) {
             if (i < 0) {
                 next = false;
+                counter = 0;
                 break;
             }
             Enumerator number = (Enumerator) subjectVariableCounters.get(i);
@@ -70,6 +74,15 @@ public final class SubjectVariableInterpreter {
             }
         }
         return next;
+    }
+
+    public double getCompleteness() {
+        double result = counter + 1;
+        for (int i = 0; i < subjectVariableCounters.size(); i++) {
+            result /= model.getEntitiesSize();
+        }
+//        System.out.println("SubjectVariableCompleteness: " + result);
+        return result;
     }
 
     public void addSubjectVariable(final SubjectVariable var) {
