@@ -256,7 +256,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
                 printer.close();
             }
         }
-        if (printer.checkError()) {
+        if (printer != null && printer.checkError()) {
             throw printer.getError();
         }
         return destination.getCanonicalFile();
