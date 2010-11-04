@@ -280,7 +280,7 @@ public class IoUtilityTest extends QedeqTestCase {
     }
 
     private String loadFile(final File file, final String expected, final String encoding)
-            throws FileNotFoundException, IOException, UnsupportedEncodingException {
+            throws IOException {
         final OutputStream out = new FileOutputStream(file);
         try {
             out.write(expected.getBytes(encoding));
