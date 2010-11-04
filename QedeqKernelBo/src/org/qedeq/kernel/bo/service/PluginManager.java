@@ -143,6 +143,7 @@ public class PluginManager {
             process.setBlocked(false);
             try {
                 final PluginExecutor exe = plugin.createExecutor(qedeq, para);
+                process.setExecutor(exe);
                 final Object result = exe.executePlugin();
                 process.setSuccessState();
                 return result;

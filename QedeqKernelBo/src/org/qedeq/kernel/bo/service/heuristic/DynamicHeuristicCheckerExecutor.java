@@ -49,9 +49,8 @@ import org.qedeq.kernel.dto.list.DefaultElementList;
 
 
 /**
- * Checks if all formulas of a QEDEQ module are well formed.
+ * Check if formulas are valid in our model.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implements PluginExecutor {
@@ -359,6 +358,16 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
 
     public void visitLeave(final Rule rule) {
         setBlocked(false);
+    }
+
+    public double getExecutionPercentage() {
+        System.out.println("--------------------------------------------------");
+        System.out.println("position:    " + getExecutionActionDescription());
+        System.out.println("regular:     " + super.getExecutionPercentage());
+        System.out.println("unit:        " + getSubsectionPercentageUnit());
+        System.out.println("interpreter: " + interpreter.getCompleteness());
+        return super.getExecutionPercentage() + getSubsectionPercentageUnit()
+            * interpreter.getCompleteness();
     }
 
     /**
