@@ -277,10 +277,10 @@ public class ProcessListPane extends JPanel  {
             if (process != null && process.isRunning()) {
 
                 // FIXME 20101030 m31: only for java 1.5
-//                StackTraceElement[] trace = process.getThread().getStackTrace();
-//                for (int i = 0; i < trace.length; i++)  {
-//                    System.out.println(trace[i]);
-//                }
+                StackTraceElement[] trace = process.getThread().getStackTrace();
+                for (int i = 0; i < trace.length; i++)  {
+                    System.out.println(trace[i]);
+                }
             }
         }
     }

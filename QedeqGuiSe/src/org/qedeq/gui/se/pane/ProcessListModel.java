@@ -66,6 +66,10 @@ public class ProcessListModel extends AbstractTableModel {
         } else if (column == 5) {
             return "Duration";
         } else if (column == 6) {
+            return "%";
+        } else if (column == 7) {
+            return "Position";
+        } else if (column == 8) {
             return "Parameters";
         } else {
             return "";
@@ -77,7 +81,7 @@ public class ProcessListModel extends AbstractTableModel {
     }
 
     public int getColumnCount() {
-        return 7;
+        return 9;
     }
 
     public Object getValueAt(final int row, final int col) {
@@ -106,7 +110,9 @@ public class ProcessListModel extends AbstractTableModel {
         case 3: return DateUtility.getIsoTime(sp.getStart());
         case 4: return sp.getStop() != 0 ? DateUtility.getIsoTime(sp.getStop()) : "";
         case 5: return DateUtility.getDuration(current - sp.getStart());
-        case 6: return sp.getParameterString();
+        case 6: return "" + sp.getExecutionPercentage();
+        case 7: return sp.getExecutionActionDescription();
+        case 8: return sp.getParameterString();
         default:
                 return "";
         }
