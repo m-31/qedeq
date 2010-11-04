@@ -17,16 +17,12 @@ package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.module.Axiom;
-import org.qedeq.kernel.base.module.Chapter;
 import org.qedeq.kernel.base.module.FunctionDefinition;
 import org.qedeq.kernel.base.module.Import;
 import org.qedeq.kernel.base.module.Node;
 import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
-import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.base.module.Rule;
-import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.common.ModuleDataException;
@@ -40,16 +36,13 @@ import org.qedeq.kernel.dto.module.NodeVo;
  *
  * @author  Michael Meyling
  */
-public final class ModuleLabelsCreator extends ControlVisitor {
+public final class ModuleLabelsCreator extends NumberingVisitor {
 
     /** This class. */
     private static final Class CLASS = ModuleLabelsCreator.class;
 
     /** QEDEQ module labels. */
     private ModuleLabels labels;
-
-    /** Herein are various counters for the current node. */
-    private KernelNodeNumbers data = new KernelNodeNumbers();
 
     /**
      * Constructor.
@@ -61,16 +54,14 @@ public final class ModuleLabelsCreator extends ControlVisitor {
         super(plugin, prop);
     }
 
-    public void visitEnter(final Qedeq qedeq) {
-        data = new KernelNodeNumbers();
-    }
-
     /**
      * Visit import. Loads referenced QEDEQ module and saves reference.
      *
      * @param   imp                 Begin visit of this element.
+     * @throws  ModuleDataException Something bad happend.
      */
-    public void visitEnter(final Import imp) {
+    public void visitEnter(final Import imp) throws  ModuleDataException {
+        super.visitEnter(imp);
         try {
             this.labels.addLabel(getCurrentContext(),
                 imp.getLabel());
@@ -81,26 +72,12 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     /**
-     * Visit chapter. Increases chapter number, if this chapter doesn't forbid it.
-     *
-     * @param   chapter             Visit this chapter.
-     */
-    public void visitEnter(final Chapter chapter) {
-        if (Boolean.TRUE.equals(chapter.getNoNumber())) {
-            data.setChapterNumbering(false);
-        } else {
-            data.setChapterNumbering(true);
-            data.increaseChapterNumber();
-        }
-    }
-
-    /**
      * Increase axiom counter.
      *
      * @param   axiom               Visit this element.
      */
     public void visitEnter(final Axiom axiom) {
-        data.increaseAxiomNumber();
+        super.visitEnter(axiom);
         setBlocked(true);   // block further traverse
     }
 
@@ -110,7 +87,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      * @param   proposition         Begin visit of this element.
      */
     public void visitEnter(final Proposition proposition) {
-        data.increasePropositionNumber();
+        super.visitEnter(proposition);
         setBlocked(true);   // block further traverse
     }
 
@@ -120,7 +97,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      * @param   funcDef             Begin visit of this element.
      */
     public void visitEnter(final FunctionDefinition funcDef) {
-        data.increaseFunctionDefinitionNumber();
+        super.visitEnter(funcDef);
         setBlocked(true);   // block further traverse
     }
 
@@ -130,7 +107,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      * @param   predDef             Begin visit of this element.
      */
     public void visitEnter(final PredicateDefinition predDef) {
-        data.increasePredicateDefinitionNumber();
+        super.visitEnter(predDef);
         setBlocked(true);   // block further traverse
     }
 
@@ -140,7 +117,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      * @param   rule                Begin visit of this element.
      */
     public void visitEnter(final Rule rule) {
-        data.increaseRuleNumber();
+        super.visitEnter(rule);
         setBlocked(true);   // block further traverse
     }
 
@@ -151,7 +128,8 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public void visitLeave(final Node node) {
         try {
-            this.labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(), data);
+            this.labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(),
+                getCurrentNumbers());
         } catch (ModuleDataException me) {
             addError(me);
             Trace.trace(CLASS, this, "visitEnter(Node)", me);
