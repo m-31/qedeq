@@ -244,7 +244,9 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
         // localized file (or path) name
         File destination = new File(KernelContext.getInstance().getConfig()
             .getGenerationDirectory(), txt + ".txt").getCanonicalFile();
-        printer = null;
+
+        init();
+
         try {
             printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination), "UTF-8");
             printer.setColumns(maxColumns);
@@ -260,6 +262,22 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
             throw printer.getError();
         }
         return destination.getCanonicalFile();
+    }
+
+    /**
+     * Reset counters and other variables. Should be executed before {@link #traverse()}.
+     */
+    protected void init() {
+        printer = null;
+        chapterNumber = 0;
+        sectionNumber = 0;
+        axiomNumber = 0;
+        definitionNumber = 0;
+        propositionNumber = 0;
+        ruleNumber = 0;
+        id = null;
+        title = null;
+        subContext = "";
     }
 
     // TODO m31 20070704: this should be part of QedeqBo

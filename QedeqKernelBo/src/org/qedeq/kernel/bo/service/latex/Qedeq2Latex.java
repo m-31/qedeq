@@ -245,6 +245,9 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         // localized file (or path) name
         File destination = new File(KernelContext.getInstance().getConfig()
             .getGenerationDirectory(), tex + ".tex").getCanonicalFile();
+
+        init();
+
         try {
             printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination));
             traverse();
@@ -264,6 +267,17 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), null, warnings);
         }
         return destination.getCanonicalFile();
+    }
+
+    /**
+     * Reset counters and other variables. Should be executed before {@link #traverse()}.
+     */
+    protected void init() {
+        chapterNumber = 0;
+        sectionNumber = 0;
+        id = null;
+        title = null;
+        subContext = "";
     }
 
     public final void visitEnter(final Qedeq qedeq) {
