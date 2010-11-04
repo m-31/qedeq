@@ -34,11 +34,11 @@ public final class SubjectVariableInterpreter {
     /** List of counters for subject variables. */
     private List subjectVariableCounters;
 
+    /** List of non counting subject variables. Contains Booleans*/
+    private List forcedSubjectVariableCounters;
+
     /** Model contains entities. */
     private Model model;
-
-    /** Counter for next calls for one cycle. */
-    private double counter;
 
     /**
      * Constructor.
@@ -49,6 +49,7 @@ public final class SubjectVariableInterpreter {
         this.model = model;
         subjectVariables = new ArrayList();
         subjectVariableCounters = new ArrayList();
+        forcedSubjectVariableCounters = new ArrayList();
     }
 
     /**
@@ -56,13 +57,11 @@ public final class SubjectVariableInterpreter {
      *
      * @return  Is there a next new valuation?
      */
-    public boolean next() {
-        counter++;
+    public synchronized boolean next() {
         boolean next = true;
         for (int i = subjectVariables.size() - 1; i >= -1; i--) {
             if (i < 0) {
                 next = false;
-                counter = 0;
                 break;
             }
             Enumerator number = (Enumerator) subjectVariableCounters.get(i);
@@ -76,17 +75,19 @@ public final class SubjectVariableInterpreter {
         return next;
     }
 
-    public double getCompleteness() {
-        double result = counter + 1;
-        for (int i = 0; i < subjectVariableCounters.size(); i++) {
-            result /= model.getEntitiesSize();
+    public synchronized double getCompleteness() {
+        double result = 1;
+        for (int i = subjectVariableCounters.size() - 1; i >= 0; i--) {
+            if (!((Boolean) forcedSubjectVariableCounters.get(i)).booleanValue()) {
+                result = (result + ((Enumerator) subjectVariableCounters.get(i)).getNumber())
+                    / model.getEntitiesSize();
+            }
         }
-//        System.out.println("SubjectVariableCompleteness: " + result);
+        System.out.println("SubjectVariableCompleteness: " + result);
         return result;
     }
 
-    public void addSubjectVariable(final SubjectVariable var) {
-
+    public synchronized void addSubjectVariable(final SubjectVariable var) {
         // FIXME 20101014 m31: just for testing
 //        if (subjectVariables.contains(var)) {
 //            throw new RuntimeException("variable already exists: " + var);
@@ -94,6 +95,7 @@ public final class SubjectVariableInterpreter {
 //        System.out.println("added subject variable " + var);
         subjectVariables.add(var);
         subjectVariableCounters.add(new Enumerator());
+        forcedSubjectVariableCounters.add(Boolean.FALSE);
     }
 
     /**
@@ -102,9 +104,10 @@ public final class SubjectVariableInterpreter {
      * @param   var     Remove this subject variable.
      * @param   value   Set interpretation to this entity number.
      */
-    public void forceAddSubjectVariable(final SubjectVariable var, final int value) {
+    public synchronized void forceAddSubjectVariable(final SubjectVariable var, final int value) {
         subjectVariables.add(var);
         subjectVariableCounters.add(new Enumerator(value));
+        forcedSubjectVariableCounters.add(Boolean.TRUE);
     }
 
     /**
@@ -112,7 +115,7 @@ public final class SubjectVariableInterpreter {
      *
      * @param   var Remove this subject variable.
      */
-    public void removeSubjectVariable(final SubjectVariable var) {
+    public synchronized void forceRemoveSubjectVariable(final SubjectVariable var) {
         final int index = subjectVariables.lastIndexOf(var);
         if (index < 0) {
             throw new RuntimeException("variable does not exist: " + var);
@@ -120,9 +123,25 @@ public final class SubjectVariableInterpreter {
 //        System.out.println("removed subject variable " + var);
         subjectVariables.remove(index);
         subjectVariableCounters.remove(index);
+        forcedSubjectVariableCounters.remove(index);
+    }
+    /**
+     * Remove existing subject variable interpretation.
+     *
+     * @param   var Remove this subject variable.
+     */
+    public synchronized void removeSubjectVariable(final SubjectVariable var) {
+        final int index = subjectVariables.lastIndexOf(var);
+        if (index < 0) {
+            throw new RuntimeException("variable does not exist: " + var);
+        }
+//        System.out.println("removed subject variable " + var);
+        subjectVariables.remove(index);
+        subjectVariableCounters.remove(index);
+        forcedSubjectVariableCounters.remove(index);
     }
 
-    private int getSubjectVariableSelection(final SubjectVariable var) {
+    private synchronized int getSubjectVariableSelection(final SubjectVariable var) {
         int selection;
         if (subjectVariables.contains(var)) {
             final int index = subjectVariables.lastIndexOf(var);
@@ -130,23 +149,22 @@ public final class SubjectVariableInterpreter {
         } else {
 //            System.out.println("added subject variable " + var);
             selection = 0;
-            subjectVariables.add(var);
-            subjectVariableCounters.add(new Enumerator());
+            addSubjectVariable(var);
         }
         return selection;
     }
 
-    public Entity getEntity(final SubjectVariable var) {
+    public synchronized Entity getEntity(final SubjectVariable var) {
         return model.getEntity(getSubjectVariableSelection(var));
 
     }
 
-    public void increaseSubjectVariableSelection(final SubjectVariable var) {
+    public synchronized void increaseSubjectVariableSelection(final SubjectVariable var) {
         final int index = subjectVariables.lastIndexOf(var);
         ((Enumerator) subjectVariableCounters.get(index)).increaseNumber();
     }
 
-    public String toString() {
+    public synchronized String toString() {
         final StringBuffer buffer = new StringBuffer();
         buffer.append("subject variables {");
         for (int i = 0; i < subjectVariables.size(); i++) {
@@ -165,9 +183,10 @@ public final class SubjectVariableInterpreter {
     /**
      * Clear variable interpretation.
      */
-    public void clear() {
+    public synchronized void clear() {
         subjectVariables.clear();
         subjectVariableCounters.clear();
+        forcedSubjectVariableCounters.clear();
     }
 
 }

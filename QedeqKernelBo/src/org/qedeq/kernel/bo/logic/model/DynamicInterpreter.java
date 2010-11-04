@@ -101,7 +101,7 @@ public final class DynamicInterpreter {
                     for (int i = entities.length - 1; i >= 0; i--) {
                         final SubjectVariable var = new SubjectVariable(variableList.get(i).getList()
                             .getElement(0).getAtom().getString());
-                        subjectVariableInterpreter.removeSubjectVariable(var);
+                        subjectVariableInterpreter.forceRemoveSubjectVariable(var);
                     }
                     return result;
                 }
@@ -113,7 +113,7 @@ public final class DynamicInterpreter {
      *
      * @param   constant        This is the predicate constant.
      * @param   variableList    Variables to use.
-     * @param   term         Formula to evaluate for that predicate.
+     * @param   term            Formula to evaluate for that predicate.
      */
     public void addFunctionConstant(final FunctionConstant constant,
             final VariableList variableList, final ElementList term) {
@@ -134,7 +134,7 @@ public final class DynamicInterpreter {
                     for (int i = entities.length - 1; i >= 0; i--) {
                         final SubjectVariable var = new SubjectVariable(variableList.get(i).getList()
                             .getElement(0).getAtom().getString());
-                        subjectVariableInterpreter.removeSubjectVariable(var);
+                        subjectVariableInterpreter.forceRemoveSubjectVariable(var);
                     }
                     return result;
                 }

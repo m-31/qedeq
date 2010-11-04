@@ -149,6 +149,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                         getCurrentContext()));
             }
         } catch (RuntimeException e) {
+            e.printStackTrace(System.out); // FIXME 20101104 m31: remove me
             if (e.getCause() != null && e.getCause() instanceof HeuristicException) {
                 // TODO 20101015 m31: better exception handling would be better!
                 HeuristicException h = (HeuristicException) e.getCause();
