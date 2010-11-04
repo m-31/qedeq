@@ -143,7 +143,6 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
      */
     Qedeq2Utf8(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
         super(plugin, prop);
-        final String method = "Qedeq2Utf8(Plugin, QedeqBo, Map)";
         String infoString = null;
         String maxColumnsString = "0";
         if (parameters != null) {

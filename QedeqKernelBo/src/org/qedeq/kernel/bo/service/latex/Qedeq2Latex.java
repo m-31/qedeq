@@ -1044,7 +1044,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                         + ": " + "node not found for " + ref, startPosition,
                         input.getSourcePosition());
                 }
-    
+
                 // do we have an external module?
                 if (label.length() <= 0) {      // local reference
                     final String display = getDisplay(ref, node, false, false);
