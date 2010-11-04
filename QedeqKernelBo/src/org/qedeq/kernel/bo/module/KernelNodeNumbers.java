@@ -13,6 +13,21 @@ public class KernelNodeNumbers {
     /** Chapter number the node is within. */
     private int chapterNumber;
 
+    /** Absolute chapter number the node is within. Includes chapters with no numbers. */
+    private int absoluteChapterNumber;
+
+    /** Section numbering currently on? */
+    private boolean sectionNumbering;
+
+    /** Section number the node is within. */
+    private int sectionNumber;
+
+    /** Absolute section number the node is within. Includes sections with no numbers. */
+    private int absoluteSectionNumber;
+
+    /** Sub section number the node is within. */
+    private int subsectionNumber;
+
     /** Axioms before node (including this one). */
     private int axiomNumber;
 
@@ -39,34 +54,21 @@ public class KernelNodeNumbers {
     /**
      * Copy constructor.
      *
-     * @param   original    Original to copy from.
+     * @param   original    Original to copy values from.
      */
     public KernelNodeNumbers(final KernelNodeNumbers original) {
         chapterNumbering = original.chapterNumbering;
         chapterNumber = original.chapterNumber;
+        absoluteChapterNumber = original.absoluteChapterNumber;
+        sectionNumbering = original.sectionNumbering;
+        sectionNumber = original.sectionNumber;
+        absoluteSectionNumber = original.absoluteSectionNumber;
+        subsectionNumber = original.subsectionNumber;
         axiomNumber = original.axiomNumber;
         functionDefinitionNumber = original.functionDefinitionNumber;
         predicateDefinitionNumber = original.predicateDefinitionNumber;
         propositionNumber = original.propositionNumber;
         ruleNumber = original.ruleNumber;
-    }
-
-    /**
-     * Set flag for: chapter numbering currently on?
-     *
-     * @param   chapterNumbering    Should the chapter(s) be counted?
-     */
-    public void setChapterNumbering(final boolean chapterNumbering) {
-        this.chapterNumbering = chapterNumbering;
-    }
-
-    /**
-     * Is chapter numbering currently on?
-     *
-     * @return  Chapter numbering is on.
-     */
-    public boolean isChapterNumbering() {
-        return chapterNumbering;
     }
 
     /**
@@ -83,6 +85,106 @@ public class KernelNodeNumbers {
      */
     public void increaseChapterNumber() {
         chapterNumber++;
+    }
+
+    /**
+     * Is chapter numbering currently on?
+     *
+     * @return  Chapter numbering is on.
+     */
+    public boolean isChapterNumbering() {
+        return chapterNumbering;
+    }
+
+    /**
+     * Set flag for: chapter numbering currently on?
+     *
+     * @param   chapterNumbering    Should the chapter(s) be counted?
+     */
+    public void setChapterNumbering(final boolean chapterNumbering) {
+        this.chapterNumbering = chapterNumbering;
+    }
+
+    /**
+     * Absolute chapter number the node is within. This includes chapters with no numbers.
+     *
+     * @return  Chapter number.
+     */
+    public int getAbsouteChapterNumber() {
+        return absoluteChapterNumber;
+    }
+
+    /**
+     * Increase absolute chapter number.
+     */
+    public void increaseAbsoluteChapterNumber() {
+        absoluteChapterNumber++;
+    }
+
+    /**
+     * Section number the node is within.
+     *
+     * @return  Section number.
+     */
+    public int getSectionNumber() {
+        return sectionNumber;
+    }
+
+    /**
+     * Increase chapter number.
+     */
+    public void increaseSectionNumber() {
+        sectionNumber++;
+    }
+
+    /**
+     * Absolute section number the node is within. This includes sections with no numbers.
+     *
+     * @return  Section number.
+     */
+    public int getAbsouteSectionNumber() {
+        return absoluteSectionNumber;
+    }
+
+    /**
+     * Increase absolute section number.
+     */
+    public void increaseAbsoluteSectionNumber() {
+        absoluteSectionNumber++;
+    }
+
+    /**
+     * Is section numbering currently on?
+     *
+     * @return  Section numbering is on.
+     */
+    public boolean isSectionNumbering() {
+        return sectionNumbering;
+    }
+
+    /**
+     * Set flag for: section numbering currently on?
+     *
+     * @param   sectionNumbering    Should the section(s) be counted?
+     */
+    public void setSectionNumbering(final boolean sectionNumbering) {
+        this.sectionNumbering = sectionNumbering;
+    }
+
+    /**
+     * Sub section number the node is within.
+     *
+     * @return  Sub section number.
+     */
+    public int getSubsectionNumber() {
+        return subsectionNumber;
+    }
+
+    /**
+     * Increase subsection number.
+     */
+    public void increaseSubsectionNumber() {
+        subsectionNumber++;
     }
 
     /**
