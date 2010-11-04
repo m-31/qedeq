@@ -93,7 +93,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
     private String language;
 
     /** Filter for this detail level. */
-    private String level;
+//    private String level;
 
     /** Should additional information be put into LaTeX output? E.g. QEDEQ reference names. */
     private final boolean info;
@@ -226,11 +226,11 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
         } else {
             this.language = language;
         }
-        if (level == null) {
-            this.level = "1";
-        } else {
-            this.level = level;
-        }
+//        if (level == null) {
+//            this.level = "1";
+//        } else {
+//            this.level = level;
+//        }
         this.elementConverter = new Element2Latex((getQedeqBo().hasLoadedRequiredModules()
             ? getQedeqBo().getRequiredModules() : null));
         String txt = getQedeqBo().getModuleAddress().getFileName();
