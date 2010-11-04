@@ -988,14 +988,15 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                         input.getSourcePosition());
                     continue;
                 }
-    
+
                 // exists a sub reference?
                 String sub = "";
                 if ('[' == input.getChar(0)) {
                     input.read();   // read [
                     int posb = input.getPosition();
                     if (!input.forward("]")) {
-                        addWarning(LatexErrorCodes.QREF_SUB_END_NOT_FOUND_CODE, LatexErrorCodes.QREF_SUB_END_NOT_FOUND_MSG,
+                        addWarning(LatexErrorCodes.QREF_SUB_END_NOT_FOUND_CODE,
+                            LatexErrorCodes.QREF_SUB_END_NOT_FOUND_MSG,
                             startPosition, input.getSourcePosition());;
                             continue;
                     }
@@ -1003,7 +1004,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                     input.read();   // read ]
                 }
                 final int end = input.getPosition();
-    
+
                 // get module label (if any)
                 String label = "";
                 int dot = ref.indexOf(".");
@@ -1011,7 +1012,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                     label = ref.substring(0, dot);
                     ref = ref.substring(dot + 1);
                 }
-    
+
                 // check if reference is in fact a module label
                 if (label.length() == 0) {
                     if (getQedeqBo().getKernelRequiredModules().getQedeqBo(ref) != null) {
@@ -1019,16 +1020,16 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                         ref = "";
                     }
                 }
-    
+
                 Trace.param(CLASS, this, method, "2 ref", ref);     // reference within module
                 Trace.param(CLASS, this, method, "2 sub", sub);     // sub reference (if any)
                 Trace.param(CLASS, this, method, "2 label", label); // module label (if any)
-    
+
                 KernelQedeqBo prop = getQedeqBo();  // the module we point to
                 if (label.length() > 0) {           // do we reference to an external module?
                     prop = prop.getKernelRequiredModules().getKernelQedeqBo(label);
                 }
-    
+
                 KernelNodeBo node = null;           // the node we point to
                 if (prop != null) {
                     if (prop.getLabels() != null) {
