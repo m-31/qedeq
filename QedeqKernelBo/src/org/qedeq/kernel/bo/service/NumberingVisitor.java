@@ -30,10 +30,9 @@ import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.common.Plugin;
 
-
 /**
  * Create mapping from labels to {@link org.qedeq.kernel.dto.module.NodeVo} for a QEDEQ module.
- *
+ * FIXME 20101104 m31: transfer this functionality into {@link org.qedeq.kernel.visitor.QedeqNotNullTraverser}.
  * @author  Michael Meyling
  */
 public class NumberingVisitor extends ControlVisitor {
