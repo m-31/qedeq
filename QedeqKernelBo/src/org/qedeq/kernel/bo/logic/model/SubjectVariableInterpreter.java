@@ -81,8 +81,10 @@ public final class SubjectVariableInterpreter {
             if (!((Boolean) forcedSubjectVariableCounters.get(i)).booleanValue()) {
                 result = (result + ((Enumerator) subjectVariableCounters.get(i)).getNumber() + 1)
                     / (model.getEntitiesSize() + 1);
+                System.out.print("" + (((Enumerator) subjectVariableCounters.get(i)).getNumber() + 1));
             }
         }
+        System.out.println();
         System.out.println("SubjectVariableCompleteness: " + result);
         return result;
     }
