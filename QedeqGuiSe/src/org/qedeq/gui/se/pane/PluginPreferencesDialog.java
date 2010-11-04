@@ -39,9 +39,9 @@ import javax.swing.border.EmptyBorder;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
+import org.qedeq.kernel.bo.logic.model.DynamicModel;
 import org.qedeq.kernel.bo.logic.model.ThreeModel;
 import org.qedeq.kernel.bo.logic.model.UnaryModel;
-import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
@@ -84,8 +84,11 @@ public class PluginPreferencesDialog extends JDialog {
     /** Plugin for checking formulas with the help of a dynamically calculated static model. */
     private DynamicHeuristicCheckerPlugin dynamicHeuristicChecker;
 
-    /** Plugin for checking formulas with the help of a static model. */
+    /** Class string for static model. */
     private String heuristicCheckerModel;
+
+    /** Class string for dynamic static model. */
+    private String dynamicHeuristicCheckerModel;
 
     /**
      * Creates new Panel.
@@ -224,6 +227,65 @@ public class PluginPreferencesDialog extends JDialog {
     }
 
     /**
+     * Assembles settings for {@link DynamicHeuristicCheckerPlugin}.
+     *
+     * @param   plugin  The transformation plugin.
+     * @return  Created panel.
+     */
+    private JComponent dynamicHeuristicCheckerConfig(final Plugin plugin) {
+        FormLayout layout = new FormLayout(
+            "left:pref, 5dlu, fill:pref:grow",          // columns
+            "top:pref:grow, top:pref:grow, top:pref:grow");      // rows
+
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        builder.getPanel().setOpaque(false);
+
+        final DynamicModel five = new DynamicModel();
+        dynamicHeuristicCheckerModel = QedeqGuiConfig.getInstance()
+                .getPluginKeyValue(plugin, "model", five.getClass().getName());
+        final ActionListener modelSelectionListener = new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                dynamicHeuristicCheckerModel = e.getActionCommand();
+            }
+        };
+
+        final ButtonGroup dynamicHeuristicCheckerModelBG = new ButtonGroup();
+
+        final JRadioButton dynamicHeuristicCheckerFiveModelRB = new JRadioButton("Five Model");
+        if (dynamicHeuristicCheckerModel.equals(five.getClass().getName())) {
+            dynamicHeuristicCheckerFiveModelRB.setSelected(true);
+        }
+        dynamicHeuristicCheckerFiveModelRB.setActionCommand(five.getClass().getName());
+        dynamicHeuristicCheckerFiveModelRB.addActionListener(modelSelectionListener);
+        dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerFiveModelRB);
+
+//        final JRadioButton heuristicCheckerThreeModelRB = new JRadioButton("Three Model");
+//        if (heuristicCheckerModel.equals(three.getClass().getName())) {
+//            heuristicCheckerThreeModelRB.setSelected(true);
+//        }
+//        heuristicCheckerThreeModelRB.setActionCommand(three.getClass().getName());
+//        heuristicCheckerThreeModelRB.addActionListener(modelSelectionListener);
+//        heuristicCheckerModelBG.add(heuristicCheckerThreeModelRB);
+
+        builder.append(dynamicHeuristicCheckerFiveModelRB);
+        JTextArea description = new JTextArea(five.getDescription());
+        description.setEditable(false);
+        description.setLineWrap(true);
+        description.setWrapStyleWord(true);
+        builder.append(description);
+
+        builder.append(dynamicHeuristicCheckerFiveModelRB);
+        description = new JTextArea(five.getDescription());
+        description.setEditable(false);
+        description.setLineWrap(true);
+        description.setWrapStyleWord(true);
+        builder.append(description);
+
+        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+    }
+
+    /**
      * Assembles the GUI components of the panel.
      */
     public final void setupView() {
@@ -235,6 +297,8 @@ public class PluginPreferencesDialog extends JDialog {
         tabbedPane.addTab(qedeq2latex.getPluginName(), qedeq2LatexConfig(qedeq2latex));
         tabbedPane.addTab(qedeq2utf8.getPluginName(), qedeq2Utf8Config(qedeq2utf8));
         tabbedPane.addTab(heuristicChecker.getPluginName(), heuristicCheckerConfig(heuristicChecker));
+        tabbedPane.addTab(dynamicHeuristicChecker.getPluginName(),
+            dynamicHeuristicCheckerConfig(heuristicChecker));
 
 //        tabbedPane.setBorder(GuiHelper.getEmptyBorder());
         tabbedPane.setBorder(new CompoundBorder(new EmptyBorder(0, 10, 10, 10),
@@ -303,6 +367,10 @@ public class PluginPreferencesDialog extends JDialog {
             {
                 final Plugin plugin = heuristicChecker;
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "model", heuristicCheckerModel);
+            }
+            {
+                final Plugin plugin = dynamicHeuristicChecker;
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "model", dynamicHeuristicCheckerModel);
             }
         } catch (RuntimeException e) {
             JOptionPane.showMessageDialog(this, e.getMessage(), "Error",
