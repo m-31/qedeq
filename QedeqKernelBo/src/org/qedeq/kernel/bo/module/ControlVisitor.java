@@ -202,15 +202,26 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         return plugin;
     }
 
+    /**
+     * Get location info from traverser.
+     *
+     * @return  Location description.
+     */
     public String getExecutionActionDescription() {
-        // FIXME 20101102 m31: implement!
-        return null;
+        return traverser.getVisitAction();
     }
 
+    /**
+     * Get percentage of visit currently done.
+     *
+     * @return  Value between 0 and 100.
+     */
     public double getExecutionPercentage() {
-        // FIXME 20101102 m31: implement!
-        return 0;
+        return traverser.getVisitPercentage();
     }
 
+    public double getSubsectionPercentageUnit() {
+        return traverser.getSubsectionPercentageUnit();
+    }
 
 }
