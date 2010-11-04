@@ -66,6 +66,33 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     /** Current context during creation. */
     private ModuleContext currentContext;
 
+    /** Number of imports. */
+    private int imports;
+
+    /** Import we currently work on. */
+    private int imp;
+
+    /** Number of chapters. */
+    private int chapters;
+
+    /** Chapter we are currently in. */
+    private int chapter;
+
+    /** Number of sections (within current chapter). */
+    private int sections;
+
+    /** Section (within current chapter) we are currently in. */
+    private int section;
+
+    /** Number of subsections (within current section). */
+    private int subsections;
+
+    /** Sub section (within current section) we are currently in. */
+    private int subsection;
+
+    /** Traverse already finished? */
+    private boolean finished;
+
     /**
      * These methods are called if a node is visited. To start the whole process just call
      * {@link #accept(Qedeq)}.
@@ -96,10 +123,14 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(qedeq);
         if (qedeq.getHeader() != null) {
+            if (qedeq.getHeader().getImportList() != null) {
+                imports = qedeq.getHeader().getImportList().size();
+            }
             getCurrentContext().setLocationWithinModule(context + "getHeader()");
             accept(qedeq.getHeader());
         }
         if (qedeq.getChapterList() != null) {
+            chapters = qedeq.getChapterList().size();
             getCurrentContext().setLocationWithinModule(context + "getChapterList()");
             accept(qedeq.getChapterList());
         }
@@ -110,6 +141,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(qedeq);
         setLocationWithinModule(context);
+        finished = true;
     }
 
     /**
@@ -192,6 +224,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Import imp) throws ModuleDataException {
+        this.imp++;
         checkForInterrupt();
         if (blocked || imp == null) {
             return;
@@ -300,6 +333,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Chapter chapter) throws ModuleDataException {
+        this.chapter++;
+        section = 0;
+        subsection = 0;
         checkForInterrupt();
         if (blocked || chapter == null) {
             return;
@@ -357,6 +393,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final SectionList sectionList) throws ModuleDataException {
+        sections = (sectionList != null ? sectionList.size() : 0);
         checkForInterrupt();
         if (blocked || sectionList == null) {
             return;
@@ -373,6 +410,8 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Section section) throws ModuleDataException {
+        this.section++;
+        subsection = 0;
         checkForInterrupt();
         if (blocked || section == null) {
             return;
@@ -397,6 +436,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final SubsectionList subsectionList) throws ModuleDataException {
+        subsections = (subsectionList != null ? subsectionList.size() : 0);
         checkForInterrupt();
         if (blocked || subsectionList == null) {
             return;
@@ -423,6 +463,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Subsection subsection) throws ModuleDataException {
+        this.subsection++;
         checkForInterrupt();
         if (blocked || subsection == null) {
             return;
@@ -443,6 +484,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Node node) throws ModuleDataException {
+        this.subsection++;
         checkForInterrupt();
         if (blocked || node == null) {
             return;
@@ -817,12 +859,64 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     /**
-     * Set if further transversing is blocked.
+     * Set if further traverse is blocked.
      *
      * @param   blocked Further transversion?
      */
     public final void setBlocked(final boolean blocked) {
         this.blocked = blocked;
+    }
+
+    /**
+     * Get calculated visit percentage.
+     *
+     * @return  Value between 0 and 100.
+     */
+    public double getVisitPercentage() {
+        if (finished) {
+            return 100;
+        }
+        double result = 0;
+        if (imp < imports && chapter == 0) {
+            result = (double) imp / (imports + 1) / (chapters + 1);
+        } else {
+            result = (double) chapter / (chapters + 1);
+            result += (double) section / (sections + 1) / (chapters + 1);
+            result += (double) subsection / (subsections + 1) / (sections + 1) / (chapters + 1);
+        }
+        return 100 * result;
+    }
+
+    public double getSubsectionPercentageUnit() {
+        return (double) 100 / (subsections + 1) / (sections + 1) / (chapters + 1);
+    }
+
+    /**
+     * Get calculated visit percentage.
+     *
+     * @return  Value between 0 and 100.
+     */
+    public String getVisitAction() {
+        if (finished) {
+            return "finished";
+        }
+        String result = "";
+        if (imp < imports && chapter == 0) {
+            if (imp > 0) {
+                result = "analyzing header";
+            } else {
+                result = "import number " + imp;
+            }
+        } else {
+            result = "" + chapter;
+            if (section > 0) {
+                result = result + "." + section;
+                if (subsection > 0) {
+                    result = result + "." + subsection;
+                }
+            }
+        }
+        return result;
     }
 
 }
