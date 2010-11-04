@@ -255,7 +255,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                 printer.close();
             }
         }
-        if (printer.checkError()) {
+        if (printer != null && printer.checkError()) {
             throw printer.getError();
         }
         try {
