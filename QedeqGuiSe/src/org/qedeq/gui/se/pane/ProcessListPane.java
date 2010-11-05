@@ -40,6 +40,7 @@ import javax.swing.text.StyleConstants;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.service.ServiceProcess;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -84,14 +85,28 @@ public class ProcessListPane extends JPanel  {
             try {
                 final ServiceProcess process = model.getServiceProcess(row);
                 switch (col) {
-                case 1:
-                case 2: tip = process.getService().getPluginDescription() + "\n";
+                case 0:
+                     if (process.isBlocked()) {
+                         tip = "Process is waiting";
+                     } else if (process.isRunning()) {
+                         tip = "Process is running";
+                     } else if (process.wasFailure()) {
+                         tip = "Process was stopped.";
+                     } else if (process.wasSuccess()) {
+                         tip = "Process has finished";
+                     }
                      break;
+                case 1: tip = process.getService().getPluginDescription();
+                     break;
+                case 2:
                 case 3:
                 case 4:
-                case 5: tip = process.getQedeq().getUrl() + "\n";
+                case 5: tip = process.getQedeq().getUrl();
                      break;
-                case 6: tip = process.getParameterString() + "\n";
+                case 7: tip = "<html>" + StringUtility.replace(process.getExecutionActionDescription(),
+                     "\n", "<br>") + "</html>";
+                break;
+                case 8: tip = process.getParameterString() + "\n";
                     break;
                 default: tip = "";
                 }
@@ -218,8 +233,12 @@ public class ProcessListPane extends JPanel  {
         columnModel.getColumn(4).setMinWidth(100);
         columnModel.getColumn(5).setPreferredWidth(100);
         columnModel.getColumn(5).setMinWidth(100);
-        columnModel.getColumn(6).setPreferredWidth(2000);
-        columnModel.getColumn(6).setMinWidth(100);
+        columnModel.getColumn(6).setPreferredWidth(60);
+        columnModel.getColumn(6).setMinWidth(60);
+        columnModel.getColumn(7).setPreferredWidth(2000);
+        columnModel.getColumn(7).setMinWidth(100);
+        columnModel.getColumn(8).setPreferredWidth(200);
+        columnModel.getColumn(8).setMinWidth(100);
     }
 
     /**

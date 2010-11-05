@@ -111,7 +111,7 @@ public class ProcessListModel extends AbstractTableModel {
         case 4: return sp.getStop() != 0 ? DateUtility.getIsoTime(sp.getStop()) : "";
         case 5: return DateUtility.getDuration(current - sp.getStart());
         case 6: return "" + sp.getExecutionPercentage();
-        case 7: return sp.getExecutionActionDescription();
+        case 7: return sp.getExecutionActionDescription().replace('\n', ' ');
         case 8: return sp.getParameterString();
         default:
                 return "";

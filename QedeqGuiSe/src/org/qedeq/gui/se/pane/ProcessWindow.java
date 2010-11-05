@@ -125,7 +125,7 @@ public class ProcessWindow extends JFrame {
 
         final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2,
-            900, 400);
+            1000, 400);
     }
 
     /**
