@@ -40,6 +40,8 @@ public final class SubjectVariableInterpreter {
     /** Model contains entities. */
     private Model model;
 
+    private String oldOrder = "";
+
     /**
      * Constructor.
      *
@@ -58,6 +60,7 @@ public final class SubjectVariableInterpreter {
      * @return  Is there a next new valuation?
      */
     public synchronized boolean next() {
+        checkOrder();
         boolean next = true;
         for (int i = subjectVariables.size() - 1; i >= -1; i--) {
             if (i < 0) {
@@ -72,24 +75,32 @@ public final class SubjectVariableInterpreter {
                 number.reset();
             }
         }
+        checkOrder();
         return next;
     }
 
     public synchronized double getCompleteness() {
+        checkOrder();
         double result = 0;
         for (int i = subjectVariableCounters.size() - 1; i >= 0; i--) {
             if (!((Boolean) forcedSubjectVariableCounters.get(i)).booleanValue()) {
                 result = (result + ((Enumerator) subjectVariableCounters.get(i)).getNumber() + 1)
                     / (model.getEntitiesSize() + 1);
+            }
+        }
+        for (int i = 0; i < subjectVariableCounters.size(); i++) {
+            if (!((Boolean) forcedSubjectVariableCounters.get(i)).booleanValue()) {
                 System.out.print("" + (((Enumerator) subjectVariableCounters.get(i)).getNumber() + 1));
             }
         }
         System.out.println();
         System.out.println("SubjectVariableCompleteness: " + result);
+        checkOrder();
         return result;
     }
 
     public synchronized void addSubjectVariable(final SubjectVariable var) {
+        checkOrder();
         // FIXME 20101014 m31: just for testing
 //        if (subjectVariables.contains(var)) {
 //            throw new RuntimeException("variable already exists: " + var);
@@ -98,6 +109,7 @@ public final class SubjectVariableInterpreter {
         subjectVariables.add(var);
         subjectVariableCounters.add(new Enumerator());
         forcedSubjectVariableCounters.add(Boolean.FALSE);
+        checkOrder();
     }
 
     /**
@@ -107,9 +119,11 @@ public final class SubjectVariableInterpreter {
      * @param   value   Set interpretation to this entity number.
      */
     public synchronized void forceAddSubjectVariable(final SubjectVariable var, final int value) {
+        checkOrder();
         subjectVariables.add(var);
         subjectVariableCounters.add(new Enumerator(value));
         forcedSubjectVariableCounters.add(Boolean.TRUE);
+        checkOrder();
     }
 
     /**
@@ -118,6 +132,7 @@ public final class SubjectVariableInterpreter {
      * @param   var Remove this subject variable.
      */
     public synchronized void forceRemoveSubjectVariable(final SubjectVariable var) {
+        checkOrder();
         final int index = subjectVariables.lastIndexOf(var);
         if (index < 0) {
             throw new RuntimeException("variable does not exist: " + var);
@@ -126,6 +141,7 @@ public final class SubjectVariableInterpreter {
         subjectVariables.remove(index);
         subjectVariableCounters.remove(index);
         forcedSubjectVariableCounters.remove(index);
+        checkOrder();
     }
     /**
      * Remove existing subject variable interpretation.
@@ -133,6 +149,7 @@ public final class SubjectVariableInterpreter {
      * @param   var Remove this subject variable.
      */
     public synchronized void removeSubjectVariable(final SubjectVariable var) {
+        checkOrder();
         final int index = subjectVariables.lastIndexOf(var);
         if (index < 0) {
             throw new RuntimeException("variable does not exist: " + var);
@@ -141,9 +158,11 @@ public final class SubjectVariableInterpreter {
         subjectVariables.remove(index);
         subjectVariableCounters.remove(index);
         forcedSubjectVariableCounters.remove(index);
+        checkOrder();
     }
 
     private synchronized int getSubjectVariableSelection(final SubjectVariable var) {
+        checkOrder();
         int selection;
         if (subjectVariables.contains(var)) {
             final int index = subjectVariables.lastIndexOf(var);
@@ -153,17 +172,20 @@ public final class SubjectVariableInterpreter {
             selection = 0;
             addSubjectVariable(var);
         }
+        checkOrder();
         return selection;
     }
 
     public synchronized Entity getEntity(final SubjectVariable var) {
+        checkOrder();
         return model.getEntity(getSubjectVariableSelection(var));
-
     }
 
     public synchronized void increaseSubjectVariableSelection(final SubjectVariable var) {
+        checkOrder();
         final int index = subjectVariables.lastIndexOf(var);
         ((Enumerator) subjectVariableCounters.get(index)).increaseNumber();
+        checkOrder();
     }
 
     public synchronized String toString() {
@@ -182,10 +204,26 @@ public final class SubjectVariableInterpreter {
         return buffer.toString();
     }
 
+    private void checkOrder() {
+        String newOrder = "";
+        for (int i = 0; i < subjectVariableCounters.size(); i++) {
+            if (!((Boolean) forcedSubjectVariableCounters.get(i)).booleanValue()) {
+                newOrder += "" + (((Enumerator) subjectVariableCounters.get(i)).getNumber() + 1);
+            }
+        }
+        if (-1 == newOrder.compareTo(oldOrder)) {
+            System.out.println("old: " + oldOrder);
+            System.out.println("new: " + newOrder);
+            throw new Error("failure");
+        }
+        oldOrder = newOrder;
+    }
+
     /**
      * Clear variable interpretation.
      */
     public synchronized void clear() {
+        oldOrder = "";
         subjectVariables.clear();
         subjectVariableCounters.clear();
         forcedSubjectVariableCounters.clear();
