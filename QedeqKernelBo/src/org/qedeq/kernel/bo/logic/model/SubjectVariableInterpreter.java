@@ -18,9 +18,6 @@ package org.qedeq.kernel.bo.logic.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.base.utility.Enumerator;
-
-
 /**
  * This class interpretation.
  *
@@ -68,6 +65,11 @@ public final class SubjectVariableInterpreter {
         return next;
     }
 
+    /**
+     * Add subject variable. This is usually done for interpreting a quantifier.
+     *
+     * @param   var Subject variable to add to our interpretation.
+     */
     public synchronized void addSubjectVariable(final SubjectVariable var) {
         // FIXME 20101014 m31: just for testing
 //        if (subjectVariables.contains(var)) {

@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.logic.model;
 
 import org.qedeq.base.utility.Enumerator;
-import org.qedeq.base.utility.EqualsUtility;
 
 /**
  * One subject variable allocation for our model.
@@ -28,8 +27,10 @@ public class SubjectVariableAllocation {
     /** This subject variable. */
     private final SubjectVariable variable;
 
+    /** Reference to current interpretation entity. */
     private final Enumerator value;
 
+    /** Is this a fixed interpretatin? */
     private boolean fixed;
 
     /**
@@ -64,14 +65,27 @@ public class SubjectVariableAllocation {
         return variable;
     }
 
+    /**
+     * Is this a fixed interpretation?
+     *
+     * @return  Is this a fixed interpretation?
+     */
     public boolean isFixed() {
         return fixed;
     }
 
+    /**
+     * Get reference to current model entity.
+     *
+     * @return  Entity number.
+     */
     public int getValue() {
         return value.getNumber();
     }
 
+    /**
+     * Increase model entity number.
+     */
     public void increaseNumber() {
         if (fixed) {
             throw new IllegalStateException("variable could not iterate: " + toString());
@@ -79,6 +93,9 @@ public class SubjectVariableAllocation {
         value.increaseNumber();
     }
 
+    /**
+     * Reset model entity number.
+     */
     public void resetNumber() {
         if (fixed) {
             throw new IllegalStateException("variable could not iterate: " + toString());
