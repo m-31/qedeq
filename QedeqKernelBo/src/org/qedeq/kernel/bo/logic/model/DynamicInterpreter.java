@@ -537,17 +537,6 @@ public final class DynamicInterpreter {
             || functionVariableInterpreter.next();
     }
 
-    /**
-     * Get iteration completeness.
-     *
-     * @return  value between 0 and 1.
-     */
-    public double getCompleteness() {
-        return subjectVariableInterpreter.getCompleteness()
-            * predicateVariableInterpreter.getCompleteness()
-            * functionVariableInterpreter.getCompleteness();
-    }
-
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
         buffer.append("Current interpretation:\n");

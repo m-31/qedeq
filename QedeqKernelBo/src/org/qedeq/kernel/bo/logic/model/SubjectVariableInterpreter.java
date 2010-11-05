@@ -31,15 +31,8 @@ public final class SubjectVariableInterpreter {
     /** List of subject variables allocations. */
     private List subjectVariableAllocations;
 
-    /** List of counters for subject variables. */
-    private List subjectVariableCounters;
-
     /** Model contains entities. */
     private Model model;
-
-    private double oldOrder = 0;
-
-    private int delta;
 
     /**
      * Constructor.
@@ -49,7 +42,6 @@ public final class SubjectVariableInterpreter {
     public SubjectVariableInterpreter(final Model model) {
         this.model = model;
         subjectVariableAllocations = new ArrayList();
-        subjectVariableCounters = new ArrayList();
     }
 
     /**
@@ -58,7 +50,6 @@ public final class SubjectVariableInterpreter {
      * @return  Is there a next new valuation?
      */
     public synchronized boolean next() {
-        checkOrder();
         boolean next = true;
         for (int i = subjectVariableAllocations.size() - 1; i >= -1; i--) {
             if (i < 0) {
@@ -67,50 +58,23 @@ public final class SubjectVariableInterpreter {
             }
             final SubjectVariableAllocation allocation
                 = (SubjectVariableAllocation) subjectVariableAllocations.get(i);
-            final Enumerator counter = (Enumerator) subjectVariableCounters.get(i);
             if (allocation.getValue() + 1 < model.getEntitiesSize()) {
                 allocation.increaseNumber();
-                counter.increaseNumber();
                 break;
             } else {
                 allocation.resetNumber();
-                counter.reset();
             }
         }
         return next;
     }
 
-    public synchronized double getCompleteness() {
-        double result = 0;
-        for (int i = subjectVariableCounters.size() - 1; i >= 0; i--) {
-            if (!((SubjectVariableAllocation) subjectVariableAllocations.get(i)).isFixed()) {
-                int c = ((Enumerator) subjectVariableCounters.get(i)).getNumber();
-                if (i == 0) {
-                    c += delta;
-                }
-                if (c > model.getEntitiesSize()) {
-                    result = (result + model.getEntitiesSize() + (1 - model.getEntitiesSize() / c))
-                        / (model.getEntitiesSize() + 2);
-                } else {
-                    result = (result + c + 1) / (model.getEntitiesSize() + 2);
-                }
-            }
-        }
-        System.out.println();
-        System.out.println("SubjectVariableCompleteness: " + result);
-        return result;
-    }
-
     public synchronized void addSubjectVariable(final SubjectVariable var) {
-        checkOrder();
         // FIXME 20101014 m31: just for testing
 //        if (subjectVariables.contains(var)) {
 //            throw new RuntimeException("variable already exists: " + var);
 //        }
 //        System.out.println("added subject variable " + var);
         subjectVariableAllocations.add(new SubjectVariableAllocation(var));
-        subjectVariableCounters.add(new Enumerator());
-        checkOrder();
     }
 
     /**
@@ -120,10 +84,7 @@ public final class SubjectVariableInterpreter {
      * @param   value   Set interpretation to this entity number.
      */
     public synchronized void forceAddSubjectVariable(final SubjectVariable var, final int value) {
-        checkOrder();
         subjectVariableAllocations.add(new SubjectVariableAllocation(var, value));
-        subjectVariableCounters.add(new Enumerator());
-        checkOrder();
     }
 
     /**
@@ -132,7 +93,6 @@ public final class SubjectVariableInterpreter {
      * @param   var Remove this subject variable.
      */
     public synchronized void forceRemoveSubjectVariable(final SubjectVariable var) {
-        checkOrder();
         int index = getIndex(var);
         if (index < 0) {
             throw new RuntimeException("variable does not exist: " + var);
@@ -143,9 +103,7 @@ public final class SubjectVariableInterpreter {
             throw new RuntimeException("trying to remove not fixed allocation: " + current);
         }
         subjectVariableAllocations.remove(index);
-        subjectVariableCounters.remove(index);
 //        System.out.println("removed subject variable " + var);
-        checkOrder();
     }
     /**
      * Remove existing subject variable interpretation.
@@ -153,7 +111,6 @@ public final class SubjectVariableInterpreter {
      * @param   var Remove this subject variable.
      */
     public synchronized void removeSubjectVariable(final SubjectVariable var) {
-        checkOrder();
         int index = getIndex(var);
         if (index < 0) {
             throw new RuntimeException("variable does not exist: " + var);
@@ -164,19 +121,10 @@ public final class SubjectVariableInterpreter {
             throw new RuntimeException("trying to remove fixed allocation: " + current);
         }
         subjectVariableAllocations.remove(index);
-        subjectVariableCounters.remove(index);
-        if (index > 0) {
-            ((Enumerator) subjectVariableCounters.get(index - 1)).increaseNumber();
-        } else {
-            delta += model.getEntitiesSize() + 2;
-            System.out.println("increased delta to " + delta);
-        }
 //        System.out.println("removed subject variable " + var);
-        checkOrder();
     }
 
     private synchronized int getSubjectVariableSelection(final SubjectVariable var) {
-        checkOrder();
         int selection = 0;
         int index = getIndex(var);
         if (index >= 0) {
@@ -185,12 +133,10 @@ public final class SubjectVariableInterpreter {
         } else {
             addSubjectVariable(var);
         }
-        checkOrder();
         return selection;
     }
 
     public synchronized Entity getEntity(final SubjectVariable var) {
-        checkOrder();
         return model.getEntity(getSubjectVariableSelection(var));
     }
 
@@ -207,11 +153,7 @@ public final class SubjectVariableInterpreter {
     }
 
     public synchronized void increaseSubjectVariableSelection(final SubjectVariable var) {
-        checkOrder();
-        final int index = getIndex(var);
-        ((SubjectVariableAllocation) subjectVariableAllocations.get(index)).increaseNumber();
-        ((Enumerator) subjectVariableCounters.get(index)).increaseNumber();
-        checkOrder();
+        ((SubjectVariableAllocation) subjectVariableAllocations.get(getIndex(var))).increaseNumber();
     }
 
     public synchronized String toString() {
@@ -230,24 +172,11 @@ public final class SubjectVariableInterpreter {
         return buffer.toString();
     }
 
-    private void checkOrder() {
-        double newOrder = getCompleteness();
-        if (oldOrder > newOrder) {
-            System.out.println("old: " + oldOrder);
-            System.out.println("new: " + newOrder);
-            throw new Error("failure");
-        }
-        oldOrder = newOrder;
-    }
-
     /**
      * Clear variable interpretation.
      */
     public synchronized void clear() {
-        delta = 0;
-        oldOrder = 0;
         subjectVariableAllocations.clear();
-        subjectVariableCounters.clear();
     }
 
 }

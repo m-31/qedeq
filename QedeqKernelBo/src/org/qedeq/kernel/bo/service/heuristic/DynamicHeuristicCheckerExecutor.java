@@ -361,16 +361,9 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         setBlocked(false);
     }
 
-    public double getExecutionPercentage() {
-        System.out.println("--------------------------------------------------");
-        System.out.println("position:    " + getExecutionActionDescription());
-        System.out.println("regular:     " + super.getExecutionPercentage());
-        System.out.println("unit:        " + getSubsectionPercentageUnit());
-        System.out.println("interpreter: " + interpreter.getCompleteness());
-        return super.getExecutionPercentage() + getSubsectionPercentageUnit()
-            * interpreter.getCompleteness();
+    public String getExecutionActionDescription() {
+        return super.getExecutionActionDescription() + "\n" + interpreter.toString();
     }
-
     /**
      * Set location information where are we within the original module.
      *
