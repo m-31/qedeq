@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.AbstractAction;
 import javax.swing.BorderFactory;
@@ -41,6 +42,7 @@ import javax.swing.text.StyleConstants;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.service.ServiceProcess;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -290,15 +292,28 @@ public class ProcessListPane extends JPanel  {
         }
     }
 
+    /**
+     * Print stack trace of selected service process thread to <code>System.out</code> if the
+     * method <code>Thread.getStackTrace()</code> is supported form the currently running java
+     * version.
+     */
     public void stackTraceSelected() {
         if (selectedLine >= 0) {
             final ServiceProcess process = model.getServiceProcess(selectedLine);
             if (process != null && process.isRunning()) {
-
-                // FIXME 20101030 m31: only for java 1.5
-                StackTraceElement[] trace = process.getThread().getStackTrace();
-                for (int i = 0; i < trace.length; i++)  {
-                    System.out.println(trace[i]);
+                if (YodaUtility.existsMethod(Thread.class, "getStackTrace", new Class[] {})) {
+                    StackTraceElement[] trace = new StackTraceElement[] {};
+                    try {
+                        trace = (StackTraceElement[]) YodaUtility.executeMethod(
+                            process.getThread(), "getStackTrace", new Class[] {}, new Object[] {});
+                    } catch (NoSuchMethodException e) {
+                        // ignore
+                    } catch (InvocationTargetException e) {
+                        // ignore
+                    }
+                    for (int i = 0; i < trace.length; i++)  {
+                        System.out.println(trace[i]);
+                    }
                 }
             }
         }

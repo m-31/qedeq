@@ -26,6 +26,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.util.GuiHelper;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
@@ -78,12 +79,16 @@ public class ProcessWindow extends JFrame {
 
         ButtonBarBuilder bbuilder = ButtonBarBuilder.createLeftToRightBuilder();
 
-        JButton stackTrace = new JButton("Stacktrace");
-        stackTrace.addActionListener(new  ActionListener() {
-            public void actionPerformed(final ActionEvent actionEvent) {
-                ProcessWindow.this.processList.stackTraceSelected();
-            }
-        });
+        JButton stackTrace = null;
+
+        if (YodaUtility.existsMethod(Thread.class, "getStackTrace", new Class[] {})) {
+            stackTrace = new JButton("Stacktrace");
+            stackTrace.addActionListener(new  ActionListener() {
+                public void actionPerformed(final ActionEvent actionEvent) {
+                    ProcessWindow.this.processList.stackTraceSelected();
+                }
+            });
+        }
 
         JButton stop = new JButton("Stop");
         stop.addActionListener(new  ActionListener() {
@@ -115,7 +120,11 @@ public class ProcessWindow extends JFrame {
             }
         });
 
-        bbuilder.addGriddedButtons(new JButton[]{stackTrace, stop, refresh, cancel, ok});
+        if (stackTrace != null) {
+            bbuilder.addGriddedButtons(new JButton[]{stackTrace, stop, refresh, cancel, ok});
+        } else {
+            bbuilder.addGriddedButtons(new JButton[]{stop, refresh, cancel, ok});
+        }
 
         final JPanel buttons = bbuilder.getPanel();
         content.add(GuiHelper.addSpaceAndAlignRight(buttons));
