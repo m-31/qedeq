@@ -1,0 +1,136 @@
+/* This file is part of the project "Hilbert II" - http://www.qedeq.org
+ *
+ * Copyright 2000-2010,  Michael Meyling <mime@qedeq.org>.
+ *
+ * "Hilbert II" is free software; you can redistribute
+ * it and/or modify it under the terms of the GNU General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ */
+
+package org.qedeq.gui.se.pane;
+
+import java.awt.BorderLayout;
+import java.awt.Container;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextPane;
+import javax.swing.JViewport;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleContext;
+
+import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.YodaUtility;
+import org.qedeq.gui.se.util.GuiHelper;
+
+import com.jgoodies.forms.builder.ButtonBarBuilder;
+
+/**
+ * Global log. All events are displayed here.
+ *
+ * @author  Michael Meyling
+ */
+
+public class TextPaneWindow extends JFrame {
+
+    /** This class. */
+    private static final Class CLASS = TextPaneWindow.class;
+
+    /** Common text attributes. */
+    private final SimpleAttributeSet attrs = new SimpleAttributeSet();
+
+
+    /**
+     * Creates new panel.
+     */
+    public TextPaneWindow(final String title, final String text) {
+        super(title);
+        final String method = "Constructor";
+        Trace.begin(CLASS, this, method);
+        try {
+            setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+            setupView(text);
+        } catch (Throwable e) {
+            Trace.fatal(CLASS, this, "Initalization of TextPaneWindow failed.", method, e);
+        } finally {
+            Trace.end(CLASS, this, method);
+        }
+    }
+
+
+    /**
+     * Assembles the GUI components of the panel.
+     */
+    public final void setupView(final String text) throws BadLocationException {
+        final Container content = getContentPane();
+        content.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+        JPanel allOptions = new JPanel();
+        allOptions.setBorder(GuiHelper.getEmptyBorder());
+        allOptions.setLayout(new BoxLayout(allOptions, BoxLayout.Y_AXIS));
+        allOptions.add(createTextPanel(text));
+        content.add(allOptions);
+
+        ButtonBarBuilder bbuilder = ButtonBarBuilder.createLeftToRightBuilder();
+
+        JButton ok = new JButton("OK");
+        ok.addActionListener(new  ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                TextPaneWindow.this.dispose();
+            }
+        });
+
+        bbuilder.addGriddedButtons(new JButton[] {ok});
+
+        final JPanel buttons = bbuilder.getPanel();
+        content.add(GuiHelper.addSpaceAndAlignRight(buttons));
+
+        // let the container calculate the ideal size
+        pack();
+
+        final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+            setBounds((screenSize.width - getWidth()) / 3, (screenSize.height - getHeight()) / 3,
+            800, 600);
+    }
+
+    /**
+     * Assembles the GUI components of the panel.
+     */
+    private final JPanel createTextPanel(final String text) throws BadLocationException {
+        final JTextPane textPane = new JTextPane();
+        final StyleContext sc = new StyleContext();
+        final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
+        doc.insertString(0, text, attrs);
+        textPane.setDocument(doc);
+        final JPanel panel = new JPanel();
+        textPane.setDragEnabled(true);
+        textPane.setAutoscrolls(true);
+        textPane.setCaretPosition(0);
+        textPane.setEditable(false);
+        textPane.getCaret().setVisible(false);
+//      final DefaultCaret caret = (DefaultCaret) text.getCaret();
+//      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);  // LATER mime JRE 1.5
+        textPane.setFocusable(true);
+        final JScrollPane scroller = new JScrollPane();
+        final JViewport vp = scroller.getViewport();
+        vp.add(textPane);
+        panel.setLayout(new BorderLayout(1, 1));
+        panel.add(scroller);
+        return panel;
+    }
+
+}
+
