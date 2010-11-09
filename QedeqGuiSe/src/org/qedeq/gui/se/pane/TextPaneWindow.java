@@ -22,6 +22,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -34,7 +35,6 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleContext;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.util.GuiHelper;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
@@ -56,9 +56,14 @@ public class TextPaneWindow extends JFrame {
 
     /**
      * Creates new panel.
+     *
+     * @param   title   Window title.
+     * @param   icon    Window icon.
+     * @param   text    Display this text.
      */
-    public TextPaneWindow(final String title, final String text) {
+    public TextPaneWindow(final String title, final ImageIcon icon, final String text) {
         super(title);
+        setIconImage(icon.getImage());
         final String method = "Constructor";
         Trace.begin(CLASS, this, method);
         try {
@@ -74,8 +79,10 @@ public class TextPaneWindow extends JFrame {
 
     /**
      * Assembles the GUI components of the panel.
+     *
+     * @param   text    Display this text.
      */
-    public final void setupView(final String text) throws BadLocationException {
+    public final void setupView(final String text) {
         final Container content = getContentPane();
         content.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         JPanel allOptions = new JPanel();
@@ -107,13 +114,21 @@ public class TextPaneWindow extends JFrame {
     }
 
     /**
-     * Assembles the GUI components of the panel.
+     * Creates panel with text pane.
+     *
+     * @param   text    Display this text.
+     * @return  Created panel.
      */
-    private final JPanel createTextPanel(final String text) throws BadLocationException {
+    private final JPanel createTextPanel(final String text) {
         final JTextPane textPane = new JTextPane();
         final StyleContext sc = new StyleContext();
         final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
-        doc.insertString(0, text, attrs);
+        try {
+            doc.insertString(0, text, attrs);
+        } catch (BadLocationException e) {
+            // should not occur
+            throw new RuntimeException(e);
+        }
         textPane.setDocument(doc);
         final JPanel panel = new JPanel();
         textPane.setDragEnabled(true);

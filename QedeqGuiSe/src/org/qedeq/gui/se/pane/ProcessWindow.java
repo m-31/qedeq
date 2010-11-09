@@ -68,6 +68,8 @@ public class ProcessWindow extends JFrame {
      * Assembles the GUI components of the panel.
      */
     public final void setupView() {
+        setIconImage(GuiHelper.readImageIcon("tango/16x16/categories/applications-system.png")
+            .getImage());
         final Container content = getContentPane();
         content.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
         JPanel allOptions = new JPanel();
@@ -85,7 +87,9 @@ public class ProcessWindow extends JFrame {
             stackTrace = new JButton("Stacktrace");
             stackTrace.addActionListener(new  ActionListener() {
                 public void actionPerformed(final ActionEvent actionEvent) {
-                    (new TextPaneWindow("Stacktrace", ProcessWindow.this.processList
+                    (new TextPaneWindow("Stacktrace",
+                        GuiHelper.readImageIcon("tango/16x16/devices/video-display.png"),
+                        ProcessWindow.this.processList
                         .stackTraceSelected())).setVisible(true);
                 }
             });
