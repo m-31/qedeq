@@ -85,7 +85,8 @@ public class ProcessWindow extends JFrame {
             stackTrace = new JButton("Stacktrace");
             stackTrace.addActionListener(new  ActionListener() {
                 public void actionPerformed(final ActionEvent actionEvent) {
-                    ProcessWindow.this.processList.stackTraceSelected();
+                    (new TextPaneWindow("Stacktrace", ProcessWindow.this.processList
+                        .stackTraceSelected())).setVisible(true);
                 }
             });
         }

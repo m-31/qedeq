@@ -296,8 +296,11 @@ public class ProcessListPane extends JPanel  {
      * Print stack trace of selected service process thread to <code>System.out</code> if the
      * method <code>Thread.getStackTrace()</code> is supported form the currently running java
      * version.
+     *
+     * @return  Stacktrace as String.
      */
-    public void stackTraceSelected() {
+    public String stackTraceSelected() {
+        String result = "";
         if (selectedLine >= 0) {
             final ServiceProcess process = model.getServiceProcess(selectedLine);
             if (process != null && process.isRunning()) {
@@ -313,10 +316,12 @@ public class ProcessListPane extends JPanel  {
                     }
                     for (int i = 0; i < trace.length; i++)  {
                         System.out.println(trace[i]);
+                        result += trace[i] + "\n";
                     }
                 }
             }
         }
+        return result;
     }
 
 }
