@@ -55,6 +55,12 @@ public class ServiceProcess {
     /** QEDEQ module the process is working on. */
     private KernelQedeqBo qedeq;
 
+    /** Percentage of currently running plugin execution. */
+    private double executionPercentage = 0;
+
+    /** Percentage of currently running plugin execution. */
+    private String executionActionDescription = "not yet started";
+
     /** Created execution object. Might be <code>null</code>. */
     private PluginExecutor executor;
 
@@ -193,6 +199,7 @@ public class ServiceProcess {
 
     private synchronized void start() {
         start = System.currentTimeMillis();
+        executionActionDescription = "started";
     }
 
     private synchronized void stop() {
@@ -203,6 +210,8 @@ public class ServiceProcess {
         if (isRunning()) {
             state = 1;
             stop();
+            executionActionDescription = "finished";
+            executionPercentage = 100;
         }
     }
 
@@ -218,7 +227,7 @@ public class ServiceProcess {
             if (!thread.isAlive()) {
                 Trace.fatal(CLASS, this, "isRunning()", "Thread has unexpectly died",
                     new RuntimeException());
-                state = -1;
+                setFailureState();
                 return false;
             }
             return true;
@@ -255,16 +264,13 @@ public class ServiceProcess {
      *
      * @return  Number between 0 and 100.
      */
-    public double getExecutionPercentage() {
-        double result = 0;
+    public synchronized double getExecutionPercentage() {
         if (isRunning() || isBlocked()) {
             if (executor != null) {
-                result = executor.getExecutionPercentage();
+                executionPercentage = executor.getExecutionPercentage();
             }
-        } else {
-            result = 100;
         }
-        return result;
+        return executionPercentage;
     }
 
     /**
@@ -272,16 +278,13 @@ public class ServiceProcess {
      *
      * @return  We are doing this currently.
      */
-    public String getExecutionActionDescription() {
-        String result = "not started";
+    public synchronized String getExecutionActionDescription() {
         if (isRunning() || isBlocked()) {
             if (executor != null) {
-                result = executor.getExecutionActionDescription();
+                executionActionDescription = executor.getExecutionActionDescription();
             }
-        } else {
-            result = "finished";
         }
-        return result;
+        return executionActionDescription;
     }
 
 }
