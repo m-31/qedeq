@@ -87,10 +87,7 @@ public class ProcessWindow extends JFrame {
             stackTrace = new JButton("Stacktrace");
             stackTrace.addActionListener(new  ActionListener() {
                 public void actionPerformed(final ActionEvent actionEvent) {
-                    (new TextPaneWindow("Stacktrace",
-                        GuiHelper.readImageIcon("tango/16x16/devices/video-display.png"),
-                        ProcessWindow.this.processList
-                        .stackTraceSelected())).setVisible(true);
+                    ProcessWindow.this.processList.stackTraceSelected();
                 }
             });
         }

@@ -17,7 +17,6 @@ package org.qedeq.gui.se.pane;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -76,7 +75,6 @@ public class TextPaneWindow extends JFrame {
         }
     }
 
-
     /**
      * Assembles the GUI components of the panel.
      *
@@ -108,9 +106,9 @@ public class TextPaneWindow extends JFrame {
         // let the container calculate the ideal size
         pack();
 
-        final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-            setBounds((screenSize.width - getWidth()) / 3, (screenSize.height - getHeight()) / 3,
-            800, 600);
+//        final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+//            setBounds((screenSize.width - getWidth()) / 3, (screenSize.height - getHeight()) / 3,
+//            800, 600);
     }
 
     /**

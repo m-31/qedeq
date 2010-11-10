@@ -43,6 +43,7 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.base.utility.YodaUtility;
+import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.service.ServiceProcess;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
@@ -296,12 +297,10 @@ public class ProcessListPane extends JPanel  {
      * Print stack trace of selected service process thread to <code>System.out</code> if the
      * method <code>Thread.getStackTrace()</code> is supported form the currently running java
      * version.
-     *
-     * @return  Stacktrace as String.
      */
-    public String stackTraceSelected() {
-        String result = "";
+    public void stackTraceSelected() {
         if (selectedLine >= 0) {
+            StringBuffer result = new StringBuffer();
             final ServiceProcess process = model.getServiceProcess(selectedLine);
             if (process != null && process.isRunning()) {
                 if (YodaUtility.existsMethod(Thread.class, "getStackTrace", new Class[] {})) {
@@ -316,12 +315,15 @@ public class ProcessListPane extends JPanel  {
                     }
                     for (int i = 0; i < trace.length; i++)  {
                         System.out.println(trace[i]);
-                        result += trace[i] + "\n";
+                        result.append(trace[i]);
+                        result.append("\n");
                     }
+                    (new TextPaneWindow("Stacktrace",
+                            GuiHelper.readImageIcon("tango/16x16/devices/video-display.png"),
+                            result.toString())).setVisible(true);
                 }
             }
         }
-        return result;
     }
 
 }
