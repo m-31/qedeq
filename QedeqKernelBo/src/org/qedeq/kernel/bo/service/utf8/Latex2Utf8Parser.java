@@ -601,7 +601,9 @@ public final class Latex2Utf8Parser {
         final int localStart = input.getAbsolutePosition();
         final String first = readToken();
         if (!"{".equals(first)) {
-            // FIXME add warning
+            addWarning(LatexErrorCodes.BRACKET_START_NOT_FOUND_CODE,
+                    LatexErrorCodes.BRACKET_START_NOT_FOUND_MSG,
+                    localStart, input.getAbsolutePosition());
             throw new IllegalArgumentException("\"{\" expected, but was: \"" + first + "\"");
         }
         final int curlyStart = input.getAbsolutePosition();

@@ -52,6 +52,12 @@ public interface LatexErrorCodes extends ErrorCodes {
     public static final String QREF_PARSING_EXCEPTION_MSG = "parsing of \"\\qref{\" failed";
 
 
+    /** Error (or warning) number for: expected, but not found: "{". */
+    public static final int BRACKET_START_NOT_FOUND_CODE = 80016;
+
+    /** Error (or warning) text for: expected, but not found: "{". */
+    public static final String BRACKET_START_NOT_FOUND_MSG = "expected, but not found: \"{\"";
+
     /** Error (or warning) number for: ending "}" for "{" not found. */
     public static final int BRACKET_END_NOT_FOUND_CODE = 80017;
 
