@@ -63,6 +63,9 @@ public class QedeqNumbers {
 
     /**
      * Constructor.
+     *
+     * @param   imports     Number of imported QEDEQ modules.
+     * @param   chapters    Number of chapters in QEDEQ module.
      */
     public QedeqNumbers(final int imports, final int chapters) {
         this.imports = imports;
@@ -106,8 +109,6 @@ public class QedeqNumbers {
 
     /**
      * Increase import number.
-     *
-     * @param   label   Label.
      */
     public void increaseImportNumber() {
         importNumber++;
@@ -125,7 +126,8 @@ public class QedeqNumbers {
     /**
      * Increase chapter number.
      *
-     * @param   sections Number of subsections in new chapter.
+     * @param   sections            Number of subsections in new chapter.
+     * @param   chapterNumbering    Chapter numbering on?
      */
     public void increaseChapterNumber(final int sections, final boolean chapterNumbering) {
         this.chapterNumbering = chapterNumbering;
@@ -176,6 +178,9 @@ public class QedeqNumbers {
 
     /**
      * Increase chapter number.
+     *
+     * @param   subsections         Number of subsections for current section.
+     * @param   sectionNumbering    Should this section be numbered?
      */
     public void increaseSectionNumber(final int subsections, final boolean sectionNumbering) {
         this.subsections = subsections;
