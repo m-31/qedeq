@@ -1,11 +1,26 @@
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.visitor;
 
 /**
- * Contains various counter values for a {@link KernelNodeBo}.
+ * Contains various counter values for a {@link org.qedeq.kernel.base.module.Qedeq}.
  *
  * @author  Michael Meyling
  */
-public class KernelNodeNumbers {
+public class QedeqNumbers {
+
+    /** Number of imports. */
+    private int imports;
+
+    /** Number of chapters. */
+    private int chapters;
+
+    /** Number of subsections (within current chapter). */
+    private int sections;
+
+    /** Number of subsections (within current section). */
+    private int subsections;
+
+    /** Import we currently work on (or lastly visited). */
+    private int importNumber;
 
     /** Chapter numbering currently on? */
     private boolean chapterNumbering;
@@ -43,12 +58,15 @@ public class KernelNodeNumbers {
     /** Rule definitions before node (including this one). */
     private int ruleNumber;
 
+    /** No further numbering will be done. */
+    private boolean finished;
 
     /**
      * Constructor.
      */
-    public KernelNodeNumbers() {
-        // nothing to do
+    public QedeqNumbers(final int imports, final int chapters) {
+        this.imports = imports;
+        this.chapters = chapters;
     }
 
     /**
@@ -56,7 +74,12 @@ public class KernelNodeNumbers {
      *
      * @param   original    Original to copy values from.
      */
-    public KernelNodeNumbers(final KernelNodeNumbers original) {
+    public QedeqNumbers(final QedeqNumbers original) {
+        imports = original.imports;
+        chapters = original.chapters;
+        sections = original.sections;
+        subsections = original.subsections;
+        importNumber = original.importNumber;
         chapterNumbering = original.chapterNumbering;
         chapterNumber = original.chapterNumber;
         absoluteChapterNumber = original.absoluteChapterNumber;
@@ -69,6 +92,25 @@ public class KernelNodeNumbers {
         predicateDefinitionNumber = original.predicateDefinitionNumber;
         propositionNumber = original.propositionNumber;
         ruleNumber = original.ruleNumber;
+        finished = original.finished;
+    }
+
+    /**
+     * Last import number.
+     *
+     * @return  Import number.
+     */
+    public int getImportNumber() {
+        return importNumber;
+    }
+
+    /**
+     * Increase import number.
+     *
+     * @param   label   Label.
+     */
+    public void increaseImportNumber() {
+        importNumber++;
     }
 
     /**
@@ -82,9 +124,20 @@ public class KernelNodeNumbers {
 
     /**
      * Increase chapter number.
+     *
+     * @param   sections Number of subsections in new chapter.
      */
-    public void increaseChapterNumber() {
-        chapterNumber++;
+    public void increaseChapterNumber(final int sections, final boolean chapterNumbering) {
+        this.chapterNumbering = chapterNumbering;
+        if (chapterNumbering) {
+            chapterNumber++;
+        }
+        absoluteChapterNumber++;
+        this.sections = sections;
+        this.subsections = 0;
+        this.sectionNumber = 0;
+        this.sectionNumbering = true;
+        this.subsectionNumber = 0;
     }
 
     /**
@@ -94,15 +147,6 @@ public class KernelNodeNumbers {
      */
     public boolean isChapterNumbering() {
         return chapterNumbering;
-    }
-
-    /**
-     * Set flag for: chapter numbering currently on?
-     *
-     * @param   chapterNumbering    Should the chapter(s) be counted?
-     */
-    public void setChapterNumbering(final boolean chapterNumbering) {
-        this.chapterNumbering = chapterNumbering;
     }
 
     /**
@@ -133,8 +177,14 @@ public class KernelNodeNumbers {
     /**
      * Increase chapter number.
      */
-    public void increaseSectionNumber() {
-        sectionNumber++;
+    public void increaseSectionNumber(final int subsections, final boolean sectionNumbering) {
+        this.subsections = subsections;
+        this.sectionNumbering = sectionNumbering;
+        absoluteSectionNumber++;
+        if (sectionNumbering) {
+            sectionNumber++;
+        }
+        subsectionNumber = 0;
     }
 
     /**
@@ -160,15 +210,6 @@ public class KernelNodeNumbers {
      */
     public boolean isSectionNumbering() {
         return sectionNumbering;
-    }
-
-    /**
-     * Set flag for: section numbering currently on?
-     *
-     * @param   sectionNumbering    Should the section(s) be counted?
-     */
-    public void setSectionNumbering(final boolean sectionNumbering) {
-        this.sectionNumbering = sectionNumbering;
     }
 
     /**
@@ -266,5 +307,44 @@ public class KernelNodeNumbers {
     public void increaseRuleNumber() {
         ruleNumber++;
     }
+
+    /**
+     * Is there nothing more to be numbered?
+     *
+     * @return  There will be no more number changes.
+     */
+    public boolean isFinished() {
+        return finished;
+    }
+
+    /**
+     * Set if numbering has ended.
+     *
+     * @param   finished    Will there be no more number changes?
+     */
+    public void setFinished(final boolean finished) {
+        this.finished = finished;
+    }
+
+    /**
+     * Get calculated visit percentage.
+     *
+     * @return  Value between 0 and 100.
+     */
+    public double getVisitPercentage() {
+        if (finished) {
+            return 100;
+        }
+        double result = 0;
+        if (importNumber < imports && chapterNumber == 0) {
+            result = (double) importNumber / (imports + 1) / (chapters + 1);
+        } else {
+            result = (double) absoluteChapterNumber / (chapters + 1);
+            result += (double) absoluteSectionNumber / (sections + 1) / (chapters + 1);
+            result += (double) subsectionNumber / (subsections + 1) / (sections + 1) / (chapters + 1);
+        }
+        return 100 * result;
+    }
+
 
 }

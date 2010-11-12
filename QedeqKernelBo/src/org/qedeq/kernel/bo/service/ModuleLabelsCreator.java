@@ -23,6 +23,7 @@ import org.qedeq.kernel.base.module.Node;
 import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Rule;
+import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.common.ModuleDataException;
@@ -36,7 +37,7 @@ import org.qedeq.kernel.dto.module.NodeVo;
  *
  * @author  Michael Meyling
  */
-public final class ModuleLabelsCreator extends NumberingVisitor {
+public final class ModuleLabelsCreator extends ControlVisitor {
 
     /** This class. */
     private static final Class CLASS = ModuleLabelsCreator.class;
@@ -58,10 +59,8 @@ public final class ModuleLabelsCreator extends NumberingVisitor {
      * Visit import. Loads referenced QEDEQ module and saves reference.
      *
      * @param   imp                 Begin visit of this element.
-     * @throws  ModuleDataException Something bad happend.
      */
-    public void visitEnter(final Import imp) throws  ModuleDataException {
-        super.visitEnter(imp);
+    public void visitEnter(final Import imp) {
         try {
             this.labels.addLabel(getCurrentContext(),
                 imp.getLabel());
@@ -77,7 +76,6 @@ public final class ModuleLabelsCreator extends NumberingVisitor {
      * @param   axiom               Visit this element.
      */
     public void visitEnter(final Axiom axiom) {
-        super.visitEnter(axiom);
         setBlocked(true);   // block further traverse
     }
 
@@ -87,7 +85,6 @@ public final class ModuleLabelsCreator extends NumberingVisitor {
      * @param   proposition         Begin visit of this element.
      */
     public void visitEnter(final Proposition proposition) {
-        super.visitEnter(proposition);
         setBlocked(true);   // block further traverse
     }
 
@@ -97,7 +94,6 @@ public final class ModuleLabelsCreator extends NumberingVisitor {
      * @param   funcDef             Begin visit of this element.
      */
     public void visitEnter(final FunctionDefinition funcDef) {
-        super.visitEnter(funcDef);
         setBlocked(true);   // block further traverse
     }
 
@@ -107,7 +103,6 @@ public final class ModuleLabelsCreator extends NumberingVisitor {
      * @param   predDef             Begin visit of this element.
      */
     public void visitEnter(final PredicateDefinition predDef) {
-        super.visitEnter(predDef);
         setBlocked(true);   // block further traverse
     }
 
@@ -117,7 +112,6 @@ public final class ModuleLabelsCreator extends NumberingVisitor {
      * @param   rule                Begin visit of this element.
      */
     public void visitEnter(final Rule rule) {
-        super.visitEnter(rule);
         setBlocked(true);   // block further traverse
     }
 

@@ -21,6 +21,7 @@ import java.util.Map;
 import org.qedeq.kernel.common.IllegalModuleDataException;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.dto.module.NodeVo;
+import org.qedeq.kernel.visitor.QedeqNumbers;
 
 /**
  * Maps labels of an QEDEQ module to their nodes. Knows all label names.
@@ -54,7 +55,7 @@ public final class ModuleLabels {
      *          or is <code>null</code>.
      */
     public final void addNode(final ModuleContext context, final NodeVo node, final KernelQedeqBo qedeq,
-            final KernelNodeNumbers data) throws IllegalModuleDataException {
+            final QedeqNumbers data) throws IllegalModuleDataException {
         // don't forget to use the copy constructor because the context could change!
         final ModuleContext con = new ModuleContext(context);
         if (null == node.getId()) {

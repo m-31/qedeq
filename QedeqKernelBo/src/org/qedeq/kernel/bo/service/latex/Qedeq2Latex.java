@@ -63,13 +63,13 @@ import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
-import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.visitor.QedeqNumbers;
 
 
 /**
@@ -1129,7 +1129,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         String display = ref;
         if (nodeBo != null) {
             Node node = nodeBo.getNodeVo();
-            KernelNodeNumbers data = nodeBo.getNumbers();
+            QedeqNumbers data = nodeBo.getNumbers();
             if (useName && node.getName() != null) {
                 display = getLatexListEntry("", node.getName());
             } else {

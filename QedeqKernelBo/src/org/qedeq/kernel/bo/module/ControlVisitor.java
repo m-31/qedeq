@@ -23,6 +23,7 @@ import org.qedeq.kernel.common.SourceFileException;
 import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.visitor.QedeqNumbers;
 
 
 /**
@@ -220,8 +221,13 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         return traverser.getVisitPercentage();
     }
 
-    public double getSubsectionPercentageUnit() {
-        return traverser.getSubsectionPercentageUnit();
+    /**
+     * Get copy of current counters.
+     *
+     * @return  Values of various counters.
+     */
+    public QedeqNumbers getCurrentNumbers() {
+        return traverser.getCurrentNumbers();
     }
 
 }

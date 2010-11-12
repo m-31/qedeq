@@ -60,7 +60,6 @@ import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
-import org.qedeq.kernel.bo.module.KernelNodeNumbers;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.service.latex.Element2Latex;
@@ -70,6 +69,7 @@ import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.visitor.QedeqNumbers;
 
 
 /**
@@ -1044,7 +1044,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
 
     private String getNodeDisplay(final KernelNodeBo kNode) {
         String display = "";
-        KernelNodeNumbers data = kNode.getNumbers();
+        QedeqNumbers data = kNode.getNumbers();
         Node node = kNode.getNodeVo();
         if (node.getNodeType() instanceof Axiom) {
             if ("de".equals(language)) {

@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.visitor;
 
+import java.util.Stack;
+
 import org.qedeq.kernel.base.list.Atom;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
@@ -64,34 +66,16 @@ import org.qedeq.kernel.common.ModuleDataException;
 public class QedeqNotNullTraverser implements QedeqTraverser {
 
     /** Current context during creation. */
-    private ModuleContext currentContext;
+    private final ModuleContext currentContext;
 
-    /** Number of imports. */
-    private int imports;
+    /** Readable traverse location info. */
+    private final Stack location = new Stack();
 
-    /** Import we currently work on. */
-    private int imp;
+    /** Herein are various counters for the current node. */
+    private QedeqNumbers data;
 
-    /** Number of chapters. */
-    private int chapters;
-
-    /** Chapter we are currently in. */
-    private int chapter;
-
-    /** Number of sections (within current chapter). */
-    private int sections;
-
-    /** Section (within current chapter) we are currently in. */
-    private int section;
-
-    /** Number of subsections (within current section). */
-    private int subsections;
-
-    /** Sub section (within current section) we are currently in. */
-    private int subsection;
-
-    /** Traverse already finished? */
-    private boolean finished;
+    /** Converts chapter and other titles into text. */
+    private final LatexList2Text transform = new LatexList2Text();
 
     /**
      * These methods are called if a node is visited. To start the whole process just call
@@ -114,23 +98,25 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Qedeq qedeq) throws ModuleDataException {
-        getCurrentContext().setLocationWithinModule("");
-        checkForInterrupt();
-        blocked = false;
+        setLocation("started");
         if (qedeq == null) {
             throw new NullPointerException("null QEDEQ module");
         }
+        data = new QedeqNumbers(
+            (qedeq.getHeader() != null && qedeq.getHeader().getImportList() != null
+                ? qedeq.getHeader().getImportList().size() : 0),
+            (qedeq.getChapterList() != null ? qedeq.getChapterList().size() : 0)
+        );
+        getCurrentContext().setLocationWithinModule("");
+        checkForInterrupt();
+        blocked = false;
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(qedeq);
         if (qedeq.getHeader() != null) {
-            if (qedeq.getHeader().getImportList() != null) {
-                imports = qedeq.getHeader().getImportList().size();
-            }
             getCurrentContext().setLocationWithinModule(context + "getHeader()");
             accept(qedeq.getHeader());
         }
         if (qedeq.getChapterList() != null) {
-            chapters = qedeq.getChapterList().size();
             getCurrentContext().setLocationWithinModule(context + "getChapterList()");
             accept(qedeq.getChapterList());
         }
@@ -141,7 +127,8 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(qedeq);
         setLocationWithinModule(context);
-        finished = true;
+        setLocation("finished");
+        data.setFinished(true);
     }
 
     /**
@@ -160,6 +147,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         if (blocked || header == null) {
             return;
         }
+        setLocation("analyzing header");
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(header);
         if (header.getSpecification() != null) {
@@ -184,7 +172,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         if (header.getUsedByList() != null) {
             setLocationWithinModule(context + ".getUsedByList()");
-           accept(header.getUsedByList());
+            accept(header.getUsedByList());
         }
         setLocationWithinModule(context);
         visitor.visitLeave(header);
@@ -196,6 +184,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         if (blocked || usedByList == null) {
             return;
         }
+        location.push("working on used by list");
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(usedByList);
         for (int i = 0; i < usedByList.size(); i++) {
@@ -205,6 +194,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(usedByList);
         setLocationWithinModule(context);
+        location.pop();
     }
 
     public void accept(final ImportList importList) throws ModuleDataException {
@@ -212,6 +202,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         if (blocked || importList == null) {
             return;
         }
+        location.push("working on import list");
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(importList);
         for (int i = 0; i < importList.size(); i++) {
@@ -221,14 +212,16 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(importList);
         setLocationWithinModule(context);
+        location.pop();
     }
 
     public void accept(final Import imp) throws ModuleDataException {
-        this.imp++;
+        data.increaseImportNumber();
         checkForInterrupt();
         if (blocked || imp == null) {
             return;
         }
+        location.push("import " + data.getImportNumber() + ": " + imp.getLabel());
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(imp);
         if (imp.getSpecification() != null) {
@@ -238,6 +231,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(imp);
         setLocationWithinModule(context);
+        location.pop();
     }
 
     public void accept(final Specification specification) throws ModuleDataException {
@@ -333,12 +327,19 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Chapter chapter) throws ModuleDataException {
-        this.chapter++;
-        section = 0;
-        subsection = 0;
         checkForInterrupt();
         if (blocked || chapter == null) {
             return;
+        }
+        data.increaseChapterNumber(
+                (chapter.getSectionList() != null ? chapter.getSectionList().size() : 0),
+                Boolean.FALSE.equals(chapter.getNoNumber())
+            );
+        if (data.isChapterNumbering()) {
+            location.push("Chapter " + data.getChapterNumber() + " "
+                + transform.transform(chapter.getTitle()));
+        } else {
+            location.push(transform.transform(chapter.getTitle()));
         }
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(chapter);
@@ -357,6 +358,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(chapter);
         setLocationWithinModule(context);
+        location.pop();
     }
 
     public void accept(final LiteratureItemList literatureItemList)
@@ -365,6 +367,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         if (blocked || literatureItemList == null) {
             return;
         }
+        setLocation("working on literature list");
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(literatureItemList);
         for (int i = 0; i < literatureItemList.size(); i++) {
@@ -393,7 +396,6 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final SectionList sectionList) throws ModuleDataException {
-        sections = (sectionList != null ? sectionList.size() : 0);
         checkForInterrupt();
         if (blocked || sectionList == null) {
             return;
@@ -410,12 +412,25 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Section section) throws ModuleDataException {
-        this.section++;
-        subsection = 0;
         checkForInterrupt();
         if (blocked || section == null) {
             return;
         }
+        data.increaseSectionNumber(
+                (section.getSubsectionList() != null ? section.getSubsectionList().size() : 0),
+                Boolean.FALSE.equals(section.getNoNumber())
+            );
+        String title = "";
+        if (data.isChapterNumbering()) {
+            title += data.getChapterNumber();
+        }
+        if (data.isSectionNumbering()) {
+            title += (title.length() > 0 ? "." : "") + data.getSectionNumber();
+        }
+        if (section.getTitle() != null) {
+            title += " " + transform.transform(section.getTitle());
+        }
+        location.push(title);
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(section);
         if (section.getTitle() != null) {
@@ -433,10 +448,10 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(section);
         setLocationWithinModule(context);
+        location.pop();
     }
 
     public void accept(final SubsectionList subsectionList) throws ModuleDataException {
-        subsections = (subsectionList != null ? subsectionList.size() : 0);
         checkForInterrupt();
         if (blocked || subsectionList == null) {
             return;
@@ -463,11 +478,23 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Subsection subsection) throws ModuleDataException {
-        this.subsection++;
         checkForInterrupt();
         if (blocked || subsection == null) {
             return;
         }
+        data.increaseSubsectionNumber();
+        String title = "";
+        if (data.isChapterNumbering()) {
+            title += data.getChapterNumber();
+        }
+        if (data.isSectionNumbering()) {
+            title += (title.length() > 0 ? "." : "") + data.getSectionNumber();
+        }
+        title += (title.length() > 0 ? "." : "") + data.getSubsectionNumber();
+        if (subsection.getTitle() != null) {
+            title += " " + transform.transform(subsection.getTitle());
+        }
+        location.push(title);
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(subsection);
         if (subsection.getTitle() != null) {
@@ -481,14 +508,27 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(subsection);
         setLocationWithinModule(context);
+        location.pop();
     }
 
     public void accept(final Node node) throws ModuleDataException {
-        this.subsection++;
         checkForInterrupt();
         if (blocked || node == null) {
             return;
         }
+        data.increaseSubsectionNumber();
+        String title = "";
+        if (data.isChapterNumbering()) {
+            title += data.getChapterNumber();
+        }
+        if (data.isSectionNumbering()) {
+            title += (title.length() > 0 ? "." : "") + data.getSectionNumber();
+        }
+        title += (title.length() > 0 ? "." : "") + data.getSubsectionNumber();
+        if (node.getTitle() != null) {
+            title += " " + transform.transform(node.getTitle());
+        }
+        location.push(title);
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(node);
         if (node.getName() != null) {
@@ -532,6 +572,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(node);
         setLocationWithinModule(context);
+        location.pop();
     }
 
     public void accept(final Axiom axiom) throws ModuleDataException {
@@ -539,6 +580,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         if (blocked || axiom == null) {
             return;
         }
+        data.increaseAxiomNumber();
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(axiom);
         if (axiom.getFormula() != null) {
@@ -560,6 +602,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         if (blocked || definition == null) {
             return;
         }
+        data.increasePredicateDefinitionNumber();
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(definition);
         if (definition.getVariableList() != null) {
@@ -584,6 +627,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         if (blocked || definition == null) {
             return;
         }
+        data.increaseFunctionDefinitionNumber();
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(definition);
         if (definition.getVariableList() != null) {
@@ -608,6 +652,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         if (blocked || proposition == null) {
             return;
         }
+        data.increasePropositionNumber();
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(proposition);
         if (proposition.getFormula() != null) {
@@ -632,6 +677,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         if (blocked || rule == null) {
             return;
         }
+        data.increaseRuleNumber();
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(rule);
         if (rule.getLinkList() != null) {
@@ -873,50 +919,41 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
      * @return  Value between 0 and 100.
      */
     public double getVisitPercentage() {
-        if (finished) {
-            return 100;
-        }
-        double result = 0;
-        if (imp < imports && chapter == 0) {
-            result = (double) imp / (imports + 1) / (chapters + 1);
-        } else {
-            result = (double) chapter / (chapters + 1);
-            result += (double) section / (sections + 1) / (chapters + 1);
-            result += (double) subsection / (subsections + 1) / (sections + 1) / (chapters + 1);
-        }
-        return 100 * result;
+        return data.getVisitPercentage();
     }
 
-    public double getSubsectionPercentageUnit() {
-        return (double) 100 / (subsections + 1) / (sections + 1) / (chapters + 1);
+    /**
+     * Set absolute location description.
+     *
+     * @param   text    Description.
+     */
+    private void setLocation(final String text) {
+        location.setSize(0);
+        location.push(text);
     }
-
     /**
      * Get calculated visit percentage.
      *
      * @return  Value between 0 and 100.
      */
     public String getVisitAction() {
-        if (finished) {
-            return "finished";
-        }
-        String result = "";
-        if (imp < imports && chapter == 0) {
-            if (imp > 0) {
-                result = "analyzing header";
-            } else {
-                result = "import number " + imp;
+        final StringBuffer buffer = new StringBuffer();
+        for (int i = 0; i < location.size(); i++) {
+            if (i > 0) {
+                buffer.append(" ");
             }
-        } else {
-            result = "" + chapter;
-            if (section > 0) {
-                result = result + "." + section;
-                if (subsection > 0) {
-                    result = result + "." + subsection;
-                }
-            }
+            buffer.append(location.get(i));
         }
-        return result;
+        return buffer.toString();
+    }
+
+    /**
+     * Get copy of current counters.
+     *
+     * @return  Values of various counters.
+     */
+    public QedeqNumbers getCurrentNumbers() {
+        return new QedeqNumbers(data);
     }
 
 }

@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.dto.module.NodeVo;
+import org.qedeq.kernel.visitor.QedeqNumbers;
 
 /**
  * Business object for node access.
@@ -36,7 +37,7 @@ public class KernelNodeBo {
     private final KernelQedeqBo qedeq;
 
     /** Herein are the results of various counters for the node. */
-    private KernelNodeNumbers data = new KernelNodeNumbers();
+    private final QedeqNumbers data;
 
 
     /**
@@ -48,11 +49,11 @@ public class KernelNodeBo {
      * @param   data    Herein are the results of various counters for the node.
      */
     public KernelNodeBo(final NodeVo node, final ModuleContext context, final KernelQedeqBo qedeq,
-            final KernelNodeNumbers data) {
+            final QedeqNumbers data) {
         this.node = node;
         this.context = new ModuleContext(context);
         this.qedeq = qedeq;
-        this.data = new KernelNodeNumbers(data);
+        this.data = new QedeqNumbers(data);
     }
 
     /**
@@ -87,7 +88,7 @@ public class KernelNodeBo {
      *
      * @return  Herein are the results of various counters for the node.
      */
-    public KernelNodeNumbers getNumbers() {
+    public QedeqNumbers getNumbers() {
         return data;
     }
 
