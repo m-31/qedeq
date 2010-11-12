@@ -17,7 +17,7 @@ public class QedeqNumbers {
     private int sections;
 
     /** Number of subsections (within current section). */
-    private int subsections;
+    private int subsectionsAndNodes;
 
     /** Import we currently work on (or lastly visited). */
     private int importNumber;
@@ -40,8 +40,11 @@ public class QedeqNumbers {
     /** Absolute section number the node is within. Includes sections with no numbers. */
     private int absoluteSectionNumber;
 
-    /** Sub section number the node is within. */
+    /** Sub section number for section. */
     private int subsectionNumber;
+
+    /** Node number the node for section. */
+    private int nodeNumber;
 
     /** Axioms before node (including this one). */
     private int axiomNumber;
@@ -81,7 +84,7 @@ public class QedeqNumbers {
         imports = original.imports;
         chapters = original.chapters;
         sections = original.sections;
-        subsections = original.subsections;
+        subsectionsAndNodes = original.subsectionsAndNodes;
         importNumber = original.importNumber;
         chapterNumbering = original.chapterNumbering;
         chapterNumber = original.chapterNumber;
@@ -131,15 +134,17 @@ public class QedeqNumbers {
      */
     public void increaseChapterNumber(final int sections, final boolean chapterNumbering) {
         this.chapterNumbering = chapterNumbering;
+        absoluteChapterNumber++;
         if (chapterNumbering) {
             chapterNumber++;
         }
-        absoluteChapterNumber++;
         this.sections = sections;
-        this.subsections = 0;
+        this.subsectionsAndNodes = 0;
         this.sectionNumber = 0;
+        this.absoluteSectionNumber = 0;
         this.sectionNumbering = true;
         this.subsectionNumber = 0;
+        this.nodeNumber = 0;
     }
 
     /**
@@ -161,13 +166,6 @@ public class QedeqNumbers {
     }
 
     /**
-     * Increase absolute chapter number.
-     */
-    public void increaseAbsoluteChapterNumber() {
-        absoluteChapterNumber++;
-    }
-
-    /**
      * Section number the node is within.
      *
      * @return  Section number.
@@ -179,17 +177,20 @@ public class QedeqNumbers {
     /**
      * Increase chapter number.
      *
-     * @param   subsections         Number of subsections for current section.
+     * @param   subsectionsAndNodes         Number of subsections and nodes for current section.
      * @param   sectionNumbering    Should this section be numbered?
      */
-    public void increaseSectionNumber(final int subsections, final boolean sectionNumbering) {
-        this.subsections = subsections;
+    public void increaseSectionNumber(final int subsectionsAndNodes,
+            final boolean sectionNumbering) {
+        this.subsectionsAndNodes = subsectionsAndNodes;
         this.sectionNumbering = sectionNumbering;
         absoluteSectionNumber++;
         if (sectionNumbering) {
             sectionNumber++;
         }
+        this.subsectionsAndNodes = 0;
         subsectionNumber = 0;
+        nodeNumber = 0;
     }
 
     /**
@@ -202,13 +203,6 @@ public class QedeqNumbers {
     }
 
     /**
-     * Increase absolute section number.
-     */
-    public void increaseAbsoluteSectionNumber() {
-        absoluteSectionNumber++;
-    }
-
-    /**
      * Is section numbering currently on?
      *
      * @return  Section numbering is on.
@@ -218,7 +212,7 @@ public class QedeqNumbers {
     }
 
     /**
-     * Sub section number the node is within.
+     * Sub section number within section.
      *
      * @return  Sub section number.
      */
@@ -231,6 +225,22 @@ public class QedeqNumbers {
      */
     public void increaseSubsectionNumber() {
         subsectionNumber++;
+    }
+
+    /**
+     * Node number within section.
+     *
+     * @return  Node number.
+     */
+    public int getNodeNumber() {
+        return nodeNumber;
+    }
+
+    /**
+     * Increase node number.
+     */
+    public void increaseNodeNumber() {
+        nodeNumber++;
     }
 
     /**
@@ -346,10 +356,13 @@ public class QedeqNumbers {
         } else {
             result = (double) absoluteChapterNumber / (chapters + 1);
             result += (double) absoluteSectionNumber / (sections + 1) / (chapters + 1);
-            result += (double) subsectionNumber / (subsections + 1) / (sections + 1) / (chapters + 1);
+            result += (double) (subsectionNumber + nodeNumber)
+                / (subsectionsAndNodes + 1) / (sections + 1) / (chapters + 1);
+        }
+        if (result > 1) {
+            System.out.println(result * 100);
         }
         return 100 * result;
     }
-
 
 }

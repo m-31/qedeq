@@ -336,10 +336,10 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
                 chapter.getNoNumber() == null || !chapter.getNoNumber().booleanValue()
             );
         if (data.isChapterNumbering()) {
-            location.push("Chapter " + data.getChapterNumber() + " "
+            setLocation("Chapter " + data.getChapterNumber() + " "
                 + transform.transform(chapter.getTitle()));
         } else {
-            location.push(transform.transform(chapter.getTitle()));
+            setLocation(transform.transform(chapter.getTitle()));
         }
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(chapter);
@@ -358,7 +358,6 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(chapter);
         setLocationWithinModule(context);
-        location.pop();
     }
 
     public void accept(final LiteratureItemList literatureItemList)
@@ -513,10 +512,10 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
 
     public void accept(final Node node) throws ModuleDataException {
         checkForInterrupt();
+        data.increaseNodeNumber();
         if (blocked || node == null) {
             return;
         }
-        data.increaseSubsectionNumber();
         String title = "";
         if (data.isChapterNumbering()) {
             title += data.getChapterNumber();
@@ -940,7 +939,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         final StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < location.size(); i++) {
             if (i > 0) {
-                buffer.append(" ");
+                buffer.append(" / ");
             }
             buffer.append(location.get(i));
         }
