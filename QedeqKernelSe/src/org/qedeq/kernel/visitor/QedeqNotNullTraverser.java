@@ -333,7 +333,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         data.increaseChapterNumber(
                 (chapter.getSectionList() != null ? chapter.getSectionList().size() : 0),
-                Boolean.FALSE.equals(chapter.getNoNumber())
+                chapter.getNoNumber() == null || !chapter.getNoNumber().booleanValue()
             );
         if (data.isChapterNumbering()) {
             location.push("Chapter " + data.getChapterNumber() + " "
@@ -418,7 +418,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         data.increaseSectionNumber(
                 (section.getSubsectionList() != null ? section.getSubsectionList().size() : 0),
-                Boolean.FALSE.equals(section.getNoNumber())
+                section.getNoNumber() == null || !section.getNoNumber().booleanValue()
             );
         String title = "";
         if (data.isChapterNumbering()) {

@@ -516,12 +516,11 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
     }
 
     public void visitEnter(final Section section) {
-/* LATER mime 20070131: use this information?
-        if (section.getNoNumber() != null) {
-           printer.print(" noNumber=\"" + section.getNoNumber().booleanValue() + "\"");
+        printer.print("\\section");
+        if (section.getNoNumber() != null && section.getNoNumber().booleanValue()) {
+            printer.print("*");
         }
-*/
-        printer.print("\\section{");
+        printer.print("{");
         printer.print(getLatexListEntry("getTitle()", section.getTitle()));
         final String label = "chapter" + chapterNumber + "_section" + sectionNumber;
         printer.println("} \\label{" + label + "} \\hypertarget{" + label + "}{}");

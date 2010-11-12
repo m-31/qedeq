@@ -101,24 +101,6 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
     /** Transformer to get UTF-8 out of {@link Element}s. */
     private Element2Latex elementConverter;
 
-    /** Current chapter number, starting with 1. */
-    private int chapterNumber;
-
-    /** Current section number, starting with 1. */
-    private int sectionNumber;
-
-    /** Current axiom number, starting with 1. */
-    private int axiomNumber;
-
-    /** Current definition number, starting with 1. */
-    private int definitionNumber;
-
-    /** Current proposition number, starting with 1. */
-    private int propositionNumber;
-
-    /** Current rule number, starting with 1. */
-    private int ruleNumber;
-
     /** Current node id. */
     private String id;
 
@@ -268,12 +250,6 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
      */
     protected void init() {
         printer = null;
-        chapterNumber = 0;
-        sectionNumber = 0;
-        axiomNumber = 0;
-        definitionNumber = 0;
-        propositionNumber = 0;
-        ruleNumber = 0;
         id = null;
         title = null;
         subContext = "";
@@ -417,12 +393,14 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
     }
 
     public void visitEnter(final Chapter chapter) {
-        if (chapter.getNoNumber() == null || !chapter.getNoNumber().booleanValue()) {
-            chapterNumber++;    // increase global chapter number
+        final QedeqNumbers numbers = getCurrentNumbers();
+        System.out.println("chapter numbering 1: " + numbers.isChapterNumbering());
+        System.out.println("chapter numbering 2: " + chapter.getNoNumber());
+        if (numbers.isChapterNumbering()) {
             if ("de".equals(language)) {
-                printer.println("Kapitel " + chapterNumber + " ");
+                printer.println("Kapitel " + numbers.getChapterNumber() + " ");
             } else {
-                printer.println("Chapter " + chapterNumber + " ");
+                printer.println("Chapter " + numbers.getChapterNumber() + " ");
             }
             printer.println();
             printer.println();
@@ -451,15 +429,20 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
         printer.println();
     }
 
-    public void visitLeave(final SectionList list) {
-        sectionNumber = 0;  // reset section number
-    }
-
     public void visitEnter(final Section section) {
+        final QedeqNumbers numbers = getCurrentNumbers();
         final StringBuffer buffer = new StringBuffer();
-        if (section.getNoNumber() == null || !section.getNoNumber().booleanValue()) {
-            sectionNumber++;    // increase global chapter number
-            buffer.append(chapterNumber + "." + sectionNumber + " ");
+        if (numbers.isChapterNumbering()) {
+            buffer.append(numbers.getChapterNumber());
+        }
+        if (numbers.isSectionNumbering()) {
+            if (buffer.length() > 0) {
+                buffer.append(".");
+            }
+            buffer.append(numbers.getSectionNumber());
+        }
+        if (buffer.length() > 0 && section.getTitle() != null) {
+            buffer.append(" ");
         }
         buffer.append(getLatexListEntry("getTitle()", section.getTitle()));
         underline(buffer.toString());
@@ -477,7 +460,26 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
     }
 
     public void visitEnter(final Subsection subsection) {
+        final QedeqNumbers numbers = getCurrentNumbers();
+        final StringBuffer buffer = new StringBuffer();
+        if (numbers.isChapterNumbering()) {
+            buffer.append(numbers.getChapterNumber());
+        }
+        if (numbers.isSectionNumbering()) {
+            if (buffer.length() > 0) {
+                buffer.append(".");
+            }
+            buffer.append(numbers.getSectionNumber());
+        }
+        if (buffer.length() > 0) {
+            buffer.append(".");
+        }
+        buffer.append(numbers.getSubsectionNumber());
+        if (buffer.length() > 0 && subsection.getTitle() != null) {
+            buffer.append(" ");
+        }
         if (subsection.getTitle() != null) {
+            printer.print(buffer.toString());
             printer.print(getLatexListEntry("getTitle()", subsection.getTitle()));
         }
         if (subsection.getId() != null && info) {
@@ -515,9 +517,9 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
     }
 
     public void visitEnter(final Axiom axiom) {
-        axiomNumber++;
+        final QedeqNumbers numbers = getCurrentNumbers();
         printer.print("\u2609 ");
-        printer.print("Axiom " + axiomNumber);
+        printer.print("Axiom " + numbers.getAxiomNumber());
         printer.print(" ");
         if (title != null && title.length() > 0) {
             printer.print(" (" + title + ")");
@@ -538,9 +540,9 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
     }
 
     public void visitEnter(final Proposition proposition) {
-        propositionNumber++;
+        final QedeqNumbers numbers = getCurrentNumbers();
         printer.print("\u2609 ");
-        printer.print("Proposition " + propositionNumber);
+        printer.print("Proposition " + numbers.getPropositionNumber());
         printer.print(" ");
         if (title != null && title.length() > 0) {
             printer.print(" (" + title + ")");
@@ -572,7 +574,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
     }
 
     public void visitEnter(final PredicateDefinition definition) {
-        definitionNumber++;
+        final QedeqNumbers numbers = getCurrentNumbers();
         printer.print("\u2609 ");
         final StringBuffer buffer = new StringBuffer();
         if (definition.getFormula() == null) {
@@ -582,7 +584,8 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
                 buffer.append("initial ");
             }
         }
-        buffer.append("Definition " + definitionNumber);
+        buffer.append("Definition " + (numbers.getPredicateDefinitionNumber()
+            + numbers.getFunctionDefinitionNumber()));
         printer.print(buffer.toString());
         printer.print(" ");
         final StringBuffer define = new StringBuffer(getUtf8(definition.getLatexPattern()));
@@ -619,7 +622,7 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
     }
 
     public void visitEnter(final FunctionDefinition definition) {
-        definitionNumber++;
+        final QedeqNumbers numbers = getCurrentNumbers();
         printer.print("\u2609 ");
         final StringBuffer buffer = new StringBuffer();
         if (definition.getTerm() == null) {
@@ -629,7 +632,8 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
                 buffer.append("initial ");
             }
         }
-        buffer.append("Definition " + definitionNumber);
+        buffer.append("Definition " + (numbers.getPredicateDefinitionNumber()
+                + numbers.getFunctionDefinitionNumber()));
         printer.print(buffer.toString());
         printer.print(" ");
         final StringBuffer define = new StringBuffer(getUtf8(definition.getLatexPattern()));
@@ -668,9 +672,9 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
     }
 
     public void visitEnter(final Rule rule) {
-        ruleNumber++;
+        final QedeqNumbers numbers = getCurrentNumbers();
         printer.print("\u2609 ");
-        printer.print("Regel " + ruleNumber);
+        printer.print("Regel " + numbers.getRuleNumber());
         printer.print(" ");
         if (title != null && title.length() > 0) {
             printer.print(" (" + title + ")");
@@ -699,9 +703,6 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
                 printer.println();
             }
         }
-    }
-
-    public void visitLeave(final Rule rule) {
     }
 
     public void visitEnter(final LinkList linkList) {

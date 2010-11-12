@@ -326,7 +326,6 @@ public final class Latex2Utf8Parser {
         if ('{' == getChar()) {
             final SubTextInput content = readCurlyBraceContents();
             String ref = content.asString().trim();
-            System.out.println("qref content: " + ref);
             Trace.param(CLASS, this, method, "ref", ref);
             if (ref.length() == 0) {
                 addWarning(LatexErrorCodes.QREF_EMPTY_CODE, LatexErrorCodes.QREF_EMPTY_MSG,
