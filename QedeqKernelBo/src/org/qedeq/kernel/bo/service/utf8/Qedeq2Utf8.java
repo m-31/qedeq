@@ -50,7 +50,6 @@ import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.base.module.Section;
-import org.qedeq.kernel.base.module.SectionList;
 import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.UsedByList;
