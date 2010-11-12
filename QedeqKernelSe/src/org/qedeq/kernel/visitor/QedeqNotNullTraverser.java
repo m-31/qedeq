@@ -493,6 +493,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         if (subsection.getTitle() != null) {
             title += " " + transform.transform(subsection.getTitle());
         }
+        title = title + " [" + subsection.getId() + "]";
         location.push(title);
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(subsection);
@@ -517,16 +518,10 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             return;
         }
         String title = "";
-        if (data.isChapterNumbering()) {
-            title += data.getChapterNumber();
-        }
-        if (data.isSectionNumbering()) {
-            title += (title.length() > 0 ? "." : "") + data.getSectionNumber();
-        }
-        title += (title.length() > 0 ? "." : "") + data.getSubsectionNumber();
         if (node.getTitle() != null) {
-            title += " " + transform.transform(node.getTitle());
+            title = transform.transform(node.getTitle());
         }
+        title = title + " [" + node.getId() + "]";
         location.push(title);
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(node);
@@ -580,6 +575,8 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             return;
         }
         data.increaseAxiomNumber();
+        location.set(location.size() - 1, "Axiom " + data.getAxiomNumber() + " "
+            + (String) location.lastElement());
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(axiom);
         if (axiom.getFormula() != null) {
@@ -602,6 +599,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             return;
         }
         data.increasePredicateDefinitionNumber();
+        location.set(location.size() - 1, "Definition " + (data.getPredicateDefinitionNumber()
+             + data.getFunctionDefinitionNumber()) + " "
+             + (String) location.lastElement());
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(definition);
         if (definition.getVariableList() != null) {
@@ -627,6 +627,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             return;
         }
         data.increaseFunctionDefinitionNumber();
+        location.set(location.size() - 1, "Definition " + (data.getPredicateDefinitionNumber()
+                + data.getFunctionDefinitionNumber()) + " "
+                + (String) location.lastElement());
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(definition);
         if (definition.getVariableList() != null) {
@@ -652,6 +655,8 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             return;
         }
         data.increasePropositionNumber();
+        location.set(location.size() - 1, "Proposition " + data.getPropositionNumber() + " "
+                + (String) location.lastElement());
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(proposition);
         if (proposition.getFormula() != null) {
@@ -677,6 +682,8 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             return;
         }
         data.increaseRuleNumber();
+        location.set(location.size() - 1, "Rule " + data.getRuleNumber() + " "
+                + (String) location.lastElement());
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(rule);
         if (rule.getLinkList() != null) {
