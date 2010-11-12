@@ -136,7 +136,7 @@ public class ServiceProcess {
      *
      * @return  Associated executor. Might be <code>null</code>.
      */
-    public PluginExecutor getExecutor() {
+    public synchronized PluginExecutor getExecutor() {
         return executor;
     }
 
@@ -145,7 +145,7 @@ public class ServiceProcess {
      *
      * @param   executor    Associated executor.
      */
-    public void setExecutor(final PluginExecutor executor) {
+    public synchronized void setExecutor(final PluginExecutor executor) {
         this.executor = executor;
     }
 
