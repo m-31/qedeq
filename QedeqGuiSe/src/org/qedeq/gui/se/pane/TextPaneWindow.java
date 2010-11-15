@@ -124,7 +124,7 @@ public class TextPaneWindow extends JFrame {
      */
     private final JPanel createTextPanel(final String text) {
         final JTextPane textPane = new JTextPane();
-        textPane.setFont(new Font("Serif", Font.PLAIN, 20));
+        textPane.setFont(new Font("Lucida", Font.PLAIN, textPane.getFont().getSize()));
         final StyleContext sc = new StyleContext();
         final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
         try {
