@@ -32,8 +32,11 @@ import javax.swing.JTextPane;
 import javax.swing.JViewport;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
@@ -53,6 +56,8 @@ public class TextPaneWindow extends JFrame {
 
     /** Common text attributes. */
     private final SimpleAttributeSet attrs = new SimpleAttributeSet();
+
+    private JTextPane textPane;
 
 
     /**
@@ -100,7 +105,31 @@ public class TextPaneWindow extends JFrame {
             }
         });
 
-        bbuilder.addGriddedButtons(new JButton[] {ok});
+        JButton increaseFontSize = new JButton("+1");
+        increaseFontSize.addActionListener(new  ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                MutableAttributeSet attr = TextPaneWindow.this.textPane.getInputAttributes();
+                int size = StyleConstants.getFontSize(attr);
+                StyleConstants.setFontSize(attr, size + 1);
+                StyledDocument doc = TextPaneWindow.this.textPane.getStyledDocument();
+                doc.setCharacterAttributes(0, doc.getLength(), attr, true);
+            }
+        });
+
+        JButton decreaseFontSize = new JButton("-1");
+        decreaseFontSize.addActionListener(new  ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                MutableAttributeSet attr = TextPaneWindow.this.textPane.getInputAttributes();
+                int size = StyleConstants.getFontSize(attr);
+                if (size > 1) {
+                    StyleConstants.setFontSize(attr, size - 1);
+                    StyledDocument doc = TextPaneWindow.this.textPane.getStyledDocument();
+                    doc.setCharacterAttributes(0, doc.getLength(), attr, true);
+                }
+            }
+        });
+
+        bbuilder.addGriddedButtons(new JButton[] {decreaseFontSize, increaseFontSize, ok});
 
         final JPanel buttons = bbuilder.getPanel();
         content.add(GuiHelper.addSpaceAndAlignRight(buttons));
@@ -123,8 +152,8 @@ public class TextPaneWindow extends JFrame {
      * @return  Created panel.
      */
     private final JPanel createTextPanel(final String text) {
-        final JTextPane textPane = new JTextPane();
-        textPane.setFont(new Font("Lucida", Font.PLAIN, textPane.getFont().getSize()));
+        textPane = new JTextPane();
+        textPane.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, textPane.getFont().getSize()));
         final StyleContext sc = new StyleContext();
         final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
         try {
