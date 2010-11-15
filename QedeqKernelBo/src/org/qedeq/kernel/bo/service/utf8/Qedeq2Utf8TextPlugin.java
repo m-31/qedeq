@@ -27,15 +27,15 @@ import org.qedeq.kernel.bo.module.PluginExecutor;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Utf8Plugin implements PluginBo {
+public final class Qedeq2Utf8TextPlugin implements PluginBo {
 
     /** This class. */
-    public static final Class CLASS = Qedeq2Utf8Plugin.class;
+    public static final Class CLASS = Qedeq2Utf8TextPlugin.class;
 
     /**
      * Constructor.
      */
-    public Qedeq2Utf8Plugin() {
+    public Qedeq2Utf8TextPlugin() {
     }
 
     public String getPluginId() {
@@ -43,15 +43,15 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
     }
 
     public String getPluginName() {
-        return "Create UTF-8";
+        return "Show module as UTF-8 text";
     }
 
     public String getPluginDescription() {
-        return "transforms QEDEQ module into UTF-8 file";
+        return "shows QEDEQ module within window as UTF-8 text";
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
-        return new Qedeq2Utf8Executor(this, qedeq, parameters);
+        return new Qedeq2Utf8TextExecutor(this, qedeq, parameters);
     }
 
 }

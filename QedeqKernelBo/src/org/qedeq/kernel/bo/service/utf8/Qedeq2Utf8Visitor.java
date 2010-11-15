@@ -16,12 +16,9 @@
 package org.qedeq.kernel.bo.service.utf8;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Locale;
-import java.util.Map;
 
-import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.AbstractOutput;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
@@ -55,12 +52,9 @@ import org.qedeq.kernel.base.module.Subsection;
 import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.bo.service.latex.Element2Latex;
 import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.service.latex.LatexErrorCodes;
@@ -72,21 +66,20 @@ import org.qedeq.kernel.visitor.QedeqNumbers;
 
 
 /**
- * Transfer a QEDEQ module into a LaTeX file.
+ * Transfer a QEDEQ module into a UTF-8 text file.
  * <p>
- * <b>This is just a quick written generator. No parsing or validation
- * of inline LaTeX text is done. This class just generates some LaTeX output to be able to
- * get a visual impression of a QEDEQ module.</b>
+ * <b>This is just a quick written generator. This class just generates some text output to be able
+ * to get a visual impression of a QEDEQ module.</b>
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder, PluginExecutor {
+public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder {
 
     /** This class. */
-    private static final Class CLASS = Qedeq2Utf8.class;
+    private static final Class CLASS = Qedeq2Utf8Visitor.class;
 
     /** Output goes here. */
-    private TextOutput printer;
+    private AbstractOutput printer;
 
     /** Filter text to get and produce text in this language. */
     private String language;
@@ -120,64 +113,12 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
      *
      * @param   plugin      This plugin we work for.
      * @param   prop        QEDEQ BO object.
-     * @param   parameters  Plugin parameter.
      */
-    Qedeq2Utf8(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
+    public Qedeq2Utf8Visitor(final Plugin plugin, final KernelQedeqBo prop,
+            final boolean info, final int maximumColumn) {
         super(plugin, prop);
-        String infoString = null;
-        String maxColumnsString = "0";
-        if (parameters != null) {
-            infoString = (String) parameters.get("info");
-            if (infoString == null) {
-                infoString = "false";
-            }
-            maxColumnsString = (String) parameters.get("maximumColumn");
-            if (maxColumnsString == null || maxColumnsString.length() == 0) {
-                maxColumnsString = "80";
-            }
-        }
-        info = "true".equalsIgnoreCase(infoString);
-        maxColumns = 0;
-        try {
-            maxColumns = Integer.parseInt(maxColumnsString.trim());
-        } catch (RuntimeException e) {
-            // ignore
-        }
-    }
-
-    public Object executePlugin() {
-        final String method = "executePlugin()";
-        final String ref = "\"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
-        try {
-            QedeqLog.getInstance().logRequest("Generate UTF-8 from " + ref);
-            final String[] languages = getSupportedLanguages(getQedeqBo());
-            for (int j = 0; j < languages.length; j++) {
-                final String result = generateUtf8(languages[j], "1").toString();
-                if (languages[j] != null) {
-                    QedeqLog.getInstance().logSuccessfulReply(
-                        "UTF-8 for language \"" + languages[j]
-                        + "\" was generated from " + ref + " into \"" + result + "\"");
-                } else {
-                    QedeqLog.getInstance().logSuccessfulReply(
-                        "UTF-8 for default language "
-                        + "was generated from " + ref + " into \"" + result + "\"");
-                }
-            }
-        } catch (final SourceFileExceptionList e) {
-            final String msg = "Generation failed for " + ref;
-            Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
-        } catch (IOException e) {
-            final String msg = "Generation failed for " + ref;
-            Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
-        } catch (final RuntimeException e) {
-            Trace.fatal(CLASS, this, method, "unexpected problem", e);
-            QedeqLog.getInstance().logFailureReply(
-                "Generation failed", "unexpected problem: "
-                + (e.getMessage() != null ? e.getMessage() : e.toString()));
-        }
-        return null;
+        this.info = info;
+        this.maxColumns = maximumColumn;
     }
 
     /**
@@ -186,21 +127,13 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
      * @param   language    Filter text to get and produce text in this language only.
      * @param   level       Filter for this detail level. LATER mime 20050205: not supported
      *                      yet.
-     * @return  Resulting LaTeX.
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
      */
-    public File generateUtf8(final String language, final String level)
-            throws SourceFileExceptionList, IOException {
-
-        // first we try to get more information about required modules and their predicates..
-        try {
-            KernelContext.getInstance().loadRequiredModules(getQedeqBo().getModuleAddress());
-            KernelContext.getInstance().checkModule(getQedeqBo().getModuleAddress());
-        } catch (Exception e) {
-            // we continue and ignore external predicates
-            Trace.trace(CLASS, "generateUtf8(KernelQedeqBo, String, String)", e);
-        }
+    public void generateUtf8(final AbstractOutput printer, final String language,
+            final String level) throws SourceFileExceptionList, IOException {
+        this.printer = printer;
+        this.printer.setColumns(maxColumns);
         if (language == null) {
             this.language = "en";
         } else {
@@ -213,49 +146,27 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
 //        }
         this.elementConverter = new Element2Latex((getQedeqBo().hasLoadedRequiredModules()
             ? getQedeqBo().getRequiredModules() : null));
-        String txt = getQedeqBo().getModuleAddress().getFileName();
-        if (txt.toLowerCase(Locale.US).endsWith(".xml")) {
-            txt = txt.substring(0, txt.length() - 4);
-        }
-        if (language != null && language.length() > 0) {
-            txt = txt + "_" + language;
-        }
-        // the destination is the configured destination directory plus the (relative)
-        // localized file (or path) name
-        File destination = new File(KernelContext.getInstance().getConfig()
-            .getGenerationDirectory(), txt + ".txt").getCanonicalFile();
 
         init();
 
         try {
-            printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination), "UTF-8");
-            printer.setColumns(maxColumns);
             traverse();
-            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         } finally {
-            if (printer != null) {
-                printer.flush();
-                printer.close();
-            }
+            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
-        if (printer != null && printer.checkError()) {
-            throw printer.getError();
-        }
-        return destination.getCanonicalFile();
     }
 
     /**
      * Reset counters and other variables. Should be executed before {@link #traverse()}.
      */
     protected void init() {
-        printer = null;
         id = null;
         title = null;
         subContext = "";
     }
 
     // TODO m31 20070704: this should be part of QedeqBo
-    String[] getSupportedLanguages(final QedeqBo prop) {
+    public String[] getSupportedLanguages(final QedeqBo prop) {
         // TODO m31 20070704: there should be a better way to
         // get all supported languages. Time for a new visitor?
         if (!prop.isLoaded()) {
@@ -270,23 +181,25 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
     }
 
     public final void visitEnter(final Qedeq qedeq) {
-        printer.println("================================================================================");
-        printer.println("UTF-8-file     " + printer.getName());
-        printer.println("Generated from " + getQedeqBo().getModuleAddress());
-        printer.println("Generated at   " + DateUtility.getTimestamp());
-        printer.println("================================================================================");
-        printer.println();
-        printer.println("If the characters of this document don't display correctly try opening this");
-        printer.println("document within a webbrowser and if necessary change the encoding to");
-        printer.println("Unicode (UTF-8)");
-        printer.println();
-        printer.println("Permission is granted to copy, distribute and/or modify this document");
-        printer.println("under the terms of the GNU Free Documentation License, Version 1.2");
-        printer.println("or any later version published by the Free Software Foundation;");
-        printer.println("with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.");
-        printer.println();
-        printer.println();
-        printer.println();
+        if (printer instanceof TextOutput) {
+            printer.println("================================================================================");
+            printer.println("UTF-8-file     " + ((TextOutput) printer).getName());
+            printer.println("Generated from " + getQedeqBo().getModuleAddress());
+            printer.println("Generated at   " + DateUtility.getTimestamp());
+            printer.println("================================================================================");
+            printer.println();
+            printer.println("If the characters of this document don't display correctly try opening this");
+            printer.println("document within a webbrowser and if necessary change the encoding to");
+            printer.println("Unicode (UTF-8)");
+            printer.println();
+            printer.println("Permission is granted to copy, distribute and/or modify this document");
+            printer.println("under the terms of the GNU Free Documentation License, Version 1.2");
+            printer.println("or any later version published by the Free Software Foundation;");
+            printer.println("with no Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.");
+            printer.println();
+            printer.println();
+            printer.println();
+        }
     }
 
     public final void visitLeave(final Qedeq qedeq) {
@@ -393,8 +306,6 @@ public final class Qedeq2Utf8 extends ControlVisitor implements ReferenceFinder,
 
     public void visitEnter(final Chapter chapter) {
         final QedeqNumbers numbers = getCurrentNumbers();
-        System.out.println("chapter numbering 1: " + numbers.isChapterNumbering());
-        System.out.println("chapter numbering 2: " + chapter.getNoNumber());
         if (numbers.isChapterNumbering()) {
             if ("de".equals(language)) {
                 printer.println("Kapitel " + numbers.getChapterNumber() + " ");

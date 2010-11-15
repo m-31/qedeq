@@ -113,6 +113,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         loader.setServices(this);
         processManager = new ServiceProcessManager();
         pluginManager = new PluginManager(processManager);
+        pluginManager.addPlugin("org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8TextPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8Plugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");

@@ -82,7 +82,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @return  QedeqBo.
      */
-    protected KernelQedeqBo getQedeqBo() {
+    public KernelQedeqBo getQedeqBo() {
         return this.prop;
     }
 
