@@ -18,6 +18,7 @@ package org.qedeq.gui.se.pane;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -123,6 +124,7 @@ public class TextPaneWindow extends JFrame {
      */
     private final JPanel createTextPanel(final String text) {
         final JTextPane textPane = new JTextPane();
+        textPane.setFont(new Font("Serif", Font.PLAIN, 20));
         final StyleContext sc = new StyleContext();
         final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
         try {
