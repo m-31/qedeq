@@ -703,7 +703,7 @@
             <LATEX language="de">
               <![CDATA[
                 \index{NBG}Durch eine kleine Änderung dieses Axioms würden wir im Folgenden ein \emph{NBG}-Axiomensystem der Mengenlehre erhalten, welches auf \emph{John von Neumann}, \emph{Isaak Bernays} und \emph{Kurt Gödel} zurückgeht.\index{prädikativ}\index{Formel, prädikative}
-                Dazu definieren wir: eine Formel, in der alle gebundenen Subjektvariablen auf Mengen restringiert sind wird \emph{prädikative Formel} genannt. Prädikative Formeln formalisieren also diejenigen Eigenschaften, die man als {\glqq Eigenschaften von Mengen\grqq} bezeichnen kann.\footnote{Noch etwas formaler: in einer prädikativen Formel laufen alle Quantorenvariablen nur über Mengen: $\forall \ \mathfrak{M}(x) \ \exists \ \mathfrak{M}(y) \ldots$}
+                Dazu definieren wir: eine Formel, in der alle gebundenen Subjektvariablen auf Mengen restringiert sind, wird \emph{prädikative Formel} genannt. Prädikative Formeln formalisieren also diejenigen Eigenschaften, die man als {\glqq Eigenschaften von Mengen\grqq} bezeichnen kann.\footnote{Noch etwas formaler: in einer prädikativen Formel laufen alle Quantorenvariablen nur über Mengen: $\forall \ \mathfrak{M}(x) \ \exists \ \mathfrak{M}(y) \ldots$}
                 Fordern wir nun also zusätzlich, dass $\phi$ prädikativ sein muss, dann erhalten wir ein NBG-System\footnote{Dazu werden noch einige andere Axiome --- analog zu den folgenden --- benötigt}.
               ]]>
             </LATEX>
@@ -2773,7 +2773,7 @@
         <LATEX language="de">
           <![CDATA[
           
-            Für eine boolsche Algebra kann eine kanonische \emph{Teilordnung}\index{Teilordnung} definiert werden. Daher
+            Für eine Boolsche Algebra kann eine kanonische \emph{Teilordnung}\index{Teilordnung} definiert werden. Daher
             können wir auch für die Klassenalgebra eine Teilordnung festlegen.
           
           ]]>
@@ -3946,7 +3946,7 @@
           Infinite Boolean Operators
         </LATEX>
         <LATEX language="de">
-          Unendliche boolsche Operatoren
+          Unendliche Boolsche Operatoren
         </LATEX>
       </TITLE>
       <INTRODUCTION>
@@ -4665,7 +4665,7 @@
     <SECTION>
       <TITLE>
         <LATEX language="de">
-           Unendliche boolsche Operatoren - Teil 2
+           Unendliche Boolsche Operatoren - Teil 2
         </LATEX>
       </TITLE>
       <INTRODUCTION>
