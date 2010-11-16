@@ -302,7 +302,7 @@ public final class Latex2Utf8Specials {
     }
 
     /**
-     * Transform into superscript characters.
+     * Transform into emph characters.
      *
      * @param   token   String to transform.
      * @return  Result of transformation.
@@ -310,7 +310,8 @@ public final class Latex2Utf8Specials {
     public static String transform2Emph(final String token) {
         final StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < token.length(); i++) {
-            buffer.append('\u2006');
+//            buffer.append('\u2006');
+            buffer.append(' ');
             buffer.append(token.charAt(i));
         }
         return buffer.toString();

@@ -200,7 +200,8 @@ public final class Latex2Utf8Parser {
                         emph = true;
                         final SubTextInput content = readCurlyBraceContents();
                         parseAndPrint(content);
-                        output.addWs("\u2006");
+//                        output.addWs("\u2006");
+                        output.addWs(" ");
                         emph = false;
                     } else {
                         emph = true;
@@ -834,11 +835,14 @@ public final class Latex2Utf8Parser {
         } else if (token.equals("~")) {
             output.addToken("\u00A0");
         } else if (token.equals("\\quad")) {
-            output.addWs("\u2000");
+//            output.addWs("\u2000");
+            output.addWs(" ");
         } else if (token.equals("\\qquad")) {
-            output.addWs("\u2000\u2000");
+//            output.addWs("\u2000\u2000");
+            output.addWs("  ");
         } else if (token.equals("\\,")) {
-            output.addWs("\u2009");
+//            output.addWs("\u2009");
+            output.addWs(" ");
         } else if (token.equals("\\neg") || token.equals("\\not")) {
             output.addToken("\u00AC");
         } else if (token.equals("\\bot")) {
