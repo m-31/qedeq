@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
+import javax.swing.SwingUtilities;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
@@ -70,12 +71,19 @@ public class PluginAction extends AbstractAction {
                 final QedeqBo prop = props[i];
                 final Thread thread = new Thread() {
                     public void run() {
-                        final Object result = KernelContext.getInstance().executePlugin(plugin.getPluginId(),
+                        final Object result = KernelContext.getInstance().executePlugin(
+                            plugin.getPluginId(),
                             prop.getModuleAddress(),
                             QedeqGuiConfig.getInstance().getPluginEntries(plugin));
                         if (result instanceof String) {
-                            (new TextPaneWindow(plugin.getPluginName(), PluginAction.this.getIcon(), (String) result))
-                                .setVisible(true);
+                            final Runnable showTextResult = new Runnable() {
+                                public void run() {
+                                    (new TextPaneWindow(plugin.getPluginName(),
+                                        PluginAction.this.getIcon(),
+                                        (String) result)).setVisible(true);
+                                }
+                            };
+                            SwingUtilities.invokeLater(showTextResult);
                         }
                     }
                 };
