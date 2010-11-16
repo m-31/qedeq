@@ -15,7 +15,9 @@
 
 package org.qedeq.kernel.bo.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
@@ -31,8 +33,11 @@ public class PluginManager {
     /** This class. */
     private static final Class CLASS = PluginManager.class;
 
+    /** Maps plugin ids to plugins. */
+    private final Map id2plugin = new HashMap();
+
     /** Stores all plugins. */
-    private final Map plugins = new HashMap();
+    private final List plugins = new ArrayList();
 
     /** Collects process infos. */
     private ServiceProcessManager processManager;
@@ -53,14 +58,15 @@ public class PluginManager {
      * @return  Registered plugins.
      */
     synchronized PluginBo[] getPlugins() {
-        return (PluginBo[]) plugins.values().toArray(new PluginBo[] {});
+        return (PluginBo[]) plugins.toArray(new PluginBo[] {});
     }
 
     /**
-     * Add a plugin.
+     * Add a plugin..
      *
      * @param   pluginClass Class that extends {@link PluginBo} to add.
      *                      A plugin with same name can not be added twice.
+     *                      Must not be <code>null</code>.
      * @throws  RuntimeException    Plugin addition failed.
      */
     synchronized void addPlugin(final String pluginClass) {
@@ -86,30 +92,26 @@ public class PluginManager {
                 "Programming error, instantiation failed for plugin: " + pluginClass, e);
             throw new RuntimeException(e);
         }
-        if (plugins.get(plugin.getPluginId()) != null) {
-            final PluginBo oldPlugin = (PluginBo) plugins.get(plugin.getPluginId());
-            final RuntimeException e = new IllegalArgumentException("plugin with that name already added: "
-                    + oldPlugin.getPluginId() + ": " + plugin.getPluginDescription());
-            Trace.fatal(CLASS, this, method, "Programing error", e);
-            throw e;
-        }
-        plugins.put(plugin.getPluginId(), plugin);
+        addPlugin(plugin);
     }
 
     /**
      * Add a plugin.
      *
      * @param   plugin  Plugin to add. A plugin with same name can not be added twice.
+     *                  Must not be <code>null</code>.
+     * @throws  RuntimeException    Plugin addition failed.
      */
     synchronized void addPlugin(final PluginBo plugin) {
-        if (plugins.get(plugin.getPluginId()) != null) {
-            final PluginBo oldPlugin = (PluginBo) plugins.get(plugin.getPluginId());
+        if (id2plugin.get(plugin.getPluginId()) != null) {
+            final PluginBo oldPlugin = (PluginBo) id2plugin.get(plugin.getPluginId());
             final RuntimeException e = new IllegalArgumentException("plugin with that name already added: "
                     + oldPlugin.getPluginId() + ": " + plugin.getPluginDescription());
             Trace.fatal(CLASS, this, "addPlugin", "Programing error", e);
             throw e;
         }
-        plugins.put(plugin.getPluginId(), plugin);
+        id2plugin.put(plugin.getPluginId(), plugin);
+        plugins.add(plugin);
     }
 
     /**
@@ -123,7 +125,7 @@ public class PluginManager {
      */
     Object executePlugin(final String id, final KernelQedeqBo qedeq,
             final Map parameters) {
-        final PluginBo plugin = (PluginBo) plugins.get(id);
+        final PluginBo plugin = (PluginBo) id2plugin.get(id);
         if (plugin == null) {
             final String message = "Kernel does not know about plugin: ";
             final RuntimeException e = new RuntimeException(message + id);
@@ -136,8 +138,7 @@ public class PluginManager {
             para = new HashMap();
         }
         final ServiceProcess process = processManager.createProcess(plugin,
-            qedeq,
-            para);
+            qedeq, para);
         process.setBlocked(true);
         synchronized (qedeq) {
             process.setBlocked(false);
