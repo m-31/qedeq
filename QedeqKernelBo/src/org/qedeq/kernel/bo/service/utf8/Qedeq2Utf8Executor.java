@@ -51,12 +51,16 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
     /** Current destination file. */
     private File destination;
 
+    /** Visit all nodes with this visitor. */
     private final Qedeq2Utf8Visitor visitor;
 
+    /** Break automatically before this column number. */
     private int maxColumns;
 
+    /** Generate text for these languages. */
     private String[] languages;
 
+    /** Current language selection. See {@link #languages}. */
     private int run = 0;
 
     /**
