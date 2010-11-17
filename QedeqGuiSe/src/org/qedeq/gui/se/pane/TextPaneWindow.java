@@ -57,7 +57,11 @@ public class TextPaneWindow extends JFrame {
     /** Common text attributes. */
     private final SimpleAttributeSet attrs = new SimpleAttributeSet();
 
+    /** Here is the text. */
     private JTextPane textPane;
+
+    /** Word wrap on?. */
+    private boolean wordWrap;
 
 
     /**
@@ -108,10 +112,10 @@ public class TextPaneWindow extends JFrame {
         JButton increaseFontSize = new JButton("+1");
         increaseFontSize.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
-                MutableAttributeSet attr = TextPaneWindow.this.textPane.getInputAttributes();
-                int size = StyleConstants.getFontSize(attr);
+                final MutableAttributeSet attr = TextPaneWindow.this.textPane.getInputAttributes();
+                final int size = StyleConstants.getFontSize(attr);
                 StyleConstants.setFontSize(attr, size + 1);
-                StyledDocument doc = TextPaneWindow.this.textPane.getStyledDocument();
+                final StyledDocument doc = TextPaneWindow.this.textPane.getStyledDocument();
                 doc.setCharacterAttributes(0, doc.getLength(), attr, true);
             }
         });
@@ -119,17 +123,35 @@ public class TextPaneWindow extends JFrame {
         JButton decreaseFontSize = new JButton("-1");
         decreaseFontSize.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
-                MutableAttributeSet attr = TextPaneWindow.this.textPane.getInputAttributes();
-                int size = StyleConstants.getFontSize(attr);
+                final MutableAttributeSet attr = TextPaneWindow.this.textPane.getInputAttributes();
+                final int size = StyleConstants.getFontSize(attr);
                 if (size > 1) {
                     StyleConstants.setFontSize(attr, size - 1);
-                    StyledDocument doc = TextPaneWindow.this.textPane.getStyledDocument();
+                    final StyledDocument doc = TextPaneWindow.this.textPane.getStyledDocument();
                     doc.setCharacterAttributes(0, doc.getLength(), attr, true);
                 }
             }
         });
 
-        bbuilder.addGriddedButtons(new JButton[] {decreaseFontSize, increaseFontSize, ok});
+        final JButton wrap = new JButton("wrap on");
+        wrap.addActionListener(new  ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                TextPaneWindow.this.wordWrap = !TextPaneWindow.this.wordWrap;
+                if (TextPaneWindow.this.wordWrap) {
+                    wrap.setText("wrap on");
+                } else {
+                    wrap.setText("wrap off");
+                }
+                Dimension d = TextPaneWindow.this.textPane.getSize();
+                // TODO 20101116 m31: Quick and Dirty hack to force a new layout and refresh
+                d.setSize(d.height, d.width - 1);
+                TextPaneWindow.this.textPane.setSize(d);
+                d.setSize(d.height, d.width + 1);
+                TextPaneWindow.this.textPane.setSize(d);
+            }
+        });
+
+        bbuilder.addGriddedButtons(new JButton[] {wrap, decreaseFontSize, increaseFontSize, ok});
 
         final JPanel buttons = bbuilder.getPanel();
         content.add(GuiHelper.addSpaceAndAlignRight(buttons));
@@ -152,7 +174,11 @@ public class TextPaneWindow extends JFrame {
      * @return  Created panel.
      */
     private final JPanel createTextPanel(final String text) {
-        textPane = new JTextPane();
+        textPane = new JTextPane() {
+            public boolean getScrollableTracksViewportWidth() {
+                return TextPaneWindow.this.wordWrap;
+            }
+        };
         textPane.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, textPane.getFont().getSize()));
         final StyleContext sc = new StyleContext();
         final DefaultStyledDocument doc = new DefaultStyledDocument(sc);

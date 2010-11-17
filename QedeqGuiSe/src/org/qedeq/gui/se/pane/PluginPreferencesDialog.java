@@ -46,6 +46,7 @@ import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8Plugin;
+import org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8TextPlugin;
 import org.qedeq.kernel.common.Plugin;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
@@ -63,6 +64,15 @@ public class PluginPreferencesDialog extends JDialog {
     /** This class. */
     private static final Class CLASS = PluginPreferencesDialog.class;
 
+    /** Text field for default language of QEDEQ to UTF-8 show plugin. */
+    private JTextField qedeq2Utf8ShowLanguageTF;
+
+    /** Checkbox for info parameter of QEDEQ to UTF-8 show plugin. */
+    private JCheckBox qedeq2Utf8ShowInfoCB;
+
+    /** Text field for maximum column of QEDEQ to UTF-8 show plugin. */
+    private JTextField qedeq2Utf8ShowMaximumColumnTF;
+
     /** Checkbox for info parameter of QEDEQ to LaTeX plugin. */
     private JCheckBox qedeq2LatexInfoCB;
 
@@ -77,6 +87,9 @@ public class PluginPreferencesDialog extends JDialog {
 
     /** Plugin for converting QEDEQ modules into UTF-8 text. */
     private final Qedeq2Utf8Plugin qedeq2utf8;
+
+    /** Plugin for showing QEDEQ modules as UTF-8 text. */
+    private final Qedeq2Utf8TextPlugin qedeq2utf8Show;
 
     /** Plugin for checking formulas with the help of a static model. */
     private HeuristicCheckerPlugin heuristicChecker;
@@ -102,6 +115,7 @@ public class PluginPreferencesDialog extends JDialog {
         try {
             qedeq2latex = new Qedeq2LatexPlugin();
             qedeq2utf8 = new Qedeq2Utf8Plugin();
+            qedeq2utf8Show = new Qedeq2Utf8TextPlugin();
             heuristicChecker = new HeuristicCheckerPlugin();
             dynamicHeuristicChecker = new DynamicHeuristicCheckerPlugin();
             setModal(true);
@@ -114,6 +128,37 @@ public class PluginPreferencesDialog extends JDialog {
         } finally {
             Trace.end(CLASS, this, method);
         }
+    }
+
+    /**
+     * Assembles the GUI components of the panel.
+     */
+    public final void setupView() {
+        final JPanel content = new JPanel(new BorderLayout());
+        getContentPane().add(content);
+
+        final JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setOpaque(false);
+        tabbedPane.addTab(qedeq2utf8Show.getPluginName(), qedeq2Utf8ShowConfig(qedeq2utf8Show));
+        tabbedPane.addTab(qedeq2latex.getPluginName(), qedeq2LatexConfig(qedeq2latex));
+        tabbedPane.addTab(qedeq2utf8.getPluginName(), qedeq2Utf8Config(qedeq2utf8));
+        tabbedPane.addTab(heuristicChecker.getPluginName(), heuristicCheckerConfig(heuristicChecker));
+        tabbedPane.addTab(dynamicHeuristicChecker.getPluginName(),
+            dynamicHeuristicCheckerConfig(heuristicChecker));
+
+//        tabbedPane.setBorder(GuiHelper.getEmptyBorder());
+        tabbedPane.setBorder(new CompoundBorder(new EmptyBorder(0, 10, 10, 10),
+                tabbedPane.getBorder()));
+        content.add(tabbedPane, BorderLayout.CENTER);
+
+        content.add(GuiHelper.addSpaceAndAlignRight(buildButtonPanel()), BorderLayout.SOUTH);
+
+        // let the container calculate the ideal size
+        this.pack();
+
+        final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2,
+            getWidth(), getHeight());
     }
 
     /**
@@ -162,6 +207,42 @@ public class PluginPreferencesDialog extends JDialog {
         qedeq2Utf8MaximumColumnTF.setToolTipText("After this character number the line is broken."
             + "0 means no break at all.");
         builder.append(qedeq2Utf8MaximumColumnTF);
+
+        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+    }
+
+    /**
+     * Assembles settings for {@link Qedeq2Utf8TextPlugin}.
+     *
+     * @param   plugin  The transformation plugin.
+     * @return  Created panel.
+     */
+    private JComponent qedeq2Utf8ShowConfig(final Plugin plugin) {
+        FormLayout layout = new FormLayout(
+            "left:pref, 5dlu, fill:50dlu, fill:pref:grow");    // columns
+
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        builder.getPanel().setOpaque(false);
+
+        builder.append("Default language");
+        qedeq2Utf8ShowLanguageTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
+            plugin, "language", "en"));
+        qedeq2Utf8ShowLanguageTF.setToolTipText("Default language for showing module contents.");
+        builder.append(qedeq2Utf8ShowLanguageTF);
+
+        builder.nextLine();
+        qedeq2Utf8ShowInfoCB = new JCheckBox(" Also write reference labels (makes it easier for authors)",
+            QedeqGuiConfig.getInstance().getPluginKeyValue(plugin, "info", true));
+        builder.append(qedeq2Utf8ShowInfoCB, 4);
+
+        builder.nextLine();
+        builder.append("Maximum row length");
+        qedeq2Utf8ShowMaximumColumnTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
+            plugin, "maximumColumn", "80"));
+        qedeq2Utf8ShowMaximumColumnTF.setToolTipText("After this character number the line is broken."
+            + "0 means no break at all.");
+        builder.append(qedeq2Utf8ShowMaximumColumnTF);
 
         return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
     }
@@ -286,36 +367,6 @@ public class PluginPreferencesDialog extends JDialog {
     }
 
     /**
-     * Assembles the GUI components of the panel.
-     */
-    public final void setupView() {
-        final JPanel content = new JPanel(new BorderLayout());
-        getContentPane().add(content);
-
-        final JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.setOpaque(false);
-        tabbedPane.addTab(qedeq2latex.getPluginName(), qedeq2LatexConfig(qedeq2latex));
-        tabbedPane.addTab(qedeq2utf8.getPluginName(), qedeq2Utf8Config(qedeq2utf8));
-        tabbedPane.addTab(heuristicChecker.getPluginName(), heuristicCheckerConfig(heuristicChecker));
-        tabbedPane.addTab(dynamicHeuristicChecker.getPluginName(),
-            dynamicHeuristicCheckerConfig(heuristicChecker));
-
-//        tabbedPane.setBorder(GuiHelper.getEmptyBorder());
-        tabbedPane.setBorder(new CompoundBorder(new EmptyBorder(0, 10, 10, 10),
-                tabbedPane.getBorder()));
-        content.add(tabbedPane, BorderLayout.CENTER);
-
-        content.add(GuiHelper.addSpaceAndAlignRight(buildButtonPanel()), BorderLayout.SOUTH);
-
-        // let the container calculate the ideal size
-        this.pack();
-
-        final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2,
-            getWidth(), getHeight());
-    }
-
-    /**
      * Create button panel with "OK" and "Cancel".
      *
      * @return  Button panel.
@@ -354,6 +405,14 @@ public class PluginPreferencesDialog extends JDialog {
 
     void save() {
         try {
+            {
+                final Plugin plugin = qedeq2utf8Show;
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "language",
+                        qedeq2Utf8ShowLanguageTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "info", qedeq2Utf8ShowInfoCB.isSelected());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "maximumColumn",
+                    qedeq2Utf8ShowMaximumColumnTF.getText());
+            }
             {
                 final Plugin plugin = qedeq2latex;
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "info", qedeq2LatexInfoCB.isSelected());
