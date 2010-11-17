@@ -157,8 +157,12 @@ public class PluginPreferencesDialog extends JDialog {
         this.pack();
 
         final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        int width = getWidth();
+        if (2 * width < screenSize.width) {
+            width = 2 * width;
+        }
         setBounds((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2,
-            getWidth(), getHeight());
+            width, getHeight());
     }
 
     /**
@@ -351,13 +355,6 @@ public class PluginPreferencesDialog extends JDialog {
 
         builder.append(dynamicHeuristicCheckerFiveModelRB);
         JTextArea description = new JTextArea(five.getDescription());
-        description.setEditable(false);
-        description.setLineWrap(true);
-        description.setWrapStyleWord(true);
-        builder.append(description);
-
-        builder.append(dynamicHeuristicCheckerFiveModelRB);
-        description = new JTextArea(five.getDescription());
         description.setEditable(false);
         description.setLineWrap(true);
         description.setWrapStyleWord(true);
