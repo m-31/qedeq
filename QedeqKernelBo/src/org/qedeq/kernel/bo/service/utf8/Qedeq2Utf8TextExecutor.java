@@ -86,7 +86,7 @@ public final class Qedeq2Utf8TextExecutor implements PluginExecutor {
         } catch (RuntimeException e) {
             // ignore
         }
-        visitor = new Qedeq2Utf8Visitor(plugin, prop, info , maxColumns);
+        visitor = new Qedeq2Utf8Visitor(plugin, prop, info , maxColumns, false);
     }
 
     public Object executePlugin() {

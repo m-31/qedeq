@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.service.utf8;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.base.io.AbstractOutput;
@@ -105,27 +104,37 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
     /** Maximum column number. If zero no line breaking is done automatically. */
     private int maxColumns;
 
+    /** Should warning messages be generated if LaTeX problems occur? */
+    private boolean addWarnings;
+
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
     /**
      * Constructor.
      *
-     * @param   plugin      This plugin we work for.
-     * @param   prop        QEDEQ BO object.
+     * @param   plugin          This plugin we work for.
+     * @param   prop            QEDEQ BO object.
+     * @param   info            Write reference info?
+     * @param   maximumColumn   Maximum column before automatic break.
+     *                          0 means no automatic break.
+     * @param   addWarnings     Should warning messages be generated
+     *                          if LaTeX problems occur?
      */
     public Qedeq2Utf8Visitor(final Plugin plugin, final KernelQedeqBo prop,
-            final boolean info, final int maximumColumn) {
+            final boolean info, final int maximumColumn, final boolean addWarnings) {
         super(plugin, prop);
         this.info = info;
         this.maxColumns = maximumColumn;
+        this.addWarnings = addWarnings;
     }
 
     /**
      * Gives a UTF-8 representation of given QEDEQ module as InputStream.
      *
+     * @param   printer     Print herein.
      * @param   language    Filter text to get and produce text in this language only.
-     * @param   level       Filter for this detail level. LATER mime 20050205: not supported
+     * @param   level       Filter for this detail level. LATER 20100205 m31: not yet supported
      *                      yet.
      * @throws  SourceFileExceptionList Major problem occurred.
      * @throws  IOException     File IO failed.
@@ -840,7 +849,10 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
     public void addWarning(final int code, final String msg, final SourcePosition startDelta,
             final SourcePosition endDelta) {
         Trace.param(CLASS, this, "addWarning", "msg", msg);
-        addWarning(new LatexContentException(code, msg, getCurrentContext(startDelta, endDelta)));
+        if (addWarnings) {
+            addWarning(new LatexContentException(code, msg, getCurrentContext(startDelta,
+                endDelta)));
+        }
     }
 
     /**
