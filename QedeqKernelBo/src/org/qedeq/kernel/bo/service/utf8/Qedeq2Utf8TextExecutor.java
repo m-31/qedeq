@@ -47,9 +47,12 @@ public final class Qedeq2Utf8TextExecutor implements PluginExecutor {
     /** Filter text to get and produce text in this language. */
     private String language;
 
+    /** Visitor for producing the text output. */
     private final Qedeq2Utf8Visitor visitor;
 
-    private int maxColumns;
+    /** Automatically line break after this column. <code>0</code> means no
+     * automatic line breaking. */
+   private int maxColumns;
 
     /**
      * Constructor.
