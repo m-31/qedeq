@@ -185,11 +185,11 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
     }
 
     public String getExecutionActionDescription() {
-        if (run < languages.length) {
-            return languages[run] + visitor.getExecutionActionDescription();
+        if (languages != null && run < languages.length) {
+            return languages[run] + " " + visitor.getExecutionActionDescription();
         }
         if (languages != null && languages.length > 0) {
-            return languages[languages.length] + visitor.getExecutionActionDescription();
+            return languages[languages.length] + " " + visitor.getExecutionActionDescription();
         }
         return "unknown";
     }
