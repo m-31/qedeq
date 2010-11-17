@@ -148,7 +148,7 @@ public final class UnaryModel implements Model {
     }
 
     public String getDescription() {
-        return "This model has only one entity. The element of relation is never fullfilled.";
+        return "This model has only one entity. The \" is element of\" relation is never fullfilled.";
     }
 
     public int getEntitiesSize() {
