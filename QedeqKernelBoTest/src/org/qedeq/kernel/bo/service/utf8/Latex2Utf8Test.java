@@ -162,7 +162,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "earlier in the proof or results from it by substitution. A formula is said to be "
             + "provable if it is either an axiom or the end formula of a proof.\\grqq}\n"
             + "          \\end{quote}\n";
-        final String result = "At the beginning we quote \u2006D\u2006.\u2006 \u2006H\u2006i\u2006l\u2006b\u2006e\u2006r\u2006t\u2006 from the lecture "
+        final String result = "At the beginning we quote  D .   H i l b e r t  from the lecture "
             + "\u201eThe Logical\n"
             + "Basis of Mathematics\u201d, September 1922\n"
             + "          \u250c\n"
@@ -178,7 +178,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "      formulas, so that mathematics proper becomes all inventory of formulas.\n"
             + "      These differ from the ordinary formulas of mathematics only in that,\n"
             + "      besides the ordinary signs, the logical signs especially \u201eimplies\u201d (\u2192) and\n"
-            + "      for \u201enot\u201d (\u203e\u2000) occur in them. Certain formulas, which serve as building\n"
+            + "      for \u201enot\u201d (\u203e ) occur in them. Certain formulas, which serve as building\n"
             + "      blocks for the formal edifice of mathematics, are called axioms. A proof\n"
             + "      is an array that must be given as such to our perceptual intuition of it\n"
             + "      of inferences according to the schema\n"
@@ -247,8 +247,8 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
      */
     public void test06() throws Exception {
         final String text  = "A \\emph{Hilbert} B \\emph{Bernays}.";
-        final String result = "A \u2006H\u2006i\u2006l\u2006b\u2006e\u2006r\u2006t\u2006 "
-        + "B \u2006B\u2006e\u2006r\u2006n\u2006a\u2006y\u2006s\u2006.";
+        final String result = "A  H i l b e r t  "
+        + "B  B e r n a y s .";
         assertEquals(result, Latex2Utf8Parser.transform(finder, text, 0));
         assertEquals(0, warnings.size());
     }
