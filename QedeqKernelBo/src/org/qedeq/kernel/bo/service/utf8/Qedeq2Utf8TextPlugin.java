@@ -23,7 +23,7 @@ import org.qedeq.kernel.bo.module.PluginExecutor;
 
 
 /**
- * Plugin to transfer a QEDEQ module into a UTF-8 text file.
+ * Plugin to transfer a QEDEQ module into a LaTeX file.
  *
  * @author  Michael Meyling
  */
@@ -43,15 +43,15 @@ public final class Qedeq2Utf8TextPlugin implements PluginBo {
     }
 
     public String getPluginName() {
-        return "Show module as UTF-8 text";
+        return "Create UTF-8";
     }
 
     public String getPluginDescription() {
-        return "shows QEDEQ module within window as UTF-8 text";
+        return "transforms QEDEQ module into UTF-8 file";
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
-        return new Qedeq2Utf8TextExecutor(this, qedeq, parameters);
+        return new Qedeq2Utf8Executor(this, qedeq, parameters);
     }
 
 }
