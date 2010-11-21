@@ -93,7 +93,7 @@ public final class ThreeDynamicModelOne extends DynamicModel {
                 result += entities[i].getValue() % 3;
             }
             result = result % 3;
-            return value2Entity(result);
+            return getEntity(result);
         }
     };
 
@@ -105,7 +105,7 @@ public final class ThreeDynamicModelOne extends DynamicModel {
                 result += entities[i].getValue() % 3;
             }
             result = result % 3;
-            return value2Entity(result);
+            return getEntity(result);
         }
     };
 

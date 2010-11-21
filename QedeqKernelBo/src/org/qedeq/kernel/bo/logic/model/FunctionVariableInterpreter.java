@@ -109,16 +109,6 @@ public final class FunctionVariableInterpreter {
         return next;
     }
 
-    public double getCompleteness() {
-        double result = counter + 1;
-        for (int i = 0; i < functionVariableCounters.size(); i++) {
-            final FunctionVariable var = (FunctionVariable) functionVariables.get(i);
-            result /= model.getFunctionSize(var.getArgumentNumber());
-        }
-//        System.out.println("FunctionVariableCompleteness: " + result);
-        return result;
-    }
-
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
         buffer.append("function variables {");

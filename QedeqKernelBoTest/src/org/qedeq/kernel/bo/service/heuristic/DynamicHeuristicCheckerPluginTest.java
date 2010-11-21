@@ -21,7 +21,6 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.logic.model.DynamicModel;
 import org.qedeq.kernel.bo.logic.model.Model;
 import org.qedeq.kernel.bo.logic.model.ThreeDynamicModelOne;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;

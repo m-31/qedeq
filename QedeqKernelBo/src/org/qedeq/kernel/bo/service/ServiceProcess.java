@@ -206,6 +206,9 @@ public class ServiceProcess {
         stop = System.currentTimeMillis();
     }
 
+    /**
+     * Mark that thread execution was has normally ended.
+     */
     public synchronized void setSuccessState() {
         if (isRunning()) {
             state = 1;
@@ -215,6 +218,9 @@ public class ServiceProcess {
         }
     }
 
+    /**
+     * Mark that thread execution was canceled.
+     */
     public synchronized void setFailureState() {
         if (isRunning()) {
             state = -1;
@@ -222,6 +228,11 @@ public class ServiceProcess {
         }
     }
 
+    /**
+     * Is the process still running?
+     *
+     * @return  The process is still running. (But it might be blocked.)
+     */
     public synchronized boolean isRunning() {
         if (state == 0) {
             if (!thread.isAlive()) {
@@ -235,6 +246,11 @@ public class ServiceProcess {
         return false;
     }
 
+    /**
+     * Is the process running, but is blocked?
+     *
+     * @return  Process is running and blocked.
+     */
     public synchronized boolean isBlocked() {
         if (isRunning()) {
             return blocked;
@@ -242,18 +258,36 @@ public class ServiceProcess {
         return false;
     }
 
+    /**
+     * Set blocked state.
+     *
+     * @param   blocked Blocked state.
+     */
     public synchronized void setBlocked(final boolean blocked) {
         this.blocked = blocked;
     }
 
+    /**
+     * Has the process normally ended?
+     *
+     * @return  Has the process normally ended?
+     */
     public synchronized boolean wasSuccess() {
         return state == 1;
     }
 
+    /**
+     * Has the process been canceled?
+     *
+     * @return  The process has been canceled.
+     */
     public synchronized boolean wasFailure() {
         return state == -1;
     }
 
+    /**
+     * Interrupt running thread. Usually because of user canceling.
+     */
     public synchronized void interrupt() {
         thread.interrupt();
         setFailureState();

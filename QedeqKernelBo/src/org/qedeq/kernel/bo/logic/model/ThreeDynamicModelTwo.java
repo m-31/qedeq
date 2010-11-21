@@ -69,7 +69,7 @@ public final class ThreeDynamicModelTwo extends DynamicModel {
 
     /** Map to one. */
     /** Modulo 3. */
-    public final Function FUNCTION_MOD = new Function(0, 99, "% 3", "modulo 3") {
+    private final Function functionModulo3 = new Function(0, 99, "% 3", "modulo 3") {
         public Entity map(final Entity[] entities) {
             int result = 0;
             for (int i = 0; i < entities.length; i++) {
@@ -89,39 +89,6 @@ public final class ThreeDynamicModelTwo extends DynamicModel {
             }
             result = result % 3;
             return value2Entity(result);
-        }
-    };
-
-    /** Minimum. */
-    private final Function functionMin = new Function(0, 99, "min", "minimum") {
-        public Entity map(final Entity[] entities) {
-            int result = 2;
-            for (int i = 0; i < entities.length; i++) {
-                if (result > entities[i].getValue()) {
-                    result = entities[i].getValue();
-                }
-            }
-            return value2Entity(result);
-        }
-    };
-
-    /** Maximum. */
-    private final Function functionMax = new Function(0, 99, "max", "maximum") {
-        public Entity map(final Entity[] entities) {
-            int result = 0;
-            for (int i = 0; i < entities.length; i++) {
-                if (result < entities[i].getValue()) {
-                    result = entities[i].getValue();
-                }
-            }
-            return value2Entity(result);
-        }
-    };
-
-    /** Maximum. */
-    private final Function functionClassList = new Function(0, 99, "{..}", "classList") {
-        public Entity map(final Entity[] entities) {
-            return comprehension(entities);
         }
     };
 
@@ -240,14 +207,14 @@ public final class ThreeDynamicModelTwo extends DynamicModel {
         functionPool.add(function1);
         function1.add(FUNCTION_EMPTY);
         function1.add(FUNCTION_ZERO_ONE);
-        function1.add(FUNCTION_MOD);
+        function1.add(functionModulo3);
         function1.add(functionPlus1Modulo3);
 
         final List function2 = new ArrayList();
         functionPool.add(function2);
         function2.add(FUNCTION_EMPTY);
         function2.add(FUNCTION_ZERO_ONE);
-        function2.add(FUNCTION_MOD);
+        function2.add(functionModulo3);
         function2.add(functionPlus1Modulo3);
 
         predicatePool = new ArrayList();

@@ -138,6 +138,12 @@ public final class SubjectVariableInterpreter {
         return selection;
     }
 
+    /**
+     * Get current interpretation of subject variable.
+     *
+     * @param   var     Subject variable we are interested in.
+     * @return  Current entity for subject variable.
+     */
     public synchronized Entity getEntity(final SubjectVariable var) {
         return model.getEntity(getSubjectVariableSelection(var));
     }
@@ -154,6 +160,11 @@ public final class SubjectVariableInterpreter {
         return index;
     }
 
+    /**
+     * Set interpretation of subject variable to next entity.
+     *
+     * @param   var Switch to next entity for this subject variable.
+     */
     public synchronized void increaseSubjectVariableSelection(final SubjectVariable var) {
         ((SubjectVariableAllocation) subjectVariableAllocations.get(getIndex(var))).increaseNumber();
     }

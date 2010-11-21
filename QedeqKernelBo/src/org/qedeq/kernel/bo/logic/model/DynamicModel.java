@@ -107,8 +107,7 @@ public abstract class DynamicModel implements Model {
     public DynamicModel() {
         entities = new ArrayList();
         for (int i = 0; i < getEntitiesSize(); i++) {
-            System.out.println("adding entity for " + i);
-            addEntity(value2Entity(i));
+            addEntity(getEntity(i));
         }
         functionPool = new Vector();
         predicatePool = new Vector();
@@ -240,16 +239,6 @@ public abstract class DynamicModel implements Model {
         return (Function) functionConstants.get(con);
     }
 
-    public Entity value2Entity(final int value) {
-        return (Entity) entities.get(value);
-    }
-
-    /**
-     * Get entity that contains exactly the given entities.
-     *
-     * @param   array   These are the elements of the resulting class.
-     * @return  Comprehension of given entities.
-     */
     public abstract Entity comprehension(final Entity[] array);
 
 }

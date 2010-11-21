@@ -103,17 +103,6 @@ public final class PredicateVariableInterpreter {
         return next;
     }
 
-    public double getCompleteness() {
-        double result = counter + 1;
-        for (int i = 0; i < predicateVariableCounters.size(); i++) {
-            final PredicateVariable var = (PredicateVariable) predicateVariables.get(i);
-            result /= model.getPredicateSize(var.getArgumentNumber());
-        }
-//        System.out.println("PredicateCompleteness: " + result);
-        return result;
-    }
-
-
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
         buffer.append("predicate variables {");

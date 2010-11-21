@@ -22,9 +22,10 @@ public interface Model {
     public int getEntitiesSize();
 
     /**
-     * Get entity <code>number</code>.
+     * Get entity <code>number</code>. Also transforms the value of
+     * an entity into the entity itself.
      *
-     * @param   number  Get entity with this number.
+     * @param   number  Get entity with this number and value.
      * @return  Entity.
      */
     public Entity getEntity(final int number);
