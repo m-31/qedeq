@@ -187,7 +187,7 @@ public final class UnaryModel implements Model {
         return FUNCTION_ZERO;
     }
 
-    public Entity map(final Entity[] array) {
+    public Entity comprehension(final Entity[] array) {
         return ZERO;
     }
 

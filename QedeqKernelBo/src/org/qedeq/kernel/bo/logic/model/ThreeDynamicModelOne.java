@@ -15,10 +15,6 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * A model for our mathematical world. It has entities, functions and predicates.
@@ -87,10 +83,10 @@ public final class ThreeDynamicModelOne extends DynamicModel {
 
     /** Are the entities are not all equal to {2}? */
     public static final Predicate NOT_IS_ONE_TWO = Predicate.not(IS_ONE_TWO);
-    
+
     /** Map to one. */
     /** Modulo 3. */
-    public final Function FUNCTION_MOD = new Function(0, 99, "% 3", "modulo 3") {
+    private final Function functionModulo3 = new Function(0, 99, "% 3", "modulo 3") {
         public Entity map(final Entity[] entities) {
             int result = 0;
             for (int i = 0; i < entities.length; i++) {
@@ -102,7 +98,7 @@ public final class ThreeDynamicModelOne extends DynamicModel {
     };
 
     /** +1 Modulo 3. */
-    public final Function FUNCTION_PLUS = new Function(0, 99, "+1 % 3", "plus 1 modulo 3") {
+    private final Function functionPlus1Modulo3 = new Function(0, 99, "+1 % 3", "plus 1 modulo 3") {
         public Entity map(final Entity[] entities) {
             int result = 1;
             for (int i = 0; i < entities.length; i++) {
@@ -114,15 +110,16 @@ public final class ThreeDynamicModelOne extends DynamicModel {
     };
 
 
-    
     /**
      * Constructor.
      */
     public ThreeDynamicModelOne() {
-        for (int i = 0; i < 5; i++) {
-            System.out.println("adding entity for " + i);
-            addEntity(value2Entity(i));
-        }
+        addEntity(EMPTY);
+        addEntity(ZERO_ONE);
+        addEntity(ZERO_TWO);
+        addEntity(ONE_ONE);
+        addEntity(ONE_TWO);
+        addEntity(TWO_ONE_TWO);
 
         addFunction(0, FUNCTION_EMPTY);
         addFunction(0, FUNCTION_ZERO_ONE);
@@ -133,13 +130,13 @@ public final class ThreeDynamicModelOne extends DynamicModel {
 
         addFunction(1, FUNCTION_EMPTY);
         addFunction(1, FUNCTION_ZERO_ONE);
-        addFunction(1, FUNCTION_MOD);
-        addFunction(1, FUNCTION_PLUS);
+        addFunction(1, functionModulo3);
+        addFunction(1, functionPlus1Modulo3);
 
         addFunction(2, FUNCTION_EMPTY);
         addFunction(2, FUNCTION_ZERO_ONE);
-        addFunction(2, FUNCTION_MOD);
-        addFunction(2, FUNCTION_PLUS);
+        addFunction(2, functionModulo3);
+        addFunction(2, functionPlus1Modulo3);
 
         addPredicate(0, FALSE);
         addPredicate(0, TRUE);
@@ -184,19 +181,7 @@ public final class ThreeDynamicModelOne extends DynamicModel {
         return "This model has six entities: {}, {1}, {2}, {{1}}, {{2}} and {1, 2}.";
     }
 
-    public Entity value2Entity(final int value) {
-        switch (value) {
-        case 0: return EMPTY;
-        case 1: return ZERO_ONE;
-        case 2: return ZERO_TWO;
-        case 3: return ONE_ONE;
-        case 4: return ONE_TWO;
-        case 5: return TWO_ONE_TWO;
-        default: throw new RuntimeException("unknown entity for value " + value);
-        }
-    }
-
-    public Entity map(final Entity[] array) {
+    public Entity comprehension(final Entity[] array) {
         Entity result = EMPTY;
         for (int i = 0; i < array.length; i++) {
             switch (array[i].getValue()) {

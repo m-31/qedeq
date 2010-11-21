@@ -28,7 +28,6 @@ import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.model.CalculateTruth;
-import org.qedeq.kernel.bo.logic.model.DynamicModel;
 import org.qedeq.kernel.bo.logic.model.FunctionConstant;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
 import org.qedeq.kernel.bo.logic.model.HeuristicException;

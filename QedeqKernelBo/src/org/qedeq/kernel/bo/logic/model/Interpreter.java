@@ -378,7 +378,7 @@ public final class Interpreter {
                 }
                 subjectVariableInterpreter.increaseSubjectVariableSelection(var);
             }
-            result = model.map((Entity[]) fullfillers.toArray(new Entity[] {}));
+            result = model.comprehension((Entity[]) fullfillers.toArray(new Entity[] {}));
             subjectVariableInterpreter.removeSubjectVariable(var);
         } else {
             setLocationWithinModule(context + ".getList().getOperator()");

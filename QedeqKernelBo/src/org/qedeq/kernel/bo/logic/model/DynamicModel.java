@@ -106,10 +106,11 @@ public abstract class DynamicModel implements Model {
      */
     public DynamicModel() {
         entities = new ArrayList();
-
+        for (int i = 0; i < getEntitiesSize(); i++) {
+            System.out.println("adding entity for " + i);
+            addEntity(value2Entity(i));
+        }
         functionPool = new Vector();
-
-
         predicatePool = new Vector();
 
         predicateConstants = new HashMap();
@@ -147,8 +148,7 @@ public abstract class DynamicModel implements Model {
         functionConstants.put(constant, function);
     }
 
-    // FIXME 20101120 m31: create entity here
-    public void addEntity(final Entity entity) {
+    protected void addEntity(final Entity entity) {
         if (entities.size() != entity.getValue()) {
             throw new RuntimeException("entity value should have been " + entities.size()
                 + " but was " + entity.getValue());
@@ -244,7 +244,12 @@ public abstract class DynamicModel implements Model {
         return (Entity) entities.get(value);
     }
 
-    // FIXME 20101120: rename to comprehension
-    public abstract Entity map(final Entity[] array);
+    /**
+     * Get entity that contains exactly the given entities.
+     *
+     * @param   array   These are the elements of the resulting class.
+     * @return  Comprehension of given entities.
+     */
+    public abstract Entity comprehension(final Entity[] array);
 
 }

@@ -132,7 +132,7 @@ public final class ThreeModel implements Model {
     };
 
     /** Maximum. */
-    public static final Function FUNCTION_CLASS_LIST = new Function(0, 99, "{..}", "classList") {
+    private final Function functionClassList = new Function(0, 99, "{..}", "classList") {
         public Entity map(final Entity[] entities) {
             return comprehension(entities);
         }
@@ -331,11 +331,11 @@ public final class ThreeModel implements Model {
                 }
             }
         });
-        functionConstants.put(new FunctionConstant("classList", 0), FUNCTION_CLASS_LIST);
-        functionConstants.put(new FunctionConstant("classList", 1), FUNCTION_CLASS_LIST);
-        functionConstants.put(new FunctionConstant("classList", 2), FUNCTION_CLASS_LIST);
-        functionConstants.put(new FunctionConstant("classList", 3), FUNCTION_CLASS_LIST);
-        functionConstants.put(new FunctionConstant("classList", 4), FUNCTION_CLASS_LIST);
+        functionConstants.put(new FunctionConstant("classList", 0), functionClassList);
+        functionConstants.put(new FunctionConstant("classList", 1), functionClassList);
+        functionConstants.put(new FunctionConstant("classList", 2), functionClassList);
+        functionConstants.put(new FunctionConstant("classList", 3), functionClassList);
+        functionConstants.put(new FunctionConstant("classList", 4), functionClassList);
 
     }
 
@@ -384,7 +384,7 @@ public final class ThreeModel implements Model {
         return (Function) functionConstants.get(con);
     }
 
-    private static Entity comprehension(final Entity[] array) {
+    public Entity comprehension(final Entity[] array) {
         if (array.length == 0) {
             return ZERO;
         } else if (array.length == 1) {
@@ -400,10 +400,6 @@ public final class ThreeModel implements Model {
         } else {
             return TWO;
         }
-    }
-
-    public Entity map(final Entity[] array) {
-        return comprehension(array);
     }
 
 }

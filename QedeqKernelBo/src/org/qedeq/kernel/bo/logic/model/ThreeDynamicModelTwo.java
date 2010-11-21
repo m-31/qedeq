@@ -81,7 +81,7 @@ public final class ThreeDynamicModelTwo extends DynamicModel {
     };
 
     /** +1 Modulo 3. */
-    public final Function FUNCTION_PLUS = new Function(0, 99, "+1 % 3", "plus 1 modulo 3") {
+    private final Function functionPlus1Modulo3 = new Function(0, 99, "+1 % 3", "plus 1 modulo 3") {
         public Entity map(final Entity[] entities) {
             int result = 1;
             for (int i = 0; i < entities.length; i++) {
@@ -93,7 +93,7 @@ public final class ThreeDynamicModelTwo extends DynamicModel {
     };
 
     /** Minimum. */
-    public final Function FUNCTION_MIN = new Function(0, 99, "min", "minimum") {
+    private final Function functionMin = new Function(0, 99, "min", "minimum") {
         public Entity map(final Entity[] entities) {
             int result = 2;
             for (int i = 0; i < entities.length; i++) {
@@ -106,7 +106,7 @@ public final class ThreeDynamicModelTwo extends DynamicModel {
     };
 
     /** Maximum. */
-    public final Function FUNCTION_MAX = new Function(0, 99, "max", "maximum") {
+    private final Function functionMax = new Function(0, 99, "max", "maximum") {
         public Entity map(final Entity[] entities) {
             int result = 0;
             for (int i = 0; i < entities.length; i++) {
@@ -119,7 +119,7 @@ public final class ThreeDynamicModelTwo extends DynamicModel {
     };
 
     /** Maximum. */
-    public static final Function FUNCTION_CLASS_LIST = new Function(0, 99, "{..}", "classList") {
+    private final Function functionClassList = new Function(0, 99, "{..}", "classList") {
         public Entity map(final Entity[] entities) {
             return comprehension(entities);
         }
@@ -241,14 +241,14 @@ public final class ThreeDynamicModelTwo extends DynamicModel {
         function1.add(FUNCTION_EMPTY);
         function1.add(FUNCTION_ZERO_ONE);
         function1.add(FUNCTION_MOD);
-        function1.add(FUNCTION_PLUS);
+        function1.add(functionPlus1Modulo3);
 
         final List function2 = new ArrayList();
         functionPool.add(function2);
         function2.add(FUNCTION_EMPTY);
         function2.add(FUNCTION_ZERO_ONE);
         function2.add(FUNCTION_MOD);
-        function2.add(FUNCTION_PLUS);
+        function2.add(functionPlus1Modulo3);
 
         predicatePool = new ArrayList();
 
@@ -379,7 +379,7 @@ public final class ThreeDynamicModelTwo extends DynamicModel {
         }
     }
 
-    private static Entity comprehension(final Entity[] array) {
+    public Entity comprehension(final Entity[] array) {
         Entity result = EMPTY;
         for (int i = 0; i < array.length; i++) {
             switch (array[i].getValue()) {
@@ -407,10 +407,6 @@ public final class ThreeDynamicModelTwo extends DynamicModel {
             }
         }
         return result;
-    }
-
-    public Entity map(final Entity[] array) {
-        return comprehension(array);
     }
 
 }

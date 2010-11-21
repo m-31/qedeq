@@ -8,6 +8,10 @@ package org.qedeq.kernel.bo.logic.model;
  */
 public interface Model {
 
+    /**
+     * Get model description.
+     *
+     * @return  Model description. */
     public String getDescription();
 
     /**
@@ -82,6 +86,6 @@ public interface Model {
      * @param   array   List of elements.
      * @return  Class that contains (exactly?) these elements.
      */
-    public Entity map(final Entity[] array);
+    public Entity comprehension(final Entity[] array);
 
 }
