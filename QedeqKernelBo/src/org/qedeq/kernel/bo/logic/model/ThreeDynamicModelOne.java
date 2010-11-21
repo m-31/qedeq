@@ -114,6 +114,8 @@ public final class ThreeDynamicModelOne extends DynamicModel {
      * Constructor.
      */
     public ThreeDynamicModelOne() {
+        super();
+
         addEntity(EMPTY);
         addEntity(ZERO_ONE);
         addEntity(ZERO_TWO);

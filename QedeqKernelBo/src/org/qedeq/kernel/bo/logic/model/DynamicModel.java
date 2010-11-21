@@ -106,9 +106,6 @@ public abstract class DynamicModel implements Model {
      */
     public DynamicModel() {
         entities = new ArrayList();
-        for (int i = 0; i < getEntitiesSize(); i++) {
-            addEntity(getEntity(i));
-        }
         functionPool = new Vector();
         predicatePool = new Vector();
 
@@ -152,6 +149,7 @@ public abstract class DynamicModel implements Model {
             throw new RuntimeException("entity value should have been " + entities.size()
                 + " but was " + entity.getValue());
         }
+        System.out.println("added entity " + entity);
         entities.add(entity);
     }
 
