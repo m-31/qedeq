@@ -49,7 +49,7 @@ public final class CalculateTruth {
      */
     public static boolean isTautology(final Element formula)
             throws HeuristicException {
-        final CalculateTruth calculator = new CalculateTruth(new DynamicModel());
+        final CalculateTruth calculator = new CalculateTruth(new ThreeDynamicModelOne());
         return calculator.calculateTautology(new ModuleContext(new DefaultModuleAddress()),
             formula);
     }
