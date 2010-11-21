@@ -39,7 +39,8 @@ import javax.swing.border.EmptyBorder;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.bo.logic.model.DynamicModel;
+import org.qedeq.kernel.bo.logic.model.ThreeDynamicModelOne;
+import org.qedeq.kernel.bo.logic.model.ThreeDynamicModelTwo;
 import org.qedeq.kernel.bo.logic.model.ThreeModel;
 import org.qedeq.kernel.bo.logic.model.UnaryModel;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
@@ -144,7 +145,7 @@ public class PluginPreferencesDialog extends JDialog {
         tabbedPane.addTab(qedeq2utf8.getPluginName(), qedeq2Utf8Config(qedeq2utf8));
         tabbedPane.addTab(heuristicChecker.getPluginName(), heuristicCheckerConfig(heuristicChecker));
         tabbedPane.addTab(dynamicHeuristicChecker.getPluginName(),
-            dynamicHeuristicCheckerConfig(heuristicChecker));
+            dynamicHeuristicCheckerConfig(dynamicHeuristicChecker));
 
 //        tabbedPane.setBorder(GuiHelper.getEmptyBorder());
         tabbedPane.setBorder(new CompoundBorder(new EmptyBorder(0, 10, 10, 10),
@@ -326,9 +327,11 @@ public class PluginPreferencesDialog extends JDialog {
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         builder.getPanel().setOpaque(false);
 
-        final DynamicModel five = new DynamicModel();
+        final ThreeDynamicModelOne five1 = new ThreeDynamicModelOne();
+        final ThreeDynamicModelTwo five2 = new ThreeDynamicModelTwo();
+
         dynamicHeuristicCheckerModel = QedeqGuiConfig.getInstance()
-                .getPluginKeyValue(plugin, "model", five.getClass().getName());
+                .getPluginKeyValue(plugin, "model", five1.getClass().getName());
         final ActionListener modelSelectionListener = new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 dynamicHeuristicCheckerModel = e.getActionCommand();
@@ -337,30 +340,37 @@ public class PluginPreferencesDialog extends JDialog {
 
         final ButtonGroup dynamicHeuristicCheckerModelBG = new ButtonGroup();
 
-        final JRadioButton dynamicHeuristicCheckerFiveModelRB = new JRadioButton("Five Model");
-        if (dynamicHeuristicCheckerModel.equals(five.getClass().getName())) {
-            dynamicHeuristicCheckerFiveModelRB.setSelected(true);
+        final JRadioButton dynamicHeuristicCheckerFiveModelRB1 = new JRadioButton("Five Model 1");
+        if (dynamicHeuristicCheckerModel.equals(five1.getClass().getName())) {
+            dynamicHeuristicCheckerFiveModelRB1.setSelected(true);
         }
-        dynamicHeuristicCheckerFiveModelRB.setActionCommand(five.getClass().getName());
-        dynamicHeuristicCheckerFiveModelRB.addActionListener(modelSelectionListener);
-        dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerFiveModelRB);
+        dynamicHeuristicCheckerFiveModelRB1.setActionCommand(five1.getClass().getName());
+        dynamicHeuristicCheckerFiveModelRB1.addActionListener(modelSelectionListener);
+        dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerFiveModelRB1);
 
-//        final JRadioButton heuristicCheckerThreeModelRB = new JRadioButton("Three Model");
-//        if (heuristicCheckerModel.equals(three.getClass().getName())) {
-//            heuristicCheckerThreeModelRB.setSelected(true);
-//        }
-//        heuristicCheckerThreeModelRB.setActionCommand(three.getClass().getName());
-//        heuristicCheckerThreeModelRB.addActionListener(modelSelectionListener);
-//        heuristicCheckerModelBG.add(heuristicCheckerThreeModelRB);
+        builder.append(dynamicHeuristicCheckerFiveModelRB1);
+        builder.append(getDescription(five1.getDescription()));
 
-        builder.append(dynamicHeuristicCheckerFiveModelRB);
-        JTextArea description = new JTextArea(five.getDescription());
+        final JRadioButton dynamicHeuristicCheckerFiveModelRB2 = new JRadioButton("Five Model 2");
+        if (dynamicHeuristicCheckerModel.equals(five2.getClass().getName())) {
+            dynamicHeuristicCheckerFiveModelRB2.setSelected(true);
+        }
+        dynamicHeuristicCheckerFiveModelRB2.setActionCommand(five2.getClass().getName());
+        dynamicHeuristicCheckerFiveModelRB2.addActionListener(modelSelectionListener);
+        dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerFiveModelRB2);
+
+        builder.append(dynamicHeuristicCheckerFiveModelRB2);
+        builder.append(getDescription(five2.getDescription()));
+
+        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+    }
+
+    private JTextArea getDescription(final String text) {
+        JTextArea description = new JTextArea(text);
         description.setEditable(false);
         description.setLineWrap(true);
         description.setWrapStyleWord(true);
-        builder.append(description);
-
-        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+        return description;
     }
 
     /**
