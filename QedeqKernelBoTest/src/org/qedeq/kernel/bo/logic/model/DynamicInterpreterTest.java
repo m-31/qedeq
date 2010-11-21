@@ -41,7 +41,7 @@ public class DynamicInterpreterTest extends QedeqTestCase {
     
     public void setUp() throws Exception {
         super.setUp();
-        interpreter = new DynamicInterpreter(new DynamicModel());
+        interpreter = new DynamicInterpreter(new ThreeDynamicModelOne());
     }
 
     public void tearDown() throws Exception {
