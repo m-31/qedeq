@@ -36,6 +36,7 @@ import org.qedeq.kernel.bo.logic.model.FunctionConstant;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
 import org.qedeq.kernel.bo.logic.model.HeuristicException;
 import org.qedeq.kernel.bo.logic.model.PredicateConstant;
+import org.qedeq.kernel.bo.logic.model.ThreeDynamicModelOne;
 import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -100,7 +101,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         }
         // fallback is the default model
         if (model == null) {
-            model = new DynamicModel();
+            model = new ThreeDynamicModelOne();
         }
         this.interpreter = new DynamicInterpreter(model);
     }
