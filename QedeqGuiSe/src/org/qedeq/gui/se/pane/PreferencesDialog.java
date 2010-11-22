@@ -501,6 +501,8 @@ public class PreferencesDialog extends JDialog {
                     autoReloadLastSessionCheckedCB.isSelected());
                 QedeqGuiConfig.getInstance().setAutoStartHtmlBrowser(autoStartHtmlBrowserCB.isSelected());
                 QedeqGuiConfig.getInstance().setTraceOn(traceOnCB.isSelected());
+                Trace.setTraceOn(traceOnCB.isSelected());   // TODO 20101122 m31: is this the correct position
+                                                            // to set this flag
                 if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
                     QedeqGuiConfig.getInstance().setConnectionTimeout(Integer.parseInt(
                         connectionTimeoutTextField.getText()));
