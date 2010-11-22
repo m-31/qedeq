@@ -188,7 +188,6 @@ public class QedeqNumbers {
         if (sectionNumbering) {
             sectionNumber++;
         }
-        this.subsectionsAndNodes = 0;
         subsectionNumber = 0;
         nodeNumber = 0;
     }
@@ -343,6 +342,7 @@ public class QedeqNumbers {
 
     /**
      * Get calculated visit percentage.
+     * This is a monotonically nondecreasing visit function.
      *
      * @return  Value between 0 and 100.
      */
@@ -350,19 +350,19 @@ public class QedeqNumbers {
         if (finished) {
             return 100;
         }
-        double result = 0;
-        if (importNumber < imports && chapterNumber == 0) {
-            result = (double) importNumber / (imports + 1) / (chapters + 1);
-        } else {
-            result = (double) absoluteChapterNumber / (chapters + 1);
-            result += (double) absoluteSectionNumber / (sections + 1) / (chapters + 1);
-            result += (double) (subsectionNumber + nodeNumber)
-                / (subsectionsAndNodes + 1) / (sections + 1) / (chapters + 1);
-        }
-        if (result > 1) {
-            System.out.println(result * 100);
-        }
+        double result = (double) (importNumber + 1) / (imports + 1) / (chapters + 3);
+        result += (double) (absoluteChapterNumber) / (chapters + 3);
+        result += (double) (absoluteSectionNumber + 1) / (sections + 2) / (chapters + 3);
+        result += (double) (subsectionNumber + nodeNumber + 1)
+            / (subsectionsAndNodes + 2) / (sections + 2) / (chapters + 3);
         return 100 * result;
+    }
+
+    public String toString() {
+        return "(" + importNumber + "/" + imports + " I) "
+            + "(" + absoluteChapterNumber + "/" + chapters + " C) "
+            + "(" + absoluteSectionNumber + "/" + sections + " S) "
+            + "(" + (subsectionNumber + nodeNumber) + "/" + subsectionsAndNodes + ")";
     }
 
 }

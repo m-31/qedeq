@@ -86,6 +86,8 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     /** Is sub node traverse currently blocked? */
     private boolean blocked;
 
+    private double visitPercentageOld;
+
     /**
      * Constructor.
      *
@@ -98,6 +100,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     }
 
     public void accept(final Qedeq qedeq) throws ModuleDataException {
+        visitPercentageOld = 0;
         setLocation("started");
         if (qedeq == null) {
             throw new NullPointerException("null QEDEQ module");
