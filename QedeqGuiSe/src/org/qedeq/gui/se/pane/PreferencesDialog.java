@@ -81,6 +81,10 @@ public class PreferencesDialog extends JDialog {
     /** Automatic start of default HTML browser after HTML generation. */
     private JCheckBox autoStartHtmlBrowserCB;
 
+    /** Enable detail trace. Detail level are configurated within the logging environment.
+     * (E.g. within log4j.xml.)*/
+    private JCheckBox traceOnCB;
+
     /** QEDEQ module buffer directory. */
     private JTextArea moduleBufferTextArea;
 
@@ -372,6 +376,10 @@ public class PreferencesDialog extends JDialog {
             QedeqGuiConfig.getInstance().isAutoStartHtmlBrowser());
         builder.append(autoStartHtmlBrowserCB);
 
+        traceOnCB = new JCheckBox(" Enable trace output generation. Must be on to configure detailed log.",
+                QedeqGuiConfig.getInstance().isTraceOn());
+            builder.append(traceOnCB);
+
         return GuiHelper.addSpaceAndTitle(builder.getPanel(), "Miscellaneous Switches");
     }
 
@@ -460,6 +468,8 @@ public class PreferencesDialog extends JDialog {
                 == QedeqGuiConfig.getInstance().isAutoReloadLastSessionChecked());
         result = result || (autoStartHtmlBrowserCB.isSelected()
                 == QedeqGuiConfig.getInstance().isAutoStartHtmlBrowser());
+        result = result || (traceOnCB.isSelected()
+                == QedeqGuiConfig.getInstance().isTraceOn());
         if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
             result = result || EqualsUtility.equals(connectionTimeoutTextField.getText(),
                     "" + QedeqGuiConfig.getInstance().getConnectTimeout());
@@ -490,6 +500,7 @@ public class PreferencesDialog extends JDialog {
                 QedeqGuiConfig.getInstance().setAutoReloadLastSessionChecked(
                     autoReloadLastSessionCheckedCB.isSelected());
                 QedeqGuiConfig.getInstance().setAutoStartHtmlBrowser(autoStartHtmlBrowserCB.isSelected());
+                QedeqGuiConfig.getInstance().setTraceOn(traceOnCB.isSelected());
                 if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
                     QedeqGuiConfig.getInstance().setConnectionTimeout(Integer.parseInt(
                         connectionTimeoutTextField.getText()));
