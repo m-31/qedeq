@@ -43,6 +43,7 @@ public class TraceTest extends QedeqTestCase {
     protected void setUp() throws Exception {
         super.setUp();
         initLog4J();
+        Trace.setTraceOn(true);
     }
 
     /*
@@ -50,6 +51,7 @@ public class TraceTest extends QedeqTestCase {
      */
     protected void tearDown() throws Exception {
         super.tearDown();
+        Trace.setTraceOn(false);
     }
 
     private void initLog4J() {
@@ -1184,6 +1186,20 @@ public class TraceTest extends QedeqTestCase {
         assertTrue(result.indexOf("testTraceStack") >= 0);
         assertTrue(result.indexOf("DEBUG") >= 0);
         assertTrue(result.indexOf(stack) >= 0);
+    }
+
+    public void testTraceOn() throws Exception {
+        Trace.setTraceOn(false);
+        final Throwable throwable = new IllegalArgumentException("i am important");
+        Trace.trace(this.getClass(), this, "testTraceThrowable", "bad situation", throwable);
+        String result = out.toString();
+        assertEquals(0, result.length());
+        Trace.traceStack(this.getClass(), "testTraceOn");
+        result = out.toString();
+        assertEquals(0, result.length());
+        Trace.trace(this.getClass(), "testTraceOn", "bad situation", throwable);
+        result = out.toString();
+        assertEquals(0, result.length());
     }
 
 }
