@@ -262,21 +262,22 @@ public class QedeqConfig {
     }
 
     /**
-     * Should old HTML code be generated?
+     * Is tracing on? If not, only business and fatal messages are logged.
+     * Otherwise all events are logged according to the log level settings.
      *
-     * @return  Old HTML code?
+     * @return  Is tracing on?
      */
-    public final boolean isOldHtml() {
-        return "true".equals(getKeyValue("oldHtml", "true"));
+    public final boolean isTraceOn() {
+        return "true".equals(getKeyValue("traceOn", "false"));
     }
 
     /**
-     * Set old HTML code generation flag.
+     * Set tracing on.
      *
-     * @param  mode     Set old HTML code generation?
+     * @param  traceOn     Set trace on.
      */
-    public final void setOldHtml(final boolean mode) {
-        setKeyValue("oldHtml", (mode ? "true" : "false"));
+    public final void setTraceOn(final boolean traceOn) {
+        setKeyValue("traceOn", (traceOn ? "true" : "false"));
     }
 
     /**

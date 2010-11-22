@@ -27,14 +27,25 @@ import org.apache.commons.logging.LogFactory;
 public final class Trace {
 
     /** Logger for business messages. */
-    static final Log BUSINESS = LogFactory.getFactory().getInstance("log");
+    private static final Log BUSINESS = LogFactory.getFactory().getInstance("log");
 
+    /** Is tracing on? If not only fatal errors and business messages are logged. */
+    private static boolean traceOn = false;
 
     /**
      * Constructor.
      */
     private Trace() {
         // don't call me
+    }
+
+    /**
+     * Set tracing on. If not set only fatal errors and business messages are logged.
+     *
+     * @param   on  Set tracing on?
+     */
+    public static void setTraceOn(final boolean on) {
+        traceOn = on;
     }
 
     /**
@@ -81,8 +92,12 @@ public final class Trace {
      * @return  Debug log enabled.
      */
     public static boolean isDebugEnabled(final Class tracingClass) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        return log.isDebugEnabled();
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            return log.isDebugEnabled();
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -94,9 +109,11 @@ public final class Trace {
      */
     public static void trace(final Class tracingClass, final Object tracingObject,
             final String method, final Object object) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + object);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + object);
+            }
         }
     }
 
@@ -109,9 +126,11 @@ public final class Trace {
      */
     public static void trace(final Class tracingClass, final String method,
             final Object object) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + object);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + object);
+            }
         }
     }
 
@@ -125,9 +144,11 @@ public final class Trace {
      */
     public static void trace(final Class tracingClass, final Object tracingObject,
             final String method, final Throwable throwable) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + throwable, throwable);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + throwable, throwable);
+            }
         }
     }
 
@@ -140,9 +161,11 @@ public final class Trace {
      */
     public static void trace(final Class tracingClass, final String method,
             final Throwable throwable) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + throwable, throwable);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + throwable, throwable);
+            }
         }
     }
 
@@ -186,9 +209,11 @@ public final class Trace {
      */
     public static void trace(final Class tracingClass, final Object tracingObject,
             final String method, final String description, final Throwable throwable) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + description, throwable);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + description, throwable);
+            }
         }
     }
 
@@ -202,9 +227,11 @@ public final class Trace {
      */
     public static void trace(final Class tracingClass, final String method,
             final String description, final Throwable throwable) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + description, throwable);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + description, throwable);
+            }
         }
     }
 
@@ -218,9 +245,11 @@ public final class Trace {
      */
     public static void begin(final Class tracingClass, final Object tracingObject,
             final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + "begin");
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + "begin");
+            }
         }
     }
 
@@ -231,9 +260,11 @@ public final class Trace {
      * @param   method          Method of that class.
      */
     public static void begin(final Class tracingClass, final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + "begin");
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + "begin");
+            }
         }
     }
 
@@ -246,9 +277,11 @@ public final class Trace {
      */
     public static void end(final Class tracingClass, final Object tracingObject,
             final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + "end");
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + "end");
+            }
         }
     }
 
@@ -259,9 +292,11 @@ public final class Trace {
      * @param   method          Method of that class.
      */
     public static void end(final Class tracingClass, final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + "end");
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + "end");
+            }
         }
     }
 
@@ -275,9 +310,11 @@ public final class Trace {
      */
     public static void info(final Class tracingClass, final Object tracingObject,
             final String method, final String message) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isInfoEnabled()) {
-            log.info("." + method + " " + message);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isInfoEnabled()) {
+                log.info("." + method + " " + message);
+            }
         }
     }
 
@@ -290,9 +327,11 @@ public final class Trace {
      */
     public static void info(final Class tracingClass, final String method,
             final String message) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isInfoEnabled()) {
-            log.info("." + method + " " + message);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isInfoEnabled()) {
+                log.info("." + method + " " + message);
+            }
         }
     }
 
@@ -307,9 +346,11 @@ public final class Trace {
      */
     public static void param(final Class tracingClass, final Object tracingObject,
             final String method, final String param, final Object value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + param + "=" + value);
+            }
         }
     }
 
@@ -323,9 +364,11 @@ public final class Trace {
      */
     public static void param(final Class tracingClass, final String method,
             final String param, final Object value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + param + "=" + value);
+            }
         }
     }
 
@@ -340,9 +383,11 @@ public final class Trace {
      */
     public static void param(final Class tracingClass, final Object tracingObject,
             final String method, final String param, final int value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + param + "=" + value);
+            }
         }
     }
 
@@ -356,9 +401,11 @@ public final class Trace {
      */
     public static void param(final Class tracingClass, final String method,
             final String param, final int value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + param + "=" + value);
+            }
         }
     }
 
@@ -373,9 +420,11 @@ public final class Trace {
      */
     public static void param(final Class tracingClass, final Object tracingObject,
             final String method, final String param, final boolean value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + param + "=" + value);
+            }
         }
     }
 
@@ -389,14 +438,16 @@ public final class Trace {
      */
     public static void param(final Class tracingClass, final String method,
             final String param, final boolean value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isDebugEnabled()) {
-            log.debug("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isDebugEnabled()) {
+                log.debug("." + method + " " + param + "=" + value);
+            }
         }
     }
 
     /**
-     * Write stacktrace into trace.
+     * Write stacktrace into trace if debug level is on.
      *
      * @param   tracingClass    Class that wants to make a trace entry.
      * @param   tracingObject   Instance that wants to make a trace entry.
@@ -404,32 +455,36 @@ public final class Trace {
      */
     public static void traceStack(final Class tracingClass, final Object tracingObject,
             final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (!log.isDebugEnabled()) {
-            return;
-        }
-        try {
-            throw new Exception("Stacktrace");
-        } catch (Exception e) {
-            log.debug("." + method + " " + e, e);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (!log.isDebugEnabled()) {
+                return;
+            }
+            try {
+                throw new Exception("Stacktrace");
+            } catch (Exception e) {
+                log.debug("." + method + " " + e, e);
+            }
         }
     }
 
     /**
-     * Write stacktrace into trace.
+     * Write stacktrace into trace if debug level is on.
      *
      * @param   tracingClass    Class that wants to make a trace entry.
      * @param   method          Method of that class.
      */
     public static final void traceStack(final Class tracingClass, final String method) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (!log.isDebugEnabled()) {
-            return;
-        }
-        try {
-            throw new Exception("Stacktrace");
-        } catch (Exception e) {
-            log.debug("." + method + " " + e, e);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (!log.isDebugEnabled()) {
+                return;
+            }
+            try {
+                throw new Exception("Stacktrace");
+            } catch (Exception e) {
+                log.debug("." + method + " " + e, e);
+            }
         }
     }
 
@@ -444,9 +499,11 @@ public final class Trace {
      */
     public static void paramInfo(final Class tracingClass, final Object tracingObject,
             final String method, final String param, final Object value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isInfoEnabled()) {
-            log.info("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isInfoEnabled()) {
+                log.info("." + method + " " + param + "=" + value);
+            }
         }
     }
 
@@ -460,9 +517,11 @@ public final class Trace {
      */
     public static void paramInfo(final Class tracingClass, final String method,
             final String param, final Object value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isInfoEnabled()) {
-            log.info("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isInfoEnabled()) {
+                log.info("." + method + " " + param + "=" + value);
+            }
         }
     }
 
@@ -476,9 +535,11 @@ public final class Trace {
      */
     public static void paramInfo(final Class tracingClass, final Object tracingObject,
             final String method, final String param, final int value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isInfoEnabled()) {
-            log.info("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isInfoEnabled()) {
+                log.info("." + method + " " + param + "=" + value);
+            }
         }
     }
 
@@ -492,9 +553,11 @@ public final class Trace {
      */
     public static void paramInfo(final Class tracingClass, final String method,
             final String param, final int value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isInfoEnabled()) {
-            log.info("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isInfoEnabled()) {
+                log.info("." + method + " " + param + "=" + value);
+            }
         }
     }
 
@@ -508,9 +571,11 @@ public final class Trace {
      */
     public static void paramInfo(final Class tracingClass, final Object tracingObject,
             final String method, final String param, final boolean value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isInfoEnabled()) {
-            log.info("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isInfoEnabled()) {
+                log.info("." + method + " " + param + "=" + value);
+            }
         }
     }
 
@@ -524,9 +589,11 @@ public final class Trace {
      */
     public static void paramInfo(final Class tracingClass, final String method,
             final String param, final boolean value) {
-        final Log log = LogFactory.getFactory().getInstance(tracingClass);
-        if (log.isInfoEnabled()) {
-            log.info("." + method + " " + param + "=" + value);
+        if (traceOn) {
+            final Log log = LogFactory.getFactory().getInstance(tracingClass);
+            if (log.isInfoEnabled()) {
+                log.info("." + method + " " + param + "=" + value);
+            }
         }
     }
 

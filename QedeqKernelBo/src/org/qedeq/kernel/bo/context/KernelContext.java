@@ -89,6 +89,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         public void init(final KernelServices moduleServices, final QedeqConfig qedeqConfig)
                 throws IOException {
             config = qedeqConfig;
+            Trace.setTraceOn(config.isTraceOn());
             checkJavaVersion();
             createAllNecessaryDirectories();
             checkIfApplicationIsAlreadyRunningAndLockFile();
