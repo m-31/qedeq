@@ -373,7 +373,6 @@ public class QedeqNumbers {
           && subsectionNumber == other.subsectionNumber
           && nodeNumber == other.nodeNumber
           && axiomNumber == other.axiomNumber
-          && axiomNumber == other.axiomNumber
           && propositionNumber == other.propositionNumber
           && predicateDefinitionNumber == other.predicateDefinitionNumber
           && functionDefinitionNumber == other.functionDefinitionNumber
