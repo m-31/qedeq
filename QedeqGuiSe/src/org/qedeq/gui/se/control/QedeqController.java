@@ -267,6 +267,7 @@ public class QedeqController {
                 .getPluginName());
             item.addActionListener(pluginActions[i]);
             item.setIcon(pluginActions[i].getIcon());
+            item.setToolTipText(pluginActions[i].getPlugin().getPluginDescription());
             result[i] = item;
         }
         return result;
