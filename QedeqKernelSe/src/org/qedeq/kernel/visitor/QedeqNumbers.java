@@ -90,6 +90,7 @@ public class QedeqNumbers {
         chapterNumber = original.chapterNumber;
         absoluteChapterNumber = original.absoluteChapterNumber;
         sectionNumbering = original.sectionNumbering;
+        nodeNumber = original.nodeNumber;
         sectionNumber = original.sectionNumber;
         absoluteSectionNumber = original.absoluteSectionNumber;
         subsectionNumber = original.subsectionNumber;
@@ -161,7 +162,7 @@ public class QedeqNumbers {
      *
      * @return  Chapter number.
      */
-    public int getAbsouteChapterNumber() {
+    public int getAbsoluteChapterNumber() {
         return absoluteChapterNumber;
     }
 
@@ -197,7 +198,7 @@ public class QedeqNumbers {
      *
      * @return  Section number.
      */
-    public int getAbsouteSectionNumber() {
+    public int getAbsoluteSectionNumber() {
         return absoluteSectionNumber;
     }
 
@@ -350,12 +351,43 @@ public class QedeqNumbers {
         if (finished) {
             return 100;
         }
-        double result = (double) (importNumber + 1) / (imports + 1) / (chapters + 3);
+        double result = (double) (importNumber) / (imports + 1) / (chapters + 3);
         result += (double) (absoluteChapterNumber) / (chapters + 3);
-        result += (double) (absoluteSectionNumber + 1) / (sections + 2) / (chapters + 3);
-        result += (double) (subsectionNumber + nodeNumber + 1)
+        result += (double) (absoluteSectionNumber) / (sections + 2) / (chapters + 3);
+        result += (double) (subsectionNumber + nodeNumber)
             / (subsectionsAndNodes + 2) / (sections + 2) / (chapters + 3);
         return 100 * result;
+    }
+
+    public boolean equals(final Object compare) {
+        if (!(compare instanceof QedeqNumbers)) {
+            return false;
+        }
+        final QedeqNumbers other = (QedeqNumbers) compare;
+        return imports == other.imports && importNumber == other.importNumber
+          && chapterNumbering == other.chapterNumbering
+          && absoluteChapterNumber == other.absoluteChapterNumber
+          && sectionNumbering == other.sectionNumbering
+          && sections == other.sections
+          && absoluteSectionNumber == other.absoluteSectionNumber
+          && subsectionNumber == other.subsectionNumber
+          && nodeNumber == other.nodeNumber
+          && axiomNumber == other.axiomNumber
+          && axiomNumber == other.axiomNumber
+          && propositionNumber == other.propositionNumber
+          && predicateDefinitionNumber == other.predicateDefinitionNumber
+          && functionDefinitionNumber == other.functionDefinitionNumber
+          && ruleNumber == other.ruleNumber;
+    }
+
+    public int hashCode() {
+        return imports ^ (importNumber * 4)
+            ^ (chapters * 16) ^ (absoluteChapterNumber * 64)
+            ^ (sections * 256) ^ (absoluteSectionNumber * 1024)
+            ^ (subsectionsAndNodes * 4096) ^ (nodeNumber * 16384) ^ (subsectionNumber * 65536)
+            ^ (axiomNumber * 262144) ^ (propositionNumber * 1048576)
+            ^ (predicateDefinitionNumber * 4194304)
+            ^ (functionDefinitionNumber * 16777216) ^ (ruleNumber * 67108864);
     }
 
     public String toString() {
