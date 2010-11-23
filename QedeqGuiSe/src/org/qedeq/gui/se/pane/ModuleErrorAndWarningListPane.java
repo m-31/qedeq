@@ -308,11 +308,13 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
         if (s.equals("copy")) {
             if (model.getQedeq() != null) {
                 final StringBuffer sb = new StringBuffer();
-                sb.append("Type\tCode\tFrom\tTo\tDescription\n");
+                sb.append("Kind\tType\tCode\tFrom\tTo\tDescription\n");
                 for (int i = 0; i < model.getQedeq().getErrors().size(); i++) {
+                    SourceFileException e = model.getQedeq().getErrors().get(i);
+                    sb.append(e.getPlugin().getPluginName());
+                    sb.append("\t");
                     sb.append("Error");
                     sb.append("\t");
-                    SourceFileException e = model.getQedeq().getErrors().get(i);
                     sb.append(e.getErrorCode());
                     sb.append("\t");
                     sb.append(e.getSourceArea().getStartPosition());
@@ -323,9 +325,11 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
                     sb.append("\n");
                 }
                 for (int i = 0; i < model.getQedeq().getWarnings().size(); i++) {
+                    SourceFileException e = model.getQedeq().getWarnings().get(i);
+                    sb.append(e.getPlugin().getPluginName());
+                    sb.append("\t");
                     sb.append("Warning");
                     sb.append("\t");
-                    SourceFileException e = model.getQedeq().getWarnings().get(i);
                     sb.append(e.getErrorCode());
                     sb.append("\t");
                     sb.append(e.getSourceArea().getStartPosition());
