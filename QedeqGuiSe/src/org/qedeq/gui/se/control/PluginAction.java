@@ -107,12 +107,16 @@ public class PluginAction extends AbstractAction {
     public ImageIcon getIcon() {
         if (plugin.getPluginName().endsWith("LaTeX")) {
             return GuiHelper.readImageIcon("tango/16x16/mimetypes/x-office-document.png");
-        } else if (-1 < plugin.getPluginName().indexOf("tester")) {
-            return GuiHelper.readImageIcon("tango/16x16/actions/system-search.png");
+        } else if (-1 < plugin.getPluginName().indexOf("euristic")) {
+            return GuiHelper.readImageIcon("tango/16x16/apps/accessories-calculator.png");
         } else if (plugin.getPluginName().endsWith("earch")) {
             return GuiHelper.readImageIcon("tango/16x16/categories/applications-system.png");
+        } else if (-1 < plugin.getPluginName().indexOf("Show")) {
+            return GuiHelper.readImageIcon("tango/16x16/actions/edit-find.png");
+        } else if (-1 < plugin.getPluginName().indexOf("UTF-8")) {
+            return GuiHelper.readImageIcon("tango/16x16/mimetypes/text-x-generic.png");
         } else {
-            return GuiHelper.readImageIcon("tango/16x16/mimetypes/x-office-document.png");
+            return GuiHelper.readImageIcon("tango/16x16/actions/edit-find.png");
         }
     }
 
