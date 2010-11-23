@@ -42,5 +42,6 @@ public class KernelVisitorTestSuite extends QedeqTestSuite {
     public KernelVisitorTestSuite() {
         super();
         addTestSuite(QedeqNotNullTraverserTest.class);
+        addTestSuite(QedeqNumbersTest.class);
     }
 }
