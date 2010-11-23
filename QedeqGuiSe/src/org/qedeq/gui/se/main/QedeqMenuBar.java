@@ -138,14 +138,14 @@ public class QedeqMenuBar extends JMenuBar {
     private JMenu createTransformMenu() {
         final JMenu menu = MenuHelper.createMenu("Plugins", 'P');
         JMenuItem item;
-        item = MenuHelper.createMenuItem("Preferences", 'S');
+        item = MenuHelper.createMenuItem("Plugin Preferences", 'S');
         item.addActionListener(controller.getPluginPreferencesAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/categories/preferences-system.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/16x16/categories/preferences-desktop.png"));
         menu.add(item);
 
-        item = MenuHelper.createMenuItem("Remove Results", 'R');
+        item = MenuHelper.createMenuItem("Remove Plugin Results", 'R');
         item.addActionListener(controller.getRemovePluginResultsAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-delete.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-clear.png"));
         menu.add(item);
 
         menu.addSeparator();
