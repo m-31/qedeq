@@ -37,7 +37,7 @@ public final class ModuleErrorAndWarningListContextMenu extends JPopupMenu {
      * @param   listener    Actions for copying.
      */
     public ModuleErrorAndWarningListContextMenu(final ActionListener listener) {
-        JMenuItem copy = MenuHelper.createMenuItem("Copy", 'C');
+        JMenuItem copy = MenuHelper.createMenuItem("Copy All", 'C');
         copy.addActionListener(listener);
         copy.setActionCommand("copy");
         copy.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-copy.png"));
