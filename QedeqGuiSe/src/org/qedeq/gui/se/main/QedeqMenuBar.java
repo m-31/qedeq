@@ -38,6 +38,9 @@ public class QedeqMenuBar extends JMenuBar {
     /** Reference to controller. */
     private QedeqController controller;
 
+    /** Icon resolution. Currently supported: "16x16", "22x22" and "32x32". */
+    private String resolution = "16x16";
+
     /**
      * Constructor.
      *
@@ -76,19 +79,19 @@ public class QedeqMenuBar extends JMenuBar {
         item = MenuHelper.createMenuItem("Load from Web", 'W');
         item.setToolTipText("Load QEDEQ module from anywhere in the Web");
         item.addActionListener(controller.getAddAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/list-add.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/list-add.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Load local File", 'F');
         item.setToolTipText("Load QEDEQ module from file system");
         item.addActionListener(controller.getAddFileAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/document-open.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/document-open.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Load all from QEDEQ.org", 'Q');
         item.setToolTipText("Load main set of QEDEQ modules from project home page");
         item.addActionListener(controller.getAddAllModulesFromQedeqAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/go-home.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/go-home.png"));
         menu.add(item);
 
         menu.addSeparator();
@@ -97,20 +100,20 @@ public class QedeqMenuBar extends JMenuBar {
         item.setToolTipText("Unload selected QEDEQ modules. Changes status of dependent modules. "
             + "Local module buffer is not affected.");
         item.addActionListener(controller.getRemoveModuleAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-cut.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-cut.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Clear Buffer", 'C');
         item.setToolTipText("Unload all QEDEQ modules and clear the local module buffer.");
         item.addActionListener(controller.getRemoveLocalBufferAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-delete.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-delete.png"));
         menu.add(item);
 
         if (!MenuHelper.isQuitInOSMenu()) {
             menu.addSeparator();
             item = MenuHelper.createMenuItem("Exit", 'E');
             item.setToolTipText("Leave application");
-            item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/system-log-out.png"));
+            item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/system-log-out.png"));
             item.addActionListener(controller.getExitAction());
             menu.add(item);
         }
@@ -131,7 +134,7 @@ public class QedeqMenuBar extends JMenuBar {
         item = MenuHelper.createMenuItem("Check Mathematical Logic", 'M');
         item.setToolTipText("Check if all formulas are well formed within selected QEDEQ modules");
         item.addActionListener(controller.getCheckLogicAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/run.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/run.png"));
         menu.add(item);
 
         return menu;
@@ -148,12 +151,12 @@ public class QedeqMenuBar extends JMenuBar {
         JMenuItem item;
         item = MenuHelper.createMenuItem("Plugin Preferences", 'S');
         item.addActionListener(controller.getPluginPreferencesAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/categories/preferences-desktop.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/categories/preferences-desktop.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Remove Plugin Results", 'R');
         item.addActionListener(controller.getRemovePluginResultsAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-clear.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-clear.png"));
         menu.add(item);
 
         menu.addSeparator();
@@ -177,17 +180,17 @@ public class QedeqMenuBar extends JMenuBar {
 
         item = MenuHelper.createMenuItem("LaTeX to QEDEQ", 'L');
         item.addActionListener(controller.getParserAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/format-indent-more.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/format-indent-more.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Preferences", 'P');
         item.addActionListener(controller.getPreferencesAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/categories/preferences-system.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/categories/preferences-system.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Threads", 'T');
         item.addActionListener(controller.getProcessViewAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/categories/applications-system.png"));
+        item.setIcon(GuiHelper.readImageIcon("oil/" + resolution + "/apps/utilities-system-monitor.png"));
         menu.add(item);
 
         return menu;
@@ -204,13 +207,13 @@ public class QedeqMenuBar extends JMenuBar {
 
         JMenuItem item;
         item = MenuHelper.createMenuItem("Help Contents",
-            GuiHelper.readImageIcon("tango/16x16/apps/help-browser.png"), 'H');
+            GuiHelper.readImageIcon("tango/" + resolution + "/apps/help-browser.png"), 'H');
         item.addActionListener(controller.getHelpAction());
         menu.add(item);
         if (!MenuHelper.isAboutInOSMenu()) {
             menu.addSeparator();
             item = MenuHelper.createMenuItem("About",
-                GuiHelper.readImageIcon("qedeq/16x16/qedeq.png"), 'a');
+                GuiHelper.readImageIcon("qedeq/" + resolution  + "/qedeq.png"), 'a');
             item.addActionListener(controller.getAboutAction());
             menu.add(item);
         }
