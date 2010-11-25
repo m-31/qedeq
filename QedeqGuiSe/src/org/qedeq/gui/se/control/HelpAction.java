@@ -24,9 +24,12 @@ import javax.help.JHelp;
 import javax.swing.AbstractAction;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
+import javax.swing.UIDefaults;
+import javax.swing.UIManager;
 
 import org.qedeq.base.io.ResourceLoaderUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.gui.se.util.ExternalLinkContentViewerUI;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.context.KernelContext;
 
@@ -71,8 +74,14 @@ class HelpAction extends AbstractAction {
                     GuiHelper.readImageIcon("qedeq/32x32/qedeq.png"));
             return;
         }
-        JHelp jHelp = new JHelp(hs);
-        JDialog dialog = new JDialog(controller.getMainFrame(), "Help", true);
+        // integrate native browser into JHelp
+        final UIDefaults table = UIManager.getDefaults();
+        final Object[] uiDefaults = {"HelpContentViewerUI",
+            ExternalLinkContentViewerUI.class.getName()
+        };
+        table.putDefaults(uiDefaults);
+        final JHelp jHelp = new JHelp(hs);
+        final JDialog dialog = new JDialog(controller.getMainFrame(), "Help", true);
         dialog.getContentPane().add("Center", jHelp);
         dialog.setSize(new Dimension(950, 700));
         dialog.setLocationRelativeTo(null);
