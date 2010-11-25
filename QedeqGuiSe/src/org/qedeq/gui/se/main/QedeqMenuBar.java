@@ -74,16 +74,19 @@ public class QedeqMenuBar extends JMenuBar {
         JMenu menu = MenuHelper.createMenu("File", 'F');
 
         item = MenuHelper.createMenuItem("Load from Web", 'W');
+        item.setToolTipText("Load QEDEQ module from anywhere in the Web");
         item.addActionListener(controller.getAddAction());
         item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/list-add.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Load local File", 'F');
+        item.setToolTipText("Load QEDEQ module from file system");
         item.addActionListener(controller.getAddFileAction());
         item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/document-open.png"));
         menu.add(item);
 
-        item = MenuHelper.createMenuItem("Load all from QEDEQ", 'Q');
+        item = MenuHelper.createMenuItem("Load all from QEDEQ.org", 'Q');
+        item.setToolTipText("Load main set of QEDEQ modules from project home page");
         item.addActionListener(controller.getAddAllModulesFromQedeqAction());
         item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/go-home.png"));
         menu.add(item);
@@ -91,11 +94,14 @@ public class QedeqMenuBar extends JMenuBar {
         menu.addSeparator();
 
         item = MenuHelper.createMenuItem("Remove module", 'R');
+        item.setToolTipText("Unload selected QEDEQ modules. Changes status of dependent modules. "
+            + "Local module buffer is not affected.");
         item.addActionListener(controller.getRemoveModuleAction());
         item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-cut.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Clear Buffer", 'C');
+        item.setToolTipText("Unload all QEDEQ modules and clear the local module buffer.");
         item.addActionListener(controller.getRemoveLocalBufferAction());
         item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-delete.png"));
         menu.add(item);
@@ -103,6 +109,7 @@ public class QedeqMenuBar extends JMenuBar {
         if (!MenuHelper.isQuitInOSMenu()) {
             menu.addSeparator();
             item = MenuHelper.createMenuItem("Exit", 'E');
+            item.setToolTipText("Leave application");
             item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/system-log-out.png"));
             item.addActionListener(controller.getExitAction());
             menu.add(item);
@@ -122,8 +129,9 @@ public class QedeqMenuBar extends JMenuBar {
         JMenu menu = MenuHelper.createMenu("Check", 'C');
 
         item = MenuHelper.createMenuItem("Check Mathematical Logic", 'M');
+        item.setToolTipText("Check if all formulas are well formed within selected QEDEQ modules");
         item.addActionListener(controller.getCheckLogicAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/media-record.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/system-search.png"));
         menu.add(item);
 
         return menu;
