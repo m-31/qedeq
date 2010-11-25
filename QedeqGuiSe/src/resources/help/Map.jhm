@@ -4,20 +4,20 @@
          "http://java.sun.com/products/javahelp/map_1_0.dtd">
 
 <map version="1.0">
-  <mapID target="release.contents"		url="release/contents.html" />
-  <mapID target="release.plan"		        url="release/plan.html" />
-  <mapID target="release.contact"		url="release/contact.html" />
-  <mapID target="release.licenses"		url="release/licenses.html" />
-  <mapID target="release.gpl"			url="release/gpl.html" />
-  <mapID target="release.fdl"			url="release/fdl.html" />
-  <mapID target="release.apache"		url="release/apache_license.txt" />
-  <mapID target="release.looks"			url="release/looks_license.txt" />
-  <mapID target="release.forms"			url="release/forms_license.txt" />
-  <mapID target="release.lgpl"			url="release/lgpl.txt" />
+  <mapID target="release.contents"              url="release/contents.html" />
+  <mapID target="release.plan"                  url="release/plan.html" />
+  <mapID target="release.contact"               url="release/contact.html" />
+  <mapID target="release.licenses"              url="release/licenses.html" />
+  <mapID target="release.gpl"                   url="release/gpl.html" />
+  <mapID target="release.fdl"                   url="release/fdl.html" />
+  <mapID target="release.apache"                url="release/apache_license.txt" />
+  <mapID target="release.looks"                 url="release/looks_license.txt" />
+  <mapID target="release.forms"                 url="release/forms_license.txt" />
+  <mapID target="release.lgpl"                  url="release/lgpl.txt" />
+  <mapID target="release.cc_legal_code.html"    url="release/cc_legal_code.html" />
 
-  <mapID target="guide.introduction"		url="guide/introduction.html" />
-  <mapID target="guide.features"		url="guide/features.html" />
-  <mapID target="guide.user_interface"		url="guide/userinterface.html" />
-
+  <mapID target="guide.introduction"            url="guide/introduction.html" />
+  <mapID target="guide.features"                url="guide/features.html" />
+  <mapID target="guide.user_interface"          url="guide/userinterface.html" />
 
 </map>
