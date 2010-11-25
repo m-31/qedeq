@@ -6,16 +6,19 @@
 <toc version="1.0">
 
    <tocitem text="Release Notes" image="chapter">
-       <tocitem text="Contents"           image="topic" target="release.contents"/>
-       <tocitem text="Plan"               image="topic" target="release.plan"/>
-       <tocitem text="Contact"            image="topic" target="release.contact"/>
-       <tocitem text="License Agreements" image="topic" target="release.licenses">
-           <tocitem text="GPL"            image="topic" target="release.gpl"/>
-           <tocitem text="FDL"            image="topic" target="release.fdl"/>
-           <tocitem text="Apache License" image="topic" target="release.apache"/>
-           <tocitem text="Forms License"  image="topic" target="release.forms"/>
-           <tocitem text="Looks License"  image="topic" target="release.looks"/>
-           <tocitem text="LGPL"           image="topic" target="release.lgpl"/>
+       <tocitem text="Contents"                 image="topic" target="release.contents"/>
+       <tocitem text="Plan"                     image="topic" target="release.plan"/>
+       <tocitem text="Contact"                  image="topic" target="release.contact"/>
+       <tocitem text="License Agreements"       image="topic" target="release.licenses">
+           <tocitem text="GPL"                  image="topic" target="release.gpl"/>
+           <tocitem text="FDL"                  image="topic" target="release.fdl"/>
+           <tocitem text="Apache License"       image="topic" target="release.apache"/>
+           <tocitem text="Forms License"        image="topic" target="release.forms"/>
+           <tocitem text="Looks License"        image="topic" target="release.looks"/>
+           <tocitem text="LGPL"                 image="topic" target="release.lgpl"/>
+           <tocitem text="CC A-S 2.5"           image="topic" target="release.cc_legal_code_2_5"/>
+           <tocitem text="CC A-S 3.0"           image="topic" target="release.cc_legal_code_3_0"/>
+           <tocitem text="Open Icon Library"    image="topic" target="release.oil_licenses"/>
        </tocitem>
    </tocitem>
 

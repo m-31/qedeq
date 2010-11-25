@@ -131,7 +131,7 @@ public class QedeqMenuBar extends JMenuBar {
         item = MenuHelper.createMenuItem("Check Mathematical Logic", 'M');
         item.setToolTipText("Check if all formulas are well formed within selected QEDEQ modules");
         item.addActionListener(controller.getCheckLogicAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/system-search.png"));
+        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/run.png"));
         menu.add(item);
 
         return menu;

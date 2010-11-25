@@ -14,7 +14,9 @@
   <mapID target="release.looks"                 url="release/looks_license.txt" />
   <mapID target="release.forms"                 url="release/forms_license.txt" />
   <mapID target="release.lgpl"                  url="release/lgpl.txt" />
-  <mapID target="release.cc_legal_code.html"    url="release/cc_legal_code.html" />
+  <mapID target="release.cc_legal_code_2_5"     url="release/tango_license.txt" />
+  <mapID target="release.cc_legal_code_3_0"     url="release/cc_legal_code.html" />
+  <mapID target="release.oil_licenses"          url="release/oil_licenses_full.txt" />
 
   <mapID target="guide.introduction"            url="guide/introduction.html" />
   <mapID target="guide.features"                url="guide/features.html" />
