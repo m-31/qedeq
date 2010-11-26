@@ -44,6 +44,9 @@ public class PluginAction extends AbstractAction {
     /** Start this plugin. */
     private Plugin plugin;
 
+    /** Icon resolution. */
+    private String resolution = QedeqGuiConfig.getInstance().getIconSize();
+
     /**
      * Constructor.
      *
@@ -106,17 +109,17 @@ public class PluginAction extends AbstractAction {
 
     public ImageIcon getIcon() {
         if (plugin.getPluginName().endsWith("LaTeX")) {
-            return GuiHelper.readImageIcon("tango/16x16/mimetypes/x-office-document.png");
+            return GuiHelper.readImageIcon("tango/" + resolution + "/mimetypes/x-office-document.png");
         } else if (-1 < plugin.getPluginName().indexOf("euristic")) {
-            return GuiHelper.readImageIcon("tango/16x16/apps/accessories-calculator.png");
+            return GuiHelper.readImageIcon("tango/" + resolution + "/apps/accessories-calculator.png");
         } else if (plugin.getPluginName().endsWith("earch")) {
-            return GuiHelper.readImageIcon("tango/16x16/categories/applications-system.png");
+            return GuiHelper.readImageIcon("tango/" + resolution + "/categories/applications-system.png");
         } else if (-1 < plugin.getPluginName().indexOf("Show")) {
-            return GuiHelper.readImageIcon("tango/16x16/actions/edit-find.png");
+            return GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-find.png");
         } else if (-1 < plugin.getPluginName().indexOf("UTF-8")) {
-            return GuiHelper.readImageIcon("tango/16x16/mimetypes/text-x-generic.png");
+            return GuiHelper.readImageIcon("tango/" + resolution + "/mimetypes/text-x-generic.png");
         } else {
-            return GuiHelper.readImageIcon("tango/16x16/actions/edit-find.png");
+            return GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-find.png");
         }
     }
 

@@ -29,7 +29,6 @@ import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 /**
  * Container for GUI design settings for JGoodies.
  *
- * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public final class GuiOptions {

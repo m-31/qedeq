@@ -20,6 +20,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import org.qedeq.gui.se.control.QedeqController;
+import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.gui.se.util.MenuHelper;
 
@@ -39,7 +40,7 @@ public class QedeqMenuBar extends JMenuBar {
     private QedeqController controller;
 
     /** Icon resolution. Currently supported: "16x16", "22x22" and "32x32". */
-    private String resolution = "16x16";
+    private String resolution = QedeqGuiConfig.getInstance().getIconSize();
 
     /**
      * Constructor.

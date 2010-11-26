@@ -29,13 +29,16 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
@@ -75,8 +78,14 @@ public class PreferencesDialog extends JDialog {
     /** Automatic reload of all modules that were successfully checked in last session. */
     private JCheckBox autoReloadLastSessionCheckedCB;
 
-    /** Response with a message box. */
-    private JCheckBox directResponseCB;
+    /** List of icon sizes. */
+    private JComboBox iconSizeCB;
+
+    /** Look and feel of the application. */
+    private JComboBox lookAndFeelCB;
+
+//    /** Response with a message box. */
+//    private JCheckBox directResponseCB;
 
     /** Automatic start of default HTML browser after HTML generation. */
     private JCheckBox autoStartHtmlBrowserCB;
@@ -364,9 +373,9 @@ public class PreferencesDialog extends JDialog {
             QedeqGuiConfig.getInstance().isAutoReloadLastSessionChecked());
         builder.append(autoReloadLastSessionCheckedCB);
 
-        directResponseCB = new JCheckBox(" Direct message response for actions",
-            QedeqGuiConfig.getInstance().isDirectResponse());
-        builder.append(directResponseCB);
+//        directResponseCB = new JCheckBox(" Direct message response for actions",
+//            QedeqGuiConfig.getInstance().isDirectResponse());
+//        builder.append(directResponseCB);
 
         automaticLogScrollCB = new JCheckBox(" Automatic Scroll of Log Window",
             QedeqGuiConfig.getInstance().isAutomaticLogScroll());
@@ -384,12 +393,52 @@ public class PreferencesDialog extends JDialog {
     }
 
     /**
+     * Assembles GUI size settings panel.
+     *
+     * @return  Created panel.
+     */
+    private JComponent buildSizeOptionPanel() {
+        FormLayout layout = new FormLayout(
+        "right:pref, 5dlu, fill:50dlu");    // columns
+
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        builder.getPanel().setOpaque(false);
+
+        iconSizeCB = new JComboBox(new String[]  {"16x16", "22x22", "32x32"});
+        iconSizeCB.setSelectedItem(QedeqGuiConfig.getInstance().getIconSize());
+        builder.append("Icon size", iconSizeCB);
+        return GuiHelper.addSpaceAndTitle(builder.getPanel(), "Sizes");
+    }
+
+    /**
+     * Assembles Look and Feel settings panel.
+     *
+     * @return  Created panel.
+     */
+    private JComponent buildLookAndFeelPanel() {
+        FormLayout layout = new FormLayout(
+        "right:pref, 5dlu, fill:50dlu");    // columns
+
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        builder.getPanel().setOpaque(false);
+
+        lookAndFeelCB = new JComboBox(new String[]  {"Windows", "Plastic", "Plastic3D", "PlasticXP"});
+        lookAndFeelCB.setEditable(true);
+        lookAndFeelCB.setSelectedItem(QedeqGuiConfig.getInstance().getLookAndFeel());
+        builder.append("Look & Feel", lookAndFeelCB);
+        return GuiHelper.addSpaceAndTitle(builder.getPanel(), "Look and Feel");
+    }
+
+    /**
      * Assembles the GUI components of the panel.
      */
     public final void setupView() {
         final Container content = getContentPane();
         content.setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
-        JPanel allOptions = new JPanel();
+
+        final JPanel allOptions = new JPanel();
         allOptions.setBorder(GuiHelper.getEmptyBorder());
         allOptions.setLayout(new BoxLayout(allOptions, BoxLayout.Y_AXIS));
         allOptions.add(buildBinaryOptionPanel());
@@ -397,11 +446,42 @@ public class PreferencesDialog extends JDialog {
         allOptions.add(buildPathsPanel());
         allOptions.add(Box.createVerticalStrut(GuiHelper.getEmptyBorderPixelsY()));
         allOptions.add(buildTimeoutPanel());
-        JComponent proxyPanel = buildProxyPanel();
+        final JComponent proxyPanel = buildProxyPanel();
         allOptions.add(Box.createVerticalStrut(GuiHelper.getEmptyBorderPixelsY()));
-        allOptions.add(proxyPanel);
-        content.add(allOptions);
+        allOptions.add(buildProxyPanel());
 
+        final JPanel graphicOptions = new JPanel();
+        graphicOptions.setBorder(GuiHelper.getEmptyBorder());
+        graphicOptions.setLayout(new BoxLayout(graphicOptions, BoxLayout.Y_AXIS));
+        graphicOptions.add(new JLabel("Most options require a restart of the application!"));
+        graphicOptions.add(buildLookAndFeelPanel());
+        graphicOptions.add(Box.createVerticalStrut(GuiHelper.getEmptyBorderPixelsY()));
+        graphicOptions.add(buildSizeOptionPanel());
+        graphicOptions.add(Box.createVerticalGlue());
+
+        final JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane.setOpaque(false);
+        tabbedPane.addTab("Main Options", allOptions);
+        tabbedPane.addTab("Gui Options", graphicOptions);
+
+        content.add(tabbedPane);
+
+        content.add(GuiHelper.addSpaceAndAlignRight(createButtonPanel()));
+
+        // let the container calculate the ideal size
+        pack();
+
+        final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
+        setBounds((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2,
+            getWidth(), getHeight() + (IoUtility.isWebStarted() ? proxyPanel.getHeight() : 0));
+    }
+
+    /**
+     * Create button panel.
+     *
+     * @return  Main buttons.
+     */
+    private JPanel createButtonPanel() {
         ButtonBarBuilder bbuilder = ButtonBarBuilder.createLeftToRightBuilder();
 
         JButton ok = new JButton("OK");
@@ -422,14 +502,7 @@ public class PreferencesDialog extends JDialog {
         bbuilder.addGriddedButtons(new JButton[]{cancel, ok});
 
         final JPanel buttons = bbuilder.getPanel();
-        content.add(GuiHelper.addSpaceAndAlignRight(buttons));
-
-        // let the container calculate the ideal size
-        pack();
-
-        final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
-        setBounds((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2,
-            getWidth(), getHeight() + (IoUtility.isWebStarted() ? proxyPanel.getHeight() : 0));
+        return buttons;
     }
 
     /**
@@ -462,14 +535,18 @@ public class PreferencesDialog extends JDialog {
                 QedeqGuiConfig.getInstance().getLocalModulesDirectory()));
         result = result || (automaticLogScrollCB.isSelected()
                 == QedeqGuiConfig.getInstance().isAutomaticLogScroll());
-        result = result || (directResponseCB.isSelected()
-                == QedeqGuiConfig.getInstance().isDirectResponse());
+//        result = result || (directResponseCB.isSelected()
+//                == QedeqGuiConfig.getInstance().isDirectResponse());
         result = result || (autoReloadLastSessionCheckedCB.isSelected()
                 == QedeqGuiConfig.getInstance().isAutoReloadLastSessionChecked());
         result = result || (autoStartHtmlBrowserCB.isSelected()
                 == QedeqGuiConfig.getInstance().isAutoStartHtmlBrowser());
         result = result || (traceOnCB.isSelected()
                 == QedeqGuiConfig.getInstance().isTraceOn());
+        result = result || (EqualsUtility.equals(iconSizeCB.getSelectedItem(),
+                QedeqGuiConfig.getInstance().getIconSize()));
+        result = result || (EqualsUtility.equals(lookAndFeelCB.getSelectedItem(),
+                QedeqGuiConfig.getInstance().getLookAndFeel()));
         if (KernelContext.getInstance().isSetConnectionTimeOutSupported()) {
             result = result || EqualsUtility.equals(connectionTimeoutTextField.getText(),
                     "" + QedeqGuiConfig.getInstance().getConnectTimeout());
@@ -496,7 +573,7 @@ public class PreferencesDialog extends JDialog {
                 QedeqGuiConfig.getInstance().setGenerationDirectory(new File(generationPathTextArea.getText()));
                 QedeqGuiConfig.getInstance().setLocalModulesDirectory(new File(localModulesPathTextArea.getText()));
                 QedeqGuiConfig.getInstance().setAutomaticLogScroll(automaticLogScrollCB.isSelected());
-                QedeqGuiConfig.getInstance().setDirectResponse(directResponseCB.isSelected());
+//                QedeqGuiConfig.getInstance().setDirectResponse(directResponseCB.isSelected());
                 QedeqGuiConfig.getInstance().setAutoReloadLastSessionChecked(
                     autoReloadLastSessionCheckedCB.isSelected());
                 QedeqGuiConfig.getInstance().setAutoStartHtmlBrowser(autoStartHtmlBrowserCB.isSelected());
@@ -522,6 +599,8 @@ public class PreferencesDialog extends JDialog {
                     StringUtility.replace(httpNonProxyHosts, "||", "|");
                     QedeqGuiConfig.getInstance().setHttpNonProxyHosts(httpNonProxyHosts.toString());
                 }
+                QedeqGuiConfig.getInstance().setIconSize(String.valueOf(iconSizeCB.getSelectedItem()));
+                QedeqGuiConfig.getInstance().setLookAndFeel(String.valueOf(lookAndFeelCB.getSelectedItem()));
             } catch (RuntimeException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), "Error",
                     JOptionPane.ERROR_MESSAGE);

@@ -218,8 +218,8 @@ public class QedeqMainFrame extends JFrame {
 
         try {
             final GuiOptions options = new GuiOptions();
-            if (args.length > 0) {
-                String lafShortName = args[0];
+            {
+                String lafShortName = QedeqGuiConfig.getInstance().getLookAndFeel();
                 String lafClassName;
                 if ("Windows".equalsIgnoreCase(lafShortName)) {
                     lafClassName = Options.JGOODIES_WINDOWS_NAME;

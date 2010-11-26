@@ -94,6 +94,45 @@ public final class QedeqGuiConfig extends QedeqConfig {
     }
 
     /**
+     * Get icon size. Default is "16x16".
+     *
+     * @return  Icon size.
+     */
+    public final String getIconSize() {
+        return getKeyValue("iconSize", "16x16");
+    }
+
+    /**
+     * Set icon size.
+     *
+     * @param   value   Icon size value. Something like "16x16".
+     */
+    public final void setIconSize(final String value) {
+        setKeyValue("iconSize", value);
+    }
+
+    /**
+     * Get look and feel setting. Default is "PlasticXP".
+     * Might also be a direct class name.
+     * Supported keys are "Windows", "Plastic", "Plastic3D", "PlasticXP".
+     *
+     * @return  Windows look and feel.
+     */
+    public final String getLookAndFeel() {
+        return getKeyValue("lookAndFeel", "PlasticXP");
+    }
+
+    /**
+     * Set look and feel setting.
+     * Supported keys are "Windows", "Plastic", "Plastic3D", "PlasticXP".
+     *
+     * @param   value   Look and feel key, or class name.
+     */
+    public final void setLookAndFeel(final String value) {
+        setKeyValue("lookAndFeel", value);
+    }
+
+    /**
      * Get autostart html mode.
      *
      * @return  list of modules.
