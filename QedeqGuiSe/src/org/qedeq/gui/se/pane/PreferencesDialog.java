@@ -418,13 +418,14 @@ public class PreferencesDialog extends JDialog {
      */
     private JComponent buildLookAndFeelPanel() {
         FormLayout layout = new FormLayout(
-        "right:pref, 5dlu, fill:50dlu");    // columns
+        "right:pref, 5dlu, fill:150dlu");    // columns
 
         DefaultFormBuilder builder = new DefaultFormBuilder(layout);
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         builder.getPanel().setOpaque(false);
 
-        lookAndFeelCB = new JComboBox(new String[]  {"Windows", "Plastic", "Plastic3D", "PlasticXP"});
+        lookAndFeelCB = new JComboBox(new String[] {"PlasticXP", "Plastic",
+            "Plastic3D", "Windows", "Metal"});
         lookAndFeelCB.setEditable(true);
         lookAndFeelCB.setSelectedItem(QedeqGuiConfig.getInstance().getLookAndFeel());
         builder.append("Look & Feel", lookAndFeelCB);

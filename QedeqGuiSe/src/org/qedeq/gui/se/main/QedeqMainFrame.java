@@ -229,6 +229,8 @@ public class QedeqMainFrame extends JFrame {
                     lafClassName = Options.PLASTIC3D_NAME;
                 } else if ("PlasticXP".equalsIgnoreCase(lafShortName)) {
                     lafClassName = Options.PLASTICXP_NAME;
+                } else if ("Metal".equalsIgnoreCase(lafShortName)) {
+                    lafClassName = "javax.swing.plaf.metal.MetalLookAndFeel";
                 } else {
                     lafClassName = lafShortName;
                 }
