@@ -34,7 +34,6 @@ import org.qedeq.kernel.common.ModuleContext;
  * must be an unique String.
  *
  * @version $Revision: 1.1 $
- * @author  Michael Meyling
  */
 public class KernelModuleReferenceList implements ModuleReferenceList {
 
