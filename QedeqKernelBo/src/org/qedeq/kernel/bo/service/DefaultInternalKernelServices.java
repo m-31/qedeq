@@ -354,7 +354,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
             throw xl;
         }
         prop.setQedeqVo(vo);
-        ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(this, prop);
+        final ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(this, prop);
         try {
             moduleNodesCreator.createLabels();
             prop.setLoaded(vo, moduleNodesCreator.getLabels(), moduleNodesCreator.getConverter());
