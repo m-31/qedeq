@@ -63,7 +63,7 @@ public class CalculateTruthThreeModelTest extends CalculateTruthTestCase {
             + "  </EQUI>\n"
         );
 //        System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(getModel(), ele));
+        assertFalse(isTautology(ele));
     }
 
     /**
@@ -92,7 +92,7 @@ public class CalculateTruthThreeModelTest extends CalculateTruthTestCase {
             + "  </EQUI>\n"
             );
 //      System.out.println(ele.toString());
-        assertFalse(CalculateTruth.isTautology(getModel(), ele));
+        assertFalse(isTautology(ele));
     }
 
     /**
@@ -159,7 +159,7 @@ public class CalculateTruthThreeModelTest extends CalculateTruthTestCase {
             + "</AND>\n"
         );
 //      System.out.println(ele.toString());
-      assertFalse(CalculateTruth.isTautology(getModel(), ele));
+      assertFalse(isTautology(ele));
   }
 
 

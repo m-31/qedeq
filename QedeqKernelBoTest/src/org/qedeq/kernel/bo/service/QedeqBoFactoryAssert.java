@@ -89,7 +89,10 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
         loader.setServices(services);
         prop.setQedeqFileDao(loader);
         prop.setQedeqVo(vo);
-        prop.setLoaded(vo, new ModuleLabelsCreator(DummyPlugin.getInstance(), prop).createLabels());
+        final ModuleLabelsCreator mc = new ModuleLabelsCreator(DummyPlugin.getInstance(),
+            prop);
+        mc.createLabels();
+        prop.setLoaded(vo, mc.getLabels(), mc.getConverter());
         KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
         KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
         if (!prop.isChecked()) {

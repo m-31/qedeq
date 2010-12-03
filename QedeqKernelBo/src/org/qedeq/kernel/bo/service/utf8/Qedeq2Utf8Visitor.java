@@ -52,9 +52,9 @@ import org.qedeq.kernel.base.module.UsedByList;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.Element2Latex;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.latex.Element2Latex;
 import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.service.latex.LatexErrorCodes;
 import org.qedeq.kernel.common.ModuleAddress;
@@ -88,9 +88,6 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
 
     /** Should additional information be put into LaTeX output? E.g. QEDEQ reference names. */
     private final boolean info;
-
-    /** Transformer to get UTF-8 out of {@link Element}s. */
-    private Element2Latex elementConverter;
 
     /** Current node id. */
     private String id;
@@ -153,8 +150,6 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
 //        } else {
 //            this.level = level;
 //        }
-        this.elementConverter = new Element2Latex((getQedeqBo().hasLoadedRequiredModules()
-            ? getQedeqBo().getRequiredModules() : null));
 
         init();
 
@@ -524,11 +519,9 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
         printer.println();
         printer.println();
         if (definition.getFormula() != null) {
-            define.append("  \uFE55\u2194  ");
+            define.append("  :\u2194  ");
             define.append(getUtf8(definition.getFormula().getElement()));
         }
-        // we always save the definition, even if there already exists an entry
-        elementConverter.addPredicate(definition);
         Trace.param(CLASS, this, "printPredicateDefinition", "define", define);
         printer.print("     ");
         printer.println(define.toString());
@@ -575,8 +568,6 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
             define.append("  \u2254  ");
             define.append(getUtf8(definition.getTerm().getElement()));
         }
-        // we always save the definition, even if there already exists an entry
-        elementConverter.addFunction(definition);
         Trace.param(CLASS, this, "printFunctionDefinition", "define", define);
         printer.print("     ");
         printer.println(define);
@@ -764,7 +755,7 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
      * @return  UTF-8 form of element.
      */
     private String getUtf8(final Element element) {
-        return getUtf8(elementConverter.getLatex(element));
+        return getUtf8(getQedeqBo().getElement2Latex().getLatex(element));
     }
 
     /**

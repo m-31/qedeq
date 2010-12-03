@@ -23,7 +23,7 @@ import org.qedeq.kernel.bo.module.PluginExecutor;
 
 
 /**
- * Plugin to transfer a QEDEQ module into a LaTeX file.
+ * Test if QEDEQ module formulas are valid within a model.
  *
  * @author  Michael Meyling
  */

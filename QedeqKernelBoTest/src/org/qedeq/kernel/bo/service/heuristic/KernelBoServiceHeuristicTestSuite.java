@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service;
+package org.qedeq.kernel.bo.service.heuristic;
 
 import junit.framework.Test;
 
@@ -26,7 +26,7 @@ import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPluginTest;
  *
  * @author  Michael Meyling
  */
-public class KernelBoServiceTestSuite extends QedeqTestSuite {
+public class KernelBoServiceHeuristicTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelVoModuleTestSuite</code>.
@@ -34,20 +34,15 @@ public class KernelBoServiceTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelBoServiceTestSuite();
+        return new KernelBoServiceHeuristicTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelBoServiceTestSuite() {
+    public KernelBoServiceHeuristicTestSuite() {
         super();
-        addTestSuite(CheckRequiredModuleExceptionTest.class);
-        addTestSuite(DefaultKernelQedeqBoTest.class);
-        addTestSuite(LoadRequiredModulesTest.class);
-        addTestSuite(ModuleConstantsExistenceCheckerTest.class);
-        addTestSuite(QedeqBoFormalLogicCheckerTest.class);
-        // very slow:
-        addTestSuite(QedeqBoFactoryTest.class);
+        addTestSuite(HeuristicCheckerPluginTest.class);
+        addTestSuite(DynamicHeuristicCheckerPluginTest.class);
     }
 }

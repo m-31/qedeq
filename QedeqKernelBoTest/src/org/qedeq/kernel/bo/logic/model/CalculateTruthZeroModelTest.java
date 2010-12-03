@@ -45,7 +45,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+        assertTrue(isTautology(ele));
     }
 
     /**
@@ -60,7 +60,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+        assertTrue(isTautology(ele));
     }
 
     /**
@@ -75,7 +75,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+        assertTrue(isTautology(ele));
     }
     
     /**
@@ -90,7 +90,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR></IMPL></FORALL></FORALL>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+        assertTrue(isTautology(ele));
     }
 
     /**
@@ -105,7 +105,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/><VAR id=\"x\"/></PREDVAR></FORALL></FORALL>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+        assertTrue(isTautology(ele));
     }
 
     /**
@@ -120,7 +120,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
             "<EXISTSU><VAR id=\"y\"/><PREDCON id=\"equal\"><VAR id=\"y\"/><VAR id=\"y\"/></PREDCON>"
             + "</EXISTSU>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+        assertTrue(isTautology(ele));
     }
 
     /**
@@ -135,7 +135,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
             "<PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"x\"/></FUNVAR>"
             + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON>");
 //        System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+        assertTrue(isTautology(ele));
     }
     
     /**
@@ -169,7 +169,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
             + "\n                </EQUI>"
             );
         // System.out.println(ele.toString());
-        assertTrue(CalculateTruth.isTautology(getModel(), ele));
+        assertTrue(isTautology(ele));
     }
 
 }

@@ -118,7 +118,7 @@ public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
     public void testQedeqSetTheoryScript1() throws Exception {
         final QedeqBo bo = check(new ThreeModel(), getDocDir(), "math/qedeq_set_theory_v1.xml");
         assertEquals(0, bo.getErrors().size());
-        assertEquals(51, bo.getWarnings().size());
+        assertEquals(47, bo.getWarnings().size());
     }
 
     /**

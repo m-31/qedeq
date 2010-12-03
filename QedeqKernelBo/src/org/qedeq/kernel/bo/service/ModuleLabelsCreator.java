@@ -24,6 +24,7 @@ import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.Element2Latex;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.common.ModuleDataException;
@@ -44,6 +45,9 @@ public final class ModuleLabelsCreator extends ControlVisitor {
 
     /** QEDEQ module labels. */
     private ModuleLabels labels;
+
+    /** Save definitions here. */
+    private Element2Latex converter;
 
     /**
      * Constructor.
@@ -95,6 +99,8 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public void visitEnter(final FunctionDefinition funcDef) {
         setBlocked(true);   // block further traverse
+        // we always save the definition, even if there already exists an entry
+        converter.addFunction(funcDef);
     }
 
     /**
@@ -104,6 +110,8 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public void visitEnter(final PredicateDefinition predDef) {
         setBlocked(true);   // block further traverse
+        // we always save the definition, even if there already exists an entry
+        converter.addPredicate(predDef);
     }
 
     /**
@@ -132,17 +140,33 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     /**
-     * Get QEDEQ module labels.
+     * Create QEDEQ module labels and Element2Latex converter.
      *
-     * @return  QEDEQ module labels.
      * @throws  SourceFileExceptionList Traverse lead to errors.
      */
-    public ModuleLabels createLabels() throws SourceFileExceptionList {
+    public void createLabels() throws SourceFileExceptionList {
         if (this.labels == null) {
             this.labels = new ModuleLabels();
+            this.converter = new Element2Latex();
             traverse();
         }
-        return this.labels;
+    }
+
+    /**
+     * Get QEDEQ module labels.
+     *
+     * @return  QEDEQ module labels. */
+    public ModuleLabels getLabels() {
+        return labels;
+    }
+
+    /**
+     * Get converter for module definitions.
+     *
+     * @return  Element to LaTeX converter.
+     */
+    public Element2Latex getConverter() {
+        return converter;
     }
 
 }

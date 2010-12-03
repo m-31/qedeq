@@ -103,7 +103,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (model == null) {
             model = new ThreeDynamicModelOne();
         }
-        this.interpreter = new DynamicInterpreter(model);
+        this.interpreter = new DynamicInterpreter(model, qedeq);
     }
 
     public Object executePlugin() {

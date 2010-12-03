@@ -15,10 +15,16 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
-import org.qedeq.base.test.QedeqTestCase;
+import java.io.File;
+
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.kernel.base.list.Element;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.common.DefaultModuleAddress;
+import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 
 /**
@@ -26,7 +32,7 @@ import org.qedeq.kernel.common.ModuleContext;
  *
  * @author  Michael Meyling
  */
-public class DynamicInterpreterTest extends QedeqTestCase {
+public class DynamicInterpreterTest extends QedeqBoTestCase {
 
     private DynamicInterpreter interpreter;
 
@@ -41,7 +47,11 @@ public class DynamicInterpreterTest extends QedeqTestCase {
     
     public void setUp() throws Exception {
         super.setUp();
-        interpreter = new DynamicInterpreter(new ThreeDynamicModelOne());
+        final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
+                IoUtility.toUrl(new File(getDocDir(), "math/qedeq_set_theory_v1.xml")));
+        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(
+            address);
+        interpreter = new DynamicInterpreter(new ThreeDynamicModelOne(), prop);
     }
 
     public void tearDown() throws Exception {

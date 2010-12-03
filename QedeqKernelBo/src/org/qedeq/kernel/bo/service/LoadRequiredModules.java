@@ -143,6 +143,7 @@ public final class LoadRequiredModules {
             }
             if (sfl == null) {
                 prop.setLoadedRequiredModules(required);
+                prop.getElement2Latex().setModuleReferences(required);
             } else {
                 prop.setDependencyFailureState(
                     DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);

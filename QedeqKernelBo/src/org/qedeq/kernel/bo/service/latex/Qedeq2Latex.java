@@ -62,6 +62,7 @@ import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
+import org.qedeq.kernel.bo.module.Element2Latex;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
@@ -101,9 +102,6 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
     /** Should additional information be put into LaTeX output? E.g. QEDEQ reference names. */
     private final boolean info;
 
-    /** Transformer to get LaTeX out of {@link Element}s. */
-    private final Element2Latex elementConverter;
-
     /** Current chapter number, starting with 0. */
     private int chapterNumber;
 
@@ -136,8 +134,6 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             infoString = (String) parameters.get("info");
         }
         info = "true".equalsIgnoreCase(infoString);
-        this.elementConverter = new Element2Latex((prop.hasLoadedRequiredModules()
-            ? prop.getRequiredModules() : null));
     }
 
     public Object executePlugin() {
@@ -642,8 +638,6 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             }
         }
         define.append("$$");
-        // we always save the definition, even if there already exists an entry
-        elementConverter.addPredicate(definition);
         Trace.param(CLASS, this, "printPredicateDefinition", "define", define);
         printer.println(define);
         printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
@@ -679,8 +673,6 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             }
         }
         define.append("$$");
-        // we always save the definition, even if there already exists an entry
-        elementConverter.addFunction(definition);
         Trace.param(CLASS, this, "printFunctionDefinition", "define", define);
         printer.println(define);
         printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
@@ -872,7 +864,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
      * @return  LaTeX form of element.
      */
     private String getLatex(final Element element) {
-        return elementConverter.getLatex(element);
+        return getQedeqBo().getElement2Latex().getLatex(element);
     }
 
     /**

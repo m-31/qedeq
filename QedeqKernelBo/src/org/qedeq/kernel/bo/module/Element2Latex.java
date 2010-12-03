@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.latex;
+package org.qedeq.kernel.bo.module;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -25,7 +25,6 @@ import org.qedeq.kernel.base.module.FunctionDefinition;
 import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
-import org.qedeq.kernel.bo.module.DefaultExistenceChecker;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
 import org.qedeq.kernel.visitor.AbstractModuleVisitor;
@@ -34,13 +33,12 @@ import org.qedeq.kernel.visitor.AbstractModuleVisitor;
 /**
  * Transfer a QEDEQ formulas into LaTeX text.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Element2Latex extends AbstractModuleVisitor {
 
     /** External QEDEQ module references. */
-    private final ModuleReferenceList references;
+    private ModuleReferenceList references;
 
     /** Maps identifiers to {@link PredicateDefinition}s. */
     private final Map predicateDefinitions = new HashMap();
@@ -53,6 +51,13 @@ public final class Element2Latex extends AbstractModuleVisitor {
 
     /** For mapping an unknown operator. */
     private final ListType unknown = new Unknown();
+
+    /**
+     * Constructor.
+     */
+    public Element2Latex() {
+        this(null);
+    }
 
     /**
      * Constructor.
@@ -160,6 +165,15 @@ public final class Element2Latex extends AbstractModuleVisitor {
         }
         return converter.getLatex(list, first);
 
+    }
+
+    /**
+     * Set list of external QEDEQ module references.
+     *
+     * @param   references  External QEDEQ module references.
+     */
+    public void setModuleReferences(final ModuleReferenceList references) {
+        this.references = references;
     }
 
     /**

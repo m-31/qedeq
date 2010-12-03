@@ -356,7 +356,8 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         prop.setQedeqVo(vo);
         ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(this, prop);
         try {
-            prop.setLoaded(vo, moduleNodesCreator.createLabels());
+            moduleNodesCreator.createLabels();
+            prop.setLoaded(vo, moduleNodesCreator.getLabels(), moduleNodesCreator.getConverter());
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, sfl);
             throw sfl;

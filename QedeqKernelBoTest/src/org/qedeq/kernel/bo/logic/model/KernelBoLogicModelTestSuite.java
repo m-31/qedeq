@@ -13,20 +13,19 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service;
+package org.qedeq.kernel.bo.logic.model;
 
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
-import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPluginTest;
-import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPluginTest;
 
 /**
- * Run all JUnit tests for package org.qedeq.kernel.bo.module.
+ * Run all junit tests for package org.qedeq.kernel.bo.module.
  *
- * @author  Michael Meyling
+ * @version $Revision: 1.1 $
+ * @author    Michael Meyling
  */
-public class KernelBoServiceTestSuite extends QedeqTestSuite {
+public class KernelBoLogicModelTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelVoModuleTestSuite</code>.
@@ -34,20 +33,17 @@ public class KernelBoServiceTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelBoServiceTestSuite();
+        return new KernelBoLogicModelTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelBoServiceTestSuite() {
+    public KernelBoLogicModelTestSuite() {
         super();
-        addTestSuite(CheckRequiredModuleExceptionTest.class);
-        addTestSuite(DefaultKernelQedeqBoTest.class);
-        addTestSuite(LoadRequiredModulesTest.class);
-        addTestSuite(ModuleConstantsExistenceCheckerTest.class);
-        addTestSuite(QedeqBoFormalLogicCheckerTest.class);
-        // very slow:
-        addTestSuite(QedeqBoFactoryTest.class);
+        addTestSuite(CalculateTruthDynamicThreeModelTest.class);
+        addTestSuite(CalculateTruthThreeModelTest.class);
+        addTestSuite(CalculateTruthZeroModelTest.class);
+        addTestSuite(DynamicInterpreterTest.class);
     }
 }

@@ -176,8 +176,10 @@ public final class CheckLogicTest extends QedeqTestCase {
             .getKernelContext().getQedeqBo(context);
         prop.setQedeqFileDao(loader);
         IoUtility.setFieldContent(prop, "qedeq", qedeq);
+        final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
+            prop);
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
-            new ModuleLabelsCreator(DummyPlugin.getInstance(), prop).createLabels());
+            creator.getLabels(), creator.getConverter());
         prop.setLoadedRequiredModules(new KernelModuleReferenceList());
         QedeqBoFormalLogicChecker.check(prop);
     }

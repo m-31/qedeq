@@ -21,6 +21,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.ModuleReferenceList;
+import org.qedeq.kernel.bo.module.Element2Latex;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -69,6 +70,9 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
 
     /** Labels for this module. */
     private ModuleLabels labels;
+
+    /** Contains mappings for all definitions. */
+    private Element2Latex converter;
 
     /** Loader used for loading this object. */
     private QedeqFileDao loader;
@@ -191,16 +195,23 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Set loading state to "loaded". Also puts <code>null</code> to {@link #getLabels()}.
      *
-     * @param   qedeq   This module was loaded. Must not be <code>null</code>.
-     * @param   labels  Module labels.
+     * @param   qedeq       This module was loaded. Must not be <code>null</code>.
+     * @param   labels      Module labels.
+     * @param   converter   Can convert elements into LaTeX. Must not be <code>null</code>.
      * @throws  NullPointerException    One argument was <code>null</code>.
      */
-    public void setLoaded(final QedeqVo qedeq, final ModuleLabels labels) {
+    public void setLoaded(final QedeqVo qedeq, final ModuleLabels labels,
+            final Element2Latex converter) {
         stateManager.setLoaded(qedeq, labels);
+        this.converter = converter;
     }
 
     public Qedeq getQedeq() {
         return this.qedeq;
+    }
+
+    public Element2Latex getElement2Latex() {
+        return this.converter;
     }
 
     /**
@@ -237,7 +248,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Set loaded required requirements state.
      *
-     * @param   list  URLs of all referenced modules. Must not be <code>null</code>.
+     * @param   list        URLs of all referenced modules. Must not be <code>null</code>.
      * @throws  IllegalStateException   Module is not yet loaded.
      */
     public void setLoadedRequiredModules(final KernelModuleReferenceList list) {
@@ -272,6 +283,10 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
 
     /**
      * Set logic checked state. Also set the predicate and function existence checker.
+     *
+     * FIXME 20101202 m31: this seems to be wrong, we only set the checker, if we have no logical problems.
+     *                     but Latex2Utf8 or or Qedeq2Latex also need this information. We should collect
+     *                     these mappings for further usage!
      *
      * @param   checker Checks if a predicate or function constant is defined.
      */

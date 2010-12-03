@@ -23,12 +23,14 @@ import org.qedeq.kernel.bo.latex.GenerateLatexTest;
 import org.qedeq.kernel.bo.logic.model.CalculateTruthThreeModelTest;
 import org.qedeq.kernel.bo.logic.model.CalculateTruthZeroModelTest;
 import org.qedeq.kernel.bo.logic.model.DynamicInterpreterTest;
+import org.qedeq.kernel.bo.logic.model.KernelBoLogicModelTestSuite;
 import org.qedeq.kernel.bo.logic.wf.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
 import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
 import org.qedeq.kernel.bo.service.KernelBoServiceTestSuite;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPluginTest;
 import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPluginTest;
+import org.qedeq.kernel.bo.service.heuristic.KernelBoServiceHeuristicTestSuite;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexTest;
 import org.qedeq.kernel.bo.service.utf8.Latex2Utf8Test;
 
@@ -69,13 +71,11 @@ public class KernelBoTestSuite extends QedeqTestSuite {
         addTest(KernelBoModuleTestSuite.suite());
         addTest(KernelBoParserTestSuite.suite());
         addTest(KernelBoServiceTestSuite.suite());
+        addTest(KernelBoLogicModelTestSuite.suite());
+        addTest(KernelBoServiceHeuristicTestSuite.suite());
+
         addTestSuite(Qedeq2LatexTest.class);
         addTestSuite(GenerateLatexTest.class);
-        addTestSuite(CalculateTruthThreeModelTest.class);
-        addTestSuite(CalculateTruthZeroModelTest.class);
-        addTestSuite(HeuristicCheckerPluginTest.class);
-        addTestSuite(DynamicHeuristicCheckerPluginTest.class);
-        addTestSuite(DynamicInterpreterTest.class);
         addTestSuite(Latex2Utf8Test.class);
 
         // very slow:

@@ -35,6 +35,13 @@ public interface KernelQedeqBo extends QedeqBo {
     public ModuleLabels getLabels();
 
     /**
+     * Return mapper for transforming elements into LaTeX.
+     *
+     * @return  Transformer to get LaTeX out of elements.
+     */
+    public Element2Latex getElement2Latex();
+
+    /**
      * Create exception out of {@link ModuleDataException}.
      *
      * @param   plugin      This plugin generated the error.

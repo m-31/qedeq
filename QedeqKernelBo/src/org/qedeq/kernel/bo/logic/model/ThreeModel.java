@@ -134,7 +134,24 @@ public final class ThreeModel implements Model {
     /** Maximum. */
     private final Function functionClassList = new Function(0, 99, "{..}", "classList") {
         public Entity map(final Entity[] entities) {
-            return comprehension(entities);
+            Entity result = ZERO;
+            for (int i = 0; i < entities.length; i++) {
+                switch (entities[i].getValue()) {
+                case 0:
+                    if (result.getValue() == 0) {
+                        result = ONE;
+                    }
+                    break;
+                case 1:
+                    result = TWO;
+                    break;
+                case 2:
+                    result = TWO;
+                    break;
+                default: throw new RuntimeException("unknown value for entity " + entities[i]);
+                }
+            }
+            return result;
         }
     };
 

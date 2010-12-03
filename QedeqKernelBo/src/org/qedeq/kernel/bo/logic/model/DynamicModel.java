@@ -149,7 +149,7 @@ public abstract class DynamicModel implements Model {
             throw new RuntimeException("entity value should have been " + entities.size()
                 + " but was " + entity.getValue());
         }
-        System.out.println("added entity " + entity);
+//        System.out.println("added entity " + entity);
         entities.add(entity);
     }
 
