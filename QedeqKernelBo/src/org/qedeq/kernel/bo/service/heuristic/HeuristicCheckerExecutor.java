@@ -48,7 +48,6 @@ import org.qedeq.kernel.dto.list.DefaultElementList;
 /**
  * Checks if all formulas of a QEDEQ module are well formed.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class HeuristicCheckerExecutor extends ControlVisitor implements PluginExecutor {
