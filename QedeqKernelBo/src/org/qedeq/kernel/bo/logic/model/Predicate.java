@@ -161,12 +161,13 @@ public abstract class Predicate {
                     Trace.param(CLASS, method, "toString", toString());
                     Trace.param(CLASS, method, "entities", StringUtility.toString(entities));
                 }
-                boolean result = false;
+                boolean result = true;
                 for (int i = 0; i < entities.length; i++) {
                     result &= entity.getValue() == entities[i].getValue();
                 }
                 Trace.param(CLASS, method, "result  ", result);
                 return result;
+                
             }
         };
     }
