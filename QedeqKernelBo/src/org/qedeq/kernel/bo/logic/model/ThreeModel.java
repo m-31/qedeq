@@ -385,21 +385,23 @@ public final class ThreeModel implements Model {
     }
 
     public Entity comprehension(final Entity[] array) {
-        if (array.length == 0) {
-            return ZERO;
-        } else if (array.length == 1) {
-            if (array[0].getValue() == TWO.getValue()) {
-                return ZERO;
-            } else if (array[0].getValue() == ONE.getValue()) {
-                return TWO;
-            } else if (array[0].getValue() == ZERO.getValue()) {
-                return ONE;
-            } else {
-                return ZERO;
+        Entity result = ZERO;
+        for (int i = 0; i < array.length; i++) {
+            switch (array[i].getValue()) {
+            case 0:
+                if (result.getValue() == 0) {
+                    result = ONE;
+                }
+                break;
+            case 1:
+                result = TWO;
+                break;
+            case 2:
+                break;
+            default: throw new RuntimeException("unknown value for entity " + array[i]);
             }
-        } else {
-            return TWO;
         }
+        return result;
     }
 
 }
