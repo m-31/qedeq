@@ -22,11 +22,8 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.base.module.VariableList;
-import org.qedeq.kernel.bo.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.wf.Operators;
-import org.qedeq.kernel.bo.module.Element2Latex;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.utf8.Latex2Utf8Parser;
 import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 
@@ -67,7 +64,8 @@ public final class DynamicInterpreter {
 //    private ModuleContext startContext;
 
 
-    final KernelQedeqBo qedeq;
+    /** QEDEQ module we check. FIXME 20101203 m31: use for debug output: element converter*/
+    private final KernelQedeqBo qedeq;
 
     /**
      * Constructor.
@@ -204,7 +202,8 @@ public final class DynamicInterpreter {
      */
     private boolean calculateValue(final Element formula) throws  HeuristicException {
         final String method = "calculateValue(Element)";
-//        System.out.println(deepness.toString() + Latex2Utf8Parser.transform(null, qedeq.getElement2Latex().getLatex(formula), 0));
+//        System.out.println(deepness.toString() + Latex2Utf8Parser.transform(null,
+//        qedeq.getElement2Latex().getLatex(formula), 0));
 //        deepness.append("-");
         if (Trace.isDebugEnabled(CLASS)) {
             Trace.param(CLASS, this, method, deepness.toString() + "formula", formula);
@@ -296,7 +295,8 @@ public final class DynamicInterpreter {
             Trace.param(CLASS, this, method, deepness.toString() + "result ", result);
         }
 //        deepness.setLength(deepness.length() > 0 ? deepness.length() - 1 : 0);
-//        System.out.print(deepness.toString() + Latex2Utf8Parser.transform(null, qedeq.getElement2Latex().getLatex(formula), 0));
+//        System.out.print(deepness.toString() + Latex2Utf8Parser.transform(null,
+//         qedeq.getElement2Latex().getLatex(formula), 0));
 //        System.out.println("=" + result);
         return result;
     }
@@ -315,7 +315,8 @@ public final class DynamicInterpreter {
         final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
         subjectVariableInterpreter.addSubjectVariable(var);
         for (int i = 0; i < model.getEntitiesSize(); i++) {
-//            System.out.print(deepness.toString() + Latex2Utf8Parser.transform(null, qedeq.getElement2Latex().getLatex(variable), 0));
+//            System.out.print(deepness.toString() + Latex2Utf8Parser.transform(null,
+//            qedeq.getElement2Latex().getLatex(variable), 0));
 //            System.out.println("=" + model.getEntity(i));
 
             if (list.size() == 2) {
@@ -351,7 +352,8 @@ public final class DynamicInterpreter {
         final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
         subjectVariableInterpreter.addSubjectVariable(var);
         for (int i = 0; i < model.getEntitiesSize(); i++) {
-//            System.out.print(deepness.toString() + Latex2Utf8Parser.transform(null, qedeq.getElement2Latex().getLatex(variable), 0));
+//            System.out.print(deepness.toString() + Latex2Utf8Parser.transform(null,
+//            qedeq.getElement2Latex().getLatex(variable), 0));
 //            System.out.println("=" + model.getEntity(i));
             if (list.size() == 2) {
                 setLocationWithinModule(context + ".getList().getElement(1)");

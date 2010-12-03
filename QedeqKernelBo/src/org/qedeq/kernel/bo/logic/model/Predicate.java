@@ -167,7 +167,6 @@ public abstract class Predicate {
                 }
                 Trace.param(CLASS, method, "result  ", result);
                 return result;
-                
             }
         };
     }
