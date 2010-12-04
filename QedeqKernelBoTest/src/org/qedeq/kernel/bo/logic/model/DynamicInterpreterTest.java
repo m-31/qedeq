@@ -51,7 +51,7 @@ public class DynamicInterpreterTest extends QedeqBoTestCase {
                 IoUtility.toUrl(new File(getDocDir(), "math/qedeq_set_theory_v1.xml")));
         final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(
             address);
-        interpreter = new DynamicInterpreter(new ThreeDynamicModelOne(), prop);
+        interpreter = new DynamicInterpreter(new SixDynamicModel(), prop);
     }
 
     public void tearDown() throws Exception {

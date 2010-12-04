@@ -33,7 +33,7 @@ import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
 import org.qedeq.kernel.bo.logic.model.HeuristicException;
 import org.qedeq.kernel.bo.logic.model.Model;
 import org.qedeq.kernel.bo.logic.model.PredicateConstant;
-import org.qedeq.kernel.bo.logic.model.ThreeDynamicModelOne;
+import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -94,7 +94,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
         }
         // fallback is the default model
         if (model == null) {
-            model = new ThreeDynamicModelOne();
+            model = new SixDynamicModel();
         }
     }
 

@@ -44,7 +44,7 @@ public class DynamicHeuristicCheckerPlugin implements PluginBo {
     }
 
     public String getPluginName() {
-        return "Dynamic Heuristic tester";
+        return "Model Tester";
     }
 
     public String getPluginDescription() {

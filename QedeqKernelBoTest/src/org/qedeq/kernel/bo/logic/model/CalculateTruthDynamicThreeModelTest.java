@@ -42,7 +42,7 @@ public class CalculateTruthDynamicThreeModelTest extends CalculateTruthTestCase 
      * Constructor.
      */
     public CalculateTruthDynamicThreeModelTest() {
-        super(new ThreeDynamicModelTwo());
+        super(new ThreeDynamicModel());
     }
 
     public void setUp() throws Exception {

@@ -82,6 +82,15 @@ public final class DynamicInterpreter {
     }
 
     /**
+     * Get model.
+     *
+     * @return  Model we work with.
+     */
+    public DynamicModel getModel() {
+        return model;
+    }
+
+    /**
      * Add new predicate constant to this model.
      *
      * @param   constant        This is the predicate constant.

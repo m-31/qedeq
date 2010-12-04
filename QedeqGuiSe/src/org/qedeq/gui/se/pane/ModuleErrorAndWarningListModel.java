@@ -64,6 +64,8 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
             return qedeq.getModuleAddress().getUrl();
         } else if (column == 2) {
             return "Location";
+        } else if (column == 3) {
+            return "Type";
         } else {
             return "";
         }
@@ -74,7 +76,7 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
     }
 
     public int getColumnCount() {
-        return 3;
+        return 4;
     }
 
     public Object getValueAt(final int row, final int col) {
@@ -99,6 +101,10 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
                 break;
         case 2: if (getSourceFileException(row) != null && getSourceFileException(row).getSourceArea() != null) {
                     return "line " + getSourceFileException(row).getSourceArea().getStartPosition().getRow();
+                }
+                break;
+        case 3: if (getSourceFileException(row) != null) {
+                    return getSourceFileException(row).getPlugin().getPluginName();
                 }
                 break;
         default:

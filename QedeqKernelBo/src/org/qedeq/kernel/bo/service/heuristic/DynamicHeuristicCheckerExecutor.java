@@ -36,7 +36,7 @@ import org.qedeq.kernel.bo.logic.model.FunctionConstant;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
 import org.qedeq.kernel.bo.logic.model.HeuristicException;
 import org.qedeq.kernel.bo.logic.model.PredicateConstant;
-import org.qedeq.kernel.bo.logic.model.ThreeDynamicModelOne;
+import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -101,7 +101,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         }
         // fallback is the default model
         if (model == null) {
-            model = new ThreeDynamicModelOne();
+            model = new SixDynamicModel();
         }
         this.interpreter = new DynamicInterpreter(model, qedeq);
     }
@@ -139,7 +139,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         try {
             if (!isTautology(getCurrentContext(), test)) {
                 addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
-                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_MSG, getCurrentContext()));
+                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_MSG + " (\""
+                        + interpreter.getModel().getName() + "\")", getCurrentContext()));
             }
         } catch (HeuristicException h) {
             // TODO 20101015 m31: better exception handling would be better!

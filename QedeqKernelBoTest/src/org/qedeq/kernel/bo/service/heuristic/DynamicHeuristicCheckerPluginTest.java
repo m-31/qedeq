@@ -22,7 +22,7 @@ import java.util.Map;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.logic.model.Model;
-import org.qedeq.kernel.bo.logic.model.ThreeDynamicModelOne;
+import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -91,7 +91,7 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testQedeqSampleScript1() throws Exception {
-        final QedeqBo bo = check(new ThreeDynamicModelOne(), getDocDir(), "math/qedeq_sample1.xml");
+        final QedeqBo bo = check(new SixDynamicModel(), getDocDir(), "math/qedeq_sample1.xml");
         assertEquals(0, bo.getErrors().size());
         // FIXME m31 20101015: there should be zero warnings! 
         assertEquals(2, bo.getWarnings().size());
@@ -103,7 +103,7 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void kestQedeqLogicScript2() throws Exception {
-        final QedeqBo bo = check(new ThreeDynamicModelOne(), getDocDir(), "math/qedeq_logic_v1.xml");
+        final QedeqBo bo = check(new SixDynamicModel(), getDocDir(), "math/qedeq_logic_v1.xml");
         assertEquals(0, bo.getErrors().size());
         assertEquals(6, bo.getWarnings().size());
     }
@@ -114,7 +114,7 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void kestQedeqSetTheoryScript1() throws Exception {
-        final QedeqBo bo = check(new ThreeDynamicModelOne(), getDocDir(), "math/qedeq_set_theory_v1.xml");
+        final QedeqBo bo = check(new SixDynamicModel(), getDocDir(), "math/qedeq_set_theory_v1.xml");
         assertEquals(0, bo.getErrors().size());
         assertEquals(52, bo.getWarnings().size());
     }

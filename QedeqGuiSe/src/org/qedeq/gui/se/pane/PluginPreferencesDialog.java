@@ -39,9 +39,10 @@ import javax.swing.border.EmptyBorder;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.bo.logic.model.ThreeDynamicModelOne;
-import org.qedeq.kernel.bo.logic.model.ThreeDynamicModelTwo;
+import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
+import org.qedeq.kernel.bo.logic.model.ThreeDynamicModel;
 import org.qedeq.kernel.bo.logic.model.ThreeModel;
+import org.qedeq.kernel.bo.logic.model.UnaryDynamicModel;
 import org.qedeq.kernel.bo.logic.model.UnaryModel;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin;
@@ -99,10 +100,10 @@ public class PluginPreferencesDialog extends JDialog {
     private DynamicHeuristicCheckerPlugin dynamicHeuristicChecker;
 
     /** Class string for static model. */
-    private String heuristicCheckerModel;
+    private String heuristicCheckerModel = "";
 
     /** Class string for dynamic static model. */
-    private String dynamicHeuristicCheckerModel;
+    private String dynamicHeuristicCheckerModel = "";
 
     /**
      * Creates new Panel.
@@ -143,7 +144,7 @@ public class PluginPreferencesDialog extends JDialog {
         tabbedPane.addTab(qedeq2utf8Show.getPluginName(), qedeq2Utf8ShowConfig(qedeq2utf8Show));
         tabbedPane.addTab(qedeq2latex.getPluginName(), qedeq2LatexConfig(qedeq2latex));
         tabbedPane.addTab(qedeq2utf8.getPluginName(), qedeq2Utf8Config(qedeq2utf8));
-        tabbedPane.addTab(heuristicChecker.getPluginName(), heuristicCheckerConfig(heuristicChecker));
+//        tabbedPane.addTab(heuristicChecker.getPluginName(), heuristicCheckerConfig(heuristicChecker));
         tabbedPane.addTab(dynamicHeuristicChecker.getPluginName(),
             dynamicHeuristicCheckerConfig(dynamicHeuristicChecker));
 
@@ -327,11 +328,12 @@ public class PluginPreferencesDialog extends JDialog {
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         builder.getPanel().setOpaque(false);
 
-        final ThreeDynamicModelOne five1 = new ThreeDynamicModelOne();
-        final ThreeDynamicModelTwo five2 = new ThreeDynamicModelTwo();
+        final UnaryDynamicModel modelOne = new UnaryDynamicModel();
+        final ThreeDynamicModel modelThree = new ThreeDynamicModel();
+        final SixDynamicModel modelSix = new SixDynamicModel();
 
         dynamicHeuristicCheckerModel = QedeqGuiConfig.getInstance()
-                .getPluginKeyValue(plugin, "model", five1.getClass().getName());
+                .getPluginKeyValue(plugin, "model", modelOne.getClass().getName());
         final ActionListener modelSelectionListener = new ActionListener() {
             public void actionPerformed(final ActionEvent e) {
                 dynamicHeuristicCheckerModel = e.getActionCommand();
@@ -340,27 +342,38 @@ public class PluginPreferencesDialog extends JDialog {
 
         final ButtonGroup dynamicHeuristicCheckerModelBG = new ButtonGroup();
 
-        final JRadioButton dynamicHeuristicCheckerFiveModelRB1 = new JRadioButton("Five Model 1");
-        if (dynamicHeuristicCheckerModel.equals(five1.getClass().getName())) {
-            dynamicHeuristicCheckerFiveModelRB1.setSelected(true);
+        final JRadioButton dynamicHeuristicCheckerOneModelRB = new JRadioButton("One");
+        if (dynamicHeuristicCheckerModel.equals(modelOne.getClass().getName())) {
+            dynamicHeuristicCheckerOneModelRB.setSelected(true);
         }
-        dynamicHeuristicCheckerFiveModelRB1.setActionCommand(five1.getClass().getName());
-        dynamicHeuristicCheckerFiveModelRB1.addActionListener(modelSelectionListener);
-        dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerFiveModelRB1);
+        dynamicHeuristicCheckerOneModelRB.setActionCommand(modelOne.getClass().getName());
+        dynamicHeuristicCheckerOneModelRB.addActionListener(modelSelectionListener);
+        dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerOneModelRB);
 
-        builder.append(dynamicHeuristicCheckerFiveModelRB1);
-        builder.append(getDescription(five1.getDescription()));
+        builder.append(dynamicHeuristicCheckerOneModelRB);
+        builder.append(getDescription(modelOne.getDescription()));
 
-        final JRadioButton dynamicHeuristicCheckerFiveModelRB2 = new JRadioButton("Five Model 2");
-        if (dynamicHeuristicCheckerModel.equals(five2.getClass().getName())) {
-            dynamicHeuristicCheckerFiveModelRB2.setSelected(true);
+        final JRadioButton dynamicHeuristicCheckerThreeModelRB = new JRadioButton("Three");
+        if (dynamicHeuristicCheckerModel.equals(modelThree.getClass().getName())) {
+            dynamicHeuristicCheckerThreeModelRB.setSelected(true);
         }
-        dynamicHeuristicCheckerFiveModelRB2.setActionCommand(five2.getClass().getName());
-        dynamicHeuristicCheckerFiveModelRB2.addActionListener(modelSelectionListener);
-        dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerFiveModelRB2);
+        dynamicHeuristicCheckerThreeModelRB.setActionCommand(modelThree.getClass().getName());
+        dynamicHeuristicCheckerThreeModelRB.addActionListener(modelSelectionListener);
+        dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerThreeModelRB);
 
-        builder.append(dynamicHeuristicCheckerFiveModelRB2);
-        builder.append(getDescription(five2.getDescription()));
+        builder.append(dynamicHeuristicCheckerThreeModelRB);
+        builder.append(getDescription(modelThree.getDescription()));
+
+        final JRadioButton dynamicHeuristicCheckerSixModelRB = new JRadioButton("Six");
+        if (dynamicHeuristicCheckerModel.equals(modelSix.getClass().getName())) {
+            dynamicHeuristicCheckerSixModelRB.setSelected(true);
+        }
+        dynamicHeuristicCheckerSixModelRB.setActionCommand(modelSix.getClass().getName());
+        dynamicHeuristicCheckerSixModelRB.addActionListener(modelSelectionListener);
+        dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerSixModelRB);
+
+        builder.append(dynamicHeuristicCheckerSixModelRB);
+        builder.append(getDescription(modelSix.getDescription()));
 
         return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
     }
@@ -439,7 +452,8 @@ public class PluginPreferencesDialog extends JDialog {
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "model", dynamicHeuristicCheckerModel);
             }
         } catch (RuntimeException e) {
-            JOptionPane.showMessageDialog(this, e.getMessage(), "Error",
+            Trace.fatal(CLASS, this, "save", "couldn't save preferences", e);
+            JOptionPane.showMessageDialog(this, e.toString(), "Error",
                 JOptionPane.ERROR_MESSAGE);
         }
         try {

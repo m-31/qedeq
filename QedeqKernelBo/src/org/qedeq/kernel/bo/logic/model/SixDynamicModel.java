@@ -22,10 +22,10 @@ package org.qedeq.kernel.bo.logic.model;
  *
  * @author  Michael Meyling
  */
-public final class ThreeDynamicModelOne extends DynamicModel {
+public final class SixDynamicModel extends DynamicModel {
 
     /** This class. */
-    private static final Class CLASS = ThreeDynamicModelOne.class;
+    private static final Class CLASS = SixDynamicModel.class;
 
     /** "Zero" or empty set. */
     public static final Entity EMPTY = new Entity(0, "{}", "{} or empty set");
@@ -113,8 +113,8 @@ public final class ThreeDynamicModelOne extends DynamicModel {
     /**
      * Constructor.
      */
-    public ThreeDynamicModelOne() {
-        super();
+    public SixDynamicModel() {
+        super("six elements");
 
         addEntity(EMPTY);
         addEntity(ZERO_ONE);

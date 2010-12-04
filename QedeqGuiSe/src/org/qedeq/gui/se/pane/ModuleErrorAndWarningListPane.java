@@ -85,12 +85,31 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
             String tip = null;
             java.awt.Point p = e.getPoint();
             int row = rowAtPoint(p);
-            try {
-                tip = model.getSourceFileException(row).getMessage() + "\n";
-            } catch (RuntimeException ex) {
-                return super.getToolTipText(e);
+            SourceFileException sfe = null;
+            if (row >= 0) {
+                try {
+                    sfe = model.getSourceFileException(row);
+                } catch (RuntimeException ex) {
+                    // ignore
+                }
             }
-            return tip;
+            if (sfe != null) {
+                int col = columnAtPoint(p);
+                switch (col) {
+                case 0: tip = (model.isWarning(row) ? "Warning" : "Error");
+                        break;
+                case 1: tip = sfe.getMessage() + "\n";
+                        break;
+                case 2: tip = (sfe.getSourceArea() != null
+                            ? sfe.getSourceArea().getShortDescription() : "");
+                        break;
+                case 3: tip = sfe.getPlugin().getPluginDescription();
+                        break;
+                default: tip = sfe.getMessage() + "\n";
+                }
+                return tip;
+            }
+            return super.getToolTipText(e);
         }
 
     };
@@ -234,6 +253,8 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
         columnModel.getColumn(1).setMinWidth(100);
         columnModel.getColumn(2).setPreferredWidth(100);
         columnModel.getColumn(2).setMinWidth(100);
+        columnModel.getColumn(3).setPreferredWidth(100);
+        columnModel.getColumn(3).setMinWidth(100);
     }
 
     /**
