@@ -152,7 +152,8 @@ public class SourceFileException extends QedeqException {
 
     public final int hashCode() {
         return getErrorCode() ^ (errorArea != null ? errorArea.hashCode() : 13)
-            ^ (getMessage() != null ? getMessage().hashCode() : 13);
+            ^ (getPlugin() != null ? getPlugin().hashCode() : 131)
+            ^ (getMessage() != null ? getMessage().hashCode() : 499);
     }
 
     public final boolean equals(final Object obj) {
@@ -161,6 +162,7 @@ public class SourceFileException extends QedeqException {
         }
         final SourceFileException other = (SourceFileException) obj;
         return  (getErrorCode() == other.getErrorCode())
+            &&  EqualsUtility.equals(getPlugin(), other.getPlugin())
             &&  EqualsUtility.equals(getMessage(), other.getMessage())
             &&  EqualsUtility.equals(errorArea, other.errorArea);
     }
