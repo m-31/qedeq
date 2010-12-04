@@ -19,6 +19,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import org.qedeq.gui.se.control.QedeqController;
+import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.gui.se.util.MenuHelper;
 
@@ -36,10 +37,20 @@ public final class QedeqTreeContextMenu extends JPopupMenu {
      * @param   controller  Reference holder to action information.
      */
     public QedeqTreeContextMenu(final QedeqController controller) {
+        final String resolution = QedeqGuiConfig.getInstance().getIconSize();
         JMenuItem item = MenuHelper.createMenuItem("Remove", 'R');
         item.addActionListener(controller.getRemoveModuleAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/16x16/actions/edit-cut.png"));
+        item.setToolTipText("Unload selected QEDEQ modules. Changes status of dependent modules. "
+                + "Local module buffer is not affected.");
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-cut.png"));
+        this.add(item);
 
+        this.addSeparator();
+
+        item = MenuHelper.createMenuItem("Check Mathematical Logic", 'M');
+        item.setToolTipText("Check if all formulas are well formed within selected QEDEQ modules");
+        item.addActionListener(controller.getCheckLogicAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/run.png"));
         this.add(item);
 
         this.addSeparator();
