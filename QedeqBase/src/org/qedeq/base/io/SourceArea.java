@@ -93,6 +93,16 @@ public final class SourceArea implements Serializable {
             && getEndPosition().equals(other.getEndPosition());
     }
 
+    /**
+     * Get short description of area. Looks like "line1:column1 - line2:column2".
+     *
+     * @return  Textual description of area without address.
+     */
+    public final String getShortDescription() {
+        return getStartPosition().getRow() + ":" + getStartPosition().getColumn()
+            + " - " + getEndPosition().getRow() + ":" + getEndPosition().getColumn();
+    }
+
     public final String toString() {
         return getAddress() + ":" + getStartPosition().getRow() + ":" + getStartPosition().getColumn()
             + ":" + getEndPosition().getRow() + ":" + getEndPosition().getColumn();
