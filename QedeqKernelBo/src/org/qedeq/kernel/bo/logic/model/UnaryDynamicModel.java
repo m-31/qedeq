@@ -15,12 +15,6 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-
 /**
  * A model for our mathematical world. It has only one entity.
  *
