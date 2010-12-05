@@ -3853,10 +3853,10 @@
                     <VAR id="y" />
                   </PREDCON>
                   <PREDCON ref="subclass">
-                    <VAR id="x" />
                     <FUNCON ref="classList">
-                      <VAR id="y" />
+                      <VAR id="x" />
                     </FUNCON>
+                    <VAR id="y" />
                   </PREDCON>
                 </EQUI>
               </IMPL>
