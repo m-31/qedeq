@@ -931,6 +931,16 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         return prop.isChecked();
     }
 
+    /**
+     * Add plugin to services.
+     *
+     * @param   pluginClass Plugin class to instantiate.
+     * @throws  RuntimeException    Addition failed.
+     */
+    public void addPlugin(final String pluginClass) {
+        pluginManager.addPlugin(pluginClass);
+    }
+
     public Plugin[] getPlugins() {
         return pluginManager.getPlugins();
     }

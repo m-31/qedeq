@@ -52,8 +52,10 @@ public final class KernelFacade {
                 dir);
             config.setAutoReloadLastSessionChecked(false);
             final QedeqFileDao loader = new XmlQedeqFileDao();
-            final InternalKernelServices services = new DefaultInternalKernelServices(
+            final DefaultInternalKernelServices services = new DefaultInternalKernelServices(
                 KernelContext.getInstance(), loader);
+            services.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
+
             KernelContext.getInstance().init(services , config);
         } catch (IOException e) {
             e.printStackTrace();
