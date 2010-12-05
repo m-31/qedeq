@@ -33,21 +33,21 @@ public abstract class DynamicModel implements Model {
     private static final Class CLASS = DynamicModel.class;
 
     /** Always return false. */
-    public final Predicate FALSE = new Predicate(0, 99, "F", "always false") {
+    public static final Predicate FALSE = new Predicate(0, 99, "F", "always false") {
         public boolean calculate(final Entity[] entities) {
             return false;
         }
     };
 
     /** Always return true. */
-    public final Predicate TRUE = new Predicate(0, 99, "T", "always true") {
+    public static final Predicate TRUE = new Predicate(0, 99, "T", "always true") {
         public boolean calculate(final Entity[] entities) {
             return true;
         }
     };
 
     /** Return true if value is even. */
-    public final Predicate EVEN = new Predicate(0, 99, "| 2", "is even") {
+    public static final Predicate EVEN = new Predicate(0, 99, "| 2", "is even") {
         public boolean calculate(final Entity[] entities) {
             boolean result = true;
             for (int i = 0; i < entities.length; i++) {
@@ -58,7 +58,7 @@ public abstract class DynamicModel implements Model {
     };
 
     /** Are the entities ordered by < ? */
-    public final Predicate LESS = new Predicate(0, 99, "<", "less") {
+    public static final Predicate LESS = new Predicate(0, 99, "<", "less") {
         public boolean calculate(final Entity[] entities) {
             boolean result = true;
             for (int i = 0; i < entities.length - 1; i++) {
@@ -69,10 +69,10 @@ public abstract class DynamicModel implements Model {
     };
 
     /** Are the entities not ordered by < ? */
-    public final Predicate NOT_LESS = Predicate.not(LESS);
+    public static final Predicate NOT_LESS = Predicate.not(LESS);
 
     /** Are the entities are all the same? */
-    public final Predicate EQUAL = new Predicate(0, 99, "=", "equal") {
+    public static final Predicate EQUAL = new Predicate(0, 99, "=", "equal") {
         public boolean calculate(final Entity[] entities) {
             boolean result = true;
             for (int i = 0; i < entities.length - 1; i++) {
@@ -83,7 +83,7 @@ public abstract class DynamicModel implements Model {
     };
 
     /** Are the entities are not all the same? */
-    public final Predicate NOT_EQUAL = Predicate.not(EQUAL);
+    public static final Predicate NOT_EQUAL = Predicate.not(EQUAL);
 
     /** Name of model. */
     private final String name;
