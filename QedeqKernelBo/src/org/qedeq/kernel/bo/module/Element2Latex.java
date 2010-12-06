@@ -43,6 +43,9 @@ public final class Element2Latex extends AbstractModuleVisitor {
     /** Maps identifiers to {@link PredicateDefinition}s. */
     private final Map predicateDefinitions = new HashMap();
 
+    /** Maps identifiers to {@link PredicateDefinition}s. Contains default definitions as a fallback.*/
+    private final Map backupPredicateDefinitions = new HashMap();
+
     /** Maps identifiers to {@link FunctionDefinition}s. */
     private final Map functionDefinitions = new HashMap();
 
@@ -90,29 +93,51 @@ public final class Element2Latex extends AbstractModuleVisitor {
         this.elementList2ListType.put("QUANTOR_INTERSECTION", new QuantorIntersection());
         this.elementList2ListType.put("QUANTOR_UNION", new QuantorUnion());
 
-        // quick hack to have the logical identity operator
-        final String nameEqual = ExistenceChecker.NAME_EQUAL;
-        final String argNumberEqual = "2";
-        final String keyEqual = nameEqual + "_" + argNumberEqual;
-        if (!getPredicateDefinitions().containsKey(keyEqual)) {
-            final PredicateDefinitionVo equal = new PredicateDefinitionVo();
-            equal.setArgumentNumber(argNumberEqual);
-            equal.setName(nameEqual);
-            equal.setLatexPattern("#1 \\ =  \\ #2");
-            getPredicateDefinitions().put(keyEqual, equal);
-        }
+        fillBackup();
 
-        // LATER mime 20080107: quick hack to get the negation of the logical identity operator
-        final String nameNotEqual = "notEqual";
-        final String argNumberNotEqual = "2";
-        final String keyNotEqual = nameNotEqual + "_" + argNumberNotEqual;
-        if (!getPredicateDefinitions().containsKey(keyNotEqual)) {
-            final PredicateDefinitionVo notEqual = new PredicateDefinitionVo();
-            notEqual.setArgumentNumber("2");
-            notEqual.setName("notEqual");
-            notEqual.setLatexPattern("#1 \\ \\neq  \\ #2");
-            getPredicateDefinitions().put(keyNotEqual, notEqual);
-        }
+    }
+
+    /**
+     * Fill backup predicate list (if required modules could not be loaded, or the predicate is
+     * not yet defined.
+     */
+    private void fillBackup() {
+        // logical identity operator
+        addBackupPredicate(ExistenceChecker.NAME_EQUAL, "2", "#1 \\ = \\ #2");
+
+        // negation of the logical identity operator
+        addBackupPredicate("notEqual", "2", "#1 \\ \\neq \\ #2");
+
+        // element of
+        addBackupPredicate("in", "2", "#1 \\in #2");
+
+        // negation of element of
+        addBackupPredicate("notIn", "2", "#1 \\notin #2");
+
+        // negation of element of
+        addBackupPredicate("isSet", "1", "\\mathfrak{M}(#1)");
+
+        // subclass relation
+        addBackupPredicate("subclass", "2", "#1 \\ \\subseteq \\ #2");
+
+    }
+
+    /**
+     * Add predicate to backup list.
+     *
+     * @param   name            Predicate name.
+     * @param   argNumber       Number of arguments.
+     * @param   latexPattern    This is the latex presentation. Variables are marked by "#1", "#2"
+     *                          and so on.
+     */
+    private void addBackupPredicate(final String name, final String argNumber,
+            final String latexPattern) {
+        final String key = name + "_" + argNumber;
+        final PredicateDefinitionVo predicate = new PredicateDefinitionVo();
+        predicate.setArgumentNumber(argNumber);
+        predicate.setName(name);
+        predicate.setLatexPattern(latexPattern);
+        backupPredicateDefinitions.put(key, predicate);
     }
 
     /**
@@ -195,6 +220,15 @@ public final class Element2Latex extends AbstractModuleVisitor {
     }
 
     /**
+     * Get default definition mapping of predicate definitions. Our last hope.
+     *
+     * @return  Mapping of predicate definitions.
+     */
+    Map getBackupPredicateDefinitions() {
+        return this.backupPredicateDefinitions;
+    }
+
+    /**
      * Get mapping of function definitions.
      *
      * @return  Mapping of function definitions.
@@ -271,7 +305,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
             final StringBuffer buffer = new StringBuffer();
             final String name = list.getElement(0).getAtom().getString();
             final int arguments = list.size() - 1;
-            final String identifier = name + "_" + (arguments);
+            String identifier = name + "_" + (arguments);
             // TODO mime 20060922: is only working for definition name + argument number
             //  if argument length is dynamic this dosen't work
             PredicateDefinition definition = (PredicateDefinition)
@@ -280,23 +314,31 @@ public final class Element2Latex extends AbstractModuleVisitor {
                 // try external modules
                 try {
                     final int external = name.indexOf(".");
-                    if (external >= 0 && Element2Latex.this.getReferences() != null
+                    if (external >= 0) {
+                        final String shortName = name.substring(external + 1);
+                        identifier = shortName + "_" + (arguments);
+                        if (Element2Latex.this.getReferences() != null
                             && Element2Latex.this.getReferences().size() > 0) {
-                        final String label = name.substring(0, external);
-                        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
-                            Element2Latex.this.getReferences().getQedeqBo(label);
-                        if (newProp != null) {
-                            final String shortName = name.substring(external + 1);
-                            if (newProp.getExistenceChecker().predicateExists(shortName,
-                                    arguments)) {
-                                final DefaultExistenceChecker checker = newProp.getExistenceChecker();
-                                definition = checker.getPredicate(shortName, arguments);
+                            final String label = name.substring(0, external);
+                            final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
+                                Element2Latex.this.getReferences().getQedeqBo(label);
+                            if (newProp != null) {
+                                if (newProp.getExistenceChecker().predicateExists(shortName,
+                                        arguments)) {
+                                    final DefaultExistenceChecker checker = newProp.getExistenceChecker();
+                                    definition = checker.getPredicate(shortName, arguments);
+                                }
                             }
                         }
                     }
                 } catch (Exception e) {
                     // try failed...
                 }
+            }
+            // we try our backup
+            if (definition == null) {
+                definition = (PredicateDefinition) Element2Latex.this.getBackupPredicateDefinitions()
+                    .get(identifier);
             }
             if (definition != null) {
                 final StringBuffer define = new StringBuffer(definition.getLatexPattern());
