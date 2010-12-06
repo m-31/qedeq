@@ -92,7 +92,7 @@ public final class ThreeDynamicModel extends DynamicModel {
 
         addFunction(0, FUNCTION_ZERO);
         addFunction(0, FUNCTION_ONE);
-//        addFunction(0, FUNCTION_TWO);
+        addFunction(0, FUNCTION_TWO);
 
         addFunction(1, FUNCTION_ZERO);
         addFunction(1, FUNCTION_ONE);
