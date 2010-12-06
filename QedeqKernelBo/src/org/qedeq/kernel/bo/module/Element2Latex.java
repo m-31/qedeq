@@ -26,6 +26,7 @@ import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
+import org.qedeq.kernel.dto.module.FunctionDefinitionVo;
 import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
 import org.qedeq.kernel.visitor.AbstractModuleVisitor;
 
@@ -48,6 +49,9 @@ public final class Element2Latex extends AbstractModuleVisitor {
 
     /** Maps identifiers to {@link FunctionDefinition}s. */
     private final Map functionDefinitions = new HashMap();
+
+    /** Maps identifiers to {@link FunctionDefinition}s. Contains default definitions. */
+    private final Map backupFunctionDefinitions = new HashMap();
 
     /** Maps operator strings to {@link ElementList} to LaTeX mappers. */
     private final Map elementList2ListType = new HashMap();
@@ -108,17 +112,30 @@ public final class Element2Latex extends AbstractModuleVisitor {
         // negation of the logical identity operator
         addBackupPredicate("notEqual", "2", "#1 \\ \\neq \\ #2");
 
-        // element of
         addBackupPredicate("in", "2", "#1 \\in #2");
-
-        // negation of element of
         addBackupPredicate("notIn", "2", "#1 \\notin #2");
-
-        // negation of element of
         addBackupPredicate("isSet", "1", "\\mathfrak{M}(#1)");
-
-        // subclass relation
         addBackupPredicate("subclass", "2", "#1 \\ \\subseteq \\ #2");
+        addBackupPredicate("isOrderedPair", "1", "\\mbox{isOrderedPair}(#1)");
+        addBackupPredicate("isRelation", "1", "\\mathfrak{Rel}(#1)");
+        addBackupPredicate("isFunction", "1", "\\mathfrak{Funct}(#1)");
+
+        addBackupFunction("RussellClass", "0", "\\mathfrak{Ru}");
+        addBackupFunction("universalClass", "0", "\\mathfrak{V}");
+        addBackupFunction("emptySet", "0", "\\emptyset");
+        addBackupFunction("union", "2", "(#1 \\cup #2)");
+        addBackupFunction("intersection", "2", "(#1 \\cap #2)");
+        addBackupFunction("complement", "1", "\\overline{#1}");
+        addBackupFunction("classList", "1", "\\{ #1 \\}");
+        addBackupFunction("classList", "2", "\\{ #1, #2 \\}");
+        addBackupFunction("setProduct", "1", "\\bigcap \\ #1");
+        addBackupFunction("setSum", "1", "\\bigcup \\ #1");
+        addBackupFunction("power", "1", "\\mathfrak{P}(#1)");
+        addBackupFunction("orderedPair", "2", "\\langle #1, #2 \\rangle");
+        addBackupFunction("cartesianProduct", "2", "( #1 \\times #2)");
+        addBackupFunction("domain", "1", "\\mathfrak{Dom}(#1)");
+        addBackupFunction("range", "1", "\\mathfrak{Rng}(#1)");
+        addBackupFunction("successor", "1", "#1'");
 
     }
 
@@ -138,6 +155,24 @@ public final class Element2Latex extends AbstractModuleVisitor {
         predicate.setName(name);
         predicate.setLatexPattern(latexPattern);
         backupPredicateDefinitions.put(key, predicate);
+    }
+
+    /**
+     * Add function to backup list.
+     *
+     * @param   name            Function name.
+     * @param   argNumber       Number of arguments.
+     * @param   latexPattern    This is the LaTex presentation. Variables are marked by "#1", "#2"
+     *                          and so on.
+     */
+    private void addBackupFunction(final String name, final String argNumber,
+            final String latexPattern) {
+        final String key = name + "_" + argNumber;
+        final FunctionDefinitionVo function = new FunctionDefinitionVo();
+        function.setArgumentNumber(argNumber);
+        function.setName(name);
+        function.setLatexPattern(latexPattern);
+        backupFunctionDefinitions.put(key, function);
     }
 
     /**
@@ -238,6 +273,15 @@ public final class Element2Latex extends AbstractModuleVisitor {
     }
 
     /**
+     * Get default definition mapping of function definitions. Our last hope.
+     *
+     * @return  Mapping of predicate definitions.
+     */
+    Map getBackupFunctionDefinitions() {
+        return this.backupFunctionDefinitions;
+    }
+
+    /**
      * Describes the interface for an {@link ElementList} to LaTeX converter.
      */
     interface ListType {
@@ -306,7 +350,7 @@ public final class Element2Latex extends AbstractModuleVisitor {
             final String name = list.getElement(0).getAtom().getString();
             final int arguments = list.size() - 1;
             String identifier = name + "_" + (arguments);
-            // TODO mime 20060922: is only working for definition name + argument number
+            // LATER 20060922 m31: is only working for definition name + argument number
             //  if argument length is dynamic this dosen't work
             PredicateDefinition definition = (PredicateDefinition)
                 Element2Latex.this.getPredicateDefinitions().get(identifier);
@@ -371,8 +415,8 @@ public final class Element2Latex extends AbstractModuleVisitor {
             final StringBuffer buffer = new StringBuffer();
             final String name = list.getElement(0).getAtom().getString();
             final int arguments = list.size() - 1;
-            final String identifier = name + "_" + (arguments);
-            // TODO mime 20060922: is only working for definition name + argument number
+            String identifier = name + "_" + (arguments);
+            // LATER 20060922 m31: is only working for definition name + argument number
             //  if argument length is dynamic this dosen't work
             FunctionDefinition definition = (FunctionDefinition)
                 Element2Latex.this.getFunctionDefinitions().get(identifier);
@@ -380,23 +424,31 @@ public final class Element2Latex extends AbstractModuleVisitor {
                 // try external modules
                 try {
                     final int external = name.indexOf(".");
-                    if (external >= 0 && Element2Latex.this.getReferences() != null
-                            && Element2Latex.this.getReferences().size() > 0) {
-                        final String label = name.substring(0, external);
-                        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
-                            Element2Latex.this.getReferences().getQedeqBo(label);
-                        if (newProp != null) {
-                            final String shortName = name.substring(external + 1);
-                            if (newProp.getExistenceChecker().functionExists(shortName,
-                                    arguments)) {
-                                final DefaultExistenceChecker checker = newProp.getExistenceChecker();
-                                definition = checker.getFunction(shortName, arguments);
+                    if (external >= 0) {
+                        final String shortName = name.substring(external + 1);
+                        identifier = shortName + "_" + (arguments);
+                        if (Element2Latex.this.getReferences() != null
+                                && Element2Latex.this.getReferences().size() > 0) {
+                            final String label = name.substring(0, external);
+                            final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
+                                Element2Latex.this.getReferences().getQedeqBo(label);
+                            if (newProp != null) {
+                                if (newProp.getExistenceChecker().functionExists(shortName,
+                                        arguments)) {
+                                    final DefaultExistenceChecker checker = newProp.getExistenceChecker();
+                                    definition = checker.getFunction(shortName, arguments);
+                                }
                             }
                         }
                     }
                 } catch (Exception e) {
                     // try failed...
                 }
+            }
+            // we try our backup
+            if (definition == null) {
+                definition = (FunctionDefinition) Element2Latex.this.getBackupFunctionDefinitions()
+                    .get(identifier);
             }
             if (definition != null) {
                 final StringBuffer define = new StringBuffer(definition.getLatexPattern());
