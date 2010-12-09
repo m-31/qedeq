@@ -434,8 +434,8 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-                If identity were not part of our underlying logic, then we should need to take this as a definition of identity. But then another axiom is needed and the theory presentation is not so smooth for technical reasons (derivation of the identy axioms).\footnote{
-                  Additional to the identy definition we need the following form of the extensionality axiom: $(x = y \land x \in z) \ \rightarrow y \in z$. This is a special case of the Leibniz's replacement rule that we know already as \qref{l.axiom:leibnizReplacement}. The correctness of the general rule can be proved by recursion over formula building. See also \cite{schmidt} \S 6.
+                If identity were not part of our underlying logic, then we should need to take this as a definition of identity. But then another axiom is needed and the theory presentation is not so smooth for technical reasons (derivation of the identity axioms).\footnote{
+                  Additional to the identity definition we need the following form of the extensionality axiom: $(x = y \land x \in z) \ \rightarrow y \in z$. This is a special case of the Leibniz's replacement rule that we know already as \qref{l.axiom:leibnizReplacement}. The correctness of the general rule can be proved by recursion over formula building. See also \cite{schmidt} \S 6.
                   
                   \par
                   Alternatively one can define $(x = y \leftrightarrow (\forall z \ (x \in z \ \rightarrow \ y \in z)) \land \forall z \ (x \in z \ \rightarrow \ z \in y))$.}
