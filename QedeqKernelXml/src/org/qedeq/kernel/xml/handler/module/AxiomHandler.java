@@ -67,6 +67,7 @@ public class AxiomHandler extends AbstractSimpleHandler {
             throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             axiom = new AxiomVo();
+            axiom.setDefinedOperator(attributes.getString("definedOperator"));
         } else if (formulaHandler.getStartTag().equals(name)) {
             changeHandler(formulaHandler, name, attributes);
         } else if (descriptionHandler.getStartTag().equals(name)) {
