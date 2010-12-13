@@ -456,14 +456,13 @@
       <INTRODUCTION>
         <LATEX language="en">
           <![CDATA[
-            The language of our calculus bases on the formalizations of \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~Bernays} and \emph{P.~S.~Novikov}\cite{novikov}. New rules 
-          can be derived from the herein presented. Only these meta rules lead to a smooth flowing logical argumentation.
+            The language of our calculus bases on the formalizations of \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~Bernays} and \emph{P.~S.~Novikov}\cite{novikov}. New rules can be derived from the herein presented. Only these meta rules lead to a smooth flowing logical argumentation.
           
-          
+           \par
             We want to present the axioms, definitions and rules in an syntactical manner but to motivate the choosen form we already give some semantical \emph{interpretations}.
 
             \par
-            The logical operators of propositional calculus \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, \mbox{`$\leftrightarrow$'} und \mbox{`$\rightarrow$'} combine arbitrary \emph{propositions} to new propositions.
+            The logical operators of propositional calculus \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, \mbox{`$\rightarrow$'} and \mbox{`$\leftrightarrow$'} combine arbitrary \emph{propositions} to new propositions.
             A proposition is a statement that affirms or denies something and is either {\glqq true\grqq} or {\glqq false\grqq} (but not both).\footnote{Later on we will define the symbols $\top$ and $\bot$ as truth values.}
           ]]>
         </LATEX>
@@ -473,10 +472,10 @@
             Die Grundlagen der bei \textbf{Hilbert II} verwendeten Logik werden hier zusammengestellt. Die folgende Kalkülsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~Bernays} und \emph{P.~S.~Novikov}\cite{novikov}. Aus den hier angegebenen logischen Axiomen und den elementaren Schlussregeln können weitere Gesetzmäßigkeiten abgeleitet werden. Erst diese neuen Metaregeln führen zu einer komfortablen logischen Argumentation.
             
             \par
-            Die Axiome, Definitionen und Regeln werden in syntaktischer Weise vorgestellt, aber um die gewählte Form zu motivieren, geben wir bereits einige sematische \emph{Interpretationen}.
+            Die Axiome, Definitionen und Regeln werden in syntaktischer Weise vorgestellt, aber um die gewählte Form zu motivieren, geben wir bereits einige semantische \emph{Interpretationen}.
             
             \par
-            Die aussagenlogischen Operatoren \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, \mbox{`$\leftrightarrow$'} und \mbox{`$\rightarrow$'} verknüpfen beliebige \emph{Aussagen} zu neuen Aussagen. 
+            Die aussagenlogischen Operatoren \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'}, \mbox{`$\rightarrow$'} und \mbox{`$\leftrightarrow$'} verknüpfen beliebige \emph{Aussagen} zu neuen Aussagen. 
             Dabei verstehen wir unter einer Aussage eine Größe, die nur den Wert {\glqq wahr\grqq} und {\glqq falsch\grqq} annehmen kann.\footnote{Später werden wir für die Wahrheitswerte die Symbole $\top$ und $\bot$ definieren.}
           ]]>
         </LATEX>
@@ -487,26 +486,55 @@
           <TEXT>
             <LATEX language="en">
               <![CDATA[
-                The binary operator \mbox{`$\vee$'} (logical disjunction) combines the two propositions $\alpha$ and $\beta$ into the new proposition $\alpha \vee \beta$. It results in true if at least one of its operands is true.
+                The binary operator \mbox{`$\rightarrow$'} (logical implication, \emph{if \ldots then}) combines the two propositions $\alpha$ and $\beta$ into the new proposition $\alpha \rightarrow \beta$. It results in false if and only if the first operand is true and the second operand is false.
 
                 \par
                 The unary operator \mbox{`$\neg$'} (logical negation) changes the truth value of a proposition $\alpha$. $\neg \alpha$ has a value of true when its operand is false and a value of false when its operand is true. 
 
                 \par
-                The \emph{logical implication} (\emph{if}) the, \emph{logical conjunction} (\emph{and}) and the \emph{logical equivalence} (\emph{biconditional}) are defined as abbreviations.\footnote{Actually the symbols $\wedge, \rightarrow, 
-                \leftrightarrow$ are defined later on and are a syntax extension. But for convenience these symbols are already part of the logical language.}
+                The \emph{logical disjunction} (\emph{or}), \emph{logical conjunction} (\emph{and}) and the \emph{logical equivalence} (\emph{logical biconditional}) are defined via axioms.\footnote{Actually the symbols $\vee, \wedge, \leftrightarrow$ are defined later on and are a syntax extension. But for convenience these symbols are already part of the logical language and we describe their meaning by additional axioms.}
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Der zweistellige Operator \mbox{`$\vee$'} (Oder-Verknüpfung) legt für die Aussagen $\alpha$ und $\beta$ die neue Aussage 
-                $\alpha \vee \beta$ fest. Sie ist dann und nur dann wahr, wenn wenigstens eine der ursprünglichen Aussagen wahr ist.
+                Der zweistellige Operator \mbox{`$\rightarrow$'} (\emph{wenn \ldots dann}) legt für die Aussagen $\alpha$ und $\beta$ die neue Aussage 
+                $\alpha \rightarrow \beta$ fest. Diese \emph{Implikation} ist dann und nur dann falsch, wenn der erste Operand wahr und der zweite Operand falsch ist.
 
                 \par
-                Durch den einstelligen Operator \mbox{`$\neg$'} wird zu einer Aussage $\alpha$ ihre \emph{Negation} definiert. $\neg \alpha$ ist falsch, wenn $\alpha$ wahr ist und wahr wenn $\alpha$ falsch ist.
+                Durch den einstelligen Operator \mbox{`$\neg$'} (\emph{nicht}) wird zu einer Aussage $\alpha$ ihre \emph{Negation} definiert. $\neg \alpha$ ist falsch, wenn $\alpha$ wahr ist und wahr wenn $\alpha$ falsch ist.
             
                 \par
-                Die Implikation, die Und-Verknüpfung und die logische Äquivalenz werden als Abkürzungen definiert.\footnote{Eigentlich werden die Abkürzungssymbole $\wedge, \rightarrow, \leftrightarrow$ erst an dieser Stelle definiert und erweitern die Sprachsyntax. Aus Bequemlichkeitsgründen wurden diese Symbole bereits als logische Symbole angegeben.}
+                Die Disjunktion (\emph{Oder-Verknüpfung}), die Konjunktion (\emph{Und-Verknüpfung}) und die \emph{Bijunktion} (\emph{Äquivalenz}) werden im Folgenden durch zusätzliche Axiome definiert.\footnote{Eine andere Möglichkeit der Grundsteinlegung ist die folgende:
+                
+                \par
+                Definition der logische Implikation.
+                $$\alpha \rightarrow \beta\ :\leftrightarrow \ \neg \alpha\ \lor\ \beta$$
+
+                \par
+                Definition der Und-Verkn{\"u}pfung mittels De-Morgan.
+                $$\alpha \land \beta\ :\leftrightarrow \ \neg (\neg \alpha\ \lor\ \neg \beta)$$
+
+                \par
+                Die logische Äquivalenz wird wie üblich definiert.
+                $$\alpha \land \beta\ :\leftrightarrow \ (\alpha\ \rightarrow\ \beta)\ \land\ (\beta\ \rightarrow\ \alpha)$$
+
+                \par
+                Axiom der Oder-Kürzung.
+                $$(A\ \lor\ A)\ \rightarrow\ A$$
+                
+                \par
+                Axiom der Oder-Verdünnung.
+                $$A\ \rightarrow\ (A\ \lor\ B)$$
+                
+                \par
+                Axiom der Oder-Vertauschung
+                $$(A\ \lor\ B)\ \rightarrow\ (B\ \lor\ A)$$
+
+                \par
+                Axiom der Oder-Vorsehung.
+                $$(A\ \rightarrow\ B)\ \rightarrow\ ((C\ \lor\ A)\ \rightarrow\ (C\ \lor\ B))$$
+                }
+                Eigentlich werden die Abkürzungssymbole $\vee, \wedge, \leftrightarrow$ erst an dieser Stelle definiert und erweitern die Sprachsyntax. Aus Bequemlichkeitsgründen wurden diese Symbole bereits als logische Symbole angegeben und wir beschreiben ihren Gebrauch durch weitere Axiome.}
               ]]>
             </LATEX>
           </TEXT>
@@ -514,7 +542,7 @@
 
 
 <!-- TODO that node does define a predicate with terms var_alpha and var_beta as arguments but it is defined as "-predvar_alpha v predvar_beta" the latex result looks ok but the formal definition makes no sense -->
-        <NODE id="definition:implication">
+        <NODE id="axiom:disjunction">
           <NAME>
             <LATEX language="en">implication definition</LATEX>
             <LATEX language="de">Definition der Implikation</LATEX>
