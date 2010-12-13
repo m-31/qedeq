@@ -37,4 +37,12 @@ public interface Axiom extends NodeType {
      * @return  Description.
      */
     public LatexList getDescription();
+
+    /**
+     * Get operator that is defined by this axiom.
+     *
+     * @return  Description.
+     */
+    public String getDefinedOperator();
+
 }
