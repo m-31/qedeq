@@ -511,7 +511,7 @@
                 $$\alpha \rightarrow \beta\ :\leftrightarrow \ \neg \alpha\ \lor\ \beta$$
 
                 \par
-                Definition der Und-Verkn{\"u}pfung mittels De-Morgan.
+                Definition der Und-Verknüpfung mittels De-Morgan.
                 $$\alpha \land \beta\ :\leftrightarrow \ \neg (\neg \alpha\ \lor\ \neg \beta)$$
 
                 \par
@@ -534,7 +534,7 @@
                 Axiom der Oder-Vorsehung.
                 $$(A\ \rightarrow\ B)\ \rightarrow\ ((C\ \lor\ A)\ \rightarrow\ (C\ \lor\ B))$$
                 }
-                Eigentlich werden die Abkürzungssymbole $\vee, \wedge, \leftrightarrow$ erst an dieser Stelle definiert und erweitern die Sprachsyntax. Aus Bequemlichkeitsgründen wurden diese Symbole bereits als logische Symbole angegeben und wir beschreiben ihren Gebrauch durch weitere Axiome.}
+                Eigentlich werden die Abkürzungssymbole $\vee, \wedge, \leftrightarrow$ erst an dieser Stelle definiert und erweitern die Sprachsyntax. Aus Bequemlichkeitsgründen wurden diese Symbole bereits als logische Symbole angegeben und wir beschreiben ihren Gebrauch durch weitere Axiome.
               ]]>
             </LATEX>
           </TEXT>
