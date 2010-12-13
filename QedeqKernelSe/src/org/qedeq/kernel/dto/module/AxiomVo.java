@@ -28,7 +28,6 @@ import org.qedeq.kernel.base.module.Rule;
 /**
  * Axiom.
  *
- * @version $Revision: 1.12 $
  * @author  Michael Meyling
  */
 public class AxiomVo implements Axiom {
@@ -38,6 +37,9 @@ public class AxiomVo implements Axiom {
 
     /** Further proposition description. Normally <code>null</code>. */
     private LatexList description;
+
+    /** Defined operator. The axiom defines this operator. Normally <code>null</code>.*/
+    private String definedOperator;
 
     /**
      * Constructs a new axiom.
@@ -92,23 +94,43 @@ public class AxiomVo implements Axiom {
         return description;
     }
 
+    public String getDefinedOperator() {
+        return definedOperator;
+    }
+
+    /**
+     * Set operator which is defined by this axiom. So the axiom can be eliminated by eliminating
+     * this operator.
+     *
+     * @param   definedOperator This operator is defined by this axiom.
+     */
+    public void setDefinedOperator(final String definedOperator) {
+        this.definedOperator = definedOperator;
+    }
+
     public boolean equals(final Object obj) {
         if (!(obj instanceof AxiomVo)) {
             return false;
         }
         final AxiomVo other = (AxiomVo) obj;
         return  EqualsUtility.equals(getFormula(), other.getFormula())
-            && EqualsUtility.equals(getDescription(), other.getDescription());
+            && EqualsUtility.equals(getDescription(), other.getDescription())
+            && EqualsUtility.equals(getDefinedOperator(), other.getDefinedOperator());
     }
 
     public int hashCode() {
         return (getFormula() != null ? getFormula().hashCode() : 0)
+            ^ (getDefinedOperator() != null ? 1 ^ getDefinedOperator().hashCode() : 0)
             ^ (getDescription() != null ? 1 ^ getDescription().hashCode() : 0);
     }
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append("Axiom:\n");
+        buffer.append("Axiom");
+        if (definedOperator != null) {
+            buffer.append(" (defines: " + definedOperator);
+        }
+        buffer.append(":\n");
         buffer.append(getFormula());
         buffer.append("\nDescription:\n");
         buffer.append(getDescription());
