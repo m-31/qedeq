@@ -94,9 +94,7 @@ public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
     public void testQedeqLogicScript1() throws Exception {
         final QedeqBo bo = check(new ThreeModel(), getDocDir(), "math/qedeq_logic_v1.xml");
         assertEquals(0, bo.getErrors().size());
-        // FIXME m31 20101012: there should be zero warnings! Think about changing
-        //                     definition into axiom!
-        assertEquals(6, bo.getWarnings().size());
+        assertEquals(0, bo.getWarnings().size());
     }
 
     /**
@@ -107,7 +105,7 @@ public class HeuristicCheckerPluginTest extends QedeqBoTestCase {
     public void testQedeqLogicScript2() throws Exception {
         final QedeqBo bo = check(new UnaryModel(), getDocDir(), "math/qedeq_logic_v1.xml");
         assertEquals(0, bo.getErrors().size());
-        assertEquals(6, bo.getWarnings().size());
+        assertEquals(0, bo.getWarnings().size());
     }
 
     /**
