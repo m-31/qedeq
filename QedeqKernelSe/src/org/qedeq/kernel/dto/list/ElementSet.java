@@ -276,6 +276,15 @@ public final class ElementSet {
         return union;
     }
 
+    /**
+     * Get number of elements.
+     *
+     * @return  Number of elements in this set.
+     */
+    public final int size() {
+        return this.elements.size();
+    }
+
     public final boolean equals(final Object obj) {
         if (obj == null) {
             return false;
