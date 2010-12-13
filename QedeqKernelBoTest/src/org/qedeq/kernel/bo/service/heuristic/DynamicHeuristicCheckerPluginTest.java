@@ -105,7 +105,7 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
     public void kestQedeqLogicScript2() throws Exception {
         final QedeqBo bo = check(new SixDynamicModel(), getDocDir(), "math/qedeq_logic_v1.xml");
         assertEquals(0, bo.getErrors().size());
-        assertEquals(6, bo.getWarnings().size());
+        assertEquals(0, bo.getWarnings().size());
     }
 
     /**
