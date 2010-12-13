@@ -486,186 +486,83 @@
           <TEXT>
             <LATEX language="en">
               <![CDATA[
-                The binary operator \mbox{`$\rightarrow$'} (logical implication, \emph{if \ldots then}) combines the two propositions $\alpha$ and $\beta$ into the new proposition $\alpha \rightarrow \beta$. It results in false if and only if the first operand is true and the second operand is false.
+                The binary operator \mbox{`$\vee$'} (logical disjunction) combines the two propositions $\alpha$ and $\beta$ into the new proposition $\alpha \vee \beta$. It results in true if at least one of its operands is true.
 
                 \par
                 The unary operator \mbox{`$\neg$'} (logical negation) changes the truth value of a proposition $\alpha$. $\neg \alpha$ has a value of true when its operand is false and a value of false when its operand is true. 
 
                 \par
-                The \emph{logical disjunction} (\emph{or}), \emph{logical conjunction} (\emph{and}) and the \emph{logical equivalence} (\emph{logical biconditional}) are defined via axioms.\footnote{Actually the symbols $\vee, \wedge, \leftrightarrow$ are defined later on and are a syntax extension. But for convenience these symbols are already part of the logical language and we describe their meaning by additional axioms.}
+                The \emph{logical implication} (\emph{if \ldots then}) the, \emph{logical conjunction} (\emph{and}) and the \emph{logical equivalence} (\emph{logical biconditional}) are defined as abbreviations.\footnote{Actually the symbols $\wedge, \rightarrow, 
+                \leftrightarrow$ are defined later on and are a syntax extension. But for convenience these symbols are already part of the logical language.}
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Der zweistellige Operator \mbox{`$\rightarrow$'} (\emph{wenn \ldots dann}) legt für die Aussagen $\alpha$ und $\beta$ die neue Aussage 
-                $\alpha \rightarrow \beta$ fest. Diese \emph{Implikation} ist dann und nur dann falsch, wenn der erste Operand wahr und der zweite Operand falsch ist.
+                Der zweistellige Operator \mbox{`$\vee$'} (Oder-Verknüpfung) legt für die Aussagen $\alpha$ und $\beta$ die neue Aussage 
+                $\alpha \vee \beta$ fest. Sie ist dann und nur dann wahr, wenn wenigstens eine der ursprünglichen Aussagen wahr ist.
 
                 \par
-                Durch den einstelligen Operator \mbox{`$\neg$'} (\emph{nicht}) wird zu einer Aussage $\alpha$ ihre \emph{Negation} definiert. $\neg \alpha$ ist falsch, wenn $\alpha$ wahr ist und wahr wenn $\alpha$ falsch ist.
+                Durch den einstelligen Operator \mbox{`$\neg$'} wird zu einer Aussage $\alpha$ ihre \emph{Negation} definiert. $\neg \alpha$ ist falsch, wenn $\alpha$ wahr ist und wahr wenn $\alpha$ falsch ist.
             
                 \par
-                Die Disjunktion (\emph{Oder-Verknüpfung}), die Konjunktion (\emph{Und-Verknüpfung}) und die \emph{Bijunktion} (\emph{Äquivalenz}) werden im Folgenden durch zusätzliche Axiome definiert.\footnote{Eine andere Möglichkeit der Grundsteinlegung ist die folgende:
-                
-                \par
-                Definition der logische Implikation.
+                Die Implikation, die Und-Verknüpfung und die logische Äquivalenz werden als Abkürzungen definiert.\footnote{Eigentlich werden die Abkürzungssymbole $\wedge, \rightarrow, \leftrightarrow$ erst an dieser Stelle definiert und erweitern die Sprachsyntax. Aus Bequemlichkeitsgründen wurden diese Symbole bereits als logische Symbole angegeben.}
+              ]]>
+            </LATEX>
+          </TEXT>
+        </SUBSECTION>
+        <SUBSECTION>
+          <TEXT>
+            <LATEX language="en">
+              <![CDATA[
+                The logical implication (`if \ldots then') could be defined as follows.
                 $$\alpha \rightarrow \beta\ :\leftrightarrow \ \neg \alpha\ \lor\ \beta$$
-
-                \par
-                Definition der Und-Verknüpfung mittels De-Morgan.
-                $$\alpha \land \beta\ :\leftrightarrow \ \neg (\neg \alpha\ \lor\ \neg \beta)$$
-
-                \par
-                Die logische Äquivalenz wird wie üblich definiert.
-                $$\alpha \land \beta\ :\leftrightarrow \ (\alpha\ \rightarrow\ \beta)\ \land\ (\beta\ \rightarrow\ \alpha)$$
-
-                \par
-                Axiom der Oder-Kürzung.
-                $$(A\ \lor\ A)\ \rightarrow\ A$$
                 
                 \par
-                Axiom der Oder-Verdünnung.
-                $$A\ \rightarrow\ (A\ \lor\ B)$$
-                
-                \par
-                Axiom der Oder-Vertauschung
-                $$(A\ \lor\ B)\ \rightarrow\ (B\ \lor\ A)$$
-
-                \par
-                Axiom der Oder-Vorsehung.
-                $$(A\ \rightarrow\ B)\ \rightarrow\ ((C\ \lor\ A)\ \rightarrow\ (C\ \lor\ B))$$
-                }
-                Eigentlich werden die Abkürzungssymbole $\vee, \wedge, \leftrightarrow$ erst an dieser Stelle definiert und erweitern die Sprachsyntax. Aus Bequemlichkeitsgründen wurden diese Symbole bereits als logische Symbole angegeben und wir beschreiben ihren Gebrauch durch weitere Axiome.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Die logische Implikation ({\glqq wenn \ldots dann\glqq}) kann wie folgt definiert werden.
+                $$\alpha \rightarrow \beta\ :\leftrightarrow \ \neg \alpha\ \lor\ \beta$$
               ]]>
             </LATEX>
           </TEXT>
         </SUBSECTION>
 
-
-<!-- TODO that node does define a predicate with terms var_alpha and var_beta as arguments but it is defined as "-predvar_alpha v predvar_beta" the latex result looks ok but the formal definition makes no sense -->
-        <NODE id="axiom:disjunction">
-          <NAME>
-            <LATEX language="en">implication definition</LATEX>
-            <LATEX language="de">Definition der Implikation</LATEX>
-          </NAME>
-          <TITLE>
-            <LATEX language="en">Implication\index{definition!of implication}</LATEX>
-            <LATEX language="de">Implikation\index{Definition!der Implikation}</LATEX>
-          </TITLE>
-          <PRECEDING>
-            <LATEX language="en">
-              <![CDATA[
-                The logical implication (`if') could be defined as follows.
-              ]]>
-            </LATEX>
-            <LATEX language="de">
-              <![CDATA[
-                Die logische Implikation kann wie folgt definiert werden.
-              ]]>
-            </LATEX>
-          </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="definitionImplication">
-            <LATEXPATTERN>#1 \rightarrow #2</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="\alpha"/>
-              <VAR id="\beta"/>
-            </VARLIST>
-            <FORMULA>
-              <OR>
-                <NOT>
-                  <PREDVAR id="\alpha" />
-                </NOT>
-                <PREDVAR id="\beta" />
-              </OR>
-            </FORMULA>
-          </DEFINITION_PREDICATE>
-        </NODE>
-
-<!-- TODO that node does define a predicate with terms var_alpha and var_beta as arguments but it is defined as "-(predvar_alpha v predvar_beta)" the latex result looks ok but the formal definition makes no sense -->
-        <NODE id="definition:conjunction">
-          <NAME>
-            <LATEX language="en">conjunction definition</LATEX>
-            <LATEX language="de">Definition der Und-Verknüpfung</LATEX>
-          </NAME>
-          <TITLE>
-            <LATEX language="en">Conjunction\index{definition!of conjunction}</LATEX>
-            <LATEX language="de">Und-Verknüpfung\index{Definition!der Und-Verknüpfung}</LATEX>
-          </TITLE>
-          <PRECEDING>
+        <SUBSECTION>
+          <TEXT>
             <LATEX language="en">
               <![CDATA[
                 The logical conjunction (`and') could be defined with de Morgan.
+                $$\alpha \land \beta\ :\leftrightarrow \ \neg (\neg \alpha\ \lor\ \neg \beta)$$
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
                 Definition der Und-Verknüpfung mittels De-Morgan.
+                $$\alpha \land \beta\ :\leftrightarrow \ \neg (\neg \alpha\ \lor\ \neg \beta)$$
               ]]>
             </LATEX>
-          </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="definitionConjunction">
-            <LATEXPATTERN>#1 \land #2</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="\alpha"/>
-              <VAR id="\beta"/>
-            </VARLIST>
-            <FORMULA>
-              <NOT>
-                <OR>
-                  <NOT>
-                    <PREDVAR id="\alpha" />
-                  </NOT>
-                  <NOT>
-                    <PREDVAR id="\beta" />
-                  </NOT>
-                </OR>
-              </NOT>
-            </FORMULA>
-          </DEFINITION_PREDICATE>
-        </NODE>
+          </TEXT>
+        </SUBSECTION>
 
-<!-- TODO that node does define a predicate with terms var_alpha and var_beta as arguments but it is defined as "(predvar_alpha -> predvar_beta) n (predvar_beta -> predvar_alpha)" the latex result looks ok but the formal definition makes no sense -->
-        <NODE id="definition:equivalence">
-          <NAME>
-            <LATEX language="en">equivalence definition</LATEX>
-            <LATEX language="de">Definition der Äquivalenz</LATEX>
-          </NAME>
-          <TITLE>
-            <LATEX language="en">Equivalence\index{definition!of equivalence}</LATEX>
-            <LATEX language="de">Äquivalenz\index{Definition!der Äquivalenz}</LATEX>
-          </TITLE>
-          <PRECEDING>
+        <SUBSECTION>
+          <TEXT>
             <LATEX language="en">
               <![CDATA[
                 The logical equivalence (`iff') is defined as usual.
+                $$\alpha \land \beta\ :\leftrightarrow \ (\alpha\ \rightarrow\ \beta)\ \land\ (\beta\ \rightarrow\ \alpha)$$
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
                 Die logische Äquivalenz ({\glqq genau dann, wenn\grqq}) wird wie 
                 üblich definiert.
+                $$\alpha \land \beta\ :\leftrightarrow \ (\alpha\ \rightarrow\ \beta)\ \land\ (\beta\ \rightarrow\ \alpha)$$
               ]]>
             </LATEX>
-          </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="definitionEquivalence">
-            <LATEXPATTERN>#1 \land #2</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="\alpha"/>
-              <VAR id="\beta"/>
-            </VARLIST>
-            <FORMULA>
-              <AND>
-                <IMPL>
-                  <PREDVAR id="\alpha" />
-                  <PREDVAR id="\beta" />
-                </IMPL>
-                <IMPL>
-                  <PREDVAR id="\beta" />
-                  <PREDVAR id="\alpha" />
-                </IMPL>
-              </AND>
-            </FORMULA>
-          </DEFINITION_PREDICATE>
-        </NODE>
+          </TEXT>
+        </SUBSECTION>
 
         <NODE id="axiom:disjunction_idempotence">
           <NAME>
@@ -2883,7 +2780,7 @@
       <SUBSECTIONS>
 
 <!-- TODO that node does define a predicate with terms var_x, var_phi and var_psi as arguments but it is defined as "FORALL var_x predvar_phi(var_x) -> predvar_psi(var_x)" the latex result looks ok but the formal definition makes no sense -->
-        <NODE id="definition:restrictedUniversalQuantifier">
+        <NODE id="axiom:restrictedUniversalQuantifier">
           <NAME>
             <LATEX language="en">definition restricted universal quantifier</LATEX>
             <LATEX language="de">Definition eingeschränker Allquantor</LATEX>
@@ -2904,31 +2801,35 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="3" name="definitionRestrictedUniversalQuantifier">
-            <LATEXPATTERN>\forall \ #2(#1) \ (#3(#1))</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-              <VAR id="\alpha"/>
-              <VAR id="\beta"/>
-            </VARLIST>
+          <AXIOM definedOperator="FORALL">
             <FORMULA>
-              <FORALL>
-                <VAR id="x"/>
-                <IMPL>
+              <EQUI>
+                <FORALL>
+                  <VAR id="x"/>
                   <PREDVAR id="\alpha">
                     <VAR id="x"/>
                   </PREDVAR>
                   <PREDVAR id="\beta">
                     <VAR id="x"/>
                   </PREDVAR>
-                </IMPL>
-              </FORALL>
+                </FORALL>
+                <FORALL>
+                  <VAR id="x"/>
+                  <IMPL>
+                    <PREDVAR id="\alpha">
+                      <VAR id="x"/>
+                    </PREDVAR>
+                    <PREDVAR id="\beta">
+                      <VAR id="x"/>
+                    </PREDVAR>
+                  </IMPL>
+                </FORALL>
+              </EQUI>
             </FORMULA>
-          </DEFINITION_PREDICATE>
+          </AXIOM>
         </NODE>
-        
-<!-- TODO that node does define a predicate with terms var_x, var_phi and var_psi as arguments but it is defined as "EXISTS var_x predvar_phi(var_x) n predvar_psi(var_x)" the latex result looks ok but the formal definition makes no sense -->
-        <NODE id="definition:restrictedExistentialQuantifier">
+
+        <NODE id="axiom:restrictedExistentialQuantifier">
           <NAME>
             <LATEX language="en">definition restricted existential quantifier</LATEX>
             <LATEX language="de">Definition eingeschränker Existenzquantor</LATEX>
@@ -2949,27 +2850,32 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="3" name="definitionRestrictedExistentialQuantifier">
-            <LATEXPATTERN>\exists \ #2(#1) \ (#3(#1))</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-              <VAR id="\alpha"/>
-              <VAR id="\beta"/>
-            </VARLIST>
+          <AXIOM definedOperator="EXISTS">
             <FORMULA>
-              <EXISTS>
-                <VAR id="x"/>
-                <AND>
+              <EQUI>
+                <EXISTS>
+                  <VAR id="x"/>
                   <PREDVAR id="\alpha">
                     <VAR id="x"/>
                   </PREDVAR>
                   <PREDVAR id="\beta">
                     <VAR id="x"/>
                   </PREDVAR>
-                </AND>
-              </EXISTS>
+                </EXISTS>
+                <EXISTS>
+                  <VAR id="x"/>
+                  <AND>
+                    <PREDVAR id="\alpha">
+                      <VAR id="x"/>
+                    </PREDVAR>
+                    <PREDVAR id="\beta">
+                      <VAR id="x"/>
+                    </PREDVAR>
+                  </AND>
+                </EXISTS>
+              </EQUI>
             </FORMULA>
-          </DEFINITION_PREDICATE>
+          </AXIOM>
         </NODE>
 
         <SUBSECTION>
@@ -2991,8 +2897,8 @@
           </TEXT>
         </SUBSECTION>
         
-<!-- TODO that node does define a predicate with terms var_x, var_phi and var_psi as arguments but it is defined as "EXISTS var_x predvar_phi(var_x) n predvar_psi(var_x)" the latex result looks ok but the formal definition makes no sense -->
-        <NODE id="definition:restrictedUniquenessQuantifier">
+
+        <NODE id="axiom:restrictedUniquenessQuantifier">
           <NAME>
             <LATEX language="en">definition restricted uniqueness quantifier</LATEX>
             <LATEX language="de">Definition eingeschränker Existenzquantor für genau ein Individuum</LATEX>
@@ -3013,42 +2919,47 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="3" name="definitionRestrictedUniquenessQuantifier">
-            <LATEXPATTERN>\exists! \ #2(#1) \ (#3(#1))</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-              <VAR id="\alpha"/>
-              <VAR id="\beta"/>
-            </VARLIST>
+          <AXIOM definedOperator="EXISTSU">
             <FORMULA>
-              <EXISTS>
-                <VAR id="x"/>
-                <PREDVAR id="\alpha">
+              <EQUI>
+                <EXISTSU>
                   <VAR id="x"/>
-                </PREDVAR>
-                <AND>
+                  <PREDVAR id="\alpha">
+                    <VAR id="x"/>
+                  </PREDVAR>
                   <PREDVAR id="\beta">
                     <VAR id="x"/>
                   </PREDVAR>
-                  <FORALL>
-                    <VAR id="y"/>
-                    <PREDVAR id="\alpha">
-                      <VAR id="y"/>
+                </EXISTSU>
+                <EXISTS>
+                  <VAR id="x"/>
+                  <PREDVAR id="\alpha">
+                    <VAR id="x"/>
+                  </PREDVAR>
+                  <AND>
+                    <PREDVAR id="\beta">
+                      <VAR id="x"/>
                     </PREDVAR>
-                    <IMPL>
-                      <PREDVAR id="\beta">
+                    <FORALL>
+                      <VAR id="y"/>
+                      <PREDVAR id="\alpha">
                         <VAR id="y"/>
                       </PREDVAR>
-                      <PREDCON ref="equal">
-                        <VAR id="x"/>
-                        <VAR id="y"/>
-                      </PREDCON>
-                    </IMPL>
-                  </FORALL>
-                </AND>
-              </EXISTS>
+                      <IMPL>
+                        <PREDVAR id="\beta">
+                          <VAR id="y"/>
+                        </PREDVAR>
+                        <PREDCON ref="equal">
+                          <VAR id="x"/>
+                          <VAR id="y"/>
+                        </PREDCON>
+                      </IMPL>
+                    </FORALL>
+                  </AND>
+                </EXISTS>
+              </EQUI>
             </FORMULA>
-          </DEFINITION_PREDICATE>
+          </AXIOM>
         </NODE>
 
         <SUBSECTION>
