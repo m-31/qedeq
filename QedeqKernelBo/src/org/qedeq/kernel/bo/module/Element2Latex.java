@@ -26,32 +26,41 @@ import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
+import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.dto.module.FunctionDefinitionVo;
 import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
-import org.qedeq.kernel.visitor.AbstractModuleVisitor;
 
 
 /**
  * Transfer a QEDEQ formulas into LaTeX text.
  *
  * @author  Michael Meyling
+ *
+ * TODO 20101207 m31: separate data container from transformer! The container part should go into ModuleLabels
  */
-public final class Element2Latex extends AbstractModuleVisitor {
+public final class Element2Latex {
 
     /** External QEDEQ module references. */
     private ModuleReferenceList references;
 
-    /** Maps identifiers to {@link PredicateDefinition}s. */
+    /** Maps predicate identifiers to {@link PredicateDefinition}s. */
     private final Map predicateDefinitions = new HashMap();
 
-    /** Maps identifiers to {@link PredicateDefinition}s. Contains default definitions as a fallback.*/
+    /** Maps predicate identifiers to {@link PredicateDefinition}s. Contains default definitions
+     * as a fallback.*/
     private final Map backupPredicateDefinitions = new HashMap();
 
-    /** Maps identifiers to {@link FunctionDefinition}s. */
+    /** Maps predicate identifiers to {@link ModuleContext}s. */
+    private final Map predicateContexts = new HashMap();
+
+    /** Maps function identifiers to {@link FunctionDefinition}s. */
     private final Map functionDefinitions = new HashMap();
 
-    /** Maps identifiers to {@link FunctionDefinition}s. Contains default definitions. */
+    /** Maps function identifiers to {@link FunctionDefinition}s. Contains default definitions. */
     private final Map backupFunctionDefinitions = new HashMap();
+
+    /** Maps predicate identifiers to {@link ModuleContext}s. */
+    private final Map functionContexts = new HashMap();
 
     /** Maps operator strings to {@link ElementList} to LaTeX mappers. */
     private final Map elementList2ListType = new HashMap();
@@ -179,20 +188,68 @@ public final class Element2Latex extends AbstractModuleVisitor {
      * Add predicate definition. If such a definition already exists it is overwritten.
      *
      * @param   definition  Definition to add.
+     * @param   context     Here the definition stands.
      */
-    public void addPredicate(final PredicateDefinition definition) {
-        getPredicateDefinitions().put(definition.getName() + "_" + definition.getArgumentNumber(),
-            definition);
+    public void addPredicate(final PredicateDefinition definition, final ModuleContext context) {
+        final String identifier = definition.getName() + "_" + definition.getArgumentNumber();
+        getPredicateDefinitions().put(identifier, definition);
+        predicateContexts.put(identifier, new ModuleContext(context));
+    }
+
+    /**
+     * Get predicate definition.
+     *
+     * @param   name            Predicate name.
+     * @param   argumentNumber  Number of predicate arguments.
+     * @return  Definition. Might be <code>null</code>.
+     */
+    public PredicateDefinition getPredicate(final String name, final int argumentNumber) {
+        return (PredicateDefinition) getPredicateDefinitions().get(name + "_" + argumentNumber);
+    }
+
+    /**
+     * Get predicate context.
+     *
+     * @param   name            Predicate name.
+     * @param   argumentNumber  Number of predicate arguments.
+     * @return  Module context. Might be <code>null</code>.
+     */
+    public ModuleContext getPredicateContext(final String name, final int argumentNumber) {
+        return (ModuleContext) predicateContexts.get(name + "_" + argumentNumber);
     }
 
     /**
      * Add function definition. If such a definition already exists it is overwritten.
      *
      * @param   definition  Definition to add.
+     * @param   context     Here the definition stands.
      */
-    public void addFunction(final FunctionDefinition definition) {
-        getFunctionDefinitions().put(definition.getName() + "_" + definition.getArgumentNumber(),
-            definition);
+    public void addFunction(final FunctionDefinition definition, final ModuleContext context) {
+        final String identifier = definition.getName() + "_" + definition.getArgumentNumber();
+        getFunctionDefinitions().put(identifier, definition);
+        functionContexts.put(identifier, new ModuleContext(context));
+    }
+
+    /**
+     * Get function definition.
+     *
+     * @param   name            Function name.
+     * @param   argumentNumber  Number of function arguments.
+     * @return  Definition. Might be <code>null</code>.
+     */
+    public FunctionDefinition getFunction(final String name, final int argumentNumber) {
+        return (FunctionDefinition) getFunctionDefinitions().get(name + "_" + argumentNumber);
+    }
+
+    /**
+     * Get function context.
+     *
+     * @param   name            Function name.
+     * @param   argumentNumber  Number of function arguments.
+     * @return  Module context. Might be <code>null</code>.
+     */
+    public ModuleContext getFunctionContext(final String name, final int argumentNumber) {
+        return (ModuleContext) functionContexts.get(name + "_" + argumentNumber);
     }
 
     /**
@@ -369,8 +426,8 @@ public final class Element2Latex extends AbstractModuleVisitor {
                             if (newProp != null) {
                                 if (newProp.getExistenceChecker().predicateExists(shortName,
                                         arguments)) {
-                                    final DefaultExistenceChecker checker = newProp.getExistenceChecker();
-                                    definition = checker.getPredicate(shortName, arguments);
+                                    definition = newProp.getExistenceChecker()
+                                        .getPredicate(shortName, arguments);
                                 }
                             }
                         }
@@ -435,8 +492,8 @@ public final class Element2Latex extends AbstractModuleVisitor {
                             if (newProp != null) {
                                 if (newProp.getExistenceChecker().functionExists(shortName,
                                         arguments)) {
-                                    final DefaultExistenceChecker checker = newProp.getExistenceChecker();
-                                    definition = checker.getFunction(shortName, arguments);
+                                    definition = newProp.getExistenceChecker()
+                                        .getFunction(shortName, arguments);
                                 }
                             }
                         }
