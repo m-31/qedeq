@@ -64,4 +64,11 @@ public interface HigherLogicalErrors extends ErrorCodes {
         = "number of subject variables in definition not equal to number of free subject variables of formula or term";
 
 
+    /** Error code. */
+    public static final int MODULE_IMPORT_CHECK_FAILED_CODE = 11231;
+
+    /** Error message. */
+    public static final String MODULE_IMPORT_CHECK_FAILED_MSG
+        = "import check failed: ";
+
 }

@@ -27,7 +27,7 @@ import org.qedeq.kernel.common.ModuleDataException;
 public class CheckRequiredModuleException extends ModuleDataException {
 
     /**
-     * Constructor.
+     * Construct a required module loading failure.
      *
      * @param   errorCode   Error code of this message.
      * @param   message     Error message.
@@ -39,7 +39,7 @@ public class CheckRequiredModuleException extends ModuleDataException {
     }
 
     /**
-     * Constructor.
+     * Construct a required module loading failure.
      *
      * @param   errorCode   Error code of this message.
      * @param   message     Error message.
