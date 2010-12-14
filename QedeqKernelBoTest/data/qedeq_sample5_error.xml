@@ -244,7 +244,7 @@
             </VARLIST>
             <FORMULA>
               <EXISTS>
-                <VAR id="x"/>
+                <VAR id="y"/>
                 <PREDCON ref="in">
                   <VAR id="x"/>
                   <VAR id="y"/>
