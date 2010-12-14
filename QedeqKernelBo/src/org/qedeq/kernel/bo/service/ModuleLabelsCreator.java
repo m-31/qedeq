@@ -100,7 +100,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     public void visitEnter(final FunctionDefinition funcDef) {
         setBlocked(true);   // block further traverse
         // we always save the definition, even if there already exists an entry
-        converter.addFunction(funcDef);
+        converter.addFunction(funcDef, getCurrentContext());
     }
 
     /**
@@ -111,7 +111,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     public void visitEnter(final PredicateDefinition predDef) {
         setBlocked(true);   // block further traverse
         // we always save the definition, even if there already exists an entry
-        converter.addPredicate(predDef);
+        converter.addPredicate(predDef, getCurrentContext());
     }
 
     /**
