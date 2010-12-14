@@ -21,6 +21,7 @@ import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.Predicate;
+import org.qedeq.kernel.bo.module.ModuleConstantsExistenceCheckerInterface;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.ModuleAddress;
@@ -176,7 +177,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertNotNull(errors);
         assertEquals(0, errors.size());
 
-        ModuleConstantsExistenceChecker checker = qedeq.getExistenceChecker();
+        ModuleConstantsExistenceCheckerInterface checker = qedeq.getExistenceChecker();
 
         assertEquals("MCEC052.equal", checker.getIdentityOperator());
         assertFalse(qedeq.equals(checker.getQedeq(new Predicate(ExistenceChecker.NAME_EQUAL, "" + 2))));
@@ -288,7 +289,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertNotNull(errors);
         assertEquals(0, errors.size());
 
-        ModuleConstantsExistenceChecker checker = qedeq.getExistenceChecker();
+        ModuleConstantsExistenceCheckerInterface checker = qedeq.getExistenceChecker();
 
         assertEquals("MCEC062a.equal", checker.getIdentityOperator());
         assertFalse(qedeq.equals(checker.getQedeq(new Predicate(ExistenceChecker.NAME_EQUAL, "" + 2))));
