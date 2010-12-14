@@ -583,7 +583,12 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
     public void visitEnter(final Rule rule) {
         final QedeqNumbers numbers = getCurrentNumbers();
         printer.print("\u2609 ");
-        printer.print("Regel " + numbers.getRuleNumber());
+        if ("de".equals(language)) {
+            printer.print("Regel");
+        } else {
+            printer.print("Rule");
+        }
+        printer.print(" " + numbers.getRuleNumber());
         printer.print(" ");
         if (title != null && title.length() > 0) {
             printer.print(" (" + title + ")");
