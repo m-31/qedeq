@@ -30,7 +30,7 @@ import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.log.QedeqLog;
-import org.qedeq.kernel.bo.logic.model.DynamicInterpreter;
+import org.qedeq.kernel.bo.logic.model.DynamicDirectInterpreter;
 import org.qedeq.kernel.bo.logic.model.DynamicModel;
 import org.qedeq.kernel.bo.logic.model.FunctionConstant;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
@@ -60,7 +60,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
     private static final Class CLASS = DynamicHeuristicCheckerExecutor.class;
 
     /** Interpretation for variables. */
-    private final DynamicInterpreter interpreter;
+    private final DynamicDirectInterpreter interpreter;
 
     /**
      * Constructor.
@@ -103,7 +103,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (model == null) {
             model = new SixDynamicModel();
         }
-        this.interpreter = new DynamicInterpreter(model, qedeq);
+        this.interpreter = new DynamicDirectInterpreter(model, qedeq);
     }
 
     public Object executePlugin() {
@@ -151,6 +151,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                         getCurrentContext()));
             }
         } catch (RuntimeException e) {
+            Trace.fatal(CLASS, this, "test(Element)", "unexpected runtime exception", e);
             if (e.getCause() != null && e.getCause() instanceof HeuristicException) {
                 // TODO 20101015 m31: better exception handling would be better!
                 HeuristicException h = (HeuristicException) e.getCause();
@@ -178,7 +179,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         ModuleContext context = moduleContext;
         try {
             do {
-                result &= interpreter.calculateValue(new ModuleContext(context), formula);
+                result &= interpreter.calculateValue(getQedeqBo(), new ModuleContext(context), formula);
     //            System.out.println(interpreter.toString());
             } while (result && interpreter.next());
 //        if (!result) {
@@ -228,8 +229,9 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 setLocationWithinModule(context + ".getFormula().getElement()");
                 final VariableList variableList = definition.getVariableList();
                 final int size = (variableList == null ? 0 : variableList.size());
-                interpreter.addPredicateConstant(predicate, variableList, definition.getFormula()
-                    .getElement().getList());
+// FIXME 20101209 m31: uncomment again
+//                interpreter.addPredicateConstant(predicate, variableList, definition.getFormula()
+//                    .getElement().getList());
 
                 // test new predicate constant: must always be successful otherwise there
                 // must be a programming error or the predicate definition is not formal correct
@@ -244,6 +246,9 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 compare[0] = left;
                 compare[1] = definition.getFormula().getElement();
                 setLocationWithinModule(context);
+                // TODO 20101211 m31: the context is wrong, because we constructed the element list
+                // it is tolerable because we expect no error in a definition (should be always true)
+                // that is tested against itself
                 test(new DefaultElementList(Operators.EQUIVALENCE_OPERATOR, compare));
             } else if (!interpreter.hasPredicateConstant(predicate)) {
                 // check if model contains predicate
@@ -287,8 +292,9 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 setLocationWithinModule(context + ".getTerm().getElement()");
                 final VariableList variableList = definition.getVariableList();
                 final int size = (variableList == null ? 0 : variableList.size());
-                interpreter.addFunctionConstant(function, variableList, definition.getTerm()
-                        .getElement().getList());
+                // FIXME 20101209 m31: uncomment again
+//                interpreter.addFunctionConstant(function, variableList, definition.getTerm()
+//                        .getElement().getList());
 
                 // test new predicate constant: must always be successful otherwise there
                 // must be a programming error or the predicate definition is not formal correct
@@ -301,6 +307,10 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                    elements);
                 final Element[] equal = new Element[3];
                 equal[0] = new DefaultAtom("equal");
+                if (getQedeqBo().getExistenceChecker() != null && getQedeqBo().getExistenceChecker()
+                        .identityOperatorExists()) {
+                    equal[0] = new DefaultAtom(getQedeqBo().getExistenceChecker().getIdentityOperator());
+                }
                 equal[1] = left;
                 equal[2] = definition.getTerm().getElement();
                 setLocationWithinModule(context);
