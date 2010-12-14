@@ -67,4 +67,13 @@ public interface KernelQedeqBo extends QedeqBo {
      */
     public void clearAllPluginErrorsAndWarnings();
 
+    /**
+     * Get the predicate and function existence checker. Is only not <code>null</code>
+     * if logic was successfully checked.
+     *
+     * @return  Checker. Checks if a predicate or function constant is defined.
+     */
+    public ModuleConstantsExistenceCheckerInterface getExistenceChecker();
+
+
 }
