@@ -23,6 +23,7 @@ import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.base.module.Term;
+import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.logic.FormulaChecker;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.wf.Function;
@@ -37,6 +38,7 @@ import org.qedeq.kernel.common.LogicalState;
 import org.qedeq.kernel.common.ModuleDataException;
 import org.qedeq.kernel.common.Plugin;
 import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.dto.list.ElementSet;
 
 
 /**
@@ -85,10 +87,13 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
                 Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
                 check((DefaultKernelQedeqBo) list.getKernelQedeqBo(i));
             } catch (SourceFileExceptionList e) {   // TODO mime 20080114: hard coded codes
-                ModuleDataException md = new CheckRequiredModuleException(11231,
-                    "import check failed: " + list.getQedeqBo(i).getModuleAddress(),
+                ModuleDataException md = new CheckRequiredModuleException(
+                    HigherLogicalErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
+                    HigherLogicalErrors.MODULE_IMPORT_CHECK_FAILED_MSG
+                    + list.getQedeqBo(i).getModuleAddress(),
                     list.getModuleContext(i));
-                final SourceFileExceptionList sfl = prop.createSourceFileExceptionList(checker, md);
+                final SourceFileExceptionList sfl = prop.createSourceFileExceptionList(checker,
+                    md);
                 prop.setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
                 throw e;
             }
@@ -152,19 +157,42 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
         if (definition == null) {
             return;
         }
-        // FIXME mime 20080324: check that no reference (also node references) with same name exist
-
         final String context = getCurrentContext().getLocationWithinModule();
         final Predicate predicate = new Predicate(definition.getName(),
             definition.getArgumentNumber());
         if (existence.predicateExists(predicate)) {
-            throw new IllegalModuleDataException(HigherLogicalErrors.PREDICATE_ALREADY_DEFINED,
+            addError(new IllegalModuleDataException(HigherLogicalErrors.PREDICATE_ALREADY_DEFINED,
                 HigherLogicalErrors.PREDICATE_ALREADY_DEFINED_TEXT + predicate,
-                getCurrentContext());
+                getCurrentContext()));
         }
         if (definition.getFormula() != null) {
-            setLocationWithinModule(context + ".getFormula().getElement()");
             final Formula formula = definition.getFormula();
+            final VariableList variableList = definition.getVariableList();
+            final int size = (variableList == null ? 0 : variableList.size());
+            final ElementSet free = FormulaChecker.getFreeSubjectVariables(formula.getElement());
+            for (int i = 0; i < size; i++) {
+                setLocationWithinModule(context + ".getVariableList().get(" + i + ")");
+                if (!FormulaChecker.isSubjectVariable(variableList.get(i))) {
+                    addError(new IllegalModuleDataException(
+                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_CODE,
+                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_MSG + variableList.get(i),
+                        getCurrentContext()));
+                }
+                if (!free.contains(variableList.get(i))) {
+                    addError(new IllegalModuleDataException(
+                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_CODE,
+                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_MSG + variableList.get(i),
+                        getCurrentContext()));
+                }
+            }
+            setLocationWithinModule(context);
+            if (size != free.size()) {
+                addError(new IllegalModuleDataException(
+                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_CODE,
+                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_MSG,
+                    getCurrentContext()));
+            }
+            setLocationWithinModule(context + ".getFormula().getElement()");
             LogicalCheckExceptionList list =
                 FormulaChecker.checkFormula(formula.getElement(), getCurrentContext(), existence);
             for (int i = 0; i < list.size(); i++) {
@@ -190,18 +218,42 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
         if (definition == null) {
             return;
         }
-        // TODO mime 20080324: check that no reference (also node references) with same name exist
         final String context = getCurrentContext().getLocationWithinModule();
         final Function function = new Function(definition.getName(),
             definition.getArgumentNumber());
         if (existence.functionExists(function)) {
-            throw new IllegalModuleDataException(HigherLogicalErrors.FUNCTION_ALREADY_DEFINED,
+            addError(new IllegalModuleDataException(HigherLogicalErrors.FUNCTION_ALREADY_DEFINED,
                 HigherLogicalErrors.FUNCTION_ALREADY_DEFINED_TEXT + function,
-                getCurrentContext());
+                getCurrentContext()));
         }
         if (definition.getTerm() != null) {
-            setLocationWithinModule(context + ".getTerm().getElement()");
             final Term term = definition.getTerm();
+            final VariableList variableList = definition.getVariableList();
+            final int size = (variableList == null ? 0 : variableList.size());
+            final ElementSet free = FormulaChecker.getFreeSubjectVariables(term.getElement());
+            for (int i = 0; i < size; i++) {
+                setLocationWithinModule(context + ".getVariableList().get(" + i + ")");
+                if (!FormulaChecker.isSubjectVariable(variableList.get(i))) {
+                    addError(new IllegalModuleDataException(
+                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_CODE,
+                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_MSG + variableList.get(i),
+                        getCurrentContext()));
+                }
+                if (!free.contains(variableList.get(i))) {
+                    addError(new IllegalModuleDataException(
+                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_CODE,
+                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_MSG + variableList.get(i),
+                        getCurrentContext()));
+                }
+            }
+            setLocationWithinModule(context);
+            if (size != free.size()) {
+                addError(new IllegalModuleDataException(
+                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_CODE,
+                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_MSG,
+                    getCurrentContext()));
+            }
+            setLocationWithinModule(context + ".getTerm().getElement()");
             LogicalCheckExceptionList list =
                 FormulaChecker.checkTerm(term.getElement(), getCurrentContext(), existence);
             for (int i = 0; i < list.size(); i++) {
