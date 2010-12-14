@@ -25,6 +25,7 @@ import org.qedeq.kernel.bo.module.Element2Latex;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.ModuleConstantsExistenceCheckerInterface;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
@@ -66,7 +67,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     private KernelModuleReferenceList dependent;
 
     /** Predicate and function constant existence checker. */
-    private ModuleConstantsExistenceChecker checker;
+    private ModuleConstantsExistenceCheckerInterface checker;
 
     /** Labels for this module. */
     private ModuleLabels labels;
@@ -455,7 +456,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      *
      * @return  Checker. Checks if a predicate or function constant is defined.
      */
-    public ModuleConstantsExistenceChecker getExistenceChecker() {
+    public ModuleConstantsExistenceCheckerInterface getExistenceChecker() {
         return checker;
     }
 
@@ -465,7 +466,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      *
      * @param   checker Set this checker.
      */
-    protected void setExistenceChecker(final ModuleConstantsExistenceChecker checker) {
+    protected void setExistenceChecker(final ModuleConstantsExistenceCheckerInterface checker) {
         this.checker = checker;
     }
 

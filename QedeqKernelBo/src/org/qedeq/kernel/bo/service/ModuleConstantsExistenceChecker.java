@@ -22,25 +22,26 @@ import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.Predicate;
 import org.qedeq.kernel.bo.module.DefaultExistenceChecker;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.ModuleConstantsExistenceCheckerInterface;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
 
 
 /**
- * Checks if all formulas of a QEDEQ module are well formed.
+ * Checks if a predicate or function constant is defined.
  *
  * @author  Michael Meyling
  */
-public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
+public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker implements ModuleConstantsExistenceCheckerInterface {
 
     /** QEDEQ module properties. */
     private final KernelQedeqBo prop;
 
     /** In this module the class operator is defined. */
-    private DefaultKernelQedeqBo classOperatorModule;
+    private KernelQedeqBo classOperatorModule;
 
     /** In this class the identityOperator is defined. */
-    private DefaultKernelQedeqBo identityOperatorModule;
+    private KernelQedeqBo identityOperatorModule;
 
     /**
      * Constructor.
@@ -74,11 +75,11 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
             if (bo.getExistenceChecker().identityOperatorExists()) {
                 final String identityOperator = list.getLabel(i) + "."
                     + bo.getExistenceChecker().getIdentityOperator();
-                setIdentityOperatorDefined(identityOperator, bo.getExistenceChecker().identityOperatorModule,
+                setIdentityOperatorDefined(identityOperator, bo.getExistenceChecker().getIdentityOperatorModule(),
                     list.getModuleContext(i));
             }
             if (bo.getExistenceChecker().classOperatorExists()) {
-                setClassOperatorModule(bo.getExistenceChecker().classOperatorModule,
+                setClassOperatorModule(bo.getExistenceChecker().getClassOperatorModule(),
                     list.getModuleContext(i));
             }
         }
@@ -225,7 +226,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
      * @throws  IdentityOperatorAlreadyExistsException  Already defined.
      */
     public void setIdentityOperatorDefined(final String identityOperator,
-            final DefaultKernelQedeqBo identityOperatorModule, final ModuleContext context)
+            final KernelQedeqBo identityOperatorModule, final ModuleContext context)
             throws IdentityOperatorAlreadyExistsException {
         if (this.identityOperatorModule != null && identityOperatorModule != null) {
             if (!this.identityOperatorModule.equals(identityOperatorModule)) {
@@ -238,6 +239,14 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
         }
     }
 
+    public KernelQedeqBo getClassOperatorModule() {
+        return classOperatorModule;
+    }
+
+    public KernelQedeqBo getIdentityOperatorModule() {
+        return identityOperatorModule;
+    }
+
     /**
      * Set if the class operator is already defined.
      *
@@ -245,7 +254,7 @@ public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker {
      * @param   context              Context where we try to set new class operator.
      * @throws  ClassOperatorAlreadyExistsException Operator already defined.
      */
-    public void setClassOperatorModule(final DefaultKernelQedeqBo classOperatorModule,
+    public void setClassOperatorModule(final KernelQedeqBo classOperatorModule,
             final ModuleContext context) throws  ClassOperatorAlreadyExistsException {
         if (this.classOperatorModule != null && classOperatorModule != null) {
             if (!this.classOperatorModule.equals(classOperatorModule)) {
