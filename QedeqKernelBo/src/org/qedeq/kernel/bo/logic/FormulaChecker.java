@@ -490,7 +490,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   element    Element to look onto.
      * @return  Is it a subject variable?
      */
-    private final boolean isSubjectVariable(final Element element) {
+    public static final boolean isSubjectVariable(final Element element) {
         if (element == null || !element.isList() || element.getList() == null) {
             return false;
         }
@@ -558,7 +558,7 @@ public final class FormulaChecker implements Operators, FormulaBasicErrors {
      * @param   element    Work on this element.
      * @return  All free subject variables.
      */
-    private final ElementSet getFreeSubjectVariables(final Element element) {
+    public static final ElementSet getFreeSubjectVariables(final Element element) {
         final ElementSet free = new ElementSet();
         if (isSubjectVariable(element)) {
             free.add(element);
