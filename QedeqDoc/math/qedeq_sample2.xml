@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QEDEQ
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_00/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="qedeq_sample2" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="http://www.qedeq.org/0_04_00/sample" />
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE>
+      <LATEX language="en">
+        <![CDATA[
+          Mathematical Example Module
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          Mathematisches Beispielmodul
+        ]]>
+      </LATEX>
+    </TITLE>
+    <ABSTRACT>
+      <LATEX language="en">
+        <![CDATA[
+          Just a sample.
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          Nur ein Beispiel.
+        ]]>
+      </LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME>
+          <LATEX language="de">
+            <![CDATA[
+              Michael Meyling
+            ]]>
+          </LATEX>
+        </NAME>
+      </AUTHOR>
+    </AUTHORS>
+    <IMPORTS>
+      <IMPORT label="l">
+        <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
+          <LOCATIONS>
+            <LOCATION value="." />
+            <LOCATION value="http://www.qedeq.org/0_04_00/doc/math" />
+          </LOCATIONS>
+        </SPECIFICATION>
+      </IMPORT>
+      <IMPORT label="s">
+        <SPECIFICATION name="qedeq_set_theory_v1" ruleVersion="1.00.00">
+          <LOCATIONS>
+            <LOCATION value="." />
+            <LOCATION value="http://www.qedeq.org/0_04_00/doc/math" />
+          </LOCATIONS>
+        </SPECIFICATION>
+      </IMPORT>
+    </IMPORTS>
+  </HEADER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">
+        <![CDATA[
+          Sample
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          Beispiel
+        ]]>
+      </LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        <![CDATA[
+	  We just use the two main QEDEQ modules and show a simple proposition.
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+	  Wir verwenden die beiden QEDEQ-Hauptmodule und zeigen eine einfache Proposition.
+        ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+          <![CDATA[
+            First and only
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Erstes und einziges
+          ]]>
+        </LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+	    Here we start.
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+	    Hier starten wir.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+       <NODE id="proposition:one" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <FORALL>
+                  <VAR id="z"/>
+                  <PREDCON ref="s.isSet">
+                    <VAR id="z"/>
+                  </PREDCON>
+                  <EQUI>
+                    <PREDCON ref="s.in">
+                      <VAR id="z"/>
+                      <VAR id="x"/>
+                    </PREDCON>
+                    <PREDCON ref="s.in">
+                      <VAR id="z"/>
+                      <VAR id="y"/>
+                    </PREDCON>
+                  </EQUI>
+                </FORALL>
+                <PREDCON ref="l.equal">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </PREDCON>
+              </IMPL>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>
