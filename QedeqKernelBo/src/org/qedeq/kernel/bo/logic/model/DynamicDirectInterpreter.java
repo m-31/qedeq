@@ -546,73 +546,6 @@ public final class DynamicDirectInterpreter {
                     throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
                         HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + label, moduleContext);
                 }
-//                final String label = termList.getElement(0).getAtom().getString();
-//                if (label.indexOf(".") >= 0) {
-//                    final String shortName = label.substring(label.indexOf(".") + 1);
-//                    final String external = label.substring(0, label.indexOf("."));
-//                    if (qedeq.getKernelRequiredModules() != null) {
-//                        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
-//                            qedeq.getKernelRequiredModules().getQedeqBo(external);
-//                        if (newProp != null) {
-//                            FunctionDefinition definition = newProp.getElement2Latex().getFunction(shortName, termList.size() - 1);
-//                            if (definition != null) {
-//                                setLocationWithinModule(context + ".getList()");
-//                                result = calculateFunctionValue(qedeq, definition, getEntities(qedeq, termList));
-//                            } else {
-//                                setLocationWithinModule(context + ".getList().getOperator()");
-//                                throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-//                                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + shortName, moduleContext);
-//                            }
-//                        } else {
-//                            setLocationWithinModule(context + ".getList().getOperator()");
-//                            throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-//                                HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + shortName, moduleContext);
-//                        }
-//                    } else {
-//                        setLocationWithinModule(context + ".getList().getOperator()");
-//                        throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-//                            HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + label, moduleContext);
-//                    }
-//                } else {
-//                    final FunctionConstant var = new FunctionConstant(label,
-//                        termList.size() - 1);
-//                    Function function = model.getFunctionConstant(var);
-//                    if (function == null) {
-//                        setLocationWithinModule(context + ".getList().getOperator()");
-//                        throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-//                            HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + var, moduleContext);
-//                    }
-//                    setLocationWithinModule(context + ".getList()");
-//                    result = function.map(getEntities(qedeq, termList));
-//                }
-
-//                final String label = termList.getElement(0).getAtom().getString();
-//                if (label.indexOf(".") >= 0) {
-//                    final String shortName = label.substring(label.indexOf("."));
-//                    final String external = label.substring(0, label.indexOf("."));
-//                    if (qedeq.getKernelRequiredModules() != null) {
-//                        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
-//                            qedeq.getKernelRequiredModules().getQedeqBo(external);
-//                        if (newProp != null) {
-//                            FunctionDefinition definition = newProp.getElement2Latex()
-//                                .getFunction(shortName, termList.size() - 1);
-//                        } else {
-//                            setLocationWithinModule(context + ".getList().getOperator()");
-//                            throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-//                                HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + label, moduleContext);
-//                        }
-//                    }
-//                }
-//                final FunctionConstant var = new FunctionConstant(label,
-//                    termList.size() - 1);
-//                Function function = model.getFunctionConstant(var);
-//                if (function == null) {
-//                    setLocationWithinModule(context + ".getList().getOperator()");
-//                    throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-//                        HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + var, moduleContext);
-//                }
-//                setLocationWithinModule(context + ".getList()");
-//                result = function.map(getEntities(qedeq, termList));
             } else if (Operators.CLASS_OP.equals(op)) {
                 List fullfillers = new ArrayList();
                 ElementList variable = termList.getElement(0).getList();
@@ -654,6 +587,7 @@ public final class DynamicDirectInterpreter {
 
     private void setLocationWithinModule(final String localContext) {
         moduleContext.setLocationWithinModule(localContext);
+// FIXME 20101215 m31: for local testing, but into JUnit test
 //        if (localContext.equals(startContext.getLocationWithinModule())) {
 //            return;
 //        }
