@@ -71,13 +71,16 @@ public final class DynamicDirectInterpreter {
     /**
      * Constructor.
      *
-     * @param   model       We work with this model.
+     * @param   model                           We work with this model.
+     * @param   qedeq                           We work with this module.
+     * @param   subjectVariableInterpreter      Subject variable interpreter.
+     * @param   predicateVariableInterpreter    Predicate variable interpreter.
+     * @param   functionVariableInterpreter     Function variable interpreter.
      */
     public DynamicDirectInterpreter(final DynamicModel model, final KernelQedeqBo qedeq,
             final SubjectVariableInterpreter subjectVariableInterpreter,
             final PredicateVariableInterpreter predicateVariableInterpreter,
             final FunctionVariableInterpreter functionVariableInterpreter) {
-//        super(model, qedeq);
         this.model = model;
         this.subjectVariableInterpreter = subjectVariableInterpreter;
         this.predicateVariableInterpreter = predicateVariableInterpreter;
@@ -87,6 +90,7 @@ public final class DynamicDirectInterpreter {
     /**
      * Calculate function value.
      *
+     * @param   qedeq           Module we are currently in.
      * @param   constant        This is the function definition.
      * @param   entities        Function arguments.
      * @return  Result of calculation;
@@ -100,7 +104,8 @@ public final class DynamicDirectInterpreter {
         }
         Entity result;
         try {
-            result = calculateTerm(qedeq, new ModuleContext(new DefaultModuleAddress()), constant.getTerm().getElement());
+            result = calculateTerm(qedeq, new ModuleContext(new DefaultModuleAddress()),
+                constant.getTerm().getElement());
         } catch (HeuristicException e) {
             throw new RuntimeException(e);  // TODO 20101014 m31: improve error handling
         }
@@ -115,6 +120,7 @@ public final class DynamicDirectInterpreter {
     /**
      * Calculate function value.
      *
+     * @param   qedeq           Module we are currently in.
      * @param   constant        This is the function definition.
      * @param   entities        Function arguments.
      * @return  Result of calculation;
@@ -128,7 +134,8 @@ public final class DynamicDirectInterpreter {
         }
         boolean result;
         try {
-            result = calculateValue(qedeq, new ModuleContext(new DefaultModuleAddress()), constant.getFormula().getElement());
+            result = calculateValue(qedeq, new ModuleContext(new DefaultModuleAddress()),
+                constant.getFormula().getElement());
         } catch (HeuristicException e) {
             throw new RuntimeException(e);  // TODO 20101014 m31: improve error handling
         }
@@ -144,6 +151,7 @@ public final class DynamicDirectInterpreter {
      * Calculate the truth value of a given formula is a tautology. This is done by checking with
      * a model and certain variable values.
      *
+     * @param   qedeq           Module we are currently in.
      * @param   moduleContext   Where we are within an module.
      * @param   formula         Formula.
      * @return  Truth value of formula.
@@ -161,6 +169,7 @@ public final class DynamicDirectInterpreter {
      * Calculate the truth value of a given formula is a tautology. This is done by checking with
      * a model and certain variable values.
      *
+     * @param   qedeq           Module we are currently in.
      * @param   formula         Formula.
      * @return  Truth value of formula.
      * @throws  HeuristicException      We couldn't calculate the value.
@@ -310,11 +319,13 @@ public final class DynamicDirectInterpreter {
     /**
      * Handle universal quantifier operator.
      *
+     * @param   qedeq           Module we are currently in.
      * @param   list    Work on this formula.
      * @return  result  Calculated truth value.
      * @throws  HeuristicException  Calculation not possible.
      */
-    private boolean handleUniversalQuantifier(final KernelQedeqBo qedeq, final ElementList list) throws HeuristicException {
+    private boolean handleUniversalQuantifier(final KernelQedeqBo qedeq, final ElementList list)
+            throws HeuristicException {
         final String context = getLocationWithinModule();
         boolean result = true;
         final ElementList variable = list.getElement(0).getList();
@@ -347,11 +358,13 @@ public final class DynamicDirectInterpreter {
     /**
      * Handle existential quantifier operator.
      *
+     * @param   qedeq           Module we are currently in.
      * @param   list    Work on this formula.
      * @return  result  Calculated truth value.
      * @throws  HeuristicException  Calculation not possible.
      */
-    private boolean handleExistentialQuantifier(final KernelQedeqBo qedeq, final ElementList list) throws HeuristicException {
+    private boolean handleExistentialQuantifier(final KernelQedeqBo qedeq, final ElementList list)
+            throws HeuristicException {
         final String context = getLocationWithinModule();
         boolean result = false;
         final ElementList variable = list.getElement(0).getList();
@@ -383,11 +396,13 @@ public final class DynamicDirectInterpreter {
     /**
      * Handle unique existential quantifier operator.
      *
-     * @param   list    Work on this formula.
-     * @return  result  Calculated truth value.
+     * @param   qedeq           Module we are currently in.
+     * @param   list            Work on this formula.
+     * @return  result          Calculated truth value.
      * @throws  HeuristicException  Calculation not possible.
      */
-    private boolean handleUniqueExistentialQuantifier(final KernelQedeqBo qedeq, final ElementList list) throws HeuristicException {
+    private boolean handleUniqueExistentialQuantifier(final KernelQedeqBo qedeq, final ElementList list)
+            throws HeuristicException {
         final String context = getLocationWithinModule();
         boolean result = false;
         final ElementList variable = list.getElement(0).getList();
@@ -422,7 +437,8 @@ public final class DynamicDirectInterpreter {
     /**
      * Interpret terms.
      *
-     * @param   terms    Interpret these terms. The first entry is stripped.
+     * @param   qedeq           Module we are currently in.
+     * @param   terms           Interpret these terms. The first entry is stripped.
      * @return  Values.
      * @throws  HeuristicException evaluation failed.
      */
@@ -442,6 +458,7 @@ public final class DynamicDirectInterpreter {
      * Calculate the term value of a given term. This is done by checking with
      * a model and certain variable values.
      *
+     * @param   qedeq           Module we are currently in.
      * @param   moduleContext   Where we are within an module.
      * @param   term            Term.
      * @return  Entity of model.
@@ -458,6 +475,7 @@ public final class DynamicDirectInterpreter {
     /**
      * Interpret term.
      *
+     * @param   qedeq           Module we are currently in.
      * @param   term    Interpret this term.
      * @return  Value.
      * @throws  HeuristicException evaluation failed.
