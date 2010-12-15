@@ -32,7 +32,8 @@ import org.qedeq.kernel.common.ModuleDataException;
  *
  * @author  Michael Meyling
  */
-public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker implements ModuleConstantsExistenceCheckerInterface {
+public class ModuleConstantsExistenceChecker extends DefaultExistenceChecker
+        implements ModuleConstantsExistenceCheckerInterface {
 
     /** QEDEQ module properties. */
     private final KernelQedeqBo prop;
