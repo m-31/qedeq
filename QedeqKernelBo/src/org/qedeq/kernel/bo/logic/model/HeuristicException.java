@@ -39,10 +39,10 @@ public class HeuristicException extends ModuleDataException {
     /**
      * Constructs an exception.
      *
-     * @param   code    Error (or warning) code.
-     * @param   message Error message.
-     * @param   context Current context.
-     * @param   context Reference context.
+     * @param   code                Error (or warning) code.
+     * @param   message             Error message.
+     * @param   context             Current context.
+     * @param   referenceContext    Reference context.
      */
     public HeuristicException(final int code, final String message, final ModuleContext context,
             final ModuleContext referenceContext) {
