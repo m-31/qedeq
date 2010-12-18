@@ -23,10 +23,10 @@ import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.base.module.FunctionDefinition;
 import org.qedeq.kernel.base.module.PredicateDefinition;
+import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
 import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
-import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.ModuleContext;
 
 
@@ -35,10 +35,13 @@ import org.qedeq.kernel.common.ModuleContext;
  *
  * @author  Michael Meyling
  */
-public final class DynamicDirectInterpreter {
+public class DynamicDirectInterpreter {
 
     /** This class. */
     private static final Class CLASS = DynamicDirectInterpreter.class;
+
+    /** We work with this module. */
+    private KernelQedeqBo qedeq;
 
     /** Module context. Here were are currently. */
     private ModuleContext moduleContext;
@@ -58,29 +61,31 @@ public final class DynamicDirectInterpreter {
     /** Interpret function variables. */
     private final FunctionVariableInterpreter functionVariableInterpreter;
 
-   /*
+   /**
     * Constructor.
     *
-    * @param   model       We work with this model.
+    * @param   qedeq       We work with this module.
+ * @param   model       We work with this model.
     */
-   public DynamicDirectInterpreter(final DynamicModel model, final KernelQedeqBo qedeq) {
-       this(model, qedeq, new SubjectVariableInterpreter(model), new PredicateVariableInterpreter(model),
+   public DynamicDirectInterpreter(final KernelQedeqBo qedeq, final DynamicModel model) {
+       this(qedeq, model, new SubjectVariableInterpreter(model), new PredicateVariableInterpreter(model),
            new FunctionVariableInterpreter(model));
    }
 
     /**
      * Constructor.
      *
-     * @param   model                           We work with this model.
      * @param   qedeq                           We work with this module.
+     * @param   model                           We work with this model.
      * @param   subjectVariableInterpreter      Subject variable interpreter.
      * @param   predicateVariableInterpreter    Predicate variable interpreter.
      * @param   functionVariableInterpreter     Function variable interpreter.
      */
-    public DynamicDirectInterpreter(final DynamicModel model, final KernelQedeqBo qedeq,
+    public DynamicDirectInterpreter(final KernelQedeqBo qedeq, final DynamicModel model,
             final SubjectVariableInterpreter subjectVariableInterpreter,
             final PredicateVariableInterpreter predicateVariableInterpreter,
             final FunctionVariableInterpreter functionVariableInterpreter) {
+        this.qedeq = qedeq;
         this.model = model;
         this.subjectVariableInterpreter = subjectVariableInterpreter;
         this.predicateVariableInterpreter = predicateVariableInterpreter;
@@ -90,13 +95,13 @@ public final class DynamicDirectInterpreter {
     /**
      * Calculate function value.
      *
-     * @param   qedeq           Module we are currently in.
-     * @param   constant        This is the function definition.
-     * @param   entities        Function arguments.
+     * @param   constant            This is the function definition.
+     * @param   entities            Function arguments.
      * @return  Result of calculation;
+     * @throws  HeuristicException  Calculation of function value failed.
      */
-    public Entity calculateFunctionValue(final KernelQedeqBo qedeq, final FunctionDefinition constant,
-        final Entity[] entities) {
+    public Entity calculateFunctionValue(final FunctionDefinition constant,
+            final Entity[] entities) throws  HeuristicException {
         for (int i = 0; i < entities.length; i++) {
             final SubjectVariable var = new SubjectVariable(constant.getVariableList().get(i).getList()
                 .getElement(0).getAtom().getString());
@@ -104,15 +109,13 @@ public final class DynamicDirectInterpreter {
         }
         Entity result;
         try {
-            result = calculateTerm(qedeq, new ModuleContext(new DefaultModuleAddress()),
-                constant.getTerm().getElement());
-        } catch (HeuristicException e) {
-            throw new RuntimeException(e);  // TODO 20101014 m31: improve error handling
-        }
-        for (int i = entities.length - 1; i >= 0; i--) {
-            final SubjectVariable var = new SubjectVariable(constant.getVariableList().get(i).getList()
-                .getElement(0).getAtom().getString());
-            subjectVariableInterpreter.forceRemoveSubjectVariable(var);
+            result = calculateTerm(constant.getTerm().getElement());
+        } finally {
+            for (int i = entities.length - 1; i >= 0; i--) {
+                final SubjectVariable var = new SubjectVariable(constant.getVariableList().get(i).getList()
+                    .getElement(0).getAtom().getString());
+                subjectVariableInterpreter.forceRemoveSubjectVariable(var);
+            }
         }
         return result;
     }
@@ -120,13 +123,13 @@ public final class DynamicDirectInterpreter {
     /**
      * Calculate function value.
      *
-     * @param   qedeq           Module we are currently in.
      * @param   constant        This is the function definition.
      * @param   entities        Function arguments.
      * @return  Result of calculation;
+     * @throws  HeuristicException  Calculation failed.
      */
-    public boolean calculatePredicateValue(final KernelQedeqBo qedeq, final PredicateDefinition constant,
-        final Entity[] entities) {
+    public boolean calculatePredicateValue(final PredicateDefinition constant,
+        final Entity[] entities) throws HeuristicException {
         for (int i = 0; i < entities.length; i++) {
             final SubjectVariable var = new SubjectVariable(constant.getVariableList().get(i).getList()
                 .getElement(0).getAtom().getString());
@@ -134,15 +137,13 @@ public final class DynamicDirectInterpreter {
         }
         boolean result;
         try {
-            result = calculateValue(qedeq, new ModuleContext(new DefaultModuleAddress()),
-                constant.getFormula().getElement());
-        } catch (HeuristicException e) {
-            throw new RuntimeException(e);  // TODO 20101014 m31: improve error handling
-        }
-        for (int i = entities.length - 1; i >= 0; i--) {
-            final SubjectVariable var = new SubjectVariable(constant.getVariableList().get(i).getList()
-                .getElement(0).getAtom().getString());
-            subjectVariableInterpreter.forceRemoveSubjectVariable(var);
+            result = calculateValue(constant.getFormula().getElement());
+        } finally {
+            for (int i = entities.length - 1; i >= 0; i--) {
+                final SubjectVariable var = new SubjectVariable(constant.getVariableList().get(i).getList()
+                    .getElement(0).getAtom().getString());
+                subjectVariableInterpreter.forceRemoveSubjectVariable(var);
+            }
         }
         return result;
     }
@@ -151,30 +152,28 @@ public final class DynamicDirectInterpreter {
      * Calculate the truth value of a given formula is a tautology. This is done by checking with
      * a model and certain variable values.
      *
-     * @param   qedeq           Module we are currently in.
      * @param   moduleContext   Where we are within an module.
      * @param   formula         Formula.
      * @return  Truth value of formula.
      * @throws  HeuristicException      We couldn't calculate the value.
      */
-    public boolean calculateValue(final KernelQedeqBo qedeq, final ModuleContext moduleContext, final Element formula)
+    public boolean calculateValue(final ModuleContext moduleContext, final Element formula)
             throws  HeuristicException {
 //        this.startElement = formula;
-        this.moduleContext = moduleContext;
+        this.moduleContext = new ModuleContext(moduleContext);
 //        this.startContext = new ModuleContext(moduleContext);
-        return calculateValue(qedeq, formula);
+        return calculateValue(formula);
     }
 
     /**
      * Calculate the truth value of a given formula is a tautology. This is done by checking with
      * a model and certain variable values.
      *
-     * @param   qedeq           Module we are currently in.
      * @param   formula         Formula.
      * @return  Truth value of formula.
      * @throws  HeuristicException      We couldn't calculate the value.
      */
-    private boolean calculateValue(final KernelQedeqBo qedeq, final Element formula) throws  HeuristicException {
+    private boolean calculateValue(final Element formula) throws  HeuristicException {
         final String method = "calculateValue(Element)";
 //        System.out.println(deepness.toString() + Latex2Utf8Parser.transform(null,
 //        qedeq.getElement2Latex().getLatex(formula), 0));
@@ -187,89 +186,116 @@ public final class DynamicDirectInterpreter {
             throw new HeuristicException(HeuristicErrorCodes.WRONG_CALLING_CONVENTION_CODE,
                 HeuristicErrorCodes.WRONG_CALLING_CONVENTION_MSG, moduleContext);
         }
+        final KernelQedeqBo qedeqOld = qedeq;
+        final ModuleContext moduleContextOld = new ModuleContext(moduleContext);
         final String context = getLocationWithinModule();
-        setLocationWithinModule(context + ".getList()");
-        final ElementList list = formula.getList();
-        final String op = list.getOperator();
+        setLocationWithinModule(context);   // FIXME remove me
         boolean result;
-        if (Operators.CONJUNCTION_OPERATOR.equals(op)) {
-            result = true;
-            for (int i = 0; i < list.size() && result; i++) {
-                setLocationWithinModule(context + ".getList().getElement(" + i + ")");
-                result &= calculateValue(qedeq, list.getElement(i));
-            }
-        } else if (Operators.DISJUNCTION_OPERATOR.equals(op)) {
-            result = false;
-            for (int i = 0; i < list.size() && !result; i++) {
-                setLocationWithinModule(context + ".getList().getElement(" + i + ")");
-                result |= calculateValue(qedeq, list.getElement(i));
-            }
-        } else if (Operators.EQUIVALENCE_OPERATOR.equals(op)) {
-            result = true;
-            boolean value = false;
-            for (int i = 0; i < list.size() && result; i++) {
-                if (i > 0) {
+        try {
+            final ElementList list = formula.getList();
+//            System.out.println("l: " + list);
+            setLocationWithinModule(context + ".getList()");
+            final String op = list.getOperator();
+            if (Operators.CONJUNCTION_OPERATOR.equals(op)) {
+                result = true;
+                for (int i = 0; i < list.size() && result; i++) {
                     setLocationWithinModule(context + ".getList().getElement(" + i + ")");
-                    if (value != calculateValue(qedeq, list.getElement(i))) {
-                        result = false;
+                    result &= calculateValue(list.getElement(i));
+                }
+            } else if (Operators.DISJUNCTION_OPERATOR.equals(op)) {
+                result = false;
+                for (int i = 0; i < list.size() && !result; i++) {
+//                    System.out.println("t: " + list.getElement(i));
+                    setLocationWithinModule(context + ".getList().getElement(" + i + ")");
+                    result |= calculateValue(list.getElement(i));
+                }
+            } else if (Operators.EQUIVALENCE_OPERATOR.equals(op)) {
+                result = true;
+                boolean value = false;
+                for (int i = 0; i < list.size() && result; i++) {
+//                    System.out.println("t: " + list.getElement(i));
+                    setLocationWithinModule(context + ".getList().getElement(" + i + ")");
+                    if (i > 0) {
+                        if (value != calculateValue(list.getElement(i))) {
+                            result = false;
+                        }
+                    } else {
+                        value = calculateValue(list.getElement(i));
+                    }
+                }
+            } else if (Operators.IMPLICATION_OPERATOR.equals(op)) {
+                result = false;
+                for (int i = 0; i < list.size() && !result; i++) {
+//                    System.out.println("t: " + list.getElement(i));
+                    setLocationWithinModule(context + ".getList().getElement(" + i + ")");
+                    if (i < list.size() - 1) {
+                        result |= !calculateValue(list.getElement(i));
+                    } else {
+                        result |= calculateValue(list.getElement(i));
+                    }
+                }
+            } else if (Operators.NEGATION_OPERATOR.equals(op)) {
+                result = true;
+                for (int i = 0; i < list.size() && result; i++) {
+                    setLocationWithinModule(context + ".getList().getElement(" + i + ")");
+                    result &= !calculateValue(list.getElement(i));
+                }
+            } else if (Operators.PREDICATE_VARIABLE.equals(op)) {
+//                System.out.println("p: " + list);
+                setLocationWithinModule(context + ".getList()");
+                final Entity[] arguments = getEntities(list);
+                final PredicateVariable var = new PredicateVariable(list.getElement(0).getAtom().getString(),
+                        list.size() - 1);
+                result = predicateVariableInterpreter.getPredicate(var)
+                    .calculate(arguments);
+            } else if (Operators.UNIVERSAL_QUANTIFIER_OPERATOR.equals(op)) {
+                result = handleUniversalQuantifier(list);
+            } else if (Operators.EXISTENTIAL_QUANTIFIER_OPERATOR.equals(op)) {
+                result = handleExistentialQuantifier(list);
+            } else if (Operators.UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR.equals(op)) {
+                result = handleUniqueExistentialQuantifier(list);
+            } else if (Operators.PREDICATE_CONSTANT.equals(op)) {
+                final String label = list.getElement(0).getAtom().getString();
+                String name = label;
+                KernelQedeqBo newProp = qedeq;
+                while (name.indexOf(".") >= 0) {
+                    name = name.substring(label.indexOf(".") + 1);
+                    final String external = label.substring(0, label.indexOf("."));
+                    newProp = null;
+                    if (qedeq.getKernelRequiredModules() != null) {
+                        newProp = (DefaultKernelQedeqBo)
+                            qedeq.getKernelRequiredModules().getQedeqBo(external);
+                    }
+                    if (newProp == null) {
+                        setLocationWithinModule(context + ".getList().getOperator()");
+                        throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_CODE,
+                            HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_MSG + "\"" + external + "\""
+                                + HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_MSG_2 + "\"" + external
+                                + "." + name + "\"",
+                                moduleContext);
+                    }
+                }
+                final PredicateDefinition definition
+                    = newProp.getElement2Latex().getPredicate(name, list.size() - 1);
+                if (definition != null && definition.getFormula() != null) {
+                    setLocationWithinModule(context + ".getList()");
+                    final Entity[] arguments = getEntities(list);
+                    setModuleContext(newProp);
+                    moduleContext = newProp.getElement2Latex().getPredicateContext(name, list.size() - 1);
+                    setLocationWithinModule(getLocationWithinModule() + ".getFormula().getElement()");
+                    try {
+                        result = calculatePredicateValue(definition, arguments);
+                    } catch (HeuristicException e) {
+                        setModuleContext(qedeqOld);
+                        moduleContext = moduleContextOld;
+                        setLocationWithinModule(context + ".getList().getElement(1)");
+                        throw new HeuristicException(HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_CODE,
+                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_MSG + definition,
+                            moduleContext, e.getContext());
                     }
                 } else {
-                    setLocationWithinModule(context + ".getList().getElement(" + i + ")");
-                    value = calculateValue(qedeq, list.getElement(i));
-                }
-            }
-        } else if (Operators.IMPLICATION_OPERATOR.equals(op)) {
-            result = false;
-            for (int i = 0; i < list.size() && !result; i++) {
-                setLocationWithinModule(context + ".getList().getElement(" + i + ")");
-                if (i < list.size() - 1) {
-                    result |= !calculateValue(qedeq, list.getElement(i));
-                } else {
-                    result |= calculateValue(qedeq, list.getElement(i));
-                }
-            }
-        } else if (Operators.NEGATION_OPERATOR.equals(op)) {
-            result = true;
-            for (int i = 0; i < list.size() && result; i++) {
-                setLocationWithinModule(context + ".getList().getElement(" + i + ")");
-                result &= !calculateValue(qedeq, list.getElement(i));
-            }
-        } else if (Operators.PREDICATE_VARIABLE.equals(op)) {
-            final PredicateVariable var = new PredicateVariable(list.getElement(0).getAtom().getString(),
-                    list.size() - 1);
-            setLocationWithinModule(context + ".getList()");
-            result = predicateVariableInterpreter.getPredicate(var)
-                .calculate(getEntities(qedeq, list));
-        } else if (Operators.UNIVERSAL_QUANTIFIER_OPERATOR.equals(op)) {
-            result = handleUniversalQuantifier(qedeq, list);
-        } else if (Operators.EXISTENTIAL_QUANTIFIER_OPERATOR.equals(op)) {
-            result = handleExistentialQuantifier(qedeq, list);
-        } else if (Operators.UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR.equals(op)) {
-            result = handleUniqueExistentialQuantifier(qedeq, list);
-        } else if (Operators.PREDICATE_CONSTANT.equals(op)) {
-            final String label = list.getElement(0).getAtom().getString();
-            String name = label;
-            KernelQedeqBo newProp = qedeq;
-            if (label.indexOf(".") >= 0) {
-                name = label.substring(label.indexOf(".") + 1);
-                final String external = label.substring(0, label.indexOf("."));
-                newProp = null;
-                if (qedeq.getKernelRequiredModules() != null) {
-                    newProp = (DefaultKernelQedeqBo)
-                        qedeq.getKernelRequiredModules().getQedeqBo(external);
-                }
-                if (newProp == null) {
-                    setLocationWithinModule(context + ".getList().getOperator()");
-                    throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
-                        HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_MSG + label, moduleContext);
-                }
-            }
-            PredicateDefinition definition = newProp.getElement2Latex().getPredicate(name, list.size() - 1);
-            if (definition != null) {
-                // must that have a model implementation?
-                if (definition.getFormula() == null) {
                     final PredicateConstant var = new PredicateConstant(name,
-                        list.size() - 1);
+                            list.size() - 1);
                     Predicate predicate = model.getPredicateConstant(var);
                     if (predicate == null) {
                         setLocationWithinModule(context + ".getList().getOperator()");
@@ -277,41 +303,27 @@ public final class DynamicDirectInterpreter {
                             HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_MSG + var, moduleContext);
                     }
                     setLocationWithinModule(context + ".getList()");
-                    result = predicate.calculate(getEntities(qedeq, list));
-                } else {
-                    setLocationWithinModule(context + ".getList()");
-                    result = calculatePredicateValue(newProp, definition, getEntities(qedeq, list));
+                    final Entity[] arguments = getEntities(list);
+                    result = predicate.calculate(arguments);
                 }
             } else {
                 setLocationWithinModule(context + ".getList().getOperator()");
-                throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
-                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_MSG + label, moduleContext);
+                throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_OPERATOR_CODE,
+                    HeuristicErrorCodes.UNKNOWN_OPERATOR_MSG + op, moduleContext);
             }
-
-//            final String text = stripReference(list.getElement(0).getAtom().getString());
-//            final PredicateConstant var = new PredicateConstant(text,
-//                list.size() - 1);
-//            Predicate predicate = model.getPredicateConstant(var);
-//            if (predicate == null) {
-//                setLocationWithinModule(context + ".getList().getOperator()");
-//                throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
-//                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_MSG + var, moduleContext);
-//            }
-//            setLocationWithinModule(context + ".getList()");
-//            result = predicate.calculate(getEntities(qedeq, list));
-        } else {
-            setLocationWithinModule(context + ".getList().getOperator()");
-            throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_OPERATOR_CODE,
-                HeuristicErrorCodes.UNKNOWN_OPERATOR_MSG + op, moduleContext);
+        } finally {
+//            qedeq = qedeqOld;
+            setModuleContext(qedeqOld);
+            moduleContext = moduleContextOld;
+            setLocationWithinModule(context);
         }
-        setLocationWithinModule(context);
         if (Trace.isDebugEnabled(CLASS)) {
             deepness.setLength(deepness.length() > 0 ? deepness.length() - 1 : 0);
             Trace.param(CLASS, this, method, deepness.toString() + "result ", result);
         }
 //        deepness.setLength(deepness.length() > 0 ? deepness.length() - 1 : 0);
 //        System.out.print(deepness.toString() + Latex2Utf8Parser.transform(null,
-//         qedeq.getElement2Latex().getLatex(formula), 0));
+//        qedeq.getElement2Latex().getLatex(formula), 0));
 //        System.out.println("=" + result);
         return result;
     }
@@ -319,12 +331,11 @@ public final class DynamicDirectInterpreter {
     /**
      * Handle universal quantifier operator.
      *
-     * @param   qedeq           Module we are currently in.
      * @param   list    Work on this formula.
      * @return  result  Calculated truth value.
      * @throws  HeuristicException  Calculation not possible.
      */
-    private boolean handleUniversalQuantifier(final KernelQedeqBo qedeq, final ElementList list)
+    private boolean handleUniversalQuantifier(final ElementList list)
             throws HeuristicException {
         final String context = getLocationWithinModule();
         boolean result = true;
@@ -338,12 +349,12 @@ public final class DynamicDirectInterpreter {
 
             if (list.size() == 2) {
                 setLocationWithinModule(context + ".getList().getElement(1)");
-                result &= calculateValue(qedeq, list.getElement(1));
+                result &= calculateValue(list.getElement(1));
             } else {  // must be 3
                 setLocationWithinModule(context + ".getList().getElement(1)");
-                final boolean result1 = calculateValue(qedeq, list.getElement(1));
+                final boolean result1 = calculateValue(list.getElement(1));
                 setLocationWithinModule(context + ".getList().getElement(2)");
-                final boolean result2 = calculateValue(qedeq, list.getElement(2));
+                final boolean result2 = calculateValue(list.getElement(2));
                 result &= !result1 || result2;
             }
             if (!result) {
@@ -358,12 +369,11 @@ public final class DynamicDirectInterpreter {
     /**
      * Handle existential quantifier operator.
      *
-     * @param   qedeq           Module we are currently in.
      * @param   list    Work on this formula.
      * @return  result  Calculated truth value.
      * @throws  HeuristicException  Calculation not possible.
      */
-    private boolean handleExistentialQuantifier(final KernelQedeqBo qedeq, final ElementList list)
+    private boolean handleExistentialQuantifier(final ElementList list)
             throws HeuristicException {
         final String context = getLocationWithinModule();
         boolean result = false;
@@ -376,12 +386,12 @@ public final class DynamicDirectInterpreter {
 //            System.out.println("=" + model.getEntity(i));
             if (list.size() == 2) {
                 setLocationWithinModule(context + ".getList().getElement(1)");
-                result |= calculateValue(qedeq, list.getElement(1));
+                result |= calculateValue(list.getElement(1));
             } else {  // must be 3
                 setLocationWithinModule(context + ".getList().getElement(1)");
-                final boolean result1 = calculateValue(qedeq, list.getElement(1));
+                final boolean result1 = calculateValue(list.getElement(1));
                 setLocationWithinModule(context + ".getList().getElement(2)");
-                final boolean result2 = calculateValue(qedeq, list.getElement(2));
+                final boolean result2 = calculateValue(list.getElement(2));
                 result |= result1 && result2;
             }
             if (result) {
@@ -396,12 +406,11 @@ public final class DynamicDirectInterpreter {
     /**
      * Handle unique existential quantifier operator.
      *
-     * @param   qedeq           Module we are currently in.
      * @param   list            Work on this formula.
      * @return  result          Calculated truth value.
      * @throws  HeuristicException  Calculation not possible.
      */
-    private boolean handleUniqueExistentialQuantifier(final KernelQedeqBo qedeq, final ElementList list)
+    private boolean handleUniqueExistentialQuantifier(final ElementList list)
             throws HeuristicException {
         final String context = getLocationWithinModule();
         boolean result = false;
@@ -412,12 +421,12 @@ public final class DynamicDirectInterpreter {
             boolean val;
             if (list.size() == 2) {
                 setLocationWithinModule(context + ".getList().getElement(1)");
-                val = calculateValue(qedeq, list.getElement(1));
+                val = calculateValue(list.getElement(1));
             } else {  // must be 3
                 setLocationWithinModule(context + ".getList().getElement(1)");
-                final boolean result1 = calculateValue(qedeq, list.getElement(1));
+                final boolean result1 = calculateValue(list.getElement(1));
                 setLocationWithinModule(context + ".getList().getElement(2)");
-                final boolean result2 = calculateValue(qedeq, list.getElement(2));
+                final boolean result2 = calculateValue(list.getElement(2));
                 val = result1 && result2;
             }
             if (val) {
@@ -437,18 +446,18 @@ public final class DynamicDirectInterpreter {
     /**
      * Interpret terms.
      *
-     * @param   qedeq           Module we are currently in.
      * @param   terms           Interpret these terms. The first entry is stripped.
      * @return  Values.
      * @throws  HeuristicException evaluation failed.
      */
-    private Entity[] getEntities(final KernelQedeqBo qedeq, final ElementList terms)
+    private Entity[] getEntities(final ElementList terms)
             throws HeuristicException {
         final String context = getLocationWithinModule();
         final Entity[] result =  new Entity[terms.size() - 1];    // strip first argument
         for (int i = 0; i < result.length; i++) {
+//            System.out.println(terms.getElement(i + 1));
             setLocationWithinModule(context + ".getElement(" + (i + 1) + ")");
-            result[i] = calculateTerm(qedeq, terms.getElement(i + 1));
+            result[i] = calculateTerm(terms.getElement(i + 1));
         }
         setLocationWithinModule(context);
         return result;
@@ -458,29 +467,27 @@ public final class DynamicDirectInterpreter {
      * Calculate the term value of a given term. This is done by checking with
      * a model and certain variable values.
      *
-     * @param   qedeq           Module we are currently in.
      * @param   moduleContext   Where we are within an module.
      * @param   term            Term.
      * @return  Entity of model.
      * @throws  HeuristicException      We couldn't calculate the value.
      */
-    public Entity calculateTerm(final KernelQedeqBo qedeq, final ModuleContext moduleContext, final Element term)
+    public Entity calculateTerm(final ModuleContext moduleContext, final Element term)
             throws  HeuristicException {
 //        this.startElement = formula;
         this.moduleContext = moduleContext;
 //        this.startContext = new ModuleContext(moduleContext);
-        return calculateTerm(qedeq, term);
+        return calculateTerm(term);
     }
 
     /**
      * Interpret term.
      *
-     * @param   qedeq           Module we are currently in.
      * @param   term    Interpret this term.
      * @return  Value.
      * @throws  HeuristicException evaluation failed.
      */
-    private Entity calculateTerm(final KernelQedeqBo qedeq, final Element term)
+    private Entity calculateTerm(final Element term)
             throws  HeuristicException {
         final String method = "calculateTerm(Element) ";
         if (Trace.isDebugEnabled(CLASS)) {
@@ -490,7 +497,12 @@ public final class DynamicDirectInterpreter {
         if (!term.isList()) {
             throw new RuntimeException("a term should be a list: " + term);
         }
+        final KernelQedeqBo qedeqOld = qedeq;
+        final ModuleContext moduleContextOld = new ModuleContext(moduleContext);
+//        System.out.println("module context    : " + moduleContext);
         final String context = getLocationWithinModule();
+//        System.out.println("module context old: " + moduleContextOld);
+        setLocationWithinModule(context);   // FIXME test remove me
         Entity result = null;
         try {
             final ElementList termList = term.getList();
@@ -504,7 +516,7 @@ public final class DynamicDirectInterpreter {
                     termList.size() - 1);
                 Function function = functionVariableInterpreter.getFunction(var);
                 setLocationWithinModule(context + ".getList()");
-                result = function.map(getEntities(qedeq, termList));
+                result = function.map(getEntities(termList));
             } else if (Operators.FUNCTION_CONSTANT.equals(op)) {
                 final String label = termList.getElement(0).getAtom().getString();
                 String name = label;
@@ -519,48 +531,77 @@ public final class DynamicDirectInterpreter {
                     }
                     if (newProp == null) {
                         setLocationWithinModule(context + ".getList().getOperator()");
-                        throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-                            HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + label, moduleContext);
+                        throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_CODE,
+                            HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_MSG + "\"" + external + "\""
+                                + HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_MSG_2 + "\"" + label + "\"",
+                                moduleContext);
                     }
                 }
-                FunctionDefinition definition = newProp.getElement2Latex().getFunction(name, termList.size() - 1);
-                if (definition != null) {
-                    // must that have a model implementation?
-                    if (definition.getTerm() == null) {
-                        final FunctionConstant var = new FunctionConstant(name,
-                            termList.size() - 1);
-                        Function function = model.getFunctionConstant(var);
-                        if (function == null) {
-                            setLocationWithinModule(context + ".getList().getOperator()");
-                            throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-                                HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + var, moduleContext);
-                        }
-                        setLocationWithinModule(context + ".getList()");
-                        result = function.map(getEntities(newProp, termList));
-                    } else {
-                        setLocationWithinModule(context + ".getList()");
-                        result = calculateFunctionValue(newProp, definition, getEntities(qedeq, termList));
+                final FunctionDefinition definition
+                    = newProp.getElement2Latex().getFunction(name, termList.size() - 1);
+                if (definition != null && definition.getTerm() != null) {
+                    setLocationWithinModule(context + ".getList()");
+                    final Entity[] arguments = getEntities(termList);
+                    setModuleContext(newProp);
+                    moduleContext = newProp.getElement2Latex().getFunctionContext(name, termList.size() - 1);
+                    setLocationWithinModule(getLocationWithinModule() + ".getTerm().getElement()");
+                    try {
+                        result = calculateFunctionValue(definition, arguments);
+                    } catch (HeuristicException e) {
+                        setModuleContext(qedeqOld);
+                        moduleContext = moduleContextOld;
+                        setLocationWithinModule(context + ".getList().getElement(1)");
+                        throw new HeuristicException(HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_CODE,
+                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_MSG + definition,
+                            moduleContext, e.getContext());
                     }
                 } else {
-                    setLocationWithinModule(context + ".getList().getOperator()");
-                    throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-                        HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + label, moduleContext);
+                    final FunctionConstant var = new FunctionConstant(name,
+                        termList.size() - 1);
+                    Function function = model.getFunctionConstant(var);
+                    if (function == null) {
+                        setLocationWithinModule(context + ".getList().getOperator()");
+                        throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
+                            HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + var, moduleContext);
+                    }
+                    setLocationWithinModule(context + ".getList()");
+                    final Entity[] arguments = getEntities(termList);
+                    result = function.map(arguments);
                 }
             } else if (Operators.CLASS_OP.equals(op)) {
                 List fullfillers = new ArrayList();
                 ElementList variable = termList.getElement(0).getList();
                 final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
                 subjectVariableInterpreter.addSubjectVariable(var);
-                final PredicateDefinition isSet = qedeq.getElement2Latex().getPredicate("isSet", 1);
+                KernelQedeqBo newProp = qedeq;
+                if (qedeq.getExistenceChecker() != null) {
+                    newProp = qedeq.getExistenceChecker().getClassOperatorModule();
+                }
+                final PredicateDefinition isSet = newProp.getElement2Latex().getPredicate("isSet", 1);
                 if (isSet == null) {
                     throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,
-                            HeuristicErrorCodes.UUNKNOWN_TERM_OPERATOR_MSG + "isSet(*)", moduleContext);
+                            HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_MSG + "isSet(*)", moduleContext);
                 }
                 for (int i = 0; i < model.getEntitiesSize(); i++) {
+                    setModuleContext(qedeqOld);
+                    moduleContext = moduleContextOld;
                     setLocationWithinModule(context + ".getList().getElement(1)");
-                    if (calculateValue(qedeq, termList.getElement(1))
-                            && calculatePredicateValue(qedeq, isSet, new Entity[] {model.getEntity(i)})) {
-                        fullfillers.add(model.getEntity(i));
+                    if (calculateValue(termList.getElement(1))) {
+                        setModuleContext(newProp);
+                        moduleContext = newProp.getElement2Latex().getPredicateContext("isSet", 1);
+                        setLocationWithinModule(moduleContext.getLocationWithinModule() + ".getFormula().getElement()");
+                        try {
+                            if (calculatePredicateValue(isSet, new Entity[] {model.getEntity(i)})) {
+                                fullfillers.add(model.getEntity(i));
+                            }
+                        } catch (HeuristicException e) {
+                            setModuleContext(qedeqOld);
+                            moduleContext = moduleContextOld;
+                            setLocationWithinModule(context + ".getList().getElement(1)");
+                            throw new HeuristicException(HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_CODE,
+                                HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_MSG + isSet,
+                                moduleContext, e.getContext());
+                        }
                     }
                     subjectVariableInterpreter.increaseSubjectVariableSelection(var);
                 }
@@ -569,9 +610,13 @@ public final class DynamicDirectInterpreter {
             } else {
                 setLocationWithinModule(context + ".getList().getOperator()");
                 throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,
-                    HeuristicErrorCodes.UUNKNOWN_TERM_OPERATOR_MSG + op, moduleContext);
+                    HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_MSG + op, moduleContext);
             }
         } finally {
+//            qedeq = qedeqOld;
+            setModuleContext(qedeqOld);
+            moduleContext = moduleContextOld;
+//            System.out.println("module context old: " + moduleContextOld);
             setLocationWithinModule(context);
         }
         if (Trace.isDebugEnabled(CLASS)) {
@@ -585,30 +630,17 @@ public final class DynamicDirectInterpreter {
         return moduleContext.getLocationWithinModule();
     }
 
-    private void setLocationWithinModule(final String localContext) {
+    protected ModuleContext getModuleContext() {
+        return moduleContext;
+    }
+
+    protected void setModuleContext(final KernelQedeqBo qedeq) {
+        this.qedeq = qedeq;
+        moduleContext = new ModuleContext(qedeq.getModuleAddress());
+    }
+
+    protected void setLocationWithinModule(final String localContext) {
         moduleContext.setLocationWithinModule(localContext);
-// FIXME 20101215 m31: for local testing, but into JUnit test
-//        if (localContext.equals(startContext.getLocationWithinModule())) {
-//            return;
-//        }
-//        String position
-//            = moduleContext.getLocationWithinModule().substring(startContext.getLocationWithinModule().length());
-//        if (position.startsWith(".")) {
-//            position = position.substring(1);
-//        }
-//        try {
-//            DynamicGetter.get(startElement, position);
-//        } catch (IllegalAccessException e) {
-//            System.out.println(position);
-//            e.printStackTrace(System.out);
-//        } catch (InvocationTargetException e) {
-//            System.out.println(position);
-//            e.printStackTrace(System.out);
-//        } catch (RuntimeException e) {
-//            System.out.println(position);
-//            e.printStackTrace(System.out);
-//            throw e;
-//        }
     }
 
     /**
