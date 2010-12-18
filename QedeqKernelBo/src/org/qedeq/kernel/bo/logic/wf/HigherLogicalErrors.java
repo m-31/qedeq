@@ -71,4 +71,11 @@ public interface HigherLogicalErrors extends ErrorCodes {
     public static final String MODULE_IMPORT_CHECK_FAILED_MSG
         = "import check failed: ";
 
+    /** Error code. */
+    public static final int PREDICATE_CALCULATION_FAILED_CODE = 40710;
+
+    /** Error message. */
+    public static final String PREDICATE_CALCULATION_FAILED_MSG
+        = "calculation for predicate failed: ";
+
 }
