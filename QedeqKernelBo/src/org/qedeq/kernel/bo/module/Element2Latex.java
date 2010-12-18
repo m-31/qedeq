@@ -208,14 +208,14 @@ public final class Element2Latex {
     }
 
     /**
-     * Get predicate context.
+     * Get predicate context. This is only a copy.
      *
      * @param   name            Predicate name.
      * @param   argumentNumber  Number of predicate arguments.
      * @return  Module context. Might be <code>null</code>.
      */
     public ModuleContext getPredicateContext(final String name, final int argumentNumber) {
-        return (ModuleContext) predicateContexts.get(name + "_" + argumentNumber);
+        return new ModuleContext((ModuleContext) predicateContexts.get(name + "_" + argumentNumber));
     }
 
     /**
@@ -242,14 +242,14 @@ public final class Element2Latex {
     }
 
     /**
-     * Get function context.
+     * Get function context. This is only a copy.
      *
      * @param   name            Function name.
      * @param   argumentNumber  Number of function arguments.
      * @return  Module context. Might be <code>null</code>.
      */
     public ModuleContext getFunctionContext(final String name, final int argumentNumber) {
-        return (ModuleContext) functionContexts.get(name + "_" + argumentNumber);
+        return new ModuleContext((ModuleContext) functionContexts.get(name + "_" + argumentNumber));
     }
 
     /**
