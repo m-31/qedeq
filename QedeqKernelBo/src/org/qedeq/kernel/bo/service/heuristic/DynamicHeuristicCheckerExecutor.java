@@ -29,6 +29,7 @@ import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.base.module.VariableList;
+import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.model.DynamicDirectInterpreter;
 import org.qedeq.kernel.bo.logic.model.DynamicModel;
@@ -103,7 +104,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (model == null) {
             model = new SixDynamicModel();
         }
-        this.interpreter = new DynamicDirectInterpreter(model, qedeq);
+        this.interpreter = new DynamicDirectInterpreter(qedeq, model);
     }
 
     public Object executePlugin() {
@@ -111,6 +112,13 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         final String ref = "\"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
         try {
             QedeqLog.getInstance().logRequest("Dynamic heuristic test for " + ref);
+            // first we try to get more information about required modules and their predicates..
+            try {
+                KernelContext.getInstance().loadRequiredModules(getQedeqBo().getModuleAddress());
+            } catch (Exception e) {
+                // we continue and ignore external predicates
+                Trace.trace(CLASS, method, e);
+            }
             traverse();
             QedeqLog.getInstance().logSuccessfulReply(
                 "Heuristic test succesfull for " + ref);
@@ -179,7 +187,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         ModuleContext context = moduleContext;
         try {
             do {
-                result &= interpreter.calculateValue(getQedeqBo(), new ModuleContext(context), formula);
+                result &= interpreter.calculateValue(new ModuleContext(context), formula);
     //            System.out.println(interpreter.toString());
             } while (result && interpreter.next());
 //        if (!result) {
