@@ -58,7 +58,7 @@ public interface HeuristicErrorCodes extends ErrorCodes {
     public static final int UNKNOWN_TERM_OPERATOR_CODE = 77084;
 
     /** Error (or warning) text for: unknown term operator. */
-    public static final String UUNKNOWN_TERM_OPERATOR_MSG = "unknown term operator: ";
+    public static final String UNKNOWN_TERM_OPERATOR_MSG = "unknown term operator: ";
 
 
     /** Error (or warning) number for: unknown function constant. */
@@ -79,5 +79,15 @@ public interface HeuristicErrorCodes extends ErrorCodes {
 
     /** Error (or warning) text for: unknown format for argument size. */
     public static final String RUNTIME_EXCEPTION_MSG = "runtime problem: ";
+
+    /** Error (or warning) number for: unknown import module. */
+    public static final int UNKNOWN_IMPORT_MODULE_CODE = 78082;
+
+    /** Error (or warning) text for: unknown import module. */
+    public static final String UNKNOWN_IMPORT_MODULE_MSG = "unknown (or not loaded) import module ";
+
+    /** Error (or warning) text for: unknown import module. */
+    public static final String UNKNOWN_IMPORT_MODULE_MSG_2 = " for ";
+
 
 }
