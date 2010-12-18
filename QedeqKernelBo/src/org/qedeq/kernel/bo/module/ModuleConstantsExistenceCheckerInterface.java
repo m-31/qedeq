@@ -126,5 +126,4 @@ public interface ModuleConstantsExistenceCheckerInterface extends ExistenceCheck
      */
     public FunctionDefinition getFunction(final String name, final int arguments);
 
-
 }
