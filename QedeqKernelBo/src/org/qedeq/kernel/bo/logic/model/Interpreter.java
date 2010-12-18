@@ -368,7 +368,7 @@ public final class Interpreter {
             Predicate isSet = model.getPredicateConstant(isSetPredicate);
             if (isSet == null) {
                 throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,
-                        HeuristicErrorCodes.UUNKNOWN_TERM_OPERATOR_MSG + "isSet(*)", moduleContext);
+                        HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_MSG + "isSet(*)", moduleContext);
             }
             for (int i = 0; i < model.getEntitiesSize(); i++) {
                 setLocationWithinModule(context + ".getList().getElement(1)");
@@ -383,7 +383,7 @@ public final class Interpreter {
         } else {
             setLocationWithinModule(context + ".getList().getOperator()");
             throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,
-                HeuristicErrorCodes.UUNKNOWN_TERM_OPERATOR_MSG + op, moduleContext);
+                HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_MSG + op, moduleContext);
         }
         setLocationWithinModule(context);
         if (Trace.isDebugEnabled(CLASS)) {
