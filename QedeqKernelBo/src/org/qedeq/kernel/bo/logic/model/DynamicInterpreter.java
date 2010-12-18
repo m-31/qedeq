@@ -137,6 +137,7 @@ public class DynamicInterpreter {
     /**
      * Calculate predicate value.
      *
+     * @param   qedeq           Predicate constant is defined in this QEDEQ module.
      * @param   constant        This is the predicate definition.
      * @param   entities        Predicate arguments.
      * @return  Result of calculation;
@@ -144,8 +145,8 @@ public class DynamicInterpreter {
      */
     public boolean calculatPredicateValue(final KernelQedeqBo qedeq, final PredicateDefinition constant,
             final Entity[] entities) throws HeuristicException {
-        DynamicDirectInterpreter inter = new DynamicDirectInterpreter(qedeq, model, subjectVariableInterpreter,
-            predicateVariableInterpreter, functionVariableInterpreter);
+        DynamicDirectInterpreter inter = new DynamicDirectInterpreter(qedeq, model,
+            subjectVariableInterpreter, predicateVariableInterpreter, functionVariableInterpreter);
         return inter.calculatePredicateValue(constant, entities);
     }
 
@@ -185,6 +186,7 @@ public class DynamicInterpreter {
     /**
      * Calculate function value.
      *
+     * @param   qedeq           Function constant is defined in this QEDEQ module.
      * @param   constant        This is the function definition.
      * @param   entities        Function arguments.
      * @return  Result of calculation;
@@ -192,8 +194,8 @@ public class DynamicInterpreter {
      */
     public Entity calculateFunctionValue(final KernelQedeqBo qedeq, final FunctionDefinition constant,
             final Entity[] entities) throws HeuristicException {
-        DynamicDirectInterpreter inter = new DynamicDirectInterpreter(qedeq, model, subjectVariableInterpreter,
-            predicateVariableInterpreter, functionVariableInterpreter);
+        DynamicDirectInterpreter inter = new DynamicDirectInterpreter(qedeq, model,
+            subjectVariableInterpreter, predicateVariableInterpreter, functionVariableInterpreter);
         return inter.calculateFunctionValue(constant, entities);
     }
 
