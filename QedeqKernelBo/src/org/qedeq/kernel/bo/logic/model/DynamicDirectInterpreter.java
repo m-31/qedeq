@@ -193,7 +193,6 @@ public class DynamicDirectInterpreter {
         boolean result;
         try {
             final ElementList list = formula.getList();
-//            System.out.println("l: " + list);
             setLocationWithinModule(context + ".getList()");
             final String op = list.getOperator();
             if (Operators.CONJUNCTION_OPERATOR.equals(op)) {
@@ -205,7 +204,6 @@ public class DynamicDirectInterpreter {
             } else if (Operators.DISJUNCTION_OPERATOR.equals(op)) {
                 result = false;
                 for (int i = 0; i < list.size() && !result; i++) {
-//                    System.out.println("t: " + list.getElement(i));
                     setLocationWithinModule(context + ".getList().getElement(" + i + ")");
                     result |= calculateValue(list.getElement(i));
                 }
@@ -213,7 +211,6 @@ public class DynamicDirectInterpreter {
                 result = true;
                 boolean value = false;
                 for (int i = 0; i < list.size() && result; i++) {
-//                    System.out.println("t: " + list.getElement(i));
                     setLocationWithinModule(context + ".getList().getElement(" + i + ")");
                     if (i > 0) {
                         if (value != calculateValue(list.getElement(i))) {
@@ -226,7 +223,6 @@ public class DynamicDirectInterpreter {
             } else if (Operators.IMPLICATION_OPERATOR.equals(op)) {
                 result = false;
                 for (int i = 0; i < list.size() && !result; i++) {
-//                    System.out.println("t: " + list.getElement(i));
                     setLocationWithinModule(context + ".getList().getElement(" + i + ")");
                     if (i < list.size() - 1) {
                         result |= !calculateValue(list.getElement(i));
@@ -241,7 +237,6 @@ public class DynamicDirectInterpreter {
                     result &= !calculateValue(list.getElement(i));
                 }
             } else if (Operators.PREDICATE_VARIABLE.equals(op)) {
-//                System.out.println("p: " + list);
                 setLocationWithinModule(context + ".getList()");
                 final Entity[] arguments = getEntities(list);
                 final PredicateVariable var = new PredicateVariable(list.getElement(0).getAtom().getString(),
