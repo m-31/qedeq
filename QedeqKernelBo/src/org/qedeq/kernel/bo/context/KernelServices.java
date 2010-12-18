@@ -65,7 +65,7 @@ public interface KernelServices {
     public QedeqBo loadModule(ModuleAddress address) throws SourceFileExceptionList;
 
     /**
-     * Get a certain module.
+     * Get required modules of given module.
      *
      * @param   address  Address of module.
      * @throws  SourceFileExceptionList Required modules could not be successfully loaded.
