@@ -60,6 +60,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
     public void testGeneration() throws Exception {
         generate(getDocDir(), "math/qedeq_logic_v1.xml", getGenDir(), false);
         generate(getDocDir(), "math/qedeq_sample1.xml", getGenDir(), false);
+        generate(getDocDir(), "math/qedeq_sample2.xml", getGenDir(), false);
         generate(getDocDir(), "math/qedeq_set_theory_v1.xml", getGenDir(), false);
         generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false);
         generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true);
