@@ -78,8 +78,18 @@ public interface ModuleConstantsExistenceCheckerInterface extends ExistenceCheck
             final ModuleContext context)
             throws ClassOperatorAlreadyExistsException;
 
+    /**
+     * Get QEDEQ module where the class operator is defined within.
+     *
+     * @return  Class operator defining module.
+     */
     public KernelQedeqBo getClassOperatorModule();
 
+    /**
+     * Get QEDEQ module where the identity operator is defined within.
+     *
+     * @return  Identity operator defining module.
+     */
     public KernelQedeqBo getIdentityOperatorModule();
 
     /**
