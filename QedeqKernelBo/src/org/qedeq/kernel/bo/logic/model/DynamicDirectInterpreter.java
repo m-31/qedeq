@@ -189,7 +189,6 @@ public class DynamicDirectInterpreter {
         final KernelQedeqBo qedeqOld = qedeq;
         final ModuleContext moduleContextOld = new ModuleContext(moduleContext);
         final String context = getLocationWithinModule();
-        setLocationWithinModule(context);   // FIXME remove me
         boolean result;
         try {
             final ElementList list = formula.getList();
@@ -497,7 +496,6 @@ public class DynamicDirectInterpreter {
 //        System.out.println("module context    : " + moduleContext);
         final String context = getLocationWithinModule();
 //        System.out.println("module context old: " + moduleContextOld);
-        setLocationWithinModule(context);   // FIXME test remove me
         Entity result = null;
         try {
             final ElementList termList = term.getList();
