@@ -59,14 +59,6 @@ public class DynamicInterpreter {
     /** For formatting debug trace output. */
     private final StringBuffer deepness = new StringBuffer();
 
-// FIXME m31 20101014: put into unit test:
-//    /** Start element for calculation. */
-//    private Element startElement;
-//
-//    /** Module context. Here were are currently. */
-//    private ModuleContext startContext;
-
-
     /** QEDEQ module we check. FIXME 20101203 m31: use for debug output: element converter*/
     private final KernelQedeqBo qedeq;
 
