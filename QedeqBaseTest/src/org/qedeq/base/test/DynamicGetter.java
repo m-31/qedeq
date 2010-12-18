@@ -59,6 +59,7 @@ public final class DynamicGetter {
         // mime 20050622: check parameter types and length, support string parameters
         if (obj == null) {
             Trace.trace(DynamicGetter.class, "getMethodResult(Object)", "obj = null!");
+            throw new RuntimeException("trying to execute method on null object: \"" + methodName + "\"");
         }
         final Method[] method = obj.getClass().getDeclaredMethods();
         for (int i = 0; i < method.length; i++) {
@@ -93,6 +94,7 @@ public final class DynamicGetter {
             String method = methodParam.substring(posOld, pos);
             posOld = pos + 1;
             Trace.param(CLASS, "get(Object, String)", "method", method);
+//            System.out.println(method);
             Object result2 = getMethodResult(result, method);
             if (result2 == null) {
                 Trace.trace(CLASS, "get(Object, String)", "result = null");
