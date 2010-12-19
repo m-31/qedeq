@@ -152,6 +152,8 @@ public class PluginManager {
                 if (process.isRunning()) {
                     process.setFailureState();
                 }
+                // remove old executor
+                process.setExecutor(null);
             }
         }
     }
