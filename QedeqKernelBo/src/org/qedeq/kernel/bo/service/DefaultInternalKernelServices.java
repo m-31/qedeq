@@ -50,7 +50,7 @@ import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.context.KernelProperties;
-import org.qedeq.kernel.bo.context.KernelServices;
+import org.qedeq.kernel.bo.context.ServiceModule;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -71,7 +71,7 @@ import org.qedeq.kernel.dto.module.QedeqVo;
  *
  * @author  Michael Meyling
  */
-public class DefaultInternalKernelServices implements KernelServices, InternalKernelServices, Plugin {
+public class DefaultInternalKernelServices implements ServiceModule, InternalKernelServices, Plugin {
 
     /** This class. */
     private static final Class CLASS = DefaultInternalKernelServices.class;
@@ -83,7 +83,7 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     private volatile int processCounter = 0;
 
     /** Collection of already known QEDEQ modules. */
-    private final KernelQedeqBoStorage modules;
+    private KernelQedeqBoStorage modules;
 
     /** Kernel properties access. */
     private final KernelProperties kernel;
@@ -92,10 +92,10 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     private final QedeqFileDao qedeqFileDao;
 
     /** This instance manages plugins. */
-    private final PluginManager pluginManager;
+    private PluginManager pluginManager;
 
     /** This instance manages service processes. */
-    private final ServiceProcessManager processManager;
+    private ServiceProcessManager processManager;
 
     /** Validate module dependencies and status. */
     private boolean validate = true;
@@ -109,8 +109,11 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
     public DefaultInternalKernelServices(final KernelProperties kernel, final QedeqFileDao loader) {
         this.kernel = kernel;
         this.qedeqFileDao = loader;
-        modules = new KernelQedeqBoStorage();
         loader.setServices(this);
+    }
+
+    public void startupServices() {
+        modules = new KernelQedeqBoStorage();
         processManager = new ServiceProcessManager();
         pluginManager = new PluginManager(processManager);
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8TextPlugin");
@@ -118,12 +121,17 @@ public class DefaultInternalKernelServices implements KernelServices, InternalKe
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8Plugin");
 //        pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin");
-    }
 
-    public void startupServices() {
         if (kernel.getConfig().isAutoReloadLastSessionChecked()) {
             autoReloadLastSessionChecked();
         }
+    }
+
+    public void shutdownServices() {
+        modules.removeAllModules();
+        modules = null;
+        processManager = null;
+        pluginManager = null;
     }
 
     /**

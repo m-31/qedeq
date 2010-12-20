@@ -34,16 +34,6 @@ import org.qedeq.kernel.common.SourceFileExceptionList;
 public interface KernelServices {
 
     /**
-     * Initialization of services. This method should be called from the kernel
-     * directly after switching into ready state. Calling this method in ready state is not
-     * supported.
-     *
-     * TODO m31 20070411: what about an appropriate closing method?
-     * TODO m31 20080213: should not be here! Implementation detail!
-     */
-    public void startupServices();
-
-    /**
      * Remove all modules from memory.
      */
     public void removeAllModules();

@@ -41,7 +41,7 @@ import org.qedeq.kernel.config.QedeqConfig;
  *
  * @author  Michael Meyling
  */
-public final class KernelContext implements KernelProperties, KernelState, KernelServices {
+public final class KernelContext implements KernelProperties, KernelServices {
 
     /** Message for non started kernel. */
     private static final String KERNEL_NOT_STARTED = "Kernel not started";
@@ -86,7 +86,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     /** Initial kernel state. */
     private final KernelState initialState = new KernelState() {
 
-        public void init(final KernelServices moduleServices, final QedeqConfig qedeqConfig)
+        public void init(final ServiceModule moduleServices, final QedeqConfig qedeqConfig)
                 throws IOException {
             config = qedeqConfig;
             Trace.setTraceOn(config.isTraceOn());
@@ -118,8 +118,8 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             currentState = initializedState;
         }
 
-        public boolean isReady() {
-            return false;
+        public void startup() {
+            throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
         public void shutdown() {
@@ -129,10 +129,6 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
             // close stream and associated channel
             IoUtility.close(lockStream);
             lockStream = null;
-        }
-
-        public void startupServices() {
-            throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
         public void removeAllModules() {
@@ -209,25 +205,22 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     /** Initial kernel state. */
     private final KernelState initializedState = new KernelState() {
 
-        public void init(final KernelServices moduleServices, final QedeqConfig qedeqConfig)
+        public void init(final ServiceModule moduleServices, final QedeqConfig qedeqConfig)
                 throws IOException {
             throw new IllegalStateException("Kernel is already initialized");
         }
 
-        public boolean isReady() {
-            return false;
-        }
-
-        public void shutdown() {
-            QedeqLog.getInstance().logMessage("QEDEQ Kernel closed.");
-            KernelContext.this.services = null;
-            initialState.shutdown();
-        }
-
-        public void startupServices() {
+        public void startup() {
             services.startupServices();
             currentState = readyState;
             QedeqLog.getInstance().logMessage("QEDEQ kernel opened.");
+        }
+
+        public void shutdown() {
+            services.shutdownServices();
+            KernelContext.this.services = null;
+            initialState.shutdown();
+            QedeqLog.getInstance().logMessage("QEDEQ Kernel closed.");
         }
 
         public void removeAllModules() {
@@ -304,13 +297,13 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     /** State for ready kernel. */
     private final KernelState readyState = new KernelState() {
 
-        public void init(final KernelServices moduleServices, final QedeqConfig qedeqConfig)
+        public void init(final ServiceModule moduleServices, final QedeqConfig qedeqConfig)
                 throws IOException {
             // we are already ready
         }
 
-        public boolean isReady() {
-            return false;
+        public void startup() {
+            // we are already ready
         }
 
         public void shutdown() {
@@ -328,10 +321,6 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
                 QedeqLog.getInstance().logMessage("Saving current config file failed.");
             }
             initializedState.shutdown();
-        }
-
-        public void startupServices() {
-            throw new IllegalStateException("Kernel is already initialized");
         }
 
         public void removeAllModules() {
@@ -413,7 +402,7 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
     private QedeqConfig config;
 
     /** This object can service QEDEQ modules. */
-    private KernelServices services;
+    private ServiceModule services;
 
     /**
      * Constructor.
@@ -574,21 +563,17 @@ public final class KernelContext implements KernelProperties, KernelState, Kerne
         return config;
     }
 
-    public void init(final KernelServices moduleServices, final QedeqConfig qedeqConfig)
+    public void init(final ServiceModule moduleServices, final QedeqConfig qedeqConfig)
             throws IOException {
         currentState.init(moduleServices, qedeqConfig);
     }
 
-    public boolean isReady() {
-        return currentState.isReady();
+    public void startup() {
+        currentState.startup();
     }
 
     public void shutdown() {
         currentState.shutdown();
-    }
-
-    public void startupServices() {
-        currentState.startupServices();
     }
 
     public void removeAllModules() {
