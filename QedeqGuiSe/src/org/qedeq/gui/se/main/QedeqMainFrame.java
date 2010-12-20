@@ -259,7 +259,7 @@ public class QedeqMainFrame extends JFrame {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     // now we are ready to fire up the kernel
-                    KernelContext.getInstance().startupServices();
+                    KernelContext.getInstance().startup();
                 }
             });
         } catch (Throwable e) {

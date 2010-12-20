@@ -53,17 +53,16 @@ public final class KernelFacade {
             final QedeqFileDao loader = new XmlQedeqFileDao();
             final DefaultInternalKernelServices services = new DefaultInternalKernelServices(
                 KernelContext.getInstance(), loader);
-            services.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
-
             KernelContext.getInstance().init(services , config);
+//          mod = new ModuleEventListenerLog();
+//          ModuleEventLog.getInstance().addLog(mod);
+            KernelContext.getInstance().startup();
+            services.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
+            context = KernelContext.getInstance();
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
-//        mod = new ModuleEventListenerLog();
-//        ModuleEventLog.getInstance().addLog(mod);
-        KernelContext.getInstance().startupServices();
-        context = KernelContext.getInstance();
     }
 
     public static void shutdown() {
