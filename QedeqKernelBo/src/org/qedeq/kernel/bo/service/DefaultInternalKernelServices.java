@@ -95,7 +95,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     private final PluginManager pluginManager;
 
     /** This instance manages service processes. */
-    private ServiceProcessManager processManager;
+    private final ServiceProcessManager processManager;
 
     /** Validate module dependencies and status. */
     private boolean validate = true;
@@ -109,6 +109,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     public DefaultInternalKernelServices(final KernelProperties kernel, final QedeqFileDao loader) {
         this.kernel = kernel;
         this.qedeqFileDao = loader;
+        processManager = new ServiceProcessManager();
         pluginManager = new PluginManager(processManager);
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8TextPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin");
@@ -120,16 +121,19 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
     public void startupServices() {
         modules = new KernelQedeqBoStorage();
-        processManager = new ServiceProcessManager();
         if (kernel.getConfig().isAutoReloadLastSessionChecked()) {
             autoReloadLastSessionChecked();
         }
     }
 
     public void shutdownServices() {
+        System.out.println("terminate begin");
+        processManager.terminateAndRemoveAllServiceProcesses();
+        System.out.println("terminate end");
         modules.removeAllModules();
         modules = null;
-        processManager = null;
+        // clear thread interupt flag
+        Thread.interrupted();
     }
 
     /**

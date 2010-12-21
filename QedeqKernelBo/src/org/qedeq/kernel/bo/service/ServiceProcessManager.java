@@ -35,9 +35,9 @@ public class ServiceProcessManager {
 
 
     /**
-     * Get all running service processes.
+     * Get all service processes.
      *
-     * @return  All running service processes.
+     * @return  All service processes.
      */
     public synchronized ServiceProcess[] getServiceProcesses() {
         return (ServiceProcess[]) processes.toArray(new ServiceProcess[] {});
@@ -57,5 +57,17 @@ public class ServiceProcessManager {
         processes.add(process);
         return process;
     }
+
+    /**
+     * Remove all service processes. All processes are also terminated via interruption.
+     */
+    public synchronized void terminateAndRemoveAllServiceProcesses() {
+        for (int i = 0; i < processes.size(); i++) {
+            final ServiceProcess proc = (ServiceProcess) processes.get(i);
+            proc.interrupt();
+        }
+        processes.clear();
+    }
+
 
 }
