@@ -462,6 +462,7 @@ currently in ants classpath
         <!-- Windows file system -->
         <!-- we exclude "xml/qedeq/*" because xsddoc seems to hold a lock on these files -->
         <fixcrlf srcdir="${qedeq.dest}"
+            encoding="UTF-8"
             eol="dos" 
             eof="remove"
             includes="**/*.sh,**/*.java,**/*.html,**/*.txt,**/*.properties,**/*.tex,**/*.xml,**/*.xsd"
@@ -486,6 +487,7 @@ currently in ants classpath
           <filterset refid="qedeq_filter" />
         </copy>
         <fixcrlf srcdir="${qedeq.dest}"
+            encoding="UTF-8"
             eol="dos" 
             eof="remove"
             includes="index.html"
@@ -509,10 +511,11 @@ currently in ants classpath
         <!-- Unix file system -->
         <!-- we exclude "xml/qedeq/*" because xsddoc seems to hold a lock on these files -->
         <fixcrlf srcdir="${qedeq.dest}"
-             eol="unix" 
-             eof="remove"
-            includes="**/*.sh,**/*.java,**/*.html,**/*.txt,**/*.properties,**/*.tex,**/*.xml,**/*.xsd"
-            excludes="xml/qedeq/**"   
+          encoding="UTF-8"
+          eol="unix" 
+          eof="remove"
+          includes="**/*.sh,**/*.java,**/*.html,**/*.txt,**/*.properties,**/*.tex,**/*.xml,**/*.xsd"
+          excludes="xml/qedeq/**"   
         />
 
         <!-- create Unix common release -->
@@ -547,9 +550,10 @@ currently in ants classpath
           <filterset refid="qedeq_filter_dev" />
         </copy>
         <fixcrlf srcdir="${qedeq.dest}"
-            eol="unix" 
-            eof="remove"
-            includes="index.html"
+          encoding="UTF-8"
+          eol="unix" 
+          eof="remove"
+          includes="index.html"
         />
 
         <!-- create Unix development release -->
@@ -573,9 +577,10 @@ currently in ants classpath
         <!-- mac -->
     <!--
         <fixcrlf srcdir="${qedeq.dest}"
-             eol="mac" 
-             eof="remove"
-             includes="**/*.sh,**/*.java,**/*.html,**/*.txt,**/*.properties,**/*.tex,**/*.xml,**/*.xsd"
+          encoding="UTF-8"
+          eol="mac" 
+          eof="remove"
+          includes="**/*.sh,**/*.java,**/*.html,**/*.txt,**/*.properties,**/*.tex,**/*.xml,**/*.xsd"
         />
         <zip whenempty="create"
           zipfile="${qedeq.dist}/qedeq_${qedeq.release.version}_mac.zip"
