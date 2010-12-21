@@ -6,6 +6,8 @@ import org.qedeq.kernel.base.module.LatexList;
 /**
  * Transform latex list into text.
  *
+ * TODO 20101221 m31: perhaps we should use the Latex2Utf8 converter?
+ *
  * @author  Michael Meyling
  */
 public class LatexList2Text {
