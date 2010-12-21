@@ -92,7 +92,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     private final QedeqFileDao qedeqFileDao;
 
     /** This instance manages plugins. */
-    private PluginManager pluginManager;
+    private final PluginManager pluginManager;
 
     /** This instance manages service processes. */
     private ServiceProcessManager processManager;
@@ -109,19 +109,18 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     public DefaultInternalKernelServices(final KernelProperties kernel, final QedeqFileDao loader) {
         this.kernel = kernel;
         this.qedeqFileDao = loader;
-        loader.setServices(this);
-    }
-
-    public void startupServices() {
-        modules = new KernelQedeqBoStorage();
-        processManager = new ServiceProcessManager();
         pluginManager = new PluginManager(processManager);
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8TextPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8Plugin");
 //        pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin");
+        loader.setServices(this);
+    }
 
+    public void startupServices() {
+        modules = new KernelQedeqBoStorage();
+        processManager = new ServiceProcessManager();
         if (kernel.getConfig().isAutoReloadLastSessionChecked()) {
             autoReloadLastSessionChecked();
         }
@@ -131,7 +130,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         modules.removeAllModules();
         modules = null;
         processManager = null;
-        pluginManager = null;
     }
 
     /**
