@@ -10,31 +10,40 @@ Functional Changes
 
   Extensions
   ----------
-  - now the first pages of a new online help are working
-  - new about dialog with system properties that can be copied into clipboard
-  - warnings are now supported: LaTeX generation problems lead to warnings that
-    also can be clicked
-  - precise location marking for LaTeX generation problems
-  - proxy settings could be done in preferenes dialog
-  - now it is checked that class definition is only in one unique QEDEQ module
-  - now it is checked that identity operator is defined only in one unique
-    QEDEQ module
+  - now we have plugins: that are GUI callable actions that do something
+    with a QEDEQ module. As there are: "Show module as UTF-8 text",
+    "Create LaTeX" (old feature), "Create UTF-8", and "Model Tester".
+    The first ones are self-explanatory. The last one enables us to test
+    the validity of formulas in different finite models. The "four
+    element model" is our approved model. It contains the following four
+    elements: {}, {{}}, {{}, {{}}} and {{{}}}. Together with the usual
+    "element of" relation we can fulfill almost all formulas of our
+    logic and set theory script. 
+  - Because the model tester costs some time we now have a process
+    overview window. In this window all plugin processes and their
+    status is shown. It is also possible to interrupt running processes.
+  - the plugin results (usually warnings) can be deleted completely.
+    So we can keep an overview even if we change the model.
+  - all plugins are configurable via a GUI dialog
+  - the error and warnings list pane has now a context menu to export
+    results into the clipboard
+  - the status pane has now a field that shows the number of errors and
+    warnings
+  - help system can now link to external pages via external browser
+    call
+  - 
 
   Fixed Bugs
   ----------
-  - within the buffer directory only all *.xml files are deleted when
-    the buffer is cleaned; so we have no problem with the lock file
+  - 
 
   Other Changes
   -------------
-  - generate LaTeX output for modules with extra printed (\tt) QEDEQ reference
-    in clear text. So module authors can easily reference to that node. In some
-    future releases this option should be editable in the LaTeX plugin
-    preferences page.
-  - preference dialog is now fully resizeable
-  - renamed "Delete" into "Remove" for local module tree popup
-  - more and better formatted error message if XSD resolution fails
-  -  
+  - improved speed, after establishing a global "trace of" switch which
+    can disable tracing completely (without testing for log levels)
+  - we now have GUI configurable icon sizes and "look and feel" 
+  - some icons changed
+  - a little bit more mouse over effects
 
 
 XML Files
@@ -42,16 +51,15 @@ XML Files
 
   Extensions
   ----------
-  math\qedeq_logic_v1.xml
-  math\qedeq_set_theory_v1.xml
+  math\qedeq_sample2.xml
 
   Fixed Bugs
   ----------
   math\qedeq_logic_v1.xml
+  math\set_theory_v1.xml
 
   Other Changes
   -------------
-  - ISSUE#33 integrated Amrum notes
 
 
 Source Code
@@ -59,36 +67,36 @@ Source Code
 
   Extensions
   ----------
-  - various unit tests added
-  - now using commons-httpclient-3.1.jar and commons-codec-1.3.jar
-  - looking at findbugs test results and worked on them
-  - integration of javax.help (jh-2.0.5)
+  - new class AbstractOutput (for StringOutput and TextOutput)
+  - new class SubTextInput (as a wrapper for TextOutput)
+  - TextOutput has new constructor with parameter char encoding
+  - TextInput has some more methods and the performance of 
+    setPosition was improved
+  - SourceArea has also a short description method
+  - Trace has now a new global flag: traceOn  if this is true we
+    don't check any trace levels. This is much much faster than
+    doing it with Commons Logging and Log4J.
+  - DateUtility has some more methods for getting time strings
+  - Enumerator can now be reset to zero
+  - new class Splitter for splitting strings into string separated
+    pieces
+  - StringUtility has new methods for presenting a Map or Set and
+    for formatting
+  - new class TextPaneWindow for displaying text information
+  - ControlVisitor contains now QedeqNumbers, so every plugin can
+    that numbers
 
   Fixed Bugs
   ----------
-  - various file loading, saving and copying methods  
-     close now Reader, Writer and created streams also if an Exception occurs
+  -   
 
   Other Changes
   -------------
-  - bo.context.KernelContext has new mechanism for testing multistarted
-    application: lockStream.getChannel().tryLock() 
-  - replacement of URL with String as QEDEQ address parameter due
-     to problems with URL.equals 
-     see
-     http://java.sun.com/j2se/1.5.0/docs/api/java/net/URL.html#equals(java.lang.Object)
-     and
-     http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4434494
-     http://brian.pontarelli.com/2006/12/05/mr-gosling-why-did-you-make-url-equals-suck/
-  - new plugin structure established. LaTeX generation is now simply execution
-    of the Qedeq2LatexPlugin
-  - ISSUE#30, ISSUE#13 we also integrate warnings into our system. A plugin can
-    produce warnings. These warnings can be clicked and are shown in yellow
-    whereas the errors are shown in blue. The error pane shows the eclipse
-    icons "error_tsk.gif" or "warn_tsk.gif" accordingly.
-  - improved location information of LaTeX warnings
-  - ISSUE#22 now we have a new about dialog that shows the system properties
-  - generation of PDF now includes register creation
+  - we now have a JUnit test that checks if every class has a test
+    class in the packages (QedeqBase, Qedeq
+  - we updated the tango icons, integrated eclipse icons and of the 
+    Open Icon Library (http://openiconlibrary.sourceforge.net) in
+    different sizes
 
 
 XSD
@@ -96,7 +104,7 @@ XSD
 
   Extensions
   ----------
-  none
+  - AXIOM has now attribute "definedOperator"
 
   Fixed Bugs
   ----------
