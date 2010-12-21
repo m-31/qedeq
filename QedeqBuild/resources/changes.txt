@@ -35,7 +35,11 @@ Functional Changes
 
   Fixed Bugs
   ----------
-  - 
+  - checker for logical correctness didn't notice incorrect definitions
+    Now we check, that definitions contain only subject variables within
+    VARLIST and test that these subject variables are free in the
+    defining term or formula. We also verify there are no other subject
+    variables free
 
   Other Changes
   -------------
@@ -85,6 +89,8 @@ Source Code
   - new class TextPaneWindow for displaying text information
   - ControlVisitor contains now QedeqNumbers, so every plugin can
     that numbers
+  - StateManger returns only lists instead of null if no errors
+    or warnings occurred
 
   Fixed Bugs
   ----------
