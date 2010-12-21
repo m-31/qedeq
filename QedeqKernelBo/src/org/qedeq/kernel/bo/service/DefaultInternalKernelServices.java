@@ -127,9 +127,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public void shutdownServices() {
-        System.out.println("terminate begin");
         processManager.terminateAndRemoveAllServiceProcesses();
-        System.out.println("terminate end");
         modules.removeAllModules();
         modules = null;
         // clear thread interupt flag
