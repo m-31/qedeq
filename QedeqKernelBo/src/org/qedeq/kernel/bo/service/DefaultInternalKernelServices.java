@@ -130,7 +130,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         processManager.terminateAndRemoveAllServiceProcesses();
         modules.removeAllModules();
         modules = null;
-        // clear thread interupt flag
+        // clear thread interrupt flag because we might have interrupted ourself
         Thread.interrupted();
     }
 
