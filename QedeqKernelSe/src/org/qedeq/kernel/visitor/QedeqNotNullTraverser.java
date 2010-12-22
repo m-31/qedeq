@@ -925,6 +925,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
      * @return  Value between 0 and 100.
      */
     public double getVisitPercentage() {
+        if (data == null) {
+            return 0;
+        }
         return data.getVisitPercentage();
     }
 
