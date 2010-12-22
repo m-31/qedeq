@@ -31,8 +31,7 @@ Functional Changes
     warnings
   - help system can now link to external pages via external browser
     call
-  - 
-
+  
   Fixed Bugs
   ----------
   - checker for logical correctness didn't notice incorrect definitions
@@ -72,6 +71,9 @@ XML Files
     errors.
 
   math\set_theory_v1.xml
+  - corrections for German text from Dr. Heinz Meyling
+  - model tester found some errors which were corrected (by the way
+    there is one error still included, we just have to nail it down)
 
   Other Changes
   -------------
