@@ -125,12 +125,14 @@ Source Code
   Other Changes
   -------------
   - we now have a JUnit test that checks if every class has a test
-    class in the packages (QedeqBase, Qedeq
+    class in the packages (QedeqBase, QedeqSe) ISSUE#100
   - we updated the tango icons, integrated eclipse icons and of the 
     Open Icon Library (http://openiconlibrary.sourceforge.net) in
     different sizes
   - start slow tests is now controlled by system property
   - build script uses now parameter encoding for fixcrlf
+  - GUI configurable output of QEDEQ references in LaTeX output
+    ISSUE#40
 
 
 XSD
