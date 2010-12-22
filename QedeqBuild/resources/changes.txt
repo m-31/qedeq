@@ -130,6 +130,7 @@ Source Code
     Open Icon Library (http://openiconlibrary.sourceforge.net) in
     different sizes
   - start slow tests is now controlled by system property
+  - build script uses now parameter encoding for fixcrlf
 
 
 XSD
