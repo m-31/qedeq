@@ -309,7 +309,7 @@ currently in ants classpath
         </copy>
         <copy todir="${qedeq.dest}/doc">
           <fileset dir="${qedeq.dest.module}/QedeqKernelBo/target/test-outdir/doc"
-            includes="math/**.xml,math/**.tex,math/**.pdf,project/**.xml,project/**.tex,project/**.pdf"
+            includes="math/**.xml,math/**.tex,math/**.pdf,math/**.txt,project/**.xml,project/**.tex,project/**.pdf,project/**.txt"
             excludes="**/qedeq_sample*"
           >
           </fileset>
