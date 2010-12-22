@@ -59,7 +59,7 @@ public class DynamicInterpreter {
     /** For formatting debug trace output. */
     private final StringBuffer deepness = new StringBuffer();
 
-    /** QEDEQ module we check. FIXME 20101203 m31: use for debug output: element converter*/
+    /** QEDEQ module we check. */
     private final KernelQedeqBo qedeq;
 
     /**

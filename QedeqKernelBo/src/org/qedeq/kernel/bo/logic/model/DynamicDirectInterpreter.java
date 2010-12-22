@@ -175,6 +175,7 @@ public class DynamicDirectInterpreter {
      */
     private boolean calculateValue(final Element formula) throws  HeuristicException {
         final String method = "calculateValue(Element)";
+     // FIXME 20101222 m31: use for debug output
 //        System.out.println(deepness.toString() + Latex2Utf8Parser.transform(null,
 //        qedeq.getElement2Latex().getLatex(formula), 0));
 //        deepness.append("-");
