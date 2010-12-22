@@ -53,14 +53,6 @@ public final class Interpreter {
     /** For formatting debug trace output. */
     private final StringBuffer deepness = new StringBuffer();
 
-// FIXME m31 20101014: put into unit test:
-//    /** Start element for calculation. */
-//    private Element startElement;
-//
-//    /** Module context. Here were are currently. */
-//    private ModuleContext startContext;
-
-
     /**
      * Constructor.
      *
@@ -84,9 +76,7 @@ public final class Interpreter {
      */
     public boolean calculateValue(final ModuleContext moduleContext, final Element formula)
             throws  HeuristicException {
-//        this.startElement = formula;
         this.moduleContext = moduleContext;
-//        this.startContext = new ModuleContext(moduleContext);
         return calculateValue(formula);
     }
 
@@ -399,27 +389,6 @@ public final class Interpreter {
 
     private void setLocationWithinModule(final String localContext) {
         moduleContext.setLocationWithinModule(localContext);
-//        if (localContext.equals(startContext.getLocationWithinModule())) {
-//            return;
-//        }
-//        String position
-//            = moduleContext.getLocationWithinModule().substring(startContext.getLocationWithinModule().length());
-//        if (position.startsWith(".")) {
-//            position = position.substring(1);
-//        }
-//        try {
-//            DynamicGetter.get(startElement, position);
-//        } catch (IllegalAccessException e) {
-//            System.out.println(position);
-//            e.printStackTrace(System.out);
-//        } catch (InvocationTargetException e) {
-//            System.out.println(position);
-//            e.printStackTrace(System.out);
-//        } catch (RuntimeException e) {
-//            System.out.println(position);
-//            e.printStackTrace(System.out);
-//            throw e;
-//        }
     }
 
     /**
