@@ -127,7 +127,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         KernelFacade.getKernelContext().checkModule(webAddress);
         final QedeqBo webBo = KernelFacade.getKernelContext().getQedeqBo(webAddress);
         final File texFile = new File(destinationDirectory, xml.substring(0, xml.lastIndexOf('.'))
-            + "_" + language + ".tex");
+            + "_" + language + ".txt");
         generate((KernelQedeqBo) webBo, texFile, language, "1");
         final File texCopy = new File(dir, new File(new File(xml).getParent(), texFile.getName())
             .getPath());
