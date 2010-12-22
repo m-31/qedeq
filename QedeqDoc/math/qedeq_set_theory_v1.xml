@@ -622,7 +622,7 @@
                             & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
                       & \qref{l.theorem:propositionalCalculus}[bh] \\
                             & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \ z \in x \ \leftrightarrow \ z \in y)$ 
-                      & \qref{l.definition:restrictedUniversalQuantifier} \\
+                      & \qref{l.axiom:restrictedUniversalQuantifier} \\
                   \end{tabularx}
                 ]]>
               </LATEX>
@@ -638,7 +638,7 @@
                             & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
                       & \qref{l.theorem:propositionalCalculus}[bh] \\
                             & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \ z \in x \ \leftrightarrow \ z \in y)$ 
-                      & \qref{l.definition:restrictedUniversalQuantifier} \\
+                      & \qref{l.axiom:restrictedUniversalQuantifier} \\
                   \end{tabularx}
                 ]]>
               </LATEX>
