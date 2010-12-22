@@ -210,6 +210,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
      * Gives a LaTeX representation of given QEDEQ module as InputStream.
      *
      * @param   language    Filter text to get and produce text in this language only.
+     *                      <code>null</code> is ok.
      * @param   level       Filter for this detail level. LATER mime 20050205: not supported
      *                      yet.
      * @return  Resulting LaTeX.
@@ -276,7 +277,8 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
     }
 
     public final void visitEnter(final Qedeq qedeq) {
-        printer.println("% -*- TeX:" + language.toUpperCase(Locale.US) + " -*-");
+        printer.println("% -*- TeX"
+            + (language != null ? ":" + language.toUpperCase(Locale.US) : "") + " -*-");
         printer.println("%%% ====================================================================");
         printer.println("%%% @LaTeX-file    " + printer.getName());
         printer.println("%%% Generated from " + getQedeqBo().getModuleAddress());
@@ -885,7 +887,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             subContext = method;
         }
         try {
-            for (int i = 0; i < list.size(); i++) {
+            for (int i = 0; language != null && i < list.size(); i++) {
                 if (language.equals(list.get(i).getLanguage())) {
                     if (method.length() > 0) {
                         subContext = method + ".get(" + i + ")";
@@ -1182,6 +1184,13 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
 
     /**
      * Get URL to for PDF version of module.
+     * FIXME 20101222 m31: this doesn't work if module or referenced module
+     *  languages don't match. E.g. if the referenced module has only the
+     *  "en" or default (language=null) language and the current is written
+     *  with language "de". Each KernelQedeqBo must have the language information
+     *  as method. Every module must have at least one explicit language (!= null)
+     *  and a default language (!= null). So we can ask a QEDEQ module: String getDefaultLanguage
+     *  String[] getSupportedLanguages()
      *
      * @param   prop    Get URL for this QEDEQ module.
      * @return  URL to PDF.
@@ -1189,7 +1198,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
     private String getPdfLink(final KernelQedeqBo prop) {
         final String url = prop.getUrl();
         final int dot = url.lastIndexOf(".");
-        return url.substring(0, dot) + "_" + language + ".pdf";
+        return url.substring(0, dot) + (language != null ? "_" + language : "") + ".pdf";
     }
 
     /**
