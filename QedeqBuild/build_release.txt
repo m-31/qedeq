@@ -22,7 +22,7 @@ Preliminary Build
   + check java doc
     > is every package there
     > look at the messages during build project
-  + exame index.html and update it
+  + exaime index.html and update it
   + transfer release to WebPage
     [ now done by build script: ]
     > copy xml-apis.jar and xercesImpl.jar from eclipse/webstart
@@ -30,7 +30,7 @@ Preliminary Build
       of the original manifest.mf and are signed with jarsigner due 
       to an java webstart bug)
     > web execution, is that ok too?
-    > indide FireFox run checky to validate the HTML
+    > inside FireFox run checky to validate the HTML
 - go through qedeq_bugs_and_features*.xls and rework list
 - put build in qedeq_temp directory and name it
   "release_" + version + "_" + build number
