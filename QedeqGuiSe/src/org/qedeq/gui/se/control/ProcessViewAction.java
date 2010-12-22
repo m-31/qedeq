@@ -18,11 +18,12 @@ package org.qedeq.gui.se.control;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.SwingUtilities;
 
 import org.qedeq.gui.se.pane.ProcessWindow;
 
 /**
- * Show preferences window.
+ * Show process overview window.
  *
  * @author  Michael Meyling
  */
@@ -35,8 +36,13 @@ class ProcessViewAction extends AbstractAction {
     }
 
     public void actionPerformed(final ActionEvent e) {
-        final ProcessWindow pw = new ProcessWindow();
-        pw.setVisible(true);
+        final Runnable start = new Runnable() {
+            public void run() {
+                final ProcessWindow pw = new ProcessWindow();
+                pw.setVisible(true);
+            }
+        };
+        SwingUtilities.invokeLater(start);
     }
 
 }
