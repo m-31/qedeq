@@ -60,10 +60,22 @@ XML Files
   Fixed Bugs
   ----------
   math\qedeq_logic_v1.xml
+  - spelling errors corrected
+  - some \ref s were replaced by \qref s
+  - formal definitions for implication, conjunction and equivalence
+    were transformed into subsections. Our model tester correctly
+    bitched about it.
+  - formal definition of restricted quantifiers were also transformed.
+    This time into axioms with a "definedOperator" attribute.
+  - within "theorem:predicateCalculus" two equivalences were only
+    implications. Thanks again to our model tester for finding these
+    errors.
+
   math\set_theory_v1.xml
 
   Other Changes
   -------------
+  change to UTF-8
 
 
 Source Code
@@ -91,10 +103,22 @@ Source Code
     that numbers
   - StateManger returns only lists instead of null if no errors
     or warnings occurred
+  - DefaultModuleAddress has now a default dummy constructor. It is
+    only used in tests or not referenced classes
+  - ConfigAccess has new methods to get Map of properties with
+    certain given prefix. This is used for plugin configuration.
+  - Qedeq2Xml writes now UTF-8 as charset
+  - Xml2Xml uses now UTF-8 output
+  - XmlQedeqFileDao.createSourceArea returns never null
+    
+  
 
   Fixed Bugs
   ----------
-  -   
+  - SourceFileException uses now Plugin information for equals and
+    hashCode
+  - XPathLocationParser.findSourceArea catches now RuntimeExceptions
+  
 
   Other Changes
   -------------
@@ -103,6 +127,7 @@ Source Code
   - we updated the tango icons, integrated eclipse icons and of the 
     Open Icon Library (http://openiconlibrary.sourceforge.net) in
     different sizes
+  - start slow tests is now controlled by system property
 
 
 XSD
@@ -110,7 +135,11 @@ XSD
 
   Extensions
   ----------
-  - AXIOM has now attribute "definedOperator"
+  - AXIOM has now new string attribute "definedOperator". The value
+    can contain an operator which is defined by the axiom. This axiom
+    and the operator could be eliminated by replacing the operator with
+    the right part of the axiom. Example: definition of restricted
+    quantifiers.
 
   Fixed Bugs
   ----------
