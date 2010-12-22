@@ -1546,7 +1546,6 @@ public class DynamicInterpreterTest extends QedeqBoTestCase {
     }
 
 
-    /* FIXME work goes on */
 //    /**
 //     * Function: isTautology(Element)
 //     * Type:     positive

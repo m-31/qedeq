@@ -71,7 +71,7 @@ public final class SubjectVariableInterpreter {
      * @param   var Subject variable to add to our interpretation.
      */
     public synchronized void addSubjectVariable(final SubjectVariable var) {
-        // FIXME 20101014 m31: just for testing
+        // if we forbid quantifing with same variable twice, we must activate the following
 //        if (subjectVariables.contains(var)) {
 //            throw new RuntimeException("variable already exists: " + var);
 //        }

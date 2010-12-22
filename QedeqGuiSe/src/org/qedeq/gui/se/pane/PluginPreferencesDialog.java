@@ -42,11 +42,8 @@ import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.logic.model.FourDynamicModel;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.logic.model.ThreeDynamicModel;
-import org.qedeq.kernel.bo.logic.model.ThreeModel;
 import org.qedeq.kernel.bo.logic.model.UnaryDynamicModel;
-import org.qedeq.kernel.bo.logic.model.UnaryModel;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
-import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8Plugin;
 import org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8TextPlugin;
@@ -94,8 +91,9 @@ public class PluginPreferencesDialog extends JDialog {
     /** Plugin for showing QEDEQ modules as UTF-8 text. */
     private final Qedeq2Utf8TextPlugin qedeq2utf8Show;
 
-    /** Plugin for checking formulas with the help of a static model. */
-    private HeuristicCheckerPlugin heuristicChecker;
+// LATER 20101222 m31: remove if not used for a long time
+//    /** Plugin for checking formulas with the help of a static model. */
+//    private HeuristicCheckerPlugin heuristicChecker;
 
     /** Plugin for checking formulas with the help of a dynamically calculated static model. */
     private DynamicHeuristicCheckerPlugin dynamicHeuristicChecker;
@@ -119,7 +117,8 @@ public class PluginPreferencesDialog extends JDialog {
             qedeq2latex = new Qedeq2LatexPlugin();
             qedeq2utf8 = new Qedeq2Utf8Plugin();
             qedeq2utf8Show = new Qedeq2Utf8TextPlugin();
-            heuristicChecker = new HeuristicCheckerPlugin();
+// LATER 20101222 m31: remove if not used for a long time
+//            heuristicChecker = new HeuristicCheckerPlugin();
             dynamicHeuristicChecker = new DynamicHeuristicCheckerPlugin();
             setModal(true);
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -254,65 +253,66 @@ public class PluginPreferencesDialog extends JDialog {
         return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
     }
 
-    /**
-     * Assembles settings for {@link HeuristicCheckerPlugin}.
-     *
-     * @param   plugin  The transformation plugin.
-     * @return  Created panel.
-     */
-    private JComponent heuristicCheckerConfig(final Plugin plugin) {
-        FormLayout layout = new FormLayout(
-            "left:pref, 5dlu, fill:pref:grow",          // columns
-            "top:pref:grow, top:pref:grow, top:pref:grow");      // rows
-
-        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        builder.getPanel().setOpaque(false);
-
-        final ThreeModel three = new ThreeModel();
-        final UnaryModel unary = new UnaryModel();
-        heuristicCheckerModel = QedeqGuiConfig.getInstance()
-                .getPluginKeyValue(plugin, "model", three.getClass().getName());
-        final ActionListener modelSelectionListener = new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                heuristicCheckerModel = e.getActionCommand();
-            }
-        };
-
-        final ButtonGroup heuristicCheckerModelBG = new ButtonGroup();
-
-        final JRadioButton heuristicCheckerUnaryModelRB = new JRadioButton("Unary Model");
-        if (heuristicCheckerModel.equals(unary.getClass().getName())) {
-            heuristicCheckerUnaryModelRB.setSelected(true);
-        }
-        heuristicCheckerUnaryModelRB.setActionCommand(unary.getClass().getName());
-        heuristicCheckerUnaryModelRB.addActionListener(modelSelectionListener);
-        heuristicCheckerModelBG.add(heuristicCheckerUnaryModelRB);
-
-        final JRadioButton heuristicCheckerThreeModelRB = new JRadioButton("Three Model");
-        if (heuristicCheckerModel.equals(three.getClass().getName())) {
-            heuristicCheckerThreeModelRB.setSelected(true);
-        }
-        heuristicCheckerThreeModelRB.setActionCommand(three.getClass().getName());
-        heuristicCheckerThreeModelRB.addActionListener(modelSelectionListener);
-        heuristicCheckerModelBG.add(heuristicCheckerThreeModelRB);
-
-        builder.append(heuristicCheckerUnaryModelRB);
-        JTextArea description = new JTextArea(unary.getDescription());
-        description.setEditable(false);
-        description.setLineWrap(true);
-        description.setWrapStyleWord(true);
-        builder.append(description);
-
-        builder.append(heuristicCheckerThreeModelRB);
-        description = new JTextArea(three.getDescription());
-        description.setEditable(false);
-        description.setLineWrap(true);
-        description.setWrapStyleWord(true);
-        builder.append(description);
-
-        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
-    }
+// LATER 20101222 m31: remove if not used for a long time
+//    /**
+//     * Assembles settings for {@link HeuristicCheckerPlugin}.
+//     *
+//     * @param   plugin  The transformation plugin.
+//     * @return  Created panel.
+//     */
+//    private JComponent heuristicCheckerConfig(final Plugin plugin) {
+//        FormLayout layout = new FormLayout(
+//            "left:pref, 5dlu, fill:pref:grow",          // columns
+//            "top:pref:grow, top:pref:grow, top:pref:grow");      // rows
+//
+//        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+//        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+//        builder.getPanel().setOpaque(false);
+//
+//        final ThreeModel three = new ThreeModel();
+//        final UnaryModel unary = new UnaryModel();
+//        heuristicCheckerModel = QedeqGuiConfig.getInstance()
+//                .getPluginKeyValue(plugin, "model", three.getClass().getName());
+//        final ActionListener modelSelectionListener = new ActionListener() {
+//            public void actionPerformed(final ActionEvent e) {
+//                heuristicCheckerModel = e.getActionCommand();
+//            }
+//        };
+//
+//        final ButtonGroup heuristicCheckerModelBG = new ButtonGroup();
+//
+//        final JRadioButton heuristicCheckerUnaryModelRB = new JRadioButton("Unary Model");
+//        if (heuristicCheckerModel.equals(unary.getClass().getName())) {
+//            heuristicCheckerUnaryModelRB.setSelected(true);
+//        }
+//        heuristicCheckerUnaryModelRB.setActionCommand(unary.getClass().getName());
+//        heuristicCheckerUnaryModelRB.addActionListener(modelSelectionListener);
+//        heuristicCheckerModelBG.add(heuristicCheckerUnaryModelRB);
+//
+//        final JRadioButton heuristicCheckerThreeModelRB = new JRadioButton("Three Model");
+//        if (heuristicCheckerModel.equals(three.getClass().getName())) {
+//            heuristicCheckerThreeModelRB.setSelected(true);
+//        }
+//        heuristicCheckerThreeModelRB.setActionCommand(three.getClass().getName());
+//        heuristicCheckerThreeModelRB.addActionListener(modelSelectionListener);
+//        heuristicCheckerModelBG.add(heuristicCheckerThreeModelRB);
+//
+//        builder.append(heuristicCheckerUnaryModelRB);
+//        JTextArea description = new JTextArea(unary.getDescription());
+//        description.setEditable(false);
+//        description.setLineWrap(true);
+//        description.setWrapStyleWord(true);
+//        builder.append(description);
+//
+//        builder.append(heuristicCheckerThreeModelRB);
+//        description = new JTextArea(three.getDescription());
+//        description.setEditable(false);
+//        description.setLineWrap(true);
+//        description.setWrapStyleWord(true);
+//        builder.append(description);
+//
+//        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+//    }
 
     /**
      * Assembles settings for {@link DynamicHeuristicCheckerPlugin}.
@@ -464,10 +464,11 @@ public class PluginPreferencesDialog extends JDialog {
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "maximumColumn",
                     qedeq2Utf8MaximumColumnTF.getText());
             }
-            {
-                final Plugin plugin = heuristicChecker;
-                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "model", heuristicCheckerModel);
-            }
+// LATER 20101222 m31: remove if not used for a long time
+//            {
+//                final Plugin plugin = heuristicChecker;
+//                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "model", heuristicCheckerModel);
+//            }
             {
                 final Plugin plugin = dynamicHeuristicChecker;
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "model", dynamicHeuristicCheckerModel);
