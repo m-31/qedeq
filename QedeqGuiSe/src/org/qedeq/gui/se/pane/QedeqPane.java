@@ -178,33 +178,6 @@ public class QedeqPane extends JPanel implements SelectionListener {
                 qedeq.getCaret().setSelectionVisible(true);
 
                 // TODO m31 20100707: duplicate code, refactor
-                errorMarker = new DocumentMarker(qedeq, new DocumentMarkerPainter(
-                    GuiHelper.getErrorTextBackgroundColor()));
-                final SourceFileExceptionList pe = prop.getErrors();
-                if (pe != null) {
-                    for (int i = 0; i < pe.size(); i++) {
-                        if (pe.get(i).getSourceArea() != null) {
-                            try {
-                                final SourceArea sa = pe.get(i).getSourceArea();
-                                if (sa != null) {
-                                    final int from = sa.getStartPosition().getRow() - 1;
-                                    int to = sa.getEndPosition().getRow() - 1;
-// for line marking only:
-//                                    errorMarker.addMarkedLines(from, to,
-//                                        sa.getStartPosition().getColumn() - 1);
-                                    errorMarker.addMarkedBlock(from,
-                                        sa.getStartPosition().getColumn() - 1,
-                                        to, sa.getEndPosition().getColumn() - 1);
-                                    continue;
-                                }
-                            } catch (BadLocationException e) {  // should not occur
-                                Trace.fatal(CLASS, this, "updateView", "Programming error?", e);
-                            }
-                        } else {
-                            errorMarker.addEmptyBlock();
-                        }
-                    }
-                }
                 warningMarker = new DocumentMarker(qedeq, new DocumentMarkerPainter(
                         GuiHelper.getWarningTextBackgroundColor()));
                 final SourceFileExceptionList pw = prop.getWarnings();
@@ -229,6 +202,33 @@ public class QedeqPane extends JPanel implements SelectionListener {
                             }
                         } else {
                             warningMarker.addEmptyBlock();
+                        }
+                    }
+                }
+                errorMarker = new DocumentMarker(qedeq, new DocumentMarkerPainter(
+                    GuiHelper.getErrorTextBackgroundColor()));
+                final SourceFileExceptionList pe = prop.getErrors();
+                if (pe != null) {
+                    for (int i = 0; i < pe.size(); i++) {
+                        if (pe.get(i).getSourceArea() != null) {
+                            try {
+                                final SourceArea sa = pe.get(i).getSourceArea();
+                                if (sa != null) {
+                                    final int from = sa.getStartPosition().getRow() - 1;
+                                    int to = sa.getEndPosition().getRow() - 1;
+// for line marking only:
+//                                    errorMarker.addMarkedLines(from, to,
+//                                        sa.getStartPosition().getColumn() - 1);
+                                    errorMarker.addMarkedBlock(from,
+                                        sa.getStartPosition().getColumn() - 1,
+                                        to, sa.getEndPosition().getColumn() - 1);
+                                    continue;
+                                }
+                            } catch (BadLocationException e) {  // should not occur
+                                Trace.fatal(CLASS, this, "updateView", "Programming error?", e);
+                            }
+                        } else {
+                            errorMarker.addEmptyBlock();
                         }
                     }
                 }
@@ -351,9 +351,9 @@ public class QedeqPane extends JPanel implements SelectionListener {
      */
     public synchronized void selectWarning(final int warning, final SourceFileException sf) {
         int block = warning;
-        if (prop != null && prop.getErrors().size() > 0) {
-            block += prop.getErrors().size();
-        }
+//        if (prop != null && prop.getErrors().size() > 0) {
+//            block += prop.getErrors().size();
+//        }
         if (warningMarker != null) {
             this.requestFocus();
             qedeq.requestFocus();
