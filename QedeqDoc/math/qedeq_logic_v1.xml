@@ -2779,7 +2779,6 @@
       </INTRODUCTION>
       <SUBSECTIONS>
 
-<!-- TODO that node does define a predicate with terms var_x, var_phi and var_psi as arguments but it is defined as "FORALL var_x predvar_phi(var_x) -> predvar_psi(var_x)" the latex result looks ok but the formal definition makes no sense -->
         <NODE id="axiom:restrictedUniversalQuantifier">
           <NAME>
             <LATEX language="en">definition restricted universal quantifier</LATEX>
