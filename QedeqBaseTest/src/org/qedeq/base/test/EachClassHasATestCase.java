@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import org.qedeq.base.utility.StringUtility;
 
 /**
- * Basis class for all tests.
+ * Basis class for all tests that check test class existence.
  *
  * @author Michael Meyling
  */
