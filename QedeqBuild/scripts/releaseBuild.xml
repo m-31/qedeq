@@ -361,7 +361,7 @@ currently in ants classpath
         <delete dir="${qedeq.dest}/license"/>
         <mkdir dir="${qedeq.dest}/license"/>
         <copy todir="${qedeq.dest}/license">
-            <fileset dir="${qedeq.resources}/licenses" includes="gpl.html,fdl.html,*license.txt" />
+            <fileset dir="${qedeq.resources}/licenses" includes="*.html,*license*.txt" />
             <filterset refid="qedeq_filter_dev" />
         </copy>
         <delete dir="${qedeq.dest}/sample"/>
