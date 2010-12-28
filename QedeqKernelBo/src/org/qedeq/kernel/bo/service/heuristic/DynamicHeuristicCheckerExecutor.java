@@ -33,11 +33,11 @@ import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.model.DynamicDirectInterpreter;
 import org.qedeq.kernel.bo.logic.model.DynamicModel;
+import org.qedeq.kernel.bo.logic.model.FourDynamicModel;
 import org.qedeq.kernel.bo.logic.model.FunctionConstant;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
 import org.qedeq.kernel.bo.logic.model.HeuristicException;
 import org.qedeq.kernel.bo.logic.model.PredicateConstant;
-import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -84,25 +84,21 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             } catch (ClassNotFoundException e) {
                 Trace.fatal(CLASS, this, method, "Model class not in class path: "
                     + modelClass, e);
-                throw new RuntimeException(e);
             } catch (InstantiationException e) {
                 Trace.fatal(CLASS, this, method, "Model class could not be instanciated: "
                     + modelClass, e);
-                throw new RuntimeException(e);
             } catch (IllegalAccessException e) {
                 Trace.fatal(CLASS, this, method,
                     "Programming error, access for instantiation failed for model: "
                     + modelClass, e);
-                throw new RuntimeException(e);
             } catch (RuntimeException e) {
                 Trace.fatal(CLASS, this, method,
                     "Programming error, instantiation failed for model: " + modelClass, e);
-                throw new RuntimeException(e);
             }
         }
         // fallback is the default model
         if (model == null) {
-            model = new SixDynamicModel();
+            model = new FourDynamicModel();
         }
         this.interpreter = new DynamicDirectInterpreter(qedeq, model);
     }
