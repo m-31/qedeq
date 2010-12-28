@@ -13,6 +13,7 @@
 
     <import file="releaseBuild.xml" />
 
+<!-- 20101228 m31: testing why we can't take the original
     <target name="clean">
         <delete dir="${qedeq.dest.module}" failonerror="false" />
         <mkdir dir="${qedeq.dest.module}" />
@@ -27,7 +28,7 @@
         <clean name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel" />
         <clean name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_gui_se" />
     </target>
-
+-->
 
     <target name="makePdfs" description="create PDF files out of certain *.tex test results" depends="test">
         <!-- fake creation by GenerateLatexText -->
