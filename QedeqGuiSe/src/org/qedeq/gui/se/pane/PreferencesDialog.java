@@ -232,7 +232,7 @@ public class PreferencesDialog extends JDialog {
         builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
         builder.getPanel().setOpaque(false);
 
-        builder.append("Path for newly created module files");
+        builder.append("Path for QEDEQ module file buffer");
         moduleBufferTextArea = new JTextArea(QedeqGuiConfig.getInstance().getBufferDirectory().getPath());
         moduleBufferTextArea.setEditable(false);
         moduleBufferTextArea.setLineWrap(false);
