@@ -44,9 +44,36 @@
     <H4>Remove Plugin Results</H4>
     Remove all plugin errors and warnings from the <b>Error</b> pane for all selected QEDEQ modules. Useful if you want to test a QEDEQ module with different models.
 
-    <H4>Show module as UTF-8 Text</H4>
-    Show all selected modules within a 
-    Remove all plugin errors and warnings from the <b>Error</b> pane for all selected QEDEQ modules. Useful if you want to test a QEDEQ module with different models.
+    <H4>Show module as UTF-8 text</H4>
+    Show all selected modules within a text window. Takes loaded QEDEQ module and transforms it into UTF-8 text. The visual impression is unsurprisingly not as good as the DVI or PDF files. There might be some (or many) artefacts from unsupported structures. At least the line length is configurable.
 
+    <H4>Create LaTeX</H4>#
+    Generates LaTeX output for all selected modules. These files can be transformed into PDF files. You can configure the debug output of reference labels.
+
+    <H4>Create UTF-8</H4>#
+    Generates UTF-8 text files for all selected modules. See above for the output quality.
+
+    <H4>Model Tester</H4>#
+    Takes the configured model and tests all axioms, definitions and propositions for model validity. Although the models are finite we do not guarantee for testing all variations. Especially predicate and function variables with large parameter numbers are not supported. But
+this plugin already found some typos in our set theory script. Long running model tests can be stopped by using "Tools / Threads".
+
+    <H3>Tools Menu</H3>
+
+    <H4>LaTeX to QEDEQ</H4>#
+    Transforms LaTeX formulas into QEDEQ formulas. Predefined operators can be configured by editing the file named by the menu entry "Help / About" of the new window. Might be of interest for module authors.
+
+    <H4>Preferences</H4>
+    Here the non plugin preferences can be configured. 
+
+    <H4>Threads</H4>
+    Opens an overview window that shows all plugin threads. You can see the the location the plugin is working on. Running threads can be stopped. If the application runs under Java 1.5 (or higher) you can ask for a stack trace. Already finished threads are also shown.
+
+    <H3>Help</H3>
+
+    <H4>Help Contents</H4>
+    Opens help window.
+
+    <H4>About</H4>
+    Tells about the running application and its environment. Here you can copy the java system properties into the clipboard.
 </BODY>
 </HTML>
