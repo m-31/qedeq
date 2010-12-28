@@ -1,20 +1,52 @@
 <HTML>
 <HEAD>
-	<TITLE>User Interface</TITLE>
-	<link rel=stylesheet type="text/css" href="../style.css">
+    <TITLE>User Interface</TITLE>
+    <link rel=stylesheet type="text/css" href="../style.css">
 </HEAD>
 <BODY>
 <H2>User Interface</H2>
 
     <H3>File Menu</H3>
 
-	<H4>Load from Web</H4>
-	After providing the URL of an QEDEQ module it is loaded from the web or from the local file buffer, if it was already
-	previously loaded.
+    <H4>Load from Web</H4>
+    After providing the URL of an QEDEQ module it is loaded from the web or from the local file buffer, if it was already previously loaded.
+
+    <H4>Load local File</H4>
+    You have to specify the file path for the QEDEQ module to load.
+
+    <H4>Load all from QEDEQ.org</H4>
+    Loads all QEDEQ modules from QEDEQ.org so you have some modules to work with. Currently this should need not much time. These modules are also stored in the local file buffer. You can look under <b>Tools / Preferences</b> to find out the exact directory path.
+
+    <H4>Remove module</H4>
+    Unload selected QEDEQ modules. Also changes state of all dependent modules. The unloaded modules are still in the file buffer.
+
+    <H4>Clear buffer</H4>
+    Unloads all QEDEQ modules and deletes all files from the QEDEQ module file buffer.
+
+    <H4>Exit</H4>
+    Saves loading information for later retrieval and exits the application.
 
 
-	<H4>Load local File</H4>
-	You have to specify the file path for the QEDEQ module to load.
+
+    <H3>Check Menu</H3>
+
+    <H4>Check Mathematical Logic</H4>
+    Checks if all formulas are well formed in all selected QEDEQ modules. Necessary modules are checked recursively. So firstly all imported modules are checked. Furthermore the correct sequence of definitions is checked: an operator must be defined before it can be used. 
+
+
+    <H3>Plugins Menu</H3>
+    Plugins do various things with the selected QEDEQ modules. Programming a plugin is largely independent from the development of the main program suite.
+
+    <H4>Plugin Preferences</H4>
+    Here all plugin configurations can be done. These configurations are persisted in the application specific <b>org.qedeq.properties</b> file. This file is generated with default values if it doesn't exist at application start.
+
+
+    <H4>Remove Plugin Results</H4>
+    Remove all plugin errors and warnings from the <b>Error</b> pane for all selected QEDEQ modules. Useful if you want to test a QEDEQ module with different models.
+
+    <H4>Show module as UTF-8 Text</H4>
+    Show all selected modules within a 
+    Remove all plugin errors and warnings from the <b>Error</b> pane for all selected QEDEQ modules. Useful if you want to test a QEDEQ module with different models.
 
 </BODY>
 </HTML>
