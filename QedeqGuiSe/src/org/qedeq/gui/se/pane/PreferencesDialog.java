@@ -474,7 +474,9 @@ public class PreferencesDialog extends JDialog {
 
         final Dimension screenSize = java.awt.Toolkit.getDefaultToolkit().getScreenSize();
         setBounds((screenSize.width - getWidth()) / 2, (screenSize.height - getHeight()) / 2,
-            getWidth(), getHeight() + (IoUtility.isWebStarted() ? proxyPanel.getHeight() : 0));
+            getWidth(), getHeight() + (IoUtility.isWebStarted() ? proxyPanel.getHeight()
+            + 20    // TODO 20101228 m31: hard coded pixel size
+            : 0));
     }
 
     /**
