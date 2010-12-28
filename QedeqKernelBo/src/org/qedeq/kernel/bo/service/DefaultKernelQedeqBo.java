@@ -382,9 +382,12 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      */
     public SourceFileExceptionList createSourceFileExceptionList(final Plugin plugin,
             final ModuleDataException exception) {
+        SourceArea referenceArea = null;
+        if (exception.getReferenceContext() != null) {
+            referenceArea = createSourceArea(qedeq, exception.getReferenceContext());
+        }
         final SourceFileException e = new SourceFileException(plugin, exception,
-            createSourceArea(qedeq, exception.getContext()), loader.createSourceArea(qedeq,
-                exception.getReferenceContext()));
+            createSourceArea(qedeq, exception.getContext()), referenceArea);
         final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
         return list;
     }
@@ -401,7 +404,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     public SourceFileExceptionList createSourceFileExceptionList(final Plugin plugin,
             final ModuleDataException exception, final Qedeq qedeq) {
         final SourceFileException e = new SourceFileException(plugin, exception,
-            createSourceArea(qedeq, exception.getContext()), loader.createSourceArea(qedeq,
+            createSourceArea(qedeq, exception.getContext()), createSourceArea(qedeq,
                 exception.getReferenceContext()));
         final DefaultSourceFileExceptionList list = new DefaultSourceFileExceptionList(e);
         return list;
@@ -409,14 +412,11 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
 
     public SourceFileException createSourceFileException(final Plugin plugin, final ModuleDataException
             exception) {
-        SourceArea area = createSourceArea(qedeq, exception.getContext());
-        if (area == null) {
-            Trace.fatal(CLASS, "createSourceFileException", "Didn't found context: "
-                + exception.getContext(), exception);
-            area = new SourceArea(this.getModuleAddress().getUrl(), SourcePosition.BEGIN,
-                SourcePosition.BEGIN);
+        final SourceArea area = createSourceArea(qedeq, exception.getContext());
+        SourceArea referenceArea = null;
+        if (exception.getReferenceContext() != null) {
+            referenceArea = createSourceArea(qedeq, exception.getReferenceContext());
         }
-        SourceArea referenceArea = loader.createSourceArea(qedeq, exception.getReferenceContext());
         final SourceFileException e = new SourceFileException(plugin, exception, area, referenceArea);
         return e;
     }
@@ -429,7 +429,20 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      * @return  Created file area. Maybe <code>null</code>.
      */
     public SourceArea createSourceArea(final Qedeq qedeq, final ModuleContext context) {
-        return loader.createSourceArea(qedeq, context);
+        final String method = "createSourceArea(Qedeq, ModuleContext)";
+        SourceArea area = null;
+        try {
+            area = loader.createSourceArea(qedeq, context);
+        } catch (RuntimeException e) {
+            Trace.fatal(CLASS, method, "loader couldn't create context: " + context, e);
+        }
+        if (area == null) {
+            Trace.fatal(CLASS, "createSourceArea", "loader coudn't create context: "
+                + context, new NullPointerException());
+            area = new SourceArea(this.getModuleAddress().getUrl(), SourcePosition.BEGIN,
+                SourcePosition.BEGIN);
+        }
+        return area;
     }
 
     /**

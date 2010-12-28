@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.Reader;
+import java.util.Locale;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -81,6 +82,56 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
         SaxParser parser = null;
+        Locale.setDefault(Locale.US);   // FIXME 20101228 m31: this is a Q & D Fix for the following problem:
+//org.qedeq.kernel.common.DefaultSourceFileExceptionList
+//0: http://www.qedeq.org/0_04_00/sample/qedeq_error_sample_00.xml:1:1
+//    9999: A programming error occurred.;
+// For org.apache.xerces.impl.msg.XMLSchemaMessages_de_DE we searched for value of
+//    at org.qedeq.kernel.xml.parser.SaxParser.parse(SaxParser.java:164)
+//    at org.qedeq.kernel.xml.parser.SaxParser.parse(SaxParser.java:236)
+//    at org.qedeq.kernel.xml.dao.XmlQedeqFileDao.loadQedeq(XmlQedeqFileDao.java:94)
+//    at org.qedeq.kernel.bo.service.DefaultInternalKernelServices.loadBufferedModule(
+//DefaultInternalKernelServices.java:315)
+//    at org.qedeq.kernel.bo.service.DefaultInternalKernelServices.loadModule(DefaultInternalKernelServices.java:273)
+//    at org.qedeq.kernel.bo.service.DefaultInternalKernelServices.checkModule(DefaultInternalKernelServices.java:908)
+//    at org.qedeq.kernel.bo.context.KernelContext$3.checkModule(KernelContext.java:376)
+//    at org.qedeq.kernel.bo.context.KernelContext.checkModule(KernelContext.java:628)
+//    at org.qedeq.gui.se.control.CheckLogicAction$1.run(CheckLogicAction.java:66)
+//Caused by: http://www.qedeq.org/0_04_00/sample/qedeq_error_sample_00.xml:1:1
+//    9999: A programming error occurred.;
+//For org.apache.xerces.impl.msg.XMLSchemaMessages_de_DE we searched for value of
+//    at org.qedeq.kernel.xml.parser.SaxParser.parse(SaxParser.java:188)
+//    ... 8 more
+//Caused by: org.qedeq.kernel.xml.common.XmlSyntaxException: A programming error occurred.
+//    at org.qedeq.kernel.xml.common.XmlSyntaxException.createBySAXException(XmlSyntaxException.java:175)
+//    at org.qedeq.kernel.xml.parser.SaxParser.parse(SaxParser.java:187)
+//    ... 8 more
+//Caused by: java.util.MissingResourceException:
+//Can't find bundle for base name org.apache.xerces.impl.msg.XMLSchemaMessages, locale de_DE
+//    at org.qedeq.kernel.xml.parser.SaxParser.parse(SaxParser.java:176)
+//    ... 8 more
+//Caused by: java.util.MissingResourceException:
+//Can't find bundle for base name org.apache.xerces.impl.msg.XMLSchemaMessages, locale de_DE
+//    at java.util.ResourceBundle.throwMissingResourceException(Unknown Source)
+//    at java.util.ResourceBundle.getBundleImpl(Unknown Source)
+//    at java.util.ResourceBundle.getBundle(Unknown Source)
+//    at org.apache.xerces.impl.xs.XSMessageFormatter.formatMessage(Unknown Source)
+//    at org.apache.xerces.impl.XMLErrorReporter.reportError(Unknown Source)
+//    at org.apache.xerces.impl.XMLErrorReporter.reportError(Unknown Source)
+//    at org.apache.xerces.impl.xs.XMLSchemaValidator$XSIErrorReporter.reportError(Unknown Source)
+//    at org.apache.xerces.impl.xs.XMLSchemaValidator.reportSchemaError(Unknown Source)
+//    at org.apache.xerces.impl.xs.XMLSchemaValidator.handleStartElement(Unknown Source)
+//    at org.apache.xerces.impl.xs.XMLSchemaValidator.startElement(Unknown Source)
+//    at org.apache.xerces.impl.XMLNSDocumentScannerImpl.scanStartElement(Unknown Source)
+//    at org.apache.xerces.impl.XMLDocumentFragmentScannerImpl$FragmentContentDispatcher.dispatch(Unknown Source)
+//    at org.apache.xerces.impl.XMLDocumentFragmentScannerImpl.scanDocument(Unknown Source)
+//    at org.apache.xerces.parsers.XML11Configuration.parse(Unknown Source)
+//    at org.apache.xerces.parsers.XML11Configuration.parse(Unknown Source)
+//    at org.apache.xerces.parsers.XMLParser.parse(Unknown Source)
+//    at org.apache.xerces.parsers.AbstractSAXParser.parse(Unknown Source)
+//    at org.qedeq.kernel.xml.parser.SaxParser.parse(SaxParser.java:174)
+//    ... 8 more
+
         try {
             parser = new SaxParser(this, handler);
         } catch (SAXException e) {
@@ -109,8 +160,12 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
     public SourceArea createSourceArea(final Qedeq qedeq, final ModuleContext context) {
         // copy constructor
         final String method = "createSourceArea(Qedeq, ModuleContext)";
-        if (qedeq == null || context == null) {
+        if (context == null) {
             return null;
+        }
+        if (qedeq == null) {
+            return new SourceArea(context.getModuleLocation().getUrl(),
+                SourcePosition.BEGIN, SourcePosition.BEGIN);
         }
         ModuleContext ctext = new ModuleContext(context);
         final SimpleXPath xpath;

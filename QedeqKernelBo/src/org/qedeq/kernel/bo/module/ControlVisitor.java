@@ -15,6 +15,9 @@
 
 package org.qedeq.kernel.bo.module;
 
+import org.qedeq.base.io.SourceArea;
+import org.qedeq.base.io.SourcePosition;
+import org.qedeq.kernel.bo.service.ServiceErrors;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.ModuleContext;
 import org.qedeq.kernel.common.ModuleDataException;
@@ -56,10 +59,6 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @param   prop        Internal QedeqBo.
      */
     protected ControlVisitor(final KernelQedeqBo prop) {
-        if (prop.getQedeq() == null) {
-            throw new NullPointerException("Programming error, Module not loaded: "
-                + prop.getModuleAddress());
-        }
         this.prop = prop;
         this.plugin = (Plugin) this;
         this.traverser = new QedeqNotNullTraverser(prop.getModuleAddress(), this);
@@ -96,8 +95,18 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      * @throws  SourceFileExceptionList  All collected exceptions.
      */
     public void traverse() throws SourceFileExceptionList {
+        if (getQedeqBo().getQedeq() == null) {
+            addWarning(new SourceFileException(getPlugin(),
+                ServiceErrors.QEDEQ_MODULE_NOT_LOADED_CODE,
+                ServiceErrors.QEDEQ_MODULE_NOT_LOADED_MSG,
+                new NullPointerException(),
+                new SourceArea(getQedeqBo().getModuleAddress().getUrl(),
+                SourcePosition.BEGIN, SourcePosition.BEGIN),
+                null));
+            return; // we can do nothing without a loaded module
+        }
         try {
-            this.traverser.accept(this.prop.getQedeq());
+            this.traverser.accept(getQedeqBo().getQedeq());
         } catch (ModuleDataException me) {
             addError(me);
         } catch (RuntimeException e) {

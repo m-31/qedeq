@@ -49,11 +49,19 @@ public interface ServiceErrors extends ErrorCodes {
 
 
     /** Error code. */
-    public static final int EXCEPTION_ERROR = 90999;
+    public static final int QEDEQ_MODULE_NOT_LOADED_CODE = 90500;
 
     /** Error message. */
+    public static final String QEDEQ_MODULE_NOT_LOADED_MSG
+        = "QEDEQ module couldn't be loaded.";
+
+
+    /** Error code. */
+    public static final int EXCEPTION_ERROR = 90999;
+
+    /** Error message. */ // FIXME 20101228 m31: what for is this?
     public static final String EXCEPTION_ERROR_TEXT
-        = "Text FIXME.";
+        = "Exception occured.";
 
 
 }
