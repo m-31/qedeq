@@ -99,7 +99,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
             addWarning(new SourceFileException(getPlugin(),
                 ServiceErrors.QEDEQ_MODULE_NOT_LOADED_CODE,
                 ServiceErrors.QEDEQ_MODULE_NOT_LOADED_MSG,
-                new NullPointerException(),
+                new IllegalArgumentException(),
                 new SourceArea(getQedeqBo().getModuleAddress().getUrl(),
                 SourcePosition.BEGIN, SourcePosition.BEGIN),
                 null));
