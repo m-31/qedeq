@@ -27,6 +27,7 @@ import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
 import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.utf8.Latex2Utf8Parser;
 import org.qedeq.kernel.common.ModuleContext;
 
 
@@ -175,12 +176,9 @@ public class DynamicDirectInterpreter {
      */
     private boolean calculateValue(final Element formula) throws  HeuristicException {
         final String method = "calculateValue(Element)";
-     // FIXME 20101222 m31: use for debug output
-//        System.out.println(deepness.toString() + Latex2Utf8Parser.transform(null,
-//        qedeq.getElement2Latex().getLatex(formula), 0));
-//        deepness.append("-");
         if (Trace.isDebugEnabled(CLASS)) {
-            Trace.param(CLASS, this, method, deepness.toString() + "formula", formula);
+            Trace.param(CLASS, this, method, deepness.toString() + "formula", Latex2Utf8Parser.transform(null,
+                  qedeq.getElement2Latex().getLatex(formula), 0));
             deepness.append("-");
         }
         if (formula.isAtom()) {
@@ -314,12 +312,9 @@ public class DynamicDirectInterpreter {
         }
         if (Trace.isDebugEnabled(CLASS)) {
             deepness.setLength(deepness.length() > 0 ? deepness.length() - 1 : 0);
-            Trace.param(CLASS, this, method, deepness.toString() + "result ", result);
+            Trace.param(CLASS, this, method, deepness.toString() + Latex2Utf8Parser.transform(null,
+                    qedeq.getElement2Latex().getLatex(formula), 0), result);
         }
-//        deepness.setLength(deepness.length() > 0 ? deepness.length() - 1 : 0);
-//        System.out.print(deepness.toString() + Latex2Utf8Parser.transform(null,
-//        qedeq.getElement2Latex().getLatex(formula), 0));
-//        System.out.println("=" + result);
         return result;
     }
 
@@ -332,16 +327,17 @@ public class DynamicDirectInterpreter {
      */
     private boolean handleUniversalQuantifier(final ElementList list)
             throws HeuristicException {
+        final String method = "handleUniversalQuantifier(ElementList)";
         final String context = getLocationWithinModule();
         boolean result = true;
         final ElementList variable = list.getElement(0).getList();
         final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
         subjectVariableInterpreter.addSubjectVariable(var);
         for (int i = 0; i < model.getEntitiesSize(); i++) {
-//            System.out.print(deepness.toString() + Latex2Utf8Parser.transform(null,
-//            qedeq.getElement2Latex().getLatex(variable), 0));
-//            System.out.println("=" + model.getEntity(i));
-
+            if (Trace.isDebugEnabled(CLASS)) {
+                Trace.param(CLASS, this, method, deepness.toString() + Latex2Utf8Parser.transform(null,
+                        qedeq.getElement2Latex().getLatex(variable), 0), model.getEntity(i));
+            }
             if (list.size() == 2) {
                 setLocationWithinModule(context + ".getList().getElement(1)");
                 result &= calculateValue(list.getElement(1));
@@ -370,15 +366,17 @@ public class DynamicDirectInterpreter {
      */
     private boolean handleExistentialQuantifier(final ElementList list)
             throws HeuristicException {
+        final String method = "handleExistentialQuantifier(ElementList)";
         final String context = getLocationWithinModule();
         boolean result = false;
         final ElementList variable = list.getElement(0).getList();
         final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
         subjectVariableInterpreter.addSubjectVariable(var);
         for (int i = 0; i < model.getEntitiesSize(); i++) {
-//            System.out.print(deepness.toString() + Latex2Utf8Parser.transform(null,
-//            qedeq.getElement2Latex().getLatex(variable), 0));
-//            System.out.println("=" + model.getEntity(i));
+            if (Trace.isDebugEnabled(CLASS)) {
+                Trace.param(CLASS, this, method, deepness.toString() + Latex2Utf8Parser.transform(null,
+                        qedeq.getElement2Latex().getLatex(variable), 0), model.getEntity(i));
+            }
             if (list.size() == 2) {
                 setLocationWithinModule(context + ".getList().getElement(1)");
                 result |= calculateValue(list.getElement(1));
@@ -407,12 +405,17 @@ public class DynamicDirectInterpreter {
      */
     private boolean handleUniqueExistentialQuantifier(final ElementList list)
             throws HeuristicException {
+        final String method = "handleUniqueExistentialQuantifier(ElementList)";
         final String context = getLocationWithinModule();
         boolean result = false;
         final ElementList variable = list.getElement(0).getList();
         final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
         subjectVariableInterpreter.addSubjectVariable(var);
         for (int i = 0; i < model.getEntitiesSize(); i++) {
+            if (Trace.isDebugEnabled(CLASS)) {
+                Trace.param(CLASS, this, method, deepness.toString() + Latex2Utf8Parser.transform(null,
+                        qedeq.getElement2Latex().getLatex(variable), 0), model.getEntity(i));
+            }
             boolean val;
             if (list.size() == 2) {
                 setLocationWithinModule(context + ".getList().getElement(1)");
@@ -450,7 +453,6 @@ public class DynamicDirectInterpreter {
         final String context = getLocationWithinModule();
         final Entity[] result =  new Entity[terms.size() - 1];    // strip first argument
         for (int i = 0; i < result.length; i++) {
-//            System.out.println(terms.getElement(i + 1));
             setLocationWithinModule(context + ".getElement(" + (i + 1) + ")");
             result[i] = calculateTerm(terms.getElement(i + 1));
         }
@@ -469,9 +471,7 @@ public class DynamicDirectInterpreter {
      */
     public Entity calculateTerm(final ModuleContext moduleContext, final Element term)
             throws  HeuristicException {
-//        this.startElement = formula;
         this.moduleContext = moduleContext;
-//        this.startContext = new ModuleContext(moduleContext);
         return calculateTerm(term);
     }
 
@@ -494,9 +494,7 @@ public class DynamicDirectInterpreter {
         }
         final KernelQedeqBo qedeqOld = qedeq;
         final ModuleContext moduleContextOld = new ModuleContext(moduleContext);
-//        System.out.println("module context    : " + moduleContext);
         final String context = getLocationWithinModule();
-//        System.out.println("module context old: " + moduleContextOld);
         Entity result = null;
         try {
             final ElementList termList = term.getList();
