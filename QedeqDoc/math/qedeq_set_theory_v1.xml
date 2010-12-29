@@ -4942,7 +4942,7 @@
                   </PREDCON>
                   <AND>
                     <PREDCON ref="isSet">
-                      <VAR id="x" />
+                      <VAR id="z" />
                     </PREDCON>
                     <PREDCON ref="subclass">
                       <VAR id="z" />
