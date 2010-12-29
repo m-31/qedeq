@@ -40,9 +40,7 @@ Update Build Documentation
 --------------------------
 - compare build with last build and document changes
   in QedeqBuild/changes.txt
-[not used any longer]
-- update QedeqRel/inc/se/readme.txt
-- update QedeqRel/inc/se/release.txt (whatfor???)
+- update QedeqBuild/inc/se/release.txt
 
 
 [ not needed any longer:]
@@ -91,7 +89,7 @@ Final Release
 Make Release known
 ------------------
 - goto sourceforge.net and create new release
-- upload files *.tar.gz and *.zip
+- upload files *.tar.gz and *.zip and readme.txt
 - finish release creation
 - update sourceforge entry
 - update qedeq_pad.xml file and put it to web page
