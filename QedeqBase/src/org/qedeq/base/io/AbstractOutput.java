@@ -32,6 +32,12 @@ public abstract class AbstractOutput {
     /** Break at this column if greater zero. */
     private int breakAt;
 
+    /** Tab level of current line. This is equal to spaces before any character is
+     * written. After writing to the current line this value is fixed and doesn't change even
+     * if the tab level is changed.
+     */
+    private String spacesForCurrentLine;
+
     /** Current column. */
     private int col;
 
@@ -63,8 +69,10 @@ public abstract class AbstractOutput {
                 append(tokenBuffer.toString());
                 col += tokenBuffer.length();
             } else {
-                // forget old whitespace
-                append("\n");
+                // forget old and new whitespace
+                if (col != 0) {
+                    append("\n");
+                }
                 col = 0;
                 appendSpaces();
                 append(tokenBuffer.toString());
@@ -82,6 +90,10 @@ public abstract class AbstractOutput {
      * @param   part    Add this part.
      */
     public void addToken(final String part) {
+        // remember tabular spaces when we start writing
+        if (col == 0 && part.length() > 0) {
+            setTabLevel();
+        }
         tokenBuffer.append(part);
     }
 
@@ -99,7 +111,6 @@ public abstract class AbstractOutput {
      * @param   c   Append this.
      */
     public void print(final char c) {
-        flush();
         print("" + c);
 //        if ('\n' == c) {
 //            println();
@@ -163,6 +174,8 @@ public abstract class AbstractOutput {
         }
         if (col == 0) {
             if (text.length() > 0) {
+                // remember tabular spaces when we start writing
+                setTabLevel();
                 appendSpaces();
             }
         } else if (!fits(text)) {
@@ -188,6 +201,7 @@ public abstract class AbstractOutput {
 
     /**
      * Does a text with given length fit to current line?
+     * TODO 20110104 m31: should't we use spacesForCurrentLine also?
      *
      * @param   length    Check if a text of this length could be appended without line break.
      * @return  Does it fit?
@@ -230,6 +244,7 @@ public abstract class AbstractOutput {
     public void println() {
         flush();
         if (col == 0 && spaces.toString().trim().length() > 0) {
+            setTabLevel();
             appendSpaces();
         }
         append("\n");
@@ -240,7 +255,7 @@ public abstract class AbstractOutput {
      * Reset tab level to zero.
      */
     public final void clearLevel() {
-        flush();
+        // flush();
         spaces.setLength(0);
     }
 
@@ -248,7 +263,6 @@ public abstract class AbstractOutput {
      * Decrement tab level.
      */
     public final void popLevel() {
-        flush();
         if (spaces.length() > 0) {
             spaces.setLength(spaces.length() - 2);
         }
@@ -257,10 +271,9 @@ public abstract class AbstractOutput {
     /**
      * Decrement tab level.
      *
-     * @param   characters  Numbe of characters to reduce from tab level.
+     * @param   characters  Number of characters to reduce from tab level.
      */
     public final void popLevel(final int characters) {
-        flush();
         if (spaces.length() > 0) {
             spaces.setLength(Math.max(spaces.length() - characters, 0));
         }
@@ -279,9 +292,6 @@ public abstract class AbstractOutput {
      * Increment tab level.
      */
     public final void pushLevel() {
-        // FIXME m31 20101024: make flush unnecessary! Perhaps remember old break value?
-        // if not we can not pushLevel popLevel and print further on (the same line)!
-        flush();
         spaces.append("  ");
     }
 
@@ -291,10 +301,14 @@ public abstract class AbstractOutput {
      * @param   symbols Symbols to tab width. Length should be exactly 2 characters!
      */
     public final void pushLevel(final String symbols) {
-        // FIXME m31 20101024: make flush unnecessary! Perhaps remember old break value?
-        // if not we can not pushLevel popLevel and print further on (the same line)!
-        flush();
         spaces.append(symbols);
+    }
+
+    /**
+     * Set current tab level to current level. Might change unwritten lines.
+     */
+    public final void setTabLevel() {
+        spacesForCurrentLine = spaces.toString();
     }
 
     /**
@@ -315,8 +329,8 @@ public abstract class AbstractOutput {
      * Append tabulation and increase current column.
      */
     private void appendSpaces() {
-        append(spaces.toString());
-        col += spaces.length();
+        append(spacesForCurrentLine.toString());
+        col += spacesForCurrentLine.length();
     }
 
 }
