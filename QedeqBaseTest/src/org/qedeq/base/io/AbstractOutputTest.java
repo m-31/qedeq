@@ -243,15 +243,114 @@ public class AbstractOutputTest extends QedeqTestCase {
         assertEquals("  Hello\n  Hello", out.toString());
     }
 
-//    public void testAdd09() throws Exception {
-//        out.setColumns(80);
-//        out.pushLevel();
-//        out.addToken("Hello");
-//        out.addWs(" ");
-//        out.addToken("Hello");
-//        out.flush();
-//        assertEquals("  Hello Hello", out.toString());
-//    }
+    public void testAdd09() throws Exception {
+        out.setColumns(80);
+        out.pushLevel();
+        out.addToken("Hello");
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello Hello", out.toString());
+    }
+
+    public void testAdd10() throws Exception {
+        out.setColumns(0);
+        out.pushLevel();
+        out.addToken("Hello");
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello Hello", out.toString());
+    }
+
+    public void testAdd11() throws Exception {
+        out.setColumns(10);
+        out.pushLevel();
+        out.addToken("Hello");
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello\n  Hello", out.toString());
+    }
+
+    public void testAdd12() throws Exception {
+        out.setColumns(7);
+        out.pushLevel();
+        out.addToken("Hello");
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello\n  Hello", out.toString());
+    }
+
+    public void testAdd13() throws Exception {
+        out.setColumns(1);
+        out.pushLevel();
+        out.addToken("Hello");
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello\n  Hello", out.toString());
+    }
+
+    public void testAdd14() throws Exception {
+        out.setColumns(1);
+        out.pushLevel();
+        out.addToken("Hello");
+        out.pushLevel();
+        out.popLevel();
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello\n  Hello", out.toString());
+    }
+
+    public void testAdd15() throws Exception {
+        out.setColumns(1);
+        out.pushLevel();
+        out.addToken("Hello");
+        out.addWs(" ");
+        out.pushLevel();
+        out.popLevel();
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello\n  Hello", out.toString());
+    }
+
+    public void testAdd16() throws Exception {
+        out.setColumns(7);
+        out.pushLevel();
+        out.addToken("Hel");
+        out.addToken("lo");
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello\n  Hello", out.toString());
+    }
+
+    public void testAdd17() throws Exception {
+        out.setColumns(5);
+        out.pushLevel();
+        out.addToken("Hel");
+        out.addToken("lo");
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello\n  Hello", out.toString());
+    }
+
+    public void testAdd18() throws Exception {
+        out.setColumns(5);
+        out.pushLevel();
+        out.addToken("Hel");
+        out.pushLevel();
+        out.popLevel();
+        out.addToken("lo");
+        out.addWs(" ");
+        out.addToken("Hello");
+        out.flush();
+        assertEquals("  Hello\n  Hello", out.toString());
+    }
 
 }
 

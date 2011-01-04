@@ -19,7 +19,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import org.apache.commons.lang.SystemUtils;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.StringUtility;
 
@@ -88,11 +87,11 @@ public class TextOutputTest extends QedeqTestCase {
         out.println("<HEADER email=\"mime@qedeq.org\">");
         out.pushLevel();
         out.print("<SPEC name=\"qedeq_sample1\" ruleVersion=\"1.00.00\">");
-        out.print(SystemUtils.LINE_SEPARATOR);
+        out.println();
         out.pushLevel();
         out.println("<LOCATIONS>");
-        out.print((Object) ("   \t\r   <LOCATION value=\"http://qedeq.org/0.01.06/sample1\"/>"
-                + SystemUtils.LINE_SEPARATOR));
+        out.print((Object) ("   \t\r   <LOCATION value=\"http://qedeq.org/0.01.06/sample1\"/>"));
+        out.println();
         out.println("</LOCATIONS>");
         out.popLevel();
         out.println("</SPEC>");
@@ -132,11 +131,9 @@ public class TextOutputTest extends QedeqTestCase {
         out.close();
 
 //      System.out.println(to.toString());
-        assertEquals(StringUtility.replace(XML_DATA,
-                "\n", SystemUtils.LINE_SEPARATOR), to.toString());
+        assertEquals(XML_DATA, to.toString());
 
-        assertEquals(StringUtility.string2Hex(StringUtility.replace(XML_DATA,
-            "\n", SystemUtils.LINE_SEPARATOR), "ISO-8859-1"),
+        assertEquals(StringUtility.string2Hex(XML_DATA, "ISO-8859-1"),
             StringUtility.byte2Hex(to.toByteArray()));
     }
 
