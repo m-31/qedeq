@@ -65,6 +65,7 @@ public class TextOutput extends AbstractOutput {
      * Flush output.
      */
     public final void flush() {
+        super.flush();
         output.flush();
     }
 
