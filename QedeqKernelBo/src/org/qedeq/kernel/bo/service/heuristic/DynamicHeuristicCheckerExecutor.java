@@ -233,7 +233,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 setLocationWithinModule(context + ".getFormula().getElement()");
                 final VariableList variableList = definition.getVariableList();
                 final int size = (variableList == null ? 0 : variableList.size());
-// TODO 20101209 m31: uncomment again, when using DynamicInterpreter
+// LATER 20101209 m31: uncomment again, when using DynamicInterpreter
 //                interpreter.addPredicateConstant(predicate, variableList, definition.getFormula()
 //                    .getElement().getList());
 
@@ -296,7 +296,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 setLocationWithinModule(context + ".getTerm().getElement()");
                 final VariableList variableList = definition.getVariableList();
                 final int size = (variableList == null ? 0 : variableList.size());
-                // TODO 20101209 m31: uncomment again, when using DynamicInterpreter
+                // LATER 20101209 m31: uncomment again, when using DynamicInterpreter
 //                interpreter.addFunctionConstant(function, variableList, definition.getTerm()
 //                        .getElement().getList());
 
