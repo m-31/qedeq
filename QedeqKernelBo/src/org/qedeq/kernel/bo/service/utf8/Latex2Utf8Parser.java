@@ -242,7 +242,9 @@ public final class Latex2Utf8Parser {
                     itemNumber++;
                     output.println();
                     output.addToken(itemNumber + ".");
+                    output.addWs("");
                     output.pushLevel("   ");
+                    output.setTabLevel();
                 } else if ("{".equals(token)) {
                     input.readInverse();
                     final SubTextInput content = readCurlyBraceContents();
