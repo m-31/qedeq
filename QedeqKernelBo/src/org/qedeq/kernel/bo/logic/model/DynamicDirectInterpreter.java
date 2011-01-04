@@ -486,7 +486,8 @@ public class DynamicDirectInterpreter {
             throws  HeuristicException {
         final String method = "calculateTerm(Element) ";
         if (Trace.isDebugEnabled(CLASS)) {
-            Trace.param(CLASS, this, method, deepness.toString() + "term   ", term);
+            Trace.param(CLASS, this, method, deepness.toString() + "term   ", Latex2Utf8Parser.transform(null,
+                    qedeq.getElement2Latex().getLatex(term), 0));
             deepness.append("-");
         }
         if (!term.isList()) {
@@ -613,8 +614,9 @@ public class DynamicDirectInterpreter {
         }
         if (Trace.isDebugEnabled(CLASS)) {
             deepness.setLength(deepness.length() > 0 ? deepness.length() - 1 : 0);
-            Trace.param(CLASS, this, method, deepness.toString() + "result ", result);
-        }
+            Trace.param(CLASS, this, method, deepness.toString() + Latex2Utf8Parser.transform(null,
+                    qedeq.getElement2Latex().getLatex(term), 0), result);
+       }
         return result;
     }
 
