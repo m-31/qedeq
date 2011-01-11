@@ -331,19 +331,19 @@ public final class Latex2Utf8Parser {
             String ref = content.asString().trim();
             Trace.param(CLASS, this, method, "ref", ref);
             if (ref.length() == 0) {
-                addWarning(LatexErrorCodes.QREF_EMPTY_CODE, LatexErrorCodes.QREF_EMPTY_MSG,
+                addWarning(LatexErrorCodes.QREF_EMPTY_CODE, LatexErrorCodes.QREF_EMPTY_TEXT,
                     localStart1, input.getAbsolutePosition());
                 return;
             }
             if (ref.length() > 1024) {
                 addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
-                    LatexErrorCodes.QREF_END_NOT_FOUND_MSG,
+                    LatexErrorCodes.QREF_END_NOT_FOUND_TEXT,
                     localStart1, input.getAbsolutePosition());
                 return;
             }
             if (ref.indexOf("{") >= 0) {
                 addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
-                    LatexErrorCodes.QREF_END_NOT_FOUND_MSG,
+                    LatexErrorCodes.QREF_END_NOT_FOUND_TEXT,
                     localStart1, input.getAbsolutePosition());
                 input.setAbsolutePosition(localStart1);
                 return;
@@ -604,7 +604,7 @@ public final class Latex2Utf8Parser {
         final String first = readToken();
         if (!"{".equals(first)) {
             addWarning(LatexErrorCodes.BRACKET_START_NOT_FOUND_CODE,
-                    LatexErrorCodes.BRACKET_START_NOT_FOUND_MSG,
+                    LatexErrorCodes.BRACKET_START_NOT_FOUND_TEXT,
                     localStart, input.getAbsolutePosition());
             throw new IllegalArgumentException("\"{\" expected, but was: \"" + first + "\"");
         }
@@ -628,7 +628,7 @@ public final class Latex2Utf8Parser {
         }
         if (!"}".equals(next)) {
             addWarning(LatexErrorCodes.BRACKET_END_NOT_FOUND_CODE,
-                LatexErrorCodes.BRACKET_END_NOT_FOUND_MSG,
+                LatexErrorCodes.BRACKET_END_NOT_FOUND_TEXT,
                 localStart, input.getAbsolutePosition());
             buffer.setLength(0);
             input.setAbsolutePosition(curlyStart);
@@ -862,7 +862,7 @@ public final class Latex2Utf8Parser {
             output.addToken("\u2201");
         } else if (token.startsWith("\\")) {
             addWarning(LatexErrorCodes.COMMAND_NOT_SUPPORTED_CODE,
-                LatexErrorCodes.COMMAND_NOT_SUPPORTED_MSG + token, tokenBegin, tokenEnd);
+                LatexErrorCodes.COMMAND_NOT_SUPPORTED_TEXT + token, tokenBegin, tokenEnd);
         } else {
             if (mathfrak) {
                 mathfrak(token);
