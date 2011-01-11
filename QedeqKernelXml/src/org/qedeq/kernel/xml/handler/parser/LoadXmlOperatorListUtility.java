@@ -70,20 +70,35 @@ public final class LoadXmlOperatorListUtility implements Plugin {
             return simple.getOperators();
         } catch (RuntimeException e) {
             Trace.fatal(CLASS, "Programming error.", method, e);
-            throw services.createSourceFileExceptionList("" + from, e);
+            throw services.createSourceFileExceptionList(
+                ParserErrors.PARSER_PROGRAMMING_ERROR_CODE,
+                ParserErrors.PARSER_PROGRAMMING_ERROR_TEXT,
+                "" + from, e);
         } catch (ParserConfigurationException e) {
             Trace.fatal(CLASS, "Parser configuration error.", method, e);
-            throw services.createSourceFileExceptionList(from + "", e);
+            throw services.createSourceFileExceptionList(
+                ParserErrors.PARSER_CONFIGURATION_ERROR_CODE,
+                ParserErrors.PARSER_CONFIGURATION_ERROR_TEXT,
+                "" + from, e);
         } catch (final SAXParseException e) {
             Trace.fatal(CLASS, "Configuration error, file corrupt: " + from, method, e);
-            throw services.createSourceFileExceptionList("" + from, e);
+            throw services.createSourceFileExceptionList(
+                ParserErrors.XML_FILE_PARSING_FAILED_CODE,
+                ParserErrors.XML_FILE_PARSING_FAILED_TEXT,
+                "" + from, e);
         } catch (SAXException e) {
-            throw services.createSourceFileExceptionList("" + from, e);
+            Trace.fatal(CLASS, "Configuration error, file corrupt: " + from, method, e);
+            throw services.createSourceFileExceptionList(
+                ParserErrors.XML_FILE_PARSING_FAILED_CODE,
+                ParserErrors.XML_FILE_PARSING_FAILED_TEXT,
+                "" + from, e);
         } catch (javax.xml.parsers.FactoryConfigurationError e) {
             Trace.trace(CLASS, method, e);
-            final String msg = "SAX Parser not in classpath, "
-                + "add for example \"xercesImpl.jar\" and \"xml-apis.jar\".";
-            throw services.createSourceFileExceptionList("" + from, new RuntimeException(msg, e));
+            throw services.createSourceFileExceptionList(
+                ParserErrors.PARSER_FACTORY_CONFIGURATION_CODE,
+                ParserErrors.PARSER_FACTORY_CONFIGURATION_TEXT,
+                "" + from, new RuntimeException(
+                ParserErrors.PARSER_FACTORY_CONFIGURATION_TEXT, e));
         } finally {
             Trace.end(CLASS, method);
         }
