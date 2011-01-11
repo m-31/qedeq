@@ -333,7 +333,7 @@ public class SaxDefaultHandler extends SimpleHandler {
             return new SourceArea(getUrl(), new SourcePosition(getLocator().getLineNumber(), 1),
                 new SourcePosition(getLocator().getLineNumber(), getLocator().getColumnNumber()));
         }
-        return new SourceArea(getUrl(), SourcePosition.BEGIN, SourcePosition.BEGIN);
+        return new SourceArea(getUrl());
     }
 
     /**
