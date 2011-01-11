@@ -956,7 +956,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                 final int start = input.getPosition();
                 if (!input.forward("}")) {
                     addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
-                        LatexErrorCodes.QREF_END_NOT_FOUND_MSG, startPosition,
+                        LatexErrorCodes.QREF_END_NOT_FOUND_TEXT, startPosition,
                         input.getSourcePosition());
                     continue;
                 }
@@ -964,19 +964,19 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                 input.read();   // read }
                 Trace.param(CLASS, this, method, "1 ref", ref);
                 if (ref.length() == 0) {
-                    addWarning(LatexErrorCodes.QREF_EMPTY_CODE, LatexErrorCodes.QREF_EMPTY_MSG,
+                    addWarning(LatexErrorCodes.QREF_EMPTY_CODE, LatexErrorCodes.QREF_EMPTY_TEXT,
                         startPosition, input.getSourcePosition());
                     continue;
                 }
                 if (ref.length() > 1024) {
                     addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
-                        LatexErrorCodes.QREF_END_NOT_FOUND_MSG, startPosition,
+                        LatexErrorCodes.QREF_END_NOT_FOUND_TEXT, startPosition,
                         input.getSourcePosition());
                     continue;
                 }
                 if (ref.indexOf("{") >= 0) {
                     addWarning(LatexErrorCodes.QREF_END_NOT_FOUND_CODE,
-                        LatexErrorCodes.QREF_END_NOT_FOUND_MSG, startPosition,
+                        LatexErrorCodes.QREF_END_NOT_FOUND_TEXT, startPosition,
                         input.getSourcePosition());
                     continue;
                 }
@@ -988,7 +988,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                     int posb = input.getPosition();
                     if (!input.forward("]")) {
                         addWarning(LatexErrorCodes.QREF_SUB_END_NOT_FOUND_CODE,
-                            LatexErrorCodes.QREF_SUB_END_NOT_FOUND_MSG,
+                            LatexErrorCodes.QREF_SUB_END_NOT_FOUND_TEXT,
                             startPosition, input.getSourcePosition());;
                             continue;
                     }
@@ -1032,7 +1032,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                 }
                 if (node == null && ref.length() > 0) {
                     Trace.info(CLASS, this, method, "node not found for " + ref);
-                    addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE, LatexErrorCodes.QREF_PARSING_EXCEPTION_MSG
+                    addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE, LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
                         + ": " + "node not found for " + ref, startPosition,
                         input.getSourcePosition());
                 }
