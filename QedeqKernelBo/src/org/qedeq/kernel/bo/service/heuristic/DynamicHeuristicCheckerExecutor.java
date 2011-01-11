@@ -143,7 +143,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         try {
             if (!isTautology(getCurrentContext(), test)) {
                 addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
-                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_MSG + " (\""
+                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_TEXT + " (\""
                         + interpreter.getModel().getName() + "\")", getCurrentContext()));
             }
         } catch (HeuristicException h) {
@@ -163,7 +163,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                     getCurrentContext()));
             } else {
                 addWarning(new HeuristicException(HeuristicErrorCodes.RUNTIME_EXCEPTION_CODE,
-                    HeuristicErrorCodes.RUNTIME_EXCEPTION_MSG + e, getCurrentContext()));
+                    HeuristicErrorCodes.RUNTIME_EXCEPTION_TEXT + e, getCurrentContext()));
             }
         }
     }
@@ -259,7 +259,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 setLocationWithinModule(context + ".getName()");
                 addWarning(new HeuristicException(
                     HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
-                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_MSG + predicate,
+                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_TEXT + predicate,
                     getCurrentContext()));
             }
         } catch (NumberFormatException e) {
@@ -267,7 +267,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 + definition.getArgumentNumber(), e);
             setLocationWithinModule(context + ".getArgumentNumber()");
             addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
-                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_MSG + definition.getArgumentNumber(),
+                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_TEXT + definition.getArgumentNumber(),
                 getCurrentContext()));
         }
         setLocationWithinModule(context);
@@ -324,7 +324,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 setLocationWithinModule(context + ".getName()");
                 addWarning(new HeuristicException(
                     HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + function,
+                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_TEXT + function,
                     getCurrentContext()));
             }
         } catch (NumberFormatException e) {
@@ -332,7 +332,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 + definition.getArgumentNumber(), e);
             setLocationWithinModule(context + ".getArgumentNumber()");
             addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
-                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_MSG + definition.getArgumentNumber(),
+                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_TEXT + definition.getArgumentNumber(),
                 getCurrentContext()));
         }
         setLocationWithinModule(context);

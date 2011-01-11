@@ -20,6 +20,7 @@ import org.qedeq.kernel.common.ErrorCodes;
 
 /**
  * Contains the error codes for LaTeX handling.
+ *
  * @author  Michael Meyling
  */
 public interface LatexErrorCodes extends ErrorCodes {
@@ -28,48 +29,50 @@ public interface LatexErrorCodes extends ErrorCodes {
     public static final int QREF_END_NOT_FOUND_CODE = 80007;
 
     /** Error (or warning) text for: ending "}" for "\qref{" not found. */
-    public static final String QREF_END_NOT_FOUND_MSG = "ending \"}\" for \"\\qref{\" not found within 1024 characters";
+    public static final String QREF_END_NOT_FOUND_TEXT
+        = "ending \"}\" for \"\\qref{\" not found within 1024 characters";
 
 
     /** Error (or warning) number for: empty reference: "\qref{}". */
     public static final int QREF_EMPTY_CODE = 80008;
 
     /** Error (or warning) text for: empty reference: "\qref{}". */
-    public static final String QREF_EMPTY_MSG = "empty reference: \"\\qref{}\"";
+    public static final String QREF_EMPTY_TEXT = "empty reference: \"\\qref{}\"";
 
 
     /** Error (or warning) number for: ending "]" for "\qref{..}[" not found.*/
     public static final int QREF_SUB_END_NOT_FOUND_CODE = 80009;
 
     /** Error (or warning) text for: ending "]" for "\qref{..}[" not found. */
-    public static final String QREF_SUB_END_NOT_FOUND_MSG = "ending \"]\" for \"\\qref{..}[\" not found";
+    public static final String QREF_SUB_END_NOT_FOUND_TEXT = "ending \"]\" for \"\\qref{..}[\" not found";
 
 
     /** Error (or warning) number for: parsing of "\qref{" failed. */
     public static final int QREF_PARSING_EXCEPTION_CODE = 80010;
 
     /** Error (or warning) text for: parsing of "\qref{" failed. */
-    public static final String QREF_PARSING_EXCEPTION_MSG = "parsing of \"\\qref{\" failed";
+    public static final String QREF_PARSING_EXCEPTION_TEXT = "parsing of \"\\qref{\" failed";
 
 
     /** Error (or warning) number for: expected, but not found: "{". */
     public static final int BRACKET_START_NOT_FOUND_CODE = 80016;
 
     /** Error (or warning) text for: expected, but not found: "{". */
-    public static final String BRACKET_START_NOT_FOUND_MSG = "expected, but not found: \"{\"";
+    public static final String BRACKET_START_NOT_FOUND_TEXT = "expected, but not found: \"{\"";
+
 
     /** Error (or warning) number for: ending "}" for "{" not found. */
     public static final int BRACKET_END_NOT_FOUND_CODE = 80017;
 
     /** Error (or warning) text for: ending "}" for "{" not found. */
-    public static final String BRACKET_END_NOT_FOUND_MSG = "ending \"}\" for \"{\" not found";
+    public static final String BRACKET_END_NOT_FOUND_TEXT = "ending \"}\" for \"{\" not found";
+
 
     /** Error (or warning) number for: command not supported. */
     public static final int COMMAND_NOT_SUPPORTED_CODE = 80017;
 
     /** Error (or warning) text for: command not supported. */
-    public static final String COMMAND_NOT_SUPPORTED_MSG = "LaTeX command not supported: ";
-
+    public static final String COMMAND_NOT_SUPPORTED_TEXT = "LaTeX command not supported: ";
 
 
 }
