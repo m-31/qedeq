@@ -63,7 +63,7 @@ public final class Xml2Xml implements Plugin {
             final File from, final File to)
             throws SourceFileExceptionList {
         final String method = "generate(File, File)";
-        File destination;
+        File destination = null;
         try {
             if (to != null) {
                 destination = to.getCanonicalFile();
@@ -76,8 +76,11 @@ public final class Xml2Xml implements Plugin {
             }
             return generate(IoUtility.toUrl(from), destination);
         } catch (IOException e) {
-            Trace.fatal(CLASS, "Reading or writing failed", method, e);
-            throw services.createSourceFileExceptionList(to + "", e);
+            Trace.fatal(CLASS, "Writing failed destionation", method, e);
+            throw services.createSourceFileExceptionList(
+                DaoErrors.WRITING_MODULE_FILE_FAILED_CODE,
+                DaoErrors.WRITING_MODULE_FILE_FAILED_TEXT + destination,
+                to + "", e);
         }
     }
 

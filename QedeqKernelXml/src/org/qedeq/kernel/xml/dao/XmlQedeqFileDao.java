@@ -25,7 +25,6 @@ import java.util.Locale;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.base.io.SourceArea;
-import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.base.module.Qedeq;
@@ -136,10 +135,16 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
             parser = new SaxParser(this, handler);
         } catch (SAXException e) {
             Trace.fatal(CLASS, this, method, "XML Parser: Severe configuration problem.", e);
-            throw services.createSourceFileExceptionList(file + "", e);
+            throw services.createSourceFileExceptionList(
+                DaoErrors.PARSER_CONFIGURATION_ERROR_CODE,
+                DaoErrors.PARSER_CONFIGURATION_ERROR_TEXT,
+               file + "", e);
         } catch (ParserConfigurationException e) {
             Trace.fatal(CLASS, this, method, "XML Parser: Option not recognized or supported.", e);
-            throw services.createSourceFileExceptionList(file + "", e);
+            throw services.createSourceFileExceptionList(
+                DaoErrors.PARSER_CONFIGURATION_OPTION_ERROR_CODE,
+                DaoErrors.PARSER_CONFIGURATION_OPTION_ERROR_TEXT,
+                file + "", e);
         }
         try {
             parser.parse(file, prop.getUrl());
@@ -164,8 +169,7 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
             return null;
         }
         if (qedeq == null) {
-            return new SourceArea(context.getModuleLocation().getUrl(),
-                SourcePosition.BEGIN, SourcePosition.BEGIN);
+            return new SourceArea(context.getModuleLocation().getUrl());
         }
         ModuleContext ctext = new ModuleContext(context);
         final SimpleXPath xpath;
@@ -173,8 +177,7 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
             xpath = Context2SimpleXPath.getXPath(ctext, qedeq);
         } catch (ModuleDataException e) {
             Trace.fatal(CLASS, method, "not found: \"" + ctext + "\"", e);
-            return new SourceArea(ctext.getModuleLocation().getUrl(), SourcePosition.BEGIN,
-                SourcePosition.BEGIN);
+            return new SourceArea(ctext.getModuleLocation().getUrl());
         }
 
         final File local = services.getLocalFilePath(ctext.getModuleLocation());
