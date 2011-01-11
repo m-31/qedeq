@@ -1298,12 +1298,12 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-                For a precise definition we should have written something like $p^0_0 = \top$ and $\top :\leftrightarrow (A \wedge \not A)$. In the formal language this predicate has the name \emph{TRUE} and zero arguments. So we just have to map names to natural numbers to fulfill the former definition. In the future we only write the symbol itself. It's arity should be evident from the formula.
+                For a precise definition we should have written something like $p^0_0 = \top$ and $\top :\leftrightarrow (A \wedge \not A)$.\footnote{In the deeper laying (see  \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}) formal language this predicate has the name \emph{TRUE} and zero arguments. So we just have to map names to natural numbers to fulfill the exact definition.} In the future we only write the symbol itself. It's arity should be evident from the formula.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für eine exakte Definiton hätten wir eigentlich soetwas wie $p^0_0 = \top$ und $\top :\leftrightarrow (A \wedge \not A)$ schreiben müssen. In der formalen sprache hat dieses Prädikat den Namen \emph{TRUE} und besitzt keine Argumente. Daher müssten wir nur die Namen auf die natürlichen Zahlen abbilden um der vorherigen Definition gerecht zu werden. In Zukunft schreiben wir jedoch nur das Symbol. Die Stellenzahl sollte aus der Formel ersichtlich sein.
+                Für eine exakte Definiton hätten wir eigentlich so etwas wie $p^0_0 = \top$ und $\top :\leftrightarrow (A \wedge \not A)$ schreiben müssen.\footnote{In der noch tiefer liegenden formalen Sprache (siehe  \url{http://www.qedeq.org/current/doc/project/qedeq_logic_language_en.pdf}) hat dieses Prädikat den Namen \emph{TRUE} und besitzt keine Argumente. Daher müssten wir nur die Namen auf die natürlichen Zahlen abbilden um der exakten Definition gerecht zu werden.} In Zukunft schreiben wir jedoch nur das Symbol. Die Stellenzahl sollte aus der Formel ersichtlich sein.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -1321,12 +1321,12 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                For the predicate \emph{false} we just negate \emph{true}.
+                For the predicate \emph{false} we just negate \emph{true}.\footnote{Analogous to the preceeding definition we can set $p^0_1 = \bot$}
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für das Prädikat \emph{falsch} negieren wir einfach \emph{wahr}.
+                Für das Prädikat \emph{falsch} negieren wir einfach \emph{wahr}.\footnote{Analog zu der vorhergehenden Definition können wir festlegen $p^0_1 = \bot$}
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1869,7 +1869,7 @@
           <THEOREM>
             <FORMULA>
               <AND>
-      
+
                 <IMPL>
                   <FORALL>
                     <VAR id="x" />
@@ -1924,6 +1924,34 @@
                       </PREDVAR>
                     </EXISTS>
                   </IMPL>
+                </IMPL>
+
+                <IMPL>
+                  <FORALL>
+                    <VAR id="x" />
+                    <EQUI>
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </EQUI>
+                  </FORALL>
+                  <EQUI>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                    <FORALL>
+                      <VAR id="x" />
+                      <PREDVAR id="\psi">
+                        <VAR id="x" />
+                      </PREDVAR>
+                    </FORALL>
+                  </EQUI>
                 </IMPL>
 
                 <IMPL>

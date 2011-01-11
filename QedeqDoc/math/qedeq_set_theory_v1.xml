@@ -764,10 +764,10 @@
                   \land \phi(y)))$
 
                   \par
-                  Now with \qref{l.theorem:predicateCalculus}[f]: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
+                  Now with \qref{l.theorem:predicateCalculus}[h]: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
 
                   \par
-                  With \qref{l.theorem:predicateCalculus}[bg] we derive: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. And with \qref{theorem:extensonalityEquivalence} follows $u = v$. So we have shown:
+                  With \qref{l.theorem:propositionalCalculus}[bg] we derive: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. And with \qref{theorem:extensonalityEquivalence} follows $u = v$. So we have shown:
 
                   \par
                   $\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
@@ -793,10 +793,10 @@
                   \land \phi(y)))$
 
                   \par
-                  Dann folgt mit \qref{l.theorem:predicateCalculus}[f]: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
+                  Dann folgt mit \qref{l.theorem:predicateCalculus}[h]: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
 
                   \par
-                  Daraus erhalten wir mit \qref{l.theorem:predicateCalculus}[bg]: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit \qref{theorem:extensonalityEquivalence} folgt nun $u = v$. Also haben wir gezeigt:
+                  Daraus erhalten wir mit \qref{l.theorem:propositionalCalculus}[bg]: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit \qref{theorem:extensonalityEquivalence} folgt nun $u = v$. Also haben wir gezeigt:
 
                   \par
                   $\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
@@ -1293,7 +1293,7 @@
 %%                  \begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
                     $(\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:propositionalCalculus}[bl]} \\
                     $\forall x \ ((\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x)))$ & {\tiny \qref{l.rule:derivedQuantification}} \\                    
-                    $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:predicateCalculus}} \\
+                    $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:predicateCalculus}[a]} \\
                     $\rightarrow$ & $\forall x ( x \in \{ y | \phi(y) \} \leftrightarrow x \in \{ y | \psi(y) \})$ 
                       & {\tiny \qref{theorem:setNotation}[a]} \\
                     $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
@@ -1310,7 +1310,7 @@
 %%                  \begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
                     $(\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:propositionalCalculus}[bl]} \\
                     $\forall x \ ((\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x)))$ & {\tiny \qref{l.rule:derivedQuantification}} \\                    
-                    $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:predicateCalculus}} \\
+                    $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:predicateCalculus}[a]} \\
                     $\rightarrow$ & $\forall x ( x \in \{ y | \phi(y) \} \leftrightarrow x \in \{ y | \psi(y) \})$ 
                       & {\tiny \qref{theorem:setNotation}[a]} \\
                     $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
@@ -2661,6 +2661,53 @@
               </AND>
             </FORMULA>
             <PROOF kind="informal" level="1">
+              <LATEX language="en">
+                <![CDATA[
+                  We show the proof for (g) as an example.
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+                    $u \in x$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \in x)$
+                      & \qref{definition:complement} \\
+                              & $\leftrightarrow$ & $(\bot \lor (\mathfrak{M}(u) \land u \in x))$
+                      & \qref{l.theorem:propositionalCalculus}[ax] \\
+                              & $\leftrightarrow$ & $((\mathfrak{M}(u) \land \neg \mathfrak{M}(u)) \lor (\mathfrak{M}(u) \land u \in x))$
+                      & \qref{l.theorem:propositionalCalculus}[az] \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land u \in x))$
+                      & \qref{l.theorem:propositionalCalculus}[at] \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg \neg u \in x))$
+                      & \qref{l.theorem:propositionalCalculus}[am] \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg u \notin x))$
+                      & \qref{definition:notIn} \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (\mathfrak{M}(u)) \lor u \notin x))$
+                      & \qref{l.theorem:propositionalCalculus}[aq] \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (u \in \overline{x}))$
+                      & \qref{theorem:complementMember} \\
+                              & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \notin \overline{x})$
+                      & \qref{definition:notIn} \\
+                              & $\leftrightarrow$ & $u \in \overline{\overline{x}}$
+                      & \qref{theorem:complementMember}
+                  \end{tabularx}
+                  
+                  \par
+                  So we have shown: $u \in x \leftrightarrow u \in \overline{\overline{x}}$
+                  Now we can argue further on.
+
+                  \mbox{}
+                  \par
+                  \begin{tabularx}{\linewidth}{rclX}
+
+                    $u \in x$ & $\leftrightarrow$ & $u \in \overline{\overline{x}}$
+                      &  \\
+                    $\forall u \ (u \in x$ & $\leftrightarrow$ & $u \in \overline{\overline{x}})$
+                      & \qref{l.rule:derivedQuantification} \\
+                    $\forall u \ u \in x$ & $\leftrightarrow$ & $\forall u \ u \in \overline{\overline{x}}$
+                      & \qref{l.theorem:predicateCalculus}[c] \\
+                    $x$ & $=$ & $\overline{\overline{x}}$
+                      & \qref{theorem:extensionalitySetRestricted}
+                  \end{tabularx}
+                ]]>
+              </LATEX>
               <LATEX language="de">
                 <![CDATA[
                   Exemplarisch beweisen wir (g).
@@ -2702,7 +2749,7 @@
                     $\forall u \ (u \in x$ & $\leftrightarrow$ & $u \in \overline{\overline{x}})$
                       & \qref{l.rule:derivedQuantification} \\
                     $\forall u \ u \in x$ & $\leftrightarrow$ & $\forall u \ u \in \overline{\overline{x}}$
-                      & \qref{l.theorem:predicateCalculus} \\
+                      & \qref{l.theorem:predicateCalculus}[c] \\
                     $x$ & $=$ & $\overline{\overline{x}}$
                       & \qref{theorem:extensionalitySetRestricted}
                   \end{tabularx}
@@ -4509,7 +4556,7 @@
             <LATEX language="de">
               <![CDATA[
 
-                Für den Fall einer nichtleeren Mengenfamile haben wir dieses.
+                Für den Fall einer nichtleeren Mengenfamilie haben wir dieses Ergebnis.
                 
               ]]>
             </LATEX>
@@ -4857,14 +4904,13 @@
         <LATEX language="en">
           <![CDATA[
             
-            We can now introduce an important new class operator.
+            An important operator is still missing.
 
           ]]>
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            
-            Nun können wir einen wichtigen neuen Klassenoperator einführen.
+            Ein wichtiger Operator fehlt uns noch.
 
           ]]>
         </LATEX>
@@ -4909,23 +4955,30 @@
               </CLASS>
             </TERM>
           </DEFINITION_FUNCTION>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                We want to remind you that only sets can be members of the power class.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Wir erinnern noch einmal daran, dass nur Mengen in der Potenzklasse enthalten sein können.
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
         </NODE>
 
         <NODE id="theorem:powerPropositions" level="formal">
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-
                 For this new operator the following propositions hold.
-             
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-
-
                 Für diesen neuen Operator gelten die folgenden Aussagen.
-             
               ]]>
             </LATEX>
           </PRECEDING>
@@ -5075,16 +5128,12 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-
-                Especially for power sets the following proposition holds.
-             
+                Especially for the power class of a set we can sharpen \qref{theorem:powerPropositions}[j].
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-
-                Speziell für Potenzmengen gilt die folgende Aussage.
-             
+                Speziell für die Potenzklasse einer Menge lässt sich \qref{theorem:powerPropositions}[j] verschärfen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -5108,17 +5157,15 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-
+                For a set building the power class and afterwards building the set sum eliminate each other.
                 Later on we can drop the set condition because of new axioms.
-             
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-
+                Für Mengen heben sich die Potenzklassenbildung und die Mengensumme (in dieser Reihenfolge) gegenseitig auf.
                 Später können wir die Mengenbedingung fallenlassen, da wir dann über weitere Axiome
                 verfügen.
-             
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -5224,7 +5271,7 @@
             <LATEX language="de">
               <![CDATA[
               
-                Die leere Klasse soll auch eine Menge sein.
+                Die leere Klasse soll eine Menge sein.
               
               ]]>
             </LATEX>
@@ -5606,6 +5653,22 @@
             </FORMULA>
           </THEOREM>
         </NODE>
+
+        <SUBSECTION>
+          <TEXT>
+            <LATEX language="en">
+              <![CDATA[
+                We conclude observing we didn't use \qref{axiom:emptySet} ((Empty Set Axiom) in our axioms yet. This means all previous propositions are valid even if we can not guarantee the existence of one single set.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Wir stellen abschließend fest, dass wir \qref{axiom:emptySet} (Axiom der leeren Menge) in den Beweisen bisher noch nicht verwendet haben. Da bedeutet, dass alle bisherigen Sätze unabhängig von der Existenz einer einzigen Menge gültig sind.
+              ]]>
+            </LATEX>
+          </TEXT>
+        </SUBSECTION>
+
 
       </SUBSECTIONS>
     </SECTION>
