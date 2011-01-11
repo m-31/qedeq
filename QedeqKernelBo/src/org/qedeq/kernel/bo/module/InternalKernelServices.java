@@ -81,30 +81,42 @@ public interface InternalKernelServices extends KernelServices {
     public QedeqFileDao getQedeqFileDao();
 
     /**
-     * Creates a list with a {@link org.qedeq.kernel.common.SourceFileException} with dummy position.
+     * Creates a list with a {@link org.qedeq.kernel.common.SourceFileException} with dummy
+     * position.
      *
      * @param   address This source had a problem.
+     * @param   code    Failure code.
+     * @param   message Textual description of failure.
      * @param   e       Wrapped exception.
      * @return  Created list.
      */
-    public SourceFileExceptionList createSourceFileExceptionList(String address, IOException e);
+    public SourceFileExceptionList createSourceFileExceptionList(int code, String message,
+         String address, IOException e);
 
     /**
-     * Creates a list with a {@link org.qedeq.kernel.common.SourceFileException} with dummy position.
+     * Creates a list with a {@link org.qedeq.kernel.common.SourceFileException} with dummy
+     * position.
      *
      * @param   address This source had a problem.
+     * @param   code    Failure code.
+     * @param   message Textual description of failure.
      * @param   e       Wrapped exception.
      * @return  Created list.
      */
-    public SourceFileExceptionList createSourceFileExceptionList(String address, RuntimeException e);
+    public SourceFileExceptionList createSourceFileExceptionList(int code, String message,
+        String address, RuntimeException e);
 
     /**
-     * Creates a list with a {@link org.qedeq.kernel.common.SourceFileException} with dummy position.
+     * Creates a list with a {@link org.qedeq.kernel.common.SourceFileException} with dummy
+     * position.
      *
      * @param   address This source had a problem.
+     * @param   code    Failure code.
+     * @param   message Textual description of failure.
      * @param   e       Wrapped exception.
      * @return  Created list.
      */
-    public SourceFileExceptionList createSourceFileExceptionList(String address, Exception e);
+    public SourceFileExceptionList createSourceFileExceptionList(int code, String message,
+        String address, Exception e);
 
 }
