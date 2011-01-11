@@ -96,7 +96,7 @@ public final class Interpreter {
         }
         if (formula.isAtom()) {
             throw new HeuristicException(HeuristicErrorCodes.WRONG_CALLING_CONVENTION_CODE,
-                HeuristicErrorCodes.WRONG_CALLING_CONVENTION_MSG, moduleContext);
+                HeuristicErrorCodes.WRONG_CALLING_CONVENTION_TEXT, moduleContext);
         }
         final String context = getLocationWithinModule();
         setLocationWithinModule(context + ".getList()");
@@ -165,14 +165,14 @@ public final class Interpreter {
             if (predicate == null) {
                 setLocationWithinModule(context + ".getList().getOperator()");
                 throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
-                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_MSG + var, moduleContext);
+                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_TEXT + var, moduleContext);
             }
             setLocationWithinModule(context + ".getList()");
             result = predicate.calculate(getEntities(list));
         } else {
             setLocationWithinModule(context + ".getList().getOperator()");
             throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_OPERATOR_CODE,
-                HeuristicErrorCodes.UNKNOWN_OPERATOR_MSG + op, moduleContext);
+                HeuristicErrorCodes.UNKNOWN_OPERATOR_TEXT + op, moduleContext);
         }
         setLocationWithinModule(context);
         if (Trace.isDebugEnabled(CLASS)) {
@@ -345,7 +345,7 @@ public final class Interpreter {
             if (function == null) {
                 setLocationWithinModule(context + ".getList().getOperator()");
                 throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + var, moduleContext);
+                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_TEXT + var, moduleContext);
             }
             setLocationWithinModule(context + ".getList()");
             result = function.map(getEntities(termList));
@@ -358,7 +358,7 @@ public final class Interpreter {
             Predicate isSet = model.getPredicateConstant(isSetPredicate);
             if (isSet == null) {
                 throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,
-                        HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_MSG + "isSet(*)", moduleContext);
+                        HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_TEXT + "isSet(*)", moduleContext);
             }
             for (int i = 0; i < model.getEntitiesSize(); i++) {
                 setLocationWithinModule(context + ".getList().getElement(1)");
@@ -373,7 +373,7 @@ public final class Interpreter {
         } else {
             setLocationWithinModule(context + ".getList().getOperator()");
             throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,
-                HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_MSG + op, moduleContext);
+                HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_TEXT + op, moduleContext);
         }
         setLocationWithinModule(context);
         if (Trace.isDebugEnabled(CLASS)) {

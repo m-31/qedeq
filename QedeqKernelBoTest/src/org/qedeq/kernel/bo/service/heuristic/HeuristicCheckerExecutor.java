@@ -132,7 +132,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
         try {
             if (!CalculateTruth.isTautology(getCurrentContext(), model, test)) {
                 addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
-                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_MSG, getCurrentContext()));
+                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_TEXT, getCurrentContext()));
             }
         } catch (HeuristicException e) {
             addWarning(e);
@@ -151,7 +151,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
             if (!CalculateTruth.isTautology(getCurrentContext(), model, test)) {
                 setLocationWithinModule(context);
                 addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
-                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_MSG, getCurrentContext()));
+                    HeuristicErrorCodes.EVALUATED_NOT_TRUE_TEXT, getCurrentContext()));
             }
         } catch (HeuristicException e) {
             addWarning(e);
@@ -190,7 +190,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
                 setLocationWithinModule(context + ".getName()");
                 addWarning(new HeuristicException(
                     HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
-                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_MSG + predicate,
+                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_TEXT + predicate,
                     getCurrentContext()));
             } else if (definition.getFormula() != null) {
                 setLocationWithinModule(context + ".getFormula().getElement()");
@@ -213,7 +213,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
                 + definition.getArgumentNumber(), e);
             setLocationWithinModule(context + ".getArgumentNumber()");
             addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
-                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_MSG + definition.getArgumentNumber(),
+                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_TEXT + definition.getArgumentNumber(),
                 getCurrentContext()));
         }
         setLocationWithinModule(context);
@@ -239,7 +239,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
                 setLocationWithinModule(context + ".getName()");
                 addWarning(new HeuristicException(
                     HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + function,
+                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_TEXT + function,
                     getCurrentContext()));
             } else if (definition.getTerm() != null) {
                 setLocationWithinModule(context + ".getTerm().getElement()");
@@ -263,7 +263,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
                 + definition.getArgumentNumber(), e);
             setLocationWithinModule(context + ".getArgumentNumber()");
             addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
-                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_MSG + definition.getArgumentNumber(),
+                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_TEXT + definition.getArgumentNumber(),
                 getCurrentContext()));
         }
         setLocationWithinModule(context);
