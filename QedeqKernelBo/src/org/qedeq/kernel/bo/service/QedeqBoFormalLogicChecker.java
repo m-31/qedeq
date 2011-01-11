@@ -89,7 +89,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
             } catch (SourceFileExceptionList e) {   // TODO mime 20080114: hard coded codes
                 ModuleDataException md = new CheckRequiredModuleException(
                     HigherLogicalErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
-                    HigherLogicalErrors.MODULE_IMPORT_CHECK_FAILED_MSG
+                    HigherLogicalErrors.MODULE_IMPORT_CHECK_FAILED_TEXT
                     + list.getQedeqBo(i).getModuleAddress(),
                     list.getModuleContext(i));
                 final SourceFileExceptionList sfl = prop.createSourceFileExceptionList(checker,
@@ -161,7 +161,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
         final Predicate predicate = new Predicate(definition.getName(),
             definition.getArgumentNumber());
         if (existence.predicateExists(predicate)) {
-            addError(new IllegalModuleDataException(HigherLogicalErrors.PREDICATE_ALREADY_DEFINED,
+            addError(new IllegalModuleDataException(HigherLogicalErrors.PREDICATE_ALREADY_DEFINED_CODE,
                 HigherLogicalErrors.PREDICATE_ALREADY_DEFINED_TEXT + predicate,
                 getCurrentContext()));
         }
@@ -175,13 +175,13 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
                 if (!FormulaChecker.isSubjectVariable(variableList.get(i))) {
                     addError(new IllegalModuleDataException(
                         HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_CODE,
-                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_MSG + variableList.get(i),
+                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_TEXT + variableList.get(i),
                         getCurrentContext()));
                 }
                 if (!free.contains(variableList.get(i))) {
                     addError(new IllegalModuleDataException(
                         HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_CODE,
-                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_MSG + variableList.get(i),
+                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_TEXT + variableList.get(i),
                         getCurrentContext()));
                 }
             }
@@ -189,7 +189,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
             if (size != free.size()) {
                 addError(new IllegalModuleDataException(
                     HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_CODE,
-                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_MSG,
+                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_TEXT,
                     getCurrentContext()));
             }
             setLocationWithinModule(context + ".getFormula().getElement()");
@@ -222,7 +222,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
         final Function function = new Function(definition.getName(),
             definition.getArgumentNumber());
         if (existence.functionExists(function)) {
-            addError(new IllegalModuleDataException(HigherLogicalErrors.FUNCTION_ALREADY_DEFINED,
+            addError(new IllegalModuleDataException(HigherLogicalErrors.FUNCTION_ALREADY_DEFINED_CODE,
                 HigherLogicalErrors.FUNCTION_ALREADY_DEFINED_TEXT + function,
                 getCurrentContext()));
         }
@@ -236,13 +236,13 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
                 if (!FormulaChecker.isSubjectVariable(variableList.get(i))) {
                     addError(new IllegalModuleDataException(
                         HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_CODE,
-                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_MSG + variableList.get(i),
+                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_TEXT + variableList.get(i),
                         getCurrentContext()));
                 }
                 if (!free.contains(variableList.get(i))) {
                     addError(new IllegalModuleDataException(
                         HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_CODE,
-                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_MSG + variableList.get(i),
+                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_TEXT + variableList.get(i),
                         getCurrentContext()));
                 }
             }
@@ -250,7 +250,7 @@ public final class QedeqBoFormalLogicChecker extends ControlVisitor implements P
             if (size != free.size()) {
                 addError(new IllegalModuleDataException(
                     HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_CODE,
-                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_MSG,
+                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_TEXT,
                     getCurrentContext()));
             }
             setLocationWithinModule(context + ".getTerm().getElement()");
