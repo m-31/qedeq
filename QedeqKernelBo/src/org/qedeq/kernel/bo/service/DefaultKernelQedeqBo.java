@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.io.SourceArea;
-import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.base.module.Qedeq;
@@ -439,8 +438,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         if (area == null) {
             Trace.fatal(CLASS, "createSourceArea", "loader coudn't create context: "
                 + context, new NullPointerException());
-            area = new SourceArea(this.getModuleAddress().getUrl(), SourcePosition.BEGIN,
-                SourcePosition.BEGIN);
+            area = new SourceArea(this.getModuleAddress().getUrl());
         }
         return area;
     }
