@@ -183,7 +183,7 @@ public class DynamicDirectInterpreter {
         }
         if (formula.isAtom()) {
             throw new HeuristicException(HeuristicErrorCodes.WRONG_CALLING_CONVENTION_CODE,
-                HeuristicErrorCodes.WRONG_CALLING_CONVENTION_MSG, moduleContext);
+                HeuristicErrorCodes.WRONG_CALLING_CONVENTION_TEXT, moduleContext);
         }
         final KernelQedeqBo qedeqOld = qedeq;
         final ModuleContext moduleContextOld = new ModuleContext(moduleContext);
@@ -262,8 +262,8 @@ public class DynamicDirectInterpreter {
                     if (newProp == null) {
                         setLocationWithinModule(context + ".getList().getOperator()");
                         throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_CODE,
-                            HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_MSG + "\"" + external + "\""
-                                + HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_MSG_2 + "\"" + external
+                            HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_TEXT + "\"" + external + "\""
+                                + HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_TEXT_2 + "\"" + external
                                 + "." + name + "\"",
                                 moduleContext);
                     }
@@ -283,7 +283,7 @@ public class DynamicDirectInterpreter {
                         moduleContext = moduleContextOld;
                         setLocationWithinModule(context + ".getList().getElement(1)");
                         throw new HeuristicException(HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_CODE,
-                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_MSG + definition,
+                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_TEXT + definition,
                             moduleContext, e.getContext());
                     }
                 } else {
@@ -293,7 +293,7 @@ public class DynamicDirectInterpreter {
                     if (predicate == null) {
                         setLocationWithinModule(context + ".getList().getOperator()");
                         throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
-                            HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_MSG + var, moduleContext);
+                            HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_TEXT + var, moduleContext);
                     }
                     setLocationWithinModule(context + ".getList()");
                     final Entity[] arguments = getEntities(list);
@@ -302,7 +302,7 @@ public class DynamicDirectInterpreter {
             } else {
                 setLocationWithinModule(context + ".getList().getOperator()");
                 throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_OPERATOR_CODE,
-                    HeuristicErrorCodes.UNKNOWN_OPERATOR_MSG + op, moduleContext);
+                    HeuristicErrorCodes.UNKNOWN_OPERATOR_TEXT + op, moduleContext);
             }
         } finally {
 //            qedeq = qedeqOld;
@@ -525,8 +525,8 @@ public class DynamicDirectInterpreter {
                     if (newProp == null) {
                         setLocationWithinModule(context + ".getList().getOperator()");
                         throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_CODE,
-                            HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_MSG + "\"" + external + "\""
-                                + HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_MSG_2 + "\"" + label + "\"",
+                            HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_TEXT + "\"" + external + "\""
+                                + HeuristicErrorCodes.UNKNOWN_IMPORT_MODULE_TEXT_2 + "\"" + label + "\"",
                                 moduleContext);
                     }
                 }
@@ -545,7 +545,7 @@ public class DynamicDirectInterpreter {
                         moduleContext = moduleContextOld;
                         setLocationWithinModule(context + ".getList().getElement(1)");
                         throw new HeuristicException(HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_CODE,
-                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_MSG + definition,
+                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_TEXT + definition,
                             moduleContext, e.getContext());
                     }
                 } else {
@@ -555,7 +555,7 @@ public class DynamicDirectInterpreter {
                     if (function == null) {
                         setLocationWithinModule(context + ".getList().getOperator()");
                         throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-                            HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_MSG + var, moduleContext);
+                            HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_TEXT + var, moduleContext);
                     }
                     setLocationWithinModule(context + ".getList()");
                     final Entity[] arguments = getEntities(termList);
@@ -573,7 +573,7 @@ public class DynamicDirectInterpreter {
                 final PredicateDefinition isSet = newProp.getElement2Latex().getPredicate("isSet", 1);
                 if (isSet == null) {
                     throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,
-                            HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_MSG + "isSet(*)", moduleContext);
+                            HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_TEXT + "isSet(*)", moduleContext);
                 }
                 for (int i = 0; i < model.getEntitiesSize(); i++) {
                     setModuleContext(qedeqOld);
@@ -592,7 +592,7 @@ public class DynamicDirectInterpreter {
                             moduleContext = moduleContextOld;
                             setLocationWithinModule(context + ".getList().getElement(1)");
                             throw new HeuristicException(HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_CODE,
-                                HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_MSG + isSet,
+                                HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_TEXT + isSet,
                                 moduleContext, e.getContext());
                         }
                     }
@@ -603,7 +603,7 @@ public class DynamicDirectInterpreter {
             } else {
                 setLocationWithinModule(context + ".getList().getOperator()");
                 throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,
-                    HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_MSG + op, moduleContext);
+                    HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_TEXT + op, moduleContext);
             }
         } finally {
 //            qedeq = qedeqOld;
