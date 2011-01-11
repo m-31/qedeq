@@ -53,6 +53,15 @@ public final class SourceArea implements Serializable {
     }
 
     /**
+     * Constructs file position object with dummy location at begin of file.
+     *
+     * @param   address         For identifying source. Must not be <code>null</code>.
+     */
+    public SourceArea(final String address) {
+        this(address, SourcePosition.BEGIN, SourcePosition.BEGIN);
+    }
+
+    /**
      * Get address (or something to identify it) of input source.
      *
      * @return  address of input source
