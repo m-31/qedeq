@@ -937,7 +937,7 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
                 module = refModule;
                 Trace.info(CLASS, this, method, "module not found for " + moduleLabel);
                 addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
-                    LatexErrorCodes.QREF_PARSING_EXCEPTION_MSG
+                    LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
                     + ": " + "module not found for " + reference, startPosition,
                     endPosition);
                 return moduleLabel + "?." + localLabel + fix;
@@ -953,7 +953,7 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
         } else {
             Trace.info(CLASS, this, method, "node not found for " + reference);
             addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
-                LatexErrorCodes.QREF_PARSING_EXCEPTION_MSG
+                LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
                 + ": " + "node not found for " + reference, startPosition,
                 endPosition);
             return localLabel + "?" + fix;
