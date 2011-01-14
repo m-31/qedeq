@@ -72,4 +72,14 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
         return docDir;
     }
 
+    /**
+     * Get test input data file. Get file relative to {@link #getDocDir()}.
+     *
+     * @param   fileName    Relative file path.
+     * @return  Test data file.
+     */
+    public File getDocFile(final String fileName) {
+        return new File(getDocDir(), fileName);
+    }
+
 }

@@ -20,13 +20,15 @@ import junit.framework.Test;
 import org.qedeq.base.test.QedeqTestSuite;
 import org.qedeq.kernel.bo.latex.ExtendedGenerateLatexTest;
 import org.qedeq.kernel.bo.latex.GenerateLatexTest;
+import org.qedeq.kernel.bo.logic.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.logic.model.KernelBoLogicModelTestSuite;
-import org.qedeq.kernel.bo.logic.wf.KernelBoLogicTestSuite;
+import org.qedeq.kernel.bo.logic.wf.KernelBoLogicWfTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
 import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
 import org.qedeq.kernel.bo.service.KernelBoServiceTestSuite;
 import org.qedeq.kernel.bo.service.heuristic.KernelBoServiceHeuristicTestSuite;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexTest;
+import org.qedeq.kernel.bo.service.logic.KernelBoServiceLogicTestSuite;
 import org.qedeq.kernel.bo.service.utf8.GenerateUtf8Test;
 import org.qedeq.kernel.bo.service.utf8.Latex2Utf8Test;
 
@@ -64,11 +66,13 @@ public class KernelBoTestSuite extends QedeqTestSuite {
     public KernelBoTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
         addTest(KernelBoLogicTestSuite.suite());
+        addTest(KernelBoLogicWfTestSuite.suite());
         addTest(KernelBoModuleTestSuite.suite());
         addTest(KernelBoParserTestSuite.suite());
         addTest(KernelBoServiceTestSuite.suite());
         addTest(KernelBoLogicModelTestSuite.suite());
         addTest(KernelBoServiceHeuristicTestSuite.suite());
+        addTest(KernelBoServiceLogicTestSuite.suite());
 
         addTestSuite(Qedeq2LatexTest.class);
         addTestSuite(GenerateLatexTest.class);
