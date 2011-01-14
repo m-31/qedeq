@@ -54,6 +54,7 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.logic.QedeqBoFormalLogicCheckerPlugin;
 import org.qedeq.kernel.common.DefaultModuleAddress;
 import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.common.LoadingState;
@@ -917,30 +918,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             return true; // everything is OK
         }
         try {
-            QedeqLog.getInstance().logRequest(
-                "Check logical correctness for \"" + IoUtility.easyUrl(prop.getUrl()) + "\"");
-            loadModule(address);
-            if (!prop.isLoaded()) {
-                final String msg = "Check of logical correctness failed for \"" + address.getUrl()
-                + "\"";
-                QedeqLog.getInstance().logFailureReply(msg, "Module could not even be loaded.");
-                return false;
-            }
-            LoadRequiredModules.loadRequired(this, prop);
-            if (!prop.hasLoadedRequiredModules()) {
-                final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())
-                + "\"";
-                QedeqLog.getInstance().logFailureReply(msg, "Not all required modules could be loaded.");
-                return false;
-            }
-
-            QedeqBoFormalLogicChecker.check(prop);
-            QedeqLog.getInstance().logSuccessfulReply(
-                "Check of logical correctness successful for \"" + IoUtility.easyUrl(prop.getUrl()) + "\"");
-        } catch (final SourceFileExceptionList e) {
-            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())
-                + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            final QedeqBoFormalLogicCheckerPlugin checker = new QedeqBoFormalLogicCheckerPlugin();
+            checker.createExecutor(prop, null).executePlugin();
         } catch (final RuntimeException e) {
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())
                 + "\"";
