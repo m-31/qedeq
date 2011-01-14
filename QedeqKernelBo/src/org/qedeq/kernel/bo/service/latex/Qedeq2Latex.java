@@ -193,7 +193,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
 
     // TODO m31 20070704: this should be part of QedeqBo
     String[] getSupportedLanguages(final QedeqBo prop) {
-        // TODO m31 20070704: there should be a better way to
+        // FIXME m31 20070704: there should be a better way to
         // get all supported languages. Time for a new visitor?
         if (!prop.isLoaded()) {
             return new String[]{};
