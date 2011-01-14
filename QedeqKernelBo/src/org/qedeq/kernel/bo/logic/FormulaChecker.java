@@ -78,5 +78,4 @@ public interface FormulaChecker {
     public LogicalCheckExceptionList checkTerm(final Element element,
             final ModuleContext context);
 
-
 }
