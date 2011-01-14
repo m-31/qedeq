@@ -27,6 +27,7 @@ import org.qedeq.kernel.base.module.Proposition;
 import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.base.module.Term;
 import org.qedeq.kernel.base.module.VariableList;
+import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactory;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
@@ -118,10 +119,15 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
 
     public Object executePlugin() {
         if (getQedeqBo().isChecked()) {
-            return null;
+            return Boolean.TRUE;
         }
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+        try {
+            KernelContext.getInstance().loadModule(getQedeqBo().getModuleAddress());
+        } catch (SourceFileExceptionList sfl) {
+            // FIXME 20110114 m31: use this? loadModule without exception?
+        }
         if (!getQedeqBo().isLoaded()) {
             final String msg = "Check of logical correctness failed for \"" + getQedeqBo().getUrl()
             + "\"";
@@ -159,6 +165,9 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
         // has at least one import errors?
         if (sfl.size() > 0) {
             getDefaultKernelQedeqBo().setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
+            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
+                + "\"";
+            QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
             return Boolean.FALSE;
         }
         getDefaultKernelQedeqBo().setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
@@ -166,9 +175,14 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             traverse();
         } catch (SourceFileExceptionList e) {
             getDefaultKernelQedeqBo().setLogicalFailureState(LogicalState.STATE_INTERNAL_CHECKING_FAILED, e);
+            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
+                + "\"";
+            QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
             return Boolean.FALSE;
         }
         getDefaultKernelQedeqBo().setChecked(existence);
+        QedeqLog.getInstance().logSuccessfulReply(
+                "Check of logical correctness successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         return Boolean.TRUE;
     }
 
