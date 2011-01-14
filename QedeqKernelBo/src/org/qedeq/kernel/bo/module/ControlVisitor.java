@@ -110,7 +110,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         } catch (RuntimeException e) {
             addError(new RuntimeVisitorException(getCurrentContext(), e));
         }
-        if (errorList != null) {
+        if (errorList != null && errorList.size() > 0) {
             throw errorList;
         }
     }
