@@ -63,8 +63,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
 
     /** Kernel version dedication. */
     private static final String KERNEL_DEDICATED
-        = "dedicated to Toby (may he rest in peace under the rose bush) "
-        + "and Gerry and Sharif (very warm welcome to them)";
+        = "still not dedicated";
 
     /** Descriptive version information of this kernel. */
     private static final String DESCRIPTIVE_KERNEL_VERSION
