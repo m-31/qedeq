@@ -20,12 +20,12 @@ import junit.framework.Test;
 import org.qedeq.base.test.QedeqTestSuite;
 
 /**
- * Run all junit tests for package org.qedeq.kernel.bo.module.
+ * Run all junit tests for package org.qedeq.kernel.bo.module.wf
  *
  * @version $Revision: 1.1 $
  * @author    Michael Meyling
  */
-public class KernelBoLogicTestSuite extends QedeqTestSuite {
+public class KernelBoLogicWfTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelVoModuleTestSuite</code>.
@@ -33,25 +33,14 @@ public class KernelBoLogicTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelBoLogicTestSuite();
+        return new KernelBoLogicWfTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelBoLogicTestSuite() {
+    public KernelBoLogicWfTestSuite() {
         super();
-        addTestSuite(FormulaCheckerTest.class);
-        addTestSuite(FormulaCheckerGlobalTest.class);
-        addTestSuite(FormulaCheckerSubjectVariableTest.class);
-        addTestSuite(FormulaCheckerFunctionTermTest.class);
-        addTestSuite(FormulaCheckerPredicateFormulaTest.class);
-        addTestSuite(FormulaCheckerLogicalConnectivesTest.class);
-        addTestSuite(FormulaCheckerNegationTest.class);
-        addTestSuite(FormulaCheckerQuantifiersTest.class);
-        addTestSuite(FormulaCheckerClassTermTest.class);
-        addTestSuite(FormulaCheckerTermTest.class);
-        addTestSuite(FormulaCheckerFormulaTest.class);
-        addTestSuite(CheckLogicTest.class);
+        // FIXME empty
     }
 }
