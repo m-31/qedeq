@@ -205,7 +205,7 @@ public abstract class YodaUtility {
                 }
             }
             if (field == null) {
-                throw (new NoSuchFieldException(name));
+                throw (new NoSuchFieldException(name + " within " + obj.getClass()));
             }
             field.setAccessible(true);
         } catch (SecurityException e) {
