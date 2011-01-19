@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.xml.parser;
 
-import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 
 

@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.dto.module.FormulaVo;
+import org.qedeq.kernel.se.dto.module.FormulaVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.handler.list.ElementHandler;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
@@ -33,7 +33,7 @@ public class FormulaHandler extends AbstractSimpleHandler {
     /** Value object for formula. */
     private FormulaVo formula;
 
-    /** Handles {@link org.qedeq.kernel.base.list.Element}s. */
+    /** Handles {@link org.qedeq.kernel.se.base.list.Element}s. */
     private final ElementHandler elementHandler;
 
 

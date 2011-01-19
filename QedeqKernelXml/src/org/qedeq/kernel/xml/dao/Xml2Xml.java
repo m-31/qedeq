@@ -28,9 +28,9 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 
 /**

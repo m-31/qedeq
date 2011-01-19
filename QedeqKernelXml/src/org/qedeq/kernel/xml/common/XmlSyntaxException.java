@@ -17,8 +17,8 @@ package org.qedeq.kernel.xml.common;
 
 import java.io.IOException;
 
-import org.qedeq.kernel.common.ErrorCodes;
-import org.qedeq.kernel.common.QedeqException;
+import org.qedeq.kernel.se.common.ErrorCodes;
+import org.qedeq.kernel.se.common.QedeqException;
 import org.xml.sax.SAXException;
 
 

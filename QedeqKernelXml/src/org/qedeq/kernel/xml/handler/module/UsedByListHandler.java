@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.dto.module.UsedByListVo;
+import org.qedeq.kernel.se.dto.module.UsedByListVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;

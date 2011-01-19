@@ -15,8 +15,8 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.base.module.Subsection;
-import org.qedeq.kernel.dto.module.SubsectionVo;
+import org.qedeq.kernel.se.base.module.Subsection;
+import org.qedeq.kernel.se.dto.module.SubsectionVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;

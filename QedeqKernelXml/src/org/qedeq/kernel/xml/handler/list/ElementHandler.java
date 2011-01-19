@@ -18,10 +18,10 @@ package org.qedeq.kernel.xml.handler.list;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.base.list.ElementList;
-import org.qedeq.kernel.dto.list.DefaultAtom;
-import org.qedeq.kernel.dto.list.DefaultElementList;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.dto.list.DefaultAtom;
+import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
@@ -29,7 +29,7 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
 /**
  * Parse elements. For example formulas and terms are build of
- * {@link org.qedeq.kernel.base.list.Element}s.
+ * {@link org.qedeq.kernel.se.base.list.Element}s.
  * <P>
  * This handler knows nothing about special forms. It doesn't do any
  * validating. It simply puts all attributes into string atoms and
