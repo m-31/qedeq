@@ -284,10 +284,6 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /**
      * Set logic checked state. Also set the predicate and function existence checker.
      *
-     * FIXME 20101202 m31: this seems to be wrong, we only set the checker, if we have no logical problems.
-     *                     but Latex2Utf8 or or Qedeq2Latex also need this information. We should collect
-     *                     these mappings for further usage!
-     *
      * @param   checker Checks if a predicate or function constant is defined.
      */
     public void setChecked(final ModuleConstantsExistenceChecker checker) {
@@ -462,8 +458,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     /**
-     * Get the predicate and function existence checker. Is only not <code>null</code>
-     * if logic was successfully checked.
+     * Get the predicate and function existence checker. Is not <code>null</code>
+     * if logic was (not necessarily successfully) checked.
      *
      * @return  Checker. Checks if a predicate or function constant is defined.
      */
@@ -472,12 +468,11 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     }
 
     /**
-     * Set {@link ModuleConstantsExistenceChecker}. Doesn't do any status handling. Only for
-     * internal use.
+     * Set {@link ModuleConstantsExistenceChecker}. Doesn't do any status handling.
      *
      * @param   checker Set this checker.
      */
-    protected void setExistenceChecker(final ModuleConstantsExistenceCheckerInterface checker) {
+    public void setExistenceChecker(final ModuleConstantsExistenceCheckerInterface checker) {
         this.checker = checker;
     }
 
