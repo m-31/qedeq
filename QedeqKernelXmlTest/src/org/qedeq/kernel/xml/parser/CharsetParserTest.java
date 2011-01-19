@@ -23,9 +23,9 @@ import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.test.KernelFacade;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * Tests correct charset handling by {@link SaxParser},

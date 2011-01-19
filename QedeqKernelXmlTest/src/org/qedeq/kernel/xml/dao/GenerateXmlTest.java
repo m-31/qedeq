@@ -22,7 +22,7 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
 import org.qedeq.kernel.bo.test.KernelFacade;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * Test generating LaTeX files for all known samples.
