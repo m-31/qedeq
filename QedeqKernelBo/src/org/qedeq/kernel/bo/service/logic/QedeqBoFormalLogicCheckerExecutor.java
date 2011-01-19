@@ -163,6 +163,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             return Boolean.FALSE;
         }
         getDefaultKernelQedeqBo().setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
+        getDefaultKernelQedeqBo().setExistenceChecker(existence);
         try {
             traverse();
         } catch (SourceFileExceptionList e) {
