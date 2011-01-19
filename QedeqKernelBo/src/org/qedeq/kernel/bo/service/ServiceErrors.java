@@ -80,4 +80,20 @@ public interface ServiceErrors extends ErrorCodes {
         = "Loading module from web failed.";
 
 
+    /** Error code. */
+    public static final int RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_CODE = 90722;
+
+    /** Error message. */
+    public static final String RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_TEXT
+        = "Recursive import of modules is forbidden, label: ";
+
+
+    /** Error code. */
+    public static final int IMPORT_OF_MODULE_FAILED_CODE = 90723;
+
+    /** Error message. */
+    public static final String IMPORT_OF_MODULE_FAILED_TEXT
+        = "Import of module failed, label: ";
+
+
 }
