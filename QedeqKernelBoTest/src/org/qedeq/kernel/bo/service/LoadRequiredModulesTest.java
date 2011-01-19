@@ -57,7 +57,9 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      */
     public void testLoadRequiredModules_01() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("loadRequired/LRM011.xml"));
-        KernelContext.getInstance().loadRequiredModules(address);
+        if (!KernelContext.getInstance().loadRequiredModules(address)) {
+            fail("loading should be successful");
+        }
     }
 
     /**
@@ -69,16 +71,18 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      * @throws Exception
      */
     public void testLoadRequiredModules_02() throws Exception {
-        try {
-            final ModuleAddress address = new DefaultModuleAddress(
-                getFile("loadRequired/LRM021.xml"));
-            KernelContext.getInstance().loadRequiredModules(address);
+        final ModuleAddress address = new DefaultModuleAddress(
+            getFile("loadRequired/LRM021.xml"));
+        if (KernelContext.getInstance().loadRequiredModules(address)) {
             fail("021 -> 021 cycle");
-        } catch (SourceFileExceptionList e) {
+        } else {
+            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
             assertEquals(1, e.size());
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
-            // TODO mime 20071101: check if exception code and description is ok
+            assertEquals(90722, e.get(0).getErrorCode());
+            assertTrue(e.get(0).getDescription().endsWith(
+                "Recursive import of modules is forbidden, label: \"LRM021\""));
         }
     }
 
@@ -91,17 +95,21 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      * @throws Exception
      */
     public void testLoadRequiredModules_03() throws Exception {
-        try {
-            final ModuleAddress address = new DefaultModuleAddress(
-                getFile("loadRequired/LRM031.xml"));
-            KernelContext.getInstance().loadRequiredModules(address);
+        final ModuleAddress address = new DefaultModuleAddress(
+            getFile("loadRequired/LRM031.xml"));
+        KernelContext.getInstance().loadRequiredModules(address);
+        if (KernelContext.getInstance().loadRequiredModules(address)) {
             fail("031 -> 032 -> 031 cycle");
-        } catch (SourceFileExceptionList e) {
+        } else {
+            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
             assertEquals(1, e.size());
             // e.printStackTrace();
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
-            // TODO mime 20071101: check if exception code and description is ok
+            assertEquals(90723, e.get(0).getErrorCode());
+            assertTrue(e.get(0).getDescription().endsWith(
+                "Import of module failed, label: \"LRM032\", Recursive import of modules is"
+                + " forbidden, label: \"LRM031\""));
         }
     }
 
@@ -116,22 +124,37 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      * @throws Exception
      */
     public void testLoadRequiredModules_04() throws Exception {
-        try {
-            final ModuleAddress address = new DefaultModuleAddress(
-                getFile("loadRequired/LRM041.xml"));
-            KernelContext.getInstance().loadRequiredModules(address);
+        final ModuleAddress address = new DefaultModuleAddress(
+            getFile("loadRequired/LRM041.xml"));
+        KernelContext.getInstance().loadRequiredModules(address);
+        if (KernelContext.getInstance().loadRequiredModules(address)) {
             fail("041 -> 042 -> 043 -> 044 -> 042 cycle\n"
                + "041 -> 043 -> 044 -> 042 -> 043 cycle\n"
                + "041 -> 044 -> 042 -> 043 -> 044 cycle");
-        } catch (SourceFileExceptionList e) {
+        } else {
+            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(90723, e.get(0).getErrorCode());
+            assertTrue(e.get(0).getDescription().endsWith(
+                "Import of module failed, label: \"LRM042\", Import of module failed, label: "
+                + "\"LRM043\", Import of module failed, label: \"LRM044\", Recursive import of "
+                + "modules is forbidden, label: \"LRM042\""));
             assertEquals(3, e.size());
             assertEquals(38, e.get(1).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(90723, e.get(1).getErrorCode());
+            assertTrue(e.get(1).getDescription().endsWith(
+                "Import of module failed, label: \"LRM043\", Import of module failed, label: "
+                + "\"LRM044\", Import of module failed, label: \"LRM042\", Recursive import of "
+                + "modules is forbidden, label: \"LRM043\""));
             assertEquals(45, e.get(2).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(2).getSourceArea().getStartPosition().getColumn());
-            // TODO mime 20071101: check if exception code and description is ok
+            assertEquals(90723, e.get(2).getErrorCode());
+            assertTrue(e.get(2).getDescription().endsWith(
+                "Import of module failed, label: \"LRM044\", Import of module failed, label: "
+                + "\"LRM042\", Import of module failed, label: \"LRM043\", Recursive import of "
+                + "modules is forbidden, label: \"LRM044\""));
         }
     }
 
@@ -152,7 +175,9 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
     public void testLoadRequiredModules_05() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(
             getFile("loadRequired/LRM051.xml"));
-        KernelContext.getInstance().loadRequiredModules(address);
+        if (!KernelContext.getInstance().loadRequiredModules(address)) {
+            fail("loading should be successful");
+        }
     }
 
     /**
@@ -171,7 +196,9 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      */
     public void testLoadRequiredModules_06() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("loadRequired/LRM061.xml"));
-        KernelContext.getInstance().loadRequiredModules(address);
+        if (!KernelContext.getInstance().loadRequiredModules(address)) {
+            fail("loading should be successful");
+        }
     }
 
     /**
@@ -199,23 +226,43 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      * @throws Exception
      */
     public void testLoadRequiredModules_07() throws Exception {
-        try {
-            final ModuleAddress address = new DefaultModuleAddress(
-                getFile("loadRequired/LRM071.xml"));
-            KernelContext.getInstance().loadRequiredModules(address);
+        final ModuleAddress address = new DefaultModuleAddress(
+            getFile("loadRequired/LRM071.xml"));
+        if (KernelContext.getInstance().loadRequiredModules(address)) {
             fail("see test method description");
-        } catch (SourceFileExceptionList e) {
+        } else {
+            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
             // e.printStackTrace(System.out);
+            System.out.println(e);
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(90723, e.get(0).getErrorCode());
+            assertTrue(e.get(0).getDescription().endsWith(
+                "Import of module failed, label: \"LRM072\", Import of module failed, label: "
+                + "\"LRM073\", Import of module failed, label: \"LRM076\", Recursive import of "
+                + "modules is forbidden, label: \"LRM071\""));
             assertEquals(4, e.size());
             assertEquals(38, e.get(1).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(1).getSourceArea().getStartPosition().getColumn());
+            assertEquals(90723, e.get(1).getErrorCode());
+            assertTrue(e.get(1).getDescription().endsWith(
+                "Import of module failed, label: \"LRM073\", Import of module failed, label: "
+                + "\"LRM076\", Recursive import of "
+                + "modules is forbidden, label: \"LRM071\""));
             assertEquals(45, e.get(2).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(2).getSourceArea().getStartPosition().getColumn());
+            assertEquals(90723, e.get(2).getErrorCode());
+            assertTrue(e.get(2).getDescription().endsWith(
+                "Import of module failed, label: \"LRM074\", Import of module failed, label: "
+                + "\"LRM076\", Recursive import of "
+                + "modules is forbidden, label: \"LRM071\""));
             assertEquals(52, e.get(3).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(3).getSourceArea().getStartPosition().getColumn());
-            // TODO mime 20071105: check if exception code and description is ok
+            assertEquals(90723, e.get(3).getErrorCode());
+            assertTrue(e.get(3).getDescription().endsWith(
+                "Import of module failed, label: \"LRM075\", Import of module failed, label: "
+                + "\"LRM073\", Import of module failed, label: \"LRM076\", Recursive import of "
+                + "modules is forbidden, label: \"LRM071\""));
         }
     }
 
@@ -229,7 +276,11 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      */
     public void testLoadRequiredModules_08() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("loadRequired/LRM081.xml"));
-        KernelContext.getInstance().loadRequiredModules(address);
+        if (!KernelContext.getInstance().loadRequiredModules(address)) {
+            fail("loading should be successful");
+        }
+        assertEquals(0, KernelContext.getInstance().getQedeqBo(address).getErrors().size());
+        assertTrue(!KernelContext.getInstance().getQedeqBo(address).hasBasicFailures());
     }
 
     /**
@@ -241,16 +292,23 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      * @throws Exception
      */
     public void testLoadRequiredModules_09() throws Exception {
-        try {
-            final ModuleAddress address = new DefaultModuleAddress(
-                getFile("loadRequired/LRM091.xml"));
-            KernelContext.getInstance().loadRequiredModules(address);
+        final ModuleAddress address = new DefaultModuleAddress(
+            getFile("loadRequired/LRM091.xml"));
+        if (KernelContext.getInstance().loadRequiredModules(address)) {
             fail("091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 098 -> 099 -> 091 cycle\n");
-        } catch (SourceFileExceptionList e) {
+        } else {
+            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(90723, e.get(0).getErrorCode());
+            assertTrue(e.get(0).getDescription().endsWith(
+                "Import of module failed, label: \"LRM092\", Import of module failed, label: "
+                + "\"LRM093\", Import of module failed, label: \"LRM094\", Import of module "
+                + "failed, label: \"LRM095\", Import of module failed, label: \"LRM096\", Import "
+                + "of module failed, label: \"LRM097\", Import of module failed, label: \"LRM098\", "
+                + "Import of module failed, label: \"LRM099\", Recursive import of modules is "
+                + "forbidden, label: \"LRM091\""));
             assertEquals(1, e.size());
-            // TODO mime 20071105: check if exception code and description is ok
         }
     }
 
@@ -267,16 +325,20 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      * @throws Exception
      */
     public void testLoadRequiredModules_10() throws Exception {
-        try {
-            final ModuleAddress address = new DefaultModuleAddress(
+        final ModuleAddress address = new DefaultModuleAddress(
                 getFile("loadRequired/LRM101.xml"));
-            KernelContext.getInstance().loadRequiredModules(address);
+        if (KernelContext.getInstance().loadRequiredModules(address)) {
             fail("two imports don't exist: \"notThere\" and \"alsoNotThere\"\n");
-        } catch (SourceFileExceptionList e) {
+        } else {
+            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
             assertEquals(38, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
+            assertEquals(90710, e.get(0).getErrorCode());
+            assertTrue(0 <= e.get(0).getDescription().indexOf(
+                "import of module with label \"notThere\" failed: Loading module from local file "
+                + "failed.; file not readable: "));
             assertEquals(2, e.size());
-            // TODO mime 20100820: check if exception code and description is ok
+            assertEquals(90710, e.get(1).getErrorCode());
         }
     }
 

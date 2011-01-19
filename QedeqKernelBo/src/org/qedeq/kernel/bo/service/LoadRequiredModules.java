@@ -53,16 +53,15 @@ public final class LoadRequiredModules {
      *
      * @param   plugin      We work for this plugin.
      * @param   prop        QEDEQ module BO. This module must be loaded.
-     * @throws  SourceFileExceptionList Failure(s).
+     * @return  Loading successful.
      * @throws  IllegalArgumentException    BO is not loaded
      */
-    public static void loadRequired(final Plugin plugin, final DefaultKernelQedeqBo prop)
-            throws SourceFileExceptionList {
+    public static boolean loadRequired(final Plugin plugin, final DefaultKernelQedeqBo prop) {
         // did we check this already?
         if (prop.getDependencyState().areAllRequiredLoaded()) {
-            return; // everything is OK
+            return true; // everything is OK
         }
-        (new LoadRequiredModules()).loadAllRequired(plugin, prop);
+        return (new LoadRequiredModules()).loadAllRequired(plugin, prop);
     }
 
     /**
@@ -70,16 +69,15 @@ public final class LoadRequiredModules {
      *
      * @param   plugin      We work for this plugin.
      * @param   prop        QEDEQ module BO. This module must be loaded.
-     * @throws  SourceFileExceptionList Failure(s).
+     * @return  Loading successful.
      * @throws  IllegalArgumentException    BO is not loaded
      */
-    private void loadAllRequired(final Plugin plugin, final DefaultKernelQedeqBo prop)
-            throws SourceFileExceptionList {
+    private boolean loadAllRequired(final Plugin plugin, final DefaultKernelQedeqBo prop) {
         final String method = "loadRequired(DefaultQedeqBo)";
         Trace.param(CLASS, this, method, "prop.getModuleAddress", prop.getModuleAddress());
         synchronized (prop) {
             if (prop.getDependencyState().areAllRequiredLoaded()) {
-                return; // everything is OK
+                return true; // everything is OK
             }
             if (!prop.isLoaded()) {
                 throw new IllegalArgumentException("Programming error BO must be loaded!");
@@ -97,17 +95,18 @@ public final class LoadRequiredModules {
         try {
             required = loader.load();
             sfl = loader.getErrorList();
-        } catch (DefaultSourceFileExceptionList e) {
+        } catch (SourceFileExceptionList e) {
             sfl = e;
         }
-        if (sfl == null) {
+        if (sfl == null || sfl.size() == 0) {
             for (int i = 0; i < required.size(); i++) {
                 Trace.trace(CLASS, this, method, "loading required modules of " + prop.getUrl());
                 DefaultKernelQedeqBo current = null;
                 current = (DefaultKernelQedeqBo) required.getKernelQedeqBo(i);
                 if (loadingRequiredInProgress.containsKey(current)) {
-                    ModuleDataException me = new LoadRequiredModuleException(12,
-                        "recursive import of modules is forbidden, label \""
+                    ModuleDataException me = new LoadRequiredModuleException(
+                        ServiceErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_CODE,
+                        ServiceErrors.RECURSIVE_IMPORT_OF_MODULES_IS_FORBIDDEN_TEXT + "\""
                         + required.getLabel(i) + "\"",
                         required.getModuleContext(i));
                     final SourceFileException sf = prop.createSourceFileException(plugin, me);
@@ -118,12 +117,12 @@ public final class LoadRequiredModules {
                     }
                     continue;
                 }
-                try {
-                    loadAllRequired(plugin, current);
-                } catch (SourceFileExceptionList e) {
-                    ModuleDataException me = new LoadRequiredModuleException(13,
-                        "import of module \"" + required.getLabel(i) + "\" failed: "
-                        + e.get(0).getMessage(),
+                if (!loadAllRequired(plugin, current)) {
+                    // LATER 20110119 m31: we take only the first error, is that ok?
+                    ModuleDataException me = new LoadRequiredModuleException(
+                        ServiceErrors.IMPORT_OF_MODULE_FAILED_CODE,
+                        ServiceErrors.IMPORT_OF_MODULE_FAILED_TEXT + "\"" + required.getLabel(i)
+                            + "\", " + current.getErrors().get(0).getMessage(),
                     required.getModuleContext(i));
                     final SourceFileException sf = prop.createSourceFileException(plugin, me);
                     if (sfl == null) {
@@ -139,15 +138,16 @@ public final class LoadRequiredModules {
         synchronized (prop) {
             loadingRequiredInProgress.remove(prop);
             if (prop.getDependencyState().areAllRequiredLoaded()) {
-                return; // everything is OK, someone elses thread might have corrected errors!
+                return true; // everything is OK, someone elses thread might have corrected errors!
             }
-            if (sfl == null) {
+            if (sfl == null || sfl.size() == 0) {
                 prop.setLoadedRequiredModules(required);
                 prop.getElement2Latex().setModuleReferences(required);
+                return true;
             } else {
                 prop.setDependencyFailureState(
                     DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED, sfl);
-                throw sfl;
+                return false;
             }
         }
     }

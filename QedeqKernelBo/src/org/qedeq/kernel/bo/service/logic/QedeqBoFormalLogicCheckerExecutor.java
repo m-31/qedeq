@@ -123,22 +123,14 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
         }
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
-        try {
-            KernelContext.getInstance().loadModule(getQedeqBo().getModuleAddress());
-        } catch (SourceFileExceptionList sfl) {
-            // FIXME 20110114 m31: use this? loadModule without exception?
-        }
+        KernelContext.getInstance().loadModule(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().isLoaded()) {
             final String msg = "Check of logical correctness failed for \"" + getQedeqBo().getUrl()
             + "\"";
             QedeqLog.getInstance().logFailureReply(msg, "Module could not even be loaded.");
             return Boolean.FALSE;
         }
-        try {
-            LoadRequiredModules.loadRequired(getPlugin(), getDefaultKernelQedeqBo());
-        } catch (SourceFileExceptionList sfl) {
-            // FIXME 20110114 m31: use this? LoadRequired without exception?
-        }
+        LoadRequiredModules.loadRequired(getPlugin(), getDefaultKernelQedeqBo());
         if (!getQedeqBo().hasLoadedRequiredModules()) {
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
             + "\"";

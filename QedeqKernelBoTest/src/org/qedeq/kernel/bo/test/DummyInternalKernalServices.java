@@ -50,7 +50,8 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     public QedeqBo loadModule(ModuleAddress address) {
         return null;
     }
-    public void loadRequiredModules(ModuleAddress address) throws SourceFileExceptionList {
+    public boolean loadRequiredModules(ModuleAddress address) {
+        return false;
     }
     public boolean loadAllModulesFromQedeq() {
         return false;
