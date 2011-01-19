@@ -25,7 +25,6 @@ import javax.swing.JOptionPane;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
  * Load QEDEQ module file.
@@ -102,11 +101,7 @@ class AddAction extends AbstractAction {
         }
         final Thread thread = new Thread() {
             public void run() {
-                try {
-                    KernelContext.getInstance().loadModule(address);
-                } catch (SourceFileExceptionList e) {
-                    // is already logged
-                }
+                KernelContext.getInstance().loadModule(address);
             }
         };
         thread.setDaemon(true);

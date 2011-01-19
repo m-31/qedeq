@@ -28,7 +28,6 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
  * Load new module from local file.
@@ -102,11 +101,7 @@ class AddFileAction extends AbstractAction {
         controller.addToModuleHistory(address.getUrl());
         final Thread thread = new Thread() {
             public void run() {
-                try {
-                    KernelContext.getInstance().loadModule(address);
-                } catch (SourceFileExceptionList e) {
-                    // is already logged
-                }
+                KernelContext.getInstance().loadModule(address);
             }
         };
         thread.setDaemon(true);
