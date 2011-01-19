@@ -18,8 +18,8 @@ package org.qedeq.kernel.bo.logic;
 import java.lang.reflect.InvocationTargetException;
 
 import org.qedeq.base.test.DynamicGetter;
-import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.se.base.module.Qedeq;
 
 
 /**

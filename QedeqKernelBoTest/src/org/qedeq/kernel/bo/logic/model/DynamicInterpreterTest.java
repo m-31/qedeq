@@ -18,14 +18,14 @@ package org.qedeq.kernel.bo.logic.model;
 import java.io.File;
 
 import org.qedeq.base.io.IoUtility;
-import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.bo.test.TestParser;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
  * For testing {@link org.qedeq.kernel.bo.logic.model.CalculateTruth}.

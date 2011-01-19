@@ -15,12 +15,12 @@
 
 package org.qedeq.kernel.bo.service.latex;
 
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.ModuleDataException;
 
 
 /**
- * Data validation error for an {@link org.qedeq.kernel.base.module.LatexList} element of a
+ * Data validation error for an {@link org.qedeq.kernel.se.base.module.LatexList} element of a
  * QEDEQ module.
  *
  * @author  Michael Meyling

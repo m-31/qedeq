@@ -44,8 +44,6 @@ import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.base.utility.YodaUtility;
-import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.base.module.Specification;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.context.KernelProperties;
@@ -55,15 +53,17 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.logic.QedeqBoFormalLogicCheckerPlugin;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.LoadingState;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.dto.module.QedeqVo;
+import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.Specification;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.LoadingState;
+import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.dto.module.QedeqVo;
 
 
 /**

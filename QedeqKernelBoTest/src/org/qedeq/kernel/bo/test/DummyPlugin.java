@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.test;
 
-import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.se.common.Plugin;
 
 
 public class DummyPlugin implements Plugin {

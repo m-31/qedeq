@@ -15,8 +15,8 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * Holds the results from a plugin execution.

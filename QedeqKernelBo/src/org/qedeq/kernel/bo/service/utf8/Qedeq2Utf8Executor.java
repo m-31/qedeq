@@ -28,8 +28,8 @@ import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginExecutor;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 
 /**

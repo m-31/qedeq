@@ -26,8 +26,8 @@ import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * For test of generating LaTeX output.

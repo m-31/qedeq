@@ -16,9 +16,9 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.dto.module.NodeVo;
-import org.qedeq.kernel.visitor.QedeqNumbers;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.dto.module.NodeVo;
+import org.qedeq.kernel.se.visitor.QedeqNumbers;
 
 /**
  * Business object for node access.

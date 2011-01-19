@@ -19,14 +19,14 @@ import java.io.File;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.TestParser;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.dto.module.VariableListVo;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.dto.module.VariableListVo;
 
 
 /**

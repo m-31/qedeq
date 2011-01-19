@@ -20,12 +20,12 @@ import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.DependencyState;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.DependencyState;
+import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 
 /**

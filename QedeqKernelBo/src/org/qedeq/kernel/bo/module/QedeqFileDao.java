@@ -20,10 +20,10 @@ import java.io.IOException;
 import java.io.Reader;
 
 import org.qedeq.base.io.SourceArea;
-import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * An instance of this interface can load and save QEDEQ module files.

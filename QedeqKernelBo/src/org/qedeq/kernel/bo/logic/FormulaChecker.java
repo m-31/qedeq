@@ -15,10 +15,10 @@
 
 package org.qedeq.kernel.bo.logic;
 
-import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.wf.LogicalCheckExceptionList;
-import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
  * A formula checker can check logical correctness of a formula or term.

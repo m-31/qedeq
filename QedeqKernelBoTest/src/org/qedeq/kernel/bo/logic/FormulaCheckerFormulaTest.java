@@ -15,12 +15,12 @@
 
 package org.qedeq.kernel.bo.logic;
 
-import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.bo.logic.FormulaChecker;
 import org.qedeq.kernel.bo.logic.wf.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.test.TestParser;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.

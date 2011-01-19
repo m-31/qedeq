@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.logic;
 
-import org.qedeq.kernel.base.list.Element;
+import org.qedeq.kernel.se.base.list.Element;
 
 
 /**

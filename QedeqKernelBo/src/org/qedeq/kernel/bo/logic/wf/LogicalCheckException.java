@@ -15,9 +15,9 @@
 
 package org.qedeq.kernel.bo.logic.wf;
 
-import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.ModuleDataException;
 
 /**
  * This is the basis for an exception for logical errors within a QEDEQ module.

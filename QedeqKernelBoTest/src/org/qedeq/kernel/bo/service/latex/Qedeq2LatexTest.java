@@ -17,9 +17,9 @@ package org.qedeq.kernel.bo.service.latex;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.LogicalState;
-import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.LogicalState;
+import org.qedeq.kernel.se.common.ModuleAddress;
 
 /**
  * For test of generating LaTeX output.

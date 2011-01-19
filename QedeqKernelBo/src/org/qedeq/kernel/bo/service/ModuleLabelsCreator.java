@@ -16,25 +16,25 @@
 package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.base.module.Axiom;
-import org.qedeq.kernel.base.module.FunctionDefinition;
-import org.qedeq.kernel.base.module.Import;
-import org.qedeq.kernel.base.module.Node;
-import org.qedeq.kernel.base.module.PredicateDefinition;
-import org.qedeq.kernel.base.module.Proposition;
-import org.qedeq.kernel.base.module.Rule;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.Element2Latex;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.dto.module.NodeVo;
+import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.Import;
+import org.qedeq.kernel.se.base.module.Node;
+import org.qedeq.kernel.se.base.module.PredicateDefinition;
+import org.qedeq.kernel.se.base.module.Proposition;
+import org.qedeq.kernel.se.base.module.Rule;
+import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.dto.module.NodeVo;
 
 
 /**
- * Create mapping from labels to {@link org.qedeq.kernel.dto.module.NodeVo} for a QEDEQ module.
+ * Create mapping from labels to {@link org.qedeq.kernel.se.dto.module.NodeVo} for a QEDEQ module.
  *
  * @author  Michael Meyling
  */

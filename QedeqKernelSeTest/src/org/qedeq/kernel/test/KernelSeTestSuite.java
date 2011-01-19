@@ -18,9 +18,9 @@ package org.qedeq.kernel.test;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
-import org.qedeq.kernel.common.KernelCommonTestSuite;
-import org.qedeq.kernel.dto.module.KernelDtoModuleTestSuite;
-import org.qedeq.kernel.visitor.KernelVisitorTestSuite;
+import org.qedeq.kernel.se.common.KernelCommonTestSuite;
+import org.qedeq.kernel.se.dto.module.KernelDtoModuleTestSuite;
+import org.qedeq.kernel.se.visitor.KernelVisitorTestSuite;
 
 /**
  * Run all tests for the project.

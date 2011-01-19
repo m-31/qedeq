@@ -23,14 +23,14 @@ import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.DependencyState;
-import org.qedeq.kernel.common.LoadingState;
-import org.qedeq.kernel.common.LogicalState;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.dto.module.QedeqVo;
+import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.DependencyState;
+import org.qedeq.kernel.se.common.LoadingState;
+import org.qedeq.kernel.se.common.LogicalState;
+import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.dto.module.QedeqVo;
 
 
 /**

@@ -15,14 +15,14 @@
 
 package org.qedeq.kernel.bo.logic;
 
-import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckException;
 import org.qedeq.kernel.bo.logic.wf.LogicalCheckException;
 import org.qedeq.kernel.bo.logic.wf.Operators;
+import org.qedeq.kernel.se.base.list.Element;
 
 
 /**
- * This class deals with {@link org.qedeq.kernel.base.list.Element}s and could check
+ * This class deals with {@link org.qedeq.kernel.se.base.list.Element}s and could check
  * if two formulas are logically equivalent.
  *
  * LATER mime 20050205: work in progress

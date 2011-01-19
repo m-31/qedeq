@@ -15,14 +15,14 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.base.module.FunctionDefinition;
-import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.Predicate;
 import org.qedeq.kernel.bo.service.ClassOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.service.IdentityOperatorAlreadyExistsException;
-import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.PredicateDefinition;
+import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
  * Contains methods for existence checking of various operands.

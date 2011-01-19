@@ -15,17 +15,17 @@
 package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.base.module.FunctionDefinition;
-import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.Predicate;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceCheckerInterface;
 import org.qedeq.kernel.bo.test.KernelFacade;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.PredicateDefinition;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * For testing of checking existence of module constants.

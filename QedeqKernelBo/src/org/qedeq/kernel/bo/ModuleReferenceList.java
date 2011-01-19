@@ -1,6 +1,6 @@
 package org.qedeq.kernel.bo;
 
-import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.se.common.ModuleContext;
 
 
 /* This file is part of the project "Hilbert II" - http://www.qedeq.org

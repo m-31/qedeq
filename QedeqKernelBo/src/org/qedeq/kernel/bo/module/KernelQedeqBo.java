@@ -1,10 +1,10 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * Kernel internal QedeqBo with additional methods.

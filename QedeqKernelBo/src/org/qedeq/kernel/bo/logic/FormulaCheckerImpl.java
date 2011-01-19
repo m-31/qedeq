@@ -16,9 +16,6 @@
 package org.qedeq.kernel.bo.logic;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.base.list.Atom;
-import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.bo.logic.wf.ElementCheckException;
 import org.qedeq.kernel.bo.logic.wf.EverythingExists;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
@@ -27,16 +24,19 @@ import org.qedeq.kernel.bo.logic.wf.FormulaCheckException;
 import org.qedeq.kernel.bo.logic.wf.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.bo.logic.wf.TermCheckException;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.dto.list.ElementSet;
+import org.qedeq.kernel.se.base.list.Atom;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.dto.list.ElementSet;
 
 
 /**
- * This class deals with {@link org.qedeq.kernel.base.list.Element}s which represent a
+ * This class deals with {@link org.qedeq.kernel.se.base.list.Element}s which represent a
  * formula. It has methods to check those elements for being well-formed.
  *
  * LATER mime 20070307: here are sometimes error messages that get concatenated with
- * an {@link org.qedeq.kernel.base.list.ElementList#getOperator()} string. Perhaps these
+ * an {@link org.qedeq.kernel.se.base.list.ElementList#getOperator()} string. Perhaps these
  * strings must be translated into the original input format and a mapping must be done.
  *
  * @author  Michael Meyling

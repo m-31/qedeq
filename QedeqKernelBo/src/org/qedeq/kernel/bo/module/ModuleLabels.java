@@ -18,10 +18,10 @@ package org.qedeq.kernel.bo.module;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.qedeq.kernel.common.IllegalModuleDataException;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.dto.module.NodeVo;
-import org.qedeq.kernel.visitor.QedeqNumbers;
+import org.qedeq.kernel.se.common.IllegalModuleDataException;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.dto.module.NodeVo;
+import org.qedeq.kernel.se.visitor.QedeqNumbers;
 
 /**
  * Maps labels of an QEDEQ module to their nodes. Knows all label names.

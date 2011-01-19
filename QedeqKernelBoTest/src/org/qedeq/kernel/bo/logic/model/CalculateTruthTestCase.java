@@ -15,9 +15,9 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
-import org.qedeq.kernel.base.list.Element;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.bo.test.TestParser;
+import org.qedeq.kernel.se.base.list.Element;
 
 /**
  * For testing {@link org.qedeq.kernel.bo.logic.model.CalculateTruth}.

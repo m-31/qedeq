@@ -15,8 +15,8 @@
 package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
  * Testing {@link CheckRequiredModuleException}.

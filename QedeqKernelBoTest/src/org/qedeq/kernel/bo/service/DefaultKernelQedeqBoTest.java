@@ -22,13 +22,13 @@ import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
 import org.qedeq.kernel.bo.test.DummyPlugin;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.DependencyState;
-import org.qedeq.kernel.common.LoadingState;
-import org.qedeq.kernel.common.QedeqException;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.dto.module.QedeqVo;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.DependencyState;
+import org.qedeq.kernel.se.common.LoadingState;
+import org.qedeq.kernel.se.common.QedeqException;
+import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.dto.module.QedeqVo;
 
 /**
  * Test class {@link org.qedeq.kernel.bo.module.QedeqBo}.

@@ -15,16 +15,16 @@
 
 package org.qedeq.kernel.bo.service;
 
-import org.qedeq.kernel.base.module.FunctionDefinition;
-import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.Predicate;
 import org.qedeq.kernel.bo.module.DefaultExistenceChecker;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceCheckerInterface;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.PredicateDefinition;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.ModuleDataException;
 
 
 /**

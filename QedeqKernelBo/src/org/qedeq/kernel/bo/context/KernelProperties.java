@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.context;
 
-import org.qedeq.kernel.config.QedeqConfig;
+import org.qedeq.kernel.se.config.QedeqConfig;
 
 
 /**

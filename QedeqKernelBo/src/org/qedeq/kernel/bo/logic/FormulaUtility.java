@@ -15,11 +15,11 @@
 
 package org.qedeq.kernel.bo.logic;
 
-import org.qedeq.kernel.base.list.Atom;
-import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.bo.logic.wf.Operators;
-import org.qedeq.kernel.dto.list.ElementSet;
+import org.qedeq.kernel.se.base.list.Atom;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.dto.list.ElementSet;
 
 
 /**

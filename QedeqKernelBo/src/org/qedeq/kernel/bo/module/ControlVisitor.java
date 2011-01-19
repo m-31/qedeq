@@ -17,15 +17,15 @@ package org.qedeq.kernel.bo.module;
 
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.kernel.bo.service.ServiceErrors;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.visitor.AbstractModuleVisitor;
-import org.qedeq.kernel.visitor.QedeqNotNullTraverser;
-import org.qedeq.kernel.visitor.QedeqNumbers;
+import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.visitor.AbstractModuleVisitor;
+import org.qedeq.kernel.se.visitor.QedeqNotNullTraverser;
+import org.qedeq.kernel.se.visitor.QedeqNumbers;
 
 
 /**

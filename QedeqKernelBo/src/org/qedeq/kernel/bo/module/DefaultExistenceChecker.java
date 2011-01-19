@@ -19,12 +19,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.base.module.FunctionDefinition;
-import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
 import org.qedeq.kernel.bo.logic.wf.Predicate;
+import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.PredicateDefinition;
 
 
 /**

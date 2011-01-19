@@ -15,9 +15,9 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.common.ErrorCodes;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.common.ModuleDataException;
+import org.qedeq.kernel.se.common.ErrorCodes;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.ModuleDataException;
 
 
 /**

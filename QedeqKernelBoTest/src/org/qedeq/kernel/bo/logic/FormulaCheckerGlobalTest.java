@@ -17,15 +17,15 @@ package org.qedeq.kernel.bo.logic;
 
 import java.util.List;
 
-import org.qedeq.kernel.base.list.Atom;
-import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.base.list.ElementList;
 import org.qedeq.kernel.bo.logic.FormulaChecker;
 import org.qedeq.kernel.bo.logic.wf.LogicalCheckExceptionList;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.dto.list.DefaultAtom;
-import org.qedeq.kernel.dto.list.DefaultElementList;
+import org.qedeq.kernel.se.base.list.Atom;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.dto.list.DefaultAtom;
+import org.qedeq.kernel.se.dto.list.DefaultElementList;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.

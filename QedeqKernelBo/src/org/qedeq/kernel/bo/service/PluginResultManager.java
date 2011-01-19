@@ -21,9 +21,9 @@ import java.util.Map;
 
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.module.PluginResults;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * Holds all known QEDEQ modules.

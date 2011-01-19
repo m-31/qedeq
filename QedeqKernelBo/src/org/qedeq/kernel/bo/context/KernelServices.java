@@ -22,8 +22,8 @@ import java.util.Map;
 
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.service.ServiceProcess;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.Plugin;
 
 /**
  * The main QEDEQ kernel methods are assembled here.

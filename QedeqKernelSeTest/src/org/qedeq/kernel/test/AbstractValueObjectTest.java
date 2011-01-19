@@ -25,8 +25,8 @@ import java.util.List;
 import java.util.Set;
 
 import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.dto.list.DefaultAtom;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.dto.list.DefaultAtom;
 
 
 /**

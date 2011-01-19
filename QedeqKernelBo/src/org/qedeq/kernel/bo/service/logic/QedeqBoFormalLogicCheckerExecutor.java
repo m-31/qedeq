@@ -19,14 +19,6 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.base.module.Axiom;
-import org.qedeq.kernel.base.module.Formula;
-import org.qedeq.kernel.base.module.FunctionDefinition;
-import org.qedeq.kernel.base.module.PredicateDefinition;
-import org.qedeq.kernel.base.module.Proposition;
-import org.qedeq.kernel.base.module.Rule;
-import org.qedeq.kernel.base.module.Term;
-import org.qedeq.kernel.base.module.VariableList;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactory;
@@ -45,13 +37,21 @@ import org.qedeq.kernel.bo.service.CheckRequiredModuleException;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.LoadRequiredModules;
 import org.qedeq.kernel.bo.service.ModuleConstantsExistenceChecker;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.IllegalModuleDataException;
-import org.qedeq.kernel.common.LogicalState;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.dto.list.ElementSet;
+import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.Formula;
+import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.PredicateDefinition;
+import org.qedeq.kernel.se.base.module.Proposition;
+import org.qedeq.kernel.se.base.module.Rule;
+import org.qedeq.kernel.se.base.module.Term;
+import org.qedeq.kernel.se.base.module.VariableList;
+import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.IllegalModuleDataException;
+import org.qedeq.kernel.se.common.LogicalState;
+import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.dto.list.ElementSet;
 
 
 /**

@@ -19,16 +19,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.base.list.ElementList;
-import org.qedeq.kernel.base.module.FunctionDefinition;
-import org.qedeq.kernel.base.module.PredicateDefinition;
 import org.qedeq.kernel.bo.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.dto.module.FunctionDefinitionVo;
-import org.qedeq.kernel.dto.module.PredicateDefinitionVo;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.PredicateDefinition;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.dto.module.FunctionDefinitionVo;
+import org.qedeq.kernel.se.dto.module.PredicateDefinitionVo;
 
 
 /**

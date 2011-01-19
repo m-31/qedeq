@@ -19,13 +19,13 @@ import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * For test of generating Utf8 output.

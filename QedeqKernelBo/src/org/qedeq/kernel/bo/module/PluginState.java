@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.common.State;
+import org.qedeq.kernel.se.common.State;
 
 /**
  * Represents a module state. Every instance of this class should be unique.

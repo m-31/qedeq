@@ -17,7 +17,7 @@ package org.qedeq.kernel.bo.module;
 
 import java.util.Map;
 
-import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.se.common.Plugin;
 
 
 /**

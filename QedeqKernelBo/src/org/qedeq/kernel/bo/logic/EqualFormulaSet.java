@@ -21,8 +21,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.base.list.ElementList;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.list.ElementList;
 
 
 /**

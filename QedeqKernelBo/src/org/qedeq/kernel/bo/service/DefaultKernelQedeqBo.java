@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.service;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.kernel.base.module.Qedeq;
 import org.qedeq.kernel.bo.ModuleReferenceList;
 import org.qedeq.kernel.bo.module.Element2Latex;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
@@ -27,17 +26,18 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceCheckerInterface;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
-import org.qedeq.kernel.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.common.DependencyState;
-import org.qedeq.kernel.common.LoadingState;
-import org.qedeq.kernel.common.LogicalState;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.ModuleContext;
-import org.qedeq.kernel.common.ModuleDataException;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
-import org.qedeq.kernel.dto.module.QedeqVo;
+import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.DependencyState;
+import org.qedeq.kernel.se.common.LoadingState;
+import org.qedeq.kernel.se.common.LogicalState;
+import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.dto.module.QedeqVo;
 
 
 /**

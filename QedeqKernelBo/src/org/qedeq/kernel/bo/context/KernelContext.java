@@ -30,9 +30,9 @@ import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.service.ServiceProcess;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.config.QedeqConfig;
+import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.config.QedeqConfig;
 
 
 /**

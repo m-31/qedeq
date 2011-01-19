@@ -22,7 +22,7 @@ import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultInternalKernelServices;
-import org.qedeq.kernel.config.QedeqConfig;
+import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 
 

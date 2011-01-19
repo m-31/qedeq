@@ -15,12 +15,12 @@
 
 package org.qedeq.kernel.bo;
 
-import org.qedeq.kernel.base.module.Qedeq;
-import org.qedeq.kernel.common.DependencyState;
-import org.qedeq.kernel.common.LoadingState;
-import org.qedeq.kernel.common.LogicalState;
-import org.qedeq.kernel.common.ModuleAddress;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.common.DependencyState;
+import org.qedeq.kernel.se.common.LoadingState;
+import org.qedeq.kernel.se.common.LogicalState;
+import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 
 /**

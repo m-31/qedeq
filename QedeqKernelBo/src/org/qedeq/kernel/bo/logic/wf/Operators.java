@@ -17,7 +17,7 @@ package org.qedeq.kernel.bo.logic.wf;
 
 /**
  * Logical and term operators. These strings might occur as values for
- * {@link org.qedeq.kernel.base.list.ElementList#getOperator()}.
+ * {@link org.qedeq.kernel.se.base.list.ElementList#getOperator()}.
  *
  * @author  Michael Meyling
  */

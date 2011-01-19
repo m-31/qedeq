@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
-import org.qedeq.kernel.common.ErrorCodes;
+import org.qedeq.kernel.se.common.ErrorCodes;
 
 
 /**

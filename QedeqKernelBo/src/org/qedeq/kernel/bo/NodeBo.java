@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo;
 
-import org.qedeq.kernel.dto.module.NodeVo;
+import org.qedeq.kernel.se.dto.module.NodeVo;
 
 /**
  * Represents a module and its states.

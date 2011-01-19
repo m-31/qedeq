@@ -15,9 +15,9 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
-import org.qedeq.kernel.base.list.Element;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.ModuleContext;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.ModuleContext;
 
 
 /**

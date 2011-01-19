@@ -17,7 +17,7 @@ package org.qedeq.kernel.bo.context;
 
 import java.io.IOException;
 
-import org.qedeq.kernel.config.QedeqConfig;
+import org.qedeq.kernel.se.config.QedeqConfig;
 
 /**
  * State changing methods for the kernel.

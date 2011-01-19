@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.service;
 
-import org.qedeq.kernel.common.ErrorCodes;
+import org.qedeq.kernel.se.common.ErrorCodes;
 
 /**
  * Error codes and messages for service package.

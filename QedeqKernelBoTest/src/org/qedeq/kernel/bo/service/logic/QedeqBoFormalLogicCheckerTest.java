@@ -18,8 +18,8 @@ import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.test.KernelFacade;
-import org.qedeq.kernel.common.DefaultModuleAddress;
-import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.ModuleAddress;
 
 /**
  * For testing of loading required QEDEQ modules.

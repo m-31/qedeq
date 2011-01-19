@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.se.common.Plugin;
 
 /**
  * Manage all known processes.
