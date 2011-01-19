@@ -28,7 +28,7 @@ import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.se.common.Plugin;
 
 /**
  * Execute plugin for selected QEDEQ module files.

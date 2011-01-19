@@ -41,8 +41,8 @@ import org.qedeq.gui.se.util.DocumentMarkerPainter;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * View source of QEDEQ module.

@@ -15,7 +15,7 @@
 
 package org.qedeq.gui.se.control;
 
-import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileException;
 
 /**
  * Listener for error selection events.

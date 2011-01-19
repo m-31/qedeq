@@ -26,9 +26,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.common.DependencyState;
-import org.qedeq.kernel.common.LoadingState;
-import org.qedeq.kernel.common.LogicalState;
+import org.qedeq.kernel.se.common.DependencyState;
+import org.qedeq.kernel.se.common.LoadingState;
+import org.qedeq.kernel.se.common.LogicalState;
 
 /**
  * Renderer for a JTree.

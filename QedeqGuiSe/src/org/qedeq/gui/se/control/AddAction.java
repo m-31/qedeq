@@ -24,7 +24,7 @@ import javax.swing.JOptionPane;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.common.ModuleAddress;
+import org.qedeq.kernel.se.common.ModuleAddress;
 
 /**
  * Load QEDEQ module file.

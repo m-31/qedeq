@@ -22,7 +22,7 @@ import javax.swing.JOptionPane;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.pane.ParserPane;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * Show preferences window.

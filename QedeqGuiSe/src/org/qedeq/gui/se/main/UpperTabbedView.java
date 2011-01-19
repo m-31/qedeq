@@ -28,7 +28,7 @@ import org.qedeq.gui.se.pane.HtmlPane;
 import org.qedeq.gui.se.pane.ModulePropertiesPane;
 import org.qedeq.gui.se.pane.QedeqPane;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileException;
 
 
 /**

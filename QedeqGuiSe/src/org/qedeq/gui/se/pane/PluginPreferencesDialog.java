@@ -47,7 +47,7 @@ import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8Plugin;
 import org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8TextPlugin;
-import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.se.common.Plugin;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 import com.jgoodies.forms.builder.DefaultFormBuilder;

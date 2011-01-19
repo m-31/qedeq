@@ -28,7 +28,7 @@ import org.qedeq.gui.se.util.DataDictionary;
 import org.qedeq.gui.se.util.MenuHelper;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.common.Plugin;
+import org.qedeq.kernel.se.common.Plugin;
 
 
 /**

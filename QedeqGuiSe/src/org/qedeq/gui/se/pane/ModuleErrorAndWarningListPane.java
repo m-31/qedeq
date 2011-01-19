@@ -47,7 +47,7 @@ import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.SelectionListenerList;
 import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.log.ModuleEventListener;
-import org.qedeq.kernel.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileException;
 
 import com.jgoodies.forms.builder.DefaultFormBuilder;
 import com.jgoodies.forms.layout.CellConstraints;

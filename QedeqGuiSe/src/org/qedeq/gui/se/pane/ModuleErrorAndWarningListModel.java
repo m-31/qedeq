@@ -20,8 +20,8 @@ import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.common.SourceFileException;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * Table model for QEDEQ module specific error pane.

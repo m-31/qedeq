@@ -48,7 +48,7 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.parser.LatexMathParser;
 import org.qedeq.kernel.bo.parser.ParserException;
 import org.qedeq.kernel.bo.parser.Term;
-import org.qedeq.kernel.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
 
 
