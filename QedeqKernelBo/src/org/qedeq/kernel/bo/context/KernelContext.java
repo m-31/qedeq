@@ -52,7 +52,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
     private static final Class CLASS = KernelContext.class;
 
     /** Version of this kernel. */
-    private static final String KERNEL_VERSION = "0.04.00";
+    private static final String KERNEL_VERSION = "0.04.01";
 
     /** Version dependent directory of this kernel. */
     private static final String KERNEL_VERSION_DIRECTORY = KERNEL_VERSION.replace('.', '_');
