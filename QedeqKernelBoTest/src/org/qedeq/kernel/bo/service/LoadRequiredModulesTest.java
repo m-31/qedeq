@@ -233,7 +233,6 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
         } else {
             SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
             // e.printStackTrace(System.out);
-            System.out.println(e);
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
             assertEquals(90723, e.get(0).getErrorCode());
