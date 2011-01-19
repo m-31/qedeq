@@ -24,7 +24,6 @@ import org.qedeq.kernel.bo.QedeqBo;
 import org.qedeq.kernel.bo.service.ServiceProcess;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 
 /**
  * The main QEDEQ kernel methods are assembled here.
@@ -50,19 +49,17 @@ public interface KernelServices {
      *
      * @param   address     Address of module.
      * @return  Wanted module.
-     * @throws  SourceFileExceptionList Loading or QEDEQ module failed.
      */
-    public QedeqBo loadModule(ModuleAddress address) throws SourceFileExceptionList;
+    public QedeqBo loadModule(ModuleAddress address);
 
     /**
-     * Get required modules of given module.
+     * Get required modules of given module. You can check the status to know if the loading was
+     * successful.
      *
      * @param   address  Address of module.
-     * @throws  SourceFileExceptionList Required modules could not be successfully loaded.
-     *                                  This can also happen if the required modules references
-     *                                  form a circle.
+     * @return  Successful loading.
      */
-    public void loadRequiredModules(ModuleAddress address) throws SourceFileExceptionList;
+    public boolean loadRequiredModules(ModuleAddress address);
 
     /**
      * Load all QEDEQ modules from project web directory for current kernel.

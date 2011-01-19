@@ -32,7 +32,6 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.service.ServiceProcess;
 import org.qedeq.kernel.common.ModuleAddress;
 import org.qedeq.kernel.common.Plugin;
-import org.qedeq.kernel.common.SourceFileExceptionList;
 import org.qedeq.kernel.config.QedeqConfig;
 
 
@@ -150,7 +149,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
-        public void loadRequiredModules(final ModuleAddress address) {
+        public boolean loadRequiredModules(final ModuleAddress address) {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
@@ -242,7 +241,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
-        public void loadRequiredModules(final ModuleAddress address) {
+        public boolean loadRequiredModules(final ModuleAddress address) {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -334,7 +333,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             services.clearLocalBuffer();
         }
 
-        public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
+        public QedeqBo loadModule(final ModuleAddress address) {
             return services.loadModule(address);
         }
 
@@ -342,9 +341,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
             return services.loadAllModulesFromQedeq();
         }
 
-        public void loadRequiredModules(final ModuleAddress address)
-                throws SourceFileExceptionList {
-            services.loadRequiredModules(address);
+        public boolean loadRequiredModules(final ModuleAddress address) {
+            return services.loadRequiredModules(address);
         }
 
         public ModuleAddress[] getAllLoadedModules() {
@@ -587,7 +585,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
         currentState.clearLocalBuffer();
     }
 
-    public QedeqBo loadModule(final ModuleAddress address) throws SourceFileExceptionList {
+    public QedeqBo loadModule(final ModuleAddress address) {
         return currentState.loadModule(address);
     }
 
@@ -595,8 +593,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
         return currentState.loadAllModulesFromQedeq();
     }
 
-    public void loadRequiredModules(final ModuleAddress address) throws SourceFileExceptionList {
-        currentState.loadRequiredModules(address);
+    public boolean loadRequiredModules(final ModuleAddress address) {
+        return currentState.loadRequiredModules(address);
     }
 
     public ModuleAddress[] getAllLoadedModules() {
@@ -713,7 +711,6 @@ public final class KernelContext implements KernelProperties, KernelServices {
         }
     }
 
-
     /**
      * Checks if the application is already running. To check that we create a file in the
      * buffer directory, open a stream and write something into it. The stream is not closed
@@ -724,22 +721,6 @@ public final class KernelContext implements KernelProperties, KernelServices {
     private void checkIfApplicationIsAlreadyRunningAndLockFile()
             throws IOException {
         lockFile = new File(config.getBufferDirectory(), "qedeq_lock.lck");
-/* LATER 20100217 mime: remove old code, now we use FileLock mechanism
-        final String osName = System.getProperty("os.name");
-        if (osName.startsWith("Windows")) {
-            if ((lockFile.exists() && !lockFile.delete())) {
-                throw new IOException("It seems the application is already running.\n"
-                    + "At least the file \"" + lockFile.getAbsolutePath()
-                    + "\" couldn't be deleted.");
-            }
-        } else {
-            if ((lockFile.exists())) {
-                throw new IOException("It seems the application is already running or crashed."
-                    + "\nAt least the file \"" + lockFile.getAbsolutePath()
-                    + "\" must be manually deleted!");
-            }
-        }
-*/
         FileLock fl = null;
         try {
             lockStream = new FileOutputStream(lockFile);
