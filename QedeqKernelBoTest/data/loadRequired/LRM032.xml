@@ -29,7 +29,7 @@
     </AUTHORS>
     <IMPORTS>
       <IMPORT label="LRM031">
-        <SPECIFICATION name="LRM05" ruleVersion="1.00.00">
+        <SPECIFICATION name="LRM031" ruleVersion="1.00.00">
           <LOCATIONS>
             <LOCATION value="."/>
           </LOCATIONS>
