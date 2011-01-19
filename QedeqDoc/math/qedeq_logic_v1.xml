@@ -1816,6 +1816,31 @@
                   </EQUI>
                 </IMPL>
 
+                <IMPL>
+                  <AND>
+                    <PREDVAR id="A" />
+                    <IMPL>
+                      <PREDVAR id="A" />
+                      <PREDVAR id="B" />
+                    </IMPL>
+                  </AND>
+                  <PREDVAR id="B" />
+                </IMPL>
+
+                <EQUI>
+                  <AND>
+                    <PREDVAR id="A" />
+                    <IMPL>
+                      <PREDVAR id="A" />
+                      <PREDVAR id="B" />
+                    </IMPL>
+                  </AND>
+                  <AND>
+                    <PREDVAR id="A" />
+                    <PREDVAR id="B" />
+                  </AND>
+                </EQUI>
+
               </AND>
             </FORMULA>
           </THEOREM>
