@@ -15,74 +15,67 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.se.dto.module.PropositionVo;
+import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
+import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
 
 /**
- * Parse a proposition.
+ * Parse author list.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
-public class PropositionHandler extends AbstractSimpleHandler {
+public class FormalProofLineListHandler extends AbstractSimpleHandler {
+
+    /** Value object with list of all module imports. */
+    private FormalProofLineListVo list;
 
     /** Handler for proposition formula. */
     private final FormulaHandler formulaHandler;
 
-    /** Handler for rule description. */
-    private final LatexListHandler descriptionHandler;
+    /** Handler for a rule usage. */
+    private final ReasonHandler reasonHandler;
 
-    /** Handle informal proofs. */
-    private final ProofHandler proofHandler;
-
-    /** Handle formal proofs. */
-    private final FormalProofHandler formalProofHandler;
-
-    /** Proposition value object. */
-    private PropositionVo proposition;
+    /** Label for a single module. */
+    private String label;
 
 
     /**
-     * Deals with propositions.
+     * Handles list of imports.
      *
      * @param   handler Parent handler.
      */
-    public PropositionHandler(final AbstractSimpleHandler handler) {
-        super(handler, "THEOREM");
+    public FormalProofLineListHandler(final AbstractSimpleHandler handler) {
+        super(handler, "LINES");
         formulaHandler = new FormulaHandler(this);
-        descriptionHandler = new LatexListHandler(this, "DESCRIPTION");
-        proofHandler = new ProofHandler(this);
-        formalProofHandler = new FormalProofHandler(this);
+        reasonHandler = new ReasonHandler(this);
     }
 
     public final void init() {
-        proposition = null;
+        list = null;
     }
 
     /**
-     * Get proposition.
+     * Get parsed result.
      *
-     * @return  Proposition.
+     * @return  Location list.
      */
-    public final PropositionVo getProposition() {
-        return proposition;
+    public final FormalProofLineListVo getFormalProofLineList() {
+        return list;
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
             throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
-            proposition = new PropositionVo();
+            list = new FormalProofLineListVo();
+        } else if ("L".equals(name)) {
+            label = attributes.getString("label");
         } else if (formulaHandler.getStartTag().equals(name)) {
             changeHandler(formulaHandler, name, attributes);
-        } else if (descriptionHandler.getStartTag().equals(name)) {
-            changeHandler(descriptionHandler, name, attributes);
-        } else if (proofHandler.getStartTag().equals(name)) {
-            changeHandler(proofHandler, name, attributes);
-        } else if (formalProofHandler.getStartTag().equals(name)) {
-            changeHandler(formalProofHandler, name, attributes);
+        } else if (reasonHandler.getStartTag().equals(name)) {
+            changeHandler(reasonHandler, name, attributes);
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
@@ -92,14 +85,13 @@ public class PropositionHandler extends AbstractSimpleHandler {
         if (getStartTag().equals(name)) {
             // nothing to do
         } else if (formulaHandler.getStartTag().equals(name)) {
-            proposition.setFormula(formulaHandler.getFormula());
-        } else if (descriptionHandler.getStartTag().equals(name)) {
-            proposition.setDescription(descriptionHandler.getLatexList());
-        } else if (proofHandler.getStartTag().equals(name)) {
-            proposition.addProof(proofHandler.getProof());
+            // nothing to do
+        } else if (reasonHandler.getStartTag().equals(name)) {
+            // nothing to do
+        } else if ("L".equals(name)) {
+            list.add(new FormalProofLineVo(label, formulaHandler.getFormula(), reasonHandler.getReason()));
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
-
 }
