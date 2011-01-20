@@ -10,43 +10,15 @@ Functional Changes
 
   Extensions
   ----------
-  - now we have plugins: that are GUI callable actions that do something
-    with a QEDEQ module. As there are: "Show module as UTF-8 text",
-    "Create LaTeX" (old feature), "Create UTF-8", and "Model Tester".
-    The first ones are self-explanatory. The last one enables us to test
-    the validity of formulas in different finite models. The "four
-    element model" is our approved model. It contains the following four
-    elements: {}, {{}}, {{}, {{}}} and {{{}}}. Together with the usual
-    "element of" relation we can fulfill almost all formulas of our
-    logic and set theory script. 
-  - Because the model tester costs some time we now have a process
-    overview window. In this window all plugin processes and their
-    status is shown. It is also possible to interrupt running processes.
-  - the plugin results (usually warnings) can be deleted completely.
-    So we can keep an overview even if we change the model.
-  - all plugins are configurable via a GUI dialog
-  - the error and warnings list pane has now a context menu to export
-    results into the clipboard
-  - the status pane has now a field that shows the number of errors and
-    warnings
-  - help system can now link to external pages via external browser
-    call
+  - 
   
   Fixed Bugs
   ----------
-  - checker for logical correctness didn't notice incorrect definitions
-    Now we check, that definitions contain only subject variables within
-    VARLIST and test that these subject variables are free in the
-    defining term or formula. We also verify there are no other subject
-    variables free
+  - 
 
   Other Changes
   -------------
-  - improved speed, after establishing a global "trace of" switch which
-    can disable tracing completely (without testing for log levels)
-  - we now have GUI configurable icon sizes and "look and feel" 
-  - some icons changed
-  - a little bit more mouse over effects
+  - 
 
 
 XML Files
@@ -54,30 +26,21 @@ XML Files
 
   Extensions
   ----------
-  math\qedeq_sample2.xml
+  math\qedeq_logic_v1.xml and math\qedeq_set_theory_v1.xml
+  - further integration of Amrum notes (and some other) (made possible by
+    the Ramada Cup in Hamburg Bergedorf ;-)
 
   Fixed Bugs
   ----------
   math\qedeq_logic_v1.xml
-  - spelling errors corrected
-  - some \ref s were replaced by \qref s
-  - formal definitions for implication, conjunction and equivalence
-    were transformed into subsections. Our model tester correctly
-    bitched about it.
-  - formal definition of restricted quantifiers were also transformed.
-    This time into axioms with a "definedOperator" attribute.
-  - within "theorem:predicateCalculus" two equivalences were only
-    implications. Thanks again to our model tester for finding these
-    errors.
+  -
 
-  math\set_theory_v1.xml
-  - corrections for German text from Dr. Heinz Meyling
-  - model tester found some errors which were corrected (by the way
-    there is one error still included, we just have to nail it down)
+  math\qedeq_set_theory_v1.xml
+  - theorem:powerProposition isSet(x) changed to isSet(x)
 
   Other Changes
   -------------
-  change to UTF-8
+  -
 
 
 Source Code
@@ -85,54 +48,32 @@ Source Code
 
   Extensions
   ----------
-  - new class AbstractOutput (for StringOutput and TextOutput)
-  - new class SubTextInput (as a wrapper for TextOutput)
-  - TextOutput has new constructor with parameter char encoding
-  - TextInput has some more methods and the performance of 
-    setPosition was improved
-  - SourceArea has also a short description method
-  - Trace has now a new global flag: traceOn  if this is true we
-    don't check any trace levels. This is much much faster than
-    doing it with Commons Logging and Log4J.
-  - DateUtility has some more methods for getting time strings
-  - Enumerator can now be reset to zero
-  - new class Splitter for splitting strings into string separated
-    pieces
-  - StringUtility has new methods for presenting a Map or Set and
-    for formatting
-  - new class TextPaneWindow for displaying text information
-  - ControlVisitor contains now QedeqNumbers, so every plugin can
-    that numbers
-  - StateManger returns only lists instead of null if no errors
-    or warnings occurred
-  - DefaultModuleAddress has now a default dummy constructor. It is
-    only used in tests or not referenced classes
-  - ConfigAccess has new methods to get Map of properties with
-    certain given prefix. This is used for plugin configuration.
-  - Qedeq2Xml writes now UTF-8 as charset
-  - Xml2Xml uses now UTF-8 output
-  - XmlQedeqFileDao.createSourceArea returns never null
-    
+  - DynamicDirectInterpreter uses now Latex2Utf8Parser to produce readable
+    debug output
+  - new constructor for dummy areas for SourceArea
+  
   
 
   Fixed Bugs
   ----------
-  - SourceFileException uses now Plugin information for equals and
-    hashCode
-  - XPathLocationParser.findSourceArea catches now RuntimeExceptions
+  - removed # in userinterface.html
   
 
   Other Changes
   -------------
-  - we now have a JUnit test that checks if every class has a test
-    class in the packages (QedeqBase, QedeqSe) ISSUE#100
-  - we updated the tango icons, integrated eclipse icons and of the 
-    Open Icon Library (http://openiconlibrary.sourceforge.net) in
-    different sizes
-  - start slow tests is now controlled by system property
-  - build script uses now parameter encoding for fixcrlf
-  - GUI configurable output of QEDEQ references in LaTeX output
-    ISSUE#40
+  - InternalKernelServices (and implementations) must now provide an error
+    code and text when creating errors
+  - refactoring of error code and warnings: name convention implemented
+  - FormulaChecker renamed into FormulaCheckerImpl and now we use a factory
+    to produce instances of the new interface FormulaChecker, some methods
+    are now in the new class FormulaUtility
+  - KernelServices run now with QedeqBoFormalLogicCheckerPlugin which is
+    more like a real plugin now
+  - KernelServices (and implementations) loadModule and loadRequredModule
+    doesn't throw a SourceFileExceptionList any longer
+  - DefaultKernelQedeqBo's existence checker is now also set if logical
+    check fails
+  - refactoring of QedeqKernelSe: "se" package name inserted
 
 
 XSD
@@ -140,11 +81,7 @@ XSD
 
   Extensions
   ----------
-  - AXIOM has now new string attribute "definedOperator". The value
-    can contain an operator which is defined by the axiom. This axiom
-    and the operator could be eliminated by replacing the operator with
-    the right part of the axiom. Example: definition of restricted
-    quantifiers.
+  - FORMAL_PROOF extended
 
   Fixed Bugs
   ----------
