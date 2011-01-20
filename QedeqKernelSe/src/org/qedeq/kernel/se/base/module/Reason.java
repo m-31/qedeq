@@ -17,31 +17,24 @@ package org.qedeq.kernel.se.base.module;
 
 
 /**
- * Contains a line of a formal proof for a proposition.
+ * Usage of a rule of interference.
  *
  * @author  Michael Meyling
  */
-public interface FormalProofLine {
+public interface Reason {
 
     /**
      * Get label for this proof line. Used for back references.
      *
      * @return  Label.
      */
-    public String getLabel();
+    public String getName();
 
     /**
-     * Get formula for this line.
+     * Get references to previous formulas.
      *
-     * @return  Formula.
+     * @return  List of references.
      */
-    public Formula getFormula();
-
-    /**
-     * Get reason for deriving this line.
-     *
-     * @return  Formula.
-     */
-    public Reason getReason();
+    public String[] getReferences();
 
 }

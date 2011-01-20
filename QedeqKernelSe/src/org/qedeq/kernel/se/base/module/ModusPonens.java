@@ -17,31 +17,30 @@ package org.qedeq.kernel.se.base.module;
 
 
 /**
- * Contains a line of a formal proof for a proposition.
+ * Usage of Modus Ponens.
+ * <pre>
+ *  A -&gt; B
+ *    A
+ *  ------
+ *    B
+ * </pre>
  *
  * @author  Michael Meyling
  */
-public interface FormalProofLine {
+public interface ModusPonens extends Reason {
 
     /**
-     * Get label for this proof line. Used for back references.
+     * Get reference to formula. Usually this a formula of type A -&gt; B
      *
-     * @return  Label.
+     * @return  Reference to previously proved formula.
      */
-    public String getLabel();
+    public String getReference1();
 
     /**
-     * Get formula for this line.
+     * Get reference to formula. Usually this a formula of type A
      *
-     * @return  Formula.
+     * @return  Reference to previously proved formula.
      */
-    public Formula getFormula();
-
-    /**
-     * Get reason for deriving this line.
-     *
-     * @return  Formula.
-     */
-    public Reason getReason();
+    public String getReference2();
 
 }

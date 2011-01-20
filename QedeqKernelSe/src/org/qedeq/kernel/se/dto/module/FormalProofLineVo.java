@@ -19,6 +19,7 @@ import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.LinkList;
+import org.qedeq.kernel.se.base.module.Reason;
 
 
 /**
@@ -32,13 +33,10 @@ public class FormalProofLineVo implements FormalProofLine {
     private String label;
 
     /** Rule that is used for deriving. */
-    private String reason;
+    private Reason reason;
 
     /** Derived formula. */
     private Formula formula;
-
-    /** References to already proven formulas. */
-    private LinkList linkList;
 
     /**
      * Constructs an proof line.
@@ -46,11 +44,10 @@ public class FormalProofLineVo implements FormalProofLine {
      * @param   formula New derived formula.
      * @param   reason  Rule that was used to derive the formula.
      */
-    public FormalProofLineVo(final Formula formula, final String reason) {
+    public FormalProofLineVo(final Formula formula, final Reason reason) {
         this.label = null;
         this.reason = reason;
         this.formula = formula;
-        this.linkList = null;
     }
 
     /**
@@ -60,11 +57,10 @@ public class FormalProofLineVo implements FormalProofLine {
      * @param   formula New derived formula.
      * @param   reason  Rule that was used to derive the formula.
      */
-    public FormalProofLineVo(final String label, final Formula formula, final String reason) {
+    public FormalProofLineVo(final String label, final Formula formula, final Reason reason) {
         this.label = label;
         this.reason = reason;
         this.formula = formula;
-        this.linkList = null;
     }
 
     /**
@@ -74,11 +70,10 @@ public class FormalProofLineVo implements FormalProofLine {
      * @param   reason  Rule that was used to derive the formula.
      * @param   links   References to previous proved formulas that were used for derivation.
      */
-    public FormalProofLineVo(final Formula formula, final String reason, final LinkList links) {
+    public FormalProofLineVo(final Formula formula, final Reason reason, final LinkList links) {
         this.label = null;
         this.reason = reason;
         this.formula = formula;
-        this.linkList = links;
     }
 
     /**
@@ -87,13 +82,11 @@ public class FormalProofLineVo implements FormalProofLine {
      * @param   label   Label for back references. Might be <code>null</code>.
      * @param   formula New derived formula.
      * @param   reason  Rule that was used to derive the formula.
-     * @param   links   References to previous proved formulas.
      */
-    public FormalProofLineVo(final String label, final Formula formula, final String reason, final LinkList links) {
+    public FormalProofLineVo(final String label, final Formula formula, final Reason reason, final LinkList links) {
         this.label = label;
         this.reason = reason;
         this.formula = formula;
-        this.linkList = links;
     }
 
     /**
@@ -129,20 +122,7 @@ public class FormalProofLineVo implements FormalProofLine {
         this.label = label;
     }
 
-    public LinkList getLinkList() {
-        return linkList;
-    }
-
-    /**
-     * Set references for used rule.
-     *
-     * @param   links   References to proved formulas. Used by rule to derive current formula.
-     */
-    public void setLinkList(final LinkList links) {
-        this.linkList = links;
-    }
-
-    public String getReason() {
+    public Reason getReason() {
         return reason;
     }
 
@@ -151,7 +131,7 @@ public class FormalProofLineVo implements FormalProofLine {
      *
      * @param   reason  This rule  was used.
      */
-    public void setReason(final String reason) {
+    public void setReason(final Reason reason) {
         this.reason = reason;
     }
 
@@ -162,20 +142,18 @@ public class FormalProofLineVo implements FormalProofLine {
         final FormalProofLineVo other = (FormalProofLineVo) obj;
         return  EqualsUtility.equals(label, other.label)
           && EqualsUtility.equals(formula, other.formula)
-          && EqualsUtility.equals(reason, other.reason)
-          && EqualsUtility.equals(linkList, other.linkList);
+          && EqualsUtility.equals(reason, other.reason);
     }
 
     public int hashCode() {
         return (label != null ? label.hashCode() : 0)
            ^ (formula != null ?  1 ^ formula.hashCode() : 0)
-           ^ (reason != null ?  2 ^ reason.hashCode() : 0)
-           ^ (linkList != null ?  3 ^ linkList.hashCode() : 0);
+           ^ (reason != null ?  2 ^ reason.hashCode() : 0);
     }
 
     public String toString() {
         return (label != null ? "[" + label + "]" : "   ") + getFormula() + " "
-            + getReason() + " " + getLinkList();
+            + getReason();
     }
 
 
