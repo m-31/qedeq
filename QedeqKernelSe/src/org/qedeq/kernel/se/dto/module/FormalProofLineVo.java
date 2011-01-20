@@ -64,32 +64,6 @@ public class FormalProofLineVo implements FormalProofLine {
     }
 
     /**
-     * Constructs an proof line.
-     *
-     * @param   formula New derived formula.
-     * @param   reason  Rule that was used to derive the formula.
-     * @param   links   References to previous proved formulas that were used for derivation.
-     */
-    public FormalProofLineVo(final Formula formula, final Reason reason, final LinkList links) {
-        this.label = null;
-        this.reason = reason;
-        this.formula = formula;
-    }
-
-    /**
-     * Constructs an proof line.
-     *
-     * @param   label   Label for back references. Might be <code>null</code>.
-     * @param   formula New derived formula.
-     * @param   reason  Rule that was used to derive the formula.
-     */
-    public FormalProofLineVo(final String label, final Formula formula, final Reason reason, final LinkList links) {
-        this.label = label;
-        this.reason = reason;
-        this.formula = formula;
-    }
-
-    /**
      * Default constructor.
      */
     public FormalProofLineVo() {
