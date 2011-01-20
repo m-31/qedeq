@@ -18,7 +18,6 @@ package org.qedeq.kernel.se.dto.module;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.Formula;
-import org.qedeq.kernel.se.base.module.LinkList;
 import org.qedeq.kernel.se.base.module.Reason;
 
 
