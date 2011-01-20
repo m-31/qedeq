@@ -24,7 +24,7 @@ import org.qedeq.kernel.se.base.module.ModusPonens;
  *
  * @author  Michael Meyling
  */
-public abstract class ModusPonensVo implements ModusPonens {
+public class ModusPonensVo implements ModusPonens {
 
     /** Usually reference to a formula like A -> B. */
     private String reference1;
@@ -74,6 +74,22 @@ public abstract class ModusPonensVo implements ModusPonens {
      */
     public void setReference2(final String reference2) {
         this.reference2 = reference2;
+    }
+
+    public String[] getReferences() {
+        if (reference1 == null || reference1.length() == 0) {
+            if (reference2 == null || reference2.length() == 0) {
+                return new String[] {};
+            } else {
+                return new String[] {reference2 };
+            }
+        } else {
+            if (reference2 == null || reference2.length() == 0) {
+                return new String[] {reference1 };
+            } else {
+                return new String[] {reference1, reference2 };
+            }
+        }
     }
 
     public boolean equals(final Object obj) {
