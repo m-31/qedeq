@@ -38,7 +38,7 @@ public class EqualsUtilityTest extends QedeqTestCase {
         assertTrue(EqualsUtility.equals(obj1, obj1));
         assertTrue(EqualsUtility.equals(obj2, obj2));
         assertFalse(EqualsUtility.equals(obj1, null));
-        assertTrue(EqualsUtility.equals(null, null));
+        assertTrue(EqualsUtility.equals((Object) null, null));
         assertFalse(EqualsUtility.equals(null, obj1));
         assertFalse(EqualsUtility.equals(obj2, null));
         assertFalse(EqualsUtility.equals(null, obj2));
@@ -58,7 +58,7 @@ public class EqualsUtilityTest extends QedeqTestCase {
         assertTrue(EqualsUtility.equals(obj1, obj1));
         assertTrue(EqualsUtility.equals(obj2, obj2));
         assertFalse(EqualsUtility.equals(obj1, null));
-        assertTrue(EqualsUtility.equals(null, null));
+        assertTrue(EqualsUtility.equals((byte[]) null, null));
         assertFalse(EqualsUtility.equals(null, obj1));
         assertFalse(EqualsUtility.equals(obj2, null));
         assertFalse(EqualsUtility.equals(null, obj2));
