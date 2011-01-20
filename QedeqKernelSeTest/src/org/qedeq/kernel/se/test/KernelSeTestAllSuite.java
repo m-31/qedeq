@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.test;
+package org.qedeq.kernel.se.test;
 
 import junit.framework.Test;
 

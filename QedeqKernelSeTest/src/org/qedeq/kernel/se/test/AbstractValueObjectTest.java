@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.test;
+package org.qedeq.kernel.se.test;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -638,7 +638,12 @@ public abstract class AbstractValueObjectTest extends QedeqTestCase {
         if (constructor == null) {
             return null;
         }
-        return constructor.newInstance(new Object[0]);
+        try {
+            return constructor.newInstance(new Object[0]);
+        } catch (final Exception e) {
+            System.out.println(constructor);
+            throw e;
+        }
     }
 
     /**

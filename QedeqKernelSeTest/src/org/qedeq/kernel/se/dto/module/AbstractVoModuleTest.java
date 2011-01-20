@@ -46,6 +46,7 @@ import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.Reason;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.SectionList;
@@ -56,43 +57,7 @@ import org.qedeq.kernel.se.base.module.SubsectionType;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.base.module.VariableList;
-import org.qedeq.kernel.se.dto.module.AuthorListVo;
-import org.qedeq.kernel.se.dto.module.AuthorVo;
-import org.qedeq.kernel.se.dto.module.AxiomVo;
-import org.qedeq.kernel.se.dto.module.ChapterListVo;
-import org.qedeq.kernel.se.dto.module.ChapterVo;
-import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
-import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
-import org.qedeq.kernel.se.dto.module.FormalProofListVo;
-import org.qedeq.kernel.se.dto.module.FormalProofVo;
-import org.qedeq.kernel.se.dto.module.FormulaVo;
-import org.qedeq.kernel.se.dto.module.FunctionDefinitionVo;
-import org.qedeq.kernel.se.dto.module.HeaderVo;
-import org.qedeq.kernel.se.dto.module.ImportListVo;
-import org.qedeq.kernel.se.dto.module.ImportVo;
-import org.qedeq.kernel.se.dto.module.LatexListVo;
-import org.qedeq.kernel.se.dto.module.LatexVo;
-import org.qedeq.kernel.se.dto.module.LinkListVo;
-import org.qedeq.kernel.se.dto.module.LiteratureItemListVo;
-import org.qedeq.kernel.se.dto.module.LiteratureItemVo;
-import org.qedeq.kernel.se.dto.module.LocationListVo;
-import org.qedeq.kernel.se.dto.module.LocationVo;
-import org.qedeq.kernel.se.dto.module.NodeVo;
-import org.qedeq.kernel.se.dto.module.PredicateDefinitionVo;
-import org.qedeq.kernel.se.dto.module.ProofListVo;
-import org.qedeq.kernel.se.dto.module.ProofVo;
-import org.qedeq.kernel.se.dto.module.PropositionVo;
-import org.qedeq.kernel.se.dto.module.QedeqVo;
-import org.qedeq.kernel.se.dto.module.RuleVo;
-import org.qedeq.kernel.se.dto.module.SectionListVo;
-import org.qedeq.kernel.se.dto.module.SectionVo;
-import org.qedeq.kernel.se.dto.module.SpecificationVo;
-import org.qedeq.kernel.se.dto.module.SubsectionListVo;
-import org.qedeq.kernel.se.dto.module.SubsectionVo;
-import org.qedeq.kernel.se.dto.module.TermVo;
-import org.qedeq.kernel.se.dto.module.UsedByListVo;
-import org.qedeq.kernel.se.dto.module.VariableListVo;
-import org.qedeq.kernel.test.AbstractValueObjectTest;
+import org.qedeq.kernel.se.test.AbstractValueObjectTest;
 
 /**
  * Test helper. Gives concrete class for an interface.
@@ -144,6 +109,7 @@ public abstract class AbstractVoModuleTest extends AbstractValueObjectTest {
 
         interface2ConcreteClass.put(NodeType.class, PredicateDefinitionVo.class);
         interface2ConcreteClass.put(SubsectionType.class, NodeVo.class);
+        interface2ConcreteClass.put(Reason.class, ModusPonensVo.class);
     }
 
     protected Class abstractToConcreteClass(final Class clazz) {
