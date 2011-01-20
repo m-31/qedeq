@@ -56,7 +56,47 @@ public final class EqualsUtility {
      * @param   b   Second parameter.
      * @return  Are <code>a</code> and <code>b</code> equal?
      */
+    public static boolean equals(final Object[] a, final Object[] b) {
+        if (a == null) {
+            if (b == null) {
+                return true;
+            }
+            return false;
+        }
+        return Arrays.equals(a, b);
+    }
+
+    /**
+     * Compare two objects, each of them could be <code>null</code>.
+     *
+     * @param   a   First parameter.
+     * @param   b   Second parameter.
+     * @return  Are <code>a</code> and <code>b</code> equal?
+     */
     public static boolean equals(final byte[] a, final byte[] b) {
+        if (a == null) {
+            if (b == null) {
+                return true;
+            }
+            return false;
+        }
+        return Arrays.equals(a, b);
+    }
+
+    /**
+     * Compare two objects, each of them could be <code>null</code>.
+     *
+     * @param   a   First parameter.
+     * @param   b   Second parameter.
+     * @return  Are <code>a</code> and <code>b</code> equal?
+     */
+    public static boolean equals(final int[] a, final int[] b) {
+        if (a == null) {
+            if (b == null) {
+                return true;
+            }
+            return false;
+        }
         return Arrays.equals(a, b);
     }
 
