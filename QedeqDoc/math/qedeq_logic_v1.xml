@@ -1144,16 +1144,16 @@
           </RULE>
         </NODE>
 
-        <NODE id="rule:universalIntroduction">
+        <NODE id="rule:universalGeneralization">
           <NAME>
-            <LATEX language="en">introduction of universal quantifier</LATEX>
+            <LATEX language="en">universal generalization</LATEX>
             <LATEX language="de">Hintere Generalisierung</LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Universal Quantifier Introduction</LATEX>
+            <LATEX language="en">Universal Generalization</LATEX>
             <LATEX language="de">Hintere Generalisierung\index{Generalisierung!hintere}</LATEX>
           </TITLE>
-          <RULE name="universalIntroduction">
+          <RULE name="universalGeneralization">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1171,17 +1171,16 @@
           </RULE>
         </NODE>
 
-
-        <NODE id="rule:existentialIntroduction">
+        <NODE id="rule:existentialGeneralization">
           <NAME>
-            <LATEX language="en">introduction of existential quantifier</LATEX>
+            <LATEX language="en">existential generalization</LATEX>
             <LATEX language="de">Vordere Partikularisierung</LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Existential Quantifier Introduction</LATEX>
+            <LATEX language="en">Existential Generalization</LATEX>
             <LATEX language="de">Vordere Partikularisierung\index{Partikularisierung!vordere}</LATEX>
           </TITLE>
-          <RULE name="existentialIntroduction">
+          <RULE name="existentialGeneralization">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
