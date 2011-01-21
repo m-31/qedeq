@@ -1132,7 +1132,7 @@
                   die freien Variablen von $\tau(x_1, \ldots, x_n)$ ohne $x_1$, \ldots, $x_n$ kommen in $\alpha$ nicht als gebundene Variablen vor
                   
                   \item
-                  jedes Vorkommen von $\sigma(t_1, \ldots, t_n)$ in $\alpha$ enthält keine gebundene Variable von $\beta(x_1, \ldots, x_n)$
+                  jedes Vorkommen von $\sigma(t_1, \ldots, t_n)$ in $\alpha$ enthält keine gebundene Variable von $\tau(x_1, \ldots, x_n)$
                   
                   \item
                   das Ergebnis der Substitution ist eine wohlgeformte Formel
