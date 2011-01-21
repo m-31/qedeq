@@ -214,6 +214,24 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
 
     public void visitEnter(final PredicateDefinition definition)
             throws ModuleDataException {
+        // FIXME 20110121 m3: a predicate definition (or function definition) should
+        //                    be a simple formula that fulfills certain constraints.
+        //                    As there are:
+        //                    1. top level is an equivalence relation
+        //                    2. first argument is a predicate constant
+        //                    3. the predicate constant has only subject variables as
+        //                       as arguments
+        //                    4. these subject variables are pairwise different from
+        //                       each other
+        //                    5. the predicate constant doesn't occur in the the second
+        //                       top level argument
+        //
+        //                    Printing these predicate (or function) definition
+        //                    inserts an ":" as for TRUE :<-> A v -A
+        //                    So printing gets an "definition top level" parameter.
+        //
+        //                    This should solve some context problems during checking
+        //                    wellness or model confirmity
         if (definition == null) {
             return;
         }
