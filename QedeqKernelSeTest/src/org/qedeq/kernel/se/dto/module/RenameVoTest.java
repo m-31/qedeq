@@ -17,25 +17,26 @@ package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.se.dto.list.DefaultAtom;
 
 
 /**
- * Test class {@link org.qedeq.kernel.se.dto.module.ModusPonensVo}.
+ * Test class {@link org.qedeq.kernel.se.dto.module.RenameVo}.
  *
  * @author  Michael Meyling
  */
-public class ModusPonensVoTest extends AbstractVoModuleTest {
+public class RenameVoTest extends AbstractVoModuleTest {
 
     /** This class is tested. */
-    private Class clazz = ModusPonensVo.class;
+    private Class clazz = AddVo.class;
 
-    private ModusPonensVo mp;
+    private RenameVo rename;
 
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        mp = new ModusPonensVo("first", "second");
+        rename = new RenameVo("first", new DefaultAtom("first"), new DefaultAtom("second"), 3);
     }
 
     protected Class getTestedClass() {
@@ -43,12 +44,12 @@ public class ModusPonensVoTest extends AbstractVoModuleTest {
     }
 
     public void testGetName() {
-        assertEquals("MP", mp.getName());
+        assertEquals("Rename", rename.getName());
     }
 
     public void testGetReferences() {
-        System.out.println(StringUtility.toString(mp.getReferences()));
-        assertTrue(EqualsUtility.equals(new String[] {"first", "second"}, mp.getReferences()));
+        System.out.println(StringUtility.toString(rename.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first"}, rename.getReferences()));
     }
 
 }

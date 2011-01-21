@@ -40,6 +40,7 @@ public class KernelDtoModuleTestSuite extends QedeqTestSuite {
      */
     public KernelDtoModuleTestSuite() {
         super();
+        addTestSuite(AddVoTest.class);
         addTestSuite(AuthorListVoTest.class);
         addTestSuite(AuthorVoTest.class);
         addTestSuite(AxiomVoTest.class);
@@ -68,9 +69,11 @@ public class KernelDtoModuleTestSuite extends QedeqTestSuite {
         addTestSuite(ProofVoTest.class);
         addTestSuite(PropositionVoTest.class);
         addTestSuite(QedeqVoTest.class);
+        addTestSuite(RenameVoTest.class);
         addTestSuite(RuleVoTest.class);
         addTestSuite(SectionListVoTest.class);
         addTestSuite(SectionVoTest.class);
+        addTestSuite(SubstFreeVoTest.class);
         addTestSuite(SubsectionListVoTest.class);
         addTestSuite(SubsectionVoTest.class);
         addTestSuite(SpecificationVoTest.class);

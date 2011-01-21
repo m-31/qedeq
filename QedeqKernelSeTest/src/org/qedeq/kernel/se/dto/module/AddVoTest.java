@@ -20,22 +20,22 @@ import org.qedeq.base.utility.StringUtility;
 
 
 /**
- * Test class {@link org.qedeq.kernel.se.dto.module.ModusPonensVo}.
+ * Test class {@link org.qedeq.kernel.se.dto.module.AddVo}.
  *
  * @author  Michael Meyling
  */
-public class ModusPonensVoTest extends AbstractVoModuleTest {
+public class AddVoTest extends AbstractVoModuleTest {
 
     /** This class is tested. */
-    private Class clazz = ModusPonensVo.class;
+    private Class clazz = AddVo.class;
 
-    private ModusPonensVo mp;
+    private AddVo add;
 
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        mp = new ModusPonensVo("first", "second");
+        add = new AddVo("first");
     }
 
     protected Class getTestedClass() {
@@ -43,12 +43,12 @@ public class ModusPonensVoTest extends AbstractVoModuleTest {
     }
 
     public void testGetName() {
-        assertEquals("MP", mp.getName());
+        assertEquals("Add", add.getName());
     }
 
     public void testGetReferences() {
-        System.out.println(StringUtility.toString(mp.getReferences()));
-        assertTrue(EqualsUtility.equals(new String[] {"first", "second"}, mp.getReferences()));
+        System.out.println(StringUtility.toString(add.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first"}, add.getReferences()));
     }
 
 }
