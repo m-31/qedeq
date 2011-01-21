@@ -15,9 +15,11 @@
 
 package org.qedeq.kernel.se.base.module;
 
+import org.qedeq.kernel.se.base.list.Element;
+
 
 /**
- * Introduction of universal quantifier.
+ * Rule of universal generalization.
  * <pre>
  *   A -&gt; B(x)
  *  -------------------
@@ -34,5 +36,12 @@ public interface Universal extends Reason {
      * @return  Reference to previously proved formula.
      */
     public String getReference();
+
+    /**
+     * Get free subject variable we want to quantify over.
+     *
+     * @return  Free subject variable.
+     */
+    public Element getSubjectVariable();
 
 }

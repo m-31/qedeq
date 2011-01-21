@@ -40,7 +40,7 @@ public interface SubstFree extends Reason {
     /**
      * Get free subject variable that should be replaced.
      *
-     * @return  Reference to previously proved formula.
+     * @return  Subject variable.
      */
     public Element getSubjectVariable();
 

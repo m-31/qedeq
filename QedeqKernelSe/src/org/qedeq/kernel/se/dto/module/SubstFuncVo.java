@@ -17,21 +17,21 @@ package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.list.Element;
-import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
 
 
 /**
- * Usage of rule for substitute free subject variable.
+ * Usage of rule for substitute function variable.
  *
  * @author  Michael Meyling
  */
-public class SubstFreeVo implements SubstFree {
+public class SubstFuncVo implements SubstFunc {
 
     /** Reference to previously proven formula. */
     private String reference;
 
-    /** Free subject variable that will be replaced. */
-    private Element subjectVariable;
+    /** Function variable that will be substituted. */
+    private Element functionVariable;
 
     /** Replacement term. */
     private Element substituteTerm;
@@ -40,21 +40,21 @@ public class SubstFreeVo implements SubstFree {
      * Constructs an reason.
      *
      * @param   reference                   Reference to a valid formula.
-     * @param   subjectVariable             Bound subject variable that will be substituted.
-     * @param   substituteTerm              Replacement term.
+     * @param   functionVariable            Function variable that will be substituted.
+     * @param   substituteFormula           Replacement term.
      */
 
-    public SubstFreeVo(final String reference, final Element subjectVariable,
-            final Element substituteTerm) {
+    public SubstFuncVo(final String reference, final Element functionVariable,
+            final Element substituteFormula) {
         this.reference = reference;
-        this.subjectVariable = subjectVariable;
-        this.substituteTerm = substituteTerm;
+        this.functionVariable = functionVariable;
+        this.substituteTerm = substituteFormula;
     }
 
     /**
      * Default constructor.
      */
-    public SubstFreeVo() {
+    public SubstFuncVo() {
         // nothing to do
     }
 
@@ -79,8 +79,8 @@ public class SubstFreeVo implements SubstFree {
         }
     }
 
-    public Element getSubjectVariable() {
-        return subjectVariable;
+    public Element getFunctionVariable() {
+        return functionVariable;
     }
 
     public Element getSubstituteTerm() {
@@ -91,25 +91,25 @@ public class SubstFreeVo implements SubstFree {
     }
 
     public boolean equals(final Object obj) {
-        if (!(obj instanceof SubstFreeVo)) {
+        if (!(obj instanceof SubstFuncVo)) {
             return false;
         }
-        final SubstFreeVo other = (SubstFreeVo) obj;
+        final SubstFuncVo other = (SubstFuncVo) obj;
         return EqualsUtility.equals(reference, other.reference)
-            && EqualsUtility.equals(subjectVariable, other.subjectVariable)
+            && EqualsUtility.equals(functionVariable, other.functionVariable)
             && EqualsUtility.equals(substituteTerm, other.substituteTerm);
     }
 
     public int hashCode() {
         return (reference != null ? reference.hashCode() : 0)
-            ^ (subjectVariable != null ? 2 ^ subjectVariable.hashCode() : 0)
+            ^ (functionVariable != null ? 2 ^ functionVariable.hashCode() : 0)
             ^ (substituteTerm != null ? 3 ^ substituteTerm.hashCode() : 0);
     }
 
     public String toString() {
         StringBuffer result = new StringBuffer();
         result.append("SubstFree");
-        if (reference != null || subjectVariable != null
+        if (reference != null || functionVariable != null
                 || substituteTerm != null) {
             result.append(" (");
             boolean w = false;
@@ -117,11 +117,11 @@ public class SubstFreeVo implements SubstFree {
                 result.append(reference);
                 w = true;
             }
-            if (subjectVariable != null) {
+            if (functionVariable != null) {
                 if (w) {
                     result.append(", ");
                 }
-                result.append(subjectVariable);
+                result.append(functionVariable);
                 w = true;
             }
             if (substituteTerm != null) {
@@ -136,12 +136,5 @@ public class SubstFreeVo implements SubstFree {
         }
         return result.toString();
     }
-
-
-    public Element getTerm() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 
 }

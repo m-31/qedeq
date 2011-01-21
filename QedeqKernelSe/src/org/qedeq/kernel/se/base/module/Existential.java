@@ -15,9 +15,11 @@
 
 package org.qedeq.kernel.se.base.module;
 
+import org.qedeq.kernel.se.base.list.Element;
+
 
 /**
- * Introduction of existential quantifier.
+ * Rule of existential generalization.
  * <pre>
  *            A(x) -&gt; B
  *  -----------------------
@@ -35,5 +37,12 @@ public interface Existential extends Reason {
      */
     public String getReference();
 
+
+    /**
+     * Get free subject variable we want to quantify over.
+     *
+     * @return  Free subject variable.
+     */
+    public Element getSubjectVariable();
 
 }

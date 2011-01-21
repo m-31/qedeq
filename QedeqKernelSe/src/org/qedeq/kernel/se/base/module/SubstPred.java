@@ -45,11 +45,11 @@ public interface SubstPred extends Reason {
     public Element getPredicateVariable();
 
     /**
-     * Get replacement formula. Must contain the subject variables from
+     * Get substitute formula. Must contain the subject variables from
      * {@link #getPredicateVariable()}.
      *
      * @return  Replacement term.
      */
-    public Element getFormula();
+    public Element getSubstituteFormula();
 
 }

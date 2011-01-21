@@ -40,16 +40,16 @@ public interface SubstFunc extends Reason {
     /**
      * Get function variable (with subject variables as parameters) that should be replaced.
      *
-     * @return  Reference to previously proved formula.
+     * @return  Function variable.
      */
     public Element getFunctionVariable();
 
     /**
-     * Get replacement term. Must contain the subject variables from
+     * Get substitute term. Must contain the subject variables from
      * {@link #getFunctionVariable()}.
      *
      * @return  Replacement term.
      */
-    public Element getTerm();
+    public Element getSubstituteTerm();
 
 }

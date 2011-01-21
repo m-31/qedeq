@@ -47,6 +47,7 @@ public class KernelDtoModuleTestSuite extends QedeqTestSuite {
         addTestSuite(ChapterVoTest.class);
         addTestSuite(ChapterListVoTest.class);
         addTestSuite(PredicateDefinitionVoTest.class);
+        addTestSuite(ExistentialVoTest.class);
         addTestSuite(FunctionDefinitionVoTest.class);
         addTestSuite(FormulaVoTest.class);
         addTestSuite(FormalProofLineListVoTest.class);
@@ -78,6 +79,7 @@ public class KernelDtoModuleTestSuite extends QedeqTestSuite {
         addTestSuite(SubsectionVoTest.class);
         addTestSuite(SpecificationVoTest.class);
         addTestSuite(TermVoTest.class);
+        addTestSuite(UniversalVoTest.class);
         addTestSuite(UsedByListVoTest.class);
         addTestSuite(VariableListVoTest.class);
     }

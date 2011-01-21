@@ -17,44 +17,40 @@ package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.list.Element;
-import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.Existential;
 
 
 /**
- * Usage of rule for substitute free subject variable.
+ * Usage of rule for existential generalization.
  *
  * @author  Michael Meyling
  */
-public class SubstFreeVo implements SubstFree {
+public class ExistentialVo implements Existential {
 
-    /** Reference to previously proven formula. */
+    /** Reference to previously proven formula. Usually like A -&gt; B. */
     private String reference;
 
-    /** Free subject variable that will be replaced. */
+    /** Subject variable that we will quantify about. */
     private Element subjectVariable;
-
-    /** Replacement term. */
-    private Element substituteTerm;
 
     /**
      * Constructs an reason.
      *
      * @param   reference                   Reference to a valid formula.
-     * @param   subjectVariable             Bound subject variable that will be substituted.
-     * @param   substituteTerm              Replacement term.
+     * @param   subjectVariable             Predicate variable that will be substituted.
+     * @param   substituteFormula           Replacement formula.
      */
 
-    public SubstFreeVo(final String reference, final Element subjectVariable,
-            final Element substituteTerm) {
+    public ExistentialVo(final String reference, final Element subjectVariable,
+            final Element substituteFormula) {
         this.reference = reference;
         this.subjectVariable = subjectVariable;
-        this.substituteTerm = substituteTerm;
     }
 
     /**
      * Default constructor.
      */
-    public SubstFreeVo() {
+    public ExistentialVo() {
         // nothing to do
     }
 
@@ -83,34 +79,37 @@ public class SubstFreeVo implements SubstFree {
         return subjectVariable;
     }
 
-    public Element getSubstituteTerm() {
-        return substituteTerm;
+    /**
+     * Set quantification subject variable.
+     *
+     * @param   subjectVariable Set free subject variable.
+     */
+    public void setSubjectVariable(final Element subjectVariable) {
+        this.subjectVariable = subjectVariable;
     }
+
     public String getName() {
         return "SubstFree";
     }
 
     public boolean equals(final Object obj) {
-        if (!(obj instanceof SubstFreeVo)) {
+        if (!(obj instanceof ExistentialVo)) {
             return false;
         }
-        final SubstFreeVo other = (SubstFreeVo) obj;
+        final ExistentialVo other = (ExistentialVo) obj;
         return EqualsUtility.equals(reference, other.reference)
-            && EqualsUtility.equals(subjectVariable, other.subjectVariable)
-            && EqualsUtility.equals(substituteTerm, other.substituteTerm);
+            && EqualsUtility.equals(subjectVariable, other.subjectVariable);
     }
 
     public int hashCode() {
         return (reference != null ? reference.hashCode() : 0)
-            ^ (subjectVariable != null ? 2 ^ subjectVariable.hashCode() : 0)
-            ^ (substituteTerm != null ? 3 ^ substituteTerm.hashCode() : 0);
+            ^ (subjectVariable != null ? 2 ^ subjectVariable.hashCode() : 0);
     }
 
     public String toString() {
         StringBuffer result = new StringBuffer();
         result.append("SubstFree");
-        if (reference != null || subjectVariable != null
-                || substituteTerm != null) {
+        if (reference != null || subjectVariable != null) {
             result.append(" (");
             boolean w = false;
             if (reference != null) {
@@ -124,24 +123,9 @@ public class SubstFreeVo implements SubstFree {
                 result.append(subjectVariable);
                 w = true;
             }
-            if (substituteTerm != null) {
-                if (w) {
-                    result.append(", ");
-                }
-                result.append("by ");
-                result.append(substituteTerm);
-                w = true;
-            }
             result.append(")");
         }
         return result.toString();
     }
-
-
-    public Element getTerm() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 
 }
