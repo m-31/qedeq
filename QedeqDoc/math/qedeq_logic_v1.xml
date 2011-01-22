@@ -551,14 +551,14 @@
             <LATEX language="en">
               <![CDATA[
                 The logical equivalence (`iff') is defined as usual.
-                $$\alpha \land \beta\ :\leftrightarrow \ (\alpha\ \rightarrow\ \beta)\ \land\ (\beta\ \rightarrow\ \alpha)$$
+                $$\alpha \leftrightarrow \beta\ :\leftrightarrow \ (\alpha\ \rightarrow\ \beta)\ \land\ (\beta\ \rightarrow\ \alpha)$$
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
                 Die logische Äquivalenz ({\glqq genau dann, wenn\grqq}) wird wie 
                 üblich definiert.
-                $$\alpha \land \beta\ :\leftrightarrow \ (\alpha\ \rightarrow\ \beta)\ \land\ (\beta\ \rightarrow\ \alpha)$$
+                $$\alpha \leftrightarrow \beta\ :\leftrightarrow \ (\alpha\ \rightarrow\ \beta)\ \land\ (\beta\ \rightarrow\ \alpha)$$
               ]]>
             </LATEX>
           </TEXT>
