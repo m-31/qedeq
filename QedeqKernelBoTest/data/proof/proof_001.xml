@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QEDEQ
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_01/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="proof_001" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="http://www.qedeq.org/0_04_01/sample" />
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE>
+      <LATEX language="en">
+        <![CDATA[
+          First formal proofs.
+        ]]>
+      </LATEX>
+    </TITLE>
+    <ABSTRACT>
+      <LATEX language="en">
+        <![CDATA[
+          Here are the first proofs assembled. This module should be formally correct.
+        ]]>
+      </LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME>
+          <LATEX language="en">
+            <![CDATA[
+              Michael Meyling
+            ]]>
+          </LATEX>
+        </NAME>
+      </AUTHOR>
+    </AUTHORS>
+    <IMPORTS>
+      <IMPORT label="l">
+        <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
+          <LOCATIONS>
+            <LOCATION value="." />
+            <LOCATION value="http://www.qedeq.org/0_04_01/doc/math" />
+          </LOCATIONS>
+        </SPECIFICATION>
+      </IMPORT>
+    </IMPORTS>
+  </HEADER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">
+        <![CDATA[
+          First
+        ]]>
+      </LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        <![CDATA[
+          Here we start with the first simple proofs.
+        ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+          <![CDATA[
+            One
+          ]]>
+        </LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            Here we start.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+       <NODE id="proposition:one" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <FORALL>
+                  <VAR id="z"/>
+                  <PREDCON ref="s.isSet">
+                    <VAR id="z"/>
+                  </PREDCON>
+                  <EQUI>
+                    <PREDCON ref="s.in">
+                      <VAR id="z"/>
+                      <VAR id="x"/>
+                    </PREDCON>
+                    <PREDCON ref="s.in">
+                      <VAR id="z"/>
+                      <VAR id="y"/>
+                    </PREDCON>
+                  </EQUI>
+                </FORALL>
+                <PREDCON ref="l.equal">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </PREDCON>
+              </IMPL>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>
