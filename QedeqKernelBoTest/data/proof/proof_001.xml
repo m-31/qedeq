@@ -33,16 +33,6 @@
         </NAME>
       </AUTHOR>
     </AUTHORS>
-    <IMPORTS>
-      <IMPORT label="l">
-        <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
-          <LOCATIONS>
-            <LOCATION value="." />
-            <LOCATION value="http://www.qedeq.org/0_04_01/doc/math" />
-          </LOCATIONS>
-        </SPECIFICATION>
-      </IMPORT>
-    </IMPORTS>
   </HEADER>
   <CHAPTER>
     <TITLE>
@@ -55,10 +45,120 @@
     <INTRODUCTION>
       <LATEX language="en">
         <![CDATA[
-          Here we start with the first simple proofs.
+          After presenting some axioms we show some formal proofs.
         ]]>
       </LATEX>
     </INTRODUCTION>
+    
+    
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+          <![CDATA[
+            Axioms
+          ]]>
+        </LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            Here we state our axioms.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE id="axiom:disjunction_idempotence">
+          <NAME>
+            <LATEX language="en">axiom of disjunction idempotence</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Disjunction Idempotence</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <OR>
+                  <PREDVAR id="A" />
+                  <PREDVAR id="A" />
+                </OR>
+                <PREDVAR id="A" />
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+        <NODE id="axiom:disjunction_weakening">
+          <NAME>
+            <LATEX language="en">axiom of weakening</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Axiom of Weakening</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <PREDVAR id="A" />
+                <OR>
+                  <PREDVAR id="A" />
+                  <PREDVAR id="B" />
+                </OR>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+        
+        <NODE id="axiom:disjunction_commutative">
+          <NAME>
+            <LATEX language="en">commutativity of the disjunction</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Commutativity of the Disjunction</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <OR>
+                  <PREDVAR id="A" />
+                  <PREDVAR id="B" />
+                </OR>
+                <OR>
+                  <PREDVAR id="B" />
+                  <PREDVAR id="A" />
+                </OR>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+        
+        <NODE id="axiom:disjunction_addition">
+          <NAME>
+            <LATEX language="en">axiom of disjunctive addition</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Disjunctive Addition</LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <IMPL>
+                  <PREDVAR id="A" />
+                  <PREDVAR id="B" />
+                </IMPL>
+                <IMPL>
+                  <IMPL>
+                    <PREDVAR id="C" />
+                    <PREDVAR id="A" />
+                  </IMPL>
+                  <OR>
+                    <PREDVAR id="C" />
+                    <PREDVAR id="B" />
+                  </OR>
+                </IMPL>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
     <SECTION>
       <TITLE>
         <LATEX language="en">
@@ -79,28 +179,216 @@
           <THEOREM>
             <FORMULA>
               <IMPL>
-                <FORALL>
-                  <VAR id="z"/>
-                  <PREDCON ref="s.isSet">
-                    <VAR id="z"/>
-                  </PREDCON>
-                  <EQUI>
-                    <PREDCON ref="s.in">
-                      <VAR id="z"/>
-                      <VAR id="x"/>
-                    </PREDCON>
-                    <PREDCON ref="s.in">
-                      <VAR id="z"/>
-                      <VAR id="y"/>
-                    </PREDCON>
-                  </EQUI>
-                </FORALL>
-                <PREDCON ref="l.equal">
-                  <VAR id="x"/>
-                  <VAR id="y"/>
-                </PREDCON>
+                <PREDVAR id="A" />
+                <PREDVAR id="A" />
               </IMPL>
             </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A" />
+                      <OR>
+                        <PREDVAR id="A" />
+                        <PREDVAR id="B" />
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:disjunction_weakening" />
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A" />
+                      <OR>
+                        <PREDVAR id="A" />
+                        <PREDVAR id="A" />
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="1">
+                    <PREDVAR id="B" />
+                    <FORMULA>
+                      <PREDVAR id="A" />
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <OR>
+                        <PREDVAR id="A" />
+                        <PREDVAR id="A" />
+                      </OR>
+                      <PREDVAR id="A" />
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:disjunction_idempotence" />
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A" />
+                        <PREDVAR id="B" />
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="C" />
+                          <PREDVAR id="A" />
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="C" />
+                          <PREDVAR id="B" />
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:disjunction_addition" />
+                </L>
+                <L label="5">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="D" />
+                        <PREDVAR id="B" />
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="C" />
+                          <PREDVAR id="D" />
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="C" />
+                          <PREDVAR id="B" />
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="4" >
+                    <PREDVAR id="P" />
+                    <FORMULA>
+                      <PREDVAR id="D" />
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="6">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="D" />
+                        <PREDVAR id="A" />
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="C" />
+                          <PREDVAR id="D" />
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="C" />
+                          <PREDVAR id="A" />
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="5" >
+                    <PREDVAR id="B" />
+                    <FORMULA>
+                      <PREDVAR id="A" />
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="7">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="D" />
+                        <PREDVAR id="A" />
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A" />
+                          <PREDVAR id="D" />
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="A" />
+                          <PREDVAR id="A" />
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="6" >
+                    <PREDVAR id="C" />
+                    <FORMULA>
+                      <PREDVAR id="A" />
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="8">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <OR>
+                          <PREDVAR id="A" />
+                          <PREDVAR id="A" />
+                        </OR>
+                        <PREDVAR id="A" />
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A" />
+                          <OR>
+                            <PREDVAR id="A" />
+                            <PREDVAR id="A" />
+                          </OR>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="A" />
+                          <PREDVAR id="A" />
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="7" >
+                    <PREDVAR id="D" />
+                    <FORMULA>
+                      <OR>
+                        <PREDVAR id="A" />
+                        <PREDVAR id="A" />
+                      </OR>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="9">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A" />
+                        <OR>
+                          <PREDVAR id="A" />
+                          <PREDVAR id="A" />
+                        </OR>
+                      </IMPL>
+                      <IMPL>
+                        <PREDVAR id="A" />
+                        <PREDVAR id="A" />
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="8" ref2="3" />
+                </L>
+                <L label="10">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A" />
+                      <PREDVAR id="A" />
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="9" ref2="2" />
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
           </THEOREM>
         </NODE>
       </SUBSECTIONS>
