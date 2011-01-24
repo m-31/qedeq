@@ -52,9 +52,9 @@ public final class LoadingState implements State {
         LoadingStateDescriptions.STATE_STRING_LOADING_FROM_LOCAL_FILE, false,
         LoadingStateDescriptions.STATE_CODE_LOADING_FROM_LOCAL_FILE);
 
-    /** Loading from web address failed. */
+    /** Loading from local file failed. */
     public static final LoadingState STATE_LOADING_FROM_LOCAL_FILE_FAILED = new LoadingState(
-        LoadingStateDescriptions.STATE_STRING_LOADING_FROM_WEB_FAILED, true,
+        LoadingStateDescriptions.STATE_STRING_LOADING_FROM_LOCAL_FILE_FAILED, true,
         LoadingStateDescriptions.STATE_CODE_LOADING_FROM_LOCAL_FILE_FAILED);
 
     /** Loading from local file buffer. */
