@@ -150,15 +150,11 @@ public class SaxDefaultHandler extends SimpleHandler {
             currentHandler.startElement(qName, attributes);
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
-            errorList.add(new SourceFileException(plugin, e, createSourceArea(), null));
+            addXmlSyntaxException(e);
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
-            final SourceFileException sfe = new SourceFileException(plugin, ex.getErrorCode(),
-                ex.getMessage(), ex,
-                createSourceArea(),
-                null);
-            errorList.add(sfe);
+            addXmlSyntaxException(ex);
         }
     }
 
@@ -176,11 +172,11 @@ public class SaxDefaultHandler extends SimpleHandler {
             currentHandler.endElement(localName);
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
-            errorList.add(new SourceFileException(plugin, e, createSourceArea(), null));
+            addXmlSyntaxException(e);
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
-            errorList.add(new SourceFileException(plugin, ex, createSourceArea(), null));
+            addXmlSyntaxException(ex);
         }
         try {
             currentElementName = null;
@@ -191,15 +187,11 @@ public class SaxDefaultHandler extends SimpleHandler {
             }
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
-            final SourceFileException sfe = new SourceFileException(plugin, e.getErrorCode(),
-                e.getMessage(), e,
-                createSourceArea(),
-                null);
-            errorList.add(sfe);
+            addXmlSyntaxException(e);
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, method, e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
-            errorList.add(new SourceFileException(plugin, ex, createSourceArea(), null));
+            addXmlSyntaxException(ex);
         }
     }
 
@@ -225,11 +217,22 @@ public class SaxDefaultHandler extends SimpleHandler {
             }
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, "sendCharacters", e);
-            errorList.add(new SourceFileException(plugin, e, createSourceArea(), null));
+            addXmlSyntaxException(e);
         } catch (RuntimeException e) {
             Trace.trace(CLASS, this, "sendCharacters", e);
             final XmlSyntaxException ex = XmlSyntaxException.createByRuntimeException(e);
-            errorList.add(new SourceFileException(plugin, ex, createSourceArea(), null));
+            addXmlSyntaxException(ex);
+        }
+    }
+
+    /**
+     * Add exception to exception list if we have only than 20 exceptions yet.
+     *
+     * @param   exception   Add this exception.
+     */
+    private void addXmlSyntaxException(final XmlSyntaxException exception) {
+        if (errorList.size() < 20) {
+            errorList.add(new SourceFileException(plugin, exception, createSourceArea(), null));
         }
     }
 
