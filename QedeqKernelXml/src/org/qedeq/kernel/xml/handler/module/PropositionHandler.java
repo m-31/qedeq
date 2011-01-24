@@ -97,6 +97,8 @@ public class PropositionHandler extends AbstractSimpleHandler {
             proposition.setDescription(descriptionHandler.getLatexList());
         } else if (proofHandler.getStartTag().equals(name)) {
             proposition.addProof(proofHandler.getProof());
+        } else if (formalProofHandler.getStartTag().equals(name)) {
+            proposition.addFormalProof(formalProofHandler.getProof());
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }

@@ -15,56 +15,49 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.se.dto.module.FormalProofVo;
+import org.qedeq.kernel.se.dto.module.AddVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
 
 /**
- * Parse a proposition.
+ * Parse an Addition usage.
  *
  * @author  Michael Meyling
  */
-public class FormalProofHandler extends AbstractSimpleHandler {
+public class AddHandler extends AbstractSimpleHandler {
 
-    /** Handle formal proofs. */
-    private final FormalProofLineListHandler formalProofLineListHandler;
-
-    /** Value object. */
-    private FormalProofVo proof;
+    /** Rule value object. */
+    private AddVo add;
 
     /**
-     * Deals with propositions.
+     * Deals with definitions.
      *
      * @param   handler Parent handler.
      */
-    public FormalProofHandler(final AbstractSimpleHandler handler) {
-        super(handler, "FORMAL_PROOF");
-        formalProofLineListHandler = new FormalProofLineListHandler(this);
+    public AddHandler(final AbstractSimpleHandler handler) {
+        super(handler, "ADD");
     }
 
     public final void init() {
-        proof = null;
+        add = null;
     }
 
     /**
-     * Get proof.
+     * Get Addition usage.
      *
-     * @return  Proof.
+     * @return  Addition usage.
      */
-    public final FormalProofVo getProof() {
-        return proof;
+    public final AddVo getAddVo() {
+        return add;
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
             throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
-            proof = new FormalProofVo();
-        } else if (formalProofLineListHandler.getStartTag().equals(name)) {
-            changeHandler(formalProofLineListHandler, name, attributes);
+            add = new AddVo(attributes.getString("ref"));
         } else {
-            System.out.println("Unexpected 0: " + name);
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
@@ -72,8 +65,6 @@ public class FormalProofHandler extends AbstractSimpleHandler {
     public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             // nothing to do
-        } else if (formalProofLineListHandler.getStartTag().equals(name)) {
-            proof.setFormalProofLineList(formalProofLineListHandler.getFormalProofLineList());
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
