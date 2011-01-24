@@ -38,19 +38,19 @@ public final class XmlSyntaxException extends QedeqException implements ErrorCod
     public static final int UNEXPECTED_TAG_CODE = 9002;
 
     /** Unexpected tag message text. */
-    public static final String UNEXPECTED_TAG_TEXT = "Unexpected tag: ";
+    public static final String UNEXPECTED_TAG_TEXT = "XML structure problem. Unexpected tag: ";
 
     /** Error code for unexpected character data. */
     public static final int UNEXPECTED_DATA_CODE = 9003;
 
     /** Unexpected tag message text, part one. */
-    public static final String UNEXPECTED_DATA_TEXT = "Unexpected character data in tag: ";
+    public static final String UNEXPECTED_DATA_TEXT = "XML structure problem. Unexpected character data in tag: ";
 
     /** Error code for missing attribute. */
     public static final int MISSING_ATTRIBUTE_CODE = 9004;
 
     /** Missing attribute text. */
-    public static final String MISSING_ATTRIBUTE_TEXT_1 = "Missing attribute: ";
+    public static final String MISSING_ATTRIBUTE_TEXT_1 = "XML structure problem. Missing neccessary attribute: ";
 
     /** Missing attribute, part two. */
     public static final String MISSING_ATTRIBUTE_TEXT_2 = " in tag: ";
