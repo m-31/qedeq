@@ -35,7 +35,6 @@ import org.qedeq.kernel.bo.service.utf8.Latex2Utf8Test;
 /**
  * Run all tests for the project.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class KernelBoTestSuite extends QedeqTestSuite {
