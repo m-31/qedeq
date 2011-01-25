@@ -58,6 +58,6 @@ public interface Rename extends Reason {
      *
      * @return  Number of occurrence.
      */
-    public int getOccurence();
+    public int getOccurrence();
 
 }

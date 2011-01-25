@@ -23,7 +23,6 @@ import org.qedeq.kernel.se.base.module.Specification;
 /**
  * Module import. Every needed module must be referenced as an module import.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class ImportVo implements Import {

@@ -30,7 +30,6 @@ import org.qedeq.kernel.se.base.module.Rule;
 /**
  * Proposition.
  *
- * @version $Revision: 1.12 $
  * @author  Michael Meyling
  */
 public class PropositionVo implements Proposition {

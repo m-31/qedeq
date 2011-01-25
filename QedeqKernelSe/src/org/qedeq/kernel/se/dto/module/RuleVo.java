@@ -29,7 +29,6 @@ import org.qedeq.kernel.se.base.module.Rule;
 /**
  * Rule declaration.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class RuleVo implements Rule {

@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.LatexList;
 /**
  * List of LaTeX text parts.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class LatexListVo implements LatexList {

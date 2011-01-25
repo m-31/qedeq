@@ -49,6 +49,6 @@ public interface SubstFree extends Reason {
      *
      * @return  Replacement term.
      */
-    public Element getTerm();
+    public Element getSubstituteTerm();
 
 }

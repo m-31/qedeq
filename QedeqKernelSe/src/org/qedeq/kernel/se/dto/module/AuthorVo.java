@@ -23,7 +23,6 @@ import org.qedeq.kernel.se.base.module.Latex;
 /**
  * Describes a QEDEQ module author.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class AuthorVo implements Author {

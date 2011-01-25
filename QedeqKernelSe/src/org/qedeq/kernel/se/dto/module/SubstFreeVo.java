@@ -83,9 +83,28 @@ public class SubstFreeVo implements SubstFree {
         return subjectVariable;
     }
 
+    /**
+     * Get subject variable that will be substituted.
+     *
+     * @param   subjectVariable Subject variable that will be replaced.
+     */
+    public void setSubjectVariable(final Element subjectVariable) {
+        this.subjectVariable = subjectVariable;
+    }
+
     public Element getSubstituteTerm() {
         return substituteTerm;
     }
+
+    /**
+     * Set substitution term.
+     *
+     * @param   substituteTerm  New term.
+     */
+    public void setSubstituteTerm(final Element substituteTerm) {
+        this.substituteTerm = substituteTerm;
+    }
+
     public String getName() {
         return "SubstFree";
     }
@@ -108,7 +127,7 @@ public class SubstFreeVo implements SubstFree {
 
     public String toString() {
         StringBuffer result = new StringBuffer();
-        result.append("SubstFree");
+        result.append("SubstFunc");
         if (reference != null || subjectVariable != null
                 || substituteTerm != null) {
             result.append(" (");
@@ -136,12 +155,5 @@ public class SubstFreeVo implements SubstFree {
         }
         return result.toString();
     }
-
-
-    public Element getTerm() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 
 }

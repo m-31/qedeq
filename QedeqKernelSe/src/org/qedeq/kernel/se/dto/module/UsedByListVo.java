@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.UsedByList;
 /**
  * List of modules which use the current one.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class UsedByListVo implements UsedByList {

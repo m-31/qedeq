@@ -25,7 +25,6 @@ import org.qedeq.kernel.se.base.module.LinkList;
 /**
  * List of links. A link is just a string that identifies something.
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public class LinkListVo implements LinkList {

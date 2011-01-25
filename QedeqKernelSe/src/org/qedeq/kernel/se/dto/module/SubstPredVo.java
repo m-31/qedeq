@@ -83,12 +83,30 @@ public class SubstPredVo implements SubstPred {
         return predicateVariable;
     }
 
+    /**
+     * Set predicate variable that will be substituted.
+     *
+     * @param   predicateVariable   Function variable that will be replaced.
+     */
+    public void setPredicateVariable(final Element predicateVariable) {
+        this.predicateVariable = predicateVariable;
+    }
+
     public Element getSubstituteFormula() {
         return substituteFormula;
     }
 
+    /**
+     * Set substitution formula.
+     *
+     * @param   substituteFormula   New formula.
+     */
+    public void setSubstituteFormula(final Element substituteFormula) {
+        this.substituteFormula = substituteFormula;
+    }
+
     public String getName() {
-        return "SubstFree";
+        return "SubstPred";
     }
 
     public boolean equals(final Object obj) {

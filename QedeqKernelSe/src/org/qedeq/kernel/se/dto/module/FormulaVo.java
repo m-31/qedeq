@@ -24,7 +24,6 @@ import org.qedeq.kernel.se.base.module.Formula;
  * Wraps a formula. Such an object is build out of
  * {@link org.qedeq.kernel.se.base.list.Element}s.
  *
- * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public class FormulaVo implements Formula {

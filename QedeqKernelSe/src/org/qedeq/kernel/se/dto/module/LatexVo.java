@@ -22,7 +22,6 @@ import org.qedeq.kernel.se.base.module.Latex;
 /**
  * LaTeX text part.
  *
- * @version $Revision: 1.10 $
  * @author  Michael Meyling
  */
 public class LatexVo implements Latex {

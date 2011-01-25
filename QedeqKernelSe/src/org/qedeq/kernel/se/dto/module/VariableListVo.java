@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.VariableList;
 /**
  * List of variables.
  *
- * @version $Revision: 1.10 $
  * @author  Michael Meyling
  */
 public class VariableListVo implements VariableList {

@@ -30,7 +30,6 @@ import org.qedeq.kernel.se.base.module.VariableList;
  * Definition of function operator. This is a function constant. For example the function
  * "x union y" or constants like the empty set.
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public class FunctionDefinitionVo implements FunctionDefinition {

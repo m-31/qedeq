@@ -86,17 +86,45 @@ public class RenameVo implements Rename {
         }
     }
 
-    public int getOccurence() {
+    public int getOccurrence() {
         return occurrence;
+    }
+
+    /**
+     * Set occurrence of bound subject variable that should be renamed.
+     *
+     * @param   occurrence  This occurrence should be renamed.
+     */
+    public void setOccurrence(final int occurrence) {
+        this.occurrence = occurrence;
     }
 
     public Element getOriginalSubjectVariable() {
         return originalSubjectVariable;
     }
 
+    /**
+     * Set original subject variable, which will be replaced.
+     *
+     * @param   originalSubjectVariable     Subject variable.
+     */
+    public void setOriginalSubjectVariable(final Element originalSubjectVariable) {
+        this.originalSubjectVariable = originalSubjectVariable;
+    }
+
     public Element getReplacementSubjectVariable() {
         return replacementSubjectVariable;
     }
+
+    /**
+     * Set new subject variable subject variable.
+     *
+     * @param   replacementSubjectVariable  New subject variable.
+     */
+    public void setReplacementSubjectVariable(final Element replacementSubjectVariable) {
+        this.replacementSubjectVariable = replacementSubjectVariable;
+    }
+
     public String getName() {
         return "Rename";
     }
@@ -123,7 +151,8 @@ public class RenameVo implements Rename {
         StringBuffer result = new StringBuffer();
         result.append("Rename");
         if (reference != null || originalSubjectVariable != null
-                || replacementSubjectVariable != null) {
+                || replacementSubjectVariable != null
+                || occurrence != 0) {
             result.append(" (");
             boolean w = false;
             if (reference != null) {
@@ -149,7 +178,7 @@ public class RenameVo implements Rename {
                 if (w) {
                     result.append(", ");
                 }
-                result.append("occurence: ");
+                result.append("occurrence: ");
                 result.append(occurrence);
                 w = true;
             }
@@ -157,6 +186,5 @@ public class RenameVo implements Rename {
         }
         return result.toString();
     }
-
 
 }

@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.ChapterList;
 /**
  * List of chapters.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class ChapterListVo implements ChapterList {

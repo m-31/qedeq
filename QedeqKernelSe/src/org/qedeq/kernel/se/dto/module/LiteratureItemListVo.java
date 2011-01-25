@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.LiteratureItemList;
 /**
  * List of literature references.
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public class LiteratureItemListVo implements LiteratureItemList {

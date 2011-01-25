@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.ImportList;
 /**
  * List of imports.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class ImportListVo implements ImportList {

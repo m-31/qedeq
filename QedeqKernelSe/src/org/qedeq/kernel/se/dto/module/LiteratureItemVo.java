@@ -23,7 +23,6 @@ import org.qedeq.kernel.se.base.module.LiteratureItem;
 /**
  * Single literature reference.
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public class LiteratureItemVo implements LiteratureItem {

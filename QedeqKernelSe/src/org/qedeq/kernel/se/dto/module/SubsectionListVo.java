@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.SubsectionType;
 /**
  * List of nodes. In LaTeX terms a node is something like an "subsection".
  *
- * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 public class SubsectionListVo implements SubsectionList {

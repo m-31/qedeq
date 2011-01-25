@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 /**
  * List of authors.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class AuthorListVo implements AuthorList {

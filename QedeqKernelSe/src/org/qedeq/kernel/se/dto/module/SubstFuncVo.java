@@ -83,11 +83,30 @@ public class SubstFuncVo implements SubstFunc {
         return functionVariable;
     }
 
+    /**
+     * Set function variable that will be substituted.
+     *
+     * @param   functionVariable  Function variable that will be replaced.
+     */
+    public void setFunctionVariable(final Element functionVariable) {
+        this.functionVariable = functionVariable;
+    }
+
     public Element getSubstituteTerm() {
         return substituteTerm;
     }
+
+    /**
+     * Set substitution term.
+     *
+     * @param   substituteTerm  New term.
+     */
+    public void setSubstituteTerm(final Element substituteTerm) {
+        this.substituteTerm = substituteTerm;
+    }
+
     public String getName() {
-        return "SubstFree";
+        return "SubstFunc";
     }
 
     public boolean equals(final Object obj) {

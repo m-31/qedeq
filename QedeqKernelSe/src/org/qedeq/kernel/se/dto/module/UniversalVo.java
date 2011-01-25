@@ -89,7 +89,7 @@ public class UniversalVo implements Universal {
     }
 
     public String getName() {
-        return "SubstFree";
+        return "Universal";
     }
 
     public boolean equals(final Object obj) {

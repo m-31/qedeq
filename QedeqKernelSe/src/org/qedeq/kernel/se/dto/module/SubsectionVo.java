@@ -23,7 +23,6 @@ import org.qedeq.kernel.se.base.module.Subsection;
 /**
  * Subsection of a qedeq file.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class SubsectionVo implements Subsection {

@@ -24,7 +24,6 @@ import org.qedeq.kernel.se.base.module.SectionList;
 /**
  * Chapter.
  *
- * @version $Revision: 1.11 $
  * @author  Michael Meyling
  */
 public class ChapterVo implements Chapter {

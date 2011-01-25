@@ -23,9 +23,8 @@ import org.qedeq.kernel.se.base.module.Qedeq;
 
 
 /**
- * A complete qedeq module. This is the root value object.
+ * A complete QEDEQ module. This is the root value object.
  *
- * @version $Revision: 1.10 $
  * @author    Michael Meyling
  */
 public class QedeqVo implements Qedeq {

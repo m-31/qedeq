@@ -25,7 +25,6 @@ import org.qedeq.kernel.se.base.module.Location;
  * <code>http://www.qedeq.org/principia/0_01_06/</code> or <code>.</code>
  * or <code>file:///qedeq/</code>
  *
- * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 public class LocationVo implements Location {

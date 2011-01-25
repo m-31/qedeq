@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.Specification;
  * The combination of {@link #getName()} and {@link #getRuleVersion()} defines the
  * file name of that module.
  *
- * @version $Revision: 1.8 $
  * @author  Michael Meyling
  */
 public class SpecificationVo implements Specification {

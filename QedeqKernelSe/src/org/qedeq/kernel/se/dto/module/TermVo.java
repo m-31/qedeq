@@ -21,10 +21,9 @@ import org.qedeq.kernel.se.base.module.Term;
 
 
 /**
- * Wraps a fterm. Such an object is build out of
+ * Wraps a term. Such an object is build out of
  * {@link org.qedeq.kernel.se.base.list.Element}s.
  *
- * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public class TermVo implements Term {

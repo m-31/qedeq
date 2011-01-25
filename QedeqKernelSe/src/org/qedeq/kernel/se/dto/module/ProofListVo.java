@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.ProofList;
 /**
  * List of proofs.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class ProofListVo implements ProofList {

@@ -22,9 +22,8 @@ import org.qedeq.kernel.se.base.module.SubsectionList;
 
 
 /**
- * Section of a qedeq file.
+ * Section of a QEDEQ file.
  *
- * @version $Revision: 1.14 $
  * @author  Michael Meyling
  */
 public class SectionVo implements Section {

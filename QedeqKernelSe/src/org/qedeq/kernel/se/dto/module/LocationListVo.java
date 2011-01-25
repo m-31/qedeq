@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.LocationList;
 /**
  * List of locations.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class LocationListVo implements LocationList {

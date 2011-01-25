@@ -26,7 +26,6 @@ import org.qedeq.kernel.se.base.module.SectionList;
 /**
  * List of sections.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public class SectionListVo implements SectionList {

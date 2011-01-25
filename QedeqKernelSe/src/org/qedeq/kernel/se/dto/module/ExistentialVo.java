@@ -89,7 +89,7 @@ public class ExistentialVo implements Existential {
     }
 
     public String getName() {
-        return "SubstFree";
+        return "Existential";
     }
 
     public boolean equals(final Object obj) {

@@ -33,7 +33,6 @@ import org.qedeq.kernel.se.base.module.VariableList;
  * There must also be the possibility to define basic predicate constants like
  * "x is element of y".
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public class PredicateDefinitionVo implements PredicateDefinition {
