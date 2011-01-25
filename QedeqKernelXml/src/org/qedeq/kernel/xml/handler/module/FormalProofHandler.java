@@ -64,7 +64,6 @@ public class FormalProofHandler extends AbstractSimpleHandler {
         } else if (formalProofLineListHandler.getStartTag().equals(name)) {
             changeHandler(formalProofLineListHandler, name, attributes);
         } else {
-            System.out.println("Unexpected 0: " + name);
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }

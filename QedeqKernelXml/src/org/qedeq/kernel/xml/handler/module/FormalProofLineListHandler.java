@@ -114,7 +114,6 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
         } else if (substPredvarHandler.getStartTag().equals(name)) {
             reason = substPredvarHandler.getSubstPredVo();
         } else {
-            System.out.println("Unexpected 1: " + name);
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
     }
