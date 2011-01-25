@@ -16,7 +16,6 @@
 package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.base.utility.StringUtility;
 
 
 /**
