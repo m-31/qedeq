@@ -47,7 +47,6 @@ public class AddVoTest extends AbstractVoModuleTest {
     }
 
     public void testGetReferences() {
-        System.out.println(StringUtility.toString(add.getReferences()));
         assertTrue(EqualsUtility.equals(new String[] {"first"}, add.getReferences()));
     }
 

@@ -21,22 +21,22 @@ import org.qedeq.kernel.se.dto.list.DefaultAtom;
 
 
 /**
- * Test class {@link org.qedeq.kernel.se.dto.module.UniversalVo}.
+ * Test class {@link org.qedeq.kernel.se.dto.module.SubstFuncVo}.
  *
  * @author  Michael Meyling
  */
-public class UniversalVoTest extends AbstractVoModuleTest {
+public class SubstFuncVoTest extends AbstractVoModuleTest {
 
     /** This class is tested. */
-    private Class clazz = UniversalVo.class;
+    private Class clazz = SubstFuncVo.class;
 
-    private UniversalVo universal;
+    private SubstFuncVo subst;
 
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        universal = new UniversalVo("first", new DefaultAtom("first"), new DefaultAtom("second"));
+        subst = new SubstFuncVo("first", new DefaultAtom("first"), new DefaultAtom("second"));
     }
 
     protected Class getTestedClass() {
@@ -44,11 +44,11 @@ public class UniversalVoTest extends AbstractVoModuleTest {
     }
 
     public void testGetName() {
-        assertEquals("Universal", universal.getName());
+        assertEquals("SubstFunc", subst.getName());
     }
 
     public void testGetReferences() {
-        assertTrue(EqualsUtility.equals(new String[] {"first"}, universal.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first"}, subst.getReferences()));
     }
 
 }

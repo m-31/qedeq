@@ -30,13 +30,13 @@ public class ExistentialVoTest extends AbstractVoModuleTest {
     /** This class is tested. */
     private Class clazz = ExistentialVo.class;
 
-    private SubstFreeVo rename;
+    private ExistentialVo existential;
 
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        rename = new SubstFreeVo("first", new DefaultAtom("first"), new DefaultAtom("second"));
+        existential = new ExistentialVo("first", new DefaultAtom("first"), new DefaultAtom("second"));
     }
 
     protected Class getTestedClass() {
@@ -44,12 +44,11 @@ public class ExistentialVoTest extends AbstractVoModuleTest {
     }
 
     public void testGetName() {
-        assertEquals("SubstFree", rename.getName());
+        assertEquals("Existential", existential.getName());
     }
 
     public void testGetReferences() {
-        System.out.println(StringUtility.toString(rename.getReferences()));
-        assertTrue(EqualsUtility.equals(new String[] {"first"}, rename.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first"}, existential.getReferences()));
     }
 
 }

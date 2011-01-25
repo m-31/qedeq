@@ -16,7 +16,6 @@
 package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.se.dto.list.DefaultAtom;
 
 
@@ -28,15 +27,15 @@ import org.qedeq.kernel.se.dto.list.DefaultAtom;
 public class SubstFreeVoTest extends AbstractVoModuleTest {
 
     /** This class is tested. */
-    private Class clazz = AddVo.class;
+    private Class clazz = SubstFreeVo.class;
 
-    private SubstFreeVo rename;
+    private SubstFreeVo free;
 
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        rename = new SubstFreeVo("first", new DefaultAtom("first"), new DefaultAtom("second"));
+        free = new SubstFreeVo("first", new DefaultAtom("first"), new DefaultAtom("second"));
     }
 
     protected Class getTestedClass() {
@@ -44,12 +43,11 @@ public class SubstFreeVoTest extends AbstractVoModuleTest {
     }
 
     public void testGetName() {
-        assertEquals("SubstFree", rename.getName());
+        assertEquals("SubstFree", free.getName());
     }
 
     public void testGetReferences() {
-        System.out.println(StringUtility.toString(rename.getReferences()));
-        assertTrue(EqualsUtility.equals(new String[] {"first"}, rename.getReferences()));
+        assertTrue(EqualsUtility.equals(new String[] {"first"}, free.getReferences()));
     }
 
 }

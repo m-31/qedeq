@@ -27,7 +27,20 @@ public class FormalProofLineVoTest extends AbstractVoModuleTest {
     private Class clazz = FormalProofLineVo.class;
 
 
+    protected void setUp() throws Exception {
+        super.setUp();
+        removeMethodToCheck("getModusPonens");
+        removeMethodToCheck("getAdd");
+        removeMethodToCheck("getExistential");
+        removeMethodToCheck("getRename");
+        removeMethodToCheck("getSubstFunc");
+        removeMethodToCheck("getSubstFree");
+        removeMethodToCheck("getSubstPred");
+        removeMethodToCheck("getUniversal");
+    }
+
     protected Class getTestedClass() {
         return clazz;
     }
+
 }

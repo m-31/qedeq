@@ -153,7 +153,17 @@ public abstract class AbstractValueObjectTest extends QedeqTestCase {
         }
         final Object vo = getObject(clazz);
         final Object result1 = getter.invoke(vo, new Object[0]);
-        assertNull(result1);
+        if (attr.getType().isPrimitive()) {
+            if (attr.getType() == Integer.TYPE) {
+                if (!result1.equals(new Integer(0))) {
+                    return false;
+                }
+            } else {
+                throw new RuntimeException("only int supported yet");
+            }
+        } else {
+            assertNull(result1);
+        }
         final Object value = getFilledObject(getter.getReturnType(), clazz, attrName);
         setter.invoke(vo, new Object[] {value});
         final Object result2 = getter.invoke(vo, new Object[0]);
@@ -172,9 +182,25 @@ public abstract class AbstractValueObjectTest extends QedeqTestCase {
             addChecked(adder);
             removeMethodToCheck(adder.getName());
         }
-        setter.invoke(vo, new Object[] {null});
+        if (attr.getType().isPrimitive()) {
+            if (attr.getType() == Integer.TYPE) {
+                setter.invoke(vo, new Object[] {new Integer(0)});
+            } else {
+                throw new RuntimeException("only int supported yet");
+            }
+        } else {
+            setter.invoke(vo, new Object[] {null});
+        }
         final Object result4 = getter.invoke(vo, new Object[0]);
-        assertNull(result4);
+        if (attr.getType().isPrimitive()) {
+            if (attr.getType() == Integer.TYPE) {
+                assertEquals(new Integer(0), result4);
+            } else {
+                throw new RuntimeException("only int supported yet");
+            }
+        } else {
+            assertNull(result4);
+        }
         addChecked(setter);
         removeMethodToCheck(setter.getName());
         addChecked(getter);
@@ -294,8 +320,17 @@ public abstract class AbstractValueObjectTest extends QedeqTestCase {
                         continue;
                     }
                     final Class setClazz = setter.getParameterTypes()[0];
-                    final Object value1 = getFilledObject(setClazz, getTestedClass(), 
-                        setter.getName());
+                    Object value1;
+                    if (setClazz.isPrimitive()) {
+                        if (setClazz == Integer.TYPE) {
+                            value1 = new Integer(17);
+                        } else {
+                            throw new RuntimeException("not yet supported: " + setClazz);
+                        }
+                    } else {
+                        value1 = getFilledObject(setClazz, getTestedClass(),
+                            setter.getName());
+                    }
                     setter.invoke(vo1, new Object[] {value1});
                     assertTrue(vo1.hashCode() != vo2.hashCode());
                     setter.invoke(vo2, new Object[] {value1});
@@ -370,7 +405,15 @@ public abstract class AbstractValueObjectTest extends QedeqTestCase {
                         continue;
                     }
                     final Class setClazz = setter.getParameterTypes()[0];
-                    setter.invoke(vo1, new Object[] {null});
+                    if (setClazz.isPrimitive()) {
+                        if (setClazz == Integer.TYPE) {
+                            setter.invoke(vo1, new Object[] {new Integer(0)});
+                        } else {
+                            throw new RuntimeException("not yet supported: " + setClazz);
+                        }
+                    } else {
+                        setter.invoke(vo1, new Object[] {null});
+                    }
                     if (methods[i].getName().startsWith("set")) {
                         assertTrue(vo1.equals(vo2));
                         assertTrue(vo2.equals(vo1));
@@ -378,7 +421,8 @@ public abstract class AbstractValueObjectTest extends QedeqTestCase {
                         assertFalse(vo1.equals(vo2));
                         assertFalse(vo2.equals(vo1));
                     }
-                    final Object value1 = getFilledObject(setClazz, getTestedClass(), setter.getName());
+                    final Object value1 = getFilledObject(setClazz, getTestedClass(),
+                        setter.getName());
                     setter.invoke(vo2, new Object[] {value1});
                     assertFalse(vo1.equals(vo2));
                     assertFalse(vo2.equals(vo1));
@@ -508,7 +552,16 @@ public abstract class AbstractValueObjectTest extends QedeqTestCase {
     protected final Object getFilledObject(final Class clazz, final Class parent, 
             final String attribute, final String ignore) throws Exception {
 
-        final Object vo = getObject(clazz, parent, attribute);
+        Object vo;
+        if (clazz.isPrimitive()) {
+            if (clazz == Integer.TYPE) {
+                vo = new Integer(17);
+            } else {
+                throw new RuntimeException("not yet supported: " + clazz);
+            }
+        } else {
+            vo = getObject(clazz, parent, attribute);
+        }
         final Class voClazz = vo.getClass();
 
         if (clazz.equals(String.class) || clazz.equals(Integer.class) || clazz.equals(Boolean.class)
@@ -527,9 +580,18 @@ public abstract class AbstractValueObjectTest extends QedeqTestCase {
                     fail("setter with more than one parameter found: " + setter.getName());
                 }
                 final Class setClazz = setter.getParameterTypes()[0];
-                final Object value = getFilledObject(setClazz, clazz, setter.getName());
+                Object value;
+                if (setClazz.isPrimitive()) {
+                    if (setClazz == Integer.TYPE) {
+                        value = new Integer(13);
+                    } else {
+                        throw new RuntimeException("not yet supported: " + setClazz);
+                    }
+                } else {
+                    value = getFilledObject(setClazz, clazz, setter.getName());
 //                System.out.println(clazz.getName() + "." + setter.getName());
 //                System.out.println(value.getClass()+ ":" + value);
+                }
                 setter.invoke(vo, new Object[] {value});
 //                found = true;
             } else if (methods[i].getName().equals("add")) {

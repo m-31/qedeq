@@ -28,7 +28,7 @@ import org.qedeq.kernel.se.dto.list.DefaultAtom;
 public class RenameVoTest extends AbstractVoModuleTest {
 
     /** This class is tested. */
-    private Class clazz = AddVo.class;
+    private Class clazz = RenameVo.class;
 
     private RenameVo rename;
 
@@ -48,7 +48,6 @@ public class RenameVoTest extends AbstractVoModuleTest {
     }
 
     public void testGetReferences() {
-        System.out.println(StringUtility.toString(rename.getReferences()));
         assertTrue(EqualsUtility.equals(new String[] {"first"}, rename.getReferences()));
     }
 
