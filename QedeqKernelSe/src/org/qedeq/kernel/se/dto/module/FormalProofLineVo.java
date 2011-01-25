@@ -16,9 +16,17 @@
 package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
+import org.qedeq.kernel.se.base.module.Add;
+import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.Formula;
+import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Reason;
+import org.qedeq.kernel.se.base.module.Rename;
+import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
+import org.qedeq.kernel.se.base.module.SubstPred;
+import org.qedeq.kernel.se.base.module.Universal;
 
 
 /**
@@ -108,6 +116,62 @@ public class FormalProofLineVo implements FormalProofLine {
         this.reason = reason;
     }
 
+    public Add getAdd() {
+        if (reason instanceof Add) {
+            return (Add) reason;
+        }
+        return null;
+    }
+
+    public Existential getExistential() {
+        if (reason instanceof Existential) {
+            return (Existential) reason;
+        }
+        return null;
+    }
+
+    public ModusPonens getModusPonens() {
+        if (reason instanceof ModusPonens) {
+            return (ModusPonens) reason;
+        }
+        return null;
+    }
+
+    public Rename getRename() {
+        if (reason instanceof Rename) {
+            return (Rename) reason;
+        }
+        return null;
+    }
+
+    public SubstFree getSubstFree() {
+        if (reason instanceof SubstFree) {
+            return (SubstFree) reason;
+        }
+        return null;
+    }
+
+    public SubstFunc getSubstFunc() {
+        if (reason instanceof SubstFunc) {
+            return (SubstFunc) reason;
+        }
+        return null;
+    }
+
+    public SubstPred getSubstPred() {
+        if (reason instanceof SubstPred) {
+            return (SubstPred) reason;
+        }
+        return null;
+    }
+
+    public Universal getUniversal() {
+        if (reason instanceof Universal) {
+            return (Universal) reason;
+        }
+        return null;
+    }
+
     public boolean equals(final Object obj) {
         if (!(obj instanceof FormalProofLineVo)) {
             return false;
@@ -128,6 +192,5 @@ public class FormalProofLineVo implements FormalProofLine {
         return (label != null ? "[" + label + "]" : "   ") + getFormula() + " "
             + getReason();
     }
-
 
 }

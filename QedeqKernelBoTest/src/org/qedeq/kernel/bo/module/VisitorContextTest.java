@@ -25,11 +25,17 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.service.QedeqBoFactoryTest;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.Existential;
+import org.qedeq.kernel.se.base.module.FormalProof;
+import org.qedeq.kernel.se.base.module.FormalProofLine;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
+import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
@@ -42,12 +48,14 @@ import org.qedeq.kernel.se.base.module.LiteratureItem;
 import org.qedeq.kernel.se.base.module.LiteratureItemList;
 import org.qedeq.kernel.se.base.module.Location;
 import org.qedeq.kernel.se.base.module.LocationList;
+import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.SectionList;
@@ -55,7 +63,11 @@ import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
 import org.qedeq.kernel.se.base.module.SubsectionList;
 import org.qedeq.kernel.se.base.module.SubsectionType;
+import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
+import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
+import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
@@ -177,6 +189,54 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
 
     public void visitEnter(final PredicateDefinition predicateDefinition)
             throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final FormalProofList formalProofList) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final FormalProof proof) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final FormalProofLine formalProofLine) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final FormalProofLineList formalProofLineList) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final ModusPonens reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final Add reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final Rename reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final SubstFree reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final SubstFunc reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final SubstPred reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final Existential reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final Universal reason) throws ModuleDataException {
         checkContext();
     }
 
@@ -310,6 +370,54 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
 
     public void visitLeave(final PredicateDefinition predicateDefinition)
             throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final FormalProofList formalProofList) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final FormalProofLine formalProof) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final FormalProof proof) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final FormalProofLineList formalProofLineList) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final ModusPonens reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final Add reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final Rename reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final SubstFree reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final SubstFunc reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final SubstPred reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final Existential reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final Universal reason) throws ModuleDataException {
         checkContext();
     }
 

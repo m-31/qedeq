@@ -20,11 +20,17 @@ import java.util.Stack;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.Existential;
+import org.qedeq.kernel.se.base.module.FormalProof;
+import org.qedeq.kernel.se.base.module.FormalProofLine;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
+import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
@@ -37,19 +43,26 @@ import org.qedeq.kernel.se.base.module.LiteratureItem;
 import org.qedeq.kernel.se.base.module.LiteratureItemList;
 import org.qedeq.kernel.se.base.module.Location;
 import org.qedeq.kernel.se.base.module.LocationList;
+import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.Reason;
+import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.SectionList;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
 import org.qedeq.kernel.se.base.module.SubsectionList;
+import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
+import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
+import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleAddress;
@@ -772,6 +785,206 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         setLocationWithinModule(context);
         visitor.visitLeave(proof);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final FormalProofList proofList) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || proofList == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(proofList);
+        for (int i = 0; i < proofList.size(); i++) {
+            setLocationWithinModule(context + ".get(" + i + ")");
+            accept(proofList.get(i));
+        }
+        setLocationWithinModule(context);
+        visitor.visitLeave(proofList);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final FormalProof proof) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || proof == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(proof);
+        if (proof.getPrecedingText() != null) {
+            setLocationWithinModule(context + ".getPrecedingText()");
+            accept(proof.getFormalProofLineList());
+        }
+        if (proof.getFormalProofLineList() != null) {
+            setLocationWithinModule(context + ".getFormalProofLineList()");
+            accept(proof.getFormalProofLineList());
+        }
+        if (proof.getSucceedingText() != null) {
+            setLocationWithinModule(context + ".getSucceedingText()");
+            accept(proof.getFormalProofLineList());
+        }
+        setLocationWithinModule(context);
+        visitor.visitLeave(proof);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final FormalProofLineList proofLineList) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || proofLineList == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(proofLineList);
+        for (int i = 0; i < proofLineList.size(); i++) {
+            setLocationWithinModule(context + ".get(" + i + ")");
+            accept(proofLineList.get(i));
+        }
+        setLocationWithinModule(context);
+        visitor.visitLeave(proofLineList);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final FormalProofLine proofLine) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || proofLine == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(proofLine);
+        if (proofLine.getFormula() != null) {
+            setLocationWithinModule(context + ".getFormula()");
+            accept(proofLine.getFormula());
+        }
+        if (proofLine.getReason() != null) {
+            final Reason reason = proofLine.getReason();
+            // TODO 20110124: here the context is type dependently specified
+            if (reason instanceof ModusPonens) {
+                setLocationWithinModule(context + ".getModusPonens()");
+                accept(proofLine.getModusPonens());
+            } else if (reason instanceof Add) {
+                setLocationWithinModule(context + ".getAdd()");
+                accept(proofLine.getAdd());
+            } else if (reason instanceof Rename) {
+                setLocationWithinModule(context + ".getRename()");
+                accept(proofLine.getRename());
+            } else if (reason instanceof SubstFree) {
+                setLocationWithinModule(context + ".getSubstFree()");
+                accept(proofLine.getSubstFree());
+            } else if (reason instanceof SubstFunc) {
+                setLocationWithinModule(context + ".getSubstFunc()");
+                accept(proofLine.getSubstFunc());
+            } else if (reason instanceof SubstPred) {
+                setLocationWithinModule(context + ".getSubstPred()");
+                accept(proofLine.getSubstPred());
+            } else if (reason instanceof Existential) {
+                setLocationWithinModule(context + ".getExistential()");
+                accept(proofLine.getExistential());
+            } else if (reason instanceof Universal) {
+                setLocationWithinModule(context + ".getUniversal()");
+                accept(proofLine.getUniversal());
+            } else {
+                throw new IllegalArgumentException("unexpected reason type: "
+                    + reason.getClass());
+            }
+        }
+        setLocationWithinModule(context);
+        visitor.visitLeave(proofLine);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final ModusPonens reason) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || reason == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(reason);
+        setLocationWithinModule(context);
+        visitor.visitLeave(reason);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final Add reason) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || reason == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(reason);
+        setLocationWithinModule(context);
+        visitor.visitLeave(reason);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final Rename reason) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || reason == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(reason);
+        setLocationWithinModule(context);
+        visitor.visitLeave(reason);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final SubstFree reason) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || reason == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(reason);
+        setLocationWithinModule(context);
+        visitor.visitLeave(reason);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final SubstFunc reason) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || reason == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(reason);
+        setLocationWithinModule(context);
+        visitor.visitLeave(reason);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final SubstPred reason) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || reason == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(reason);
+        setLocationWithinModule(context);
+        visitor.visitLeave(reason);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final Existential reason) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || reason == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(reason);
+        setLocationWithinModule(context);
+        visitor.visitLeave(reason);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final Universal reason) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || reason == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(reason);
+        setLocationWithinModule(context);
+        visitor.visitLeave(reason);
         setLocationWithinModule(context);
     }
 

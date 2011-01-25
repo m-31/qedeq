@@ -22,9 +22,8 @@ import org.qedeq.kernel.se.base.module.NodeType;
 
 
 /**
- * Special subsection of a qedeq file.
+ * Special subsection of a QEDEQ file.
  *
- * @version $Revision: 1.10 $
  * @author  Michael Meyling
  */
 public class NodeVo implements Node {

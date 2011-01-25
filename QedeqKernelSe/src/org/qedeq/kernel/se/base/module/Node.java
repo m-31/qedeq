@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * A node carries mathematical knowledge.
  *
- * @version   $Revision: 1.9 $
  * @author    Michael Meyling
  */
 public interface Node extends SubsectionType {
@@ -75,4 +74,5 @@ public interface Node extends SubsectionType {
      * @return  Returns the succeedingText.
      */
     public LatexList getSucceedingText();
+
 }

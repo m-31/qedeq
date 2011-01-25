@@ -17,11 +17,17 @@ package org.qedeq.kernel.se.visitor;
 
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.Existential;
+import org.qedeq.kernel.se.base.module.FormalProof;
+import org.qedeq.kernel.se.base.module.FormalProofLine;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
+import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
@@ -34,12 +40,14 @@ import org.qedeq.kernel.se.base.module.LiteratureItem;
 import org.qedeq.kernel.se.base.module.LiteratureItemList;
 import org.qedeq.kernel.se.base.module.Location;
 import org.qedeq.kernel.se.base.module.LocationList;
+import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.SectionList;
@@ -47,7 +55,11 @@ import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
 import org.qedeq.kernel.se.base.module.SubsectionList;
 import org.qedeq.kernel.se.base.module.SubsectionType;
+import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
+import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
+import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -121,6 +133,42 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
 
     public void visitEnter(final PredicateDefinition predicateDefinition)
             throws ModuleDataException {
+    }
+
+    public void visitEnter(final FormalProofList proofList) throws ModuleDataException {
+    }
+
+    public void visitEnter(final FormalProof proof) throws ModuleDataException {
+    }
+
+    public void visitEnter(final FormalProofLine proofLine) throws ModuleDataException {
+    }
+
+    public void visitEnter(final ModusPonens reason) throws ModuleDataException {
+    }
+
+    public void visitEnter(final Add reason) throws ModuleDataException {
+    }
+
+    public void visitEnter(final Rename reason) throws ModuleDataException {
+    }
+
+    public void visitEnter(final SubstFree reason) throws ModuleDataException {
+    }
+
+    public void visitEnter(final SubstFunc reason) throws ModuleDataException {
+    }
+
+    public void visitEnter(final SubstPred reason) throws ModuleDataException {
+    }
+
+    public void visitEnter(final Existential reason) throws ModuleDataException {
+    }
+
+    public void visitEnter(final Universal reason) throws ModuleDataException {
+    }
+
+    public void visitEnter(final FormalProofLineList proofLineList) throws ModuleDataException {
     }
 
     public void visitEnter(final Proof proof) throws ModuleDataException {
@@ -221,6 +269,42 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
 
     public void visitLeave(final PredicateDefinition predicateDefinition)
             throws ModuleDataException {
+    }
+
+    public void visitLeave(final FormalProofList proofList) throws ModuleDataException {
+    }
+
+    public void visitLeave(final FormalProof proof) throws ModuleDataException {
+    }
+
+    public void visitLeave(final FormalProofLine proofLine) throws ModuleDataException {
+    }
+
+    public void visitLeave(final ModusPonens reason) throws ModuleDataException {
+    }
+
+    public void visitLeave(final Add reason) throws ModuleDataException {
+    }
+
+    public void visitLeave(final Rename reason) throws ModuleDataException {
+    }
+
+    public void visitLeave(final SubstFree reason) throws ModuleDataException {
+    }
+
+    public void visitLeave(final SubstFunc reason) throws ModuleDataException {
+    }
+
+    public void visitLeave(final SubstPred reason) throws ModuleDataException {
+    }
+
+    public void visitLeave(final Existential reason) throws ModuleDataException {
+    }
+
+    public void visitLeave(final Universal reason) throws ModuleDataException {
+    }
+
+    public void visitLeave(final FormalProofLineList proofLineList) throws ModuleDataException {
     }
 
     public void visitLeave(final Proof proof) throws ModuleDataException {

@@ -15,11 +15,17 @@
 
 package org.qedeq.kernel.se.visitor;
 
+import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.Existential;
+import org.qedeq.kernel.se.base.module.FormalProof;
+import org.qedeq.kernel.se.base.module.FormalProofLine;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
+import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
@@ -32,12 +38,14 @@ import org.qedeq.kernel.se.base.module.LiteratureItem;
 import org.qedeq.kernel.se.base.module.LiteratureItemList;
 import org.qedeq.kernel.se.base.module.Location;
 import org.qedeq.kernel.se.base.module.LocationList;
+import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.SectionList;
@@ -45,7 +53,11 @@ import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
 import org.qedeq.kernel.se.base.module.SubsectionList;
 import org.qedeq.kernel.se.base.module.SubsectionType;
+import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
+import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
+import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -208,6 +220,102 @@ public interface QedeqVisitor extends ListVisitor {
      * @throws  ModuleDataException Major problem occurred.
      */
     public void visitEnter(PredicateDefinition predicateDefinition) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   proof               Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(FormalProof proof) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   proofList       Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(FormalProofList proofList) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   proofLine           Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(FormalProofLine proofLine) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   reason              Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(ModusPonens reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   reason              Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(Add reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   reason              Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(Rename reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   reason              Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(SubstFree reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   reason              Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(SubstFunc reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   reason              Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(SubstPred reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   reason              Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(Existential reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   reason              Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(Universal reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   proofLineList       Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(FormalProofLineList proofLineList) throws ModuleDataException;
 
     /**
      * Visit certain element. Begin of visit.
@@ -472,6 +580,102 @@ public interface QedeqVisitor extends ListVisitor {
      * @throws  ModuleDataException Major problem occurred.
      */
     public void visitLeave(PredicateDefinition predicateDefinition) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   proofList       End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(FormalProofList proofList) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   proof               End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(FormalProof proof) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   proofLine           End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(FormalProofLine proofLine) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   proofLineList       End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(FormalProofLineList proofLineList) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   reason              End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(ModusPonens reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   reason              End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(Add reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   reason              End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(Rename reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   reason              End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(SubstFree reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   reason              End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(SubstFunc reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   reason              End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(SubstPred reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   reason              End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(Existential reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   reason              End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(Universal reason) throws ModuleDataException;
 
     /**
      * Visit certain element. End of visit.

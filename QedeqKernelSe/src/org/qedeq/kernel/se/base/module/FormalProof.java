@@ -24,10 +24,26 @@ package org.qedeq.kernel.se.base.module;
 public interface FormalProof {
 
     /**
+     * Get text before the formula. Get the preceding LaTeX text. This text comes before a
+     * formal proof.
+     *
+     * @return  Returns the preceding LaTeX text.
+     */
+    public LatexList getPrecedingText();
+
+    /**
      *  Get proof content.
      *
      * @return  LaTeX proof text.
      */
     public FormalProofLineList getFormalProofLineList();
+
+    /**
+     * Get text after the formula. Get the succeeding LaTeX text. This text comes after
+     * a formal proof.
+     *
+     * @return  Returns the succeedingText.
+     */
+    public LatexList getSucceedingText();
 
 }
