@@ -18,11 +18,17 @@ package org.qedeq.kernel.bo.service;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.Existential;
+import org.qedeq.kernel.se.base.module.FormalProof;
+import org.qedeq.kernel.se.base.module.FormalProofLine;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
+import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
@@ -35,19 +41,26 @@ import org.qedeq.kernel.se.base.module.LiteratureItem;
 import org.qedeq.kernel.se.base.module.LiteratureItemList;
 import org.qedeq.kernel.se.base.module.Location;
 import org.qedeq.kernel.se.base.module.LocationList;
+import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.Reason;
+import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.SectionList;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
 import org.qedeq.kernel.se.base.module.SubsectionList;
+import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
+import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
+import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
@@ -56,11 +69,17 @@ import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.dto.list.DefaultAtom;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
+import org.qedeq.kernel.se.dto.module.AddVo;
 import org.qedeq.kernel.se.dto.module.AuthorListVo;
 import org.qedeq.kernel.se.dto.module.AuthorVo;
 import org.qedeq.kernel.se.dto.module.AxiomVo;
 import org.qedeq.kernel.se.dto.module.ChapterListVo;
 import org.qedeq.kernel.se.dto.module.ChapterVo;
+import org.qedeq.kernel.se.dto.module.ExistentialVo;
+import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
+import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
+import org.qedeq.kernel.se.dto.module.FormalProofListVo;
+import org.qedeq.kernel.se.dto.module.FormalProofVo;
 import org.qedeq.kernel.se.dto.module.FormulaVo;
 import org.qedeq.kernel.se.dto.module.FunctionDefinitionVo;
 import org.qedeq.kernel.se.dto.module.HeaderVo;
@@ -73,35 +92,40 @@ import org.qedeq.kernel.se.dto.module.LiteratureItemListVo;
 import org.qedeq.kernel.se.dto.module.LiteratureItemVo;
 import org.qedeq.kernel.se.dto.module.LocationListVo;
 import org.qedeq.kernel.se.dto.module.LocationVo;
+import org.qedeq.kernel.se.dto.module.ModusPonensVo;
 import org.qedeq.kernel.se.dto.module.NodeVo;
 import org.qedeq.kernel.se.dto.module.PredicateDefinitionVo;
 import org.qedeq.kernel.se.dto.module.ProofListVo;
 import org.qedeq.kernel.se.dto.module.ProofVo;
 import org.qedeq.kernel.se.dto.module.PropositionVo;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
+import org.qedeq.kernel.se.dto.module.RenameVo;
 import org.qedeq.kernel.se.dto.module.RuleVo;
 import org.qedeq.kernel.se.dto.module.SectionListVo;
 import org.qedeq.kernel.se.dto.module.SectionVo;
 import org.qedeq.kernel.se.dto.module.SpecificationVo;
 import org.qedeq.kernel.se.dto.module.SubsectionListVo;
 import org.qedeq.kernel.se.dto.module.SubsectionVo;
+import org.qedeq.kernel.se.dto.module.SubstFreeVo;
+import org.qedeq.kernel.se.dto.module.SubstFuncVo;
+import org.qedeq.kernel.se.dto.module.SubstPredVo;
 import org.qedeq.kernel.se.dto.module.TermVo;
+import org.qedeq.kernel.se.dto.module.UniversalVo;
 import org.qedeq.kernel.se.dto.module.UsedByListVo;
 import org.qedeq.kernel.se.dto.module.VariableListVo;
 
 
 /**
+ * FIXME 20110125 m31: why do we need this builder? To make copies. Why don't we take the original?
+ * At least use director pattern or transfer creation methods into BOs or use visitor pattern!
+ * We have lots of duplicate code here!
+ * <p>
  * An builder for creating {@link org.qedeq.kernel.se.dto.module.QedeqVo}s. This builder takes
  * something that implements the QEDEQ interfaces (beginning with
  * (@link org.qedeq.kernel.base.module.Qedeq} and makes copies that are out of the package
  * <code>org.qedeq.kernel.dto.*</code>. Only elements that are not <code>null</code> are
  * copied.
- *
- * <p>
- * LATER mime 20050707: use director pattern or transfer creation methods
- *  into BOs or use visitor pattern
- *
- * @version   $Revision: 1.1 $
+
  * @author    Michael Meyling
  */
 public class QedeqVoBuilder {
@@ -598,6 +622,10 @@ public class QedeqVoBuilder {
         }
         final AxiomVo a = new AxiomVo();
         final String context = getCurrentContext().getLocationWithinModule();
+        if (axiom.getDefinedOperator() != null) {
+            setLocationWithinModule(context + ".getDefinedOperator()");
+            a.setDefinedOperator(axiom.getDefinedOperator());
+        }
         if (axiom.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula()");
             a.setFormula(create(axiom.getFormula()));
@@ -696,6 +724,10 @@ public class QedeqVoBuilder {
             setLocationWithinModule(context + ".getProofList()");
             p.setProofList(create(proposition.getProofList()));
         }
+        if (proposition.getFormalProofList() != null) {
+            setLocationWithinModule(context + ".getFormalProofList()");
+            p.setFormalProofList(create(proposition.getFormalProofList()));
+        }
         setLocationWithinModule(context);
         return p;
     }
@@ -785,6 +817,120 @@ public class QedeqVoBuilder {
         }
         setLocationWithinModule(context);
         return p;
+    }
+
+    private final FormalProofListVo create(final FormalProofList proofList) {
+        if (proofList == null) {
+            return null;
+        }
+        final FormalProofListVo list = new FormalProofListVo();
+        final String context = getCurrentContext().getLocationWithinModule();
+        for (int i = 0; i < proofList.size(); i++) {
+            setLocationWithinModule(context + ".get(" + i + ")");
+            list.add(create(proofList.get(i)));
+        }
+        setLocationWithinModule(context);
+        return list;
+    }
+
+    private final FormalProofVo create(final FormalProof proof) {
+        if (proof == null) {
+            return null;
+        }
+        final FormalProofVo p = new FormalProofVo();
+        final String context = getCurrentContext().getLocationWithinModule();
+        setLocationWithinModule(context);
+        if (proof.getPrecedingText() != null) {
+            setLocationWithinModule(context + ".getPrecedingText()");
+            p.setPrecedingText(create(proof.getPrecedingText()));
+        }
+        if (proof.getFormalProofLineList() != null) {
+            setLocationWithinModule(context + ".getFormalProofLineList()");
+            p.setFormalProofLineList(create(proof.getFormalProofLineList()));
+        }
+        if (proof.getSucceedingText() != null) {
+            setLocationWithinModule(context + ".getSucceedingText()");
+            p.setSucceedingText(create(proof.getSucceedingText()));
+        }
+        setLocationWithinModule(context);
+        return p;
+    }
+
+    private final FormalProofLineListVo create(final FormalProofLineList proofList) {
+        if (proofList == null) {
+            return null;
+        }
+        final FormalProofLineListVo list = new FormalProofLineListVo();
+        final String context = getCurrentContext().getLocationWithinModule();
+        for (int i = 0; i < proofList.size(); i++) {
+            setLocationWithinModule(context + ".get(" + i + ")");
+            list.add(create(proofList.get(i)));
+        }
+        setLocationWithinModule(context);
+        return list;
+    }
+
+    private final FormalProofLineVo create(final FormalProofLine proofLine) {
+        if (proofLine == null) {
+            return null;
+        }
+        final FormalProofLineVo line = new FormalProofLineVo();
+        final String context = getCurrentContext().getLocationWithinModule();
+        if (proofLine.getLabel() != null) {
+            setLocationWithinModule(context + ".getLabel()");
+            line.setLabel(proofLine.getLabel());
+        }
+        if (proofLine.getFormula() != null) {
+            setLocationWithinModule(context + ".getFormula()");
+            line.setFormula(create(proofLine.getFormula()));
+        }
+        if (proofLine.getReason() != null) {
+            setLocationWithinModule(context + ".getReason()");
+            line.setReason(create(proofLine.getReason()));
+        }
+        setLocationWithinModule(context);
+        return line;
+    }
+
+    private final Reason create(final Reason reason) {
+        if (reason == null) {
+            return null;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        Reason result;
+        if (reason instanceof ModusPonens) {
+            final ModusPonens r = (ModusPonens) reason;
+            result = new ModusPonensVo(r.getReference1(), r.getReference2());
+        } else if (reason instanceof Add) {
+            final Add r = (Add) reason;
+            result = new AddVo(r.getReference());
+        } else if (reason instanceof Rename) {
+            final Rename r = (Rename) reason;
+            result = new RenameVo(r.getReference(), r.getOriginalSubjectVariable(),
+                r.getReplacementSubjectVariable(), r.getOccurrence());
+        } else if (reason instanceof SubstFree) {
+            final SubstFree r = (SubstFree) reason;
+            result = new SubstFreeVo(r.getReference(), r.getSubjectVariable(),
+                r.getSubstituteTerm());
+        } else if (reason instanceof SubstFunc) {
+            final SubstFunc r = (SubstFunc) reason;
+            result = new SubstFuncVo(r.getReference(), r.getFunctionVariable(),
+                r.getSubstituteTerm());
+        } else if (reason instanceof SubstPred) {
+            final SubstPred r = (SubstPred) reason;
+            result = new SubstPredVo(r.getReference(), r.getPredicateVariable(),
+                r.getSubstituteFormula());
+        } else if (reason instanceof Existential) {
+            final Existential r = (Existential) reason;
+            result = new ExistentialVo(r.getReference(), r.getSubjectVariable());
+        } else if (reason instanceof Universal) {
+            final Universal r = (Universal) reason;
+            result = new UniversalVo(r.getReference(), r.getSubjectVariable());
+        } else {
+            throw new RuntimeException("unknown reason class: " + reason.getClass());
+        }
+        setLocationWithinModule(context);
+        return result;
     }
 
     private final FormulaVo create(final Formula formula) {
