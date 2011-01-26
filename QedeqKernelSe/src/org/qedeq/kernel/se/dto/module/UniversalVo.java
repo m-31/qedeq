@@ -37,12 +37,10 @@ public class UniversalVo implements Universal {
      * Constructs an reason.
      *
      * @param   reference                   Reference to a valid formula.
-     * @param   subjectVariable             Predicate variable that will be substituted.
-     * @param   substituteFormula           Replacement formula.
+     * @param   subjectVariable             Subject variable that we will quantify about.
      */
 
-    public UniversalVo(final String reference, final Element subjectVariable,
-            final Element substituteFormula) {
+    public UniversalVo(final String reference, final Element subjectVariable) {
         this.reference = reference;
         this.subjectVariable = subjectVariable;
     }

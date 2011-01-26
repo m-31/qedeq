@@ -189,7 +189,7 @@ public class FormalProofLineVo implements FormalProofLine {
     }
 
     public String toString() {
-        return (label != null ? "[" + label + "]" : "   ") + getFormula() + " "
+        return (label != null ? "[" + label + "] " : "    ") + getFormula() + " "
             + getReason();
     }
 

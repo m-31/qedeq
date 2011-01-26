@@ -37,12 +37,10 @@ public class ExistentialVo implements Existential {
      * Constructs an reason.
      *
      * @param   reference                   Reference to a valid formula.
-     * @param   subjectVariable             Predicate variable that will be substituted.
-     * @param   substituteFormula           Replacement formula.
+     * @param   subjectVariable             Subject variable that we will quantify about.
      */
 
-    public ExistentialVo(final String reference, final Element subjectVariable,
-            final Element substituteFormula) {
+    public ExistentialVo(final String reference, final Element subjectVariable) {
         this.reference = reference;
         this.subjectVariable = subjectVariable;
     }

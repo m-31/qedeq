@@ -68,6 +68,8 @@ import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
+import org.qedeq.kernel.se.dto.module.FormulaVo;
+import org.qedeq.kernel.se.dto.module.TermVo;
 
 
 /**
@@ -684,6 +686,10 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             setLocationWithinModule(context + ".getProofList()");
             accept(proposition.getProofList());
         }
+        if (proposition.getFormalProofList() != null) {
+            setLocationWithinModule(context + ".getFormalProofList()");
+            accept(proposition.getFormalProofList());
+        }
         setLocationWithinModule(context);
         visitor.visitLeave(proposition);
         setLocationWithinModule(context);
@@ -923,6 +929,14 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(reason);
+        if (reason.getOriginalSubjectVariable() != null) {
+            setLocationWithinModule(context + ".getOriginalSubjectVariable()");
+            accept(reason.getOriginalSubjectVariable());
+        }
+        if (reason.getReplacementSubjectVariable() != null) {
+            setLocationWithinModule(context + ".getReplacementSubjectVariable()");
+            accept(reason.getReplacementSubjectVariable());
+        }
         setLocationWithinModule(context);
         visitor.visitLeave(reason);
         setLocationWithinModule(context);
@@ -935,6 +949,14 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(reason);
+        if (reason.getSubjectVariable() != null) {
+            setLocationWithinModule(context + ".getSubjectVariable()");
+            accept(reason.getSubjectVariable());
+        }
+        if (reason.getSubstituteTerm() != null) {
+            setLocationWithinModule(context + ".getSubstituteTerm()");
+            accept(new TermVo(reason.getSubstituteTerm()));
+        }
         setLocationWithinModule(context);
         visitor.visitLeave(reason);
         setLocationWithinModule(context);
@@ -947,6 +969,14 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(reason);
+        if (reason.getFunctionVariable() != null) {
+            setLocationWithinModule(context + ".getFunctionVariable()");
+            accept(reason.getFunctionVariable());
+        }
+        if (reason.getSubstituteTerm() != null) {
+            setLocationWithinModule(context + ".getSubstituteTerm()");
+            accept(new TermVo(reason.getSubstituteTerm()));
+        }
         setLocationWithinModule(context);
         visitor.visitLeave(reason);
         setLocationWithinModule(context);
@@ -959,6 +989,14 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(reason);
+        if (reason.getPredicateVariable() != null) {
+            setLocationWithinModule(context + ".getPredicateVariable()");
+            accept(reason.getPredicateVariable());
+        }
+        if (reason.getSubstituteFormula() != null) {
+            setLocationWithinModule(context + ".getSubstituteFormula()");
+            accept(new FormulaVo(reason.getSubstituteFormula()));
+        }
         setLocationWithinModule(context);
         visitor.visitLeave(reason);
         setLocationWithinModule(context);
@@ -971,6 +1009,10 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(reason);
+        if (reason.getSubjectVariable() != null) {
+            setLocationWithinModule(context + ".getSubjectVariable()");
+            accept(reason.getSubjectVariable());
+        }
         setLocationWithinModule(context);
         visitor.visitLeave(reason);
         setLocationWithinModule(context);
@@ -983,6 +1025,10 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(reason);
+        if (reason.getSubjectVariable() != null) {
+            setLocationWithinModule(context + ".getSubjectVariable()");
+            accept(reason.getSubjectVariable());
+        }
         setLocationWithinModule(context);
         visitor.visitLeave(reason);
         setLocationWithinModule(context);
