@@ -60,6 +60,7 @@ public class FormalProofHandler extends AbstractSimpleHandler {
     public final void startElement(final String name, final SimpleAttributes attributes)
             throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
+            System.out.println("Formal Proof parsing"); // FIXME
             proof = new FormalProofVo();
         } else if (formalProofLineListHandler.getStartTag().equals(name)) {
             changeHandler(formalProofLineListHandler, name, attributes);

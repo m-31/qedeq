@@ -23,10 +23,15 @@ import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
+import org.qedeq.kernel.se.base.module.Existential;
+import org.qedeq.kernel.se.base.module.FormalProof;
+import org.qedeq.kernel.se.base.module.FormalProofLine;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
@@ -39,17 +44,23 @@ import org.qedeq.kernel.se.base.module.LiteratureItem;
 import org.qedeq.kernel.se.base.module.LiteratureItemList;
 import org.qedeq.kernel.se.base.module.Location;
 import org.qedeq.kernel.se.base.module.LocationList;
+import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
 import org.qedeq.kernel.se.base.module.SubsectionList;
+import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
+import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
+import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.Plugin;
@@ -374,7 +385,11 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     }
 
     public void visitEnter(final Axiom axiom) {
-        printer.println("<AXIOM>");
+        printer.print("<AXIOM");
+        if (axiom.getDefinedOperator() != null) {
+            printer.print(" definedOperator=\"" + axiom.getDefinedOperator() + "\"");
+        }
+        printer.println(">");
         printer.pushLevel();
     }
 
@@ -406,6 +421,149 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     public void visitLeave(final Proof proof) {
         printer.println("</PROOF>");
+    }
+
+    public void visitEnter(final FormalProof proof) {
+        printer.println("<FORMAL_PROOF>");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final FormalProof proof) {
+        printer.popLevel();
+        printer.println("</FORMAL_PROOF>");
+    }
+
+    public void visitEnter(final FormalProofLineList proof) {
+        printer.println("<LINES>");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final FormalProofLineList proof) {
+        printer.popLevel();
+        printer.println("</LINES>");
+    }
+
+    public void visitEnter(final FormalProofLine line) {
+        printer.print("<L");
+        if (line.getLabel() != null) {
+            printer.print(" label=\"" + line.getLabel() + "\"");
+        }
+        printer.println(">");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final FormalProofLine line) {
+        printer.popLevel();
+        printer.println("</L>");
+    }
+
+    public void visitEnter(final ModusPonens reason) {
+        printer.print("<MP");
+        if (reason.getReference1() != null) {
+            printer.print(" ref1=\"" + reason.getReference1() + "\"");
+        }
+        if (reason.getReference2() != null) {
+            printer.print(" ref2=\"" + reason.getReference2() + "\"");
+        }
+    }
+
+    public void visitLeave(final ModusPonens reason) {
+        printer.println("/>");
+    }
+
+    public void visitEnter(final Add reason) {
+        printer.print("<ADD");
+        if (reason.getReference() != null) {
+            printer.print(" ref=\"" + reason.getReference() + "\"");
+        }
+    }
+
+    public void visitLeave(final Add reason) {
+        printer.println("/>");
+    }
+
+    public void visitEnter(final Rename reason) {
+        printer.print("<RENAME");
+        if (reason.getReference() != null) {
+            printer.print(" ref=\"" + reason.getReference() + "\"");
+        }
+        printer.println(">");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final Rename reason) {
+        printer.popLevel();
+        printer.println("</RENAME>");
+    }
+
+    public void visitEnter(final SubstFree reason) {
+        printer.print("<SUBST_FREE");
+        if (reason.getReference() != null) {
+            printer.print(" ref=\"" + reason.getReference() + "\"");
+        }
+        printer.println(">");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final SubstFree reason) {
+        printer.popLevel();
+        printer.println("</SUBST_FREE>");
+    }
+
+    public void visitEnter(final SubstFunc reason) {
+        printer.print("<SUBST_FUNCVAR");
+        if (reason.getReference() != null) {
+            printer.print(" ref=\"" + reason.getReference() + "\"");
+        }
+        printer.println(">");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final SubstFunc reason) {
+        printer.popLevel();
+        printer.println("</SUBST_FUNCVAR>");
+    }
+
+    public void visitEnter(final SubstPred reason) {
+        printer.print("<SUBST_PREDVAR");
+        if (reason.getReference() != null) {
+            printer.print(" ref=\"" + reason.getReference() + "\"");
+        }
+        printer.println(">");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final SubstPred reason) {
+        printer.popLevel();
+        printer.println("</SUBST_PREDVAR>");
+    }
+
+    public void visitEnter(final Existential reason) {
+        printer.print("<EXISTENTIAL");
+        if (reason.getReference() != null) {
+            printer.print(" ref=\"" + reason.getReference() + "\"");
+        }
+        printer.println("/>");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final Existential reason) {
+        printer.popLevel();
+        printer.println("</EXISTENTIAL>");
+    }
+
+    public void visitEnter(final Universal reason) {
+        printer.print("<UNIVERSAL");
+        if (reason.getReference() != null) {
+            printer.print(" ref=\"" + reason.getReference() + "\"");
+        }
+        printer.println("/>");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final Universal reason) {
+        printer.popLevel();
+        printer.println("</UNIVERSAL>");
     }
 
     public void visitEnter(final PredicateDefinition definition) {
