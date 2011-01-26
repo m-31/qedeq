@@ -59,9 +59,17 @@ public final class GenerateXmlTest extends QedeqTestCase {
             }
         }
         generate(docDir, "math/qedeq_sample1.xml", genDir);
+// FIXME 20110125 m31: put in some kind of unit test; one has to compare xml and ignore
+// XML whitespace
+//        generate(docDir, "math/qedeq_logic_v1.xml", genDir);
+//        generate(docDir, "math/qedeq_set_theory_v1.xml", genDir);
+
 
         generate(getIndir(), "qedeq_set_theory_compare.xml", genDir);
         generate(getIndir(), "qedeq_basic_concept_compare.xml", genDir);
+        // FIXME 20110125 m31: following path is in another project
+        //                     but it would not be ok to have duplicate files!
+        generate(getIndir(), "../../QedeqKernelBoTest/data/proof/proof_001.xml", genDir);
     }
 
     /**
@@ -76,7 +84,7 @@ public final class GenerateXmlTest extends QedeqTestCase {
     private static void generate(final File dir, final String xml,
             final File destinationDirectory) throws IOException, SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
-        final File destination = new File(destinationDirectory, xml + "_").getAbsoluteFile();
+        final File destination = new File(destinationDirectory, xmlFile.getName() + "_").getAbsoluteFile();
         Xml2Xml.generate(new DummyInternalKernalServices(), xmlFile, destination);
 //        assertEquals(IoUtility.loadFile(xmlFile.getAbsolutePath(), "ISO-8859-1"), 
 //            IoUtility.loadFile(destination.getAbsolutePath(), "ISO-8859-1"));
