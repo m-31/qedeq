@@ -55,7 +55,7 @@ public final class GenerateXmlTest extends QedeqTestCase {
         if (!docDir.exists()) {
             docDir = new File(getIndir(), "doc");
             genDir = new File(getOutdir(), "doc");
-            inDir2 = new File(getIndir(), "doc");
+            inDir2 = getIndir();
             if (!docDir.exists()) {
                 throw new IOException("unknown source directory for QEDEQ modules");
             }
