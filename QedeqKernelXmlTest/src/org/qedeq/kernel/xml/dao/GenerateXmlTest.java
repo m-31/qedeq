@@ -48,12 +48,14 @@ public final class GenerateXmlTest extends QedeqTestCase {
      */
     public void testGeneration() throws Exception {
         File docDir = new File("../QedeqDoc");
+        File inDir2 = new File("../QedeqKernelBoTest/data");
         File genDir = new File("../../../qedeq_gen");
         // test if we are in the normal development environment, where a project with name
         //  "../QedeqDoc" exists, otherwise we assume to run within the build process
         if (!docDir.exists()) {
             docDir = new File(getIndir(), "doc");
             genDir = new File(getOutdir(), "doc");
+            inDir2 = new File(getIndir(), "doc");
             if (!docDir.exists()) {
                 throw new IOException("unknown source directory for QEDEQ modules");
             }
@@ -69,7 +71,7 @@ public final class GenerateXmlTest extends QedeqTestCase {
         generate(getIndir(), "qedeq_basic_concept_compare.xml", genDir);
         // FIXME 20110125 m31: following path is in another project
         //                     but it would not be ok to have duplicate files!
-        generate(getIndir(), "../../QedeqKernelBoTest/data/proof/proof_001.xml", genDir);
+        generate(inDir2, "proof/proof_001.xml", genDir);
     }
 
     /**
