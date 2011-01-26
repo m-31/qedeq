@@ -35,7 +35,7 @@ public class ExistentialVoTest extends AbstractVoModuleTest {
         super.setUp();
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        existential = new ExistentialVo("first", new DefaultAtom("first"), new DefaultAtom("second"));
+        existential = new ExistentialVo("first", new DefaultAtom("first"));
     }
 
     protected Class getTestedClass() {

@@ -35,7 +35,7 @@ public class UniversalVoTest extends AbstractVoModuleTest {
         super.setUp();
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
-        universal = new UniversalVo("first", new DefaultAtom("first"), new DefaultAtom("second"));
+        universal = new UniversalVo("first", new DefaultAtom("first"));
     }
 
     protected Class getTestedClass() {
