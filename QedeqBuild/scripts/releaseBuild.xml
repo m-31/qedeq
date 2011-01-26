@@ -157,7 +157,10 @@ currently in ants classpath
         <copySource     name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" />
         <copyTestSource name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" />
         <!-- get QedeqKernelBoTest data files also in QedeqKernelXmlTest -->
-        <copyTestData   name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelXml" />
+        <antcall target="copyTestData">
+            <param name="QedeqModule" value="QedeqKernelBo"/>
+            <param name="QedeqDest" value="${qedeq.dest.module}/QedeqKernelXml"/>
+        </antcall>   
         <copySource     name="QedeqGuiSe"     dir="${qedeq.dest.module}/qedeq_gui_se" />
         
         <!-- generate complete kernel sources out of all sub modules -->   
