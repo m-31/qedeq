@@ -22,7 +22,7 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
 import org.qedeq.kernel.bo.test.KernelFacade;
-import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.xml.test.XmlNormalizer;
 
 /**
  * Test generating LaTeX files for all known samples.
@@ -60,18 +60,18 @@ public final class GenerateXmlTest extends QedeqTestCase {
                 throw new IOException("unknown source directory for QEDEQ modules");
             }
         }
-        generate(docDir, "math/qedeq_sample1.xml", genDir);
+        generate(docDir, "math/qedeq_sample1.xml", genDir, true);
 // FIXME 20110125 m31: put in some kind of unit test; one has to compare xml and ignore
 // XML whitespace
-//        generate(docDir, "math/qedeq_logic_v1.xml", genDir);
-//        generate(docDir, "math/qedeq_set_theory_v1.xml", genDir);
+        generate(docDir, "math/qedeq_logic_v1.xml", genDir, true);
+        generate(docDir, "math/qedeq_set_theory_v1.xml", genDir, true);
 
 
-        generate(getIndir(), "qedeq_set_theory_compare.xml", genDir);
-        generate(getIndir(), "qedeq_basic_concept_compare.xml", genDir);
+        generate(getIndir(), "qedeq_set_theory_compare.xml", genDir, false);
+        generate(getIndir(), "qedeq_basic_concept_compare.xml", genDir, false);
         // FIXME 20110125 m31: following path is in another project
         //                     but it would not be ok to have duplicate files!
-        generate(inDir2, "proof/proof_001.xml", genDir);
+        generate(inDir2, "proof/proof_001.xml", genDir, false);
     }
 
     /**
@@ -80,17 +80,26 @@ public final class GenerateXmlTest extends QedeqTestCase {
      * @param   dir         Start directory.
      * @param   xml         Relative path to XML file. Must not be <code>null</code>.
      * @param   destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
+     * @param   normalize   Normalize before comparing?
      * @throws  IOException File IO failed.
      * @throws  XmlFilePositionExceptionList File data is invalid.
      */
     private static void generate(final File dir, final String xml,
-            final File destinationDirectory) throws IOException, SourceFileExceptionList {
+            final File destinationDirectory, final boolean normalize) throws Exception {
         final File xmlFile = new File(dir, xml);
         final File destination = new File(destinationDirectory, xmlFile.getName() + "_").getAbsoluteFile();
         Xml2Xml.generate(new DummyInternalKernalServices(), xmlFile, destination);
+        if (!normalize) {
+            assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination, "UTF-8"));
 //        assertEquals(IoUtility.loadFile(xmlFile.getAbsolutePath(), "ISO-8859-1"), 
 //            IoUtility.loadFile(destination.getAbsolutePath(), "ISO-8859-1"));
-        assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination, "UTF-8"));
+        } else {
+            final File xmlFile2 = new File(destinationDirectory, xmlFile.getName() + "2_").getAbsoluteFile();
+            XmlNormalizer.normalize(xmlFile, xmlFile2);
+            final File destination2 = new File(destinationDirectory, xmlFile.getName() + "3_").getAbsoluteFile();
+            XmlNormalizer.normalize(destination, destination2);
+            assertEquals(true, IoUtility.compareTextFiles(xmlFile2, destination2, "UTF-8"));
+        }
     }
 
 }
