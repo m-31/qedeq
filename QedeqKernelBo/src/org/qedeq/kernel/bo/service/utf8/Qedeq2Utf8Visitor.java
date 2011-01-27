@@ -35,6 +35,8 @@ import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
+import org.qedeq.kernel.se.base.module.FormalProof;
+import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
@@ -481,6 +483,33 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
             printer.println("Proof:");
         }
         printer.append(getLatexListEntry("getNonFormalProof()", proof.getNonFormalProof()));
+        printer.println();
+        printer.println("q.e.d.");
+        printer.println();
+    }
+
+    public void visitEnter(final FormalProof proof) {
+        if ("de".equals(language)) {
+            printer.println("Beweis (formal):");
+        } else {
+            printer.println("Proof (formal):");
+        }
+    }
+
+    public void visitEnter(final FormalProofLine line) {
+        if (line.getLabel() != null) {
+            printer.print(StringUtility.alignRight("(" + line.getLabel() + ")", 5) + " ");
+        } else {
+            printer.print("      ");
+        }
+        if (line.getFormula() != null) {
+            printer.print(getUtf8(line.getFormula().getElement()));
+        }
+        printer.print("  ");
+        printer.println(line.getReason());
+    }
+
+    public void visitLeave(final FormalProof proof) {
         printer.println();
         printer.println("q.e.d.");
         printer.println();
