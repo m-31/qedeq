@@ -148,12 +148,12 @@ public class XmlNormalizerHandler extends DefaultHandler {
     }
 
     private void print(final String text) {
-        System.out.print(text);
+//        System.out.print(text);
         ps.print(text);
     }
 
     private void println(final String text) {
-        System.out.println(text);
+//        System.out.println(text);
         ps.println(text);
     }
 
