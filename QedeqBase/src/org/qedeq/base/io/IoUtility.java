@@ -578,6 +578,30 @@ public final class IoUtility {
     }
 
     /**
+     * List all matching files. Includes all matching sub directories recursively.
+     *
+     * @param   sourceLocation  Check all files.
+     * @param   filter          Accept only these files.
+     * @return  List of matching files.
+     * @throws  IOException     Something went wrong.
+     */
+    public static List listFilesRecursively(final File sourceLocation, final FileFilter filter)
+            throws IOException {
+        final List result = new ArrayList();
+        if (filter.accept(sourceLocation)) {
+            if (sourceLocation.isDirectory()) {
+                File[] children = sourceLocation.listFiles();
+                for (int i = 0; i < children.length; i++) { // recursive call for all children
+                    result.addAll(listFilesRecursively(children[i], filter));
+                }
+            } else {
+                result.add(sourceLocation);
+            }
+        }
+        return result;
+    }
+
+    /**
      * Compare two files binary.
      *
      * @param   from    Compare source. This file must be <code>null</code> or be an existing file.
