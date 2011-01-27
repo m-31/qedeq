@@ -70,7 +70,6 @@ public class XmlNormalizer {
 
     }
 
-
     public final static void normalize(final File from, final File to) throws IOException, SAXException {
         XmlNormalizer g = new XmlNormalizer();
         try {
@@ -92,6 +91,5 @@ public class XmlNormalizer {
             throw e;
         }
     }
-    
 
 }
