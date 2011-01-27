@@ -543,13 +543,17 @@ public class QedeqVoBuilder {
         }
         final SubsectionVo s = new SubsectionVo();
         final String context = getCurrentContext().getLocationWithinModule();
-        if (subsection.getTitle() != null) {
-            setLocationWithinModule(context + ".getTitle()");
-            s.setTitle(create(subsection.getTitle()));
+        if (subsection.getId() != null) {
+            setLocationWithinModule(context + ".getId()");
+            s.setId(subsection.getId());
         }
         if (subsection.getLevel() != null) {
             setLocationWithinModule(context + ".getLevel()");
             s.setLevel(subsection.getLevel());
+        }
+        if (subsection.getTitle() != null) {
+            setLocationWithinModule(context + ".getTitle()");
+            s.setTitle(create(subsection.getTitle()));
         }
         if (subsection.getLatex() != null) {
             setLocationWithinModule(context + ".getLatex()");
