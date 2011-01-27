@@ -16,13 +16,19 @@
 package org.qedeq.kernel.xml.dao;
 
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
 import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.se.common.SourceFileException;
+import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.test.XmlNormalizer;
+import org.xml.sax.SAXException;
 
 /**
  * Test generating LaTeX files for all known samples.
@@ -60,18 +66,36 @@ public final class GenerateXmlTest extends QedeqTestCase {
                 throw new IOException("unknown source directory for QEDEQ modules");
             }
         }
-        generate(docDir, "math/qedeq_sample1.xml", genDir, true);
-// FIXME 20110125 m31: put in some kind of unit test; one has to compare xml and ignore
-// XML whitespace
-        generate(docDir, "math/qedeq_logic_v1.xml", genDir, true);
-        generate(docDir, "math/qedeq_set_theory_v1.xml", genDir, true);
 
-
+        // compare directly
         generate(getIndir(), "qedeq_set_theory_compare.xml", genDir, false);
         generate(getIndir(), "qedeq_basic_concept_compare.xml", genDir, false);
-        // FIXME 20110125 m31: following path is in another project
-        //                     but it would not be ok to have duplicate files!
-        generate(inDir2, "proof/proof_001.xml", genDir, false);
+
+        final FileFilter filter = new FileFilter() {
+            public boolean accept(File pathname) {
+                return pathname.isDirectory() || pathname.getName().endsWith(".xml");
+            }
+        };
+
+        // compare all XML documents in doc directory
+        final List docFiles = IoUtility.listFilesRecursively(docDir, filter);
+        final Iterator i = docFiles.iterator();
+        while (i.hasNext()) {
+            generate((File) i.next(), genDir, true);
+        }
+
+        // compare all XML documents in data directory
+        final List dataFiles = IoUtility.listFilesRecursively(inDir2, filter);
+        final Iterator j = dataFiles.iterator();
+        while (j.hasNext()) {
+            try {
+                generate((File) j.next(), genDir, true);
+            } catch (SourceFileExceptionList e) {
+                // ignore
+            }
+        }
+
+//        generate(inDir2, "proof/proof_001.xml", genDir, true);
     }
 
     /**
@@ -82,11 +106,23 @@ public final class GenerateXmlTest extends QedeqTestCase {
      * @param   destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
      * @param   normalize   Normalize before comparing?
      * @throws  IOException File IO failed.
-     * @throws  XmlFilePositionExceptionList File data is invalid.
      */
     private static void generate(final File dir, final String xml,
-            final File destinationDirectory, final boolean normalize) throws Exception {
-        final File xmlFile = new File(dir, xml);
+            final File destinationDirectory, final boolean normalize)
+            throws IOException, SourceFileExceptionList, SAXException {
+        generate(new File(dir, xml), destinationDirectory, normalize);
+    }
+
+    /**
+     * Call the generation of one LaTeX file and copy XML source to same destination directory.
+     *
+     * @param   xmlFile                 XML file. Must not be <code>null</code>.
+     * @param   destinationDirectory    Directory path for LaTeX file. Must not be <code>null</code>.
+     * @param   normalize               Normalize before comparing?
+     * @throws  IOException             File IO failed.
+     */
+    private static void generate(final File xmlFile, final File destinationDirectory, final boolean normalize)
+            throws IOException, SourceFileExceptionList, SAXException {
         final File destination = new File(destinationDirectory, xmlFile.getName() + "_").getAbsoluteFile();
         Xml2Xml.generate(new DummyInternalKernalServices(), xmlFile, destination);
         if (!normalize) {
@@ -98,6 +134,7 @@ public final class GenerateXmlTest extends QedeqTestCase {
             XmlNormalizer.normalize(xmlFile, xmlFile2);
             final File destination2 = new File(destinationDirectory, xmlFile.getName() + "3_").getAbsoluteFile();
             XmlNormalizer.normalize(destination, destination2);
+            System.out.println("comparing " + xmlFile2 + " with " + destination2);
             assertEquals(true, IoUtility.compareTextFiles(xmlFile2, destination2, "UTF-8"));
         }
     }
