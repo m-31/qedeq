@@ -29,6 +29,8 @@ import java.util.Properties;
 import java.util.Set;
 
 import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang.StringEscapeUtils;
+
 
 
 /**
@@ -620,6 +622,46 @@ public final class StringUtility {
         }
         list.add(text.substring(start));
         return (String[]) list.toArray(new String[]{});
+    }
+
+    /**
+     * <p>Escapes the characters in a <code>String</code> using XML entities.</p>
+     *
+     * <p>For example: <tt>"bread" & "butter"</tt> =>
+     * <tt>&amp;quot;bread&amp;quot; &amp;amp; &amp;quot;butter&amp;quot;</tt>.
+     * </p>
+     *
+     * <p>Supports only the five basic XML entities (gt, lt, quot, amp, apos).
+     * Does not support DTDs or external entities.</p>
+     *
+     * <p>Note that unicode characters greater than 0x7f are currently escaped to
+     * their numerical \\u equivalent. This may change in future releases. </p>
+     *
+     * @param   value   The <code>String</code> to escape, may be null.
+     * @return  A new escaped <code>String</code>, <code>null</code> if null string input
+     * @see #unescapeXml(java.lang.String)
+     */
+    public static String escapeXml(final String value) {
+        return StringEscapeUtils.escapeXml(value);
+    }
+
+    /**
+     * <p>Unescapes a string containing XML entity escapes to a string
+     * containing the actual Unicode characters corresponding to the
+     * escapes.</p>
+     *
+     * <p>Supports only the five basic XML entities (gt, lt, quot, amp, apos).
+     * Does not support DTDs or external entities.</p>
+     *
+     * <p>Note that numerical \\u unicode codes are unescaped to their respective
+     *    unicode characters. This may change in future releases. </p>
+     *
+     * @param   value   The <code>String</code> to unescape, may be null.
+     * @return  A new unescaped <code>String</code>, <code>null</code> if null string input
+     * @see #escapeXml(String)
+     */
+    public static String unexcapeXml(final String value) {
+        return StringEscapeUtils.unescapeXml(value);
     }
 
 }
