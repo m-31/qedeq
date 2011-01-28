@@ -69,7 +69,7 @@ public class SubsectionHandler extends AbstractSimpleHandler {
             throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             subsection = new SubsectionVo();
-            subsection.setId(attributes.getString("label"));
+            subsection.setId(attributes.getString("id"));
             subsection.setLevel(attributes.getString("level"));
         } else if (titleHandler.getStartTag().equals(name)) {
             changeHandler(titleHandler, name, attributes);
