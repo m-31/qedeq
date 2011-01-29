@@ -70,9 +70,6 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 /**
  * This class prints a QEDEQ module in XML format in an output stream.
  *
- * TODO mime 20080309: escape XML attributes like &gt;, &amp; and other.
- * See {@link org.qedeq.base.utility.StringUtility#decodeXmlMarkup(StringBuffer)}.
- *
  * @author  Michael Meyling
  */
 public final class Qedeq2Xml extends ControlVisitor implements Plugin {
@@ -131,7 +128,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Header header) {
         printer.print("<HEADER");
         if (header.getEmail() != null) {
-            printer.print(" email=\"" + header.getEmail() + "\"");
+            printer.print(" email=\"" + StringUtility.escapeXml(header.getEmail()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -145,10 +142,10 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Specification specification) {
         printer.print("<SPECIFICATION");
         if (specification.getName() != null) {
-            printer.print(" name=\"" + specification.getName() + "\"");
+            printer.print(" name=\"" + StringUtility.escapeXml(specification.getName()) + "\"");
         }
         if (specification.getName() != null) {
-            printer.print(" ruleVersion=\"" + specification.getRuleVersion() + "\"");
+            printer.print(" ruleVersion=\"" + StringUtility.escapeXml(specification.getRuleVersion()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -215,7 +212,10 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
             printer.print("  ");
             final String tabs = printer.getLevel();
             printer.clearLevel();
-            printer.println(StringUtility.useSystemLineSeparator(latex.getLatex()).trim());
+            // escape ]]>
+            final String data = StringUtility.replace(latex.getLatex(),
+                "]]>", "]]]]><![CDATA[>");
+            printer.println(StringUtility.useSystemLineSeparator(data).trim());
             printer.pushLevel(tabs);
         }
     }
@@ -259,7 +259,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Author author) {
         printer.print("<AUTHOR");
         if (author.getEmail() != null) {
-            printer.print(" email=\"" + author.getEmail() + "\"");
+            printer.print(" email=\"" + StringUtility.escapeXml(author.getEmail()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -291,7 +291,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Import imp) {
         printer.print("<IMPORT");
         if (imp.getLabel() != null) {
-            printer.print(" label=\"" + imp.getLabel() + "\"");
+            printer.print(" label=\"" + StringUtility.escapeXml(imp.getLabel()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -353,10 +353,10 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Subsection subsection) {
         printer.print("<SUBSECTION");
         if (subsection.getId() != null) {
-            printer.print(" id=\"" + subsection.getId() + "\"");
+            printer.print(" id=\"" + StringUtility.escapeXml(subsection.getId()) + "\"");
         }
         if (subsection.getLevel() != null) {
-            printer.print(" level=\"" + subsection.getLevel() + "\"");
+            printer.print(" level=\"" + StringUtility.escapeXml(subsection.getLevel()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -370,10 +370,10 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Node node) {
         printer.print("<NODE");
         if (node.getId() != null) {
-            printer.print(" id=\"" + node.getId() + "\"");
+            printer.print(" id=\"" + StringUtility.escapeXml(node.getId()) + "\"");
         }
         if (node.getLevel() != null) {
-            printer.print(" level=\"" + node.getLevel() + "\"");
+            printer.print(" level=\"" + StringUtility.escapeXml(node.getLevel()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -387,7 +387,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Axiom axiom) {
         printer.print("<AXIOM");
         if (axiom.getDefinedOperator() != null) {
-            printer.print(" definedOperator=\"" + axiom.getDefinedOperator() + "\"");
+            printer.print(" definedOperator=\"" + StringUtility.escapeXml(axiom.getDefinedOperator()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -411,10 +411,10 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Proof proof) {
         printer.print("<PROOF");
         if (proof.getKind() != null) {
-            printer.print(" kind=\"" + proof.getKind() + "\"");
+            printer.print(" kind=\"" + StringUtility.escapeXml(proof.getKind()) + "\"");
         }
         if (proof.getLevel() != null) {
-            printer.print(" level=\"" + proof.getLevel() + "\"");
+            printer.print(" level=\"" + StringUtility.escapeXml(proof.getLevel()) + "\"");
         }
         printer.println(">");
     }
@@ -446,7 +446,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final FormalProofLine line) {
         printer.print("<L");
         if (line.getLabel() != null) {
-            printer.print(" label=\"" + line.getLabel() + "\"");
+            printer.print(" label=\"" + StringUtility.escapeXml(line.getLabel()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -460,10 +460,10 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final ModusPonens reason) {
         printer.print("<MP");
         if (reason.getReference1() != null) {
-            printer.print(" ref1=\"" + reason.getReference1() + "\"");
+            printer.print(" ref1=\"" + StringUtility.escapeXml(reason.getReference1()) + "\"");
         }
         if (reason.getReference2() != null) {
-            printer.print(" ref2=\"" + reason.getReference2() + "\"");
+            printer.print(" ref2=\"" + StringUtility.escapeXml(reason.getReference2()) + "\"");
         }
     }
 
@@ -474,7 +474,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Add reason) {
         printer.print("<ADD");
         if (reason.getReference() != null) {
-            printer.print(" ref=\"" + reason.getReference() + "\"");
+            printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
         }
     }
 
@@ -485,7 +485,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Rename reason) {
         printer.print("<RENAME");
         if (reason.getReference() != null) {
-            printer.print(" ref=\"" + reason.getReference() + "\"");
+            printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -499,7 +499,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final SubstFree reason) {
         printer.print("<SUBST_FREE");
         if (reason.getReference() != null) {
-            printer.print(" ref=\"" + reason.getReference() + "\"");
+            printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -513,7 +513,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final SubstFunc reason) {
         printer.print("<SUBST_FUNCVAR");
         if (reason.getReference() != null) {
-            printer.print(" ref=\"" + reason.getReference() + "\"");
+            printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -527,7 +527,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final SubstPred reason) {
         printer.print("<SUBST_PREDVAR");
         if (reason.getReference() != null) {
-            printer.print(" ref=\"" + reason.getReference() + "\"");
+            printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -541,7 +541,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Existential reason) {
         printer.print("<EXISTENTIAL");
         if (reason.getReference() != null) {
-            printer.print(" ref=\"" + reason.getReference() + "\"");
+            printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
         }
         printer.println("/>");
         printer.pushLevel();
@@ -555,7 +555,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Universal reason) {
         printer.print("<UNIVERSAL");
         if (reason.getReference() != null) {
-            printer.print(" ref=\"" + reason.getReference() + "\"");
+            printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
         }
         printer.println("/>");
         printer.pushLevel();
@@ -569,15 +569,15 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final PredicateDefinition definition) {
         printer.print("<DEFINITION_PREDICATE");
         if (definition.getArgumentNumber() != null) {
-            printer.print(" arguments=\"" + definition.getArgumentNumber() + "\"");
+            printer.print(" arguments=\"" + StringUtility.escapeXml(definition.getArgumentNumber()) + "\"");
         }
         if (definition.getName() != null) {
-            printer.print(" name=\"" + definition.getName() + "\"");
+            printer.print(" name=\"" + StringUtility.escapeXml(definition.getName()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
         if (definition.getLatexPattern() != null) {
-            printer.println("<LATEXPATTERN>" + definition.getLatexPattern()
+            printer.println("<LATEXPATTERN>" + StringUtility.escapeXml(definition.getLatexPattern())
                 + "</LATEXPATTERN>");
         }
     }
@@ -590,10 +590,10 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final FunctionDefinition definition) {
         printer.print("<DEFINITION_FUNCTION");
         if (definition.getArgumentNumber() != null) {
-            printer.print(" arguments=\"" + definition.getArgumentNumber() + "\"");
+            printer.print(" arguments=\"" + StringUtility.escapeXml(definition.getArgumentNumber()) + "\"");
         }
         if (definition.getName() != null) {
-            printer.print(" name=\"" + definition.getName() + "\"");
+            printer.print(" name=\"" + StringUtility.escapeXml(definition.getName()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -611,7 +611,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final Rule rule) {
         printer.print("<RULE");
         if (rule.getName() != null) {
-            printer.print(" name=\"" + rule.getName() + "\"");
+            printer.print(" name=\"" + StringUtility.escapeXml(rule.getName()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
@@ -626,7 +626,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         for (int i = 0; i < linkList.size(); i++) {
             printer.print("<LINK");
             if (linkList.get(i) != null) {
-                printer.print(" id=\"" + linkList.get(i) + "\"");
+                printer.print(" id=\"" + StringUtility.escapeXml(linkList.get(i)) + "\"");
             }
             printer.println("/>");
         };
@@ -673,11 +673,11 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
             if (atom != null) {
                 if ("VAR".equals(operator) || "PREDVAR".equals(operator)
                         || "FUNVAR".equals(operator)) {
-                    printer.print(" id=\"" + atom + "\"");
+                    printer.print(" id=\"" + StringUtility.escapeXml(atom) + "\"");
                 } else if ("PREDCON".equals(operator) || "FUNCON".equals(operator)) {
-                    printer.print(" ref=\"" + atom + "\"");
+                    printer.print(" ref=\"" + StringUtility.escapeXml(atom) + "\"");
                 } else {
-                    printer.print(" unknown=\"" + atom + "\"");
+                    printer.print(" unknown=\"" + StringUtility.escapeXml(atom) + "\"");
                 }
             }
         }
@@ -709,7 +709,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitEnter(final LiteratureItem item) {
         printer.print("<ITEM");
         if (item.getLabel() != null) {
-            printer.print(" label=\"" + item.getLabel() + "\"");
+            printer.print(" label=\"" + StringUtility.escapeXml(item.getLabel()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
