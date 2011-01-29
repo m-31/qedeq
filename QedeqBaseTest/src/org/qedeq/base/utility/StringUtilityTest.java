@@ -291,18 +291,10 @@ public class StringUtilityTest extends QedeqTestCase {
     public void testDecodeXmlMarkup() throws Exception {
         final String test1 = "&amp;&lt;&gt;";
         final StringBuffer buffer = new StringBuffer(test1);
-        assertEquals("&<>", StringUtility.decodeXmlMarkup(buffer));
-    }
-
-    /**
-     * Test {@link StringUtility#decodeXmlMarkup(StringBuffer)}.
-     *
-     * @throws  Exception   Test failed.
-     */
-    public void pestDecodeXmlMarkup() throws Exception {
-        final String test1 = "&#x3C;";
-        final StringBuffer buffer = new StringBuffer(test1);
-        assertEquals("<", StringUtility.decodeXmlMarkup(buffer));
+        assertEquals("&<>", StringUtility.unescapeXml(buffer.toString()));
+        final String test2 = "&#x3C;";
+        final StringBuffer buffer2 = new StringBuffer(test2);
+        assertEquals("<", StringUtility.unescapeXml(buffer2.toString()));
     }
 
     /**
