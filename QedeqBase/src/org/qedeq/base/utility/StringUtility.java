@@ -377,21 +377,6 @@ public final class StringUtility {
     }
 
     /**
-     * Return a String without XML specific encoding.
-     *
-     * @param   value   Data containing markup like &gt;.
-     * @return  Escaped form.
-     */
-    public static String decodeXmlMarkup(final StringBuffer value) {
-        // TODO mime 20080309: replace numerical entities starting with "&"
-        // see http://www.w3.org/TR/2000/WD-xml-2e-20000814#dt-charref
-        replace(value, "&lt;", "<");
-        replace(value, "&gt;", ">");
-        replace(value, "&amp;", "&");
-        return value.toString();
-    }
-
-    /**
      * Trim an integer with leading spaces to a given maximum length.
      *
      * @param   number  Format this long.
@@ -660,7 +645,7 @@ public final class StringUtility {
      * @return  A new unescaped <code>String</code>, <code>null</code> if null string input
      * @see #escapeXml(String)
      */
-    public static String unexcapeXml(final String value) {
+    public static String unescapeXml(final String value) {
         return StringEscapeUtils.unescapeXml(value);
     }
 

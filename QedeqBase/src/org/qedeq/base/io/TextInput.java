@@ -432,7 +432,7 @@ public class TextInput extends InputStream {
                 buffer.append((char) read());
             }
         }
-        return StringUtility.decodeXmlMarkup(buffer);
+        return StringUtility.unescapeXml(buffer.toString());
     }
 
     /**
