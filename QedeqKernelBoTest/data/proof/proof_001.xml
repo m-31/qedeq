@@ -185,6 +185,68 @@
             </FORMULA>
           </AXIOM>
         </NODE>
+        <NODE id="axiom:universalInstantiation">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of universal instantiation
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Universal Instantiation
+              ]]>
+            </LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <FORALL>
+                  <VAR id="x"/>
+                  <PREDVAR id="\phi">
+                    <VAR id="x"/>
+                  </PREDVAR>
+                </FORALL>
+                <PREDVAR id="\phi">
+                  <VAR id="y"/>
+                </PREDVAR>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+        <NODE id="axiom:existencialGeneralization">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of existential generalization
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Existential Generalization
+              ]]>
+            </LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <PREDVAR id="\phi">
+                  <VAR id="y" />
+                </PREDVAR>
+                <EXISTS>
+                  <VAR id="x" />
+                  <PREDVAR id="\phi">
+                    <VAR id="x" />
+                  </PREDVAR>
+                </EXISTS>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
       </SUBSECTIONS>
     </SECTION>
     <SECTION>
@@ -414,6 +476,83 @@
                     </IMPL>
                   </FORMULA>
                   <MP ref1="9" ref2="2"/>
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:two" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <FORALL>
+                  <VAR id="x"/>
+                  <PREDVAR id="\phi">
+                    <VAR id="x" />
+                  </PREDVAR>
+                </FORALL>
+                <EXISTS>
+                  <VAR id="x" />
+                  <PREDVAR id="\phi">
+                    <VAR id="x" />
+                  </PREDVAR>
+                </EXISTS>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x"/>
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <PREDVAR id="\phi">
+                        <VAR id="y" />
+                      </PREDVAR>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:universalInstantiation"/>
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="\phi">
+                        <VAR id="y" />
+                      </PREDVAR>
+                      <EXISTS>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                    </FORMULA>
+                  <ADD ref="axiom:existencialGeneralization"/>
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="C"/>
+                          <PREDVAR id="A"/>
+                        </IMPL>
+                        <OR>
+                          <PREDVAR id="C"/>
+                          <PREDVAR id="B"/>
+                        </OR>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:disjunction_addition"/>
                 </L>
               </LINES>
             </FORMAL_PROOF>
