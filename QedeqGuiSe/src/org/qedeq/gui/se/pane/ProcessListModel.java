@@ -20,8 +20,8 @@ import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
 import org.qedeq.base.utility.DateUtility;
-import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.bo.service.ServiceProcess;
+import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.ServiceProcess;
 
 /**
  * Table model for QEDEQ module specific error pane.

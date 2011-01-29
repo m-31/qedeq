@@ -39,7 +39,7 @@ import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.control.QedeqController;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
 import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.log.LogListenerImpl;
 import org.qedeq.kernel.bo.log.ModuleEventListenerLog;
 import org.qedeq.kernel.bo.log.ModuleEventLog;

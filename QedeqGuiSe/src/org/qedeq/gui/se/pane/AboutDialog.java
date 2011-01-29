@@ -51,7 +51,7 @@ import org.qedeq.base.utility.StringUtility;
 import org.qedeq.gui.se.element.CPTextArea;
 import org.qedeq.gui.se.util.BareBonesBrowserLaunch;
 import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.KernelContext;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
 

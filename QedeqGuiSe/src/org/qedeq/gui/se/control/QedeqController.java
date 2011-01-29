@@ -26,8 +26,8 @@ import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.gui.se.tree.QedeqTreeCtrl;
 import org.qedeq.gui.se.util.DataDictionary;
 import org.qedeq.gui.se.util.MenuHelper;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.se.common.Plugin;
 
 

@@ -31,7 +31,7 @@ import org.qedeq.base.io.ResourceLoaderUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.ExternalLinkContentViewerUI;
 import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.KernelContext;
 
 /**
  * Show help window.

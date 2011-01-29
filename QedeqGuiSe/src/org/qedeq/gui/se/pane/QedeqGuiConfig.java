@@ -19,7 +19,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.base.io.IoUtility;
-import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.se.config.QedeqConfig;
 
 /**

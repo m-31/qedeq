@@ -26,7 +26,7 @@ import javax.swing.filechooser.FileFilter;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.pane.QedeqGuiConfig;
-import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.se.common.ModuleAddress;
 
 /**
