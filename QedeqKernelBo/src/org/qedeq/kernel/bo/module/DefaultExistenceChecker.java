@@ -20,9 +20,9 @@ import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
-import org.qedeq.kernel.bo.logic.wf.Function;
+import org.qedeq.kernel.bo.logic.common.Function;
+import org.qedeq.kernel.bo.logic.common.Predicate;
 import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
-import org.qedeq.kernel.bo.logic.wf.Predicate;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 

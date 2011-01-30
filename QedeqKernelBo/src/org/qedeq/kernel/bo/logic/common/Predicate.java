@@ -13,45 +13,45 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
+package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.base.utility.EqualsUtility;
 
 /**
- * Function constant key, describing a function constant.
+ * Predicate constant key, describing a predicate constant.
  *
  * @author  Michael Meyling
  */
-public final class Function {
+public final class Predicate {
 
-    /** Function name. */
+    /** Predicate name. */
     private String name;
 
-    /** Function argument number. */
+    /** Predicate argument number. */
     private String arguments;
 
     /**
      * Constructor.
      *
-     * @param   name        Function name.
-     * @param   arguments   Function argument number.
+     * @param   name        Predicate name.
+     * @param   arguments   Predicate argument number.
      */
-    public Function(final String name, final String arguments) {
+    public Predicate(final String name, final String arguments) {
         this.name = name;
         this.arguments = arguments;
     }
 
     /**
-     * Get function name.
+     * Get predicate name.
      *
-     * @return  Function name.
+     * @return  Predicate name.
      */
     public String getName() {
         return name;
     }
 
     /**
-     * Get function argument number.
+     * Get predicate argument number.
      *
      * @return  Number of arguments.
      */
@@ -65,10 +65,10 @@ public final class Function {
     }
 
     public boolean equals(final Object obj) {
-        if (!(obj instanceof Function)) {
+        if (!(obj instanceof Predicate)) {
             return false;
         }
-        final Function other = (Function) obj;
+        final Predicate other = (Predicate) obj;
         return EqualsUtility.equals(getName(), other.getName())
             && EqualsUtility.equals(getArguments(), other.getArguments());
     }

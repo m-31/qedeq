@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.logic.common;
 
 
-
 /**
  * Check if operators are already defined.
  * <p>

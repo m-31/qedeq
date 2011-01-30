@@ -15,8 +15,6 @@
 
 package org.qedeq.kernel.bo.logic.common;
 
-import org.qedeq.kernel.bo.logic.wf.Predicate;
-
 
 /**
  * Check if a predicate is already defined.

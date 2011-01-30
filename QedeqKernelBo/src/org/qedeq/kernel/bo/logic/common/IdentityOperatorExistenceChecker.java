@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.logic.common;
 
 
-
 /**
  * Check if the predicate for identity is already defined.
  *

@@ -16,6 +16,8 @@
 package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
+import org.qedeq.kernel.bo.logic.common.Function;
+import org.qedeq.kernel.bo.logic.common.Predicate;
 
 
 /**
