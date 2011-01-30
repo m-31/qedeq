@@ -18,6 +18,7 @@ import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.Function;
+import org.qedeq.kernel.bo.logic.common.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.Predicate;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
