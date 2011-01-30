@@ -36,7 +36,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.CheckRequiredModuleException;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.LoadRequiredModules;
-import org.qedeq.kernel.bo.service.ModuleConstantsExistenceChecker;
+import org.qedeq.kernel.bo.service.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -66,7 +66,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
     private static final Class CLASS = QedeqBoFormalLogicCheckerExecutor.class;
 
     /** Existence checker for predicate and function constants. */
-    private ModuleConstantsExistenceChecker existence;
+    private ModuleConstantsExistenceCheckerImpl existence;
 
     /** Factory for generating new checkers. */
     private FormulaCheckerFactory checkerFactory = null;
@@ -181,7 +181,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
 
     public void traverse() throws SourceFileExceptionList {
         try {
-            this.existence = new ModuleConstantsExistenceChecker(getQedeqBo());
+            this.existence = new ModuleConstantsExistenceCheckerImpl(getQedeqBo());
         } catch (ModuleDataException me) {
             addError(me);
             throw getErrorList();

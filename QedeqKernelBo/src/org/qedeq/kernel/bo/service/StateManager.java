@@ -487,7 +487,7 @@ public class StateManager {
      *
      * @param   checker Checks if a predicate or function constant is defined.
      */
-    public void setChecked(final ModuleConstantsExistenceChecker checker) {
+    public void setChecked(final ModuleConstantsExistenceCheckerImpl checker) {
         checkIfDeleted();
         if (!hasLoadedRequiredModules()) {
             throw new IllegalStateException(

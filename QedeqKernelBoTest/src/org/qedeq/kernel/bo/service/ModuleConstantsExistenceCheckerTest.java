@@ -176,7 +176,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertNotNull(errors);
         assertEquals(0, errors.size());
 
-        ModuleConstantsExistenceCheckerInterface checker = qedeq.getExistenceChecker();
+        ModuleConstantsExistenceChecker checker = qedeq.getExistenceChecker();
 
         assertEquals("MCEC052.equal", checker.getIdentityOperator());
         assertFalse(qedeq.equals(checker.getQedeq(new Predicate(ExistenceChecker.NAME_EQUAL, "" + 2))));
@@ -288,7 +288,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertNotNull(errors);
         assertEquals(0, errors.size());
 
-        ModuleConstantsExistenceCheckerInterface checker = qedeq.getExistenceChecker();
+        ModuleConstantsExistenceChecker checker = qedeq.getExistenceChecker();
 
         assertEquals("MCEC062a.equal", checker.getIdentityOperator());
         assertFalse(qedeq.equals(checker.getQedeq(new Predicate(ExistenceChecker.NAME_EQUAL, "" + 2))));

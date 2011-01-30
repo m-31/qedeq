@@ -66,7 +66,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         assertTrue(bo.hasErrors());
         bo.setLoadedRequiredModules(new KernelModuleReferenceList());
         assertFalse(bo.hasErrors());
-        bo.setChecked(new ModuleConstantsExistenceChecker(bo));
+        bo.setChecked(new ModuleConstantsExistenceCheckerImpl(bo));
         assertFalse(bo.hasErrors());
     }
 

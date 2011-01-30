@@ -65,7 +65,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     private KernelModuleReferenceList dependent;
 
     /** Predicate and function constant existence checker. */
-    private ModuleConstantsExistenceCheckerInterface checker;
+    private ModuleConstantsExistenceChecker checker;
 
     /** Labels for this module. */
     private ModuleLabels labels;
@@ -285,7 +285,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      *
      * @param   checker Checks if a predicate or function constant is defined.
      */
-    public void setChecked(final ModuleConstantsExistenceChecker checker) {
+    public void setChecked(final ModuleConstantsExistenceCheckerImpl checker) {
         stateManager.setChecked(checker);
     }
 
@@ -462,16 +462,16 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      *
      * @return  Checker. Checks if a predicate or function constant is defined.
      */
-    public ModuleConstantsExistenceCheckerInterface getExistenceChecker() {
+    public ModuleConstantsExistenceChecker getExistenceChecker() {
         return checker;
     }
 
     /**
-     * Set {@link ModuleConstantsExistenceChecker}. Doesn't do any status handling.
+     * Set {@link ModuleConstantsExistenceCheckerImpl}. Doesn't do any status handling.
      *
      * @param   checker Set this checker.
      */
-    public void setExistenceChecker(final ModuleConstantsExistenceCheckerInterface checker) {
+    public void setExistenceChecker(final ModuleConstantsExistenceChecker checker) {
         this.checker = checker;
     }
 

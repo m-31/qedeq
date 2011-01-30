@@ -1,7 +1,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.service.ModuleConstantsExistenceCheckerInterface;
+import org.qedeq.kernel.bo.service.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -74,7 +74,7 @@ public interface KernelQedeqBo extends QedeqBo {
      *
      * @return  Checker. Checks if a predicate or function constant is defined.
      */
-    public ModuleConstantsExistenceCheckerInterface getExistenceChecker();
+    public ModuleConstantsExistenceChecker getExistenceChecker();
 
 
 }
