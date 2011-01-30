@@ -25,7 +25,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.control.SelectionListenerList;
 import org.qedeq.gui.se.pane.LogPane;
 import org.qedeq.gui.se.pane.ModuleErrorAndWarningListPane;
-import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.log.QedeqLog;
 

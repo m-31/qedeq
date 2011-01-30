@@ -21,7 +21,7 @@ import javax.swing.table.AbstractTableModel;
 
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.ServiceProcess;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 
 /**
  * Table model for QEDEQ module specific error pane.

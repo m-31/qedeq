@@ -27,7 +27,7 @@ import org.qedeq.gui.se.pane.TextPaneWindow;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.common.Plugin;
 
 /**

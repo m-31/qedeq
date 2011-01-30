@@ -24,7 +24,7 @@ import javax.swing.AbstractAction;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 
 /**
