@@ -1,6 +1,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.se.common.LogicalState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -74,6 +75,37 @@ public interface KernelQedeqBo extends QedeqBo {
      * @return  Checker. Checks if a predicate or function constant is defined.
      */
     public ModuleConstantsExistenceChecker getExistenceChecker();
+
+    /**
+     * Set failure module state.
+     *
+     * @param   stateExternalCheckingFailed   Module state.
+     * @param   sfl                           Exception that occurred during loading.
+     * @throws  IllegalArgumentException    <code>state</code> is no failure state
+     */
+    public void setLogicalFailureState(LogicalState stateExternalCheckingFailed,
+            final SourceFileExceptionList sfl);
+
+    /**
+     * Set loading progress module state. Must not be <code>null</code>.
+     *
+     * @param   stateInternalChecking   module state
+     */
+    public void setLogicalProgressState(LogicalState stateInternalChecking);
+
+    /**
+     * Set {@link ModuleConstantsExistenceCheckerImpl}. Doesn't do any status handling.
+     *
+     * @param   existence   Set this checker.
+     */
+    public void setExistenceChecker(ModuleConstantsExistenceChecker existence);
+
+    /**
+     * Set logic checked state. Also set the predicate and function existence checker.
+     *
+     * @param   checker Checks if a predicate or function constant is defined.
+     */
+    public void setChecked(final ModuleConstantsExistenceChecker checker);
 
 
 }

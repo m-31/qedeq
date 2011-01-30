@@ -259,11 +259,6 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return getKernelRequiredModules();
     }
 
-    /**
-     * Get labels and URLs of all referenced modules.
-     *
-     * @return  URLs of all referenced modules.
-     */
     public KernelModuleReferenceList getKernelRequiredModules() {
         return required;
     }
@@ -281,12 +276,7 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return dependent;
     }
 
-    /**
-     * Set logic checked state. Also set the predicate and function existence checker.
-     *
-     * @param   checker Checks if a predicate or function constant is defined.
-     */
-    public void setChecked(final ModuleConstantsExistenceCheckerImpl checker) {
+    public void setChecked(final ModuleConstantsExistenceChecker checker) {
         stateManager.setChecked(checker);
     }
 
@@ -294,22 +284,10 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return stateManager.isChecked();
     }
 
-   /**
-    * Set loading progress module state. Must not be <code>null</code>.
-    *
-    * @param   state   module state
-    */
     public void setLogicalProgressState(final LogicalState state) {
         stateManager.setLogicalProgressState(state);
     }
 
-    /**
-     * Set failure module state.
-     *
-     * @param   state   module state
-     * @param   e       Exception that occurred during loading.
-     * @throws  IllegalArgumentException    <code>state</code> is no failure state
-     */
     public void setLogicalFailureState(final LogicalState state,
             final SourceFileExceptionList e) {
         stateManager.setLogicalFailureState(state, e);
@@ -467,11 +445,6 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return checker;
     }
 
-    /**
-     * Set {@link ModuleConstantsExistenceCheckerImpl}. Doesn't do any status handling.
-     *
-     * @param   checker Set this checker.
-     */
     public void setExistenceChecker(final ModuleConstantsExistenceChecker checker) {
         this.checker = checker;
     }

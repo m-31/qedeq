@@ -33,9 +33,6 @@ import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.CheckRequiredModuleException;
-import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
-import org.qedeq.kernel.bo.service.LoadRequiredModules;
 import org.qedeq.kernel.bo.service.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Formula;
@@ -130,14 +127,14 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             QedeqLog.getInstance().logFailureReply(msg, "Module could not even be loaded.");
             return Boolean.FALSE;
         }
-        LoadRequiredModules.loadRequired(getPlugin(), getDefaultKernelQedeqBo());
+        KernelContext.getInstance().loadRequiredModules(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().hasLoadedRequiredModules()) {
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
             + "\"";
             QedeqLog.getInstance().logFailureReply(msg, "Not all required modules could be loaded.");
             return Boolean.FALSE;
         }
-        getDefaultKernelQedeqBo().setLogicalProgressState(LogicalState.STATE_EXTERNAL_CHECKING);
+        getQedeqBo().setLogicalProgressState(LogicalState.STATE_EXTERNAL_CHECKING);
         final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList();
         KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
@@ -151,29 +148,29 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                     HigherLogicalErrors.MODULE_IMPORT_CHECK_FAILED_TEXT
                     + list.getQedeqBo(i).getModuleAddress(),
                     list.getModuleContext(i));
-                sfl.add(getDefaultKernelQedeqBo().createSourceFileException(getPlugin(), md));
+                sfl.add(getQedeqBo().createSourceFileException(getPlugin(), md));
             }
         }
         // has at least one import errors?
         if (sfl.size() > 0) {
-            getDefaultKernelQedeqBo().setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
+            getQedeqBo().setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
             return Boolean.FALSE;
         }
-        getDefaultKernelQedeqBo().setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
-        getDefaultKernelQedeqBo().setExistenceChecker(existence);
+        getQedeqBo().setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
+        getQedeqBo().setExistenceChecker(existence);
         try {
             traverse();
         } catch (SourceFileExceptionList e) {
-            getDefaultKernelQedeqBo().setLogicalFailureState(LogicalState.STATE_INTERNAL_CHECKING_FAILED, e);
+            getQedeqBo().setLogicalFailureState(LogicalState.STATE_INTERNAL_CHECKING_FAILED, e);
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
             return Boolean.FALSE;
         }
-        getDefaultKernelQedeqBo().setChecked(existence);
+        getQedeqBo().setChecked(existence);
         QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         return Boolean.TRUE;
@@ -281,7 +278,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
         if ("2".equals(predicate.getArguments())
                 && ExistenceChecker.NAME_EQUAL.equals(predicate.getName())) {
             existence.setIdentityOperatorDefined(predicate.getName(),
-                (DefaultKernelQedeqBo) getQedeqBo(), getCurrentContext());
+                (KernelQedeqBo) getQedeqBo(), getCurrentContext());
         }
         setLocationWithinModule(context);
         setBlocked(true);
@@ -377,7 +374,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
         if (rule.getName() != null) {
             if ("SET_DEFINION_BY_FORMULA".equals(rule.getName())) {
                 // LATER mime 20080114: check if this rule can be proposed
-                existence.setClassOperatorModule((DefaultKernelQedeqBo) getQedeqBo(),
+                existence.setClassOperatorModule((KernelQedeqBo) getQedeqBo(),
                     getCurrentContext());
             }
         }
@@ -395,10 +392,6 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-    }
-
-    private DefaultKernelQedeqBo getDefaultKernelQedeqBo() {
-        return (DefaultKernelQedeqBo) getQedeqBo();
     }
 
 }

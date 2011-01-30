@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service;
+package org.qedeq.kernel.bo.service.logic;
 
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
