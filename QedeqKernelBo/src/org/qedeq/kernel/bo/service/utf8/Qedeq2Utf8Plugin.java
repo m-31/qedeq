@@ -17,9 +17,9 @@ package org.qedeq.kernel.bo.service.utf8;
 
 import java.util.Map;
 
+import org.qedeq.kernel.bo.PluginExecutor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
 
 
 /**

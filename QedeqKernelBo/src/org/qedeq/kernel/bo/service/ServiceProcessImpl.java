@@ -19,17 +19,21 @@ import java.util.Iterator;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.PluginExecutor;
+import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.ServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.common.Plugin;
 
 /**
  * Process info for a service.
+ *
+ * @author  Michael Meyling
  */
-public class ServiceProcess {
+public class ServiceProcessImpl implements ServiceProcess {
 
     /** This class. */
-    private static final Class CLASS = ServiceProcess.class;
+    private static final Class CLASS = ServiceProcessImpl.class;
 
     /** The service the thread works for. */
     private final Plugin service;
@@ -72,7 +76,7 @@ public class ServiceProcess {
      * @param   thread      The process the service is executed within.
      * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
      */
-    public ServiceProcess(final Plugin service, final Thread thread, final KernelQedeqBo qedeq,
+    public ServiceProcessImpl(final Plugin service, final Thread thread, final KernelQedeqBo qedeq,
             final Map parameters) {
         this.service = service;
         this.thread = thread;
@@ -91,68 +95,54 @@ public class ServiceProcess {
      * @param   qedeq       Module we work on.
      * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
      */
-    public ServiceProcess(final Plugin service, final KernelQedeqBo qedeq, final Map parameters) {
+    public ServiceProcessImpl(final Plugin service, final KernelQedeqBo qedeq, final Map parameters) {
         this(service, Thread.currentThread(), qedeq, parameters);
     }
 
-    /**
-     * Get service.
-     *
-     * @return  service
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#getService()
      */
     public synchronized Plugin getService() {
         return service;
     }
 
-    /**
-     * Get thread the service runs within.
-     *
-     * @return  Service thread.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#getThread()
      */
     public synchronized Thread getThread() {
         return thread;
     }
 
-    /**
-     * Get service.
-     *
-     * @return  service
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#getQedeq()
      */
-    public synchronized KernelQedeqBo getQedeq() {
+    public synchronized QedeqBo getQedeq() {
         return qedeq;
     }
 
-    /**
-     * Get service parameter.
-     *
-     * @return  Service parameter.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#getParameters()
      */
     public synchronized Map getParameters() {
         return parameters;
     }
 
-    /**
-     * Get associated executor.
-     *
-     * @return  Associated executor. Might be <code>null</code>.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#getExecutor()
      */
     public synchronized PluginExecutor getExecutor() {
         return executor;
     }
 
-    /**
-     * Set associated executor.
-     *
-     * @param   executor    Associated executor.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#setExecutor(org.qedeq.kernel.bo.module.PluginExecutor)
      */
     public synchronized void setExecutor(final PluginExecutor executor) {
         this.executor = executor;
     }
 
-    /**
-     * Get service parameter. Filters only for parameters that are explicitly for this plugin.
-     *
-     * @return  Service parameter.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#getParameterString()
      */
     public synchronized String getParameterString() {
         final StringBuffer buffer = new StringBuffer(30);
@@ -179,19 +169,15 @@ public class ServiceProcess {
         return buffer.toString();
     }
 
-    /**
-     * Get timestamp for service start.
-     *
-     * @return  Service start timestamp.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#getStart()
      */
     public synchronized long getStart() {
         return start;
     }
 
-    /**
-     * Get timestamp for service stop.
-     *
-     * @return  Service stop timestamp.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#getStop()
      */
     public synchronized long getStop() {
         return stop;
@@ -206,8 +192,8 @@ public class ServiceProcess {
         stop = System.currentTimeMillis();
     }
 
-    /**
-     * Mark that thread execution was has normally ended.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#setSuccessState()
      */
     public synchronized void setSuccessState() {
         if (isRunning()) {
@@ -218,8 +204,8 @@ public class ServiceProcess {
         }
     }
 
-    /**
-     * Mark that thread execution was canceled.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#setFailureState()
      */
     public synchronized void setFailureState() {
         if (isRunning()) {
@@ -228,10 +214,8 @@ public class ServiceProcess {
         }
     }
 
-    /**
-     * Is the process still running?
-     *
-     * @return  The process is still running. (But it might be blocked.)
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#isRunning()
      */
     public synchronized boolean isRunning() {
         if (state == 0) {
@@ -246,10 +230,8 @@ public class ServiceProcess {
         return false;
     }
 
-    /**
-     * Is the process running, but is blocked?
-     *
-     * @return  Process is running and blocked.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#isBlocked()
      */
     public synchronized boolean isBlocked() {
         if (isRunning()) {
@@ -258,45 +240,37 @@ public class ServiceProcess {
         return false;
     }
 
-    /**
-     * Set blocked state.
-     *
-     * @param   blocked Blocked state.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#setBlocked(boolean)
      */
     public synchronized void setBlocked(final boolean blocked) {
         this.blocked = blocked;
     }
 
-    /**
-     * Has the process normally ended?
-     *
-     * @return  Has the process normally ended?
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#wasSuccess()
      */
     public synchronized boolean wasSuccess() {
         return state == 1;
     }
 
-    /**
-     * Has the process been canceled?
-     *
-     * @return  The process has been canceled.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#wasFailure()
      */
     public synchronized boolean wasFailure() {
         return state == -1;
     }
 
-    /**
-     * Interrupt running thread. Usually because of user canceling.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#interrupt()
      */
     public synchronized void interrupt() {
         thread.interrupt();
         setFailureState();
     }
 
-    /**
-     * Get percentage of currently running plugin execution.
-     *
-     * @return  Number between 0 and 100.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#getExecutionPercentage()
      */
     public synchronized double getExecutionPercentage() {
         if (isRunning() || isBlocked()) {
@@ -307,10 +281,8 @@ public class ServiceProcess {
         return executionPercentage;
     }
 
-    /**
-     * Get description of currently taken action.
-     *
-     * @return  We are doing this currently.
+    /* (non-Javadoc)
+     * @see org.qedeq.kernel.bo.ServiceProcess#getExecutionActionDescription()
      */
     public synchronized String getExecutionActionDescription() {
         if (isRunning() || isBlocked()) {

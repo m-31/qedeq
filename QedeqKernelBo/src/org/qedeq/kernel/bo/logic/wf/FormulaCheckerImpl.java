@@ -13,17 +13,12 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic;
+package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.logic.wf.ElementCheckException;
-import org.qedeq.kernel.bo.logic.wf.EverythingExists;
-import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
-import org.qedeq.kernel.bo.logic.wf.FormulaBasicErrors;
-import org.qedeq.kernel.bo.logic.wf.FormulaCheckException;
-import org.qedeq.kernel.bo.logic.wf.LogicalCheckExceptionList;
-import org.qedeq.kernel.bo.logic.wf.Operators;
-import org.qedeq.kernel.bo.logic.wf.TermCheckException;
+import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
+import org.qedeq.kernel.bo.logic.common.FormulaChecker;
+import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;

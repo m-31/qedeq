@@ -13,10 +13,10 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic;
+package org.qedeq.kernel.bo.logic.work;
 
+import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckException;
-import org.qedeq.kernel.bo.logic.wf.LogicalCheckException;
 import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.se.base.list.Element;
 

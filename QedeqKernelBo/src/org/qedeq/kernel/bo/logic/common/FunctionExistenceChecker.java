@@ -13,38 +13,33 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.context;
+package org.qedeq.kernel.bo.logic.common;
 
-import java.io.IOException;
+import org.qedeq.kernel.bo.logic.wf.Function;
 
-import org.qedeq.kernel.se.config.QedeqConfig;
 
 /**
- * State changing methods for the kernel.
+ * Check if a function is already defined.
  *
  * @author  Michael Meyling
  */
-public interface KernelState extends KernelServices {
+public interface FunctionExistenceChecker {
 
     /**
-     * Kernel initialisation.
+     * Check if a function is already defined.
      *
-     * @param   moduleServices  Various kernel services are supported here.
-     * @param   qedeqConfig     Configuration to work with.
-     * @throws  IOException     Initialisation failed.
+     * @param   name        Function name.
+     * @param   arguments   Number of operands for the function.
+     * @return  Functions is defined.
      */
-    public void init(ServiceModule moduleServices, QedeqConfig qedeqConfig)
-        throws IOException;
+    public boolean functionExists(String name, int arguments);
 
     /**
-     * Start the kernel.
+     * Check if a function is already defined.
      *
+     * @param   function    Function.
+     * @return  Functions is defined.
      */
-    public void startup();
-
-    /**
-     * Closes the kernel.
-     */
-    public void shutdown();
+    public boolean functionExists(Function function);
 
 }

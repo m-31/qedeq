@@ -18,7 +18,7 @@ package org.qedeq.kernel.bo.module;
 import java.io.File;
 import java.io.IOException;
 
-import org.qedeq.kernel.bo.context.KernelServices;
+import org.qedeq.kernel.bo.KernelServices;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;

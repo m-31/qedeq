@@ -13,13 +13,13 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
+package org.qedeq.kernel.bo.logic.common;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Type save {@link org.qedeq.kernel.bo.logic.wf.LogicalCheckException} list.
+ * Type save {@link org.qedeq.kernel.bo.logic.common.LogicalCheckException} list.
  *
  * @author  Michael Meyling
  */

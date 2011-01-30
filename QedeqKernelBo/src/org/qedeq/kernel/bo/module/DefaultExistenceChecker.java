@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
+import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
 import org.qedeq.kernel.bo.logic.wf.Predicate;

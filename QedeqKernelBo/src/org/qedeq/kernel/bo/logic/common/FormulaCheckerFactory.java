@@ -1,4 +1,4 @@
-package org.qedeq.kernel.bo.logic;
+package org.qedeq.kernel.bo.logic.common;
 
 
 /**

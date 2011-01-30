@@ -13,30 +13,25 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
+package org.qedeq.kernel.bo.logic.common;
 
+import org.qedeq.kernel.bo.logic.wf.PredicateExistenceChecker;
 
 
 /**
- * Check if the predicate for identity is already defined.
+ * Check if operators are already defined.
+ * <p>
+ * If {@link #identityOperatorExists()} returns <code>true</code> then
+ * the call to {@link #predicateExists(String, int)} with the arguments
+ * {@link #getIdentityOperator()} and 2 must return <code>true</code>.
  *
  * @author  Michael Meyling
  */
-public interface IdentityOperatorExistenceChecker {
+public interface ExistenceChecker extends PredicateExistenceChecker, FunctionExistenceChecker,
+        ClassOperatorExistenceChecker, IdentityOperatorExistenceChecker {
 
-    /**
-     * Check if the identity operator is already defined.
-     *
-     * @return  Identity operator is already defined.
-     */
-    public boolean identityOperatorExists();
+    /** Name of identity operator. */
+    public static final String NAME_EQUAL = "equal";
 
-    /**
-     * Get identity operator. This is the operator string of a predicate.
-     *
-     * @return  Identity operator. Should be <code>null</code>
-     *          if !{@link #identityOperatorExists()}.
-     */
-    public String getIdentityOperator();
 
 }

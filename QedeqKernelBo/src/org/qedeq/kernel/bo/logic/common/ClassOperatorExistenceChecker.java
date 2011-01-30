@@ -13,31 +13,21 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
+package org.qedeq.kernel.bo.logic.common;
 
 
 /**
- * Check if a function is already defined.
+ * Check if the class operator is already defined.
  *
  * @author  Michael Meyling
  */
-public interface FunctionExistenceChecker {
+public interface ClassOperatorExistenceChecker {
 
     /**
-     * Check if a function is already defined.
+     * Check if the class operator is already defined.
      *
-     * @param   name        Function name.
-     * @param   arguments   Number of operands for the function.
-     * @return  Functions is defined.
+     * @return  Class operator is defined.
      */
-    public boolean functionExists(String name, int arguments);
-
-    /**
-     * Check if a function is already defined.
-     *
-     * @param   function    Function.
-     * @return  Functions is defined.
-     */
-    public boolean functionExists(Function function);
+    public boolean classOperatorExists();
 
 }

@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
+import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.Predicate;
 import org.qedeq.kernel.bo.service.ClassOperatorAlreadyExistsException;

@@ -13,21 +13,30 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
+package org.qedeq.kernel.bo.logic.common;
+
 
 
 /**
- * Check if the class operator is already defined.
+ * Check if the predicate for identity is already defined.
  *
  * @author  Michael Meyling
  */
-public interface ClassOperatorExistenceChecker {
+public interface IdentityOperatorExistenceChecker {
 
     /**
-     * Check if the class operator is already defined.
+     * Check if the identity operator is already defined.
      *
-     * @return  Class operator is defined.
+     * @return  Identity operator is already defined.
      */
-    public boolean classOperatorExists();
+    public boolean identityOperatorExists();
+
+    /**
+     * Get identity operator. This is the operator string of a predicate.
+     *
+     * @return  Identity operator. Should be <code>null</code>
+     *          if !{@link #identityOperatorExists()}.
+     */
+    public String getIdentityOperator();
 
 }

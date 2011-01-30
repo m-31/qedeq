@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.bo.logic.wf;
 
+import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
+
 
 /**
  * This implementation gives always the answer <code>true</code> to the question

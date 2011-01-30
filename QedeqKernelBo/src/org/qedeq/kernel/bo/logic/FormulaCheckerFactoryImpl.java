@@ -15,6 +15,10 @@
 
 package org.qedeq.kernel.bo.logic;
 
+import org.qedeq.kernel.bo.logic.common.FormulaChecker;
+import org.qedeq.kernel.bo.logic.common.FormulaCheckerFactory;
+import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
+
 
 
 /**

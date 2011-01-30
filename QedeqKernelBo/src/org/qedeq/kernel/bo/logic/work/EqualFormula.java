@@ -13,30 +13,34 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.context;
+package org.qedeq.kernel.bo.logic.work;
 
-import org.qedeq.kernel.se.config.QedeqConfig;
+import org.qedeq.kernel.se.base.list.Element;
 
 
 /**
- * QEDEQ kernel.
+ * Encapsulates a logical formula.
+ * LATER mime 20050205: what for is this anyway???
  *
  * @author  Michael Meyling
  */
-public interface KernelProperties {
+final class EqualFormula {
+
+    /** Element that defines the logical content. */
+    private final Element formula;
+
 
     /**
-     * Get relative version directory of this kernel.
+     * Constructor.
      *
-     * @return  Version sub directory.
+     * @param   formula     Element that defines the logical content.
      */
-    public String getKernelVersionDirectory();
+    EqualFormula(final Element formula) {
+        this.formula = formula;
+    }
 
-    /**
-     * Get access to configuration parameters.
-     *
-     * @return  Configuration access.
-     */
-    public QedeqConfig getConfig();
+    public String toString() {
+        return formula.toString();
+    }
 
 }

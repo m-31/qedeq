@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.bo.logic.wf;
 
+import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.ModuleContext;
 
