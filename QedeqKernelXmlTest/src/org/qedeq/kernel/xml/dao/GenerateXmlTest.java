@@ -25,7 +25,6 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
 import org.qedeq.kernel.bo.test.KernelFacade;
-import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.test.XmlNormalizer;
 import org.xml.sax.SAXException;

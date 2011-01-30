@@ -21,7 +21,7 @@ import java.util.List;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileException;
