@@ -19,6 +19,8 @@ package org.qedeq.kernel.bo.logic.wf;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
+import org.qedeq.kernel.bo.logic.common.Function;
+import org.qedeq.kernel.bo.logic.common.Predicate;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
