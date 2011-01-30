@@ -19,7 +19,7 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.KernelContext;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

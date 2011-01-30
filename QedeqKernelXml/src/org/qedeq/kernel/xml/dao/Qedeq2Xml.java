@@ -19,7 +19,7 @@ import java.io.IOException;
 
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.base.list.ElementList;
