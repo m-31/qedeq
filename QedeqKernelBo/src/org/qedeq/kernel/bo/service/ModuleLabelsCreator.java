@@ -47,7 +47,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     private ModuleLabels labels;
 
     /** Save definitions here. */
-    private Element2Latex converter;
+    private Element2LatexImpl converter;
 
     /**
      * Constructor.
@@ -147,7 +147,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     public void createLabels() throws SourceFileExceptionList {
         if (this.labels == null) {
             this.labels = new ModuleLabels();
-            this.converter = new Element2Latex();
+            this.converter = new Element2LatexImpl();
             traverse();
         }
     }
