@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.service;
 
-import org.qedeq.kernel.bo.ModuleReferenceList;
+import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.Predicate;
 import org.qedeq.kernel.bo.module.DefaultExistenceChecker;

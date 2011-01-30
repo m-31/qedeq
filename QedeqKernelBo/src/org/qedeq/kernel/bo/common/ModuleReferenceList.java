@@ -1,6 +1,5 @@
-package org.qedeq.kernel.bo;
+package org.qedeq.kernel.bo.common;
 
-import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 

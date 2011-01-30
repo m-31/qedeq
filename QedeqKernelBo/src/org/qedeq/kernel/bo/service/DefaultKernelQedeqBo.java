@@ -18,7 +18,7 @@ package org.qedeq.kernel.bo.service;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.kernel.bo.ModuleReferenceList;
+import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.module.Element2Latex;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;

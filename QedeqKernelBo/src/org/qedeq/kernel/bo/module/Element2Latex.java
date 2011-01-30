@@ -19,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.ModuleReferenceList;
+import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.se.base.list.Element;
