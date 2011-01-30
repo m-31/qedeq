@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo;
+package org.qedeq.kernel.bo.common;
 
 import java.util.Map;
 

@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBo;
 
 
 /**

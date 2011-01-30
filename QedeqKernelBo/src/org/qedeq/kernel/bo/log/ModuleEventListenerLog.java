@@ -16,7 +16,7 @@
 package org.qedeq.kernel.bo.log;
 
 import org.qedeq.base.io.IoUtility;
-import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBo;
 
 /**
  * Listener that writes events to the {@link org.qedeq.kernel.bo.log.QedeqLog}.

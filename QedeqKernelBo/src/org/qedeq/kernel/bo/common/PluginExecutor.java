@@ -13,38 +13,36 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo;
+package org.qedeq.kernel.bo.common;
 
-import java.io.IOException;
 
-import org.qedeq.kernel.se.config.QedeqConfig;
 
 /**
- * State changing methods for the kernel.
+ * Represents a plugin execution.
  *
  * @author  Michael Meyling
  */
-public interface KernelState extends KernelServices {
+public interface PluginExecutor {
 
     /**
-     * Kernel initialisation.
+     * Execute plugin.
      *
-     * @param   moduleServices  Various kernel services are supported here.
-     * @param   qedeqConfig     Configuration to work with.
-     * @throws  IOException     Initialisation failed.
+     * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public void init(ServiceModule moduleServices, QedeqConfig qedeqConfig)
-        throws IOException;
+    public Object executePlugin();
 
     /**
-     * Start the kernel.
+     * Get percentage of currently running plugin execution.
      *
+     * @return  Number between 0 and 100.
      */
-    public void startup();
+    public double getExecutionPercentage();
 
     /**
-     * Closes the kernel.
+     * Get description of currently taken action.
+     *
+     * @return  We are doing this currently.
      */
-    public void shutdown();
+    public String getExecutionActionDescription();
 
 }

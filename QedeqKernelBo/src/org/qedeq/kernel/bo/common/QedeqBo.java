@@ -13,8 +13,9 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo;
+package org.qedeq.kernel.bo.common;
 
+import org.qedeq.kernel.bo.ModuleReferenceList;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.DependencyState;
 import org.qedeq.kernel.se.common.LoadingState;

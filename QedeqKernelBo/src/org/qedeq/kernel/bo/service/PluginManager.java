@@ -21,8 +21,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.PluginExecutor;
-import org.qedeq.kernel.bo.ServiceProcess;
+import org.qedeq.kernel.bo.common.PluginExecutor;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 

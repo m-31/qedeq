@@ -23,7 +23,7 @@ import java.util.Map;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.ModuleReferenceList;
-import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.ModuleContext;
 

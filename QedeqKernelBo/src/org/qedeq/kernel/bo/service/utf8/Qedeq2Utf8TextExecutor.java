@@ -21,7 +21,7 @@ import java.util.Map;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.StringOutput;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.PluginExecutor;
+import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.Plugin;

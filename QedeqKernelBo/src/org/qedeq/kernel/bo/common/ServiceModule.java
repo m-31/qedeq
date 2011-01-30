@@ -13,36 +13,26 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo;
-
+package org.qedeq.kernel.bo.common;
 
 
 /**
- * Represents a plugin execution.
+ * Service methods inclusive kernel integration methods.
  *
  * @author  Michael Meyling
  */
-public interface PluginExecutor {
+public interface ServiceModule extends KernelServices {
 
     /**
-     * Execute plugin.
-     *
-     * @return  Plugin specific resulting object. Might be <code>null</code>.
+     * Initialization of services. This method should be called from the kernel
+     * directly after switching into ready state. Calling this method in ready state is not
+     * supported.
      */
-    public Object executePlugin();
+    public void startupServices();
 
     /**
-     * Get percentage of currently running plugin execution.
-     *
-     * @return  Number between 0 and 100.
+     * Shutdown of services.
      */
-    public double getExecutionPercentage();
-
-    /**
-     * Get description of currently taken action.
-     *
-     * @return  We are doing this currently.
-     */
-    public String getExecutionActionDescription();
+    public void shutdownServices();
 
 }

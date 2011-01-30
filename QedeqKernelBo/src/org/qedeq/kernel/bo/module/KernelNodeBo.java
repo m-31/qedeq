@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.module.NodeVo;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;

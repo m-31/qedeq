@@ -15,7 +15,7 @@
 
 package org.qedeq.kernel.bo.log;
 
-import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBo;
 
 
 /**

@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.io.Reader;
 
 import org.qedeq.base.io.SourceArea;
-import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;

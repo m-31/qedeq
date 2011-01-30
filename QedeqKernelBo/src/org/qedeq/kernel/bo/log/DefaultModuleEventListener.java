@@ -18,7 +18,7 @@ package org.qedeq.kernel.bo.log;
 import java.io.PrintStream;
 
 import org.qedeq.base.utility.DateUtility;
-import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBo;
 
 /**
  * Listener that writes events to a stream.

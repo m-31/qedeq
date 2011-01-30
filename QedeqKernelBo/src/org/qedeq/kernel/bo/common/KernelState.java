@@ -13,25 +13,38 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo;
+package org.qedeq.kernel.bo.common;
+
+import java.io.IOException;
+
+import org.qedeq.kernel.se.config.QedeqConfig;
 
 /**
- * Service methods inclusive kernel integration methods.
+ * State changing methods for the kernel.
  *
  * @author  Michael Meyling
  */
-public interface ServiceModule extends KernelServices {
+public interface KernelState extends KernelServices {
 
     /**
-     * Initialization of services. This method should be called from the kernel
-     * directly after switching into ready state. Calling this method in ready state is not
-     * supported.
+     * Kernel initialisation.
+     *
+     * @param   moduleServices  Various kernel services are supported here.
+     * @param   qedeqConfig     Configuration to work with.
+     * @throws  IOException     Initialisation failed.
      */
-    public void startupServices();
+    public void init(ServiceModule moduleServices, QedeqConfig qedeqConfig)
+        throws IOException;
 
     /**
-     * Shutdown of services.
+     * Start the kernel.
+     *
      */
-    public void shutdownServices();
+    public void startup();
+
+    /**
+     * Closes the kernel.
+     */
+    public void shutdown();
 
 }
