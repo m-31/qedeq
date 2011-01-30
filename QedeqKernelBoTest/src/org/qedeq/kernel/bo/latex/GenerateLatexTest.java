@@ -24,7 +24,7 @@ import java.util.Map;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.logic.wf.LogicalCheckException;
+import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.latex.Qedeq2Latex;

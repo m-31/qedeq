@@ -15,8 +15,8 @@
 package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.bo.context.KernelContext;
-import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
+import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.wf.Function;
 import org.qedeq.kernel.bo.logic.wf.Predicate;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceCheckerInterface;

@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic;
+package org.qedeq.kernel.bo.logic.wf;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +24,8 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.logic.wf.LogicalCheckException;
+import org.qedeq.kernel.bo.logic.common.FormulaChecker;
+import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;

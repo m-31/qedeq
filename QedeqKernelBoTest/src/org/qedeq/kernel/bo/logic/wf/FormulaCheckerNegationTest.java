@@ -13,10 +13,10 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic;
+package org.qedeq.kernel.bo.logic.wf;
 
-import org.qedeq.kernel.bo.logic.FormulaChecker;
-import org.qedeq.kernel.bo.logic.wf.LogicalCheckExceptionList;
+import org.qedeq.kernel.bo.logic.common.FormulaChecker;
+import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
@@ -24,10 +24,11 @@ import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
+ * Testing formulas made of negation.
  *
  * @author  Michael Meyling
  */
-public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
+public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
 
     private ModuleContext context;
 
@@ -43,68 +44,53 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkFormula(Element)
      * Type:     positive
-     * Data:     x
+     * Data:     -A
      *
      * @throws  Exception   Test failed.
      */
-    public void testSubjectVariablePositive() throws Exception {
-        final Element ele = TestParser.createElement("<VAR id=\"x\"/>");
+    public void testNegationPositive01() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<NOT><PREDVAR id=\"A\"/></NOT>");
         // System.out.println(ele.toString());
-        assertFalse(checker.checkTerm(ele, context).hasErrors());
-        assertFalse(checker.checkTerm(ele, context, getChecker()).hasErrors());
-        assertFalse(checker.checkTerm(ele, context, getCheckerWithoutClass()).hasErrors());
+        assertFalse(checker.checkFormula(ele, context).hasErrors());
+        assertFalse(checker.checkFormula(ele, context, getChecker()).hasErrors());
+        assertFalse(checker.checkFormula(ele, context, getCheckerWithoutClass())
+            .hasErrors());
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkFormula(Element)
      * Type:     negative, code 30710
-     * Data:     no variable name
+     * Data:     -
      *
      * @throws  Exception   Test failed.
      */
-    public void testSubjectVariableNegative1() throws Exception {
-        final Element ele = TestParser.createElement("<VAR />");
+    public void testNegationNegative01() throws Exception {
+        final Element ele = TestParser.createElement("<NOT />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
-            checker.checkTerm(ele, context);
+            checker.checkFormula(ele, context, getChecker());
         assertEquals(1, list.size());
         assertEquals(30710, list.get(0).getErrorCode());
     }
 
     /**
-     * Function: checkTerm(Element)
+     * Function: checkFormula(Element)
      * Type:     negative, code 30710
-     * Data:     x 12
+     * Data:     -(A, B)
      *
      * @throws  Exception   Test failed.
      */
-    public void testSubjectVariableNegative2() throws Exception {
-        final Element ele = TestParser.createElement("<VAR id=\"x\" ref=\"12\" />");
+    public void testNegationNegative02() throws Exception {
+        final Element ele = TestParser.createElement(
+            "<NOT><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></NOT>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
-            checker.checkTerm(ele, context);
+            checker.checkFormula(ele, context, getChecker());
         assertEquals(1, list.size());
         assertEquals(30710, list.get(0).getErrorCode());
     }
-
-
-    /**
-     * Function: checkTerm(Element)
-     * Type:     negative, code 30730
-     * Data:     ?
-     *
-     * @throws  Exception   Test failed.
-     */
-    public void testSubjectVariableNegative3() throws Exception {
-        final Element ele = TestParser.createElement("<VAR> <A/> </VAR>");
-        // System.out.println(ele.toString());
-        LogicalCheckExceptionList list =
-            checker.checkTerm(ele, context);
-        assertEquals(1, list.size());
-        assertEquals(30730, list.get(0).getErrorCode());
-    }
-
 
 }

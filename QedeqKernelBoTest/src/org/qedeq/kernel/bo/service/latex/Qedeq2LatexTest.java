@@ -14,8 +14,8 @@
  */
 package org.qedeq.kernel.bo.service.latex;
 
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.context.KernelContext;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.LogicalState;

@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.model.CalculateTruth;
 import org.qedeq.kernel.bo.logic.model.FunctionConstant;
@@ -31,7 +32,6 @@ import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
-import org.qedeq.kernel.bo.module.PluginExecutor;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;

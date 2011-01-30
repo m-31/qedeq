@@ -21,10 +21,10 @@ import java.net.URL;
 import java.util.Map;
 
 import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
-import org.qedeq.kernel.bo.service.ServiceProcess;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;

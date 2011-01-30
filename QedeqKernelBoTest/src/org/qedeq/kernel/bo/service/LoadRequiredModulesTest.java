@@ -15,7 +15,7 @@
 package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.bo.context.KernelContext;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;

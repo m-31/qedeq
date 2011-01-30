@@ -13,12 +13,12 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic;
+package org.qedeq.kernel.bo.logic.wf;
 
 import java.util.List;
 
-import org.qedeq.kernel.bo.logic.FormulaChecker;
-import org.qedeq.kernel.bo.logic.wf.LogicalCheckExceptionList;
+import org.qedeq.kernel.bo.logic.common.FormulaChecker;
+import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;

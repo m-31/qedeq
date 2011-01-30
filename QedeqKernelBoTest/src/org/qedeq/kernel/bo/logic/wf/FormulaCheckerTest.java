@@ -13,13 +13,13 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic;
+package org.qedeq.kernel.bo.logic.wf;
 
 
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.logic.FormulaChecker;
-import org.qedeq.kernel.bo.logic.wf.LogicalCheckExceptionList;
+import org.qedeq.kernel.bo.logic.common.FormulaChecker;
+import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;

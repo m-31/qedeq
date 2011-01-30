@@ -13,20 +13,16 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic;
-
+package org.qedeq.kernel.bo.logic.wf;
 
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.logic.wf.ExistenceChecker;
-import org.qedeq.kernel.bo.logic.wf.Function;
-import org.qedeq.kernel.bo.logic.wf.Predicate;
+import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public abstract class AbstractFormulaChecker extends QedeqTestCase {

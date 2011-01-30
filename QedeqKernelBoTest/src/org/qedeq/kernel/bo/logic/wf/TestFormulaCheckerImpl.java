@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic;
+package org.qedeq.kernel.bo.logic.wf;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -23,12 +23,7 @@ import org.qedeq.kernel.se.base.module.Qedeq;
 
 
 /**
- * This class deals with {@link org.qedeq.kernel.base.list.Element}s which represent a
- * formula. It has methods to check those elements for being well-formed.
- *
- * LATER mime 20070307: here are sometimes error messages that get concatenated with
- * an {@link org.qedeq.kernel.base.list.ElementList#getOperator()} string. Perhaps these
- * strings must be translated into the original input format and a mapping must be done.
+ * For checking the context.
  *
  * @author  Michael Meyling
  */

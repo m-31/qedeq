@@ -41,6 +41,17 @@ public class KernelBoLogicWfTestSuite extends QedeqTestSuite {
      */
     public KernelBoLogicWfTestSuite() {
         super();
-        // FIXME empty
+        addTestSuite(FormulaCheckerTest.class);
+        addTestSuite(FormulaCheckerContextTest.class);
+        addTestSuite(FormulaCheckerGlobalTest.class);
+        addTestSuite(FormulaCheckerSubjectVariableTest.class);
+        addTestSuite(FormulaCheckerFunctionTermTest.class);
+        addTestSuite(FormulaCheckerPredicateFormulaTest.class);
+        addTestSuite(FormulaCheckerLogicalConnectivesTest.class);
+        addTestSuite(FormulaCheckerNegationTest.class);
+        addTestSuite(FormulaCheckerQuantifiersTest.class);
+        addTestSuite(FormulaCheckerClassTermTest.class);
+        addTestSuite(FormulaCheckerTermTest.class);
+        addTestSuite(FormulaCheckerFormulaTest.class);
     }
 }

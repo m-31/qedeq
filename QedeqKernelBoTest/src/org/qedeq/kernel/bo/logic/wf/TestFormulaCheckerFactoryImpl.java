@@ -13,7 +13,10 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic;
+package org.qedeq.kernel.bo.logic.wf;
+
+import org.qedeq.kernel.bo.logic.common.FormulaChecker;
+import org.qedeq.kernel.bo.logic.common.FormulaCheckerFactory;
 
 
 /**

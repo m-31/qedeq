@@ -13,10 +13,10 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic;
+package org.qedeq.kernel.bo.logic.wf;
 
-import org.qedeq.kernel.bo.logic.FormulaChecker;
-import org.qedeq.kernel.bo.logic.wf.LogicalCheckExceptionList;
+import org.qedeq.kernel.bo.logic.common.FormulaChecker;
+import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
@@ -24,11 +24,11 @@ import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
- * Testing terms.
+ * Testing terms made of function variables and function constants.
  *
  * @author  Michael Meyling
  */
-public class FormulaCheckerTermTest extends AbstractFormulaChecker {
+public class FormulaCheckerFunctionTermTest extends AbstractFormulaChecker {
 
     private ModuleContext context;
 
@@ -46,252 +46,248 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
     /**
      * Function: checkTerm(Element)
      * Type:     positive
-     * Data:     {x | x in a & x in b}
+     * Data:     f(x)
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermPositive01() throws Exception {
-        final Element ele = TestParser.createElement(
-            "<CLASS>" +
-            "  <VAR id=\"x\" />" +
-            "  <AND>" +
-            "    <PREDCON id=\"in\">" +
-            "      <VAR id=\"x\" />" +
-            "      <VAR id=\"a\" />" +
-            "    </PREDCON>" +
-            "    <PREDCON id=\"in\">" +
-            "      <VAR id=\"x\" />" +
-            "      <VAR id=\"b\" />" +
-            "    </PREDCON>" +
-            "  </AND>" +
-            "</CLASS>");
-        // System.out.println(ele.toString());
-        assertFalse(checker.checkTerm(ele, context).hasErrors());
-        assertFalse(checker.checkTerm(ele, context, getChecker()).hasErrors());
-    }
-
-    /**
-     * Function: checkTerm(Element)
-     * Type:     positive
-     * Data:     f(x, y, x)
-     *
-     * @throws  Exception   Test failed.
-     */
-    public void testTermPositive02() throws Exception {
+    public void testFunctionTermPositive01() throws Exception {
         final Element ele = TestParser.createElement(
             "<FUNVAR id=\"f\">" +
-            "  <VAR id=\"x\" />" +
-            "  <VAR id=\"y\" />" +
             "  <VAR id=\"x\" />" +
             "</FUNVAR>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkTerm(ele, context).hasErrors());
         assertFalse(checker.checkTerm(ele, context, getChecker()).hasErrors());
+        assertFalse(checker.checkTerm(ele, context, getCheckerWithoutClass()).hasErrors());
     }
 
     /**
      * Function: checkTerm(Element)
      * Type:     positive
-     * Data:     Power(x union y)
+     * Data:     V
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermPositive03() throws Exception {
-        final Element ele = TestParser.createElement(
-            "<FUNCON id=\"power\">" +
-            "  <FUNCON id=\"union\">" +
-            "    <VAR id=\"x\" />" +
-            "    <VAR id=\"y\" />" +
-            "  </FUNCON>" +
-            "</FUNCON>");
+    public void testFunctionTermPositive02() throws Exception {
+        final Element ele = TestParser.createElement("<FUNCON ref=\"empty\"/>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkTerm(ele, context).hasErrors());
         assertFalse(checker.checkTerm(ele, context, getChecker()).hasErrors());
+        assertFalse(checker.checkTerm(ele, context, getCheckerWithoutClass()).hasErrors());
     }
 
     /**
      * Function: checkTerm(Element)
-     * Type:     positive
-     * Data:     x
+     * Type:     negative, code 30740
+     * Data:     no function variable name and no argument
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermPositive04() throws Exception {
-        final Element ele = TestParser.createElement(
-            "<VAR id=\"x\" />");
-        // System.out.println(ele.toString());
-        assertFalse(checker.checkTerm(ele, context).hasErrors());
-        assertFalse(checker.checkTerm(ele, context, getChecker()).hasErrors());
-    }
-
-    /**
-     * Function: checkTerm(Element)
-     * Type:     negative, code 30620, unknown term operator
-     * Data:     A & B
-     *
-     * @throws  Exception   Test failed.
-     */
-    public void testTermNegative01() throws Exception {
-        final Element ele = TestParser.createElement(
-          "<AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></AND>");
+    public void testFunctionTermNegative01() throws Exception {
+        final Element ele = TestParser.createElement("<FUNVAR />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context, getChecker());
         assertEquals(1, list.size());
-        assertEquals(30620, list.get(0).getErrorCode());
+        assertEquals(30740, list.get(0).getErrorCode());
     }
 
     /**
      * Function: checkTerm(Element)
-     * Type:     negative, code 30620, unknown term operator
-     * Data:     UNKNOWN(A & B)
+     * Type:     negative, code 30740
+     * Data:     f() (no function argument)
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermNegative02() throws Exception {
-        final Element ele = TestParser.createElement(
-          "<UNKNOWN><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></UNKNOWN>");
+    public void testFunctionTermNegative01b() throws Exception {
+        final Element ele = TestParser.createElement("<FUNVAR id=\"f\"/>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context, getChecker());
         assertEquals(1, list.size());
-        assertEquals(30620, list.get(0).getErrorCode());
+        assertEquals(30740, list.get(0).getErrorCode());
     }
 
     /**
      * Function: checkTerm(Element)
-     * Type:     negative, code 30620, unknown term operator
-     * Data:     A v B
+     * Type:     negative, code 30720
+     * Data:     no function constant name
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermNegative03() throws Exception {
-        final Element ele = TestParser.createElement(
-        "<OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></OR>");
+    public void testFunctionTermNegative02() throws Exception {
+        final Element ele = TestParser.createElement("<FUNCON />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context, getChecker());
         assertEquals(1, list.size());
-        assertEquals(30620, list.get(0).getErrorCode());
+        assertEquals(30720, list.get(0).getErrorCode());
     }
 
     /**
      * Function: checkTerm(Element)
-     * Type:     negative, code 30620, unknown term operator
-     * Data:     A -> B
+     * Type:     negative, code 30730
+     * Data:     function name missing (but list instead of name)
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermNegative04() throws Exception {
+    public void testFunctionTermNegative09() throws Exception {
         final Element ele = TestParser.createElement(
-        "<IMPL><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></IMPL>");
+            "<FUNVAR>" +
+            "  <VAR id=\"x\" /> <VAR id=\"x\" />" +
+            "</FUNVAR>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context, getChecker());
         assertEquals(1, list.size());
-        assertEquals(30620, list.get(0).getErrorCode());
+        assertEquals(30730, list.get(0).getErrorCode());
+    }
+
+
+    /**
+     * Function: checkTerm(Element)
+     * Type:     negative, code 30730
+     * Data:     function name missing (but list instead of name)
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testFunctionTermNegative10() throws Exception {
+        final Element ele = TestParser.createElement("<FUNCON > <VAR id=\"x\" /> </FUNCON>");
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
+            checker.checkTerm(ele, context, getChecker());
+        assertEquals(1, list.size());
+        assertEquals(30730, list.get(0).getErrorCode());
+    }
+
+
+    /**
+     * Function: checkTerm(Element)
+     * Type:     negative, code 30730
+     * Data:     function name missing
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testFunctionTermNegative13() throws Exception {
+        final Element ele = TestParser.createElement("<FUNVAR> <A/> <A/></FUNVAR>");
+        // System.out.println(ele.toString());
+        LogicalCheckExceptionList list =
+            checker.checkTerm(ele, context, getChecker());
+        assertEquals(1, list.size());
+        assertEquals(30730, list.get(0).getErrorCode());
     }
 
     /**
      * Function: checkTerm(Element)
-     * Type:     negative, code 30620, unknown term operator
-     * Data:     A <-> B
+     * Type:     negative, code 30730
+     * Data:     function name missing
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermNegative05() throws Exception {
-        final Element ele = TestParser.createElement(
-        "<EQUI><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></EQUI>");
+    public void testFunctionTermNegative14() throws Exception {
+        final Element ele = TestParser.createElement("<FUNCON> <A/> </FUNCON>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context, getChecker());
         assertEquals(1, list.size());
-        assertEquals(30620, list.get(0).getErrorCode());
+        assertEquals(30730, list.get(0).getErrorCode());
     }
 
     /**
      * Function: checkTerm(Element)
-     * Type:     negative, code 30620, unknown term operator
-     * Data:     -A
+     * Type:     negative, code 30770
+     * Data:     f(x, {x| phi})
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermNegative06() throws Exception {
+    public void testFunctionTermNegative15() throws Exception {
         final Element ele = TestParser.createElement(
-          "<NOT><PREDVAR id=\"A\"/></NOT>");
+            "<FUNVAR id=\"f\">"
+                + "<VAR id=\"x\"/>"
+                + "<CLASS> <VAR id=\"x\"/> <PREDVAR id=\"\\phi\" /> </CLASS>"
+            + "</FUNVAR>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context, getChecker());
         assertEquals(1, list.size());
-        assertEquals(30620, list.get(0).getErrorCode());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
 
     /**
      * Function: checkTerm(Element)
-     * Type:     negative, code 30620, unknown term operator
-     * Data:     A
+     * Type:     negative, code 30770
+     * Data:     x union {x| phi}
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermNegative07() throws Exception {
+    public void testFunctionTermNegative16() throws Exception {
         final Element ele = TestParser.createElement(
-          "<PREDVAR id=\"A\"/>");
+            "<FUNCON ref=\"union\">"
+                + "<VAR id=\"x\"/>"
+                + "<CLASS> <VAR id=\"x\"/> <PREDVAR id=\"\\phi\" /> </CLASS>"
+            + "</FUNCON>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context, getChecker());
         assertEquals(1, list.size());
-        assertEquals(30620, list.get(0).getErrorCode());
+        assertEquals(30770, list.get(0).getErrorCode());
     }
 
     /**
      * Function: checkTerm(Element)
-     * Type:     negative, code 30620, unknown term operator
-     * Data:     all x A
+     * Type:     negative, code 30780
+     * Data:     f({x| phi}, x)
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermNegative08() throws Exception {
+    public void testFunctionTermNegative19() throws Exception {
         final Element ele = TestParser.createElement(
-          "<FORALL><VAR id=\"x\" /><PREDVAR id=\"A\"/></FORALL>");
+            "<FUNVAR id=\"f\">"
+                + "<CLASS> <VAR id=\"x\"/> <PREDVAR id=\"\\phi\" /> </CLASS>"
+                + "<VAR id=\"x\"/>"
+            + "</FUNVAR>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context, getChecker());
         assertEquals(1, list.size());
-        assertEquals(30620, list.get(0).getErrorCode());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
 
     /**
      * Function: checkTerm(Element)
-     * Type:     negative, code 30620, unknown term operator
-     * Data:     exists x A
+     * Type:     negative, code 30780
+     * Data:     {x| phi} union x
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermNegative09() throws Exception {
+    public void testFunctionTermNegative20() throws Exception {
         final Element ele = TestParser.createElement(
-          "<EXISTS><VAR id=\"x\" /><PREDVAR id=\"A\"/></EXISTS>");
+            "<FUNCON id=\"union\">"
+                + "<CLASS> <VAR id=\"x\"/> <PREDVAR id=\"\\phi\" /> </CLASS>"
+                + "<VAR id=\"x\"/>"
+            + "</FUNCON>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context, getChecker());
         assertEquals(1, list.size());
-        assertEquals(30620, list.get(0).getErrorCode());
+        assertEquals(30780, list.get(0).getErrorCode());
     }
 
     /**
      * Function: checkTerm(Element)
-     * Type:     negative, code 30620, unknown term operator
-     * Data:     exists! x A
+     * Type:     negative, code 30690
+     * Data:     F(x)  (unknown function constant)
      *
      * @throws  Exception   Test failed.
      */
-    public void testTermNegative10() throws Exception {
+    public void testFunctionTermNegative22() throws Exception {
         final Element ele = TestParser.createElement(
-          "<EXISTSU><VAR id=\"x\" /><PREDVAR id=\"A\"/></EXISTSU>");
+            "<FUNCON id=\"F\" />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context, getChecker());
         assertEquals(1, list.size());
-        assertEquals(30620, list.get(0).getErrorCode());
+        assertEquals(30690, list.get(0).getErrorCode());
     }
 
 }
