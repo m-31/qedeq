@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
+package org.qedeq.kernel.bo.logic.common;
 
 /**
  * Logical and term operators. These strings might occur as values for

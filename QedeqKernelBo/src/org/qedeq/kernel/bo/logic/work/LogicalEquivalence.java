@@ -16,8 +16,8 @@
 package org.qedeq.kernel.bo.logic.work;
 
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
+import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckException;
-import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.se.base.list.Element;
 
 

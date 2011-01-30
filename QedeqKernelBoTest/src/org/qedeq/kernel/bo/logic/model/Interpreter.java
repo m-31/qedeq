@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.logic.wf.Operators;
+import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.common.ModuleContext;

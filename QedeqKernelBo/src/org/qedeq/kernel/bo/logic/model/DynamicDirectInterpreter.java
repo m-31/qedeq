@@ -19,8 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
-import org.qedeq.kernel.bo.logic.wf.Operators;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.utf8.Latex2Utf8Parser;

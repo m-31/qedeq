@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.logic.common;
 
-import org.qedeq.kernel.bo.logic.wf.PredicateExistenceChecker;
 
 
 /**
