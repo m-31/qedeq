@@ -22,8 +22,6 @@ import org.qedeq.kernel.bo.module.ClassOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.module.IdentityOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
-import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
-import org.qedeq.kernel.bo.service.ServiceErrors;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -65,8 +63,8 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
      * is defined in two different modules in two different ways we have got a problem.
      * Also the basic properties (for example
      * {@link ModuleConstantsExistenceCheckerImpl#setIdentityOperatorDefined(String,
-     * DefaultKernelQedeqBo, ModuleContext)}and
-     * {@link ModuleConstantsExistenceCheckerImpl#setClassOperatorModule(DefaultKernelQedeqBo)}) are set accordingly.
+     * KernelQedeqBo, ModuleContext)} and
+     * {@link ModuleConstantsExistenceCheckerImpl#setClassOperatorModule(KernelQedeqBo)}) are set accordingly.
      *
      * @throws ModuleDataException  Required modules doesn't mix.
      */
@@ -234,8 +232,8 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
             throws IdentityOperatorAlreadyExistsException {
         if (this.identityOperatorModule != null && identityOperatorModule != null) {
             if (!this.identityOperatorModule.equals(identityOperatorModule)) {
-                throw new IdentityOperatorAlreadyExistsException(ServiceErrors.IDENTITY_OPERATOR_ALREADY_EXISTS_CODE,
-                    ServiceErrors.IDENTITY_OPERATOR_ALREADY_EXISTS_TEXT + " " + getIdentityOperator(), context);
+                throw new IdentityOperatorAlreadyExistsException(LogicErrors.IDENTITY_OPERATOR_ALREADY_EXISTS_CODE,
+                    LogicErrors.IDENTITY_OPERATOR_ALREADY_EXISTS_TEXT + " " + getIdentityOperator(), context);
             }
         } else {
             this.identityOperatorModule = identityOperatorModule;

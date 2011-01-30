@@ -25,14 +25,6 @@ import org.qedeq.kernel.se.common.ErrorCodes;
 public interface ServiceErrors extends ErrorCodes {
 
     /** Error code. */
-    public static final int IDENTITY_OPERATOR_ALREADY_EXISTS_CODE = 123476;
-
-    /** Error message. */
-    public static final String IDENTITY_OPERATOR_ALREADY_EXISTS_TEXT
-        = "identity operator already defined with";
-
-
-    /** Error code. */
     public static final int IO_ERROR_CODE = 9090;
 
     /** Error message. */
