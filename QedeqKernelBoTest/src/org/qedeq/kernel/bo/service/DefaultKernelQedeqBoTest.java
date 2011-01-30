@@ -19,6 +19,7 @@ import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
+import org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl;
 import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
