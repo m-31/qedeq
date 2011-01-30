@@ -20,8 +20,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Map;
 
-import org.qedeq.kernel.bo.QedeqBo;
-import org.qedeq.kernel.bo.ServiceProcess;
+import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;

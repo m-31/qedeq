@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
-import org.qedeq.kernel.bo.QedeqBo;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.logic.model.Model;
 import org.qedeq.kernel.bo.logic.model.ThreeModel;
 import org.qedeq.kernel.bo.logic.model.UnaryModel;
