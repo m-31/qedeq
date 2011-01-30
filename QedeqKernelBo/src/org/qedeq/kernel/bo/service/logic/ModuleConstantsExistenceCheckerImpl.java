@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service;
+package org.qedeq.kernel.bo.service.logic;
 
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.common.Function;
@@ -22,6 +22,8 @@ import org.qedeq.kernel.bo.module.ClassOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.module.IdentityOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
+import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
+import org.qedeq.kernel.bo.service.ServiceErrors;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -72,7 +74,7 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         clear();
         final ModuleReferenceList list = prop.getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
-            final DefaultKernelQedeqBo bo = (DefaultKernelQedeqBo) list
+            final KernelQedeqBo bo = (KernelQedeqBo) list
                 .getQedeqBo(i);
             if (bo.getExistenceChecker().identityOperatorExists()) {
                 final String identityOperator = list.getLabel(i) + "."
@@ -97,7 +99,7 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
 
-        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref
+        final KernelQedeqBo newProp = (KernelQedeqBo) ref
             .getQedeqBo(label);
         if (newProp == null) {
             return false;
@@ -115,7 +117,7 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref
+        final KernelQedeqBo newProp = (KernelQedeqBo) ref
             .getQedeqBo(label);
         if (newProp == null) {
             return false;
@@ -134,7 +136,7 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
 
-        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref
+        final KernelQedeqBo newProp = (KernelQedeqBo) ref
             .getQedeqBo(label);
         if (newProp == null) {
             return null;
@@ -152,7 +154,7 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref
+        final KernelQedeqBo newProp = (KernelQedeqBo) ref
             .getQedeqBo(label);
         if (newProp == null) {
             return null;
@@ -180,7 +182,7 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref.getQedeqBo(label);
+        final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(label);
         if (newProp == null) {
             return newProp;
         }
@@ -207,7 +209,7 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         }
         final String label = name.substring(0, external);
         final ModuleReferenceList ref = prop.getRequiredModules();
-        final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo) ref.getQedeqBo(label);
+        final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(label);
         if (newProp == null) {
             return newProp;
         }
