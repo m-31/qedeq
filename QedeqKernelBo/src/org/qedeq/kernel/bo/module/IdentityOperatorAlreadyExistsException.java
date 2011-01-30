@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service;
+package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -22,7 +22,6 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 /**
  * The identity operator was defined twice.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class IdentityOperatorAlreadyExistsException extends ModuleDataException {
