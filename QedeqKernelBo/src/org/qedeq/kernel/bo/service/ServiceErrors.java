@@ -49,14 +49,6 @@ public interface ServiceErrors extends ErrorCodes {
 
 
     /** Error code. */
-    public static final int QEDEQ_MODULE_NOT_LOADED_CODE = 90500;
-
-    /** Error message. */
-    public static final String QEDEQ_MODULE_NOT_LOADED_TEXT
-        = "QEDEQ module couldn't be loaded.";
-
-
-    /** Error code. */
     public static final int LOADING_FROM_FILE_BUFFER_FAILED_CODE = 90700;
 
     /** Error message. */

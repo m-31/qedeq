@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.base.io.SourceArea;
-import org.qedeq.kernel.bo.service.ServiceErrors;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -96,8 +95,8 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     public void traverse() throws SourceFileExceptionList {
         if (getQedeqBo().getQedeq() == null) {
             addWarning(new SourceFileException(getPlugin(),
-                ServiceErrors.QEDEQ_MODULE_NOT_LOADED_CODE,
-                ServiceErrors.QEDEQ_MODULE_NOT_LOADED_TEXT,
+                ModuleErrors.QEDEQ_MODULE_NOT_LOADED_CODE,
+                ModuleErrors.QEDEQ_MODULE_NOT_LOADED_TEXT,
                 new IllegalArgumentException(),
                 new SourceArea(getQedeqBo().getModuleAddress().getUrl()),
                 null));
