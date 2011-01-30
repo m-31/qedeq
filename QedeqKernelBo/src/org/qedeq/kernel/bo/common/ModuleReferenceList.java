@@ -1,8 +1,3 @@
-package org.qedeq.kernel.bo.common;
-
-import org.qedeq.kernel.se.common.ModuleContext;
-
-
 /* This file is part of the project "Hilbert II" - http://www.qedeq.org
  *
  * Copyright 2000-2011,  Michael Meyling <mime@qedeq.org>.
@@ -17,6 +12,11 @@ import org.qedeq.kernel.se.common.ModuleContext;
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
+
+package org.qedeq.kernel.bo.common;
+
+import org.qedeq.kernel.se.common.ModuleContext;
+
 
 /**
  * Represents a reference list of modules. Every entry has a symbolic name for one referenced QEDEQ

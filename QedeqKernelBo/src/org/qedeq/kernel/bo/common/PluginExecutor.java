@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.common;
 
 
-
 /**
  * Represents a plugin execution.
  *
