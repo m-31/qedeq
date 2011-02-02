@@ -127,7 +127,7 @@ public class SubstPredVo implements SubstPred {
 
     public String toString() {
         StringBuffer result = new StringBuffer();
-        result.append("SubstFree");
+        result.append("SubstPred");
         if (reference != null || predicateVariable != null
                 || substituteFormula != null) {
             result.append(" (");
