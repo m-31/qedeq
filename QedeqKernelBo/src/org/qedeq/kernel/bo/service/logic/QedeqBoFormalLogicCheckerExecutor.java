@@ -210,7 +210,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
 
     public void visitEnter(final PredicateDefinition definition)
             throws ModuleDataException {
-        // FIXME 20110121 m3: a predicate definition (or function definition) should
+        // FIXME 20110121 m31: a predicate definition (or function definition) should
         //                    be a simple formula that fulfills certain constraints.
         //                    As there are:
         //                    1. top level is an equivalence relation
