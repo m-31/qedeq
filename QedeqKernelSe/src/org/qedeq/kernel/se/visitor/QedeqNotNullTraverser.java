@@ -863,7 +863,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         if (proofLine.getReason() != null) {
             final Reason reason = proofLine.getReason();
-            // TODO 20110124: here the context is type dependently specified
+            // TODO 20110124 m31: here the context is type dependently specified
             if (reason instanceof ModusPonens) {
                 setLocationWithinModule(context + ".getModusPonens()");
                 accept(proofLine.getModusPonens());
