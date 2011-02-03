@@ -16,6 +16,8 @@
 package org.qedeq.kernel.bo.service.utf8;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.qedeq.base.io.AbstractOutput;
 import org.qedeq.base.io.SourcePosition;
@@ -52,10 +54,12 @@ import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.Reason;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
+import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleAddress;
@@ -497,25 +501,47 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
     }
 
     public void visitEnter(final FormalProofLine line) {
-        printer.getLevel();
+        int formulaWidth = 60;
+        int reasonWidth = 35;
         if (line.getLabel() != null) {
             printer.print(StringUtility.alignRight("(" + line.getLabel() + ")", 5) + " ");
-        } else {
-            printer.print("      ");
         }
         if (line.getFormula() != null) {
-            String[] formula = getQedeqBo().getElement2Utf8().getUtf8(line.getFormula().getElement(), 30);
-            for (int i = 0; i < formula.length; i++) {
-                printer.print(formula[i]);
-                if (i == 0) {
-                    printer.skipToColumn(40);
-                    printer.print(line.getReason().getName());
+            String[] formula = getQedeqBo().getElement2Utf8().getUtf8(line.getFormula().getElement(), formulaWidth);
+            String[] reason = getReason(line.getReason(), reasonWidth);
+            int to = Math.max(formula.length, reason.length);
+            for (int i = 0; i < to; i++) {
+                printer.skipToColumn(6);
+                if (i < formula.length) {
+                    printer.print(formula[i]);
+                }
+                if (i < reason.length) {
+                    printer.skipToColumn(formulaWidth + 10);
+                    printer.print(reason[i]);
                 }
                 printer.println();
             }
         }
-        printer.print("  ");
-//        printer.println(line.getReason());
+    }
+
+    private String[] getReason(final Reason reason, final int maxCols) {
+        if (reason == null) {
+            return new String[0];
+        }
+        String buffer = reason.toString();
+        if (reason instanceof SubstPred) {
+            final SubstPred r = (SubstPred) reason;
+            buffer = r.getName() + " " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getPredicateVariable()) + " by " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubstituteFormula());
+        }
+        final List list = new ArrayList();
+        int index = 0;
+        while (index < buffer.length()) {
+            list.add(StringUtility.substring(buffer, index, maxCols));
+            index += maxCols;
+        }
+        return (String[]) list.toArray(new String[] {});
     }
 
     public void visitLeave(final FormalProof proof) {
