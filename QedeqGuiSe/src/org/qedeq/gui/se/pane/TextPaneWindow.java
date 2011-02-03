@@ -179,7 +179,10 @@ public class TextPaneWindow extends JFrame {
                 return TextPaneWindow.this.wordWrap;
             }
         };
-        textPane.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, textPane.getFont().getSize()));
+//        textPane.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, textPane.getFont().getSize()));
+//        textPane.setFont(new Font("Lucida Console", Font.PLAIN, textPane.getFont().getSize()));
+//        textPane.setFont(new Font("Lucida Sans Typewriter", Font.PLAIN, textPane.getFont().getSize()));
+        textPane.setFont(new Font("Monospaced", Font.PLAIN, textPane.getFont().getSize()));
         final StyleContext sc = new StyleContext();
         final DefaultStyledDocument doc = new DefaultStyledDocument(sc);
         try {
