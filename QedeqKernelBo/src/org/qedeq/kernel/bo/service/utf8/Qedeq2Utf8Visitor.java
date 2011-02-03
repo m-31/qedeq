@@ -497,16 +497,25 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
     }
 
     public void visitEnter(final FormalProofLine line) {
+        printer.getLevel();
         if (line.getLabel() != null) {
             printer.print(StringUtility.alignRight("(" + line.getLabel() + ")", 5) + " ");
         } else {
             printer.print("      ");
         }
         if (line.getFormula() != null) {
-            printer.print(getUtf8(line.getFormula().getElement()));
+            String[] formula = getQedeqBo().getElement2Utf8().getUtf8(line.getFormula().getElement(), 30);
+            for (int i = 0; i < formula.length; i++) {
+                printer.print(formula[i]);
+                if (i == 0) {
+                    printer.skipToColumn(40);
+                    printer.print(line.getReason().getName());
+                }
+                printer.println();
+            }
         }
         printer.print("  ");
-        printer.println(line.getReason());
+//        printer.println(line.getReason());
     }
 
     public void visitLeave(final FormalProof proof) {
