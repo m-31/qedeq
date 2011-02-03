@@ -90,7 +90,6 @@ public final class StringUtility {
         return result.toString();
     }
 
-
     /**
      * Replaces all occurrences of <code>search</code> in <code>text</code>
      * by <code>replace</code> and returns the result.
@@ -119,14 +118,31 @@ public final class StringUtility {
         }
         text.setLength(0);
         text.append(result);
+    }
 
-// TODO mime 20090610 old working code, remove if above fully testeds
-/*
-        final String result = replace(text.toString(), search, replace);
-        text.setLength(0);
-        text.append(result);
-*/
-      }
+    /**
+     * Return substring of text. Position might be negative if length is big enough. If the string
+     * limits are exceeded this method returns at least all characters within the boundaries.
+     * If no characters are within the given limits an empty string is returned.
+     *
+     * @param   text        Text to work on. Must not be <code>null</code>.
+     * @param   position    Starting position. Might be negative.
+     * @param   length      Maximum length to get.
+     * @return  Substring of maximum length <code>length</code> and starting with position.
+     * @throws  NullPointerException    <code>text</code> is <code>null</code>.
+     */
+    public static String substring(final String text, final int position, final int length) {
+        final int start = Math.max(0, position);
+        int l = position + length - start;
+        if (l <= 0) {
+            return "";
+        }
+        int end = start + l;
+        if (end < text.length()) {
+            return text.substring(start, end);
+        }
+        return text.substring(start);
+    }
 
     /**
      * Returns a readable presentation of a String array. Something like "(a, null, c)" if the
