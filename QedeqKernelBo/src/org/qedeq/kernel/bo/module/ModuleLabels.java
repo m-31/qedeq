@@ -18,6 +18,9 @@ package org.qedeq.kernel.bo.module;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.qedeq.kernel.bo.common.ModuleReferenceList;
+import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.module.NodeVo;
@@ -30,11 +33,26 @@ import org.qedeq.kernel.se.visitor.QedeqNumbers;
  */
 public final class ModuleLabels {
 
+    /** External QEDEQ module references. */
+    private ModuleReferenceList references;
+
     /** Maps labels to business objects. */
     private final Map label2Bo;
 
     /** Maps labels to context of business objects. */
     private final Map label2Context;
+
+    /** Maps predicate identifiers to {@link PredicateDefinition}s. */
+    private final Map predicateDefinitions = new HashMap();
+
+    /** Maps predicate identifiers to {@link ModuleContext}s. */
+    private final Map predicateContexts = new HashMap();
+
+    /** Maps function identifiers to {@link FunctionDefinition}s. */
+    private final Map functionDefinitions = new HashMap();
+
+    /** Maps predicate identifiers to {@link ModuleContext}s. */
+    private final Map functionContexts = new HashMap();
 
     /**
      * Constructs a new empty module label list.
@@ -42,6 +60,24 @@ public final class ModuleLabels {
     public ModuleLabels() {
         label2Bo = new HashMap();
         label2Context = new HashMap();
+    }
+
+    /**
+     * Set list of external QEDEQ module references.
+     *
+     * @param   references  External QEDEQ module references.
+     */
+    public void setModuleReferences(final ModuleReferenceList references) {
+        this.references = references;
+    }
+
+    /**
+     * Get list of external QEDEQ module references.
+     *
+     * @return  External QEDEQ module references.
+     */
+    public ModuleReferenceList getReferences() {
+        return this.references;
     }
 
     /**
@@ -129,6 +165,92 @@ public final class ModuleLabels {
      */
     public final boolean isModule(final String id) {
         return label2Bo.get(id) == null && label2Context.get(id) != null;
+    }
+
+    /**
+     * Add predicate definition. If such a definition already exists it is overwritten.
+     *
+     * @param   definition  Definition to add.
+     * @param   context     Here the definition stands.
+     */
+    public void addPredicate(final PredicateDefinition definition, final ModuleContext context) {
+        final String identifier = definition.getName() + "_" + definition.getArgumentNumber();
+        getPredicateDefinitions().put(identifier, definition);
+        predicateContexts.put(identifier, new ModuleContext(context));
+    }
+
+    /**
+     * Get predicate definition.
+     *
+     * @param   name            Predicate name.
+     * @param   argumentNumber  Number of predicate arguments.
+     * @return  Definition. Might be <code>null</code>.
+     */
+    public PredicateDefinition getPredicate(final String name, final int argumentNumber) {
+        return (PredicateDefinition) getPredicateDefinitions().get(name + "_" + argumentNumber);
+    }
+
+    /**
+     * Get predicate context. This is only a copy.
+     *
+     * @param   name            Predicate name.
+     * @param   argumentNumber  Number of predicate arguments.
+     * @return  Module context. Might be <code>null</code>.
+     */
+    public ModuleContext getPredicateContext(final String name, final int argumentNumber) {
+        return new ModuleContext((ModuleContext) predicateContexts.get(name + "_" + argumentNumber));
+    }
+
+    /**
+     * Add function definition. If such a definition already exists it is overwritten.
+     *
+     * @param   definition  Definition to add.
+     * @param   context     Here the definition stands.
+     */
+    public void addFunction(final FunctionDefinition definition, final ModuleContext context) {
+        final String identifier = definition.getName() + "_" + definition.getArgumentNumber();
+        getFunctionDefinitions().put(identifier, definition);
+        functionContexts.put(identifier, new ModuleContext(context));
+    }
+
+    /**
+     * Get function definition.
+     *
+     * @param   name            Function name.
+     * @param   argumentNumber  Number of function arguments.
+     * @return  Definition. Might be <code>null</code>.
+     */
+    public FunctionDefinition getFunction(final String name, final int argumentNumber) {
+        return (FunctionDefinition) getFunctionDefinitions().get(name + "_" + argumentNumber);
+    }
+
+    /**
+     * Get function context. This is only a copy.
+     *
+     * @param   name            Function name.
+     * @param   argumentNumber  Number of function arguments.
+     * @return  Module context. Might be <code>null</code>.
+     */
+    public ModuleContext getFunctionContext(final String name, final int argumentNumber) {
+        return new ModuleContext((ModuleContext) functionContexts.get(name + "_" + argumentNumber));
+    }
+
+    /**
+     * Get mapping of predicate definitions.
+     *
+     * @return  Mapping of predicate definitions.
+     */
+    public Map getPredicateDefinitions() {
+        return this.predicateDefinitions;
+    }
+
+    /**
+     * Get mapping of function definitions.
+     *
+     * @return  Mapping of function definitions.
+     */
+    public Map getFunctionDefinitions() {
+        return this.functionDefinitions;
     }
 
 }

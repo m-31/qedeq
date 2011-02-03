@@ -19,14 +19,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.module.Element2Latex;
+import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
-import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.module.FunctionDefinitionVo;
 import org.qedeq.kernel.se.dto.module.PredicateDefinitionVo;
 
@@ -35,32 +34,11 @@ import org.qedeq.kernel.se.dto.module.PredicateDefinitionVo;
  * Transfer a QEDEQ formulas into LaTeX text.
  *
  * @author  Michael Meyling
- *
- * TODO 20101207 m31: separate data container from transformer! The container part should go into ModuleLabels
  */
 public final class Element2LatexImpl implements Element2Latex {
 
-    /** External QEDEQ module references. */
-    private ModuleReferenceList references;
-
-    /** Maps predicate identifiers to {@link PredicateDefinition}s. */
-    private final Map predicateDefinitions = new HashMap();
-
-    /** Maps predicate identifiers to {@link PredicateDefinition}s. Contains default definitions
-     * as a fallback.*/
-    private final Map backupPredicateDefinitions = new HashMap();
-
-    /** Maps predicate identifiers to {@link ModuleContext}s. */
-    private final Map predicateContexts = new HashMap();
-
-    /** Maps function identifiers to {@link FunctionDefinition}s. */
-    private final Map functionDefinitions = new HashMap();
-
-    /** Maps function identifiers to {@link FunctionDefinition}s. Contains default definitions. */
-    private final Map backupFunctionDefinitions = new HashMap();
-
-    /** Maps predicate identifiers to {@link ModuleContext}s. */
-    private final Map functionContexts = new HashMap();
+    /** Knows about labels, definitions and external QEDEQ module references. */
+    private ModuleLabels labels;
 
     /** Maps operator strings to {@link ElementList} to LaTeX mappers. */
     private final Map elementList2ListType = new HashMap();
@@ -68,20 +46,20 @@ public final class Element2LatexImpl implements Element2Latex {
     /** For mapping an unknown operator. */
     private final ListType unknown = new Unknown();
 
-    /**
-     * Constructor.
-     */
-    public Element2LatexImpl() {
-        this(null);
-    }
+    /** Maps predicate identifiers to {@link PredicateDefinition}s. Contains default definitions
+     * as a fallback.*/
+    private final Map backupPredicateDefinitions = new HashMap();
+
+    /** Maps function identifiers to {@link FunctionDefinition}s. Contains default definitions. */
+    private final Map backupFunctionDefinitions = new HashMap();
 
     /**
      * Constructor.
      *
-     * @param   references  External QEDEQ module references.
+     * @param   labels  Knows about labels, definitions and external QEDEQ module references.
      */
-    public Element2LatexImpl(final ModuleReferenceList references) {
-        this.references = references;
+    public Element2LatexImpl(final ModuleLabels labels) {
+        this.labels = labels;
 
         this.elementList2ListType.put("PREDVAR", new Predvar());
         this.elementList2ListType.put("FUNVAR", new Funvar());
@@ -184,58 +162,6 @@ public final class Element2LatexImpl implements Element2Latex {
         backupFunctionDefinitions.put(key, function);
     }
 
-    /**
-     * Add predicate definition. If such a definition already exists it is overwritten.
-     *
-     * @param   definition  Definition to add.
-     * @param   context     Here the definition stands.
-     */
-    public void addPredicate(final PredicateDefinition definition, final ModuleContext context) {
-        final String identifier = definition.getName() + "_" + definition.getArgumentNumber();
-        getPredicateDefinitions().put(identifier, definition);
-        predicateContexts.put(identifier, new ModuleContext(context));
-    }
-
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.module.Element2Latex#getPredicate(java.lang.String, int)
-     */
-    public PredicateDefinition getPredicate(final String name, final int argumentNumber) {
-        return (PredicateDefinition) getPredicateDefinitions().get(name + "_" + argumentNumber);
-    }
-
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.module.Element2Latex#getPredicateContext(java.lang.String, int)
-     */
-    public ModuleContext getPredicateContext(final String name, final int argumentNumber) {
-        return new ModuleContext((ModuleContext) predicateContexts.get(name + "_" + argumentNumber));
-    }
-
-    /**
-     * Add function definition. If such a definition already exists it is overwritten.
-     *
-     * @param   definition  Definition to add.
-     * @param   context     Here the definition stands.
-     */
-    public void addFunction(final FunctionDefinition definition, final ModuleContext context) {
-        final String identifier = definition.getName() + "_" + definition.getArgumentNumber();
-        getFunctionDefinitions().put(identifier, definition);
-        functionContexts.put(identifier, new ModuleContext(context));
-    }
-
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.module.Element2Latex#getFunction(java.lang.String, int)
-     */
-    public FunctionDefinition getFunction(final String name, final int argumentNumber) {
-        return (FunctionDefinition) getFunctionDefinitions().get(name + "_" + argumentNumber);
-    }
-
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.module.Element2Latex#getFunctionContext(java.lang.String, int)
-     */
-    public ModuleContext getFunctionContext(final String name, final int argumentNumber) {
-        return new ModuleContext((ModuleContext) functionContexts.get(name + "_" + argumentNumber));
-    }
-
     /* (non-Javadoc)
      * @see org.qedeq.kernel.bo.module.Element2Latex#getLatex(org.qedeq.kernel.se.base.list.Element)
      */
@@ -265,31 +191,6 @@ public final class Element2LatexImpl implements Element2Latex {
 
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.module.Element2Latex#setModuleReferences(org.qedeq.kernel.bo.common.ModuleReferenceList)
-     */
-    public void setModuleReferences(final ModuleReferenceList references) {
-        this.references = references;
-    }
-
-    /**
-     * Get list of external QEDEQ module references.
-     *
-     * @return  External QEDEQ module references.
-     */
-    ModuleReferenceList getReferences() {
-        return this.references;
-    }
-
-    /**
-     * Get mapping of predicate definitions.
-     *
-     * @return  Mapping of predicate definitions.
-     */
-    Map getPredicateDefinitions() {
-        return this.predicateDefinitions;
-    }
-
     /**
      * Get default definition mapping of predicate definitions. Our last hope.
      *
@@ -297,15 +198,6 @@ public final class Element2LatexImpl implements Element2Latex {
      */
     Map getBackupPredicateDefinitions() {
         return this.backupPredicateDefinitions;
-    }
-
-    /**
-     * Get mapping of function definitions.
-     *
-     * @return  Mapping of function definitions.
-     */
-    Map getFunctionDefinitions() {
-        return this.functionDefinitions;
     }
 
     /**
@@ -389,7 +281,7 @@ public final class Element2LatexImpl implements Element2Latex {
             // LATER 20060922 m31: is only working for definition name + argument number
             //  if argument length is dynamic this dosen't work
             PredicateDefinition definition = (PredicateDefinition)
-                Element2LatexImpl.this.getPredicateDefinitions().get(identifier);
+                Element2LatexImpl.this.labels.getPredicateDefinitions().get(identifier);
             if (definition == null) {
                 // try external modules
                 try {
@@ -397,11 +289,11 @@ public final class Element2LatexImpl implements Element2Latex {
                     if (external >= 0) {
                         final String shortName = name.substring(external + 1);
                         identifier = shortName + "_" + (arguments);
-                        if (Element2LatexImpl.this.getReferences() != null
-                            && Element2LatexImpl.this.getReferences().size() > 0) {
+                        if (Element2LatexImpl.this.labels.getReferences() != null
+                            && Element2LatexImpl.this.labels.getReferences().size() > 0) {
                             final String label = name.substring(0, external);
                             final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
-                                Element2LatexImpl.this.getReferences().getQedeqBo(label);
+                                Element2LatexImpl.this.labels.getReferences().getQedeqBo(label);
                             if (newProp != null) {
                                 if (newProp.getExistenceChecker().predicateExists(shortName,
                                         arguments)) {
@@ -455,7 +347,7 @@ public final class Element2LatexImpl implements Element2Latex {
             // LATER 20060922 m31: is only working for definition name + argument number
             //  if argument length is dynamic this dosen't work
             FunctionDefinition definition = (FunctionDefinition)
-                Element2LatexImpl.this.getFunctionDefinitions().get(identifier);
+                Element2LatexImpl.this.labels.getFunctionDefinitions().get(identifier);
             if (definition == null) {
                 // try external modules
                 try {
@@ -463,11 +355,11 @@ public final class Element2LatexImpl implements Element2Latex {
                     if (external >= 0) {
                         final String shortName = name.substring(external + 1);
                         identifier = shortName + "_" + (arguments);
-                        if (Element2LatexImpl.this.getReferences() != null
-                                && Element2LatexImpl.this.getReferences().size() > 0) {
+                        if (Element2LatexImpl.this.labels.getReferences() != null
+                                && Element2LatexImpl.this.labels.getReferences().size() > 0) {
                             final String label = name.substring(0, external);
                             final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
-                                Element2LatexImpl.this.getReferences().getQedeqBo(label);
+                                Element2LatexImpl.this.labels.getReferences().getQedeqBo(label);
                             if (newProp != null) {
                                 if (newProp.getExistenceChecker().functionExists(shortName,
                                         arguments)) {

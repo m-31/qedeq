@@ -15,11 +15,7 @@
 
 package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.se.base.list.Element;
-import org.qedeq.kernel.se.base.module.FunctionDefinition;
-import org.qedeq.kernel.se.base.module.PredicateDefinition;
-import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
  * Transfer a QEDEQ formulas into LaTeX text.
@@ -29,46 +25,6 @@ import org.qedeq.kernel.se.common.ModuleContext;
 public interface Element2Latex {
 
     /**
-     * Get predicate definition.
-     *
-     * @param   name            Predicate name.
-     * @param   argumentNumber  Number of predicate arguments.
-     * @return  Definition. Might be <code>null</code>.
-     */
-    public abstract PredicateDefinition getPredicate(final String name,
-            final int argumentNumber);
-
-    /**
-     * Get predicate context. This is only a copy.
-     *
-     * @param   name            Predicate name.
-     * @param   argumentNumber  Number of predicate arguments.
-     * @return  Module context. Might be <code>null</code>.
-     */
-    public abstract ModuleContext getPredicateContext(final String name,
-            final int argumentNumber);
-
-    /**
-     * Get function definition.
-     *
-     * @param   name            Function name.
-     * @param   argumentNumber  Number of function arguments.
-     * @return  Definition. Might be <code>null</code>.
-     */
-    public abstract FunctionDefinition getFunction(final String name,
-            final int argumentNumber);
-
-    /**
-     * Get function context. This is only a copy.
-     *
-     * @param   name            Function name.
-     * @param   argumentNumber  Number of function arguments.
-     * @return  Module context. Might be <code>null</code>.
-     */
-    public abstract ModuleContext getFunctionContext(final String name,
-            final int argumentNumber);
-
-    /**
      * Get LaTeX element presentation.
      *
      * @param   element    Print this element.
@@ -76,12 +32,5 @@ public interface Element2Latex {
      */
     public abstract String getLatex(final Element element);
 
-    /**
-     * Set list of external QEDEQ module references.
-     *
-     * @param   references  External QEDEQ module references.
-     */
-    public abstract void setModuleReferences(
-            final ModuleReferenceList references);
 
 }

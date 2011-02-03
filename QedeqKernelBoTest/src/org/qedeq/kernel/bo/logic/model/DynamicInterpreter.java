@@ -526,7 +526,7 @@ public class DynamicInterpreter {
                     final DefaultKernelQedeqBo newProp = (DefaultKernelQedeqBo)
                         qedeq.getKernelRequiredModules().getQedeqBo(external);
                     if (newProp != null) {
-                        FunctionDefinition definition = newProp.getElement2Latex().getFunction(shortName,
+                        FunctionDefinition definition = newProp.getLabels().getFunction(shortName,
                             termList.size() - 1);
                         if (definition != null) {
                             setLocationWithinModule(context + ".getList()");

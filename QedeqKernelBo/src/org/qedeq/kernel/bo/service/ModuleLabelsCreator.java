@@ -100,7 +100,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     public void visitEnter(final FunctionDefinition funcDef) {
         setBlocked(true);   // block further traverse
         // we always save the definition, even if there already exists an entry
-        converter.addFunction(funcDef, getCurrentContext());
+        labels.addFunction(funcDef, getCurrentContext());
     }
 
     /**
@@ -111,7 +111,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     public void visitEnter(final PredicateDefinition predDef) {
         setBlocked(true);   // block further traverse
         // we always save the definition, even if there already exists an entry
-        converter.addPredicate(predDef, getCurrentContext());
+        labels.addPredicate(predDef, getCurrentContext());
     }
 
     /**
@@ -147,7 +147,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     public void createLabels() throws SourceFileExceptionList {
         if (this.labels == null) {
             this.labels = new ModuleLabels();
-            this.converter = new Element2LatexImpl();
+            this.converter = new Element2LatexImpl(this.labels);
             traverse();
         }
     }

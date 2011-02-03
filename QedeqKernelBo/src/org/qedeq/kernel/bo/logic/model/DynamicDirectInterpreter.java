@@ -269,12 +269,12 @@ public class DynamicDirectInterpreter {
                     }
                 }
                 final PredicateDefinition definition
-                    = newProp.getElement2Latex().getPredicate(name, list.size() - 1);
+                    = newProp.getLabels().getPredicate(name, list.size() - 1);
                 if (definition != null && definition.getFormula() != null) {
                     setLocationWithinModule(context + ".getList()");
                     final Entity[] arguments = getEntities(list);
                     setModuleContext(newProp);
-                    moduleContext = newProp.getElement2Latex().getPredicateContext(name, list.size() - 1);
+                    moduleContext = newProp.getLabels().getPredicateContext(name, list.size() - 1);
                     setLocationWithinModule(getLocationWithinModule() + ".getFormula().getElement()");
                     try {
                         result = calculatePredicateValue(definition, arguments);
@@ -531,12 +531,12 @@ public class DynamicDirectInterpreter {
                     }
                 }
                 final FunctionDefinition definition
-                    = newProp.getElement2Latex().getFunction(name, termList.size() - 1);
+                    = newProp.getLabels().getFunction(name, termList.size() - 1);
                 if (definition != null && definition.getTerm() != null) {
                     setLocationWithinModule(context + ".getList()");
                     final Entity[] arguments = getEntities(termList);
                     setModuleContext(newProp);
-                    moduleContext = newProp.getElement2Latex().getFunctionContext(name, termList.size() - 1);
+                    moduleContext = newProp.getLabels().getFunctionContext(name, termList.size() - 1);
                     setLocationWithinModule(getLocationWithinModule() + ".getTerm().getElement()");
                     try {
                         result = calculateFunctionValue(definition, arguments);
@@ -570,7 +570,7 @@ public class DynamicDirectInterpreter {
                 if (qedeq.getExistenceChecker() != null) {
                     newProp = qedeq.getExistenceChecker().getClassOperatorModule();
                 }
-                final PredicateDefinition isSet = newProp.getElement2Latex().getPredicate("isSet", 1);
+                final PredicateDefinition isSet = newProp.getLabels().getPredicate("isSet", 1);
                 if (isSet == null) {
                     throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,
                             HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_TEXT + "isSet(*)", moduleContext);
@@ -581,7 +581,7 @@ public class DynamicDirectInterpreter {
                     setLocationWithinModule(context + ".getList().getElement(1)");
                     if (calculateValue(termList.getElement(1))) {
                         setModuleContext(newProp);
-                        moduleContext = newProp.getElement2Latex().getPredicateContext("isSet", 1);
+                        moduleContext = newProp.getLabels().getPredicateContext("isSet", 1);
                         setLocationWithinModule(moduleContext.getLocationWithinModule() + ".getFormula().getElement()");
                         try {
                             if (calculatePredicateValue(isSet, new Entity[] {model.getEntity(i)})) {
