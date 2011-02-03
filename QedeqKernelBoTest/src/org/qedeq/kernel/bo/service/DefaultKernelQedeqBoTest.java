@@ -16,6 +16,8 @@
 package org.qedeq.kernel.bo.service;
 
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.kernel.bo.module.Element2Latex;
+import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.ModuleLabels;
@@ -58,10 +60,12 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
                 new QedeqException(1, "myError") {}, null, null)));
         assertTrue(bo.hasErrors());
         ModuleLabels labels = new ModuleLabels();
-        bo.setLoaded(new QedeqVo(), labels, new Element2LatexImpl(labels));
+        Element2LatexImpl converter = new Element2LatexImpl(labels);
+        Element2Utf8 textConverter = new Element2Utf8Impl(converter);
+        bo.setLoaded(new QedeqVo(), labels, converter, textConverter);
         assertFalse(bo.hasErrors());
         bo = new DefaultKernelQedeqBo(services, new DefaultModuleAddress("qedeq.org/test.xml"));
-        bo.setLoaded(new QedeqVo(), labels, new Element2LatexImpl(labels));
+        bo.setLoaded(new QedeqVo(), labels, converter, textConverter);
         bo.setDependencyFailureState(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
             new DefaultSourceFileExceptionList(new SourceFileException(DummyPlugin.getInstance(),
                     new QedeqException(1, "myError") {}, null, null)));
@@ -211,7 +215,9 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         assertNotNull(bo.getErrors());
         assertEquals(0, bo.getErrors().size());
         ModuleLabels labels = new ModuleLabels();
-        bo.setLoaded(new QedeqVo(), labels, new Element2LatexImpl(labels));
+        Element2LatexImpl converter = new Element2LatexImpl(labels);
+        Element2Utf8 textConverter = new Element2Utf8Impl(converter);
+        bo.setLoaded(new QedeqVo(), labels, converter, textConverter);
         assertTrue(bo.isLoaded());
         assertNotNull(bo.getErrors());
         assertEquals(0, bo.getErrors().size());
@@ -252,7 +258,9 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
             // expected
         }
         labels = new ModuleLabels();
-        bo.setLoaded(new QedeqVo(), labels, new Element2LatexImpl(labels));
+        converter = new Element2LatexImpl(labels);
+        textConverter = new Element2Utf8Impl(converter);
+        bo.setLoaded(new QedeqVo(), labels, converter, textConverter);
         assertTrue(bo.isLoaded());
         assertNotNull(bo.getErrors());
         assertEquals(0, bo.getErrors().size());
@@ -261,7 +269,7 @@ public class DefaultKernelQedeqBoTest extends QedeqTestCase {
         assertEquals(DependencyState.STATE_LOADING_REQUIRED_MODULES_FAILED,
             bo.getDependencyState());
         assertEquals(defaultSourceFileExceptionList, bo.getErrors());
-        bo.setLoaded(new QedeqVo(), labels, new Element2LatexImpl(labels));
+        bo.setLoaded(new QedeqVo(), labels, converter, textConverter);
         assertTrue(bo.isLoaded());
         assertNotNull(bo.getErrors());
         assertEquals(0, bo.getErrors().size());

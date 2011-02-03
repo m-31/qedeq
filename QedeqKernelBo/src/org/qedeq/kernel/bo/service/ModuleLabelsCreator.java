@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.service;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.Element2Latex;
+import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.se.base.module.Axiom;
@@ -43,11 +44,14 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /** This class. */
     private static final Class CLASS = ModuleLabelsCreator.class;
 
-    /** QEDEQ module labels. */
+    /** QEDEQ module labels, definitions, references, etc. */
     private ModuleLabels labels;
 
-    /** Save definitions here. */
+    /** Converter to LaTeX. */
     private Element2LatexImpl converter;
+
+    /** Converter to UTF-8 text. */
+    private Element2Utf8Impl textConverter;
 
     /**
      * Constructor.
@@ -148,6 +152,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
         if (this.labels == null) {
             this.labels = new ModuleLabels();
             this.converter = new Element2LatexImpl(this.labels);
+            this.textConverter = new Element2Utf8Impl(this.converter);
             traverse();
         }
     }
@@ -161,12 +166,21 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     }
 
     /**
-     * Get converter for module definitions.
+     * Get converter for module elements.
      *
      * @return  Element to LaTeX converter.
      */
     public Element2Latex getConverter() {
         return converter;
+    }
+
+    /**
+     * Get converter for module elements.
+     *
+     * @return  Element to UTF-8 converter.
+     */
+    public Element2Utf8 getTextConverter() {
+        return textConverter;
     }
 
 }

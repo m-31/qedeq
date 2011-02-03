@@ -62,7 +62,6 @@ public final class Qedeq2Utf8TextExecutor implements PluginExecutor {
      * @param   parameters  Plugin parameter.
      */
     Qedeq2Utf8TextExecutor(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
-        System.out.println("TextExecutor");
         language = "en";
         if (parameters != null) {
             language = (String) parameters.get("language");

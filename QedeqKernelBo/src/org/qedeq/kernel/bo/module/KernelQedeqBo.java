@@ -43,6 +43,13 @@ public interface KernelQedeqBo extends QedeqBo {
     public Element2Latex getElement2Latex();
 
     /**
+     * Return mapper for transforming elements into UTF-8 text.
+     *
+     * @return  Transformer to get UTF-8 text out of elements.
+     */
+    public Element2Utf8 getElement2Utf8();
+
+    /**
      * Create exception out of {@link ModuleDataException}.
      *
      * @param   plugin      This plugin generated the error.

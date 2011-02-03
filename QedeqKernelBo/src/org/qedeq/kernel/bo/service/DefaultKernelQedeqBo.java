@@ -20,6 +20,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.module.Element2Latex;
+import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -68,11 +69,14 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
     /** Predicate and function constant existence checker. */
     private ModuleConstantsExistenceChecker checker;
 
-    /** Labels for this module. */
+    /** Labels for this module, definitions, etc. */
     private ModuleLabels labels;
 
-    /** Contains mappings for all definitions. */
+    /** Can map elements to LaTeX. */
     private Element2Latex converter;
+
+    /** Can map elements to UTF-8 text. */
+    private Element2Utf8 textConverter;
 
     /** Loader used for loading this object. */
     private QedeqFileDao loader;
@@ -198,12 +202,14 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
      * @param   qedeq       This module was loaded. Must not be <code>null</code>.
      * @param   labels      Module labels.
      * @param   converter   Can convert elements into LaTeX. Must not be <code>null</code>.
+     * @param   textConverter   Can convert elements into UTF-8 text. Must not be <code>null</code>.
      * @throws  NullPointerException    One argument was <code>null</code>.
      */
     public void setLoaded(final QedeqVo qedeq, final ModuleLabels labels,
-            final Element2Latex converter) {
+            final Element2Latex converter, final Element2Utf8 textConverter) {
         stateManager.setLoaded(qedeq, labels);
         this.converter = converter;
+        this.textConverter = textConverter;
     }
 
     public Qedeq getQedeq() {
@@ -212,6 +218,10 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
 
     public Element2Latex getElement2Latex() {
         return this.converter;
+    }
+
+    public Element2Utf8 getElement2Utf8() {
+        return this.textConverter;
     }
 
     /**

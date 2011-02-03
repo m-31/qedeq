@@ -199,7 +199,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
-            creator.getLabels(), creator.getConverter());
+            creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedRequiredModules(new KernelModuleReferenceList());
         final QedeqBoFormalLogicCheckerPlugin plugin = new QedeqBoFormalLogicCheckerPlugin();
         final Map parameters = new HashMap();

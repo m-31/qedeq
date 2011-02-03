@@ -370,7 +370,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         final ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(this, prop);
         try {
             moduleNodesCreator.createLabels();
-            prop.setLoaded(vo, moduleNodesCreator.getLabels(), moduleNodesCreator.getConverter());
+            prop.setLoaded(vo, moduleNodesCreator.getLabels(), moduleNodesCreator.getConverter(),
+                moduleNodesCreator.getTextConverter());
         } catch (SourceFileExceptionList sfl) {
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, sfl);
             throw sfl;

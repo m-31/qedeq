@@ -162,9 +162,6 @@ public final class Element2LatexImpl implements Element2Latex {
         backupFunctionDefinitions.put(key, function);
     }
 
-    /* (non-Javadoc)
-     * @see org.qedeq.kernel.bo.module.Element2Latex#getLatex(org.qedeq.kernel.se.base.list.Element)
-     */
     public String getLatex(final Element element) {
         return getLatex(element, true);
     }

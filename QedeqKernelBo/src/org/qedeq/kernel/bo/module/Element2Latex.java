@@ -18,7 +18,7 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.kernel.se.base.list.Element;
 
 /**
- * Transfer a QEDEQ formulas into LaTeX text.
+ * Transfer a QEDEQ formula or term into LaTeX text.
  *
  * @author  Michael Meyling
  */
