@@ -252,6 +252,17 @@ public abstract class AbstractOutput {
     }
 
     /**
+     * Skip until given column. To do this we append spaces.
+     *
+     * @param   column  Skip to this column.
+     */
+    public void skipToColumn(final int column) {
+        for (int i = col; i < column; i++) {
+            printWithoutSplit(" ");
+        }
+    }
+
+    /**
      * Reset tab level to zero.
      */
     public final void clearLevel() {
