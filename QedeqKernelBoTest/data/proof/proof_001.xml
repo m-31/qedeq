@@ -176,10 +176,10 @@
                     <PREDVAR id="C"/>
                     <PREDVAR id="A"/>
                   </IMPL>
-                  <OR>
+                  <IMPL>
                     <PREDVAR id="C"/>
                     <PREDVAR id="B"/>
-                  </OR>
+                  </IMPL>
                 </IMPL>
               </IMPL>
             </FORMULA>
@@ -533,7 +533,7 @@
                     </FORMULA>
                   <ADD ref="axiom:existencialGeneralization"/>
                 </L>
-                <L label="2">
+                <L label="3">
                   <FORMULA>
                     <IMPL>
                       <IMPL>
@@ -545,14 +545,146 @@
                           <PREDVAR id="C"/>
                           <PREDVAR id="A"/>
                         </IMPL>
-                        <OR>
+                        <IMPL>
                           <PREDVAR id="C"/>
                           <PREDVAR id="B"/>
-                        </OR>
+                        </IMPL>
                       </IMPL>
                     </IMPL>
                   </FORMULA>
                   <ADD ref="axiom:disjunction_addition"/>
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="\phi">
+                          <VAR id="y" />
+                        </PREDVAR>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="C"/>
+                        <PREDVAR id="\phi">
+                          <VAR id="y" />
+                        </PREDVAR>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="C"/>
+                          <PREDVAR id="B"/>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="3">
+                    <PREDVAR id="A"/>
+                    <FORMULA>
+                      <PREDVAR id="\phi">
+                        <VAR id="y" />
+                      </PREDVAR>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="5">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="\phi">
+                          <VAR id="y" />
+                        </PREDVAR>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <FORALL>
+                            <VAR id="x" />
+                            <PREDVAR id="\phi">
+                              <VAR id="x" />
+                            </PREDVAR>
+                          </FORALL>
+                          <PREDVAR id="\phi">
+                            <VAR id="y" />
+                          </PREDVAR>
+                        </IMPL>
+                        <IMPL>
+                          <FORALL>
+                            <VAR id="x" />
+                            <PREDVAR id="\phi">
+                              <VAR id="x" />
+                            </PREDVAR>
+                          </FORALL>
+                          <PREDVAR id="B"/>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="4">
+                    <PREDVAR id="C"/>
+                    <FORMULA>
+                      <FORALL>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="6">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="\phi">
+                          <VAR id="y" />
+                        </PREDVAR>
+                        <EXISTS>
+                          <VAR id="x" />
+                          <PREDVAR id="\phi">
+                            <VAR id="x" />
+                          </PREDVAR>
+                        </EXISTS>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <FORALL>
+                            <VAR id="x" />
+                            <PREDVAR id="\phi">
+                              <VAR id="x" />
+                            </PREDVAR>
+                          </FORALL>
+                          <PREDVAR id="\phi">
+                            <VAR id="y" />
+                          </PREDVAR>
+                        </IMPL>
+                        <IMPL>
+                          <FORALL>
+                            <VAR id="x" />
+                            <PREDVAR id="\phi">
+                              <VAR id="x" />
+                            </PREDVAR>
+                          </FORALL>
+                          <EXISTS>
+                            <VAR id="x" />
+                            <PREDVAR id="\phi">
+                              <VAR id="x" />
+                            </PREDVAR>
+                          </EXISTS>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="5">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <EXISTS>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
                 </L>
               </LINES>
             </FORMAL_PROOF>
