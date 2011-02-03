@@ -456,4 +456,23 @@ public class StringUtilityTest extends QedeqTestCase {
             StringUtility.useSystemLineSeparator("asdfghj\015"));
     }
 
+    /**
+     * Test {@link StringUtility#substring(String, int, int)}.
+     *
+     * @throws  Exception   Test failed.
+     */
+    public void testSubstring() throws Exception {
+        assertEquals("", StringUtility.substring("1234", 0, 0));
+        assertEquals("", StringUtility.substring("1234", -3, 3));
+        assertEquals("1", StringUtility.substring("1234", -3, 4));
+        assertEquals("", StringUtility.substring("1234", 4, 1));
+        assertEquals("4", StringUtility.substring("1234", 3, 1));
+        assertEquals("4", StringUtility.substring("1234", 3, 100));
+        assertEquals("1234", StringUtility.substring("1234", 0, 100));
+        assertEquals("1234", StringUtility.substring("1234", -50, 100));
+        assertEquals("", StringUtility.substring("1234", -500, 100));
+        assertEquals("23", StringUtility.substring("1234", 1, 2));
+        assertEquals("34", StringUtility.substring("1234", 2, 2));
+        assertEquals("34", StringUtility.substring("1234", 2, 3));
+    }
 }
