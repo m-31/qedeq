@@ -23,7 +23,7 @@ import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
-import org.qedeq.kernel.bo.service.utf8.Latex2Utf8Parser;
+import org.qedeq.kernel.bo.service.unicode.Latex2UnicodeParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -177,7 +177,7 @@ public class DynamicDirectInterpreter {
     private boolean calculateValue(final Element formula) throws  HeuristicException {
         final String method = "calculateValue(Element)";
         if (Trace.isDebugEnabled(CLASS)) {
-            Trace.param(CLASS, this, method, deepness.toString() + "formula", Latex2Utf8Parser.transform(null,
+            Trace.param(CLASS, this, method, deepness.toString() + "formula", Latex2UnicodeParser.transform(null,
                   qedeq.getElement2Latex().getLatex(formula), 0));
             deepness.append("-");
         }
@@ -312,7 +312,7 @@ public class DynamicDirectInterpreter {
         }
         if (Trace.isDebugEnabled(CLASS)) {
             deepness.setLength(deepness.length() > 0 ? deepness.length() - 1 : 0);
-            Trace.param(CLASS, this, method, deepness.toString() + Latex2Utf8Parser.transform(null,
+            Trace.param(CLASS, this, method, deepness.toString() + Latex2UnicodeParser.transform(null,
                     qedeq.getElement2Latex().getLatex(formula), 0), result);
         }
         return result;
@@ -335,7 +335,7 @@ public class DynamicDirectInterpreter {
         subjectVariableInterpreter.addSubjectVariable(var);
         for (int i = 0; i < model.getEntitiesSize(); i++) {
             if (Trace.isDebugEnabled(CLASS)) {
-                Trace.param(CLASS, this, method, deepness.toString() + Latex2Utf8Parser.transform(null,
+                Trace.param(CLASS, this, method, deepness.toString() + Latex2UnicodeParser.transform(null,
                         qedeq.getElement2Latex().getLatex(variable), 0), model.getEntity(i));
             }
             if (list.size() == 2) {
@@ -374,7 +374,7 @@ public class DynamicDirectInterpreter {
         subjectVariableInterpreter.addSubjectVariable(var);
         for (int i = 0; i < model.getEntitiesSize(); i++) {
             if (Trace.isDebugEnabled(CLASS)) {
-                Trace.param(CLASS, this, method, deepness.toString() + Latex2Utf8Parser.transform(null,
+                Trace.param(CLASS, this, method, deepness.toString() + Latex2UnicodeParser.transform(null,
                         qedeq.getElement2Latex().getLatex(variable), 0), model.getEntity(i));
             }
             if (list.size() == 2) {
@@ -413,7 +413,7 @@ public class DynamicDirectInterpreter {
         subjectVariableInterpreter.addSubjectVariable(var);
         for (int i = 0; i < model.getEntitiesSize(); i++) {
             if (Trace.isDebugEnabled(CLASS)) {
-                Trace.param(CLASS, this, method, deepness.toString() + Latex2Utf8Parser.transform(null,
+                Trace.param(CLASS, this, method, deepness.toString() + Latex2UnicodeParser.transform(null,
                         qedeq.getElement2Latex().getLatex(variable), 0), model.getEntity(i));
             }
             boolean val;
@@ -486,7 +486,7 @@ public class DynamicDirectInterpreter {
             throws  HeuristicException {
         final String method = "calculateTerm(Element) ";
         if (Trace.isDebugEnabled(CLASS)) {
-            Trace.param(CLASS, this, method, deepness.toString() + "term   ", Latex2Utf8Parser.transform(null,
+            Trace.param(CLASS, this, method, deepness.toString() + "term   ", Latex2UnicodeParser.transform(null,
                     qedeq.getElement2Latex().getLatex(term), 0));
             deepness.append("-");
         }
@@ -614,7 +614,7 @@ public class DynamicDirectInterpreter {
         }
         if (Trace.isDebugEnabled(CLASS)) {
             deepness.setLength(deepness.length() > 0 ? deepness.length() - 1 : 0);
-            Trace.param(CLASS, this, method, deepness.toString() + Latex2Utf8Parser.transform(null,
+            Trace.param(CLASS, this, method, deepness.toString() + Latex2UnicodeParser.transform(null,
                     qedeq.getElement2Latex().getLatex(term), 0), result);
        }
         return result;

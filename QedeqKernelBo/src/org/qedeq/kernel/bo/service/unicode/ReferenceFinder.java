@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.utf8;
+package org.qedeq.kernel.bo.service.unicode;
 
 import org.qedeq.base.io.SourcePosition;
 

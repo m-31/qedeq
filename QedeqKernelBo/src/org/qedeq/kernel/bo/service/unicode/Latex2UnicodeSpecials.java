@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.utf8;
+package org.qedeq.kernel.bo.service.unicode;
 
 
 /**
@@ -21,7 +21,7 @@ package org.qedeq.kernel.bo.service.utf8;
  *
  * @author  Michael Meyling
  */
-public final class Latex2Utf8Specials {
+public final class Latex2UnicodeSpecials {
 
     /** Available subscript characters. */
     private static final String SUBSCRIPT_CHARACTERS = "0123456789()+-=";
@@ -32,7 +32,7 @@ public final class Latex2Utf8Specials {
     /**
      * Constructor.
      */
-    private Latex2Utf8Specials() {
+    private Latex2UnicodeSpecials() {
         // never used
     }
 

@@ -13,14 +13,18 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.utf8;
+package org.qedeq.kernel.bo.service.unicode;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Locale;
 import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
-import org.qedeq.base.io.StringOutput;
+import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -36,23 +40,28 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Utf8TextExecutor implements PluginExecutor {
+public class Qedeq2Utf8Executor implements PluginExecutor {
 
     /** This class. */
-    private static final Class CLASS = Qedeq2Utf8TextExecutor.class;
+    private static final Class CLASS = Qedeq2Utf8Executor.class;
 
     /** Output goes here. */
-    private StringOutput printer;
+    private TextOutput printer;
 
-    /** Filter text to get and produce text in this language. */
-    private String language;
+    /** Current destination file. */
+    private File destination;
 
-    /** Visitor for producing the text output. */
-    private final Qedeq2Utf8Visitor visitor;
+    /** Visit all nodes with this visitor. */
+    private final Qedeq2UnicodeVisitor visitor;
 
-    /** Automatically line break after this column. <code>0</code> means no
-     * automatic line breaking. */
-   private int maxColumns;
+    /** Break automatically before this column number. */
+    private int maxColumns;
+
+    /** Generate text for these languages. */
+    private String[] languages;
+
+    /** Current language selection. See {@link #languages}. */
+    private int run = 0;
 
     /**
      * Constructor.
@@ -61,14 +70,7 @@ public final class Qedeq2Utf8TextExecutor implements PluginExecutor {
      * @param   prop        QEDEQ BO object.
      * @param   parameters  Plugin parameter.
      */
-    Qedeq2Utf8TextExecutor(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
-        language = "en";
-        if (parameters != null) {
-            language = (String) parameters.get("language");
-            if (language == null) {
-                language = "en";
-            }
-        }
+    public Qedeq2Utf8Executor(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
         String infoString = null;
         String maxColumnsString = "0";
         if (parameters != null) {
@@ -88,18 +90,27 @@ public final class Qedeq2Utf8TextExecutor implements PluginExecutor {
         } catch (RuntimeException e) {
             // ignore
         }
-        visitor = new Qedeq2Utf8Visitor(plugin, prop, info , maxColumns, false);
+        visitor = new Qedeq2UnicodeVisitor(plugin, prop, info , maxColumns, true);
     }
 
     public Object executePlugin() {
         final String method = "executePlugin()";
         final String ref = "\"" + IoUtility.easyUrl(visitor.getQedeqBo().getUrl()) + "\"";
-        String result = "";
         try {
-            QedeqLog.getInstance().logRequest("Show UTF-8 text for " + ref);
-            result = generateUtf8(language, "1");
-            QedeqLog.getInstance().logSuccessfulReply(
-                "UTF-8 was generated for " + ref + "\"");
+            QedeqLog.getInstance().logRequest("Generate UTF-8 from " + ref);
+            languages = visitor.getSupportedLanguages(visitor.getQedeqBo());
+            for (run = 0; run < languages.length; run++) {
+                final String result = generateUtf8(languages[run], "1");
+                if (languages[run] != null) {
+                    QedeqLog.getInstance().logSuccessfulReply(
+                        "UTF-8 for language \"" + languages[run]
+                        + "\" was generated from " + ref + " into \"" + result + "\"");
+                } else {
+                    QedeqLog.getInstance().logSuccessfulReply(
+                        "UTF-8 for default language "
+                        + "was generated from " + ref + " into \"" + result + "\"");
+                }
+            }
         } catch (final SourceFileExceptionList e) {
             final String msg = "Generation failed for " + ref;
             Trace.fatal(CLASS, this, method, msg, e);
@@ -114,7 +125,7 @@ public final class Qedeq2Utf8TextExecutor implements PluginExecutor {
                 "Generation failed", "unexpected problem: "
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         }
-        return result;
+        return null;
     }
 
     /**
@@ -130,22 +141,61 @@ public final class Qedeq2Utf8TextExecutor implements PluginExecutor {
     public String generateUtf8(final String language, final String level)
             throws SourceFileExceptionList, IOException {
 
+        // first we try to get more information about required modules and their predicates..
+        try {
+            KernelContext.getInstance().loadRequiredModules(visitor.getQedeqBo().getModuleAddress());
+            KernelContext.getInstance().checkModule(visitor.getQedeqBo().getModuleAddress());
+        } catch (Exception e) {
+            // we continue and ignore external predicates
+            Trace.trace(CLASS, "generateUtf8(KernelQedeqBo, String, String)", e);
+        }
         String lan = "en";
         if (language != null) {
             lan = language;
         }
-        printer = new StringOutput();
+//        if (level == null) {
+//            this.level = "1";
+//        } else {
+//            this.level = level;
+//        }
+        String txt = visitor.getQedeqBo().getModuleAddress().getFileName();
+        if (txt.toLowerCase(Locale.US).endsWith(".xml")) {
+            txt = txt.substring(0, txt.length() - 4);
+        }
+        if (lan != null && lan.length() > 0) {
+            txt = txt + "_" + lan;
+        }
+        destination = new File(KernelContext.getInstance().getConfig()
+            .getGenerationDirectory(), txt + ".txt").getCanonicalFile();
+        printer = new TextOutput(visitor.getQedeqBo().getName(), new FileOutputStream(destination),
+            "UTF-16");
 
-        visitor.generateUtf8(printer, lan, level);
-        return printer.toString();
+        try {
+            visitor.generateUtf8(printer, lan, level);
+        } finally {
+            if (printer != null) {
+                printer.flush();
+                printer.close();
+            }
+        }
+        if (printer != null && printer.checkError()) {
+            throw printer.getError();
+        }
+        return destination.toString();
     }
 
     public String getExecutionActionDescription() {
-        return visitor.getExecutionActionDescription();
+        if (languages != null && run < languages.length) {
+            return languages[run] + " " + visitor.getExecutionActionDescription();
+        }
+        if (languages != null && languages.length > 0) {
+            return languages[languages.length] + " " + visitor.getExecutionActionDescription();
+        }
+        return "unknown";
     }
 
     public double getExecutionPercentage() {
-        return visitor.getExecutionPercentage();
+        return visitor.getExecutionPercentage() / languages.length * (run + 1);
     }
 
 }

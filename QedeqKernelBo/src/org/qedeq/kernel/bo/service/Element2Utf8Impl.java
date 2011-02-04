@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.module.Element2Utf8;
-import org.qedeq.kernel.bo.service.utf8.Latex2Utf8Parser;
+import org.qedeq.kernel.bo.service.unicode.Latex2UnicodeParser;
 import org.qedeq.kernel.se.base.list.Element;
 
 
@@ -48,7 +48,7 @@ public final class Element2Utf8Impl implements Element2Utf8 {
     }
 
     public String[] getUtf8(final Element element, final int maxCols) {
-        final String result = Latex2Utf8Parser.transform(null, converter.getLatex(element), 0);
+        final String result = Latex2UnicodeParser.transform(null, converter.getLatex(element), 0);
         if (maxCols <= 0 || result.length()  < maxCols) {
             return new String[] {result};
         }

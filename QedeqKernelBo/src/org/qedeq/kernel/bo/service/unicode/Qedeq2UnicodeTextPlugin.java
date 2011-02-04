@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.utf8;
+package org.qedeq.kernel.bo.service.unicode;
 
 import java.util.Map;
 
@@ -27,15 +27,15 @@ import org.qedeq.kernel.bo.module.PluginBo;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Utf8TextPlugin implements PluginBo {
+public final class Qedeq2UnicodeTextPlugin implements PluginBo {
 
     /** This class. */
-    public static final Class CLASS = Qedeq2Utf8TextPlugin.class;
+    public static final Class CLASS = Qedeq2UnicodeTextPlugin.class;
 
     /**
      * Constructor.
      */
-    public Qedeq2Utf8TextPlugin() {
+    public Qedeq2UnicodeTextPlugin() {
     }
 
     public String getPluginId() {
@@ -51,7 +51,7 @@ public final class Qedeq2Utf8TextPlugin implements PluginBo {
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
-        return new Qedeq2Utf8TextExecutor(this, qedeq, parameters);
+        return new Qedeq2UnicodeTextExecutor(this, qedeq, parameters);
     }
 
 }

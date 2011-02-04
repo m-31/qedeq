@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.utf8;
+package org.qedeq.kernel.bo.service.unicode;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -33,10 +33,12 @@ import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.service.latex.LatexErrorCodes;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
+import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -49,38 +51,43 @@ import org.qedeq.kernel.se.base.module.LinkList;
 import org.qedeq.kernel.se.base.module.LiteratureItem;
 import org.qedeq.kernel.se.base.module.LiteratureItemList;
 import org.qedeq.kernel.se.base.module.LocationList;
+import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
-import org.qedeq.kernel.se.base.module.Reason;
+import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
+import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
+import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
 
 
 /**
- * Transfer a QEDEQ module into a UTF-8 text file.
+ * Transfer a QEDEQ module into unicode text.
  * <p>
  * <b>This is just a quick written generator. This class just generates some text output to be able
  * to get a visual impression of a QEDEQ module.</b>
  *
  * @author  Michael Meyling
  */
-public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder {
+public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFinder {
 
     /** This class. */
-    private static final Class CLASS = Qedeq2Utf8Visitor.class;
+    private static final Class CLASS = Qedeq2UnicodeVisitor.class;
 
     /** Output goes here. */
     private AbstractOutput printer;
@@ -112,6 +119,16 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
+    /** String representation of formal proof line formula. */
+    private String[] formula = new String[0];
+
+    /** String representation of formal proof line reason. */
+    private String[] reason = new String[0];
+
+    private int formulaWidth = 60;
+
+    private int reasonWidth = 35;
+
     /**
      * Constructor.
      *
@@ -123,7 +140,7 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
      * @param   addWarnings     Should warning messages be generated
      *                          if LaTeX problems occur?
      */
-    public Qedeq2Utf8Visitor(final Plugin plugin, final KernelQedeqBo prop,
+    public Qedeq2UnicodeVisitor(final Plugin plugin, final KernelQedeqBo prop,
             final boolean info, final int maximumColumn, final boolean addWarnings) {
         super(plugin, prop);
         this.info = info;
@@ -501,49 +518,86 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
     }
 
     public void visitEnter(final FormalProofLine line) {
-        int formulaWidth = 60;
-        int reasonWidth = 35;
         if (line.getLabel() != null) {
             printer.print(StringUtility.alignRight("(" + line.getLabel() + ")", 5) + " ");
         }
         if (line.getFormula() != null) {
-            String[] formula = getQedeqBo().getElement2Utf8().getUtf8(line.getFormula().getElement(), formulaWidth);
-            String[] reason = getReason(line.getReason(), reasonWidth);
-            int to = Math.max(formula.length, reason.length);
-            for (int i = 0; i < to; i++) {
-                printer.skipToColumn(6);
-                if (i < formula.length) {
-                    printer.print(formula[i]);
-                }
-                if (i < reason.length) {
-                    printer.skipToColumn(formulaWidth + 10);
-                    printer.print(reason[i]);
-                }
-                printer.println();
-            }
+            formula = getQedeqBo().getElement2Utf8().getUtf8(line.getFormula().getElement(), formulaWidth);
+        } else {
+            formula = new String[0];
         }
     }
 
-    private String[] getReason(final Reason reason, final int maxCols) {
-        if (reason == null) {
-            return new String[0];
+    public void visitLeave(final FormalProofLine line) {
+        int to = Math.max(formula.length, reason.length);
+        for (int i = 0; i < to; i++) {
+            printer.skipToColumn(6);
+            if (i < formula.length) {
+                printer.print(formula[i]);
+            }
+            if (i < reason.length) {
+                printer.skipToColumn(formulaWidth + 10);
+                printer.print(reason[i]);
+            }
+            printer.println();
         }
-        String buffer = reason.toString();
-        if (reason instanceof SubstPred) {
-            final SubstPred r = (SubstPred) reason;
-            buffer = r.getName() + " " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getPredicateVariable()) + " by " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getSubstituteFormula());
-        }
+    }
+
+    private void setReason(final String reasonString) {
         final List list = new ArrayList();
         int index = 0;
-        while (index < buffer.length()) {
-            list.add(StringUtility.substring(buffer, index, maxCols));
-            index += maxCols;
+        while (index < reasonString.length()) {
+            list.add(StringUtility.substring(reasonString, index, reasonWidth));
+            index += reasonWidth;
         }
-        return (String[]) list.toArray(new String[] {});
+        reason = (String[]) list.toArray(new String[] {});
     }
 
+    public void visitEnter(final ModusPonens r) throws ModuleDataException {
+    }
+
+    private String getReference(final String reference) {
+        // FIXME 20110204 m31: use ReferenceFinder#getReferenceLink
+        return "[" + reference + "]";
+    }
+
+    public void visitEnter(final Add r) throws ModuleDataException {
+        setReason(r.getName() + " " + getReference(r.getReference()));
+    }
+
+    public void visitEnter(final Rename r) throws ModuleDataException {
+        setReason(r.getName() + " " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getOriginalSubjectVariable()) + " by " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getReplacementSubjectVariable()) + " in " + getReference(r.getReference()));
+    }
+
+    public void visitEnter(final SubstFree r) throws ModuleDataException {
+        setReason(r.getName() + " " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubjectVariable()) + " by " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubstituteTerm()) +  " in " + getReference(r.getReference()));
+    }
+
+    public void visitEnter(final SubstFunc r) throws ModuleDataException {
+        setReason(r.getName() + " " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getFunctionVariable()) + " by " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubstituteTerm()) + " in " + getReference(r.getReference()));
+    }
+
+    public void visitEnter(final SubstPred r) throws ModuleDataException {
+        setReason(r.getName() + " " + getQedeqBo().getElement2Utf8().getUtf8(
+            r.getPredicateVariable()) + " by " + getQedeqBo().getElement2Utf8().getUtf8(
+            r.getSubstituteFormula()) + " in " + getReference(r.getReference()));
+    }
+
+    public void visitEnter(final Existential r) throws ModuleDataException {
+        setReason(r.getName() + " with " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubjectVariable()) + " in " + getReference(r.getReference()));
+    }
+
+    public void visitEnter(final Universal r) throws ModuleDataException {
+        setReason(r.getName() + " with " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubjectVariable()) + " in " + getReference(r.getReference()));
+    }
     public void visitLeave(final FormalProof proof) {
         printer.println();
         printer.println("q.e.d.");
@@ -937,7 +991,7 @@ public class Qedeq2Utf8Visitor extends ControlVisitor implements ReferenceFinder
         if (latex == null) {
             return "";
         }
-        return Latex2Utf8Parser.transform(this, latex, maxColumns);
+        return Latex2UnicodeParser.transform(this, latex, maxColumns);
     }
 
     /**

@@ -112,9 +112,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         this.qedeqFileDao = loader;
         processManager = new ServiceProcessManager();
         pluginManager = new PluginManager(processManager);
-        pluginManager.addPlugin("org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8TextPlugin");
+        pluginManager.addPlugin("org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeTextPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin");
-        pluginManager.addPlugin("org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8Plugin");
+        pluginManager.addPlugin("org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin");
 //        pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin");
         loader.setServices(this);

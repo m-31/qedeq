@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.utf8;
+package org.qedeq.kernel.bo.service.unicode;
 
 import java.util.Stack;
 
@@ -26,14 +26,14 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.service.latex.LatexErrorCodes;
 
 /**
- * Transform LaTeX into QEDEQ format.
+ * Transform LaTeX into Unicode format.
  *
  * @author  Michael Meyling
  */
-public final class Latex2Utf8Parser {
+public final class Latex2UnicodeParser {
 
     /** This class. */
-    private static final Class CLASS = Latex2Utf8Parser.class;
+    private static final Class CLASS = Latex2UnicodeParser.class;
 
     /** These characters get a special treatment in LaTeX. */
     private static final String SPECIALCHARACTERS = "(),{}\\~%$&\'`^_-";
@@ -101,7 +101,7 @@ public final class Latex2Utf8Parser {
      * @return  QEDEQ module string.
      */
     public static final String transform(final ReferenceFinder finder, final String input, final int columns) {
-        final Latex2Utf8Parser parser = new Latex2Utf8Parser(finder);
+        final Latex2UnicodeParser parser = new Latex2UnicodeParser(finder);
         parser.output.setColumns(columns);
         return parser.getUtf8(input);
     }
@@ -111,7 +111,7 @@ public final class Latex2Utf8Parser {
      *
      * @param   finder  Finder for references.
      */
-    private Latex2Utf8Parser(final ReferenceFinder finder) {
+    private Latex2UnicodeParser(final ReferenceFinder finder) {
         this.finder = finder;
         this.output = new StringOutput();
     }
@@ -400,11 +400,11 @@ public final class Latex2Utf8Parser {
     }
 
     private void printSubscript(final String content) {
-        output.addToken(Latex2Utf8Specials.transform2Subscript(content));
+        output.addToken(Latex2UnicodeSpecials.transform2Subscript(content));
     }
 
     private void printSuperscript(final String content) {
-        output.addToken(Latex2Utf8Specials.transform2Superscript(content));
+        output.addToken(Latex2UnicodeSpecials.transform2Superscript(content));
     }
 
     /**
@@ -889,9 +889,9 @@ public final class Latex2Utf8Parser {
      */
     private void emph(final String token) {
         if (isWs(token)) {
-            output.addWs(Latex2Utf8Specials.transform2Emph(token));
+            output.addWs(Latex2UnicodeSpecials.transform2Emph(token));
         } else {
-            output.addToken(Latex2Utf8Specials.transform2Emph(token));
+            output.addToken(Latex2UnicodeSpecials.transform2Emph(token));
         }
     }
 
@@ -939,9 +939,9 @@ public final class Latex2Utf8Parser {
      */
     private void mathfrak(final String token) {
         if (isWs(token)) {
-            output.addWs(Latex2Utf8Specials.transform2Mathfrak(token));
+            output.addWs(Latex2UnicodeSpecials.transform2Mathfrak(token));
         } else {
-            output.addToken(Latex2Utf8Specials.transform2Mathfrak(token));
+            output.addToken(Latex2UnicodeSpecials.transform2Mathfrak(token));
         }
     }
 
@@ -952,9 +952,9 @@ public final class Latex2Utf8Parser {
      */
     private void bold(final String token) {
         if (isWs(token)) {
-            output.addWs(Latex2Utf8Specials.transform2Bold(token));
+            output.addWs(Latex2UnicodeSpecials.transform2Bold(token));
         } else {
-            output.addToken(Latex2Utf8Specials.transform2Bold(token));
+            output.addToken(Latex2UnicodeSpecials.transform2Bold(token));
         }
     }
 
