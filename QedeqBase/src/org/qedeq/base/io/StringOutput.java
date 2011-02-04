@@ -42,4 +42,8 @@ public class StringOutput extends AbstractOutput {
         return output.toString();
     }
 
+    public long getPosition() {
+        return output.length();
+    }
+
 }

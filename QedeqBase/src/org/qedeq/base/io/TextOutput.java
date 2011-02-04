@@ -34,6 +34,9 @@ public class TextOutput extends AbstractOutput {
     /** File name. */
     private final String name;
 
+    /** Number of characters written. */
+    private long position;
+
     /**
      * Constructor. Write in ISO-8859-1 encoding.
      *
@@ -110,7 +113,12 @@ public class TextOutput extends AbstractOutput {
     }
 
     public void append(final String text) {
+        position += text.length();
         output.print(text);
+    }
+
+    public long getPosition() {
+        return position;
     }
 
 }

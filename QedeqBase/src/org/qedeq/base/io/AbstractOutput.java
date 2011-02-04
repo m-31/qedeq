@@ -47,6 +47,9 @@ public abstract class AbstractOutput {
     /** Whitespace buffer. */
     private StringBuffer wsBuffer = new StringBuffer();
 
+    /** Starting position of current line. */
+    private long start;
+
     /**
      * Constructor.
      */
@@ -163,6 +166,13 @@ public abstract class AbstractOutput {
     public abstract void append(final String text);
 
     /**
+     * Get writing position.
+     *
+     * @return  Writing position.
+     */
+    public abstract long getPosition();
+
+    /**
      * Print spaces and text to output.
      *
      * @param   text    Append this.
@@ -249,6 +259,7 @@ public abstract class AbstractOutput {
         }
         append("\n");
         col = 0;
+        start = getPosition();
     }
 
     /**
