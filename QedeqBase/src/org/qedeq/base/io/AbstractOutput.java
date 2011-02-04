@@ -348,6 +348,15 @@ public abstract class AbstractOutput {
     }
 
     /**
+     * Return number of maximum columns. If equal to zero no line breaking is done automatically.
+     *
+     * @return  Maximum column size.
+     */
+    public final int getColumns() {
+        return breakAt;
+    }
+
+    /**
      * Append tabulation and increase current column.
      */
     private void appendSpaces() {
