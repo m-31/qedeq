@@ -12,12 +12,14 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
-package org.qedeq.kernel.bo.service.utf8;
+package org.qedeq.kernel.bo.service.unicode;
 
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.kernel.bo.service.latex.LatexContentException;
+import org.qedeq.kernel.bo.service.unicode.Latex2UnicodeParser;
+import org.qedeq.kernel.bo.service.unicode.ReferenceFinder;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
@@ -126,7 +128,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "This document is work in progress "
             + "and is updated from time to time. Especially at the locations marked by \u201e+++\u201d "
             + "additions or changes will take place.";
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 0));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 0));
         assertEquals(0, warnings.size());
     }
 
@@ -193,7 +195,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "      the proof or results from it by substitution. A formula is said to be\n"
             + "      provable if it is either an axiom or the end formula of a proof.\u201d\n";
         System.out.println(warnings);
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
         assertEquals(0, warnings.size());
     }
 
@@ -205,7 +207,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
     public void test03() throws Exception {
         final String text = "   \n \t hi";
         final String result = "hi";
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
         assertEquals(0, warnings.size());
     }
 
@@ -217,7 +219,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
     public void test04() throws Exception {
         final String text  = "    \\qref{123] missing";
         final String result = "123] missing";
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
         System.out.println(warnings);
         assertEquals(2, warnings.size());
         final SourceFileException first = warnings.get(0);
@@ -234,7 +236,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
     public void test05() throws Exception {
         final String text  = "    {%% ignore me\n  missing\n  still missing";
         final String result = "missing still missing";
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
         assertEquals(1, warnings.size());
         final SourceFileException first = warnings.get(0);
         assertEquals("memory:1:5:3:16", first.getSourceArea().toString());
@@ -249,7 +251,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
         final String text  = "A \\emph{Hilbert} B \\emph{Bernays}.";
         final String result = "A  H i l b e r t  "
         + "B  B e r n a y s .";
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 0));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 0));
         assertEquals(0, warnings.size());
     }
 
@@ -281,7 +283,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
             + "          \u2514\n"
             + " but shall be content with the common logical operators. To be more precise:\n"
             + "precondition is a first-order predicate calculus with identity.";
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
         assertEquals(0, warnings.size());
     }
 
@@ -293,7 +295,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
     public void test08() throws Exception {
         final String text  = "    in \\qref{gold} we trust.";
         final String result = "in [gold] we trust.";
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
         System.out.println(warnings);
         assertEquals(0, warnings.size());
     }
@@ -306,7 +308,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
     public void test09() throws Exception {
         final String text  = "\n    we {crossed} the \\qref{missing} river at noon";
         final String result = "we crossed the [missing?] river at noon";
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
         System.out.println(warnings);
         assertEquals(1, warnings.size());
         final SourceFileException first = warnings.get(0);
@@ -321,7 +323,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
     public void test10() throws Exception {
         final String text  = "\n    {we {crossed} the \\qref{missing} river at noon}";
         final String result = "we crossed the [missing?] river at noon";
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
         System.out.println(warnings);
         assertEquals(1, warnings.size());
         final SourceFileException first = warnings.get(0);
@@ -336,7 +338,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
     public void test11() throws Exception {
         final String text  = "\n    {we {crossed} the \\qref{missing} river at \\qref{missing} }";
         final String result = "we crossed the [missing?] river at [missing?]";
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
         System.out.println(warnings);
         assertEquals(2, warnings.size()); 
         final SourceFileException first = warnings.get(0);
@@ -355,7 +357,7 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
     public void test12() throws Exception {
         final String text  = "\n    {we {crossed} the \\qref{missing{}} river at \\qref{missing} }";
         final String result = "we crossed the missing river at [missing?]";
-        assertEquals(result, Latex2Utf8Parser.transform(finder, text, 80));
+        assertEquals(result, Latex2UnicodeParser.transform(finder, text, 80));
         System.out.println(warnings);
         assertEquals(2, warnings.size());
         final SourceFileException first = warnings.get(0);

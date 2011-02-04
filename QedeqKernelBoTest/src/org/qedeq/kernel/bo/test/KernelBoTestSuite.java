@@ -29,8 +29,8 @@ import org.qedeq.kernel.bo.service.KernelBoServiceTestSuite;
 import org.qedeq.kernel.bo.service.heuristic.KernelBoServiceHeuristicTestSuite;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexTest;
 import org.qedeq.kernel.bo.service.logic.KernelBoServiceLogicTestSuite;
-import org.qedeq.kernel.bo.service.utf8.GenerateUtf8Test;
-import org.qedeq.kernel.bo.service.utf8.Latex2Utf8Test;
+import org.qedeq.kernel.bo.service.unicode.GenerateUtf8Test;
+import org.qedeq.kernel.bo.service.unicode.Latex2Utf8Test;
 
 /**
  * Run all tests for the project.
