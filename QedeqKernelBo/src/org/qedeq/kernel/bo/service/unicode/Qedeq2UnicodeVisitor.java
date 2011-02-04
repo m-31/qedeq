@@ -162,6 +162,27 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             final String level) throws SourceFileExceptionList, IOException {
         this.printer = printer;
         this.printer.setColumns(maxColumns);
+        if (maxColumns <= 0) {
+            formulaWidth = 80;
+            reasonWidth = 50;
+        } else if (maxColumns <= 50) {
+            this.printer.setColumns(50);
+            formulaWidth = 21;
+            reasonWidth = 21;
+        } else if (maxColumns <= 100) {
+            formulaWidth = (maxColumns - 8) * 50 / 100;
+            reasonWidth = (maxColumns - 8) * 50 / 100;
+        } else if (maxColumns <= 120) {
+            formulaWidth = (maxColumns - 8) * 55 / 100;
+            reasonWidth = (maxColumns - 8) * 45 / 100;
+        } else {
+            formulaWidth = (maxColumns - 8) * 60 / 100;
+            reasonWidth = (maxColumns - 8) * 40 / 100;
+        }
+        // FIXME remove me
+        System.out.println("maxColums    =" + this.printer.getColumns());
+        System.out.println("formulaWidth =" + this.formulaWidth);
+        System.out.println("reasonWidth  =" + this.reasonWidth);
         if (language == null) {
             this.language = "en";
         } else {
@@ -521,6 +542,11 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         if (line.getLabel() != null) {
             printer.print(StringUtility.alignRight("(" + line.getLabel() + ")", 5) + " ");
         }
+        if (line.getReason() != null) {
+            setReason(line.getReason().toString());
+        } else {
+            reason = new String[0];
+        }
         if (line.getFormula() != null) {
             formula = getQedeqBo().getElement2Utf8().getUtf8(line.getFormula().getElement(), formulaWidth);
         } else {
@@ -536,7 +562,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
                 printer.print(formula[i]);
             }
             if (i < reason.length) {
-                printer.skipToColumn(formulaWidth + 10);
+                printer.skipToColumn(6 + 2 + formulaWidth);
                 printer.print(reason[i]);
             }
             printer.println();
@@ -553,50 +579,110 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         reason = (String[]) list.toArray(new String[] {});
     }
 
-    public void visitEnter(final ModusPonens r) throws ModuleDataException {
-    }
-
     private String getReference(final String reference) {
         // FIXME 20110204 m31: use ReferenceFinder#getReferenceLink
         return "[" + reference + "]";
     }
 
+    public void visitEnter(final ModusPonens r) throws ModuleDataException {
+        setReason(r.getName() + " " + r.getReference1() + ", "
+            + r.getReference2());
+    }
+
     public void visitEnter(final Add r) throws ModuleDataException {
-        setReason(r.getName() + " " + getReference(r.getReference()));
+        String buffer = r.getName();
+        if (r.getReference() != null) {
+            buffer += " " + getReference(r.getReference());
+        }
+        setReason(buffer);
     }
 
     public void visitEnter(final Rename r) throws ModuleDataException {
-        setReason(r.getName() + " " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getOriginalSubjectVariable()) + " by " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getReplacementSubjectVariable()) + " in " + getReference(r.getReference()));
+        String buffer = r.getName();
+        if (r.getOriginalSubjectVariable() != null) {
+            buffer += " " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getOriginalSubjectVariable());
+        }
+        if (r.getReplacementSubjectVariable() != null) {
+            buffer += " by " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getReplacementSubjectVariable());
+        }
+        if (r.getReference() != null) {
+            buffer += " in " + getReference(r.getReference());
+        }
+        setReason(buffer);
     }
 
     public void visitEnter(final SubstFree r) throws ModuleDataException {
-        setReason(r.getName() + " " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getSubjectVariable()) + " by " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getSubstituteTerm()) +  " in " + getReference(r.getReference()));
+        String buffer = r.getName();
+        if (r.getSubjectVariable() != null) {
+            buffer += " " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubjectVariable());
+        }
+        if (r.getSubstituteTerm() != null) {
+            buffer += " by " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubstituteTerm());
+        }
+        if (r.getReference() != null) {
+            buffer += " in " + getReference(r.getReference());
+        }
+        setReason(buffer);
     }
 
     public void visitEnter(final SubstFunc r) throws ModuleDataException {
-        setReason(r.getName() + " " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getFunctionVariable()) + " by " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getSubstituteTerm()) + " in " + getReference(r.getReference()));
+        String buffer = r.getName();
+        if (r.getFunctionVariable() != null) {
+            buffer += " " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getFunctionVariable());
+        }
+        if (r.getSubstituteTerm() != null) {
+            buffer += " by " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubstituteTerm());
+        }
+        if (r.getReference() != null) {
+            buffer += " in " + getReference(r.getReference());
+        }
+        setReason(buffer);
     }
 
     public void visitEnter(final SubstPred r) throws ModuleDataException {
-        setReason(r.getName() + " " + getQedeqBo().getElement2Utf8().getUtf8(
-            r.getPredicateVariable()) + " by " + getQedeqBo().getElement2Utf8().getUtf8(
-            r.getSubstituteFormula()) + " in " + getReference(r.getReference()));
+        String buffer = r.getName();
+        if (r.getPredicateVariable() != null) {
+            buffer += " " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getPredicateVariable());
+        }
+        if (r.getSubstituteFormula() != null) {
+            buffer += " by " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubstituteFormula());
+        }
+        if (r.getReference() != null) {
+            buffer += " in " + getReference(r.getReference());
+        }
+        setReason(buffer);
     }
 
     public void visitEnter(final Existential r) throws ModuleDataException {
-        setReason(r.getName() + " with " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getSubjectVariable()) + " in " + getReference(r.getReference()));
+        String buffer = r.getName();
+        if (r.getSubjectVariable() != null) {
+            buffer += " with " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubjectVariable());
+        }
+        if (r.getReference() != null) {
+            buffer += " in " + getReference(r.getReference());
+        }
+        setReason(buffer);
     }
 
     public void visitEnter(final Universal r) throws ModuleDataException {
-        setReason(r.getName() + " with " + getQedeqBo().getElement2Utf8().getUtf8(
-                r.getSubjectVariable()) + " in " + getReference(r.getReference()));
+        String buffer = r.getName();
+        if (r.getSubjectVariable() != null) {
+            buffer += " with " + getQedeqBo().getElement2Utf8().getUtf8(
+                r.getSubjectVariable());
+        }
+        if (r.getReference() != null) {
+            buffer += " in " + getReference(r.getReference());
+        }
+        setReason(buffer);
     }
     public void visitLeave(final FormalProof proof) {
         printer.println();
