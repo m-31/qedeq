@@ -179,6 +179,12 @@ public class TextPaneWindow extends JFrame {
                 return TextPaneWindow.this.wordWrap;
             }
         };
+// FIXME 20110204 m31: make configurable in GUI
+//        GraphicsEnvironment e = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//        Font[] fonts = e.getAllFonts(); // Get the fonts
+//        for (Font f : fonts) {
+//          System.out.println(f.getFontName());
+//        }
 //        textPane.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, textPane.getFont().getSize()));
 //        textPane.setFont(new Font("Lucida Console", Font.PLAIN, textPane.getFont().getSize()));
 //        textPane.setFont(new Font("Lucida Sans Typewriter", Font.PLAIN, textPane.getFont().getSize()));

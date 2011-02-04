@@ -45,8 +45,8 @@ import org.qedeq.kernel.bo.logic.model.ThreeDynamicModel;
 import org.qedeq.kernel.bo.logic.model.UnaryDynamicModel;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
-import org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8Plugin;
-import org.qedeq.kernel.bo.service.utf8.Qedeq2Utf8TextPlugin;
+import org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin;
+import org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeTextPlugin;
 import org.qedeq.kernel.se.common.Plugin;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
@@ -89,7 +89,7 @@ public class PluginPreferencesDialog extends JDialog {
     private final Qedeq2Utf8Plugin qedeq2utf8;
 
     /** Plugin for showing QEDEQ modules as UTF-8 text. */
-    private final Qedeq2Utf8TextPlugin qedeq2utf8Show;
+    private final Qedeq2UnicodeTextPlugin qedeq2utf8Show;
 
 // LATER 20101222 m31: remove if not used for a long time
 //    /** Plugin for checking formulas with the help of a static model. */
@@ -116,7 +116,7 @@ public class PluginPreferencesDialog extends JDialog {
         try {
             qedeq2latex = new Qedeq2LatexPlugin();
             qedeq2utf8 = new Qedeq2Utf8Plugin();
-            qedeq2utf8Show = new Qedeq2Utf8TextPlugin();
+            qedeq2utf8Show = new Qedeq2UnicodeTextPlugin();
 // LATER 20101222 m31: remove if not used for a long time
 //            heuristicChecker = new HeuristicCheckerPlugin();
             dynamicHeuristicChecker = new DynamicHeuristicCheckerPlugin();
