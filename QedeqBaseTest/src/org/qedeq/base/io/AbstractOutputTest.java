@@ -72,6 +72,10 @@ public class AbstractOutputTest extends QedeqTestCase {
             public String toString() {
                 return buffer.toString();
             }
+
+            public long getPosition() {
+                return buffer.length();
+            }
         };
     }
 
