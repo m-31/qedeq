@@ -20,6 +20,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -39,10 +41,15 @@ import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
+import org.qedeq.kernel.se.base.module.Existential;
+import org.qedeq.kernel.se.base.module.FormalProof;
+import org.qedeq.kernel.se.base.module.FormalProofLine;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
@@ -53,20 +60,27 @@ import org.qedeq.kernel.se.base.module.LinkList;
 import org.qedeq.kernel.se.base.module.LiteratureItem;
 import org.qedeq.kernel.se.base.module.LiteratureItemList;
 import org.qedeq.kernel.se.base.module.LocationList;
+import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.SectionList;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
+import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
+import org.qedeq.kernel.se.base.module.SubstPred;
+import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
@@ -115,6 +129,9 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
 
     /** Sub context like "getIntroduction()". */
     private String subContext = "";
+
+    /** Remembered proof line reason. */
+    private String reason;
 
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
@@ -614,6 +631,170 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         printer.println(getLatexListEntry("getNonFormalProof()", proof.getNonFormalProof()));
         printer.println("\\end{proof}");
     }
+
+    public void visitEnter(final FormalProof proof) {
+        printer.println("\\begin{proof}");
+//        if ("de".equals(language)) {
+//            printer.println("Beweis (formal):");
+//        } else {
+//            printer.println("Proof (formal):");
+//        }
+    }
+
+    public void visitEnter(final FormalProofLineList lines) {
+        printer.println("\\mbox{}\\\\");
+        printer.println("\\begin{longtable}[h!]{r@{\\extracolsep{\\fill}}p{9cm}@{\\extracolsep{\\fill}}p{4cm}}");
+    }
+
+    public void visitLeave(final FormalProofLineList lines) {
+        printer.println(" & & \\qedhere");
+        printer.println("\\end{longtable}");
+    }
+
+    public void visitEnter(final FormalProofLine line) {
+        if (line.getLabel() != null) {
+            printer.print("\\hypertarget{" + getNodeBo().getNodeVo().getId() + ":"
+                    + line.getLabel() + "}{} \\mbox{\\emph{(" + line.getLabel() + ")}} ");
+        }
+        printer.print(" \\ &  \\ ");
+        if (line.getFormula() != null) {
+            printer.print("$");
+            printer.print(getQedeqBo().getElement2Latex().getLatex(line.getFormula().getElement()));
+            printer.print("$");
+        }
+        printer.print(" \\ &  \\ ");
+        if (line.getReason() != null) {
+            reason = line.getReason().toString();
+        } else {
+            reason = "";
+        }
+    }
+
+    public void visitLeave(final FormalProofLine line) {
+        if (reason.length() > 0) {
+            printer.print("{\\tiny ");
+//            printer.print("dummy");
+            printer.print(reason);
+            printer.print("}");
+        }
+        printer.println(" \\\\ ");
+    }
+
+    private String getReference(final String reference) {
+        // FIXME 20110204 m31: use ReferenceFinder#getReferenceLink
+        return "reference";
+//        return "(" + reference + ")";
+    }
+
+    public void visitEnter(final ModusPonens r) throws ModuleDataException {
+        reason = r.getName();
+        boolean one = false;
+        if (r.getReference1() != null) {
+            reason += " " + getReference(r.getReference1());
+            one = true;
+        }
+        if (r.getReference1() != null) {
+            if (one) {
+                reason += ",";
+            }
+            reason += " " + getReference(r.getReference2());
+        }
+    }
+
+    public void visitEnter(final Add r) throws ModuleDataException {
+        reason = r.getName();
+        if (r.getReference() != null) {
+            reason += " " + getReference(r.getReference());
+        }
+    }
+
+    public void visitEnter(final Rename r) throws ModuleDataException {
+        reason = r.getName();
+        if (r.getOriginalSubjectVariable() != null) {
+            reason += " $" + getQedeqBo().getElement2Latex().getLatex(
+                r.getOriginalSubjectVariable()) + "$";
+        }
+        if (r.getReplacementSubjectVariable() != null) {
+            reason += " by $" + getQedeqBo().getElement2Latex().getLatex(
+                r.getReplacementSubjectVariable()) + "$";
+        }
+        if (r.getReference() != null) {
+            reason += " in " + getReference(r.getReference());
+        }
+    }
+
+    public void visitEnter(final SubstFree r) throws ModuleDataException {
+        reason = r.getName();
+        if (r.getSubjectVariable() != null) {
+            reason += " $" + getQedeqBo().getElement2Latex().getLatex(
+                r.getSubjectVariable()) + "$";
+        }
+        if (r.getSubstituteTerm() != null) {
+            reason += " by $" + getQedeqBo().getElement2Latex().getLatex(
+                r.getSubstituteTerm()) + "$";
+        }
+        if (r.getReference() != null) {
+            reason += " in " + getReference(r.getReference());
+        }
+    }
+
+    public void visitEnter(final SubstFunc r) throws ModuleDataException {
+        reason = r.getName();
+        if (r.getFunctionVariable() != null) {
+            reason += " $" + getQedeqBo().getElement2Latex().getLatex(
+                r.getFunctionVariable()) + "$";
+        }
+        if (r.getSubstituteTerm() != null) {
+            reason += " by $" + getQedeqBo().getElement2Latex().getLatex(
+                r.getSubstituteTerm()) + "$";
+        }
+        if (r.getReference() != null) {
+            reason += " in " + getReference(r.getReference());
+        }
+    }
+
+    public void visitEnter(final SubstPred r) throws ModuleDataException {
+        reason = r.getName();
+        if (r.getPredicateVariable() != null) {
+            reason += " $" + getQedeqBo().getElement2Latex().getLatex(
+                r.getPredicateVariable()) + "$";
+        }
+        if (r.getSubstituteFormula() != null) {
+            reason += " by $" + getQedeqBo().getElement2Latex().getLatex(
+                r.getSubstituteFormula()) + "$";
+        }
+        if (r.getReference() != null) {
+            reason += " in " + getReference(r.getReference());
+        }
+    }
+
+    public void visitEnter(final Existential r) throws ModuleDataException {
+        reason = r.getName();
+        if (r.getSubjectVariable() != null) {
+            reason += " with $" + getQedeqBo().getElement2Latex().getLatex(
+                r.getSubjectVariable()) + "$";
+        }
+        if (r.getReference() != null) {
+            reason += " in " + getReference(r.getReference());
+        }
+    }
+
+    public void visitEnter(final Universal r) throws ModuleDataException {
+        reason = r.getName();
+        if (r.getSubjectVariable() != null) {
+            reason += " with $" + getQedeqBo().getElement2Latex().getLatex(
+                r.getSubjectVariable()) + "$";
+        }
+        if (r.getReference() != null) {
+            reason += " in " + getReference(r.getReference());
+        }
+    }
+
+    public void visitLeave(final FormalProof proof) {
+        printer.println("\\end{proof}");
+    }
+
+
 
     public void visitEnter(final PredicateDefinition definition) {
         final StringBuffer define = new StringBuffer("$$" + definition.getLatexPattern());
