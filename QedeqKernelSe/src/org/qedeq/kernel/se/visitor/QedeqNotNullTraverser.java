@@ -101,6 +101,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
     /** Is sub node traverse currently blocked? */
     private boolean blocked;
 
+    /** Currently visited node element of QEDEQ module. Might be <code>null</code>. */
+    private Node node;
+
     /**
      * Constructor.
      *
@@ -532,6 +535,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         if (blocked || node == null) {
             return;
         }
+        this.node = node;
         String title = "";
         if (node.getTitle() != null) {
             title = transform.transform(node.getTitle());
@@ -582,6 +586,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         visitor.visitLeave(node);
         setLocationWithinModule(context);
         location.pop();
+        this.node = null;
     }
 
     public void accept(final Axiom axiom) throws ModuleDataException {
@@ -1139,6 +1144,15 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
         visitor.visitLeave(latex);
         setLocationWithinModule(context);
+    }
+
+    /**
+     * Get node that is currently parsed. Might be <code>null</code>.
+     *
+     * @return  QEDEQ node were are currently in.
+     */
+    public Node getNode() {
+        return node;
     }
 
     /**
