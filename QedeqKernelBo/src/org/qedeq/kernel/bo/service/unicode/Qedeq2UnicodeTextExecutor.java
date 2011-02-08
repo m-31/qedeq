@@ -99,7 +99,7 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
             QedeqLog.getInstance().logRequest("Show UTF-8 text for " + ref);
             result = generateUtf8(language, "1");
             QedeqLog.getInstance().logSuccessfulReply(
-                "UTF-8 was generated for " + ref + "\"");
+                "UTF-8 text was shown for " + ref + "\"");
         } catch (final SourceFileExceptionList e) {
             final String msg = "Generation failed for " + ref;
             Trace.fatal(CLASS, this, method, msg, e);
