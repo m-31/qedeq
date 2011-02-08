@@ -130,7 +130,7 @@ public final class ModuleLabels {
     private final void checkLabelIntern(final ModuleContext context,  final String label)
             throws IllegalModuleDataException {
         if (label2Context.containsKey(label)) {
-            // LATER mime 20071026: organize exception codes
+            // FIXME mime 20071026: organize exception codes
             throw new IllegalModuleDataException(10002, "Id or label \"" + label
                 + "\" defined more than once.", context,
                 (ModuleContext) label2Context.get(label), null);
@@ -148,7 +148,7 @@ public final class ModuleLabels {
     }
 
     /**
-     * Is the given label id a node?
+     * Is the given label id a node? Local node labels are not considered.
      *
      * @param   id   Label to search node for.
      * @return  Is this an node of this module?
