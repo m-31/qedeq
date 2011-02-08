@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.base.io.SourceArea;
+import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -77,10 +78,20 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     /**
      * Get QedeqBo.
      *
-     * @return  QedeqBo.
+     * @return  QEDEQ module were are in.
      */
     public KernelQedeqBo getQedeqBo() {
         return this.prop;
+    }
+
+    /**
+     * Get node that is currently parsed. Might be <code>null</code>.
+     *
+     * @return  QEDEQ node were are currently in.
+     */
+    public KernelNodeBo getNodeBo() {
+        final Node node = traverser.getNode();
+        return getQedeqBo().getLabels().getNode(node.getId());
     }
 
     /**
