@@ -125,8 +125,10 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     /** String representation of formal proof line reason. */
     private String[] reason = new String[0];
 
+    /** This is the maximal formula width. All proof line formulas that are bigger are wrapped. */
     private int formulaWidth = 60;
 
+    /** This is the maximal reason width. All proof line reasons that are bigger are wrapped. */
     private int reasonWidth = 35;
 
     /**
