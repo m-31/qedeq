@@ -162,6 +162,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             final String level) throws SourceFileExceptionList, IOException {
         this.printer = printer;
         this.printer.setColumns(maxColumns);
+        // TODO 20110208 m31: perhaps we should have some config parameters for those percentage splittings
         if (maxColumns <= 0) {
             formulaWidth = 80;
             reasonWidth = 50;
@@ -173,16 +174,15 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             formulaWidth = (maxColumns - 8) * 50 / 100;
             reasonWidth = (maxColumns - 8) * 50 / 100;
         } else if (maxColumns <= 120) {
-            formulaWidth = (maxColumns - 8) * 55 / 100;
-            reasonWidth = (maxColumns - 8) * 45 / 100;
+            reasonWidth = 46 + (maxColumns - 100) / 5;
+            formulaWidth = maxColumns - 8 - reasonWidth;
         } else {
-            formulaWidth = (maxColumns - 8) * 60 / 100;
-            reasonWidth = (maxColumns - 8) * 40 / 100;
+            reasonWidth = 50 + (maxColumns - 120) / 10;
+            formulaWidth = maxColumns - 8 - reasonWidth;
         }
-        // FIXME remove me
-        System.out.println("maxColums    =" + this.printer.getColumns());
-        System.out.println("formulaWidth =" + this.formulaWidth);
-        System.out.println("reasonWidth  =" + this.reasonWidth);
+//        System.out.println("maxColums    =" + this.printer.getColumns());
+//        System.out.println("formulaWidth =" + this.formulaWidth);
+//        System.out.println("reasonWidth  =" + this.reasonWidth);
         if (language == null) {
             this.language = "en";
         } else {
