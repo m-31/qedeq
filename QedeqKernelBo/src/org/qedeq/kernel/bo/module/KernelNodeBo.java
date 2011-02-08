@@ -16,6 +16,9 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
+import org.qedeq.kernel.se.base.module.FormalProofList;
+import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.module.NodeVo;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
@@ -90,6 +93,40 @@ public class KernelNodeBo {
      */
     public QedeqNumbers getNumbers() {
         return data;
+    }
+
+    /**
+     * Is the given name a label within the node?
+     *
+     * @param   label   Look if this node contains this label name.
+     * @return  Answer.
+     */
+    public boolean isLocalLabel(final String label) {
+        if (label == null || label.length() == 0) {
+            return false;
+        }
+        final Proposition theorem = getNodeVo().getNodeType().getProposition();
+        if (theorem == null) {
+            return false;
+        }
+        final FormalProofList proofs = theorem.getFormalProofList();
+        if (proofs == null) {
+            return false;
+        }
+        // iterate through all formal proofs
+        for (int i = 0; i < proofs.size(); i++) {
+            final FormalProofLineList list = proofs.get(i).getFormalProofLineList();
+            if (list == null) {
+                continue;
+            }
+            for (int j = 0; j < list.size(); j++) {
+                if (label.equals(list.get(j).getLabel())) {
+                    return true;
+                }
+            }
+        }
+        // nowhere found:
+        return false;
     }
 
 }
