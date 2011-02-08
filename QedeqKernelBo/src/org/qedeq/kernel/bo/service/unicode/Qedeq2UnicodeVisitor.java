@@ -582,13 +582,22 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     private String getReference(final String reference) {
-        // FIXME 20110204 m31: use ReferenceFinder#getReferenceLink
-        return "[" + reference + "]";
+        return getReference(reference, "getReference()");
+    }
+
+    private String getReference(final String reference, final String subContext) {
+        final String context = getCurrentContext().getLocationWithinModule();
+        try {
+            getCurrentContext().setLocationWithinModule(context + "." + subContext);
+            return (getReferenceLink(reference));
+        } finally {
+            getCurrentContext().setLocationWithinModule(context);
+        }
     }
 
     public void visitEnter(final ModusPonens r) throws ModuleDataException {
-        setReason(r.getName() + " " + r.getReference1() + ", "
-            + r.getReference2());
+        setReason(r.getName() + " " + getReference(r.getReference1(), "getReference1()")
+            + ", " + getReference(r.getReference2(), "getReference2()"));
     }
 
     public void visitEnter(final Add r) throws ModuleDataException {
@@ -1110,8 +1119,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
 
     public String getReferenceLink(final String reference, final String subReference,
             final SourcePosition startPosition, final SourcePosition endPosition) {
-        final String method = "getExternalReference(SourcePosition, SourcePosition, String, "
-            + "String)";
+        final String method = "getReferenceLink(String, String, SourcePosition, SourcePosition)";
 
         // get module label (if any)
         String moduleLabel = "";
@@ -1163,6 +1171,56 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
                 + ": " + "node not found for " + reference, startPosition,
                 endPosition);
             return localLabel + "?" + fix;
+        }
+    }
+
+    public String getReferenceLink(final String reference) {
+        final String method = "getReferenceLink(String)";
+        final KernelNodeBo node = getNodeBo();
+
+        if (node == null) {
+            System.out.println("programming error 1"); // FIXME
+//            addWarning();   Programmierfehler, kann nur im Node aufgerufen worden sein
+            return "[" + reference + "]";
+        }
+        if (node.isLocalLabel(reference)) {
+            return "(" + reference + ")";
+        }
+        if (getQedeqBo().getLabels().isNode(reference)) {
+            return getNodeDisplay(node);
+        }
+        String[] split = StringUtility.split(reference, ".");
+        if (split.length <= 1 || split.length > 3) {
+//            addWarning();
+            System.out.println("programming error 3 with " + split.length + " by " + reference); // FIXME
+            return "[" + reference + "]";
+        }
+        final String moduleLabel = split[0];
+        final String nodeLabel = split[1];
+        String lineLabel = "";
+        if (split.length == 3) {
+            lineLabel = " (" + split[2] + ")";
+        }
+        final KernelQedeqBo refModule = getQedeqBo().getKernelRequiredModules()
+            .getKernelQedeqBo(moduleLabel);
+        if (refModule == null) {
+            Trace.info(CLASS, this, method, "module not found for " + moduleLabel);
+//            addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
+//                LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
+//                + ": " + "module not found for " + reference);
+            return moduleLabel + "?." + nodeLabel + lineLabel;
+        }
+
+        final KernelNodeBo kNode = refModule.getLabels().getNode(nodeLabel);
+        if (kNode != null) {
+            return getNodeDisplay(kNode) + lineLabel;
+        } else {
+            Trace.info(CLASS, this, method, "node not found for " + reference);
+//            addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_COD dE,
+//                LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
+//                + ": " + "node not found for " + reference, null,
+//                null);
+            return nodeLabel + "?" + lineLabel;
         }
     }
 
