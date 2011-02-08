@@ -596,8 +596,19 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public void visitEnter(final ModusPonens r) throws ModuleDataException {
-        setReason(r.getName() + " " + getReference(r.getReference1(), "getReference1()")
-            + ", " + getReference(r.getReference2(), "getReference2()"));
+        String buffer = r.getName();
+        boolean one = false;
+        if (r.getReference1() != null) {
+            buffer += " " + getReference(r.getReference1(), "getReference1()");
+            one = true;
+        }
+        if (r.getReference1() != null) {
+            if (one) {
+                buffer += ",";
+            }
+            buffer += " " + getReference(r.getReference2(), "getReference2()");
+        }
+        setReason(buffer);
     }
 
     public void visitEnter(final Add r) throws ModuleDataException {
