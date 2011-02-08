@@ -47,9 +47,6 @@ public abstract class AbstractOutput {
     /** Whitespace buffer. */
     private StringBuffer wsBuffer = new StringBuffer();
 
-    /** Starting position of current line. */
-    private long start;
-
     /**
      * Constructor.
      */
@@ -259,7 +256,6 @@ public abstract class AbstractOutput {
         }
         append("\n");
         col = 0;
-        start = getPosition();
     }
 
     /**
