@@ -1071,8 +1071,21 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             final SourcePosition endDelta) {
         Trace.param(CLASS, this, "addWarning", "msg", msg);
         if (addWarnings) {
-            addWarning(new LatexContentException(code, msg, getCurrentContext(startDelta,
+            addWarning(new UnicodeException(code, msg, getCurrentContext(startDelta,
                 endDelta)));
+        }
+    }
+
+    /**
+     * Add warning.
+     *
+     * @param   code        Warning code.
+     * @param   msg         Warning message.
+     */
+    public void addWarning(final int code, final String msg) {
+        Trace.param(CLASS, this, "addWarning", "msg", msg);
+        if (addWarnings) {
+            addWarning(new UnicodeException(code, msg, getCurrentContext()));
         }
     }
 
@@ -1189,10 +1202,14 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         final String method = "getReferenceLink(String)";
         final KernelNodeBo node = getNodeBo();
 
+        final String fallback = "[" + reference + "]";
         if (node == null) {
-            System.out.println("programming error 1"); // FIXME
-//            addWarning();   Programmierfehler, kann nur im Node aufgerufen worden sein
-            return "[" + reference + "]";
+            addWarning(UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
+                    UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
+                    + "\"" + reference + "\"");
+            final String msg = "Programming error: this method should only be called when parsing a node";
+            Trace.fatal(CLASS, method, msg, new RuntimeException(msg));
+            return fallback;
         }
         if (node.isLocalLabel(reference)) {
             return "(" + reference + ")";
@@ -1202,9 +1219,17 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
         String[] split = StringUtility.split(reference, ".");
         if (split.length <= 1 || split.length > 3) {
-//            addWarning();
-            System.out.println("programming error 3 with " + split.length + " by " + reference); // FIXME
-            return "[" + reference + "]";
+            if (split.length <= 1) {
+                addWarning(UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
+                    UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
+                    + "\"" + reference + "\"");
+            }
+            if (split.length > 3) {
+                addWarning(UnicodelErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_CODE,
+                    UnicodelErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_TEXT
+                    + "\"" + reference + "\"");
+            }
+            return fallback;
         }
         final String moduleLabel = split[0];
         final String nodeLabel = split[1];
@@ -1215,22 +1240,20 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         final KernelQedeqBo refModule = getQedeqBo().getKernelRequiredModules()
             .getKernelQedeqBo(moduleLabel);
         if (refModule == null) {
-            Trace.info(CLASS, this, method, "module not found for " + moduleLabel);
-//            addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
-//                LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
-//                + ": " + "module not found for " + reference);
+            addWarning(UnicodelErrorCodes.MODULE_REFERENCE_NOT_FOUND_CODE,
+                    UnicodelErrorCodes.MODULE_REFERENCE_NOT_FOUND_TEXT
+                    + "\"" + reference + "\"");
             return moduleLabel + "?." + nodeLabel + lineLabel;
         }
-
+        lineLabel += " [" + moduleLabel + "]";
         final KernelNodeBo kNode = refModule.getLabels().getNode(nodeLabel);
         if (kNode != null) {
             return getNodeDisplay(kNode) + lineLabel;
         } else {
+            addWarning(UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
+                UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
+                + "\"" + reference + "\"");
             Trace.info(CLASS, this, method, "node not found for " + reference);
-//            addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_COD dE,
-//                LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
-//                + ": " + "node not found for " + reference, null,
-//                null);
             return nodeLabel + "?" + lineLabel;
         }
     }

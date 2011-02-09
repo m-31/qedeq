@@ -19,11 +19,11 @@ import org.qedeq.kernel.se.common.ErrorCodes;
 
 
 /**
- * Contains the error codes for unicode visiting.
+ * Contains the error codes for conversion into unicode.
  *
  * @author  Michael Meyling
  */
-public interface UniversalErrorCodes extends ErrorCodes {
+public interface UnicodelErrorCodes extends ErrorCodes {
 
     /** Error (or warning) number for: Node reference not found for. */
     public static final int NODE_REFERENCE_NOT_FOUND_CODE = 610007;
@@ -31,5 +31,21 @@ public interface UniversalErrorCodes extends ErrorCodes {
     /** Error (or warning) text for: Node reference not found for. */
     public static final String NODE_REFERENCE_NOT_FOUND_TEXT
         = "node reference not found for: ";
+
+
+    /** Error (or warning) number for: Node reference not found for. */
+    public static final int NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_CODE = 610011;
+
+    /** Error (or warning) text for: Node reference not found for. */
+    public static final String NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_TEXT
+        = "node reference has more than two dots: ";
+
+    /** Error (or warning) number for: Module reference not found for. */
+    public static final int MODULE_REFERENCE_NOT_FOUND_CODE = 6100017;
+
+    /** Error (or warning) text for: Module reference not found for. */
+    public static final String MODULE_REFERENCE_NOT_FOUND_TEXT
+        = "module reference not found for: ";
+
 
 }
