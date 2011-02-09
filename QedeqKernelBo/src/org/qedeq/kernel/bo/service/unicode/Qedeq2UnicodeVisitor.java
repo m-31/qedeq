@@ -29,7 +29,6 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.latex.LatexContentException;
 import org.qedeq.kernel.bo.service.latex.LatexErrorCodes;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
