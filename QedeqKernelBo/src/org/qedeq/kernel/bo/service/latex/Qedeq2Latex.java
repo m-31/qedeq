@@ -1137,7 +1137,9 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         final String method = "transformQref(StringBuffer)";
         final StringBuffer buffer = new StringBuffer(result.toString());
         final TextInput input = new TextInput(buffer);
+        int last = 0;
         try {
+            result.setLength(0);
             while (input.forward("\\qref{")) {
                 final SourcePosition startPosition = input.getSourcePosition();
                 final int start = input.getPosition();
@@ -1167,7 +1169,6 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                         input.getSourcePosition());
                     continue;
                 }
-
                 // exists a sub reference?
                 String sub = "";
                 if ('[' == input.getChar(0)) {
@@ -1179,18 +1180,20 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                             startPosition, input.getSourcePosition());;
                             continue;
                     }
-                    sub = result.substring(posb, input.getPosition());
+                    sub = buffer.substring(posb, input.getPosition());
                     input.read();   // read ]
                 }
                 final int end = input.getPosition();
                 final SourcePosition endPosition = input.getSourcePosition();
-                input.replace(start, end, getReference(ref, sub, startPosition, endPosition));
-                // FIXME: 
-                result.setLength(0);
-                result.append(buffer);
+                result.append(buffer.substring(last, start));
+                result.append(getReference(ref, sub, startPosition, endPosition));
+                last = end;
             }
         } finally { // thanks to findbugs
             IoUtility.close(input);
+            if (last < buffer.length()) {
+                result.append(buffer.substring(last));
+            }
         }
     }
 
