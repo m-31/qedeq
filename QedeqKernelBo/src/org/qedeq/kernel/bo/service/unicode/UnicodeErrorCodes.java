@@ -23,7 +23,7 @@ import org.qedeq.kernel.se.common.ErrorCodes;
  *
  * @author  Michael Meyling
  */
-public interface UnicodelErrorCodes extends ErrorCodes {
+public interface UnicodeErrorCodes extends ErrorCodes {
 
     /** Error (or warning) number for: Node reference not found for. */
     public static final int NODE_REFERENCE_NOT_FOUND_CODE = 610007;
