@@ -1144,6 +1144,9 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             final SourcePosition startPosition, final SourcePosition endPosition) {
         final String method = "getReferenceLink(String, String, SourcePosition, SourcePosition)";
 
+        // FIXME 20110209 m31: we must also support proof line links, so a.b might not be module import a with node b
+        // but node a with proof line b
+
         // get module label (if any)
         String moduleLabel = "";
         String localLabel = reference;
@@ -1203,8 +1206,8 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
 
         final String fallback = "[" + reference + "]";
         if (node == null) {
-            addWarning(UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-                    UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
+            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
+                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
                     + "\"" + reference + "\"");
             final String msg = "Programming error: this method should only be called when parsing a node";
             Trace.fatal(CLASS, method, msg, new RuntimeException(msg));
@@ -1214,18 +1217,18 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             return "(" + reference + ")";
         }
         if (getQedeqBo().getLabels().isNode(reference)) {
-            return getNodeDisplay(node);
+            return getNodeDisplay(getQedeqBo().getLabels().getNode(reference));
         }
         String[] split = StringUtility.split(reference, ".");
         if (split.length <= 1 || split.length > 3) {
             if (split.length <= 1) {
-                addWarning(UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-                    UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
+                addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
+                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
                     + "\"" + reference + "\"");
             }
             if (split.length > 3) {
-                addWarning(UnicodelErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_CODE,
-                    UnicodelErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_TEXT
+                addWarning(UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_CODE,
+                    UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_TEXT
                     + "\"" + reference + "\"");
             }
             return fallback;
@@ -1239,8 +1242,8 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         final KernelQedeqBo refModule = getQedeqBo().getKernelRequiredModules()
             .getKernelQedeqBo(moduleLabel);
         if (refModule == null) {
-            addWarning(UnicodelErrorCodes.MODULE_REFERENCE_NOT_FOUND_CODE,
-                    UnicodelErrorCodes.MODULE_REFERENCE_NOT_FOUND_TEXT
+            addWarning(UnicodeErrorCodes.MODULE_REFERENCE_NOT_FOUND_CODE,
+                    UnicodeErrorCodes.MODULE_REFERENCE_NOT_FOUND_TEXT
                     + "\"" + reference + "\"");
             return moduleLabel + "?." + nodeLabel + lineLabel;
         }
@@ -1249,8 +1252,8 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         if (kNode != null) {
             return getNodeDisplay(kNode) + lineLabel;
         } else {
-            addWarning(UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-                UnicodelErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
+            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
+                UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
                 + "\"" + reference + "\"");
             Trace.info(CLASS, this, method, "node not found for " + reference);
             return nodeLabel + "?" + lineLabel;
