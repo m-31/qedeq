@@ -132,8 +132,8 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
 //        System.out.println("\n" + bo.getWarnings());
         assertEquals(3, bo.getWarnings().size());
         assertEquals(80008, bo.getWarnings().get(0).getErrorCode());
-        assertEquals(80010, bo.getWarnings().get(1).getErrorCode());
-        assertEquals(80010, bo.getWarnings().get(2).getErrorCode());
+        assertEquals(610007, bo.getWarnings().get(1).getErrorCode());
+        assertEquals(610007, bo.getWarnings().get(2).getErrorCode());
         
     }
 
