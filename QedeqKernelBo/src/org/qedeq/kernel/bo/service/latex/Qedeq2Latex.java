@@ -1266,10 +1266,9 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             node = getQedeqBo().getLabels().getNode(nodeLabel);
             final String display = getDisplay(moduleLabel, node, false, false);
             return "\\hyperref[" + nodeLabel + (lineLabel.length() > 0 ? "." + lineLabel : "")
-                + "]{" + display + "~\\ref*{"
-                + nodeLabel + (lineLabel.length() > 0 ? "." + lineLabel : "")  + "}}"
+                + "]{" + display
                 + (sub.length() > 0 ? " (" + sub + ")" : "")
-                + (lineLabel.length() > 0 ? " (" + lineLabel + ")" : "");
+                + (lineLabel.length() > 0 ? " (" + lineLabel + ")" : "") + "}";
         } else {
             final KernelQedeqBo prop = getQedeqBo().getKernelRequiredModules()
                 .getKernelQedeqBo(moduleLabel);
