@@ -686,6 +686,153 @@
                     </FORMULA>
                   </SUBST_PREDVAR>
                 </L>
+                <L label="7">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <FORALL>
+                          <VAR id="x" />
+                          <PREDVAR id="\phi">
+                            <VAR id="x" />
+                          </PREDVAR>
+                        </FORALL>
+                        <PREDVAR id="\phi">
+                          <VAR id="y" />
+                        </PREDVAR>
+                      </IMPL>
+                      <IMPL>
+                        <FORALL>
+                          <VAR id="x" />
+                          <PREDVAR id="\phi">
+                            <VAR id="x" />
+                          </PREDVAR>
+                        </FORALL>
+                        <EXISTS>
+                          <VAR id="x" />
+                          <PREDVAR id="\phi">
+                            <VAR id="x" />
+                          </PREDVAR>
+                        </EXISTS>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="6" ref2="2" />
+                </L>
+                <L label="8">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <EXISTS>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="7" ref2="1" />
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:three" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <FORALL>
+                  <VAR id="x"/>
+                  <PREDVAR id="\phi">
+                    <VAR id="x" />
+                  </PREDVAR>
+                </FORALL>
+                <EXISTS>
+                  <VAR id="x" />
+                  <PREDVAR id="\phi">
+                    <VAR id="x" />
+                  </PREDVAR>
+                </EXISTS>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <EXISTS>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="proposition:two" />
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <EXISTS>
+                        <VAR id="y" />
+                        <PREDVAR id="\phi">
+                          <VAR id="y" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                  </FORMULA>
+                  <RENAME ref="1">
+                    <VAR id="x" />
+                    <VAR id="y" />
+                  </RENAME>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="z" />
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <EXISTS>
+                        <VAR id="y" />
+                        <PREDVAR id="\phi">
+                          <VAR id="z" />
+                          <VAR id="y" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="2">
+                      <PREDVAR id="\phi">
+                        <VAR id="u" />
+                      </PREDVAR>
+                    <FORMULA>
+                      <PREDVAR id="\phi">
+                        <VAR id="z" />
+                        <VAR id="u" />
+                      </PREDVAR>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
               </LINES>
             </FORMAL_PROOF>
           </THEOREM>
