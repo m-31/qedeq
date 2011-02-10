@@ -23,11 +23,17 @@ import java.util.Map;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.Enumerator;
 import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.Existential;
+import org.qedeq.kernel.se.base.module.FormalProof;
+import org.qedeq.kernel.se.base.module.FormalProofLine;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
+import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
@@ -40,19 +46,25 @@ import org.qedeq.kernel.se.base.module.LiteratureItem;
 import org.qedeq.kernel.se.base.module.LiteratureItemList;
 import org.qedeq.kernel.se.base.module.Location;
 import org.qedeq.kernel.se.base.module.LocationList;
+import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.SectionList;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
 import org.qedeq.kernel.se.base.module.SubsectionList;
+import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
+import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
+import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
 import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -79,7 +91,6 @@ import org.qedeq.kernel.xml.tracker.SimpleXPath;
  * Is this still a correct XPath? (Old solution was usage of "*")
  * Seems ok for official XPath specification, but does it work for our SimpleXPathFinder?
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class Context2SimpleXPath extends AbstractModuleVisitor {
@@ -502,7 +513,12 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         enter("AXIOM");
         final String method = "visitEnter(Axiom)";
         Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getDefinedOperator()");
+        current.setAttribute("definedOperator");
+        checkIfFound();
     }
 
     public final void visitLeave(final Axiom axiom) {
@@ -544,6 +560,197 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     public final void visitLeave(final Proof proof) {
+        leave();
+    }
+
+    public final void visitEnter(final FormalProofList proofList) throws ModuleDataException {
+        final String method = "visitEnter(FormalProofList)";
+        // because no equivalent level of "getProofList()" exists in the XSD we simply
+        // point to the current location that must be within the element "THEOREM"
+        checkMatching(method);
+    }
+
+    public final void visitEnter(final FormalProof proof) throws ModuleDataException {
+        enter("FORMAL_PROOF");
+        final String method = "visitEnter(FormalProof)";
+        Trace.param(CLASS, this, method, "current", current);
+        checkMatching(method);
+    }
+
+    public final void visitLeave(final FormalProof proof) {
+        leave();
+    }
+
+    public final void visitEnter(final FormalProofLineList list) throws ModuleDataException {
+        enter("LINES");
+        final String method = "visitEnter(FormalProofLineList)";
+        Trace.param(CLASS, this, method, "current", current);
+        checkMatching(method);
+    }
+
+    public final void visitLeave(final FormalProofLineList list) {
+        leave();
+    }
+
+    public final void visitEnter(final FormalProofLine line) throws ModuleDataException {
+        enter("L");
+        final String method = "visitEnter(FormalProofLine)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getLabel()");
+        current.setAttribute("label");
+        checkIfFound();
+    }
+
+    public final void visitLeave(final FormalProofLine line) {
+        leave();
+    }
+
+    public final void visitEnter(final Add reason) throws ModuleDataException {
+        enter("ADD");
+        final String method = "visitEnter(Add)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getReference()");
+        current.setAttribute("ref");
+        checkIfFound();
+    }
+
+    public final void visitLeave(final Add reason) {
+        leave();
+    }
+
+    public final void visitEnter(final ModusPonens reason) throws ModuleDataException {
+        enter("MP");
+        final String method = "visitEnter(ModusPonens)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getReference1()");
+        current.setAttribute("ref1");
+        checkIfFound();
+
+        traverser.setLocationWithinModule(context + ".getReference2()");
+        current.setAttribute("ref2");
+        checkIfFound();
+    }
+
+    public final void visitLeave(final ModusPonens reason) {
+        leave();
+    }
+
+    public final void visitEnter(final Rename reason) throws ModuleDataException {
+        enter("RENAME");
+        final String method = "visitEnter(Add)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getReference()");
+        current.setAttribute("ref");
+        checkIfFound();
+
+        traverser.setLocationWithinModule(context + ".getOccurrence()");
+        current.setAttribute("occurrence");
+        checkIfFound();
+    }
+
+    public final void visitLeave(final Rename reason) {
+        leave();
+    }
+
+    public final void visitEnter(final SubstFree reason) throws ModuleDataException {
+        enter("SUBST_FREE");
+        final String method = "visitEnter(SubstFree)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getReference()");
+        current.setAttribute("ref");
+        checkIfFound();
+
+        checkIfFound();
+    }
+
+    public final void visitLeave(final SubstFree reason) {
+        leave();
+    }
+
+    public final void visitEnter(final SubstFunc reason) throws ModuleDataException {
+        enter("SUBST_FUNVAR");
+        final String method = "visitEnter(SubstFunc)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getReference()");
+        current.setAttribute("ref");
+        checkIfFound();
+
+        checkIfFound();
+    }
+
+    public final void visitLeave(final SubstFunc reason) {
+        leave();
+    }
+
+    public final void visitEnter(final SubstPred reason) throws ModuleDataException {
+        enter("SUBST_PREDVAR");
+        final String method = "visitEnter(SubstPred)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getReference()");
+        current.setAttribute("ref");
+        checkIfFound();
+
+        checkIfFound();
+    }
+
+    public final void visitLeave(final SubstPred reason) {
+        leave();
+    }
+
+    public final void visitEnter(final Existential reason) throws ModuleDataException {
+        enter("EXISTENTIAL");
+        final String method = "visitEnter(Existential)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getReference()");
+        current.setAttribute("ref");
+        checkIfFound();
+
+        checkIfFound();
+    }
+
+    public final void visitLeave(final Existential reason) {
+        leave();
+    }
+
+    public final void visitEnter(final Universal reason) throws ModuleDataException {
+        enter("UNIVERSAL");
+        final String method = "visitEnter(Universal)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getReference()");
+        current.setAttribute("ref");
+        checkIfFound();
+
+        checkIfFound();
+    }
+
+    public final void visitLeave(final Universal reason) {
         leave();
     }
 
@@ -683,7 +890,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         enter(operator);
         final String method = "visitEnter(ElementList)";
         Trace.param(CLASS, this, method, "current", current);
-        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        String context = traverser.getCurrentContext().getLocationWithinModule();
 
         // to find something like getElement(0).getList().getElement(0)
         if (context.startsWith(find.getLocationWithinModule())) {
@@ -804,7 +1011,11 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
                     Trace.paramInfo(CLASS, this, method,
                         "find context   ", find.getLocationWithinModule());
 
-                    // throw new LocationNotFoundException(find);  // when we really want to fail
+                    // do we really want to fail?
+                    if (Boolean.TRUE.toString().equalsIgnoreCase(
+                            System.getProperty("qedeq.test.xmlLocationFailures"))) {
+                        throw new LocationNotFoundException(find);  // when we really want to fail
+                    }
 
                     Trace.traceStack(CLASS, this, method);
                     Trace.info(CLASS, this, method, "changing XPath to last matching one");
