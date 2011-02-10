@@ -53,7 +53,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
     private static final Class CLASS = GenerateLatexTest.class;
 
     /**
-     * Start main process.
+     * Generate main documents.
      *
      * @throws Exception
      */
@@ -64,6 +64,17 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         generate(getDocDir(), "math/qedeq_set_theory_v1.xml", getGenDir(), false);
         generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false);
         generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true);
+    }
+
+    /**
+     * Generate some example documents.
+     *
+     * @throws Exception
+     */
+    public void testGeneration2() throws Exception {
+        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
+        generate(getIndir(), "proof/proof_001.xml", getGenDir(), false);
+        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
     }
 
     public void testNegative02() throws IOException {
