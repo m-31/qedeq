@@ -168,7 +168,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         destination = new File(KernelContext.getInstance().getConfig()
             .getGenerationDirectory(), txt + ".txt").getCanonicalFile();
         printer = new TextOutput(visitor.getQedeqBo().getName(), new FileOutputStream(destination),
-            "UTF-16");
+            "UTF-8");
 
         try {
             visitor.generateUtf8(printer, lan, level);
