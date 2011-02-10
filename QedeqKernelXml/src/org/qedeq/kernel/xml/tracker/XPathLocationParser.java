@@ -52,8 +52,10 @@ import com.sun.syndication.io.XmlReader;
  *
  * </pre>
  *
- * @version $Revision: 1.1 $
- * @author Michael Meyling
+ * If the system property "qedeq.test.xmlLocationFailures" is set to "true" a runtime
+ * exception is thrown if the path is not found.
+ *
+ * @author  Michael Meyling
  */
 public final class XPathLocationParser extends SimpleHandler {
 
@@ -117,6 +119,8 @@ public final class XPathLocationParser extends SimpleHandler {
 
     /**
      * Search simple XPath within an XML file.
+     * If the system property "qedeq.test.xmlLocationFailures" is set to "true" a runtime
+     * exception is thrown if the path is not found.
      *
      * @param   address     Name description (for example URL) for this XML file.
      * @param   xpath       Search for this simple XPath.
@@ -129,13 +133,17 @@ public final class XPathLocationParser extends SimpleHandler {
      */
     public static SourceArea findSourceArea(final String address, final SimpleXPath xpath,
             final SourcePosition startDelta, final SourcePosition endDelta,  final File file) {
-        final String method = "findSourceArea(String, SimpleXPath, File)";
+        final String method = "findSourceArea(String, SimpleXPath, SourcePosition, SourcePosition, File)";
         final String message = "Could not find \"" + xpath + "\" within \"" + file + "\"";
         try {
             XPathLocationParser parser = new XPathLocationParser(xpath, startDelta, endDelta);
             parser.parse(file);
             if (parser.getStart() == null || parser.getEnd() == null) {
                 Trace.fatal(CLASS, method, message, null);
+                if (Boolean.TRUE.toString().equalsIgnoreCase(
+                        System.getProperty("qedeq.test.xmlLocationFailures"))) {
+                    throw new RuntimeException(message);
+                }
                 return new SourceArea(address);
             }
             return new SourceArea(address, parser.getStart(), parser.getEnd());
@@ -153,6 +161,8 @@ public final class XPathLocationParser extends SimpleHandler {
 
     /**
      * Search simple XPath within an XML file.
+     * If the system property "qedeq.test.xmlLocationFailures" is set to "true" a runtime
+     * exception is thrown if the path is not found.
      *
      * @param   file        Search this file.
      * @param   xpath       Search for this simple XPath.
