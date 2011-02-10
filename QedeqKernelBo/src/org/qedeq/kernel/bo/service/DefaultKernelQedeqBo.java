@@ -406,6 +406,8 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
 
     /**
      * Create area in source file for QEDEQ module context.
+     * If the system property "qedeq.test.xmlLocationFailures" is set to "true" a runtime
+     * exception is thrown if the context is not found.
      *
      * @param   qedeq       Look at this QEDEQ module.
      * @param   context     Search for this context.
@@ -418,6 +420,10 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
             area = loader.createSourceArea(qedeq, context);
         } catch (RuntimeException e) {
             Trace.fatal(CLASS, method, "loader couldn't create context: " + context, e);
+            if (Boolean.TRUE.toString().equalsIgnoreCase(
+                    System.getProperty("qedeq.test.xmlLocationFailures"))) {
+                throw e;
+            }
         }
         if (area == null) {
             Trace.fatal(CLASS, "createSourceArea", "loader coudn't create context: "
