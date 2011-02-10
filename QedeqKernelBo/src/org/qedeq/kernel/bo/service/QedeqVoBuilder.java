@@ -889,52 +889,51 @@ public class QedeqVoBuilder {
             line.setFormula(create(proofLine.getFormula()));
         }
         if (proofLine.getReason() != null) {
-            setLocationWithinModule(context + ".getReason()");
-            line.setReason(create(proofLine.getReason()));
+            final Reason reason = proofLine.getReason();
+            Reason result = null;
+            if (reason instanceof ModusPonens) {
+                setLocationWithinModule(context + ".getModusPonens()");
+                final ModusPonens r = (ModusPonens) reason;
+                result = new ModusPonensVo(r.getReference1(), r.getReference2());
+            } else if (reason instanceof Add) {
+                setLocationWithinModule(context + ".getAdd()");
+                final Add r = (Add) reason;
+                result = new AddVo(r.getReference());
+            } else if (reason instanceof Rename) {
+                setLocationWithinModule(context + ".getRename()");
+                final Rename r = (Rename) reason;
+                result = new RenameVo(r.getReference(), r.getOriginalSubjectVariable(),
+                    r.getReplacementSubjectVariable(), r.getOccurrence());
+            } else if (reason instanceof SubstFree) {
+                setLocationWithinModule(context + ".getSubstFree()");
+                final SubstFree r = (SubstFree) reason;
+                result = new SubstFreeVo(r.getReference(), r.getSubjectVariable(),
+                    r.getSubstituteTerm());
+            } else if (reason instanceof SubstFunc) {
+                setLocationWithinModule(context + ".getSubstFunc()");
+                final SubstFunc r = (SubstFunc) reason;
+                result = new SubstFuncVo(r.getReference(), r.getFunctionVariable(),
+                    r.getSubstituteTerm());
+            } else if (reason instanceof SubstPred) {
+                setLocationWithinModule(context + ".getSubstPred()");
+                final SubstPred r = (SubstPred) reason;
+                result = new SubstPredVo(r.getReference(), r.getPredicateVariable(),
+                    r.getSubstituteFormula());
+            } else if (reason instanceof Existential) {
+                setLocationWithinModule(context + ".getExistential()");
+                final Existential r = (Existential) reason;
+                result = new ExistentialVo(r.getReference(), r.getSubjectVariable());
+            } else if (reason instanceof Universal) {
+                setLocationWithinModule(context + ".getUniversal()");
+                final Universal r = (Universal) reason;
+                result = new UniversalVo(r.getReference(), r.getSubjectVariable());
+            } else {
+                throw new RuntimeException("unknown reason class: " + reason.getClass());
+            }
+            line.setReason(result);
         }
         setLocationWithinModule(context);
         return line;
-    }
-
-    private final Reason create(final Reason reason) {
-        if (reason == null) {
-            return null;
-        }
-        final String context = getCurrentContext().getLocationWithinModule();
-        Reason result;
-        if (reason instanceof ModusPonens) {
-            final ModusPonens r = (ModusPonens) reason;
-            result = new ModusPonensVo(r.getReference1(), r.getReference2());
-        } else if (reason instanceof Add) {
-            final Add r = (Add) reason;
-            result = new AddVo(r.getReference());
-        } else if (reason instanceof Rename) {
-            final Rename r = (Rename) reason;
-            result = new RenameVo(r.getReference(), r.getOriginalSubjectVariable(),
-                r.getReplacementSubjectVariable(), r.getOccurrence());
-        } else if (reason instanceof SubstFree) {
-            final SubstFree r = (SubstFree) reason;
-            result = new SubstFreeVo(r.getReference(), r.getSubjectVariable(),
-                r.getSubstituteTerm());
-        } else if (reason instanceof SubstFunc) {
-            final SubstFunc r = (SubstFunc) reason;
-            result = new SubstFuncVo(r.getReference(), r.getFunctionVariable(),
-                r.getSubstituteTerm());
-        } else if (reason instanceof SubstPred) {
-            final SubstPred r = (SubstPred) reason;
-            result = new SubstPredVo(r.getReference(), r.getPredicateVariable(),
-                r.getSubstituteFormula());
-        } else if (reason instanceof Existential) {
-            final Existential r = (Existential) reason;
-            result = new ExistentialVo(r.getReference(), r.getSubjectVariable());
-        } else if (reason instanceof Universal) {
-            final Universal r = (Universal) reason;
-            result = new UniversalVo(r.getReference(), r.getSubjectVariable());
-        } else {
-            throw new RuntimeException("unknown reason class: " + reason.getClass());
-        }
-        setLocationWithinModule(context);
-        return result;
     }
 
     private final FormulaVo create(final Formula formula) {
