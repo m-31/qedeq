@@ -1207,15 +1207,15 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
 
         if (node != null && node.isLocalLabel(reference)) {
             return "\\hyperref[" + node.getNodeVo().getId() + ":" + reference + "]{" + "("
-                + reference + ")" + "~\\ref*{" + reference + "}}"
-                + (sub.length() > 0 ? " (" + sub + ")" : "");
+                + reference + ")" + (sub.length() > 0 ? " (" + sub + ")" : "")
+                + "}";
         }
 
         if (getQedeqBo().getLabels().isNode(reference)) {
             return "\\hyperref[" + reference + "]{"
                 + getNodeDisplay(getQedeqBo().getLabels().getNode(reference))
-                + "~\\ref*{" + reference + "}}"
-                + (sub.length() > 0 ? " (" + sub + ")" : "");
+                + (sub.length() > 0 ? " (" + sub + ")" : "")
+                + "}";
         }
 
         // do we have an external module reference without node?
