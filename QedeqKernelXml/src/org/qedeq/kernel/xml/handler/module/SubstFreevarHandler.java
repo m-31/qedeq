@@ -16,8 +16,8 @@
 package org.qedeq.kernel.xml.handler.module;
 
 import org.qedeq.kernel.se.base.list.Element;
-import org.qedeq.kernel.se.base.module.Formula;
-import org.qedeq.kernel.se.dto.module.SubstPredVo;
+import org.qedeq.kernel.se.base.module.Term;
+import org.qedeq.kernel.se.dto.module.SubstFreeVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.handler.list.ElementHandler;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
@@ -25,26 +25,26 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
 
 /**
- * Parse a Substitute Predicate Variable Rule usage.
+ * Parse a Substitute Free Variable Rule usage.
  *
  * @author  Michael Meyling
  */
-public class SubstPredvarHandler extends AbstractSimpleHandler {
+public class SubstFreevarHandler extends AbstractSimpleHandler {
 
     /** Rule value object. */
-    private SubstPredVo substPredvar;
+    private SubstFreeVo substFreevar;
 
     /** Reference to previously proved formula. */
     private String ref;
 
-    /** Predicate variable that will be substituted. */
-    private Element predicateVariable;
+    /** Subject variable we want to substitute. */
+    private Element subjectVariable;
 
-    /** Replacement formula. */
-    private Formula substituteFormula;
+    /** Replacement term. */
+    private Term substituteTerm;
 
-    /** Handle formal proofs. */
-    private final FormulaHandler formulaHandler;
+    /** Handle terms. */
+    private final TermHandler termHandler;
 
     /** Handle elements. */
     private final ElementHandler elementHandler;
@@ -54,34 +54,34 @@ public class SubstPredvarHandler extends AbstractSimpleHandler {
      *
      * @param   handler Parent handler.
      */
-    public SubstPredvarHandler(final AbstractSimpleHandler handler) {
-        super(handler, "SUBST_PREDVAR");
-        formulaHandler = new FormulaHandler(this);
+    public SubstFreevarHandler(final AbstractSimpleHandler handler) {
+        super(handler, "SUBST_FREE");
+        termHandler = new TermHandler(this);
         elementHandler = new ElementHandler(this);
     }
 
     public final void init() {
-        substPredvar = null;
+        substFreevar = null;
         ref = null;
     }
 
     /**
-     * Get Substitute Predicate Variable Rule usage.
+     * Get Substitute Free Variable Rule usage.
      *
-     * @return  Substitute Predicate Variable usage.
+     * @return  Substitute Free Variable usage.
      */
-    public final SubstPredVo getSubstPredVo() {
-        return substPredvar;
+    public final SubstFreeVo getSubstFreeVo() {
+        return substFreevar;
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
             throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             ref = attributes.getString("ref");
-        } else if ("PREDVAR".equals(name)) {
+        } else if ("VAR".equals(name)) {
             changeHandler(elementHandler, name, attributes);
-        } else if (formulaHandler.getStartTag().equals(name)) {
-            changeHandler(formulaHandler, name, attributes);
+        } else if (termHandler.getStartTag().equals(name)) {
+            changeHandler(termHandler, name, attributes);
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
@@ -89,11 +89,11 @@ public class SubstPredvarHandler extends AbstractSimpleHandler {
 
     public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
-            substPredvar = new SubstPredVo(ref, predicateVariable, substituteFormula.getElement());
-        } else if ("PREDVAR".equals(name)) {
-            predicateVariable = elementHandler.getElement();
-        } else if (formulaHandler.getStartTag().equals(name)) {
-            substituteFormula = formulaHandler.getFormula();
+            substFreevar = new SubstFreeVo(ref, subjectVariable, substituteTerm.getElement());
+        } else if ("VAR".equals(name)) {
+            subjectVariable = elementHandler.getElement();
+        } else if (termHandler.getStartTag().equals(name)) {
+            substituteTerm = termHandler.getTerm();
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }

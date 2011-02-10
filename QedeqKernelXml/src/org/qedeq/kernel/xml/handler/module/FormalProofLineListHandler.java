@@ -42,8 +42,23 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
     /** Handler for Addition usage. */
     private final AddHandler addHandler;
 
+    /** Handler for Rename Subject Variable usage. */
+    private final RenameHandler renameHandler;
+
     /** Handler for Substitution Predicate Variable usage. */
     private final SubstPredvarHandler substPredvarHandler;
+
+    /** Handler for Substitution Free Variable usage. */
+    private final SubstFreevarHandler substFreevarHandler;
+
+    /** Handler for Substitution Function Variable usage. */
+    private final SubstFuncvarHandler substFuncvarHandler;
+
+    /** Handler for Existential Generalization usage. */
+    private final ExistentialHandler existentialHandler;
+
+    /** Handler for Universal Generalization usage. */
+    private final UniversalHandler universalHandler;
 
     /** Label for a single module. */
     private String label;
@@ -63,6 +78,11 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
         modusPonensHandler = new ModusPonensHandler(this);
         addHandler = new AddHandler(this);
         substPredvarHandler = new SubstPredvarHandler(this);
+        renameHandler = new RenameHandler(this);
+        substFreevarHandler = new SubstFreevarHandler(this);
+        substFuncvarHandler = new SubstFuncvarHandler(this);
+        existentialHandler = new ExistentialHandler(this);
+        universalHandler = new UniversalHandler(this);
     }
 
     public final void init() {
@@ -95,6 +115,16 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
             changeHandler(addHandler, name, attributes);
         } else if (substPredvarHandler.getStartTag().equals(name)) {
             changeHandler(substPredvarHandler, name, attributes);
+        } else if (renameHandler.getStartTag().equals(name)) {
+            changeHandler(renameHandler, name, attributes);
+        } else if (substFreevarHandler.getStartTag().equals(name)) {
+            changeHandler(substFreevarHandler, name, attributes);
+        } else if (substFuncvarHandler.getStartTag().equals(name)) {
+            changeHandler(substFuncvarHandler, name, attributes);
+        } else if (existentialHandler.getStartTag().equals(name)) {
+            changeHandler(existentialHandler, name, attributes);
+        } else if (universalHandler.getStartTag().equals(name)) {
+            changeHandler(universalHandler, name, attributes);
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
@@ -113,6 +143,16 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
             reason = addHandler.getAddVo();
         } else if (substPredvarHandler.getStartTag().equals(name)) {
             reason = substPredvarHandler.getSubstPredVo();
+        } else if (renameHandler.getStartTag().equals(name)) {
+            reason = renameHandler.getRenameVo();
+        } else if (substFreevarHandler.getStartTag().equals(name)) {
+            reason = substFreevarHandler.getSubstFreeVo();
+        } else if (substFuncvarHandler.getStartTag().equals(name)) {
+            reason = substFuncvarHandler.getSubstFuncVo();
+        } else if (existentialHandler.getStartTag().equals(name)) {
+            reason = existentialHandler.getExistentialVo();
+        } else if (universalHandler.getStartTag().equals(name)) {
+            reason = universalHandler.getUniversalVo();
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }

@@ -15,9 +15,7 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.se.base.list.Element;
-import org.qedeq.kernel.se.base.module.Universal;
-import org.qedeq.kernel.se.dto.module.UniversalVo;
+import org.qedeq.kernel.se.dto.module.RenameVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.handler.list.ElementHandler;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
@@ -25,54 +23,55 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
 
 /**
- * Parse a existential generalization rule usage.
+ * Parse a Rename Bound Subject Variable Rule usage.
  *
  * @author  Michael Meyling
  */
-public class UniversalHandler extends AbstractSimpleHandler {
+public class RenameHandler extends AbstractSimpleHandler {
 
     /** Rule value object. */
-    private Universal universal;
+    private RenameVo rename;
 
-    /** Reference to previously proved formula. */
-    private String ref;
-
-    /** Subject variable. */
-    private Element subjectVariable;
-
-    /** Handle elements. */
-    private final ElementHandler elementHandler;
+    /** Handle subject variables. */
+    private final ElementHandler subjectVariableHandler;
 
     /**
      * Deals with definitions.
      *
      * @param   handler Parent handler.
      */
-    public UniversalHandler(final AbstractSimpleHandler handler) {
-        super(handler, "UNIVERSAL");
-        elementHandler = new ElementHandler(this);
+    public RenameHandler(final AbstractSimpleHandler handler) {
+        super(handler, "RENAME");
+        subjectVariableHandler = new ElementHandler(this);
     }
 
     public final void init() {
-        universal = null;
-        ref = null;
+        rename = null;
     }
 
     /**
-     * Get rule object.
+     * Get Rename Bound Subject Variable Rule usage.
      *
-     * @return  Universal generalization usage.
+     * @return  Substitute Free Variable usage.
      */
-    public final Universal getUniversalVo() {
-        return universal;
+    public final RenameVo getRenameVo() {
+        return rename;
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
             throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
-            ref = attributes.getString("ref");
+            rename = new RenameVo();
+            final String ref = attributes.getString("ref");
+            if (ref != null) {
+                rename.setReference(ref);
+            }
+            final Integer occurrence = attributes.getInteger("occurrence");
+            if (occurrence != null) {
+                rename.setOccurrence(occurrence.intValue());
+            }
         } else if ("VAR".equals(name)) {
-            changeHandler(elementHandler, name, attributes);
+            changeHandler(subjectVariableHandler, name, attributes);
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
@@ -80,9 +79,13 @@ public class UniversalHandler extends AbstractSimpleHandler {
 
     public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
-            universal = new UniversalVo(ref, subjectVariable);
+            // nothing to do
         } else if ("VAR".equals(name)) {
-            subjectVariable = elementHandler.getElement();
+            if (rename != null && rename.getOriginalSubjectVariable() == null) {
+                rename.setOriginalSubjectVariable(subjectVariableHandler.getElement());
+            } else {
+                rename.setReplacementSubjectVariable(subjectVariableHandler.getElement());
+            }
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
