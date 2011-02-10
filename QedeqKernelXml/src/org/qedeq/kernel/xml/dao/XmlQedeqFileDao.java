@@ -177,6 +177,10 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
             xpath = Context2SimpleXPath.getXPath(ctext, qedeq);
         } catch (ModuleDataException e) {
             Trace.fatal(CLASS, method, "not found: \"" + ctext + "\"", e);
+            if (Boolean.TRUE.toString().equalsIgnoreCase(
+                    System.getProperty("qedeq.test.xmlLocationFailures"))) {
+                throw new RuntimeException(e);
+            }
             return new SourceArea(ctext.getModuleLocation().getUrl());
         }
 
