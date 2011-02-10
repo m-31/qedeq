@@ -652,8 +652,10 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
 
     public void visitEnter(final FormalProofLine line) {
         if (line.getLabel() != null) {
-            printer.print("\\hypertarget{" + getNodeBo().getNodeVo().getId() + ":"
-                    + line.getLabel() + "}{} \\mbox{\\emph{(" + line.getLabel() + ")}} ");
+            String display = getNodeBo().getNodeVo().getId() + ":"
+                                + line.getLabel();
+            printer.print("\\label{" + display + "} \\hypertarget{" + display
+                + "}{} \\mbox{\\emph{(" + line.getLabel() + ")}} ");
         }
         printer.print(" \\ &  \\ ");
         if (line.getFormula() != null) {
@@ -1319,121 +1321,122 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
 //        }
     }
 
-    public String getReferenceLink(final String reference, final String subReference,
-            final SourcePosition startPosition, final SourcePosition endPosition) {
-        final String method = "getReferenceLink(String, String, SourcePosition, SourcePosition)";
-
-        // get module label (if any)
-        String moduleLabel = "";
-        String localLabel = reference;
-        int dot = reference.indexOf(".");
-        if (dot >= 0) {
-            moduleLabel = reference.substring(0, dot);
-            localLabel = reference.substring(dot + 1);
-        }
-        String fix = "";
-        if (subReference != null && subReference.length() > 0) {
-            fix += " (" + subReference + ")";
-        }
-        KernelQedeqBo module = getQedeqBo();
-        if (moduleLabel.length() == 0) {
-            // check if local reference is in fact a module label
-            final KernelQedeqBo refModule = module.getKernelRequiredModules()
-                .getKernelQedeqBo(localLabel);
-            if (refModule != null) {
-                moduleLabel = localLabel;
-                localLabel = "";
-                module = refModule;
-                return "[" + moduleLabel + "]";
-            }
-        } else {
-            final KernelQedeqBo refModule = module.getKernelRequiredModules()
-                .getKernelQedeqBo(moduleLabel);
-            if (refModule == null) {
-                module = refModule;
-                Trace.info(CLASS, this, method, "module not found for " + moduleLabel);
-                addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
-                    LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
-                    + ": " + "module not found for " + reference, startPosition,
-                    endPosition);
-                return moduleLabel + "?." + localLabel + fix;
-            }
-            module = refModule;
-        }
-        if (moduleLabel.length() > 0) {
-            fix += " [" + moduleLabel + "]";
-        }
-        final KernelNodeBo kNode = module.getLabels().getNode(localLabel);
-        if (kNode != null) {
-            return getNodeDisplay(kNode) + fix;
-        } else {
-            Trace.info(CLASS, this, method, "node not found for " + reference);
-            addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
-                LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
-                + ": " + "node not found for " + reference, startPosition,
-                endPosition);
-            return localLabel + "?" + fix;
-        }
-    }
+//    public String getReferenceLink(final String reference, final String subReference,
+//            final SourcePosition startPosition, final SourcePosition endPosition) {
+//        final String method = "getReferenceLink(String, String, SourcePosition, SourcePosition)";
+//
+//        // get module label (if any)
+//        String moduleLabel = "";
+//        String localLabel = reference;
+//        int dot = reference.indexOf(".");
+//        if (dot >= 0) {
+//            moduleLabel = reference.substring(0, dot);
+//            localLabel = reference.substring(dot + 1);
+//        }
+//        String fix = "";
+//        if (subReference != null && subReference.length() > 0) {
+//            fix += " (" + subReference + ")";
+//        }
+//        KernelQedeqBo module = getQedeqBo();
+//        if (moduleLabel.length() == 0) {
+//            // check if local reference is in fact a module label
+//            final KernelQedeqBo refModule = module.getKernelRequiredModules()
+//                .getKernelQedeqBo(localLabel);
+//            if (refModule != null) {
+//                moduleLabel = localLabel;
+//                localLabel = "";
+//                module = refModule;
+//                return "[" + moduleLabel + "]";
+//            }
+//        } else {
+//            final KernelQedeqBo refModule = module.getKernelRequiredModules()
+//                .getKernelQedeqBo(moduleLabel);
+//            if (refModule == null) {
+//                module = refModule;
+//                Trace.info(CLASS, this, method, "module not found for " + moduleLabel);
+//                addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
+//                    LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
+//                    + ": " + "module not found for " + reference, startPosition,
+//                    endPosition);
+//                return moduleLabel + "?." + localLabel + fix;
+//            }
+//            module = refModule;
+//        }
+//        if (moduleLabel.length() > 0) {
+//            fix += " [" + moduleLabel + "]";
+//        }
+//        final KernelNodeBo kNode = module.getLabels().getNode(localLabel);
+//        if (kNode != null) {
+//            return getNodeDisplay(kNode) + fix;
+//        } else {
+//            Trace.info(CLASS, this, method, "node not found for " + reference);
+//            addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
+//                LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
+//                + ": " + "node not found for " + reference, startPosition,
+//                endPosition);
+//            return localLabel + "?" + fix;
+//        }
+//    }
 
     public String getReferenceLink(final String reference) {
-        final String method = "getReferenceLink(String)";
-        final KernelNodeBo node = getNodeBo();
-
-        final String fallback = "[" + reference + "]";
-        if (node == null) {
-            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
-                    + "\"" + reference + "\"");
-            final String msg = "Programming error: this method should only be called when parsing a node";
-            Trace.fatal(CLASS, method, msg, new RuntimeException(msg));
-            return fallback;
-        }
-        if (node.isLocalLabel(reference)) {
-            return "(" + reference + ")";
-        }
-        if (getQedeqBo().getLabels().isNode(reference)) {
-//            return getNodeDisplay(node);
-        }
-        String[] split = StringUtility.split(reference, ".");
-        if (split.length <= 1 || split.length > 3) {
-            if (split.length <= 1) {
-                addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
-                    + "\"" + reference + "\"");
-            }
-            if (split.length > 3) {
-                addWarning(UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_CODE,
-                    UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_TEXT
-                    + "\"" + reference + "\"");
-            }
-            return fallback;
-        }
-        final String moduleLabel = split[0];
-        final String nodeLabel = split[1];
-        String lineLabel = "";
-        if (split.length == 3) {
-            lineLabel = " (" + split[2] + ")";
-        }
-        final KernelQedeqBo refModule = getQedeqBo().getKernelRequiredModules()
-            .getKernelQedeqBo(moduleLabel);
-        if (refModule == null) {
-            addWarning(UnicodeErrorCodes.MODULE_REFERENCE_NOT_FOUND_CODE,
-                    UnicodeErrorCodes.MODULE_REFERENCE_NOT_FOUND_TEXT
-                    + "\"" + reference + "\"");
-            return moduleLabel + "?." + nodeLabel + lineLabel;
-        }
-        lineLabel += " [" + moduleLabel + "]";
-        final KernelNodeBo kNode = refModule.getLabels().getNode(nodeLabel);
-        if (kNode != null) {
-            return getNodeDisplay(kNode) + lineLabel;
-        } else {
-            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-                UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
-                + "\"" + reference + "\"");
-            Trace.info(CLASS, this, method, "node not found for " + reference);
-            return nodeLabel + "?" + lineLabel;
-        }
+        return getReference(reference, "", null, null);
+//        final String method = "getReferenceLink(String)";
+//        final KernelNodeBo node = getNodeBo();
+//
+//        final String fallback = "[" + reference + "]";
+//        if (node == null) {
+//            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
+//                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
+//                    + "\"" + reference + "\"");
+//            final String msg = "Programming error: this method should only be called when parsing a node";
+//            Trace.fatal(CLASS, method, msg, new RuntimeException(msg));
+//            return fallback;
+//        }
+//        if (node.isLocalLabel(reference)) {
+//            return "(" + reference + ")";
+//        }
+//        if (getQedeqBo().getLabels().isNode(reference)) {
+////            return getNodeDisplay(node);
+//        }
+//        String[] split = StringUtility.split(reference, ".");
+//        if (split.length <= 1 || split.length > 3) {
+//            if (split.length <= 1) {
+//                addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
+//                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
+//                    + "\"" + reference + "\"");
+//            }
+//            if (split.length > 3) {
+//                addWarning(UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_CODE,
+//                    UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_TEXT
+//                    + "\"" + reference + "\"");
+//            }
+//            return fallback;
+//        }
+//        final String moduleLabel = split[0];
+//        final String nodeLabel = split[1];
+//        String lineLabel = "";
+//        if (split.length == 3) {
+//            lineLabel = " (" + split[2] + ")";
+//        }
+//        final KernelQedeqBo refModule = getQedeqBo().getKernelRequiredModules()
+//            .getKernelQedeqBo(moduleLabel);
+//        if (refModule == null) {
+//            addWarning(UnicodeErrorCodes.MODULE_REFERENCE_NOT_FOUND_CODE,
+//                    UnicodeErrorCodes.MODULE_REFERENCE_NOT_FOUND_TEXT
+//                    + "\"" + reference + "\"");
+//            return moduleLabel + "?." + nodeLabel + lineLabel;
+//        }
+//        lineLabel += " [" + moduleLabel + "]";
+//        final KernelNodeBo kNode = refModule.getLabels().getNode(nodeLabel);
+//        if (kNode != null) {
+//            return getNodeDisplay(kNode) + lineLabel;
+//        } else {
+//            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
+//                UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
+//                + "\"" + reference + "\"");
+//            Trace.info(CLASS, this, method, "node not found for " + reference);
+//            return nodeLabel + "?" + lineLabel;
+//        }
     }
 
     private String getNodeDisplay(final KernelNodeBo kNode) {
