@@ -23,7 +23,7 @@ import org.qedeq.kernel.se.base.list.Element;
  * <pre>
  *   A -&gt; B(x)
  *  -------------------
- *   A -&gt; forall B(x)
+ *   A -&gt; forall x  B(x)
  * </pre>
  *
  * @author  Michael Meyling
