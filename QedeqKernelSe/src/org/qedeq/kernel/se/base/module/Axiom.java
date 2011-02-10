@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * Axiom.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public interface Axiom extends NodeType {
