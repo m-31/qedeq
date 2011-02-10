@@ -72,6 +72,8 @@ public interface QedeqFileDao {
 
     /**
      * Get area in source file for QEDEQ module context.
+     * If the system property "qedeq.test.xmlLocationFailures" is set to "true" a runtime
+     * exception is thrown if the context is not found.
      *
      * @param   qedeq       Look at this QEDEQ module.
      * @param   context     Search for this context.
