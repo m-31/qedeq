@@ -147,7 +147,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
             .getFieldContent(KernelFacade.getKernelContext(), "services");
         final SourceArea find = XPathLocationParser.findSourceArea(
             services.getLocalFilePath(
-                getCurrentContext().getModuleLocation()), xpath);
+            getCurrentContext().getModuleLocation()), xpath);
         if (find.getStartPosition() == null) {
             System.out.println(getCurrentContext());
             throw new RuntimeException("start not found: " + find + "\ncontext: "
