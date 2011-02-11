@@ -804,7 +804,7 @@
                       </EXISTS>
                     </IMPL>
                   </FORMULA>
-                  <RENAME ref="1" occurence="2">
+                  <RENAME ref="1" occurrence="2">
                     <VAR id="x" />
                     <VAR id="y" />
                   </RENAME>
@@ -826,7 +826,7 @@
                       </EXISTS>
                     </IMPL>
                   </FORMULA>
-                  <RENAME ref="2" occurence="1">
+                  <RENAME ref="2" occurrence="1">
                     <VAR id="x" />
                     <VAR id="y" />
                   </RENAME>
