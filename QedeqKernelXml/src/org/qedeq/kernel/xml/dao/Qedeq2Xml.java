@@ -544,7 +544,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         if (reason.getReference() != null) {
             printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
         }
-        printer.println("/>");
+        printer.println(">");
         printer.pushLevel();
     }
 
@@ -558,7 +558,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         if (reason.getReference() != null) {
             printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
         }
-        printer.println("/>");
+        printer.println(">");
         printer.pushLevel();
     }
 
