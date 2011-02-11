@@ -123,6 +123,7 @@ public final class GenerateXmlTest extends QedeqTestCase {
     private static void generate(final File xmlFile, final File destinationDirectory, final boolean normalize)
             throws IOException, SourceFileExceptionList, SAXException {
         final File destination = new File(destinationDirectory, xmlFile.getName() + "_").getAbsoluteFile();
+        System.out.println("generation of " + xmlFile + " to " + destination);
         Xml2Xml.generate(new DummyInternalKernalServices(), xmlFile, destination);
         if (!normalize) {
             assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination, "UTF-8"));
