@@ -486,6 +486,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         printer.print("<RENAME");
         if (reason.getReference() != null) {
             printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
+            printer.print(" occurrence=\"" + StringUtility.escapeXml("" + reason.getOccurrence()) + "\"");
         }
         printer.println(">");
         printer.pushLevel();
