@@ -62,6 +62,8 @@ public class SubstPredvarHandler extends AbstractSimpleHandler {
 
     public final void init() {
         substPredvar = null;
+        predicateVariable = null;
+        substituteFormula = null;
         ref = null;
     }
 
