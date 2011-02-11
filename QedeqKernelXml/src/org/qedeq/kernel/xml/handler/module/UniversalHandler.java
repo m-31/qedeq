@@ -55,6 +55,7 @@ public class UniversalHandler extends AbstractSimpleHandler {
 
     public final void init() {
         universal = null;
+        subjectVariable = null;
         ref = null;
     }
 

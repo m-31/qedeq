@@ -55,6 +55,7 @@ public class ExistentialHandler extends AbstractSimpleHandler {
 
     public final void init() {
         existential = null;
+        subjectVariable = null;
         ref = null;
     }
 
