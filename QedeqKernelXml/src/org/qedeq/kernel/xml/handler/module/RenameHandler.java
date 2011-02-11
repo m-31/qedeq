@@ -83,7 +83,7 @@ public class RenameHandler extends AbstractSimpleHandler {
         } else if ("VAR".equals(name)) {
             if (rename != null && rename.getOriginalSubjectVariable() == null) {
                 rename.setOriginalSubjectVariable(subjectVariableHandler.getElement());
-            } else {
+            } else if (rename != null) {
                 rename.setReplacementSubjectVariable(subjectVariableHandler.getElement());
             }
         } else {
