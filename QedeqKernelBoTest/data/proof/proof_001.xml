@@ -745,6 +745,181 @@
           <THEOREM>
             <FORMULA>
               <IMPL>
+                <EXISTS>
+                  <VAR id="x" />
+                  <FORALL>
+                    <VAR id="y"/>
+                    <PREDVAR id="\phi">
+                      <VAR id="x" />
+                      <VAR id="y" />
+                    </PREDVAR>
+                  </FORALL>
+                </EXISTS>
+                <FORALL>
+                  <VAR id="y"/>
+                  <EXISTS>
+                    <VAR id="x" />
+                    <PREDVAR id="\phi">
+                      <VAR id="x" />
+                    </PREDVAR>
+                  </EXISTS>
+                </FORALL>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <EXISTS>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="proposition:two" />
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <EXISTS>
+                        <VAR id="y" />
+                        <PREDVAR id="\phi">
+                          <VAR id="y" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                  </FORMULA>
+                  <RENAME ref="1" occurence="2">
+                    <VAR id="x" />
+                    <VAR id="y" />
+                  </RENAME>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="y" />
+                        <PREDVAR id="\phi">
+                          <VAR id="y" />
+                        </PREDVAR>
+                      </FORALL>
+                      <EXISTS>
+                        <VAR id="y" />
+                        <PREDVAR id="\phi">
+                          <VAR id="y" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                  </FORMULA>
+                  <RENAME ref="2" occurence="1">
+                    <VAR id="x" />
+                    <VAR id="y" />
+                  </RENAME>
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="y" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                          <VAR id="y" />
+                        </PREDVAR>
+                      </FORALL>
+                      <EXISTS>
+                        <VAR id="y" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                          <VAR id="y" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="3">
+                    <PREDVAR id="\phi" >
+                      <VAR id="x" />
+                      <VAR id="y" />
+                    </PREDVAR>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="5">
+                  <FORMULA>
+                    <IMPL>
+                      <EXISTS>
+                        <VAR id="x" />
+                          <FORALL>
+                            <VAR id="y" />
+                            <PREDVAR id="\phi">
+                              <VAR id="x" />
+                              <VAR id="y" />
+                            </PREDVAR>
+                          </FORALL>
+                      </EXISTS>
+                      <EXISTS>
+                        <VAR id="y" />
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                          <VAR id="y" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                  </FORMULA>
+                  <EXISTENTIAL ref="4">
+                    <VAR id="x" />
+                  </EXISTENTIAL>
+                </L>
+                <L label="6">
+                  <FORMULA>
+                    <IMPL>
+                      <EXISTS>
+                        <VAR id="x" />
+                          <FORALL>
+                            <VAR id="y" />
+                            <PREDVAR id="\phi">
+                              <VAR id="x" />
+                              <VAR id="y" />
+                            </PREDVAR>
+                          </FORALL>
+                      </EXISTS>
+                      <FORALL>
+                        <VAR id="x" />
+                        <EXISTS>
+                          <VAR id="y" />
+                          <PREDVAR id="\phi">
+                            <VAR id="x" />
+                            <VAR id="y" />
+                          </PREDVAR>
+                        </EXISTS>
+                      </FORALL>
+                    </IMPL>
+                  </FORMULA>
+                  <UNIVERSAL ref="5">
+                    <VAR id="x" />
+                  </UNIVERSAL>
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
+         </THEOREM>
+        </NODE>
+        <NODE id="proposition:four" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
                 <FORALL>
                   <VAR id="x"/>
                   <PREDVAR id="\phi">
