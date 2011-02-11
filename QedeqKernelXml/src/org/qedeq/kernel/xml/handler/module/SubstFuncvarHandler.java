@@ -55,7 +55,7 @@ public class SubstFuncvarHandler extends AbstractSimpleHandler {
      * @param   handler Parent handler.
      */
     public SubstFuncvarHandler(final AbstractSimpleHandler handler) {
-        super(handler, "SUBST_FUNC");
+        super(handler, "SUBST_FUNVAR");
         termHandler = new TermHandler(this);
         elementHandler = new ElementHandler(this);
     }
