@@ -92,7 +92,7 @@ public class SubstPredvarHandler extends AbstractSimpleHandler {
     public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             substPredvar = new SubstPredVo(ref, predicateVariable,
-                (substituteFormula.getElement() != null ? substituteFormula.getElement() : null));
+                (substituteFormula != null ? substituteFormula.getElement() : null));
         } else if ("PREDVAR".equals(name)) {
             predicateVariable = elementHandler.getElement();
         } else if (formulaHandler.getStartTag().equals(name)) {
