@@ -486,6 +486,8 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         printer.print("<RENAME");
         if (reason.getReference() != null) {
             printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
+        }
+        if (reason.getOccurrence() != 0) {
             printer.print(" occurrence=\"" + StringUtility.escapeXml("" + reason.getOccurrence()) + "\"");
         }
         printer.println(">");
@@ -512,7 +514,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     }
 
     public void visitEnter(final SubstFunc reason) {
-        printer.print("<SUBST_FUNCVAR");
+        printer.print("<SUBST_FUNVAR");
         if (reason.getReference() != null) {
             printer.print(" ref=\"" + StringUtility.escapeXml(reason.getReference()) + "\"");
         }
@@ -522,7 +524,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
 
     public void visitLeave(final SubstFunc reason) {
         printer.popLevel();
-        printer.println("</SUBST_FUNCVAR>");
+        printer.println("</SUBST_FUNVAR>");
     }
 
     public void visitEnter(final SubstPred reason) {
