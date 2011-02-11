@@ -62,6 +62,8 @@ public class SubstFreevarHandler extends AbstractSimpleHandler {
 
     public final void init() {
         substFreevar = null;
+        subjectVariable = null;
+        substituteTerm = null;
         ref = null;
     }
 
@@ -89,7 +91,8 @@ public class SubstFreevarHandler extends AbstractSimpleHandler {
 
     public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
-            substFreevar = new SubstFreeVo(ref, subjectVariable, substituteTerm.getElement());
+            substFreevar = new SubstFreeVo(ref, subjectVariable,
+                (substituteTerm != null ? substituteTerm.getElement() : null));
         } else if ("VAR".equals(name)) {
             subjectVariable = elementHandler.getElement();
         } else if (termHandler.getStartTag().equals(name)) {
