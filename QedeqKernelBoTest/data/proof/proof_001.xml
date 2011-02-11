@@ -1008,6 +1008,72 @@
                     </FORMULA>
                   </SUBST_PREDVAR>
                 </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <FUNVAR id="f">
+                            <VAR id="z" />
+                          </FUNVAR>
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <EXISTS>
+                        <VAR id="y" />
+                        <PREDVAR id="\phi">
+                          <FUNVAR id="f">
+                            <VAR id="z" />
+                          </FUNVAR>
+                          <VAR id="y" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_FREE ref="3">
+                    <VAR id="u" />
+                    <TERM>
+                      <FUNVAR id="f">
+                        <VAR id="u" />
+                      </FUNVAR>
+                    </TERM>
+                  </SUBST_FREE>
+                </L>
+                <L label="5">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <FUNVAR id="g">
+                            <VAR id="z" />
+                          </FUNVAR>
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <EXISTS>
+                        <VAR id="y" />
+                        <PREDVAR id="\phi">
+                          <FUNVAR id="g">
+                            <VAR id="z" />
+                          </FUNVAR>
+                          <VAR id="y" />
+                        </PREDVAR>
+                      </EXISTS>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_FUNVAR ref="4">
+                    <FUNVAR id="f">
+                      <VAR id="u" />
+                    </FUNVAR>
+                    <TERM>
+                      <FUNVAR id="g">
+                        <VAR id="u" />
+                      </FUNVAR>
+                    </TERM>
+                  </SUBST_FUNVAR>
+                </L>
               </LINES>
             </FORMAL_PROOF>
           </THEOREM>
