@@ -1034,7 +1034,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             }
 //            final String label = (i < ALPHABET.length() ? "" + ALPHABET .charAt(i) : "" + i);
             printer.println("\\centering $" + getLatex(list.getElement(i)) + "$"
-                + " & \\label{" + mainLabel + ":" + label + "} \\hypertarget{" + mainLabel + ":"
+                + " & \\label{" + mainLabel + "/" + label + "} \\hypertarget{" + mainLabel + "/"
                 + label + "}{} \\mbox{\\emph{(" + label + ")}} "
                 + (i + 1 < list.size() ? "\\\\" : ""));
         }
@@ -1220,7 +1220,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         }
 
         if (getQedeqBo().getLabels().isNode(reference)) {
-            return "\\hyperref[" + reference + "]{"
+            return "\\hyperref[" + reference + (sub.length() > 0 ? "/" + sub : "") + "]{"
                 + getNodeDisplay(getQedeqBo().getLabels().getNode(reference))
                 + (sub.length() > 0 ? " (" + sub + ")" : "")
                 + "}";
@@ -1272,10 +1272,13 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             moduleLabel = "";
             node = getQedeqBo().getLabels().getNode(nodeLabel);
             final String display = getDisplay(moduleLabel, node, false, false);
-            return "\\hyperref[" + nodeLabel + (lineLabel.length() > 0 ? "." + lineLabel : "")
-                + "]{" + display
-                + (sub.length() > 0 ? " (" + sub + ")" : "")
-                + (lineLabel.length() > 0 ? " (" + lineLabel + ")" : "") + "}";
+            return "\\hyperref[" + nodeLabel
+              + (sub.length() > 0 ? "/" + sub : "")
+              + (lineLabel.length() > 0 ? "." + lineLabel : "")
+              + "]{" + display
+              + (sub.length() > 0 ? " (" + sub + ")" : "")
+              + (lineLabel.length() > 0 ? " (" + lineLabel + ")" : "")
+              + "}";
         } else {
             final KernelQedeqBo prop = getQedeqBo().getKernelRequiredModules()
                 .getKernelQedeqBo(moduleLabel);
