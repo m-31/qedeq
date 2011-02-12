@@ -1461,6 +1461,147 @@
           </THEOREM>
         </NODE>
         <NODE id="proposition:five" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <FORALL>
+                  <VAR id="x"/>
+                  <PREDVAR id="\phi">
+                    <VAR id="x" />
+                  </PREDVAR>
+                </FORALL>
+                <FORALL>
+                  <VAR id="x" />
+                  <PREDVAR id="\phi">
+                    <FUNVAR id="f">
+                      <VAR id="x" />
+                    </FUNVAR>
+                  </PREDVAR>
+                </FORALL>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x"/>
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <PREDVAR id="\phi">
+                        <VAR id="y" />
+                      </PREDVAR>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:universalInstantiation"/>
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x"/>
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <PREDVAR id="\phi">
+                        <FUNVAR id="g">
+                          <VAR id="y" />
+                        </FUNVAR>
+                      </PREDVAR>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_FREE ref="1">
+                     <VAR id="y" />
+                     <TERM>
+                       <FUNVAR id="g">
+                         <VAR id="y" />
+                       </FUNVAR>
+                     </TERM>
+                  </SUBST_FREE>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x"/>
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <PREDVAR id="\phi">
+                        <FUNVAR id="f">
+                          <VAR id="y" />
+                        </FUNVAR>
+                      </PREDVAR>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_FUNVAR ref="2">
+                     <FUNVAR id="g">
+                       <VAR id="y" />
+                     </FUNVAR>
+                     <TERM>
+                       <FUNVAR id="f">
+                         <VAR id="y" />
+                       </FUNVAR>
+                     </TERM>
+                  </SUBST_FUNVAR>
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x"/>
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <FORALL>
+                        <VAR id="y" />
+                        <PREDVAR id="\phi">
+                          <FUNVAR id="f">
+                            <VAR id="y" />
+                          </FUNVAR>
+                        </PREDVAR>
+                      </FORALL>
+                    </IMPL>
+                  </FORMULA>
+                  <UNIVERSAL ref="3">
+                    <VAR id="y" />
+                  </UNIVERSAL>
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <FORALL>
+                        <VAR id="x"/>
+                        <PREDVAR id="\phi">
+                          <VAR id="x" />
+                        </PREDVAR>
+                      </FORALL>
+                      <FORALL>
+                        <VAR id="x" />
+                        <PREDVAR id="\phi">
+                          <FUNVAR id="f">
+                            <VAR id="x" />
+                          </FUNVAR>
+                        </PREDVAR>
+                      </FORALL>
+                    </IMPL>
+                  </FORMULA>
+                  <RENAME ref="4">
+                    <VAR id="y" />
+                    <VAR id="x" />
+                  </RENAME>
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:six" level="formal">
           <PRECEDING>
             <LATEX language="en">
               No useful proof, but uses missing rules.
