@@ -261,8 +261,14 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         init();
 
         try {
-            // FIXME 20110204 m31: here we should choose an encoding; default is ISO-8859-1 and that might not be ok
-            printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination));
+            // TODO 20110204 m31: here we should choose the correct encoding; perhaps GUI configurable?
+            if ("de".equals(language)) {
+                printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination),
+                    "ISO-8859-1");
+            } else {
+                printer = new TextOutput(getQedeqBo().getName(), new FileOutputStream(destination),
+                    "UTF-8");
+            }
             traverse();
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
