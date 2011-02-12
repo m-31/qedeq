@@ -44,7 +44,6 @@ import org.xml.sax.SAXParseException;
 /**
  * Test generating LaTeX files for all known samples.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class GenerateLatexTest extends QedeqBoTestCase {
