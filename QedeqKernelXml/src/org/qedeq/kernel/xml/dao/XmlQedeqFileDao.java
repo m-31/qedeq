@@ -81,7 +81,8 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         QedeqHandler simple = new QedeqHandler(handler);
         handler.setBasisDocumentHandler(simple);
         SaxParser parser = null;
-        Locale.setDefault(Locale.US);   // FIXME 20101228 m31: this is a Q & D Fix for the following problem:
+        Locale.setDefault(Locale.US);   // TODO 20101228 m31: this is a Q & D Fix for the following problem:
+                                        // maybe there exists a better solution?
 //org.qedeq.kernel.common.DefaultSourceFileExceptionList
 //0: http://www.qedeq.org/0_04_00/sample/qedeq_error_sample_00.xml:1:1
 //    9999: A programming error occurred.;
