@@ -1274,7 +1274,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             final String display = getDisplay(moduleLabel, node, false, false);
             return "\\hyperref[" + nodeLabel
               + (sub.length() > 0 ? "/" + sub : "")
-              + (lineLabel.length() > 0 ? "." + lineLabel : "")
+              + (lineLabel.length() > 0 ? "!" + lineLabel : "")
               + "]{" + display
               + (sub.length() > 0 ? " (" + sub + ")" : "")
               + (lineLabel.length() > 0 ? " (" + lineLabel + ")" : "")
@@ -1298,8 +1298,9 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             }
             final String display = getDisplay(moduleLabel, node, false, true);
             return "\\hyperref{" + getPdfLink(prop) + "}{}{"
-                + moduleLabel + (sub.length() > 0 ? ":" + sub : "")
-                + (lineLabel.length() > 0 ? ":" + lineLabel : "")
+                + moduleLabel
+                + (sub.length() > 0 ? "/" + sub : "")
+                + (lineLabel.length() > 0 ? "!" + lineLabel : "")
                 + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "")
                 + (lineLabel.length() > 0 ? " (" + lineLabel + ")" : "")
                 + "}~\\cite{" + moduleLabel + "}";
