@@ -620,7 +620,7 @@
                             & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
                       & \qref{theorem:inSetEqualInSetAndIsSet} \\
                             & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
-                      & \qref{l.theorem:propositionalCalculus}[bh] \\
+                      & \qref{l.theorem:propositionalCalculus/bh} \\
                             & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \ z \in x \ \leftrightarrow \ z \in y)$ 
                       & \qref{l.axiom:restrictedUniversalQuantifier} \\
                   \end{tabularx}
@@ -636,7 +636,7 @@
                             & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \land z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land z \in y)$ 
                       & \qref{theorem:inSetEqualInSetAndIsSet} \\
                             & $\leftrightarrow$ & $\forall \ z \ ( \mathfrak{M}(z) \rightarrow (z \in x \ \leftrightarrow \ z \in y))$ 
-                      & \qref{l.theorem:propositionalCalculus}[bh] \\
+                      & \qref{l.theorem:propositionalCalculus/bh} \\
                             & $\leftrightarrow$ & $\forall \ \mathfrak{M}(z) \ z \in x \ \leftrightarrow \ z \in y)$ 
                       & \qref{l.axiom:restrictedUniversalQuantifier} \\
                   \end{tabularx}
@@ -764,10 +764,10 @@
                   \land \phi(y)))$
 
                   \par
-                  Now with \qref{l.theorem:predicateCalculus}[h]: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
+                  Now with \qref{l.theorem:predicateCalculus/h}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
 
                   \par
-                  With \qref{l.theorem:propositionalCalculus}[bg] we derive: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. And with \qref{theorem:extensonalityEquivalence} follows $u = v$. So we have shown:
+                  With \qref{l.theorem:propositionalCalculus/bg} we derive: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. And with \qref{theorem:extensonalityEquivalence} follows $u = v$. So we have shown:
 
                   \par
                   $\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
@@ -793,10 +793,10 @@
                   \land \phi(y)))$
 
                   \par
-                  Dann folgt mit \qref{l.theorem:predicateCalculus}[h]: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
+                  Dann folgt mit \qref{l.theorem:predicateCalculus/h}: $\forall y \ ((y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y)))$
 
                   \par
-                  Daraus erhalten wir mit \qref{l.theorem:propositionalCalculus}[bg]: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit \qref{theorem:extensonalityEquivalence} folgt nun $u = v$. Also haben wir gezeigt:
+                  Daraus erhalten wir mit \qref{l.theorem:propositionalCalculus/bg}: $\forall y \ ((y \in u \leftrightarrow y \in v ))$. Und mit \qref{theorem:extensonalityEquivalence} folgt nun $u = v$. Also haben wir gezeigt:
 
                   \par
                   $\forall u \ \forall v \ (\forall y \ (y \in u \leftrightarrow \mathfrak{M}(y) \land \phi(y)) \land \ \forall y \ (y \in v \leftrightarrow \mathfrak{M}(y) \land \phi(y))) \rightarrow u = v)$
@@ -1213,7 +1213,7 @@
                     $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land \phi(z))$
                       & this is \qref{theorem:comprehension} \\
                     $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow z \in \{ y \ | \  \phi(y) \}$
-                      & \qref{theorem:setNotation}[a] \\
+                      & \qref{theorem:setNotation/a} \\
                     $\exists! \ x \ x = \{ y \ | \  \phi(y) \}$
                       & \qref{theorem:extensonalityEquivalence}
                   \end{tabularx}
@@ -1227,7 +1227,7 @@
                     $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow \ \mathfrak{M}(z) \land \phi(z))$
                       & dies ist \qref{theorem:comprehension} \\
                     $\exists! \ x \ \forall \ z \ ( z \in x \ \leftrightarrow z \in \{ y \ | \  \phi(y) \}$
-                      & \qref{theorem:setNotation}[a] \\
+                      & \qref{theorem:setNotation/a} \\
                     $\exists! \ x \ x = \{ y \ | \  \phi(y) \}$
                       & \qref{theorem:extensonalityEquivalence}
                   \end{tabularx}
@@ -1291,13 +1291,13 @@
                   \par
                   \begin{tabularx}{\linewidth}{rlX}
 %%                  \begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
-                    $(\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:propositionalCalculus}[bl]} \\
+                    $(\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:propositionalCalculus/bl}} \\
                     $\forall x \ ((\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x)))$ & {\tiny \qref{l.rule:derivedQuantification}} \\                    
-                    $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:predicateCalculus}[a]} \\
+                    $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:predicateCalculus/a}} \\
                     $\rightarrow$ & $\forall x ( x \in \{ y | \phi(y) \} \leftrightarrow x \in \{ y | \psi(y) \})$ 
-                      & {\tiny \qref{theorem:setNotation}[a]} \\
+                      & {\tiny \qref{theorem:setNotation/a}} \\
                     $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
-                      & {\tiny \qref{theorem:setNotation}[c]}
+                      & {\tiny \qref{theorem:setNotation/c}}
                   \end{tabularx}
 %%                  \end{longtable}
                 ]]>
@@ -1308,13 +1308,13 @@
                   \par
                   \begin{tabularx}{\linewidth}{rlX}
 %%                  \begin{longtable}[h!]{r@{\extracolsep{\fill}}p{9cm}@{\extracolsep{\fill}}p{4cm}}
-                    $(\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:propositionalCalculus}[bl]} \\
+                    $(\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:propositionalCalculus/bl}} \\
                     $\forall x \ ((\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $(\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x)))$ & {\tiny \qref{l.rule:derivedQuantification}} \\                    
-                    $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:predicateCalculus}[a]} \\
+                    $\forall x \ (\phi(x) \leftrightarrow \psi(x))$ $\rightarrow$  & $\forall x \ (\phi(x) \land \mathfrak{M}(x) \leftrightarrow \psi(x) \land \mathfrak{M}(x))$ & {\tiny \qref{l.theorem:predicateCalculus/a}} \\
                     $\rightarrow$ & $\forall x ( x \in \{ y | \phi(y) \} \leftrightarrow x \in \{ y | \psi(y) \})$ 
-                      & {\tiny \qref{theorem:setNotation}[a]} \\
+                      & {\tiny \qref{theorem:setNotation/a}} \\
                     $\rightarrow$ & $ \{ y \ | \ \phi(y) \} = \{ y \ | \ \psi(y) \}$ 
-                      & {\tiny \qref{theorem:setNotation}[c]}
+                      & {\tiny \qref{theorem:setNotation/c}}
                   \end{tabularx}
 %%                  \end{longtable}
                 ]]>
@@ -1372,7 +1372,7 @@
                   \par
                   \begin{tabularx}{\linewidth}{rclX}
                     $z \in x$ & $\leftrightarrow$ & $z \in x \land \mathfrak{M}(z)$ & \qref{theorem:inSetEqualInSetAndIsSet} \\
-                    $z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \}$ & \qref{theorem:setNotation}[a] \\
+                    $z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \}$ & \qref{theorem:setNotation/a} \\
                     $\forall z \ (z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \})$ & \qref{l.rule:derivedQuantification} \\
                     $x$ & $=$ & $\{y \ | \ y \}$ & \qref{theorem:extensonalityEquivalence}
                   \end{tabularx}
@@ -1384,7 +1384,7 @@
                   \par
                   \begin{tabularx}{\linewidth}{rclX}
                     $z \in x$ & $\leftrightarrow$ & $z \in x \land \mathfrak{M}(z)$ & \qref{theorem:inSetEqualInSetAndIsSet} \\
-                    $z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \}$ & \qref{theorem:setNotation}[a] \\
+                    $z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \}$ & \qref{theorem:setNotation/a} \\
                     $\forall z \ (z \in x$ & $\leftrightarrow$ & $z \in \{y \ | \ y \})$ & \qref{l.rule:derivedQuantification} \\
                     $x$ & $=$ & $\{y \ | \ y \}$ & \qref{theorem:extensonalityEquivalence}
                   \end{tabularx}                ]]>
@@ -1495,7 +1495,7 @@
                     $y \in \{ x \ | \ \phi(x) \}$
                      & $\leftrightarrow$ 
                      & $\mathfrak{M}(y) \land \phi(y)$ 
-                     & this is \qref{theorem:setNotation}[a] \\
+                     & this is \qref{theorem:setNotation/a} \\
                     $y \in \{ x \ | \ x \notin x \}$  
                      & $\leftrightarrow$ 
                      & $\mathfrak{M}(y) \land y \notin y$ 
@@ -1515,7 +1515,7 @@
                      
                      & $\neg \mathfrak{M}(\mathfrak{Ru})$ 
                      &  
-                     & \qref{l.theorem:propositionalCalculus}[bi]
+                     & \qref{l.theorem:propositionalCalculus/bi}
                   \end{tabularx}
                 ]]>
               </LATEX>
@@ -1527,7 +1527,7 @@
                     $y \in \{ x \ | \ \phi(x) \}$
                      & $\leftrightarrow$ 
                      & $\mathfrak{M}(y) \land \phi(y)$ 
-                     & das ist \qref{theorem:setNotation}[a] \\
+                     & das ist \qref{theorem:setNotation/a} \\
                     $y \in \{ x \ | \ x \notin x \}$  
                      & $\leftrightarrow$ 
                      & $\mathfrak{M}(y) \land y \notin y$ 
@@ -1547,7 +1547,7 @@
                      
                      & $\neg \mathfrak{M}(\mathfrak{Ru})$ 
                      &  
-                     & \qref{l.theorem:propositionalCalculus}[bi]
+                     & \qref{l.theorem:propositionalCalculus/bi}
                   \end{tabularx}
                 ]]>
               </LATEX>
@@ -1631,13 +1631,13 @@
                   \par
                   \begin{tabularx}{\linewidth}{rclX}
                     $x \in \{ y \ | \ \phi(y) \} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land \phi(x)$
-                      & this is \qref{theorem:setNotation}[a] \\
+                      & this is \qref{theorem:setNotation/a} \\
                     $x \in \{ y \ | \ y = y \} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land y = y$
                       & substitution for $\phi$ \\
                     $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land y = y$
                       & \qref{definition:universalClass} \\
                     $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x)$
-                      & \qref{l.theorem:propositionalCalculus}[au] and \qref{l.axiom:identityIsReflexive}
+                      & \qref{l.theorem:propositionalCalculus/au} and \qref{l.axiom:identityIsReflexive}
                   \end{tabularx}
                 ]]>
               </LATEX>
@@ -1647,13 +1647,13 @@
                   \par
                   \begin{tabularx}{\linewidth}{rclX}
                     $x \in \{ y \ | \ \phi(y) \} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land \phi(x)$
-                      & dies ist \qref{theorem:setNotation}[a] \\
+                      & dies ist \qref{theorem:setNotation/a} \\
                     $x \in \{ y \ | \ y = y \} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land y = y$
                       & Substitution für $\phi$ \\
                     $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x) \land y = y$
                       & \qref{definition:universalClass} \\
                     $x \in \mathfrak{V} $ & $\leftrightarrow$ & $\mathfrak{M}(x)$
-                      & \qref{l.theorem:propositionalCalculus}[au] und \qref{l.axiom:identityIsReflexive}
+                      & \qref{l.theorem:propositionalCalculus/au} und \qref{l.axiom:identityIsReflexive}
                   \end{tabularx}                ]]>
               </LATEX>
             </PROOF>
@@ -1717,13 +1717,13 @@
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $y \in \{ x \ | \ x = x\}$
                       & \qref{theorem:extensonalityEquivalence} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land y = y$
-                      & \qref{theorem:setNotation}[a] \\
+                      & \qref{theorem:setNotation/a} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land \top$
                       & \qref{l.rule:replaceTrueFormulaByTrue} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y)$
-                      & \qref{l.theorem:propositionalCalculus}[au] \\
+                      & \qref{l.theorem:propositionalCalculus/au} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $ \mathfrak{M}(y) \land \mathfrak{M}(y)$
-                      & \qref{l.theorem:propositionalCalculus}[al] \\
+                      & \qref{l.theorem:propositionalCalculus/al} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $y \in \{ x \ | \ \mathfrak{M}(x)\}$
                       & \qref{theorem:setNotation} \\
                     $\mathfrak{V}$ & $=$ & $\{ x \ | \ \mathfrak{M}(x)\}$
@@ -1741,13 +1741,13 @@
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $y \in \{ x \ | \ x = x\}$
                       & \qref{theorem:extensonalityEquivalence} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land y = y$
-                      & \qref{theorem:setNotation}[a] \\
+                      & \qref{theorem:setNotation/a} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y) \land \top$
                       & \qref{l.rule:replaceTrueFormulaByTrue} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $\mathfrak{M}(y)$
-                      & \qref{l.theorem:propositionalCalculus}[au] \\
+                      & \qref{l.theorem:propositionalCalculus/au} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $ \mathfrak{M}(y) \land \mathfrak{M}(y)$
-                      & \qref{l.theorem:propositionalCalculus}[al] \\
+                      & \qref{l.theorem:propositionalCalculus/al} \\
                     $\forall y \ (y \in \mathfrak{V}$ & $\leftrightarrow$ & $y \in \{ x \ | \ \mathfrak{M}(x)\}$
                       & \qref{theorem:setNotation} \\
                     $\mathfrak{V}$ & $=$ & $\{ x \ | \ \mathfrak{M}(x)\}$
@@ -1937,11 +1937,11 @@
                     $x = \emptyset$ & $\leftrightarrow$ & $\forall z \ (z \in x \leftrightarrow z \in \emptyset)$
                       & \qref{theorem:extensonalityEquivalence} \\
                     & $\leftrightarrow$ & $\forall z \ (z \notin x \leftrightarrow z \notin \emptyset)$
-                      & \qref{l.rule:replaceEquiFormula} with \qref{l.theorem:propositionalCalculus}[ao] \\
+                      & \qref{l.rule:replaceEquiFormula} with \qref{l.theorem:propositionalCalculus/ao} \\
                     & $\leftrightarrow$ & $\forall z \ (z \notin x \leftrightarrow \ \top)$
                       & \qref{theorem:noClassIsMemberOfEmptySet} \\
                     & $\leftrightarrow$ & $\forall z \ z \notin x$
-                      & \qref{l.rule:replaceEquiFormula} with \qref{l.theorem:propositionalCalculus}[be]
+                      & \qref{l.rule:replaceEquiFormula} with \qref{l.theorem:propositionalCalculus/be}
                   \end{tabularx}
                 ]]>
               </LATEX>
@@ -1953,11 +1953,11 @@
                     $x = \emptyset$ & $\leftrightarrow$ & $\forall z \ (z \in x \leftrightarrow z \in \emptyset)$
                       & \qref{theorem:extensonalityEquivalence} \\
                     & $\leftrightarrow$ & $\forall z \ (z \notin x \leftrightarrow z \notin \emptyset)$
-                      & \qref{l.rule:replaceEquiFormula} mit \qref{l.theorem:propositionalCalculus}[ao] \\
+                      & \qref{l.rule:replaceEquiFormula} mit \qref{l.theorem:propositionalCalculus/ao} \\
                     & $\leftrightarrow$ & $\forall z \ (z \notin x \leftrightarrow \ \top)$
                       & \qref{theorem:noClassIsMemberOfEmptySet} \\
                     & $\leftrightarrow$ & $\forall z \ z \notin x$
-                      & \qref{l.rule:replaceEquiFormula} mit \qref{l.theorem:propositionalCalculus}[be]
+                      & \qref{l.rule:replaceEquiFormula} mit \qref{l.theorem:propositionalCalculus/be}
                   \end{tabularx}
                 ]]>
               </LATEX>
@@ -2234,7 +2234,7 @@
                     $u \in (x \cup y)$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (u \in x \lor u \in y))$
                       & \qref{axiom:classDefinition} \\
                     $u \in (x \cup y)$ & $\leftrightarrow$ & $((\mathfrak{M}(u) \land u \in x ) \lor (\mathfrak{M}(u) \land u \in y))$
-                      & \qref{l.theorem:propositionalCalculus}[at] \\
+                      & \qref{l.theorem:propositionalCalculus/at} \\
                     $u \in (x \cup y)$ & $\leftrightarrow$ & $(u \in x \lor u \in y)$
                       & \qref{theorem:inSetEqualInSetAndIsSet}
                   \end{tabularx}
@@ -2252,7 +2252,7 @@
                     $u \in (x \cup y)$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (u \in x \lor u \in y))$
                       & \qref{axiom:classDefinition} \\
                     $u \in (x \cup y)$ & $\leftrightarrow$ & $((\mathfrak{M}(u) \land u \in x ) \lor (\mathfrak{M}(u) \land u \in y))$
-                      & \qref{l.theorem:propositionalCalculus}[at] \\
+                      & \qref{l.theorem:propositionalCalculus/at} \\
                     $u \in (x \cup y)$ & $\leftrightarrow$ & $(u \in x \lor u \in y)$
                       & \qref{theorem:inSetEqualInSetAndIsSet}
                   \end{tabularx}
@@ -2314,7 +2314,7 @@
                     $u \in (x \cap y)$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (u \in x \land u \in y))$
                       & \qref{axiom:classDefinition} \\
                     $u \in (x \cap y)$ & $\leftrightarrow$ & $((\mathfrak{M}(u) \land u \in x ) \land u \in y))$
-                      & \qref{l.theorem:propositionalCalculus}[aj] \\
+                      & \qref{l.theorem:propositionalCalculus/aj} \\
                     $u \in (x \cap y)$ & $\leftrightarrow$ & $(u \in x \land u \in y)$
                       & \qref{theorem:inSetEqualInSetAndIsSet}
                   \end{tabularx}
@@ -2332,7 +2332,7 @@
                     $u \in (x \cap y)$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (u \in x \land u \in y))$
                       & \qref{axiom:classDefinition} \\
                     $u \in (x \cap y)$ & $\leftrightarrow$ & $((\mathfrak{M}(u) \land u \in x ) \land u \in y))$
-                      & \qref{l.theorem:propositionalCalculus}[aj] \\
+                      & \qref{l.theorem:propositionalCalculus/aj} \\
                     $u \in (x \cap y)$ & $\leftrightarrow$ & $(u \in x \land u \in y)$
                       & \qref{theorem:inSetEqualInSetAndIsSet}
                   \end{tabularx}
@@ -2670,17 +2670,17 @@
                     $u \in x$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \in x)$
                       & \qref{definition:complement} \\
                               & $\leftrightarrow$ & $(\bot \lor (\mathfrak{M}(u) \land u \in x))$
-                      & \qref{l.theorem:propositionalCalculus}[ax] \\
+                      & \qref{l.theorem:propositionalCalculus/ax} \\
                               & $\leftrightarrow$ & $((\mathfrak{M}(u) \land \neg \mathfrak{M}(u)) \lor (\mathfrak{M}(u) \land u \in x))$
-                      & \qref{l.theorem:propositionalCalculus}[az] \\
+                      & \qref{l.theorem:propositionalCalculus/az} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land u \in x))$
-                      & \qref{l.theorem:propositionalCalculus}[at] \\
+                      & \qref{l.theorem:propositionalCalculus/at} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg \neg u \in x))$
-                      & \qref{l.theorem:propositionalCalculus}[am] \\
+                      & \qref{l.theorem:propositionalCalculus/am} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg u \notin x))$
                       & \qref{definition:notIn} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (\mathfrak{M}(u)) \lor u \notin x))$
-                      & \qref{l.theorem:propositionalCalculus}[aq] \\
+                      & \qref{l.theorem:propositionalCalculus/aq} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (u \in \overline{x}))$
                       & \qref{theorem:complementMember} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \notin \overline{x})$
@@ -2702,7 +2702,7 @@
                     $\forall u \ (u \in x$ & $\leftrightarrow$ & $u \in \overline{\overline{x}})$
                       & \qref{l.rule:derivedQuantification} \\
                     $\forall u \ u \in x$ & $\leftrightarrow$ & $\forall u \ u \in \overline{\overline{x}}$
-                      & \qref{l.theorem:predicateCalculus}[c] \\
+                      & \qref{l.theorem:predicateCalculus/c} \\
                     $x$ & $=$ & $\overline{\overline{x}}$
                       & \qref{theorem:extensionalitySetRestricted}
                   \end{tabularx}
@@ -2717,17 +2717,17 @@
                     $u \in x$ & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \in x)$
                       & \qref{definition:complement} \\
                               & $\leftrightarrow$ & $(\bot \lor (\mathfrak{M}(u) \land u \in x))$
-                      & \qref{l.theorem:propositionalCalculus}[ax] \\
+                      & \qref{l.theorem:propositionalCalculus/ax} \\
                               & $\leftrightarrow$ & $((\mathfrak{M}(u) \land \neg \mathfrak{M}(u)) \lor (\mathfrak{M}(u) \land u \in x))$
-                      & \qref{l.theorem:propositionalCalculus}[az] \\
+                      & \qref{l.theorem:propositionalCalculus/az} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land u \in x))$
-                      & \qref{l.theorem:propositionalCalculus}[at] \\
+                      & \qref{l.theorem:propositionalCalculus/at} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg \neg u \in x))$
-                      & \qref{l.theorem:propositionalCalculus}[am] \\
+                      & \qref{l.theorem:propositionalCalculus/am} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land (\neg \mathfrak{M}(u)) \land \neg u \notin x))$
                       & \qref{definition:notIn} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (\mathfrak{M}(u)) \lor u \notin x))$
-                      & \qref{l.theorem:propositionalCalculus}[aq] \\
+                      & \qref{l.theorem:propositionalCalculus/aq} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land \neg (u \in \overline{x}))$
                       & \qref{theorem:complementMember} \\
                               & $\leftrightarrow$ & $(\mathfrak{M}(u) \land u \notin \overline{x})$
@@ -2749,7 +2749,7 @@
                     $\forall u \ (u \in x$ & $\leftrightarrow$ & $u \in \overline{\overline{x}})$
                       & \qref{l.rule:derivedQuantification} \\
                     $\forall u \ u \in x$ & $\leftrightarrow$ & $\forall u \ u \in \overline{\overline{x}}$
-                      & \qref{l.theorem:predicateCalculus}[c] \\
+                      & \qref{l.theorem:predicateCalculus/c} \\
                     $x$ & $=$ & $\overline{\overline{x}}$
                       & \qref{theorem:extensionalitySetRestricted}
                   \end{tabularx}
@@ -5128,12 +5128,12 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                Especially for the power class of a set we can sharpen \qref{theorem:powerPropositions}[j].
+                Especially for the power class of a set we can sharpen \qref{theorem:powerPropositions/j}.
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Speziell für die Potenzklasse einer Menge lässt sich \qref{theorem:powerPropositions}[j] verschärfen.
+                Speziell für die Potenzklasse einer Menge lässt sich \qref{theorem:powerPropositions/j} verschärfen.
               ]]>
             </LATEX>
           </PRECEDING>
