@@ -1142,7 +1142,8 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
 
     public String getReferenceLink(final String reference, final SourcePosition start,
             final SourcePosition end) {
-        final Reference ref = getReference(reference, getCurrentContext(start, end), true, false);
+        final Reference ref = getReference(reference, getCurrentContext(start, end), addWarnings,
+            false);
 
         if (ref.isNodeLocalReference() && ref.isSubReference()) {
             return "(" + ref.getSubLabel() + ")";
