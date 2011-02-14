@@ -34,7 +34,7 @@ import org.qedeq.kernel.se.visitor.QedeqNumbers;
 public final class ModuleLabels {
 
     /** External QEDEQ module references. */
-    private ModuleReferenceList references;
+    private ModuleReferenceList references = new KernelModuleReferenceList();
 
     /** Maps labels to business objects. */
     private final Map label2Bo;

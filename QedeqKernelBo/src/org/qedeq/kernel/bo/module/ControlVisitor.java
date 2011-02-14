@@ -262,7 +262,6 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public Reference getReference(final String reference, final ModuleContext context,
             final boolean addWarning, final boolean addError) {
-
         // get node we are currently in
         KernelNodeBo node = getNodeBo();
 
@@ -301,52 +300,86 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
 
         }
 
-        final String[] split = StringUtility.split(reference, ".");
-        if (split.length <= 1 || split.length > 2) {
-            if (split.length <= 1) {
-                if (addWarning) {
-                    addWarning(new ReferenceLinkException(
-                        ModuleErrors.NODE_REFERENCE_NOT_FOUND_CODE,
-                        ModuleErrors.NODE_REFERENCE_NOT_FOUND_TEXT
-                        + "\"" + reference + "\"", context));
-                }
-                if (addError) {
-                    addError(new ReferenceLinkException(
-                        ModuleErrors.NODE_REFERENCE_NOT_FOUND_CODE,
-                        ModuleErrors.NODE_REFERENCE_NOT_FOUND_TEXT
-                        + "\"" + reference + "\"", context));
-                }
-            }
-            if (split.length > 2) {
-                if (addWarning) {
-                    addWarning(new ReferenceLinkException(
-                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_CODE,
-                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_TEXT
-                        + "\"" + reference + "\"", context));
-                }
-                if (addError) {
-                    addError(new ReferenceLinkException(
-                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_CODE,
-                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_TEXT
-                        + "\"" + reference + "\"", context));
-                }
-            }
-            return fallback;
-        }
-
-        final String moduleLabel = split[0];    // module import
-        final String nodeLabel = split[1];      // module intern node reference
+        String moduleLabel = "";                // module import
+        String nodeLabel = "";                  // module intern node reference
         String lineLabel = "";                  // proof line label
         String subLabel = "";                   // sub label
+
+        final String[] split = StringUtility.split(reference, ".");
+        if (split.length <= 1 || split.length > 2) {
+            if (split.length == 1) {
+                nodeLabel = split[0];
+            } else if (split.length > 2) {
+                if (addWarning) {
+                    addWarning(new ReferenceLinkException(
+                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_CODE,
+                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_TEXT
+                        + "\"" + reference + "\"", context));
+                }
+                if (addError) {
+                    addError(new ReferenceLinkException(
+                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_CODE,
+                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_TEXT
+                        + "\"" + reference + "\"", context));
+                }
+                return fallback;
+            }
+        } else {
+            moduleLabel = split[0];
+            nodeLabel = split[1];
+        }
+
         if (nodeLabel.indexOf("!") >= 0) {
-            nodeLabel.substring(nodeLabel.indexOf("!") + 1);
+            final String[] split2 = StringUtility.split(nodeLabel, "!");
+            if (split2.length != 2) {
+                if (addWarning) {
+                    addWarning(new ReferenceLinkException(
+                        ModuleErrors.NODE_REFERENCE_MUST_HAVE_ONLY_ONE_PROOF_LINE_REFERENCE_CODE,
+                        ModuleErrors.NODE_REFERENCE_MUST_HAVE_ONLY_ONE_PROOF_LINE_REFERENCE_TEXT
+                        + "\"" + reference + "\"", context));
+                }
+                if (addError) {
+                    addError(new ReferenceLinkException(
+                        ModuleErrors.NODE_REFERENCE_MUST_HAVE_ONLY_ONE_PROOF_LINE_REFERENCE_CODE,
+                        ModuleErrors.NODE_REFERENCE_MUST_HAVE_ONLY_ONE_PROOF_LINE_REFERENCE_TEXT
+                        + "\"" + reference + "\"", context));
+                }
+            }
+            nodeLabel = split2[0];
+            if (split.length > 1) {
+                lineLabel = split2[1];
+            }
         }
         if (nodeLabel.indexOf("/") >= 0) {
-            nodeLabel.substring(nodeLabel.indexOf("/") + 1);
+            final String[] split2 = StringUtility.split(nodeLabel, "/");
+            if (split2.length != 2) {
+                if (addWarning) {
+                    addWarning(new ReferenceLinkException(
+                        ModuleErrors.NODE_REFERENCE_MUST_HAVE_ONLY_ONE_SUB_REFERENCE_CODE,
+                        ModuleErrors.NODE_REFERENCE_MUST_HAVE_ONLY_ONE_SUB_REFERENCE_TEXT
+                        + "\"" + reference + "\"", context));
+                }
+                if (addError) {
+                    addError(new ReferenceLinkException(
+                        ModuleErrors.NODE_REFERENCE_MUST_HAVE_ONLY_ONE_SUB_REFERENCE_CODE,
+                        ModuleErrors.NODE_REFERENCE_MUST_HAVE_ONLY_ONE_SUB_REFERENCE_TEXT
+                        + "\"" + reference + "\"", context));
+                }
+            }
+            nodeLabel = split2[0];
+            if (split.length > 1) {
+                subLabel = split2[1];
+            }
         }
-        final KernelQedeqBo module = getQedeqBo().getKernelRequiredModules().getKernelQedeqBo(moduleLabel);
-        final KernelNodeBo eNode = (module != null ? module.getLabels().getNode(nodeLabel) : null);
-        if (module == null) {
+        KernelQedeqBo module = null;
+        KernelNodeBo eNode = null;
+        if (moduleLabel != null && moduleLabel.length() > 0) {
+            module = getQedeqBo().getKernelRequiredModules().getKernelQedeqBo(moduleLabel);
+            eNode = (module != null ? module.getLabels().getNode(nodeLabel) : null);
+        } else {
+            eNode = getQedeqBo().getLabels().getNode(nodeLabel);
+        }
+        if ((moduleLabel != null && moduleLabel.length() > 0) &&  module == null) {
             if (addWarning) {
                 addWarning(new ReferenceLinkException(
                     ModuleErrors.MODULE_REFERENCE_NOT_FOUND_CODE,

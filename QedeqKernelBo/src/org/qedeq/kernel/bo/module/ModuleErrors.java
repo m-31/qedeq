@@ -47,6 +47,22 @@ public interface ModuleErrors extends ErrorCodes {
         = "node reference has more than one dots: ";
 
 
+    /** Error (or warning) number for: node reference must have only one sub reference. */
+    public static final int NODE_REFERENCE_MUST_HAVE_ONLY_ONE_SUB_REFERENCE_CODE = 610013;
+
+    /** Error (or warning) text for: node reference must have only one sub reference. */
+    public static final String NODE_REFERENCE_MUST_HAVE_ONLY_ONE_SUB_REFERENCE_TEXT
+        = "node reference must have only one sub reference: ";
+
+
+    /** Error (or warning) number for: node reference must have only one proof line reference. */
+    public static final int NODE_REFERENCE_MUST_HAVE_ONLY_ONE_PROOF_LINE_REFERENCE_CODE = 610013;
+
+    /** Error (or warning) text for: node reference must have only one sub reference. */
+    public static final String NODE_REFERENCE_MUST_HAVE_ONLY_ONE_PROOF_LINE_REFERENCE_TEXT
+        = "node reference must have only one proof line reference: ";
+
+
     /** Error (or warning) number for: Module reference not found for. */
     public static final int MODULE_REFERENCE_NOT_FOUND_CODE = 6100017;
 
