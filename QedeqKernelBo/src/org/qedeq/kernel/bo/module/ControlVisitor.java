@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.base.io.SourceArea;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -188,7 +189,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @param   sf  Exception to be added.
      */
-    protected void addWarning(final SourceFileException sf) {
+    private void addWarning(final SourceFileException sf) {
         if (warningList == null) {
             warningList = new DefaultSourceFileExceptionList(sf);
         } else {
@@ -248,6 +249,125 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      */
     public QedeqNumbers getCurrentNumbers() {
         return traverser.getCurrentNumbers();
+    }
+
+    public Reference getReference(final String reference, final ModuleContext context,
+            final boolean addWarning, final boolean addError) {
+
+        // get node we are currently in
+        KernelNodeBo node = getNodeBo();
+
+        final Reference fallback = new DefaultReference(node, null, "", null, reference + "?", "", "");
+
+        if (reference.indexOf("!") >= 0 && reference.indexOf("/") >= 0) {
+            if (addWarning) {
+                addWarning(new ReferenceLinkException(
+                    ModuleErrors.REFERENCE_CAN_NOT_CONTAIN_SUB_AND_LINE_REFERENCE_CODE,
+                    ModuleErrors.REFERENCE_CAN_NOT_CONTAIN_SUB_AND_LINE_REFERENCE_TEXT
+                        + "\"" + reference + "\"", context));
+            }
+            if (addError) {
+                addError(new ReferenceLinkException(
+                        ModuleErrors.REFERENCE_CAN_NOT_CONTAIN_SUB_AND_LINE_REFERENCE_CODE,
+                        ModuleErrors.REFERENCE_CAN_NOT_CONTAIN_SUB_AND_LINE_REFERENCE_TEXT
+                            + "\"" + reference + "\"", context));
+            }
+        }
+
+        // is the reference a pure proof line label?
+        if (node != null && node.isLocalLabel(reference)) {
+            return new DefaultReference(node, null, "", node, node.getNodeVo().getId(), "", reference);
+        }
+
+        // is the reference a pure node label?
+        if (getQedeqBo().getLabels().isNode(reference)) {
+            return new DefaultReference(node, null, reference, node, "", "", "");
+        }
+
+        // do we have an external module reference without node?
+        if (getQedeqBo().getLabels().isModule(reference)) {
+            return new DefaultReference(node,
+                 (KernelQedeqBo) getQedeqBo().getLabels().getReferences().getQedeqBo(reference),
+                 reference, null, "", "", "");
+
+        }
+
+        final String[] split = StringUtility.split(reference, ".");
+        if (split.length <= 1 || split.length > 2) {
+            if (split.length <= 1) {
+                if (addWarning) {
+                    addWarning(new ReferenceLinkException(
+                        ModuleErrors.NODE_REFERENCE_NOT_FOUND_CODE,
+                        ModuleErrors.NODE_REFERENCE_NOT_FOUND_TEXT
+                        + "\"" + reference + "\"", context));
+                }
+                if (addError) {
+                    addError(new ReferenceLinkException(
+                        ModuleErrors.NODE_REFERENCE_NOT_FOUND_CODE,
+                        ModuleErrors.NODE_REFERENCE_NOT_FOUND_TEXT
+                        + "\"" + reference + "\"", context));
+                }
+            }
+            if (split.length > 2) {
+                if (addWarning) {
+                    addWarning(new ReferenceLinkException(
+                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_CODE,
+                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_TEXT
+                        + "\"" + reference + "\"", context));
+                }
+                if (addError) {
+                    addError(new ReferenceLinkException(
+                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_CODE,
+                        ModuleErrors.NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_TEXT
+                        + "\"" + reference + "\"", context));
+                }
+            }
+            return fallback;
+        }
+
+        final String moduleLabel = split[0];    // module import
+        final String nodeLabel = split[1];      // module intern node reference
+        String lineLabel = "";                  // proof line label
+        String subLabel = "";                   // sub label
+        if (nodeLabel.indexOf("!") >= 0) {
+            nodeLabel.substring(nodeLabel.indexOf("!") + 1);
+        }
+        if (nodeLabel.indexOf("/") >= 0) {
+            nodeLabel.substring(nodeLabel.indexOf("/") + 1);
+        }
+        final KernelQedeqBo module = getQedeqBo().getKernelRequiredModules().getKernelQedeqBo(moduleLabel);
+        final KernelNodeBo eNode = (module != null ? module.getLabels().getNode(nodeLabel) : null);
+        if (module == null) {
+            if (addWarning) {
+                addWarning(new ReferenceLinkException(
+                    ModuleErrors.MODULE_REFERENCE_NOT_FOUND_CODE,
+                    ModuleErrors.MODULE_REFERENCE_NOT_FOUND_TEXT
+                    + "\"" + reference + "\"", context));
+            }
+            if (addError) {
+                addError(new ReferenceLinkException(
+                    ModuleErrors.MODULE_REFERENCE_NOT_FOUND_CODE,
+                    ModuleErrors.MODULE_REFERENCE_NOT_FOUND_TEXT
+                    + "\"" + reference + "\"", context));
+            }
+            return new DefaultReference(node, module, moduleLabel + "?", eNode, nodeLabel, subLabel, lineLabel);
+        }
+        if (eNode == null) {
+            if (addWarning) {
+                addWarning(new ReferenceLinkException(
+                    ModuleErrors.NODE_REFERENCE_NOT_FOUND_CODE,
+                    ModuleErrors.NODE_REFERENCE_NOT_FOUND_TEXT
+                    + "\"" + reference + "\"", context));
+            }
+            if (addError) {
+                addError(new ReferenceLinkException(
+                    ModuleErrors.NODE_REFERENCE_NOT_FOUND_CODE,
+                    ModuleErrors.NODE_REFERENCE_NOT_FOUND_TEXT
+                    + "\"" + reference + "\"", context));
+            }
+            return new DefaultReference(node, module, moduleLabel, eNode, nodeLabel + "?", subLabel, lineLabel);
+        }
+        return new DefaultReference(node, module, moduleLabel, eNode, nodeLabel, subLabel, lineLabel);
     }
 
 }
