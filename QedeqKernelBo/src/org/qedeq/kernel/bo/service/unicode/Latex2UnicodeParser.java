@@ -349,15 +349,8 @@ public final class Latex2UnicodeParser {
                 return;
             }
 
-            // exists a sub reference?
-            String sub = "";
-            int localStart2 = input.getAbsolutePosition();
-            if ('[' == input.getChar(0)) {
-                read();
-                sub = readTilToken("]").asString();
-            }
-            String display = finder.getReferenceLink(ref, sub, getAbsoluteSourcePosition(localStart1),
-                getAbsoluteSourcePosition(localStart2));
+            String display = finder.getReferenceLink(ref, getAbsoluteSourcePosition(localStart1),
+                getAbsoluteSourcePosition(input.getAbsolutePosition()));
             output.addToken(display);
         }
     }
