@@ -140,9 +140,9 @@ public final class LoadRequiredModules {
             if (prop.getDependencyState().areAllRequiredLoaded()) {
                 return true; // everything is OK, someone elses thread might have corrected errors!
             }
+            prop.getLabels().setModuleReferences(required);
             if (sfl == null || sfl.size() == 0) {
                 prop.setLoadedRequiredModules(required);
-                prop.getLabels().setModuleReferences(required);
                 return true;
             } else {
                 prop.setDependencyFailureState(
