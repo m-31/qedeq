@@ -251,6 +251,15 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         return traverser.getCurrentNumbers();
     }
 
+    /**
+     * Get link for given reference.
+     *
+     * @param   reference   String to parse.
+     * @param   context     Here the link is in the source text.
+     * @param   addWarning  Should we add a warning if an error occurs?
+     * @param   addError    Should we add an error if an error occurs?
+     * @return  Generated link.
+     */
     public Reference getReference(final String reference, final ModuleContext context,
             final boolean addWarning, final boolean addError) {
 
