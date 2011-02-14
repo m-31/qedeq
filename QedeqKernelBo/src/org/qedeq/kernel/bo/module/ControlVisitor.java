@@ -33,8 +33,6 @@ import org.qedeq.kernel.se.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.se.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
 
-import sun.security.action.GetLongAction;
-
 
 /**
  * Basic visitor that gives some error collecting features. Also hides the
