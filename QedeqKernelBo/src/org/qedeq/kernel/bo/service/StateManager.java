@@ -418,7 +418,7 @@ public class StateManager {
     }
 
     /**
-     * Reset this and all (recursive) dependent modules (if any) to state loaded.
+     * Reset this and all (recursive) dependent modules (if any) to state loaded required.
      */
     private void invalidateDependentModulesToLoadedRequired() {
         if (isChecked()) {
@@ -474,7 +474,6 @@ public class StateManager {
                 throw new RuntimeException(me);
             }
         }
-
 
         setDependencyState(DependencyState.STATE_LOADED_REQUIRED_MODULES);
         setLogicalState(LogicalState.STATE_UNCHECKED);
