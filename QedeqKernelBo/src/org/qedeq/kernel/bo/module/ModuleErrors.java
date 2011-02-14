@@ -55,7 +55,6 @@ public interface ModuleErrors extends ErrorCodes {
         = "module reference not found for: ";
 
 
-
     /** Error (or warning) number for: reference can not contain sub reference and proof line
      *  reference simultaneously. */
     public static final int REFERENCE_CAN_NOT_CONTAIN_SUB_AND_LINE_REFERENCE_CODE = 90512;
@@ -64,5 +63,14 @@ public interface ModuleErrors extends ErrorCodes {
      *  reference simultaneously. */
     public static final String REFERENCE_CAN_NOT_CONTAIN_SUB_AND_LINE_REFERENCE_TEXT
         = "reference can not contain sub reference and proof line reference simultaneously: ";
+
+
+    /** Error (or warning) number for: Id or label defined more than once. */
+    public static final int LABEL_DEFINED_MORE_THAN_ONCE_CODE = 10002;
+
+    /** Error (or warning) text for: Id or label defined more than once. */
+    public static final String LABEL_DEFINED_MORE_THAN_ONCE_TEXT
+        = "Id or label defined more than once: ";
+
 
 }

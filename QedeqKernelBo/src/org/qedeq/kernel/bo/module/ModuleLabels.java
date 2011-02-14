@@ -130,10 +130,9 @@ public final class ModuleLabels {
     private final void checkLabelIntern(final ModuleContext context,  final String label)
             throws IllegalModuleDataException {
         if (label2Context.containsKey(label)) {
-            // FIXME mime 20071026: organize exception codes
-            throw new IllegalModuleDataException(10002, "Id or label \"" + label
-                + "\" defined more than once.", context,
-                (ModuleContext) label2Context.get(label), null);
+            throw new IllegalModuleDataException(ModuleErrors.LABEL_DEFINED_MORE_THAN_ONCE_CODE,
+                ModuleErrors.LABEL_DEFINED_MORE_THAN_ONCE_CODE + "\"" + label + "\"",
+                context, (ModuleContext) label2Context.get(label), null);
         }
     }
 
