@@ -1231,7 +1231,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             + "}{" + getNodeDisplay(ref.getNodeLabel(), ref.getNode())
                 + (ref.isSubReference() ? " (" + ref.getSubLabel() + ")" : "")
                 + (ref.isProofLineReference() ? " (" + ref.getProofLineLabel() + ")" : "")
-            + "}~\\cite{" + ref.getSubLabel() + "}";
+            + "}~\\cite{" + ref.getExternalQedeqLabel() + "}";
     }
 
     private String getNodeDisplay(final String label, final KernelNodeBo kNode) {
