@@ -281,7 +281,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
 
         // is the reference a pure node label?
         if (getQedeqBo().getLabels().isNode(reference)) {
-            return new DefaultReference(node, null, reference, node, "", "", "");
+            return new DefaultReference(node, null, "", node, reference, "", "");
         }
 
         // do we have an external module reference without node?
