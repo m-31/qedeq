@@ -31,5 +31,38 @@ public interface ModuleErrors extends ErrorCodes {
     public static final String QEDEQ_MODULE_NOT_LOADED_TEXT
         = "QEDEQ module couldn't be loaded.";
 
+    /** Error (or warning) number for: Node reference not found for. */
+    public static final int NODE_REFERENCE_NOT_FOUND_CODE = 610007;
+
+    /** Error (or warning) text for: Node reference not found for. */
+    public static final String NODE_REFERENCE_NOT_FOUND_TEXT
+        = "node reference not found for: ";
+
+
+    /** Error (or warning) number for: node reference has more than one dot. */
+    public static final int NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_CODE = 610011;
+
+    /** Error (or warning) text for: Node reference not found for. */
+    public static final String NODE_REFERENCE_HAS_MORE_THAN_ONE_DOT_TEXT
+        = "node reference has more than one dots: ";
+
+
+    /** Error (or warning) number for: Module reference not found for. */
+    public static final int MODULE_REFERENCE_NOT_FOUND_CODE = 6100017;
+
+    /** Error (or warning) text for: Module reference not found for. */
+    public static final String MODULE_REFERENCE_NOT_FOUND_TEXT
+        = "module reference not found for: ";
+
+
+
+    /** Error (or warning) number for: reference can not contain sub reference and proof line
+     *  reference simultaneously. */
+    public static final int REFERENCE_CAN_NOT_CONTAIN_SUB_AND_LINE_REFERENCE_CODE = 90512;
+
+    /** Error (or warning) text for: reference can not contain sub reference and proof line
+     *  reference simultaneously. */
+    public static final String REFERENCE_CAN_NOT_CONTAIN_SUB_AND_LINE_REFERENCE_TEXT
+        = "reference can not contain sub reference and proof line reference simultaneously: ";
 
 }
