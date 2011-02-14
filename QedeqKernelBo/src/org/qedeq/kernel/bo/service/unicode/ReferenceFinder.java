@@ -29,12 +29,11 @@ public interface ReferenceFinder {
      * Return string for reference link.
      *
      * @param   reference       Link to this.
-     * @param   subReference    Which has this sub reference. Might be "" but not null.
      * @param   startDelta      Absolute source position start of reference.
      * @param   endDelta        Absolute source position end of reference.
      * @return  Return reference as string.
      */
-    public String getReferenceLink(final String reference, final String subReference,
+    public String getReferenceLink(final String reference,
         final SourcePosition startDelta, final SourcePosition endDelta);
 
     /**
