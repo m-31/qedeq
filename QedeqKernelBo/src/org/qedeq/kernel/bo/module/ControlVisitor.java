@@ -17,7 +17,12 @@ package org.qedeq.kernel.bo.module;
 
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Node;
+import org.qedeq.kernel.se.base.module.PredicateDefinition;
+import org.qedeq.kernel.se.base.module.Proposition;
+import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -27,6 +32,8 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.visitor.AbstractModuleVisitor;
 import org.qedeq.kernel.se.visitor.QedeqNotNullTraverser;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
+
+import sun.security.action.GetLongAction;
 
 
 /**
@@ -264,7 +271,6 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
             final boolean addWarning, final boolean addError) {
         // get node we are currently in
         KernelNodeBo node = getNodeBo();
-
         final Reference fallback = new DefaultReference(node, null, "", null, reference + "?", "", "");
 
         if (reference.indexOf("!") >= 0 && reference.indexOf("/") >= 0) {
@@ -411,6 +417,66 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
             return new DefaultReference(node, module, moduleLabel, eNode, nodeLabel + "?", subLabel, lineLabel);
         }
         return new DefaultReference(node, module, moduleLabel, eNode, nodeLabel, subLabel, lineLabel);
+    }
+
+    /**
+     * Get display text for node. The module of the node is ignored.
+     *
+     * @param   label       Label for node. Fallback if <code>kNode == null</code>.
+     * @param   kNode       Node for which we want a textual representation.
+     * @param   language    Language. Might be <code>null</code>.
+     * @return  Textual node representation.
+     */
+    public String getNodeDisplay(final String label, final KernelNodeBo kNode, final String language) {
+        String display = label;
+        if (kNode == null) {
+            return display;
+        }
+        QedeqNumbers data = kNode.getNumbers();
+        Node node = kNode.getNodeVo();
+        if (node.getNodeType() instanceof Axiom) {
+            if ("de".equals(language)) {
+                display = "Axiom";
+            } else {
+                display = "axiom";
+            }
+            display += " " + data.getAxiomNumber();
+        } else if (node.getNodeType() instanceof Proposition) {
+            if ("de".equals(language)) {
+                display = "Proposition";
+            } else {
+                display = "proposition";
+            }
+            display += " " + data.getPropositionNumber();
+        } else if (node.getNodeType() instanceof FunctionDefinition) {
+            if ("de".equals(language)) {
+                display = "Definition";
+            } else {
+                display = "definition";
+            }
+            display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
+        } else if (node.getNodeType() instanceof PredicateDefinition) {
+            if ("de".equals(language)) {
+                display = "Definition";
+            } else {
+                display = "definition";
+            }
+            display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
+        } else if (node.getNodeType() instanceof Rule) {
+            if ("de".equals(language)) {
+                display = "Regel";
+            } else {
+                display = "rule";
+            }
+            display += " " + data.getRuleNumber();
+        } else {
+            if ("de".equals(language)) {
+                display = "Unbekannt " + node.getId();
+            } else {
+                display = "unknown " + node.getId();
+            }
+        }
+        return display;
     }
 
 }

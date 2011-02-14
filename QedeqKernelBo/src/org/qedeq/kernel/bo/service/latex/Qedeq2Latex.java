@@ -1235,55 +1235,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
     }
 
     private String getNodeDisplay(final String label, final KernelNodeBo kNode) {
-        String display = label;
-        if (kNode == null) {
-            return display;
-        }
-        QedeqNumbers data = kNode.getNumbers();
-        Node node = kNode.getNodeVo();
-        if (node.getNodeType() instanceof Axiom) {
-            if ("de".equals(language)) {
-                display = "Axiom";
-            } else {
-                display = "axiom";
-            }
-            display += " " + data.getAxiomNumber();
-        } else if (node.getNodeType() instanceof Proposition) {
-            if ("de".equals(language)) {
-                display = "Proposition";
-            } else {
-                display = "proposition";
-            }
-            display += " " + data.getPropositionNumber();
-        } else if (node.getNodeType() instanceof FunctionDefinition) {
-            if ("de".equals(language)) {
-                display = "Definition";
-            } else {
-                display = "definition";
-            }
-            display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
-        } else if (node.getNodeType() instanceof PredicateDefinition) {
-            if ("de".equals(language)) {
-                display = "Definition";
-            } else {
-                display = "definition";
-            }
-            display += " " + (data.getPredicateDefinitionNumber() + data.getFunctionDefinitionNumber());
-        } else if (node.getNodeType() instanceof Rule) {
-            if ("de".equals(language)) {
-                display = "Regel";
-            } else {
-                display = "rule";
-            }
-            display += " " + data.getRuleNumber();
-        } else {
-            if ("de".equals(language)) {
-                display = "Unbekannt " + node.getId();
-            } else {
-                display = "unknown " + node.getId();
-            }
-        }
-        return display;
+        return StringUtility.replace(getNodeDisplay(label, kNode, language), " ", "~");
     }
 
     /**
