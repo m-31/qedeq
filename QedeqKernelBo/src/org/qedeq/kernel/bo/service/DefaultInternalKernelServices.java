@@ -367,6 +367,19 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             throw xl;
         }
         prop.setQedeqVo(vo);
+        // FIXME 20110213 m31: perhaps we need a new state, pre loaded? So when we put more
+        // label testing into the moduleLabelCreator, we still can launch some plugins
+        // On the other side: Label checking is only possible, if all referenced modules can
+        // be loaded.
+        //
+        // Correct labels are necessary for many plugins (e.g. LaTeX and UTF-8 generation).
+        // So a label checker must be run before that.
+        // It might be a good idea to put it into the formal logic checker.
+        // We could make a FormalChecker plugin. This starts loading required modules, checks
+        // the labels and checks if the formulas are correctly written.
+        // So we get some sub status (for every check) and an overall status (all checks
+        // green). Later on the formal proof checker can be integrated too.
+        // This should be the extended load status.
         final ModuleLabelsCreator moduleNodesCreator = new ModuleLabelsCreator(this, prop);
         try {
             moduleNodesCreator.createLabels();
