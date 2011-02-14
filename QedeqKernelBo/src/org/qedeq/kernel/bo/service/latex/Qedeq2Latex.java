@@ -37,7 +37,7 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.unicode.UnicodeErrorCodes;
+import org.qedeq.kernel.bo.module.Reference;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -695,7 +695,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         final String context = getCurrentContext().getLocationWithinModule();
         try {
             getCurrentContext().setLocationWithinModule(context + "." + subContext);
-            return (getReferenceLink(reference));
+            return (getReference(reference, null, null));
         } finally {
             getCurrentContext().setLocationWithinModule(context);
         }
@@ -1199,255 +1199,52 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
     // a "!" + lineLabel.
     private String getReference(final String reference, final SourcePosition start, final SourcePosition end) {
         final String method = "getReference(String, String)";
-        if (reference.indexOf("!") >= 0 && reference.indexOf("/") >= 0) {
-// 
-            ++++
-            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
-                    + "\"" + reference + "\"");
-        }
-        
         Trace.param(CLASS, this, method, "2 reference", reference);     // qreference within module
 
-        KernelNodeBo node = getNodeBo();
-
-        if (node != null && node.isLocalLabel(reference)) {
-            return "\\hyperref[" + node.getNodeVo().getId() + ":" + reference + "]{" + "("
-                + reference + ")" + "}";
+        final Reference ref = getReference(reference, getCurrentContext(start, end), true, false);
+        if (ref.isNodeLocalReference() && ref.isSubReference()) {
+            return "\\hyperref[" + ref.getNodeLabel() + "/" + ref.getSubLabel() + "]{" + "("
+                + ref.getSubLabel() + ")" + "}";
         }
 
-        if (getQedeqBo().getLabels().isNode(reference)) {
-            return "\\hyperref[" + reference + (sub.length() > 0 ? "/" + sub : "") + "]{"
-                + getNodeDisplay(getQedeqBo().getLabels().getNode(reference))
-                + (sub.length() > 0 ? " (" + sub + ")" : "")
+        if (ref.isNodeLocalReference() && ref.isProofLineReference()) {
+            return "\\hyperref[" + ref.getNodeLabel() + "/" + ref.getProofLineLabel() + "]{" + "("
+                + ref.getProofLineLabel() + ")" + "}";
+        }
+
+        if (!ref.isExternal()) {
+            return "\\hyperref[" + ref.getNodeLabel()
+                + (ref.isSubReference() ? "/" + ref.getSubLabel() : "")
+                + (ref.isProofLineReference() ? "!" + ref.getProofLineLabel() : "")
+                + "]{"
+                + getNodeDisplay(ref.getNodeLabel(), ref.getNode())
+                + (ref.isSubReference() ? " (" + ref.getSubLabel() + ")" : "")
+                + (ref.isProofLineReference() ? " (" + ref.getProofLineLabel() + ")" : "")
                 + "}";
         }
 
         // do we have an external module reference without node?
-        if (getQedeqBo().getLabels().isModule(reference)) {
-            return "\\url{" + getPdfLink(getQedeqBo()) + "}~\\cite{" + reference + "}";
+        if (ref.isExternalModuleReference()) {
+            return "\\url{" + getPdfLink(ref.getExternalQedeq()) + "}~\\cite{"
+                + ref.getExternalQedeqLabel() + "}";
             // if we want to show the text "description": \href{my_url}{description}
         }
 
-        final String subDisplay = (sub.length() > 0 ? " (" + sub + ")" : "");
-        final String fallback = "{\tt " + reference + subDisplay + "}";
-
-        final String[] split = StringUtility.split(reference, ".");
-        if (split.length <= 1 || split.length > 3) {
-            if (split.length <= 1) {
-                addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
-                    + "\"" + reference + "\"");
-            }
-            if (split.length > 3) {
-                // FIXME 20110209 m31: this must be LatexErrorCodes, but then we have duplicate code!
-                addWarning(UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_CODE,
-                    UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_TEXT
-                    + "\"" + reference + "\"");
-            }
-            return fallback;
-        }
-        String moduleLabel = split[0];    // module import
-        String nodeLabel = split[1];      // module intern node reference
-        String lineLabel = "";            // node specific
-        if (split.length == 3) {
-            lineLabel = " (" + split[2] + ")";
-        }
-
-        // is the import module perhaps a node?
-        if (getQedeqBo().getLabels().isNode(moduleLabel)) {
-            // then there must be no line reference already!
-            if (split.length == 3) {
-                // FIXME 20110209 m31: new error code for unclear reference
-                addWarning(UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_CODE,
-                    UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_TEXT
-                    + "\"" + reference + "\"");
-                return fallback;
-            }
-            lineLabel = nodeLabel;
-            nodeLabel = moduleLabel;
-            moduleLabel = "";
-            node = getQedeqBo().getLabels().getNode(nodeLabel);
-            final String display = getDisplay(moduleLabel, node, false, false);
-            return "\\hyperref[" + nodeLabel
-              + (sub.length() > 0 ? "/" + sub : "")
-              + (lineLabel.length() > 0 ? "!" + lineLabel : "")
-              + "]{" + display
-              + (sub.length() > 0 ? " (" + sub + ")" : "")
-              + (lineLabel.length() > 0 ? " (" + lineLabel + ")" : "")
-              + "}";
-        } else {
-            final KernelQedeqBo prop = getQedeqBo().getKernelRequiredModules()
-                .getKernelQedeqBo(moduleLabel);
-            if (prop == null) {
-                // FIXME 20110209 m31: might not be correct error description (qref???)
-                addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
-                    LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
-                    + ": " + "module not found for " + moduleLabel, start, end);
-                return fallback;
-            }
-            node = prop.getLabels().getNode(nodeLabel);
-            if (node == null) {
-                // FIXME 20110209 m31: might not be correct error description (qref???)
-                addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE, LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
-                        + ": " + "node not found for " + nodeLabel, start, end);
-                return fallback;
-            }
-            final String display = getDisplay(moduleLabel, node, false, true);
-            return "\\hyperref{" + getPdfLink(prop) + "}{}{"
-                + moduleLabel
-                + (sub.length() > 0 ? "/" + sub : "")
-                + (lineLabel.length() > 0 ? "!" + lineLabel : "")
-                + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "")
-                + (lineLabel.length() > 0 ? " (" + lineLabel + ")" : "")
-                + "}~\\cite{" + moduleLabel + "}";
-        }
-
-
-//
-//        // do we have an external module?
-//        if (label.length() <= 0) {      // local reference
-//            final String display = getDisplay(ref, node, false, false);
-////                    result.replace(pos1, pos2 + 1, display + "~\\autoref{" + ref + "}"
-//                return "\\hyperref[" + ref + "]{" + display + "~\\ref*{"
-//                    + ref + "}}"
-//                    + (sub.length() > 0 ? " (" + sub + ")" : "");
-//        } else {                        // external reference
-//            if (ref.length() <= 0) {
-//                // we have an external module reference without node
-//                return "\\url{" + getPdfLink(prop) + "}~\\cite{" + label + "}";
-//                // if we want to show the text "description": \href{my_url}{description}
-//            } else {
-//                // we have an external module reference with node
-//                final String display = getDisplay(ref, node, false, true);
-//                return "\\hyperref{" + getPdfLink(prop) + "}{}{"
-//                    + ref + (sub.length() > 0 ? ":" + sub : "")
-//                    + "}{" + display + (sub.length() > 0 ? " (" + sub + ")" : "") + "}~\\cite{"
-//                    + label + "}";
-//            }
-//        }
+        return "\\hyperref{" + getPdfLink(ref.getExternalQedeq()) + "}{}{"
+            + ref.getExternalQedeqLabel()
+            + (ref.isSubReference() ? "/" + ref.getSubLabel() : "")
+            + (ref.isProofLineReference() ? "!" + ref.getProofLineLabel() : "")
+            + "}{" + getNodeDisplay(ref.getNodeLabel(), ref.getNode())
+                + (ref.isSubReference() ? " (" + ref.getSubLabel() + ")" : "")
+                + (ref.isProofLineReference() ? " (" + ref.getProofLineLabel() + ")" : "")
+            + "}~\\cite{" + ref.getSubLabel() + "}";
     }
 
-//    public String getReferenceLink(final String reference, final String subReference,
-//            final SourcePosition startPosition, final SourcePosition endPosition) {
-//        final String method = "getReferenceLink(String, String, SourcePosition, SourcePosition)";
-//
-//        // get module label (if any)
-//        String moduleLabel = "";
-//        String localLabel = reference;
-//        int dot = reference.indexOf(".");
-//        if (dot >= 0) {
-//            moduleLabel = reference.substring(0, dot);
-//            localLabel = reference.substring(dot + 1);
-//        }
-//        String fix = "";
-//        if (subReference != null && subReference.length() > 0) {
-//            fix += " (" + subReference + ")";
-//        }
-//        KernelQedeqBo module = getQedeqBo();
-//        if (moduleLabel.length() == 0) {
-//            // check if local reference is in fact a module label
-//            final KernelQedeqBo refModule = module.getKernelRequiredModules()
-//                .getKernelQedeqBo(localLabel);
-//            if (refModule != null) {
-//                moduleLabel = localLabel;
-//                localLabel = "";
-//                module = refModule;
-//                return "[" + moduleLabel + "]";
-//            }
-//        } else {
-//            final KernelQedeqBo refModule = module.getKernelRequiredModules()
-//                .getKernelQedeqBo(moduleLabel);
-//            if (refModule == null) {
-//                module = refModule;
-//                Trace.info(CLASS, this, method, "module not found for " + moduleLabel);
-//                addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
-//                    LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
-//                    + ": " + "module not found for " + reference, startPosition,
-//                    endPosition);
-//                return moduleLabel + "?." + localLabel + fix;
-//            }
-//            module = refModule;
-//        }
-//        if (moduleLabel.length() > 0) {
-//            fix += " [" + moduleLabel + "]";
-//        }
-//        final KernelNodeBo kNode = module.getLabels().getNode(localLabel);
-//        if (kNode != null) {
-//            return getNodeDisplay(kNode) + fix;
-//        } else {
-//            Trace.info(CLASS, this, method, "node not found for " + reference);
-//            addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
-//                LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
-//                + ": " + "node not found for " + reference, startPosition,
-//                endPosition);
-//            return localLabel + "?" + fix;
-//        }
-//    }
-
-    public String getReferenceLink(final String reference) {
-        return getReference(reference, "", null, null);
-//        final String method = "getReferenceLink(String)";
-//        final KernelNodeBo node = getNodeBo();
-//
-//        final String fallback = "[" + reference + "]";
-//        if (node == null) {
-//            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-//                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
-//                    + "\"" + reference + "\"");
-//            final String msg = "Programming error: this method should only be called when parsing a node";
-//            Trace.fatal(CLASS, method, msg, new RuntimeException(msg));
-//            return fallback;
-//        }
-//        if (node.isLocalLabel(reference)) {
-//            return "(" + reference + ")";
-//        }
-//        if (getQedeqBo().getLabels().isNode(reference)) {
-////            return getNodeDisplay(node);
-//        }
-//        String[] split = StringUtility.split(reference, ".");
-//        if (split.length <= 1 || split.length > 3) {
-//            if (split.length <= 1) {
-//                addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-//                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
-//                    + "\"" + reference + "\"");
-//            }
-//            if (split.length > 3) {
-//                addWarning(UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_CODE,
-//                    UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_TEXT
-//                    + "\"" + reference + "\"");
-//            }
-//            return fallback;
-//        }
-//        final String moduleLabel = split[0];
-//        final String nodeLabel = split[1];
-//        String lineLabel = "";
-//        if (split.length == 3) {
-//            lineLabel = " (" + split[2] + ")";
-//        }
-//        final KernelQedeqBo refModule = getQedeqBo().getKernelRequiredModules()
-//            .getKernelQedeqBo(moduleLabel);
-//        if (refModule == null) {
-//            addWarning(UnicodeErrorCodes.MODULE_REFERENCE_NOT_FOUND_CODE,
-//                    UnicodeErrorCodes.MODULE_REFERENCE_NOT_FOUND_TEXT
-//                    + "\"" + reference + "\"");
-//            return moduleLabel + "?." + nodeLabel + lineLabel;
-//        }
-//        lineLabel += " [" + moduleLabel + "]";
-//        final KernelNodeBo kNode = refModule.getLabels().getNode(nodeLabel);
-//        if (kNode != null) {
-//            return getNodeDisplay(kNode) + lineLabel;
-//        } else {
-//            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-//                UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
-//                + "\"" + reference + "\"");
-//            Trace.info(CLASS, this, method, "node not found for " + reference);
-//            return nodeLabel + "?" + lineLabel;
-//        }
-    }
-
-    private String getNodeDisplay(final KernelNodeBo kNode) {
-        String display = "";
+    private String getNodeDisplay(final String label, final KernelNodeBo kNode) {
+        String display = label;
+        if (kNode == null) {
+            return display;
+        }
         QedeqNumbers data = kNode.getNumbers();
         Node node = kNode.getNodeVo();
         if (node.getNodeType() instanceof Axiom) {
@@ -1515,6 +1312,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         return c;
     }
 
+// TODO 20110214 m31: decide about removal
 //    public ModuleContext getCurrentContext() {
 //        throw new IllegalStateException("programming error");
 //    }
@@ -1638,6 +1436,9 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
      * @return  URL to PDF.
      */
     private String getPdfLink(final KernelQedeqBo prop) {
+        if (prop == null) {
+            return "";
+        }
         final String url = prop.getUrl();
         final int dot = url.lastIndexOf(".");
         return url.substring(0, dot) + (language != null ? "_" + language : "") + ".pdf";
