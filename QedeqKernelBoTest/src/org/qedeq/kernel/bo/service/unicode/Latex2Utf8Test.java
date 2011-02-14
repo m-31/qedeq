@@ -52,15 +52,13 @@ public class Latex2Utf8Test extends QedeqBoTestCase {
         finder = new ReferenceFinder() {
             
             public String getReferenceLink(String reference,
-                    String subReference, SourcePosition startDelta,
-                    SourcePosition endDelta) {
+                    SourcePosition startDelta, SourcePosition endDelta) {
                 System.out.println("reference: " + reference);
                 if ("missing".equals(reference)) {
                     addWarning(1, "reference not found: " + reference, startDelta, endDelta);
                     return "[" + reference + "?]";
                 }
-                return "[" + reference + "]"
-                    + (subReference.length() > 0 ? " (" + subReference + ")" : "");
+                return "[" + reference + "]";
             }
             
             public void addWarning(int code, String msg, SourcePosition startDelta,
