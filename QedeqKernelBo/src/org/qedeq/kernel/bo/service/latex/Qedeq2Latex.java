@@ -1191,12 +1191,6 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         }
     }
 
-    // FIXME 20110212 m31: sub as an extra parameter is no good idea: in proof references we have
-    // no subs but in \qref s we have. We write subs as "/" + subLabel and we write references to
-    // proof lines as "!" + lineLabel. Perhaps we should have only one simple
-    // \qref without the optional parameter. If one wants to add a sub reference one
-    // has to add a "/" + subLabel. Analougus with proof line references: just add
-    // a "!" + lineLabel.
     private String getReference(final String reference, final SourcePosition start, final SourcePosition end) {
         final String method = "getReference(String, String)";
         Trace.param(CLASS, this, method, "2 reference", reference);     // qreference within module
