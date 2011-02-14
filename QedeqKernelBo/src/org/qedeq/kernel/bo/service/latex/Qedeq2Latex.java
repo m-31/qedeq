@@ -1177,24 +1177,10 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
                         input.getSourcePosition());
                     continue;
                 }
-                // exists a sub reference?
-                String sub = "";
-                if ('[' == input.getChar(0)) {
-                    input.read();   // read [
-                    int posb = input.getPosition();
-                    if (!input.forward("]")) {
-                        addWarning(LatexErrorCodes.QREF_SUB_END_NOT_FOUND_CODE,
-                            LatexErrorCodes.QREF_SUB_END_NOT_FOUND_TEXT,
-                            startPosition, input.getSourcePosition());;
-                            continue;
-                    }
-                    sub = buffer.substring(posb, input.getPosition());
-                    input.read();   // read ]
-                }
                 final int end = input.getPosition();
                 final SourcePosition endPosition = input.getSourcePosition();
                 result.append(buffer.substring(last, start));
-                result.append(getReference(ref, sub, startPosition, endPosition));
+                result.append(getReference(ref, startPosition, endPosition));
                 last = end;
             }
         } finally { // thanks to findbugs
@@ -1211,18 +1197,23 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
     // \qref without the optional parameter. If one wants to add a sub reference one
     // has to add a "/" + subLabel. Analougus with proof line references: just add
     // a "!" + lineLabel.
-    private String getReference(final String reference, final String sub,
-            final SourcePosition start, final SourcePosition end) {
+    private String getReference(final String reference, final SourcePosition start, final SourcePosition end) {
         final String method = "getReference(String, String)";
+        if (reference.indexOf("!") >= 0 && reference.indexOf("/") >= 0) {
+// 
+            ++++
+            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
+                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
+                    + "\"" + reference + "\"");
+        }
+        
         Trace.param(CLASS, this, method, "2 reference", reference);     // qreference within module
-        Trace.param(CLASS, this, method, "2 sub", sub);                 // sub reference (if any)
 
         KernelNodeBo node = getNodeBo();
 
         if (node != null && node.isLocalLabel(reference)) {
             return "\\hyperref[" + node.getNodeVo().getId() + ":" + reference + "]{" + "("
-                + reference + ")" + (sub.length() > 0 ? " (" + sub + ")" : "")
-                + "}";
+                + reference + ")" + "}";
         }
 
         if (getQedeqBo().getLabels().isNode(reference)) {
