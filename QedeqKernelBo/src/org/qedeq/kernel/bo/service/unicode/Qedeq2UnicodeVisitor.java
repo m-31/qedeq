@@ -29,7 +29,7 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.latex.LatexErrorCodes;
+import org.qedeq.kernel.bo.module.Reference;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -588,7 +588,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         final String context = getCurrentContext().getLocationWithinModule();
         try {
             getCurrentContext().setLocationWithinModule(context + "." + subContext);
-            return (getReferenceLink(reference));
+            return (getReferenceLink(reference, null, null));
         } finally {
             getCurrentContext().setLocationWithinModule(context);
         }
@@ -858,7 +858,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
         for (int i = 0; i < linkList.size(); i++) {
             if (linkList.get(i) != null) {
-                printer.print(" \\ref{" + linkList.get(i) + "}");
+                printer.print(" (" + linkList.get(i) + ")");
             }
         };
         printer.println();
@@ -1140,128 +1140,41 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         printer.println();
     }
 
-    public String getReferenceLink(final String reference, final String subReference,
-            final SourcePosition startPosition, final SourcePosition endPosition) {
-        final String method = "getReferenceLink(String, String, SourcePosition, SourcePosition)";
+    public String getReferenceLink(final String reference, final SourcePosition start,
+            final SourcePosition end) {
+        final Reference ref = getReference(reference, getCurrentContext(start, end), true, false);
 
-        // FIXME 20110209 m31: we must also support proof line links, so a.b might not be module import a with node b
-        // but node a with proof line b
+        if (ref.isNodeLocalReference() && ref.isSubReference()) {
+            return "(" + ref.getSubLabel() + ")";
+        }
 
-        // get module label (if any)
-        String moduleLabel = "";
-        String localLabel = reference;
-        int dot = reference.indexOf(".");
-        if (dot >= 0) {
-            moduleLabel = reference.substring(0, dot);
-            localLabel = reference.substring(dot + 1);
+        if (ref.isNodeLocalReference() && ref.isProofLineReference()) {
+            return "(" + ref.getProofLineLabel() + ")";
         }
-        String fix = "";
-        if (subReference != null && subReference.length() > 0) {
-            fix += " (" + subReference + ")";
+
+        if (!ref.isExternal()) {
+            return getNodeDisplay(ref.getNodeLabel(), ref.getNode())
+                + (ref.isSubReference() ? " (" + ref.getSubLabel() + ")" : "")
+                + (ref.isProofLineReference() ? " (" + ref.getProofLineLabel() + ")" : "");
         }
-        KernelQedeqBo module = getQedeqBo();
-        if (moduleLabel.length() == 0) {
-            // check if local reference is in fact a module label
-            final KernelQedeqBo refModule = module.getKernelRequiredModules()
-                .getKernelQedeqBo(localLabel);
-            if (refModule != null) {
-                moduleLabel = localLabel;
-                localLabel = "";
-                module = refModule;
-                return "[" + moduleLabel + "]";
-            }
-        } else {
-            final KernelQedeqBo refModule = module.getKernelRequiredModules()
-                .getKernelQedeqBo(moduleLabel);
-            if (refModule == null) {
-                module = refModule;
-                Trace.info(CLASS, this, method, "module not found for " + moduleLabel);
-                addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
-                    LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
-                    + ": " + "module not found for " + reference, startPosition,
-                    endPosition);
-                return moduleLabel + "?." + localLabel + fix;
-            }
-            module = refModule;
+
+        // do we have an external module reference without node?
+        if (ref.isExternalModuleReference()) {
+            return "[" + ref.getExternalQedeqLabel() + "]";
         }
-        if (moduleLabel.length() > 0) {
-            fix += " [" + moduleLabel + "]";
-        }
-        final KernelNodeBo kNode = module.getLabels().getNode(localLabel);
-        if (kNode != null) {
-            return getNodeDisplay(kNode) + fix;
-        } else {
-            Trace.info(CLASS, this, method, "node not found for " + reference);
-            addWarning(LatexErrorCodes.QREF_PARSING_EXCEPTION_CODE,
-                LatexErrorCodes.QREF_PARSING_EXCEPTION_TEXT
-                + ": " + "node not found for " + reference, startPosition,
-                endPosition);
-            return localLabel + "?" + fix;
-        }
+
+        return getNodeDisplay(ref.getNodeLabel(), ref.getNode())
+                + (ref.isSubReference() ? " (" + ref.getSubLabel() + ")" : "")
+                + (ref.isProofLineReference() ? " (" + ref.getProofLineLabel() + ")" : "")
+            + " [" + ref.getSubLabel() + "]";
     }
 
-    public String getReferenceLink(final String reference) {
-        final String method = "getReferenceLink(String)";
-        final KernelNodeBo node = getNodeBo();
 
-        final String fallback = "[" + reference + "]";
-        if (node == null) {
-            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
-                    + "\"" + reference + "\"");
-            final String msg = "Programming error: this method should only be called when parsing a node";
-            Trace.fatal(CLASS, method, msg, new RuntimeException(msg));
-            return fallback;
+    private String getNodeDisplay(final String label, final KernelNodeBo kNode) {
+        String display = label;
+        if (kNode == null) {
+            return display;
         }
-        if (node.isLocalLabel(reference)) {
-            return "(" + reference + ")";
-        }
-        if (getQedeqBo().getLabels().isNode(reference)) {
-            return getNodeDisplay(getQedeqBo().getLabels().getNode(reference));
-        }
-        String[] split = StringUtility.split(reference, ".");
-        if (split.length <= 1 || split.length > 3) {
-            if (split.length <= 1) {
-                addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-                    UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
-                    + "\"" + reference + "\"");
-            }
-            if (split.length > 3) {
-                addWarning(UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_CODE,
-                    UnicodeErrorCodes.NODE_REFERENCE_HAS_MORE_THAN_TWO_DOTS_TEXT
-                    + "\"" + reference + "\"");
-            }
-            return fallback;
-        }
-        final String moduleLabel = split[0];
-        final String nodeLabel = split[1];
-        String lineLabel = "";
-        if (split.length == 3) {
-            lineLabel = " (" + split[2] + ")";
-        }
-        final KernelQedeqBo refModule = getQedeqBo().getKernelRequiredModules()
-            .getKernelQedeqBo(moduleLabel);
-        if (refModule == null) {
-            addWarning(UnicodeErrorCodes.MODULE_REFERENCE_NOT_FOUND_CODE,
-                    UnicodeErrorCodes.MODULE_REFERENCE_NOT_FOUND_TEXT
-                    + "\"" + reference + "\"");
-            return moduleLabel + "?." + nodeLabel + lineLabel;
-        }
-        lineLabel += " [" + moduleLabel + "]";
-        final KernelNodeBo kNode = refModule.getLabels().getNode(nodeLabel);
-        if (kNode != null) {
-            return getNodeDisplay(kNode) + lineLabel;
-        } else {
-            addWarning(UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_CODE,
-                UnicodeErrorCodes.NODE_REFERENCE_NOT_FOUND_TEXT
-                + "\"" + reference + "\"");
-            Trace.info(CLASS, this, method, "node not found for " + reference);
-            return nodeLabel + "?" + lineLabel;
-        }
-    }
-
-    private String getNodeDisplay(final KernelNodeBo kNode) {
-        String display = "";
         QedeqNumbers data = kNode.getNumbers();
         Node node = kNode.getNodeVo();
         if (node.getNodeType() instanceof Axiom) {
