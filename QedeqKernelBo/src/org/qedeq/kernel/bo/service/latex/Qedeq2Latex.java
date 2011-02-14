@@ -1329,18 +1329,6 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
     }
 
     /**
-     * Add warning.
-     *
-     * @param   code        Warning code.
-     * @param   msg         Warning message.
-     *                      be <code>null</code>
-     */
-    private void addWarning(final int code, final String msg) {
-        Trace.param(CLASS, this, "addWarning", "msg", msg);
-        addWarning(new LatexContentException(code, msg, getCurrentContext(null, null)));
-    }
-
-    /**
      * Get text to display for a link.
      * LATER m31 20100308: refactor language dependent code
      *
