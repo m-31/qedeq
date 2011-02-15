@@ -82,7 +82,6 @@ import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
-import org.qedeq.kernel.se.visitor.QedeqNumbers;
 
 
 /**
