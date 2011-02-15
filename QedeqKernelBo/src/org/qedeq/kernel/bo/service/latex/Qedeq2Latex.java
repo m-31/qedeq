@@ -1283,8 +1283,8 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
 
     /**
      * Get URL to for PDF version of module.
-     * FIXME 20101222 m31: this doesn't work if module or referenced module
-     *  languages don't match. E.g. if the referenced module has only the
+     * FIXME 20101222 m31: this doesn't work if module or referenced module languages don't match.
+     *  E.g. if the referenced module has only the
      *  "en" or default (language=null) language and the current is written
      *  with language "de". Each KernelQedeqBo must have the language information
      *  as method. Every module must have at least one explicit language (!= null)
