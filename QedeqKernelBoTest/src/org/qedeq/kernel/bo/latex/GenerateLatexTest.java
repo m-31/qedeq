@@ -57,12 +57,12 @@ public class GenerateLatexTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testGeneration() throws Exception {
-        generate(getDocDir(), "math/qedeq_logic_v1.xml", getGenDir(), false);
-        generate(getDocDir(), "math/qedeq_sample1.xml", getGenDir(), false);
-        generate(getDocDir(), "math/qedeq_sample2.xml", getGenDir(), false);
-        generate(getDocDir(), "math/qedeq_set_theory_v1.xml", getGenDir(), false);
-        generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false);
-        generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true);
+        generate(getDocDir(), "math/qedeq_logic_v1.xml", getGenDir(), false, false);
+        generate(getDocDir(), "math/qedeq_sample1.xml", getGenDir(), false, false);
+        generate(getDocDir(), "math/qedeq_sample2.xml", getGenDir(), false, false);
+        generate(getDocDir(), "math/qedeq_set_theory_v1.xml", getGenDir(), false, false);
+        generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false, false);
+        generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true, false);
     }
 
     /**
@@ -72,14 +72,61 @@ public class GenerateLatexTest extends QedeqBoTestCase {
      */
     public void testGeneration2() throws Exception {
         System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
-        generate(getIndir(), "proof/proof_001.xml", getGenDir(), true);
-        generate(getIndir(), "proof/proof_002.xml", getGenDir(), true);
+        generate(getIndir(), "proof/proof_001.xml", getGenDir(), true, false);
+        generate(getIndir(), "proof/proof_002.xml", getGenDir(), true, true);
         System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
+    }
+
+    /**
+     * Generate some example documents.
+     *
+     * @throws Exception
+     */
+    public void testNegativeGeneration2() throws Exception {
+        System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
+        try {
+            generate(getIndir(), "proof/proof_002.xml", getGenDir(), true, false);
+        } catch (SourceFileExceptionList list) {
+            DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
+            assertEquals(6, ex.size());
+            SourceFileException e0 = ex.get(0);
+            assertTrue(e0.getCause() instanceof ModuleDataException);
+            assertEquals(6100017, e0.getErrorCode());
+            assertEquals(317, e0.getSourceArea().getStartPosition().getRow());
+            assertEquals(24, e0.getSourceArea().getStartPosition().getColumn());
+            SourceFileException e1 = ex.get(1);
+            assertTrue(e1.getCause() instanceof ModuleDataException);
+            assertEquals(610007, e1.getErrorCode());
+            assertEquals(339, e1.getSourceArea().getStartPosition().getRow());
+            assertEquals(24, e1.getSourceArea().getStartPosition().getColumn());
+            SourceFileException e2 = ex.get(2);
+            assertTrue(e2.getCause() instanceof ModuleDataException);
+            assertEquals(610007, e2.getErrorCode());
+            assertEquals(481, e2.getSourceArea().getStartPosition().getRow());
+            assertEquals(23, e2.getSourceArea().getStartPosition().getColumn());
+            SourceFileException e3 = ex.get(3);
+            assertTrue(e3.getCause() instanceof ModuleDataException);
+            assertEquals(610011, e3.getErrorCode());
+            assertEquals(1173, e3.getSourceArea().getStartPosition().getRow());
+            assertEquals(34, e3.getSourceArea().getStartPosition().getColumn());
+            SourceFileException e4 = ex.get(4);
+            assertTrue(e4.getCause() instanceof ModuleDataException);
+            assertEquals(610011, e4.getErrorCode());
+            assertEquals(1282, e4.getSourceArea().getStartPosition().getRow());
+            assertEquals(23, e4.getSourceArea().getStartPosition().getColumn());
+            SourceFileException e5 = ex.get(5);
+            assertTrue(e5.getCause() instanceof ModuleDataException);
+            assertEquals(610011, e5.getErrorCode());
+            assertEquals(1282, e5.getSourceArea().getStartPosition().getRow());
+            assertEquals(37, e5.getSourceArea().getStartPosition().getColumn());
+        } finally {
+            System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
+        }
     }
 
     public void testNegative02() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample2_error.xml", "de", new File(getGenDir(), "null"));
+            generate(getIndir(), "qedeq_sample2_error.xml", "de", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -94,7 +141,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative03() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample3_error.xml", "en", new File(getGenDir(), "null"));
+            generate(getIndir(), "qedeq_sample3_error.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -111,7 +158,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative04() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample4_error.xml", "en", new File(getGenDir(), "null"));
+            generate(getIndir(), "qedeq_sample4_error.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -170,7 +217,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative05() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample5_error.xml", "en", new File(getGenDir(), "null"));
+            generate(getIndir(), "qedeq_sample5_error.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -185,7 +232,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative06() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample6_error.xml", "en", new File(getGenDir(), "null"));
+            generate(getIndir(), "qedeq_sample6_error.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -200,7 +247,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative07() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample7_error.xml", "en", new File(getGenDir(), "null"));
+            generate(getIndir(), "qedeq_sample7_error.xml", "en", new File(getGenDir(), "null"), false);
             fail("IllegalModuleDataException expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -215,7 +262,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
 
     public void testNegative08() throws IOException {
         try {
-            generate(getIndir(), "qedeq_sample8_error.xml", "en", new File(getGenDir(), "null"));
+            generate(getIndir(), "qedeq_sample8_error.xml", "en", new File(getGenDir(), "null"), false);
             fail("SourceFileExceptionList expected");
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
@@ -236,28 +283,31 @@ public class GenerateLatexTest extends QedeqBoTestCase {
      * @param xml Relative path to XML file. Must not be <code>null</code>.
      * @param destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
      * @param onlyEn Generate only for language "en".
+     * @param   ignoreWarnings          Don't bother about warnings?
      * @throws Exception Failure.
      */
     public void generate(final File dir, final String xml, final File destinationDirectory,
-            final boolean onlyEn) throws Exception {
-        generate(dir, xml, "en", destinationDirectory);
+            final boolean onlyEn, final boolean ignoreWarnings) throws Exception {
+        generate(dir, xml, "en", destinationDirectory, ignoreWarnings);
         if (!onlyEn) {
-            generate(dir, xml, "de", destinationDirectory);
+            generate(dir, xml, "de", destinationDirectory, ignoreWarnings);
         }
     }
 
     /**
      * Call the generation of one LaTeX file and copy XML source to same destination directory.
      *
-     * @param dir Start directory.
-     * @param xml Relative path to XML file. Must not be <code>null</code>.
-     * @param language Generate text in this language. Can be <code>null</code>.
-     * @param destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
-     * @throws IOException File IO failed.
-     * @throws XmlFilePositionException File data is invalid.
+     * @param   dir                     Start directory.
+     * @param   xml                     Relative path to XML file. Must not be <code>null</code>.
+     * @param   language                Generate text in this language. Can be <code>null</code>.
+     * @param   destinationDirectory    Directory path for LaTeX file. Must not be <code>null</code>.
+     * @param   ignoreWarnings          Don't bother about warnings?
+     * @throws  IOException             File IO failed.
+     * @throws  XmlFilePositionException File data is invalid.
      */
     public void generate(final File dir, final String xml, final String language,
-            final File destinationDirectory) throws IOException, SourceFileExceptionList {
+            final File destinationDirectory, final boolean ignoreWarnings) throws IOException,
+            SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(xmlFile));
@@ -311,6 +361,9 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         IoUtility.createNecessaryDirectories(xmlCopy);
         IoUtility.copyFile(xmlFile, xmlCopy);
         IoUtility.copyFile(texFile, texCopy);
+        if (!ignoreWarnings && webBo.hasWarnings()) {
+            throw webBo.getWarnings();
+        }
     }
 
     /**

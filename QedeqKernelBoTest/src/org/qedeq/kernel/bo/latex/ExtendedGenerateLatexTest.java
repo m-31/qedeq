@@ -56,13 +56,15 @@ public final class ExtendedGenerateLatexTest extends GenerateLatexTest {
      * @param   xml         Relative path to XML file. Must not be <code>null</code>.
      * @param   destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
      * @param   onlyEn      Generate only for language "en".
+     * @param   ignoreWarnings          Don't bother about warnings?
      * @throws  Exception   Failure.
      */
     public void generate(final File dir, final String xml,
-        final File destinationDirectory, final boolean onlyEn) throws Exception {
-        generate(dir, xml, "en", destinationDirectory);
+        final File destinationDirectory, final boolean onlyEn, final boolean ignoreWarnings)
+            throws Exception {
+        generate(dir, xml, "en", destinationDirectory, ignoreWarnings);
         if (!onlyEn) {
-            generate(dir, xml, "de", destinationDirectory);
+            generate(dir, xml, "de", destinationDirectory, ignoreWarnings);
         }
         QedeqBoFactoryTest.loadQedeqAndAssertContext(new File(dir, xml));
     }
