@@ -72,7 +72,8 @@ public class GenerateLatexTest extends QedeqBoTestCase {
      */
     public void testGeneration2() throws Exception {
         System.setProperty("qedeq.test.xmlLocationFailures", Boolean.TRUE.toString());
-        generate(getIndir(), "proof/proof_001.xml", getGenDir(), false);
+        generate(getIndir(), "proof/proof_001.xml", getGenDir(), true);
+        generate(getIndir(), "proof/proof_002.xml", getGenDir(), true);
         System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
     }
 
