@@ -269,8 +269,11 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
             final boolean addWarning, final boolean addError) {
         // get node we are currently in
         KernelNodeBo node = getNodeBo();
-        final Reference fallback = new DefaultReference(node, null, "", null, reference + "?", "", "");
-
+        final Reference fallback = new DefaultReference(node, null, "", null,
+            (reference != null ? reference : "") + "?", "", "");
+        if (reference == null || reference.length() <= 0) {
+            return fallback;
+        }
         if (reference.indexOf("!") >= 0 && reference.indexOf("/") >= 0) {
             if (addWarning) {
                 addWarning(new ReferenceLinkException(
@@ -285,18 +288,15 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
                             + "\"" + reference + "\"", context));
             }
         }
-
         // is the reference a pure proof line label?
         if (node != null && node.isLocalLabel(reference)) {
             return new DefaultReference(node, null, "", node, node.getNodeVo().getId(), "", reference);
         }
-
         // is the reference a pure node label?
         if (getQedeqBo().getLabels().isNode(reference)) {
             return new DefaultReference(node, null, "", getQedeqBo().getLabels().getNode(
                 reference), reference, "", "");
         }
-
         // do we have an external module reference without node?
         if (getQedeqBo().getLabels().isModule(reference)) {
             return new DefaultReference(node,
