@@ -367,7 +367,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             throw xl;
         }
         prop.setQedeqVo(vo);
-        // FIXME 20110213 m31: perhaps we need a new state, pre loaded? So when we put more
+        // TODO 20110213 m31: perhaps we need a new state, pre loaded? So when we put more
         // label testing into the moduleLabelCreator, we still can launch some plugins
         // On the other side: Label checking is only possible, if all referenced modules can
         // be loaded.
