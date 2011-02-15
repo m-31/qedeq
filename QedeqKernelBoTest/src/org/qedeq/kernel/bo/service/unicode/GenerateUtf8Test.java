@@ -25,8 +25,6 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Executor;
-import org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
@@ -35,8 +33,8 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * Test generating LaTeX files for all known samples.
+ * TODO 20110215 m31: perhaps support more LaTeX commands for unicode generation
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class GenerateUtf8Test extends QedeqBoTestCase {
@@ -44,18 +42,44 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
     /** This class. */
     private static final Class CLASS = GenerateUtf8Test.class;
 
-    /**
-     * Start main process.
-     *
-     * @throws Exception
-     */
-    public void testGeneration() throws Exception {
-        generate(getDocDir(), "math/qedeq_logic_v1.xml", getGenDir(), false);
-        generate(getDocDir(), "math/qedeq_sample1.xml", getGenDir(), false);
+    public void testGeneration1() throws Exception {
+        try {
+            generate(getDocDir(), "math/qedeq_logic_v1.xml", getGenDir(), false);
+        } catch (SourceFileExceptionList e) {
+            assertEquals(2, e.size());
+        }
+    }
+
+    public void testGeneration2() throws Exception {
+        try {
+            generate(getDocDir(), "math/qedeq_sample1.xml", getGenDir(), false);
+        } catch (SourceFileExceptionList e) {
+            assertEquals(2, e.size());
+        }
+    }
+
+    public void testGeneration3() throws Exception {
         generate(getDocDir(), "math/qedeq_sample2.xml", getGenDir(), false);
+    }
+
+    public void testGeneration4() throws Exception {
         generate(getDocDir(), "math/qedeq_set_theory_v1.xml", getGenDir(), false);
-        generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false);
-        generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true);
+    }
+
+    public void testGeneration5() throws Exception {
+        try {
+            generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false);
+        } catch (SourceFileExceptionList e) {
+            assertEquals(6, e.size());
+        }
+    }
+
+    public void testGeneration6() throws Exception {
+        try {
+            generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true);
+        } catch (SourceFileExceptionList e) {
+            assertEquals(15, e.size());
+        }
     }
 
     /**
@@ -127,6 +151,12 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         IoUtility.createNecessaryDirectories(xmlCopy);
         IoUtility.copyFile(xmlFile, xmlCopy);
         IoUtility.copyFile(texFile, texCopy);
+        if (webBo.hasErrors()) {
+            throw webBo.getErrors();
+        }
+        if (webBo.hasWarnings()) {
+            throw webBo.getWarnings();
+        }
     }
 
     /**

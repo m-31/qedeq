@@ -361,6 +361,9 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         IoUtility.createNecessaryDirectories(xmlCopy);
         IoUtility.copyFile(xmlFile, xmlCopy);
         IoUtility.copyFile(texFile, texCopy);
+        if (webBo.hasErrors()) {
+            throw webBo.getErrors();
+        }
         if (!ignoreWarnings && webBo.hasWarnings()) {
             throw webBo.getWarnings();
         }
