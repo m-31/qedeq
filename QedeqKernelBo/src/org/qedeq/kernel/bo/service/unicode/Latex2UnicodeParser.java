@@ -387,6 +387,11 @@ public final class Latex2UnicodeParser {
             output.pushLevel("   ");
             parseAndPrint(content);
             output.popLevel(3);
+        } else if ("verbatim".equals(kind)) {
+            final String level = output.getLevel();
+            output.setLevel("");
+            print(content.asString());
+            output.setLevel(level);
         } else {
             parseAndPrint(content);
         }

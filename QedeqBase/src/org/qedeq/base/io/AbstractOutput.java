@@ -307,6 +307,16 @@ public abstract class AbstractOutput {
     }
 
     /**
+     * Set current tab string.
+     *
+     * @param   level   Tab string.
+     */
+    public final void setLevel(final String level) {
+        spaces.setLength(0);
+        spaces.append(level);
+    }
+
+    /**
      * Increment tab level.
      */
     public final void pushLevel() {
