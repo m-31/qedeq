@@ -162,11 +162,11 @@
               \multicolumn{2}{l@{}}{\qquad\emph{variables}} \vspace*{1mm} \\
               \emph{VAR}      & subject variables           & $x, y, z, \ldots$ \\
               \emph{PREDVAR}  & predicate variables         & $A, B, R, \ldots$ \\
-              \emph{FUNCVAR}  & function variables          & $f, g, h, \ldots$ \\
+              \emph{FUNVAR}   & function variables          & $f, g, h, \ldots$ \\
               \\
               \multicolumn{2}{l@{}}{\qquad\emph{constants}} \vspace*{1mm} \\
               \emph{PREDCON}  & predicate constants         & $=, \in, \subseteq, \ldots$ \\
-              \emph{FUNCCON}  & function constants          & $\emptyset, \mathfrak{P}, \ldots$  \\
+              \emph{FUNCON }  & function constants          & $\emptyset, \mathfrak{P}, \ldots$  \\
               \emph{CLASS}    & class term                  & $ \{ x | \phi(x) \}$ 
             \end{tabularx}
 
@@ -507,9 +507,7 @@
               )
             )
             \end{verbatim}
-            
-            Due to XSD restrictions for the XML document some error codes listed in Chapter~\ref{chapter0} will not occur. Instead the XML will be classified as invalid.
-            
+
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -630,4 +628,45 @@
       </INTRODUCTION>
     </SECTION>
   </CHAPTER>
+
+  <CHAPTER>
+    <TITLE>
+      <LATEX>Elementary Proof Rules</LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX>
+        <![CDATA[
+          To get new formulas from already proven or given ones we introduce proof rules.
+        ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX>Rules</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX>
+          <![CDATA[
+            Before we introduce the proof methods in detail the rules are briefly listed. 
+
+            \par
+            \begin{tabularx}{\columnwidth}{lll}
+              \multicolumn{2}{l@{}}{\qquad\emph{logical}} \vspace*{1mm} \\
+              \emph{MP}          & modus ponens                  & $A, A \land B$ $\rightarrow B$ \\
+              \emph{Add}         & add already proven formula    & $\lor$ \\
+              \emph{Rename}      & logical implication operator   & $\rightarrow$ \\
+              \emph{SubstFree}   & logical implication operator   & $\rightarrow$ \\
+              \emph{SubstPred}   & logical implication operator   & $\rightarrow$ \\
+              \emph{SubstFunc}   & logical implication operator   & $\rightarrow$ \\
+              \emph{Universal}   & logical implication operator   & $\rightarrow$ \\
+              \emph{Existential} & logical implication operator   & $\rightarrow$ \\
+            \end{tabularx}
+
+
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
+  </CHAPTER>
+
 </QEDEQ>
