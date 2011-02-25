@@ -543,18 +543,19 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                 prefix + "doc/project/qedeq_logic_language.xml",
                 prefix + "sample/qedeq_sample1.xml",
                 prefix + "sample/qedeq_sample2.xml",
+                prefix + "sample/qedeq_sample3.xml",
                 prefix + "sample/qedeq_error_sample_00.xml",
                 prefix + "sample/qedeq_error_sample_01.xml",
                 prefix + "sample/qedeq_error_sample_02.xml",
                 prefix + "sample/qedeq_error_sample_03.xml",
                 prefix + "sample/qedeq_error_sample_04.xml",
-                prefix + "sample/qedeq_sample2_error.xml",
-                prefix + "sample/qedeq_sample3_error.xml",
-                prefix + "sample/qedeq_sample4_error.xml",
-                prefix + "sample/qedeq_sample5_error.xml",
-                prefix + "sample/qedeq_sample6_error.xml",
-                prefix + "sample/qedeq_sample7_error.xml",
-                prefix + "sample/qedeq_sample8_error.xml", };
+                prefix + "sample/qedeq_error_sample_12.xml",
+                prefix + "sample/qedeq_error_sample_13.xml",
+                prefix + "sample/qedeq_error_sample_14.xml",
+                prefix + "sample/qedeq_error_sample_15.xml",
+                prefix + "sample/qedeq_error_sample_16.xml",
+                prefix + "sample/qedeq_error_sample_17.xml",
+                prefix + "sample/qedeq_error_sample_18.xml"};
             boolean errors = false;
             for (int i = 0; i < list.length; i++) {
                 try {
