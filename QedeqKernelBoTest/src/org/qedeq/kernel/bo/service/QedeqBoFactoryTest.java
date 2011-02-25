@@ -64,7 +64,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
         KernelFacade.startup();
         try {
             okFile = getFile("qedeq_sample1.xml");
-            errorFile = getFile("qedeq_sample2_error.xml");
+            errorFile = getFile("qedeq_error_sample_12.xml");
             ok = (Qedeq) ObjectProxy.createProxy(createQedeqFromFile(okFile));
             ok.getHeader().getAuthorList().get(0);
             assertTrue(DynamicGetter.get(ok, "getHeader().getAuthorList().get(0)") instanceof Author);
