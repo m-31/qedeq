@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_01/xml/qedeq.xsd">
@@ -69,7 +69,7 @@
         Basics
       </LATEX>
       <LATEX language="de">
-        Anfangsgründe
+        AnfangsgrÃ¼nde
       </LATEX>
     </TITLE>
     <INTRODUCTION>
@@ -80,7 +80,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          In diesem Kapitel beginnen wir mit den ganz elementaren Axiomen und Definitionen der Mengenlehre. Wir versuchen nicht eine formale Sprache einzuführen und setzen das Wissen um den Gebrauch von logischen Symbolen voraus. Noch genauer formuliert: wir arbeiten mit einer Prädikatenlogik erster Stufe mit Gleichheit.
+          In diesem Kapitel beginnen wir mit den ganz elementaren Axiomen und Definitionen der Mengenlehre. Wir versuchen nicht eine formale Sprache einzufÃ¼hren und setzen das Wissen um den Gebrauch von logischen Symbolen voraus. Noch genauer formuliert: wir arbeiten mit einer PrÃ¤dikatenlogik erster Stufe mit Gleichheit.
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -94,14 +94,14 @@
           <![CDATA[
             Although we want to speak about \emph{sets} at the very beginning we have \emph{classes}. No formal definition of a class will be given. Informally, a class is a collection of objects, the involved objects are called the elements or members of the class. 
             Sets will be construed as a special kind of class. 
-            The following definitions and axioms are due to a strengthened version of \emph{von~Neumann-Bernays-Gödel's} set theory (\emph{NBG}). This version is called \emph{MK} which is short for \emph{Morse-Kelley}. 
+            The following definitions and axioms are due to a strengthened version of \emph{von~Neumann-Bernays-GÃ¶del's} set theory (\emph{NBG}). This version is called \emph{MK} which is short for \emph{Morse-Kelley}. 
           ]]>
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Obgleich wir im Wesentlichen über \emph{Mengen} sprechen wollen, haben wir am Anfang nur \emph{Klassen}. Dieser Begriff wird nicht formal definiert. Anschaulich gesprochen, ist eine Klasse eine Zusammenfassung von Objekten. Die beteiligten Objekte heissen auch Elemente der Klasse.
+            Obgleich wir im Wesentlichen Ã¼ber \emph{Mengen} sprechen wollen, haben wir am Anfang nur \emph{Klassen}. Dieser Begriff wird nicht formal definiert. Anschaulich gesprochen, ist eine Klasse eine Zusammenfassung von Objekten. Die beteiligten Objekte heissen auch Elemente der Klasse.
             Mengen werden dann als eine besondere Art von Klassen charakterisiert. 
-            Die folgenden Definitionen und Axiome folgen dem Aufbau einer vereinfachten Version der Mengenlehre nach \emph{von~Neumann-Bernays-Gödel}. Diese Version wird auch \emph{MK} nach \emph{Morse-Kelley} genannt.
+            Die folgenden Definitionen und Axiome folgen dem Aufbau einer vereinfachten Version der Mengenlehre nach \emph{von~Neumann-Bernays-GÃ¶del}. Diese Version wird auch \emph{MK} nach \emph{Morse-Kelley} genannt.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -121,7 +121,7 @@
             </LATEX>
             <LATEX language="de">
               Die hier vorgestellte Mengenlehre hat als Ausgangsobjekte \emph{Klassen}.
-              Weiterhin wird eine binäre Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
+              Weiterhin wird eine binÃ¤re Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
             </LATEX>
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="2" name="in">
@@ -141,7 +141,7 @@
             <LATEX language="de">
               <![CDATA[
                 Wir sagen auch $x$ \emph{ist Element von} $y$.
-                Neben der Gleichheit ist dies das einzige Prädikat welches wir zu Beginn haben. Alle anderen werden definiert.\footnote{Das Gleichheitsprädikat könnte auch innerhalb der Mengenlehre definiert werden, aber dann wird auch ein Axiom benötigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Gleichheitsaxiome.}
+                Neben der Gleichheit ist dies das einzige PrÃ¤dikat welches wir zu Beginn haben. Alle anderen werden definiert.\footnote{Das GleichheitsprÃ¤dikat kÃ¶nnte auch innerhalb der Mengenlehre definiert werden, aber dann wird auch ein Axiom benÃ¶tigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Gleichheitsaxiome.}
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -149,18 +149,18 @@
         <NODE id="axiom:extensionality">
           <NAME>
             <LATEX language="en">axiom of extensionality</LATEX>
-            <LATEX language="de">Extensionalitätsaxiom</LATEX>
+            <LATEX language="de">ExtensionalitÃ¤tsaxiom</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Axiom of Extensionality</LATEX>
-            <LATEX language="de">Extensionalitätsaxiom</LATEX>
+            <LATEX language="de">ExtensionalitÃ¤tsaxiom</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
                Our first axiom states that, for any classes $x$ and $y$, if the membership of $x$ and $y$ are the same, then $x$ and $y$ are the same.\footnote{If equality were not part of our underlying logic, then we should need to take this as a definition of equality.}
             </LATEX>
             <LATEX language="de">
-               Unser erstes Axiom besagt, dass beliebige Klassen $x$ und $y$ genau dann gleich sind, wenn sie dieselben Elemente enthalten.\footnote{Falls wir das Gleichheitsprädikat nicht als logisches Symbol voraussetzen würden, dann würden wir es hiermit definieren.}
+               Unser erstes Axiom besagt, dass beliebige Klassen $x$ und $y$ genau dann gleich sind, wenn sie dieselben Elemente enthalten.\footnote{Falls wir das GleichheitsprÃ¤dikat nicht als logisches Symbol voraussetzen wÃ¼rden, dann wÃ¼rden wir es hiermit definieren.}
             </LATEX>
           </PRECEDING>
           <AXIOM>
@@ -207,11 +207,11 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die Klassen $x$ and $y$ können verschieden definiert sein, beispielsweise:
+                Die Klassen $x$ and $y$ kÃ¶nnen verschieden definiert sein, beispielsweise:
                 \par
                 \begin{tabularx}{\linewidth}{rcX}
                   $x$ & = & Klasse aller nichtnegativen ganzen Zahlen, \\
-                  $y$ & = & Klasse aller ganzen Zahlen, die als Summe von vier Quadraten geschreiben werden können,
+                  $y$ & = & Klasse aller ganzen Zahlen, die als Summe von vier Quadraten geschreiben werden kÃ¶nnen,
                 \end{tabularx}
                 \par
                 aber wenn sie dieselben Elemente besitzen, sind sie gleich.
@@ -270,7 +270,7 @@
                As a consequence of the axiom of extensionality we have the following.\footnote{The quantification over $z$ is restricted to sets.}
             </LATEX>
             <LATEX language="de">
-               Als erste Folgerung aus dem Extensionalitätsaxiom erhalten wir das Folgende.\footnote{Es wird ein eingeschränkter Allquantor benutzt, $z$ läuft nur über Mengen.}
+               Als erste Folgerung aus dem ExtensionalitÃ¤tsaxiom erhalten wir das Folgende.\footnote{Es wird ein eingeschrÃ¤nkter Allquantor benutzt, $z$ lÃ¤uft nur Ã¼ber Mengen.}
             </LATEX>
           </PRECEDING>
           <THEOREM>
@@ -304,7 +304,7 @@
                  Assume $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Let $z$ be an arbitrary class. If $z \in x$ then $z$ is a set by definition~\ref{isSet}, and hence by the assumption, $z \in y$. Similarly $z \in y \ \rightarrow \ z \in x$. Since $z$ is arbitrary, it follows that $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Thus by the axiom of extensionality~\ref{axiom:extensionality}, $x = y$. 
               </LATEX>
               <LATEX language="de">
-                 Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $z$ eine beliebige Klasse. Falls $z \in x$ dann gilt $z$ ist eine Menge nach Definition~\ref{isSet}, und daraus folgt mit der Annahme $z \in y$. Analog folgt $z \in y \ \rightarrow \ z \in x$. Da $z$ beliebig, haben wir $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Und mit dem Extensionalitätsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$. 
+                 Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $z$ eine beliebige Klasse. Falls $z \in x$ dann gilt $z$ ist eine Menge nach Definition~\ref{isSet}, und daraus folgt mit der Annahme $z \in y$. Analog folgt $z \in y \ \rightarrow \ z \in x$. Da $z$ beliebig, haben wir $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Und mit dem ExtensionalitÃ¤tsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$. 
               </LATEX>
             </PROOF>
           </THEOREM>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_01/xml/qedeq.xsd">
@@ -32,7 +32,7 @@
         Basics
       </LATEX>
       <LATEX language="de">
-        Anfangsgründe
+        AnfangsgrÃ¼nde
       </LATEX>
     </TITLE>
     <INTRODUCTION>
@@ -56,14 +56,14 @@
         <NODE id="module1:def1">
           <NAME>
             <LATEX language="en">contains</LATEX>
-            <LATEX language="de">enthält</LATEX>
+            <LATEX language="de">enthÃ¤lt</LATEX>
           </NAME>
           <PRECEDING>
             <LATEX language="en">
               At first we define the contains operator.
             </LATEX>
             <LATEX language="de">
-              Zunächst einmal wird der Enthaltensseinoperator festgelegt.
+              ZunÃ¤chst einmal wird der Enthaltensseinoperator festgelegt.
             </LATEX>
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="2">
@@ -78,7 +78,7 @@
               This is the only predicate we start with. All other will be defined.
             </LATEX>
             <LATEX language="de">
-              Dies ist das einzige Prädikat welches wir zu Begin haben. Alle anderen werden definiert. 
+              Dies ist das einzige PrÃ¤dikat welches wir zu Begin haben. Alle anderen werden definiert. 
             </LATEX>
           </SUCCEEDING>
         </NODE>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_01/xml/qedeq.xsd">
@@ -34,7 +34,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen Disziplinen benötigt werden. Nach den Anfangsgründen wird die {\emph Boolsche Algebra der Klassen} betrachtet. Es schliessen sich Betrachtungen über {\emph Relationen} und {\emph Funktionen} an. Ein wichtiges Ergebnis sind die Definition der {\emph natürlichen Zahlen} und die Erfüllung der {\emph Peano-Axiome} durch diese. Auch auf den Begriff der {\emph Rekursion} wird eingegangen.
+          Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen Disziplinen benÃ¶tigt werden. Nach den AnfangsgrÃ¼nden wird die {\emph Boolsche Algebra der Klassen} betrachtet. Es schliessen sich Betrachtungen Ã¼ber {\emph Relationen} und {\emph Funktionen} an. Ein wichtiges Ergebnis sind die Definition der {\emph natÃ¼rlichen Zahlen} und die ErfÃ¼llung der {\emph Peano-Axiome} durch diese. Auch auf den Begriff der {\emph Rekursion} wird eingegangen.
 
          \par
          Die Darstellung erfolgt in axiomatischer Weise soll aber im Ergebnis der mathematischen Praxis entsprechen. Aus diesem Grunde wird auch das Axiomensystem der Mengenlehre von \emph{A.~P.~Morse} und  \emph{J.~L.~Kelley} (MK\index{MK}) verwendet.
@@ -94,7 +94,7 @@
           This document is not finished and is updated from time to time. Especially at the locations marked with {\glqq+++\grqq} additions or changes will be made.
 
           \par
-          I am deeply grateful to my wife \emph{Gesine~Dräger} and our son \emph{Lennart} for their support and patience.
+          I am deeply grateful to my wife \emph{Gesine~DrÃ¤ger} and our son \emph{Lennart} for their support and patience.
 
           \par
           \vspace*{1cm} Hamburg, october 2007 \\
@@ -103,19 +103,19 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Mathematik ist eine Wissenschaft mit einer Struktur, die im Laufe der Zeit riesige Dimensionen erreicht hat. Diese unglaublich hohe Burg besitzt nur ein ganz schmales Fundament und ihre Festigkeit gründet sich auf einfachen prädikatenlogischen Mörtel. Im Prinzip kann der Aufbau von jeder Mathematikerin verstanden werden. Von dem neuesten Gipfel mathematischer Erkenntnis kann jeder Pfad logisch folgerichtig bis in die mengentheoretischen Wurzeln nachvollzogen werden.
+          Mathematik ist eine Wissenschaft mit einer Struktur, die im Laufe der Zeit riesige Dimensionen erreicht hat. Diese unglaublich hohe Burg besitzt nur ein ganz schmales Fundament und ihre Festigkeit grÃ¼ndet sich auf einfachen prÃ¤dikatenlogischen MÃ¶rtel. Im Prinzip kann der Aufbau von jeder Mathematikerin verstanden werden. Von dem neuesten Gipfel mathematischer Erkenntnis kann jeder Pfad logisch folgerichtig bis in die mengentheoretischen Wurzeln nachvollzogen werden.
           
           \par
-          Bei diesem Unternehmen will dieses Dokument Hilfestellung geben. Ziel ist eine Präsentation der mengentheoretischen Wurzeln in verständlicher Weise. Bei aller Verständlichkeit soll es jedoch jederzeit möglich sein, tief in die Details einzusteigen. Ja sogar bis auf die Ebene eines formal korrekten Beweises hinab. Dazu gibt es dieses Dokument in verschiedenen Detailierungen. Für alle aber gilt, dass die Formeln in Axiomen, Definitionen und Propositionen in formal korrekter Form vorliegen.
+          Bei diesem Unternehmen will dieses Dokument Hilfestellung geben. Ziel ist eine PrÃ¤sentation der mengentheoretischen Wurzeln in verstÃ¤ndlicher Weise. Bei aller VerstÃ¤ndlichkeit soll es jedoch jederzeit mÃ¶glich sein, tief in die Details einzusteigen. Ja sogar bis auf die Ebene eines formal korrekten Beweises hinab. Dazu gibt es dieses Dokument in verschiedenen Detailierungen. FÃ¼r alle aber gilt, dass die Formeln in Axiomen, Definitionen und Propositionen in formal korrekter Form vorliegen.
 
           \par
           Wir wollen bei den Wurzeln anfangen\ldots
 
           \par
-          Dieses Dokument ist noch im Entstehen und wird von Zeit zu Zeit aktualisiert. Insbesondere werden an den durch {\glqq+++\grqq} gekennzeichneten Stellen noch Ergänzungen oder Änderungen vorgenommen.
+          Dieses Dokument ist noch im Entstehen und wird von Zeit zu Zeit aktualisiert. Insbesondere werden an den durch {\glqq+++\grqq} gekennzeichneten Stellen noch ErgÃ¤nzungen oder Ã„nderungen vorgenommen.
           
           \par
-          Besondere Dank geht an meine Frau \emph{Gesine~Dräger} und unseren Sohn \emph{Lennart} für ihre Unterstützung und ihr Verständnis für ihnen fehlende Zeit.
+          Besondere Dank geht an meine Frau \emph{Gesine~DrÃ¤ger} und unseren Sohn \emph{Lennart} fÃ¼r ihre UnterstÃ¼tzung und ihr VerstÃ¤ndnis fÃ¼r ihnen fehlende Zeit.
 
           \par
           \vspace*{1cm} Hamburg, Oktober 2007 \\
@@ -151,10 +151,10 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Nachdem durch die Logik die Art der mathematischen Argumentation vorgegeben wird, wird in der Mengenlehre ganz allgemein über Objekte und ihre Zusammenfassungen gesprochen. Besonders interessant ist die Mengenlehre dadurch, dass sie zum einen von eigentlich allen mathematischen Disziplinen verwendet wird. Zum anderen lässt sich jede mathematische Disziplin innerhalb der Mengenlehre definieren. Zahlentheorie, Algebra, Analysis und alle weiteren Gebiete lassen sich darauf aufbauen.
+          Nachdem durch die Logik die Art der mathematischen Argumentation vorgegeben wird, wird in der Mengenlehre ganz allgemein Ã¼ber Objekte und ihre Zusammenfassungen gesprochen. Besonders interessant ist die Mengenlehre dadurch, dass sie zum einen von eigentlich allen mathematischen Disziplinen verwendet wird. Zum anderen lÃ¤sst sich jede mathematische Disziplin innerhalb der Mengenlehre definieren. Zahlentheorie, Algebra, Analysis und alle weiteren Gebiete lassen sich darauf aufbauen.
         
           \par
-          Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen Disziplinen benötigt werden. Nach den Grundlagen wird die Boolsche Algebra der Klassen betrachtet. Es schliessen sich Betrachtungen über Relationen und Funktionen an. Ein weiteres wichtiges Ergebnis sind die Definition der natürlichen Zahlen und die Erfüllung der Peano-Axiome durch diese, auch auf den Begriff der Rekursion wird eingegangen.
+          Dieses Dokument beschreibt die mathematischen Grundlagen der Mengenlehre. Ziel ist dabei die Bereitstellung von elementaren Ergebnissen der Mengenlehre, die in anderen mathematischen Disziplinen benÃ¶tigt werden. Nach den Grundlagen wird die Boolsche Algebra der Klassen betrachtet. Es schliessen sich Betrachtungen Ã¼ber Relationen und Funktionen an. Ein weiteres wichtiges Ergebnis sind die Definition der natÃ¼rlichen Zahlen und die ErfÃ¼llung der Peano-Axiome durch diese, auch auf den Begriff der Rekursion wird eingegangen.
          
           \par
           Die Darstellung erfolgt in axiomatischer Weise soll aber im Ergebnis der mathematischen Praxis entsprechen. Daher wird auch das Axiomensystem der Mengenlehre von \emph{A.~P.~Morse} und  \emph{J.~L.~Kelley} (MK\index{MK}) verwendet.
@@ -171,7 +171,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Anfangsgründe
+          AnfangsgrÃ¼nde
         ]]>
       </LATEX>
     </TITLE>
@@ -196,20 +196,20 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          In diesem Kapitel beginnen wir mit den ganz elementaren Axiomen und Definitionen der Mengenlehre. Wir versuchen nicht eine formale Sprache einzuführen\footnote{Dessen ungeachtet sind die Formeln der Axiome, Definitionen und Propositionen in dem Ursprungstext dieses Dokuments in einer formalen Sprache notiert. Der Ursprungstext ist eine XML-Datei, deren Syntax mittels der XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd} definiert wird.} und setzen das Wissen um den Gebrauch von logischen Symbolen voraus. Noch genauer formuliert: wir arbeiten mit einer Prädikatenlogik erster Stufe mit Gleichheit.
+          In diesem Kapitel beginnen wir mit den ganz elementaren Axiomen und Definitionen der Mengenlehre. Wir versuchen nicht eine formale Sprache einzufÃ¼hren\footnote{Dessen ungeachtet sind die Formeln der Axiome, Definitionen und Propositionen in dem Ursprungstext dieses Dokuments in einer formalen Sprache notiert. Der Ursprungstext ist eine XML-Datei, deren Syntax mittels der XSD \url{http://www.qedeq.org/current/xml/qedeq.xsd} definiert wird.} und setzen das Wissen um den Gebrauch von logischen Symbolen voraus. Noch genauer formuliert: wir arbeiten mit einer PrÃ¤dikatenlogik erster Stufe mit Gleichheit.
 
           \par\index{Cantor}\index{Menge!Definition}
-          \emph{G.~Cantor}, der als Begründer der Mengenlehre gilt, hat in einer Veröffentlichung im Jahre 1895 eine Beschreibung des Begriffs \emph{Menge} gegeben.
+          \emph{G.~Cantor}, der als BegrÃ¼nder der Mengenlehre gilt, hat in einer VerÃ¶ffentlichung im Jahre 1895 eine Beschreibung des Begriffs \emph{Menge} gegeben.
           
           \begin{quote}
            Unter einer {\glqq Menge\grqq} verstehen wir jede Zusammenfassung $M$ von bestimmten wohlunterscheidbaren Objekten $m$ unserer Anschauung oder unseres Denkens (welche die {\glqq Elemente\grqq} von $M$ genannt werden) zu einem Ganzen.
           \end{quote}
           
           \par
-          Diese Zusammenfassung kann über die Angabe einer Eigenschaft dieser Elemente erfolgen. Um 1900 wurden verschiedene Widersprüche dieser naiven Mengenlehre entdeckt. Diese Widersprüche lassen sich auf trickreich gewählte Eigenschaften zurückführen.
+          Diese Zusammenfassung kann Ã¼ber die Angabe einer Eigenschaft dieser Elemente erfolgen. Um 1900 wurden verschiedene WidersprÃ¼che dieser naiven Mengenlehre entdeckt. Diese WidersprÃ¼che lassen sich auf trickreich gewÃ¤hlte Eigenschaften zurÃ¼ckfÃ¼hren.
           
           \par
-          Es gibt verschiedene Möglichkeiten diese Widersprüche zu verhindern. In diesem Text schränken wir zwar die Angabe von Eigenschaften in keiner Weise ein, aber wir nennen das Ergebnis der Zusammenfassung zunächst einmal \emph{Klasse}. Zusätzliche Axiome regeln dann, wann eine bestimmte Klasse auch eine Menge ist. Alle Mengen sind Klassen, aber nicht alle Klassen sind Mengen. Eine Menge ist eine Klasse, die selbst Element einer anderen Klasse ist. Eine Klasse, die keine Menge ist, ist nicht Element irgend einer anderen Klasse.
+          Es gibt verschiedene MÃ¶glichkeiten diese WidersprÃ¼che zu verhindern. In diesem Text schrÃ¤nken wir zwar die Angabe von Eigenschaften in keiner Weise ein, aber wir nennen das Ergebnis der Zusammenfassung zunÃ¤chst einmal \emph{Klasse}. ZusÃ¤tzliche Axiome regeln dann, wann eine bestimmte Klasse auch eine Menge ist. Alle Mengen sind Klassen, aber nicht alle Klassen sind Mengen. Eine Menge ist eine Klasse, die selbst Element einer anderen Klasse ist. Eine Klasse, die keine Menge ist, ist nicht Element irgend einer anderen Klasse.
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -233,16 +233,16 @@
             Sets will be construed as a special kind of class.
             
             \par
-            The following definitions and axioms are due to a strengthened version of \emph{von~Neumann-Bernays-Gödel's} set theory (\emph{NBG}\index{NBG}). This version is called \emph{MK}\index{MK} which is short for \emph{Morse-Kelley}.
+            The following definitions and axioms are due to a strengthened version of \emph{von~Neumann-Bernays-GÃ¶del's} set theory (\emph{NBG}\index{NBG}). This version is called \emph{MK}\index{MK} which is short for \emph{Morse-Kelley}.
           ]]>
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Obgleich wir im Wesentlichen über \emph{Mengen}\index{Menge} sprechen wollen, haben wir am Anfang nur \emph{Klassen}\index{Klasse}. Dieser Begriff wird nicht formal definiert. Anschaulich gesprochen, ist eine Klasse eine Zusammenfassung von Objekten. Die beteiligten Objekte heissen auch \emph{Elemente}\index{Element} der Klasse.
+            Obgleich wir im Wesentlichen Ã¼ber \emph{Mengen}\index{Menge} sprechen wollen, haben wir am Anfang nur \emph{Klassen}\index{Klasse}. Dieser Begriff wird nicht formal definiert. Anschaulich gesprochen, ist eine Klasse eine Zusammenfassung von Objekten. Die beteiligten Objekte heissen auch \emph{Elemente}\index{Element} der Klasse.
             Mengen werden dann als eine besondere Art von Klassen charakterisiert.
             
             \par
-            Die folgenden Definitionen und Axiome folgen dem Aufbau einer vereinfachten Version der Mengenlehre nach \emph{von~Neumann-Bernays-Gödel} (\emph{NBG}\index{NBG}). Die genaue Bezeichnung lautet \emph{MK}\index{MK} nach \emph{Morse-Kelley}.
+            Die folgenden Definitionen und Axiome folgen dem Aufbau einer vereinfachten Version der Mengenlehre nach \emph{von~Neumann-Bernays-GÃ¶del} (\emph{NBG}\index{NBG}). Die genaue Bezeichnung lautet \emph{MK}\index{MK} nach \emph{Morse-Kelley}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -281,7 +281,7 @@
             <LATEX language="de">
               <![CDATA[
                 Die hier vorgestellte Mengenlehre hat als Ausgangsobjekte \emph{Klassen}.
-                Weiterhin wird nur ein einziges Symbol für eine binäre Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
+                Weiterhin wird nur ein einziges Symbol fÃ¼r eine binÃ¤re Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -301,8 +301,8 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Wir sagen auch $x$ \emph{ist Element von} $y$, $x$ \emph{gehört zu} $y$, $x$ \emph{liegt in} $y$, $x$ \emph{ist in} $y$.
-                Neben der Identität ist dies das einzige Prädikat welches wir zu Beginn haben. Alle anderen werden definiert.\footnote{Das Gleichheitsprädikat könnte auch innerhalb der Mengenlehre definiert werden, aber dann wird auch ein weiters Axiom benötigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Gleichheitsaxiome.} Zu Anfang haben wir auch noch keine Funktionskonstanten.
+                Wir sagen auch $x$ \emph{ist Element von} $y$, $x$ \emph{gehÃ¶rt zu} $y$, $x$ \emph{liegt in} $y$, $x$ \emph{ist in} $y$.
+                Neben der IdentitÃ¤t ist dies das einzige PrÃ¤dikat welches wir zu Beginn haben. Alle anderen werden definiert.\footnote{Das GleichheitsprÃ¤dikat kÃ¶nnte auch innerhalb der Mengenlehre definiert werden, aber dann wird auch ein weiters Axiom benÃ¶tigt und es ergeben sich technischen Schwierigkeiten bei der Herleitung der Gleichheitsaxiome.} Zu Anfang haben wir auch noch keine Funktionskonstanten.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -340,7 +340,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Obgleich wir die Elementbeziehung einfach negieren können, möchten wir dafür eine Abkürzung definieren.
+                Obgleich wir die Elementbeziehung einfach negieren kÃ¶nnen, mÃ¶chten wir dafÃ¼r eine AbkÃ¼rzung definieren.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -369,7 +369,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Extensionalitätsaxiom
+                ExtensionalitÃ¤tsaxiom
               ]]>
             </LATEX>
           </NAME>
@@ -381,7 +381,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Extensionalität\index{Extensionalitätsaxiom}
+                ExtensionalitÃ¤t\index{ExtensionalitÃ¤tsaxiom}
               ]]>
             </LATEX>
           </TITLE>
@@ -393,7 +393,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Unser erstes Axiom besagt, dass beliebige Klassen $x$ und $y$ genau dann gleich sind, wenn sie dieselben Elemente enthalten.\footnote{Falls wir das Gleichheitsprädikat nicht als logisches Symbol voraussetzen würden, dann würden wir es hiermit definieren.}
+                Unser erstes Axiom besagt, dass beliebige Klassen $x$ und $y$ genau dann gleich sind, wenn sie dieselben Elemente enthalten.\footnote{Falls wir das GleichheitsprÃ¤dikat nicht als logisches Symbol voraussetzen wÃ¼rden, dann wÃ¼rden wir es hiermit definieren.}
               ]]>
             </LATEX>
           </PRECEDING>
@@ -435,11 +435,11 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die Klassen $x$ and $y$ können verschieden definiert sein, beispielsweise:
+                Die Klassen $x$ and $y$ kÃ¶nnen verschieden definiert sein, beispielsweise:
                 \par
                 \begin{tabularx}{\linewidth}{rcX}
                   $x$ & = & Klasse aller nichtnegativen ganzen Zahlen, \\
-                  $y$ & = & Klasse aller ganzen Zahlen, die als Summe von vier Quadraten geschreiben werden können,
+                  $y$ & = & Klasse aller ganzen Zahlen, die als Summe von vier Quadraten geschreiben werden kÃ¶nnen,
                 \end{tabularx}
                 \par
                 aber wenn sie dieselben Elemente besitzen, sind sie gleich.
@@ -521,7 +521,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Als erste Folgerung aus dem Extensionalitätsaxiom erhalten wir das Folgende.\footnote{Es wird ein eingeschränkter Allquantor benutzt, $z$ läuft nur über Mengen.}
+                Als erste Folgerung aus dem ExtensionalitÃ¤tsaxiom erhalten wir das Folgende.\footnote{Es wird ein eingeschrÃ¤nkter Allquantor benutzt, $z$ lÃ¤uft nur Ã¼ber Mengen.}
               ]]>
             </LATEX>
           </PRECEDING>
@@ -558,7 +558,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $z$ eine beliebige Klasse. Falls $z \in x$ dann gilt $z$ ist eine Menge nach Definition~\ref{definition:isSet}, und daraus folgt mit der Annahme $z \in y$. Analog folgt $z \in y \ \rightarrow \ z \in x$. Da $z$ beliebig, haben wir $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Und mit dem  Extensionalitätsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$.
+                  Angenommen es gelte $\forall \ \mathfrak{M}(z) \ ( z \in x \ \leftrightarrow \ z \in y)$. Sei $z$ eine beliebige Klasse. Falls $z \in x$ dann gilt $z$ ist eine Menge nach Definition~\ref{definition:isSet}, und daraus folgt mit der Annahme $z \in y$. Analog folgt $z \in y \ \rightarrow \ z \in x$. Da $z$ beliebig, haben wir $\forall z \ (z \in x \ \leftrightarrow \ z \in y)$. Und mit dem  ExtensionalitÃ¤tsaxiom~\ref{axiom:extensionality} erhalten wir daraus $x = y$.
                 ]]>
               </LATEX>
             </PROOF>
@@ -573,7 +573,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Weiterhin können wir in dem Extensionalitätsaxiom die Implikation umkehren.
+                Weiterhin kÃ¶nnen wir in dem ExtensionalitÃ¤tsaxiom die Implikation umkehren.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -607,7 +607,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Dies ist eine einfache Anwendung des zweiten identitätslogischen Axioms.
+                  Dies ist eine einfache Anwendung des zweiten identitÃ¤tslogischen Axioms.
                 ]]>
               </LATEX>
             </PROOF>
@@ -646,7 +646,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Unser nächstes Axiom der Mengenlehre ermöglicht uns in simpler Art und Weise neue Klassen zu bilden. Eine Klasse wird ganz einfach durch die Angabe einer prädikatenlogischen Formel charakterisiert.
+                Unser nÃ¤chstes Axiom der Mengenlehre ermÃ¶glicht uns in simpler Art und Weise neue Klassen zu bilden. Eine Klasse wird ganz einfach durch die Angabe einer prÃ¤dikatenlogischen Formel charakterisiert.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -677,7 +677,7 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-                \index{NBG}By a small modification of the above axiom we could get a \emph{NBG} axiom system of set theory due to \emph{John von Neumann}, \emph{Isaak Bernays} and \emph{Kurt Gödel}.\index{predicative}\index{Formula, predicative}
+                \index{NBG}By a small modification of the above axiom we could get a \emph{NBG} axiom system of set theory due to \emph{John von Neumann}, \emph{Isaak Bernays} and \emph{Kurt GÃ¶del}.\index{predicative}\index{Formula, predicative}
                 For that purpose we call a formula \emph{predicative}, if all of its bound subject variables are restricted to sets.
                 Therefore predicative formulas formalize `set properties'.\footnote{A little bit more formal: within a predicative formula all quantifier variables run over sets: $\forall \ \mathfrak{M}(x) \ \exists \ \mathfrak{M}(y) \ldots$}
                 So if we postulate $\phi$ to be predicative we achieve a NBG system together with the following axioms.
@@ -685,9 +685,9 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                \index{NBG}Durch eine kleine Änderung dieses Axioms würden wir im Folgenden ein \emph{NBG}-Axiomensystem der Mengenlehre erhalten, welches auf \emph{John von Neumann}, \emph{Isaak Bernays} und \emph{Kurt Gödel} zurückgeht.\index{prädikativ}\index{Formel, prädikative}
-                Dazu definieren wir: eine Formel, in der alle gebundenen Subjektvariablen auf Mengen restringiert sind wird \emph{prädikative Formel} genannt. Prädikative Formeln formalisieren also diejenigen Eigenschaften, die man als {\glqq Eigenschaften von Mengen\grqq} bezeichnen kann.\footnote{Noch etwas formaler: in einer prädikativen Formel laufen alle Quantorenvariablen nur über Mengen: $\forall \ \mathfrak{M}(x) \ \exists \ \mathfrak{M}(y) \ldots$}
-                Fordern wir nun also zusätzlich, dass $\phi$ prädikativ sein muss, dann erhalten wir im zusammen mit den folgenden Axiomen ein NBG-System.
+                \index{NBG}Durch eine kleine Ã„nderung dieses Axioms wÃ¼rden wir im Folgenden ein \emph{NBG}-Axiomensystem der Mengenlehre erhalten, welches auf \emph{John von Neumann}, \emph{Isaak Bernays} und \emph{Kurt GÃ¶del} zurÃ¼ckgeht.\index{prÃ¤dikativ}\index{Formel, prÃ¤dikative}
+                Dazu definieren wir: eine Formel, in der alle gebundenen Subjektvariablen auf Mengen restringiert sind wird \emph{prÃ¤dikative Formel} genannt. PrÃ¤dikative Formeln formalisieren also diejenigen Eigenschaften, die man als {\glqq Eigenschaften von Mengen\grqq} bezeichnen kann.\footnote{Noch etwas formaler: in einer prÃ¤dikativen Formel laufen alle Quantorenvariablen nur Ã¼ber Mengen: $\forall \ \mathfrak{M}(x) \ \exists \ \mathfrak{M}(y) \ldots$}
+                Fordern wir nun also zusÃ¤tzlich, dass $\phi$ prÃ¤dikativ sein muss, dann erhalten wir im zusammen mit den folgenden Axiomen ein NBG-System.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -701,7 +701,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Durch das Komprehensionsaxiom und die Extensionalität wird nun der Zusammenhang zwischen einer Aussage $\phi(y)$ und der durch sie definierten Klasse festgelegt. Dabei behauptet das Komprehensionsaxiom die Existenz mindestens einer Klasse, deren Elemente die Aussage $\mathfrak{M}(y) \land \phi(y)$ erfüllen. Das Extensionalitätsaxiom und die Gleichheitsaxiome sichern ab, dass es höchstens eine solche Klasse gibt: irgend zwei Klassen, welche dieselben Elemente besitzen, sind gleich im Sinne der Ersetzbarkeit in allen einschlägigen Aussagen. Mit anderen Worten: es gibt nur genau eine solche Klasse.
+                Durch das Komprehensionsaxiom und die ExtensionalitÃ¤t wird nun der Zusammenhang zwischen einer Aussage $\phi(y)$ und der durch sie definierten Klasse festgelegt. Dabei behauptet das Komprehensionsaxiom die Existenz mindestens einer Klasse, deren Elemente die Aussage $\mathfrak{M}(y) \land \phi(y)$ erfÃ¼llen. Das ExtensionalitÃ¤tsaxiom und die Gleichheitsaxiome sichern ab, dass es hÃ¶chstens eine solche Klasse gibt: irgend zwei Klassen, welche dieselben Elemente besitzen, sind gleich im Sinne der Ersetzbarkeit in allen einschlÃ¤gigen Aussagen. Mit anderen Worten: es gibt nur genau eine solche Klasse.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -823,7 +823,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Ausgehend von \ref{theorem:comprehension} können wir die Sprachsyntax erweitern und eine neue abkürzende Schreibweise einführen.
+                Ausgehend von \ref{theorem:comprehension} kÃ¶nnen wir die Sprachsyntax erweitern und eine neue abkÃ¼rzende Schreibweise einfÃ¼hren.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -843,7 +843,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Für jede Formel $\alpha(x)$ definieren wir den Termausdruck $\{ x \ | \ \alpha(x)\}$ durch 
+                  FÃ¼r jede Formel $\alpha(x)$ definieren wir den Termausdruck $\{ x \ | \ \alpha(x)\}$ durch 
                   $$
                     \exists y \ (y = \{x \ | \ \alpha(x) \} \ \land \ \forall x \ x \in y \ \leftrightarrow \mathfrak{M}(x) \ \land \alpha(x))
                   $$
@@ -854,7 +854,7 @@
 %old                
 %                  Der Ausdruck $\{ x | \alpha(x)\}$ bezeichnet ebenfalls einen Term. Sei $\beta(y)$ eine Formel und $beta(\{x | \alpha(x)\}$ die Formel, die bei Ersetzung von y durch den angegebenen Term entstehende Formel. Diese Formel kann ersetzt werden durch $\beta(y) \ \land \ \forall x \ x \in y \leftrightarrow \mathfrak{M}(x) \ \land \ \alpha(y)$. 
 %                  \par
-%                  In dem Term $\{ x | \alpha(x)\}$ gilt $x$ als gebunden und der Term besitzt zusätzlich die gebunden Variablen von $\alpha$ als gebundene Variablen. Die freien Variablen von $\alpha$ sind auch die freien Variablen des neuen Termausdrucks.
+%                  In dem Term $\{ x | \alpha(x)\}$ gilt $x$ als gebunden und der Term besitzt zusÃ¤tzlich die gebunden Variablen von $\alpha$ als gebundene Variablen. Die freien Variablen von $\alpha$ sind auch die freien Variablen des neuen Termausdrucks.
                 ]]>
               </LATEX>
             </DESCRIPTION>
@@ -872,13 +872,13 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Insbesondere müssen die Substitutionsregeln angepasst werden.\footnote{Weil nun ein Term auch gebundene Subjektvariablen besitzen kann. Glücklicherweise haben wir das jedoch schon bei der Formulierung unserer Substitutionsregeln berücksichtigt, so dass wir nicht s tun müssen.} Es handelt sich hierbei um eine \emph{konservative} Erweiterung\footnote{Unter einer konservativen Erweiterung  verstehen wir das Folgende: Sei $\mathfrak{L}$ eine Sprache und $\mathfrak{L'}$ eine Erweiterung von $\mathfrak{L}$. Da $\mathfrak{L'} \supseteq \mathfrak{L}$ gilt auch $\mbox{Formel}_\mathfrak{L'} \supseteq \mbox{Formel}_\mathfrak{L}$. Falls nun für jede Formelmenge $\Gamma \subseteq \mbox{Formel}_\mathfrak{L}$ und jede Formel $\alpha \in \mbox{Formel}_\mathfrak{L}$ gilt: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, dann heißt $\mathfrak{L'}$ eine \emph{konservative} Erweiterung von $\mathfrak{L}$.}.
+                Insbesondere mÃ¼ssen die Substitutionsregeln angepasst werden.\footnote{Weil nun ein Term auch gebundene Subjektvariablen besitzen kann. GlÃ¼cklicherweise haben wir das jedoch schon bei der Formulierung unserer Substitutionsregeln berÃ¼cksichtigt, so dass wir nicht s tun mÃ¼ssen.} Es handelt sich hierbei um eine \emph{konservative} Erweiterung\footnote{Unter einer konservativen Erweiterung  verstehen wir das Folgende: Sei $\mathfrak{L}$ eine Sprache und $\mathfrak{L'}$ eine Erweiterung von $\mathfrak{L}$. Da $\mathfrak{L'} \supseteq \mathfrak{L}$ gilt auch $\mbox{Formel}_\mathfrak{L'} \supseteq \mbox{Formel}_\mathfrak{L}$. Falls nun fÃ¼r jede Formelmenge $\Gamma \subseteq \mbox{Formel}_\mathfrak{L}$ und jede Formel $\alpha \in \mbox{Formel}_\mathfrak{L}$ gilt: $\Gamma \vdash_\mathfrak{L'} \alpha \ \Rightarrow \ \Gamma \vdash_\mathfrak{L} \alpha$, dann heiÃŸt $\mathfrak{L'}$ eine \emph{konservative} Erweiterung von $\mathfrak{L}$.}.
 
 %old                
 %                { x | alpha (x)} = { x | alpha (x)}
 %                y = y n All x x in y <-> M(x) n alpha(x)
                 
-                Im Folgenden wird auf diese Schreibweise zurückgegriffen.
+                Im Folgenden wird auf diese Schreibweise zurÃ¼ckgegriffen.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -893,7 +893,7 @@
             <LATEX language="de">
               <![CDATA[
                 Die neue Schreibweise kann auch in einfacher Weise in die alte Syntax transformiert werden.
-                Die Gültigkeit der Ausgangsprädikate drückt sich für diese neue Termart wie folgt aus.
+                Die GÃ¼ltigkeit der AusgangsprÃ¤dikate drÃ¼ckt sich fÃ¼r diese neue Termart wie folgt aus.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1086,7 +1086,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  +++ wenn diese Formel richtig gesetzt würde, sollte sie so aussehen:
+                  +++ wenn diese Formel richtig gesetzt wÃ¼rde, sollte sie so aussehen:
                   \begin{align}
                   y \in \{ x~|~\phi(x) \} & \leftrightarrow  \mathfrak{M}(y) \land \phi(y) \tag{a} \\
                   y = \{ x~|~ \phi(x) \} & \leftrightarrow  \forall z \ (z \in y \leftrightarrow z \in \{ x~|~\phi(x) \}) \tag{b} \\
@@ -1123,7 +1123,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Durch sukzessives Anwenden des obigen Satzes kann also die neue Syntax in die alte überführt werden.
+                Durch sukzessives Anwenden des obigen Satzes kann also die neue Syntax in die alte Ã¼berfÃ¼hrt werden.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -1137,7 +1137,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Da durch die neue Schreibweise ein Term eindeutig festgelegt wird, muss natürlich auch das Folgende gelten.
+                Da durch die neue Schreibweise ein Term eindeutig festgelegt wird, muss natÃ¼rlich auch das Folgende gelten.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1167,7 +1167,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Aus der Äquivalenz von Aussageformen kann auf die Gleichheit der daraus gebildeten Klassen geschlossen werden.
+                Aus der Ã„quivalenz von Aussageformen kann auf die Gleichheit der daraus gebildeten Klassen geschlossen werden.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1224,7 +1224,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Jede Klasse lässt sich durch eine Aussage beschreiben, indem auf ihre Elemente Bezug genommen wird.
+                Jede Klasse lÃ¤sst sich durch eine Aussage beschreiben, indem auf ihre Elemente Bezug genommen wird.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1377,7 +1377,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die \emph{Allklasse} soll alles mögliche umfassen.
+                Die \emph{Allklasse} soll alles mÃ¶gliche umfassen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1483,8 +1483,8 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Entsprechend definieren wir die \emph{leere Klasse}. Später werden wir feststellen, dass die leere Klasse
-                eine Menge ist. Dazu benötigen wir jedoch weitere Mengenaxiome. Wir bezeichnen diese Klasse jedoch
+                Entsprechend definieren wir die \emph{leere Klasse}. SpÃ¤ter werden wir feststellen, dass die leere Klasse
+                eine Menge ist. Dazu benÃ¶tigen wir jedoch weitere Mengenaxiome. Wir bezeichnen diese Klasse jedoch
                 schon jetzt mit den Worten \emph{leere Menge}.
               ]]>
             </LATEX>
@@ -1594,12 +1594,12 @@
 
           Eine Boolesche Algebra, oft auch Boolescher Verband genannt, ist eine spezielle algebraische
           Struktur, die die Eigenschaften der logischen Operatoren \emph{und}, \emph{oder}, \emph{nicht}
-          sowie die Eigenschaften der mengentheoretischen Verknüpfungen \emph{Durchschnitt},
+          sowie die Eigenschaften der mengentheoretischen VerknÃ¼pfungen \emph{Durchschnitt},
           \emph{Vereinigung} und \emph{Komplement} abstrahiert.
 
           \par
           Sie ist benannt nach \emph{G. Boole}, der sie in der Mitte des 19. Jahrhunderts definierte, um
-          algebraische Methoden in der Aussagenlogik anwenden zu können.
+          algebraische Methoden in der Aussagenlogik anwenden zu kÃ¶nnen.
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -1625,8 +1625,8 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Die Schreibweise bzw. Regel~\ref{rule:classDefinition} ermöglicht die Definition von Klassenperatoren mithilfe
-            der logischen Verknüpfungen.
+            Die Schreibweise bzw. Regel~\ref{rule:classDefinition} ermÃ¶glicht die Definition von Klassenperatoren mithilfe
+            der logischen VerknÃ¼pfungen.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -1814,7 +1814,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Ob eine Menge ein Element der Vereinigung zweier Klassen ist, kann natürlich auch direkt angegeben werden.
+                Ob eine Menge ein Element der Vereinigung zweier Klassen ist, kann natÃ¼rlich auch direkt angegeben werden.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1851,7 +1851,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Entsprechendes gilt für den Durchschnitt zweier Klassen.
+                Entsprechendes gilt fÃ¼r den Durchschnitt zweier Klassen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1889,7 +1889,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Analoges gilt für das Komplement, dort muss jedoch die Mengeneigenschaft explizit abgeprüft werden.
+                Analoges gilt fÃ¼r das Komplement, dort muss jedoch die Mengeneigenschaft explizit abgeprÃ¼ft werden.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -1926,7 +1926,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die vorherigen Sätze zeigen die Übertragbarkeit der Eigenschaften der logischen Verknüpfungen $\lor$, $\land$ und $\neg$ auf die Klassenverknüpfungen $\cup$, $\cap$ und $\bar{~}$. Deshalb lassen sich die entsprechenden logischen Gesetzmässigkeiten direkt auf die Klassenverknüpfungen übertragen.
+                Die vorherigen SÃ¤tze zeigen die Ãœbertragbarkeit der Eigenschaften der logischen VerknÃ¼pfungen $\lor$, $\land$ und $\neg$ auf die KlassenverknÃ¼pfungen $\cup$, $\cap$ und $\bar{~}$. Deshalb lassen sich die entsprechenden logischen GesetzmÃ¤ssigkeiten direkt auf die KlassenverknÃ¼pfungen Ã¼bertragen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2171,7 +2171,7 @@
             $\mathfrak{V}$ eine Boolesche Algebra\index{Boolesche Algebra}.
             \par
             +++ 
-            Referenzen zu Kommutativität, Assoziativität, Distributivität, Idempotenz, etc.
+            Referenzen zu KommutativitÃ¤t, AssoziativitÃ¤t, DistributivitÃ¤t, Idempotenz, etc.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -2198,8 +2198,8 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Für eine boolsche Algebra kann eine kanonische \emph{Teilordnung}\index{Teilordnung} definiert werden. Daher
-            können wir auch für die Klassenalgebra eine Teilordnung festlegen.
+            FÃ¼r eine boolsche Algebra kann eine kanonische \emph{Teilordnung}\index{Teilordnung} definiert werden. Daher
+            kÃ¶nnen wir auch fÃ¼r die Klassenalgebra eine Teilordnung festlegen.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -2279,7 +2279,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die übliche Definition der Teilklassenrelation erhalten wir nun als Satz.
+                Die Ã¼bliche Definition der Teilklassenrelation erhalten wir nun als Satz.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2316,7 +2316,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Diese Relation ist reflexiv, transitiv und antisymmetrisch, definiert also eine Teilordnung\index{Teilordnung} mit $\emptyset$ als kleinstem und $\mathfrak{V}$ als größtem Element.
+                Diese Relation ist reflexiv, transitiv und antisymmetrisch, definiert also eine Teilordnung\index{Teilordnung} mit $\emptyset$ als kleinstem und $\mathfrak{V}$ als grÃ¶ÃŸtem Element.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2468,7 +2468,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für zwei Teilklassen ist auch die Vereinigungsklasse Teilklasse. Und falls eine Klasse Teilklasse von zwei Klassen ist, dann ist sie auch Teilklasse der Schnittklasse. Beide Beziehungen sind auch umkehrbar.
+                FÃ¼r zwei Teilklassen ist auch die Vereinigungsklasse Teilklasse. Und falls eine Klasse Teilklasse von zwei Klassen ist, dann ist sie auch Teilklasse der Schnittklasse. Beide Beziehungen sind auch umkehrbar.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2610,7 +2610,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für das Komplement und die Teilklassenbeziehung gelten die folgenden Äquivalenzen.
+                FÃ¼r das Komplement und die Teilklassenbeziehung gelten die folgenden Ã„quivalenzen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2748,7 +2748,7 @@
               <![CDATA[
                 Insbesondere kann durch Angabe eines Elements die sogenannte \emph{Einerklasse} 
               festgelegt werden.
-                Wiederum mit Regel \ref{rule:classDefinition} können wir die Sprachsyntax erweitern und eine neue abkürzende Schreibweise einführen.
+                Wiederum mit Regel \ref{rule:classDefinition} kÃ¶nnen wir die Sprachsyntax erweitern und eine neue abkÃ¼rzende Schreibweise einfÃ¼hren.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2779,18 +2779,18 @@
                 $y$ fulfill the condition 
                 $\mathfrak{M}(y) \land (\mathfrak{M}(x) \rightarrow y = x)$ and the singleton is
                 identical with the universal class. This leads to a smother handling of the
-                singelton.\footnote{Other authors as K.~Gödel for example define 
+                singelton.\footnote{Other authors as K.~GÃ¶del for example define 
                 $\{x\} = \{y~|~y = x\}$.}
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Da der Ausdruck $\{x\}$ für jegliches $x$ definiert ist, kann er auch für den Fall, 
-                dass $x$ eine echte Klasse ist, gebildet werden. In diesem Fall erfüllen alle Mengen 
+                Da der Ausdruck $\{x\}$ fÃ¼r jegliches $x$ definiert ist, kann er auch fÃ¼r den Fall, 
+                dass $x$ eine echte Klasse ist, gebildet werden. In diesem Fall erfÃ¼llen alle Mengen 
                 $y$ die Bedingung 
                 $\mathfrak{M}(y) \land (\mathfrak{M}(x) \rightarrow y = x)$ und die Einerklasse ist 
-                mit der Allklasse identisch. Das führt zu einem technisch einfacheren Umgang mit der
-                Einerklasse.\footnote{Andere Autoren wie z.~B. auch K.~Gödel, definieren $\{x\}$ durch
+                mit der Allklasse identisch. Das fÃ¼hrt zu einem technisch einfacheren Umgang mit der
+                Einerklasse.\footnote{Andere Autoren wie z.~B. auch K.~GÃ¶del, definieren $\{x\}$ durch
                 $\{y~|~y = x\}$.}
               ]]>
             </LATEX>
@@ -2805,7 +2805,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für Mengen enthält die Einerklasse wie gewünscht nur die Menge selbst.
+                FÃ¼r Mengen enthÃ¤lt die Einerklasse wie gewÃ¼nscht nur die Menge selbst.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2843,7 +2843,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für echte Mengen ist die Einerklasse mit der Allklasse identisch.
+                FÃ¼r echte Mengen ist die Einerklasse mit der Allklasse identisch.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -2874,7 +2874,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Einerklasse einer Menge zu sein ist äquivalent dazu Element seiner
+                Einerklasse einer Menge zu sein ist Ã¤quivalent dazu Element seiner
                 Einerklasse zu sein.
               ]]>
             </LATEX>
@@ -3008,8 +3008,8 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für Klassenpaare die aus Mengen gebildet werden kann die Eigenschaft Element 
-                des Klassenpaares zu sein einfacher ausgedrückt werden.
+                FÃ¼r Klassenpaare die aus Mengen gebildet werden kann die Eigenschaft Element 
+                des Klassenpaares zu sein einfacher ausgedrÃ¼ckt werden.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3185,8 +3185,8 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für Mengen ist die Elementbeziehung equivalent zur Teilklassenbeziehung
-                für die zugehörige Einerklasse.
+                FÃ¼r Mengen ist die Elementbeziehung equivalent zur Teilklassenbeziehung
+                fÃ¼r die zugehÃ¶rige Einerklasse.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3304,8 +3304,8 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Es können auch beliebige Schnittklassen und Vereinigungsklassen gebildet werden. Dazu muss nur
-            festgelegt werden, über welche Klassen jeweils geschnitten bzw. vereinigt wird.
+            Es kÃ¶nnen auch beliebige Schnittklassen und Vereinigungsklassen gebildet werden. Dazu muss nur
+            festgelegt werden, Ã¼ber welche Klassen jeweils geschnitten bzw. vereinigt wird.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -3344,7 +3344,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für eine Klasse von Mengen wird ein \emph{Produkt} so definiert, dass genau die Elemente, 
+                FÃ¼r eine Klasse von Mengen wird ein \emph{Produkt} so definiert, dass genau die Elemente, 
                  die in allen Mengen enthalten sind, in dem Produkt liegen.
               ]]>
             </LATEX>
@@ -3405,7 +3405,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Wie üblich können wir die Elementbeziehung zum Mengenprodukt wie folgt beschreiben.
+                Wie Ã¼blich kÃ¶nnen wir die Elementbeziehung zum Mengenprodukt wie folgt beschreiben.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3449,7 +3449,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für den Speziallfall $x\,=\,\emptyset$ erhalten wir.
+                FÃ¼r den Speziallfall $x\,=\,\emptyset$ erhalten wir.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3475,7 +3475,7 @@
             <LATEX language="de">
               <![CDATA[
                 Falls wir das Mengenprodukt einer nichtleeren Klasse bilden
-                können wir die Mengenbedingung weglassen.
+                kÃ¶nnen wir die Mengenbedingung weglassen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3545,7 +3545,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Analog können wir die \emph{Mengensumme} definieren.
+                Analog kÃ¶nnen wir die \emph{Mengensumme} definieren.
                Genau die Elemente, die in irgend einer der Mengen vorkommen, sollen in der Summe liegen.
               ]]>
             </LATEX>
@@ -3584,7 +3584,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die Zugehörigkeit zur Mengensumme kann wie folgt ausgedrückt werden.
+                Die ZugehÃ¶rigkeit zur Mengensumme kann wie folgt ausgedrÃ¼ckt werden.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3621,7 +3621,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Hier können wir die Mengenbedingung $\mathfrak{M}(z)$ weglassen.
+                Hier kÃ¶nnen wir die Mengenbedingung $\mathfrak{M}(z)$ weglassen.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -3635,7 +3635,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für die leere Klasse erhalten wir.
+                FÃ¼r die leere Klasse erhalten wir.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3659,7 +3659,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die Teilklassenrelation verhält sich zu Mengenprodukt und Mengensumme wie folgt.
+                Die Teilklassenrelation verhÃ¤lt sich zu Mengenprodukt und Mengensumme wie folgt.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3821,7 +3821,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für den Fall einer nichtleeren Mengenfamile haben wir dieses.
+                FÃ¼r den Fall einer nichtleeren Mengenfamile haben wir dieses.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3856,7 +3856,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für Mengenpaare erhalten wir die erwarteten Ergebnisse.
+                FÃ¼r Mengenpaare erhalten wir die erwarteten Ergebnisse.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3920,7 +3920,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für Einermengen erhalten wir analoge Aussagen.
+                FÃ¼r Einermengen erhalten wir analoge Aussagen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -3980,7 +3980,7 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Nun können wir einen wichtigen neuen Klassenoperator einführen.
+            Nun kÃ¶nnen wir einen wichtigen neuen Klassenoperator einfÃ¼hren.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -4018,7 +4018,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Aus der Teilklassenrelation lässt sich ein weiterer Klassenoperator gewinnen, die \emph{Potenzklassenbildung}.
+                Aus der Teilklassenrelation lÃ¤sst sich ein weiterer Klassenoperator gewinnen, die \emph{Potenzklassenbildung}.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -4047,7 +4047,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für diesen neuen Operator gelten die folgenden Aussagen.
+                FÃ¼r diesen neuen Operator gelten die folgenden Aussagen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -4190,7 +4190,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Speziell für Potenzmengen gilt die folgende Aussage.
+                Speziell fÃ¼r Potenzmengen gilt die folgende Aussage.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -4219,8 +4219,8 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Später können wir die Mengenbedingung fallenlassen, da wir dann über weitere Axiome
-                verfügen.
+                SpÃ¤ter kÃ¶nnen wir die Mengenbedingung fallenlassen, da wir dann Ã¼ber weitere Axiome
+                verfÃ¼gen.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -4263,14 +4263,14 @@
           In diesem Kapitel wird noch einmal genauer auf die Mengeneigenschaft eingegangen und es werden neue Axiome angegeben um die Existens von Mengen abzusichern.
 
             \par
-            Um Relationen definieren zu können, wird der Begriff des \emph{geordneten Klassenpaares} benötigt,
-            der es ermöglicht das \emph{cartesische Produkt} von Klassen zu definieren. Relationen sind
+            Um Relationen definieren zu kÃ¶nnen, wird der Begriff des \emph{geordneten Klassenpaares} benÃ¶tigt,
+            der es ermÃ¶glicht das \emph{cartesische Produkt} von Klassen zu definieren. Relationen sind
             Teilklassen von cartesischen Produkten und bilden eine mit bestimmten Operationen eine
             \emph{universelle Algebra}\index{Algebra!universelle}. 
             
             \par
-            Spezielle Relationen sind die \emph{Äquivalenzrelationen}, die einen etwas
-            weiter gefassten Gleichheitsbegriff ermöglichen. Funktionen sind ebenfalls spezielle Relationen,
+            Spezielle Relationen sind die \emph{Ã„quivalenzrelationen}, die einen etwas
+            weiter gefassten Gleichheitsbegriff ermÃ¶glichen. Funktionen sind ebenfalls spezielle Relationen,
             Das Fraenkelsche Ersetzungsaxiom garantiert das Mengen auf Mengen abgebildet werden.
         ]]>
       </LATEX>
@@ -4297,8 +4297,8 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Zur Darstellung der Booleschen Klassenalgebra wurden noch keine mengentheoretischen Axiome benötigt
-            Im Folgenden werden weitere Axiome vorgestellt, die Bedingungen dafür angeben, wann eine Klasse
+            Zur Darstellung der Booleschen Klassenalgebra wurden noch keine mengentheoretischen Axiome benÃ¶tigt
+            Im Folgenden werden weitere Axiome vorgestellt, die Bedingungen dafÃ¼r angeben, wann eine Klasse
             eine Menge ist.
           ]]>
         </LATEX>
@@ -4356,7 +4356,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Damit haben wir zum ersten Mal Kenntnis über die Existenz einer Menge.
+                Damit haben wir zum ersten Mal Kenntnis Ã¼ber die Existenz einer Menge.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -4394,7 +4394,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Um die Mengeneigenschaft für Paare von Mengen zu erhalten, haben wir das
+                Um die Mengeneigenschaft fÃ¼r Paare von Mengen zu erhalten, haben wir das
                 folgende Axiom.
               ]]>
             </LATEX>
@@ -4500,7 +4500,7 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                ´The power class of a set should also be a set.
+                Â´The power class of a set should also be a set.
               ]]>
             </LATEX>
             <LATEX language="de">
@@ -4600,7 +4600,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die obigen Mengenaxiome ermöglichen es uns Mengen zu konstruieren.
+                Die obigen Mengenaxiome ermÃ¶glichen es uns Mengen zu konstruieren.
                 Durch das Axiom~\ref{axiom:emptySet} haben wir eine erste Menge $\emptyset$. 
                 Durch die Anwendung von Axiom~\ref{axiom:powerSet} erhalten wir die Menge
                 $\{ \emptyset \}$. Die erneute Bildung der Potenzmenge erzeugt die Menge
@@ -4610,9 +4610,9 @@
                 
                 \par
                 Weiterhin stellen wir fest, dass wir mit unseren bisherigen Axiomen nur die 
-                Existenz von Mengen mit einer endlichen Elementanzahl nachweisen können.
+                Existenz von Mengen mit einer endlichen Elementanzahl nachweisen kÃ¶nnen.
                 Diese englichen Mengen sind {\glqq sicher\grqq} in dem Sinne, dass sie nicht zu
-                den Widersprüchen führen, wie sie in der uneingeschränkten Mengenlehre 
+                den WidersprÃ¼chen fÃ¼hren, wie sie in der uneingeschrÃ¤nkten Mengenlehre 
                 Zermelos auftreten,
               ]]>
             </LATEX>
@@ -4627,7 +4627,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Mit Hilfe der neuen Axiome können weitere Folgerungen gezogen werden.
+                Mit Hilfe der neuen Axiome kÃ¶nnen weitere Folgerungen gezogen werden.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -4782,10 +4782,10 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Das Konzept eines geordneten Paars ist für die weitere Entwicklung unserer Theorie wichtig.
-            Es ermöglicht uns die Objekte anzuordnen. Bisher hingen unsere Objektzusammenfassungen nicht
+            Das Konzept eines geordneten Paars ist fÃ¼r die weitere Entwicklung unserer Theorie wichtig.
+            Es ermÃ¶glicht uns die Objekte anzuordnen. Bisher hingen unsere Objektzusammenfassungen nicht
             von der Reihenfolge der Sammlung ab. Wir wollen nun aber auch nach der Zusammenfassung
-            herausfinden könnnen, welches das \emph{erste} Element und welches das \emph{zweite} Element
+            herausfinden kÃ¶nnnen, welches das \emph{erste} Element und welches das \emph{zweite} Element
             war.
           ]]>
         </LATEX>
@@ -4858,7 +4858,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Für geordnete Paare von Mengen spielt die Reihe der angegebenen Elemente
+                FÃ¼r geordnete Paare von Mengen spielt die Reihe der angegebenen Elemente
                 eine Rolle. Geordnete Paare sollten nur dann identisch sein, wenn
                 ihre ersten Elemente und ihre zweiten Elemente identisch sind.
               ]]>
@@ -5016,7 +5016,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Um über geordnete Paare sprechen zu können benötigen wir ein neues Prädikat
+                Um Ã¼ber geordnete Paare sprechen zu kÃ¶nnen benÃ¶tigen wir ein neues PrÃ¤dikat
                 {\glqq ist ein geordnetes Paar \grqq}.
               ]]>
             </LATEX>
@@ -5052,7 +5052,7 @@
             <LATEX language="de">
               <![CDATA[
                 Wir betonen noch einmal, dass auch $\mathfrak{V}$ ein geordnetes Paar ist. Aber da
-                wir meistens über Elemente von Klassen sprechen, haben wir nur mit Mengen zu tun,
+                wir meistens Ã¼ber Elemente von Klassen sprechen, haben wir nur mit Mengen zu tun,
                 die eventuell auch geordnete Paare sind.
               ]]>
             </LATEX>
@@ -5081,7 +5081,7 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Für die geordenten Klassenpaare brauchen wir eine Metastruktur. Dafür fassen wir einfach geordete
+            FÃ¼r die geordenten Klassenpaare brauchen wir eine Metastruktur. DafÃ¼r fassen wir einfach geordete
             Paare in einer Klasse zusammen.
           ]]>
         </LATEX>
@@ -5190,9 +5190,9 @@
         <LATEX language="de">
           <![CDATA[
             Es ist wichtig Relationen zwischen mathematischen Objekten
-            ausdrücken zu können und sie auch als Objekte behandeln
-            zu können. Es stellt sich heraus, dass wir keine neuen
-            Objektarten benötigen. Unsere bisherigen Strukturen reichen aus.
+            ausdrÃ¼cken zu kÃ¶nnen und sie auch als Objekte behandeln
+            zu kÃ¶nnen. Es stellt sich heraus, dass wir keine neuen
+            Objektarten benÃ¶tigen. Unsere bisherigen Strukturen reichen aus.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -5230,7 +5230,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Num können wir den Begriff der \emph{Relation} auch innerhalb unserer Mengenlehre definieren.
+                Num kÃ¶nnen wir den Begriff der \emph{Relation} auch innerhalb unserer Mengenlehre definieren.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -5264,7 +5264,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Ein paar Aussagen über Relationen.
+                Ein paar Aussagen Ã¼ber Relationen.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -5466,7 +5466,7 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Äquivalenzrelationen
+            Ã„quivalenzrelationen
           ]]>
         </LATEX>
       </TITLE>
@@ -5642,7 +5642,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Natürliche Zahlen
+          NatÃ¼rliche Zahlen
         ]]>
       </LATEX>
     </TITLE>
@@ -5695,7 +5695,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Fundierungsaxiom\index{Axiom!Fundierungs-}\index{Axiom!Regularitäts-}
+                Fundierungsaxiom\index{Axiom!Fundierungs-}\index{Axiom!RegularitÃ¤ts-}
               ]]>
             </LATEX>
           </TITLE>
@@ -5709,7 +5709,7 @@
             <LATEX language="de">
               <![CDATA[
                 Mengen $x$ sollten sich nicht selbst als Element enthalten oder ein Element besitzen das wiederum
-                $x$ als Element hat. Um diese und andere Enthaltenseinszirkel auszuschließen stellen wir das filgende
+                $x$ als Element hat. Um diese und andere Enthaltenseinszirkel auszuschlieÃŸen stellen wir das filgende
                 Axiom vor.
               ]]>
             </LATEX>
@@ -5748,7 +5748,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Dieses Axiom heißt auch Regularitätsaxiom.
+                Dieses Axiom heiÃŸt auch RegularitÃ¤tsaxiom.
               ]]>
             </LATEX>
           </SUCCEEDING>
@@ -5814,7 +5814,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Weil $x \notin x$ fügt die Nachfolgerfunktion der orginalen Klasse
+                Weil $x \notin x$ fÃ¼gt die Nachfolgerfunktion der orginalen Klasse
                 genau ein Element hinzu.
               ]]>
             </LATEX>
@@ -6055,7 +6055,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Nun kommen wir zu dem bekannten Auswahlaxiom. Wir formulieres es für Relationen.
+                Nun kommen wir zu dem bekannten Auswahlaxiom. Wir formulieres es fÃ¼r Relationen.
               ]]>
             </LATEX>
           </PRECEDING>
