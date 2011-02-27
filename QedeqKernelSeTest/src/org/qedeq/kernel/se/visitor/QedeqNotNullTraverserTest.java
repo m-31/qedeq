@@ -39,8 +39,7 @@ import org.qedeq.kernel.se.visitor.QedeqVisitor;
  * {@link QedeqNotNullTraverser} works correctly for
  * the list part.
  *
- * @version $Revision: 1.1 $
- * @author Michael Meyling
+ * @author  Michael Meyling
  */
 public class QedeqNotNullTraverserTest extends QedeqTestCase {
 
