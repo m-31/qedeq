@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_01/xml/qedeq.xsd">
@@ -21,7 +21,7 @@
          This should contain predicate logic formulas.
       </LATEX>
       <LATEX language="de">
-         Hier sollen prädikatenlogische Formeln stehen.
+         Hier sollen prÃ¤dikatenlogische Formeln stehen.
       </LATEX>
     </ABSTRACT>
     <AUTHORS>
@@ -50,7 +50,7 @@
         Predicate Logic
       </LATEX>
       <LATEX language="de">
-        Prädikatenlogik
+        PrÃ¤dikatenlogik
       </LATEX>
     </TITLE>
     <INTRODUCTION>
@@ -61,7 +61,7 @@
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Hier sind ein paar prädikatenlogische Formeln.
+          Hier sind ein paar prÃ¤dikatenlogische Formeln.
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -152,11 +152,11 @@
         <NODE id="definition:identity">
           <NAME>
             <LATEX language="en">identity definition</LATEX>
-            <LATEX language="de">Definition der Identität</LATEX>
+            <LATEX language="de">Definition der IdentitÃ¤t</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Identity\index{identity}\index{definition!of identity}</LATEX>
-            <LATEX language="de">Identität\index{Identität}\index{Definition!der Identität}</LATEX>
+            <LATEX language="de">IdentitÃ¤t\index{IdentitÃ¤t}\index{Definition!der IdentitÃ¤t}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -166,7 +166,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Es wird eine zweistellige Prädikatskonstante festgelegt, welche in der Interpretation die Identität von Subjekten ausdrücken soll.
+                Es wird eine zweistellige PrÃ¤dikatskonstante festgelegt, welche in der Interpretation die IdentitÃ¤t von Subjekten ausdrÃ¼cken soll.
               ]]>
             </LATEX>
           </PRECEDING>
