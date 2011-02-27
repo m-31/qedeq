@@ -20,9 +20,9 @@ import junit.framework.Test;
 import org.qedeq.base.test.QedeqTestSuite;
 
 /**
- * Run all junit tests for package org.qedeq.kernel.common.
+ * Run all JUnit tests for package org.qedeq.kernel.common.
  *
- * @author    Michael Meyling
+ * @author  Michael Meyling
  */
 public class KernelCommonTestSuite extends QedeqTestSuite {
 
@@ -40,6 +40,6 @@ public class KernelCommonTestSuite extends QedeqTestSuite {
      */
     public KernelCommonTestSuite() {
         super();
-        // FIXME empty
+        addTestSuite(DefaultModuleAddressTest.class);
     }
 }
