@@ -29,7 +29,6 @@ import org.qedeq.kernel.se.base.module.Specification;
 /**
  * An object of this class represents an address for a QEDEQ module.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class DefaultModuleAddress implements ModuleAddress {
@@ -79,7 +78,7 @@ public class DefaultModuleAddress implements ModuleAddress {
      * @throws  MalformedURLException    Address is formally incorrect.
      */
     public DefaultModuleAddress(final URL u) throws MalformedURLException {
-        this(u.toExternalForm(), (DefaultModuleAddress) null);
+        this(u.toExternalForm(), (ModuleAddress) null);
     }
 
     /**
@@ -94,16 +93,31 @@ public class DefaultModuleAddress implements ModuleAddress {
     }
 
     /**
-     * Constructor for memory modules.
+     * Default constructor for memory modules.
      */
     public DefaultModuleAddress() {
-        url = "memory";
-        name = "memory";
+        this(true, "default");
+    }
+
+    /**
+     * Constructor mainly used for memory modules.
+     * FIXME 20110227 m31: this is no object oriented design: a parameter must be true???
+     *                    refactor code and create extra memory module address class!
+     *
+     * @param   memory      Must be true. If not a runtime exception occurs.
+     * @param   identifier  Identifies the module in memory.
+     */
+    public DefaultModuleAddress(final boolean memory, final String identifier) {
+        if (!memory) {
+            throw new IllegalArgumentException("memory must be true");
+        }
+        url = "memory:" + identifier;
+        name = identifier;
         fileAddress = false;
-        fileName = "";
-        header = "memory://";
+        fileName = identifier;
+        header = "memory:";
         path = "";
-        relativeAddress = false;
+        relativeAddress = true;
     }
 
     /**
@@ -291,8 +305,8 @@ public class DefaultModuleAddress implements ModuleAddress {
         final String fileNameEnd = getModuleFileName(spec);
         final LocationList locations = spec.getLocationList();
         final ModuleAddress[] result
-            = new ModuleAddress[locations.size()];
-        for (int i = 0; i < locations.size(); i++) {
+            = new ModuleAddress[(locations != null ? locations.size() : 0)];
+        for (int i = 0; i < result.length; i++) {
             String file = locations.get(i).getLocation();
             if (file.equals(".")) {
                 file = "";
