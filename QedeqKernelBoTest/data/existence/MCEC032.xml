@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_01/xml/qedeq.xsd">
@@ -56,11 +56,11 @@
         <NODE id="definition:identity">
           <NAME>
             <LATEX language="en">identity definition</LATEX>
-            <LATEX language="de">Definition der Identität</LATEX>
+            <LATEX language="de">Definition der IdentitÃ¤t</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Identity\index{identity}\index{definition!of identity}</LATEX>
-            <LATEX language="de">Identität\index{Identität}\index{Definition!der Identität}</LATEX>
+            <LATEX language="de">IdentitÃ¤t\index{IdentitÃ¤t}\index{Definition!der IdentitÃ¤t}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -70,7 +70,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Es wird eine zweistellige Prädikatskonstante festgelegt, welche in der Interpretation die Identität von Subjekten ausdrücken soll.
+                Es wird eine zweistellige PrÃ¤dikatskonstante festgelegt, welche in der Interpretation die IdentitÃ¤t von Subjekten ausdrÃ¼cken soll.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -100,7 +100,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Aus Bequemlichkeit definieren wir auch die Negation der Identitätskonstante.
+                Aus Bequemlichkeit definieren wir auch die Negation der IdentitÃ¤tskonstante.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -124,11 +124,11 @@
         <NODE id="axiom:identityIsReflexive">
           <NAME>
             <LATEX language="en">reflexivity of identity</LATEX>
-            <LATEX language="de">Reflexivität der Identität</LATEX>
+            <LATEX language="de">ReflexivitÃ¤t der IdentitÃ¤t</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Reflexivity of Identity\index{reflexivity!of identity}\index{identy!reflexivity of}</LATEX>
-            <LATEX language="de">Reflexivität der Identität\index{Reflexivität!der Identität}\index{Identität!Reflexivität der}</LATEX>
+            <LATEX language="de">ReflexivitÃ¤t der IdentitÃ¤t\index{ReflexivitÃ¤t!der IdentitÃ¤t}\index{IdentitÃ¤t!ReflexivitÃ¤t der}</LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
@@ -172,11 +172,11 @@
         <NODE id="axiom:symmetryOfIdentity">
           <NAME>
             <LATEX language="en">symmetry of identity</LATEX>
-            <LATEX language="de">Symmetrie der Identität</LATEX>
+            <LATEX language="de">Symmetrie der IdentitÃ¤t</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Symmetrie of identity\index{identity!symmetry of}</LATEX>
-            <LATEX language="de">Symmetrie der Identität\index{Identität!Symmetrie der}</LATEX>
+            <LATEX language="de">Symmetrie der IdentitÃ¤t\index{IdentitÃ¤t!Symmetrie der}</LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
@@ -197,11 +197,11 @@
         <NODE id="axiom:transitivityOfIdentity">
           <NAME>
             <LATEX language="en">transetivity of identity</LATEX>
-            <LATEX language="de">Transitivität der Identität</LATEX>
+            <LATEX language="de">TransitivitÃ¤t der IdentitÃ¤t</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Transitivity of identity\index{identity!transetivity of}</LATEX>
-            <LATEX language="de">Transitivität der Identität\index{Identität!Transitivität der}</LATEX>
+            <LATEX language="de">TransitivitÃ¤t der IdentitÃ¤t\index{IdentitÃ¤t!TransitivitÃ¤t der}</LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
@@ -234,7 +234,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Bei der Leibnizschen Ersetzbarkeit können wir die zweite Implikation umkehren.
+                Bei der Leibnizschen Ersetzbarkeit kÃ¶nnen wir die zweite Implikation umkehren.
               ]]>
             </LATEX>
           </PRECEDING>

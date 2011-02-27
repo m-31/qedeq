@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_01/xml/qedeq.xsd">
@@ -80,7 +80,7 @@
             <LATEX language="de">
               <![CDATA[
                 Die hier vorgestellte Mengenlehre hat als Ausgangsobjekte \emph{Klassen}.
-                Weiterhin wird nur ein einziges Symbol für eine binäre Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
+                Weiterhin wird nur ein einziges Symbol fÃ¼r eine binÃ¤re Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
               ]]>
             </LATEX>
           </PRECEDING>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <QEDEQ 
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_01/xml/qedeq.xsd">
@@ -80,7 +80,7 @@
             <LATEX language="de">
               <![CDATA[
                 Die hier vorgestellte Mengenlehre hat als Ausgangsobjekte \emph{Klassen}.
-                Weiterhin wird nur ein einziges Symbol für eine binäre Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
+                Weiterhin wird nur ein einziges Symbol fÃ¼r eine binÃ¤re Relation vorausgesetzt: der \emph{Enthaltenseinoperator}.
               ]]>
             </LATEX>
           </PRECEDING>
@@ -104,11 +104,11 @@
         <NODE id="definition:identity">
           <NAME>
             <LATEX language="en">identity definition</LATEX>
-            <LATEX language="de">Definition der Identität</LATEX>
+            <LATEX language="de">Definition der IdentitÃ¤t</LATEX>
           </NAME>
           <TITLE>
             <LATEX language="en">Identity\index{identity}\index{definition!of identity}</LATEX>
-            <LATEX language="de">Identität\index{Identität}\index{Definition!der Identität}</LATEX>
+            <LATEX language="de">IdentitÃ¤t\index{IdentitÃ¤t}\index{Definition!der IdentitÃ¤t}</LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -118,7 +118,7 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Es wird eine zweistellige Prädikatskonstante festgelegt, welche in der Interpretation die Identität von Subjekten ausdrücken soll.
+                Es wird eine zweistellige PrÃ¤dikatskonstante festgelegt, welche in der Interpretation die IdentitÃ¤t von Subjekten ausdrÃ¼cken soll.
               ]]>
             </LATEX>
           </PRECEDING>
