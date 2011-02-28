@@ -373,7 +373,7 @@ currently in ants classpath
         <mkdir dir="${qedeq.dest}/sample"/>
         <copy todir="${qedeq.dest}/sample" flatten="true"> 
             <fileset dir="${qedeq.dest.module}/QedeqKernelBo/target/test-outdir/doc/"
-                includes="**/*.xml"
+                includes="**/*.xml" excludes="**/proof/**"
             />
             <fileset dir="${qedeq.dest.module}/QedeqKernelBo/src/test/resources/data"
                 includes="*_error.xml,qedeq_error_sample_*.xml,predlogic.xml,proplogic.xml"
