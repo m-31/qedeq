@@ -90,6 +90,9 @@ public class DefaultSourceFileExceptionList extends SourceFileExceptionList {
             return;
         }
         for (int i = 0; i < e.size(); i++) {
+            if (size() == 0) {
+                initCause(e.get(i));
+            }
             if (!exceptions.contains(e.get(i))) {
                 exceptions.add(e.get(i));
             }
