@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<QEDEQ 
+<QEDEQ
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_01/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
@@ -9,7 +9,7 @@
       </LOCATIONS>
     </SPECIFICATION>
     <TITLE>
-      <LATEX>
+      <LATEX language="en">
          \textbf{Hilbert~II} \\
          \vspace*{1cm} 
          Presentation of \\ 
@@ -19,14 +19,14 @@
       </LATEX>
     </TITLE>
     <ABSTRACT>
-      <LATEX>
-         TODO
+      <LATEX language="en">
+         The project \textbf{Hilbert~II} includes formal correct mathematical knowledge. Here we introduce the underlying formal language for the mathematical formulas. This is done in an informal way.
       </LATEX>
     </ABSTRACT>
     <AUTHORS>
       <AUTHOR email="michael@meyling.com">
         <NAME>
-          <LATEX>
+          <LATEX language="en">
             Michael Meyling
           </LATEX>
         </NAME>
@@ -35,12 +35,12 @@
   </HEADER>
   <CHAPTER noNumber="true">
     <TITLE>
-      <LATEX>
+      <LATEX language="en">
         Description
       </LATEX>
     </TITLE>
     <INTRODUCTION>
-      <LATEX>
+      <LATEX language="en">
         <![CDATA[
           The project \textbf{Hilbert~II} includes formal correct mathematical knowledge. Here we introduce the underlying formal language for the mathematical formulas. This is done in an informal way. Important theorems (e.g.: universal decomposition, and any proofs) are left out.
 
@@ -53,10 +53,10 @@
   </CHAPTER>
   <CHAPTER>
     <TITLE>
-      <LATEX>Entities</LATEX>
+      <LATEX language="en">Entities</LATEX>
     </TITLE>
     <INTRODUCTION>
-      <LATEX>
+      <LATEX language="en">
         <![CDATA[
           To describe the logical language we firstly deal with a more basic notation. This notation enables us to formulate the syntax of formulas and terms later on.
         ]]>
@@ -64,10 +64,10 @@
     </INTRODUCTION>
     <SECTION>
       <TITLE>
-        <LATEX>Elements, Atoms and Lists</LATEX>
+        <LATEX language="en">Elements, Atoms and Lists</LATEX>
       </TITLE>
       <INTRODUCTION>
-        <LATEX>
+        <LATEX language="en">
           <![CDATA[
             The basic structure we have to deal with is an element. An element is either an atom or a list. 
 
@@ -82,10 +82,10 @@
     </SECTION>
     <SECTION>
       <TITLE>
-        <LATEX>List Notation</LATEX>
+        <LATEX language="en">List Notation</LATEX>
       </TITLE>
       <INTRODUCTION>
-        <LATEX>
+        <LATEX language="en">
           <![CDATA[
             Lists and atoms can be written in the following manner.
             We write down string atoms quoted with {\tt "} and the lists as the contents of the operator string followed by {\tt (} and a comma separated list of elements and an closing {\tt )}.
@@ -96,10 +96,10 @@
     </SECTION>
     <SECTION>
       <TITLE>
-        <LATEX>Examples</LATEX>
+        <LATEX language="en">Examples</LATEX>
       </TITLE>
       <INTRODUCTION>
-        <LATEX>
+        <LATEX language="en">
           <![CDATA[
 
             In this syntax we can write down the following element examples.
@@ -126,10 +126,10 @@
 
   <CHAPTER>
     <TITLE>
-      <LATEX>Logical Language</LATEX>
+      <LATEX language="en">Logical Language</LATEX>
     </TITLE>
     <INTRODUCTION>
-      <LATEX>
+      <LATEX language="en">
         <![CDATA[
           There are different basic things we have to do with. These are predicates, functions, subject variables and logical connectives. In the following all of them are named and described.
         ]]>
@@ -137,10 +137,10 @@
     </INTRODUCTION>
     <SECTION>
       <TITLE>
-        <LATEX>Logical Operator Overview</LATEX>
+        <LATEX language="en">Logical Operator Overview</LATEX>
       </TITLE>
       <INTRODUCTION>
-        <LATEX>
+        <LATEX language="en">
           <![CDATA[
             Lists are categorized according to their operators. 
             Before we introduce the formal language in detail the used operators are briefly listed. 
@@ -178,10 +178,10 @@
 
     <SECTION>
       <TITLE>
-        <LATEX>Terms and Formulas</LATEX>
+        <LATEX language="en">Terms and Formulas</LATEX>
       </TITLE>
       <INTRODUCTION>
-        <LATEX>
+        <LATEX language="en">
           <![CDATA[
             Now we define recursivly our formal language. We call some elements \emph{subject variables}, \emph{terms} and some other \emph{formulas}. We also define the relations a subject variable \emph{is free in} and \emph{is bound in} a term or a formula. If something is not according to the formal rules errors occur. The error codes are also described.
           ]]>
@@ -190,10 +190,10 @@
       <SUBSECTIONS>
         <SUBSECTION>
           <TITLE>
-            <LATEX>General Error Codes</LATEX>
+            <LATEX language="en">General Error Codes</LATEX>
           </TITLE>
           <TEXT>
-            <LATEX>
+            <LATEX language="en">
               <![CDATA[
               
                 The atoms and lists that build up a formula or term are subject to restrictions.  The following errors occur if an atom has no content or has content with length of $0$ or an list has no operator or one of its sub-elements does not exist.
@@ -216,10 +216,10 @@
         </SUBSECTION>
         <SUBSECTION>
           <TITLE>
-            <LATEX>Subject Variable</LATEX>
+            <LATEX language="en">Subject Variable</LATEX>
           </TITLE>
           <TEXT>
-            <LATEX>
+            <LATEX language="en">
               <![CDATA[
               
                 We call an element \emph{subject variable} iff it has the operator \emph{VAR} and its list size is $1$ with an atom as its only argument.
@@ -238,10 +238,10 @@
         </SUBSECTION>
         <SUBSECTION>
           <TITLE>
-            <LATEX>Function Term</LATEX>
+            <LATEX language="en">Function Term</LATEX>
           </TITLE>
           <TEXT>
-            <LATEX>
+            <LATEX language="en">
               <![CDATA[
               
                 If an element has the operator \emph{FUNVAR} or \emph{FUNCON} and its list size is greater than or equal to $1$ with an atom as its first argument and the remaining arguments are all terms then it is called a term too.
@@ -268,10 +268,10 @@
         </SUBSECTION>
         <SUBSECTION>
           <TITLE>
-            <LATEX>Predicate Formula</LATEX>
+            <LATEX language="en">Predicate Formula</LATEX>
           </TITLE>
           <TEXT>
-            <LATEX>
+            <LATEX language="en">
               <![CDATA[
               
                 If an element has the operator \emph{PREDVAR} or \emph{PREDCON} and its list size is greater than or equal to $1$ with an atom as its first argument and the remaining arguments are all terms and no errors occur then it is called a \emph{formula}.
@@ -296,10 +296,10 @@
         </SUBSECTION>
         <SUBSECTION>
           <TITLE>
-            <LATEX>Logical Connectives</LATEX>
+            <LATEX language="en">Logical Connectives</LATEX>
           </TITLE>
           <TEXT>
-            <LATEX>
+            <LATEX language="en">
               <![CDATA[
               
                 If an element has the operator \emph{AND}, \emph{OR}, \emph{IMPL} or \emph{EQUI} and its list size is greater than or equal to $2$ and the remaining arguments are all formulas and no errors occur then it is called a formula too.
@@ -323,10 +323,10 @@
         </SUBSECTION>
         <SUBSECTION>
           <TITLE>
-            <LATEX>Negation</LATEX>
+            <LATEX language="en">Negation</LATEX>
           </TITLE>
           <TEXT>
-            <LATEX>
+            <LATEX language="en">
               <![CDATA[
               
                 If an element has the operator \emph{NOT}, its list size is exactly $1$ and its  only sub-element arguments is a formula then it is called a formula too.
@@ -347,10 +347,10 @@
         </SUBSECTION>
         <SUBSECTION>
           <TITLE>
-            <LATEX>Quantifiers</LATEX>
+            <LATEX language="en">Quantifiers</LATEX>
           </TITLE>
           <TEXT>
-            <LATEX>
+            <LATEX language="en">
               <![CDATA[
               
                 If an element has the operator \emph{FORALL}, \emph{EXISTS} or \emph{EXISTSU} its first sub-element is a subject variable and its second and perhaps its third sub-element is a formula then the element is called a \emph{formula} too.
@@ -375,10 +375,10 @@
         </SUBSECTION>
         <SUBSECTION>
           <TITLE>
-            <LATEX>Class Term</LATEX>
+            <LATEX language="en">Class Term</LATEX>
           </TITLE>
           <TEXT>
-            <LATEX>
+            <LATEX language="en">
               <![CDATA[
               
                 An list element with the operator \emph{CLASS}, containing an subject variable and an formula is a term.
@@ -403,10 +403,10 @@
         </SUBSECTION>
         <SUBSECTION>
           <TITLE>
-            <LATEX>Term</LATEX>
+            <LATEX language="en">Term</LATEX>
           </TITLE>
           <TEXT>
-            <LATEX>
+            <LATEX language="en">
               <![CDATA[
               
                 When checking an element for beeing a term the element must have the operator for a \emph{Subject Variable}, \emph{Function Term} or \emph{Class Term}.
@@ -424,10 +424,10 @@
         </SUBSECTION>
         <SUBSECTION>
           <TITLE>
-            <LATEX>Formula</LATEX>
+            <LATEX language="en">Formula</LATEX>
           </TITLE>
           <TEXT>
-            <LATEX>
+            <LATEX language="en">
               <![CDATA[
               
                 When checking an element for beeing a formul the element must have the operator for a \emph{Predicate Formula}, \emph{Logical Connective}, \emph{Negation} or \emph{Quantifier}.
@@ -448,10 +448,10 @@
   </CHAPTER>
   <CHAPTER>
     <TITLE>
-      <LATEX>Representations</LATEX>
+      <LATEX language="en">Representations</LATEX>
     </TITLE>
     <INTRODUCTION>
-      <LATEX>
+      <LATEX language="en">
         <![CDATA[
           The representation of elements differ according to the viewpoint. Lets take the following formula for example.
 
@@ -464,10 +464,10 @@
     </INTRODUCTION>
     <SECTION>
       <TITLE>
-        <LATEX>List Notation</LATEX>
+        <LATEX language="en">List Notation</LATEX>
       </TITLE>
       <INTRODUCTION>
-        <LATEX>
+        <LATEX language="en">
           <![CDATA[
             In list notation (see \ref{chapter1_section1}) the above formula looks like the following.
             
@@ -514,10 +514,10 @@
     </SECTION>
     <SECTION>
       <TITLE>
-        <LATEX>Java</LATEX>
+        <LATEX language="en">Java</LATEX>
       </TITLE>
       <INTRODUCTION>
-        <LATEX>
+        <LATEX language="en">
           <![CDATA[
             The list notation leads directly to the following Java code.
             \begin{verbatim}
@@ -581,10 +581,10 @@
     </SECTION>
     <SECTION>
       <TITLE>
-        <LATEX>XML</LATEX>
+        <LATEX language="en">XML</LATEX>
       </TITLE>
       <INTRODUCTION>
-        <LATEX>
+        <LATEX language="en">
           <![CDATA[
             The XML representation within an QEDEQ module looks a little bit different. Here all first list atoms are represented as the attribute {\tt ref} or {\tt id}.
             So the above formula may look like the following.
@@ -631,12 +631,14 @@
 
   <CHAPTER>
     <TITLE>
-      <LATEX>Rules of Inference</LATEX>
+      <LATEX language="en">Rules of Inference</LATEX>
     </TITLE>
     <INTRODUCTION>
-      <LATEX>
+      <LATEX language="en">
         <![CDATA[
-          To get new formulas from already proven or given ones we introduce proof rules.
+          To get new formulas from already proven or given ones we introduce proof rules. We prove a given formula (which we call proposition if we have a proof) we start writing a sequence of true formulas. Axioms, definitions and already proven formulas are the first formulas within such a sequence. We can also apply proof methods to formulas that are already in our sequence. Proof rules enable us to obtain new true formulas.
+          
+          \par
           We will introduce the following proof methods. 
 
             \par
@@ -656,10 +658,10 @@
     </INTRODUCTION>
     <SECTION>
       <TITLE>
-        <LATEX>Modus Ponens</LATEX>
+        <LATEX language="en">Modus Ponens</LATEX>
       </TITLE>
       <INTRODUCTION>
-        <LATEX>
+        <LATEX language="en">
           <![CDATA[
             Modus Ponens (Conditional Elimination)
 
@@ -672,6 +674,18 @@
             \end{eqnarray*}
 
             This rule states that if each of $A$ and $A \rightarrow B$ are already true formulas then $B$ is also a true formula.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Add</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            Addition of an axiom, definition or already proven formula. We have to reference to the location of a true formula.
           ]]>
         </LATEX>
       </INTRODUCTION>
