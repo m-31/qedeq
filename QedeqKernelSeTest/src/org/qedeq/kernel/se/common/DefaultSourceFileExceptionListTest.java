@@ -55,7 +55,8 @@ public class DefaultSourceFileExceptionListTest extends QedeqTestCase {
         super(name);
     }
 
-    protected void setUp() {
+    protected void setUp() throws Exception {
+        super.setUp();
         empty = new DefaultSourceFileExceptionList();
         one = new DefaultSourceFileExceptionList(new SourceFileException(plugin, 4711,
             "no big problem", new RuntimeException("something bad"), (SourceArea) null, (SourceArea) null));
@@ -68,11 +69,12 @@ public class DefaultSourceFileExceptionListTest extends QedeqTestCase {
                 "no big problem", new RuntimeException("something other"), (SourceArea) null, (SourceArea) null));
     }
 
-    protected void tearDown() {
+    protected void tearDown() throws Exception {
         empty = null;
         one = null;
         two = null;
         three = null;
+        super.tearDown();
     }
 
     /**
