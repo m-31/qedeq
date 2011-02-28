@@ -15,32 +15,38 @@
 
 package org.qedeq.kernel.bo.logic;
 
-import junit.framework.Test;
-
-import org.qedeq.base.test.QedeqTestSuite;
+import org.qedeq.kernel.bo.logic.common.FormulaChecker;
+import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 
 /**
- * Run all JUnit tests for package org.qedeq.kernel.bo.module.
+ * Test class.
  *
- * @author    Michael Meyling
+ * @author  Michael Meyling
  */
-public class KernelBoLogicTestSuite extends QedeqTestSuite {
+public class FormulaCheckerFactoryImplTest extends QedeqBoTestCase {
 
     /**
-     * Get a new <code>KernelVoModuleTestSuite</code>.
+     * Constructor.
      *
-     * @return  Test.
      */
-    public static Test suite() {
-        return new KernelBoLogicTestSuite();
+    public FormulaCheckerFactoryImplTest() {
+        super();
     }
 
     /**
      * Constructor.
+     *
+     * @param   name    Test case name.
+     *
      */
-    public KernelBoLogicTestSuite() {
-        super();
-        addTestSuite(FormulaCheckerFactoryImplTest.class);
+    public FormulaCheckerFactoryImplTest(final String name) {
+        super(name);
     }
 
+    public void testCreateFormulaChecker() {
+        FormulaCheckerFactoryImpl impl = new FormulaCheckerFactoryImpl();
+        FormulaChecker check = impl.createFormulaChecker();
+        assertNotNull(check);
+    }
+    
 }
