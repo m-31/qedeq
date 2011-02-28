@@ -41,5 +41,6 @@ public class KernelCommonTestSuite extends QedeqTestSuite {
     public KernelCommonTestSuite() {
         super();
         addTestSuite(DefaultModuleAddressTest.class);
+        addTestSuite(DefaultSourceFileExceptionListTest.class);
     }
 }
