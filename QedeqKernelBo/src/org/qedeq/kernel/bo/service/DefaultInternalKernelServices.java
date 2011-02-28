@@ -549,6 +549,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                 prefix + "sample/qedeq_error_sample_02.xml",
                 prefix + "sample/qedeq_error_sample_03.xml",
                 prefix + "sample/qedeq_error_sample_04.xml",
+                prefix + "sample/qedeq_error_sample_05.xml",
                 prefix + "sample/qedeq_error_sample_12.xml",
                 prefix + "sample/qedeq_error_sample_13.xml",
                 prefix + "sample/qedeq_error_sample_14.xml",
