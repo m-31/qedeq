@@ -668,8 +668,8 @@
             
             \par
             \begin{tabularx}{\columnwidth}{lll}
-              \emph{name}          & \tt{Add}      & name of proof rule \\
-              \emph{parameter 1}   & \tt{ref}      & reference to axiom, definition or proposition
+              \emph{name}        & \tt{Add}  & name of proof rule \\
+              \emph{parameter 1} & \tt{ref}  & reference to axiom, definition or proposition
             \end{tabularx}
           ]]>
         </LATEX>
@@ -696,9 +696,9 @@
             
             \par
             \begin{tabularx}{\columnwidth}{lll}
-              \emph{name}          & \tt{MP}       & name of proof rule \\
-              \emph{parameter 1}   & \tt{ref1}     & reference to a proof line label \\
-              \emph{parameter 2}   & \tt{ref2}     & reference to a another proof line label \\
+              \emph{name}        & \tt{MP}   & name of proof rule \\
+              \emph{parameter 1} & \tt{ref1} & reference to a proof line label with a formula like $A$\\
+              \emph{parameter 2} & \tt{ref2} & reference to a another proof line label with a formula like $A \rightarrow B$ \\
             \end{tabularx}
           ]]>
         </LATEX>
