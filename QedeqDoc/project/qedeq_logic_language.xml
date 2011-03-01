@@ -704,6 +704,34 @@
         </LATEX>
       </INTRODUCTION>
     </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Rename bound subject variable.</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            We may replace a bound subject variable occurring in a formula by any other subject variable, provided that the new variable occurs not free in the original formula. If the variable to be replaced occurs in more than one scope, then the replacement needs to be made in one scope only.
+            For example in this case we replace x by y at the first occurrence.
+
+            \par
+            \begin{eqnarray*}
+             & \forall x A(x) & \\
+             \cline{2-3}
+             & \forall y A(y) & \\
+            \end{eqnarray*}
+
+            \par
+            \begin{tabularx}{\columnwidth}{lll}
+              \emph{name}        & \tt{Rename}      & name of proof rule \\
+              \emph{parameter 1} & \tt{original}    & bound subject variable that should be renamed \\
+              \emph{parameter 2} & \tt{replacement} & new name for subject variable \\
+              \emph{parameter 3} & \tt{occurrence}  & bound occurence where we want to replace
+            \end{tabularx}
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
   </CHAPTER>
 
 </QEDEQ>
