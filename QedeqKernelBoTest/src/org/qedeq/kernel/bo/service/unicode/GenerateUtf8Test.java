@@ -78,7 +78,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         try {
             generate(getDocDir(), "project/qedeq_logic_language.xml", getGenDir(), true);
         } catch (SourceFileExceptionList e) {
-            assertEquals(16, e.size());
+            assertEquals(19, e.size());
         }
     }
 
