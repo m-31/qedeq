@@ -636,26 +636,45 @@
     <INTRODUCTION>
       <LATEX language="en">
         <![CDATA[
-          To get new formulas from already proven or given ones we introduce proof rules. We prove a given formula (which we call proposition if we have a proof) we start writing a sequence of true formulas. Axioms, definitions and already proven formulas are the first formulas within such a sequence. We can also apply proof methods to formulas that are already in our sequence. Proof rules enable us to obtain new true formulas.
+          To get new formulas from already proven or given ones we introduce \emph{proof rules}. We can call a formula \emph{proposition} if we can write down a sequence of formulas that derive it from axioms, definitions and propositions by applying proof methods. Such a sequence is called a \emph{proof}. It is made of \emph{proof lines}. A proof line is a formula and a proof rule usage with its parameters. The last formula of a proof must be the proposition formula itself. 
+
           
           \par
-          We will introduce the following proof methods. 
+          We will introduce the following proof rules. 
 
             \par
             \begin{tabularx}{\columnwidth}{ll}
-              \emph{MP}          & modus ponens  \\
               \emph{Add}         & add already proven formula  \\
+              \emph{MP}          & modus ponens  \\
               \emph{Rename}      & rename bound subject variable  \\
               \emph{SubstFree}   & substitute free subject variable by term  \\
               \emph{SubstFun}    & substitute function variable by term  \\
               \emph{SubstPred}   & substitute predicate variable by formula \\
               \emph{Universal}   & universal generalization  \\
-              \emph{Existential} & existential generalization  \\
+              \emph{Existential} & existential generalization
             \end{tabularx}
 
         ]]>
       </LATEX>
     </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Addition</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            Addition of an axiom, definition or already proven formula. We have to reference to the location of a true formula.
+            
+            \par
+            \begin{tabularx}{\columnwidth}{lll}
+              \emph{name}          & \tt{Add}      & name of proof method \\
+              \emph{parameter 1}   & \tt{ref}      & reference to axiom, definition or proposition
+            \end{tabularx}
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
     <SECTION>
       <TITLE>
         <LATEX language="en">Modus Ponens</LATEX>
@@ -674,18 +693,6 @@
             \end{eqnarray*}
 
             This rule states that if each of $A$ and $A \rightarrow B$ are already true formulas then $B$ is also a true formula.
-          ]]>
-        </LATEX>
-      </INTRODUCTION>
-    </SECTION>
-    <SECTION>
-      <TITLE>
-        <LATEX language="en">Add</LATEX>
-      </TITLE>
-      <INTRODUCTION>
-        <LATEX language="en">
-          <![CDATA[
-            Addition of an axiom, definition or already proven formula. We have to reference to the location of a true formula.
           ]]>
         </LATEX>
       </INTRODUCTION>
