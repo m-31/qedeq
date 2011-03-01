@@ -636,7 +636,7 @@
     <INTRODUCTION>
       <LATEX language="en">
         <![CDATA[
-          To get new formulas from already proven or given ones we introduce \emph{proof rules}. We can call a formula \emph{proposition} if we can write down a sequence of formulas that derive it from axioms, definitions and propositions by applying proof methods. Such a sequence is called a \emph{proof}. It is made of \emph{proof lines}. A proof line is a formula and a proof rule usage with its parameters. The last formula of a proof must be the proposition formula itself. 
+          To get new formulas from already proven or given ones we introduce \emph{proof rules}. We can call a formula \emph{proposition} if we can write down a sequence of formulas that derive it from axioms, definitions and propositions by applying proof methods. Such a sequence is called a \emph{proof}. It is made of \emph{proof lines}. A proof line is a formula and a proof rule usage with its parameters. Each proof line has a label. The last formula of a proof must be the proposition formula itself. 
 
           
           \par
@@ -668,7 +668,7 @@
             
             \par
             \begin{tabularx}{\columnwidth}{lll}
-              \emph{name}          & \tt{Add}      & name of proof method \\
+              \emph{name}          & \tt{Add}      & name of proof rule \\
               \emph{parameter 1}   & \tt{ref}      & reference to axiom, definition or proposition
             \end{tabularx}
           ]]>
@@ -693,6 +693,13 @@
             \end{eqnarray*}
 
             This rule states that if each of $A$ and $A \rightarrow B$ are already true formulas then $B$ is also a true formula.
+            
+            \par
+            \begin{tabularx}{\columnwidth}{lll}
+              \emph{name}          & \tt{MP}       & name of proof rule \\
+              \emph{parameter 1}   & \tt{ref1}     & reference to a proof line label \\
+              \emph{parameter 2}   & \tt{ref2}     & reference to a another proof line label \\
+            \end{tabularx}
           ]]>
         </LATEX>
       </INTRODUCTION>
