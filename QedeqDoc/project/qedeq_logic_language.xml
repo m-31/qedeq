@@ -673,7 +673,7 @@
             \end{tabularx}
 
             \par
-            See \href{../../xml/qedeq.html}{XSD}
+            See \url{http://www.qedeq.org/0_04_01/xml/qedeq/noNamespace/element/ADD.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -703,6 +703,9 @@
               \emph{parameter 1} & \tt{ref1} & reference to a proof line label with a formula like $A$\\
               \emph{parameter 2} & \tt{ref2} & reference to a another proof line label with a formula like $A \rightarrow B$ \\
             \end{tabularx}
+
+            \par
+            See \url{http://www.qedeq.org/0_04_01/xml/qedeq/noNamespace/element/MP.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -719,9 +722,9 @@
 
             \par
             \begin{eqnarray*}
-             & \forall x A(x) & \\
+             & \ldots \forall x A(x) \ldots & \\
              \cline{2-3}
-             & \forall y A(y) & \\
+             & \ldots \forall y A(y) \ldots & \\
             \end{eqnarray*}
 
             \par
@@ -759,6 +762,9 @@
               \emph{parameter 2} & \tt{original}    & free subject variable that should be replaced \\
               \emph{parameter 3} & \tt{replacement} & replacement term \\
             \end{tabularx}
+
+            \par
+            See \url{http://www.qedeq.org/0_04_01/xml/qedeq/noNamespace/element/SUBST_FREE.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -796,6 +802,9 @@
               \emph{parameter 2} & \tt{original}    & function variable that should be replaced \\
               \emph{parameter 3} & \tt{replacement} & replacement term \\
             \end{tabularx}
+
+            \par
+            See \url{http://www.qedeq.org/0_04_01/xml/qedeq/noNamespace/element/SUBST_FUNVAR.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -833,6 +842,9 @@
               \emph{parameter 2} & \tt{original}    & predicate variable that should be replaced \\
               \emph{parameter 3} & \tt{replacement} & replacement formula \\
             \end{tabularx}
+
+            \par
+            See \url{http://www.qedeq.org/0_04_01/xml/qedeq/noNamespace/element/SUBST_PREDVAR.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -859,6 +871,9 @@
               \emph{parameter 1} & \tt{ref}         & reference to a proof line label \\
               \emph{parameter 2} & \tt{var}         & subject variable we want to quantify with \\
             \end{tabularx}
+
+            \par
+            See \url{http://www.qedeq.org/0_04_01/xml/qedeq/noNamespace/element/UNIVERSAL.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -885,6 +900,9 @@
               \emph{parameter 1} & \tt{ref}         & reference to a proof line label \\
               \emph{parameter 2} & \tt{var}         & subject variable we want to quantify with \\
             \end{tabularx}
+
+            \par
+            See \url{http://www.qedeq.org/0_04_01/xml/qedeq/noNamespace/element/EXISTENTIAL.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
