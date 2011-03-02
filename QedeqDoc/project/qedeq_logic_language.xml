@@ -768,9 +768,9 @@
             A function variable $\sigma$ of arity $n$ may be replaced by an arbitrary term $\tau$, provided that the following conditions are fulfilled. Let $x_1$, \ldots, $x_n$ be subject variables.
             \begin{itemize}
               \item 
-              $x_1$, \ldots, $x_n$ are not bound within $\tau$. 
+              $x_1$, \ldots, $x_n$ are not bound within $\tau$
               \item 
-              the free variables of $\tau$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
+              the free variables of $\tau$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in the original formula
               \item
               each occurrence of $\sigma$ contains no bound variable of $\tau$
               \item
@@ -786,9 +786,45 @@
 
             \par
             \begin{tabularx}{\columnwidth}{lll}
-              \emph{name}        & \tt{FunFree}     & name of proof rule \\
+              \emph{name}        & \tt{SubstFun}    & name of proof rule \\
               \emph{parameter 1} & \tt{original}    & function variable that should be replaced \\
               \emph{parameter 2} & \tt{replacement} & replacement term \\
+            \end{tabularx}
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Substitute predicate variable by formula.</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            A predicate variable $p$ of arity $n$ may be replaced by an arbitrary formula $\beta$, provided that the following conditions are fulfilled. Let $x_1$, \ldots, $x_n$ be subject variables.
+            \begin{itemize}
+              \item 
+              $x_1$, \ldots, $x_n$ are not bound within $\beta$ 
+              \item 
+              the free variables of $\beta$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in the original formlua
+              \item
+              each occurrence of $p$ contains no bound variable of $\beta$
+              \item
+              the result of the substitution is a well-formed formula
+            \end{itemize}
+
+            \par
+            \begin{eqnarray*}
+             & A(\sigma) & \\
+             \cline{2-3}
+             & A(\tau) & \\
+            \end{eqnarray*}
+
+            \par
+            \begin{tabularx}{\columnwidth}{lll}
+              \emph{name}        & \tt{SubstPred}   & name of proof rule \\
+              \emph{parameter 1} & \tt{original}    & predicate variable that should be replaced \\
+              \emph{parameter 2} & \tt{replacement} & replacement formula \\
             \end{tabularx}
           ]]>
         </LATEX>
