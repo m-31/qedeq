@@ -673,7 +673,7 @@
             \end{tabularx}
 
             \par
-            See \url{http://../../xml/qedeq.xsd}
+            See \href{../../xml/qedeq.html}{XSD}
           ]]>
         </LATEX>
       </INTRODUCTION>
