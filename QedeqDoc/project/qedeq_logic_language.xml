@@ -706,7 +706,7 @@
     </SECTION>
     <SECTION>
       <TITLE>
-        <LATEX language="en">Rename bound subject variable.</LATEX>
+        <LATEX language="en">Rename bound subject variable</LATEX>
       </TITLE>
       <INTRODUCTION>
         <LATEX language="en">
@@ -724,9 +724,10 @@
             \par
             \begin{tabularx}{\columnwidth}{lll}
               \emph{name}        & \tt{Rename}      & name of proof rule \\
-              \emph{parameter 1} & \tt{original}    & bound subject variable that should be renamed \\
-              \emph{parameter 2} & \tt{replacement} & new name for subject variable \\
-              \emph{parameter 3} & \tt{occurrence}  & bound occurence where we want to replace
+              \emph{parameter 1} & \tt{ref}         & reference to a proof line label \\
+              \emph{parameter 2} & \tt{original}    & bound subject variable that should be renamed \\
+              \emph{parameter 3} & \tt{replacement} & new name for subject variable \\
+              \emph{parameter 4} & \tt{occurrence}  & bound occurence where we want to replace
             \end{tabularx}
           ]]>
         </LATEX>
@@ -751,8 +752,9 @@
             \par
             \begin{tabularx}{\columnwidth}{lll}
               \emph{name}        & \tt{SubstFree}   & name of proof rule \\
-              \emph{parameter 1} & \tt{original}    & free subject variable that should be replaced \\
-              \emph{parameter 2} & \tt{replacement} & replacement term \\
+              \emph{parameter 1} & \tt{ref}         & reference to a proof line label \\
+              \emph{parameter 2} & \tt{original}    & free subject variable that should be replaced \\
+              \emph{parameter 3} & \tt{replacement} & replacement term \\
             \end{tabularx}
           ]]>
         </LATEX>
@@ -760,7 +762,7 @@
     </SECTION>
     <SECTION>
       <TITLE>
-        <LATEX language="en">Substitute function variable by term.</LATEX>
+        <LATEX language="en">Substitute function variable by term</LATEX>
       </TITLE>
       <INTRODUCTION>
         <LATEX language="en">
@@ -787,8 +789,9 @@
             \par
             \begin{tabularx}{\columnwidth}{lll}
               \emph{name}        & \tt{SubstFun}    & name of proof rule \\
-              \emph{parameter 1} & \tt{original}    & function variable that should be replaced \\
-              \emph{parameter 2} & \tt{replacement} & replacement term \\
+              \emph{parameter 1} & \tt{ref}         & reference to a proof line label \\
+              \emph{parameter 2} & \tt{original}    & function variable that should be replaced \\
+              \emph{parameter 3} & \tt{replacement} & replacement term \\
             \end{tabularx}
           ]]>
         </LATEX>
@@ -796,7 +799,7 @@
     </SECTION>
     <SECTION>
       <TITLE>
-        <LATEX language="en">Substitute predicate variable by formula.</LATEX>
+        <LATEX language="en">Substitute predicate variable by formula</LATEX>
       </TITLE>
       <INTRODUCTION>
         <LATEX language="en">
@@ -823,13 +826,65 @@
             \par
             \begin{tabularx}{\columnwidth}{lll}
               \emph{name}        & \tt{SubstPred}   & name of proof rule \\
-              \emph{parameter 1} & \tt{original}    & predicate variable that should be replaced \\
-              \emph{parameter 2} & \tt{replacement} & replacement formula \\
+              \emph{parameter 1} & \tt{ref}         & reference to a proof line label \\
+              \emph{parameter 2} & \tt{original}    & predicate variable that should be replaced \\
+              \emph{parameter 3} & \tt{replacement} & replacement formula \\
+            \end{tabularx}
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Universal Generalization</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            If $\alpha \rightarrow \beta(x_1)$ is a true formula and $\alpha$ does not contain the subject variable $x_1$, then $\alpha \rightarrow (\forall x_1~(\beta(x_1)))$ is a true formula too.
+
+            \par
+            \begin{eqnarray*}
+             & \alpha \rightarrow \beta(x_1) & \\
+             \cline{2-3}
+             & \alpha \rightarrow (\forall x_1~(\beta(x_1))) & \\
+            \end{eqnarray*}
+
+            \par
+            \begin{tabularx}{\columnwidth}{lll}
+              \emph{name}        & \tt{Universal}   & name of proof rule \\
+              \emph{parameter 1} & \tt{ref}         & reference to a proof line label \\
+              \emph{parameter 2} & \tt{var}         & subject variable we want to quantify with \\
+            \end{tabularx}
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Existential Generalization</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            If $\alpha(x_1) \rightarrow \beta$ is already proved to be true and $\beta$ does not contain the subject variable $x_1$, then $(\exists x_1~\alpha(x_1)) \rightarrow \beta$ is also a true formula.
+
+            \par
+            \begin{eqnarray*}
+             & \alpha(x_1) \rightarrow \beta & \\
+             \cline{2-3}
+             & (\exists x_1~\alpha(x_1)) \rightarrow \beta & \\
+            \end{eqnarray*}
+
+            \par
+            \begin{tabularx}{\columnwidth}{lll}
+              \emph{name}        & \tt{Existential} & name of proof rule \\
+              \emph{parameter 1} & \tt{ref}         & reference to a proof line label \\
+              \emph{parameter 2} & \tt{var}         & subject variable we want to quantify with \\
             \end{tabularx}
           ]]>
         </LATEX>
       </INTRODUCTION>
     </SECTION>
   </CHAPTER>
-
 </QEDEQ>
