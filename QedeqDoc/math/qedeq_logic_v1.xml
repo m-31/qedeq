@@ -1110,7 +1110,7 @@
                   the free variables of $\tau(x_1, \ldots, x_n)$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
                   
                   \item
-                  each occurrence of $\sigma(x_1, \ldots, x_n)$ in $\alpha$ contains no bound variable of $\tau(x_1, \ldots, x_n)$
+                  each occurrence of $\sigma(y_1, \ldots, y_n)$ in $\alpha$ contains no bound variable of $\tau(y_1, \ldots, y_n)$
                   
                   \item
                   the result of the substitution is a well-formed formula

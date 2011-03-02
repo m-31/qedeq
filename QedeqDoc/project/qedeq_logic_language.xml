@@ -732,6 +732,68 @@
         </LATEX>
       </INTRODUCTION>
     </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Substitute free subject variable by term.</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            A free subject variable may be replaced by an arbitrary term, provided that the substituted term contains no subject variable that have a bound occurrence in the original formula. All occurrences of the free variable must be simultaneously replaced.
+
+            \par
+            \begin{eqnarray*}
+             & A(x) & \\
+             \cline{2-3}
+             & A(t) & \\
+            \end{eqnarray*}
+
+            \par
+            \begin{tabularx}{\columnwidth}{lll}
+              \emph{name}        & \tt{SubstFree}   & name of proof rule \\
+              \emph{parameter 1} & \tt{original}    & free subject variable that should be replaced \\
+              \emph{parameter 2} & \tt{replacement} & replacement term \\
+            \end{tabularx}
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Substitute function variable by term.</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            A function variable $\sigma$ of arity $n$ may be replaced by an arbitrary term $\tau$, provided that the following conditions are fulfilled. Let $x_1$, \ldots, $x_n$ be subject variables.
+            \begin{itemize}
+              \item 
+              $x_1$, \ldots, $x_n$ are not bound within $\tau$. 
+              \item 
+              the free variables of $\tau$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
+              \item
+              each occurrence of $\sigma$ contains no bound variable of $\tau$
+              \item
+              the result of the substitution is a well-formed formula
+            \end{itemize}
+
+            \par
+            \begin{eqnarray*}
+             & A(\sigma) & \\
+             \cline{2-3}
+             & A(\tau) & \\
+            \end{eqnarray*}
+
+            \par
+            \begin{tabularx}{\columnwidth}{lll}
+              \emph{name}        & \tt{FunFree}     & name of proof rule \\
+              \emph{parameter 1} & \tt{original}    & function variable that should be replaced \\
+              \emph{parameter 2} & \tt{replacement} & replacement term \\
+            \end{tabularx}
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
   </CHAPTER>
 
 </QEDEQ>
