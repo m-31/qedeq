@@ -671,6 +671,9 @@
               \emph{name}        & \tt{Add}  & name of proof rule \\
               \emph{parameter 1} & \tt{ref}  & reference to axiom, definition or proposition
             \end{tabularx}
+
+            \par
+            See \url{../../xml/qedeq.xsd}
           ]]>
         </LATEX>
       </INTRODUCTION>
