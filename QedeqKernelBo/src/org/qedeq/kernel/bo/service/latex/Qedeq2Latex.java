@@ -1024,6 +1024,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             if (list.size() >= ALPHABET.length() * ALPHABET.length()) {
                 label = "" + (i + 1);
             } else {
+                // TODO 20110303 m31: this dosn't work if we have more than 26 * 26 elements
                 if (list.size() > ALPHABET.length()) {
                     final int div = (i / ALPHABET.length());
                     label = "" + ALPHABET.charAt(div);
