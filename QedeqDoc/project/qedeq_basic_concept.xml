@@ -543,7 +543,7 @@
             Xerces     & apache XML parser \\
             Checkstyle & coding standard checker \\
             JUnit      & a simple framework to write repeatable tests \\
-            Clover     & code coverage analysis tool
+            Clover     & code coverage analysis tool \\
             Jenkins    & CI server
           \end{tabular}
           ]]>
