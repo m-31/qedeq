@@ -680,7 +680,7 @@
               external module                  & {\tt importLabel}                      \\
               (external) node reference        & {\tt [importLabel.]nodeId}             \\
               (external) node sub formula ref. & {\tt [importLabel.]nodeId/subRef}      \\
-              (external) node proof line ref.  & {\tt [[importLabel].nodeId!\]lineLabel}
+              (external) node proof line ref.  & {\tt [[importLabel].nodeId!]lineLabel}
             \end{tabularx}
           ]]>
         </LATEX>
