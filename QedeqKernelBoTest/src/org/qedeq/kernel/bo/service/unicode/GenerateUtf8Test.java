@@ -70,7 +70,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         try {
             generate(getDocDir(), "project/qedeq_basic_concept.xml", getGenDir(), false);
         } catch (SourceFileExceptionList e) {
-            assertEquals(8, e.size());
+            assertEquals(7, e.size());
         }
     }
 
