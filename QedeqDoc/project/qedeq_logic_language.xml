@@ -155,9 +155,9 @@
               \emph{NOT}  & logical negation operator       & $\neg$ \\
               \\
               \multicolumn{2}{l@{}}{\qquad\emph{logical quantifiers}} \vspace*{1mm} \\
-              \emph{FORLL}   & universal quantifier           & $\forall$ \\
-              \emph{EXISTS}  & existential quantifier         & $\exists$ \\
-              \emph{EXISTSU} & unique existential quantifier  & $\exists !$ \\
+              \emph{FORLL}   & universal quantifier          & $\forall$ \\
+              \emph{EXISTS}  & existential quantifier        & $\exists$ \\
+              \emph{EXISTSU} & unique existential quantifier & $\exists !$ \\
               \\
               \multicolumn{2}{l@{}}{\qquad\emph{variables}} \vspace*{1mm} \\
               \emph{VAR}      & subject variables           & $x, y, z, \ldots$ \\
@@ -628,7 +628,67 @@
       </INTRODUCTION>
     </SECTION>
   </CHAPTER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">Document structure</LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        <![CDATA[
+          In this chapter we make some remarks about the QEDEQ XML format.
+          ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">Basic structure</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            The mathematical knowledge of this project is organized in so called QEDEQ modules. Such a module can be read and edited with a simple text editor. It could contain references to other QEDEQ modules which lay anywhere in the world wide web.
 
+            \par
+            A QEDEQ module is build like a mathematical text book. It's main structure looks like an \LaTeX{} book file. It contains chapters which are composed of sections and sections are composed of subsections. A subsection may be pure text or an so called \emph{node}. A node is either an axiom, definition, proposition or rule. Every node has an id and could be referenced by that. Essential formal elements of a node are formulas.
+
+            \par
+            The formal definition of an QEDEQ XML document can be found here: \url{http://www.qedeq.org/0_04_01/xml/qedeq/noNamespace/element/QEDEQ.html}.
+            
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">References</LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            In QEDEQ documents reference links are used very often. There exist four goals for references: modules, nodes, sub formulas and proof lines. 
+            \par
+            If you want to address an external module you have to know its import \emph{label}. See \url{http://www.qedeq.org/0_04_01/xml/qedeq/noNamespace/element/QEDEQ.HEADER.IMPORTS.IMPORT.html}.
+            \par
+            A reference to a node needs the \emph{id} of that node. See \url{http://www.qedeq.org/0_04_01/xml/qedeq/noNamespace/element/NODE.html}.
+            \par
+            In certain cases it is also possible to reference a subformula of a proposition formula.
+            This is only possible if the proposition formula is a conjunction (e.g. the top level logical operation is a conjunction). For each parameter a label is automatically generated. If the number of conjuntion parameters is below 27 the label is simply the n'th alphabet character. If the number is greater 26 the label is written in the 26 system with alphabet characters as digits. To reference to a subformula of an external node the syntax is {\tt importLabel.nodeId/subRef}.
+            \par
+            You can also reference to a fromal proof line \emph{label}, see \url{http://www.qedeq.org/0_04_01/xml/qedeq/noNamespace/element/L.html}. Within the node you just need to link to the label. Outside the node context (but within the same module) the syntax is {\tt nodeId!lineLabel}.
+            \par
+            Here follows a reference summary.
+            \par
+            \begin{tabularx}{\linewidth}{ll}
+              external module                  & {\tt importLabel}                      //
+              (external) node reference        & {\tt [importLabel.]nodeId}             //
+              (external) node sub formula ref. & {\tt [importLabel.]nodeId/subRef}      //
+              (external) node proof line ref.  & {\tt [[importLabel].nodeId!]lineLabel}
+            \end{tabularx}
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
+  </CHAPTER>
   <CHAPTER>
     <TITLE>
       <LATEX language="en">Basic Rules of Inference</LATEX>
