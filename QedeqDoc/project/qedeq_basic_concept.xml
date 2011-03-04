@@ -71,7 +71,7 @@
           \par
           \emph{Preface} and \emph{Introduction~\ref{ch:introduction}} describe the project background and vision. 
           Chapter~\emph{\ref{ch:functional.specification}} gives more details about the functional requirements. Other requirements are listed in chapter~\emph{\ref{ch:other.requirements}}. Chapter~\emph{\ref{ch:technical.specification}} provides some information about the technichal specifications and software architecture.
-          Last but not least we give some informations about the project progress in chapter~\emph{\ref{ch:project.progress}}. 
+          Last but not least we give some informations about the project progress in chapter~\emph{\ref{ch:project.progress}. 
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -543,7 +543,7 @@
             Xerces     & apache XML parser \\
             Checkstyle & coding standard checker \\
             JUnit      & a simple framework to write repeatable tests \\
-            Clover     & code coverage analysis tool \\
+            Clover     & code coverage analysis tool
             Jenkins    & CI server
           \end{tabular}
           ]]>
@@ -605,11 +605,11 @@
             \item
             The syntax of QEDEQ module files is so rich, that the notations and formulas of basic set theory can be expressed.
             \item
-            There is a kernel, which can check QEDEQ module files on a syntactic basis. For example it should recognize, that a formula is not well formed if it was quantified twice over the same subject variable. The kernel still couldn't check a proof (that means it couldn't decide if a formula derives logically from others).
+            The script of basic set theory is completed. It is fully formalized and contains formal proofs for all propositions. Ideally the mathematical description texts are written in different detail levels and in the languages English and German.
+            \item
+            There is a kernel, which can check all formal proofs of QEDEQ module files.
             \item
             The generation of \LaTeX{} and HTML files out of QEDEQ modules is possible.
-            \item
-            The script of basic set theory is completed. It is fully formalized and contains formal proofs for all propositions. Ideally the mathematical description texts are written in different detail levels and in the languages English and German.
           \end{itemize}
           ]]>
         </LATEX>
