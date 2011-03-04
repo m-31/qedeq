@@ -269,13 +269,9 @@ currently in ants classpath
     </target>
                             
     <target name="doc" description="generate project documentation" depends="source,test,makePdfs">
-        <delete dir="${qedeq.dest}/xml" />
-        <mkdir dir="${qedeq.dest}/doc" />
-        <mkdir dir="${qedeq.dest}/doc/project" />
-        <delete dir="${qedeq.dest}/xml" />
-        <mkdir dir="${qedeq.dest}/xml" />
-        
         <!-- generate XSD documentation -->   
+        <delete dir="${qedeq.dest}/xml" failonerror="true"/>
+        <mkdir dir="${qedeq.dest}/xml" />
         <mkdir dir="${qedeq.dest}/xml/qedeq"/>
         <xsddoc file="${qedeq.dest.module}/qedeq_kernel/src/main/resources/org/qedeq/kernel/xml/schema/qedeq.xsd"
                  out="${qedeq.dest}/xml/qedeq"
@@ -297,6 +293,8 @@ currently in ants classpath
             </fileset>
         </copy>
 
+        <!-- add ressources -->
+        <delete dir="${qedeq.dest}/res" failonerror="true"/>
         <mkdir dir="${qedeq.dest}/res" />
         <copy todir="${qedeq.dest}/res">
           <fileset dir="${qedeq.resources}/clover"
@@ -305,6 +303,10 @@ currently in ants classpath
           </fileset>
         </copy>
         
+    	<!-- add documentation -->
+        <delete dir="${qedeq.dest}/doc" failonerror="true"/>
+        <mkdir dir="${qedeq.dest}/doc" />
+        <mkdir dir="${qedeq.dest}/doc/project" />
         <copy todir="${qedeq.dest}/doc/project">
           <fileset dir="${qedeq.resources}"
             includes="changes.txt"
@@ -332,6 +334,7 @@ currently in ants classpath
           >
           </fileset>
         </copy>
+    	<delete file="${qedeq.dest}/index.html" />
         <copy todir="${qedeq.dest}">
           <fileset dir="${qedeq.resources}"
             includes="index.html"
