@@ -28,6 +28,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
+import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
@@ -94,9 +95,21 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
      */
     public void generate(final File dir, final String xml, final File destinationDirectory,
             final boolean onlyEn) throws Exception {
-        generate(dir, xml, "en", destinationDirectory);
+        final DefaultSourceFileExceptionList sfe = new DefaultSourceFileExceptionList();
+        try {
+            generate(dir, xml, "en", destinationDirectory);
+        } catch (SourceFileExceptionList e) {
+            sfe.add(e);
+        }
         if (!onlyEn) {
-            generate(dir, xml, "de", destinationDirectory);
+            try {
+                generate(dir, xml, "de", destinationDirectory);
+            } catch (SourceFileExceptionList e) {
+                sfe.add(e);
+            }
+        }
+        if (sfe.size() > 0) {
+            throw sfe;
         }
     }
 
