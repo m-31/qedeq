@@ -47,7 +47,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         try {
             generate(getDocDir(), "math/qedeq_logic_v1.xml", getGenDir(), false);
         } catch (SourceFileExceptionList e) {
-            assertEquals(2, e.size());
+            assertEquals(4, e.size());
         }
     }
 
@@ -55,7 +55,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         try {
             generate(getDocDir(), "math/qedeq_sample1.xml", getGenDir(), false);
         } catch (SourceFileExceptionList e) {
-            assertEquals(2, e.size());
+            assertEquals(4, e.size());
         }
     }
 
