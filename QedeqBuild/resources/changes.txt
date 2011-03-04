@@ -17,11 +17,11 @@ Functional Changes
   
   Fixed Bugs
   ----------
-  - 
+  none 
 
   Other Changes
   -------------
-  - 
+  none
 
 
 XML Files
@@ -106,7 +106,31 @@ XSD
 
   Extensions
   ----------
-  - FORMAL_PROOF extended with basic proof rules
+  - FORMAL_PROOF extended in following form 
+     <FORMAL_PROOF> 
+       <PRECEDING> ... </PRECEDING> [0..1]
+       <LINES> [1] ? 
+         <L> ... </L> [1..*]
+      </LINES>
+      <SUCCEEDING> ... </SUCCEEDING> [0..1]
+    </FORMAL_PROOF>
+    
+    And a proof line looks like:
+    <L label=" xs:NMTOKEN [0..1] ?"> 
+      <FORMULA> ... </FORMULA> [1] ?
+      <REASONTYPE> ... </REASONTYPE> [1] ?
+    </L>
+    
+    basic proof rules are (REASONTYPE)
+      MP
+      ADD
+      RENAME
+      SUBST_FREE
+      SUBST_FUNVAR
+      SUBST_PREDVAR
+      EXISTENTIAL
+      UNIVERSAL
+
   - EMAILTYPE has now a maximum length of 200 instead of 100
 
   Fixed Bugs
