@@ -106,7 +106,8 @@ XSD
 
   Extensions
   ----------
-  - FORMAL_PROOF extended
+  - FORMAL_PROOF extended with basic proof rules
+  - EMAILTYPE has now a maximum length of 200 instead of 100
 
   Fixed Bugs
   ----------
@@ -114,4 +115,4 @@ XSD
 
   Other Changes
   -------------
-  none
+  - documentation of classes to change if XSD changes
