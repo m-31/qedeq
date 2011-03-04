@@ -71,7 +71,7 @@
           \par
           \emph{Preface} and \emph{Introduction~\ref{ch:introduction}} describe the project background and vision. 
           Chapter~\emph{\ref{ch:functional.specification}} gives more details about the functional requirements. Other requirements are listed in chapter~\emph{\ref{ch:other.requirements}}. Chapter~\emph{\ref{ch:technical.specification}} provides some information about the technichal specifications and software architecture.
-          Last but not least we give some informations about the project progress in chapter~\emph{\ref{ch:project.progress}. 
+          Last but not least we give some informations about the project progress in chapter~\emph{\ref{ch:project.progress}}. 
         ]]>
       </LATEX>
     </INTRODUCTION>
