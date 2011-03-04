@@ -52,9 +52,9 @@ XML Files
   - rename of error sample XML files
   - label naming convention changed: labels are now parsed by
     ControlVisitor and have the following syntax:
-    label reference                   importLabel
+    external module                   importLabel
     (external) node reference         [importLabel].nodeLabel
-    (external) node sub formula ref.  [[importLabel].nodeLabel/]subFormula
+    (external) node sub formula ref.  [importLabel].nodeLabel/subFormula
     (external) node proof line ref.   [[importLabel].nodeLabel!]lineLabel
 
 Source Code
@@ -67,6 +67,7 @@ Source Code
   - new constructor for dummy areas for SourceArea
   - various classes in different tiers for proof reason integration
   - Qedeq2Xml escapes XML entities now
+  - new class Reference describes reference links
   
 
   Fixed Bugs
