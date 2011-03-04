@@ -820,6 +820,8 @@ public final class Latex2UnicodeParser {
             output.addWs(" ");
         } else if (token.equals("\\S")) {
             output.addToken("\u00A7");
+        } else if (token.equals("\\tt")) {
+            // ignore
         } else if (token.equals("\\tiny")) {
             // ignore
         } else if (token.equals("\\nonumber")) {
