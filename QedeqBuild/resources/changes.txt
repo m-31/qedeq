@@ -36,6 +36,9 @@ XML Files
   project\qedeq_logic_language.xml
   - now with listing of basic formal proof rules
 
+  project\qedeq_basic_concept.xml
+  - some updates and extensions included
+
   sample\qedeq_sample3.xml
   - this file was added to demonstrate the new syntax for basic formal proofs
 
