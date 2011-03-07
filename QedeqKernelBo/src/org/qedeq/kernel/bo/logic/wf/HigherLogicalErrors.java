@@ -19,6 +19,7 @@ import org.qedeq.kernel.se.common.ErrorCodes;
 
 /**
  * Error codes and messages for formula checker.
+ * FIXME 20110307 m31: check where this class is used and move it or the error messages
  *
  * @author  Michael Meyling
  */
