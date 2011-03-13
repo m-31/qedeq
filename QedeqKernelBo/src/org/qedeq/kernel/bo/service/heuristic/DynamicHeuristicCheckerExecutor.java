@@ -22,14 +22,17 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
+import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.Operators;
+import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.model.DynamicDirectInterpreter;
 import org.qedeq.kernel.bo.logic.model.DynamicModel;
 import org.qedeq.kernel.bo.logic.model.FourDynamicModel;
-import org.qedeq.kernel.bo.logic.model.FunctionConstant;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
 import org.qedeq.kernel.bo.logic.model.HeuristicException;
-import org.qedeq.kernel.bo.logic.model.PredicateConstant;
+import org.qedeq.kernel.bo.logic.model.ModelFunctionConstant;
+import org.qedeq.kernel.bo.logic.model.ModelPredicateConstant;
+import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
@@ -37,6 +40,8 @@ import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.Node;
@@ -217,6 +222,44 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         setBlocked(false);
     }
 
+    public void visitEnter(final InitialPredicateDefinition definition)
+            throws ModuleDataException {
+        final String method = "visitEnter(InitialPredicateDefinition)";
+        if (definition == null) {
+            return;
+        }
+        System.out.println("\ttesting initial predicate definition");
+        final String context = getCurrentContext().getLocationWithinModule();
+        try {
+            ModelPredicateConstant predicate = new ModelPredicateConstant(
+                    definition.getName(), Integer.parseInt(definition
+                            .getArgumentNumber()));
+            // check if model contains predicate
+            if (!interpreter.hasPredicateConstant(predicate)) {
+                setLocationWithinModule(context + ".getName()");
+                addWarning(new HeuristicException(
+                        HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
+                        HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_TEXT
+                                + predicate, getCurrentContext()));
+            }
+        } catch (NumberFormatException e) {
+            Trace.fatal(CLASS, this, method, "not suported argument number: "
+                    + definition.getArgumentNumber(), e);
+            setLocationWithinModule(context + ".getArgumentNumber()");
+            addWarning(new HeuristicException(
+                    HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
+                    HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_TEXT
+                            + definition.getArgumentNumber(),
+                    getCurrentContext()));
+        }
+        setLocationWithinModule(context);
+        setBlocked(true);
+    }
+
+    public void visitLeave(final InitialPredicateDefinition definition) {
+        setBlocked(false);
+    }
+
     public void visitEnter(final PredicateDefinition definition)
             throws ModuleDataException {
         final String method = "visitEnter(PredicateDefinition)";
@@ -226,43 +269,10 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         System.out.println("\ttesting predicate definition");
         final String context = getCurrentContext().getLocationWithinModule();
         try {
-            PredicateConstant predicate = new PredicateConstant(definition.getName(),
-                Integer.parseInt(definition.getArgumentNumber()));
-            if (definition.getFormula() != null) {
-
-                // add new predicate constant
-                setLocationWithinModule(context + ".getFormula().getElement()");
-                final VariableList variableList = definition.getVariableList();
-                final int size = (variableList == null ? 0 : variableList.size());
-// LATER 20101209 m31: uncomment again, when using DynamicInterpreter
-//                interpreter.addPredicateConstant(predicate, variableList, definition.getFormula()
-//                    .getElement().getList());
-
-                // test new predicate constant: must always be successful otherwise there
-                // must be a programming error or the predicate definition is not formal correct
-                final Element[] elements = new Element[size + 1];
-                elements[0] = new DefaultAtom(definition.getName());
-                for (int i = 0; i < size; i++) {
-                    elements[i + 1]  = variableList.get(i);
-                }
-                final Element left = new DefaultElementList(Operators.PREDICATE_CONSTANT,
-                    elements);
-                final Element[] compare = new Element[2];
-                compare[0] = left;
-                compare[1] = definition.getFormula().getElement();
-                setLocationWithinModule(context);
-                // TODO 20101211 m31: the context is wrong, because we constructed the element list
-                // it is tolerable because we expect no error in a definition (should be always true)
-                // that is tested against itself
-                test(new DefaultElementList(Operators.EQUIVALENCE_OPERATOR, compare));
-            } else if (!interpreter.hasPredicateConstant(predicate)) {
-                // check if model contains predicate
-                setLocationWithinModule(context + ".getName()");
-                addWarning(new HeuristicException(
-                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
-                    HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_TEXT + predicate,
-                    getCurrentContext()));
-            }
+            // test new predicate constant: must always be successful otherwise there
+            // must be a programming error or the predicate definition is not formal correct
+            setLocationWithinModule(context + ".getFormula().getElement()");
+            test(definition.getFormula().getElement());
         } catch (NumberFormatException e) {
             Trace.fatal(CLASS, this, method, "not suported argument number: "
                 + definition.getArgumentNumber(), e);
@@ -279,6 +289,42 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         setBlocked(false);
     }
 
+    public void visitEnter(final InitialFunctionDefinition definition)
+            throws ModuleDataException {
+        final String method = "visitEnter(InitialFunctionDefinition)";
+        if (definition == null) {
+            return;
+        }
+        System.out.println("\ttesting initial function definition");
+        final String context = getCurrentContext().getLocationWithinModule();
+        try {
+            ModelFunctionConstant function = new ModelFunctionConstant(definition.getName(),
+                    Integer.parseInt(definition.getArgumentNumber()));
+            if (!interpreter.hasFunctionConstant(function)) {
+                // check if model contains predicate
+                setLocationWithinModule(context + ".getName()");
+                addWarning(new HeuristicException(
+                        HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
+                        HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_TEXT
+                                + function, getCurrentContext()));
+            }
+        } catch (NumberFormatException e) {
+            Trace.fatal(CLASS, this, method, "not suported argument number: "
+                    + definition.getArgumentNumber(), e);
+            setLocationWithinModule(context + ".getArgumentNumber()");
+            addWarning(new HeuristicException(
+                    HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
+                    HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_TEXT
+                            + definition.getArgumentNumber(),
+                    getCurrentContext()));
+        }
+        setLocationWithinModule(context);
+        setBlocked(true);
+    }
+
+    public void visitLeave(final InitialFunctionDefinition definition) {
+        setBlocked(false);
+    }
 
     public void visitEnter(final FunctionDefinition definition)
             throws ModuleDataException {
@@ -288,54 +334,10 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         }
         System.out.println("\ttesting function definition");
         final String context = getCurrentContext().getLocationWithinModule();
-        try {
-            FunctionConstant function = new FunctionConstant(definition.getName(),
-                Integer.parseInt(definition.getArgumentNumber()));
-            if (definition.getTerm() != null) {
-
-                // add new predicate constant
-                setLocationWithinModule(context + ".getTerm().getElement()");
-                final VariableList variableList = definition.getVariableList();
-                final int size = (variableList == null ? 0 : variableList.size());
-                // LATER 20101209 m31: uncomment again, when using DynamicInterpreter
-//                interpreter.addFunctionConstant(function, variableList, definition.getTerm()
-//                        .getElement().getList());
-
-                // test new predicate constant: must always be successful otherwise there
-                // must be a programming error or the predicate definition is not formal correct
-                final Element[] elements = new Element[size + 1];
-                elements[0] = new DefaultAtom(definition.getName());
-                for (int i = 0; i < size; i++) {
-                    elements[i + 1]  = variableList.get(i);
-                }
-                final Element left = new DefaultElementList(Operators.FUNCTION_CONSTANT,
-                   elements);
-                final Element[] equal = new Element[3];
-                equal[0] = new DefaultAtom("equal");
-                if (getQedeqBo().getExistenceChecker() != null && getQedeqBo().getExistenceChecker()
-                        .identityOperatorExists()) {
-                    equal[0] = new DefaultAtom(getQedeqBo().getExistenceChecker().getIdentityOperator());
-                }
-                equal[1] = left;
-                equal[2] = definition.getTerm().getElement();
-                setLocationWithinModule(context);
-                test(new DefaultElementList(Operators.PREDICATE_CONSTANT, equal));
-            } else if (!interpreter.hasFunctionConstant(function)) {
-                // check if model contains predicate
-                setLocationWithinModule(context + ".getName()");
-                addWarning(new HeuristicException(
-                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_TEXT + function,
-                    getCurrentContext()));
-            }
-        } catch (NumberFormatException e) {
-            Trace.fatal(CLASS, this, method, "not suported argument number: "
-                + definition.getArgumentNumber(), e);
-            setLocationWithinModule(context + ".getArgumentNumber()");
-            addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
-                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_TEXT + definition.getArgumentNumber(),
-                getCurrentContext()));
-        }
+        // test new predicate constant: must always be successful otherwise there
+        // must be a programming error or the predicate definition is not formal correct
+        setLocationWithinModule(context + ".getFormula().getElement()");
+        test(definition.getFormula().getElement());
         setLocationWithinModule(context);
         setBlocked(true);
     }
@@ -343,7 +345,6 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
     public void visitLeave(final FunctionDefinition definition) {
         setBlocked(false);
     }
-
 
     public void visitEnter(final Node node) {
         System.out.println(getLatexListEntry(node.getTitle()) + " " + node.getId());
