@@ -24,7 +24,6 @@ import org.qedeq.base.trace.Trace;
  * Get result of getter expression chain. A string is interpreted as an getter call chain and
  * is called on a given object. The resulting object is returned.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public final class DynamicGetter {
