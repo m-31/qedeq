@@ -38,6 +38,14 @@ public interface PredicateExistenceChecker {
      * @param   predicate   Predicate.
      * @return  Predicate is defined.
      */
-    public boolean predicateExists(Predicate predicate);
+    public boolean predicateExists(PredicateKey predicate);
+
+    /**
+     * Check if given predicate key has an initial predicate definition.
+     *
+     * @param   predicate   Predicate.
+     * @return  Predicate is defined and is an initial predicate definition.
+     */
+    public boolean isInitialPredicate(final PredicateKey predicate);
 
 }

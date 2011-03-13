@@ -22,7 +22,7 @@ import org.qedeq.base.utility.EqualsUtility;
  *
  * @author  Michael Meyling
  */
-public final class Function {
+public final class FunctionKey {
 
     /** Function name. */
     private String name;
@@ -36,7 +36,7 @@ public final class Function {
      * @param   name        Function name.
      * @param   arguments   Function argument number.
      */
-    public Function(final String name, final String arguments) {
+    public FunctionKey(final String name, final String arguments) {
         this.name = name;
         this.arguments = arguments;
     }
@@ -65,10 +65,10 @@ public final class Function {
     }
 
     public boolean equals(final Object obj) {
-        if (!(obj instanceof Function)) {
+        if (!(obj instanceof FunctionKey)) {
             return false;
         }
-        final Function other = (Function) obj;
+        final FunctionKey other = (FunctionKey) obj;
         return EqualsUtility.equals(getName(), other.getName())
             && EqualsUtility.equals(getArguments(), other.getArguments());
     }

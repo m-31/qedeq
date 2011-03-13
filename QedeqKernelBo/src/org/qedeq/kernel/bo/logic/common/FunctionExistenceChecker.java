@@ -39,6 +39,14 @@ public interface FunctionExistenceChecker {
      * @param   function    Function.
      * @return  Functions is defined.
      */
-    public boolean functionExists(Function function);
+    public boolean functionExists(FunctionKey function);
+
+    /**
+     * Check if given function key has an initial function definition.
+     *
+     * @param   function    Function key.
+     * @return  Function is defined and is an initial function definition.
+     */
+    public boolean isInitialFunction(final FunctionKey function);
 
 }

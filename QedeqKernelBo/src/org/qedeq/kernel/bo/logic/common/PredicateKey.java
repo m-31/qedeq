@@ -22,7 +22,7 @@ import org.qedeq.base.utility.EqualsUtility;
  *
  * @author  Michael Meyling
  */
-public final class Predicate {
+public final class PredicateKey {
 
     /** Predicate name. */
     private String name;
@@ -36,7 +36,7 @@ public final class Predicate {
      * @param   name        Predicate name.
      * @param   arguments   Predicate argument number.
      */
-    public Predicate(final String name, final String arguments) {
+    public PredicateKey(final String name, final String arguments) {
         this.name = name;
         this.arguments = arguments;
     }
@@ -65,10 +65,10 @@ public final class Predicate {
     }
 
     public boolean equals(final Object obj) {
-        if (!(obj instanceof Predicate)) {
+        if (!(obj instanceof PredicateKey)) {
             return false;
         }
-        final Predicate other = (Predicate) obj;
+        final PredicateKey other = (PredicateKey) obj;
         return EqualsUtility.equals(getName(), other.getName())
             && EqualsUtility.equals(getArguments(), other.getArguments());
     }
@@ -76,6 +76,5 @@ public final class Predicate {
     public String toString() {
         return getName() + "[" + getArguments() + "]";
     }
-
 
 }
