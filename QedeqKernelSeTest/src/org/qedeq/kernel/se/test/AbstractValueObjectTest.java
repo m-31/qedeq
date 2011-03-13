@@ -33,7 +33,6 @@ import org.qedeq.kernel.se.dto.list.DefaultAtom;
  * Basis for value object tests.
  * @see #testAll()
  *
- * @version $Revision: 1.14 $
  * @author    Michael Meyling
  */
 public abstract class AbstractValueObjectTest extends QedeqTestCase {

@@ -17,14 +17,14 @@ package org.qedeq.kernel.se.dto.module;
 
 
 /**
- * Test class {@link org.qedeq.kernel.se.dto.module.RuleVo}.
+ * Test class {@link org.qedeq.kernel.se.dto.module.InitialPredicateDefinitionVo}.
  *
  * @author    Michael Meyling
  */
-public class RuleVoTest extends AbstractVoModuleTest {
+public class InitialPredicateDefinitionVoTest extends AbstractVoModuleTest {
 
     /** This class is tested. */
-    private Class clazz = RuleVo.class;
+    private Class clazz = InitialPredicateDefinitionVo.class;
 
     protected void setUp() throws Exception {
         super.setUp();

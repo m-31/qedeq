@@ -29,7 +29,9 @@ public class FunctionDefinitionVoTest extends AbstractVoModuleTest {
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getAxiom");
+        removeMethodToCheck("getInitialPredicateDefinition");
         removeMethodToCheck("getPredicateDefinition");
+        removeMethodToCheck("getInitialFunctionDefinition");
         removeMethodToCheck("getFunctionDefinition");
         removeMethodToCheck("getProposition");
         removeMethodToCheck("getRule");

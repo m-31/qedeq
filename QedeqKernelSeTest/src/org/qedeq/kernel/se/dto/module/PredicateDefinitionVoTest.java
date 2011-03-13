@@ -29,8 +29,10 @@ public class PredicateDefinitionVoTest extends AbstractVoModuleTest {
     protected void setUp() throws Exception {
         super.setUp();
         removeMethodToCheck("getAxiom");
+        removeMethodToCheck("getInitialPredicateDefinition");
         removeMethodToCheck("getPredicateDefinition");
         removeMethodToCheck("getFunctionDefinition");
+        removeMethodToCheck("getInitialFunctionDefinition");
         removeMethodToCheck("getProposition");
         removeMethodToCheck("getRule");
     }
