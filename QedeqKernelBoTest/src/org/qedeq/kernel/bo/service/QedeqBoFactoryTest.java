@@ -71,6 +71,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             ok = (Qedeq) ObjectProxy.createProxy(ok);
             error = (Qedeq) ObjectProxy.createProxy(createQedeqFromFile(errorFile));
         } catch (Exception e) {
+            e.printStackTrace(System.out);
             KernelFacade.shutdown();
         }
     }
@@ -115,7 +116,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             SourceFileException sf = e.get(0);
             assertEquals(221, sf.getSourceArea().getStartPosition().getRow());
             assertEquals(9, sf.getSourceArea().getStartPosition().getColumn());
-            assertEquals(265, sf.getSourceArea().getEndPosition().getRow());
+            assertEquals(267, sf.getSourceArea().getEndPosition().getRow());
             assertEquals(16, sf.getSourceArea().getEndPosition().getColumn());
             Trace.trace(CLASS, this, method, e);
         }
