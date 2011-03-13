@@ -53,7 +53,7 @@ public interface Model {
      * @param   con     Predicate constant we are looking for.
      * @return  Predicate for this model.
      */
-    public Predicate getPredicateConstant(final PredicateConstant con);
+    public Predicate getPredicateConstant(final ModelPredicateConstant con);
 
     /**
      * Get number of functions for this model.
@@ -78,7 +78,7 @@ public interface Model {
      * @param   con     Function constant we are looking for.
      * @return  Function in this model.
      */
-    public Function getFunctionConstant(final FunctionConstant con);
+    public Function getFunctionConstant(final ModelFunctionConstant con);
 
     /**
      * Create entity out of entity list. This is a transformation of a list

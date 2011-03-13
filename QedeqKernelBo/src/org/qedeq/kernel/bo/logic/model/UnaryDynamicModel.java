@@ -50,7 +50,7 @@ public final class UnaryDynamicModel extends DynamicModel {
         addPredicate(3, FALSE);
         addPredicate(3, TRUE);
 
-        addPredicateConstant(new PredicateConstant("in", 2), FALSE);
+        addPredicateConstant(new ModelPredicateConstant("in", 2), FALSE);
 
     }
 
@@ -66,7 +66,7 @@ public final class UnaryDynamicModel extends DynamicModel {
         return FUNCTION_ZERO;
     }
 
-    public Function getFunctionConstant(final FunctionConstant con) {
+    public Function getFunctionConstant(final ModelFunctionConstant con) {
         return FUNCTION_ZERO;
     }
 

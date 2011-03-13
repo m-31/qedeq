@@ -19,15 +19,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.Operators;
+import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
 import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
+import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.unicode.Latex2UnicodeParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
-import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 
@@ -101,20 +104,19 @@ public class DynamicDirectInterpreter {
      * @return  Result of calculation;
      * @throws  HeuristicException  Calculation of function value failed.
      */
-    public Entity calculateFunctionValue(final FunctionDefinition constant,
+    public Entity calculateFunctionValue(final FunctionConstant constant,
             final Entity[] entities) throws  HeuristicException {
+        final String[] params = constant.getSubjectVariableAtoms();
         for (int i = 0; i < entities.length; i++) {
-            final SubjectVariable var = new SubjectVariable(constant.getVariableList().get(i).getList()
-                .getElement(0).getAtom().getString());
+            final SubjectVariable var = new SubjectVariable(params[i]);
             subjectVariableInterpreter.forceAddSubjectVariable(var, entities[i].getValue());
         }
         Entity result;
         try {
-            result = calculateTerm(constant.getTerm().getElement());
+            result = calculateTerm(constant.getDefiningTerm());
         } finally {
             for (int i = entities.length - 1; i >= 0; i--) {
-                final SubjectVariable var = new SubjectVariable(constant.getVariableList().get(i).getList()
-                    .getElement(0).getAtom().getString());
+                final SubjectVariable var = new SubjectVariable(params[i]);
                 subjectVariableInterpreter.forceRemoveSubjectVariable(var);
             }
         }
@@ -124,25 +126,24 @@ public class DynamicDirectInterpreter {
     /**
      * Calculate function value.
      *
-     * @param   constant        This is the function definition.
+     * @param   constant        This is the predicate definition.
      * @param   entities        Function arguments.
      * @return  Result of calculation;
      * @throws  HeuristicException  Calculation failed.
      */
-    public boolean calculatePredicateValue(final PredicateDefinition constant,
+    public boolean calculatePredicateValue(final PredicateConstant constant,
         final Entity[] entities) throws HeuristicException {
+        final String[] params = constant.getSubjectVariableAtoms();
         for (int i = 0; i < entities.length; i++) {
-            final SubjectVariable var = new SubjectVariable(constant.getVariableList().get(i).getList()
-                .getElement(0).getAtom().getString());
+            final SubjectVariable var = new SubjectVariable(params[i]);
             subjectVariableInterpreter.forceAddSubjectVariable(var, entities[i].getValue());
         }
         boolean result;
         try {
-            result = calculateValue(constant.getFormula().getElement());
+            result = calculateValue(constant.getDefiningFormula());
         } finally {
             for (int i = entities.length - 1; i >= 0; i--) {
-                final SubjectVariable var = new SubjectVariable(constant.getVariableList().get(i).getList()
-                    .getElement(0).getAtom().getString());
+                final SubjectVariable var = new SubjectVariable(params[i]);
                 subjectVariableInterpreter.forceRemoveSubjectVariable(var);
             }
         }
@@ -268,27 +269,39 @@ public class DynamicDirectInterpreter {
                                 moduleContext);
                     }
                 }
-                final PredicateDefinition definition
-                    = newProp.getLabels().getPredicate(name, list.size() - 1);
-                if (definition != null && definition.getFormula() != null) {
+                final PredicateKey predicateKey = new PredicateKey(name, "" + (list.size() - 1));
+//                System.out.println(newProp.getUrl());
+//                System.out.println(predicateKey);
+                final PredicateConstant constant
+                    =  newProp.getExistenceChecker().get(predicateKey);
+                // we try to create the predicate constant // FIXME 20110310 m31: is this really necessary?
+//                if (constant == null) {
+//                    final PredicateDefinition definition
+//                        = newProp.getLabels().getPredicate(name, list.size() - 1);
+//                    if (definition != null && definition.getFormula() != null) {
+//                        constant = new PredicateConstant(predicateKey,
+//                            definition.getFormula().getElement().getList(), moduleContext);
+//                    }
+//                }
+                if (constant != null) {
                     setLocationWithinModule(context + ".getList()");
                     final Entity[] arguments = getEntities(list);
                     setModuleContext(newProp);
-                    moduleContext = newProp.getLabels().getPredicateContext(name, list.size() - 1);
-                    setLocationWithinModule(getLocationWithinModule() + ".getFormula().getElement()");
+                    moduleContext = new ModuleContext(constant.getContext());
+                    // we must get the second argument of equivalence
+                    moduleContext.setLocationWithinModule(moduleContext.getLocationWithinModule() + ".getElement(1)");
                     try {
-                        result = calculatePredicateValue(definition, arguments);
+                        result = calculatePredicateValue(constant, arguments);
                     } catch (HeuristicException e) {
                         setModuleContext(qedeqOld);
                         moduleContext = moduleContextOld;
                         setLocationWithinModule(context + ".getList().getElement(1)");
                         throw new HeuristicException(HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_CODE,
-                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_TEXT + definition,
+                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_TEXT + predicateKey,
                             moduleContext, e.getContext());
                     }
-                } else {
-                    final PredicateConstant var = new PredicateConstant(name,
-                            list.size() - 1);
+                } else {  // should be initial predicate, must be in the model
+                    final ModelPredicateConstant var = new ModelPredicateConstant(name, list.size() - 1);
                     Predicate predicate = model.getPredicateConstant(var);
                     if (predicate == null) {
                         setLocationWithinModule(context + ".getList().getOperator()");
@@ -450,9 +463,11 @@ public class DynamicDirectInterpreter {
      */
     private Entity[] getEntities(final ElementList terms)
             throws HeuristicException {
+//        System.out.println(terms);
         final String context = getLocationWithinModule();
         final Entity[] result =  new Entity[terms.size() - 1];    // strip first argument
         for (int i = 0; i < result.length; i++) {
+//            System.out.println(i + " " + terms.getElement(i + 1));
             setLocationWithinModule(context + ".getElement(" + (i + 1) + ")");
             result[i] = calculateTerm(terms.getElement(i + 1));
         }
@@ -530,26 +545,28 @@ public class DynamicDirectInterpreter {
                                 moduleContext);
                     }
                 }
-                final FunctionDefinition definition
-                    = newProp.getLabels().getFunction(name, termList.size() - 1);
-                if (definition != null && definition.getTerm() != null) {
+                final FunctionKey functionKey = new FunctionKey(name, "" + (termList.size() - 1));
+                FunctionConstant constant
+                    =  newProp.getExistenceChecker().get(functionKey);
+                if (constant != null) {
                     setLocationWithinModule(context + ".getList()");
                     final Entity[] arguments = getEntities(termList);
                     setModuleContext(newProp);
-                    moduleContext = newProp.getLabels().getFunctionContext(name, termList.size() - 1);
-                    setLocationWithinModule(getLocationWithinModule() + ".getTerm().getElement()");
+                    moduleContext = new ModuleContext(constant.getContext());
+                    // we must get the second argument of equal relation
+                    moduleContext.setLocationWithinModule(moduleContext.getLocationWithinModule() + ".getElement(2)");
                     try {
-                        result = calculateFunctionValue(definition, arguments);
+                        result = calculateFunctionValue(constant, arguments);
                     } catch (HeuristicException e) {
                         setModuleContext(qedeqOld);
                         moduleContext = moduleContextOld;
                         setLocationWithinModule(context + ".getList().getElement(1)");
                         throw new HeuristicException(HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_CODE,
-                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_TEXT + definition,
+                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_TEXT + functionKey,
                             moduleContext, e.getContext());
                     }
                 } else {
-                    final FunctionConstant var = new FunctionConstant(name,
+                    final ModelFunctionConstant var = new ModelFunctionConstant(name,
                         termList.size() - 1);
                     Function function = model.getFunctionConstant(var);
                     if (function == null) {
@@ -570,7 +587,7 @@ public class DynamicDirectInterpreter {
                 if (qedeq.getExistenceChecker() != null) {
                     newProp = qedeq.getExistenceChecker().getClassOperatorModule();
                 }
-                final PredicateDefinition isSet = newProp.getLabels().getPredicate("isSet", 1);
+                final PredicateConstant isSet = newProp.getExistenceChecker().getPredicate("isSet", 1);
                 if (isSet == null) {
                     throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,
                             HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_TEXT + "isSet(*)", moduleContext);
@@ -582,7 +599,8 @@ public class DynamicDirectInterpreter {
                     if (calculateValue(termList.getElement(1))) {
                         setModuleContext(newProp);
                         moduleContext = newProp.getLabels().getPredicateContext("isSet", 1);
-                        setLocationWithinModule(moduleContext.getLocationWithinModule() + ".getFormula().getElement()");
+                        setLocationWithinModule(moduleContext.getLocationWithinModule()
+                            + ".getFormula().getElement().getList().getElement(1)");
                         try {
                             if (calculatePredicateValue(isSet, new Entity[] {model.getEntity(i)})) {
                                 fullfillers.add(model.getEntity(i));
@@ -677,7 +695,7 @@ public class DynamicDirectInterpreter {
      * @param   constant    Predicate constant to check for.
      * @return  Is the given predicate constant already defined?
      */
-    public boolean hasPredicateConstant(final PredicateConstant constant) {
+    public boolean hasPredicateConstant(final ModelPredicateConstant constant) {
         return null != model.getPredicateConstant(constant);
     }
 
@@ -687,7 +705,7 @@ public class DynamicDirectInterpreter {
      * @param   constant    Function constant to check for.
      * @return  Is the given function constant already defined?
      */
-    public boolean hasFunctionConstant(final FunctionConstant constant) {
+    public boolean hasFunctionConstant(final ModelFunctionConstant constant) {
         return null != model.getFunctionConstant(constant);
     }
 

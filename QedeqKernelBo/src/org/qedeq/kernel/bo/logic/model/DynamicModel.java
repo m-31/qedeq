@@ -115,10 +115,10 @@ public abstract class DynamicModel implements Model {
         predicatePool = new Vector();
 
         predicateConstants = new HashMap();
-        predicateConstants.put(new PredicateConstant("TRUE", 0), TRUE);
-        predicateConstants.put(new PredicateConstant("FALSE", 0), FALSE);
-        predicateConstants.put(new PredicateConstant("equal", 2), EQUAL);
-        predicateConstants.put(new PredicateConstant("notEqual", 2), NOT_EQUAL);
+        predicateConstants.put(new ModelPredicateConstant("TRUE", 0), TRUE);
+        predicateConstants.put(new ModelPredicateConstant("FALSE", 0), FALSE);
+        predicateConstants.put(new ModelPredicateConstant("equal", 2), EQUAL);
+        predicateConstants.put(new ModelPredicateConstant("notEqual", 2), NOT_EQUAL);
         functionConstants = new HashMap();
     }
 
@@ -144,7 +144,7 @@ public abstract class DynamicModel implements Model {
      * @param   constant    Add for this constant.
      * @param   predicate   This interpretation.
      */
-    public void addPredicateConstant(final PredicateConstant constant, final Predicate predicate) {
+    public void addPredicateConstant(final ModelPredicateConstant constant, final Predicate predicate) {
         predicateConstants.put(constant, predicate);
     }
 
@@ -154,7 +154,7 @@ public abstract class DynamicModel implements Model {
      * @param   constant    Add for this constant.
      * @param   function    This interpretation.
      */
-    public void addFunctionConstant(final FunctionConstant constant, final Function function) {
+    public void addFunctionConstant(final ModelFunctionConstant constant, final Function function) {
         functionConstants.put(constant, function);
     }
 
@@ -209,7 +209,7 @@ public abstract class DynamicModel implements Model {
         list.add(predicate);
     }
 
-    public Predicate getPredicateConstant(final PredicateConstant con) {
+    public Predicate getPredicateConstant(final ModelPredicateConstant con) {
         return (Predicate) predicateConstants.get(con);
     }
 
@@ -247,7 +247,7 @@ public abstract class DynamicModel implements Model {
         list.add(function);
     }
 
-    public Function getFunctionConstant(final FunctionConstant con) {
+    public Function getFunctionConstant(final ModelFunctionConstant con) {
         return (Function) functionConstants.get(con);
     }
 

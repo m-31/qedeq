@@ -21,7 +21,7 @@ package org.qedeq.kernel.bo.logic.model;
  *
  * @author  Michael Meyling
  */
-public class PredicateConstant extends Operator {
+public class ModelPredicateConstant extends Operator {
 
     /**
      * Constructor.
@@ -29,7 +29,7 @@ public class PredicateConstant extends Operator {
      * @param   name        Show this to represent the predicate within outputs.
      * @param   number      Number of arguments this predicate has.
      */
-    public PredicateConstant(final String name, final int number) {
+    public ModelPredicateConstant(final String name, final int number) {
         super(name, number);
     }
 

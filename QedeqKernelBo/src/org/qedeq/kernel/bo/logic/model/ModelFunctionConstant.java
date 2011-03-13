@@ -20,7 +20,7 @@ package org.qedeq.kernel.bo.logic.model;
  *
  * @author  Michael Meyling
  */
-public class FunctionConstant extends Operator {
+public class ModelFunctionConstant extends Operator {
 
     /**
      * Constructor.
@@ -28,7 +28,7 @@ public class FunctionConstant extends Operator {
      * @param   name        Show this to represent the function within outputs.
      * @param   number      Number of arguments this function has.
      */
-    public FunctionConstant(final String name, final int number) {
+    public ModelFunctionConstant(final String name, final int number) {
         super(name, number);
     }
 

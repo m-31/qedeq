@@ -140,7 +140,7 @@ public final class FourDynamicModel extends DynamicModel {
         addPredicate(2, IS_TWO);
         addPredicate(2, IS_THREE);
 
-        addPredicateConstant(new PredicateConstant("in", 2), new Predicate(2, 2, "in", "Element of") {
+        addPredicateConstant(new ModelPredicateConstant("in", 2), new Predicate(2, 2, "in", "Element of") {
             public boolean calculate(final Entity[] entities) {
                 if (entities.length != 2) {
                     return false;

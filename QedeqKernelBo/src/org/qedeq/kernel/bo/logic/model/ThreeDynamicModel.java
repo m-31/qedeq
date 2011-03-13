@@ -123,7 +123,7 @@ public final class ThreeDynamicModel extends DynamicModel {
         addPredicate(2, IS_ONE);
         addPredicate(2, IS_TWO);
 
-        addPredicateConstant(new PredicateConstant("in", 2), LESS);
+        addPredicateConstant(new ModelPredicateConstant("in", 2), LESS);
     }
 
     public String getDescription() {

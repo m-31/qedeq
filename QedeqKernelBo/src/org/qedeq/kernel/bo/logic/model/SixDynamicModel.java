@@ -163,7 +163,7 @@ public final class SixDynamicModel extends DynamicModel {
         addPredicate(2, IS_ONE_ONE);
         addPredicate(2, IS_ONE_TWO);
 
-        addPredicateConstant(new PredicateConstant("in", 2), new Predicate(2, 2, "in", "isSet") {
+        addPredicateConstant(new ModelPredicateConstant("in", 2), new Predicate(2, 2, "in", "isSet") {
             public boolean calculate(final Entity[] entities) {
                 boolean result = false;
                 final int a = entities[0].getValue();
