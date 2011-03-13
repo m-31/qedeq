@@ -206,9 +206,9 @@
         <attribute name="fast" />   <!-- should only be fast tests be executed? -->
         <sequential>
             <echo>test @{name}</echo>   
-            <delete dir="@{dir}/target/reports/junit/data" failonerror="false"/>
+            <delete dir="@{dir}/target/reports/junit/data" failonerror="true"/>
             <mkdir dir="@{dir}/target/reports/junit/data" />
-            <delete dir="@{dir}/target/reports/junit/report" failonerror="false"/>
+            <delete dir="@{dir}/target/reports/junit/report" failonerror="true"/>
             <mkdir dir="@{dir}/target/reports/junit/report" />
             <mkdir dir="@{dir}/target/test-outdir" />
             <mkdir dir="@{dir}/src/test/resources" /> <!-- create if it doesn't exist already -->   
