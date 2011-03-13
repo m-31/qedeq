@@ -53,6 +53,8 @@ import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
@@ -807,74 +809,55 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         printer.println("\\end{proof}");
     }
 
-    public void visitEnter(final PredicateDefinition definition) {
-        final StringBuffer define = new StringBuffer("$$" + definition.getLatexPattern());
-        final VariableList list = definition.getVariableList();
-        if (list != null) {
-            for (int i = list.size() - 1; i >= 0; i--) {
-                Trace.trace(CLASS, this, "printPredicateDefinition", "replacing!");
-                StringUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
-            }
+    public void visitEnter(final InitialPredicateDefinition definition) {
+        printer.println("\\begin{idefn}" + (title != null ? "[" + title + "]" : ""));
+        printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+        if (info) {
+            printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
         }
-        if (definition.getFormula() != null) {
-            printer.println("\\begin{defn}" + (title != null ? "[" + title + "]" : ""));
-            printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
-            if (info) {
-                printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
-            }
-            define.append("\\ :\\leftrightarrow \\ ");
-            define.append(getLatex(definition.getFormula().getElement()));
-        } else {
-            printer.println("\\begin{idefn}" + (title != null ? "[" + title + "]" : ""));
-            printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
-            if (info) {
-                printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
-            }
-        }
-        define.append("$$");
-        Trace.param(CLASS, this, "printPredicateDefinition", "define", define);
-        printer.println(define);
+        printer.print("$$");
+        printer.println(getLatex(definition.getPredCon()));
+        printer.println("$$");
         printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
-        if (definition.getFormula() != null) {
-            printer.println("\\end{defn}");
-        } else {
-            printer.println("\\end{idefn}");
+        printer.println("\\end{idefn}");
+    }
+
+    public void visitEnter(final PredicateDefinition definition) {
+        printer.println("\\begin{defn}" + (title != null ? "[" + title + "]" : ""));
+        printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+        if (info) {
+            printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
         }
+        printer.print("$$");
+        printer.print(getLatex(definition.getFormula().getElement()));
+        printer.println("$$");
+        printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
+        printer.println("\\end{defn}");
+    }
+
+    public void visitEnter(final InitialFunctionDefinition definition) {
+        printer.println("\\begin{idefn}" + (title != null ? "[" + title + "]" : ""));
+        printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+        if (info) {
+            printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
+        }
+        printer.print("$$");
+        printer.print(getLatex(definition.getFunCon()));
+        printer.println("$$");
+        printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
+        printer.println("\\end{defn}");
     }
 
     public void visitEnter(final FunctionDefinition definition) {
-        final StringBuffer define = new StringBuffer("$$" + definition.getLatexPattern());
-        final VariableList list = definition.getVariableList();
-        if (list != null) {
-            for (int i = list.size() - 1; i >= 0; i--) {
-                Trace.trace(CLASS, this, "printFunctionDefinition", "replacing!");
-                StringUtility.replace(define, "#" + (i + 1), getLatex(list.get(i)));
-            }
+        printer.println("\\begin{defn}" + (title != null ? "[" + title + "]" : ""));
+        printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
+        if (info) {
+            printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
         }
-        if (definition.getTerm() != null) {
-            printer.println("\\begin{defn}" + (title != null ? "[" + title + "]" : ""));
-            printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
-            if (info) {
-                printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
-            }
-            define.append("\\ := \\ ");
-            define.append(getLatex(definition.getTerm().getElement()));
-        } else {
-            printer.println("\\begin{idefn}" + (title != null ? "[" + title + "]" : ""));
-            printer.println("\\label{" + id + "} \\hypertarget{" + id + "}{}");
-            if (info) {
-                printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
-            }
-        }
-        define.append("$$");
-        Trace.param(CLASS, this, "printFunctionDefinition", "define", define);
-        printer.println(define);
-        printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
-        if (definition.getTerm() != null) {
-            printer.println("\\end{defn}");
-        } else {
-            printer.println("\\end{idefn}");
-        }
+        printer.print("$$");
+        printer.print(getLatex(definition.getFormula().getElement()));
+        printer.println("$$");
+        printer.println("\\end{defn}");
     }
 
     public void visitLeave(final FunctionDefinition definition) {
