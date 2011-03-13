@@ -15,14 +15,17 @@
 
 package org.qedeq.kernel.se.base.module;
 
+import org.qedeq.kernel.se.base.list.Element;
+
 
 /**
- * Definition of function operator. This is a function constant. For example the function
- * "x union y" or constants like the empty set.
+ * Definition of initial function operator. This is a function constant that can not defined further.
+ * For example the function "emptySet" might be an undefinable function of a certain set theory. So every
+ * model for this set theory must mark an object of its domain as "emptySet".
  *
  * @author  Michael Meyling
  */
-public interface FunctionDefinition extends NodeType {
+public interface InitialFunctionDefinition extends NodeType {
 
     /**
      * Get number of arguments for the defined object. Carries information about the argument
@@ -48,14 +51,12 @@ public interface FunctionDefinition extends NodeType {
     public String getLatexPattern();
 
     /**
-     * Get defining formula for function constant. This might be for example:
-     * f(x, y) = {z | z \in x & z \in y}
-     * Such a formula must have the equal operator as first operator. The first operand must be
-     * the function with free (and pairwise different) subject variables as arguments.
+     * Get function constant that we define. The function constant must
+     * match {@link #getName()} and {@link #getArgumentNumber()}.
      *
-     * @return  Defining formula for function constant.
+     * @return  Function constant with free subject variables as arguments.
      */
-    public Formula getFormula();
+    public Element getFunCon();
 
     /**
      * Get description. Only necessary if formula is not self-explanatory.

@@ -15,14 +15,16 @@
 
 package org.qedeq.kernel.se.base.module;
 
+import org.qedeq.kernel.se.base.list.Element;
+
 
 /**
- * Definition of function operator. This is a function constant. For example the function
- * "x union y" or constants like the empty set.
+ * Initial Definition of operator. This is a basic predicate constant. For example:
+ * "x is element of y".
  *
  * @author  Michael Meyling
  */
-public interface FunctionDefinition extends NodeType {
+public interface InitialPredicateDefinition extends NodeType {
 
     /**
      * Get number of arguments for the defined object. Carries information about the argument
@@ -33,9 +35,9 @@ public interface FunctionDefinition extends NodeType {
     public String getArgumentNumber();
 
     /**
-     * This name together with {@link #getArgumentNumber()} identifies a function.
+     * This name together with {@link #getArgumentNumber()} identifies a predicate.
      *
-     * @return  Name of defined function.
+     * @return  Name of defined predicate.
      */
     public String getName();
 
@@ -48,19 +50,17 @@ public interface FunctionDefinition extends NodeType {
     public String getLatexPattern();
 
     /**
-     * Get defining formula for function constant. This might be for example:
-     * f(x, y) = {z | z \in x & z \in y}
-     * Such a formula must have the equal operator as first operator. The first operand must be
-     * the function with free (and pairwise different) subject variables as arguments.
+     * Get new predicate constant with free subject variables. The predicate constant must
+     * match {@link #getName()} and {@link #getArgumentNumber()}.
      *
-     * @return  Defining formula for function constant.
+     * @return  Predicate constant with free subject variables.
      */
-    public Formula getFormula();
+    public Element getPredCon();
 
     /**
-     * Get description. Only necessary if formula is not self-explanatory.
+     * Get description. Optional.
      *
-     * @return  Description.
+     * @return  Description. Might be <code>null</code>.
      */
     public LatexList getDescription();
 

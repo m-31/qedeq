@@ -23,7 +23,6 @@ package org.qedeq.kernel.se.base.module;
  * There must also be the possibility to define basic predicate constants like
  * "x is element of y".
  *
- * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public interface PredicateDefinition extends NodeType {
@@ -52,17 +51,10 @@ public interface PredicateDefinition extends NodeType {
     public String getLatexPattern();
 
     /**
-     * Get variable list of definition arguments.
+     * Get complete formula. That is an equivalence between the new predicate and
+     * the defining formula.
      *
-     * @return  List of formulas or subject variables to be replaced in the LaTeX pattern.
-     *          Could be <code>null</code>.
-     */
-    public VariableList getVariableList();
-
-    /**
-     * Get term that defines the object. Could be <code>null</code>.
-     *
-     * @return  Defining formula.
+     * @return  Complete formula.
      */
     public Formula getFormula();
 

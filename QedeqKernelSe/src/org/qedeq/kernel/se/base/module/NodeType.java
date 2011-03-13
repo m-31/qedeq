@@ -24,7 +24,6 @@ package org.qedeq.kernel.se.base.module;
  * mime 20051216 I still see no solution to get round this. Some JUnit tests work against
  * this interface and get no information about the instance.
  *
- * @version $Revision: 1.9 $
  * @author Michael Meyling
  */
 public interface NodeType {
@@ -42,6 +41,20 @@ public interface NodeType {
      * @return  Definition, maybe <code>null</code>.
      */
     public PredicateDefinition getPredicateDefinition();
+
+    /**
+     * Get initial definition, if this is an instance of {@link InitialPredicateDefinition}.
+     *
+     * @return  Definition, maybe <code>null</code>.
+     */
+    public InitialPredicateDefinition getInitialPredicateDefinition();
+
+    /**
+     * Get definition, if this is an instance of {@link InitialFunctionDefinition}.
+     *
+     * @return  Definition, maybe <code>null</code>.
+     */
+    public InitialFunctionDefinition getInitialFunctionDefinition();
 
     /**
      * Get definition, if this is an instance of {@link FunctionDefinition}.
