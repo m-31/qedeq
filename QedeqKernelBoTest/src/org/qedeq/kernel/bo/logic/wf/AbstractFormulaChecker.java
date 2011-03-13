@@ -19,8 +19,8 @@ package org.qedeq.kernel.bo.logic.wf;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
-import org.qedeq.kernel.bo.logic.common.Function;
-import org.qedeq.kernel.bo.logic.common.Predicate;
+import org.qedeq.kernel.bo.logic.common.FunctionKey;
+import org.qedeq.kernel.bo.logic.common.PredicateKey;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -50,7 +50,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
-        public boolean predicateExists(final Predicate predicate) {
+        public boolean predicateExists(final PredicateKey predicate) {
             return predicateExists(predicate.getName(), Integer.parseInt(predicate.getArguments()));
         }
 
@@ -69,7 +69,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
-        public boolean functionExists(Function function) {
+        public boolean functionExists(FunctionKey function) {
             return functionExists(function.getName(), Integer.parseInt(function.getArguments()));
         }
 
@@ -83,6 +83,17 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
 
         public String getIdentityOperator() {
             return "equal";
+        }
+
+        public boolean isInitialPredicate(PredicateKey predicate) {
+            if ("in".equals(predicate.getName()) && predicate.getArguments() == "2") {
+                return true;
+            }
+            return false;
+        }
+
+        public boolean isInitialFunction(FunctionKey function) {
+            return false;
         }
 
     };
@@ -104,7 +115,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
-        public boolean predicateExists(Predicate predicate) {
+        public boolean predicateExists(PredicateKey predicate) {
             return predicateExists(predicate.getName(), Integer.parseInt(predicate.getArguments()));
         }
 
@@ -123,7 +134,7 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
-        public boolean functionExists(Function function) {
+        public boolean functionExists(FunctionKey function) {
             return functionExists(function.getName(), Integer.parseInt(function.getArguments()));
         }
 
@@ -137,6 +148,17 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
 
         public String getIdentityOperator() {
             return "equal";
+        }
+
+        public boolean isInitialPredicate(PredicateKey predicate) {
+            if ("in".equals(predicate.getName()) && predicate.getArguments() == "2") {
+                return true;
+            }
+            return false;
+        }
+
+        public boolean isInitialFunction(FunctionKey function) {
+            return false;
         }
 
     };
