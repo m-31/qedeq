@@ -77,7 +77,7 @@ public class CalculateTruthDynamicThreeModelTest extends CalculateTruthTestCase 
             "<VAR id=\"x\"/>\n");
         variables.add(x);
         variables.add(y);
-        interpreter.addPredicateConstant(new PredicateConstant("isSet", 1), variables, def.getList());
+        interpreter.addPredicateConstant(new ModelPredicateConstant("isSet", 1), variables, def.getList());
         final Element ele = TestParser.createElement(
                 "    <EXISTS>\n"
                 + "    <VAR id=\"x\"/>\n"
@@ -127,7 +127,7 @@ public class CalculateTruthDynamicThreeModelTest extends CalculateTruthTestCase 
             "<VAR id=\"x\"/>\n");
         variables.add(x);
         variables.add(y);
-        interpreter.addPredicateConstant(new PredicateConstant("isSet", 1), variables, def.getList());
+        interpreter.addPredicateConstant(new ModelPredicateConstant("isSet", 1), variables, def.getList());
         final Element ele = TestParser.createElement(
             "    <EQUI>\n"
             + "    <PREDCON ref=\"in\">\n"

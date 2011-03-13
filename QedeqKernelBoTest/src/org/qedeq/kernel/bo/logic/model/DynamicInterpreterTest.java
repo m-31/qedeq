@@ -1790,7 +1790,7 @@ public class DynamicInterpreterTest extends QedeqBoTestCase {
             + "    <PREDVAR id=\"A\"/>\n"
             + "  </NOT>\n"
             + "</OR>\n");
-        PredicateConstant t = new PredicateConstant("TRUE", 0);
+        ModelPredicateConstant t = new ModelPredicateConstant("TRUE", 0);
         interpreter.addPredicateConstant(t, null, ele.getList());
         final Element formula = TestParser.createElement(
             "<EQUI>\n"

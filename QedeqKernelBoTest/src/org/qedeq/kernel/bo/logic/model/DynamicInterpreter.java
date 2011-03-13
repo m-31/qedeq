@@ -19,7 +19,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.Operators;
+import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
+import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.se.base.list.Element;
@@ -92,7 +96,7 @@ public class DynamicInterpreter {
      * @param   variableList    Variables to use.
      * @param   formula         Formula to evaluate for that predicate.
      */
-    public void addPredicateConstant(final PredicateConstant constant,
+    public void addPredicateConstant(final ModelPredicateConstant constant,
             final VariableList variableList, final ElementList formula) {
         model.addPredicateConstant(constant, new Predicate(constant.getArgumentNumber(),
             constant.getArgumentNumber(), "", "") {
@@ -139,7 +143,10 @@ public class DynamicInterpreter {
             final Entity[] entities) throws HeuristicException {
         DynamicDirectInterpreter inter = new DynamicDirectInterpreter(qedeq, model,
             subjectVariableInterpreter, predicateVariableInterpreter, functionVariableInterpreter);
-        return inter.calculatePredicateValue(constant, entities);
+        return inter.calculatePredicateValue(
+            new PredicateConstant(new PredicateKey(constant.getName(), constant.getName()),
+               constant.getFormula().getElement().getList(),
+               new ModuleContext(qedeq.getModuleAddress())), entities);
     }
 
     /**
@@ -149,7 +156,7 @@ public class DynamicInterpreter {
      * @param   variableList    Variables to use.
      * @param   term            Formula to evaluate for that predicate.
      */
-    public void addFunctionConstant(final FunctionConstant constant,
+    public void addFunctionConstant(final ModelFunctionConstant constant,
             final VariableList variableList, final ElementList term) {
         model.addFunctionConstant(constant, new Function(constant.getArgumentNumber(),
             constant.getArgumentNumber(), "", "") {
@@ -188,7 +195,10 @@ public class DynamicInterpreter {
             final Entity[] entities) throws HeuristicException {
         DynamicDirectInterpreter inter = new DynamicDirectInterpreter(qedeq, model,
             subjectVariableInterpreter, predicateVariableInterpreter, functionVariableInterpreter);
-        return inter.calculateFunctionValue(constant, entities);
+        return inter.calculateFunctionValue(
+            new FunctionConstant(new FunctionKey(constant.getName(), constant.getName()),
+                constant.getFormula().getElement().getList(),
+                new ModuleContext(qedeq.getModuleAddress())), entities);
     }
 
     /**
@@ -197,7 +207,7 @@ public class DynamicInterpreter {
      * @param   constant    Predicate constant to check for.
      * @return  Is the given predicate constant already defined?
      */
-    public boolean hasPredicateConstant(final PredicateConstant constant) {
+    public boolean hasPredicateConstant(final ModelPredicateConstant constant) {
         return null != model.getPredicateConstant(constant);
     }
 
@@ -207,7 +217,7 @@ public class DynamicInterpreter {
      * @param   constant    Function constant to check for.
      * @return  Is the given function constant already defined?
      */
-    public boolean hasFunctionConstant(final FunctionConstant constant) {
+    public boolean hasFunctionConstant(final ModelFunctionConstant constant) {
         return null != model.getFunctionConstant(constant);
     }
 
@@ -310,7 +320,7 @@ public class DynamicInterpreter {
             result = handleUniqueExistentialQuantifier(list);
         } else if (Operators.PREDICATE_CONSTANT.equals(op)) {
             final String text = stripReference(list.getElement(0).getAtom().getString());
-            final PredicateConstant var = new PredicateConstant(text,
+            final ModelPredicateConstant var = new ModelPredicateConstant(text,
                 list.size() - 1);
             Predicate predicate = model.getPredicateConstant(var);
             if (predicate == null) {
@@ -543,7 +553,7 @@ public class DynamicInterpreter {
                         HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_TEXT + label, moduleContext);
                 }
             } else {
-                final FunctionConstant var = new FunctionConstant(label,
+                final ModelFunctionConstant var = new ModelFunctionConstant(label,
                     termList.size() - 1);
                 Function function = model.getFunctionConstant(var);
                 if (function == null) {
@@ -559,7 +569,7 @@ public class DynamicInterpreter {
             ElementList variable = termList.getElement(0).getList();
             final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
             subjectVariableInterpreter.addSubjectVariable(var);
-            final PredicateConstant isSetPredicate = new PredicateConstant("isSet", 1);
+            final ModelPredicateConstant isSetPredicate = new ModelPredicateConstant("isSet", 1);
             Predicate isSet = model.getPredicateConstant(isSetPredicate);
             if (isSet == null) {
                 throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,

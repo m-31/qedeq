@@ -133,17 +133,17 @@ public final class UnaryModel implements Model {
         predicate2.add(EQUAL);
 
         predicateConstants = new HashMap();
-        predicateConstants.put(new PredicateConstant("TRUE", 0), TRUE);
-        predicateConstants.put(new PredicateConstant("FALSE", 0), FALSE);
-        predicateConstants.put(new PredicateConstant("equal", 2), EQUAL);
-        predicateConstants.put(new PredicateConstant("notEqual", 2), NOT_EQUAL);
-        predicateConstants.put(new PredicateConstant("in", 2), FALSE);
-        predicateConstants.put(new PredicateConstant("notIn", 2), TRUE);
-        predicateConstants.put(new PredicateConstant("isSet", 1), FALSE);
-        predicateConstants.put(new PredicateConstant("subclass", 2), TRUE);
-        predicateConstants.put(new PredicateConstant("isOrderedPair", 1), TRUE);
-        predicateConstants.put(new PredicateConstant("isRelation", 1), TRUE);
-        predicateConstants.put(new PredicateConstant("isFunction", 1), TRUE);
+        predicateConstants.put(new ModelPredicateConstant("TRUE", 0), TRUE);
+        predicateConstants.put(new ModelPredicateConstant("FALSE", 0), FALSE);
+        predicateConstants.put(new ModelPredicateConstant("equal", 2), EQUAL);
+        predicateConstants.put(new ModelPredicateConstant("notEqual", 2), NOT_EQUAL);
+        predicateConstants.put(new ModelPredicateConstant("in", 2), FALSE);
+        predicateConstants.put(new ModelPredicateConstant("notIn", 2), TRUE);
+        predicateConstants.put(new ModelPredicateConstant("isSet", 1), FALSE);
+        predicateConstants.put(new ModelPredicateConstant("subclass", 2), TRUE);
+        predicateConstants.put(new ModelPredicateConstant("isOrderedPair", 1), TRUE);
+        predicateConstants.put(new ModelPredicateConstant("isRelation", 1), TRUE);
+        predicateConstants.put(new ModelPredicateConstant("isFunction", 1), TRUE);
 
     }
 
@@ -171,7 +171,7 @@ public final class UnaryModel implements Model {
         return (Predicate) predicateForSize.get(number);
     }
 
-    public Predicate getPredicateConstant(final PredicateConstant con) {
+    public Predicate getPredicateConstant(final ModelPredicateConstant con) {
         return (Predicate) predicateConstants.get(con);
     }
 
@@ -183,7 +183,7 @@ public final class UnaryModel implements Model {
         return FUNCTION_ZERO;
     }
 
-    public Function getFunctionConstant(final FunctionConstant con) {
+    public Function getFunctionConstant(final ModelFunctionConstant con) {
         return FUNCTION_ZERO;
     }
 

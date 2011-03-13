@@ -159,7 +159,7 @@ public final class Interpreter {
             result = handleUniqueExistentialQuantifier(list);
         } else if (Operators.PREDICATE_CONSTANT.equals(op)) {
             final String text = stripReference(list.getElement(0).getAtom().getString());
-            final PredicateConstant var = new PredicateConstant(text,
+            final ModelPredicateConstant var = new ModelPredicateConstant(text,
                 list.size() - 1);
             Predicate predicate = model.getPredicateConstant(var);
             if (predicate == null) {
@@ -339,7 +339,7 @@ public final class Interpreter {
             result = function.map(getEntities(termList));
         } else if (Operators.FUNCTION_CONSTANT.equals(op)) {
             final String text = stripReference(termList.getElement(0).getAtom().getString());
-            final FunctionConstant var = new FunctionConstant(text,
+            final ModelFunctionConstant var = new ModelFunctionConstant(text,
                 termList.size() - 1);
             Function function = model.getFunctionConstant(var);
             if (function == null) {
@@ -354,7 +354,7 @@ public final class Interpreter {
             ElementList variable = termList.getElement(0).getList();
             final SubjectVariable var = new SubjectVariable(variable.getElement(0).getAtom().getString());
             subjectVariableInterpreter.addSubjectVariable(var);
-            final PredicateConstant isSetPredicate = new PredicateConstant("isSet", 1);
+            final ModelPredicateConstant isSetPredicate = new ModelPredicateConstant("isSet", 1);
             Predicate isSet = model.getPredicateConstant(isSetPredicate);
             if (isSet == null) {
                 throw new HeuristicException(HeuristicErrorCodes.UNKNOWN_TERM_OPERATOR_CODE,
