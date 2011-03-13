@@ -31,6 +31,8 @@ import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
@@ -116,6 +118,14 @@ public interface QedeqVisitor extends ListVisitor {
      * @throws  ModuleDataException Major problem occurred.
      */
     public void visitEnter(Formula formula) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   functionDefinition  Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(InitialFunctionDefinition functionDefinition) throws ModuleDataException;
 
     /**
      * Visit certain element. Begin of visit.
@@ -212,6 +222,14 @@ public interface QedeqVisitor extends ListVisitor {
      * @throws  ModuleDataException Major problem occurred.
      */
     public void visitEnter(Node node) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   predicateDefinition Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(InitialPredicateDefinition predicateDefinition) throws ModuleDataException;
 
     /**
      * Visit certain element. Begin of visit.
@@ -483,6 +501,14 @@ public interface QedeqVisitor extends ListVisitor {
      * @param   functionDefinition  End visit of this element.
      * @throws  ModuleDataException Major problem occurred.
      */
+    public void visitLeave(InitialFunctionDefinition functionDefinition) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   functionDefinition  End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
     public void visitLeave(FunctionDefinition functionDefinition) throws ModuleDataException;
 
     /**
@@ -572,6 +598,14 @@ public interface QedeqVisitor extends ListVisitor {
      * @throws  ModuleDataException Major problem occurred.
      */
     public void visitLeave(Node authorList) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   predicateDefinition End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(InitialPredicateDefinition predicateDefinition) throws ModuleDataException;
 
     /**
      * Visit certain element. End of visit.

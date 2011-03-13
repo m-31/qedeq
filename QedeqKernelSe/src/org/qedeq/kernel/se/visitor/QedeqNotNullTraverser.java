@@ -36,6 +36,8 @@ import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
@@ -561,6 +563,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             if (node.getNodeType() instanceof Axiom) {
                 setLocationWithinModule(context + ".getNodeType().getAxiom()");
                 accept((Axiom) node.getNodeType());
+            } else if (node.getNodeType() instanceof InitialPredicateDefinition) {
+                setLocationWithinModule(context + ".getNodeType().getInitialPredicateDefinition()");
+                accept((InitialPredicateDefinition) node.getNodeType());
             } else if (node.getNodeType() instanceof PredicateDefinition) {
                 setLocationWithinModule(context + ".getNodeType().getPredicateDefinition()");
                 accept((PredicateDefinition) node.getNodeType());
@@ -624,13 +629,59 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
              + (String) location.lastElement());
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(definition);
-        if (definition.getVariableList() != null) {
-            setLocationWithinModule(context + ".getVariableList()");
-            accept(definition.getVariableList());
-        }
         if (definition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula()");
             accept(definition.getFormula());
+        }
+        if (definition.getDescription() != null) {
+            setLocationWithinModule(context + ".getDescription()");
+            accept(definition.getDescription());
+        }
+        setLocationWithinModule(context);
+        visitor.visitLeave(definition);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final InitialPredicateDefinition definition)
+            throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || definition == null) {
+            return;
+        }
+        data.increasePredicateDefinitionNumber();
+        location.set(location.size() - 1, "Definition "
+                + (data.getPredicateDefinitionNumber() + data
+                        .getFunctionDefinitionNumber()) + " "
+                + (String) location.lastElement());
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(definition);
+        if (definition.getPredCon() != null) {
+            setLocationWithinModule(context + ".getPredCon()");
+            accept(definition.getPredCon());
+        }
+        if (definition.getDescription() != null) {
+            setLocationWithinModule(context + ".getDescription()");
+            accept(definition.getDescription());
+        }
+        setLocationWithinModule(context);
+        visitor.visitLeave(definition);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final InitialFunctionDefinition definition) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || definition == null) {
+            return;
+        }
+        data.increaseFunctionDefinitionNumber();
+        location.set(location.size() - 1, "Definition " + (data.getPredicateDefinitionNumber()
+                + data.getFunctionDefinitionNumber()) + " "
+                + (String) location.lastElement());
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(definition);
+        if (definition.getFunCon() != null) {
+            setLocationWithinModule(context + ".getFunCon()");
+            accept(definition.getFunCon());
         }
         if (definition.getDescription() != null) {
             setLocationWithinModule(context + ".getDescription()");
@@ -652,13 +703,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
                 + (String) location.lastElement());
         final String context = getCurrentContext().getLocationWithinModule();
         visitor.visitEnter(definition);
-        if (definition.getVariableList() != null) {
-            setLocationWithinModule(context + ".getVariableList()");
-            accept(definition.getVariableList());
-        }
-        if (definition.getTerm() != null) {
-            setLocationWithinModule(context + ".getTerm()");
-            accept(definition.getTerm());
+        if (definition.getFormula() != null) {
+            setLocationWithinModule(context + ".getFormula()");
+            accept(definition.getFormula());
         }
         if (definition.getDescription() != null) {
             setLocationWithinModule(context + ".getDescription()");

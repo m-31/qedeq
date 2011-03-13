@@ -33,6 +33,8 @@ import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
@@ -95,6 +97,10 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     public void visitEnter(final Formula formula) throws ModuleDataException {
     }
 
+    public void visitEnter(final InitialFunctionDefinition functionDefinition)
+            throws ModuleDataException {
+    }
+
     public void visitEnter(final FunctionDefinition functionDefinition) throws ModuleDataException {
     }
 
@@ -129,6 +135,10 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     }
 
     public void visitEnter(final Node node) throws ModuleDataException {
+    }
+
+    public void visitEnter(final InitialPredicateDefinition predicateDefinition)
+            throws ModuleDataException {
     }
 
     public void visitEnter(final PredicateDefinition predicateDefinition)
@@ -231,6 +241,9 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     public void visitLeave(final Formula formula) throws ModuleDataException {
     }
 
+    public void visitLeave(final InitialFunctionDefinition functionDefinition) throws ModuleDataException {
+    }
+
     public void visitLeave(final FunctionDefinition functionDefinition) throws ModuleDataException {
     }
 
@@ -265,6 +278,10 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     }
 
     public void visitLeave(final Node authorList) throws ModuleDataException {
+    }
+
+    public void visitLeave(final InitialPredicateDefinition predicateDefinition)
+        throws ModuleDataException {
     }
 
     public void visitLeave(final PredicateDefinition predicateDefinition)
