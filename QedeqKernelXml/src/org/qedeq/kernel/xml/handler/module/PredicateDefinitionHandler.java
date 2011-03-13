@@ -25,15 +25,11 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Parse a predicate definition.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class PredicateDefinitionHandler extends AbstractSimpleHandler {
 
-    /** Handler for a variable list. */
-    private final VariableListHandler variableListHandler;
-
-    /** Handler for formulas or terms. */
+    /** Handler for formula. */
     private final FormulaHandler formulaHandler;
 
     /** Handler for rule description. */
@@ -53,7 +49,6 @@ public class PredicateDefinitionHandler extends AbstractSimpleHandler {
      */
     public PredicateDefinitionHandler(final AbstractSimpleHandler handler) {
         super(handler, "DEFINITION_PREDICATE");
-        variableListHandler = new VariableListHandler(this);
         formulaHandler = new FormulaHandler(this);
         descriptionHandler = new LatexListHandler(this, "DESCRIPTION");
     }
@@ -80,8 +75,6 @@ public class PredicateDefinitionHandler extends AbstractSimpleHandler {
             definition.setName(attributes.getString("name"));
         } else if ("LATEXPATTERN".equals(name)) {
             // nothing to do yet
-        } else if (variableListHandler.getStartTag().equals(name)) {
-            changeHandler(variableListHandler, name, attributes);
         } else if (formulaHandler.getStartTag().equals(name)) {
             changeHandler(formulaHandler, name, attributes);
         } else if (descriptionHandler.getStartTag().equals(name)) {
@@ -96,10 +89,8 @@ public class PredicateDefinitionHandler extends AbstractSimpleHandler {
             // nothing to do
         } else if ("LATEXPATTERN".equals(name)) {
             definition.setLatexPattern(latexPattern);
-        } else if (variableListHandler.getStartTag().equals(name)) {
-            definition.setVariableList(variableListHandler.getVariables());
         } else if (formulaHandler.getStartTag().equals(name)) {
-            definition.setFormula(formulaHandler.getFormula());
+            definition.setCompleteFormula(formulaHandler.getFormula());
         } else if (descriptionHandler.getStartTag().equals(name)) {
             definition.setDescription(descriptionHandler.getLatexList());
         } else {

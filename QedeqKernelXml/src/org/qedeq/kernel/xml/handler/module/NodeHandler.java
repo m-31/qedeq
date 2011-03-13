@@ -25,7 +25,6 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Handles node data.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class NodeHandler extends AbstractSimpleHandler {
@@ -45,6 +44,9 @@ public class NodeHandler extends AbstractSimpleHandler {
 
     /** Handler for an axiom. */
     private final AxiomHandler axiomHandler;
+
+    /** Handler for an initial predicate definition. */
+    private final InitialPredicateDefinitionHandler initialPredicateDefinitionHandler;
 
     /** Handler for a predicate definition. */
     private final PredicateDefinitionHandler predicateDefinitionHandler;
@@ -74,6 +76,7 @@ public class NodeHandler extends AbstractSimpleHandler {
         precedingHandler = new LatexListHandler(this, "PRECEDING");
         succeedingHandler = new LatexListHandler(this, "SUCCEEDING");
         axiomHandler = new AxiomHandler(this);
+        initialPredicateDefinitionHandler = new InitialPredicateDefinitionHandler(this);
         predicateDefinitionHandler = new PredicateDefinitionHandler(this);
         functionDefinitionHandler = new FunctionDefinitionHandler(this);
         propositionHandler = new PropositionHandler(this);
@@ -109,6 +112,8 @@ public class NodeHandler extends AbstractSimpleHandler {
             changeHandler(succeedingHandler, name, attributes);
         } else if (axiomHandler.getStartTag().equals(name)) {
             changeHandler(axiomHandler, name, attributes);
+        } else if (initialPredicateDefinitionHandler.getStartTag().equals(name)) {
+            changeHandler(initialPredicateDefinitionHandler, name, attributes);
         } else if (predicateDefinitionHandler.getStartTag().equals(name)) {
             changeHandler(predicateDefinitionHandler, name, attributes);
         } else if (functionDefinitionHandler.getStartTag().equals(name)) {
@@ -135,6 +140,8 @@ public class NodeHandler extends AbstractSimpleHandler {
             node.setSucceedingText(succeedingHandler.getLatexList());
         } else if (axiomHandler.getStartTag().equals(name)) {
             node.setNodeType(axiomHandler.getAxiom());
+        } else if (initialPredicateDefinitionHandler.getStartTag().equals(name)) {
+            node.setNodeType(initialPredicateDefinitionHandler.getInitialDefinition());
         } else if (predicateDefinitionHandler.getStartTag().equals(name)) {
             node.setNodeType(predicateDefinitionHandler.getDefinition());
         } else if (functionDefinitionHandler.getStartTag().equals(name)) {

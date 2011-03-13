@@ -15,27 +15,29 @@
 
 package org.qedeq.kernel.xml.handler.module;
 
-import org.qedeq.kernel.se.dto.module.FunctionDefinitionVo;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
+import org.qedeq.kernel.se.dto.module.InitialPredicateDefinitionVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
+import org.qedeq.kernel.xml.handler.list.ElementHandler;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
 
 /**
- * Parse a function definition.
+ * Parse an initial predicate definition.
  *
  * @author  Michael Meyling
  */
-public class FunctionDefinitionHandler extends AbstractSimpleHandler {
+public class InitialPredicateDefinitionHandler extends AbstractSimpleHandler {
 
-    /** Handler for formulas. */
-    private final FormulaHandler formulaHandler;
+    /** Handler for an element. */
+    private final ElementHandler elementHandler;
 
-    /** Handler for rule description. */
+    /** Handler for predicate description. */
     private final LatexListHandler descriptionHandler;
 
     /** Definition value object. */
-    private FunctionDefinitionVo definition;
+    private InitialPredicateDefinitionVo definition;
 
     /** LaTeX pattern for the definition. */
     private String latexPattern;
@@ -46,9 +48,9 @@ public class FunctionDefinitionHandler extends AbstractSimpleHandler {
      *
      * @param   handler Parent handler.
      */
-    public FunctionDefinitionHandler(final AbstractSimpleHandler handler) {
-        super(handler, "DEFINITION_FUNCTION");
-        formulaHandler = new FormulaHandler(this);
+    public InitialPredicateDefinitionHandler(final AbstractSimpleHandler handler) {
+        super(handler, "DEFINITION_PREDICATE_INITIAL");
+        elementHandler = new ElementHandler(this);
         descriptionHandler = new LatexListHandler(this, "DESCRIPTION");
     }
 
@@ -62,20 +64,20 @@ public class FunctionDefinitionHandler extends AbstractSimpleHandler {
      *
      * @return  Definition.
      */
-    public final FunctionDefinitionVo getDefinition() {
+    public final InitialPredicateDefinition getInitialDefinition() {
         return definition;
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
             throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
-            definition = new FunctionDefinitionVo();
+            definition = new InitialPredicateDefinitionVo();
             definition.setArgumentNumber(attributes.getString("arguments"));
             definition.setName(attributes.getString("name"));
         } else if ("LATEXPATTERN".equals(name)) {
             // nothing to do yet
-        } else if (formulaHandler.getStartTag().equals(name)) {
-            changeHandler(formulaHandler, name, attributes);
+        } else if ("PREDCON".equals(name)) {
+            changeHandler(elementHandler, name, attributes);
         } else if (descriptionHandler.getStartTag().equals(name)) {
             changeHandler(descriptionHandler, name, attributes);
         } else {
@@ -88,8 +90,8 @@ public class FunctionDefinitionHandler extends AbstractSimpleHandler {
             // nothing to do
         } else if ("LATEXPATTERN".equals(name)) {
             definition.setLatexPattern(latexPattern);
-        } else if (formulaHandler.getStartTag().equals(name)) {
-            definition.setFormula(formulaHandler.getFormula());
+        } else if ("PREDCON".equals(name)) {
+            definition.setPredCon(elementHandler.getElement());
         } else if (descriptionHandler.getStartTag().equals(name)) {
             definition.setDescription(descriptionHandler.getLatexList());
         } else {
@@ -104,5 +106,6 @@ public class FunctionDefinitionHandler extends AbstractSimpleHandler {
             throw new RuntimeException("Unexpected character data in tag: " + name);
         }
     }
+
 
 }
