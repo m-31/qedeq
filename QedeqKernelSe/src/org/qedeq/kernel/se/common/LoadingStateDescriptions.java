@@ -65,7 +65,7 @@ public interface LoadingStateDescriptions {
 
     /** Loading from web address failure description. */
     public static final String STATE_STRING_LOADING_FROM_LOCAL_FILE_FAILED
-        = "loading from web failed";
+        = "loading from local file failed";
 
     /** Loading from local file buffer code. */
     public static final int STATE_CODE_LOADING_FROM_BUFFER = 7;

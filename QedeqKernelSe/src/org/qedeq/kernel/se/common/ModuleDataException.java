@@ -84,7 +84,7 @@ public abstract class ModuleDataException extends QedeqException {
     }
 
     /**
-     * Constructor.
+     * Constructor. Copies module context, so original can be changed.
      *
      * @param   errorCode   Error code of this message.
      * @param   message     Error message.
