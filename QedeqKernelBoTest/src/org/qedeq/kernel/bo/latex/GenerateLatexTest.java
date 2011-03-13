@@ -89,7 +89,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             generate(getIndir(), "proof/proof_002.xml", getGenDir(), true, false);
         } catch (SourceFileExceptionList list) {
             DefaultSourceFileExceptionList ex = (DefaultSourceFileExceptionList) list;
-            assertEquals(6, ex.size());
+            assertEquals(8, ex.size());
             SourceFileException e0 = ex.get(0);
             assertTrue(e0.getCause() instanceof ModuleDataException);
             assertEquals(6100017, e0.getErrorCode());
@@ -107,19 +107,29 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             assertEquals(23, e2.getSourceArea().getStartPosition().getColumn());
             SourceFileException e3 = ex.get(3);
             assertTrue(e3.getCause() instanceof ModuleDataException);
-            assertEquals(610011, e3.getErrorCode());
-            assertEquals(1173, e3.getSourceArea().getStartPosition().getRow());
-            assertEquals(34, e3.getSourceArea().getStartPosition().getColumn());
+            assertEquals(610007, e3.getErrorCode());
+            assertEquals(787, e3.getSourceArea().getStartPosition().getRow());
+            assertEquals(24, e3.getSourceArea().getStartPosition().getColumn());
             SourceFileException e4 = ex.get(4);
             assertTrue(e4.getCause() instanceof ModuleDataException);
-            assertEquals(610011, e4.getErrorCode());
-            assertEquals(1282, e4.getSourceArea().getStartPosition().getRow());
-            assertEquals(23, e4.getSourceArea().getStartPosition().getColumn());
+            assertEquals(610007, e4.getErrorCode());
+            assertEquals(847, e4.getSourceArea().getStartPosition().getRow());
+            assertEquals(34, e4.getSourceArea().getStartPosition().getColumn());
             SourceFileException e5 = ex.get(5);
             assertTrue(e5.getCause() instanceof ModuleDataException);
             assertEquals(610011, e5.getErrorCode());
-            assertEquals(1282, e5.getSourceArea().getStartPosition().getRow());
-            assertEquals(37, e5.getSourceArea().getStartPosition().getColumn());
+            assertEquals(1501, e5.getSourceArea().getStartPosition().getRow());
+            assertEquals(34, e5.getSourceArea().getStartPosition().getColumn());
+            SourceFileException e6 = ex.get(6);
+            assertTrue(e5.getCause() instanceof ModuleDataException);
+            assertEquals(610011, e6.getErrorCode());
+            assertEquals(1610, e6.getSourceArea().getStartPosition().getRow());
+            assertEquals(23, e6.getSourceArea().getStartPosition().getColumn());
+            SourceFileException e7 = ex.get(7);
+            assertTrue(e7.getCause() instanceof ModuleDataException);
+            assertEquals(610011, e7.getErrorCode());
+            assertEquals(1610, e7.getSourceArea().getStartPosition().getRow());
+            assertEquals(37, e7.getSourceArea().getStartPosition().getColumn());
         } finally {
             System.setProperty("qedeq.test.xmlLocationFailures", Boolean.FALSE.toString());
         }
@@ -150,9 +160,9 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
-            assertEquals(313, e.getSourceArea().getStartPosition().getRow());
+            assertEquals(315, e.getSourceArea().getStartPosition().getRow());
             assertEquals(1, e.getSourceArea().getStartPosition().getColumn());
-            assertEquals(313, e.getSourceArea().getEndPosition().getRow());
+            assertEquals(315, e.getSourceArea().getEndPosition().getRow());
             assertEquals(30, e.getSourceArea().getEndPosition().getColumn());
         }
     }
@@ -205,7 +215,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             assertEquals(69, e.getSourceArea().getStartPosition().getRow());
             assertEquals(1, e.getSourceArea().getStartPosition().getColumn());
             assertEquals(69, e.getSourceArea().getEndPosition().getRow());
-            assertEquals(47, e.getSourceArea().getEndPosition().getColumn());
+            assertEquals(55, e.getSourceArea().getEndPosition().getColumn());
             e = ex.get(6);
             assertTrue(e.getCause() instanceof SAXParseException);
             assertEquals(9001, e.getErrorCode());
@@ -241,8 +251,8 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof LogicalCheckException);
             assertEquals(30590, e.getErrorCode());
-            assertEquals(286, e.getSourceArea().getStartPosition().getRow());
-            assertEquals(21, e.getSourceArea().getStartPosition().getColumn());
+            assertEquals(288, e.getSourceArea().getStartPosition().getRow());
+            assertEquals(30, e.getSourceArea().getStartPosition().getColumn());
         }
     }
 
@@ -256,7 +266,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof LogicalCheckException);
             assertEquals(30780, e.getErrorCode());
-            assertEquals(296, e.getSourceArea().getStartPosition().getRow());
+            assertEquals(298, e.getSourceArea().getStartPosition().getRow());
             assertEquals(17, e.getSourceArea().getStartPosition().getColumn());
         }
     }
@@ -271,7 +281,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             SourceFileException e = ex.get(0);
             assertTrue(e.getCause() instanceof ModuleDataException);
             assertEquals(1001, e.getErrorCode());
-            assertEquals(306, e.getSourceArea().getStartPosition().getRow());
+            assertEquals(308, e.getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.getSourceArea().getStartPosition().getColumn());
         }
     }
