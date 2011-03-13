@@ -13,7 +13,7 @@
         <attribute name="dir" />   <!-- destination directory -->
         <sequential>
             <echo>clean @{name}</echo>   
-            <delete dir="@{dir}" failonerror="false"/>
+            <delete dir="@{dir}" failonerror="true"/>
             <mkdir dir="@{dir}" />
         </sequential>
     </macrodef>
