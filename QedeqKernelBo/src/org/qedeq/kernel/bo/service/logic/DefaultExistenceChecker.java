@@ -20,11 +20,12 @@ import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
-import org.qedeq.kernel.bo.logic.common.Function;
-import org.qedeq.kernel.bo.logic.common.Predicate;
-import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
-import org.qedeq.kernel.se.base.module.FunctionDefinition;
-import org.qedeq.kernel.se.base.module.PredicateDefinition;
+import org.qedeq.kernel.bo.logic.common.FunctionKey;
+import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
+import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 
 
 /**
@@ -37,10 +38,16 @@ public class DefaultExistenceChecker implements ExistenceChecker {
     /** This class. */
     private static final Class CLASS = DefaultExistenceChecker.class;
 
-    /** Maps {@link Predicate} identifiers to {@link PredicateDefinition}s. */
+    /** Maps {@link PredicateKey} identifiers to {@link InitialPredicateDefinitions}s. */
+    private final Map initialPredicateDefinitions = new HashMap();
+
+    /** Maps {@link PredicateKey} identifiers to {@link PredicateConstant}s. */
     private final Map predicateDefinitions = new HashMap();
 
-    /** Maps {@link Function} identifiers to {@link FunctionDefinition}s. */
+    /** Maps {@link FunctionKey} identifiers to {@link InitialFunctionDefinition}s. */
+    private final Map initialFunctionDefinitions = new HashMap();
+
+    /** Maps {@link FunctionKey} identifiers to {@link FunctionConstant}s. */
     private final Map functionDefinitions = new HashMap();
 
     /** Is the class operator already defined? */
@@ -62,39 +69,67 @@ public class DefaultExistenceChecker implements ExistenceChecker {
      */
     public void clear() {
         Trace.trace(CLASS, this, "setClassOperatorExists", "clear");
+        initialPredicateDefinitions.clear();
         predicateDefinitions.clear();
+        initialFunctionDefinitions.clear();
         functionDefinitions.clear();
         identityOperator = null;
         setDefinitionByFormula = false;
     }
 
-    public boolean predicateExists(final Predicate predicate) {
-        final PredicateDefinition definition = (PredicateDefinition) predicateDefinitions
-            .get(predicate);
-        return null != definition;
+    public boolean predicateExists(final PredicateKey predicate) {
+        final InitialPredicateDefinition initialDefinition
+            = (InitialPredicateDefinition) initialPredicateDefinitions.get(predicate);
+        if (initialDefinition != null) {
+            return true;
+        }
+        return null != predicateDefinitions.get(predicate);
     }
 
     public boolean predicateExists(final String name, final int arguments) {
-        final Predicate predicate = new Predicate(name, "" + arguments);
+        final PredicateKey predicate = new PredicateKey(name, "" + arguments);
         return predicateExists(predicate);
+    }
+
+    public boolean isInitialPredicate(final PredicateKey predicate) {
+        final InitialPredicateDefinition initialDefinition
+            = (InitialPredicateDefinition) initialPredicateDefinitions.get(predicate);
+        return initialDefinition != null;
     }
 
     /**
      * Add unknown predicate constant definition. If the predicate constant is already known a
      * runtime exception is thrown.
      *
-     * @param   definition  Predicate constant definition that is not already known. Must not be
+     * @param   initialDefinition   Predicate constant definition that is not already known. Must not be
+     *                              <code>null</code>.
+     * @throws  IllegalArgumentException    Predicate constant is already defined.
+     */
+    public void add(final InitialPredicateDefinition initialDefinition) {
+        final PredicateKey predicate = new PredicateKey(initialDefinition.getName(),
+            initialDefinition.getArgumentNumber());
+        if (predicateExists(predicate)) {
+            throw new IllegalArgumentException(LogicErrors.PREDICATE_ALREADY_DEFINED_TEXT
+                + predicate);
+        }
+        initialPredicateDefinitions.put(predicate, initialDefinition);
+    }
+
+    /**
+     * Add unknown predicate constant definition. If the predicate constant is already known a
+     * runtime exception is thrown.
+     *
+     * @param   constant    Predicate constant definition that is not already known. Must not be
      *                      <code>null</code>.
      * @throws  IllegalArgumentException    Predicate constant is already defined.
      */
-    public void add(final PredicateDefinition definition) {
-        final Predicate predicate = new Predicate(definition.getName(),
-            definition.getArgumentNumber());
-        if (predicateDefinitions.get(predicate) != null) {
-            throw new IllegalArgumentException(HigherLogicalErrors.PREDICATE_ALREADY_DEFINED_TEXT
+    public void add(final PredicateConstant constant) {
+        final PredicateKey predicate = constant.getKey();
+        if (predicateExists(predicate)) {
+            throw new IllegalArgumentException(LogicErrors.PREDICATE_ALREADY_DEFINED_TEXT
                 + predicate);
         }
-        predicateDefinitions.put(predicate, definition);
+        predicateDefinitions.put(predicate, constant);
     }
 
     /**
@@ -103,8 +138,8 @@ public class DefaultExistenceChecker implements ExistenceChecker {
      * @param   predicate   Get definition of this predicate.
      * @return  Definition.
      */
-    public PredicateDefinition get(final Predicate predicate) {
-        return (PredicateDefinition) predicateDefinitions.get(predicate);
+    public PredicateConstant get(final PredicateKey predicate) {
+        return (PredicateConstant) predicateDefinitions.get(predicate);
     }
 
     /**
@@ -114,19 +149,22 @@ public class DefaultExistenceChecker implements ExistenceChecker {
      * @param   arguments   Arguments of predicate.
      * @return  Definition. Might be <code>null</code>.
      */
-    public PredicateDefinition getPredicate(final String name, final int arguments) {
-        final Predicate predicate = new Predicate(name, "" + arguments);
+    public PredicateConstant getPredicate(final String name, final int arguments) {
+        final PredicateKey predicate = new PredicateKey(name, "" + arguments);
         return get(predicate);
     }
 
-    public boolean functionExists(final Function function) {
-        final FunctionDefinition definition = (FunctionDefinition) functionDefinitions
-            .get(function);
-        return null != definition;
+    public boolean functionExists(final FunctionKey function) {
+        final InitialFunctionDefinition initialDefinition
+            = (InitialFunctionDefinition) initialFunctionDefinitions.get(function);
+        if (initialDefinition != null) {
+            return true;
+        }
+        return null != functionDefinitions.get(function);
     }
 
     public boolean functionExists(final String name, final int arguments) {
-        final Function function = new Function(name, "" + arguments);
+        final FunctionKey function = new FunctionKey(name, "" + arguments);
         return functionExists(function);
     }
 
@@ -138,14 +176,31 @@ public class DefaultExistenceChecker implements ExistenceChecker {
      *                      <code>null</code>.
      * @throws  IllegalArgumentException    Function constant is already defined.
      */
-    public void add(final FunctionDefinition definition) {
-        final Function function = new Function(definition.getName(),
-            definition.getArgumentNumber());
+    public void add(final FunctionConstant definition) {
+        final FunctionKey function = definition.getKey();
         if (functionDefinitions.get(function) != null) {
-            throw new IllegalArgumentException(HigherLogicalErrors.FUNCTION_ALREADY_DEFINED_TEXT
+            throw new IllegalArgumentException(LogicErrors.FUNCTION_ALREADY_DEFINED_TEXT
                 + function);
         }
         functionDefinitions.put(function, definition);
+    }
+
+    /**
+     * Add unknown function constant definition. If the function constant is already known a
+     * runtime exception is thrown.
+     *
+     * @param   initialDefinition   Function constant definition that is not already known. Must not be
+     *                              <code>null</code>.
+     * @throws  IllegalArgumentException    Function constant is already defined.
+     */
+    public void add(final InitialFunctionDefinition initialDefinition) {
+        final FunctionKey predicate = new FunctionKey(initialDefinition.getName(),
+            initialDefinition.getArgumentNumber());
+        if (functionExists(predicate)) {
+            throw new IllegalArgumentException(LogicErrors.FUNCTION_ALREADY_DEFINED_TEXT
+                + predicate);
+        }
+        initialFunctionDefinitions.put(predicate, initialDefinition);
     }
 
     /**
@@ -154,8 +209,8 @@ public class DefaultExistenceChecker implements ExistenceChecker {
      * @param   function    Get definition of this predicate.
      * @return  Definition. Might be <code>null</code>.
      */
-    public FunctionDefinition get(final Function function) {
-        return (FunctionDefinition) functionDefinitions.get(function);
+    public FunctionConstant get(final FunctionKey function) {
+        return (FunctionConstant) functionDefinitions.get(function);
     }
 
     /**
@@ -165,9 +220,15 @@ public class DefaultExistenceChecker implements ExistenceChecker {
      * @param   arguments   Arguments of function.
      * @return  Definition. Might be <code>null</code>.
      */
-    public FunctionDefinition getFunction(final String name, final int arguments) {
-        final Function function = new Function(name, "" + arguments);
+    public FunctionConstant getFunction(final String name, final int arguments) {
+        final FunctionKey function = new FunctionKey(name, "" + arguments);
         return get(function);
+    }
+
+    public boolean isInitialFunction(final FunctionKey function) {
+        final InitialFunctionDefinition initialDefinition
+            = (InitialFunctionDefinition) initialFunctionDefinitions.get(function);
+        return initialDefinition != null;
     }
 
     public boolean classOperatorExists() {

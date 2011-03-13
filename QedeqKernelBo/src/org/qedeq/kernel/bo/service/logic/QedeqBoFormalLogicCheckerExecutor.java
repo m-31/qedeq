@@ -19,23 +19,35 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.EqualsUtility;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.FormulaCheckerFactory;
-import org.qedeq.kernel.bo.logic.common.Function;
+import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
-import org.qedeq.kernel.bo.logic.common.Predicate;
+import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.bo.logic.wf.FormulaUtility;
+import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
 import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
+import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.FormalProof;
+import org.qedeq.kernel.se.base.module.FormalProofLine;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
@@ -232,58 +244,191 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        final Predicate predicate = new Predicate(definition.getName(),
+        final PredicateKey predicateKey = new PredicateKey(definition.getName(),
             definition.getArgumentNumber());
-        if (existence.predicateExists(predicate)) {
-            addError(new IllegalModuleDataException(HigherLogicalErrors.PREDICATE_ALREADY_DEFINED_CODE,
-                HigherLogicalErrors.PREDICATE_ALREADY_DEFINED_TEXT + predicate,
-                getCurrentContext()));
-        }
-        if (definition.getFormula() != null) {
-            final Formula formula = definition.getFormula();
-            final VariableList variableList = definition.getVariableList();
-            final int size = (variableList == null ? 0 : variableList.size());
-            final ElementSet free = FormulaUtility.getFreeSubjectVariables(formula.getElement());
-            for (int i = 0; i < size; i++) {
-                setLocationWithinModule(context + ".getVariableList().get(" + i + ")");
-                if (!FormulaUtility.isSubjectVariable(variableList.get(i))) {
-                    addError(new IllegalModuleDataException(
-                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_CODE,
-                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_TEXT + variableList.get(i),
-                        getCurrentContext()));
-                }
-                if (!free.contains(variableList.get(i))) {
-                    addError(new IllegalModuleDataException(
-                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_CODE,
-                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_TEXT + variableList.get(i),
-                        getCurrentContext()));
-                }
-            }
-            setLocationWithinModule(context);
-            if (size != free.size()) {
+        // we misuse a do loop to be able to break
+        do {
+            if (existence.predicateExists(predicateKey)) {
                 addError(new IllegalModuleDataException(
-                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_CODE,
-                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_TEXT,
+                    LogicErrors.PREDICATE_ALREADY_DEFINED_CODE,
+                    LogicErrors.PREDICATE_ALREADY_DEFINED_TEXT + predicateKey,
                     getCurrentContext()));
+                break;
+            }
+            if (definition.getFormula() == null) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_EQUIVALENCE_OPERATOR_CODE,
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_EQUIVALENCE_OPERATOR_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            final Element completeFormula = definition.getFormula().getElement();
+            if (completeFormula == null) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_EQUIVALENCE_OPERATOR_CODE,
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_EQUIVALENCE_OPERATOR_TEXT,
+                    getCurrentContext()));
+                break;
             }
             setLocationWithinModule(context + ".getFormula().getElement()");
+            if (completeFormula.isAtom()) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_EQUIVALENCE_OPERATOR_CODE,
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_EQUIVALENCE_OPERATOR_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            final ElementList equi = completeFormula.getList();
+            final String operator = equi.getOperator();
+            if (!operator.equals(FormulaCheckerImpl.EQUIVALENCE_OPERATOR)
+                    || equi.size() != 2) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_EQUIVALENCE_OPERATOR_CODE,
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_EQUIVALENCE_OPERATOR_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(0)");
+            if (equi.getElement(0).isAtom()) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_PREDICATE_CONSTANT_CODE,
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_PREDICATE_CONSTANT_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            final ElementList predicate =  equi.getElement(0).getList();
+            if (predicate.getOperator() != FormulaCheckerImpl.PREDICATE_CONSTANT) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_PREDICATE_CONSTANT_CODE,
+                    LogicErrors.PREDICATE_DEFINITION_NEEDS_PREDICATE_CONSTANT_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            final Element definingFormula =  equi.getElement(1);
+
+            final ElementSet free = FormulaUtility.getFreeSubjectVariables(definingFormula);
+            for (int i = 0; i < predicate.size(); i++) {
+                setLocationWithinModule(context
+                    + ".getFormula().getElement().getList().getElement(0).getList().getElement(" + i + ")");
+                if (i == 0) {
+                    if (!predicate.getElement(0).isAtom()
+                            || !EqualsUtility.equals(definition.getName(),
+                            predicate.getElement(0).getAtom().getString())) {
+                        addError(new IllegalModuleDataException(
+                            LogicErrors.MUST_HAVE_NAME_OF_PREDICATE_CODE,
+                            LogicErrors.MUST_HAVE_NAME_OF_PREDICATE_TEXT
+                            + StringUtility.quote(definition.getName()) + " - "
+                            + StringUtility.quote(predicate.getElement(0).getAtom().getString()),
+                            getCurrentContext()));
+                        continue;
+                    }
+                } else if (!FormulaUtility.isSubjectVariable(predicate.getElement(i))) {
+                    addError(new IllegalModuleDataException(
+                        LogicErrors.MUST_BE_A_SUBJECT_VARIABLE_CODE,
+                        LogicErrors.MUST_BE_A_SUBJECT_VARIABLE_TEXT + predicate.getElement(i),
+                        getCurrentContext()));
+                    continue;
+                }
+                setLocationWithinModule(context
+                        + ".getFormula().getElement().getList().getElement(1)");
+                if (i != 0 && !free.contains(predicate.getElement(i))) {
+                    addError(new IllegalModuleDataException(
+                        LogicErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_CODE,
+                        LogicErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_TEXT + predicate.getElement(i),
+                        getCurrentContext()));
+                }
+            }
+            setLocationWithinModule(context + ".getFormula().getElement()");
+            if (predicate.size() - 1 != free.size()) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_CODE,
+                    LogicErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_TEXT,
+                    getCurrentContext()));
+            }
+            setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(1)");
             LogicalCheckExceptionList list = checkerFactory.createFormulaChecker().checkFormula(
-                formula.getElement(), getCurrentContext(), existence);
+                definingFormula, getCurrentContext(), existence);
             for (int i = 0; i < list.size(); i++) {
                 addError(list.get(i));
             }
-        }
-        existence.add(definition);
-        if ("2".equals(predicate.getArguments())
-                && ExistenceChecker.NAME_EQUAL.equals(predicate.getName())) {
-            existence.setIdentityOperatorDefined(predicate.getName(),
+            setLocationWithinModule(context + ".getFormula().getElement().getList()");
+            final PredicateConstant constant = new PredicateConstant(predicateKey,
+                 equi, getCurrentContext());
+            setLocationWithinModule(context);
+            if (existence.predicateExists(predicateKey)) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.PREDICATE_ALREADY_DEFINED_CODE,
+                    LogicErrors.PREDICATE_ALREADY_DEFINED_TEXT
+                            + predicateKey, getCurrentContext()));
+                break;
+            }
+            existence.add(constant);
+            // break out of while
+        } while (false);
+
+        // check if we just found the identity operator
+        setLocationWithinModule(context);
+        if ("2".equals(predicateKey.getArguments())
+                && ExistenceChecker.NAME_EQUAL.equals(predicateKey.getName())) {
+            existence.setIdentityOperatorDefined(predicateKey.getName(),
                 (KernelQedeqBo) getQedeqBo(), getCurrentContext());
         }
-        setLocationWithinModule(context);
         setBlocked(true);
     }
 
     public void visitLeave(final PredicateDefinition definition) {
+        setBlocked(false);
+    }
+
+    public void visitEnter(final InitialPredicateDefinition definition)
+            throws ModuleDataException {
+        if (definition == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        final PredicateKey predicateKey = new PredicateKey(
+                definition.getName(), definition.getArgumentNumber());
+        setLocationWithinModule(context);
+        if (existence.predicateExists(predicateKey)) {
+            addError(new IllegalModuleDataException(
+                LogicErrors.PREDICATE_ALREADY_DEFINED_CODE,
+                LogicErrors.PREDICATE_ALREADY_DEFINED_TEXT
+                        + predicateKey, getCurrentContext()));
+        }
+        existence.add(definition);
+        // check if we just found the identity operator
+        if ("2".equals(predicateKey.getArguments())
+                && ExistenceChecker.NAME_EQUAL.equals(predicateKey.getName())) {
+            existence.setIdentityOperatorDefined(predicateKey.getName(),
+                    (KernelQedeqBo) getQedeqBo(), getCurrentContext());
+        }
+        setBlocked(true);
+    }
+
+    public void visitLeave(final InitialPredicateDefinition definition) {
+        setBlocked(false);
+    }
+
+    public void visitEnter(final InitialFunctionDefinition definition)
+            throws ModuleDataException {
+        if (definition == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        final FunctionKey function = new FunctionKey(definition.getName(),
+            definition.getArgumentNumber());
+        if (existence.functionExists(function)) {
+            addError(new IllegalModuleDataException(
+                LogicErrors.FUNCTION_ALREADY_DEFINED_CODE,
+                LogicErrors.FUNCTION_ALREADY_DEFINED_TEXT + function,
+                getCurrentContext()));
+        }
+        existence.add(definition);
+        setLocationWithinModule(context);
+        setBlocked(true);
+    }
+
+    public void visitLeave(final InitialFunctionDefinition definition) {
         setBlocked(false);
     }
 
@@ -293,48 +438,164 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        final Function function = new Function(definition.getName(),
-            definition.getArgumentNumber());
-        if (existence.functionExists(function)) {
-            addError(new IllegalModuleDataException(HigherLogicalErrors.FUNCTION_ALREADY_DEFINED_CODE,
-                HigherLogicalErrors.FUNCTION_ALREADY_DEFINED_TEXT + function,
-                getCurrentContext()));
-        }
-        if (definition.getTerm() != null) {
-            final Term term = definition.getTerm();
-            final VariableList variableList = definition.getVariableList();
-            final int size = (variableList == null ? 0 : variableList.size());
-            final ElementSet free = FormulaUtility.getFreeSubjectVariables(term.getElement());
-            for (int i = 0; i < size; i++) {
-                setLocationWithinModule(context + ".getVariableList().get(" + i + ")");
-                if (!FormulaUtility.isSubjectVariable(variableList.get(i))) {
-                    addError(new IllegalModuleDataException(
-                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_CODE,
-                        HigherLogicalErrors.MUST_BE_A_SUBJECT_VARIABLE_TEXT + variableList.get(i),
-                        getCurrentContext()));
-                }
-                if (!free.contains(variableList.get(i))) {
-                    addError(new IllegalModuleDataException(
-                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_CODE,
-                        HigherLogicalErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_TEXT + variableList.get(i),
-                        getCurrentContext()));
-                }
-            }
-            setLocationWithinModule(context);
-            if (size != free.size()) {
+        final FunctionKey function = new FunctionKey(definition.getName(),
+                definition.getArgumentNumber());
+        // we misuse a do loop to be able to break
+        do {
+            if (existence.functionExists(function)) {
                 addError(new IllegalModuleDataException(
-                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_CODE,
-                    HigherLogicalErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_TEXT,
+                    LogicErrors.FUNCTION_ALREADY_DEFINED_CODE,
+                    LogicErrors.FUNCTION_ALREADY_DEFINED_TEXT
+                        + function, getCurrentContext()));
+                break;
+            }
+            if (definition.getFormula() == null) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.NO_DEFINITION_FORMULA_FOR_FUNCTION_CODE,
+                    LogicErrors.NO_DEFINITION_FORMULA_FOR_FUNCTION_TEXT,
                     getCurrentContext()));
+                break;
             }
-            setLocationWithinModule(context + ".getTerm().getElement()");
-            LogicalCheckExceptionList list = checkerFactory.createFormulaChecker().checkTerm(
-                term.getElement(), getCurrentContext(), existence);
-            for (int i = 0; i < list.size(); i++) {
-                addError(list.get(i));
+            final Formula formulaArgument = definition.getFormula();
+            setLocationWithinModule(context + ".getFormula()");
+            if (formulaArgument.getElement() == null || formulaArgument.getElement().isAtom()) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.NO_DEFINITION_FORMULA_FOR_FUNCTION_CODE,
+                    LogicErrors.NO_DEFINITION_FORMULA_FOR_FUNCTION_TEXT,
+                    getCurrentContext()));
+                break;
             }
-        }
-        existence.add(definition);
+            final ElementList formula = formulaArgument.getElement().getList();
+            setLocationWithinModule(context + ".getFormula().getElement().getList()");
+            if (!existence.identityOperatorExists()) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.IDENTITY_OPERATOR_MUST_BE_DEFINED_FIRST_CODE,
+                    LogicErrors.IDENTITY_OPERATOR_MUST_BE_DEFINED_FIRST_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            if (!FormulaCheckerImpl.PREDICATE_CONSTANT.equals(formula.getOperator())) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.DEFINITION_FORMULA_FOR_FUNCTION_MUST_BE_AN_EQUAL_RELATION_CODE,
+                    LogicErrors.DEFINITION_FORMULA_FOR_FUNCTION_MUST_BE_AN_EQUAL_RELATION_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            if (formula.size() != 3) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.DEFINITION_FORMULA_FOR_FUNCTION_MUST_BE_AN_EQUAL_RELATION_CODE,
+                    LogicErrors.DEFINITION_FORMULA_FOR_FUNCTION_MUST_BE_AN_EQUAL_RELATION_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            if (!formula.getElement(0).isAtom()) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.DEFINITION_FORMULA_FOR_FUNCTION_MUST_BE_AN_EQUAL_RELATION_CODE,
+                    LogicErrors.DEFINITION_FORMULA_FOR_FUNCTION_MUST_BE_AN_EQUAL_RELATION_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            if (!EqualsUtility.equals(existence.getIdentityOperator(),
+                    formula.getElement(0).getAtom().getString())) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.DEFINITION_FORMULA_FOR_FUNCTION_MUST_BE_AN_EQUAL_RELATION_CODE,
+                    LogicErrors.DEFINITION_FORMULA_FOR_FUNCTION_MUST_BE_AN_EQUAL_RELATION_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(1)");
+            if (formula.getElement(1).isAtom()) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.FIRST_OPERAND_MUST_BE_A_NEW_FUNCTION_CONSTANT_CODE,
+                    LogicErrors.FIRST_OPERAND_MUST_BE_A_NEW_FUNCTION_CONSTANT_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            final ElementList functionConstant = formula.getElement(1).getList();
+            if (!FormulaCheckerImpl.FUNCTION_CONSTANT.equals(functionConstant.getOperator())) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.FIRST_OPERAND_MUST_BE_A_NEW_FUNCTION_CONSTANT_CODE,
+                    LogicErrors.FIRST_OPERAND_MUST_BE_A_NEW_FUNCTION_CONSTANT_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            setLocationWithinModule(context
+                + ".getFormula().getElement().getList().getElement(1).getList()");
+            final int size = functionConstant.size();
+            if (!("" + (size - 1)).equals(definition.getArgumentNumber())) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.FIRST_OPERAND_MUST_BE_A_NEW_FUNCTION_CONSTANT_CODE,
+                    LogicErrors.FIRST_OPERAND_MUST_BE_A_NEW_FUNCTION_CONSTANT_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            setLocationWithinModule(context
+                + ".getFormula().getElement().getList().getElement(1).getList().getElement(0)");
+            if (!functionConstant.getElement(0).isAtom()) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.FIRST_OPERAND_MUST_BE_A_NEW_FUNCTION_CONSTANT_CODE,
+                    LogicErrors.FIRST_OPERAND_MUST_BE_A_NEW_FUNCTION_CONSTANT_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            if (!EqualsUtility.equals(definition.getName(),
+                    functionConstant.getElement(0).getAtom().getString())) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.FIRST_OPERAND_MUST_BE_A_NEW_FUNCTION_CONSTANT_CODE,
+                    LogicErrors.FIRST_OPERAND_MUST_BE_A_NEW_FUNCTION_CONSTANT_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+
+            setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(2)");
+            if (formula.getElement(2).isAtom()) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.SECOND_OPERAND_MUST_BE_A_TERM_CODE,
+                    LogicErrors.SECOND_OPERAND_MUST_BE_A_TERM_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            final ElementList term = formula.getElement(2).getList();
+            setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(1)");
+            final ElementSet free = FormulaUtility.getFreeSubjectVariables(term);
+            if (size - 1 != free.size()) {
+                addError(new IllegalModuleDataException(
+                    LogicErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_CODE,
+                    LogicErrors.NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_TEXT,
+                    getCurrentContext()));
+                break;
+            }
+            if (functionConstant.getElement(0).isList()
+                    || !EqualsUtility.equals(function.getName(),
+                    functionConstant.getElement(0).getAtom().getString())) {
+            }
+            for (int i = 1; i < size; i++) {
+                setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(1)"
+                    + ".getList().get(" + i + ")");
+                if (!FormulaUtility.isSubjectVariable(functionConstant.getElement(i))) {
+                    addError(new IllegalModuleDataException(
+                        LogicErrors.MUST_BE_A_SUBJECT_VARIABLE_CODE,
+                        LogicErrors.MUST_BE_A_SUBJECT_VARIABLE_TEXT
+                            + functionConstant.getElement(i), getCurrentContext()));
+                }
+                if (!free.contains(functionConstant.getElement(i))) {
+                    addError(new IllegalModuleDataException(
+                        LogicErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_CODE,
+                        LogicErrors.SUBJECT_VARIABLE_OCCURS_NOT_FREE_TEXT
+                            + functionConstant.getElement(i), getCurrentContext()));
+                }
+            }
+            setLocationWithinModule(context + ".getFormula().getElement().getList()");
+            existence.add(new FunctionConstant(function, formula, getCurrentContext()));  // FIXME add even if there are errors?
+            final LogicalCheckExceptionList list = checkerFactory.createFormulaChecker()
+                .checkFormula(formulaArgument.getElement(), getCurrentContext(), existence);
+            if (list.size() > 0) {
+                for (int i = 0; i < list.size(); i++) {
+                    addError(list.get(i));
+                }
+                break;
+            }
+        } while (false);
         setLocationWithinModule(context);
         setBlocked(true);
     }
@@ -356,6 +617,33 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                 formula.getElement(), getCurrentContext(), existence);
             for (int i = 0; i < list.size(); i++) {
                 addError(list.get(i));
+            }
+        }
+        if (proposition.getFormalProofList() != null) {
+            for (int i = 0; i < proposition.getFormalProofList().size(); i++) {
+                final FormalProof proof = proposition.getFormalProofList().get(i);
+                if (proof != null) {
+                    final FormalProofLineList list = proof.getFormalProofLineList();
+                    if (list != null) {
+                        for (int j = 0; j < list.size(); j++) {
+                            final FormalProofLine line = list.get(j);
+                            if (line != null) {
+                                final Formula formula = line.getFormula();
+                                if (formula != null) {
+                                    setLocationWithinModule(context + ".getFormalProofList().get("
+                                       + i + ").getFormalProofLineList().get(" + j
+                                       + ").getFormula().getElement()");
+                                    LogicalCheckExceptionList elist
+                                        = checkerFactory.createFormulaChecker().checkFormula(
+                                        formula.getElement(), getCurrentContext(), existence);
+                                    for (int k = 0; k < elist.size(); k++) {
+                                        addError(elist.get(k));
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
         setLocationWithinModule(context);
