@@ -46,8 +46,8 @@ public class PredicateDefinitionVo implements PredicateDefinition {
      * <code>\mathfrak{M}(#1)</code> */
     private String latexPattern;
 
-    /** Formula that defines the object. Could be <code>null</code>. */
-    private Formula completeFormula;
+    /** Formula that defines the object.*/
+    private Formula formula;
 
     /** Further proposition description. Normally <code>null</code>. */
     private LatexList description;
@@ -134,12 +134,12 @@ public class PredicateDefinitionVo implements PredicateDefinition {
      *
      * @param   formulaOrTerm   Formula or term that defines the new operator.
      */
-    public final void setCompleteFormula(final FormulaVo formulaOrTerm) {
-        this.completeFormula = formulaOrTerm;
+    public final void setFormula(final FormulaVo formulaOrTerm) {
+        this.formula = formulaOrTerm;
     }
 
     public final Formula getFormula() {
-        return completeFormula;
+        return formula;
     }
 
     /**

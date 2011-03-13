@@ -18,7 +18,6 @@ package org.qedeq.kernel.se.dto.module;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
-import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
@@ -26,8 +25,6 @@ import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
-import org.qedeq.kernel.se.base.module.Term;
-import org.qedeq.kernel.se.base.module.VariableList;
 
 
 /**
@@ -51,9 +48,6 @@ public class InitialFunctionDefinitionVo implements InitialFunctionDefinition {
 
     /** Defined function constant with free subject variables as arguments. */
     private Element funCon;
-
-    /** Term that defines the object. Could be <code>null</code>. */
-    private Term term;
 
     /** Further proposition description. Normally <code>null</code>. */
     private LatexList description;
@@ -163,7 +157,7 @@ public class InitialFunctionDefinitionVo implements InitialFunctionDefinition {
     }
 
     public boolean equals(final Object obj) {
-        if (!(obj instanceof FunctionDefinition)) {
+        if (!(obj instanceof InitialFunctionDefinition)) {
             return false;
         }
         final InitialFunctionDefinition other = (InitialFunctionDefinition) obj;
