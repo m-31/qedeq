@@ -16,10 +16,10 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
-import org.qedeq.kernel.bo.logic.common.Function;
-import org.qedeq.kernel.bo.logic.common.Predicate;
-import org.qedeq.kernel.se.base.module.FunctionDefinition;
-import org.qedeq.kernel.se.base.module.PredicateDefinition;
+import org.qedeq.kernel.bo.logic.common.FunctionKey;
+import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
+import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
@@ -29,9 +29,9 @@ import org.qedeq.kernel.se.common.ModuleContext;
  */
 public interface ModuleConstantsExistenceChecker extends ExistenceChecker {
 
-    public boolean predicateExists(final Predicate predicate);
+    public boolean predicateExists(final PredicateKey predicate);
 
-    public boolean functionExists(final Function function);
+    public boolean functionExists(final FunctionKey function);
 
     /**
      * Get QEDEQ module where given function constant is defined.
@@ -39,7 +39,7 @@ public interface ModuleConstantsExistenceChecker extends ExistenceChecker {
      * @param   function    Function we look for.
      * @return  QEDEQ module where function constant is defined.
      */
-    public KernelQedeqBo getQedeq(final Function function);
+    public KernelQedeqBo getQedeq(final FunctionKey function);
 
     /**
      * Get QEDEQ module where given predicate constant is defined.
@@ -47,7 +47,7 @@ public interface ModuleConstantsExistenceChecker extends ExistenceChecker {
      * @param   predicate   Predicate we look for.
      * @return  QEDEQ module where predicate constant is defined.x
      */
-    public KernelQedeqBo getQedeq(final Predicate predicate);
+    public KernelQedeqBo getQedeq(final PredicateKey predicate);
 
     public boolean classOperatorExists();
 
@@ -96,7 +96,7 @@ public interface ModuleConstantsExistenceChecker extends ExistenceChecker {
      * @param   predicate   Get definition of this predicate.
      * @return  Definition.
      */
-    public PredicateDefinition get(final Predicate predicate);
+    public PredicateConstant get(final PredicateKey predicate);
 
     /**
      * Get predicate constant definition.
@@ -105,7 +105,7 @@ public interface ModuleConstantsExistenceChecker extends ExistenceChecker {
      * @param   arguments   Arguments of predicate.
      * @return  Definition. Might be <code>null</code>.
      */
-    public PredicateDefinition getPredicate(final String name, final int arguments);
+    public PredicateConstant getPredicate(final String name, final int arguments);
 
     /**
      * Get function constant definition.
@@ -113,7 +113,7 @@ public interface ModuleConstantsExistenceChecker extends ExistenceChecker {
      * @param   function    Get definition of this predicate.
      * @return  Definition. Might be <code>null</code>.
      */
-    public FunctionDefinition get(final Function function);
+    public FunctionConstant get(final FunctionKey function);
 
     /**
      * Get function constant definition.
@@ -122,6 +122,6 @@ public interface ModuleConstantsExistenceChecker extends ExistenceChecker {
      * @param   arguments   Arguments of function.
      * @return  Definition. Might be <code>null</code>.
      */
-    public FunctionDefinition getFunction(final String name, final int arguments);
+    public FunctionConstant getFunction(final String name, final int arguments);
 
 }

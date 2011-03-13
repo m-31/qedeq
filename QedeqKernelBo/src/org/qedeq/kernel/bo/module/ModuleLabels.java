@@ -131,7 +131,7 @@ public final class ModuleLabels {
             throws IllegalModuleDataException {
         if (label2Context.containsKey(label)) {
             throw new IllegalModuleDataException(ModuleErrors.LABEL_DEFINED_MORE_THAN_ONCE_CODE,
-                ModuleErrors.LABEL_DEFINED_MORE_THAN_ONCE_CODE + "\"" + label + "\"",
+                ModuleErrors.LABEL_DEFINED_MORE_THAN_ONCE_TEXT + "\"" + label + "\"",
                 context, (ModuleContext) label2Context.get(label), null);
         }
     }

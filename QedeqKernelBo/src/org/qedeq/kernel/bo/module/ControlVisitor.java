@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.base.io.SourceArea;
+import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -41,6 +42,9 @@ import org.qedeq.kernel.se.visitor.QedeqNumbers;
  * @author  Michael Meyling
  */
 public abstract class ControlVisitor extends AbstractModuleVisitor {
+
+    /** This class. */
+    private static final Class CLASS = ControlVisitor.class;
 
     /** This plugin we work for. */
     private final Plugin plugin;
@@ -127,6 +131,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
         } catch (ModuleDataException me) {
             addError(me);
         } catch (RuntimeException e) {
+            Trace.fatal(CLASS, this, "traverse", "looks like a programming error", e);
             addError(new RuntimeVisitorException(getCurrentContext(), e));
         }
         if (errorList != null && errorList.size() > 0) {
