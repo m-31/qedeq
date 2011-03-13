@@ -44,6 +44,8 @@ import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
@@ -66,7 +68,6 @@ import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -711,29 +712,19 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         printer.println();
     }
 
-    public void visitEnter(final PredicateDefinition definition) {
+    public void visitEnter(final InitialPredicateDefinition definition) {
         final QedeqNumbers numbers = getCurrentNumbers();
         printer.print("\u2609 ");
         final StringBuffer buffer = new StringBuffer();
-        if (definition.getFormula() == null) {
-            if ("de".equals(language)) {
-                buffer.append("initiale ");
-            } else {
-                buffer.append("initial ");
-            }
+        if ("de".equals(language)) {
+            buffer.append("initiale ");
+        } else {
+            buffer.append("initial ");
         }
         buffer.append("Definition " + (numbers.getPredicateDefinitionNumber()
             + numbers.getFunctionDefinitionNumber()));
         printer.print(buffer.toString());
         printer.print(" ");
-        final StringBuffer define = new StringBuffer(getUtf8(definition.getLatexPattern()));
-        final VariableList list = definition.getVariableList();
-        if (list != null) {
-            for (int i = list.size() - 1; i >= 0; i--) {
-                Trace.trace(CLASS, this, "printPredicateDefinition", "replacing!");
-                StringUtility.replace(define, "#" + (i + 1), getUtf8(list.get(i)));
-            }
-        }
         if (title != null && title.length() > 0) {
             printer.print(" (" + title + ")");
         }
@@ -742,13 +733,8 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
         printer.println();
         printer.println();
-        if (definition.getFormula() != null) {
-            define.append("  :\u2194  ");
-            define.append(getUtf8(definition.getFormula().getElement()));
-        }
-        Trace.param(CLASS, this, "printPredicateDefinition", "define", define);
         printer.print("     ");
-        printer.println(define.toString());
+        printer.println(getUtf8(definition.getPredCon()));
         printer.println();
         if (definition.getDescription() != null) {
             printer.append(getLatexListEntry("getDescription()", definition.getDescription()));
@@ -757,29 +743,14 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
     }
 
-    public void visitEnter(final FunctionDefinition definition) {
+    public void visitEnter(final PredicateDefinition definition) {
         final QedeqNumbers numbers = getCurrentNumbers();
         printer.print("\u2609 ");
         final StringBuffer buffer = new StringBuffer();
-        if (definition.getTerm() == null) {
-            if ("de".equals(language)) {
-                buffer.append("initiale ");
-            } else {
-                buffer.append("initial ");
-            }
-        }
         buffer.append("Definition " + (numbers.getPredicateDefinitionNumber()
-                + numbers.getFunctionDefinitionNumber()));
+            + numbers.getFunctionDefinitionNumber()));
         printer.print(buffer.toString());
         printer.print(" ");
-        final StringBuffer define = new StringBuffer(getUtf8(definition.getLatexPattern()));
-        final VariableList list = definition.getVariableList();
-        if (list != null) {
-            for (int i = list.size() - 1; i >= 0; i--) {
-                Trace.trace(CLASS, this, "printFunctionDefinition", "replacing!");
-                StringUtility.replace(define, "#" + (i + 1), getUtf8(list.get(i)));
-            }
-        }
         if (title != null && title.length() > 0) {
             printer.print(" (" + title + ")");
         }
@@ -788,13 +759,39 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
         printer.println();
         printer.println();
-        if (definition.getTerm() != null) {
-            define.append("  \u2254  ");
-            define.append(getUtf8(definition.getTerm().getElement()));
-        }
-        Trace.param(CLASS, this, "printFunctionDefinition", "define", define);
         printer.print("     ");
-        printer.println(define);
+        printer.println(getUtf8(definition.getFormula().getElement()));
+        printer.println();
+        if (definition.getDescription() != null) {
+            printer.append(getLatexListEntry("getDescription()", definition.getDescription()));
+            printer.println();
+            printer.println();
+        }
+    }
+
+    public void visitEnter(final InitialFunctionDefinition definition) {
+        final QedeqNumbers numbers = getCurrentNumbers();
+        printer.print("\u2609 ");
+        final StringBuffer buffer = new StringBuffer();
+        if ("de".equals(language)) {
+            buffer.append("initiale ");
+        } else {
+            buffer.append("initial ");
+        }
+        buffer.append("Definition " + (numbers.getPredicateDefinitionNumber()
+                + numbers.getFunctionDefinitionNumber()));
+        printer.print(buffer.toString());
+        printer.print(" ");
+        if (title != null && title.length() > 0) {
+            printer.print(" (" + title + ")");
+        }
+        if (info) {
+            printer.print("  [" + id + "]");
+        }
+        printer.println();
+        printer.println();
+        printer.print("     ");
+        printer.println(getUtf8(definition.getFunCon()));
         printer.println();
         if (definition.getDescription() != null) {
             printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
@@ -802,7 +799,29 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
     }
 
-    public void visitLeave(final FunctionDefinition definition) {
+    public void visitEnter(final FunctionDefinition definition) {
+        final QedeqNumbers numbers = getCurrentNumbers();
+        printer.print("\u2609 ");
+        final StringBuffer buffer = new StringBuffer();
+        buffer.append("Definition " + (numbers.getPredicateDefinitionNumber()
+                + numbers.getFunctionDefinitionNumber()));
+        printer.print(buffer.toString());
+        printer.print(" ");
+        if (title != null && title.length() > 0) {
+            printer.print(" (" + title + ")");
+        }
+        if (info) {
+            printer.print("  [" + id + "]");
+        }
+        printer.println();
+        printer.println();
+        printer.print("     ");
+        printer.println(getUtf8(definition.getFormula().getElement()));
+        printer.println();
+        if (definition.getDescription() != null) {
+            printer.println(getLatexListEntry("getDescription()", definition.getDescription()));
+            printer.println();
+        }
     }
 
     public void visitEnter(final Rule rule) {
