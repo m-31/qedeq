@@ -39,6 +39,7 @@ import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
@@ -754,6 +755,38 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         leave();
     }
 
+    public final void visitEnter(final InitialPredicateDefinition definition) throws ModuleDataException {
+        enter("DEFINITION_PREDICATE_INITIAL");
+        final String method = "visitEnter(PredicateDefinition)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getArgumentNumber()");
+        current.setAttribute("arguments");
+        checkIfFound();
+
+        traverser.setLocationWithinModule(context + ".getName()");
+        current.setAttribute("name");
+        checkIfFound();
+
+        traverser.setLocationWithinModule(context + ".getLatexPattern()");
+        enter("LATEXPATTERN");
+        if (find.getLocationWithinModule().equals(traverser.getCurrentContext()
+                .getLocationWithinModule())) {
+            if (definition.getLatexPattern() == null) { // NOT FOUND
+                leave();
+            }
+            throw new LocationFoundException(traverser.getCurrentContext());
+        }
+        leave();
+    }
+
+    public final void visitLeave(final InitialPredicateDefinition definition) {
+        leave();
+    }
+
+    // FIXME correct
     public final void visitEnter(final PredicateDefinition definition) throws ModuleDataException {
         enter("DEFINITION_PREDICATE");
         final String method = "visitEnter(PredicateDefinition)";
@@ -904,7 +937,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         traverser.setLocationWithinModule(context);
         final boolean firstIsAtom = list.size() > 0 && list.getElement(0).isAtom();
         if (firstIsAtom) {
-            traverser.setLocationWithinModule(context + ".getElement(0).getAtom()");
+            traverser.setLocationWithinModule(context + ".getElement(0)");
             if ("VAR".equals(operator) || "PREDVAR".equals(operator)
                     || "FUNVAR".equals(operator)) {
                 current.setAttribute("id");
