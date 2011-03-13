@@ -42,7 +42,7 @@ public class KernelBoServiceHeuristicTestSuite extends QedeqTestSuite {
      */
     public KernelBoServiceHeuristicTestSuite() {
         super();
-        addTestSuite(HeuristicCheckerPluginTest.class);
+//        addTestSuite(HeuristicCheckerPluginTest.class);
         addTestSuite(DynamicHeuristicCheckerPluginTest.class);
     }
 }

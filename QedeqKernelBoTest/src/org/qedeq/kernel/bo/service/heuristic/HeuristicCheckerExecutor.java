@@ -23,11 +23,11 @@ import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.model.CalculateTruth;
-import org.qedeq.kernel.bo.logic.model.FunctionConstant;
 import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
 import org.qedeq.kernel.bo.logic.model.HeuristicException;
 import org.qedeq.kernel.bo.logic.model.Model;
-import org.qedeq.kernel.bo.logic.model.PredicateConstant;
+import org.qedeq.kernel.bo.logic.model.ModelFunctionConstant;
+import org.qedeq.kernel.bo.logic.model.ModelPredicateConstant;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -35,6 +35,8 @@ import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
@@ -176,7 +178,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
         setBlocked(false);
     }
 
-    public void visitEnter(final PredicateDefinition definition)
+    public void visitEnter(final InitialPredicateDefinition definition)
             throws ModuleDataException {
         final String method = "visitEnter(PredicateDefinition)";
         if (definition == null) {
@@ -184,7 +186,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
         }
         final String context = getCurrentContext().getLocationWithinModule();
         try {
-            PredicateConstant predicate = new PredicateConstant(definition.getName(),
+            ModelPredicateConstant predicate = new ModelPredicateConstant(definition.getName(),
                 Integer.parseInt(definition.getArgumentNumber()));
             if (null == model.getPredicateConstant(predicate)) {
                 setLocationWithinModule(context + ".getName()");
@@ -192,21 +194,6 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
                     HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_CODE,
                     HeuristicErrorCodes.UNKNOWN_PREDICATE_CONSTANT_TEXT + predicate,
                     getCurrentContext()));
-            } else if (definition.getFormula() != null) {
-                setLocationWithinModule(context + ".getFormula().getElement()");
-                final VariableList variableList = definition.getVariableList();
-                final int size = (variableList == null ? 0 : variableList.size());
-                final Element[] elements = new Element[size + 1];
-                elements[0] = new DefaultAtom(definition.getName());
-                for (int i = 0; i < size; i++) {
-                    elements[i + 1]  = variableList.get(i);
-                }
-                final Element left = new DefaultElementList(Operators.PREDICATE_CONSTANT,
-                   elements);
-                final Element[] compare = new Element[2];
-                compare[0] = left;
-                compare[1] = definition.getFormula().getElement();
-                test(context, new DefaultElementList(Operators.EQUIVALENCE_OPERATOR, compare));
             }
         } catch (NumberFormatException e) {
             Trace.fatal(CLASS, this, method, "not suported argument number: "
@@ -220,10 +207,55 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
         setBlocked(true);
     }
 
+    public void visitLeave(final InitialPredicateDefinition definition) {
+        setBlocked(false);
+    }
+
+    public void visitEnter(final PredicateDefinition definition)
+            throws ModuleDataException {
+        final String method = "visitEnter(PredicateDefinition)";
+        if (definition == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        setLocationWithinModule(context + ".getFormula().getElement()");
+        test(definition.getFormula().getElement());
+        setLocationWithinModule(context);
+        setBlocked(true);
+    }
+
     public void visitLeave(final PredicateDefinition definition) {
         setBlocked(false);
     }
 
+    public void visitEnter(final InitialFunctionDefinition definition)
+            throws ModuleDataException {
+        final String method = "visitEnter(FunctionDefinition)";
+        if (definition == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        try {
+            ModelFunctionConstant function = new ModelFunctionConstant(definition.getName(),
+                Integer.parseInt(definition.getArgumentNumber()));
+            if (null == model.getFunctionConstant(function)) {
+                setLocationWithinModule(context + ".getName()");
+                addWarning(new HeuristicException(
+                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
+                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_TEXT + function,
+                    getCurrentContext()));
+            }
+        } catch (NumberFormatException e) {
+            Trace.fatal(CLASS, this, method, "not suported argument number: "
+                + definition.getArgumentNumber(), e);
+            setLocationWithinModule(context + ".getArgumentNumber()");
+            addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
+                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_TEXT + definition.getArgumentNumber(),
+                getCurrentContext()));
+        }
+        setLocationWithinModule(context);
+        setBlocked(true);
+    }
 
     public void visitEnter(final FunctionDefinition definition)
             throws ModuleDataException {
@@ -233,38 +265,28 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
         }
         final String context = getCurrentContext().getLocationWithinModule();
         try {
-            FunctionConstant function = new FunctionConstant(definition.getName(),
-                Integer.parseInt(definition.getArgumentNumber()));
+            ModelFunctionConstant function = new ModelFunctionConstant(
+                    definition.getName(), Integer.parseInt(definition
+                            .getArgumentNumber()));
             if (null == model.getFunctionConstant(function)) {
                 setLocationWithinModule(context + ".getName()");
                 addWarning(new HeuristicException(
-                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
-                    HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_TEXT + function,
-                    getCurrentContext()));
-            } else if (definition.getTerm() != null) {
+                        HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_CODE,
+                        HeuristicErrorCodes.UNKNOWN_FUNCTION_CONSTANT_TEXT
+                                + function, getCurrentContext()));
+            } else {
                 setLocationWithinModule(context + ".getTerm().getElement()");
-                final VariableList variableList = definition.getVariableList();
-                final int size = (variableList == null ? 0 : variableList.size());
-                final Element[] elements = new Element[size + 1];
-                elements[0] = new DefaultAtom(definition.getName());
-                for (int i = 0; i < size; i++) {
-                    elements[i + 1]  = variableList.get(i);
-                }
-                final Element left = new DefaultElementList(Operators.FUNCTION_CONSTANT,
-                   elements);
-                final Element[] equal = new Element[3];
-                equal[0] = new DefaultAtom("equal");
-                equal[1] = left;
-                equal[2] = definition.getTerm().getElement();
-                test(context, new DefaultElementList(Operators.PREDICATE_CONSTANT, equal));
+                test(definition.getFormula().getElement());
             }
         } catch (NumberFormatException e) {
             Trace.fatal(CLASS, this, method, "not suported argument number: "
-                + definition.getArgumentNumber(), e);
+                    + definition.getArgumentNumber(), e);
             setLocationWithinModule(context + ".getArgumentNumber()");
-            addWarning(new HeuristicException(HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
-                HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_TEXT + definition.getArgumentNumber(),
-                getCurrentContext()));
+            addWarning(new HeuristicException(
+                    HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_CODE,
+                    HeuristicErrorCodes.UNKNOWN_ARGUMENT_FORMAT_TEXT
+                            + definition.getArgumentNumber(),
+                    getCurrentContext()));
         }
         setLocationWithinModule(context);
         setBlocked(true);
