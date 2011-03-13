@@ -66,13 +66,13 @@
               Zunächst einmal wird der Enthaltensseinoperator festgelegt.
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2">
+          <DEFINITION_PREDICATE_INITIAL arguments="2">
             <LATEXPATTERN>#1 \in #2</LATEXPATTERN>
-            <VARLIST>
+            <PREDCON ref="in">
               <VAR id="1"/>
               <VAR id="2"/>
-            </VARLIST>
-          </DEFINITION_PREDICATE>
+            </PREDCON>
+          </DEFINITION_PREDICATE_INITIAL>
           <SUCCEEDING>
             <LATEX language="en">
               This is the only predicate we start with. All other will be defined.
@@ -97,17 +97,19 @@
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="1">
             <LATEXPATTERN>\mathfrak{M}(#1)</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="1"/>
-            </VARLIST>
             <FORMULA>
-              <EXISTS>
-                <VAR id="2"/>
-                <PREDCON ref="module1:def1">
+              <EQUI>
+                <PREDCON ref="isSet">
                   <VAR id="1"/>
-                  <VAR id="2"/>
                 </PREDCON>
-              </EXISTS>
+                <EXISTS>
+                  <VAR id="2"/>
+                  <PREDCON ref="module1:def1">
+                    <VAR id="1"/>
+                    <VAR id="2"/>
+                  </PREDCON>
+                </EXISTS>
+              </EQUI>
             </FORMULA>
           </DEFINITION_PREDICATE>
           <SUCCEEDING>

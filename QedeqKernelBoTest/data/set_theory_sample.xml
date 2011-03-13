@@ -285,13 +285,13 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="in">
+          <DEFINITION_PREDICATE_INITIAL arguments="2" name="in">
             <LATEXPATTERN>#1 \in #2</LATEXPATTERN>
-            <VARLIST>
+            <PREDCON ref="in">
               <VAR id="x"/>
               <VAR id="y"/>
-            </VARLIST>
-          </DEFINITION_PREDICATE>
+            </PREDCON>
+          </DEFINITION_PREDICATE_INITIAL>
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
@@ -346,17 +346,19 @@
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="2" name="notIn">
             <LATEXPATTERN>#1 \notin #2</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-              <VAR id="y"/>
-            </VARLIST>
             <FORMULA>
-              <NOT>
-                <PREDCON ref="in">
+              <EQUI>
+                <PREDCON ref="notIn">
                   <VAR id="x"/>
                   <VAR id="y"/>
                 </PREDCON>
-              </NOT>
+                <NOT>
+                  <PREDCON ref="in">
+                    <VAR id="x"/>
+                    <VAR id="y"/>
+                  </PREDCON>
+                </NOT>
+              </EQUI>
             </FORMULA>
           </DEFINITION_PREDICATE>
         </NODE>
@@ -486,17 +488,19 @@
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="1" name="isSet">
             <LATEXPATTERN>\mathfrak{M}(#1)</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
             <FORMULA>
-              <EXISTS>
-                <VAR id="y"/>
-                <PREDCON ref="in">
+              <EQUI>
+                <PREDCON ref="isSet">
                   <VAR id="x"/>
-                  <VAR id="y"/>
                 </PREDCON>
-              </EXISTS>
+                <EXISTS>
+                  <VAR id="y"/>
+                  <PREDCON ref="in">
+                    <VAR id="x"/>
+                    <VAR id="y"/>
+                  </PREDCON>
+                </EXISTS>
+              </EQUI>
             </FORMULA>
           </DEFINITION_PREDICATE>
           <SUCCEEDING>
@@ -1310,15 +1314,18 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="0" name="RussellClass">
             <LATEXPATTERN>\mathfrak{Ru}</LATEXPATTERN>
-            <TERM>
-              <CLASS>
-                <VAR id="x"/>
-                <PREDCON ref="notIn">
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="RussellClass" />
+                <CLASS>
                   <VAR id="x"/>
-                  <VAR id="x"/>
-                </PREDCON>
-              </CLASS>
-            </TERM>
+                  <PREDCON ref="notIn">
+                    <VAR id="x"/>
+                    <VAR id="x"/>
+                  </PREDCON>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
         <NODE id="theorem:RussellClassIsClass" level="formal">
@@ -1383,15 +1390,18 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="0" name="universalClass">
             <LATEXPATTERN>\mathfrak{V}</LATEXPATTERN>
-            <TERM>
-              <CLASS>
-                <VAR id="x"/>
-                <PREDCON ref="equal">
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="universalClass" />
+                <CLASS>
                   <VAR id="x"/>
-                  <VAR id="x"/>
-                </PREDCON>
-              </CLASS>
-            </TERM>
+                  <PREDCON ref="equal">
+                    <VAR id="x"/>
+                    <VAR id="x"/>
+                  </PREDCON>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
         <NODE id="theorem:universalClassContainsAllSets" level="formal">
@@ -1491,15 +1501,18 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="0" name="emptySet">
             <LATEXPATTERN>\emptyset</LATEXPATTERN>
-            <TERM>
-              <CLASS>
-                <VAR id="x"/>
-                <PREDCON ref="notEqual">
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="emptySet" />
+                <CLASS>
                   <VAR id="x"/>
-                  <VAR id="x"/>
-                </PREDCON>
-              </CLASS>
-            </TERM>
+                  <PREDCON ref="notEqual">
+                    <VAR id="x"/>
+                    <VAR id="x"/>
+                  </PREDCON>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
         <NODE id="theorem:noClassIsMemberOfEmptySet" level="formal">
@@ -1670,25 +1683,27 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="2" name="union">
             <LATEXPATTERN>(#1 \cup #2)</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-              <VAR id="y"/>
-            </VARLIST>
-            <TERM>
-              <CLASS>
-                <VAR id="z"/>
-                <OR>
-                  <PREDCON ref="in">
-                    <VAR id="z"/>
-                    <VAR id="x"/>
-                  </PREDCON>
-                  <PREDCON ref="in">
-                    <VAR id="z"/>
-                    <VAR id="y"/>
-                  </PREDCON>
-                </OR>
-              </CLASS>
-            </TERM>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="union">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </FUNCON>
+                <CLASS>
+                  <VAR id="z"/>
+                  <OR>
+                    <PREDCON ref="in">
+                      <VAR id="z"/>
+                      <VAR id="x"/>
+                    </PREDCON>
+                    <PREDCON ref="in">
+                      <VAR id="z"/>
+                      <VAR id="y"/>
+                    </PREDCON>
+                  </OR>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
         <NODE id="definition:intersection" level="formal">
@@ -1731,25 +1746,27 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="2" name="intersection">
             <LATEXPATTERN>(#1 \cap #2)</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-              <VAR id="y"/>
-            </VARLIST>
-            <TERM>
-              <CLASS>
-                <VAR id="z"/>
-                <AND>
-                  <PREDCON ref="in">
-                    <VAR id="z"/>
-                    <VAR id="x"/>
-                  </PREDCON>
-                  <PREDCON ref="in">
-                    <VAR id="z"/>
-                    <VAR id="y"/>
-                  </PREDCON>
-                </AND>
-              </CLASS>
-            </TERM>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="intersection">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </FUNCON>
+                <CLASS>
+                  <VAR id="z"/>
+                  <AND>
+                    <PREDCON ref="in">
+                      <VAR id="z"/>
+                      <VAR id="x"/>
+                    </PREDCON>
+                    <PREDCON ref="in">
+                      <VAR id="z"/>
+                      <VAR id="y"/>
+                    </PREDCON>
+                  </AND>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
         <NODE id="definition:complement" level="formal">
@@ -1791,18 +1808,20 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="1" name="complement">
             <LATEXPATTERN>\overline{#1}</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
-            <TERM>
-              <CLASS>
-                <VAR id="z"/>
-                <PREDCON ref="notIn">
-                  <VAR id="z"/>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="complement">
                   <VAR id="x"/>
-                </PREDCON>
-              </CLASS>
-            </TERM>
+                </FUNCON>
+                <CLASS>
+                  <VAR id="z"/>
+                  <PREDCON ref="notIn">
+                    <VAR id="z"/>
+                    <VAR id="x"/>
+                  </PREDCON>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
         <NODE id="theorem:unionMember" level="formal">
@@ -2243,18 +2262,20 @@
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="2" name="subclass">
             <LATEXPATTERN>#1 \ \subseteq \ #2</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-              <VAR id="y"/>
-            </VARLIST>
             <FORMULA>
-              <PREDCON ref="equal">
-                <FUNCON ref="intersection">
+              <EQUI>
+                <PREDCON ref="subclass">
                   <VAR id="x"/>
                   <VAR id="y"/>
-                </FUNCON>
-                <VAR id="x"/>
-              </PREDCON>
+                </PREDCON>
+                <PREDCON ref="equal">
+                  <FUNCON ref="intersection">
+                    <VAR id="x"/>
+                    <VAR id="y"/>
+                  </FUNCON>
+                  <VAR id="x"/>
+                </PREDCON>
+              </EQUI>
             </FORMULA>
           </DEFINITION_PREDICATE>
           <SUCCEEDING>
@@ -2754,23 +2775,25 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="1" name="classList">
             <LATEXPATTERN>\{ #1 \}</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
-            <TERM>
-              <CLASS>
-                <VAR id="y"/>
-                <IMPL>
-                  <PREDCON ref="isSet">
-                    <VAR id="x"/>
-                  </PREDCON>
-                  <PREDCON ref="equal">
-                    <VAR id="y"/>
-                    <VAR id="x"/>
-                  </PREDCON>
-                </IMPL>
-              </CLASS>
-            </TERM>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="classList">
+                  <VAR id="x"/>
+                </FUNCON>
+                <CLASS>
+                  <VAR id="y"/>
+                  <IMPL>
+                    <PREDCON ref="isSet">
+                      <VAR id="x"/>
+                    </PREDCON>
+                    <PREDCON ref="equal">
+                      <VAR id="y"/>
+                      <VAR id="x"/>
+                    </PREDCON>
+                  </IMPL>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
           <SUCCEEDING>
             <LATEX language="en">
@@ -2935,20 +2958,22 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="2" name="classList">
             <LATEXPATTERN>\{ #1, #2 \}</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-              <VAR id="y"/>
-            </VARLIST>
-            <TERM>
-              <FUNCON ref="union">
+            <FORMULA>
+              <PREDCON ref="equal">
                 <FUNCON ref="classList">
                   <VAR id="x"/>
-                </FUNCON>
-                <FUNCON ref="classList">
                   <VAR id="y"/>
                 </FUNCON>
-              </FUNCON>
-            </TERM>
+                <FUNCON ref="union">
+                  <FUNCON ref="classList">
+                    <VAR id="x"/>
+                  </FUNCON>
+                  <FUNCON ref="classList">
+                    <VAR id="y"/>
+                  </FUNCON>
+                </FUNCON>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
         <NODE id="theorem:classPairIsEqual" level="formal">
@@ -3351,27 +3376,29 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="1" name="setProduct">
             <LATEXPATTERN>\bigcap \ #1</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
-            <TERM>
-              <CLASS>
-                <VAR id="z"/>
-                <FORALL>
-                  <VAR id="y"/>
-                  <IMPL>
-                    <PREDCON ref="in">
-                      <VAR id="y"/>
-                      <VAR id="x"/>
-                    </PREDCON>
-                    <PREDCON ref="in">
-                      <VAR id="z"/>
-                      <VAR id="y"/>
-                    </PREDCON>
-                  </IMPL>
-                </FORALL>
-              </CLASS>
-            </TERM>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="setProduct">
+                  <VAR id="x"/>
+                </FUNCON>
+                <CLASS>
+                  <VAR id="z"/>
+                  <FORALL>
+                    <VAR id="y"/>
+                    <IMPL>
+                      <PREDCON ref="in">
+                        <VAR id="y"/>
+                        <VAR id="x"/>
+                      </PREDCON>
+                      <PREDCON ref="in">
+                        <VAR id="z"/>
+                        <VAR id="y"/>
+                      </PREDCON>
+                    </IMPL>
+                  </FORALL>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
           <SUCCEEDING>
             <LATEX language="en">
@@ -3552,27 +3579,29 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="1" name="setSum">
             <LATEXPATTERN>\bigcup \ #1</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
-            <TERM>
-              <CLASS>
-                <VAR id="z"/>
-                <EXISTS>
-                  <VAR id="y"/>
-                  <AND>
-                    <PREDCON ref="in">
-                      <VAR id="y"/>
-                      <VAR id="x"/>
-                    </PREDCON>
-                    <PREDCON ref="in">
-                      <VAR id="z"/>
-                      <VAR id="y"/>
-                    </PREDCON>
-                  </AND>
-                </EXISTS>
-              </CLASS>
-            </TERM>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="setSum">
+                  <VAR id="x"/>
+                </FUNCON>
+                <CLASS>
+                  <VAR id="z"/>
+                  <EXISTS>
+                    <VAR id="y"/>
+                    <AND>
+                      <PREDCON ref="in">
+                        <VAR id="y"/>
+                        <VAR id="x"/>
+                      </PREDCON>
+                      <PREDCON ref="in">
+                        <VAR id="z"/>
+                        <VAR id="y"/>
+                      </PREDCON>
+                    </AND>
+                  </EXISTS>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
         <NODE id="theorem:setSumMembership" level="formal">
@@ -4024,18 +4053,20 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="1" name="power">
             <LATEXPATTERN>\mathfrak{P}(#1)</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
-            <TERM>
-              <CLASS>
-                <VAR id="z"/>
-                <PREDCON ref="subclass">
-                  <VAR id="z"/>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="power">
                   <VAR id="x"/>
-                </PREDCON>
-              </CLASS>
-            </TERM>
+                </FUNCON>
+                <CLASS>
+                  <VAR id="z"/>
+                  <PREDCON ref="subclass">
+                    <VAR id="z"/>
+                    <VAR id="x"/>
+                  </PREDCON>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
         <NODE id="theorem:powerPropositions" level="formal">
@@ -4830,21 +4861,23 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="2" name="orderedPair">
             <LATEXPATTERN>\langle #1, #2 \rangle</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-              <VAR id="y"/>
-            </VARLIST>
-            <TERM>
-              <FUNCON ref="classList">
-                <FUNCON ref="classList">
-                  <VAR id="x"/>
-                </FUNCON>
-                <FUNCON ref="classList">
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="orderedPair">
                   <VAR id="x"/>
                   <VAR id="y"/>
                 </FUNCON>
-              </FUNCON>
-            </TERM>
+                <FUNCON ref="classList">
+                  <FUNCON ref="classList">
+                    <VAR id="x"/>
+                  </FUNCON>
+                  <FUNCON ref="classList">
+                    <VAR id="x"/>
+                    <VAR id="y"/>
+                  </FUNCON>
+                </FUNCON>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
         <NODE id="theorem:orderedPairEquality" level="formal">
@@ -5023,23 +5056,25 @@
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="1" name="isOrderedPair">
             <LATEXPATTERN>\mbox{isOrderedPair}(#1)</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
             <FORMULA>
-              <EXISTS>
-                <VAR id="u"/>
+              <EQUI>
+                <PREDCON ref="isOrderedPair">
+                  <VAR id="x"/>
+                </PREDCON>
                 <EXISTS>
                   <VAR id="u"/>
-                  <PREDCON ref="equal">
-                    <VAR id="x"/>
-                    <FUNCON ref="orderedPairs">
-                      <VAR id="u"/>
-                      <VAR id="v"/>
-                    </FUNCON>
-                  </PREDCON>
+                  <EXISTS>
+                    <VAR id="u"/>
+                    <PREDCON ref="equal">
+                      <VAR id="x"/>
+                      <FUNCON ref="orderedPairs">
+                        <VAR id="u"/>
+                        <VAR id="v"/>
+                      </FUNCON>
+                    </PREDCON>
+                  </EXISTS>
                 </EXISTS>
-              </EXISTS>
+              </EQUI>
             </FORMULA>
           </DEFINITION_PREDICATE>
           <SUCCEEDING>
@@ -5129,38 +5164,40 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="2" name="cartesianProduct">
             <LATEXPATTERN>( #1 \times #2)</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-              <VAR id="y"/>
-            </VARLIST>
-            <TERM>
-              <CLASS>
-                <VAR id="z"/>
-                <EXISTS>
-                  <VAR id="u"/>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="cartesianProduct">
+                  <VAR id="x"/>
+                  <VAR id="y"/>
+                </FUNCON>
+                <CLASS>
+                  <VAR id="z"/>
                   <EXISTS>
-                    <VAR id="v"/>
-                    <AND>
-                      <PREDCON ref="in">
-                        <VAR id="u"/>
-                        <VAR id="x"/>
-                      </PREDCON>
-                      <PREDCON ref="in">
-                        <VAR id="v"/>
-                        <VAR id="y"/>
-                      </PREDCON>
-                      <PREDCON ref="equal">
-                        <VAR id="z"/>
-                        <FUNCON ref="orderedPair">
+                    <VAR id="u"/>
+                    <EXISTS>
+                      <VAR id="v"/>
+                      <AND>
+                        <PREDCON ref="in">
                           <VAR id="u"/>
+                          <VAR id="x"/>
+                        </PREDCON>
+                        <PREDCON ref="in">
                           <VAR id="v"/>
-                        </FUNCON>
-                      </PREDCON>
-                    </AND>
+                          <VAR id="y"/>
+                        </PREDCON>
+                        <PREDCON ref="equal">
+                          <VAR id="z"/>
+                          <FUNCON ref="orderedPair">
+                            <VAR id="u"/>
+                            <VAR id="v"/>
+                          </FUNCON>
+                        </PREDCON>
+                      </AND>
+                    </EXISTS>
                   </EXISTS>
-                </EXISTS>
-              </CLASS>
-            </TERM>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
       </SUBSECTIONS>
@@ -5236,22 +5273,24 @@
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="1" name="isRelation">
             <LATEXPATTERN>\mathfrak{Rel}(#1)</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
             <FORMULA>
-              <FORALL>
-                <VAR id="y"/>
-                <IMPL>
-                  <PREDCON ref="in">
-                    <VAR id="y"/>
-                    <VAR id="x"/>
-                  </PREDCON>
-                  <PREDCON ref="isOrderedPair">
-                    <VAR id="y"/>
-                  </PREDCON>
-                </IMPL>
-              </FORALL>
+              <EQUI>
+                <PREDCON ref="isRelation">
+                  <VAR id="x"/>
+                </PREDCON>
+                <FORALL>
+                  <VAR id="y"/>
+                  <IMPL>
+                    <PREDCON ref="in">
+                      <VAR id="y"/>
+                      <VAR id="x"/>
+                    </PREDCON>
+                    <PREDCON ref="isOrderedPair">
+                      <VAR id="y"/>
+                    </PREDCON>
+                  </IMPL>
+                </FORALL>
+              </EQUI>
             </FORMULA>
           </DEFINITION_PREDICATE>
         </NODE>
@@ -5355,24 +5394,26 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="1" name="domain">
             <LATEXPATTERN>\mathfrak{Dom}(#1)</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
-            <TERM>
-              <CLASS>
-                <VAR id="y"/>
-                <EXISTS>
-                  <VAR id="z"/>
-                  <PREDCON ref="in">
-                    <FUNCON ref="orderedPair">
-                      <VAR id="y"/>
-                      <VAR id="z"/>
-                    </FUNCON>
-                    <VAR id="x"/>
-                  </PREDCON>
-                </EXISTS>
-              </CLASS>
-            </TERM>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="domain">
+                  <VAR id="x"/>
+                </FUNCON>
+                <CLASS>
+                  <VAR id="y"/>
+                  <EXISTS>
+                    <VAR id="z"/>
+                    <PREDCON ref="in">
+                      <FUNCON ref="orderedPair">
+                        <VAR id="y"/>
+                        <VAR id="z"/>
+                      </FUNCON>
+                      <VAR id="x"/>
+                    </PREDCON>
+                  </EXISTS>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
         <NODE id="definition:range">
@@ -5414,24 +5455,26 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="1" name="range">
             <LATEXPATTERN>\mathfrak{Rng}(#1)</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
-            <TERM>
-              <CLASS>
-                <VAR id="y"/>
-                <EXISTS>
-                  <VAR id="z"/>
-                  <PREDCON ref="in">
-                    <FUNCON ref="orderedPair">
-                      <VAR id="z"/>
-                      <VAR id="y"/>
-                    </FUNCON>
-                    <VAR id="x"/>
-                  </PREDCON>
-                </EXISTS>
-              </CLASS>
-            </TERM>
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="range">
+                  <VAR id="x"/>
+                </FUNCON>
+                <CLASS>
+                  <VAR id="y"/>
+                  <EXISTS>
+                    <VAR id="z"/>
+                    <PREDCON ref="in">
+                      <FUNCON ref="orderedPair">
+                        <VAR id="z"/>
+                        <VAR id="y"/>
+                      </FUNCON>
+                      <VAR id="x"/>
+                    </PREDCON>
+                  </EXISTS>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
         </NODE>
       </SUBSECTIONS>
@@ -5538,36 +5581,38 @@
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="1" name="isFunction">
             <LATEXPATTERN>\mathfrak{Funct}(#1)</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
             <FORMULA>
-              <AND>
-                <PREDCON ref="isRelation">
+              <EQUI>
+                <PREDCON ref="isFunction">
                   <VAR id="x"/>
                 </PREDCON>
-                <FORALL>
-                  <VAR id="y"/>
-                  <IMPL>
-                    <PREDCON ref="in">
-                      <VAR id="y"/>
-                      <FUNCON ref="domain">
-                        <VAR id="x"/>
-                      </FUNCON>
-                    </PREDCON>
-                    <EXISTSU>
-                      <VAR id="z"/>
+                <AND>
+                  <PREDCON ref="isRelation">
+                    <VAR id="x"/>
+                  </PREDCON>
+                  <FORALL>
+                    <VAR id="y"/>
+                    <IMPL>
                       <PREDCON ref="in">
-                        <FUNCON ref="orderedPair">
-                          <VAR id="y"/>
-                          <VAR id="z"/>
-                        </FUNCON>
-                        <VAR id="x"/>
+                        <VAR id="y"/>
+                        <FUNCON ref="domain">
+                          <VAR id="x"/>
+                         </FUNCON>
                       </PREDCON>
-                    </EXISTSU>
-                  </IMPL>
-                </FORALL>
-              </AND>
+                      <EXISTSU>
+                        <VAR id="z"/>
+                        <PREDCON ref="in">
+                          <FUNCON ref="orderedPair">
+                            <VAR id="y"/>
+                            <VAR id="z"/>
+                          </FUNCON>
+                          <VAR id="x"/>
+                        </PREDCON>
+                      </EXISTSU>
+                    </IMPL>
+                  </FORALL>
+                </AND>
+              </EQUI>
             </FORMULA>
           </DEFINITION_PREDICATE>
         </NODE>
@@ -5793,17 +5838,19 @@
           </PRECEDING>
           <DEFINITION_FUNCTION arguments="1" name="successor">
             <LATEXPATTERN>#1'</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-            </VARLIST>
-            <TERM>
-              <FUNCON ref="union">
-                <VAR id="x"/>
-                <FUNCON ref="classList">
+            <FORMULA>
+              <PREDCON ref="equal">
+                <FUNCON ref="successor">
                   <VAR id="x"/>
                 </FUNCON>
-              </FUNCON>
-            </TERM>
+                <FUNCON ref="union">
+                  <VAR id="x"/>
+                  <FUNCON ref="classList">
+                    <VAR id="x"/>
+                  </FUNCON>
+                </FUNCON>
+              </PREDCON>
+            </FORMULA>
           </DEFINITION_FUNCTION>
           <SUCCEEDING>
             <LATEX language="en">
