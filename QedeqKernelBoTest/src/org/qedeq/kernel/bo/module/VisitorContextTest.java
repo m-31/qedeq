@@ -41,6 +41,8 @@ import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
@@ -482,6 +484,26 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
     }
 
     public void visitLeave(final ElementList list) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(InitialFunctionDefinition functionDefinition)
+            throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(InitialPredicateDefinition predicateDefinition)
+            throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(InitialFunctionDefinition functionDefinition)
+            throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(InitialPredicateDefinition predicateDefinition)
+            throws ModuleDataException {
         checkContext();
     }
 
