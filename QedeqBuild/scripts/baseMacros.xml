@@ -78,6 +78,7 @@
     <!-- for antcalls with parameter ${QedeqModule} and ${QedeqDest} -->
     <target name="copyTestData" if="qedeq.test.${QedeqModule}.data-present">
         <echo>Copying module test data: ${QedeqModule}</echo>
+        <delete dir="${QedeqDest}/src/test/resources/data" failonerror="true"/>
         <mkdir dir="${QedeqDest}/src/test/resources/data" />   
         <copy todir="${QedeqDest}/src/test/resources/data" >
           <fileset dir="${basedir}/${QedeqModule}Test/data"
