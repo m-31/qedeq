@@ -25,7 +25,6 @@ import org.qedeq.kernel.se.visitor.KernelVisitorTestSuite;
 /**
  * Run all tests for the project.
  * 
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class KernelSeTestSuite extends QedeqTestSuite {
