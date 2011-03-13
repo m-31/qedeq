@@ -26,46 +26,6 @@ import org.qedeq.kernel.se.common.ErrorCodes;
 public interface HigherLogicalErrors extends ErrorCodes {
 
     /** Error code. */
-    public static final int PREDICATE_ALREADY_DEFINED_CODE = 40400;
-
-    /** Error message. */
-    public static final String PREDICATE_ALREADY_DEFINED_TEXT
-        = "predicate was already defined for this argument number: ";
-
-
-    /** Error code. */
-    public static final int FUNCTION_ALREADY_DEFINED_CODE = 40400;
-
-    /** Error message. */
-    public static final String FUNCTION_ALREADY_DEFINED_TEXT
-        = "function was already defined for this argument number: ";
-
-
-    /** Error code. */
-    public static final int MUST_BE_A_SUBJECT_VARIABLE_CODE = 40500;
-
-    /** Error message. */
-    public static final String MUST_BE_A_SUBJECT_VARIABLE_TEXT
-        = "a subject variable was expected here, but we found: ";
-
-
-    /** Error code. */
-    public static final int SUBJECT_VARIABLE_OCCURS_NOT_FREE_CODE = 40510;
-
-    /** Error message. */
-    public static final String SUBJECT_VARIABLE_OCCURS_NOT_FREE_TEXT
-        = "subject variable doesn't occur free in formula or term: ";
-
-
-    /** Error code. */
-    public static final int NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_CODE = 40520;
-
-    /** Error message. */
-    public static final String NUMBER_OF_FREE_SUBJECT_VARIABLES_NOT_EQUAL_TEXT
-        = "number of subject variables in definition not equal to number of free subject variables of formula or term";
-
-
-    /** Error code. */
     public static final int MODULE_IMPORT_CHECK_FAILED_CODE = 11231;
 
     /** Error message. */
@@ -78,5 +38,6 @@ public interface HigherLogicalErrors extends ErrorCodes {
     /** Error message. */
     public static final String PREDICATE_CALCULATION_FAILED_TEXT
         = "calculation for predicate failed: ";
+
 
 }

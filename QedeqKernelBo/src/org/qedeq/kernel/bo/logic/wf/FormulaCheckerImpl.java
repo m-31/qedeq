@@ -63,7 +63,7 @@ public class FormulaCheckerImpl implements Operators, FormulaBasicErrors, Formul
             final ModuleContext context, final ExistenceChecker existenceChecker) {
         if (existenceChecker.identityOperatorExists()
                 && !existenceChecker.predicateExists(existenceChecker.getIdentityOperator(), 2)) {
-            throw new IllegalArgumentException("identy predicate should exist, but it doesn't");
+            throw new IllegalArgumentException("identity predicate should exist, but it doesn't");
         }
         this.existenceChecker = existenceChecker;
         currentContext = new ModuleContext(context);
@@ -90,7 +90,7 @@ public class FormulaCheckerImpl implements Operators, FormulaBasicErrors, Formul
             final ModuleContext context, final ExistenceChecker existenceChecker) {
         if (existenceChecker.identityOperatorExists()
                 && !existenceChecker.predicateExists(existenceChecker.getIdentityOperator(), 2)) {
-            throw new IllegalArgumentException("identy predicate should exist, but it doesn't");
+            throw new IllegalArgumentException("identity predicate should exist, but it doesn't");
         }
         this.existenceChecker = existenceChecker;
         currentContext = new ModuleContext(context);
@@ -195,6 +195,7 @@ public class FormulaCheckerImpl implements Operators, FormulaBasicErrors, Formul
             // check if predicate is known
             if (PREDICATE_CONSTANT.equals(operator) && !existenceChecker.predicateExists(
                     list.getElement(0).getAtom().getString(), list.size() - 1)) {
+                setLocationWithinModule(listContext + ".getElement(0)");
                 handleFormulaCheckException(UNKNOWN_PREDICATE_CONSTANT,
                     UNKNOWN_PREDICATE_CONSTANT_TEXT + "\""
                     + list.getElement(0).getAtom().getString() + "\" [" + (list.size() - 1) + "]",

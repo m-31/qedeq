@@ -16,8 +16,8 @@
 package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
-import org.qedeq.kernel.bo.logic.common.Function;
-import org.qedeq.kernel.bo.logic.common.Predicate;
+import org.qedeq.kernel.bo.logic.common.FunctionKey;
+import org.qedeq.kernel.bo.logic.common.PredicateKey;
 
 
 /**
@@ -42,7 +42,11 @@ public final class EverythingExists implements ExistenceChecker {
         return true;
     }
 
-    public boolean predicateExists(final Predicate predicate) {
+    public boolean predicateExists(final PredicateKey predicate) {
+        return true;
+    }
+
+    public boolean isInitialPredicate(final PredicateKey predicate) {
         return true;
     }
 
@@ -50,7 +54,11 @@ public final class EverythingExists implements ExistenceChecker {
         return true;
     }
 
-    public boolean functionExists(final Function function) {
+    public boolean functionExists(final FunctionKey function) {
+        return true;
+    }
+
+    public boolean isInitialFunction(final FunctionKey predicate) {
         return true;
     }
 
