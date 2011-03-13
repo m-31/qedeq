@@ -37,6 +37,8 @@ import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
@@ -569,6 +571,27 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         printer.println("</UNIVERSAL>");
     }
 
+    public void visitEnter(final InitialPredicateDefinition definition) {
+        printer.print("<DEFINITION_PREDICATE_INITIAL");
+        if (definition.getArgumentNumber() != null) {
+            printer.print(" arguments=\"" + StringUtility.escapeXml(definition.getArgumentNumber()) + "\"");
+        }
+        if (definition.getName() != null) {
+            printer.print(" name=\"" + StringUtility.escapeXml(definition.getName()) + "\"");
+        }
+        printer.println(">");
+        printer.pushLevel();
+        if (definition.getLatexPattern() != null) {
+            printer.println("<LATEXPATTERN>" + StringUtility.escapeXml(definition.getLatexPattern())
+                + "</LATEXPATTERN>");
+        }
+    }
+
+    public void visitLeave(final InitialPredicateDefinition definition) {
+        printer.popLevel();
+        printer.println("</DEFINITION_PREDICATE_INITIAL>");
+    }
+
     public void visitEnter(final PredicateDefinition definition) {
         printer.print("<DEFINITION_PREDICATE");
         if (definition.getArgumentNumber() != null) {
@@ -588,6 +611,27 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitLeave(final PredicateDefinition definition) {
         printer.popLevel();
         printer.println("</DEFINITION_PREDICATE>");
+    }
+
+    public void visitEnter(final InitialFunctionDefinition definition) {
+        printer.print("<DEFINITION_FUNCTION_INITIAL");
+        if (definition.getArgumentNumber() != null) {
+            printer.print(" arguments=\"" + StringUtility.escapeXml(definition.getArgumentNumber()) + "\"");
+        }
+        if (definition.getName() != null) {
+            printer.print(" name=\"" + StringUtility.escapeXml(definition.getName()) + "\"");
+        }
+        printer.println(">");
+        printer.pushLevel();
+        if (definition.getLatexPattern() != null) {
+            printer.println("<LATEXPATTERN>" + definition.getLatexPattern()
+                + "</LATEXPATTERN>");
+        }
+    }
+
+    public void visitLeave(final InitialFunctionDefinition definition) {
+        printer.popLevel();
+        printer.println("</DEFINITION_FUNCTION_INITIAL>");
     }
 
     public void visitEnter(final FunctionDefinition definition) {
