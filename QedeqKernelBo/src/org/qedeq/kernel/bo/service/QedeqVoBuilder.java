@@ -34,6 +34,8 @@ import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
@@ -85,6 +87,8 @@ import org.qedeq.kernel.se.dto.module.FunctionDefinitionVo;
 import org.qedeq.kernel.se.dto.module.HeaderVo;
 import org.qedeq.kernel.se.dto.module.ImportListVo;
 import org.qedeq.kernel.se.dto.module.ImportVo;
+import org.qedeq.kernel.se.dto.module.InitialFunctionDefinitionVo;
+import org.qedeq.kernel.se.dto.module.InitialPredicateDefinitionVo;
 import org.qedeq.kernel.se.dto.module.LatexListVo;
 import org.qedeq.kernel.se.dto.module.LatexVo;
 import org.qedeq.kernel.se.dto.module.LinkListVo;
@@ -595,6 +599,9 @@ public class QedeqVoBuilder {
             if (node.getNodeType() instanceof Axiom) {
                 setLocationWithinModule(context + ".getNodeType().getAxiom()");
                 n.setNodeType(create((Axiom) node.getNodeType()));
+            } else if (node.getNodeType() instanceof InitialPredicateDefinition) {
+                setLocationWithinModule(context + ".getNodeType().getInitialPredicateDefinition()");
+                n.setNodeType(create((InitialPredicateDefinition) node.getNodeType()));
             } else if (node.getNodeType() instanceof PredicateDefinition) {
                 setLocationWithinModule(context + ".getNodeType().getPredicateDefinition()");
                 n.setNodeType(create((PredicateDefinition) node.getNodeType()));
@@ -608,8 +615,10 @@ public class QedeqVoBuilder {
                 setLocationWithinModule(context + ".getNodeType().getRule()");
                 n.setNodeType(create((Rule) node.getNodeType()));
             } else {
-                throw new IllegalArgumentException("unexpected node type: "
-                    + node.getNodeType().getClass());
+                throw new IllegalModuleDataException(ServiceErrors.RUNTIME_ERROR_CODE,
+                    ServiceErrors.RUNTIME_ERROR_TEXT + " "
+                    + "unexpected node type: " + node.getNodeType().getClass(),
+                    getCurrentContext());
             }
         }
         if (node.getSucceedingText() != null) {
@@ -642,6 +651,36 @@ public class QedeqVoBuilder {
         return a;
     }
 
+    private final InitialPredicateDefinitionVo create(final InitialPredicateDefinition definition) {
+        if (definition == null) {
+            return null;
+        }
+        final InitialPredicateDefinitionVo d = new InitialPredicateDefinitionVo();
+        final String context = getCurrentContext().getLocationWithinModule();
+        if (definition.getLatexPattern() != null) {
+            setLocationWithinModule(context + ".getLatexPattern()");
+            d.setLatexPattern(definition.getLatexPattern());
+        }
+        if (definition.getName() != null) {
+            setLocationWithinModule(context + ".getName()");
+            d.setName(definition.getName());
+        }
+        if (definition.getArgumentNumber() != null) {
+            setLocationWithinModule(context + ".getArgumentNumber()");
+            d.setArgumentNumber(definition.getArgumentNumber());
+        }
+        if (definition.getPredCon() != null) {
+            setLocationWithinModule(context + ".getPredCon()");
+            d.setPredCon(create(definition.getPredCon()));
+        }
+        if (definition.getDescription() != null) {
+            setLocationWithinModule(context + ".getDescription()");
+            d.setDescription(create(definition.getDescription()));
+        }
+        setLocationWithinModule(context);
+        return d;
+    }
+
     private final PredicateDefinitionVo create(final PredicateDefinition definition) {
         if (definition == null) {
             return null;
@@ -660,13 +699,39 @@ public class QedeqVoBuilder {
             setLocationWithinModule(context + ".getArgumentNumber()");
             d.setArgumentNumber(definition.getArgumentNumber());
         }
-        if (definition.getVariableList() != null) {
-            setLocationWithinModule(context + ".getVariableList()");
-            d.setVariableList(create(definition.getVariableList()));
-        }
         if (definition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula()");
-            d.setFormula(create(definition.getFormula()));
+            d.setCompleteFormula(create(definition.getFormula()));
+        }
+        if (definition.getDescription() != null) {
+            setLocationWithinModule(context + ".getDescription()");
+            d.setDescription(create(definition.getDescription()));
+        }
+        setLocationWithinModule(context);
+        return d;
+    }
+
+    private final InitialFunctionDefinitionVo create(final InitialFunctionDefinition definition) {
+        if (definition == null) {
+            return null;
+        }
+        final InitialFunctionDefinitionVo d = new InitialFunctionDefinitionVo();
+        final String context = getCurrentContext().getLocationWithinModule();
+        if (definition.getLatexPattern() != null) {
+            setLocationWithinModule(context + ".getLatexPattern()");
+            d.setLatexPattern(definition.getLatexPattern());
+        }
+        if (definition.getArgumentNumber() != null) {
+            setLocationWithinModule(context + ".getArgumentNumber()");
+            d.setArgumentNumber(definition.getArgumentNumber());
+        }
+        if (definition.getName() != null) {
+            setLocationWithinModule(context + ".getName()");
+            d.setName(definition.getName());
+        }
+        if (definition.getFunCon() != null) {
+            setLocationWithinModule(context + ".getFunCon()");
+            d.setFunCon(create(definition.getFunCon()));
         }
         if (definition.getDescription() != null) {
             setLocationWithinModule(context + ".getDescription()");
@@ -694,13 +759,9 @@ public class QedeqVoBuilder {
             setLocationWithinModule(context + ".getName()");
             d.setName(definition.getName());
         }
-        if (definition.getVariableList() != null) {
-            setLocationWithinModule(context + ".getVariableList()");
-            d.setVariableList(create(definition.getVariableList()));
-        }
-        if (definition.getTerm() != null) {
-            setLocationWithinModule(context + ".getTerm()");
-            d.setTerm(create(definition.getTerm()));
+        if (definition.getFormula() != null) {
+            setLocationWithinModule(context + ".getFormula()");
+            d.setFormula(create(definition.getFormula()));
         }
         if (definition.getDescription() != null) {
             setLocationWithinModule(context + ".getDescription()");

@@ -360,8 +360,20 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         QedeqVo vo = null;
         try {
             vo = QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq);
+        } catch (RuntimeException e) {
+            Trace.fatal(CLASS, this, method, "looks like a programming error", e);
+            final SourceFileExceptionList xl = createSourceFileExceptionList(
+                ServiceErrors.RUNTIME_ERROR_CODE,
+                ServiceErrors.RUNTIME_ERROR_TEXT,
+                prop.getModuleAddress().getUrl(), e);
+            prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
+            throw xl;
         } catch (ModuleDataException e) {
-            Trace.trace(CLASS, this, method, e);
+            if (e.getCause() != null) {
+                Trace.fatal(CLASS, this, method, "looks like a programming error", e.getCause());
+            } else {
+                Trace.fatal(CLASS, this, method, "looks like a programming error", e);
+            }
             final SourceFileExceptionList xl = prop.createSourceFileExceptionList(this, e, qedeq);
             prop.setLoadingFailureState(LoadingState.STATE_LOADING_INTO_MEMORY_FAILED, xl);
             throw xl;
@@ -437,7 +449,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             try {
                 modulePaths = parent.getModulePaths(spec);
             } catch (IOException e) {
-                Trace.trace(CLASS, this, method, e);
+                Trace.fatal(CLASS, this, method, "getting module path failed", e);  // TODO 20110308 m31: make constant
                 throw createSourceFileExceptionList(
                     ServiceErrors.LOADING_FROM_FILE_BUFFER_FAILED_CODE,
                     ServiceErrors.LOADING_FROM_FILE_BUFFER_FAILED_TEXT,
@@ -980,15 +992,13 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     public SourceFileExceptionList createSourceFileExceptionList(final int code,
             final String message, final String address, final IOException e) {
         return new DefaultSourceFileExceptionList(new SourceFileException(this,
-            ServiceErrors.IO_ERROR_CODE, ServiceErrors.IO_ERROR_TEXT,
-            e, new SourceArea(address), null));
+            code, message, e, new SourceArea(address), null));
     }
 
     public SourceFileExceptionList createSourceFileExceptionList(final int code,
             final String message, final String address, final RuntimeException e) {
         return new DefaultSourceFileExceptionList(new SourceFileException(this,
-            ServiceErrors.RUNTIME_ERROR_CODE, ServiceErrors.RUNTIME_ERROR_TEXT,
-            e, new SourceArea(address), null));
+            code, message, e, new SourceArea(address), null));
     }
 
     public SourceFileExceptionList createSourceFileExceptionList(final int code,

@@ -294,7 +294,7 @@ public final class Element2LatexImpl implements Element2Latex {
                             if (newProp != null) {
                                 if (newProp.getExistenceChecker().predicateExists(shortName,
                                         arguments)) {
-                                    definition = newProp.getExistenceChecker()
+                                    definition = newProp.getLabels()
                                         .getPredicate(shortName, arguments);
                                 }
                             }
@@ -360,7 +360,7 @@ public final class Element2LatexImpl implements Element2Latex {
                             if (newProp != null) {
                                 if (newProp.getExistenceChecker().functionExists(shortName,
                                         arguments)) {
-                                    definition = newProp.getExistenceChecker()
+                                    definition = newProp.getLabels()
                                         .getFunction(shortName, arguments);
                                 }
                             }
