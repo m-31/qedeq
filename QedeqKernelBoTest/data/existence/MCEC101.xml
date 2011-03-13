@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_01/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
-    <SPECIFICATION name="MCEC072" ruleVersion="1.00.00">
+    <SPECIFICATION name="MCEC101" ruleVersion="1.00.00">
       <LOCATIONS>
         <LOCATION value="file:///."/>
       </LOCATIONS>
@@ -129,6 +129,49 @@
           </SUCCEEDING>
         </NODE>
        
+        <NODE id="definition:union" level="formal">
+          <NAME>
+            <LATEX language="en">union</LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">Union Operator\index{union}\index{class!union}</LATEX>
+          </TITLE>
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+
+                The union of two classes contains exactly all elements of both classes.
+                
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <DEFINITION_FUNCTION arguments="2" name="union">
+            <LATEXPATTERN>(#1 \cup #2)</LATEXPATTERN>
+            <FORMULA>
+              <PREDCON ref="equal">
+              <FUNCON ref="union">
+                <VAR id="x"/>
+                <VAR id="y"/>
+              </FUNCON>
+                <CLASS>
+                  <VAR id="z" />
+                  <OR>
+                    <PREDCON ref="in">
+                      <VAR id="z" />
+                      <VAR id="x" />
+                    </PREDCON>
+                    <PREDCON ref="in">
+                      <VAR id="z" />
+                      <VAR id="y" />
+                    </PREDCON>
+                  </OR>
+                </CLASS>
+              </PREDCON>
+            </FORMULA>
+          </DEFINITION_FUNCTION>
+        </NODE>
+
+
       </SUBSECTIONS>
     </SECTION>
   </CHAPTER>

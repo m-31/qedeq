@@ -84,13 +84,13 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="in">
+          <DEFINITION_PREDICATE_INITIAL arguments="2" name="in">
             <LATEXPATTERN>#1 \in #2</LATEXPATTERN>
-            <VARLIST>
+            <PREDCON ref="in">
               <VAR id="x"/>
               <VAR id="y"/>
-            </VARLIST>
-          </DEFINITION_PREDICATE>
+            </PREDCON>
+          </DEFINITION_PREDICATE_INITIAL>
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
@@ -122,13 +122,13 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="equal">
+          <DEFINITION_PREDICATE_INITIAL arguments="2" name="equal">
             <LATEXPATTERN>#1 \ =  \ #2</LATEXPATTERN>
-            <VARLIST>
+            <PREDCON ref="equal">
               <VAR id="x"/>
               <VAR id="y"/>
-            </VARLIST>
-          </DEFINITION_PREDICATE>
+            </PREDCON>
+          </DEFINITION_PREDICATE_INITIAL>
         </NODE>
         
 

@@ -75,13 +75,13 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="in">
+          <DEFINITION_PREDICATE_INITIAL arguments="2" name="in">
             <LATEXPATTERN>#1 \in #2</LATEXPATTERN>
-            <VARLIST>
+            <PREDCON ref="in">
               <VAR id="x"/>
               <VAR id="y"/>
-            </VARLIST>
-          </DEFINITION_PREDICATE>
+            </PREDCON>
+          </DEFINITION_PREDICATE_INITIAL>
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
@@ -119,13 +119,13 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <DEFINITION_PREDICATE arguments="2" name="equal">
+          <DEFINITION_PREDICATE_INITIAL arguments="2" name="equal">
             <LATEXPATTERN>#1 \ =  \ #2</LATEXPATTERN>
-            <VARLIST>
+            <PREDCON ref="equal">
               <VAR id="x"/>
               <VAR id="y"/>
-            </VARLIST>
-          </DEFINITION_PREDICATE>
+            </PREDCON>
+          </DEFINITION_PREDICATE_INITIAL>
         </NODE>
         
         <NODE id="definition:notEqual">
@@ -151,17 +151,19 @@
           </PRECEDING>
           <DEFINITION_PREDICATE arguments="2" name="notEqual">
             <LATEXPATTERN>#1 \ \neq \ #2</LATEXPATTERN>
-            <VARLIST>
-              <VAR id="x"/>
-              <VAR id="y"/>
-            </VARLIST>
             <FORMULA>
-              <NOT>
-                <PREDCON ref="equal">
+              <EQUI>
+                <PREDCON ref="notEqual">
                   <VAR id="x"/>
                   <VAR id="y"/>
                 </PREDCON>
-               </NOT>
+                <NOT>
+                  <PREDCON ref="equal">
+                    <VAR id="x"/>
+                    <VAR id="y"/>
+                  </PREDCON>
+                 </NOT>
+               </EQUI>
             </FORMULA>
           </DEFINITION_PREDICATE>
         </NODE>
