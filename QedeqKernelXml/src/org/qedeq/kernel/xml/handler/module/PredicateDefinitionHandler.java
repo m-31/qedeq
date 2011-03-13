@@ -90,7 +90,7 @@ public class PredicateDefinitionHandler extends AbstractSimpleHandler {
         } else if ("LATEXPATTERN".equals(name)) {
             definition.setLatexPattern(latexPattern);
         } else if (formulaHandler.getStartTag().equals(name)) {
-            definition.setCompleteFormula(formulaHandler.getFormula());
+            definition.setFormula(formulaHandler.getFormula());
         } else if (descriptionHandler.getStartTag().equals(name)) {
             definition.setDescription(descriptionHandler.getLatexList());
         } else {
