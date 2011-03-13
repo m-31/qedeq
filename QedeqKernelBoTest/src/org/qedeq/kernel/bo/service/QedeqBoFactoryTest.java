@@ -146,7 +146,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
      * @throws Exception    Unexpected failure of module creation.
      */
     public void testCreateStringQedeq4() throws Exception {
-        loadQedeqAndAssertContext("math/qedeq_sample1.xml");
+        loadQedeqAndAssertContext("sample/qedeq_sample1.xml");
     }
 
     /**

@@ -53,14 +53,14 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
 
     public void testGeneration2() throws Exception {
         try {
-            generate(getDocDir(), "math/qedeq_sample1.xml", getGenDir(), false);
+            generate(getDocDir(), "sample/qedeq_sample1.xml", getGenDir(), false);
         } catch (SourceFileExceptionList e) {
             assertEquals(4, e.size());
         }
     }
 
     public void testGeneration3() throws Exception {
-        generate(getDocDir(), "math/qedeq_sample2.xml", getGenDir(), false);
+        generate(getDocDir(), "sample/qedeq_sample2.xml", getGenDir(), false);
     }
 
     public void testGeneration4() throws Exception {

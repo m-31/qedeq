@@ -91,7 +91,7 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testQedeqSampleScript1() throws Exception {
-        final QedeqBo bo = check(new SixDynamicModel(), getDocDir(), "math/qedeq_sample1.xml");
+        final QedeqBo bo = check(new SixDynamicModel(), getDocDir(), "sample/qedeq_sample1.xml");
         assertEquals(0, bo.getErrors().size());
         assertEquals(0, bo.getWarnings().size());
     }

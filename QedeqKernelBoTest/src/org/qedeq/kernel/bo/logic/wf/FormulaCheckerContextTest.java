@@ -153,11 +153,15 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
     }
 
     public void testPositive02() throws Exception {
-        checkViaKernel(getDocFile("math/qedeq_sample1.xml"));
+        checkViaKernel(getDocFile("sample/qedeq_sample1.xml"));
     }
 
     public void testPositive03() throws Exception {
-        checkViaKernel(getDocFile("math/qedeq_sample2.xml"));
+        checkViaKernel(getDocFile("sample/qedeq_sample2.xml"));
+    }
+
+    public void testPositive03b() throws Exception {
+        checkViaKernel(getDocFile("sample/qedeq_sample3.xml"));
     }
 
     public void testPositive04() throws Exception {
