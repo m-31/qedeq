@@ -19,19 +19,17 @@ import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
-import org.qedeq.kernel.se.base.module.VariableList;
 
 
 /**
  * Definition of operator. This is a predicate constant. For example the
  * predicate "x is a set" could be defined in MK with the formula "\exists y: x \in y".
- * <p>
- * There must also be the possibility to define basic predicate constants like
- * "x is element of y".
  *
  * @author  Michael Meyling
  */
@@ -48,12 +46,8 @@ public class PredicateDefinitionVo implements PredicateDefinition {
      * <code>\mathfrak{M}(#1)</code> */
     private String latexPattern;
 
-    /** List of formula or subject variables to be replaced in the LaTeX pattern.
-     * Could be <code>null</code>.*/
-    private VariableList variableList;
-
-    /** Formula or term that defines the object. Could be <code>null</code>. */
-    private Formula formula;
+    /** Formula that defines the object. Could be <code>null</code>. */
+    private Formula completeFormula;
 
     /** Further proposition description. Normally <code>null</code>. */
     private LatexList description;
@@ -69,8 +63,16 @@ public class PredicateDefinitionVo implements PredicateDefinition {
         return null;
     }
 
+    public InitialPredicateDefinition getInitialPredicateDefinition() {
+        return null;
+    }
+
     public PredicateDefinition getPredicateDefinition() {
         return this;
+    }
+
+    public InitialFunctionDefinition getInitialFunctionDefinition() {
+        return null;
     }
 
     public FunctionDefinition getFunctionDefinition() {
@@ -128,30 +130,16 @@ public class PredicateDefinitionVo implements PredicateDefinition {
     }
 
     /**
-     * Set list of formula or subject variables to be replaced in the LaTeX pattern.
-     * Could be <code>null</code>.
-     *
-     * @param   variables   Variable list for replacement.
-     */
-    public final void setVariableList(final VariableListVo variables) {
-        this.variableList = variables;
-    }
-
-    public final VariableList getVariableList() {
-        return variableList;
-    }
-
-    /**
      * Set defining formula or term that defines the object. Could be <code>null</code>.
      *
      * @param   formulaOrTerm   Formula or term that defines the new operator.
      */
-    public final void setFormula(final FormulaVo formulaOrTerm) {
-        this.formula = formulaOrTerm;
+    public final void setCompleteFormula(final FormulaVo formulaOrTerm) {
+        this.completeFormula = formulaOrTerm;
     }
 
     public final Formula getFormula() {
-        return formula;
+        return completeFormula;
     }
 
     /**
@@ -175,7 +163,6 @@ public class PredicateDefinitionVo implements PredicateDefinition {
         return  EqualsUtility.equals(getArgumentNumber(), other.getArgumentNumber())
             &&  EqualsUtility.equals(getName(), other.getName())
             &&  EqualsUtility.equals(getLatexPattern(), other.getLatexPattern())
-            &&  EqualsUtility.equals(getVariableList(), other.getVariableList())
             &&  EqualsUtility.equals(getFormula(), other.getFormula())
             &&  EqualsUtility.equals(getDescription(), other.getDescription());
     }
@@ -184,7 +171,6 @@ public class PredicateDefinitionVo implements PredicateDefinition {
         return (getArgumentNumber() != null ? getArgumentNumber().hashCode() : 0)
             ^ (getName() != null ? 1 ^ getName().hashCode() : 0)
             ^ (getLatexPattern() != null ? 2 ^ getLatexPattern().hashCode() : 0)
-            ^ (getVariableList() != null ? 3 ^ getVariableList().hashCode() : 0)
             ^ (getFormula() != null ? 4 ^ getFormula().hashCode() : 0)
             ^ (getDescription() != null ? 5 ^ getDescription().hashCode() : 0);
     }
@@ -194,8 +180,7 @@ public class PredicateDefinitionVo implements PredicateDefinition {
         buffer.append("Predicate Definition arguments=" + getArgumentNumber() + "\n");
         buffer.append("\tname=" + getName() + "\n");
         buffer.append("\tpattern=" + getLatexPattern() + "\n");
-        buffer.append("\tvariables=" + getVariableList() + "\n");
-        buffer.append("\tformula/term:\n" + getFormula() + "\n");
+        buffer.append("\tformula:\n" + getFormula() + "\n");
         buffer.append("\tdescription:\n" + getDescription() + "\n");
         return buffer.toString();
     }

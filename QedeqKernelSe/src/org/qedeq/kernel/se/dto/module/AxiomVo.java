@@ -19,6 +19,8 @@ import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
@@ -52,7 +54,15 @@ public class AxiomVo implements Axiom {
         return this;
     }
 
+    public InitialPredicateDefinition getInitialPredicateDefinition() {
+        return null;
+    }
+
     public PredicateDefinition getPredicateDefinition() {
+        return null;
+    }
+
+    public InitialFunctionDefinition getInitialFunctionDefinition() {
         return null;
     }
 

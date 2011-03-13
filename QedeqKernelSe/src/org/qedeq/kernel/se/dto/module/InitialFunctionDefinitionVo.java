@@ -16,6 +16,7 @@
 package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
+import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -25,6 +26,8 @@ import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
+import org.qedeq.kernel.se.base.module.Term;
+import org.qedeq.kernel.se.base.module.VariableList;
 
 
 /**
@@ -33,7 +36,7 @@ import org.qedeq.kernel.se.base.module.Rule;
  *
  * @author  Michael Meyling
  */
-public class FunctionDefinitionVo implements FunctionDefinition {
+public class InitialFunctionDefinitionVo implements InitialFunctionDefinition {
 
     /** Carries information about the argument number the defined object needs.  */
     private String argumentNumber;
@@ -46,8 +49,11 @@ public class FunctionDefinitionVo implements FunctionDefinition {
      * <code>\mathfrak{M}(#1)</code> */
     private String latexPattern;
 
-    /** Defining formula of function constant. Must be like f(x, y) = {z | z \in x & z \in y}. */
-    private Formula formula;
+    /** Defined function constant with free subject variables as arguments. */
+    private Element funCon;
+
+    /** Term that defines the object. Could be <code>null</code>. */
+    private Term term;
 
     /** Further proposition description. Normally <code>null</code>. */
     private LatexList description;
@@ -55,7 +61,7 @@ public class FunctionDefinitionVo implements FunctionDefinition {
     /**
      * Constructs a new definition.
      */
-    public FunctionDefinitionVo() {
+    public InitialFunctionDefinitionVo() {
         // nothing to do
     }
 
@@ -72,11 +78,11 @@ public class FunctionDefinitionVo implements FunctionDefinition {
     }
 
     public InitialFunctionDefinition getInitialFunctionDefinition() {
-        return null;
+        return this;
     }
 
     public FunctionDefinition getFunctionDefinition() {
-        return this;
+        return null;
     }
 
     public Proposition getProposition() {
@@ -129,17 +135,18 @@ public class FunctionDefinitionVo implements FunctionDefinition {
         return latexPattern;
     }
 
-    public final Formula getFormula() {
-        return formula;
+    public Element getFunCon() {
+        return funCon;
     }
 
     /**
-     * Set defining formula for function constant.
+     * Set function constant that we define. The function constant must
+     * match {@link #getName()} and {@link #getArgumentNumber()}.
      *
-     * @param   formula Defining formula for function constant.
+     * @param   funCon  Function constant with free subject variables as arguments.
      */
-    public final void setFormula(final Formula formula) {
-        this.formula = formula;
+    public void setFunCon(final Element funCon) {
+        this.funCon = funCon;
     }
 
     /**
@@ -159,11 +166,11 @@ public class FunctionDefinitionVo implements FunctionDefinition {
         if (!(obj instanceof FunctionDefinition)) {
             return false;
         }
-        final FunctionDefinition other = (FunctionDefinition) obj;
+        final InitialFunctionDefinition other = (InitialFunctionDefinition) obj;
         return  EqualsUtility.equals(getArgumentNumber(), other.getArgumentNumber())
             &&  EqualsUtility.equals(getName(), other.getName())
             &&  EqualsUtility.equals(getLatexPattern(), other.getLatexPattern())
-            &&  EqualsUtility.equals(getFormula(), other.getFormula())
+            &&  EqualsUtility.equals(getFunCon(), other.getFunCon())
             &&  EqualsUtility.equals(getDescription(), other.getDescription());
     }
 
@@ -171,7 +178,7 @@ public class FunctionDefinitionVo implements FunctionDefinition {
         return (getArgumentNumber() != null ? getArgumentNumber().hashCode() : 0)
             ^ (getName() != null ? 1 ^ getName().hashCode() : 0)
             ^ (getLatexPattern() != null ? 2 ^ getLatexPattern().hashCode() : 0)
-            ^ (getFormula() != null ? 3 ^ getFormula().hashCode() : 0)
+            ^ (getFunCon() != null ? 3 ^ getFunCon().hashCode() : 0)
             ^ (getDescription() != null ? 5 ^ getDescription().hashCode() : 0);
     }
 
@@ -180,7 +187,7 @@ public class FunctionDefinitionVo implements FunctionDefinition {
         buffer.append("Function Definition arguments=" + getArgumentNumber() + "\n");
         buffer.append("\tname=" + getName() + "\n");
         buffer.append("\tpattern=" + getLatexPattern() + "\n");
-        buffer.append("\formula=" + getFormula() + "\n");
+        buffer.append("\tfuncon=" + getFunCon() + "\n");
         buffer.append("\tdescription:\n" + getDescription() + "\n");
         return buffer.toString();
     }

@@ -16,8 +16,8 @@
 package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
+import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
-import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
@@ -28,12 +28,12 @@ import org.qedeq.kernel.se.base.module.Rule;
 
 
 /**
- * Definition of function operator. This is a function constant. For example the function
- * "x union y" or constants like the empty set.
+ * Definition of initial operator. This is a given predicate constant. For example:
+ * "x is element of y".
  *
  * @author  Michael Meyling
  */
-public class FunctionDefinitionVo implements FunctionDefinition {
+public class InitialPredicateDefinitionVo implements InitialPredicateDefinition {
 
     /** Carries information about the argument number the defined object needs.  */
     private String argumentNumber;
@@ -46,16 +46,16 @@ public class FunctionDefinitionVo implements FunctionDefinition {
      * <code>\mathfrak{M}(#1)</code> */
     private String latexPattern;
 
-    /** Defining formula of function constant. Must be like f(x, y) = {z | z \in x & z \in y}. */
-    private Formula formula;
+    /** Predicate constant with free subject variables.*/
+    private Element predCon;
 
-    /** Further proposition description. Normally <code>null</code>. */
+    /** Further operator description. Normally <code>null</code>. */
     private LatexList description;
 
     /**
      * Constructs a new definition.
      */
-    public FunctionDefinitionVo() {
+    public InitialPredicateDefinitionVo() {
         // nothing to do
     }
 
@@ -64,7 +64,7 @@ public class FunctionDefinitionVo implements FunctionDefinition {
     }
 
     public InitialPredicateDefinition getInitialPredicateDefinition() {
-        return null;
+        return this;
     }
 
     public PredicateDefinition getPredicateDefinition() {
@@ -76,7 +76,7 @@ public class FunctionDefinitionVo implements FunctionDefinition {
     }
 
     public FunctionDefinition getFunctionDefinition() {
-        return this;
+        return null;
     }
 
     public Proposition getProposition() {
@@ -101,10 +101,10 @@ public class FunctionDefinitionVo implements FunctionDefinition {
     }
 
     /**
-     * Set function name. Together with {@link #getArgumentNumber()} this
-     * identifies a function.
+     * Set predicate name. Together with {@link #getArgumentNumber()} this
+     * identifies a predicate.
      *
-     * @param   name    Function name.
+     * @param   name    Predicate name.
      */
     public void setName(final String name) {
         this.name = name;
@@ -129,17 +129,18 @@ public class FunctionDefinitionVo implements FunctionDefinition {
         return latexPattern;
     }
 
-    public final Formula getFormula() {
-        return formula;
+    /**
+     * Set new predicate constant with free subject variables. The predicate constant must
+     * match {@link #getName()} and {@link #getArgumentNumber()}.
+     *
+     * @param   predCon Predicate constant with free subject variables.
+     */
+    public final void setPredCon(final Element predCon) {
+        this.predCon = predCon;
     }
 
-    /**
-     * Set defining formula for function constant.
-     *
-     * @param   formula Defining formula for function constant.
-     */
-    public final void setFormula(final Formula formula) {
-        this.formula = formula;
+    public final Element getPredCon() {
+        return predCon;
     }
 
     /**
@@ -156,14 +157,14 @@ public class FunctionDefinitionVo implements FunctionDefinition {
     }
 
     public boolean equals(final Object obj) {
-        if (!(obj instanceof FunctionDefinition)) {
+        if (!(obj instanceof InitialPredicateDefinition)) {
             return false;
         }
-        final FunctionDefinition other = (FunctionDefinition) obj;
+        final InitialPredicateDefinition other = (InitialPredicateDefinition) obj;
         return  EqualsUtility.equals(getArgumentNumber(), other.getArgumentNumber())
             &&  EqualsUtility.equals(getName(), other.getName())
             &&  EqualsUtility.equals(getLatexPattern(), other.getLatexPattern())
-            &&  EqualsUtility.equals(getFormula(), other.getFormula())
+            &&  EqualsUtility.equals(getPredCon(), other.getPredCon())
             &&  EqualsUtility.equals(getDescription(), other.getDescription());
     }
 
@@ -171,18 +172,19 @@ public class FunctionDefinitionVo implements FunctionDefinition {
         return (getArgumentNumber() != null ? getArgumentNumber().hashCode() : 0)
             ^ (getName() != null ? 1 ^ getName().hashCode() : 0)
             ^ (getLatexPattern() != null ? 2 ^ getLatexPattern().hashCode() : 0)
-            ^ (getFormula() != null ? 3 ^ getFormula().hashCode() : 0)
+            ^ (getPredCon() != null ? 3 ^ getPredCon().hashCode() : 0)
             ^ (getDescription() != null ? 5 ^ getDescription().hashCode() : 0);
     }
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append("Function Definition arguments=" + getArgumentNumber() + "\n");
+        buffer.append("Predicate Definition arguments=" + getArgumentNumber() + "\n");
         buffer.append("\tname=" + getName() + "\n");
         buffer.append("\tpattern=" + getLatexPattern() + "\n");
-        buffer.append("\formula=" + getFormula() + "\n");
+        buffer.append("\tpredCon=" + getPredCon() + "\n");
         buffer.append("\tdescription:\n" + getDescription() + "\n");
         return buffer.toString();
     }
+
 
 }

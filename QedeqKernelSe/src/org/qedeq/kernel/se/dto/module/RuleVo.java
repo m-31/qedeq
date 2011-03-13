@@ -18,6 +18,8 @@ package org.qedeq.kernel.se.dto.module;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
@@ -56,7 +58,15 @@ public class RuleVo implements Rule {
         return null;
     }
 
+    public InitialPredicateDefinition getInitialPredicateDefinition() {
+        return null;
+    }
+
     public PredicateDefinition getPredicateDefinition() {
+        return null;
+    }
+
+    public InitialFunctionDefinition getInitialFunctionDefinition() {
         return null;
     }
 
