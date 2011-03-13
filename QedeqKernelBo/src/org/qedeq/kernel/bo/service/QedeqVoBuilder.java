@@ -701,7 +701,7 @@ public class QedeqVoBuilder {
         }
         if (definition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula()");
-            d.setCompleteFormula(create(definition.getFormula()));
+            d.setFormula(create(definition.getFormula()));
         }
         if (definition.getDescription() != null) {
             setLocationWithinModule(context + ".getDescription()");
