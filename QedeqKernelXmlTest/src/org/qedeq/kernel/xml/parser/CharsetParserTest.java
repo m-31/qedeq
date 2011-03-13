@@ -56,9 +56,9 @@ public class CharsetParserTest extends QedeqTestCase {
         KernelContext.getInstance().loadModule(address);
         assertFalse(KernelContext.getInstance().checkModule(address));
         final String[] errors = getSourceFileExceptionList(address);
-//        for (int i = 0; i < errors.length; i++) {
-//            System.out.println(errors[i]);
-//        }
+        for (int i = 0; i < errors.length; i++) {
+            System.out.println(errors[i]);
+        }
         assertEquals(2, errors.length);
         String[] lines = errors[0].split("\n");
         assertTrue(lines[0].endsWith(":105:19"));
