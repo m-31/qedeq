@@ -599,7 +599,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             }
             setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(2)");
             final LogicalCheckExceptionList list = checkerFactory.createFormulaChecker()
-                .checkTerm(formulaArgument.getElement(), getCurrentContext(), existence);
+                .checkTerm(term, getCurrentContext(), existence);
             for (int i = 0; i < list.size(); i++) {
                 addError(list.get(i));
             }
