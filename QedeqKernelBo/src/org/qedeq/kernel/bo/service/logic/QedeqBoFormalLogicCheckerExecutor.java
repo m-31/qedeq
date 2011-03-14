@@ -347,6 +347,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             }
             // FIXME 20110314 m31: add even if there are errors?
             existence.add(constant);
+            setLocationWithinModule(context + ".getFormula().getElement().getList()");
             final LogicalCheckExceptionList errorlist = checkerFactory.createFormulaChecker()
                 .checkFormula(completeFormula, getCurrentContext(), existence);
             for (int i = 0; i < errorlist.size(); i++) {
@@ -572,8 +573,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                             + functionConstant.getElement(i), getCurrentContext()));
                 }
             }
-            setLocationWithinModule(context + ".getFormula().getElement().getList()");
             // FIXME 20110314 m31: add even if there are errors?
+            setLocationWithinModule(context + ".getFormula().getElement().getList()");
             existence.add(new FunctionConstant(function, formula, getCurrentContext()));
             final LogicalCheckExceptionList list = checkerFactory.createFormulaChecker()
                 .checkFormula(formulaArgument.getElement(), getCurrentContext(), existence);
