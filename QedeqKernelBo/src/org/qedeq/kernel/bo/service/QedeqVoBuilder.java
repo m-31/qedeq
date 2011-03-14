@@ -61,10 +61,8 @@ import org.qedeq.kernel.se.base.module.SubsectionList;
 import org.qedeq.kernel.se.base.module.SubstFree;
 import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
-import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -113,10 +111,8 @@ import org.qedeq.kernel.se.dto.module.SubsectionVo;
 import org.qedeq.kernel.se.dto.module.SubstFreeVo;
 import org.qedeq.kernel.se.dto.module.SubstFuncVo;
 import org.qedeq.kernel.se.dto.module.SubstPredVo;
-import org.qedeq.kernel.se.dto.module.TermVo;
 import org.qedeq.kernel.se.dto.module.UniversalVo;
 import org.qedeq.kernel.se.dto.module.UsedByListVo;
-import org.qedeq.kernel.se.dto.module.VariableListVo;
 
 
 /**
