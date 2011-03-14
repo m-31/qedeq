@@ -31,7 +31,6 @@ import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.unicode.Latex2UnicodeParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
-import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 

@@ -51,8 +51,6 @@ import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
-import org.qedeq.kernel.se.base.module.Term;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.LogicalState;

@@ -78,7 +78,6 @@ import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;

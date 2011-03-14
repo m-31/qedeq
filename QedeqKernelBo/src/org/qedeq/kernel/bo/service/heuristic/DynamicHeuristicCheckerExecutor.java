@@ -22,9 +22,6 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
-import org.qedeq.kernel.bo.logic.common.FunctionKey;
-import org.qedeq.kernel.bo.logic.common.Operators;
-import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.model.DynamicDirectInterpreter;
 import org.qedeq.kernel.bo.logic.model.DynamicModel;
 import org.qedeq.kernel.bo.logic.model.FourDynamicModel;
@@ -32,7 +29,6 @@ import org.qedeq.kernel.bo.logic.model.HeuristicErrorCodes;
 import org.qedeq.kernel.bo.logic.model.HeuristicException;
 import org.qedeq.kernel.bo.logic.model.ModelFunctionConstant;
 import org.qedeq.kernel.bo.logic.model.ModelPredicateConstant;
-import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
@@ -48,12 +44,9 @@ import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
-import org.qedeq.kernel.se.dto.list.DefaultAtom;
-import org.qedeq.kernel.se.dto.list.DefaultElementList;
 
 
 /**
