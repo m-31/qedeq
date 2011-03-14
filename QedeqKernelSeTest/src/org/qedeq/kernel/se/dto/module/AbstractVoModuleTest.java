@@ -33,6 +33,8 @@ import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
@@ -62,7 +64,6 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.base.module.UsedByList;
-import org.qedeq.kernel.se.base.module.VariableList;
 import org.qedeq.kernel.se.test.AbstractValueObjectTest;
 
 /**
@@ -81,8 +82,10 @@ public abstract class AbstractVoModuleTest extends AbstractValueObjectTest {
         interface2ConcreteClass.put(Axiom.class, AxiomVo.class);
         interface2ConcreteClass.put(Chapter.class, ChapterVo.class);
         interface2ConcreteClass.put(ChapterList.class, ChapterListVo.class);
+        interface2ConcreteClass.put(InitialPredicateDefinition.class, InitialPredicateDefinitionVo.class);
         interface2ConcreteClass.put(PredicateDefinition.class, PredicateDefinitionVo.class);
         interface2ConcreteClass.put(Existential.class, ExistentialVo.class);
+        interface2ConcreteClass.put(InitialFunctionDefinition.class, InitialFunctionDefinitionVo.class);
         interface2ConcreteClass.put(FunctionDefinition.class, FunctionDefinitionVo.class);
         interface2ConcreteClass.put(FormalProof.class, FormalProofVo.class);
         interface2ConcreteClass.put(FormalProofList.class, FormalProofListVo.class);
@@ -117,7 +120,6 @@ public abstract class AbstractVoModuleTest extends AbstractValueObjectTest {
         interface2ConcreteClass.put(Term.class, TermVo.class);
         interface2ConcreteClass.put(Universal.class, UniversalVo.class);
         interface2ConcreteClass.put(UsedByList.class, UsedByListVo.class);
-        interface2ConcreteClass.put(VariableList.class, VariableListVo.class);
 
         interface2ConcreteClass.put(NodeType.class, PredicateDefinitionVo.class);
         interface2ConcreteClass.put(SubsectionType.class, NodeVo.class);
