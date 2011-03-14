@@ -39,7 +39,9 @@ Formal Checks for QEDEQ project
             <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="120 is ok nowerdays"/>
             <property name="max" value="120"/>
         </module>
-        <module name="MethodLength"/>
+        <module name="MethodLength">
+          <property name="max" value="170"/>
+        </module>
         <module name="ParameterNumber">
             <metadata name="com.atlassw.tools.eclipse.checkstyle.comment" value="increased from 7 to 9 because a parser implementation needed it"/>
             <property name="max" value="9"/>
