@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.common.SubjectVariable;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.common.ModuleContext;
 
@@ -66,7 +67,8 @@ public final class PredicateConstant {
         definingFormula =  list.getElement(1).getList();
         subjectVariables = new ArrayList(predicate.size() - 1);
         for (int i = 0; i < predicate.size() - 1; i++) {
-            subjectVariables.add(predicate.getElement(i + 1));
+            subjectVariables.add(new SubjectVariable(
+                predicate.getElement(i + 1).getList().getElement(0).getAtom().getString()));
         }
     }
 

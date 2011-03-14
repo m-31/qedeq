@@ -20,6 +20,7 @@ import java.util.List;
 
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
+import org.qedeq.kernel.bo.logic.common.SubjectVariable;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -67,7 +68,8 @@ public final class FunctionConstant {
         definingTerm =  list.getElement(2).getList();
         subjectVariables = new ArrayList(function.size() - 1);
         for (int i = 0; i < function.size() - 1; i++) {
-            subjectVariables.add(function.getElement(i + 1));
+            subjectVariables.add(new SubjectVariable(
+                function.getElement(i + 1).getList().getElement(0).getAtom().getString()));
         }
     }
 

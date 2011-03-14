@@ -18,6 +18,8 @@ package org.qedeq.kernel.bo.logic.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.qedeq.kernel.bo.logic.common.SubjectVariable;
+
 /**
  * This class interpretation.
  *

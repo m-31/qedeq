@@ -13,12 +13,15 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.model;
+package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.base.utility.EqualsUtility;
 
 /**
- * One subject variable for our model.
+ * One subject variable. This class is mainly used in the model area.
+ * For this kernel he normal form of a subject variable is an
+ * {@link org.qedeq.kernel.se.base.list.ElementList}
+ * with an {@link org.qedeq.kernel.se.base.list.Atom} with the name of the subject variable.
  *
  * @author  Michael Meyling
  */

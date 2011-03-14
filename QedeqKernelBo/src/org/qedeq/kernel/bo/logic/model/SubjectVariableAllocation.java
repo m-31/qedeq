@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.logic.model;
 
 import org.qedeq.base.utility.Enumerator;
+import org.qedeq.kernel.bo.logic.common.SubjectVariable;
 
 /**
  * One subject variable allocation for our model.
