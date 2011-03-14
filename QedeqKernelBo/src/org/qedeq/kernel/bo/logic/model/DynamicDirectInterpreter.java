@@ -270,19 +270,8 @@ public class DynamicDirectInterpreter {
                     }
                 }
                 final PredicateKey predicateKey = new PredicateKey(name, "" + (list.size() - 1));
-//                System.out.println(newProp.getUrl());
-//                System.out.println(predicateKey);
                 final PredicateConstant constant
                     =  newProp.getExistenceChecker().get(predicateKey);
-                // we try to create the predicate constant // FIXME 20110310 m31: is this really necessary?
-//                if (constant == null) {
-//                    final PredicateDefinition definition
-//                        = newProp.getLabels().getPredicate(name, list.size() - 1);
-//                    if (definition != null && definition.getFormula() != null) {
-//                        constant = new PredicateConstant(predicateKey,
-//                            definition.getFormula().getElement().getList(), moduleContext);
-//                    }
-//                }
                 if (constant != null) {
                     setLocationWithinModule(context + ".getList()");
                     final Entity[] arguments = getEntities(list);
