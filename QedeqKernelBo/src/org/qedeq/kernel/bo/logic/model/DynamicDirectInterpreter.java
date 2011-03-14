@@ -106,9 +106,9 @@ public class DynamicDirectInterpreter {
      */
     public Entity calculateFunctionValue(final FunctionConstant constant,
             final Entity[] entities) throws  HeuristicException {
-        final String[] params = constant.getSubjectVariableAtoms();
+        final List params = constant.getSubjectVariables();
         for (int i = 0; i < entities.length; i++) {
-            final SubjectVariable var = new SubjectVariable(params[i]);
+            final SubjectVariable var = (SubjectVariable) params.get(i);
             subjectVariableInterpreter.forceAddSubjectVariable(var, entities[i].getValue());
         }
         Entity result;
@@ -116,7 +116,7 @@ public class DynamicDirectInterpreter {
             result = calculateTerm(constant.getDefiningTerm());
         } finally {
             for (int i = entities.length - 1; i >= 0; i--) {
-                final SubjectVariable var = new SubjectVariable(params[i]);
+                final SubjectVariable var = (SubjectVariable) params.get(i);
                 subjectVariableInterpreter.forceRemoveSubjectVariable(var);
             }
         }
@@ -133,9 +133,9 @@ public class DynamicDirectInterpreter {
      */
     public boolean calculatePredicateValue(final PredicateConstant constant,
         final Entity[] entities) throws HeuristicException {
-        final String[] params = constant.getSubjectVariableAtoms();
+        final List params = constant.getSubjectVariables();
         for (int i = 0; i < entities.length; i++) {
-            final SubjectVariable var = new SubjectVariable(params[i]);
+            final SubjectVariable var = (SubjectVariable) params.get(i);
             subjectVariableInterpreter.forceAddSubjectVariable(var, entities[i].getValue());
         }
         boolean result;
@@ -143,7 +143,7 @@ public class DynamicDirectInterpreter {
             result = calculateValue(constant.getDefiningFormula());
         } finally {
             for (int i = entities.length - 1; i >= 0; i--) {
-                final SubjectVariable var = new SubjectVariable(params[i]);
+                final SubjectVariable var = (SubjectVariable) params.get(i);
                 subjectVariableInterpreter.forceRemoveSubjectVariable(var);
             }
         }

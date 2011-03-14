@@ -15,6 +15,9 @@
 
 package org.qedeq.kernel.bo.logic.wf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.se.base.list.Element;
@@ -43,8 +46,8 @@ public final class FunctionConstant {
     /** Defining term. */
     private final ElementList definingTerm;
 
-    /** Subject variable strings. */
-    private final String[] subjectVariableAtoms;
+    /** Parameter subject variables. */
+    private final List subjectVariables;
 
     /**
      * Constructor.
@@ -62,10 +65,9 @@ public final class FunctionConstant {
         final ElementList list = completeFormula.getList();
         function =  list.getElement(1).getList();
         definingTerm =  list.getElement(2).getList();
-        subjectVariableAtoms = new String[function.size() - 1];
-        for (int i = 0; i < subjectVariableAtoms.length; i++) {
-            subjectVariableAtoms[i] = function.getElement(i + 1)
-                .getList().getElement(0).getAtom().getString();
+        subjectVariables = new ArrayList(function.size() - 1);
+        for (int i = 0; i < function.size() - 1; i++) {
+            subjectVariables.add(function.getElement(i + 1));
         }
     }
 
@@ -123,12 +125,12 @@ public final class FunctionConstant {
     }
 
     /**
-     * Get names of parameter subject variables.
+     * Get list of parameter subject variables.
      *
-     * @return  Only the names of parameter subject variables as an array.
+     * @return  Parameter subject variables as a list.
      */
-    public String[] getSubjectVariableAtoms() {
-        return subjectVariableAtoms;
+    public List getSubjectVariables() {
+        return subjectVariables;
     }
 
     /**

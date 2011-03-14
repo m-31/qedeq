@@ -15,9 +15,11 @@
 
 package org.qedeq.kernel.bo.logic.wf;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
-import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.common.ModuleContext;
 
@@ -44,7 +46,7 @@ public final class PredicateConstant {
     private final ElementList definingFormula;
 
     /** Subject variable strings. */
-    private final String[] subjectVariableAtoms;
+    private final List subjectVariables;
 
     /**
      * Constructor.
@@ -62,10 +64,9 @@ public final class PredicateConstant {
         final ElementList list = completeFormula.getList();
         predicate =  list.getElement(0).getList();
         definingFormula =  list.getElement(1).getList();
-        subjectVariableAtoms = new String[predicate.size() - 1];
-        for (int i = 0; i < subjectVariableAtoms.length; i++) {
-            subjectVariableAtoms[i] = predicate.getElement(i + 1)
-                .getList().getElement(0).getAtom().getString();
+        subjectVariables = new ArrayList(predicate.size() - 1);
+        for (int i = 0; i < predicate.size() - 1; i++) {
+            subjectVariables.add(predicate.getElement(i + 1));
         }
     }
 
@@ -124,12 +125,12 @@ public final class PredicateConstant {
     }
 
     /**
-     * Get names of parameter subject variables.
+     * Get parameter subject variables.
      *
-     * @return  Only the names of parameter subject variables as an array.
+     * @return  Parameter subject variables as within a list.
      */
-    public String[] getSubjectVariableAtoms() {
-        return subjectVariableAtoms;
+    public List getSubjectVariables() {
+        return subjectVariables;
     }
 
     /**
