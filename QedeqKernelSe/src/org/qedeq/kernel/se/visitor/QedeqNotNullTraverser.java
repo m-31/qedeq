@@ -569,6 +569,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             } else if (node.getNodeType() instanceof PredicateDefinition) {
                 setLocationWithinModule(context + ".getNodeType().getPredicateDefinition()");
                 accept((PredicateDefinition) node.getNodeType());
+            } else if (node.getNodeType() instanceof InitialFunctionDefinition) {
+                setLocationWithinModule(context + ".getNodeType().getInitialFunctionDefinition()");
+                accept((FunctionDefinition) node.getNodeType());
             } else if (node.getNodeType() instanceof FunctionDefinition) {
                 setLocationWithinModule(context + ".getNodeType().getFunctionDefinition()");
                 accept((FunctionDefinition) node.getNodeType());
