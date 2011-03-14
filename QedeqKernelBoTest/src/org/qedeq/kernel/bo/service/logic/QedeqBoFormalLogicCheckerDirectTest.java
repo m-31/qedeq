@@ -178,6 +178,7 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqTestCase {
         IoUtility.setFieldContent(prop, "qedeq", qedeq);
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
+        creator.createLabels();
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedRequiredModules(new KernelModuleReferenceList());
