@@ -18,7 +18,7 @@ import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
-import org.qedeq.kernel.se.common.LogicalState;
+import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleAddress;
 
 /**
@@ -46,7 +46,7 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
         final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
         KernelContext.getInstance().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
         assertFalse(bo.getLoadingState().isFailure());
-        assertEquals(LogicalState.STATE_UNCHECKED, bo.getLogicalState());
+        assertEquals(LogicalModuleState.STATE_UNCHECKED, bo.getLogicalState());
         assertFalse(bo.hasErrors());
         assertNotNull(bo.getErrors());
         assertEquals(0, bo.getErrors().size());
