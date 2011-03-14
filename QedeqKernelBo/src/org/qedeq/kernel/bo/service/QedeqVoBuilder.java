@@ -605,6 +605,9 @@ public class QedeqVoBuilder {
             } else if (node.getNodeType() instanceof PredicateDefinition) {
                 setLocationWithinModule(context + ".getNodeType().getPredicateDefinition()");
                 n.setNodeType(create((PredicateDefinition) node.getNodeType()));
+            } else if (node.getNodeType() instanceof InitialFunctionDefinition) {
+                setLocationWithinModule(context + ".getNodeType().getInitialFunctionDefinition()");
+                n.setNodeType(create((InitialFunctionDefinition) node.getNodeType()));
             } else if (node.getNodeType() instanceof FunctionDefinition) {
                 setLocationWithinModule(context + ".getNodeType().getFunctionDefinition()");
                 n.setNodeType(create((FunctionDefinition) node.getNodeType()));
@@ -701,7 +704,7 @@ public class QedeqVoBuilder {
         }
         if (definition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula()");
-            d.setFormula(create(definition.getFormula()));
+            d.setCompleteFormula(create(definition.getFormula()));
         }
         if (definition.getDescription() != null) {
             setLocationWithinModule(context + ".getDescription()");
@@ -832,20 +835,6 @@ public class QedeqVoBuilder {
         for (int i = 0; i < linkList.size(); i++) {
             setLocationWithinModule(context + ".get(" + i + ")");
             list.add(linkList.get(i));
-        }
-        setLocationWithinModule(context);
-        return list;
-    }
-
-    private final VariableListVo create(final VariableList variableList) {
-        if (variableList == null) {
-            return null;
-        }
-        final VariableListVo list = new VariableListVo();
-        final String context = getCurrentContext().getLocationWithinModule();
-        for (int i = 0; i < variableList.size(); i++) {
-            setLocationWithinModule(context + ".get(" + i + ")");
-            list.add(create(variableList.get(i)));
         }
         setLocationWithinModule(context);
         return list;
@@ -1006,20 +995,6 @@ public class QedeqVoBuilder {
         if (formula.getElement() != null) {
             setLocationWithinModule(context + ".getElement()");
             f.setElement(create(formula.getElement()));
-        }
-        setLocationWithinModule(context);
-        return f;
-    }
-
-    private final TermVo create(final Term term) {
-        if (term == null) {
-            return null;
-        }
-        final TermVo f = new TermVo();
-        final String context = getCurrentContext().getLocationWithinModule();
-        if (term.getElement() != null) {
-            setLocationWithinModule(context + ".getElement()");
-            f.setElement(create(term.getElement()));
         }
         setLocationWithinModule(context);
         return f;
