@@ -220,24 +220,9 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
 
     public void visitEnter(final PredicateDefinition definition)
             throws ModuleDataException {
-        // FIXME 20110121 m31: a predicate definition (or function definition) should
-        //                    be a simple formula that fulfills certain constraints.
-        //                    As there are:
-        //                    1. top level is an equivalence relation
-        //                    2. first argument is a predicate constant
-        //                    3. the predicate constant has only subject variables as
-        //                       as arguments
-        //                    4. these subject variables are pairwise different from
-        //                       each other
-        //                    5. the predicate constant doesn't occur in the the second
-        //                       top level argument
-        //
-        //                    Printing these predicate (or function) definition
+        // FIXME 20110121 m31: Printing these predicate (or function) definition
         //                    inserts an ":" as for TRUE :<-> A v -A
         //                    So printing gets an "definition top level" parameter.
-        //
-        //                    This should solve some context problems during checking
-        //                    wellness or model confirmity
         if (definition == null) {
             return;
         }
@@ -360,8 +345,13 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                             + predicateKey, getCurrentContext()));
                 break;
             }
+            // FIXME 20110314 m31: add even if there are errors?
             existence.add(constant);
-            // break out of while
+            final LogicalCheckExceptionList errorlist = checkerFactory.createFormulaChecker()
+                .checkFormula(completeFormula, getCurrentContext(), existence);
+            for (int i = 0; i < errorlist.size(); i++) {
+                addError(errorlist.get(i));
+            }
         } while (false);
 
         // check if we just found the identity operator
@@ -544,7 +534,6 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                     getCurrentContext()));
                 break;
             }
-
             setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(2)");
             if (formula.getElement(2).isAtom()) {
                 addError(new IllegalModuleDataException(
@@ -584,14 +573,12 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                 }
             }
             setLocationWithinModule(context + ".getFormula().getElement().getList()");
-            existence.add(new FunctionConstant(function, formula, getCurrentContext()));  // FIXME add even if there are errors?
+            // FIXME 20110314 m31: add even if there are errors?
+            existence.add(new FunctionConstant(function, formula, getCurrentContext()));
             final LogicalCheckExceptionList list = checkerFactory.createFormulaChecker()
                 .checkFormula(formulaArgument.getElement(), getCurrentContext(), existence);
-            if (list.size() > 0) {
-                for (int i = 0; i < list.size(); i++) {
-                    addError(list.get(i));
-                }
-                break;
+            for (int i = 0; i < list.size(); i++) {
+                addError(list.get(i));
             }
         } while (false);
         setLocationWithinModule(context);
