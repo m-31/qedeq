@@ -15,7 +15,9 @@
 
 package org.qedeq.kernel.bo.common;
 
+import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.module.NodeVo;
+import org.qedeq.kernel.se.visitor.QedeqNumbers;
 
 /**
  * Represents a node and its properties.
@@ -32,46 +34,53 @@ public interface NodeBo {
     public QedeqBo getParentQedeqBo();
 
     /**
-     * Get chapter number the node is in.
+     * Get numbers of node.
      *
-     * @return  Chapter number. Returns <code>-1</code> if there is no chapter number.
+     * @return  Node numbers.
      */
-    public int getChapterNumber();
+    public QedeqNumbers getNumbers();
 
     /**
-     * Get number of rules before this node. Including this one, if node is of that type.
+     * Get module context the node is within.
      *
-     * @return  Rule number. Should start with 1.
+     * @return  The module context the node is within.
      */
-    public int getRuleNumber();
+    public ModuleContext getModuleContext();
 
     /**
-     * Get number of axioms before this node. Including this one, if node is of that type.
+     * Was this node checked successfully for formal correctness? This means checking the formal
+     * syntax of the node formulas. This includes all formulas. LaTeX correctness doesn't play any
+     * role. Nodes without formal formulas return always <code>true</code>.
      *
-     * @return  Axiom number. Should start with 1.
+     * @return  <code>true</code> if the check was successful.
      */
-    public int getAxiomNumber();
+    public boolean isWellFormed();
 
     /**
-     * Get number of propositions before this node. Including this one, if node is of that type.
+     * Was this node checked unsuccessfully for formal correctness? This means checking the formal
+     * syntax of the node formulas. This includes all formulas. LaTeX correctness doesn't play any
+     * role. Nodes without formal formulas return always <code>false</code>.
      *
-     * @return  Proposition number. Should start with 1.
+     * @return  <code>true</code> if the check was not successful.
      */
-    public int getPropositionNumber();
+    public boolean isNotWellFormed();
 
     /**
-     * Get number of function definitions before this node. Including this one, if node is of that type.
+     * This means that at least one formal proof was successfully checked for correctness.
+     * For non propositions we always get <code>true</code>.
      *
-     * @return  Function definition number. Should start with 1.
+     * @return  <code>true</code> if the check was successful.
      */
-    public int getFunctionDefinitionNumber();
+    public boolean isProved();
 
     /**
-     * Get number of predicate definitions before this node. Including this one, if node is of that type.
+     * This means that at least not even one formal proof could be successfully checked for
+     * correctness.
+     * For non propositions we always get <code>false</code>.
      *
-     * @return  Predicate definition number. Should start with 1.
+     * @return  <code>true</code> if the check was not successful.
      */
-    public int getPredicateDefinitionNumber();
+    public boolean isNotProved();
 
     /**
      * Get node.

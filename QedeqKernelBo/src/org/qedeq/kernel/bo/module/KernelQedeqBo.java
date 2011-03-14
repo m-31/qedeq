@@ -1,7 +1,7 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.se.common.LogicalState;
+import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -90,7 +90,7 @@ public interface KernelQedeqBo extends QedeqBo {
      * @param   sfl                           Exception that occurred during loading.
      * @throws  IllegalArgumentException    <code>state</code> is no failure state
      */
-    public void setLogicalFailureState(LogicalState stateExternalCheckingFailed,
+    public void setLogicalFailureState(LogicalModuleState stateExternalCheckingFailed,
             final SourceFileExceptionList sfl);
 
     /**
@@ -98,7 +98,7 @@ public interface KernelQedeqBo extends QedeqBo {
      *
      * @param   stateInternalChecking   module state
      */
-    public void setLogicalProgressState(LogicalState stateInternalChecking);
+    public void setLogicalProgressState(LogicalModuleState stateInternalChecking);
 
     /**
      * Set {@link ModuleConstantsExistenceCheckerImpl}. Doesn't do any status handling.

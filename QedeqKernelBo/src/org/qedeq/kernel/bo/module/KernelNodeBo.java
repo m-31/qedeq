@@ -15,10 +15,12 @@
 
 package org.qedeq.kernel.bo.module;
 
+import org.qedeq.kernel.bo.common.NodeBo;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
+import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.module.NodeVo;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
@@ -28,7 +30,7 @@ import org.qedeq.kernel.se.visitor.QedeqNumbers;
  *
  * @author  Michael Meyling
  */
-public class KernelNodeBo {
+public class KernelNodeBo implements NodeBo, CheckLevel {
 
     /** The plain node data. */
     private final NodeVo node;
@@ -41,6 +43,14 @@ public class KernelNodeBo {
 
     /** Herein are the results of various counters for the node. */
     private final QedeqNumbers data;
+
+    /** Are all formal formulas of this node well formed.
+     * See {@link CheckLevel} for value format. */
+    private int wellFormedCheck;
+
+    /** Is this node been successfully formally proved at least once.
+     * See {@link CheckLevel} for value format. */
+    private int provedCheck;
 
 
     /**
@@ -127,6 +137,43 @@ public class KernelNodeBo {
         }
         // nowhere found:
         return false;
+    }
+
+
+    /**
+     * Set proved parameter. See {@link #isWellFormed()}.
+     *
+     * @param   wellFormedCheck     Node well formed state.
+     *          See {@link CheckLevel} for parameter format.
+     */
+    public void setWellFormed(final int wellFormedCheck) {
+        this.wellFormedCheck = wellFormedCheck;
+    }
+
+    public boolean isWellFormed() {
+        return wellFormedCheck >= SUCCESS;
+    }
+
+    public boolean isNotWellFormed() {
+        return wellFormedCheck < SUCCESS && wellFormedCheck > UNCHECKED;
+    }
+
+    /**
+     * Set proved parameter. See {@link #isProved()}.
+     *
+     * @param   provedCheck     Node proved state.
+     *          See {@link CheckLevel} for parameter format.
+     */
+    public void setProved(final int provedCheck) {
+        this.provedCheck = provedCheck;
+    }
+
+    public boolean isProved() {
+        return provedCheck >= SUCCESS;
+    }
+
+    public boolean isNotProved() {
+        return provedCheck < SUCCESS && provedCheck > UNCHECKED;
     }
 
 }

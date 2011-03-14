@@ -31,7 +31,7 @@ import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.DependencyState;
 import org.qedeq.kernel.se.common.LoadingState;
-import org.qedeq.kernel.se.common.LogicalState;
+import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -294,16 +294,16 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         return stateManager.isChecked();
     }
 
-    public void setLogicalProgressState(final LogicalState state) {
+    public void setLogicalProgressState(final LogicalModuleState state) {
         stateManager.setLogicalProgressState(state);
     }
 
-    public void setLogicalFailureState(final LogicalState state,
+    public void setLogicalFailureState(final LogicalModuleState state,
             final SourceFileExceptionList e) {
         stateManager.setLogicalFailureState(state, e);
     }
 
-    public LogicalState getLogicalState() {
+    public LogicalModuleState getLogicalState() {
         return stateManager.getLogicalState();
     }
 

@@ -51,11 +51,13 @@ import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
+import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
-import org.qedeq.kernel.se.common.LogicalState;
+import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.se.dto.list.ElementSet;
 
@@ -143,7 +145,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             QedeqLog.getInstance().logFailureReply(msg, "Not all required modules could be loaded.");
             return Boolean.FALSE;
         }
-        getQedeqBo().setLogicalProgressState(LogicalState.STATE_EXTERNAL_CHECKING);
+        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_EXTERNAL_CHECKING);
         final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList();
         KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
@@ -162,18 +164,18 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
         }
         // has at least one import errors?
         if (sfl.size() > 0) {
-            getQedeqBo().setLogicalFailureState(LogicalState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
+            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
             return Boolean.FALSE;
         }
-        getQedeqBo().setLogicalProgressState(LogicalState.STATE_INTERNAL_CHECKING);
+        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_INTERNAL_CHECKING);
         getQedeqBo().setExistenceChecker(existence);
         try {
             traverse();
         } catch (SourceFileExceptionList e) {
-            getQedeqBo().setLogicalFailureState(LogicalState.STATE_INTERNAL_CHECKING_FAILED, e);
+            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED, e);
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
@@ -200,6 +202,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
+        // we start checking
+        getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
         if (axiom.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Formula formula = axiom.getFormula();
@@ -220,13 +224,12 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
 
     public void visitEnter(final PredicateDefinition definition)
             throws ModuleDataException {
-        // FIXME 20110121 m31: Printing these predicate (or function) definition
-        //                    inserts an ":" as for TRUE :<-> A v -A
-        //                    So printing gets an "definition top level" parameter.
         if (definition == null) {
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
+        // we start checking
+        getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
         final PredicateKey predicateKey = new PredicateKey(definition.getName(),
             definition.getArgumentNumber());
         // we misuse a do loop to be able to break
@@ -329,10 +332,13 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                     getCurrentContext()));
             }
             setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(1)");
-            LogicalCheckExceptionList list = checkerFactory.createFormulaChecker().checkFormula(
+            final LogicalCheckExceptionList list = checkerFactory.createFormulaChecker().checkFormula(
                 definingFormula, getCurrentContext(), existence);
             for (int i = 0; i < list.size(); i++) {
                 addError(list.get(i));
+            }
+            if (list.size() > 0) {
+                break;
             }
             setLocationWithinModule(context + ".getFormula().getElement().getList()");
             final PredicateConstant constant = new PredicateConstant(predicateKey,
@@ -345,8 +351,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                             + predicateKey, getCurrentContext()));
                 break;
             }
-            // FIXME 20110314 m31: add even if there are errors?
             existence.add(constant);
+            // a final check, we don't expect any errors here, but hey - we want to be very sure!
             setLocationWithinModule(context + ".getFormula().getElement().getList()");
             final LogicalCheckExceptionList errorlist = checkerFactory.createFormulaChecker()
                 .checkFormula(completeFormula, getCurrentContext(), existence);
@@ -362,6 +368,10 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             existence.setIdentityOperatorDefined(predicateKey.getName(),
                 (KernelQedeqBo) getQedeqBo(), getCurrentContext());
         }
+        // if we found no errors this node is ok
+        if (!getNodeBo().isNotWellFormed()) {
+            getNodeBo().setWellFormed(CheckLevel.SUCCESS);
+        }
         setBlocked(true);
     }
 
@@ -375,6 +385,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
+        // we start checking
+        getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
         final PredicateKey predicateKey = new PredicateKey(
                 definition.getName(), definition.getArgumentNumber());
         setLocationWithinModule(context);
@@ -391,6 +403,10 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             existence.setIdentityOperatorDefined(predicateKey.getName(),
                     (KernelQedeqBo) getQedeqBo(), getCurrentContext());
         }
+        // if we found no errors this node is ok
+        if (!getNodeBo().isNotWellFormed()) {
+            getNodeBo().setWellFormed(CheckLevel.SUCCESS);
+        }
         setBlocked(true);
     }
 
@@ -404,6 +420,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
+        // we start checking
+        getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
         final FunctionKey function = new FunctionKey(definition.getName(),
             definition.getArgumentNumber());
         if (existence.functionExists(function)) {
@@ -414,6 +432,10 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
         }
         existence.add(definition);
         setLocationWithinModule(context);
+        // if we found no errors this node is ok
+        if (!getNodeBo().isNotWellFormed()) {
+            getNodeBo().setWellFormed(CheckLevel.SUCCESS);
+        }
         setBlocked(true);
     }
 
@@ -427,6 +449,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
+        // we start checking
+        getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
         final FunctionKey function = new FunctionKey(definition.getName(),
                 definition.getArgumentNumber());
         // we misuse a do loop to be able to break
@@ -573,16 +597,29 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                             + functionConstant.getElement(i), getCurrentContext()));
                 }
             }
-            // FIXME 20110314 m31: add even if there are errors?
-            setLocationWithinModule(context + ".getFormula().getElement().getList()");
-            existence.add(new FunctionConstant(function, formula, getCurrentContext()));
+            setLocationWithinModule(context + ".getFormula().getElement().getList().getElement(2)");
             final LogicalCheckExceptionList list = checkerFactory.createFormulaChecker()
-                .checkFormula(formulaArgument.getElement(), getCurrentContext(), existence);
+                .checkTerm(formulaArgument.getElement(), getCurrentContext(), existence);
             for (int i = 0; i < list.size(); i++) {
                 addError(list.get(i));
             }
+            if (list.size() > 0) {
+                break;
+            }
+            setLocationWithinModule(context + ".getFormula().getElement().getList()");
+            existence.add(new FunctionConstant(function, formula, getCurrentContext()));
+            // a final check, we don't expect any errors here, but hey - we want to be very sure!
+            final LogicalCheckExceptionList listComplete = checkerFactory.createFormulaChecker()
+                .checkFormula(formulaArgument.getElement(), getCurrentContext(), existence);
+            for (int i = 0; i < listComplete.size(); i++) {
+                addError(listComplete.get(i));
+            }
         } while (false);
         setLocationWithinModule(context);
+        // if we found no errors this node is ok
+        if (!getNodeBo().isNotWellFormed()) {
+            getNodeBo().setWellFormed(CheckLevel.SUCCESS);
+        }
         setBlocked(true);
     }
 
@@ -596,6 +633,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
+        // we start checking
+        getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
         if (proposition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Formula formula = proposition.getFormula();
@@ -633,6 +672,10 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             }
         }
         setLocationWithinModule(context);
+        // if we found no errors this node is ok
+        if (!getNodeBo().isNotWellFormed()) {
+            getNodeBo().setWellFormed(CheckLevel.SUCCESS);
+        }
         setBlocked(true);
     }
 
@@ -644,6 +687,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
         if (rule == null) {
             return;
         }
+        // we start checking
+        getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
         if (rule.getName() != null) {
             if ("SET_DEFINION_BY_FORMULA".equals(rule.getName())) {
                 // LATER mime 20080114: check if this rule can be proposed
@@ -651,11 +696,29 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                     getCurrentContext());
             }
         }
+        // if we found no errors this node is ok
+        if (!getNodeBo().isNotWellFormed()) {
+            getNodeBo().setWellFormed(CheckLevel.SUCCESS);
+        }
         setBlocked(true);
     }
 
     public void visitLeave(final Rule rule) {
         setBlocked(false);
+    }
+
+    protected void addError(final ModuleDataException me) {
+        if (getNodeBo() != null) {
+            getNodeBo().setWellFormed(CheckLevel.FAILURE);
+        }
+        super.addError(me);
+    }
+
+    protected void addError(final SourceFileException me) {
+        if (getNodeBo() != null) {
+            getNodeBo().setWellFormed(CheckLevel.FAILURE);
+        }
+        super.addError(me);
     }
 
     /**

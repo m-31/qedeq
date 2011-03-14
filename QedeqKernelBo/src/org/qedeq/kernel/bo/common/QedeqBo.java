@@ -18,7 +18,7 @@ package org.qedeq.kernel.bo.common;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.DependencyState;
 import org.qedeq.kernel.se.common.LoadingState;
-import org.qedeq.kernel.se.common.LogicalState;
+import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
@@ -85,7 +85,7 @@ public interface QedeqBo {
      *
      * @return  module state.
      */
-    public LogicalState getLogicalState();
+    public LogicalModuleState getLogicalState();
 
     /**
      * Get error list.
