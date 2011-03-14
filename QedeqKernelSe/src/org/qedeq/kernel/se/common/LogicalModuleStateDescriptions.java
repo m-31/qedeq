@@ -16,12 +16,12 @@
 package org.qedeq.kernel.se.common;
 
 /**
- * This interface provides primitive constants for the {@link LogicalState}.
+ * This interface provides primitive constants for the {@link LogicalModuleState}.
  *
  * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
-public interface LogicalStateDescriptions {
+public interface LogicalModuleStateDescriptions {
 
     /** Code for unchecked state. */
     public static final int STATE_CODE_UNCHECKED = 0;

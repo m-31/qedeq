@@ -20,38 +20,38 @@ package org.qedeq.kernel.se.common;
  *
  * @author  Michael Meyling
  */
-public final class LogicalState implements State {
+public final class LogicalModuleState implements State {
 
     /** Unchecked. */
-    public static final LogicalState STATE_UNCHECKED
-        = new LogicalState(LogicalStateDescriptions.STATE_STRING_UNCHECKED,
-            false, LogicalStateDescriptions.STATE_CODE_UNCHECKED);
+    public static final LogicalModuleState STATE_UNCHECKED
+        = new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_UNCHECKED,
+            false, LogicalModuleStateDescriptions.STATE_CODE_UNCHECKED);
 
     /** External checking. */
-    public static final LogicalState STATE_EXTERNAL_CHECKING
-        = new LogicalState(LogicalStateDescriptions.STATE_STRING_EXTERNAL_CHECKING,
-            false, LogicalStateDescriptions.STATE_CODE_EXTERNAL_CHECKING);
+    public static final LogicalModuleState STATE_EXTERNAL_CHECKING
+        = new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_EXTERNAL_CHECKING,
+            false, LogicalModuleStateDescriptions.STATE_CODE_EXTERNAL_CHECKING);
 
     /** External checking failed. */
-    public static final LogicalState STATE_EXTERNAL_CHECKING_FAILED
-        =  new LogicalState(LogicalStateDescriptions.STATE_STRING_EXTERNAL_CHECKING_FAILED,
-            true, LogicalStateDescriptions.STATE_CODE_EXTERNAL_CHECKING_FAILED);
+    public static final LogicalModuleState STATE_EXTERNAL_CHECKING_FAILED
+        =  new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_EXTERNAL_CHECKING_FAILED,
+            true, LogicalModuleStateDescriptions.STATE_CODE_EXTERNAL_CHECKING_FAILED);
 
     /** Internal checking phase. */
-    public static final LogicalState STATE_INTERNAL_CHECKING
-        = new LogicalState(LogicalStateDescriptions.STATE_STRING_INTERNAL_CHECKING,
-            false, LogicalStateDescriptions.STATE_CODE_INTERNAL_CHECKING);
+    public static final LogicalModuleState STATE_INTERNAL_CHECKING
+        = new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_INTERNAL_CHECKING,
+            false, LogicalModuleStateDescriptions.STATE_CODE_INTERNAL_CHECKING);
 
     /** Internal check failed. */
-    public static final LogicalState STATE_INTERNAL_CHECKING_FAILED
-        =  new LogicalState(LogicalStateDescriptions.STATE_STRING_INTERNAL_CHECKING_FAILED,
-            true, LogicalStateDescriptions.STATE_CODE_INTERNAL_CHECKING_FAILED);
+    public static final LogicalModuleState STATE_INTERNAL_CHECKING_FAILED
+        =  new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_INTERNAL_CHECKING_FAILED,
+            true, LogicalModuleStateDescriptions.STATE_CODE_INTERNAL_CHECKING_FAILED);
 
 
     /** Successfully completely checked. */
-    public static final LogicalState STATE_CHECKED
-        = new LogicalState(LogicalStateDescriptions.STATE_STRING_COMPLETELY_CHECKED,
-            false, LogicalStateDescriptions.STATE_CODE_COMPLETELY_CHECKED);
+    public static final LogicalModuleState STATE_CHECKED
+        = new LogicalModuleState(LogicalModuleStateDescriptions.STATE_STRING_COMPLETELY_CHECKED,
+            false, LogicalModuleStateDescriptions.STATE_CODE_COMPLETELY_CHECKED);
 
 
     /** meaning of this state. */
@@ -71,7 +71,7 @@ public final class LogicalState implements State {
      * @param   code    code of this state.
      * @throws  IllegalArgumentException    text == <code>null</code>
      */
-    private LogicalState(final String text, final boolean failure, final int code) {
+    private LogicalModuleState(final String text, final boolean failure, final int code) {
         this.text = text;
         if (this.text == null) {
             throw new IllegalArgumentException("text==null");
