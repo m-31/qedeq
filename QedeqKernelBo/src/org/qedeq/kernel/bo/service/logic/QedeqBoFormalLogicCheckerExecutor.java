@@ -691,7 +691,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
         getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
         if (rule.getName() != null) {
             if ("SET_DEFINION_BY_FORMULA".equals(rule.getName())) {
-                // LATER mime 20080114: check if this rule can be proposed
+                // TODO mime 20080114: check if this rule can be proposed
                 existence.setClassOperatorModule((KernelQedeqBo) getQedeqBo(),
                     getCurrentContext());
             }
