@@ -757,7 +757,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
     public final void visitEnter(final InitialPredicateDefinition definition) throws ModuleDataException {
         enter("DEFINITION_PREDICATE_INITIAL");
-        final String method = "visitEnter(PredicateDefinition)";
+        final String method = "visitEnter(InitialPredicateDefinition)";
         Trace.param(CLASS, this, method, "current", current);
         final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
@@ -786,7 +786,6 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         leave();
     }
 
-    // FIXME correct
     public final void visitEnter(final PredicateDefinition definition) throws ModuleDataException {
         enter("DEFINITION_PREDICATE");
         final String method = "visitEnter(PredicateDefinition)";
