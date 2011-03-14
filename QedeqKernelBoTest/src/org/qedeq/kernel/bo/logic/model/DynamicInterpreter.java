@@ -94,17 +94,16 @@ public class DynamicInterpreter {
      * Add new predicate constant to this model.
      *
      * @param   constant        This is the predicate constant.
-     * @param   variableList    Variables to use.
+     * @param   variables       Variables to use.
      * @param   formula         Formula to evaluate for that predicate.
      */
-    public void addPredicateConstant(final ModelPredicateConstant constant,
-            final VariableList variableList, final ElementList formula) {
+    public void addPredicateConstant(final ModelPredicateConstant constant, 
+            final List variables, final ElementList formula) {
         model.addPredicateConstant(constant, new Predicate(constant.getArgumentNumber(),
             constant.getArgumentNumber(), "", "") {
                 public boolean calculate(final Entity[] entities) {
                     for (int i = 0; i < entities.length; i++) {
-                        final SubjectVariable var = new SubjectVariable(variableList.get(i).getList()
-                            .getElement(0).getAtom().getString());
+                        final SubjectVariable var = (SubjectVariable) variables.get(i);
                         subjectVariableInterpreter.forceAddSubjectVariable(var, entities[i].getValue());
                     }
                     boolean result;
@@ -114,8 +113,7 @@ public class DynamicInterpreter {
                         throw new RuntimeException(e);  // TODO 20101014 m31: improve error handling
                     }
                     for (int i = entities.length - 1; i >= 0; i--) {
-                        final SubjectVariable var = new SubjectVariable(variableList.get(i).getList()
-                            .getElement(0).getAtom().getString());
+                        final SubjectVariable var = (SubjectVariable) variables.get(i);
                         subjectVariableInterpreter.forceRemoveSubjectVariable(var);
                     }
 //                    System.out.print(constant.getName() + "(");

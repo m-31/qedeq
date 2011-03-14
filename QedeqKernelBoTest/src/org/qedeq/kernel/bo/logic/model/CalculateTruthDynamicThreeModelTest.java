@@ -16,9 +16,12 @@
 package org.qedeq.kernel.bo.logic.model;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.logic.common.SubjectVariable;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.TestParser;
@@ -26,7 +29,6 @@ import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
-import org.qedeq.kernel.se.dto.module.VariableListVo;
 
 
 /**
@@ -70,13 +72,8 @@ public class CalculateTruthDynamicThreeModelTest extends CalculateTruthTestCase 
              + "     <VAR id=\"y\"/>\n"
              + "   </PREDCON>\n"
              + " </EXISTS>\n");
-        VariableListVo variables = new VariableListVo();
-        final Element x = TestParser.createElement(
-                "<VAR id=\"x\"/>\n");
-        final Element y = TestParser.createElement(
-            "<VAR id=\"x\"/>\n");
-        variables.add(x);
-        variables.add(y);
+        final List variables = new ArrayList();
+        variables.add(new SubjectVariable("x"));
         interpreter.addPredicateConstant(new ModelPredicateConstant("isSet", 1), variables, def.getList());
         final Element ele = TestParser.createElement(
                 "    <EXISTS>\n"
@@ -120,13 +117,8 @@ public class CalculateTruthDynamicThreeModelTest extends CalculateTruthTestCase 
              + "     <VAR id=\"y\"/>\n"
              + "   </PREDCON>\n"
              + " </EXISTS>\n");
-        VariableListVo variables = new VariableListVo();
-        final Element x = TestParser.createElement(
-                "<VAR id=\"x\"/>\n");
-        final Element y = TestParser.createElement(
-            "<VAR id=\"x\"/>\n");
-        variables.add(x);
-        variables.add(y);
+        final List variables = new ArrayList();
+        variables.add(new SubjectVariable("x"));
         interpreter.addPredicateConstant(new ModelPredicateConstant("isSet", 1), variables, def.getList());
         final Element ele = TestParser.createElement(
             "    <EQUI>\n"
