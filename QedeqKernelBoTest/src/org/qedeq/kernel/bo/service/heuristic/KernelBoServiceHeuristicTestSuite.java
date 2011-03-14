@@ -18,8 +18,6 @@ package org.qedeq.kernel.bo.service.heuristic;
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
-import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPluginTest;
-import org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPluginTest;
 
 /**
  * Run all JUnit tests for package org.qedeq.kernel.bo.module.
@@ -42,7 +40,7 @@ public class KernelBoServiceHeuristicTestSuite extends QedeqTestSuite {
      */
     public KernelBoServiceHeuristicTestSuite() {
         super();
-//        addTestSuite(HeuristicCheckerPluginTest.class);
+        addTestSuite(HeuristicCheckerPluginTest.class);
         addTestSuite(DynamicHeuristicCheckerPluginTest.class);
     }
 }

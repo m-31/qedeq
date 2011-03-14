@@ -30,7 +30,7 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
- * For test of generating LaTeX output.
+ * For testing model validity.
  *
  * @author Michael Meyling
  */
@@ -45,14 +45,7 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
     }
 
     /**
-     * Call the generation of one LaTeX file and copy XML source to same destination directory.
-     *
-     * @param dir Start directory.
-     * @param xml Relative path to XML file. Must not be <code>null</code>.
-     * @param language Generate text in this language. Can be <code>null</code>.
-     * @param destinationDirectory Directory path for LaTeX file. Must not be <code>null</code>.
-     * @throws IOException File IO failed.
-     * @throws XmlFilePositionException File data is invalid.
+     * Call the model check for a module.
      */
     public QedeqBo check(final Model model, final File dir, final String xml) throws IOException,
             SourceFileExceptionList {
