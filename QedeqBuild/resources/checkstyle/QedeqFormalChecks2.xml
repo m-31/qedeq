@@ -36,7 +36,9 @@ this are the Checkstyle settings for the Hilbert II project
       <property name="max" value="120"/>
       <property name="tabWidth" value="4"/>
     </module>
-    <module name="MethodLength"/>
+    <module name="MethodLength">
+      <property name="max" value="270"/>
+    </module>
     <module name="ParameterNumber">
       <property name="max" value="9"/>
     </module>
