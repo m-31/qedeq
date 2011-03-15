@@ -74,11 +74,13 @@ public interface HeuristicErrorCodes extends ErrorCodes {
     /** Error (or warning) text for: unknown format for argument size. */
     public static final String UNKNOWN_ARGUMENT_FORMAT_TEXT = "unknown format for argument size: ";
 
+
     /** Error (or warning) number for: unknown format for argument size. */
     public static final int RUNTIME_EXCEPTION_CODE = 77777;
 
     /** Error (or warning) text for: unknown format for argument size. */
     public static final String RUNTIME_EXCEPTION_TEXT = "runtime problem: ";
+
 
     /** Error (or warning) number for: unknown import module. */
     public static final int UNKNOWN_IMPORT_MODULE_CODE = 78082;
@@ -88,6 +90,14 @@ public interface HeuristicErrorCodes extends ErrorCodes {
 
     /** Error (or warning) text for: unknown import module. */
     public static final String UNKNOWN_IMPORT_MODULE_TEXT_2 = " for ";
+
+
+    /** Error code. */
+    public static final int PREDICATE_CALCULATION_FAILED_CODE = 40710;
+
+    /** Error message. */
+    public static final String PREDICATE_CALCULATION_FAILED_TEXT
+        = "calculation for predicate failed: ";
 
 
 }

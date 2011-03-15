@@ -33,7 +33,6 @@ import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.bo.logic.wf.FormulaUtility;
 import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
-import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
 import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
@@ -155,8 +154,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             checker.executePlugin();
             if (!list.getKernelQedeqBo(i).isChecked()) {
                 ModuleDataException md = new CheckRequiredModuleException(
-                    HigherLogicalErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
-                    HigherLogicalErrors.MODULE_IMPORT_CHECK_FAILED_TEXT
+                    LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
+                    LogicErrors.MODULE_IMPORT_CHECK_FAILED_TEXT
                     + list.getQedeqBo(i).getModuleAddress(),
                     list.getModuleContext(i));
                 sfl.add(getQedeqBo().createSourceFileException(getPlugin(), md));

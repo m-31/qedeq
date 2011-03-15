@@ -144,4 +144,11 @@ public interface LogicErrors extends ErrorCodes {
         = "first operand of equal relation must be the new function constant";
 
 
+    /** Error code. */
+    public static final int MODULE_IMPORT_CHECK_FAILED_CODE = 11231;
+
+    /** Error message. */
+    public static final String MODULE_IMPORT_CHECK_FAILED_TEXT
+        = "import check failed: ";
+
 }

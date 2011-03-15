@@ -24,7 +24,6 @@ import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.common.SubjectVariable;
 import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
-import org.qedeq.kernel.bo.logic.wf.HigherLogicalErrors;
 import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
@@ -285,8 +284,8 @@ public class DynamicDirectInterpreter {
                         setModuleContext(qedeqOld);
                         moduleContext = moduleContextOld;
                         setLocationWithinModule(context + ".getList().getElement(1)");
-                        throw new HeuristicException(HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_CODE,
-                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_TEXT + predicateKey,
+                        throw new HeuristicException(HeuristicErrorCodes.PREDICATE_CALCULATION_FAILED_CODE,
+                            HeuristicErrorCodes.PREDICATE_CALCULATION_FAILED_TEXT + predicateKey,
                             moduleContext, e.getContext());
                     }
                 } else {  // should be initial predicate, must be in the model
@@ -550,8 +549,8 @@ public class DynamicDirectInterpreter {
                         setModuleContext(qedeqOld);
                         moduleContext = moduleContextOld;
                         setLocationWithinModule(context + ".getList().getElement(1)");
-                        throw new HeuristicException(HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_CODE,
-                            HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_TEXT + functionKey,
+                        throw new HeuristicException(HeuristicErrorCodes.PREDICATE_CALCULATION_FAILED_CODE,
+                            HeuristicErrorCodes.PREDICATE_CALCULATION_FAILED_TEXT + functionKey,
                             moduleContext, e.getContext());
                     }
                 } else {
@@ -598,8 +597,8 @@ public class DynamicDirectInterpreter {
                             setModuleContext(qedeqOld);
                             moduleContext = moduleContextOld;
                             setLocationWithinModule(context + ".getList().getElement(1)");
-                            throw new HeuristicException(HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_CODE,
-                                HigherLogicalErrors.PREDICATE_CALCULATION_FAILED_TEXT + isSet,
+                            throw new HeuristicException(HeuristicErrorCodes.PREDICATE_CALCULATION_FAILED_CODE,
+                                HeuristicErrorCodes.PREDICATE_CALCULATION_FAILED_TEXT + isSet,
                                 moduleContext, e.getContext());
                         }
                     }
