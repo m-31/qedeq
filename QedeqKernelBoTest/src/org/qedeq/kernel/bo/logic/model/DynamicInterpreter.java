@@ -110,7 +110,7 @@ public class DynamicInterpreter {
                     try {
                         result = calculateValue(new ModuleContext(new DefaultModuleAddress()), formula);
                     } catch (HeuristicException e) {
-                        throw new RuntimeException(e);  // TODO 20101014 m31: improve error handling
+                        throw new RuntimeException(e);  // LATER 20101014 m31: improve error handling
                     }
                     for (int i = entities.length - 1; i >= 0; i--) {
                         final SubjectVariable var = (SubjectVariable) variables.get(i);
@@ -169,7 +169,7 @@ public class DynamicInterpreter {
                     try {
                         result = calculateTerm(new ModuleContext(new DefaultModuleAddress()), term);
                     } catch (HeuristicException e) {
-                        throw new RuntimeException(e);  // TODO 20101014 m31: improve error handling
+                        throw new RuntimeException(e);  // LATER 20101014 m31: improve error handling
                     }
                     for (int i = entities.length - 1; i >= 0; i--) {
                         final SubjectVariable var = new SubjectVariable(variableList.get(i).getList()

@@ -25,7 +25,6 @@ import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -212,21 +211,6 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         id = null;
         title = null;
         subContext = "";
-    }
-
-    // TODO m31 20070704: this should be part of QedeqBo
-    public String[] getSupportedLanguages(final QedeqBo prop) {
-        // TODO m31 20070704: there should be a better way to
-        // get all supported languages. Time for a new visitor?
-        if (!prop.isLoaded()) {
-            return new String[]{};
-        }
-        final LatexList list = prop.getQedeq().getHeader().getTitle();
-        final String[] result = new String[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i).getLanguage();
-        }
-        return result;
     }
 
     public final void visitEnter(final Qedeq qedeq) {

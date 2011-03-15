@@ -32,7 +32,6 @@ import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
-import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
@@ -156,7 +155,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         try {
             QedeqLog.getInstance().logRequest("Generate LaTeX from \""
                 + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
-            final String[] languages = getSupportedLanguages(getQedeqBo());
+            final String[] languages = getQedeqBo().getSupportedLanguages();
             for (int j = 0; j < languages.length; j++) {
                 language = languages[j];
 //                level = "1";
@@ -205,20 +204,6 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
     public InputStream createLatex(final String language, final String level)
             throws SourceFileExceptionList, IOException {
         return new FileInputStream(generateLatex(language, level));
-    }
-
-    String[] getSupportedLanguages(final QedeqBo prop) {
-        // FIXME m31 20070704: there should be a better way to get all supported languages.
-        // Time for a new visitor? this should be part of QedeqBo
-        if (!prop.isLoaded()) {
-            return new String[]{};
-        }
-        final LatexList list = prop.getQedeq().getHeader().getTitle();
-        final String[] result = new String[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i).getLanguage();
-        }
-        return result;
     }
 
     /**

@@ -167,4 +167,13 @@ public interface QedeqBo {
      */
     public boolean isChecked();
 
+
+    /**
+     * Get all supported languages for this QEDEQ module.
+     *
+     * @return  Array of supported languages.
+     */
+    public String[] getSupportedLanguages();
+
+
 }

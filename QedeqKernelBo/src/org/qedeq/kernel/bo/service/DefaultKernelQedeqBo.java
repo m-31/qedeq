@@ -27,6 +27,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.DependencyState;
@@ -432,6 +433,22 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
         }
         return area;
     }
+
+    public String[] getSupportedLanguages() {
+        // TODO m31 20070704: there should be a better way to
+        // get all supported languages. Time for a new visitor?
+        if (!isLoaded() || getQedeq() == null || getQedeq().getHeader() == null
+                || getQedeq().getHeader().getTitle() == null) {
+            return new String[]{};
+        }
+        final LatexList list = getQedeq().getHeader().getTitle();
+        final String[] result = new String[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i).getLanguage();
+        }
+        return result;
+    }
+
 
     /**
      * Set {@link QedeqVo}. Doesn't do any status handling. Only for internal use.

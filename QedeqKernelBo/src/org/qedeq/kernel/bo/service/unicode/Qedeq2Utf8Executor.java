@@ -98,7 +98,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         final String ref = "\"" + IoUtility.easyUrl(visitor.getQedeqBo().getUrl()) + "\"";
         try {
             QedeqLog.getInstance().logRequest("Generate UTF-8 from " + ref);
-            languages = visitor.getSupportedLanguages(visitor.getQedeqBo());
+            languages = visitor.getQedeqBo().getSupportedLanguages();
             for (run = 0; run < languages.length; run++) {
                 final String result = generateUtf8(languages[run], "1");
                 if (languages[run] != null) {

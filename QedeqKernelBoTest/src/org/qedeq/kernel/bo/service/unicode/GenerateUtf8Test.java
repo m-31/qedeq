@@ -34,7 +34,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
  * Test generating LaTeX files for all known samples.
- * TODO 20110215 m31: perhaps support more LaTeX commands for unicode generation
+ * LATER 20110215 m31: perhaps support more LaTeX commands for unicode generation
  *
  * @author Michael Meyling
  */
