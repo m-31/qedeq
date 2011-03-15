@@ -952,7 +952,11 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         }
     }
 
-/* TODO remove method
+    public final void visitLeave(final ElementList list) {
+        leave();
+    }
+
+/* we dont need it any more
     public final void visitEnter(final Atom atom) throws ModuleDataException {
         final String method = "visitEnter(Atom)";
         Trace.param(this, method, "current", current);
@@ -961,10 +965,6 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         checkMatching(method);
     }
 */
-    public final void visitLeave(final ElementList list) {
-        leave();
-    }
-
     public final void visitEnter(final LiteratureItemList list) throws ModuleDataException {
         enter("BIBLIOGRAPHY");
         final String method = "visitEnter(LiteratureItemList)";
