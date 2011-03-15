@@ -665,4 +665,24 @@ public final class StringUtility {
         return StringEscapeUtils.unescapeXml(value);
     }
 
+    /**
+     * Does a given string is not an element of a given string array?
+     *
+     * @param   lookFor Look for this string.
+     * @param   array   The array we look through.
+     * @return  Is the given string not an element of the array?
+     */
+    public static boolean isNotIn(final String lookFor, final String[] array) {
+        if (lookFor == null || lookFor.length() <= 0) {
+            return false;
+        }
+        for (int i = 0; i < array.length; i++) {
+            if (lookFor.equals(array[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
 }
