@@ -212,6 +212,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             for (int i = 0; i < list.size(); i++) {
                 addError(list.get(i));
             }
+        } else {
+            getNodeBo().setWellFormed(CheckLevel.FAILURE);
         }
         setLocationWithinModule(context);
         setBlocked(true);
@@ -669,6 +671,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                     }
                 }
             }
+        } else {  // no formula
+            getNodeBo().setWellFormed(CheckLevel.FAILURE);
         }
         setLocationWithinModule(context);
         // if we found no errors this node is ok
@@ -694,6 +698,8 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
                 existence.setClassOperatorModule((KernelQedeqBo) getQedeqBo(),
                     getCurrentContext());
             }
+        } else {
+            getNodeBo().setWellFormed(CheckLevel.FAILURE);
         }
         // if we found no errors this node is ok
         if (!getNodeBo().isNotWellFormed()) {

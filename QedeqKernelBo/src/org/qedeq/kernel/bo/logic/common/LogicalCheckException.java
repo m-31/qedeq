@@ -61,9 +61,22 @@ public abstract class LogicalCheckException extends ModuleDataException {
     }
 
     /**
-     * Get the element.
+     * Constructs an exception.
      *
-     * @return  element, that should have been a symbol
+     * @param  errorCode        ErrorCode of this message.
+     * @param  message          What is the problem.
+     * @param  context          Error location.
+     */
+    public LogicalCheckException(final int errorCode, final String message,
+            final ModuleContext context) {
+        super(errorCode, message, context);
+        this.element = null;
+    }
+
+    /**
+     * Get the problematic element. Might be <code>null</code>.
+     *
+     * @return  Element.
      */
     public final Element getElement() {
         return this.element;
@@ -79,12 +92,14 @@ public abstract class LogicalCheckException extends ModuleDataException {
      * <li>The result of the {@link Throwable#getMessage()} method for this object
      * <li>"\n" (a newline)
      * <li>A string representation of the {@link #getElement()} method for this object
+     *     (might be empty).
      * </ul>
      *
      * @return a string representation of this throwable.
      */
     public final String toString() {
-        return super.toString() + "\n" + getElement().toString();
+        return super.toString() + "\n"
+            + (getElement() != null ? getElement().toString() : "");
     }
 
 }

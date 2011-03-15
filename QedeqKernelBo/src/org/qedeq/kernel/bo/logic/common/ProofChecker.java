@@ -15,8 +15,8 @@
 
 package org.qedeq.kernel.bo.logic.common;
 
-import org.qedeq.kernel.se.base.list.ElementList;
-import org.qedeq.kernel.se.base.module.FormalProof;
+import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
@@ -32,13 +32,14 @@ public interface ProofChecker {
      *
      * @param   formula             Formula we want to proof.
      * @param   proof               Check this formal proof.
-     * @param   context             For location information. Important for locating errors.
+     * @param   context             Location information of formal proof.
+     *                              Important for locating errors.
      * @param   resolver            Resolver for references.
      * @param   existence           Existence checker for operators.
      * @return  Collected errors if there are any. Not <code>null</code>.
      */
-    public LogicalCheckExceptionList checkProof(final ElementList formula,
-            final FormalProof proof,
+    public LogicalCheckExceptionList checkProof(final Element formula,
+            final FormalProofLineList proof,
             final ModuleContext context, final ReferenceResolver resolver,
             final ExistenceChecker existence);
 

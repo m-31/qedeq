@@ -13,28 +13,24 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.se.base.module;
+package org.qedeq.kernel.bo.logic;
+
+import org.qedeq.kernel.bo.logic.common.ProofChecker;
+import org.qedeq.kernel.bo.logic.common.ProofCheckerFactory;
+import org.qedeq.kernel.bo.logic.proof.basic.ProofCheckerImpl;
+
 
 
 /**
- * Usage of a rule of interference.
+ * Factory implementation for {@link ProofChecker}s.
  *
  * @author  Michael Meyling
  */
-public interface Reason {
+public class ProofCheckerFactoryImpl implements ProofCheckerFactory {
 
-    /**
-     * Get name for this reason.
-     *
-     * @return  Name.
-     */
-    public String getName();
+    public ProofChecker createProofChecker() {
+        return new ProofCheckerImpl();
+    }
 
-    /**
-     * Get references to previous formulas.
-     *
-     * @return  List of references.
-     */
-    public String[] getReferences();
 
 }
