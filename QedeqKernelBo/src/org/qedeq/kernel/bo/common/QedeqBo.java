@@ -143,7 +143,6 @@ public interface QedeqBo {
      */
     public Qedeq getQedeq();
 
-
     /**
      * Are all required modules loaded?
      *
@@ -167,7 +166,6 @@ public interface QedeqBo {
      */
     public boolean isChecked();
 
-
     /**
      * Get all supported languages for this QEDEQ module.
      *
@@ -175,5 +173,21 @@ public interface QedeqBo {
      */
     public String[] getSupportedLanguages();
 
+    /**
+     * Is the given language supported.
+     *
+     * @param   language    Language.
+     * @return  Is this language supported?
+     */
+    public boolean isSupportedLanguage(String language);
+
+    /**
+     * Get default language for this QEDEQ module. This should be the original language
+     * of the module before it was translated. This value should be also within
+     * {@link #getSupportedLanguages()}.
+     *
+     * @return  Original language.
+     */
+    public String getOriginalLanguage();
 
 }

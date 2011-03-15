@@ -1249,14 +1249,8 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
     }
 
     /**
-     * Get URL to for PDF version of module.
-     * FIXME 20101222 m31: this doesn't work if module or referenced module languages don't match.
-     *  E.g. if the referenced module has only the
-     *  "en" or default (language=null) language and the current is written
-     *  with language "de". Each KernelQedeqBo must have the language information
-     *  as method. Every module must have at least one explicit language (!= null)
-     *  and a default language (!= null). So we can ask a QEDEQ module: String getDefaultLanguage
-     *  String[] getSupportedLanguages()
+     * Get URL to for PDF version of module. If the referenced module doesn't
+     * support the current language we switch to the original language.
      *
      * @param   prop    Get URL for this QEDEQ module.
      * @return  URL to PDF.
@@ -1267,7 +1261,11 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
         }
         final String url = prop.getUrl();
         final int dot = url.lastIndexOf(".");
-        return url.substring(0, dot) + (language != null ? "_" + language : "") + ".pdf";
+        if (prop.isSupportedLanguage(language)) {
+            return url.substring(0, dot) + language + ".pdf";
+        }
+        final String a = prop.getOriginalLanguage();
+        return url.substring(0, dot) + (a.length() > 0 ? "_" + a : "") + ".pdf";
     }
 
     /**

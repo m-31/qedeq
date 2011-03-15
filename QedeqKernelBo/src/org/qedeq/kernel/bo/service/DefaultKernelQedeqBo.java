@@ -15,9 +15,13 @@
 
 package org.qedeq.kernel.bo.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.module.Element2Latex;
 import org.qedeq.kernel.bo.module.Element2Utf8;
@@ -442,11 +446,29 @@ public class DefaultKernelQedeqBo implements KernelQedeqBo {
             return new String[]{};
         }
         final LatexList list = getQedeq().getHeader().getTitle();
-        final String[] result = new String[list.size()];
+        final List result = new ArrayList(list.size());
         for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i).getLanguage();
+            if (null != list.get(i)) {
+                result.add(list.get(i).getLanguage());
+            }
         }
-        return result;
+        return (String[]) result.toArray(new String[]{});
+    }
+
+    public boolean isSupportedLanguage(final String language) {
+        return StringUtility.isNotIn(language, getSupportedLanguages());
+    }
+
+    public String getOriginalLanguage() {
+        // FIXME 20110316 m31: rework qedeq.xsd to have a default language
+        final String[] supported = getSupportedLanguages();
+        if (StringUtility.isNotIn("de", supported)) {
+            if (supported.length > 0) {
+                return supported[0];
+            }
+            return "";
+        }
+        return "de";
     }
 
 
