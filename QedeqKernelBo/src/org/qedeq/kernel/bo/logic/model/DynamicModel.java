@@ -29,9 +29,6 @@ import java.util.Vector;
  */
 public abstract class DynamicModel implements Model {
 
-    /** This class. */
-    private static final Class CLASS = DynamicModel.class;
-
     /** Always return false. */
     public static final Predicate FALSE = new Predicate(0, 99, "F", "always false") {
         public boolean calculate(final Entity[] entities) {
