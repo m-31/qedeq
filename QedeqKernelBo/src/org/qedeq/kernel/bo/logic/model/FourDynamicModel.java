@@ -24,9 +24,6 @@ package org.qedeq.kernel.bo.logic.model;
  */
 public final class FourDynamicModel extends DynamicModel {
 
-    /** This class. */
-    private static final Class CLASS = FourDynamicModel.class;
-
     /** "Zero" or empty set. */
     public static final Entity ZERO = new Entity(0, "{}", "{} or empty set");
 

@@ -28,9 +28,6 @@ import org.qedeq.kernel.se.common.Plugin;
  */
 public class ServiceProcessManager {
 
-    /** This class. */
-    private static final Class CLASS = ServiceProcessManager.class;
-
     /** Stores all processes. */
     private final List processes = new ArrayList();
 
