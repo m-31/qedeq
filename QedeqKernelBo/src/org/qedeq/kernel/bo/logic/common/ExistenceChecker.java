@@ -17,7 +17,7 @@ package org.qedeq.kernel.bo.logic.common;
 
 
 /**
- * Check if operators are already defined.
+ * Check if operators are already defined and well formed.
  * <p>
  * If {@link #identityOperatorExists()} returns <code>true</code> then
  * the call to {@link #predicateExists(String, int)} with the arguments

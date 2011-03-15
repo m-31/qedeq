@@ -17,17 +17,17 @@ package org.qedeq.kernel.bo.logic.common;
 
 
 /**
- * Can create a {@link FormulaChecker}.
+ * Can create a {@link ProofChecker}.
  *
  * @author  Michael Meyling
  */
-public interface FormulaCheckerFactory {
+public interface ProofCheckerFactory {
 
     /**
-     * Create a {@link FormulaChecker}.
+     * Create a {@link ProofChecker}.
      *
      * @return  Instance that can check formulas for correctness.
      */
-    public FormulaChecker createFormulaChecker();
+    public ProofChecker createProofChecker();
 
 }
