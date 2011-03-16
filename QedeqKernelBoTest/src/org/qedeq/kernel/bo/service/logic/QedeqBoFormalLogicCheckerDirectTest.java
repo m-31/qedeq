@@ -31,7 +31,7 @@ import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.QedeqVoBuilder;
-import org.qedeq.kernel.bo.service.logic.QedeqBoFormalLogicCheckerPlugin;
+import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
@@ -182,7 +182,7 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqTestCase {
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedRequiredModules(new KernelModuleReferenceList());
-        final QedeqBoFormalLogicCheckerPlugin plugin = new QedeqBoFormalLogicCheckerPlugin();
+        final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
         plugin.createExecutor(prop, null).executePlugin();
         if (prop.hasErrors()) {
             throw prop.getErrors();

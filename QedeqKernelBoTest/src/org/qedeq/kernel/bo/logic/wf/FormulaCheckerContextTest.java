@@ -33,8 +33,8 @@ import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.QedeqVoBuilder;
-import org.qedeq.kernel.bo.service.logic.QedeqBoFormalLogicCheckerExecutor;
-import org.qedeq.kernel.bo.service.logic.QedeqBoFormalLogicCheckerPlugin;
+import org.qedeq.kernel.bo.service.logic.WellFormedCheckerExecutor;
+import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -206,10 +206,10 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         prop.setLoaded(QedeqVoBuilder.createQedeq(prop.getModuleAddress(), qedeq),
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedRequiredModules(new KernelModuleReferenceList());
-        final QedeqBoFormalLogicCheckerPlugin plugin = new QedeqBoFormalLogicCheckerPlugin();
+        final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
         final Map parameters = new HashMap();
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());
-        final QedeqBoFormalLogicCheckerExecutor checker = (QedeqBoFormalLogicCheckerExecutor) plugin.createExecutor(prop, parameters);
+        final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(prop, parameters);
         checker.executePlugin();
         if (prop.hasErrors()) {
             throw prop.getErrors();
@@ -225,10 +225,10 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
             IoUtility.toUrl(xmlFile.getAbsoluteFile()));
         KernelQedeqBo qedeqBo= (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(address);
-        final QedeqBoFormalLogicCheckerPlugin plugin = new QedeqBoFormalLogicCheckerPlugin();
+        final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
         final Map parameters = new HashMap();
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());
-        final QedeqBoFormalLogicCheckerExecutor checker = (QedeqBoFormalLogicCheckerExecutor) plugin.createExecutor(qedeqBo, parameters);
+        final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(qedeqBo, parameters);
         checker.executePlugin();
         if (qedeqBo.hasErrors()) {
             throw qedeqBo.getErrors();
