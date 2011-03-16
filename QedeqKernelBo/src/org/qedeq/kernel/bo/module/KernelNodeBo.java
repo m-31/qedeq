@@ -17,8 +17,10 @@ package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.common.NodeBo;
 import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FormalProofList;
+import org.qedeq.kernel.se.base.module.NodeType;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -52,6 +54,9 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
      * See {@link CheckLevel} for value format. */
     private int provedCheck;
 
+    /** Last proved line number in an proposition. */
+    private int lastProvedLine;
+
 
     /**
      * Constructor.
@@ -67,6 +72,7 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
         this.context = new ModuleContext(context);
         this.qedeq = qedeq;
         this.data = new QedeqNumbers(data);
+        this.lastProvedLine = -1;
     }
 
     /**
@@ -106,12 +112,13 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
     }
 
     /**
-     * Is the given name a label within the node?
+     * // FIXME 20110316 m31: we have to solve the uniqueness problem if we have several formal proofs
+     * Is the given name a proof line label within this node?
      *
-     * @param   label   Look if this node contains this label name.
+     * @param   label   Look if this node is a proposition that contains this label name.
      * @return  Answer.
      */
-    public boolean isLocalLabel(final String label) {
+    public boolean isProofLineLabel(final String label) {
         if (label == null || label.length() == 0) {
             return false;
         }
@@ -176,4 +183,78 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
         return provedCheck < SUCCESS && provedCheck > UNCHECKED;
     }
 
+    // FIXME 20110316 m31: this doesn't work if we have several formal proofs in this node!!!
+    public void setLastProvedLine(final int proof, final int lastProvedLine) {
+        this.lastProvedLine = lastProvedLine;
+    }
+
+    // FIXME 20110316 m31: this doesn't work if we have several formal proofs in this node!!!
+    public int getLastProvedLine(final int proof) {
+        return lastProvedLine;
+    }
+
+    public boolean isProved(String proofLineLabel) {
+        if (proofLineLabel == null || proofLineLabel.length() == 0) {
+            return false;
+        }
+        final Proposition theorem = getNodeVo().getNodeType().getProposition();
+        if (theorem == null) {
+            return false;
+        }
+        final FormalProofList proofs = theorem.getFormalProofList();
+        if (proofs == null) {
+            return false;
+        }
+        // iterate through all formal proofs
+        for (int i = 0; i < proofs.size(); i++) {
+            final FormalProofLineList list = proofs.get(i).getFormalProofLineList();
+            if (list == null) {
+                continue;
+            }
+            for (int j = 0; j <= Math.min(getLastProvedLine(i), list.size() - 1); j++) {
+                if (proofLineLabel.equals(list.get(j).getLabel())) {
+                    return true;
+                }
+            }
+        }
+        // nowhere found:
+        return false;
+    }
+
+    public boolean hasFormula() {
+        return null != getFormula();
+    }
+
+    public Element getFormula() {
+        if (getNodeVo() == null || getNodeVo().getNodeType() == null) {
+            return null;
+        }
+        final NodeType nodeType = getNodeVo().getNodeType();
+        if (nodeType.getProposition() != null) {
+            if (nodeType.getProposition().getFormula() != null) {
+                return nodeType.getProposition().getFormula().getElement();
+            } else {
+                return null;
+            }
+        } else if (nodeType.getPredicateDefinition() != null) {
+            if (nodeType.getPredicateDefinition().getFormula() != null) {
+                return nodeType.getPredicateDefinition().getFormula().getElement();
+            } else {
+                return null;
+            }
+        } else if (nodeType.getFunctionDefinition() != null) {
+            if (nodeType.getFunctionDefinition().getFormula() != null) {
+                return nodeType.getFunctionDefinition().getFormula().getElement();
+            } else {
+                return null;
+            }
+        } else if (nodeType.getAxiom() != null) {
+            if (nodeType.getAxiom().getFormula() != null) {
+                return nodeType.getAxiom().getFormula().getElement();
+            } else {
+                return null;
+            }
+        }
+        return null;
+    }
 }

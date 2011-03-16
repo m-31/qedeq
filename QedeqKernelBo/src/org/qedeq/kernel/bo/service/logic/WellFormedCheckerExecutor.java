@@ -218,6 +218,10 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         } else {
             getNodeBo().setWellFormed(CheckLevel.FAILURE);
         }
+        // if we found no errors this node is ok
+        if (!getNodeBo().isNotWellFormed()) {
+            getNodeBo().setWellFormed(CheckLevel.SUCCESS);
+        }
         setLocationWithinModule(context);
         setBlocked(true);
     }

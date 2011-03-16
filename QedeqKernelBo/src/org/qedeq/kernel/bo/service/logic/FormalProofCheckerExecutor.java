@@ -29,6 +29,8 @@ import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.module.Reference;
+import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
@@ -51,7 +53,8 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public final class FormalProofCheckerExecutor extends ControlVisitor implements PluginExecutor {
+public final class FormalProofCheckerExecutor extends ControlVisitor implements PluginExecutor,
+        ReferenceResolver {
 
     /** This class. */
     private static final Class CLASS = FormalProofCheckerExecutor.class;
@@ -130,16 +133,15 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                     list.getKernelQedeqBo(i), getParameters());
             checker.executePlugin();
             if (list.getKernelQedeqBo(i).hasErrors()) {
-                ModuleDataException md = new CheckRequiredModuleException(
+                addError(new CheckRequiredModuleException(
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_TEXT
                     + list.getQedeqBo(i).getModuleAddress(),
-                    list.getModuleContext(i));
-                sfl.add(getQedeqBo().createSourceFileException(getPlugin(), md));
+                    list.getModuleContext(i)));
             }
         }
         // has at least one import errors?
-        if (sfl.size() > 0) {
+        if (getQedeqBo().hasErrors()) {
 //            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), sfl, null);
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
@@ -152,12 +154,13 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         try {
             traverse();
         } catch (SourceFileExceptionList e) {
-            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), e, null);
 //            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED, e);
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
             return Boolean.FALSE;
+        } finally {
+            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
 //        getQedeqBo().setChecked(existence);
         QedeqLog.getInstance().logSuccessfulReply(
@@ -287,7 +290,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                         LogicalCheckExceptionList eList
                             = checkerFactory.createProofChecker().checkProof(
                             proposition.getFormula().getElement(), list, getCurrentContext(),
-                            (ReferenceResolver) null, existence);
+                            this, existence);
                         if (!proved && eList.size() == 0) {
                             proved = true;
                         }
@@ -350,6 +353,68 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
+    }
+
+    public Element getReferenceFormula(String reference) {
+        if (!hasProvedFormula(reference)) {
+            return null;
+        }
+        final Reference ref = getReference(reference, getCurrentContext(), false, false);
+        final Element formula = ref.getNode().getFormula();
+        if (!ref.isExternal()) {
+            return formula.getList();
+        }
+        // for an external formula we must transform the predicate and function references
+        // accordingly
+        // FIXME
+        return null;
+//        return newFormula;
+    }
+
+    public boolean hasProvedFormula(final String reference) {
+        final Reference ref = getReference(reference, getCurrentContext(), false, false);
+        if (ref == null) {
+            System.out.println("ref == null");
+            return false;
+        }
+        if (ref.isExternalModuleReference()) {
+            System.out.println("ref is external module");
+            return false;
+        }
+        if (!ref.isNodeReference()) {
+            System.out.println("ref is no node reference");
+            return false;
+        }
+        if (null == ref.getNode()) {
+            System.out.println("ref node == null");
+            return false;
+        }
+        if (ref.isSubReference()) {
+            return false;
+        }
+        if (!ref.isProofLineReference()) {
+            if (!ref.getNode().isProved()) {
+                System.out.println("ref node is not marked as proved: " + reference);
+            }
+            if (!ref.getNode().isProved()) {
+                return false;
+            }
+            if (!ref.getNode().hasFormula()) {
+                System.out.println("node has no formula: " + reference);
+                return false;
+            }
+            return ref.getNode().isProved();
+        }
+        if (!ref.getNode().isProved(ref.getProofLineLabel()))  {
+            System.out.println("ref node proof line is not marked as proved: " + ref.getProofLineLabel());
+        }
+        return ref.getNode().isProved(ref.getProofLineLabel());
+    }
+
+    public void setLastProved(int proofLineNumber) {
+        // FIXME 20110316 m31: evaluate correct formal proof number (here 0 is only the first one!)
+        System.out.println("setting last ok proof line number to " + proofLineNumber);
+        getNodeBo().setLastProvedLine(0, proofLineNumber);
     }
 
 }

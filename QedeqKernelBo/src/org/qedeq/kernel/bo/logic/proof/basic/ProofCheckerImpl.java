@@ -15,16 +15,19 @@
 
 package org.qedeq.kernel.bo.logic.proof.basic;
 
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Add;
+import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Reason;
+import org.qedeq.kernel.se.base.module.ReasonType;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.SubstFree;
 import org.qedeq.kernel.se.base.module.SubstFunc;
@@ -61,6 +64,8 @@ public class ProofCheckerImpl implements ProofChecker {
     /** All exceptions that occurred during checking. */
     private LogicalCheckExceptionList exceptions;
 
+    /** Is the proof invalid? */
+    private boolean proofInvalid = false;
 
     /**
      * Constructor.
@@ -92,10 +97,15 @@ public class ProofCheckerImpl implements ProofChecker {
                 continue;
             }
             setLocationWithinModule(context + ".get("  + i + ").getReasonType()");
-            Reason reason = null;
-            if (line.getReasonType() != null && line.getReasonType().getReason() != null) {
-                reason = line.getReasonType().getReason();
+            final ReasonType reasonType = line.getReasonType();
+            if (reasonType == null) {
+                handleProofCheckException(
+                    BasicProofErrors.REASON_MUST_NOT_BE_NULL_CODE,
+                    BasicProofErrors.REASON_MUST_NOT_BE_NULL_TEXT,
+                    getCurrentContext());
+                continue;
             }
+            final Reason reason = reasonType.getReason();
             if (reason == null) {
                 handleProofCheckException(
                     BasicProofErrors.REASON_MUST_NOT_BE_NULL_CODE,
@@ -103,13 +113,22 @@ public class ProofCheckerImpl implements ProofChecker {
                     getCurrentContext());
                 continue;
             }
+            // check if only basis rules are used
+            // TODO 20110316 m31: this is a dirty trick to get the context of the reason
+            //                    perhaps we can solve this more elegantly?
+            String getReason = ".get" + StringUtility.getClassName(reason.getClass());
+            if (getReason.endsWith("Vo")) {
+                getReason = getReason.substring(0, getReason.length() - 2) + "()";
+                setLocationWithinModule(context + ".get("  + i + ").getReasonType()"
+                    + getReason);
+            }
             if (
                        !(reason instanceof Add)
                     && !(reason instanceof Rename)
                     && !(reason instanceof SubstFree)
                     && !(reason instanceof SubstPred)
                     && !(reason instanceof SubstFunc)
-//                    && !(reason instanceof Existential)
+                    && !(reason instanceof Existential)
                     && !(reason instanceof Universal)
                     && !(reason instanceof ModusPonens)
                 ) {
@@ -120,8 +139,54 @@ public class ProofCheckerImpl implements ProofChecker {
                         getCurrentContext());
                     continue;
             }
+            if (reason instanceof Add) {
+                setLocationWithinModule(context + ".get("  + i + ").getReasonType()"
+                        + ".getAdd()");
+                check(reasonType.getAdd(), i, line.getFormula().getElement());
+            }
+            if (reason instanceof ModusPonens) {
+                setLocationWithinModule(context + ".get("  + i + ").getReasonType()"
+                        + ".getModusPonens()");
+                check(reasonType.getModusPonens(), i, line.getFormula().getElement());
+            }
+            if (!proofInvalid) {
+                resolver.setLastProved(i);
+            }
         }
         return exceptions;
+    }
+
+
+    private void check(Add add, int i, final Element element) {
+        final String context = currentContext.getLocationWithinModule();
+        if (!resolver.hasProvedFormula(add.getReference())) {
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                    + add.getReference(),
+                    getCurrentContext());
+        }
+    }
+
+    private void check(ModusPonens mp, int i, final Element element) {
+        final String context = currentContext.getLocationWithinModule();
+        if (!resolver.hasProvedFormula(mp.getReference1())) {
+            setLocationWithinModule(context + ".getReference1()");
+            handleProofCheckException(
+                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                    + mp.getReference1(),
+                    getCurrentContext());
+        }
+        if (!resolver.hasProvedFormula(mp.getReference2())) {
+            setLocationWithinModule(context + ".getReference1()");
+            handleProofCheckException(
+                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                    + mp.getReference1(),
+                    getCurrentContext());
+        }
     }
 
 
@@ -136,6 +201,7 @@ public class ProofCheckerImpl implements ProofChecker {
     private void handleProofCheckException(final int code, final String msg,
             final Element element, final ModuleContext context) {
         final ProofCheckException ex = new ProofCheckException(code, msg, element, context);
+        proofInvalid = true;
         exceptions.add(ex);
     }
 
@@ -149,8 +215,9 @@ public class ProofCheckerImpl implements ProofChecker {
     private void handleProofCheckException(final int code, final String msg,
             final ModuleContext context) {
         System.out.println(context);    // FIXME
-        System.setProperty("qedeq.test.xmlLocationFailures", "true");
+        System.setProperty("qedeq.test.xmlLocationFailures", "true");  // FIXME
         final ProofCheckException ex = new ProofCheckException(code, msg, context);
+        proofInvalid = true;
         exceptions.add(ex);
     }
 

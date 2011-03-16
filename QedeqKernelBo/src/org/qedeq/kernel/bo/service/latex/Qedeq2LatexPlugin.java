@@ -51,7 +51,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
-        return new Qedeq2Latex(this, qedeq, parameters);
+        return new Qedeq2LatexExecutor(this, qedeq, parameters);
     }
 
 }

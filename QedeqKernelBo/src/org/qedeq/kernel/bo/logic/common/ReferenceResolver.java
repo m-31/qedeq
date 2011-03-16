@@ -15,12 +15,11 @@
 
 package org.qedeq.kernel.bo.logic.common;
 
-import org.qedeq.kernel.bo.common.NodeBo;
-import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.base.list.Element;
 
 
 /**
- * Check if a reference is already proved.
+ * Resolver for references from formal proof lines. Specific to a certain formal proof.
  *
  * @author  Michael Meyling
  */
@@ -35,20 +34,21 @@ public interface ReferenceResolver {
     public boolean hasProvedFormula(String reference);
 
     /**
-     * Check if a predicate is already defined.
+     * Get reference formula in an local format.
      *
      * @param   reference   Reference to axiom, definition or proposition.
      * @return  Already proved formula.
      */
-    public ElementList getReferenceFormula(String reference);
+    public Element getReferenceFormula(String reference);
+
 
     /**
-     * Get node.
+     * Set line number of last proof line, that is ok. All previous proof lines
+     * are also ok.
      *
-     * @param   reference   Reference to any {@link NodeBo}.
-     * @return  Node.
+     * @param   proofLineNumber Till this number (including this one) all proof
+     *                          lines were successfully checked.
      */
-    public NodeBo getNode(String reference);
-
+    public void setLastProved(final int proofLineNumber);
 
 }

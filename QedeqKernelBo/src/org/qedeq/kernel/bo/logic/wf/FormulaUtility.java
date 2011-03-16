@@ -68,6 +68,68 @@ public final class FormulaUtility implements Operators {
 
 
     /**
+     * Is {@link Element} a predicate constant?
+     *
+     * @param   element    Element to look onto.
+     * @return  Is it a predicate constant?
+     */
+    public static final boolean isPredicateConstant(final Element element) {
+        if (element == null || !element.isList() || element.getList() == null) {
+            return false;
+        }
+        final ElementList list = element.getList();
+        if (list.getOperator().equals(PREDICATE_CONSTANT)) {
+            if (list.size() < 1) {
+                return false;
+            }
+            final Element first = element.getList().getElement(0);
+            if (first == null || !first.isAtom() || first.getAtom() == null) {
+                return false;
+            }
+            final Atom atom = first.getAtom();
+            if (atom.getString() == null || atom.getAtom().getString() == null
+                    || atom.getString().length() == 0) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
+     * Is {@link Element} a function constant?
+     *
+     * @param   element    Element to look onto.
+     * @return  Is it a function constant?
+     */
+    public static final boolean isFunctionConstant(final Element element) {
+        if (element == null || !element.isList() || element.getList() == null) {
+            return false;
+        }
+        final ElementList list = element.getList();
+        if (list.getOperator().equals(FUNCTION_CONSTANT)) {
+            if (list.size() < 1) {
+                return false;
+            }
+            final Element first = element.getList().getElement(0);
+            if (first == null || !first.isAtom() || first.getAtom() == null) {
+                return false;
+            }
+            final Atom atom = first.getAtom();
+            if (atom.getString() == null || atom.getAtom().getString() == null
+                    || atom.getString().length() == 0) {
+                return false;
+            }
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+
+    /**
      * Return all free subject variables of an element.
      *
      * @param   element    Work on this element.

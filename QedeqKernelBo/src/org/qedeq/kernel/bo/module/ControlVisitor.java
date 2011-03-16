@@ -294,7 +294,7 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
             }
         }
         // is the reference a pure proof line label?
-        if (node != null && node.isLocalLabel(reference)) {
+        if (node != null && node.isProofLineLabel(reference)) {
             return new DefaultReference(node, null, "", node, node.getNodeVo().getId(), "", reference);
         }
         // is the reference a pure node label?

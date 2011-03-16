@@ -45,7 +45,15 @@ public interface BasicProofErrors extends ErrorCodes {
 
     /** Error message. */
     public static final String THIS_IS_NO_ALLOWED_BASIC_REASON_TEXT
-        = "this is now allowed basic rule: ";
+        = "this is no allowed basic rule: ";
+
+
+    /** Error code. */
+    public static final int THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE = 37130;
+
+    /** Error message. */
+    public static final String THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+        = "this is not a reference to a proved formula: ";
 
 
 }

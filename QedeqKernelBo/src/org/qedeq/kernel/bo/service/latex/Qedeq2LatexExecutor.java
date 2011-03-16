@@ -93,10 +93,10 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor {
+public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginExecutor {
 
     /** This class. */
-    private static final Class CLASS = Qedeq2Latex.class;
+    private static final Class CLASS = Qedeq2LatexExecutor.class;
 
 // TODO m31 20100316: check number area for error codes
 // FIXME m31 20100803: add JUnit tests for all error codes
@@ -141,7 +141,7 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
      * @param   prop        QEDEQ BO object.
      * @param   parameters  Parameters.
      */
-    public Qedeq2Latex(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
+    public Qedeq2LatexExecutor(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
         super(plugin, prop);
         String infoString = null;
         if (parameters != null) {
