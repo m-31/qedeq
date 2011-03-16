@@ -289,7 +289,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                             proposition.getFormula().getElement(), list, getCurrentContext(),
                             (ReferenceResolver) null, existence);
                         if (!proved && eList.size() == 0) {
-                            proved =true;
+                            proved = true;
                         }
                         for (int j = 0; j < eList.size(); j++) {
                             addError(eList.get(j));
@@ -297,7 +297,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                     }
                 }
             }
-        } 
+        }
         // only if we found at least one error free formal proof
         if (proved) {
             getNodeBo().setProved(CheckLevel.SUCCESS);
