@@ -40,7 +40,6 @@ import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
-import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -115,21 +114,14 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
-        KernelContext.getInstance().loadModule(getQedeqBo().getModuleAddress());
-        if (!getQedeqBo().isLoaded()) {
-            final String msg = "Check of logical correctness failed for \"" + getQedeqBo().getUrl()
+        KernelContext.getInstance().checkModule(getQedeqBo().getModuleAddress());
+        if (!getQedeqBo().isChecked()) {
+            final String msg = "Check of well formedness failed for \"" + getQedeqBo().getUrl()
             + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, "Module could not even be loaded.");
+            QedeqLog.getInstance().logFailureReply(msg, "Module is not even well formed.");
             return Boolean.FALSE;
         }
-        KernelContext.getInstance().loadRequiredModules(getQedeqBo().getModuleAddress());
-        if (!getQedeqBo().hasLoadedRequiredModules()) {
-            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
-            + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, "Not all required modules could be loaded.");
-            return Boolean.FALSE;
-        }
-        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_EXTERNAL_CHECKING);
+//        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_EXTERNAL_CHECKING);
         final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList();
         KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
@@ -137,7 +129,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             final FormalProofCheckerExecutor checker = new FormalProofCheckerExecutor(getPlugin(),
                     list.getKernelQedeqBo(i), getParameters());
             checker.executePlugin();
-            if (!list.getKernelQedeqBo(i).isChecked()) {
+            if (list.getKernelQedeqBo(i).hasErrors()) {
                 ModuleDataException md = new CheckRequiredModuleException(
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_CODE,
                     LogicErrors.MODULE_IMPORT_CHECK_FAILED_TEXT
@@ -148,24 +140,26 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
         // has at least one import errors?
         if (sfl.size() > 0) {
-            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
+//            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
+            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), sfl, null);
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
             return Boolean.FALSE;
         }
-        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_INTERNAL_CHECKING);
-        getQedeqBo().setExistenceChecker(existence);
+//        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_INTERNAL_CHECKING);
+//        getQedeqBo().setExistenceChecker(existence);
         try {
             traverse();
         } catch (SourceFileExceptionList e) {
-            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED, e);
+            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), e, null);
+//            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED, e);
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
             return Boolean.FALSE;
         }
-        getQedeqBo().setChecked(existence);
+//        getQedeqBo().setChecked(existence);
         QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         return Boolean.TRUE;
@@ -272,13 +266,16 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
         if (!getNodeBo().isWellFormed()) {
             getNodeBo().setProved(CheckLevel.FAILURE);
+            return;
         }
-        final String context = getCurrentContext().getLocationWithinModule();
-        // we start checking
-        getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
+        getNodeBo().setProved(CheckLevel.UNCHECKED);
         if (proposition.getFormula() == null) {
             getNodeBo().setProved(CheckLevel.FAILURE);
+            return;
         }
+        final String context = getCurrentContext().getLocationWithinModule();
+        boolean proved = false;
+        // we start checking
         if (proposition.getFormalProofList() != null) {
             for (int i = 0; i < proposition.getFormalProofList().size(); i++) {
                 final FormalProof proof = proposition.getFormalProofList().get(i);
@@ -287,21 +284,28 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                     if (list != null) {
                         setLocationWithinModule(context + ".getFormalProofList().get("
                            + i + ").getFormalProofLineList()");
-                        LogicalCheckExceptionList elist
+                        LogicalCheckExceptionList eList
                             = checkerFactory.createProofChecker().checkProof(
                             proposition.getFormula().getElement(), list, getCurrentContext(),
                             (ReferenceResolver) null, existence);
+                        if (!proved && eList.size() == 0) {
+                            proved =true;
+                        }
+                        for (int j = 0; j < eList.size(); j++) {
+                            addError(eList.get(j));
+                        }
                     }
                 }
             }
+        } 
+        // only if we found at least one error free formal proof
+        if (proved) {
+            getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
             getNodeBo().setProved(CheckLevel.FAILURE);
         }
         setLocationWithinModule(context);
         // if we found no errors this node is ok
-        if (!getNodeBo().isNotWellFormed()) {
-            getNodeBo().setWellFormed(CheckLevel.SUCCESS);
-        }
         setBlocked(true);
     }
 
@@ -313,18 +317,10 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         if (rule == null) {
             return;
         }
-        // we start checking
-        getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
-        if (rule.getName() != null) {
-            if ("SET_DEFINION_BY_FORMULA".equals(rule.getName())) {
-                // TODO mime 20080114: check if this rule can be proposed
-                existence.setClassOperatorModule((KernelQedeqBo) getQedeqBo(),
-                    getCurrentContext());
-            }
-        }
-        // if we found no errors this node is ok
-        if (!getNodeBo().isNotWellFormed()) {
-            getNodeBo().setWellFormed(CheckLevel.SUCCESS);
+        if (getNodeBo().isWellFormed()) {
+            getNodeBo().setProved(CheckLevel.SUCCESS);
+        } else {
+            getNodeBo().setProved(CheckLevel.FAILURE);
         }
         setBlocked(true);
     }

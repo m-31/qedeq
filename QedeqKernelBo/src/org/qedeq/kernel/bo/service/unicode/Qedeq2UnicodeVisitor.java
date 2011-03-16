@@ -528,8 +528,8 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         if (line.getLabel() != null) {
             printer.print(StringUtility.alignRight("(" + line.getLabel() + ")", 5) + " ");
         }
-        if (line.getReason() != null) {
-            setReason(line.getReason().toString());
+        if (line.getReasonType() != null && line.getReasonType().getReason() != null) {
+            setReason(line.getReasonType().getReason().toString());
         } else {
             reason = new String[0];
         }

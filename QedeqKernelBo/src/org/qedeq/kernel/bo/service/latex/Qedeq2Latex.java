@@ -654,8 +654,8 @@ public final class Qedeq2Latex extends ControlVisitor implements PluginExecutor 
             printer.print("$");
         }
         printer.print(" \\ &  \\ ");
-        if (line.getReason() != null) {
-            reason = line.getReason().toString();
+        if (line.getReasonType() != null && line.getReasonType().getReason() != null) {
+            reason = line.getReasonType().getReason().toString();
         } else {
             reason = "";
         }

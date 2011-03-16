@@ -53,7 +53,8 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
-import org.qedeq.kernel.bo.service.logic.QedeqBoFormalLogicCheckerPlugin;
+import org.qedeq.kernel.bo.service.logic.FormalProofCheckerPlugin;
+import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
@@ -116,6 +117,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin");
 //        pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.HeuristicCheckerPlugin");
+        pluginManager.addPlugin(FormalProofCheckerPlugin.class.getName());
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin");
         loader.setServices(this);
     }
@@ -937,7 +939,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             return true; // everything is OK
         }
         try {
-            final QedeqBoFormalLogicCheckerPlugin checker = new QedeqBoFormalLogicCheckerPlugin();
+            final WellFormedCheckerPlugin checker = new WellFormedCheckerPlugin();
             checker.createExecutor(prop, null).executePlugin();
         } catch (final RuntimeException e) {
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())

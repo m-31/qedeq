@@ -27,25 +27,25 @@ import org.qedeq.kernel.bo.module.PluginBo;
  *
  * @author  Michael Meyling
  */
-public final class QedeqBoFormalLogicCheckerPlugin implements PluginBo {
+public final class WellFormedCheckerPlugin implements PluginBo {
 
     /** This class. */
-    private static final Class CLASS = QedeqBoFormalLogicCheckerPlugin.class;
+    private static final Class CLASS = WellFormedCheckerPlugin.class;
 
     public String getPluginId() {
         return CLASS.getName();
     }
 
     public String getPluginName() {
-        return "Verifier";
+        return "well formed";
     }
 
     public String getPluginDescription() {
-        return "checks mathematical correctness";
+        return "checks well formedness";
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
-        return new QedeqBoFormalLogicCheckerExecutor(this, qedeq, parameters);
+        return new WellFormedCheckerExecutor(this, qedeq, parameters);
     }
 
 }

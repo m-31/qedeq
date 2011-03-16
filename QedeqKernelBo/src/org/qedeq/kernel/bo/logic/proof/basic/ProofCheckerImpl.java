@@ -92,8 +92,11 @@ public class ProofCheckerImpl implements ProofChecker {
                     getCurrentContext());
                 continue;
             }
-            setLocationWithinModule(context + ".get("  + i + ").getReason()");
-            final Reason reason = line.getReason();
+            setLocationWithinModule(context + ".get("  + i + ").getReasonType()");
+            Reason reason = null;
+            if (line.getReasonType() != null && line.getReasonType().getReason() != null) {
+                reason = line.getReasonType().getReason();
+            }
             if (reason == null) {
                 handleProofCheckException(
                     BasicProofErrors.REASON_MUST_NOT_BE_NULL_CODE,
@@ -107,7 +110,7 @@ public class ProofCheckerImpl implements ProofChecker {
                     && !(reason instanceof SubstFree)
                     && !(reason instanceof SubstPred)
                     && !(reason instanceof SubstFunc)
-                    && !(reason instanceof Existential)
+//                    && !(reason instanceof Existential)
                     && !(reason instanceof Universal)
                     && !(reason instanceof ModusPonens)
                 ) {
@@ -146,6 +149,8 @@ public class ProofCheckerImpl implements ProofChecker {
      */
     private void handleProofCheckException(final int code, final String msg,
             final ModuleContext context) {
+        System.out.println(context);    // FIXME
+        System.setProperty("qedeq.test.xmlLocationFailures", "true");
         final ProofCheckException ex = new ProofCheckException(code, msg, context);
         exceptions.add(ex);
     }

@@ -23,7 +23,7 @@ import org.qedeq.kernel.bo.module.PluginBo;
 
 
 /**
- * Checks if all formulas of a QEDEQ module are well formed.
+ * Checks if all propositions have a correct formal proof.
  *
  * @author  Michael Meyling
  */
@@ -45,7 +45,7 @@ public final class FormalProofCheckerPlugin implements PluginBo {
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
-        return new QedeqBoFormalLogicCheckerExecutor(this, qedeq, parameters);
+        return new FormalProofCheckerExecutor(this, qedeq, parameters);
     }
 
 }

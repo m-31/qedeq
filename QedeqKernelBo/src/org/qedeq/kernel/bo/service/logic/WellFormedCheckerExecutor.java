@@ -67,10 +67,10 @@ import org.qedeq.kernel.se.dto.list.ElementSet;
  *
  * @author  Michael Meyling
  */
-public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor implements PluginExecutor {
+public final class WellFormedCheckerExecutor extends ControlVisitor implements PluginExecutor {
 
     /** This class. */
-    private static final Class CLASS = QedeqBoFormalLogicCheckerExecutor.class;
+    private static final Class CLASS = WellFormedCheckerExecutor.class;
 
     /** Existence checker for predicate and function constants. */
     private ModuleConstantsExistenceCheckerImpl existence;
@@ -88,7 +88,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
      * @param   qedeq       QEDEQ BO object.
      * @param   parameters  Parameters.
      */
-    QedeqBoFormalLogicCheckerExecutor(final Plugin plugin, final KernelQedeqBo qedeq,
+    WellFormedCheckerExecutor(final Plugin plugin, final KernelQedeqBo qedeq,
             final Map parameters) {
         super(plugin, qedeq);
         final String method = "QedeqBoFormalLogicChecker(Plugin, KernelQedeqBo, Map)";
@@ -129,7 +129,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             return Boolean.TRUE;
         }
         QedeqLog.getInstance().logRequest(
-                "Check logical correctness for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+                "Check logical well formedness for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         KernelContext.getInstance().loadModule(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().isLoaded()) {
             final String msg = "Check of logical correctness failed for \"" + getQedeqBo().getUrl()
@@ -139,7 +139,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
         }
         KernelContext.getInstance().loadRequiredModules(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().hasLoadedRequiredModules()) {
-            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
+            final String msg = "Check of logical well formedness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
             + "\"";
             QedeqLog.getInstance().logFailureReply(msg, "Not all required modules could be loaded.");
             return Boolean.FALSE;
@@ -149,7 +149,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
         KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
-            final QedeqBoFormalLogicCheckerExecutor checker = new QedeqBoFormalLogicCheckerExecutor(getPlugin(),
+            final WellFormedCheckerExecutor checker = new WellFormedCheckerExecutor(getPlugin(),
                     list.getKernelQedeqBo(i), getParameters());
             checker.executePlugin();
             if (!list.getKernelQedeqBo(i).isChecked()) {
@@ -164,7 +164,7 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
         // has at least one import errors?
         if (sfl.size() > 0) {
             getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
-            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
+            final String msg = "Check of logical well formedness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
             return Boolean.FALSE;
@@ -175,14 +175,14 @@ public final class QedeqBoFormalLogicCheckerExecutor extends ControlVisitor impl
             traverse();
         } catch (SourceFileExceptionList e) {
             getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED, e);
-            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
+            final String msg = "Check of logical well formedness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
             return Boolean.FALSE;
         }
         getQedeqBo().setChecked(existence);
         QedeqLog.getInstance().logSuccessfulReply(
-                "Check of logical correctness successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+                "Check of logical well formedness successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         return Boolean.TRUE;
     }
 
