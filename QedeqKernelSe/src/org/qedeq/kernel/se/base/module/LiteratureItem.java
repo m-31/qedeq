@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * One reference of a bibliography.
  *
- * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public interface LiteratureItem {

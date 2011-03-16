@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * LaTeX text part.
  *
- * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 public interface Latex {

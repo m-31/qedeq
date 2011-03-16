@@ -21,7 +21,6 @@ import org.qedeq.kernel.se.base.list.Element;
  * Wraps a formula. Such an object is build out of
  * {@link org.qedeq.kernel.se.base.list.Element}s.
  *
- * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public interface Formula {

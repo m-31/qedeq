@@ -17,9 +17,8 @@ package org.qedeq.kernel.se.base.module;
 
 
 /**
- * A complete qedeq module. This is the root value object.
+ * A complete QEDEQ module. This is the root value object.
  *
- * @version $Revision: 1.6 $
  * @author    Michael Meyling
  */
 public interface Qedeq {

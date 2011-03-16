@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * Bibliography, list of literature items.
  *
- * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public interface LiteratureItemList {

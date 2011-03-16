@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * List of imports.
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public interface ImportList {

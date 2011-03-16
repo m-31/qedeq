@@ -17,10 +17,9 @@ package org.qedeq.kernel.se.base.module;
 
 
 /**
- * Header of a qedeq file. The header specifies such things as the location of the file,
+ * Header of a QEDEQ file. The header specifies such things as the location of the file,
  * the title and abstract of that module, imports and exports.
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public interface Header {

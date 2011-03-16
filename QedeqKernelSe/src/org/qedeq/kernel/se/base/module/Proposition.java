@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * Proposition.
  *
- * @version $Revision: 1.10 $
  * @author  Michael Meyling
  */
 public interface Proposition extends NodeType {

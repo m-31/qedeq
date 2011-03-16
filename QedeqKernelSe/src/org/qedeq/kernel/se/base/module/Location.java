@@ -21,7 +21,6 @@ package org.qedeq.kernel.se.base.module;
  * <code>http://www.qedeq.org/principia/0_01_06/</code> or <code>.</code>
  * or <code>file:///qedeq/</code>
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public interface Location {

@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * Module import. Every needed module must be referenced as an module import.
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 public interface Import {
