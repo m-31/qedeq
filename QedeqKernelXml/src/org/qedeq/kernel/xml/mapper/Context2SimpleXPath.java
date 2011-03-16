@@ -54,6 +54,7 @@ import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.ReasonType;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
@@ -184,7 +185,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         }
         Trace.param(CLASS, this, method, "level", level);  // level should be equal to zero now
         Trace.info(CLASS, this, method, "location was not found");
-        throw new LocationNotFoundException(find);
+        throw new LocationNotFoundException(find, "");
     }
 
     public final void visitEnter(final Qedeq qedeq) throws ModuleDataException {
@@ -607,6 +608,18 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
     public final void visitLeave(final FormalProofLine line) {
         leave();
+    }
+
+    public final void visitEnter(final ReasonType reasonType) throws ModuleDataException {
+        // nothing to enter in XML
+        final String method = "visitEnter(ReasonType)";
+        Trace.param(CLASS, this, method, "current", current);
+        checkMatching(method);
+
+    }
+
+    public final void visitLeave(final ReasonType reasonType) {
+        // nothing to leave in XML
     }
 
     public final void visitEnter(final Add reason) throws ModuleDataException {
@@ -1046,7 +1059,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
                     // do we really want to fail?
                     if (Boolean.TRUE.toString().equalsIgnoreCase(
                             System.getProperty("qedeq.test.xmlLocationFailures"))) {
-                        throw new LocationNotFoundException(find);  // when we really want to fail
+                        throw new LocationNotFoundException(find, matchingBegin);  // when we really want to fail
                     }
 
                     Trace.traceStack(CLASS, this, method);

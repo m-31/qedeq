@@ -18,6 +18,7 @@ package org.qedeq.kernel.xml.handler.module;
 import org.qedeq.kernel.se.base.module.Reason;
 import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
+import org.qedeq.kernel.se.dto.module.ReasonTypeVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
@@ -136,7 +137,7 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
         } else if (formulaHandler.getStartTag().equals(name)) {
             // nothing to do
         } else if ("L".equals(name)) {
-            list.add(new FormalProofLineVo(label, formulaHandler.getFormula(), reason));
+            list.add(new FormalProofLineVo(label, formulaHandler.getFormula(), new ReasonTypeVo(reason)));
         } else if (modusPonensHandler.getStartTag().equals(name)) {
             reason = modusPonensHandler.getModusPonensVo();
         } else if (addHandler.getStartTag().equals(name)) {

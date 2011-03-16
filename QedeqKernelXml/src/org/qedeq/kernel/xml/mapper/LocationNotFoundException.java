@@ -21,7 +21,6 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 /**
  * Thrown if the location was not found.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class LocationNotFoundException extends ModuleDataException {
@@ -30,9 +29,12 @@ public class LocationNotFoundException extends ModuleDataException {
      * Constructs an exception.
      *
      * @param   context     Context that was searched for.
+     * @param   matching    Last matching begin of search context.
      */
-    public LocationNotFoundException(final ModuleContext context) {
-        super(50001, "location was not found: " + context, context);
+    public LocationNotFoundException(final ModuleContext context, final String matching) {
+        super(50001, "location was not found for module " + context.getModuleLocation()
+            + "\n local context: " + context.getLocationWithinModule()
+            + "\n last match:    " + matching, context);
     }
 
 }
