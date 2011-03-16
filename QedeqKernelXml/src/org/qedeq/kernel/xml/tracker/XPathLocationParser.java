@@ -69,7 +69,7 @@ public final class XPathLocationParser extends SimpleHandler {
     private static final String VALIDATION_FEATURE_ID = "http://xml.org/sax/features/validation";
 
     /** SAX parser. */
-    private XMLReader reader;
+    private final XMLReader reader;
 
     /** Search for this simple XPath expression. */
     private final SimpleXPath find;
@@ -218,13 +218,12 @@ public final class XPathLocationParser extends SimpleHandler {
     /**
      * Parses XML file.
      *
-     * @param   file        Parse this input.
-     * @throws SAXException Syntactical or semantical problem occurred.
-     * @throws IOException Technical problem occurred.
+     * @param   file            Parse this input.
+     * @throws  IOException     Technical problem occurred.
+     * @throws  SAXException    Parsing problem.
      */
-    public final void parse(final File file) throws SAXException,
-            IOException {
-        this.xmlFile = file;
+    public final void parse(final File file) throws IOException,  SAXException {
+        xmlFile = file;
         elements.clear();
         level = 0;
         InputStream stream = null;
@@ -232,8 +231,26 @@ public final class XPathLocationParser extends SimpleHandler {
             current = new SimpleXPath();
             summary = new SimpleXPath();
             reader.setContentHandler(this);
+// LATER 20110316 m31: this seems to have no effect, the error handler don't get the Exceptions! Why?
+//            reader.setErrorHandler(new ErrorHandler() {
+//
+//                public void error(SAXParseException exception) throws SAXException {
+//                    exception.printStackTrace(System.out);
+////                    throw exception;
+//                }
+//
+//                public void fatalError(SAXParseException exception) {
+//                    exception.printStackTrace(System.out);
+//                }
+//
+//                public void warning(SAXParseException exception)
+//                        throws SAXException {
+//                    exception.printStackTrace(System.out);
+//                }});
             stream = new FileInputStream(file);
             reader.parse(new InputSource(stream));
+        } catch (LocationFoundException e) {
+            // this is what we want!!!
         } catch (SAXException e) {
             Trace.trace(CLASS, this, "parse", e);
             throw e;
@@ -391,17 +408,25 @@ public final class XPathLocationParser extends SimpleHandler {
                         try {
                             tag = xml.readNextXmlName();
                         } catch (IllegalArgumentException e) {
-                            break; // LATER mime 20050621: create named exception in readNextXmlName
+                            break;
                         }
                         if (tag.equals(find.getAttribute())) {
                             start = new SourcePosition(row, col);
                             xml.readNextAttributeValue();
-                            this.end = new SourcePosition(xml.getRow(),
-                            xml.getColumn());
+                            end = new SourcePosition(xml.getRow(), xml.getColumn());
+                            throw new LocationFoundException();
+                        }
+                        try {
+                            xml.readNextAttributeValue();
+                        } catch (IllegalArgumentException e) {
                             break;
                         }
-                        xml.readNextAttributeValue();
                     } while (true);
+                    // did we found the attribute? if not we point to the complete xml tag
+                    if (end == null) {
+                        end = new SourcePosition(xml.getRow(), xml.getColumn());
+                        throw new LocationFoundException();
+                    }
                 }
             } finally {
                 IoUtility.close(xml);   // findbugs
@@ -494,7 +519,8 @@ public final class XPathLocationParser extends SimpleHandler {
                 xml.setRow(getLocator().getLineNumber());
                 xml.setColumn(getLocator().getColumnNumber());
                 // xml.skipForwardToEndOfXmlTag(); // LATER mime 20050810: remove? comment in?
-                this.end = new SourcePosition(xml.getRow(), xml.getColumn());
+                end = new SourcePosition(xml.getRow(), xml.getColumn());
+                throw new LocationFoundException();
             } finally {
                 IoUtility.close(xml);   // findbugs
             }

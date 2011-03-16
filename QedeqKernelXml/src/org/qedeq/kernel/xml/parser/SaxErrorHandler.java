@@ -29,7 +29,6 @@ import org.xml.sax.SAXParseException;
 /**
  * Error handler for XML parsing.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class SaxErrorHandler implements ErrorHandler {
