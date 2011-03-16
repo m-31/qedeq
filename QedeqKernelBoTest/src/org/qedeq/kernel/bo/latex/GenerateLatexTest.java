@@ -27,7 +27,7 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.service.latex.Qedeq2Latex;
+import org.qedeq.kernel.bo.service.latex.Qedeq2LatexExecutor;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.latex.QedeqBoDuplicateLanguageChecker;
 import org.qedeq.kernel.bo.test.KernelFacade;
@@ -402,7 +402,7 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             Trace.param(CLASS, method, "level", level);
             final Map parameters = new HashMap();
             parameters.put("info", "true");
-            final InputStream latex =(new Qedeq2Latex(new Qedeq2LatexPlugin(), prop, parameters)).createLatex(language, "1");
+            final InputStream latex =(new Qedeq2LatexExecutor(new Qedeq2LatexPlugin(), prop, parameters)).createLatex(language, "1");
             if (to != null) {
                 IoUtility.createNecessaryDirectories(to);
                 IoUtility.saveFile(latex, to);
