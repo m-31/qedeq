@@ -16,17 +16,9 @@
 package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.kernel.se.base.module.Add;
-import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.Formula;
-import org.qedeq.kernel.se.base.module.ModusPonens;
-import org.qedeq.kernel.se.base.module.Reason;
-import org.qedeq.kernel.se.base.module.Rename;
-import org.qedeq.kernel.se.base.module.SubstFree;
-import org.qedeq.kernel.se.base.module.SubstFunc;
-import org.qedeq.kernel.se.base.module.SubstPred;
-import org.qedeq.kernel.se.base.module.Universal;
+import org.qedeq.kernel.se.base.module.ReasonType;
 
 
 /**
@@ -40,7 +32,7 @@ public class FormalProofLineVo implements FormalProofLine {
     private String label;
 
     /** Rule that is used for deriving. */
-    private Reason reason;
+    private ReasonType reasonType;
 
     /** Derived formula. */
     private Formula formula;
@@ -48,25 +40,25 @@ public class FormalProofLineVo implements FormalProofLine {
     /**
      * Constructs an proof line.
      *
-     * @param   formula New derived formula.
-     * @param   reason  Rule that was used to derive the formula.
+     * @param   formula     New derived formula.
+     * @param   reasonType  Rule that was used to derive the formula.
      */
-    public FormalProofLineVo(final Formula formula, final Reason reason) {
+    public FormalProofLineVo(final Formula formula, final ReasonType reasonType) {
         this.label = null;
-        this.reason = reason;
+        this.reasonType = reasonType;
         this.formula = formula;
     }
 
     /**
      * Constructs an proof line.
      *
-     * @param   label   Label for back references. Might be <code>null</code>.
-     * @param   formula New derived formula.
-     * @param   reason  Rule that was used to derive the formula.
+     * @param   label       Label for back references. Might be <code>null</code>.
+     * @param   formula     New derived formula.
+     * @param   reasonType  Rule that was used to derive the formula.
      */
-    public FormalProofLineVo(final String label, final Formula formula, final Reason reason) {
+    public FormalProofLineVo(final String label, final Formula formula, final ReasonType reasonType) {
         this.label = label;
-        this.reason = reason;
+        this.reasonType = reasonType;
         this.formula = formula;
     }
 
@@ -103,73 +95,17 @@ public class FormalProofLineVo implements FormalProofLine {
         this.label = label;
     }
 
-    public Reason getReason() {
-        return reason;
+    public ReasonType getReasonType() {
+        return reasonType;
     }
 
     /**
-     * Set used rule for proof line.
+     * Set reason type for proof line.
      *
-     * @param   reason  This rule  was used.
+     * @param   reasonType      Set this reason type.
      */
-    public void setReason(final Reason reason) {
-        this.reason = reason;
-    }
-
-    public Add getAdd() {
-        if (reason instanceof Add) {
-            return (Add) reason;
-        }
-        return null;
-    }
-
-    public Existential getExistential() {
-        if (reason instanceof Existential) {
-            return (Existential) reason;
-        }
-        return null;
-    }
-
-    public ModusPonens getModusPonens() {
-        if (reason instanceof ModusPonens) {
-            return (ModusPonens) reason;
-        }
-        return null;
-    }
-
-    public Rename getRename() {
-        if (reason instanceof Rename) {
-            return (Rename) reason;
-        }
-        return null;
-    }
-
-    public SubstFree getSubstFree() {
-        if (reason instanceof SubstFree) {
-            return (SubstFree) reason;
-        }
-        return null;
-    }
-
-    public SubstFunc getSubstFunc() {
-        if (reason instanceof SubstFunc) {
-            return (SubstFunc) reason;
-        }
-        return null;
-    }
-
-    public SubstPred getSubstPred() {
-        if (reason instanceof SubstPred) {
-            return (SubstPred) reason;
-        }
-        return null;
-    }
-
-    public Universal getUniversal() {
-        if (reason instanceof Universal) {
-            return (Universal) reason;
-        }
-        return null;
+    public void setReasonType(final ReasonType reasonType) {
+        this.reasonType = reasonType;
     }
 
     public boolean equals(final Object obj) {
@@ -179,18 +115,18 @@ public class FormalProofLineVo implements FormalProofLine {
         final FormalProofLineVo other = (FormalProofLineVo) obj;
         return  EqualsUtility.equals(label, other.label)
           && EqualsUtility.equals(formula, other.formula)
-          && EqualsUtility.equals(reason, other.reason);
+          && EqualsUtility.equals(reasonType, other.reasonType);
     }
 
     public int hashCode() {
         return (label != null ? label.hashCode() : 0)
            ^ (formula != null ?  1 ^ formula.hashCode() : 0)
-           ^ (reason != null ?  2 ^ reason.hashCode() : 0);
+           ^ (reasonType != null ?  2 ^ reasonType.hashCode() : 0);
     }
 
     public String toString() {
         return (label != null ? "[" + label + "] " : "    ") + getFormula() + " "
-            + getReason();
+            + getReasonType();
     }
 
 }

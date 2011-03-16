@@ -47,6 +47,7 @@ import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.ReasonType;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
@@ -262,6 +263,14 @@ public interface QedeqVisitor extends ListVisitor {
      * @throws  ModuleDataException Major problem occurred.
      */
     public void visitEnter(FormalProofLine proofLine) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   reasonType          End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(ReasonType reasonType) throws ModuleDataException;
 
     /**
      * Visit certain element. Begin of visit.
@@ -638,6 +647,14 @@ public interface QedeqVisitor extends ListVisitor {
      * @throws  ModuleDataException Major problem occurred.
      */
     public void visitLeave(FormalProofLine proofLine) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   reasonType          End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(ReasonType reasonType) throws ModuleDataException;
 
     /**
      * Visit certain element. End of visit.

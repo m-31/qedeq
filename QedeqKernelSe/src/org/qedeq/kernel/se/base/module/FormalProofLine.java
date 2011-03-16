@@ -42,62 +42,6 @@ public interface FormalProofLine {
      *
      * @return  Reason.
      */
-    public Reason getReason();
-
-    /**
-     * Get ModusPonens reason for deriving this line.
-     *
-     * @return  Reason.
-     */
-    public ModusPonens getModusPonens();
-
-    /**
-     * Get Addition reason for deriving this line.
-     *
-     * @return  Reason.
-     */
-    public Add getAdd();
-
-    /**
-     * Get Rename bound subject variable reason for deriving this line.
-     *
-     * @return  Reason.
-     */
-    public Rename getRename();
-
-    /**
-     * Get Substitute free subject variable reason for deriving this line.
-     *
-     * @return  Reason.
-     */
-    public SubstFree getSubstFree();
-
-    /**
-     * Get Substitute function variable reason for deriving this line.
-     *
-     * @return  Reason.
-     */
-    public SubstFunc getSubstFunc();
-
-    /**
-     * Get Substitute predicate variable reason for deriving this line.
-     *
-     * @return  Reason.
-     */
-    public SubstPred getSubstPred();
-
-    /**
-     * Get Existential generalization reason for deriving this line.
-     *
-     * @return  Reason.
-     */
-    public Existential getExistential();
-
-    /**
-     * Get Universal generalization reason for deriving this line.
-     *
-     * @return  Reason.
-     */
-    public Universal getUniversal();
+    public ReasonType getReasonType();
 
 }

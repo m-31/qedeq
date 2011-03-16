@@ -103,7 +103,7 @@ public class ModusPonensVo implements ModusPonens {
 
     public int hashCode() {
         return (reference1 != null ? reference1.hashCode() : 0)
-           ^ (reference2 != null ?  1 ^ reference2.hashCode() : 0);
+           + (reference2 != null ?  1 ^ reference2.hashCode() : 0);
     }
 
     public String toString() {

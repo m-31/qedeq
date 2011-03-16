@@ -34,6 +34,8 @@ import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
+import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
+import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.Latex;
 import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.LinkList;
@@ -48,6 +50,7 @@ import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
+import org.qedeq.kernel.se.base.module.ReasonType;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
@@ -242,6 +245,22 @@ public interface QedeqTraverser {
     public void accept(final PredicateDefinition definition) throws ModuleDataException;
 
     /**
+     * Traverse initial predicate definition.
+     *
+     * @param   definition      Traverse this element.
+     * @throws  ModuleDataException     Severe error during occurred.
+     */
+    public void accept(final InitialPredicateDefinition definition) throws ModuleDataException;
+
+    /**
+     * Traverse initial function definition.
+     *
+     * @param   definition      Traverse this element.
+     * @throws  ModuleDataException     Severe error during occurred.
+     */
+    public void accept(final InitialFunctionDefinition definition) throws ModuleDataException;
+
+    /**
      * Traverse function definition.
      *
      * @param   definition      Traverse this element.
@@ -312,6 +331,14 @@ public interface QedeqTraverser {
      * @throws  ModuleDataException     Severe error during occurred.
      */
     public void accept(final FormalProofLine proofLine) throws ModuleDataException;
+
+    /**
+     * Traverse formal proof line reason.
+     *
+     * @param   reasonType              Traverse this element.
+     * @throws  ModuleDataException     Severe error during occurred.
+     */
+    public void accept(final ReasonType reasonType) throws ModuleDataException;
 
     /**
      * Traverse formal proof line reason.
