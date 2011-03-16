@@ -42,7 +42,22 @@ public final class DefaultElementList implements ElementList {
 
 
     /**
-     * Constructs a element list.
+     * Constructs an element list with no elements.
+     *
+     * @param   operator    Operator name.
+     * @throws  IllegalArgumentException Element or operator was a NullPointer.
+     */
+    public DefaultElementList(final String operator) {
+        if (operator == null) {
+            throw new IllegalArgumentException(
+                "NullPointer as operator is not allowed");
+        }
+        this.operator = operator;
+        this.elements = new ArrayList();
+    }
+
+    /**
+     * Constructs an element list.
      *
      * @param   operator    Operator name.
      * @param   elements the elements to make a list of

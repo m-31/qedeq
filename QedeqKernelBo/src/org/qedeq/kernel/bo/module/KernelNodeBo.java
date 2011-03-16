@@ -103,6 +103,15 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
     }
 
     /**
+     * Get parent module the node is within.
+     *
+     * @return  Parent module the node is within.
+     */
+    public KernelQedeqBo getQedeqBo() {
+        return qedeq;
+    }
+
+    /**
      * Get the results of various counters for the node.
      *
      * @return  Herein are the results of various counters for the node.

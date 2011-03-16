@@ -15,11 +15,13 @@
 
 package org.qedeq.kernel.bo.logic.proof.basic;
 
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
+import org.qedeq.kernel.bo.logic.wf.FormulaUtility;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Existential;
@@ -67,6 +69,8 @@ public class ProofCheckerImpl implements ProofChecker {
     /** Is the proof invalid? */
     private boolean proofInvalid = false;
 
+    private ModuleContext moduleContext;
+
     /**
      * Constructor.
      *
@@ -82,6 +86,7 @@ public class ProofCheckerImpl implements ProofChecker {
         this.proof = proof;
         this.resolver = resolver;
         this.existence = existence;
+        this.moduleContext = moduleContext;
         // use copy constructor
         currentContext = new ModuleContext(moduleContext);
         exceptions = new LogicalCheckExceptionList();
@@ -157,19 +162,32 @@ public class ProofCheckerImpl implements ProofChecker {
     }
 
 
-    private void check(Add add, int i, final Element element) {
+    private void check(final Add add, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         if (!resolver.hasProvedFormula(add.getReference())) {
             setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
-                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
-                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
-                    + add.getReference(),
-                    getCurrentContext());
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                + add.getReference(),
+                getCurrentContext());
+            return;
+        }
+        final Element expected = resolver.getNormalizedReferenceFormula(add.getReference());
+        final Element current = resolver.getNormalizedFormula(proof.get(i).getFormula().getElement());
+        if (!EqualsUtility.equals(expected, current)) {
+            final ModuleContext lc = new ModuleContext(moduleContext.getModuleLocation(),
+                moduleContext.getLocationWithinModule() + ".get(" + i + ").getFormula().getElement()"
+                + FormulaUtility.getDifferenceLocation(current, expected));
+            handleProofCheckException(
+                BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
+                BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
+                + add.getReference(),
+                lc);
         }
     }
 
-    private void check(ModusPonens mp, int i, final Element element) {
+    private void check(final ModusPonens mp, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         if (!resolver.hasProvedFormula(mp.getReference1())) {
             setLocationWithinModule(context + ".getReference1()");

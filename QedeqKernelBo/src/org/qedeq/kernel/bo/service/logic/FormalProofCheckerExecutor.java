@@ -23,14 +23,18 @@ import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofCheckerFactoryImpl;
+import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
+import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.common.ProofCheckerFactory;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
+import org.qedeq.kernel.bo.logic.wf.FormulaUtility;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.Reference;
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
@@ -46,6 +50,8 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.dto.list.DefaultAtom;
+import org.qedeq.kernel.se.dto.list.DefaultElementList;
 
 
 /**
@@ -355,20 +361,13 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         getCurrentContext().setLocationWithinModule(locationWithinModule);
     }
 
-    public Element getReferenceFormula(String reference) {
+    public Element getNormalizedReferenceFormula(final String reference) {
         if (!hasProvedFormula(reference)) {
             return null;
         }
         final Reference ref = getReference(reference, getCurrentContext(), false, false);
         final Element formula = ref.getNode().getFormula();
-        if (!ref.isExternal()) {
-            return formula.getList();
-        }
-        // for an external formula we must transform the predicate and function references
-        // accordingly
-        // FIXME
-        return null;
-//        return newFormula;
+        return getNormalizedFormula(ref.getNode().getQedeqBo(), formula);
     }
 
     public boolean hasProvedFormula(final String reference) {
@@ -411,10 +410,51 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         return ref.getNode().isProved(ref.getProofLineLabel());
     }
 
-    public void setLastProved(int proofLineNumber) {
+    public void setLastProved(final int proofLineNumber) {
         // FIXME 20110316 m31: evaluate correct formal proof number (here 0 is only the first one!)
         System.out.println("setting last ok proof line number to " + proofLineNumber);
         getNodeBo().setLastProvedLine(0, proofLineNumber);
+    }
+
+    public Element getNormalizedFormula(final Element formula) {
+        return getNormalizedFormula(getQedeqBo(), formula);
+    }
+
+    public Element getNormalizedFormula(final KernelQedeqBo qedeq, final Element formula) {
+        if (formula.isAtom()) {
+            return new DefaultAtom(formula.getAtom().getString());
+        }
+        return getNormalizedFormula(qedeq, formula.getList());
+    }
+
+    public ElementList getNormalizedFormula(final KernelQedeqBo qedeq, final ElementList formula) {
+        final ElementList result = new DefaultElementList(formula.getOperator());
+        if (FormulaUtility.isPredicateConstant(formula)) {
+            final PredicateKey key = new PredicateKey(formula.getElement(0).getAtom().getString(),
+                "" + (formula.getList().size() - 1));
+            final DefaultAtom atom = new DefaultAtom(
+                qedeq.getExistenceChecker().get(key).getContext().getModuleLocation().getUrl()
+                + "$" + key.getName());
+            result.add(atom);
+            for (int i = 1; i < formula.size(); i++) {
+                result.add(getNormalizedFormula(qedeq, formula.getElement(i)));
+            }
+        } else if (FormulaUtility.isFunctionConstant(formula)) {
+            final FunctionKey key = new FunctionKey(formula.getElement(0).getAtom().getString(),
+                    "" + (formula.getList().size() - 1));
+            final DefaultAtom atom = new DefaultAtom(
+                qedeq.getExistenceChecker().get(key).getContext().getModuleLocation().getUrl()
+                + "$" + key.getName());
+            result.add(atom);
+            for (int i = 1; i < formula.size(); i++) {
+                result.add(getNormalizedFormula(qedeq, formula.getElement(i)));
+            }
+        } else {
+            for (int i = 0; i < formula.size(); i++) {
+                result.add(getNormalizedFormula(qedeq, formula.getElement(i)));
+            }
+        }
+        return result;
     }
 
 }

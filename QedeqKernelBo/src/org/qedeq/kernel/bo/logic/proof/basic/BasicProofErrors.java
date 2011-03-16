@@ -56,4 +56,12 @@ public interface BasicProofErrors extends ErrorCodes {
         = "this is not a reference to a proved formula: ";
 
 
+    /** Error code. */
+    public static final int EXPECTED_FORMULA_DIFFERS_CODE = 37140;
+
+    /** Error message. */
+    public static final String EXPECTED_FORMULA_DIFFERS_TEXT
+        = "this is not the expected formula: ";
+
+
 }

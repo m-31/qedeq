@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.bo.logic.wf;
 
+import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.Element;
@@ -190,6 +191,60 @@ public final class FormulaUtility implements Operators {
             }
         }
         return bound;
+    }
+
+    /**
+     * Get relative context of the first difference between the given elements.
+     *
+     * @param   first   First element.
+     * @param   second  Second element.
+     * @return  Relative path (beginning with ".") of first difference.
+     */
+    public static String getDifferenceLocation(final Element first, final Element second) {
+        final StringBuffer diff = new StringBuffer();
+        equal(diff, first, second);
+        return diff.toString();
+    }
+
+    /**
+     * Is there any difference between the two elements? If so, the context has the difference
+     * position.
+     *
+     * @param   firstContext    Context (might be relative) for first element.
+     * @param   first           First element.
+     * @param   second          Second element.
+     * @return  Are both elements equal?
+     */
+    private static boolean equal(final StringBuffer firstContext,
+            final Element first, final Element second) {
+        if (first == null) {
+            return second == null;
+        }
+        if (first.isAtom()) {
+            if (!second.isAtom()) {
+                return false;
+            }
+            return EqualsUtility.equals(first.getAtom().getString(), second.getAtom().getString());
+        }
+        if (second.isAtom()) {
+            return false;
+        }
+        if (!EqualsUtility.equals(first.getList().getOperator(), second.getList().getOperator())) {
+            return false;
+        }
+        if (first.getList().size() != second.getList().size()) {
+            return false;
+        }
+        for (int i = 0; i < first.getList().size(); i++) {
+            final int length = firstContext.length();
+            firstContext.append(".getList().getElement(" + i + ")");
+            if (!equal(firstContext, first.getList().getElement(i),
+                    second.getList().getElement(i))) {
+                return false;
+            }
+            firstContext.setLength(length);
+        }
+        return true;
     }
 
 }

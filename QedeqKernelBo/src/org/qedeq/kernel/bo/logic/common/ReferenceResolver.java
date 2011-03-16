@@ -34,12 +34,21 @@ public interface ReferenceResolver {
     public boolean hasProvedFormula(String reference);
 
     /**
-     * Get reference formula in an local format.
+     * Get reference formula in a normalized format.
      *
      * @param   reference   Reference to axiom, definition or proposition.
      * @return  Already proved formula.
      */
-    public Element getReferenceFormula(String reference);
+    public Element getNormalizedReferenceFormula(String reference);
+
+
+    /**
+     * Get reference formula in an local format.
+     *
+     * @param   formula   Local formula to normalize.
+     * @return  Normalized formula.
+     */
+    public Element getNormalizedFormula(Element formula);
 
 
     /**
