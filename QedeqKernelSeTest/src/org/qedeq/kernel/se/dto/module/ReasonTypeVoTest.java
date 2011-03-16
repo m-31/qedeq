@@ -17,17 +17,29 @@ package org.qedeq.kernel.se.dto.module;
 
 
 /**
- * Test class {@link org.qedeq.kernel.se.dto.module.FormalProofLineVo}.
+ * Test class {@link org.qedeq.kernel.se.dto.module.ReasonTypeVo}.
  *
  * @author  Michael Meyling
  */
-public class FormalProofLineVoTest extends AbstractVoModuleTest {
+public class ReasonTypeVoTest extends AbstractVoModuleTest {
 
     /** This class is tested. */
-    private Class clazz = FormalProofLineVo.class;
+    private Class clazz = ReasonTypeVo.class;
+
+
+    protected void setUp() throws Exception {
+        super.setUp();
+        removeMethodToCheck("getModusPonens");
+        removeMethodToCheck("getAdd");
+        removeMethodToCheck("getExistential");
+        removeMethodToCheck("getRename");
+        removeMethodToCheck("getSubstFunc");
+        removeMethodToCheck("getSubstFree");
+        removeMethodToCheck("getSubstPred");
+        removeMethodToCheck("getUniversal");
+    }
 
     protected Class getTestedClass() {
         return clazz;
     }
-
 }

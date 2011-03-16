@@ -50,6 +50,7 @@ import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.base.module.Reason;
+import org.qedeq.kernel.se.base.module.ReasonType;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
@@ -108,6 +109,7 @@ public abstract class AbstractVoModuleTest extends AbstractValueObjectTest {
         interface2ConcreteClass.put(Proposition.class, PropositionVo.class);
         interface2ConcreteClass.put(Qedeq.class, QedeqVo.class);
         interface2ConcreteClass.put(Rename.class, RenameVo.class);
+        interface2ConcreteClass.put(ReasonType.class, ReasonTypeVo.class);
         interface2ConcreteClass.put(Rule.class, RuleVo.class);
         interface2ConcreteClass.put(Section.class, SectionVo.class);
         interface2ConcreteClass.put(SectionList.class, SectionListVo.class);
