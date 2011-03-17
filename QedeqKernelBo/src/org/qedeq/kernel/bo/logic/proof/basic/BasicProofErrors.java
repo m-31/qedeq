@@ -64,4 +64,44 @@ public interface BasicProofErrors extends ErrorCodes {
         = "this is not the expected formula: ";
 
 
+    /** Error code. */
+    public static final int LOCAL_LABEL_ALREADY_EXISTS_CODE = 37150;
+
+    /** Error message. */
+    public static final String LOCAL_LABEL_ALREADY_EXISTS_TEXT
+        = "this proof line label exists already in this proof: ";
+
+
+    /** Error code. */
+    public static final int SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE = 37160;
+
+    /** Error message. */
+    public static final String SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
+        = "this proof line label dosn't (yet) exist in this proof: ";
+
+
+    /** Error code. */
+    public static final int IMPLICATION_EXPECTED_CODE = 37170;
+
+    /** Error message. */
+    public static final String IMPLICATION_EXPECTED_TEXT
+        = "this proof line label must point to an implication (with two arguments): ";
+
+
+    /** Error code. */
+    public static final int MUST_BE_HYPOTHESIS_OF_FIRST_REFERENCE_CODE = 37180;
+
+    /** Error message. */
+    public static final String MUST_BE_HYPOTHESIS_OF_FIRST_REFERENCE_TEXT
+        = "this proof line label must be the hypothesis for the first reference: ";
+
+
+    /** Error code. */
+    public static final int CURRENT_MUST_BE_CONCLUSION_CODE = 37190;
+
+    /** Error message. */
+    public static final String CURRENT_MUST_BE_CONCLUSION_TEXT
+        = "this proof line must be the conclusion of the first reference: ";
+
+
 }

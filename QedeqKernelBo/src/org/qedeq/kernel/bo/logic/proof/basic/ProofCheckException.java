@@ -49,8 +49,8 @@ public class ProofCheckException extends LogicalCheckException {
      * @param  errorCode        ErrorCode of this message.
      * @param  message          What is the problem.
      * @param  element          Problematic formula.
-     * @param  context             Error location. Not necessarily pointing to
-     *                                  <code>element</code>.
+     * @param  context          Error location. Not necessarily pointing to
+     *                              <code>element</code>.
      */
     public ProofCheckException(final int errorCode, final String message,
             final Element element, final ModuleContext context) {
@@ -62,7 +62,7 @@ public class ProofCheckException extends LogicalCheckException {
      *
      * @param  errorCode        ErrorCode of this message.
      * @param  message          What is the problem.
-     * @param  context             Error location. Not necessarily pointing to
+     * @param  context          Error location. Not necessarily pointing to
      *                                  <code>element</code>.
      */
     public ProofCheckException(final int errorCode, final String message,

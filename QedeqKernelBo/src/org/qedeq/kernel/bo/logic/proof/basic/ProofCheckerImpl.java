@@ -15,10 +15,14 @@
 
 package org.qedeq.kernel.bo.logic.proof.basic;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
+import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
 import org.qedeq.kernel.bo.logic.wf.FormulaUtility;
@@ -36,10 +40,11 @@ import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.dto.list.DefaultElementList;
 
 
 /**
- *
+ * Formal proof checker for basic rules.
  *
  * @author  Michael Meyling
  */
@@ -72,6 +77,9 @@ public class ProofCheckerImpl implements ProofChecker {
     /** Array with proof status for each proof line. */
     private boolean[] lineProved;
 
+    /** Maps local proof line labels to local line number Integers. */
+    private Map label2line;
+
     /** Is the proof invalid? */
     private boolean proofInvalid = false;
 
@@ -95,6 +103,7 @@ public class ProofCheckerImpl implements ProofChecker {
         exceptions = new LogicalCheckExceptionList();
         final String context = moduleContext.getLocationWithinModule();
         lineProved = new boolean[proof.size()];
+        label2line = new HashMap();
         for (int i = 0; i < proof.size(); i++) {
             boolean ok = true;
             setLocationWithinModule(context + ".get("  + i + ")");
@@ -164,6 +173,23 @@ public class ProofCheckerImpl implements ProofChecker {
                 ok = check(reasonType.getModusPonens(), i, line.getFormula().getElement());
             }
             lineProved[i] = ok;
+            if (line.getLabel() != null && line.getLabel().length() > 0) {
+                final Integer n = (Integer) label2line.get(line.getLabel());
+                if (n != null) {
+                    final ModuleContext lc = new ModuleContext(moduleContext.getModuleLocation(),
+                        moduleContext.getLocationWithinModule() + ".get("
+                        + ((Integer) label2line.get(line.getLabel()))
+                        + ").getLabel()");
+                    setLocationWithinModule(context + ".get("  + i + ").getLabel()");
+                    handleProofCheckException(
+                        BasicProofErrors.LOCAL_LABEL_ALREADY_EXISTS_CODE,
+                        BasicProofErrors.LOCAL_LABEL_ALREADY_EXISTS_TEXT
+                        + line.getLabel(),
+                        getCurrentContext(),
+                        getModuleContextOfProofLineFormula(i));
+                }
+                label2line.put(line.getLabel(), new Integer(i));
+            }
             if (!proofInvalid) {
                 resolver.setLastProved(i);
             }
@@ -188,14 +214,11 @@ public class ProofCheckerImpl implements ProofChecker {
         final Element current = resolver.getNormalizedFormula(element);
         if (!EqualsUtility.equals(expected, current)) {
             ok = false;
-            final ModuleContext lc = new ModuleContext(moduleContext.getModuleLocation(),
-                moduleContext.getLocationWithinModule() + ".get(" + i + ").getFormula().getElement()"
-                + FormulaUtility.getDifferenceLocation(current, expected));
             handleProofCheckException(
                 BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
                 BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
                 + add.getReference(),
-                lc);
+                getDiffModuleContextOfProofLineFormula(i, expected));
             return ok;
         }
         return ok;
@@ -204,7 +227,16 @@ public class ProofCheckerImpl implements ProofChecker {
     private boolean check(final ModusPonens mp, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        if (!resolver.hasProvedFormula(mp.getReference1())) {
+        final Integer n1 = (Integer) label2line.get(mp.getReference1());
+        if (n1 == null) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference1()");
+            handleProofCheckException(
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
+                + mp.getReference1(),
+                getCurrentContext());
+        } else if (!lineProved[n1.intValue()]) {
             ok = false;
             setLocationWithinModule(context + ".getReference1()");
             handleProofCheckException(
@@ -213,18 +245,97 @@ public class ProofCheckerImpl implements ProofChecker {
                 + mp.getReference1(),
                 getCurrentContext());
         }
-        if (!resolver.hasProvedFormula(mp.getReference2())) {
+        final Integer n2 = (Integer) label2line.get(mp.getReference2());
+        if (n2 == null) {
             ok = false;
-            setLocationWithinModule(context + ".getReference1()");
+            setLocationWithinModule(context + ".getReference2()");
+            handleProofCheckException(
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
+                + mp.getReference2(),
+                getCurrentContext());
+        } else if (!lineProved[n2.intValue()]) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference2()");
             handleProofCheckException(
                 BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
                 BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
                 + mp.getReference1(),
                 getCurrentContext());
+        }
+        if (ok) {
+            final Element f1 = getNormalizedProofLine(n1);
+            final Element f2 = getNormalizedProofLine(n2);
+            final Element current = getNormalizedProofLine(i);
+            if (!Operators.IMPLICATION_OPERATOR.equals(f1.getList().getOperator())
+                    || f1.getList().size() != 2) {
+                ok = false;
+                setLocationWithinModule(context + ".getReference1()");
+                handleProofCheckException(
+                    BasicProofErrors.IMPLICATION_EXPECTED_CODE,
+                    BasicProofErrors.IMPLICATION_EXPECTED_TEXT
+                    + mp.getReference1(),
+                    getCurrentContext());
+            } else if (!f2.equals(f1.getList().getElement(0))) {
+                ok = false;
+                setLocationWithinModule(context + ".getReference2()");
+                handleProofCheckException(
+                    BasicProofErrors.MUST_BE_HYPOTHESIS_OF_FIRST_REFERENCE_CODE,
+                    BasicProofErrors.MUST_BE_HYPOTHESIS_OF_FIRST_REFERENCE_TEXT
+                    + mp.getReference2(),
+                    getCurrentContext(),
+                    getModuleContextOfProofLineFormula(n1.intValue()));
+            } else if (!current.equals(f1.getList().getElement(1))) {
+                ok = false;
+                setLocationWithinModule(context + ".getReference1()");
+                handleProofCheckException(
+                    BasicProofErrors.CURRENT_MUST_BE_CONCLUSION_CODE,
+                    BasicProofErrors.CURRENT_MUST_BE_CONCLUSION_TEXT
+                    + mp.getReference1(),
+                    getCurrentContext(),
+                    getModuleContextOfProofLineFormula(n1.intValue()));
+            } else {
+                ok = true;
+            }
         }
         return ok;
     }
 
+    private ModuleContext getModuleContextOfProofLineFormula(final int i) {
+        return new ModuleContext(moduleContext.getModuleLocation(),
+            moduleContext.getLocationWithinModule() + ".get(" + i
+            + ").getFormula().getElement()");
+    }
+
+    private ModuleContext getDiffModuleContextOfProofLineFormula(final int i,
+            final Element expected) {
+        final String diff = FormulaUtility.getDifferenceLocation(
+            proof.get(i).getFormula().getElement(),  expected);
+        return new ModuleContext(moduleContext.getModuleLocation(),
+            moduleContext.getLocationWithinModule() + ".get(" + i
+            + ").getFormula().getElement()" + diff);
+    }
+
+    private Element getNormalizedProofLine(final String label) {
+        if (label == null || label.length() > 0 || null == label2line.get(label)) {
+            return null;
+        }
+        return getNormalizedProofLine(((Integer) label2line.get(label)).intValue());
+    }
+
+    private Element getNormalizedProofLine(final Integer n) {
+        if (n == null) {
+            return null;
+        }
+        return getNormalizedProofLine(n.intValue());
+    }
+
+    private Element getNormalizedProofLine(final int i) {
+        if (i < 0 || i >= proof.size()) {
+            return null;
+        }
+        return resolver.getNormalizedFormula(proof.get(i).getFormula().getElement());
+    }
 
     /**
      * Add new {@link ProofCheckException} to exception list.
@@ -236,6 +347,8 @@ public class ProofCheckerImpl implements ProofChecker {
      */
     private void handleProofCheckException(final int code, final String msg,
             final Element element, final ModuleContext context) {
+        System.out.println(context);    // FIXME
+        System.setProperty("qedeq.test.xmlLocationFailures", "true");  // FIXME
         final ProofCheckException ex = new ProofCheckException(code, msg, element, context);
         proofInvalid = true;
         exceptions.add(ex);
@@ -253,6 +366,24 @@ public class ProofCheckerImpl implements ProofChecker {
         System.out.println(context);    // FIXME
         System.setProperty("qedeq.test.xmlLocationFailures", "true");  // FIXME
         final ProofCheckException ex = new ProofCheckException(code, msg, context);
+        proofInvalid = true;
+        exceptions.add(ex);
+    }
+
+    /**
+     * Add new {@link ProofCheckException} to exception list.
+     *
+     * @param code              Error code.
+     * @param msg               Error message.
+     * @param context           Error context.
+     * @param referenceContext  Reference context.
+     */
+    private void handleProofCheckException(final int code, final String msg,
+            final ModuleContext context, final ModuleContext referenceContext) {
+        System.out.println(context);    // FIXME
+        System.setProperty("qedeq.test.xmlLocationFailures", "true");  // FIXME
+        final ProofCheckException ex = new ProofCheckException(code, msg, null, context,
+            referenceContext);
         proofInvalid = true;
         exceptions.add(ex);
     }
