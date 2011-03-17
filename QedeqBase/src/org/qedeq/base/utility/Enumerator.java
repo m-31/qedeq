@@ -27,7 +27,7 @@ public final class Enumerator {
     private int number;
 
     /**
-     * Constructs an object.
+     * Constructs an object with 0 as start number.
      */
     public Enumerator() {
         number = 0;
