@@ -361,15 +361,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         getCurrentContext().setLocationWithinModule(locationWithinModule);
     }
 
-    public Element getNormalizedReferenceFormula(final String reference) {
-        if (!hasProvedFormula(reference)) {
-            return null;
-        }
-        final Reference ref = getReference(reference, getCurrentContext(), false, false);
-        final Element formula = ref.getNode().getFormula();
-        return getNormalizedFormula(ref.getNode().getQedeqBo(), formula);
-    }
-
     public boolean hasProvedFormula(final String reference) {
         final Reference ref = getReference(reference, getCurrentContext(), false, false);
         if (ref == null) {
@@ -416,18 +407,27 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         getNodeBo().setLastProvedLine(0, proofLineNumber);
     }
 
+    public Element getNormalizedReferenceFormula(final String reference) {
+        if (!hasProvedFormula(reference)) {
+            return null;
+        }
+        final Reference ref = getReference(reference, getCurrentContext(), false, false);
+        final Element formula = ref.getNode().getFormula();
+        return getNormalizedFormula(ref.getNode().getQedeqBo(), formula);
+    }
+
     public Element getNormalizedFormula(final Element formula) {
         return getNormalizedFormula(getQedeqBo(), formula);
     }
 
-    public Element getNormalizedFormula(final KernelQedeqBo qedeq, final Element formula) {
+    private Element getNormalizedFormula(final KernelQedeqBo qedeq, final Element formula) {
         if (formula.isAtom()) {
             return new DefaultAtom(formula.getAtom().getString());
         }
         return getNormalizedFormula(qedeq, formula.getList());
     }
 
-    public ElementList getNormalizedFormula(final KernelQedeqBo qedeq, final ElementList formula) {
+    private ElementList getNormalizedFormula(final KernelQedeqBo qedeq, final ElementList formula) {
         final ElementList result = new DefaultElementList(formula.getOperator());
         if (FormulaUtility.isPredicateConstant(formula)) {
             final PredicateKey key = new PredicateKey(formula.getElement(0).getAtom().getString(),

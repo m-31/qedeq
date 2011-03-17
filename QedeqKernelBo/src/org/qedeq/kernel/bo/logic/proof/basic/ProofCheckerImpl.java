@@ -54,7 +54,10 @@ public class ProofCheckerImpl implements ProofChecker {
     /** Proof we want to check. */
     private FormalProofLineList proof;
 
-    /** Current context during creation. */
+    /** Module context of proof line list. */
+    private ModuleContext moduleContext;
+
+    /** Current context. */
     private ModuleContext currentContext;
 
     /** Resolver for external references. */
@@ -66,10 +69,11 @@ public class ProofCheckerImpl implements ProofChecker {
     /** All exceptions that occurred during checking. */
     private LogicalCheckExceptionList exceptions;
 
+    /** Array with proof status for each proof line. */
+    private boolean[] lineProved;
+
     /** Is the proof invalid? */
     private boolean proofInvalid = false;
-
-    private ModuleContext moduleContext;
 
     /**
      * Constructor.
@@ -77,7 +81,6 @@ public class ProofCheckerImpl implements ProofChecker {
      */
     public ProofCheckerImpl() {
     }
-
 
     public LogicalCheckExceptionList checkProof(final Element formula,
             final FormalProofLineList proof, final ModuleContext moduleContext,
@@ -87,14 +90,17 @@ public class ProofCheckerImpl implements ProofChecker {
         this.resolver = resolver;
         this.existence = existence;
         this.moduleContext = moduleContext;
-        // use copy constructor
+        // use copy constructor for changing context
         currentContext = new ModuleContext(moduleContext);
         exceptions = new LogicalCheckExceptionList();
         final String context = moduleContext.getLocationWithinModule();
+        lineProved = new boolean[proof.size()];
         for (int i = 0; i < proof.size(); i++) {
+            boolean ok = true;
             setLocationWithinModule(context + ".get("  + i + ")");
             final FormalProofLine line = proof.get(i);
             if (line == null) {
+                ok = false;
                 handleProofCheckException(
                     BasicProofErrors.PROOF_LINE_MUST_NOT_BE_NULL_CODE,
                     BasicProofErrors.ELEMENT_MUST_NOT_BE_NULL_TEXT,
@@ -104,6 +110,7 @@ public class ProofCheckerImpl implements ProofChecker {
             setLocationWithinModule(context + ".get("  + i + ").getReasonType()");
             final ReasonType reasonType = line.getReasonType();
             if (reasonType == null) {
+                ok = false;
                 handleProofCheckException(
                     BasicProofErrors.REASON_MUST_NOT_BE_NULL_CODE,
                     BasicProofErrors.REASON_MUST_NOT_BE_NULL_TEXT,
@@ -112,6 +119,7 @@ public class ProofCheckerImpl implements ProofChecker {
             }
             final Reason reason = reasonType.getReason();
             if (reason == null) {
+                ok = false;
                 handleProofCheckException(
                     BasicProofErrors.REASON_MUST_NOT_BE_NULL_CODE,
                     BasicProofErrors.REASON_MUST_NOT_BE_NULL_TEXT,
@@ -137,23 +145,25 @@ public class ProofCheckerImpl implements ProofChecker {
                     && !(reason instanceof Universal)
                     && !(reason instanceof ModusPonens)
                 ) {
+                ok = false;
                 handleProofCheckException(
                         BasicProofErrors.THIS_IS_NO_ALLOWED_BASIC_REASON_CODE,
                         BasicProofErrors.THIS_IS_NO_ALLOWED_BASIC_REASON_TEXT
                         + reason.getName(),
                         getCurrentContext());
-                    continue;
+                continue;
             }
             if (reason instanceof Add) {
                 setLocationWithinModule(context + ".get("  + i + ").getReasonType()"
                         + ".getAdd()");
-                check(reasonType.getAdd(), i, line.getFormula().getElement());
+                ok = check(reasonType.getAdd(), i, line.getFormula().getElement());
             }
             if (reason instanceof ModusPonens) {
                 setLocationWithinModule(context + ".get("  + i + ").getReasonType()"
                         + ".getModusPonens()");
-                check(reasonType.getModusPonens(), i, line.getFormula().getElement());
+                ok = check(reasonType.getModusPonens(), i, line.getFormula().getElement());
             }
+            lineProved[i] = ok;
             if (!proofInvalid) {
                 resolver.setLastProved(i);
             }
@@ -161,21 +171,23 @@ public class ProofCheckerImpl implements ProofChecker {
         return exceptions;
     }
 
-
-    private void check(final Add add, final int i, final Element element) {
+    private boolean check(final Add add, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
+        boolean ok = true;
         if (!resolver.hasProvedFormula(add.getReference())) {
+            ok = false;
             setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
                 BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
                 BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
                 + add.getReference(),
                 getCurrentContext());
-            return;
+            return ok;
         }
         final Element expected = resolver.getNormalizedReferenceFormula(add.getReference());
-        final Element current = resolver.getNormalizedFormula(proof.get(i).getFormula().getElement());
+        final Element current = resolver.getNormalizedFormula(element);
         if (!EqualsUtility.equals(expected, current)) {
+            ok = false;
             final ModuleContext lc = new ModuleContext(moduleContext.getModuleLocation(),
                 moduleContext.getLocationWithinModule() + ".get(" + i + ").getFormula().getElement()"
                 + FormulaUtility.getDifferenceLocation(current, expected));
@@ -184,27 +196,33 @@ public class ProofCheckerImpl implements ProofChecker {
                 BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
                 + add.getReference(),
                 lc);
+            return ok;
         }
+        return ok;
     }
 
-    private void check(final ModusPonens mp, final int i, final Element element) {
+    private boolean check(final ModusPonens mp, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
+        boolean ok = true;
         if (!resolver.hasProvedFormula(mp.getReference1())) {
+            ok = false;
             setLocationWithinModule(context + ".getReference1()");
             handleProofCheckException(
-                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
-                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
-                    + mp.getReference1(),
-                    getCurrentContext());
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                + mp.getReference1(),
+                getCurrentContext());
         }
         if (!resolver.hasProvedFormula(mp.getReference2())) {
+            ok = false;
             setLocationWithinModule(context + ".getReference1()");
             handleProofCheckException(
-                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
-                    BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
-                    + mp.getReference1(),
-                    getCurrentContext());
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                + mp.getReference1(),
+                getCurrentContext());
         }
+        return ok;
     }
 
 
