@@ -29,6 +29,7 @@ public class LocationFoundException extends SAXException {
      * Constructor.
      */
     public LocationFoundException() {
+        super("Location found!");
     }
 
 
