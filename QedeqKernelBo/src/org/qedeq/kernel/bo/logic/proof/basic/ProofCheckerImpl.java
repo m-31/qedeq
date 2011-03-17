@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.logic.proof.basic;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.qedeq.base.utility.Enumerator;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
@@ -40,7 +41,6 @@ import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.common.ModuleContext;
-import org.qedeq.kernel.se.dto.list.DefaultElementList;
 
 
 /**
@@ -163,14 +163,17 @@ public class ProofCheckerImpl implements ProofChecker {
                 continue;
             }
             if (reason instanceof Add) {
-                setLocationWithinModule(context + ".get("  + i + ").getReasonType()"
-                        + ".getAdd()");
                 ok = check(reasonType.getAdd(), i, line.getFormula().getElement());
-            }
-            if (reason instanceof ModusPonens) {
-                setLocationWithinModule(context + ".get("  + i + ").getReasonType()"
-                        + ".getModusPonens()");
+            } else if (reason instanceof Rename) {
+                ok = check(reasonType.getRename(), i, line.getFormula().getElement());
+            } else if (reason instanceof ModusPonens) {
                 ok = check(reasonType.getModusPonens(), i, line.getFormula().getElement());
+            } else if (reason instanceof SubstFree) {
+                ok = check(reasonType.getSubstFree(), i, line.getFormula().getElement());
+            } else if (reason instanceof SubstPred) {
+                ok = check(reasonType.getSubstPred(), i, line.getFormula().getElement());
+            } else if (reason instanceof SubstFunc) {
+                ok = check(reasonType.getSubstFunc(), i, line.getFormula().getElement());
             }
             lineProved[i] = ok;
             if (line.getLabel() != null && line.getLabel().length() > 0) {
@@ -186,7 +189,7 @@ public class ProofCheckerImpl implements ProofChecker {
                         BasicProofErrors.LOCAL_LABEL_ALREADY_EXISTS_TEXT
                         + line.getLabel(),
                         getCurrentContext(),
-                        getModuleContextOfProofLineFormula(i));
+                        lc);
                 }
                 label2line.put(line.getLabel(), new Integer(i));
             }
@@ -220,6 +223,163 @@ public class ProofCheckerImpl implements ProofChecker {
                 + add.getReference(),
                 getDiffModuleContextOfProofLineFormula(i, expected));
             return ok;
+        }
+        return ok;
+    }
+
+    private boolean check(final Rename rename, final int i, final Element element) {
+        System.out.println("Testing rename");
+        final String context = currentContext.getLocationWithinModule();
+        boolean ok = true;
+        final Integer n = (Integer) label2line.get(rename.getReference());
+        if (n == null) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
+                + rename.getReference(),
+                getCurrentContext());
+        } else if (!lineProved[n.intValue()]) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                + rename.getReference(),
+                getCurrentContext());
+        } else {
+            final Element f = getNormalizedProofLine(n);
+            final Element expected = FormulaUtility.replaceSubjectVariableQuantifier(
+                rename.getOriginalSubjectVariable(),
+                rename.getReplacementSubjectVariable(), f, rename.getOccurrence(),
+                new Enumerator());
+            final Element current = resolver.getNormalizedFormula(element);
+            if (!EqualsUtility.equals(expected, current)) {
+                ok = false;
+                handleProofCheckException(
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
+                    + rename.getReference(),
+                    getDiffModuleContextOfProofLineFormula(i, expected));
+            } else {
+                ok = true;
+            }
+        }
+        System.out.println("rename status: " + ok);
+        return ok;
+    }
+
+    private boolean check(final SubstFree substfree, final int i, final Element element) {
+        final String context = currentContext.getLocationWithinModule();
+        boolean ok = true;
+        final Integer n = (Integer) label2line.get(substfree.getReference());
+        if (n == null) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
+                + substfree.getReference(),
+                getCurrentContext());
+        } else if (!lineProved[n.intValue()]) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                + substfree.getReference(),
+                getCurrentContext());
+        } else {
+            final Element f = getNormalizedProofLine(n);
+            final Element current = resolver.getNormalizedFormula(element);
+            final Element expected = f.replace(substfree.getSubjectVariable(),
+                resolver.getNormalizedFormula(substfree.getSubstituteTerm()));
+            if (!EqualsUtility.equals(current, expected)) {
+                ok = false;
+                handleProofCheckException(
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
+                    + substfree.getReference(),
+                    getDiffModuleContextOfProofLineFormula(i, expected));
+                return ok;
+            }
+        }
+        return ok;
+    }
+
+    private boolean check(final SubstPred substpred, final int i, final Element element) {
+        final String context = currentContext.getLocationWithinModule();
+        boolean ok = true;
+        final Integer n = (Integer) label2line.get(substpred.getReference());
+        if (n == null) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
+                + substpred.getReference(),
+                getCurrentContext());
+        } else if (!lineProved[n.intValue()]) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                + substpred.getReference(),
+                getCurrentContext());
+        } else {
+            final Element f = getNormalizedProofLine(n);
+            final Element current = resolver.getNormalizedFormula(element);
+            final Element expected = f.replace(substpred.getPredicateVariable(),
+                resolver.getNormalizedFormula(substpred.getSubstituteFormula()));
+            if (!EqualsUtility.equals(current, expected)) {
+                ok = false;
+                handleProofCheckException(
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
+                    + substpred.getReference(),
+                    getDiffModuleContextOfProofLineFormula(i, expected));
+                return ok;
+            }
+        }
+        return ok;
+    }
+
+    private boolean check(final SubstFunc substfunc, final int i, final Element element) {
+        final String context = currentContext.getLocationWithinModule();
+        boolean ok = true;
+        final Integer n = (Integer) label2line.get(substfunc.getReference());
+        if (n == null) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
+                + substfunc.getReference(),
+                getCurrentContext());
+        } else if (!lineProved[n.intValue()]) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                + substfunc.getReference(),
+                getCurrentContext());
+        } else {
+            final Element f = getNormalizedProofLine(n);
+            final Element current = resolver.getNormalizedFormula(element);
+            final Element expected = f.replace(substfunc.getFunctionVariable(),
+                resolver.getNormalizedFormula(substfunc.getSubstituteTerm()));
+            if (!EqualsUtility.equals(current, expected)) {
+                ok = false;
+                handleProofCheckException(
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
+                    + substfunc.getReference(),
+                    getDiffModuleContextOfProofLineFormula(i, expected));
+                return ok;
+            }
         }
         return ok;
     }

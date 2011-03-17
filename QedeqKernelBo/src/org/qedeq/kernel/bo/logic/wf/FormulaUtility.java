@@ -15,11 +15,13 @@
 
 package org.qedeq.kernel.bo.logic.wf;
 
+import org.qedeq.base.utility.Enumerator;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.se.dto.list.ElementSet;
 
 
@@ -142,11 +144,7 @@ public final class FormulaUtility implements Operators {
             free.add(element);
         } else if (element.isList()) {
             final ElementList list = element.getList();
-            final String operator = list.getOperator();
-            if (operator.equals(EXISTENTIAL_QUANTIFIER_OPERATOR)
-                || operator.equals(UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR)
-                || operator.equals(UNIVERSAL_QUANTIFIER_OPERATOR)
-                || operator.equals(CLASS_OP)) {
+            if (isBindingOperator(list)) {
                 for (int i = 1; i < list.size(); i++) {
                     free.union(getFreeSubjectVariables(list.getElement(i)));
                 }
@@ -170,12 +168,8 @@ public final class FormulaUtility implements Operators {
         final ElementSet bound = new ElementSet();
         if (element.isList()) {
             ElementList list = element.getList();
-            final String operator = list.getOperator();
             // if operator is quantifier or class term
-            if (operator.equals(EXISTENTIAL_QUANTIFIER_OPERATOR)
-                    || operator.equals(UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR)
-                    || operator.equals(UNIVERSAL_QUANTIFIER_OPERATOR)
-                    || operator.equals(CLASS_OP)) {
+            if (isBindingOperator(list)) {
                 // add subject variable to bound list
                 bound.add(list.getElement(0));
                 // add all bound variables of sub-elements
@@ -191,6 +185,23 @@ public final class FormulaUtility implements Operators {
             }
         }
         return bound;
+    }
+
+    /**
+     * Has the given list an operator that binds a subject variable?
+     *
+     * @param   list    Check for this operator.
+     * @return  Has it an binding operator with subject variable?
+     */
+    public static boolean isBindingOperator(final ElementList list) {
+        final String operator = list.getOperator();
+        if (operator == null || list.size() <= 0 || !isSubjectVariable(list.getElement(0))) {
+            return false;
+        }
+        return operator.equals(EXISTENTIAL_QUANTIFIER_OPERATOR)
+                || operator.equals(UNIQUE_EXISTENTIAL_QUANTIFIER_OPERATOR)
+                || operator.equals(UNIVERSAL_QUANTIFIER_OPERATOR)
+                || operator.equals(CLASS_OP);
     }
 
     /**
@@ -245,6 +256,42 @@ public final class FormulaUtility implements Operators {
             firstContext.setLength(length);
         }
         return true;
+    }
+
+    public static Element replaceSubjectVariableQuantifier(final Element originalSubjectVariable,
+            final Element replacementSubjectVariable, final Element formula,
+            final int occurrenceGoal, final Enumerator occurreneCurrent) {
+        if (formula.isAtom()) {
+            return formula.copy();
+        }
+        return replaceSubjectVariableQuantifier(originalSubjectVariable,
+            replacementSubjectVariable, formula.getList(), occurrenceGoal,
+            occurreneCurrent);
+    }
+
+    private static Element replaceSubjectVariableQuantifier(final Element originalSubjectVariable,
+            final Element replacementSubjectVariable, final ElementList formula,
+            final int occurrenceGoal, final Enumerator occurrenceCurrent) {
+        if (occurrenceCurrent.getNumber() > occurrenceGoal) {
+            return formula.copy();
+        }
+        final ElementList result = new DefaultElementList(formula.getOperator());
+        if (isBindingOperator(formula)
+                && formula.getElement(0).equals(originalSubjectVariable)) {
+            occurrenceCurrent.increaseNumber();
+            System.out.println("found: " + occurrenceCurrent);
+            if (occurrenceGoal == occurrenceCurrent.getNumber()) {
+                System.out.println("match: " + occurrenceGoal);
+                return formula.replace(originalSubjectVariable,
+                    replacementSubjectVariable);
+            }
+        }
+        for (int i = 0; i < formula.size(); i++) {
+            result.add(replaceSubjectVariableQuantifier(originalSubjectVariable,
+                replacementSubjectVariable, formula.getElement(i), occurrenceGoal,
+                occurrenceCurrent));
+        }
+        return result;
     }
 
 }

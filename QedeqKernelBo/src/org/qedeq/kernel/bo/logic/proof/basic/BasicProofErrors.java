@@ -61,7 +61,7 @@ public interface BasicProofErrors extends ErrorCodes {
 
     /** Error message. */
     public static final String EXPECTED_FORMULA_DIFFERS_TEXT
-        = "this is not the expected formula: ";
+        = "this is not the expected formula, please check with label: ";
 
 
     /** Error code. */
