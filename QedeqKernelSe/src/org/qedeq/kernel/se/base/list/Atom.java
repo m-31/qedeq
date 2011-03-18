@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.list;
 /**
  * Element atom. This is a leaf of the composite {@link org.qedeq.kernel.se.base.list.Element}.
  *
- * @version $Revision: 1.3 $
  * @author    Michael Meyling
  */
 public interface Atom extends Element {

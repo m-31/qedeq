@@ -22,7 +22,6 @@ import java.util.List;
  * form an ordered list. So there is the number of arguments, which is told by {@link #size} and the
  * <code>i</code>-th argument, accessible by {@link #getElement(int)}.
  *
- * @version $Revision: 1.3 $
  * @author Michael Meyling
  */
 public interface ElementList extends Element {

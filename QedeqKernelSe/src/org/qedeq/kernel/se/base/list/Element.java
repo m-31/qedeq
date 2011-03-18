@@ -22,7 +22,6 @@ package org.qedeq.kernel.se.base.list;
  * elements can be accessed by their position. An atom carries textual
  * data, has no operator and no size in the previous sense.
  *
- * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
 public interface Element {
@@ -73,7 +72,8 @@ public interface Element {
     public int hashCode();
 
     /**
-     * Returns an identical object (maybe "this").
+     * Returns an identical object. This is a deep copy so later changes of
+     * the original element (or its sub parts) are not reflected in the copy.
      *
      * @return Copy of this object.
      */
