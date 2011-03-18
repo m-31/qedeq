@@ -65,4 +65,7 @@ public interface Operators {
     /** Operator string for class operator. */
     public static final String CLASS_OP = "CLASS";
 
+    /** Operator string for meta variables. */
+    public static final String META_VARIABLE = "METAVAR";
+
 }

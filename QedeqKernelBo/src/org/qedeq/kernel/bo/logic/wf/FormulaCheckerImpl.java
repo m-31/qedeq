@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.logic.wf;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
+import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.se.base.list.Atom;

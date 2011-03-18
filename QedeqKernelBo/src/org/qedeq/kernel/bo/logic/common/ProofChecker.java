@@ -27,8 +27,11 @@ import org.qedeq.kernel.se.common.ModuleContext;
 public interface ProofChecker {
 
     /**
-     * Checks if an formal proof is ok. If there are any errors the returned list
+     * Checks if a formal proof is ok. If there are any errors the returned list
      * (which is always not <code>null</code>) has a size greater zero.
+     * Precondition is a well formed environment. So every formula must
+     * be well formed, every necessary operator and predicate and function must
+     * exist.
      *
      * @param   formula             Formula we want to proof.
      * @param   proof               Check this formal proof.

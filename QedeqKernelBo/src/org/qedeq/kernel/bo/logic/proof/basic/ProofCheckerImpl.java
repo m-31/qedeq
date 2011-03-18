@@ -22,11 +22,11 @@ import org.qedeq.base.utility.Enumerator;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
+import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
-import org.qedeq.kernel.bo.logic.wf.FormulaUtility;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Existential;
@@ -331,8 +331,9 @@ public class ProofCheckerImpl implements ProofChecker {
         } else {
             final Element f = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
-            final Element expected = f.replace(substpred.getPredicateVariable(),
-                resolver.getNormalizedFormula(substpred.getSubstituteFormula()));
+            final Element subst = resolver.getNormalizedFormula(substpred.getSubstituteFormula());
+            final Element expected = FormulaUtility.replaceOperatorVariable(f,
+                substpred.getPredicateVariable(), subst);
             if (!EqualsUtility.equals(current, expected)) {
                 ok = false;
                 handleProofCheckException(

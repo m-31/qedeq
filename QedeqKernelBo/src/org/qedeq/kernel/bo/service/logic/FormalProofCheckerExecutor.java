@@ -23,12 +23,12 @@ import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofCheckerFactoryImpl;
+import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.common.ProofCheckerFactory;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
-import org.qedeq.kernel.bo.logic.wf.FormulaUtility;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -273,6 +273,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         if (proposition == null) {
             return;
         }
+        // we only check this node, if the well formed check was successful
         if (!getNodeBo().isWellFormed()) {
             getNodeBo().setProved(CheckLevel.FAILURE);
             return;

@@ -13,11 +13,10 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
+package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.base.utility.Enumerator;
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -258,29 +257,34 @@ public final class FormulaUtility implements Operators {
         return true;
     }
 
+    /**
+     * Replace bound subject variables at given occurrence by another one.
+     * If goal occurrence number is below number of occurrences within the formula nothing is
+     * changed.
+     *
+     * @param   originalSubjectVariable     Replace this subject variable.
+     * @param   replacementSubjectVariable  By this subject variable.
+     * @param   formulaElement              This is the formula we work on.
+     * @param   occurrenceGoal              This is the binding occurrence number.
+     * @param   occurreneCurrent            Counter how much occurrences we already had.
+     * @return  Formula with replaced subject variables.
+     */
     public static Element replaceSubjectVariableQuantifier(final Element originalSubjectVariable,
-            final Element replacementSubjectVariable, final Element formula,
+            final Element replacementSubjectVariable, final Element formulaElement,
             final int occurrenceGoal, final Enumerator occurreneCurrent) {
-        if (formula.isAtom()) {
-            return formula.copy();
+        if (formulaElement.isAtom()) {
+            return formulaElement.copy();
         }
-        return replaceSubjectVariableQuantifier(originalSubjectVariable,
-            replacementSubjectVariable, formula.getList(), occurrenceGoal,
-            occurreneCurrent);
-    }
-
-    private static Element replaceSubjectVariableQuantifier(final Element originalSubjectVariable,
-            final Element replacementSubjectVariable, final ElementList formula,
-            final int occurrenceGoal, final Enumerator occurrenceCurrent) {
-        if (occurrenceCurrent.getNumber() > occurrenceGoal) {
+        final ElementList formula = formulaElement.getList();
+        if (occurreneCurrent.getNumber() > occurrenceGoal) {
             return formula.copy();
         }
         final ElementList result = new DefaultElementList(formula.getOperator());
         if (isBindingOperator(formula)
                 && formula.getElement(0).equals(originalSubjectVariable)) {
-            occurrenceCurrent.increaseNumber();
-            System.out.println("found: " + occurrenceCurrent);
-            if (occurrenceGoal == occurrenceCurrent.getNumber()) {
+            occurreneCurrent.increaseNumber();
+            System.out.println("found: " + occurreneCurrent);
+            if (occurrenceGoal == occurreneCurrent.getNumber()) {
                 System.out.println("match: " + occurrenceGoal);
                 return formula.replace(originalSubjectVariable,
                     replacementSubjectVariable);
@@ -289,8 +293,96 @@ public final class FormulaUtility implements Operators {
         for (int i = 0; i < formula.size(); i++) {
             result.add(replaceSubjectVariableQuantifier(originalSubjectVariable,
                 replacementSubjectVariable, formula.getElement(i), occurrenceGoal,
-                occurrenceCurrent));
+                occurreneCurrent));
         }
+        return result;
+    }
+
+    /**
+     * Replace function or predicate variable by given term or formula.
+     *
+     * @param   formula             Formula we want the replacement take place.
+     * @param   operatorVariable    Predicate variable or function variable with only subject
+     *                              variables as arguments.
+     * @param   replacement         Replacement formula or term with matching subject variables.
+     *                              <code>operatorVariable</code> might have some subject variables
+     *                              that are not in <code>replacement</code> and vice versa.
+     * @return  Formula where operatorVariable was replaced.
+     */
+    public static Element replaceOperatorVariable(final Element formula,
+            final Element operatorVariable, final Element replacement) {
+        if (formula.isAtom() || operatorVariable.isAtom() || replacement.isAtom()) {
+            return formula.copy();
+        }
+        final ElementList f = formula.getList();
+        final ElementList ov = operatorVariable.getList();
+        final ElementList r = replacement.getList();
+        // check elementary preconditions
+        if (f.size() < 1 || ov.size() < 1 || r.size() != ov.size()) {
+            return formula.copy();
+        }
+        // construct replacement formula with meta variables
+        Element rn = r;
+        for (int i = 1; i < ov.size(); i++) {
+            rn = rn.replace(ov.getElement(i), createMeta(ov.getElement(i)));
+        }
+        return replaceOperatorVariableMeta(formula, operatorVariable, rn);
+    }
+
+    /**
+     * Replace function or predicate variable by given term or formula.
+     *
+     * @param   formula             Formula we want the replacement take place.
+     * @param   operatorVariable    Predicate variable or function variable with only subject
+     *                              variables as arguments.
+     * @param   replacement         Replacement formula or term with meta variables instead of
+     *                              subject variables to replace (matching
+     *                              <code>operatorVariable</code>).
+     * @return  Formula where operatorVariable was replaced.
+     */
+    private static Element replaceOperatorVariableMeta(final Element formula,
+            final Element operatorVariable, final Element replacement) {
+        if (formula.isAtom() || operatorVariable.isAtom() || replacement.isAtom()) {
+            return formula.copy();
+        }
+        final ElementList f = formula.getList();
+        final ElementList ov = operatorVariable.getList();
+        final ElementList r = replacement.getList();
+        if (f.size() < 1 || ov.size() < 1 || r.size() != ov.size()) {
+            return formula.copy();
+        }
+        final ElementList result;
+        if (f.getOperator() == ov.getOperator() && f.size() == ov.size()
+                && f.getElement(0).equals(ov.getElement(0))) {
+            // replace meta variables by matching entries
+            final ElementList rn = r;
+            for (int i = 1; i < ov.size(); i++) {
+                rn.replace(createMeta(ov.getElement(i)), f.getElement(i));
+            }
+            return replaceOperatorVariableMeta(rn, operatorVariable, replacement);
+        } else {
+            result = new DefaultElementList(r.getOperator());
+            for (int i = 0; i < f.size(); i++) {
+                result.add(replaceOperatorVariable(f.getElement(i), operatorVariable,
+                    replacement));
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Create meta variable for subject variable.
+     *
+     * @param   subjectVariable Subject variable, we want to have a meta variable for.
+     * @return  Resulting meta variable. If we didn't got a subject variable we just
+     *          return the original.
+     */
+    public static Element createMeta(final Element subjectVariable) {
+        if (!isSubjectVariable(subjectVariable)) {
+            return subjectVariable.copy();
+        }
+        final DefaultElementList result = new DefaultElementList(META_VARIABLE);
+        result.add(subjectVariable.getList().getElement(0).copy());
         return result;
     }
 
