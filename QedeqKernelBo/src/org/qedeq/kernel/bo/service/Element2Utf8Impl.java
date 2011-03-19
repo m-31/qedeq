@@ -25,7 +25,7 @@ import org.qedeq.kernel.se.base.list.Element;
 
 
 /**
- * Transfer a QEDEQ formulas into LaTeX text.
+ * Transfer a QEDEQ formulas into UTF-8 text.
  *
  * @author  Michael Meyling
  */
