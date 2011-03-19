@@ -25,7 +25,7 @@ import org.qedeq.kernel.se.base.list.Element;
  *
  * @author  Michael Meyling
  */
-public class FormulaUtilityTest extends QedeqTestCase {
+public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTestCase {
 
     /**
      * Function: replaceSubjectVariableQuantifier().

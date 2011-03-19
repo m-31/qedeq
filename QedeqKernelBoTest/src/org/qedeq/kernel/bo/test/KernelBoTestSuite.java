@@ -21,7 +21,8 @@ import org.qedeq.base.test.QedeqTestSuite;
 import org.qedeq.kernel.bo.latex.ExtendedGenerateLatexTest;
 import org.qedeq.kernel.bo.latex.GenerateLatexTest;
 import org.qedeq.kernel.bo.logic.KernelBoLogicTestSuite;
-import org.qedeq.kernel.bo.logic.common.FormulaUtilityTest;
+import org.qedeq.kernel.bo.logic.common.FormulaUtilityReplaceOperatorVariableTest;
+import org.qedeq.kernel.bo.logic.common.FormulaUtilityReplaceSubjectVariableQuantifierTest;
 import org.qedeq.kernel.bo.logic.model.KernelBoLogicModelTestSuite;
 import org.qedeq.kernel.bo.logic.wf.KernelBoLogicWfTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
@@ -78,7 +79,8 @@ public class KernelBoTestSuite extends QedeqTestSuite {
         addTestSuite(GenerateLatexTest.class);
         addTestSuite(Latex2Utf8Test.class);
         addTestSuite(GenerateUtf8Test.class);
-        addTestSuite(FormulaUtilityTest.class);
+        addTestSuite(FormulaUtilityReplaceSubjectVariableQuantifierTest.class);
+        addTestSuite(FormulaUtilityReplaceOperatorVariableTest.class);
 
         // very slow:
         addTestSuite(ExtendedGenerateLatexTest.class);
