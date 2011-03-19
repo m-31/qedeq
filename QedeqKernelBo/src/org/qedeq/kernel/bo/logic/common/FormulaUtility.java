@@ -17,6 +17,9 @@ package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.base.utility.Enumerator;
 import org.qedeq.base.utility.EqualsUtility;
+import org.qedeq.kernel.bo.module.ModuleLabels;
+import org.qedeq.kernel.bo.service.Element2LatexImpl;
+import org.qedeq.kernel.bo.service.Element2Utf8Impl;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -318,7 +321,9 @@ public final class FormulaUtility implements Operators {
         final ElementList ov = operatorVariable.getList();
         final ElementList r = replacement.getList();
         // check elementary preconditions
-        if (f.size() < 1 || ov.size() < 1 || r.size() != ov.size()) {
+//        System.out.println("ov.size=" + ov.size());
+        if (f.size() < 1 || ov.size() < 1) {
+//            System.out.println("failed elementary conditions");
             return formula.copy();
         }
         // construct replacement formula with meta variables
@@ -326,6 +331,8 @@ public final class FormulaUtility implements Operators {
         for (int i = 1; i < ov.size(); i++) {
             rn = rn.replace(ov.getElement(i), createMeta(ov.getElement(i)));
         }
+//        System.out.print("Meta: ");
+//        println(rn);
         return replaceOperatorVariableMeta(formula, operatorVariable, rn);
     }
 
@@ -348,22 +355,30 @@ public final class FormulaUtility implements Operators {
         final ElementList f = formula.getList();
         final ElementList ov = operatorVariable.getList();
         final ElementList r = replacement.getList();
-        if (f.size() < 1 || ov.size() < 1 || r.size() != ov.size()) {
+        if (f.size() < 1 || ov.size() < 1) {
             return formula.copy();
         }
         final ElementList result;
+//        System.out.println("trying to match " + f.getOperator());
         if (f.getOperator() == ov.getOperator() && f.size() == ov.size()
                 && f.getElement(0).equals(ov.getElement(0))) {
+//            System.out.println(" match successful");
             // replace meta variables by matching entries
-            final ElementList rn = r;
+            Element rn = r;
             for (int i = 1; i < ov.size(); i++) {
-                rn.replace(createMeta(ov.getElement(i)), f.getElement(i));
+//                System.out.print("replaceing number " + i + " >");
+//                println(createMeta(ov.getElement(i)));
+//                System.out.print("replaceing number " + i + " >");
+//                println(f.getElement(i));
+                rn = rn.replace(createMeta(ov.getElement(i)), f.getElement(i));
             }
+//            return rn;
+// FIXME
             return replaceOperatorVariableMeta(rn, operatorVariable, replacement);
         } else {
-            result = new DefaultElementList(r.getOperator());
+            result = new DefaultElementList(f.getOperator());
             for (int i = 0; i < f.size(); i++) {
-                result.add(replaceOperatorVariable(f.getElement(i), operatorVariable,
+                result.add(replaceOperatorVariableMeta(f.getElement(i), operatorVariable,
                     replacement));
             }
         }
@@ -384,6 +399,13 @@ public final class FormulaUtility implements Operators {
         final DefaultElementList result = new DefaultElementList(META_VARIABLE);
         result.add(subjectVariable.getList().getElement(0).copy());
         return result;
+    }
+
+    public static void println(final Element element) {
+        ModuleLabels labels = new ModuleLabels();
+        Element2LatexImpl converter = new Element2LatexImpl(labels);
+        Element2Utf8Impl textConverter = new Element2Utf8Impl(converter);
+        System.out.println(textConverter.getUtf8(element));
     }
 
 }
