@@ -100,7 +100,8 @@ public final class Latex2UnicodeParser {
      * @param   columns Maximum column number. Break (if possible) before.
      * @return  QEDEQ module string.
      */
-    public static final String transform(final ReferenceFinder finder, final String input, final int columns) {
+    public static final String transform(final ReferenceFinder finder, final String input,
+            final int columns) {
         final Latex2UnicodeParser parser = new Latex2UnicodeParser(finder);
         parser.output.setColumns(columns);
         return parser.getUtf8(input);
@@ -112,7 +113,21 @@ public final class Latex2UnicodeParser {
      * @param   finder  Finder for references.
      */
     private Latex2UnicodeParser(final ReferenceFinder finder) {
-        this.finder = finder;
+        // use dummy implementation if finder is null
+        if (finder == null) {
+            this.finder = new ReferenceFinder() {
+                public String getReferenceLink(final String reference,
+                        final SourcePosition startDelta, final SourcePosition endDelta) {
+                    return "[" + reference + "]";
+                }
+
+                public void addWarning(final int code, final String msg,
+                        final SourcePosition startDelta, final SourcePosition endDelta) {
+                }
+            };
+        } else {
+            this.finder = finder;
+        }
         this.output = new StringOutput();
     }
 
