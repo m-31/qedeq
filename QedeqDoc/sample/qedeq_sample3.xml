@@ -357,7 +357,7 @@
                     </IMPL>
                   </FORMULA>
                   <SUBST_PREDVAR ref="4">
-                    <PREDVAR id="P"/>
+                    <PREDVAR id="A"/>
                     <FORMULA>
                       <PREDVAR id="D"/>
                     </FORMULA>
@@ -843,7 +843,7 @@
                   </FORMULA>
                   <SUBST_PREDVAR ref="3">
                     <PREDVAR id="\phi" >
-                      <VAR id="x" />
+                      <VAR id="y" />
                     </PREDVAR>
                     <FORMULA>
                       <PREDVAR id="\phi" >
@@ -892,20 +892,21 @@
                   <FORMULA>
                     <IMPL>
                       <PREDVAR id="\phi">
-                        <VAR id="x" />
+                        <VAR id="y" />
                         <VAR id="u" />
                       </PREDVAR>
                       <EXISTS>
                         <VAR id="z" />
                         <PREDVAR id="\phi">
                           <VAR id="z" />
+                          <VAR id="u" />
                         </PREDVAR>
                       </EXISTS>
                     </IMPL>
                   </FORMULA>
                   <SUBST_PREDVAR ref="6">
                     <PREDVAR id="\phi">
-                      <VAR id="y" />
+                      <VAR id="x" />
                     </PREDVAR>
                     <FORMULA>
                       <PREDVAR id="\phi">
