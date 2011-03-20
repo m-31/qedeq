@@ -331,8 +331,6 @@ public final class FormulaUtility implements Operators {
         for (int i = 1; i < ov.size(); i++) {
             rn = rn.replace(ov.getElement(i), createMeta(ov.getElement(i)));
         }
-//        System.out.print("Meta: ");
-//        println(rn);
         return replaceOperatorVariableMeta(formula, operatorVariable, rn);
     }
 
