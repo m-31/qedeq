@@ -35,7 +35,6 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
  * validating. It simply puts all attributes into string atoms and
  * adds all sub elements. The element name is taken for the operator name.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class ElementHandler extends AbstractSimpleHandler {
@@ -83,7 +82,7 @@ public class ElementHandler extends AbstractSimpleHandler {
 
     public final void startElement(final String name, final SimpleAttributes attributes) {
         final String[] values = attributes.getKeySortedStringValues();
-        final ElementList element = new DefaultElementList(name, new Element[0]);
+        final ElementList element = new DefaultElementList(name);
         for (int i = 0; i < values.length; i++) {
             element.add(new DefaultAtom(values[i]));
         }

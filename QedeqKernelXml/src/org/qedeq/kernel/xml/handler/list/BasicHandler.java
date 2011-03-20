@@ -13,50 +13,63 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.xml.handler.module;
+package org.qedeq.kernel.xml.handler.list;
 
-import org.qedeq.kernel.se.dto.module.FormulaVo;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
-import org.qedeq.kernel.xml.handler.list.ElementHandler;
 import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
+import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
 import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
-
 /**
- * Parse formula.
+ * Parse unknown number of elements.
  *
  * @author  Michael Meyling
  */
-public class FormulaHandler extends AbstractSimpleHandler {
+public class BasicHandler extends AbstractSimpleHandler {
 
-    /** Value object for formula. */
-    private FormulaVo formula;
+    /** Our parsed elements. */
+    private List elements;
 
     /** Handles {@link org.qedeq.kernel.se.base.list.Element}s. */
     private final ElementHandler elementHandler;
 
 
     /**
+     * Deals with elements.
+     *
+     * @param   handler Parent handler.
+     */
+    public BasicHandler(final SaxDefaultHandler handler) {
+        super(handler, "basic");
+        elements = new ArrayList();
+        elementHandler = new ElementHandler(this);
+    }
+
+    /**
      * Handles formulas.
      *
      * @param   handler     Parent handler.
      */
-    public FormulaHandler(final AbstractSimpleHandler handler) {
-        super(handler, "FORMULA");
+    public BasicHandler(final AbstractSimpleHandler handler) {
+        super(handler, "basic");
+        elements = new ArrayList();
         elementHandler = new ElementHandler(this);
     }
 
     public final void init() {
-        formula = null;
+        elements.clear();
     }
 
     /**
      * Get parsed result.
      *
-     * @return  FormulaOrTerm.
+     * @return  List of elements.
      */
-    public final FormulaVo getFormula() {
-        return formula;
+    public final List getElements() {
+        return elements;
     }
 
     public final void startElement(final String name, final SimpleAttributes attributes)
@@ -72,10 +85,11 @@ public class FormulaHandler extends AbstractSimpleHandler {
 
     public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
-            formula = new FormulaVo(elementHandler.getElement());
+            // nothing to do, we are ready!
         } else if (getLevel() <= 1) {
             throw XmlSyntaxException.createUnexpectedTagException(name);
+        } else {
+            elements.add(elementHandler.getElement());
         }
     }
-
 }

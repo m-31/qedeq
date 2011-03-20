@@ -23,7 +23,6 @@ import org.qedeq.kernel.xml.parser.SimpleAttributes;
 /**
  * Handles a chapter.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class ChapterHandler extends AbstractSimpleHandler {

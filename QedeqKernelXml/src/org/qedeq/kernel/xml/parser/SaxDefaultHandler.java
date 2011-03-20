@@ -168,8 +168,8 @@ public class SaxDefaultHandler extends SimpleHandler {
         final String method = "endElement";
         try {
             Trace.param(CLASS, this, method, "currentHandler", currentHandler.getClass().getName());
-            Trace.param(CLASS, this, method, "localName", localName);
-            currentHandler.endElement(localName);
+            Trace.param(CLASS, this, method, "qName", qName);
+            currentHandler.endElement(qName);
         } catch (XmlSyntaxException e) {
             Trace.trace(CLASS, this, method, e);
             addXmlSyntaxException(e);
