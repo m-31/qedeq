@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -36,20 +37,29 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JViewport;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.base.io.ResourceLoaderUtility;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.base.utility.YodaUtility;
+import org.qedeq.gui.se.control.PluginAction;
 import org.qedeq.gui.se.element.CPTextArea;
+import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
+import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.parser.MathParser;
 import org.qedeq.kernel.bo.parser.ParserException;
 import org.qedeq.kernel.bo.parser.Term;
+import org.qedeq.kernel.bo.service.Element2LatexImpl;
+import org.qedeq.kernel.bo.service.Element2Utf8Impl;
+import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.handler.parser.LoadXmlOperatorListUtility;
+import org.qedeq.kernel.xml.parser.BasicParser;
+import org.xml.sax.SAXException;
 
 
 /**
@@ -63,13 +73,13 @@ public class ParserPane extends JFrame {
     private static final Class CLASS = ParserPane.class;
 
     /** Source to parse. */
-    private CPTextArea source = new CPTextArea();
+    private CPTextArea source = new CPTextArea(true);
 
     /** Parse result. */
-    private CPTextArea resultField = new CPTextArea();
+    private CPTextArea resultField = new CPTextArea(false);
 
     /** Error messages. */
-    private CPTextArea error = new CPTextArea();
+    private CPTextArea error = new CPTextArea(false);
 
     /** Make source scrollable. */
     private JScrollPane sourceScroller = new JScrollPane();
@@ -145,6 +155,42 @@ public class ParserPane extends JFrame {
         resultField.setEditable(false);
         resultField.getCaret().setVisible(false);
         resultField.setFocusable(true);
+        final JMenuItem item = new JMenuItem("Show as Text");
+        item.addActionListener(new ActionListener() {
+            public void actionPerformed(final ActionEvent e) {
+                final String text = resultField.getText().trim();
+                if (text.length() == 0) {
+                    return;
+                }
+                ModuleLabels labels = new ModuleLabels();
+                Element2LatexImpl converter = new Element2LatexImpl(labels);
+                Element2Utf8Impl textConverter = new Element2Utf8Impl(converter);
+                Element[] elements = new Element[0];
+                try {
+                    elements = BasicParser.createElements(text);
+                } catch (final ParserConfigurationException e1) {
+                    Trace.fatal(CLASS, "setupView$actionPerformed", "Parser configuration error",
+                        e1);
+                    return;
+                } catch (final SAXException e1) {
+                    // ignore
+                    return;
+                }
+                final StringBuffer result = new StringBuffer();
+                for (int i = 0; i < elements.length; i++) {
+                    final String[] parsed = textConverter.getUtf8(elements[i], 120);
+                    for (int j = 0; j < parsed.length; j++) {
+                        result.append(parsed[j] + "\n");
+                    }
+                    result.append("\n\n");
+                }
+                final TextPaneWindow window = new TextPaneWindow("QEDEQ formulas as unicode text",
+                    GuiHelper.readImageIcon("oil/" + QedeqGuiConfig.getInstance().getIconSize()
+                    + "/apps/education-mathematics.png"), result.toString());
+                window.setVisible(true);
+            }
+        });
+        resultField.addMenuItem(item);
 
         error.setFont(new Font("monospaced", Font.PLAIN, pane.getFont().getSize()));
         error.setForeground(Color.RED);

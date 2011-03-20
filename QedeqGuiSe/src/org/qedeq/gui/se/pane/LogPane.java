@@ -22,7 +22,6 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.JViewport;
 import javax.swing.SwingUtilities;
 import javax.swing.text.BadLocationException;
@@ -32,6 +31,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.gui.se.element.CPTextPane;
 import org.qedeq.kernel.bo.log.LogListener;
 
 /**
@@ -46,7 +46,7 @@ public class LogPane extends JPanel implements LogListener {
     private static final Class CLASS = LogPane.class;
 
     /** The log panel. */
-    private JTextPane textPane = new JTextPane();
+    private CPTextPane textPane = new CPTextPane(false);
 
     /** Text attributes for errors. */
     private final SimpleAttributeSet errorAttrs = new SimpleAttributeSet();

@@ -28,7 +28,6 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextPane;
 import javax.swing.JViewport;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -39,6 +38,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.gui.se.element.CPTextPane;
 import org.qedeq.gui.se.util.GuiHelper;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
@@ -58,7 +58,7 @@ public class TextPaneWindow extends JFrame {
     private final SimpleAttributeSet attrs = new SimpleAttributeSet();
 
     /** Here is the text. */
-    private JTextPane textPane;
+    private CPTextPane textPane;
 
     /** Word wrap on?. */
     private boolean wordWrap;
@@ -73,7 +73,9 @@ public class TextPaneWindow extends JFrame {
      */
     public TextPaneWindow(final String title, final ImageIcon icon, final String text) {
         super(title);
-        setIconImage(icon.getImage());
+        if (icon != null) {
+            setIconImage(icon.getImage());
+        }
         final String method = "Constructor";
         Trace.begin(CLASS, this, method);
         try {
@@ -174,7 +176,7 @@ public class TextPaneWindow extends JFrame {
      * @return  Created panel.
      */
     private final JPanel createTextPanel(final String text) {
-        textPane = new JTextPane() {
+        textPane = new CPTextPane(false) {
             public boolean getScrollableTracksViewportWidth() {
                 return TextPaneWindow.this.wordWrap;
             }
@@ -210,6 +212,7 @@ public class TextPaneWindow extends JFrame {
         final JScrollPane scroller = new JScrollPane();
         final JViewport vp = scroller.getViewport();
         vp.add(textPane);
+        vp.setBackground(textPane.getBackground());
         panel.setLayout(new BorderLayout(1, 1));
         panel.add(scroller);
         return panel;

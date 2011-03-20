@@ -194,7 +194,12 @@ public final class GuiHelper {
      * @return  Icon.
      */
     public static ImageIcon readImageIcon(final String filename) {
-        URL url = ResourceLoaderUtility.getResourceUrl("images/" + filename);
+        final URL url = ResourceLoaderUtility.getResourceUrl("images/" + filename);
+        if (url == null) {
+            Trace.fatal(CLASS, "readImageIcon", "image icon not found: images/" + filename,
+                new RuntimeException());
+            return null;
+        }
         return new ImageIcon(url);
     }
 

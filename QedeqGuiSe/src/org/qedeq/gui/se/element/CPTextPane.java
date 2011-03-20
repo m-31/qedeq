@@ -15,7 +15,8 @@
 
 package org.qedeq.gui.se.element;
 
-import javax.swing.JTextField;
+import javax.swing.JMenuItem;
+import javax.swing.JTextPane;
 
 
 /**
@@ -23,17 +24,20 @@ import javax.swing.JTextField;
  *
  * @author  Michael Meyling
  */
-public class CPTextField extends JTextField {
+public class CPTextPane extends JTextPane {
 
-    /** Here is our context menu. */
+    /** Here hides our context menu. */
     private final ClipboardListener clipboardactivator;
 
     /**
-     * Constructor.
+     * Constructor with initial text.
+     *
+     * @param   editable    Is this text area editable.
      */
-    public CPTextField() {
+    public CPTextPane(final boolean editable) {
         super();
         setDragEnabled(true);
+        setEditable(editable);
         clipboardactivator = new ClipboardListener(this);
         addMouseListener(clipboardactivator);
     }
@@ -42,13 +46,24 @@ public class CPTextField extends JTextField {
      * Constructor with initial text.
      *
      * @param   initialText Initial value.
+     * @param   editable    Is this text area editable.
      */
-    public CPTextField(final String initialText) {
+    public CPTextPane(final String initialText, final boolean editable) {
         super();
         setDragEnabled(true);
+        setEditable(editable);
         clipboardactivator = new ClipboardListener(this);
         addMouseListener(clipboardactivator);
         setText(initialText);
+    }
+
+    /**
+     * Add context menu item.
+     *
+     * @param   item    Add this menu entry.
+     */
+    public void addMenuItem(final JMenuItem item) {
+        clipboardactivator.addMenuItem(item);
     }
 
 }

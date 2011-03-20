@@ -47,7 +47,6 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 /**
  * View source of QEDEQ module.
  *
- * @version $Revision: 1.7 $
  * @author  Michael Meyling
  */
 
@@ -60,7 +59,7 @@ public class QedeqPane extends JPanel implements SelectionListener {
     private QedeqBo prop;
 
     /** Here is the QEDEQ module source. */
-    private JTextArea qedeq = new CPTextArea() {
+    private JTextArea qedeq = new CPTextArea(false) {
         public String getToolTipText(final MouseEvent e) {
             if (errorMarker == null || warningMarker == null) {
                 setToolTipText(null);
@@ -169,7 +168,7 @@ public class QedeqPane extends JPanel implements SelectionListener {
                 if (prop.getModuleAddress().isFileAddress()) {
                     qedeq.setEditable(true);
                 } else {
-                    // TODO m31 20100319: show "readonly" as label somewhere
+                    // TODO 20100319 m31: show "readonly" as label somewhere
                     qedeq.setEditable(false);
                 }
                 // we want the background be same even if area is not editable
