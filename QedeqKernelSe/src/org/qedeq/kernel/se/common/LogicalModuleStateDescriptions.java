@@ -18,8 +18,7 @@ package org.qedeq.kernel.se.common;
 /**
  * This interface provides primitive constants for the {@link LogicalModuleState}.
  *
- * @version $Revision: 1.1 $
- * @author Michael Meyling
+ * @author  Michael Meyling
  */
 public interface LogicalModuleStateDescriptions {
 
@@ -45,18 +44,18 @@ public interface LogicalModuleStateDescriptions {
     public static final int STATE_CODE_INTERNAL_CHECKING = 3;
 
     /** Description for internal checking phase. */
-    public static final String STATE_STRING_INTERNAL_CHECKING = "checking";
+    public static final String STATE_STRING_INTERNAL_CHECKING = "wf checking";
 
     /** Code for check failure. */
     public static final int STATE_CODE_INTERNAL_CHECKING_FAILED = 4;
 
     /** Description for check failure. */
-    public static final String STATE_STRING_INTERNAL_CHECKING_FAILED = "check failed";
+    public static final String STATE_STRING_INTERNAL_CHECKING_FAILED = "wf check failed";
 
     /** Code for successfully completely checked state. */
     public static final int STATE_CODE_COMPLETELY_CHECKED = 5;
 
     /** Description for successfully completely checked state. */
-    public static final String STATE_STRING_COMPLETELY_CHECKED = "checked";
+    public static final String STATE_STRING_COMPLETELY_CHECKED = "well formed";
 
 }

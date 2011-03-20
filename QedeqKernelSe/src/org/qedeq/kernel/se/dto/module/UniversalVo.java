@@ -23,11 +23,18 @@ import org.qedeq.kernel.se.base.module.Universal;
 /**
  * Usage of rule for universal generalization.
  *
+ * Rule of universal generalization.
+ * <pre>
+ *   A -&gt; B(x)
+ *  -------------------
+ *   A -&gt; forall x  B(x)
+ * </pre>
+ *
  * @author  Michael Meyling
  */
 public class UniversalVo implements Universal {
 
-    /** Reference to previously proven formula. Usually like A -&gt; B. */
+    /** Reference to previously proven formula. */
     private String reference;
 
     /** Subject variable that we will quantify about. */
