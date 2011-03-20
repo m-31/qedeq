@@ -562,15 +562,28 @@ public final class KernelContext implements KernelProperties, KernelServices {
         return config;
     }
 
+    /**
+     * Init the kernel.
+     *
+     * @param   moduleServices  Services for the kernel.
+     * @param   qedeqConfig     Configuration for the kernel.
+     * @throws  IOException     Initialization failure.
+     */
     public void init(final ServiceModule moduleServices, final QedeqConfig qedeqConfig)
             throws IOException {
         currentState.init(moduleServices, qedeqConfig);
     }
 
+    /**
+     * Startup the kernel.
+     */
     public void startup() {
         currentState.startup();
     }
 
+    /**
+     * Shutdown the kernel.
+     */
     public void shutdown() {
         currentState.shutdown();
     }
