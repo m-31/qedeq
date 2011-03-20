@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 
 /*

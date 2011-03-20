@@ -174,6 +174,9 @@ public final class Element2LatexImpl implements Element2Latex {
      * @return  LaTeX form of element.
      */
     String getLatex(final Element element, final boolean first) {
+        if (element == null) {
+            return "";
+        }
         if (element.isAtom()) {
             return element.getAtom().getString();
         }
