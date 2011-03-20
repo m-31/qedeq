@@ -17,10 +17,10 @@ package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -51,7 +51,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaPositive01() throws Exception {
-        final Element ele = TestParser.createElement("<PREDVAR id=\"A\"/>");
+        final Element ele = BasicParser.createElement("<PREDVAR id=\"A\"/>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
         assertFalse(checker.checkFormula(ele, context, getChecker()).hasErrors());
@@ -67,7 +67,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaPositive02() throws Exception {
-        final Element ele = TestParser.createElement("<PREDCON ref=\"true\"/>");
+        final Element ele = BasicParser.createElement("<PREDCON ref=\"true\"/>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
         assertFalse(checker.checkFormula(ele, context, getChecker()).hasErrors());
@@ -83,7 +83,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative01() throws Exception {
-        final Element ele = TestParser.createElement("<PREDVAR />");
+        final Element ele = BasicParser.createElement("<PREDVAR />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -99,7 +99,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative02() throws Exception {
-        final Element ele = TestParser.createElement("<PREDCON />");
+        final Element ele = BasicParser.createElement("<PREDCON />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -115,7 +115,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative09() throws Exception {
-        final Element ele = TestParser.createElement("<PREDVAR > <VAR id=\"x\" /> </PREDVAR>");
+        final Element ele = BasicParser.createElement("<PREDVAR > <VAR id=\"x\" /> </PREDVAR>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -132,7 +132,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative10() throws Exception {
-        final Element ele = TestParser.createElement("<PREDCON > <VAR id=\"x\" /> </PREDCON>");
+        final Element ele = BasicParser.createElement("<PREDCON > <VAR id=\"x\" /> </PREDCON>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -149,7 +149,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative13() throws Exception {
-        final Element ele = TestParser.createElement("<PREDVAR> <A/> </PREDVAR>");
+        final Element ele = BasicParser.createElement("<PREDVAR> <A/> </PREDVAR>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -165,7 +165,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative14() throws Exception {
-        final Element ele = TestParser.createElement("<PREDCON> <A/> </PREDCON>");
+        final Element ele = BasicParser.createElement("<PREDCON> <A/> </PREDCON>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -181,7 +181,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative15() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<PREDVAR id=\"f\">"
                 + "<VAR id=\"x\"/>"
                 + "<CLASS> <VAR id=\"x\"/> <PREDVAR id=\"\\phi\" /> </CLASS>"
@@ -201,7 +201,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative16() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<PREDCON ref=\"in\">"
                 + "<VAR id=\"x\"/>"
                 + "<CLASS> <VAR id=\"x\"/> <PREDVAR id=\"\\phi\" /> </CLASS>"
@@ -221,7 +221,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative19() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<PREDVAR id=\"f\">"
                 + "<CLASS> <VAR id=\"x\"/> <PREDVAR id=\"\\phi\" /> </CLASS>"
                 + "<VAR id=\"x\"/>"
@@ -241,7 +241,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative20() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<PREDCON id=\"in\">"
                 + "<CLASS> <VAR id=\"x\"/> <PREDVAR id=\"\\phi\" /> </CLASS>"
                 + "<VAR id=\"x\"/>"
@@ -261,7 +261,7 @@ public class FormulaCheckerPredicateFormulaTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPredicateFormulaNegative22() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<PREDCON id=\"F\" />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =

@@ -17,10 +17,10 @@ package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -52,7 +52,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testClassTermPositive01() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<CLASS><VAR id=\"x\" /><PREDVAR id=\"A\" /></CLASS>");
         // System.out.println(ele.toString());
 
@@ -68,7 +68,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testClassTermPositive02() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<CLASS>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -90,7 +90,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testClassTermPositive03() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<CLASS>" +
             "  <VAR id=\"x\" />" +
             "  <FORALL>" +
@@ -115,7 +115,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testClassTermNegative01() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<CLASS>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -143,7 +143,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testClassTermNegative02() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<CLASS>" +
             "  <VAR id=\"x\" />" +
             "</CLASS>");
@@ -162,7 +162,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testClassTermNegative03() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<CLASS>" +
             "  <PREDVAR id=\"phi\">" +
             "    <VAR id=\"y\" />" +
@@ -188,7 +188,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testClassTermNegative04() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<CLASS>" +
             "  <VAR id=\"x\" />" +
             "  <FORALL>" +
@@ -215,7 +215,7 @@ public class FormulaCheckerClassTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testClassTermNegative05() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<CLASS>" +
             "  <VAR id=\"x\" />" +
             "  <FORALL>" +

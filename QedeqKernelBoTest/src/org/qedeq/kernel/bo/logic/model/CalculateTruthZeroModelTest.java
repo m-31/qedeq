@@ -15,8 +15,8 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 
 /**
@@ -41,7 +41,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology19() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
@@ -56,7 +56,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology20() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
@@ -71,7 +71,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology21() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
@@ -86,7 +86,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology28() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR></IMPL></FORALL></FORALL>");
 //        System.out.println(ele.toString());
@@ -101,7 +101,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology31() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/><VAR id=\"x\"/></PREDVAR></FORALL></FORALL>");
 //        System.out.println(ele.toString());
@@ -116,7 +116,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology34() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU><VAR id=\"y\"/><PREDCON id=\"equal\"><VAR id=\"y\"/><VAR id=\"y\"/></PREDCON>"
             + "</EXISTSU>");
 //        System.out.println(ele.toString());
@@ -131,7 +131,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology37() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"x\"/></FUNVAR>"
             + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON>");
 //        System.out.println(ele.toString());
@@ -146,7 +146,7 @@ public class CalculateTruthZeroModelTest extends CalculateTruthTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology41() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "\n                <EQUI>"
             + "\n                  <FORALL>"
             + "\n                    <VAR id=\"x\" />"

@@ -15,8 +15,8 @@
 
 package org.qedeq.kernel.bo.logic.model;
 
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 
 /**
@@ -41,7 +41,7 @@ public class CalculateTruthThreeModelTest extends CalculateTruthTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology44() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "    <EQUI>\n"
             + "    <PREDCON ref=\"in\">\n"
             + "      <VAR id=\"y\"/>\n"
@@ -74,7 +74,7 @@ public class CalculateTruthThreeModelTest extends CalculateTruthTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology46() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "  <EQUI>\n"
             + "    <PREDCON ref=\"subclass\">\n"
             + "      <VAR id=\"x\" />\n"
@@ -103,7 +103,7 @@ public class CalculateTruthThreeModelTest extends CalculateTruthTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology47() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<AND>\n"
             + "  <EQUI>\n"
             + "    <PREDCON ref=\"subclass\">\n"

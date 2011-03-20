@@ -64,7 +64,9 @@ public class LatexMathParserTest extends AbstractParserTest {
             new DummyInternalKernalServices(),
             new File(getIndir(),
             "parser/latexMathOperators.xml"));
-        return new LatexMathParser(input, operators);
+        final LatexMathParser result = new LatexMathParser();
+        result.setParameters(input, operators);
+        return result;
     }
 
     public void testReadMaximalTerm00() throws Exception {

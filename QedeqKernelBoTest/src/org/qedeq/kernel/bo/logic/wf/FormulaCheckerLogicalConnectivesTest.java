@@ -17,10 +17,10 @@ package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -51,7 +51,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectivePositive01() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></AND>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
@@ -68,7 +68,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectivePositive02() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></OR>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
@@ -85,7 +85,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectivePositive03() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></IMPL>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
@@ -102,7 +102,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectivePositive04() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></EQUI>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
@@ -119,7 +119,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectivePositive05() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/><PREDVAR id=\"C\"/></AND>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
@@ -136,7 +136,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectivePositive06() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/><PREDVAR id=\"C\"/></OR>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
@@ -153,7 +153,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectivePositive07() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/><PREDVAR id=\"C\"/></EQUI>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
@@ -170,7 +170,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative01() throws Exception {
-        final Element ele = TestParser.createElement("<AND />");
+        final Element ele = BasicParser.createElement("<AND />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -186,7 +186,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative02() throws Exception {
-        final Element ele = TestParser.createElement("<OR />");
+        final Element ele = BasicParser.createElement("<OR />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -202,7 +202,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative03() throws Exception {
-        final Element ele = TestParser.createElement("<IMPL />");
+        final Element ele = BasicParser.createElement("<IMPL />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -218,7 +218,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative04() throws Exception {
-        final Element ele = TestParser.createElement("<EQUI />");
+        final Element ele = BasicParser.createElement("<EQUI />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -234,7 +234,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative05() throws Exception {
-        final Element ele = TestParser.createElement("<AND><PREDVAR id=\"A\"/></AND>");
+        final Element ele = BasicParser.createElement("<AND><PREDVAR id=\"A\"/></AND>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -250,7 +250,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative06() throws Exception {
-        final Element ele = TestParser.createElement("<OR><PREDVAR id=\"A\"/></OR>");
+        final Element ele = BasicParser.createElement("<OR><PREDVAR id=\"A\"/></OR>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -266,7 +266,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative07() throws Exception {
-        final Element ele = TestParser.createElement("<IMPL><PREDVAR id=\"A\"/></IMPL>");
+        final Element ele = BasicParser.createElement("<IMPL><PREDVAR id=\"A\"/></IMPL>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -282,7 +282,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative08() throws Exception {
-        final Element ele = TestParser.createElement("<EQUI><PREDVAR id=\"A\"/></EQUI>");
+        final Element ele = BasicParser.createElement("<EQUI><PREDVAR id=\"A\"/></EQUI>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -298,7 +298,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative09() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/><PREDVAR id=\"C\"/></IMPL>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
@@ -315,7 +315,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative10() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<AND>" +
                 "<PREDVAR id=\"equal\">" +
                     "<VAR id=\"x\" />" +
@@ -344,7 +344,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative11() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<AND>" +
                 "<PREDVAR id=\"equal\">" +
                     "<VAR id=\"y\" />" +
@@ -373,7 +373,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative12() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<OR>" +
                 "<PREDVAR id=\"equal\">" +
                     "<VAR id=\"x\" />" +
@@ -402,7 +402,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative13() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<OR>" +
                 "<PREDVAR id=\"equal\">" +
                     "<VAR id=\"y\" />" +
@@ -431,7 +431,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative14() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL>" +
                 "<PREDVAR id=\"equal\">" +
                     "<VAR id=\"x\" />" +
@@ -460,7 +460,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative15() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL>" +
                 "<PREDVAR id=\"equal\">" +
                     "<VAR id=\"y\" />" +
@@ -489,7 +489,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative16() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI>" +
                 "<PREDVAR id=\"equal\">" +
                     "<VAR id=\"x\" />" +
@@ -518,7 +518,7 @@ public class FormulaCheckerLogicalConnectivesTest extends AbstractFormulaChecker
      * @throws  Exception   Test failed.
      */
     public void testLogicalConnectiveNegative17() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI>" +
                 "<PREDVAR id=\"equal\">" +
                     "<VAR id=\"y\" />" +

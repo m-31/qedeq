@@ -17,10 +17,10 @@ package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -51,7 +51,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive01() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL><VAR id=\"x\" /><PREDVAR id=\"A\"/></FORALL>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
@@ -68,7 +68,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive02() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS><VAR id=\"x\" /><PREDVAR id=\"A\"/></EXISTS>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
@@ -85,7 +85,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive03() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU><VAR id=\"x\" /><PREDVAR id=\"A\"/></EXISTSU>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
@@ -102,7 +102,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive04() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
@@ -123,7 +123,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive05() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
@@ -144,7 +144,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersPositive06() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
@@ -165,7 +165,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative01() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL>" +
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  <PREDVAR id=\"A\"/>" +
@@ -185,7 +185,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative02() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS>" +
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  <PREDVAR id=\"A\"/>" +
@@ -205,7 +205,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative03() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU>" +
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
             "  <PREDVAR id=\"A\"/>" +
@@ -225,7 +225,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative04() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL>" +
             "  <VAR id=\"x\" />" +
             "  <FORALL>" +
@@ -248,7 +248,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative05() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
@@ -272,7 +272,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative06() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -297,7 +297,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative07() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS>" +
             "  <VAR id=\"x\" />" +
             "  <FORALL>" +
@@ -320,7 +320,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative08() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
@@ -344,7 +344,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative09() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -369,7 +369,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative10() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU>" +
             "  <VAR id=\"x\" />" +
             "  <FORALL>" +
@@ -392,7 +392,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative11() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\"><VAR id=\"x\" /></PREDVAR>" +
@@ -416,7 +416,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative12() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -441,7 +441,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative16() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -470,7 +470,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative17() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -499,7 +499,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative18() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -528,7 +528,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative19() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -555,7 +555,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative20() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -582,7 +582,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative21() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -612,7 +612,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative22() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -642,7 +642,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative23() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -672,7 +672,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative24() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU>" +
             "  <VAR id=\"x\" />" +
             "  <PREDVAR id=\"phi\">" +
@@ -702,7 +702,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative25() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL>" +
             "  <VAR id=\"x\" />" +
             "  <FORALL>" +
@@ -731,7 +731,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative26() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS>" +
             "  <VAR id=\"x\" />" +
             "  <FORALL>" +
@@ -761,7 +761,7 @@ public class FormulaCheckerQuantifiersTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testQuantifiersNegative27() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU>" +
             "  <VAR id=\"x\" />" +
             "  <EXISTSU>" +

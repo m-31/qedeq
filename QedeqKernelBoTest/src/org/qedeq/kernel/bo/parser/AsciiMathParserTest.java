@@ -197,7 +197,9 @@ public class AsciiMathParserTest extends AbstractParserTest {
             new DummyInternalKernalServices(),
             new File(getIndir(),
             "parser/asciiMathOperators.xml"));
-        return new AsciiMathParser(input, operators);
+        final MathParser parser = new AsciiMathParser();
+        parser.setParameters(input, operators);
+        return parser;
     }
 
     public void testReadMaximalTerm00() throws Exception {

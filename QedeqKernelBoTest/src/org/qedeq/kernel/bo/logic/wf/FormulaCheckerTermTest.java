@@ -17,10 +17,10 @@ package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -51,7 +51,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermPositive01() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<CLASS>" +
             "  <VAR id=\"x\" />" +
             "  <AND>" +
@@ -78,7 +78,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermPositive02() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FUNVAR id=\"f\">" +
             "  <VAR id=\"x\" />" +
             "  <VAR id=\"y\" />" +
@@ -97,7 +97,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermPositive03() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FUNCON id=\"power\">" +
             "  <FUNCON id=\"union\">" +
             "    <VAR id=\"x\" />" +
@@ -117,7 +117,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermPositive04() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<VAR id=\"x\" />");
         // System.out.println(ele.toString());
         assertFalse(checker.checkTerm(ele, context).hasErrors());
@@ -132,7 +132,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermNegative01() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
           "<AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></AND>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
@@ -149,7 +149,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermNegative02() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
           "<UNKNOWN><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></UNKNOWN>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
@@ -166,7 +166,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermNegative03() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
         "<OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></OR>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
@@ -183,7 +183,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermNegative04() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
         "<IMPL><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></IMPL>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
@@ -200,7 +200,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermNegative05() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
         "<EQUI><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></EQUI>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
@@ -217,7 +217,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermNegative06() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
           "<NOT><PREDVAR id=\"A\"/></NOT>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
@@ -234,7 +234,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermNegative07() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
           "<PREDVAR id=\"A\"/>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
@@ -251,7 +251,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermNegative08() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
           "<FORALL><VAR id=\"x\" /><PREDVAR id=\"A\"/></FORALL>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
@@ -268,7 +268,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermNegative09() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
           "<EXISTS><VAR id=\"x\" /><PREDVAR id=\"A\"/></EXISTS>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
@@ -285,7 +285,7 @@ public class FormulaCheckerTermTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testTermNegative10() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
           "<EXISTSU><VAR id=\"x\" /><PREDVAR id=\"A\"/></EXISTSU>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =

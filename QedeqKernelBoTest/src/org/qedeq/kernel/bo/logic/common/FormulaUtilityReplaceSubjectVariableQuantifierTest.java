@@ -17,8 +17,8 @@ package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.Enumerator;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.common.FormulaUtility}.
@@ -33,7 +33,7 @@ public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTes
      * @throws  Exception   Test failed.
      */
     public void testClassTermPositive01() throws Exception {
-        final Element ele1 = TestParser.createElement(
+        final Element ele1 = BasicParser.createElement(
             "<AND>" +
               "<PREDVAR id=\"equal\">" +
                 "<VAR id=\"x\" />" +
@@ -49,7 +49,7 @@ public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTes
             "</AND>");
         // System.out.println(ele.toString());
 
-        final Element ele2 = TestParser.createElement(
+        final Element ele2 = BasicParser.createElement(
               "<AND>" +
                 "<PREDVAR id=\"equal\">" +
                   "<VAR id=\"x\" />" +
@@ -74,7 +74,7 @@ public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTes
      * @throws  Exception   Test failed.
      */
     public void testClassTermPositive02() throws Exception {
-        final Element ele1 = TestParser.createElement(
+        final Element ele1 = BasicParser.createElement(
             "<AND>" +
               "<FORALL>" +
                 "<VAR id=\"x\" />" +
@@ -101,7 +101,7 @@ public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTes
             "</AND>");
         // System.out.println(ele.toString());
 
-        final Element ele2 = TestParser.createElement(
+        final Element ele2 = BasicParser.createElement(
               "<AND>" +
                 "<FORALL>" +
                   "<VAR id=\"x\" />" +
@@ -137,7 +137,7 @@ public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTes
      * @throws  Exception   Test failed.
      */
     public void testClassTermPositive03() throws Exception {
-        final Element ele1 = TestParser.createElement(
+        final Element ele1 = BasicParser.createElement(
             "<AND>" +
               "<FORALL>" +
                 "<VAR id=\"x\" />" +
@@ -170,7 +170,7 @@ public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTes
             "</AND>");
         // System.out.println(ele.toString());
 
-        final Element ele2 = TestParser.createElement(
+        final Element ele2 = BasicParser.createElement(
             "<AND>" +
               "<FORALL>" +
                 "<VAR id=\"tip\" />" +
@@ -207,7 +207,7 @@ public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTes
     }
 
     public void testClassTermPositive04() throws Exception {
-        final Element ele1 = TestParser.createElement(
+        final Element ele1 = BasicParser.createElement(
             "<AND>" +
               "<FORALL>" +
                 "<VAR id=\"x\" />" +
@@ -240,7 +240,7 @@ public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTes
             "</AND>");
         // System.out.println(ele.toString());
 
-        final Element ele2 = TestParser.createElement(
+        final Element ele2 = BasicParser.createElement(
             "<AND>" +
               "<FORALL>" +
                 "<VAR id=\"x\" />" +
@@ -277,7 +277,7 @@ public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTes
     }
 
     public void testClassTermPositive05() throws Exception {
-        final Element ele1 = TestParser.createElement(
+        final Element ele1 = BasicParser.createElement(
             "<AND>" +
               "<FORALL>" +
                 "<VAR id=\"x\" />" +
@@ -310,7 +310,7 @@ public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTes
             "</AND>");
         // System.out.println(ele.toString());
 
-        final Element ele2 = TestParser.createElement(
+        final Element ele2 = BasicParser.createElement(
             "<AND>" +
               "<FORALL>" +
                 "<VAR id=\"x\" />" +
@@ -347,6 +347,6 @@ public class FormulaUtilityReplaceSubjectVariableQuantifierTest extends QedeqTes
     }
 
     private Element createVar(final String name) throws Exception {
-        return TestParser.createElement("<VAR id=\"" + name + "\" />");
+        return BasicParser.createElement("<VAR id=\"" + name + "\" />");
     }
 }

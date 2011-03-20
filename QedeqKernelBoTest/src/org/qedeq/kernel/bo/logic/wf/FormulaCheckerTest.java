@@ -20,10 +20,10 @@ package org.qedeq.kernel.bo.logic.wf;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -56,7 +56,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPositive1() throws Exception {
-        final Element ele = TestParser.createElement("<AND><PREDVAR id=\"A\"/><PREDVAR id=\"A\"/></AND>");
+        final Element ele = BasicParser.createElement("<AND><PREDVAR id=\"A\"/><PREDVAR id=\"A\"/></AND>");
         Trace.param(CLASS, this, "testPositive1", "ele", ele);
         assertFalse(checker.checkFormula(ele, context).hasErrors());
         assertFalse(checker.checkFormula(ele, context, getChecker()).hasErrors());
@@ -70,7 +70,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPositive2() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<IMPL>"
             + "  <FORALL>"
             + "    <VAR id=\"z\"/>"
@@ -110,7 +110,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPositive3() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<IMPL>"
             + "  <FORALL>"
             + "    <VAR id=\"z\"/>"
@@ -148,7 +148,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPositive4() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<IMPL>"
             + "  <FORALL>"
             + "    <VAR id=\"z\"/>"
@@ -189,7 +189,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPositive5() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<IMPL>"
             + "  <FORALL>"
             + "    <VAR id=\"z\"/>"
@@ -239,7 +239,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPositive6() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<IMPL>"
             + "  <FORALL>"
             + "    <VAR id=\"z\"/>"
@@ -291,7 +291,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPositive7() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "            <EQUI>"
             + "              <PREDCON ref=\"equal\">"
             + "                <VAR id=\"y\"/>"
@@ -335,7 +335,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPositive8() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<FORALL>"
             + "  <VAR id=\"y\"/>"
             + "  <IMPL>"
@@ -376,7 +376,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative1() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<IMPL>"
             + "  <FORALL>"
             + "    <VAR id=\"z\"/>"
@@ -418,7 +418,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testPositive9() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<IMPL>"
             + "  <FORALL>"
             + "    <VAR id=\"z\"/>"
@@ -457,7 +457,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative3() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<IMPL>"
             + "  <FORALL>"
             + "    <VAR id=\"z\"/>"
@@ -508,7 +508,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative4() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<FORALL>"
             + "  <VAR id=\"x\"/>"
             + "  <FORALL>"
@@ -551,7 +551,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative5() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<FORALL>"
             + "  <VAR id=\"x\"/>"
             + "  <IMPL>"
@@ -594,7 +594,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative6() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<FORALL>"
             + "  <VAR id=\"x\"/>"
             + "  <IMPL>"
@@ -637,7 +637,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative7() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<IMPL>"
             + "  <PREDCON ref=\"equal\">"
             + "    <VAR id=\"x\"/>"
@@ -661,7 +661,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative8() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<IMPL>"
             + "  <VAR id=\"x\"/>"
             + "  <VAR id=\"y\"/>"
@@ -685,7 +685,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative9() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<UIMPL>"
             + "  <VAR id=\"x\"/>"
             + "  <VAR id=\"y\"/>"
@@ -707,7 +707,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative10() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<PREDVAR id=\"sirup\">"
             + "  <VAR id=\"x\"/>"
             + "  <unknown id=\"y\"/>"
@@ -729,7 +729,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative11() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<PREDCON ref=\"and\">"
             + "  <VAR id=\"x\"/>"
             + "  <FUNCON ref=\"power\">"
@@ -754,7 +754,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative12() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<FUNCON ref=\"union\">"
             + "  <VAR id=\"x\"/>"
             + "  <FUNCON ref=\"unknown\">"
@@ -779,7 +779,7 @@ public class FormulaCheckerTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegative13() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "<FORALL>"
             + "  <VAR id=\"y\"/>"
             + "  <IMPL>"

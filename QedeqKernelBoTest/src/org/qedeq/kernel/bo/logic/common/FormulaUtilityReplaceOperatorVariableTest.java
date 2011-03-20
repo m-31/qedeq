@@ -19,8 +19,8 @@ import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.service.Element2LatexImpl;
 import org.qedeq.kernel.bo.service.Element2Utf8Impl;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.common.FormulaUtility}.
@@ -37,12 +37,12 @@ public class FormulaUtilityReplaceOperatorVariableTest extends QedeqTestCase {
 
     protected void setUp() throws Exception {
 
-        predVar1 = TestParser.createElement(
+        predVar1 = BasicParser.createElement(
             "<PREDVAR id=\"equal\">" +
                 "<VAR id=\"x\" />" +
                 "<VAR id=\"y\" />" +
             "</PREDVAR>");
-        funVar1 = TestParser.createElement(
+        funVar1 = BasicParser.createElement(
             "<FUNVAR id=\"union\">" +
                 "<VAR id=\"u\" />" +
                 "<VAR id=\"v\" />" +
@@ -56,7 +56,7 @@ public class FormulaUtilityReplaceOperatorVariableTest extends QedeqTestCase {
      * @throws  Exception   Test failed.
      */
     public void test_Positive01() throws Exception {
-        final Element ele1 = TestParser.createElement(
+        final Element ele1 = BasicParser.createElement(
             "<AND>" +
               "<FORALL>" +
                 "<VAR id=\"x\" />" +
@@ -83,7 +83,7 @@ public class FormulaUtilityReplaceOperatorVariableTest extends QedeqTestCase {
             "</AND>");
         // System.out.println(ele.toString());
 
-        final Element ele2 = TestParser.createElement(
+        final Element ele2 = BasicParser.createElement(
               "<AND>" +
                 "<PREDCON id=\"\\leq\">" +
                   "<VAR id=\"x\" />" +
@@ -96,7 +96,7 @@ public class FormulaUtilityReplaceOperatorVariableTest extends QedeqTestCase {
               "</AND>");
         // System.out.println(ele.toString());
         
-        final Element ele3 = TestParser.createElement(
+        final Element ele3 = BasicParser.createElement(
             "<AND>" +
               "<FORALL>" +
                 "<VAR id=\"x\" />" +

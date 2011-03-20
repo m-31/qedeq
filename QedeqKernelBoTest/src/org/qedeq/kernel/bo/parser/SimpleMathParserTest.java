@@ -122,7 +122,9 @@ public class SimpleMathParserTest extends AbstractParserTest {
             new DummyInternalKernalServices(),
             new File(getIndir(),
             "parser/simpleMathOperators.xml"));
-        return new SimpleMathParser(input, operators);
+        final MathParser parser = new SimpleMathParser();
+        parser.setParameters(input, operators);
+        return parser;
     }
 
     public void testReadMaximalTerm00() throws Exception {

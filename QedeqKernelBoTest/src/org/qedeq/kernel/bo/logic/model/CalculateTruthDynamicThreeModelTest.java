@@ -24,11 +24,11 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.SubjectVariable;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 
 /**
@@ -64,7 +64,7 @@ public class CalculateTruthDynamicThreeModelTest extends CalculateTruthTestCase 
      * @throws  Exception   Test failed.
      */
     public void testTautology44b() throws Exception {
-        final Element def = TestParser.createElement(
+        final Element def = BasicParser.createElement(
              "   <EXISTS>\n"
              + "   <VAR id=\"y\"/>\n"
              + "   <PREDCON ref=\"in\">\n"
@@ -75,7 +75,7 @@ public class CalculateTruthDynamicThreeModelTest extends CalculateTruthTestCase 
         final List variables = new ArrayList();
         variables.add(new SubjectVariable("x"));
         interpreter.addPredicateConstant(new ModelPredicateConstant("isSet", 1), variables, def.getList());
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
                 "    <EXISTS>\n"
                 + "    <VAR id=\"x\"/>\n"
                 + "    <FORALL>\n"
@@ -109,7 +109,7 @@ public class CalculateTruthDynamicThreeModelTest extends CalculateTruthTestCase 
      * @throws  Exception   Test failed.
      */
     public void testTautology44() throws Exception {
-        final Element def = TestParser.createElement(
+        final Element def = BasicParser.createElement(
              "   <EXISTS>\n"
              + "   <VAR id=\"y\"/>\n"
              + "   <PREDCON ref=\"in\">\n"
@@ -120,7 +120,7 @@ public class CalculateTruthDynamicThreeModelTest extends CalculateTruthTestCase 
         final List variables = new ArrayList();
         variables.add(new SubjectVariable("x"));
         interpreter.addPredicateConstant(new ModelPredicateConstant("isSet", 1), variables, def.getList());
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "    <EQUI>\n"
             + "    <PREDCON ref=\"in\">\n"
             + "      <VAR id=\"y\"/>\n"

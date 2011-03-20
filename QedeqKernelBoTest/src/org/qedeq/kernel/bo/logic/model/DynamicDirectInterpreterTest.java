@@ -23,11 +23,11 @@ import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
  * For testing {@link org.qedeq.kernel.bo.logic.model.CalculateTruth}.
@@ -145,7 +145,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology01() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<NOT><NOT><PREDVAR id=\"A\"/></NOT></NOT>");
         // System.out.println(ele.toString());
         assertFalse(isTautology(ele));
@@ -159,7 +159,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology02() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<OR><PREDVAR id=\"A\"/><NOT><PREDVAR id=\"A\"/></NOT></OR>");
         // System.out.println(ele.toString());
         assertTrue(isTautology(ele));
@@ -173,7 +173,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology03() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<AND><PREDVAR id=\"A\"/><NOT><PREDVAR id=\"A\"/></NOT></AND>");
         // System.out.println(ele.toString());
         assertFalse(isTautology(ele));
@@ -187,7 +187,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology04() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><NOT><PREDVAR id=\"A\"/></NOT></IMPL>");
         // System.out.println(ele.toString());
         assertFalse(isTautology(ele));
@@ -201,7 +201,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology05() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><NOT><PREDVAR id=\"A\"/></NOT><PREDVAR id=\"A\"/></IMPL>");
         // System.out.println(ele.toString());
         assertFalse(isTautology(ele));
@@ -215,7 +215,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology06() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><PREDVAR id=\"A\"/></IMPL>");
         // System.out.println(ele.toString());
         assertTrue(isTautology(ele));
@@ -229,7 +229,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology07() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><NOT><NOT><PREDVAR id=\"A\"/></NOT></NOT></IMPL>");
         // System.out.println(ele.toString());
         assertTrue(isTautology(ele));
@@ -243,7 +243,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology08() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"/><NOT><NOT><PREDVAR id=\"A\"/></NOT></NOT></EQUI>");
         // System.out.println(ele.toString());
         assertTrue(isTautology(ele));
@@ -257,7 +257,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology09() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><OR><PREDVAR id=\"B\"/><PREDVAR id=\"A\"/></OR></IMPL>");
         // System.out.println(ele.toString());
         assertTrue(isTautology(ele));
@@ -271,7 +271,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology10() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><OR><NOT><PREDVAR id=\"B\"/></NOT><PREDVAR id=\"A\"/></OR></IMPL>");
         // System.out.println(ele.toString());
         assertTrue(isTautology(ele));
@@ -285,7 +285,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology11() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><AND><NOT><PREDVAR id=\"B\"/></NOT><PREDVAR id=\"A\"/></AND></IMPL>");
         // System.out.println(ele.toString());
         assertFalse(isTautology(ele));
@@ -299,7 +299,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology12() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><OR><PREDVAR id=\"A\"/><NOT><PREDVAR id=\"A\"/></NOT></OR></IMPL>");
         // System.out.println(ele.toString());
         assertTrue(isTautology(ele));
@@ -313,7 +313,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology13() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/><OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/><PREDVAR id=\"C\"/>"
             + "<PREDVAR id=\"D\"/><PREDVAR id=\"E\"/><PREDVAR id=\"F\"/><PREDVAR id=\"G\"/>"
             + "<PREDVAR id=\"H\"/><PREDVAR id=\"I\"/><PREDVAR id=\"J\"/></OR></IMPL>");
@@ -329,7 +329,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology14() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><OR><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></OR>"
             + "<OR><PREDVAR id=\"B\"/><PREDVAR id=\"A\"/></OR></EQUI>");
         // System.out.println(ele.toString());
@@ -344,7 +344,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology15() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></AND>"
             + "<AND><PREDVAR id=\"B\"/><PREDVAR id=\"A\"/></AND></EQUI>");
         // System.out.println(ele.toString());
@@ -359,7 +359,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology16() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><AND><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></AND>"
             + "<OR><PREDVAR id=\"B\"/><PREDVAR id=\"A\"/></OR></EQUI>");
         // System.out.println(ele.toString());
@@ -374,7 +374,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology17() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><AND><NOT><PREDVAR id=\"A\"/></NOT><PREDVAR id=\"B\"/></AND>"
             + "<NOT><OR><NOT><PREDVAR id=\"B\"/></NOT><PREDVAR id=\"A\"/></OR></NOT></EQUI>");
         // System.out.println(ele.toString());
@@ -389,7 +389,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology18() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR></EQUI>");
         // System.out.println(ele.toString());
@@ -404,7 +404,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology19() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
@@ -419,7 +419,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology20() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
@@ -434,7 +434,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology21() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
@@ -449,7 +449,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology22() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
@@ -464,7 +464,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology23() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"/>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></EQUI>");
 //        System.out.println(ele.toString());
@@ -479,7 +479,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology24() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI><PREDVAR id=\"A\"/>"
             + "<PREDVAR id=\"B\"/></EQUI>");
 //        System.out.println(ele.toString());
@@ -494,7 +494,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology25() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/>"
             + "<PREDVAR id=\"B\"/></IMPL>");
 //        System.out.println(ele.toString());
@@ -509,7 +509,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology26() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<IMPL><PREDVAR id=\"A\"/>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></IMPL>");
 //        System.out.println(ele.toString());
@@ -524,7 +524,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology27() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL><VAR id=\"x\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR></IMPL></FORALL>");
 //        System.out.println(ele.toString());
@@ -539,7 +539,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology28() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR></IMPL></FORALL></FORALL>");
 //        System.out.println(ele.toString());
@@ -554,7 +554,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology29() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR></IMPL></FORALL></FORALL>");
 //        System.out.println(ele.toString());
@@ -569,7 +569,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology30() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR></FORALL></FORALL>");
 //        System.out.println(ele.toString());
@@ -584,7 +584,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology31() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL><VAR id=\"x\"/><FORALL><VAR id=\"y\"/><PREDVAR id=\"A\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/><VAR id=\"x\"/></PREDVAR></FORALL></FORALL>");
 //        System.out.println(ele.toString());
@@ -599,7 +599,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology32() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<FORALL><VAR id=\"x\"/><EXISTS><VAR id=\"y\"/><IMPL><PREDVAR id=\"A\"><VAR id=\"x\"/></PREDVAR>"
             + "<PREDVAR id=\"A\"><VAR id=\"y\"/></PREDVAR></IMPL></EXISTS></FORALL>");
 //        System.out.println(ele.toString());
@@ -614,7 +614,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology33() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU><VAR id=\"y\"/><PREDCON id=\"l.equal\"><VAR id=\"x\"/><VAR id=\"y\"/></PREDCON>"
             + "</EXISTSU>");
 //        System.out.println(ele.toString());
@@ -629,7 +629,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology34() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTSU><VAR id=\"y\"/><PREDCON id=\"l.equal\"><VAR id=\"y\"/><VAR id=\"y\"/></PREDCON>"
             + "</EXISTSU>");
 //        System.out.println(ele.toString());
@@ -644,7 +644,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology35() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS><VAR id=\"y\"/><PREDCON id=\"equal\"><VAR id=\"y\"/><VAR id=\"y\"/></PREDCON>"
             + "</EXISTS>");
 //        System.out.println(ele.toString());
@@ -659,7 +659,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology36() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR>"
             + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON>");
 //        System.out.println(ele.toString());
@@ -674,7 +674,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology37() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"x\"/></FUNVAR>"
             + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON>");
 //        System.out.println(ele.toString());
@@ -689,7 +689,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology38() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EXISTS><VAR id=\"y\"/><PREDCON id=\"equal\"><FUNVAR id=\"f\"><VAR id=\"x\"/></FUNVAR>"
             + "<FUNVAR id=\"f\"><VAR id=\"y\"/></FUNVAR></PREDCON></EXISTS>");
 //        System.out.println(ele.toString());
@@ -704,7 +704,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology39() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "\n            <AND>\n" +
             "\n" +
             "\n                <PREDCON ref=\"TRUE\" />\n" +
@@ -1172,7 +1172,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology40() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "                <AND>"
             + "\n                "
             + "\n                <IMPL>"
@@ -1539,7 +1539,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology41() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "\n                <EQUI>"
             + "\n                  <FORALL>"
             + "\n                    <VAR id=\"x\" />"
@@ -1573,7 +1573,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology42() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
               "\n                <IMPL>"
               + "\n                  <FORALL>"
               + "\n                    <VAR id=\"x\" />"
@@ -1608,7 +1608,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology43() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "                <IMPL>\n"
             + "                <FORALL>\n"
             + "                  <VAR id=\"z\"/>\n"
@@ -1641,7 +1641,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology44() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "    <EQUI>\n"
             + "    <PREDCON ref=\"in\">\n"
             + "      <VAR id=\"y\"/>\n"
@@ -1674,7 +1674,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology45() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<PREDCON id=\"equal\">\n"
             + "  <FUNCON id=\"complement\">\n"
             + "    <VAR id=\"x\" />\n"
@@ -1700,7 +1700,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology46() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "  <EQUI>\n"
             + "    <PREDCON ref=\"subclass\">\n"
             + "      <VAR id=\"x\" />\n"
@@ -1729,7 +1729,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology47() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<AND>\n"
             + "  <EQUI>\n"
             + "    <PREDCON ref=\"subclass\">\n"
@@ -1796,7 +1796,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology50() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
         "<OR>\n"
         + "  <PREDVAR id=\"A\"/>\n"
         + "  <NOT>\n"
@@ -1815,7 +1815,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology51() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<EQUI>\n"
             + "  <PREDCON id=\"l.TRUE\"/>\n"
             + "  <OR>\n"
@@ -1837,7 +1837,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology52() throws Exception {
-        final Element formula = TestParser.createElement(
+        final Element formula = BasicParser.createElement(
             "<EQUI>\n"
             + "  <PREDCON id=\"TRUE\"/>\n"
             + "  <OR>\n"
@@ -1859,7 +1859,7 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
      * @throws  Exception   Test failed.
      */
     public void testTautology53() throws Exception {
-        final Element formula = TestParser.createElement(
+        final Element formula = BasicParser.createElement(
                 "              <AND>"
                 + "                <EQUI>"
                 + "                  <PREDCON ref=\"in\">"

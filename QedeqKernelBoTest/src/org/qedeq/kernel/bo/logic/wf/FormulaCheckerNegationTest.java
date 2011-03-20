@@ -17,10 +17,10 @@ package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -51,7 +51,7 @@ public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegationPositive01() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<NOT><PREDVAR id=\"A\"/></NOT>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkFormula(ele, context).hasErrors());
@@ -68,7 +68,7 @@ public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegationNegative01() throws Exception {
-        final Element ele = TestParser.createElement("<NOT />");
+        final Element ele = BasicParser.createElement("<NOT />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkFormula(ele, context, getChecker());
@@ -84,7 +84,7 @@ public class FormulaCheckerNegationTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testNegationNegative02() throws Exception {
-        final Element ele = TestParser.createElement(
+        final Element ele = BasicParser.createElement(
             "<NOT><PREDVAR id=\"A\"/><PREDVAR id=\"B\"/></NOT>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =

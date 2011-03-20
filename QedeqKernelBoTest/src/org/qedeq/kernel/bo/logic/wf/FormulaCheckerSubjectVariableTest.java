@@ -17,10 +17,10 @@ package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
-import org.qedeq.kernel.bo.test.TestParser;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.xml.parser.BasicParser;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -50,7 +50,7 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testSubjectVariablePositive() throws Exception {
-        final Element ele = TestParser.createElement("<VAR id=\"x\"/>");
+        final Element ele = BasicParser.createElement("<VAR id=\"x\"/>");
         // System.out.println(ele.toString());
         assertFalse(checker.checkTerm(ele, context).hasErrors());
         assertFalse(checker.checkTerm(ele, context, getChecker()).hasErrors());
@@ -65,7 +65,7 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testSubjectVariableNegative1() throws Exception {
-        final Element ele = TestParser.createElement("<VAR />");
+        final Element ele = BasicParser.createElement("<VAR />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context);
@@ -81,7 +81,7 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testSubjectVariableNegative2() throws Exception {
-        final Element ele = TestParser.createElement("<VAR id=\"x\" ref=\"12\" />");
+        final Element ele = BasicParser.createElement("<VAR id=\"x\" ref=\"12\" />");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context);
@@ -98,7 +98,7 @@ public class FormulaCheckerSubjectVariableTest extends AbstractFormulaChecker {
      * @throws  Exception   Test failed.
      */
     public void testSubjectVariableNegative3() throws Exception {
-        final Element ele = TestParser.createElement("<VAR> <A/> </VAR>");
+        final Element ele = BasicParser.createElement("<VAR> <A/> </VAR>");
         // System.out.println(ele.toString());
         LogicalCheckExceptionList list =
             checker.checkTerm(ele, context);
