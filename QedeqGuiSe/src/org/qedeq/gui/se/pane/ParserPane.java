@@ -45,7 +45,7 @@ import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.gui.se.element.CPTextArea;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
-import org.qedeq.kernel.bo.parser.LatexMathParser;
+import org.qedeq.kernel.bo.parser.MathParser;
 import org.qedeq.kernel.bo.parser.ParserException;
 import org.qedeq.kernel.bo.parser.Term;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -62,12 +62,8 @@ public class ParserPane extends JFrame {
     /** This class. */
     private static final Class CLASS = ParserPane.class;
 
-    /** LATER m31 20101006: Only example string. */
-    private static final String SAMPLE = "x \\land (y \\lor z) \\leftrightarrow (x \\land y) \\lor "
-        + "(x \\land z)\n\n\\{ x | y \\in x \\} = \\{ z | y \\in x \\}";
-
     /** Source to parse. */
-    private CPTextArea source = new CPTextArea(SAMPLE, true);
+    private CPTextArea source = new CPTextArea();
 
     /** Parse result. */
     private CPTextArea resultField = new CPTextArea();
@@ -96,10 +92,16 @@ public class ParserPane extends JFrame {
     /** File that contains operator definitions. */
     private final File resourceFile;
 
+    /** Use this parser. */
+    private final MathParser parser;
 
-    public ParserPane(final String resourceName) throws SourceFileExceptionList {
+
+    public ParserPane(final String name, final MathParser parser, final String title,
+            final String resourceName, final String sample) throws SourceFileExceptionList {
         // LATER mime 20080131: hard coded window, change to FormLayout
-        super("QEDEQ LaTeX Parser Sample");
+        super(title);
+        this.parser = parser;
+        source.setText(sample);
         final String resourceDirectoryName = "config";
         try {
             resourceFile = ResourceLoaderUtility.getResourceFile(
@@ -116,14 +118,16 @@ public class ParserPane extends JFrame {
         } catch (NoSuchFieldException e) {  // programming error
             throw new RuntimeException(e);
         }
-        setupView();
+        setupView(name);
         updateView();
     }
 
     /**
      * Assembles the GUI components of the panel.
+     *
+     * @param   name    Name of transformation source.
      */
-    private final void setupView() {
+    private final void setupView(final String name) {
         final Container pane = getContentPane();
         source.setDragEnabled(true);
         source.setFont(new Font("monospaced", Font.PLAIN, pane.getFont().getSize()));
@@ -169,7 +173,7 @@ public class ParserPane extends JFrame {
 
         splitPane.setTopComponent(sourceScroller);
         splitPane.setBottomComponent(resultScroller);
-        splitPane.setResizeWeight(0.5);
+        splitPane.setResizeWeight(0);
         splitPane.setOneTouchExpandable(true);
 
         error.setText("");
@@ -211,7 +215,7 @@ public class ParserPane extends JFrame {
         final JMenu transformMenu = new JMenu("Transform");
         transformMenu.setMnemonic('T');
         {
-            final JMenuItem transform = new JMenuItem("LaTeX to QEDEQ");
+            final JMenuItem transform = new JMenuItem(name + " to QEDEQ");
             transform.setMnemonic('Q');
             transform.addActionListener(new AbstractAction() {
                 public final void actionPerformed(final ActionEvent action) {
@@ -271,7 +275,7 @@ public class ParserPane extends JFrame {
         menu.add(helpMenu);
 
         setJMenuBar(menu);
-        setSize(600, 400);
+        setSize(500, 800);
     }
 
     /**
@@ -337,7 +341,7 @@ public class ParserPane extends JFrame {
     private String printMath(final String text)  {
         final StringBuffer buffer = new StringBuffer(text);
         final TextInput input = new TextInput(buffer);
-        final LatexMathParser parser = new LatexMathParser(input, operators);
+        parser.setParameters(text, operators);
         final StringBuffer out = new StringBuffer();
         errorPosition = -1;
         try {

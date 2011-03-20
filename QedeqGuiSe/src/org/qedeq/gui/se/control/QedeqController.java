@@ -97,7 +97,10 @@ public class QedeqController {
     private final Action pluginPreferencesAction;
 
     /** Show parser window. */
-    private final Action parserAction;
+    private final Action latexParserAction;
+
+    /** Show parser window. */
+    private final Action textParserAction;
 
     /** List of already wanted QEDEQ modules.*/
     private final ArrayList moduleHistory;
@@ -119,7 +122,8 @@ public class QedeqController {
         helpAction = new HelpAction(this);
         preferencesAction = new PreferencesAction(this);
         pluginPreferencesAction = new PluginPreferencesAction(this);
-        parserAction = new ParserAction(this);
+        latexParserAction = new LatexParserAction(this);
+        textParserAction = new TextParserAction(this);
         exitAction = new ExitAction();
         addAction = new AddAction(this);
         addFileAction = new AddFileAction(this);
@@ -146,12 +150,16 @@ public class QedeqController {
 
         // LATER mime 20070606: dynamic evaluation from web page?
         if (getModuleHistory().size() == 0) {
-            final String prefix = "http://qedeq.org/"
+            final String prefix = "http://wwww.qedeq.org/"
                 + KernelContext.getInstance().getKernelVersionDirectory() + "/doc/";
             getModuleHistory().add(prefix + "math/qedeq_logic_v1.xml");
+            getModuleHistory().add(prefix + "math/qedeq_propositional_v1.xml");
             getModuleHistory().add(prefix + "math/qedeq_set_theory_v1.xml");
             getModuleHistory().add(prefix + "project/qedeq_basic_concept.xml");
             getModuleHistory().add(prefix + "project/qedeq_logic_language.xml");
+            getModuleHistory().add(prefix + "sample/qedeq_sample1.xml");
+            getModuleHistory().add(prefix + "sample/qedeq_sample2.xml");
+            getModuleHistory().add(prefix + "sample/qedeq_sample3.xml");
         }
     }
 
@@ -202,7 +210,7 @@ public class QedeqController {
     }
 
     /**
-     * Get pluginpreferences window startup action.
+     * Get plugin preferences window startup action.
      *
      * @return  Action.
      */
@@ -215,8 +223,17 @@ public class QedeqController {
      *
      * @return  Action.
      */
-    public Action getParserAction() {
-        return parserAction;
+    public Action getLatexParserAction() {
+        return latexParserAction;
+    }
+
+    /**
+     * Get parser window startup action.
+     *
+     * @return  Action.
+     */
+    public Action getTextParserAction() {
+        return textParserAction;
     }
 
     /**

@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.pane.ParserPane;
+import org.qedeq.kernel.bo.parser.AsciiMathParser;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
@@ -29,10 +30,10 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-class ParserAction extends AbstractAction {
+class TextParserAction extends AbstractAction {
 
     /** This class. */
-    private static final Class CLASS = ParserAction.class;
+    private static final Class CLASS = TextParserAction.class;
 
     /** Controller reference. */
     private final QedeqController controller;
@@ -42,14 +43,21 @@ class ParserAction extends AbstractAction {
      *
      * @param   controller  Controller.
      */
-    ParserAction(final QedeqController controller) {
+    TextParserAction(final QedeqController controller) {
         this.controller = controller;
     }
 
     public void actionPerformed(final ActionEvent e) {
-        final String resourceName = "mengenlehreMathOperators.xml";
+        final String resourceName = "textMathOperators.xml";
         try {
-            final ParserPane pane = new ParserPane(resourceName);
+            final ParserPane pane = new ParserPane("Text", new AsciiMathParser(),
+                "QEDEQ Text Parser Sample",
+                resourceName,
+                "a -> (b & c)\n"
+                 + "A x (x in y <-> x in z) -> y = z\n"
+                 + "set(x) <-> E y (y in x)\n"
+                 + "E x A y a(x, y) -> A x E y a(x, y)\n"
+                 );
             pane.setVisible(true);
         } catch (final SourceFileExceptionList xl) {
             Trace.fatal(CLASS, this, "actionPerformed", "Parser Window can not be opened", xl);

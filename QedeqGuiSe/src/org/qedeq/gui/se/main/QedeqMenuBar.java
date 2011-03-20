@@ -180,7 +180,12 @@ public class QedeqMenuBar extends JMenuBar {
         JMenu menu = MenuHelper.createMenu("Tools", 'o');
 
         item = MenuHelper.createMenuItem("LaTeX to QEDEQ", 'L');
-        item.addActionListener(controller.getParserAction());
+        item.addActionListener(controller.getLatexParserAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/format-indent-more.png"));
+        menu.add(item);
+
+        item = MenuHelper.createMenuItem("Text to QEDEQ", 'L');
+        item.addActionListener(controller.getTextParserAction());
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/format-indent-more.png"));
         menu.add(item);
 
