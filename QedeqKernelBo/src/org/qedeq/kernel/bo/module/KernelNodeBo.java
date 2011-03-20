@@ -54,9 +54,6 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
      * See {@link CheckLevel} for value format. */
     private int provedCheck;
 
-    /** Last proved line number in an proposition. */
-    private int lastProvedLine;
-
 
     /**
      * Constructor.
@@ -72,7 +69,6 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
         this.context = new ModuleContext(context);
         this.qedeq = qedeq;
         this.data = new QedeqNumbers(data);
-        this.lastProvedLine = -1;
     }
 
     /**
@@ -190,44 +186,6 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
 
     public boolean isNotProved() {
         return provedCheck < SUCCESS && provedCheck > UNCHECKED;
-    }
-
-    // FIXME 20110316 m31: this doesn't work if we have several formal proofs in this node!!!
-    public void setLastProvedLine(final int proof, final int lastProvedLine) {
-        this.lastProvedLine = lastProvedLine;
-    }
-
-    // FIXME 20110316 m31: this doesn't work if we have several formal proofs in this node!!!
-    public int getLastProvedLine(final int proof) {
-        return lastProvedLine;
-    }
-
-    public boolean isProved(String proofLineLabel) {
-        if (proofLineLabel == null || proofLineLabel.length() == 0) {
-            return false;
-        }
-        final Proposition theorem = getNodeVo().getNodeType().getProposition();
-        if (theorem == null) {
-            return false;
-        }
-        final FormalProofList proofs = theorem.getFormalProofList();
-        if (proofs == null) {
-            return false;
-        }
-        // iterate through all formal proofs
-        for (int i = 0; i < proofs.size(); i++) {
-            final FormalProofLineList list = proofs.get(i).getFormalProofLineList();
-            if (list == null) {
-                continue;
-            }
-            for (int j = 0; j <= Math.min(getLastProvedLine(i), list.size() - 1); j++) {
-                if (proofLineLabel.equals(list.get(j).getLabel())) {
-                    return true;
-                }
-            }
-        }
-        // nowhere found:
-        return false;
     }
 
     public boolean hasFormula() {

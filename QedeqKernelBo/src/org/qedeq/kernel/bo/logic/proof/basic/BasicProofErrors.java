@@ -104,4 +104,36 @@ public interface BasicProofErrors extends ErrorCodes {
         = "this proof line must be the conclusion of the first reference: ";
 
 
+    /** Error code. */
+    public static final int LAST_PROOF_LINE_MUST_BE_IDENTICAL_TO_PROPOSITION_CODE = 37200;
+
+    /** Error message. */
+    public static final String LAST_PROOF_LINE_MUST_BE_IDENTICAL_TO_PROPOSITION_TEXT
+        = "the last proof line must be identical to the proposition formula";
+
+
+    /** Error code. */
+    public static final int SUBSTITUTION_FORMULA_IS_MISSING_CODE = 37210;
+
+    /** Error message. */
+    public static final String SUBSTITUTION_FORMULA_IS_MISSING_TEXT
+        = "the substitution formula is missing";
+
+
+    /** Error code. */
+    public static final int REFERENCE_TO_PROVED_FORMULA_IS_MISSING_CODE = 37220;
+
+    /** Error message. */
+    public static final String REFERENCE_TO_PROVED_FORMULA_IS_MISSING_TEXT
+        = "this is not a reference to a proved formula: ";
+
+
+    /** Error code. */
+    public static final int SUBSTITUTION_TERM_IS_MISSING_CODE = 37220;
+
+    /** Error message. */
+    public static final String SUBSTITUTION_TERM_IS_MISSING_TEXT
+        = "the substitution term is missing";
+
+
 }

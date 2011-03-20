@@ -28,6 +28,7 @@ import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
@@ -41,6 +42,7 @@ import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.dto.list.DefaultElementList;
 
 
 /**
@@ -49,9 +51,6 @@ import org.qedeq.kernel.se.common.ModuleContext;
  * @author  Michael Meyling
  */
 public class ProofCheckerImpl implements ProofChecker {
-
-    /** This class. */
-    private static final Class CLASS = ProofCheckerImpl.class;
 
     /** Formula we want to prove. */
     private Element formula;
@@ -79,9 +78,6 @@ public class ProofCheckerImpl implements ProofChecker {
 
     /** Maps local proof line labels to local line number Integers. */
     private Map label2line;
-
-    /** Is the proof invalid? */
-    private boolean proofInvalid = false;
 
     /**
      * Constructor.
@@ -135,47 +131,6 @@ public class ProofCheckerImpl implements ProofChecker {
                     getCurrentContext());
                 continue;
             }
-            // check if only basis rules are used
-            // TODO 20110316 m31: this is a dirty trick to get the context of the reason
-            //                    perhaps we can solve this more elegantly?
-            String getReason = ".get" + StringUtility.getClassName(reason.getClass());
-            if (getReason.endsWith("Vo")) {
-                getReason = getReason.substring(0, getReason.length() - 2) + "()";
-                setLocationWithinModule(context + ".get("  + i + ").getReasonType()"
-                    + getReason);
-            }
-            if (
-                       !(reason instanceof Add)
-                    && !(reason instanceof Rename)
-                    && !(reason instanceof SubstFree)
-                    && !(reason instanceof SubstPred)
-                    && !(reason instanceof SubstFunc)
-                    && !(reason instanceof Existential)
-                    && !(reason instanceof Universal)
-                    && !(reason instanceof ModusPonens)
-                ) {
-                ok = false;
-                handleProofCheckException(
-                        BasicProofErrors.THIS_IS_NO_ALLOWED_BASIC_REASON_CODE,
-                        BasicProofErrors.THIS_IS_NO_ALLOWED_BASIC_REASON_TEXT
-                        + reason.getName(),
-                        getCurrentContext());
-                continue;
-            }
-            if (reason instanceof Add) {
-                ok = check(reasonType.getAdd(), i, line.getFormula().getElement());
-            } else if (reason instanceof Rename) {
-                ok = check(reasonType.getRename(), i, line.getFormula().getElement());
-            } else if (reason instanceof ModusPonens) {
-                ok = check(reasonType.getModusPonens(), i, line.getFormula().getElement());
-            } else if (reason instanceof SubstFree) {
-                ok = check(reasonType.getSubstFree(), i, line.getFormula().getElement());
-            } else if (reason instanceof SubstPred) {
-                ok = check(reasonType.getSubstPred(), i, line.getFormula().getElement());
-            } else if (reason instanceof SubstFunc) {
-                ok = check(reasonType.getSubstFunc(), i, line.getFormula().getElement());
-            }
-            lineProved[i] = ok;
             if (line.getLabel() != null && line.getLabel().length() > 0) {
                 final Integer n = (Integer) label2line.get(line.getLabel());
                 if (n != null) {
@@ -193,8 +148,49 @@ public class ProofCheckerImpl implements ProofChecker {
                 }
                 label2line.put(line.getLabel(), new Integer(i));
             }
-            if (!proofInvalid) {
-                resolver.setLastProved(i);
+            // check if only basis rules are used
+            // TODO 20110316 m31: this is a dirty trick to get the context of the reason
+            //                    perhaps we can solve this more elegantly?
+            String getReason = ".get" + StringUtility.getClassName(reason.getClass());
+            if (getReason.endsWith("Vo")) {
+                getReason = getReason.substring(0, getReason.length() - 2) + "()";
+                setLocationWithinModule(context + ".get("  + i + ").getReasonType()"
+                    + getReason);
+            }
+            if (reason instanceof Add) {
+                ok = check(reasonType.getAdd(), i, line.getFormula().getElement());
+            } else if (reason instanceof Rename) {
+                ok = check(reasonType.getRename(), i, line.getFormula().getElement());
+            } else if (reason instanceof ModusPonens) {
+                ok = check(reasonType.getModusPonens(), i, line.getFormula().getElement());
+            } else if (reason instanceof SubstFree) {
+                ok = check(reasonType.getSubstFree(), i, line.getFormula().getElement());
+            } else if (reason instanceof SubstPred) {
+                ok = check(reasonType.getSubstPred(), i, line.getFormula().getElement());
+            } else if (reason instanceof SubstFunc) {
+                ok = check(reasonType.getSubstFunc(), i, line.getFormula().getElement());
+            } else if (reason instanceof Universal) {
+                ok = check(reasonType.getUniversal(), i, line.getFormula().getElement());
+            } else if (reason instanceof Existential) {
+                ok = check(reasonType.getExistential(), i, line.getFormula().getElement());
+            } else {
+                ok = false;
+                handleProofCheckException(
+                    BasicProofErrors.THIS_IS_NO_ALLOWED_BASIC_REASON_CODE,
+                    BasicProofErrors.THIS_IS_NO_ALLOWED_BASIC_REASON_TEXT
+                    + reason.getName(),
+                    getCurrentContext());
+            }
+            lineProved[i] = ok;
+            // check if last proof line is identical with proposition formula
+            if (i == proof.size() - 1) {
+                if (!formula.equals(line.getFormula().getElement())) {
+                    handleProofCheckException(
+                        BasicProofErrors.LAST_PROOF_LINE_MUST_BE_IDENTICAL_TO_PROPOSITION_CODE,
+                        BasicProofErrors.LAST_PROOF_LINE_MUST_BE_IDENTICAL_TO_PROPOSITION_TEXT
+                        + reason.getName(),
+                        getModuleContextOfProofLineFormula(i));
+                }
             }
         }
         return exceptions;
@@ -203,6 +199,15 @@ public class ProofCheckerImpl implements ProofChecker {
     private boolean check(final Add add, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
+        if (add.getReference() == null) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.REFERENCE_TO_PROVED_FORMULA_IS_MISSING_CODE,
+                BasicProofErrors.REFERENCE_TO_PROVED_FORMULA_IS_MISSING_TEXT,
+                getCurrentContext());
+            return ok;
+        }
         if (!resolver.hasProvedFormula(add.getReference())) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
@@ -331,6 +336,14 @@ public class ProofCheckerImpl implements ProofChecker {
         } else {
             final Element f = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
+            if (substpred.getSubstituteFormula() == null) {
+                ok = false;
+                handleProofCheckException(
+                    BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_CODE,
+                    BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_TEXT,
+                    getCurrentContext());
+                return ok;
+            }
             final Element subst = resolver.getNormalizedFormula(substpred.getSubstituteFormula());
             final Element expected = FormulaUtility.replaceOperatorVariable(f,
                 substpred.getPredicateVariable(), subst);
@@ -370,8 +383,17 @@ public class ProofCheckerImpl implements ProofChecker {
         } else {
             final Element f = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
-            final Element expected = f.replace(substfunc.getFunctionVariable(),
-                resolver.getNormalizedFormula(substfunc.getSubstituteTerm()));
+            if (substfunc.getSubstituteTerm() == null) {
+                ok = false;
+                handleProofCheckException(
+                    BasicProofErrors.SUBSTITUTION_TERM_IS_MISSING_CODE,
+                    BasicProofErrors.SUBSTITUTION_TERM_IS_MISSING_TEXT,
+                    getCurrentContext());
+                return ok;
+            }
+            final Element subst = resolver.getNormalizedFormula(substfunc.getSubstituteTerm());
+            final Element expected = FormulaUtility.replaceOperatorVariable(f,
+                substfunc.getFunctionVariable(), subst);
             if (!EqualsUtility.equals(current, expected)) {
                 ok = false;
                 handleProofCheckException(
@@ -462,6 +484,113 @@ public class ProofCheckerImpl implements ProofChecker {
         return ok;
     }
 
+    private boolean check(final Universal universal, final int i, final Element element) {
+        final String context = currentContext.getLocationWithinModule();
+        boolean ok = true;
+        final Integer n = (Integer) label2line.get(universal.getReference());
+        if (n == null) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
+                + universal.getReference(),
+                getCurrentContext());
+        } else if (!lineProved[n.intValue()]) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                + universal.getReference(),
+                getCurrentContext());
+        } else {
+            final Element f = getNormalizedProofLine(n);
+            final Element current = resolver.getNormalizedFormula(element);
+            if (!Operators.IMPLICATION_OPERATOR.equals(f.getList().getOperator())
+                    || f.getList().size() != 2) {
+                ok = false;
+                setLocationWithinModule(context + ".getReference()");
+                handleProofCheckException(
+                    BasicProofErrors.IMPLICATION_EXPECTED_CODE,
+                    BasicProofErrors.IMPLICATION_EXPECTED_TEXT
+                    + universal.getReference(),
+                    getCurrentContext());
+                return ok;
+            }
+            final DefaultElementList expected = new DefaultElementList(f.getList().getOperator());
+            expected.add((f.getList().getElement(0)));
+            final ElementList uni = new DefaultElementList(Operators.UNIVERSAL_QUANTIFIER_OPERATOR);
+            uni.add(universal.getSubjectVariable());
+            uni.add(f.getList().getElement(1));
+            expected.add(uni);
+            if (!EqualsUtility.equals(current, expected)) {
+                ok = false;
+                handleProofCheckException(
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
+                    + universal.getReference(),
+                    getDiffModuleContextOfProofLineFormula(i, expected));
+                return ok;
+            }
+        }
+        return ok;
+    }
+
+    private boolean check(final Existential existential, final int i, final Element element) {
+        final String context = currentContext.getLocationWithinModule();
+        boolean ok = true;
+        final Integer n = (Integer) label2line.get(existential.getReference());
+        if (n == null) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
+                + existential.getReference(),
+                getCurrentContext());
+        } else if (!lineProved[n.intValue()]) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+                + existential.getReference(),
+                getCurrentContext());
+        } else {
+            final Element f = getNormalizedProofLine(n);
+            final Element current = resolver.getNormalizedFormula(element);
+            if (!Operators.IMPLICATION_OPERATOR.equals(f.getList().getOperator())
+                    || f.getList().size() != 2) {
+                ok = false;
+                setLocationWithinModule(context + ".getReference()");
+                handleProofCheckException(
+                    BasicProofErrors.IMPLICATION_EXPECTED_CODE,
+                    BasicProofErrors.IMPLICATION_EXPECTED_TEXT
+                    + existential.getReference(),
+                    getCurrentContext());
+                return ok;
+            }
+            final DefaultElementList expected = new DefaultElementList(f.getList().getOperator());
+            final ElementList exi = new DefaultElementList(
+                Operators.EXISTENTIAL_QUANTIFIER_OPERATOR);
+            exi.add(existential.getSubjectVariable());
+            exi.add(f.getList().getElement(0));
+            expected.add(exi);
+            expected.add((f.getList().getElement(1)));
+            if (!EqualsUtility.equals(current, expected)) {
+                ok = false;
+                handleProofCheckException(
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
+                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
+                    + existential.getReference(),
+                    getDiffModuleContextOfProofLineFormula(i, expected));
+                return ok;
+            }
+        }
+        return ok;
+    }
+
     private ModuleContext getModuleContextOfProofLineFormula(final int i) {
         return new ModuleContext(moduleContext.getModuleLocation(),
             moduleContext.getLocationWithinModule() + ".get(" + i
@@ -511,7 +640,6 @@ public class ProofCheckerImpl implements ProofChecker {
         System.out.println(context);    // FIXME
         System.setProperty("qedeq.test.xmlLocationFailures", "true");  // FIXME
         final ProofCheckException ex = new ProofCheckException(code, msg, element, context);
-        proofInvalid = true;
         exceptions.add(ex);
     }
 
@@ -527,7 +655,6 @@ public class ProofCheckerImpl implements ProofChecker {
         System.out.println(context);    // FIXME
         System.setProperty("qedeq.test.xmlLocationFailures", "true");  // FIXME
         final ProofCheckException ex = new ProofCheckException(code, msg, context);
-        proofInvalid = true;
         exceptions.add(ex);
     }
 
@@ -545,7 +672,6 @@ public class ProofCheckerImpl implements ProofChecker {
         System.setProperty("qedeq.test.xmlLocationFailures", "true");  // FIXME
         final ProofCheckException ex = new ProofCheckException(code, msg, null, context,
             referenceContext);
-        proofInvalid = true;
         exceptions.add(ex);
     }
 

@@ -37,11 +37,11 @@ public final class FormalProofCheckerPlugin implements PluginBo {
     }
 
     public String getPluginName() {
-        return "Verifier";
+        return "Proof Checker";
     }
 
     public String getPluginDescription() {
-        return "checks mathematical correctness";
+        return "checks formal proofs";
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {

@@ -51,13 +51,4 @@ public interface ReferenceResolver {
     public Element getNormalizedFormula(Element formula);
 
 
-    /**
-     * Set line number of last proof line, that is ok. All previous proof lines
-     * are also ok.
-     *
-     * @param   proofLineNumber Till this number (including this one) all proof
-     *                          lines were successfully checked.
-     */
-    public void setLastProved(final int proofLineNumber);
-
 }

@@ -125,7 +125,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                 "Check logical correctness for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         KernelContext.getInstance().checkModule(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().isChecked()) {
-            final String msg = "Check of well formedness failed for \"" + getQedeqBo().getUrl()
+            final String msg = "Check of logical correctness failed for \"" + getQedeqBo().getUrl()
             + "\"";
             QedeqLog.getInstance().logFailureReply(msg, "Module is not even well formed.");
             return Boolean.FALSE;
@@ -395,17 +395,10 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                 return false;
             }
             return ref.getNode().isProved();
+        } else {
+            System.out.println("proof line references are not ok!");
+            return false;
         }
-        if (!ref.getNode().isProved(ref.getProofLineLabel()))  {
-            System.out.println("ref node proof line is not marked as proved: " + ref.getProofLineLabel());
-        }
-        return ref.getNode().isProved(ref.getProofLineLabel());
-    }
-
-    public void setLastProved(final int proofLineNumber) {
-        // FIXME 20110316 m31: evaluate correct formal proof number (here 0 is only the first one!)
-        System.out.println("setting last ok proof line number to " + proofLineNumber);
-        getNodeBo().setLastProvedLine(0, proofLineNumber);
     }
 
     public Element getNormalizedReferenceFormula(final String reference) {
@@ -422,6 +415,9 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     }
 
     private Element getNormalizedFormula(final KernelQedeqBo qedeq, final Element formula) {
+        if (formula == null) {
+            return null;
+        }
         if (formula.isAtom()) {
             return new DefaultAtom(formula.getAtom().getString());
         }

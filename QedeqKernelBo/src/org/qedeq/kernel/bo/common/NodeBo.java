@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.bo.common;
 
+import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.module.NodeVo;
 import org.qedeq.kernel.se.visitor.QedeqNumbers;
@@ -83,6 +84,21 @@ public interface NodeBo {
     public boolean isNotProved();
 
     /**
+     * Has this node a formula?
+     *
+     * @return  Formula.
+     */
+    public boolean hasFormula();
+
+    /**
+     * Get formula of node. Can only be not <code>null</code> if this node is an Axiom,
+     * PredicateDefinition, FunctionDefinition or Proposition.
+     *
+     * @return  Node formula.
+     */
+    public Element getFormula();
+
+    /**
      * Get node.
      *
      * @return  Node.
@@ -90,3 +106,4 @@ public interface NodeBo {
     public NodeVo getNodeVo();
 
 }
+
