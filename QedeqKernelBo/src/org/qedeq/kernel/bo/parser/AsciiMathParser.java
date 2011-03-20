@@ -30,7 +30,6 @@ import org.qedeq.base.trace.Trace;
  * Parse term or formula data into {@link org.qedeq.kernel.bo.parser.Term}s.
  * This parser uses simple ASCII text operators.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public final class AsciiMathParser extends MathParser {
@@ -43,12 +42,9 @@ public final class AsciiMathParser extends MathParser {
 
     /**
      * Constructor.
-     *
-     * @param   input       Parse this input.
-     * @param   operators   Operator definitions.
      */
-    public AsciiMathParser(final TextInput input, final List operators) {
-        super(new MementoTextInput(input), operators);
+    public AsciiMathParser() {
+        super();
     }
 
     protected final String readToken() {

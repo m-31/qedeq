@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 
 /*
@@ -70,7 +69,6 @@ import org.qedeq.base.trace.Trace;
 /**
  * Parse LaTeX term or formula data into {@link org.qedeq.kernel.bo.parser.Term}s.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public class LatexMathParser extends MathParser {
@@ -87,22 +85,9 @@ public class LatexMathParser extends MathParser {
     /**
      * Constructor.
      *
-     * @param   input       Parse this input.
-     * @param   operators   List of operators.
      */
-    public LatexMathParser(final TextInput input, final List operators) {
-        super(new MementoTextInput(input), operators);
-    }
-
-
-    /**
-     * Constructor.
-     *
-     * @param   buffer      Parse this input.
-     * @param   operators   List of operators.
-     */
-    public LatexMathParser(final StringBuffer buffer, final List operators) {
-        this(new TextInput(buffer), operators);
+    public LatexMathParser() {
+        super();
     }
 
     protected final String readToken() {

@@ -18,12 +18,12 @@ package org.qedeq.kernel.bo.parser;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 
 /**
  * Parse term or formula data into {@link org.qedeq.kernel.bo.parser.Term}s.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public abstract class MathParser {
@@ -32,20 +32,56 @@ public abstract class MathParser {
     private static final Class CLASS = MathParser.class;
 
     /** Input source to parse. */
-    private final MementoTextInput input;
+    private MementoTextInput input;
 
     /** List of operators. */
     private List operators;
 
     /**
      * Constructor.
+     */
+    public MathParser() {
+    }
+
+    /**
+     * Set input source and defined parameters.
      *
      * @param   input       Input source to parse.
      * @param   operators   Operator list.
      */
-    public MathParser(final MementoTextInput input, final List operators) {
+    public void setParameters(final MementoTextInput input, final List operators) {
         this.input = input;
         this.operators = operators;
+    }
+
+    /**
+     * Set input source and defined parameters.
+     *
+     * @param   input       Input source to parse.
+     * @param   operators   Operator list.
+     */
+    public void setParameters(final TextInput input, final List operators) {
+        setParameters(new MementoTextInput(input), operators);
+    }
+
+    /**
+     * Set input source and defined parameters.
+     *
+     * @param   input       Input source to parse.
+     * @param   operators   Operator list.
+     */
+    public void setParameters(final StringBuffer input, final List operators) {
+        setParameters(new TextInput(input), operators);
+    }
+
+    /**
+     * Set input source and defined parameters.
+     *
+     * @param   input       Input source to parse.
+     * @param   operators   Operator list.
+     */
+    public void setParameters(final String input, final List operators) {
+        setParameters(new TextInput(input), operators);
     }
 
     protected final List getOperators() {

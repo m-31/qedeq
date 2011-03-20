@@ -34,12 +34,9 @@ public class SimpleMathParser extends MathParser {
 
     /**
      * Constructor.
-     *
-     * @param   input       Parse this input.
-     * @param   operators   List of operators.
      */
-    public SimpleMathParser(final TextInput input, final List operators) {
-        super(new MementoTextInput(input), operators);
+    public SimpleMathParser() {
+        super();
 /*
         operators.add(new Operator("~",      "NOT",   110, 1, 1, 1));
         operators.add(new Operator("-",      "NOT",   110, 1, 1, 1));
