@@ -43,6 +43,7 @@ import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Universal;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
+import org.qedeq.kernel.se.dto.list.ElementSet;
 
 
 /**
@@ -334,7 +335,7 @@ public class ProofCheckerImpl implements ProofChecker {
                 + substpred.getReference(),
                 getCurrentContext());
         } else {
-            final Element f = getNormalizedProofLine(n);
+            final Element alpha = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
             if (substpred.getSubstituteFormula() == null) {
                 ok = false;
@@ -344,9 +345,9 @@ public class ProofCheckerImpl implements ProofChecker {
                     getCurrentContext());
                 return ok;
             }
-            final Element subst = resolver.getNormalizedFormula(substpred.getSubstituteFormula());
-            final Element expected = FormulaUtility.replaceOperatorVariable(f,
-                substpred.getPredicateVariable(), subst);
+            final Element p = resolver.getNormalizedFormula(substpred.getPredicateVariable());
+            final Element beta = resolver.getNormalizedFormula(substpred.getSubstituteFormula());
+            final Element expected = FormulaUtility.replaceOperatorVariable(alpha, p, beta);
             if (!EqualsUtility.equals(current, expected)) {
                 ok = false;
                 handleProofCheckException(
@@ -356,6 +357,56 @@ public class ProofCheckerImpl implements ProofChecker {
                     getDiffModuleContextOfProofLineFormula(i, expected));
                 return ok;
             }
+            // check precondition: predicate variable p must have n pairwise different free subject
+            // variables as arguments
+            final ElementSet predFree = FormulaUtility.getFreeSubjectVariables(p);
+            if (predFree.size() != p.getList().size() - 1) {
+                ok = false;
+                setLocationWithinModule(context + ".getPredicateVariable()");
+                handleProofCheckException(
+                    BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_CODE,
+                    BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_TEXT,
+                    getDiffModuleContextOfProofLineFormula(i, expected));
+                return ok;
+            }
+            for (int j = 1; j < p.getList().size(); j++) {
+                if (!FormulaUtility.isSubjectVariable(p.getList().getElement(j))) {
+                    ok = false;
+                    setLocationWithinModule(context + ".getPredicateVariable()");
+                    handleProofCheckException(
+                        BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_CODE,
+                        BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_TEXT,
+                        getCurrentContext());
+                    return ok;
+                }
+            }
+            // check precondition: the free variables of $\beta(x_1, \ldots, x_n)$ without
+            // $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
+            final ElementSet fBound = FormulaUtility.getBoundSubjectVariables(alpha);
+            final ElementSet betaFree = FormulaUtility.getFreeSubjectVariables(beta);
+            if (!fBound.intersection(betaFree.minus(predFree)).isEmpty()) {
+                ok = false;
+                setLocationWithinModule(context + ".getSubstituteFormula()");
+                handleProofCheckException(
+                    BasicProofErrors.FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_CODE,
+                    BasicProofErrors.FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_TEXT,
+                    getCurrentContext());
+                return ok;
+            }
+            // check precondition: each occurrence of $p(t_1, \ldots, t_n)$ in $\alpha$ contains
+            // no bound variable of $\beta(x_1, \ldots, x_n)$
+            final ElementSet betaBound = FormulaUtility.getBoundSubjectVariables(beta);
+            if (!FormulaUtility.testOperatorVariable(alpha, p, betaBound)) {
+                ok = false;
+                setLocationWithinModule(context + ".getSubstituteFormula()");
+                handleProofCheckException(
+                    BasicProofErrors.SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_CODE,
+                    BasicProofErrors.SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_TEXT,
+                    getCurrentContext());
+                return ok;
+            }
+            // check precondition: resulting formula is well formed was already done by well formed
+            // checker
         }
         return ok;
     }

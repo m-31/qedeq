@@ -129,11 +129,36 @@ public interface BasicProofErrors extends ErrorCodes {
 
 
     /** Error code. */
-    public static final int SUBSTITUTION_TERM_IS_MISSING_CODE = 37220;
+    public static final int SUBSTITUTION_TERM_IS_MISSING_CODE = 37230;
 
     /** Error message. */
     public static final String SUBSTITUTION_TERM_IS_MISSING_TEXT
         = "the substitution term is missing";
+
+
+    /** Error code. */
+    public static final int ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_CODE = 37240;
+
+    /** Error message. */
+    public static final String ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_TEXT
+        = "only free subject variables as parameters allowed";
+
+
+    /** Error code. */
+    public static final int FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_CODE = 37250;
+
+    /** Error message. */
+    public static final String FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_TEXT
+        = "free subject variables should not get bound during substitution";
+
+
+    /** Error code. */
+    public static final int SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_CODE = 37260;
+
+    /** Error message. */
+    public static final String SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_TEXT
+        = "the substitution location contains subject variables that are bound within the "
+        + "replacement formula";
 
 
 }

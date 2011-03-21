@@ -190,6 +190,25 @@ public final class FormulaUtility implements Operators {
     }
 
     /**
+     * Return all subject variables of an element.
+     *
+     * @param   element    Work on this element.
+     * @return  All subject variables.
+     */
+    public static final ElementSet getSubjectVariables(final Element element) {
+        final ElementSet all = new ElementSet();
+        if (isSubjectVariable(element)) {
+            all.add(element);
+        } else if (element.isList()) {
+            final ElementList list = element.getList();
+            for (int i = 1; i < list.size(); i++) {
+                all.union(getSubjectVariables(list.getElement(i)));
+            }
+        }
+        return all;
+    }
+
+    /**
      * Has the given list an operator that binds a subject variable?
      *
      * @param   list    Check for this operator.
@@ -357,21 +376,13 @@ public final class FormulaUtility implements Operators {
             return formula.copy();
         }
         final ElementList result;
-//        System.out.println("trying to match " + f.getOperator());
         if (f.getOperator() == ov.getOperator() && f.size() == ov.size()
                 && f.getElement(0).equals(ov.getElement(0))) {
-//            System.out.println(" match successful");
             // replace meta variables by matching entries
             Element rn = r;
             for (int i = 1; i < ov.size(); i++) {
-//                System.out.print("replaceing number " + i + " >");
-//                println(createMeta(ov.getElement(i)));
-//                System.out.print("replaceing number " + i + " >");
-//                println(f.getElement(i));
                 rn = rn.replace(createMeta(ov.getElement(i)), f.getElement(i));
             }
-//            return rn;
-// FIXME
             return replaceOperatorVariableMeta(rn, operatorVariable, replacement);
         } else {
             result = new DefaultElementList(f.getOperator());
@@ -381,6 +392,40 @@ public final class FormulaUtility implements Operators {
             }
         }
         return result;
+    }
+
+    /**
+     * Test if operator occurrence in formula matches always to a formula that contains no subject
+     * variable that is in the given ElementSet of bound subject variables..
+     *
+     * @param   formula             Formula we want to test the condition.
+     * @param   operatorVariable    Predicate variable or function variable with only subject
+     *                              variables as arguments.
+     * @param   bound               Set of subject variables that are tabu.
+     * @return  Formula test was successful.
+     */
+    public static boolean testOperatorVariable(final Element formula,
+            final Element operatorVariable, final ElementSet bound) {
+        if (formula.isAtom() || operatorVariable.isAtom()) {
+            return true;
+        }
+        final ElementList f = formula.getList();
+        final ElementList ov = operatorVariable.getList();
+        if (f.size() < 1 || ov.size() < 1) {
+            return true;
+        }
+        boolean ok = true;
+        if (f.getOperator() == ov.getOperator() && f.size() == ov.size()
+                && f.getElement(0).equals(ov.getElement(0))) {
+            if (!getSubjectVariables(f).intersection(bound).isEmpty()) {
+                return false;
+            }
+        } else {
+            for (int i = 0; ok && i < f.size(); i++) {
+                ok = testOperatorVariable(f.getElement(i), operatorVariable, bound);
+            }
+        }
+        return ok;
     }
 
     /**

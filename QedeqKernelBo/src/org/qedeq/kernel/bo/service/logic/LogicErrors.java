@@ -173,7 +173,7 @@ public interface LogicErrors extends ErrorCodes {
 
     /** Error message. */
     public static final String NO_FORMAL_PROOF_FOUND_TEXT
-        = "no formal proof found";
+        = "no correct formal proof found";
 
 
 }

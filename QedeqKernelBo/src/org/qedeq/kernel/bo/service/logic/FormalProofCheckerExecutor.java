@@ -342,7 +342,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                 }
             }
         }
-        setLocationWithinModule(context);
+        setLocationWithinModule(context + ".getFormula()");
         // only if we found at least one error free formal proof
         if (correctProofFound) {
             getNodeBo().setProved(CheckLevel.SUCCESS);
