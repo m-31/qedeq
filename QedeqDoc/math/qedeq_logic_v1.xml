@@ -944,7 +944,7 @@
             
               <LATEX language="en">
                 <![CDATA[
-                  Let $\alpha$ be a true formula that contains a predicate variable $p$ of arity $n$, let $x_1$, \ldots, $x_n$ be subject variables and let $\beta(x_1, \ldots, x_n)$ be a formula where $x_1$, \ldots, $x_n$ are not bound. The formula $\beta(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound.
+                  Let $\alpha$ be a true formula that contains a predicate variable $p$ of arity $n$, let $x_1$, \ldots, $x_n$ be pairwise different subject variables and let $\beta(x_1, \ldots, x_n)$ be a formula where $x_1$, \ldots, $x_n$ are not bound. The formula $\beta(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound.
                   
                   If the following conditions are fulfilled, then a replacement of all occurrences of $p(t_1, \ldots, t_n)$ each with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\beta(t_1, \ldots, t_n)$ results in another true formula.
 
@@ -964,7 +964,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Es sei $\alpha$ eine wahre Formel, die die $n$-stellige Prädikatenvariable $p$ enthält, $x_1$, \ldots, $x_n$ seien Subjektvariable und $\beta(x_1, \ldots, x_n)$ eine beliebige Formel in der die Variablen $x_1$, \ldots, $x_n$ nicht gebunden sind. In der Formel $\beta(x_1, \ldots, x_n)$ müssen jedoch nicht alle $x_1$, \ldots, $x_n$ als freie Subjektvariable vorkommen. 
+                  Es sei $\alpha$ eine wahre Formel, die die $n$-stellige Prädikatenvariable $p$ enthält, $x_1$, \ldots, $x_n$ seien paarweise verschiedene Subjektvariable und $\beta(x_1, \ldots, x_n)$ eine beliebige Formel in der die Variablen $x_1$, \ldots, $x_n$ nicht gebunden sind. In der Formel $\beta(x_1, \ldots, x_n)$ müssen jedoch nicht alle $x_1$, \ldots, $x_n$ als freie Subjektvariable vorkommen. 
                   Weiterhin können auch noch weitere Variable frei oder gebunden vorkommen. 
                   
                   Wenn die folgenden Bedingungen erfüllt sind, dann kann durch die Ersetzung jedes Vorkommens von $p(t_1, \ldots, t_n)$ mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\beta(t_1, \ldots, t_n)$ eine weitere wahre Formel gewonnen werden.
@@ -1099,7 +1099,7 @@
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
-                  Let $\alpha$ be an already proved formula that contains a function variable $\sigma$ of arity $n$, let $x_1$, \ldots, $x_n$ be subject variables and let $\tau(x_1, \ldots, x_n)$ be an arbitrary term where $x_1$, \ldots, $x_n$ are not bound. 
+                  Let $\alpha$ be an already proved formula that contains a function variable $\sigma$ of arity $n$, let $x_1$, \ldots, $x_n$ be pairwise different subject variables and let $\tau(x_1, \ldots, x_n)$ be an arbitrary term where $x_1$, \ldots, $x_n$ are not bound. 
                   The term $\tau(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$. as free subject variables. Furthermore it can also have other subject variables either free or bound. 
                   
                   If the following conditions are fulfilled we can obtain a new true formula by replacing each occurrence of $\sigma(t_1, \ldots, t_n)$ with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\tau(t_1, \ldots, t_n)$.
@@ -1121,7 +1121,7 @@
               <LATEX language="de">
                 <![CDATA[
                 
-                  Es sei $\alpha$ eine bereits bewiesene Formel, die die $n$-stellige Funktionsvariable $\sigma$ enthält, $x_1$, \ldots, $x_n$ seien Subjektvariable und $\tau(x_1, \ldots, x_n)$ ein beliebiger Term in dem die Subjektvariablen $x_1$, \ldots, $x_n$ nicht gebunden sind. In dem Term $\tau(x_1, \ldots, x_n)$ müssen nicht alle $x_1$, \ldots, $x_n$ als freie Subjektvariable vorkommen. Weiterhin können auch noch  noch weitere Variable frei oder gebunden vorkommen.
+                  Es sei $\alpha$ eine bereits bewiesene Formel, die die $n$-stellige Funktionsvariable $\sigma$ enthält, $x_1$, \ldots, $x_n$ seien paarweise verschiedene Subjektvariable und $\tau(x_1, \ldots, x_n)$ ein beliebiger Term in dem die Subjektvariablen $x_1$, \ldots, $x_n$ nicht gebunden sind. In dem Term $\tau(x_1, \ldots, x_n)$ müssen nicht alle $x_1$, \ldots, $x_n$ als freie Subjektvariable vorkommen. Weiterhin können auch noch  noch weitere Variable frei oder gebunden vorkommen.
                   
                   Wenn die folgenden Bedingungen erfüllt sind, dann kann durch die Ersetzung jedes Vorkommens von $\sigma(t_1, \ldots, t_n)$ mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\tau(t_1, \ldots, t_n)$ eine weitere wahre Formel gewonnen 
                   werden.
