@@ -411,6 +411,7 @@ public class ProofCheckerImpl implements ProofChecker {
         return ok;
     }
 
+    // FIXME 20110321 m31: copy code from previous method herein
     private boolean check(final SubstFunc substfunc, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
