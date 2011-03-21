@@ -651,6 +651,8 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             for (int i = 0; i < list.size(); i++) {
                 addError(list.get(i));
             }
+        } else {  // no formula
+            getNodeBo().setWellFormed(CheckLevel.FAILURE);
         }
         if (proposition.getFormalProofList() != null) {
             for (int i = 0; i < proposition.getFormalProofList().size(); i++) {
@@ -678,12 +680,11 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                     }
                 }
             }
-        } else {  // no formula
-            getNodeBo().setWellFormed(CheckLevel.FAILURE);
         }
         setLocationWithinModule(context);
         // if we found no errors this node is ok
         if (!getNodeBo().isNotWellFormed()) {
+            System.out.println("ok");   // FIXME
             getNodeBo().setWellFormed(CheckLevel.SUCCESS);
         }
         setBlocked(true);

@@ -29,6 +29,7 @@ import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.common.ProofCheckerFactory;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
+import org.qedeq.kernel.bo.logic.proof.basic.ProofCheckException;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -192,6 +193,11 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
             getNodeBo().setProved(CheckLevel.FAILURE);
+            addError(new ProofCheckException(
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_CODE,
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_TEXT,
+                getCurrentContext()));
+            return;
         }
         setBlocked(true);
     }
@@ -209,6 +215,11 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
             getNodeBo().setProved(CheckLevel.FAILURE);
+            addError(new ProofCheckException(
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_CODE,
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_TEXT,
+                getCurrentContext()));
+            return;
         }
         setBlocked(true);
     }
@@ -226,6 +237,11 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
             getNodeBo().setProved(CheckLevel.FAILURE);
+            addError(new ProofCheckException(
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_CODE,
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_TEXT,
+                getCurrentContext()));
+            return;
         }
         setBlocked(true);
     }
@@ -243,6 +259,11 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
             getNodeBo().setProved(CheckLevel.FAILURE);
+            addError(new ProofCheckException(
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_CODE,
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_TEXT,
+                getCurrentContext()));
+            return;
         }
         setBlocked(true);
     }
@@ -260,6 +281,11 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
             getNodeBo().setProved(CheckLevel.FAILURE);
+            addError(new ProofCheckException(
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_CODE,
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_TEXT,
+                getCurrentContext()));
+            return;
         }
         setBlocked(true);
     }
@@ -276,15 +302,23 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         // we only check this node, if the well formed check was successful
         if (!getNodeBo().isWellFormed()) {
             getNodeBo().setProved(CheckLevel.FAILURE);
+            addError(new ProofCheckException(
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_CODE,
+                LogicErrors.NODE_FORMULAS_MUST_BE_WELL_FORMED_TEXT,
+                getCurrentContext()));
             return;
         }
         getNodeBo().setProved(CheckLevel.UNCHECKED);
         if (proposition.getFormula() == null) {
             getNodeBo().setProved(CheckLevel.FAILURE);
+            addError(new ProofCheckException(
+                LogicErrors.PROPOSITION_FORMULA_MUST_NOT_BE_NULL_CODE,
+                LogicErrors.PROPOSITION_FORMULA_MUST_NOT_BE_NULL_TEXT,
+                getCurrentContext()));
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        boolean proved = false;
+        boolean correctProofFound = false;
         // we start checking
         if (proposition.getFormalProofList() != null) {
             for (int i = 0; i < proposition.getFormalProofList().size(); i++) {
@@ -298,8 +332,8 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                             = checkerFactory.createProofChecker().checkProof(
                             proposition.getFormula().getElement(), list, getCurrentContext(),
                             this, existence);
-                        if (!proved && eList.size() == 0) {
-                            proved = true;
+                        if (!correctProofFound && eList.size() == 0) {
+                            correctProofFound = true;
                         }
                         for (int j = 0; j < eList.size(); j++) {
                             addError(eList.get(j));
@@ -308,14 +342,17 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                 }
             }
         }
+        setLocationWithinModule(context);
         // only if we found at least one error free formal proof
-        if (proved) {
+        if (correctProofFound) {
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
             getNodeBo().setProved(CheckLevel.FAILURE);
+            addError(new ProofCheckException(
+                LogicErrors.NO_FORMAL_PROOF_FOUND_CODE,
+                LogicErrors.NO_FORMAL_PROOF_FOUND_TEXT,
+                getCurrentContext()));
         }
-        setLocationWithinModule(context);
-        // if we found no errors this node is ok
         setBlocked(true);
     }
 

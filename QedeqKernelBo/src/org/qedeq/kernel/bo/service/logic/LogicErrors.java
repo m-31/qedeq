@@ -151,4 +151,29 @@ public interface LogicErrors extends ErrorCodes {
     public static final String MODULE_IMPORT_CHECK_FAILED_TEXT
         = "import check failed: ";
 
+
+    /** Error code. */
+    public static final int PROPOSITION_FORMULA_MUST_NOT_BE_NULL_CODE = 37230;
+
+    /** Error message. */
+    public static final String PROPOSITION_FORMULA_MUST_NOT_BE_NULL_TEXT
+        = "proposition formula must not be null";
+
+
+    /** Error code. */
+    public static final int NODE_FORMULAS_MUST_BE_WELL_FORMED_CODE = 37250;
+
+    /** Error message. */
+    public static final String NODE_FORMULAS_MUST_BE_WELL_FORMED_TEXT
+        = "only nodes with well formed formulas can be checked";
+
+
+    /** Error code. */
+    public static final int NO_FORMAL_PROOF_FOUND_CODE = 37240;
+
+    /** Error message. */
+    public static final String NO_FORMAL_PROOF_FOUND_TEXT
+        = "no formal proof found";
+
+
 }
