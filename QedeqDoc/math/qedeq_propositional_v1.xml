@@ -460,5 +460,161 @@
         </NODE>
       </SUBSECTIONS>
     </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+           First Propositions
+        </LATEX>
+        <LATEX language="de">
+           First Propositions
+        </LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            Here we draw the first conclusions.
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Hier nehmen wir die ersten Ableitungen vor.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE>
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <AND>
+                  <PREDVAR id="A" />
+                  <PREDVAR id="B" />
+                </AND>
+                <AND>
+                  <PREDVAR id="B" />
+                  <PREDVAR id="A" />
+                </AND>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <L>
+                <FORMULA>
+                  <IMPL>
+                    <IMPL>
+                      <PREDVAR id="A" />
+                      <PREDVAR id="B" />
+                    </IMPL>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A" />
+                        <PREDVAR id="C" />
+                      </IMPL>
+                      <IMPL>
+                        <PREDVAR id="A" />
+                        <AND>
+                          <PREDVAR id="B" />
+                          <PREDVAR id="C" />
+                        </AND>
+                      </IMPL>
+                    </IMPL>
+                  </IMPL>
+                </FORMULA>
+                <ADD ref=""/>
+              </L>
+              <L>
+                <IMPL>
+                  <IMPL>
+                    <AND>
+                      <PREDVAR id="A" />
+                      <PREDVAR id="B" />
+                    </AND>
+                    <PREDVAR id="B" />
+                  </IMPL>
+                  <IMPL>
+                    <IMPL>
+                      <AND>
+                        <PREDVAR id="A" />
+                        <PREDVAR id="B" />
+                      </AND>
+                      <PREDVAR id="C" />
+                    </IMPL>
+                    <IMPL>
+                      <AND>
+                        <PREDVAR id="A" />
+                        <PREDVAR id="B" />
+                      </AND>
+                      <AND>
+                        <PREDVAR id="B" />
+                        <PREDVAR id="C" />
+                      </AND>
+                    </IMPL>
+                  </IMPL>
+                </IMPL>
+                
+                <IMPL>
+                  <IMPL>
+                    <AND>
+                      <PREDVAR id="A" />
+                      <PREDVAR id="B" />
+                    </AND>
+                    <PREDVAR id="B" />
+                  </IMPL>
+                  <IMPL>
+                    <IMPL>
+                      <AND>
+                        <PREDVAR id="A" />
+                        <PREDVAR id="B" />
+                      </AND>
+                      <PREDVAR id="A" />
+                    </IMPL>
+                    <IMPL>
+                      <AND>
+                        <PREDVAR id="A" />
+                        <PREDVAR id="B" />
+                      </AND>
+                      <AND>
+                        <PREDVAR id="B" />
+                        <PREDVAR id="A" />
+                      </AND>
+                    </IMPL>
+                  </IMPL>
+                </IMPL>
+                
+                <IMPL>
+                  <IMPL>
+                    <AND>
+                      <PREDVAR id="A" />
+                      <PREDVAR id="B" />
+                    </AND>
+                    <PREDVAR id="A" />
+                  </IMPL>
+                  <IMPL>
+                    <AND>
+                      <PREDVAR id="A" />
+                      <PREDVAR id="B" />
+                    </AND>
+                    <AND>
+                      <PREDVAR id="B" />
+                      <PREDVAR id="A" />
+                    </AND>
+                  </IMPL>
+                </IMPL>
+                
+                <IMPL>
+                  <AND>
+                    <PREDVAR id="A" />
+                    <PREDVAR id="B" />
+                  </AND>
+                  <AND>
+                    <PREDVAR id="B" />
+                    <PREDVAR id="A" />
+                  </AND>
+                </IMPL>
+              </L>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
   </CHAPTER>
 </QEDEQ>
