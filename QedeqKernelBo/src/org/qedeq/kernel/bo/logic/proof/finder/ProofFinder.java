@@ -18,8 +18,6 @@ package org.qedeq.kernel.bo.logic.proof.finder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.Operators;
@@ -210,7 +208,7 @@ public class ProofFinder {
      * @param var
      * @param operator
      * @param right
-     * @throws ProofFoundException 
+     * @throws ProofFoundException
      */
     private void createReplacement(final int i, final Element f,
             final ElementList var, final String operator, final boolean right) throws ProofFoundException {
@@ -791,7 +789,7 @@ public class ProofFinder {
 
 */
     private static class ProofFoundException extends Exception {
-        
+
     }
 
 }

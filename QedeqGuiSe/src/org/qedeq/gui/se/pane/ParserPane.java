@@ -44,7 +44,6 @@ import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.base.utility.YodaUtility;
-import org.qedeq.gui.se.control.PluginAction;
 import org.qedeq.gui.se.element.CPTextArea;
 import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.KernelContext;
