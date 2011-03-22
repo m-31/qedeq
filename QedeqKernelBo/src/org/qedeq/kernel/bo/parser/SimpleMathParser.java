@@ -18,8 +18,6 @@ package org.qedeq.kernel.bo.parser;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.base.io.TextInput;
-
 /**
  * Parse term or formula data into {@link org.qedeq.kernel.bo.parser.Term}s.
  * This parser uses simple ASCII text operators.

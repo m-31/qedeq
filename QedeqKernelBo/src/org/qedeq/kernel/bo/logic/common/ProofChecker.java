@@ -38,13 +38,11 @@ public interface ProofChecker {
      * @param   context             Location information of formal proof.
      *                              Important for locating errors.
      * @param   resolver            Resolver for references.
-     * @param   existence           Existence checker for operators.
      * @return  Collected errors if there are any. Not <code>null</code>.
      */
     public LogicalCheckExceptionList checkProof(final Element formula,
             final FormalProofLineList proof,
-            final ModuleContext context, final ReferenceResolver resolver,
-            final ExistenceChecker existence);
+            final ModuleContext context, final ReferenceResolver resolver);
 
 
 }

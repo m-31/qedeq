@@ -66,9 +66,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     /** This class. */
     private static final Class CLASS = FormalProofCheckerExecutor.class;
 
-    /** Existence checker for predicate and function constants. */
-    private ModuleConstantsExistenceCheckerImpl existence;
-
     /** Factory for generating new checkers. */
     private ProofCheckerFactory checkerFactory = null;
 
@@ -173,16 +170,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         return Boolean.TRUE;
-    }
-
-    public void traverse() throws SourceFileExceptionList {
-        try {
-            this.existence = new ModuleConstantsExistenceCheckerImpl(getQedeqBo());
-        } catch (ModuleDataException me) {
-            addError(me);
-            throw getErrorList();
-        }
-        super.traverse();
     }
 
     public void visitEnter(final Axiom axiom) throws ModuleDataException {
@@ -331,7 +318,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                         LogicalCheckExceptionList eList
                             = checkerFactory.createProofChecker().checkProof(
                             proposition.getFormula().getElement(), list, getCurrentContext(),
-                            this, existence);
+                            this);
                         if (!correctProofFound && eList.size() == 0) {
                             correctProofFound = true;
                         }

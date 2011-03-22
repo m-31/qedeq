@@ -21,7 +21,6 @@ import java.util.Map;
 import org.qedeq.base.utility.Enumerator;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;
@@ -65,9 +64,6 @@ public class ProofCheckerImpl implements ProofChecker {
     /** Resolver for external references. */
     private ReferenceResolver resolver;
 
-    /** Existence checker for operators. */
-    private ExistenceChecker existence;
-
     /** All exceptions that occurred during checking. */
     private LogicalCheckExceptionList exceptions;
 
@@ -86,10 +82,9 @@ public class ProofCheckerImpl implements ProofChecker {
 
     public LogicalCheckExceptionList checkProof(final Element formula,
             final FormalProofLineList proof, final ModuleContext moduleContext,
-            final ReferenceResolver resolver, final ExistenceChecker existence) {
+            final ReferenceResolver resolver) {
         this.proof = proof;
         this.resolver = resolver;
-        this.existence = existence;
         this.moduleContext = moduleContext;
         // use copy constructor for changing context
         currentContext = new ModuleContext(moduleContext);
