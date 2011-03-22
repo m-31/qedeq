@@ -498,7 +498,7 @@
             </FORMULA>
             <FORMAL_PROOF>
               <LINES>
-                <L>
+                <L label="1">
                   <FORMULA>
                     <IMPL>
                       <IMPL>
@@ -522,7 +522,7 @@
                   </FORMULA>
                   <ADD ref=""/>
                 </L>
-                <L>
+                <L label="2">
                   <FORMULA>
                     <IMPL>
                       <IMPL>
@@ -563,7 +563,7 @@
                     </FORMULA>
                   </SUBST_PREDVAR>
                 </L>
-                <L>
+                <L label="3">
                   <FORMULA>
                     <IMPL>
                       <IMPL>
@@ -601,7 +601,7 @@
                     </FORMULA>
                   </SUBST_PREDVAR>
                 </L>
-                <L>
+                <L label="4">
                   <FORMULA>
                     <IMPL>
                       <IMPL>
@@ -625,7 +625,7 @@
                   </FORMULA>
                   <MP />
                 </L>
-                <L>
+                <L label="5">
                   <FORMULA>
                     <IMPL>
                       <AND>

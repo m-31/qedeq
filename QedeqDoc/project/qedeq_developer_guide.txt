@@ -75,6 +75,13 @@ Hier wird der Kernel initialisiert. Hier wird auch erst die KernelBo-Schicht
 mit der KernelXml-Schicht verknüpft.
 
 
+Allgemeines
+-----------
+Verwendung von ElementList und Atom als Basiselemente der formalen Sprache.
+Vorteil: besseres Patternmatching auf Baumebene möglich.
+Flexibel, da untypisiert auf unterster Ebene.
+
+
 Code-Konventionen
 =================
 Checkstyle

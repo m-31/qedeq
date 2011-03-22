@@ -834,19 +834,23 @@
       <INTRODUCTION>
         <LATEX language="en">
           <![CDATA[
-            A predicate variable $p$ of arity $n$ may be replaced by an arbitrary formula $\beta$, provided that the following conditions are fulfilled. Let $x_1$, \ldots, $x_n$ be pairwise different subject variables.
-            \begin{itemize}
-              \item 
-              $x_1$, \ldots, $x_n$ are not bound within $\beta$.
-              \item 
-              the free variables of $\beta$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in the original formlua
-              \item
-              each occurrence of $p$ contains no bound variable of $\beta$
-              \item
-              the result of the substitution is a well-formed formula
-            \end{itemize}
-            \footnote{Not all subject variables $x_1$, \ldots, $x_n$ must occur in $\beta$. Also $\beta$ might have other free (or bound) subject variables.} 
+            Let $\alpha$ be a true formula that contains a predicate variable $p$ of arity $n$, let $x_1$, \ldots, $x_n$ be pairwise different subject variables and let $\beta(x_1, \ldots, x_n)$ be a formula where $x_1$, \ldots, $x_n$ are not bound. The formula $\beta(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound.
             
+            If the following conditions are fulfilled, then a replacement of all occurrences of $p(t_1, \ldots, t_n)$ each with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\beta(t_1, \ldots, t_n)$ results in another true formula.
+
+            \begin{itemize}
+
+            \item
+            the free variables of $\beta(x_1, \ldots, x_n)$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$ 
+            
+            \item 
+            each occurrence of $p(t_1, \ldots, t_n)$ in $\alpha$ contains no bound variable of $\beta(x_1, \ldots, x_n)$ 
+
+            \item
+            the result of the substitution is a well-formed formula
+
+            \end{itemize}
+
             \par
             \begin{eqnarray*}
              & A(\sigma) & \\
@@ -875,19 +879,24 @@
       <INTRODUCTION>
         <LATEX language="en">
           <![CDATA[
-            A function variable $\sigma$ of arity $n$ may be replaced by an arbitrary term $\tau$, provided that the following conditions are fulfilled. Let $x_1$, \ldots, $x_n$ be pairwise different subject variables.
-            \begin{itemize}
-              \item 
-              $x_1$, \ldots, $x_n$ are not bound within $\tau$
-              \item 
-              the free variables of $\tau$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in the original formula
-              \item
-              each occurrence of $\sigma$ contains no bound variable of $\tau$
-              \item
-              the result of the substitution is a well-formed formula
-            \end{itemize}
-            \footnote{Not all subject variables $x_1$, \ldots, $x_n$ must occur in $\sigma$. Also $\sigma$ might have other free (or bound) subject variables.} 
+            Let $\alpha$ be an already proved formula that contains a function variable $\sigma$ of arity $n$, let $x_1$, \ldots, $x_n$ be pairwise different subject variables and let $\tau(x_1, \ldots, x_n)$ be an arbitrary term where $x_1$, \ldots, $x_n$ are not bound. 
+            The term $\tau(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$. as free subject variables. Furthermore it can also have other subject variables either free or bound. 
             
+            If the following conditions are fulfilled we can obtain a new true formula by replacing each occurrence of $\sigma(t_1, \ldots, t_n)$ with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\tau(t_1, \ldots, t_n)$.
+            
+            \begin{itemize}
+            
+            \item 
+            the free variables of $\tau(x_1, \ldots, x_n)$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
+            
+            \item
+            each occurrence of $\sigma(t_1, \ldots, t_n)$ in $\alpha$ contains no bound variable of $\tau(x_1, \ldots, x_n)$
+            
+            \item
+            the result of the substitution is a well-formed formula
+             
+            \end{itemize}
+        
             \par
             \begin{eqnarray*}
              & A(\sigma) & \\
