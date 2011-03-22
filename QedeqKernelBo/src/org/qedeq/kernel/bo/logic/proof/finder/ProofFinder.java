@@ -18,6 +18,8 @@ package org.qedeq.kernel.bo.logic.proof.finder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.Operators;
@@ -26,6 +28,7 @@ import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Reason;
+import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.se.dto.list.ElementSet;
 
@@ -52,6 +55,9 @@ public class ProofFinder {
     /** Below this number MP was tried. */
     private int mpLast;
 
+    /** Goal to prove. */
+    private Element goalFormula;
+
     /**
      * Constructor.
      *
@@ -68,30 +74,64 @@ public class ProofFinder {
      */
     public boolean findProof(final Element formula,
             final FormalProofLineList proof) {
+        this.goalFormula = formula;
         this.proof = proof;
         lines = new ArrayList();
         reasons = new ArrayList();
         allPredVars = new ElementSet();
         // add first proof formulas to our proof line list
         for (int i = 0; i < proof.size(); i++) {
-            lines.add(proof.get(0).getFormula().getElement());
-            reasons.add(proof.get(0).getReasonType());
+            lines.add(proof.get(i).getFormula().getElement());
+            reasons.add(proof.get(i).getReasonType());
             // FIXME only predvars with null arguments!
             allPredVars.union(FormulaUtility.getPredicateVariables(
-                proof.get(0).getFormula().getElement()));
+                proof.get(i).getFormula().getElement()));
+            allPredVars.add(FormulaUtility.createPredicateVariable("E"));
+            allPredVars.add(FormulaUtility.createPredicateVariable("F"));
         }
         int i = 0;
-        while (lines.size() < 1000) {
+        while (lines.size() < 100000) {
             try {
                 tryModusPonensAll();
                 trySubstitution(i++);
             } catch (ProofFoundException e) {
                 System.out.println("proof found. lines: " + lines.size());
+                shortenProof();
                 return true;
             }
         }
         System.out.println("proof not found. lines: " + lines.size());
         return false;
+    }
+
+    private void shortenProof() {
+        final boolean[] used = new boolean[lines.size()];
+        int n = lines.size() - 1;
+        used[n] = true;
+        while (n >= proof.size()) {
+            if (used[n]) {
+                Reason r = (Reason) reasons.get(n);
+                if (r instanceof ModusPonensBo) {
+                    final ModusPonensBo mp = (ModusPonensBo) reasons.get(n);
+                    used[mp.getN1()] = true;
+                    used[mp.getN2()] = true;
+                    n = Math.max(mp.getN1(), mp.getN2());
+                } else if (r instanceof SubstPredBo) {
+                    final SubstPredBo substPred = (SubstPredBo) reasons.get(n);
+                    used[substPred.getN()] = true;
+                    n = substPred.getN();
+                }
+            }
+        }
+        for (int j = 0; j < proof.size(); j++) {
+            System.out.print(j + ": ");
+            FormulaUtility.println(proof.get(j).getFormula().getElement());
+        }
+        for (int j = proof.size(); j < lines.size(); j++) {
+            if (used[j]) {
+                printLine(j);
+            }
+        }
     }
 
     private void tryModusPonensAll() throws ProofFoundException {
@@ -104,21 +144,31 @@ public class ProofFinder {
             for (int j = (i < mpLast ? mpLast : 0); j < until; j++) {
                 if (first.getList().getElement(0).equals(
                         (Element) lines.get(j))) {
+//                    System.out.println("MP found!");
                     final ModusPonens mp = new ModusPonensBo(i, j);
                     addFormula(first.getList().getElement(1), mp);
                 }
             }
         }
+        mpLast = until;
     }
 
     private void trySubstitution(final int i) throws ProofFoundException {
+//        System.out.print("subst " + i + " ");
         final Element f = (Element) lines.get(i);
+//        FormulaUtility.println(f);
         final ElementSet vars = FormulaUtility.getPredicateVariables(f);
+//        System.out.print("vars=");
+//        System.out.println(vars);
         final Iterator iter = vars.iterator();
         while (iter.hasNext()) {
             final ElementList var = (ElementList) iter.next();
+//            System.out.print("var=");
+//            FormulaUtility.println(var);
             // substitute by different variable
             {
+//                System.out.print("allPredVars=");
+//                System.out.println(allPredVars);
                 final Iterator all = allPredVars.iterator();
                 while (all.hasNext()) {
                     final ElementList subst = (ElementList) all.next();
@@ -130,27 +180,27 @@ public class ProofFinder {
                     addFormula(created, new SubstPredBo(i, var, subst));
                 }
             }
-            // substitute by negation
-            {
-                final Iterator all = allPredVars.iterator();
-                while (all.hasNext()) {
-                    final ElementList var2 = (ElementList) all.next();
-                    final ElementList subst = new DefaultElementList(Operators.NEGATION_OPERATOR);
-                    subst.add(var2);
-                    final Element created = FormulaUtility.replaceOperatorVariable(
-                        f, var, subst);
-                    addFormula(created, new SubstPredBo(i, var, subst));
-                }
-            }
-            // substitute by conjunction with another variable
-            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, true);
-            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, false);
+//            // substitute by negation
+//            {
+//                final Iterator all = allPredVars.iterator();
+//                while (all.hasNext()) {
+//                    final ElementList var2 = (ElementList) all.next();
+//                    final ElementList subst = new DefaultElementList(Operators.NEGATION_OPERATOR);
+//                    subst.add(var2);
+//                    final Element created = FormulaUtility.replaceOperatorVariable(
+//                        f, var, subst);
+//                    addFormula(created, new SubstPredBo(i, var, subst));
+//                }
+//            }
+//            // substitute by conjunction with another variable
+//            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, true);
+//            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, false);
             // substitute by disjunction with another variable
             createReplacement(i, f, var, Operators.DISJUNCTION_OPERATOR, true);
             createReplacement(i, f, var, Operators.DISJUNCTION_OPERATOR, false);
-            // substitute by implication with another variable
-            createReplacement(i, f, var, Operators.EQUIVALENCE_OPERATOR, true);
-            createReplacement(i, f, var, Operators.EQUIVALENCE_OPERATOR, false);
+//            // substitute by implication with another variable
+//            createReplacement(i, f, var, Operators.EQUIVALENCE_OPERATOR, true);
+//            createReplacement(i, f, var, Operators.EQUIVALENCE_OPERATOR, false);
         }
     }
 
@@ -160,9 +210,10 @@ public class ProofFinder {
      * @param var
      * @param operator
      * @param right
+     * @throws ProofFoundException 
      */
     private void createReplacement(final int i, final Element f,
-            final ElementList var, final String operator, final boolean right) {
+            final ElementList var, final String operator, final boolean right) throws ProofFoundException {
         final Iterator a = allPredVars.iterator();
         while (a.hasNext()) {
             final ElementList var2 = (ElementList) a.next();
@@ -180,10 +231,35 @@ public class ProofFinder {
         }
     }
 
-    private void addFormula(final Element formula, final Reason reason) {
+    private void printLine(final int i) {
+        System.out.print(i + ": ");
+        Reason reason = (Reason) reasons.get(i);
+        Element formula = (Element) lines.get(i);
+        FormulaUtility.print(formula);
+        System.out.print("  : ");
+        if (reason instanceof SubstPred) {
+            SubstPred s = (SubstPred) reason;
+            System.out.print("Subst " + s.getReference() + " ");
+            FormulaUtility.print(s.getPredicateVariable());
+            System.out.print(" by ");
+            FormulaUtility.print(s.getSubstituteFormula());
+        } else {
+            System.out.print(reason);
+        }
+        System.out.println();
+    }
+
+    private void addFormula(final Element formula, final Reason reason) throws ProofFoundException {
         if (!lines.contains(formula)) {
             lines.add(formula);
             reasons.add(reason);
+//            printLine(lines.size() - 1);
+            if (goalFormula.equals(formula)) {
+                throw new ProofFoundException();
+            }
+            if ((lines.size() - 1) % 1000 == 0) {
+                printLine(lines.size() - 1);
+            }
         }
     }
 

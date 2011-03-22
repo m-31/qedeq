@@ -64,6 +64,15 @@ public class SubstPredBo implements SubstPred {
         this.n = n;
     }
 
+    /**
+     * Get formula reference.
+     *
+     * @return  Reference to formula.
+     */
+    public int getN() {
+        return n;
+    }
+
     public String[] getReferences() {
         return new String[] {getReference()};
     }

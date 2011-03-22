@@ -252,7 +252,7 @@ public final class FormulaUtility implements Operators {
             all.add(element);
         } else if (element.isList()) {
             final ElementList list = element.getList();
-            for (int i = 1; i < list.size(); i++) {
+            for (int i = 0; i < list.size(); i++) {
                 all.union(getPredicateVariables(list.getElement(i)));
             }
         }
@@ -520,6 +520,25 @@ public final class FormulaUtility implements Operators {
         final DefaultElementList result = new DefaultElementList(SUBJECT_VARIABLE);
         result.add(new DefaultAtom(subjectVariableName));
         return result;
+    }
+
+    /**
+     * Create predicate variable out of variable name with no further arguments.
+     *
+     * @param   predicateVariableName     Predicate variable name.
+     * @return  Resulting predicate variable.
+     */
+    public static Element createPredicateVariable(final String predicateVariableName) {
+        final DefaultElementList result = new DefaultElementList(PREDICATE_VARIABLE);
+        result.add(new DefaultAtom(predicateVariableName));
+        return result;
+    }
+
+    public static void print(final Element element) {
+        ModuleLabels labels = new ModuleLabels();
+        Element2LatexImpl converter = new Element2LatexImpl(labels);
+        Element2Utf8Impl textConverter = new Element2Utf8Impl(converter);
+        System.out.print(textConverter.getUtf8(element));
     }
 
     public static void println(final Element element) {
