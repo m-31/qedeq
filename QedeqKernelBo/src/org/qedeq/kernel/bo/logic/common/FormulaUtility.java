@@ -429,6 +429,21 @@ public final class FormulaUtility implements Operators {
     }
 
     /**
+     * Is the given formula a simple implication like A =&gt; B.
+     *
+     * @param   formula Check this formula.
+     * @return  Is the formula a simple implication?
+     */
+    public static boolean isImplication(final Element formula) {
+        if (formula.isAtom()) {
+            return false;
+        }
+        final ElementList f = formula.getList();
+        return Operators.IMPLICATION_OPERATOR.equals(f.getList().getOperator())
+            && f.getList().size() == 2;
+    }
+
+    /**
      * Create meta variable for subject variable.
      *
      * @param   subjectVariable Subject variable, we want to have a meta variable for.

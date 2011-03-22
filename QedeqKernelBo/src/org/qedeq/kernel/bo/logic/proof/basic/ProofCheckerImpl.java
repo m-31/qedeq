@@ -542,8 +542,7 @@ public class ProofCheckerImpl implements ProofChecker {
             final Element f1 = getNormalizedProofLine(n1);
             final Element f2 = getNormalizedProofLine(n2);
             final Element current = getNormalizedProofLine(i);
-            if (!Operators.IMPLICATION_OPERATOR.equals(f1.getList().getOperator())
-                    || f1.getList().size() != 2) {
+            if (!FormulaUtility.isImplication(f1)) {
                 ok = false;
                 setLocationWithinModule(context + ".getReference1()");
                 handleProofCheckException(
@@ -599,8 +598,7 @@ public class ProofCheckerImpl implements ProofChecker {
         } else {
             final Element f = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
-            if (!Operators.IMPLICATION_OPERATOR.equals(f.getList().getOperator())
-                    || f.getList().size() != 2) {
+            if (!FormulaUtility.isImplication(f)) {
                 ok = false;
                 setLocationWithinModule(context + ".getReference()");
                 handleProofCheckException(
@@ -652,8 +650,7 @@ public class ProofCheckerImpl implements ProofChecker {
         } else {
             final Element f = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
-            if (!Operators.IMPLICATION_OPERATOR.equals(f.getList().getOperator())
-                    || f.getList().size() != 2) {
+            if (!FormulaUtility.isImplication(f)) {
                 ok = false;
                 setLocationWithinModule(context + ".getReference()");
                 handleProofCheckException(
