@@ -23,6 +23,7 @@ import org.qedeq.kernel.bo.service.Element2Utf8Impl;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.dto.list.DefaultAtom;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.se.dto.list.ElementSet;
 
@@ -71,6 +72,25 @@ public final class FormulaUtility implements Operators {
         return true;
     }
 
+    /**
+     * Is {@link Element} a predicate variable?
+     *
+     * @param   element    Element to look onto.
+     * @return  Is it a predicate constant?
+     */
+    public static final boolean isPredicateVariable(final Element element) {
+        return isOperator(PREDICATE_VARIABLE, element);
+    }
+
+    /**
+     * Is {@link Element} a function variable?
+     *
+     * @param   element    Element to look onto.
+     * @return  Is it a function variable?
+     */
+    public static final boolean isFunctionVariable(final Element element) {
+        return isOperator(FUNCTION_VARIABLE, element);
+    }
 
     /**
      * Is {@link Element} a predicate constant?
@@ -79,29 +99,8 @@ public final class FormulaUtility implements Operators {
      * @return  Is it a predicate constant?
      */
     public static final boolean isPredicateConstant(final Element element) {
-        if (element == null || !element.isList() || element.getList() == null) {
-            return false;
-        }
-        final ElementList list = element.getList();
-        if (list.getOperator().equals(PREDICATE_CONSTANT)) {
-            if (list.size() < 1) {
-                return false;
-            }
-            final Element first = element.getList().getElement(0);
-            if (first == null || !first.isAtom() || first.getAtom() == null) {
-                return false;
-            }
-            final Atom atom = first.getAtom();
-            if (atom.getString() == null || atom.getAtom().getString() == null
-                    || atom.getString().length() == 0) {
-                return false;
-            }
-        } else {
-            return false;
-        }
-        return true;
+        return isOperator(PREDICATE_CONSTANT, element);
     }
-
 
     /**
      * Is {@link Element} a function constant?
@@ -110,12 +109,39 @@ public final class FormulaUtility implements Operators {
      * @return  Is it a function constant?
      */
     public static final boolean isFunctionConstant(final Element element) {
+        return isOperator(FUNCTION_CONSTANT, element);
+    }
+
+    /**
+     * Is the given element an list with given operator and has as first element an non empty
+     * string atom?
+     *
+     * @param   operator    Operator.
+     * @param   element     Check this element.
+     * @return  Check successful?
+     */
+    private static boolean isOperator(final String operator,
+            final Element element) {
+        return isOperator(operator, element, 0);
+    }
+
+    /**
+     * Is the given element an list with given operator and has as first element an non empty
+     * string atom?
+     *
+     * @param   operator        Operator.
+     * @param   element         Check this element.
+     * @param   minArguments    Minimum number of arguments (beside the first string atom).
+     * @return  Check successful?
+     */
+    private static boolean isOperator(final String operator,
+            final Element element, final int minArguments) {
         if (element == null || !element.isList() || element.getList() == null) {
             return false;
         }
         final ElementList list = element.getList();
-        if (list.getOperator().equals(FUNCTION_CONSTANT)) {
-            if (list.size() < 1) {
+        if (list.getOperator().equals(operator)) {
+            if (list.size() < 1 + minArguments) {
                 return false;
             }
             final Element first = element.getList().getElement(0);
@@ -132,7 +158,6 @@ public final class FormulaUtility implements Operators {
         }
         return true;
     }
-
 
     /**
      * Return all free subject variables of an element.
@@ -203,6 +228,32 @@ public final class FormulaUtility implements Operators {
             final ElementList list = element.getList();
             for (int i = 1; i < list.size(); i++) {
                 all.union(getSubjectVariables(list.getElement(i)));
+            }
+        }
+        return all;
+    }
+
+    /**
+     * Return all predicate variables of an element. The arguments are normalized to subject
+     * variables "x_1", "x_2" and so on.
+     *
+     * @param   element    Work on this element.
+     * @return  All normalized predicate variables of that formula.
+     */
+    public static final ElementSet getPredicateVariables(final Element element) {
+        final ElementSet all = new ElementSet();
+        if (isPredicateVariable(element)) {
+            final ElementList pred = element.getList();
+            final DefaultElementList normalized = new DefaultElementList(pred.getOperator());
+            normalized.add(pred.getElement(0));
+            for (int i = 1; i < pred.size(); i++) {
+                normalized.add(createSubjectVariable("x_" + i));
+            }
+            all.add(element);
+        } else if (element.isList()) {
+            final ElementList list = element.getList();
+            for (int i = 1; i < list.size(); i++) {
+                all.union(getPredicateVariables(list.getElement(i)));
             }
         }
         return all;
@@ -375,15 +426,15 @@ public final class FormulaUtility implements Operators {
         if (f.size() < 1 || ov.size() < 1) {
             return formula.copy();
         }
-        final ElementList result;
+        ElementList result;
         if (f.getOperator() == ov.getOperator() && f.size() == ov.size()
                 && f.getElement(0).equals(ov.getElement(0))) {
             // replace meta variables by matching entries
-            Element rn = r;
+            result = r;
             for (int i = 1; i < ov.size(); i++) {
-                rn = rn.replace(createMeta(ov.getElement(i)), f.getElement(i));
+                result = (ElementList) result.replace(createMeta(ov.getElement(i)),
+                    replaceOperatorVariableMeta(f.getElement(i), operatorVariable, replacement));
             }
-            return replaceOperatorVariableMeta(rn, operatorVariable, replacement);
         } else {
             result = new DefaultElementList(f.getOperator());
             for (int i = 0; i < f.size(); i++) {
@@ -456,6 +507,18 @@ public final class FormulaUtility implements Operators {
         }
         final DefaultElementList result = new DefaultElementList(META_VARIABLE);
         result.add(subjectVariable.getList().getElement(0).copy());
+        return result;
+    }
+
+    /**
+     * Create subject variable out of variable name.
+     *
+     * @param   subjectVariableName     Subject variable name.
+     * @return  Resulting subject variable.
+     */
+    public static Element createSubjectVariable(final String subjectVariableName) {
+        final DefaultElementList result = new DefaultElementList(SUBJECT_VARIABLE);
+        result.add(new DefaultAtom(subjectVariableName));
         return result;
     }
 

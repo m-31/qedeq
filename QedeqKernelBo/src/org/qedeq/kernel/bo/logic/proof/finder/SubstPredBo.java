@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.se.dto.module;
+package org.qedeq.kernel.bo.logic.proof.finder;
 
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.list.Element;
@@ -25,10 +25,10 @@ import org.qedeq.kernel.se.base.module.SubstPred;
  *
  * @author  Michael Meyling
  */
-public class SubstPredVo implements SubstPred {
+public class SubstPredBo implements SubstPred {
 
     /** Reference to previously proven formula. */
-    private String reference;
+    private int n;
 
     /** Function variable that will be substituted. */
     private Element predicateVariable;
@@ -39,70 +39,41 @@ public class SubstPredVo implements SubstPred {
     /**
      * Constructs an reason.
      *
-     * @param   reference                   Reference to a valid formula.
+     * @param   n                           Reference to a valid formula.
      * @param   predicateVariable           Predicate variable that will be substituted.
      * @param   substituteFormula           Replacement formula.
      */
 
-    public SubstPredVo(final String reference, final Element predicateVariable,
+    public SubstPredBo(final int n, final Element predicateVariable,
             final Element substituteFormula) {
-        this.reference = reference;
+        this.n = n;
         this.predicateVariable = predicateVariable;
         this.substituteFormula = substituteFormula;
     }
 
-    /**
-     * Default constructor.
-     */
-    public SubstPredVo() {
-        // nothing to do
-    }
-
     public String getReference() {
-        return reference;
+        return "" + n;
     }
 
     /**
      * Set formula reference.
      *
-     * @param   reference   Reference to formula.
+     * @param   n   Reference to formula.
      */
-    public void setReference(final String reference) {
-        this.reference = reference;
+    public void setN(final int n) {
+        this.n = n;
     }
 
     public String[] getReferences() {
-        if (reference == null || reference.length() == 0) {
-            return new String[] {};
-        } else {
-            return new String[] {reference };
-        }
+        return new String[] {getReference()};
     }
 
     public Element getPredicateVariable() {
         return predicateVariable;
     }
 
-    /**
-     * Set predicate variable that will be substituted.
-     *
-     * @param   predicateVariable   Function variable that will be replaced.
-     */
-    public void setPredicateVariable(final Element predicateVariable) {
-        this.predicateVariable = predicateVariable;
-    }
-
     public Element getSubstituteFormula() {
         return substituteFormula;
-    }
-
-    /**
-     * Set substitution formula.
-     *
-     * @param   substituteFormula   New formula.
-     */
-    public void setSubstituteFormula(final Element substituteFormula) {
-        this.substituteFormula = substituteFormula;
     }
 
     public String getName() {

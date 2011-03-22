@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.se.dto.module;
+package org.qedeq.kernel.bo.logic.proof.finder;
 
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.ModusPonens;
@@ -24,72 +24,80 @@ import org.qedeq.kernel.se.base.module.ModusPonens;
  *
  * @author  Michael Meyling
  */
-public class ModusPonensVo implements ModusPonens {
+public class ModusPonensBo implements ModusPonens {
 
-    /** Usually reference to a formula like A -> B. */
-    private String reference1;
+    /** Reference to a formula like A -> B. */
+    private int n1;
 
     /** Usually reference to a formula like A. */
-    private String reference2;
+    private int n2;
 
     /**
      * Constructs a Modus Ponens argument.
      *
-     * @param   reference1  Usually reference to a formula like A -> B.
-     * @param   reference2  Usually reference to a formula like A.
+     * @param   n1  Usually reference to a formula like A -> B.
+     * @param   n2  Usually reference to a formula like A.
      */
-    public ModusPonensVo(final String reference1, final String reference2) {
-        this.reference1 = reference1;
-        this.reference2 = reference2;
-    }
-
-    /**
-     * Default constructor.
-     */
-    public ModusPonensVo() {
-        // nothing to do
+    public ModusPonensBo(final int n1, final int n2) {
+        this.n1 = n1;
+        this.n2 = n2;
     }
 
     public String getReference1() {
-        return reference1;
+        return "" + n1;
     }
 
     /**
      * Set first formula reference.
      *
-     * @param   reference1  Reference to formula.
+     * @param   n1  Reference to formula.
      */
-    public void setReference1(final String reference1) {
-        this.reference1 = reference1;
+    public void setN1(final int n1) {
+        this.n1 = n1;
+    }
+
+    /**
+     * Get first formula reference.
+     *
+     * @return  Reference to formula.
+     */
+    public int getN1() {
+        return n1;
     }
 
     public String getReference2() {
-        return reference2;
+        return "" + n2;
     }
 
     /**
      * Set second formula reference.
      *
-     * @param   reference2  Reference to formula.
+     * @param   n2      Reference to formula.
      */
-    public void setReference2(final String reference2) {
-        this.reference2 = reference2;
+    public void setN2(final int n2) {
+        this.n2 = n2;
+    }
+
+    /**
+     * Get second formula reference.
+     *
+     * @return  Reference to formula.
+     */
+    public int getN2() {
+        return n2;
     }
 
     public String[] getReferences() {
-        if (reference1 == null || reference1.length() == 0) {
-            if (reference2 == null || reference2.length() == 0) {
-                return new String[] {};
-            } else {
-                return new String[] {reference2 };
-            }
-        } else {
-            if (reference2 == null || reference2.length() == 0) {
-                return new String[] {reference1 };
-            } else {
-                return new String[] {reference1, reference2 };
-            }
-        }
+        return new String[] {getReference1(), getReference2()};
+    }
+
+    /**
+     * Get references to previous lines.
+     *
+     * @return  List of references.
+     */
+    public int[] getLines() {
+        return new int[] {getN1(), getN2()};
     }
 
     public boolean equals(final Object obj) {

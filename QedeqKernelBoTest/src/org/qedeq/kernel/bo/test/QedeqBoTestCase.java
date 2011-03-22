@@ -41,7 +41,7 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
         super(name);
     }
 
-    public void setUp() throws Exception {
+    protected void setUp() throws Exception {
         super.setUp();
         docDir = new File("../QedeqDoc");
         genDir = new File("../../../qedeq_gen");
@@ -59,7 +59,7 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
         KernelFacade.startup();
     }
 
-    public void tearDown() throws Exception {
+    protected void tearDown() throws Exception {
         super.tearDown();
         KernelFacade.shutdown();
     }

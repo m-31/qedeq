@@ -27,10 +27,9 @@ import org.qedeq.kernel.se.base.list.ElementList;
 /**
  * This class represents a set of {@link org.qedeq.kernel.se.base.list.Element}s.
  *
- * @version $Revision: 1.3 $
  * @author  Michael Meyling
  */
-public final class ElementSet {
+public class ElementSet {
 
 
     /** Here are the elements stored. */
@@ -283,6 +282,17 @@ public final class ElementSet {
      */
     public final int size() {
         return this.elements.size();
+    }
+
+    /**
+     * Returns an iterator over the elements in this set.  The elements are
+     * returned in no particular order (unless this set is an instance of some
+     * class that provides a guarantee).
+     *
+     * @return  Iterator over the elements in this set.
+     */
+    public Iterator iterator() {
+        return this.elements.iterator();
     }
 
     public final boolean equals(final Object obj) {
