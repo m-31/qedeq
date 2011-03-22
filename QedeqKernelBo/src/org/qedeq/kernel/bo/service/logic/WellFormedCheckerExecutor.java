@@ -699,19 +699,22 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             }
             final ReasonType reasonType = line.getReasonType();
             if (reasonType != null) {
-                if (reasonType.getSubstFree() != null) {
+                if (reasonType.getSubstFree() != null
+                        && reasonType.getSubstFree().getSubstituteTerm() != null) {
                     setLocationWithinModule(context
                         + ".getReasonType().getSubstFree().getSubstituteTerm()");
                     elist = checkerFactory.createFormulaChecker().checkTerm(
                         reasonType.getSubstFree().getSubstituteTerm(),
                         getCurrentContext(), existence);
-                } else if (reasonType.getSubstPred() != null) {
+                } else if (reasonType.getSubstPred() != null
+                        && reasonType.getSubstPred().getSubstituteFormula() != null) {
                     setLocationWithinModule(context
                         + ".getReasonType().getSubstPred().getSubstituteFormula()");
                     elist = checkerFactory.createFormulaChecker().checkFormula(
                         reasonType.getSubstPred().getSubstituteFormula(),
                         getCurrentContext(), existence);
-                } else if (reasonType.getSubstFunc() != null) {
+                } else if (reasonType.getSubstFunc() != null
+                        && reasonType.getSubstFunc().getSubstituteTerm() != null) {
                     setLocationWithinModule(context
                         + ".getReasonType().getSubstFunc().getSubstituteTerm()");
                     elist = checkerFactory.createFormulaChecker().checkTerm(
