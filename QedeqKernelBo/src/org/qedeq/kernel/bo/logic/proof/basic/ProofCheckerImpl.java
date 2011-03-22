@@ -53,9 +53,6 @@ import org.qedeq.kernel.se.dto.list.ElementSet;
  */
 public class ProofCheckerImpl implements ProofChecker {
 
-    /** Formula we want to prove. */
-    private Element formula;
-
     /** Proof we want to check. */
     private FormalProofLineList proof;
 
@@ -90,7 +87,6 @@ public class ProofCheckerImpl implements ProofChecker {
     public LogicalCheckExceptionList checkProof(final Element formula,
             final FormalProofLineList proof, final ModuleContext moduleContext,
             final ReferenceResolver resolver, final ExistenceChecker existence) {
-        this.formula = formula;
         this.proof = proof;
         this.resolver = resolver;
         this.existence = existence;
@@ -411,7 +407,6 @@ public class ProofCheckerImpl implements ProofChecker {
         return ok;
     }
 
-    // FIXME 20110321 m31: copy code from previous method herein
     private boolean check(final SubstFunc substfunc, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
@@ -443,9 +438,9 @@ public class ProofCheckerImpl implements ProofChecker {
                     getCurrentContext());
                 return ok;
             }
-            final Element tau = resolver.getNormalizedFormula(substfunc.getFunctionVariable());
-            final Element sigma = resolver.getNormalizedFormula(substfunc.getSubstituteTerm());
-            final Element expected = FormulaUtility.replaceOperatorVariable(alpha, tau, sigma);
+            final Element sigma = resolver.getNormalizedFormula(substfunc.getFunctionVariable());
+            final Element tau = resolver.getNormalizedFormula(substfunc.getSubstituteTerm());
+            final Element expected = FormulaUtility.replaceOperatorVariable(alpha, sigma, tau);
             if (!EqualsUtility.equals(current, expected)) {
                 ok = false;
                 handleProofCheckException(
@@ -455,10 +450,10 @@ public class ProofCheckerImpl implements ProofChecker {
                     getDiffModuleContextOfProofLineFormula(i, expected));
                 return ok;
             }
-            // check precondition: predicate variable p must have n pairwise different free subject
-            // variables as arguments
-            final ElementSet funcFree = FormulaUtility.getFreeSubjectVariables(tau);
-            if (funcFree.size() != tau.getList().size() - 1) {
+            // check precondition: function variable $\sigma$ must have n pairwise different free
+            // subject variables as arguments
+            final ElementSet funcFree = FormulaUtility.getFreeSubjectVariables(sigma);
+            if (funcFree.size() != sigma.getList().size() - 1) {
                 ok = false;
                 setLocationWithinModule(context + ".getPredicateVariable()");
                 handleProofCheckException(
@@ -467,8 +462,8 @@ public class ProofCheckerImpl implements ProofChecker {
                     getDiffModuleContextOfProofLineFormula(i, expected));
                 return ok;
             }
-            for (int j = 1; j < tau.getList().size(); j++) {
-                if (!FormulaUtility.isSubjectVariable(tau.getList().getElement(j))) {
+            for (int j = 1; j < sigma.getList().size(); j++) {
+                if (!FormulaUtility.isSubjectVariable(sigma.getList().getElement(j))) {
                     ok = false;
                     setLocationWithinModule(context + ".getPredicateVariable()");
                     handleProofCheckException(
@@ -478,10 +473,10 @@ public class ProofCheckerImpl implements ProofChecker {
                     return ok;
                 }
             }
-            // check precondition: the free variables of $\beta(x_1, \ldots, x_n)$ without
-            // $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
+            // check precondition: the free variables of $\tau(x_1, \ldots, x_n)$
+            // without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
             final ElementSet fBound = FormulaUtility.getBoundSubjectVariables(alpha);
-            final ElementSet sigmaFree = FormulaUtility.getFreeSubjectVariables(sigma);
+            final ElementSet sigmaFree = FormulaUtility.getFreeSubjectVariables(tau);
             if (!fBound.intersection(sigmaFree.minus(funcFree)).isEmpty()) {
                 ok = false;
                 setLocationWithinModule(context + ".getSubstituteFormula()");
@@ -491,10 +486,10 @@ public class ProofCheckerImpl implements ProofChecker {
                     getCurrentContext());
                 return ok;
             }
-            // check precondition: each occurrence of $p(t_1, \ldots, t_n)$ in $\alpha$ contains
-            // no bound variable of $\beta(x_1, \ldots, x_n)$
-            final ElementSet sigmaBound = FormulaUtility.getBoundSubjectVariables(sigma);
-            if (!FormulaUtility.testOperatorVariable(alpha, tau, sigmaBound)) {
+            // check precondition: each occurrence of $\sigma(t_1, \ldots, t_n)$ in $\alpha$
+            // contains no bound variable of $\tau(x_1, \ldots, x_n)$
+            final ElementSet sigmaBound = FormulaUtility.getBoundSubjectVariables(tau);
+            if (!FormulaUtility.testOperatorVariable(alpha, sigma, sigmaBound)) {
                 ok = false;
                 setLocationWithinModule(context + ".getSubstituteFormula()");
                 handleProofCheckException(
@@ -507,7 +502,6 @@ public class ProofCheckerImpl implements ProofChecker {
             // checker
         }
         return ok;
-
     }
 
     private boolean check(final ModusPonens mp, final int i, final Element element) {
@@ -709,13 +703,6 @@ public class ProofCheckerImpl implements ProofChecker {
             + ").getFormula().getElement()" + diff);
     }
 
-    private Element getNormalizedProofLine(final String label) {
-        if (label == null || label.length() > 0 || null == label2line.get(label)) {
-            return null;
-        }
-        return getNormalizedProofLine(((Integer) label2line.get(label)).intValue());
-    }
-
     private Element getNormalizedProofLine(final Integer n) {
         if (n == null) {
             return null;
@@ -740,8 +727,8 @@ public class ProofCheckerImpl implements ProofChecker {
      */
     private void handleProofCheckException(final int code, final String msg,
             final Element element, final ModuleContext context) {
-        System.out.println(context);    // FIXME
-        System.setProperty("qedeq.test.xmlLocationFailures", "true");  // FIXME
+//        System.out.println(context);
+//        System.setProperty("qedeq.test.xmlLocationFailures", "true");
         final ProofCheckException ex = new ProofCheckException(code, msg, element, context);
         exceptions.add(ex);
     }
@@ -755,8 +742,8 @@ public class ProofCheckerImpl implements ProofChecker {
      */
     private void handleProofCheckException(final int code, final String msg,
             final ModuleContext context) {
-        System.out.println(context);    // FIXME
-        System.setProperty("qedeq.test.xmlLocationFailures", "true");  // FIXME
+//        System.out.println(context);
+//        System.setProperty("qedeq.test.xmlLocationFailures", "true");
         final ProofCheckException ex = new ProofCheckException(code, msg, context);
         exceptions.add(ex);
     }
@@ -771,8 +758,8 @@ public class ProofCheckerImpl implements ProofChecker {
      */
     private void handleProofCheckException(final int code, final String msg,
             final ModuleContext context, final ModuleContext referenceContext) {
-        System.out.println(context);    // FIXME
-        System.setProperty("qedeq.test.xmlLocationFailures", "true");  // FIXME
+//        System.out.println(context);
+//        System.setProperty("qedeq.test.xmlLocationFailures", "true");
         final ProofCheckException ex = new ProofCheckException(code, msg, null, context,
             referenceContext);
         exceptions.add(ex);

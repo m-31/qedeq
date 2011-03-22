@@ -49,6 +49,7 @@ import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
+import org.qedeq.kernel.se.base.module.ReasonType;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
@@ -662,20 +663,9 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                     if (list != null) {
                         for (int j = 0; j < list.size(); j++) {
                             final FormalProofLine line = list.get(j);
-                            if (line != null) {
-                                final Formula formula = line.getFormula();
-                                if (formula != null) {
-                                    setLocationWithinModule(context + ".getFormalProofList().get("
-                                       + i + ").getFormalProofLineList().get(" + j
-                                       + ").getFormula().getElement()");
-                                    LogicalCheckExceptionList elist
-                                        = checkerFactory.createFormulaChecker().checkFormula(
-                                        formula.getElement(), getCurrentContext(), existence);
-                                    for (int k = 0; k < elist.size(); k++) {
-                                        addError(elist.get(k));
-                                    }
-                                }
-                            }
+                            setLocationWithinModule(context + ".getFormalProofList().get("
+                                + i + ").getFormalProofLineList().get(" + j + ")");
+                            checkProofLine(line);
                         }
                     }
                 }
@@ -684,10 +674,55 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         setLocationWithinModule(context);
         // if we found no errors this node is ok
         if (!getNodeBo().isNotWellFormed()) {
-            System.out.println("ok");   // FIXME
             getNodeBo().setWellFormed(CheckLevel.SUCCESS);
         }
         setBlocked(true);
+    }
+
+    /**
+     * Check well-formedness of proof lines.
+     *
+     * @param   line    Check formulas and terms of this proof line.
+     */
+    private void checkProofLine(final FormalProofLine line) {
+        final String context = getCurrentContext().getLocationWithinModule();
+        LogicalCheckExceptionList elist = new LogicalCheckExceptionList();
+        if (line != null) {
+            final Formula formula = line.getFormula();
+            if (formula != null) {
+                setLocationWithinModule(context + ".getFormula().getElement()");
+                elist = checkerFactory.createFormulaChecker().checkFormula(
+                    formula.getElement(), getCurrentContext(), existence);
+                for (int k = 0; k < elist.size(); k++) {
+                    addError(elist.get(k));
+                }
+            }
+            final ReasonType reasonType = line.getReasonType();
+            if (reasonType != null) {
+                if (reasonType.getSubstFree() != null) {
+                    setLocationWithinModule(context
+                        + ".getReasonType().getSubstFree().getSubstituteTerm()");
+                    elist = checkerFactory.createFormulaChecker().checkTerm(
+                        reasonType.getSubstFree().getSubstituteTerm(),
+                        getCurrentContext(), existence);
+                } else if (reasonType.getSubstPred() != null) {
+                    setLocationWithinModule(context
+                        + ".getReasonType().getSubstPred().getSubstituteFormula()");
+                    elist = checkerFactory.createFormulaChecker().checkFormula(
+                        reasonType.getSubstPred().getSubstituteFormula(),
+                        getCurrentContext(), existence);
+                } else if (reasonType.getSubstFunc() != null) {
+                    setLocationWithinModule(context
+                        + ".getReasonType().getSubstFunc().getSubstituteTerm()");
+                    elist = checkerFactory.createFormulaChecker().checkTerm(
+                        reasonType.getSubstFunc().getSubstituteTerm(),
+                        getCurrentContext(), existence);
+                }
+                for (int k = 0; k < elist.size(); k++) {
+                    addError(elist.get(k));
+                }
+            }
+        }
     }
 
     public void visitLeave(final Proposition definition) {
