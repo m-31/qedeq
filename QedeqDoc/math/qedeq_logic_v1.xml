@@ -1100,7 +1100,7 @@
               <LATEX language="en">
                 <![CDATA[
                   Let $\alpha$ be an already proved formula that contains a function variable $\sigma$ of arity $n$, let $x_1$, \ldots, $x_n$ be pairwise different subject variables and let $\tau(x_1, \ldots, x_n)$ be an arbitrary term where $x_1$, \ldots, $x_n$ are not bound. 
-                  The term $\tau(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$. as free subject variables. Furthermore it can also have other subject variables either free or bound. 
+                  The term $\tau(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound. 
                   
                   If the following conditions are fulfilled we can obtain a new true formula by replacing each occurrence of $\sigma(t_1, \ldots, t_n)$ with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\tau(t_1, \ldots, t_n)$.
                   
