@@ -18,7 +18,8 @@ import java.io.File;
 
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.logic.proof.finder.ProofFinder;
+import org.qedeq.kernel.bo.logic.common.ProofFinder;
+import org.qedeq.kernel.bo.logic.proof.finder.ProofFinderImpl;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -62,7 +63,7 @@ public class ProofFinderTest extends QedeqBoTestCase {
         final KernelQedeqBo q = (KernelQedeqBo) bo;
         final KernelNodeBo node = q.getLabels().getNode("proposition:one");
         final Proposition prop = node.getNodeVo().getNodeType().getProposition();
-        final ProofFinder finder = new ProofFinder();
+        final ProofFinder finder = new ProofFinderImpl();
         final FormalProofLineList original = prop.getFormalProofList().get(0)
             .getFormalProofLineList();
         final FormalProofLineListVo list = new FormalProofLineListVo();
@@ -89,11 +90,11 @@ public class ProofFinderTest extends QedeqBoTestCase {
         final KernelQedeqBo q = (KernelQedeqBo) bo;
         final KernelNodeBo node = q.getLabels().getNode("proposition:one");
         final Proposition prop = node.getNodeVo().getNodeType().getProposition();
-        final ProofFinder finder = new ProofFinder();
+        final ProofFinder finder = new ProofFinderImpl();
         final FormalProofLineList original = prop.getFormalProofList().get(0)
             .getFormalProofLineList();
         final FormalProofLineListVo list = new FormalProofLineListVo();
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 4; i++) {
             list.add(original.get(i));
         }
         finder.findProof(prop.getFormula().getElement(), list);
