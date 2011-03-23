@@ -55,7 +55,7 @@ public interface InternalKernelServices extends KernelServices {
 
     /**
      * Transform an URL address into a local file path where the QEDEQ module is buffered.
-     * If the module is not buffered <code>null</code> is returned.
+     * If the QEDEQ module is a local file the path to that file is given.
      *
      * @param   address     Get local address for this QEDEQ module address.
      * @return  Local file path for that <code>address</code>.

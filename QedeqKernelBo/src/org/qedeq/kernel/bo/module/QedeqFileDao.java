@@ -28,7 +28,6 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 /**
  * An instance of this interface can load and save QEDEQ module files.
  *
- * @version $Revision: 1.1 $
  * @author  Michael Meyling
  */
 public interface QedeqFileDao {
@@ -52,7 +51,7 @@ public interface QedeqFileDao {
      * Load a QEDEQ module from file.
      *
      * @param   prop        Module properties.
-     * @param   localFile   Load XML file from tbis location.
+     * @param   localFile   Load file from this location.
      * @return  Loaded QEDEQ.
      * @throws  SourceFileExceptionList     Module could not be successfully loaded.
      */
@@ -68,7 +67,7 @@ public interface QedeqFileDao {
      * @throws  IOException                 File saving failed.
      */
     public void saveQedeq(KernelQedeqBo prop, final File localFile)
-            throws SourceFileExceptionList,  IOException;
+            throws SourceFileExceptionList, IOException;
 
     /**
      * Get area in source file for QEDEQ module context.
