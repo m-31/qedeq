@@ -45,6 +45,15 @@ public class FormalProofVo implements FormalProof {
     }
 
     /**
+     * Constructs a proof.
+     *
+     * @param   formalProofLines    The proof lines.
+     */
+    public FormalProofVo(final FormalProofLineList formalProofLines) {
+        this.formalProofLineList = formalProofLines;
+    }
+
+    /**
      * Set preceding LaTeX text. This text comes before a formal proof.
      *
      * @param   precedingText   Preceding LaTeX text.
