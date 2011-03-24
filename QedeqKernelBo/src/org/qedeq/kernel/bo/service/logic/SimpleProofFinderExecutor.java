@@ -53,9 +53,9 @@ import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.se.dto.module.AddVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
-import org.qedeq.kernel.se.dto.module.FormalProofListVo;
 import org.qedeq.kernel.se.dto.module.FormalProofVo;
 import org.qedeq.kernel.se.dto.module.FormulaVo;
+import org.qedeq.kernel.se.dto.module.PropositionVo;
 import org.qedeq.kernel.se.dto.module.ReasonTypeVo;
 
 
@@ -214,11 +214,12 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             final FormalProofLineList proof = finderFactory.createProofFinder().findProof(
                 proposition.getFormula().getElement(), validFormulas);
             // TODO 20110323 m31: we do a dirty cast to modify the current module
-            ((FormalProofListVo) proposition.getFormalProofList()).add(new FormalProofVo(proof));
+            ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
             if (proof != null) {
                 Object obj;
                 try {
-                    obj = YodaUtility.getField(KernelContext.getInstance(), "services");
+                    obj = YodaUtility.getFieldValue(KernelContext.getInstance(), "services");
+                    System.out.println(obj.getClass());
                     InternalKernelServices services = (InternalKernelServices) obj;
                     QedeqFileDao dao = services.getQedeqFileDao();
                     dao.saveQedeq(getQedeqBo(),
