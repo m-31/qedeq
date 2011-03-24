@@ -229,6 +229,9 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                     e.printStackTrace();
                 }
             }
+        } else {
+            validFormulas.add(new FormalProofLineVo(new FormulaVo(getNodeBo().getFormula()),
+                    new ReasonTypeVo(new AddVo(getNodeBo().getNodeVo().getId()))));
         }
         setBlocked(true);
     }
