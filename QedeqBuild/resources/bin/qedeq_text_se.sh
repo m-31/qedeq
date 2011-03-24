@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# this script starts the standalone GUI front end of *Hilbert II*
+# this script starts the standalone text front end of *Hilbert II*
 
 # change to directory of script directory
 cd $(dirname $0)
@@ -17,9 +17,9 @@ QEDEQ_CP=config:lib/qedeq_gui_se-@QEDEQ_VERSION@.jar:lib/qedeq_kernel-@QEDEQ_VER
 # set QEDEQ_SPLASH=-splash:qedeq.png
 
 #start program
-# if "java" is not in the path you must add the JRE bin directory to your path or
+# if "java" is not in the path you must add the JRE bin dictionary to your path or
 # fill in the full path to the java executable
-java $QEDEQ_PROXY $QEDEQ_SPLASH -cp $QEDEQ_CP org.qedeq.gui.se.main.QedeqMainFrame "$@"
+java -Xms64m -Xmx1024m $QEDEQ_PROXY $QEDEQ_SPLASH -cp $QEDEQ_CP org.qedeq.text.se.main.Main "$@"
 
 
 

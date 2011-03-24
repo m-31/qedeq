@@ -1,5 +1,5 @@
 @echo off
-REM this script starts the standalone GUI front end of *Hilbert II*
+REM this script starts the standalone text front end of *Hilbert II*
 
 REM remove the following line for Windows 98 or below
 @setlocal
@@ -18,7 +18,7 @@ REM set QEDEQ_SPLASH=-splash:qedeq.png
 REM start program
 REM if "java" is not in the path you must add the JRE bin directory to your path or
 REM fill in the full path to the java executable
-java %QEDEQ_PROXY% %QEDEQ_SPLASH% -cp %QEDEQ_CP% org.qedeq.gui.se.main.QedeqMainFrame %1 %2 %3 %4 %5 %6 %7 %8 %9
+java -Xms64m -Xmx1024m %QEDEQ_PROXY% %QEDEQ_SPLASH% -cp %QEDEQ_CP% org.qedeq.text.se.main.Main %1 %2 %3 %4 %5 %6 %7 %8 %9
 
 REM remove the following line for Windows 98 or below
 @endlocal
