@@ -5,12 +5,20 @@
   <HEADER email="mime@qedeq.org">
     <SPECIFICATION name="qedeq_propositional_v1" ruleVersion="1.00.00">
       <LOCATIONS>
-        <LOCATION value="http://wwww.qedeq.org/0_04_02/doc/math"/>
+        <LOCATION value="http://wwww.qedeq.org/0_04_02/doc/math" />
       </LOCATIONS>
     </SPECIFICATION>
     <TITLE>
-      <LATEX language="en">Propositional Calculus</LATEX>
-      <LATEX language="de">Aussagenlogik</LATEX>
+      <LATEX language="en">
+        <![CDATA[
+          Propositional Calculus
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          Aussagenlogik
+        ]]>
+      </LATEX>
     </TITLE>
     <ABSTRACT>
       <LATEX language="en">
@@ -28,7 +36,9 @@
       <AUTHOR email="michael@meyling.com">
         <NAME>
           <LATEX language="de">
-            Michael Meyling
+            <![CDATA[
+              Michael Meyling
+            ]]>
           </LATEX>
         </NAME>
       </AUTHOR>
@@ -36,7 +46,7 @@
     <USEDBY>
       <SPECIFICATION name="qedeq_logic_v1" ruleVersion="1.00.00">
         <LOCATIONS>
-          <LOCATION value="."/>
+          <LOCATION value="." />
         </LOCATIONS>
       </SPECIFICATION>
     </USEDBY>
@@ -44,10 +54,14 @@
   <CHAPTER noNumber="true">
     <TITLE>
       <LATEX language="en">
-         Summary\index{summary}
+        <![CDATA[
+          Summary\index{summary}
+        ]]>
       </LATEX>
       <LATEX language="de">
-         Zusammenfassung\index{Zusammenfassung}
+        <![CDATA[
+          Zusammenfassung\index{Zusammenfassung}
+        ]]>
       </LATEX>
     </TITLE>
     <INTRODUCTION>
@@ -67,14 +81,17 @@
       </LATEX>
     </INTRODUCTION>
   </CHAPTER>
-
   <CHAPTER>
     <TITLE>
       <LATEX language="en">
-         Axioms and Rules of Inference
+        <![CDATA[
+          Axioms and Rules of Inference
+        ]]>
       </LATEX>
       <LATEX language="de">
-         Axiome und Schlussregeln
+        <![CDATA[
+          Axiome und Schlussregeln
+        ]]>
       </LATEX>
     </TITLE>
     <INTRODUCTION>
@@ -92,10 +109,14 @@
     <SECTION>
       <TITLE>
         <LATEX language="en">
-           Axioms\index{axioms}
+          <![CDATA[
+            Axioms\index{axioms}
+          ]]>
         </LATEX>
         <LATEX language="de">
-           Axiome\index{Axiome}
+          <![CDATA[
+            Axiome\index{Axiome}
+          ]]>
         </LATEX>
       </TITLE>
       <INTRODUCTION>
@@ -113,20 +134,36 @@
       <SUBSECTIONS>
         <NODE id="axiom:THEN-1">
           <NAME>
-            <LATEX language="en">axiom of hypothesis introduction</LATEX>
-            <LATEX language="de">Axiom der Hypotheseneinführung</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of hypothesis introduction
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Hypotheseneinführung
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Implication Introduction\index{implication introduction}</LATEX>
-            <LATEX language="de">Hypotheseineinführung\index{Hypotheseneinführung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Implication Introduction\index{implication introduction}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Hypotheseineinführung\index{Hypotheseneinführung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
-                <PREDVAR id="A" />
+                <PREDVAR id="A"/>
                 <IMPL>
-                  <PREDVAR id="B" />
-                  <PREDVAR id="A" />
+                  <PREDVAR id="B"/>
+                  <PREDVAR id="A"/>
                 </IMPL>
               </IMPL>
             </FORMULA>
@@ -134,31 +171,47 @@
         </NODE>
         <NODE id="axiom:THEN-2">
           <NAME>
-            <LATEX language="en">axiom of distributing a hypothesis</LATEX>
-            <LATEX language="de">Axiom der Hypothesenverteilung</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of distributing a hypothesis
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Hypothesenverteilung
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Distribute Hypothesis over Implication\index{hypothesis distribution}</LATEX>
-            <LATEX language="de">Verteilung einer Hypothese über Implikation\index{Hypothesenverteilung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Distribute Hypothesis over Implication\index{hypothesis distribution}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Verteilung einer Hypothese über Implikation\index{Hypothesenverteilung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
                 <IMPL>
-                  <PREDVAR id="A" />
+                  <PREDVAR id="A"/>
                   <IMPL>
-                    <PREDVAR id="B" />
-                    <PREDVAR id="C" />
+                    <PREDVAR id="B"/>
+                    <PREDVAR id="C"/>
                   </IMPL>
                 </IMPL>
                 <IMPL>
                   <IMPL>
-                    <PREDVAR id="A" />
-                    <PREDVAR id="B" />
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="B"/>
                   </IMPL>
                   <IMPL>
-                    <PREDVAR id="A" />
-                    <PREDVAR id="C" />
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="C"/>
                   </IMPL>
                 </IMPL>
               </IMPL>
@@ -167,64 +220,112 @@
         </NODE>
         <NODE id="axiom:AND-1">
           <NAME>
-            <LATEX language="en">axiom of eliminating a right conjunction</LATEX>
-            <LATEX language="de">Axiom der Konjunktionskürzung rechts</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of eliminating a right conjunction
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Konjunktionskürzung rechts
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Eliminate Conjunction Right\index{conjunction!elimination}</LATEX>
-            <LATEX language="de">Konjunktionskürzung rechts\index{Konjunktion!Kürzung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Eliminate Conjunction Right\index{conjunction!elimination}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Konjunktionskürzung rechts\index{Konjunktion!Kürzung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
                 <AND>
-                  <PREDVAR id="A" />
-                  <PREDVAR id="B" />
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
                 </AND>
-                <PREDVAR id="A" />
+                <PREDVAR id="A"/>
               </IMPL>
             </FORMULA>
           </AXIOM>
         </NODE>
         <NODE id="axiom:AND-2">
           <NAME>
-            <LATEX language="en">axiom of eliminating a left conjunction</LATEX>
-            <LATEX language="de">Axiom der Konjunktionskürzung links</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of eliminating a left conjunction
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Konjunktionskürzung links
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Eliminate Conjunction Left\index{conjunction!elimination}</LATEX>
-            <LATEX language="de">Konjunktionskürzung links\index{Konjunktion!Kürzung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Eliminate Conjunction Left\index{conjunction!elimination}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Konjunktionskürzung links\index{Konjunktion!Kürzung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
                 <AND>
-                  <PREDVAR id="A" />
-                  <PREDVAR id="B" />
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
                 </AND>
-                <PREDVAR id="B" />
+                <PREDVAR id="B"/>
               </IMPL>
             </FORMULA>
           </AXIOM>
         </NODE>
         <NODE id="axiom:AND-3">
           <NAME>
-            <LATEX language="en">axiom of introducing a conjunction</LATEX>
-            <LATEX language="de">Axiom der Konjunktionseinführung</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of introducing a conjunction
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Konjunktionseinführung
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Conjunction Introduction\index{conjunction!introduction}</LATEX>
-            <LATEX language="de">Konjunktionseinführung\index{Konjunktion!Einführung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Conjunction Introduction\index{conjunction!introduction}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Konjunktionseinführung\index{Konjunktion!Einführung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
-                <PREDVAR id="B" />
+                <PREDVAR id="B"/>
                 <IMPL>
-                  <PREDVAR id="A" />
+                  <PREDVAR id="A"/>
                   <AND>
-                    <PREDVAR id="A" />
-                    <PREDVAR id="B" />
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="B"/>
                   </AND>
                 </IMPL>
               </IMPL>
@@ -233,20 +334,36 @@
         </NODE>
         <NODE id="axiom:OR-1">
           <NAME>
-            <LATEX language="en">axiom of introducing a disjunction right</LATEX>
-            <LATEX language="de">Axiom der Disjunktionseinführung rechts</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of introducing a disjunction right
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Disjunktionseinführung rechts
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Disjunction Introduction Right\index{disjunction!introduction}</LATEX>
-            <LATEX language="de">Konjunktionseinführung rechts\index{Disjunktion!Einführung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Disjunction Introduction Right\index{disjunction!introduction}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Konjunktionseinführung rechts\index{Disjunktion!Einführung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
-                <PREDVAR id="A" />
+                <PREDVAR id="A"/>
                 <OR>
-                  <PREDVAR id="A" />
-                  <PREDVAR id="B" />
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
                 </OR>
               </IMPL>
             </FORMULA>
@@ -254,20 +371,36 @@
         </NODE>
         <NODE id="axiom:OR-2">
           <NAME>
-            <LATEX language="en">axiom of introducing a disjunction left</LATEX>
-            <LATEX language="de">Axiom der Disjunktionseinführung links</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of introducing a disjunction left
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Disjunktionseinführung links
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Disjunction Introduction Left\index{disjunction!introduction}</LATEX>
-            <LATEX language="de">Konjunktionseinführung links\index{Disjunktion!Einführung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Disjunction Introduction Left\index{disjunction!introduction}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Konjunktionseinführung links\index{Disjunktion!Einführung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
-                <PREDVAR id="A" />
+                <PREDVAR id="A"/>
                 <OR>
-                  <PREDVAR id="B" />
-                  <PREDVAR id="A" />
+                  <PREDVAR id="B"/>
+                  <PREDVAR id="A"/>
                 </OR>
               </IMPL>
             </FORMULA>
@@ -275,72 +408,94 @@
         </NODE>
         <NODE id="axiom:OR-3">
           <NAME>
-            <LATEX language="en">axiom of eliminating a disjunction</LATEX>
-            <LATEX language="de">Axiom der Disjunktionskürzung</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of eliminating a disjunction
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Disjunktionskürzung
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Disjunction Elimination\index{disjunction!elimination}</LATEX>
-            <LATEX language="de">Konjunktionskürzung\index{Disjunktion!Kürzung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Disjunction Elimination\index{disjunction!elimination}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Konjunktionskürzung\index{Disjunktion!Kürzung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
                 <IMPL>
-                  <PREDVAR id="A" />
-                  <PREDVAR id="B" />
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
                 </IMPL>
                 <IMPL>
                   <IMPL>
-                    <PREDVAR id="C" />
-                    <PREDVAR id="A" />
+                    <PREDVAR id="C"/>
+                    <PREDVAR id="A"/>
                   </IMPL>
                   <IMPL>
                     <OR>
-                      <PREDVAR id="A" />
-                      <PREDVAR id="C" />
+                      <PREDVAR id="A"/>
+                      <PREDVAR id="C"/>
                     </OR>
-                    <PREDVAR id="B" />
+                    <PREDVAR id="B"/>
                   </IMPL>
                 </IMPL>
               </IMPL>
             </FORMULA>
           </AXIOM>
         </NODE>
-        <NODE id="proposition:implicationReflexive" >
-          <THEOREM>
-            <FORMULA>
-              <IMPL>
-                <PREDVAR id="A" />
-                <PREDVAR id="A" />
-              </IMPL>
-            </FORMULA>
-          </THEOREM>
-        </NODE>
         <NODE id="axiom:NOT-1">
           <NAME>
-            <LATEX language="en">axiom of introducing a negation</LATEX>
-            <LATEX language="de">Axiom der Negationseinführung</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of introducing a negation
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Negationseinführung
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Negation Introduction\index{negation!introduction}</LATEX>
-            <LATEX language="de">Negationseinführung\index{Negation!Einführung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Negation Introduction\index{negation!introduction}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Negationseinführung\index{Negation!Einführung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
                 <IMPL>
-                  <PREDVAR id="A" />
-                  <PREDVAR id="B" />
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
                 </IMPL>
                 <IMPL>
                   <IMPL>
-                    <PREDVAR id="A" />
+                    <PREDVAR id="A"/>
                     <NOT>
-                      <PREDVAR id="B" />
+                      <PREDVAR id="B"/>
                     </NOT>
                   </IMPL>
                   <NOT>
-                    <PREDVAR id="A" />
+                    <PREDVAR id="A"/>
                   </NOT>
                 </IMPL>
               </IMPL>
@@ -349,22 +504,38 @@
         </NODE>
         <NODE id="axiom:NOT-2">
           <NAME>
-            <LATEX language="en">axiom of eliminating a negation</LATEX>
-            <LATEX language="de">Axiom der Negationskürzung</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of eliminating a negation
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Negationskürzung
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Negation Elimination\index{negation!elimination}</LATEX>
-            <LATEX language="de">Negationskürzung\index{Negation!Kürzung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Negation Elimination\index{negation!elimination}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Negationskürzung\index{Negation!Kürzung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
                 <NOT>
-                  <PREDVAR id="A" />
+                  <PREDVAR id="A"/>
                 </NOT>
                 <IMPL>
-                  <PREDVAR id="A" />
-                  <PREDVAR id="B" />
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
                 </IMPL>
               </IMPL>
             </FORMULA>
@@ -372,19 +543,35 @@
         </NODE>
         <NODE id="axiom:NOT-3">
           <NAME>
-            <LATEX language="en">axiom of excluded middle</LATEX>
-            <LATEX language="de">Axiom vom ausgeschlossenen Dritten</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of excluded middle
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom vom ausgeschlossenen Dritten
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Excluded Middle\index{negation!excluded middle}</LATEX>
-            <LATEX language="de">Ausgeschlossenes Drittes\index{Negation!ausgeschlossenes Drittes}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Excluded Middle\index{negation!excluded middle}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Ausgeschlossenes Drittes\index{Negation!ausgeschlossenes Drittes}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <OR>
-                <PREDVAR id="A" />
+                <PREDVAR id="A"/>
                 <NOT>
-                  <PREDVAR id="A" />
+                  <PREDVAR id="A"/>
                 </NOT>
               </OR>
             </FORMULA>
@@ -392,23 +579,39 @@
         </NODE>
         <NODE id="axiom:IFF-1">
           <NAME>
-            <LATEX language="en">axiom of equivalence elimination right</LATEX>
-            <LATEX language="de">Axiom der Äquivalenzkürzung rechts</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of equivalence elimination right
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Äquivalenzkürzung rechts
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Equivalence Elimination right\index{equivalence!elimination}</LATEX>
-            <LATEX language="de">Äquivalenzkürzung rechts\index{Äquivalenz!Kürzung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Equivalence Elimination right\index{equivalence!elimination}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Äquivalenzkürzung rechts\index{Äquivalenz!Kürzung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
                 <EQUI>
-                  <PREDVAR id="A" />
-                  <PREDVAR id="B" />
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
                 </EQUI>
                 <IMPL>
-                  <PREDVAR id="A" />
-                  <PREDVAR id="B" />
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
                 </IMPL>
               </IMPL>
             </FORMULA>
@@ -416,23 +619,39 @@
         </NODE>
         <NODE id="axiom:IFF-2">
           <NAME>
-            <LATEX language="en">axiom of equivalence elimination left</LATEX>
-            <LATEX language="de">Axiom der Äquivalenzkürzung links</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of equivalence elimination left
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Äquivalenzkürzung links
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Equivalence Elimination left\index{equivalence!elimination}</LATEX>
-            <LATEX language="de">Äquivalenzkürzung links\index{Äquivalenz!Kürzung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Equivalence Elimination left\index{equivalence!elimination}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Äquivalenzkürzung links\index{Äquivalenz!Kürzung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
                 <EQUI>
-                  <PREDVAR id="A" />
-                  <PREDVAR id="B" />
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
                 </EQUI>
                 <IMPL>
-                  <PREDVAR id="B" />
-                  <PREDVAR id="A" />
+                  <PREDVAR id="B"/>
+                  <PREDVAR id="A"/>
                 </IMPL>
               </IMPL>
             </FORMULA>
@@ -440,28 +659,44 @@
         </NODE>
         <NODE id="axiom:IFF-3">
           <NAME>
-            <LATEX language="en">axiom of equivalence introduction</LATEX>
-            <LATEX language="de">Axiom der Äquivalenzeinführung</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of equivalence introduction
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Äquivalenzeinführung
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Equivalence Introduction\index{equivalence!introduction}</LATEX>
-            <LATEX language="de">Äquivalenzeinführung\index{Äquivalenz!Einführung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Equivalence Introduction\index{equivalence!introduction}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Äquivalenzeinführung\index{Äquivalenz!Einführung}
+              ]]>
+            </LATEX>
           </TITLE>
           <AXIOM>
             <FORMULA>
               <IMPL>
                 <IMPL>
-                  <PREDVAR id="A" />
-                  <PREDVAR id="B" />
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
                 </IMPL>
                 <IMPL>
                   <IMPL>
-                    <PREDVAR id="B" />
-                    <PREDVAR id="A" />
+                    <PREDVAR id="B"/>
+                    <PREDVAR id="A"/>
                   </IMPL>
                   <EQUI>
-                    <PREDVAR id="A" />
-                    <PREDVAR id="B" />
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="B"/>
                   </EQUI>
                 </IMPL>
               </IMPL>
@@ -473,10 +708,14 @@
     <SECTION>
       <TITLE>
         <LATEX language="en">
-           First Propositions
+          <![CDATA[
+            First Propositions
+          ]]>
         </LATEX>
         <LATEX language="de">
-           First Propositions
+          <![CDATA[
+            First Propositions
+          ]]>
         </LATEX>
       </TITLE>
       <INTRODUCTION>
@@ -492,8 +731,191 @@
         </LATEX>
       </INTRODUCTION>
       <SUBSECTIONS>
-        <SUBSECTION>
-        </SUBSECTION>
+        <NODE id="proposition:implicationReflexive">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <PREDVAR id="A"/>
+                <PREDVAR id="A"/>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <IMPL>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="A"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:THEN-1"/>
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <IMPL>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="C"/>
+                        </IMPL>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="B"/>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="C"/>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:THEN-2"/>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <OR>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="A"/>
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:OR-2"/>
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <IMPL>
+                        <OR>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="A"/>
+                        </OR>
+                        <PREDVAR id="A"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="1">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <OR>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="A"/>
+                      </OR>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="5">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <IMPL>
+                          <OR>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="C"/>
+                          </OR>
+                          <PREDVAR id="C"/>
+                        </IMPL>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <OR>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="C"/>
+                          </OR>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="C"/>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="2">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <OR>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="C"/>
+                      </OR>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="6">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <IMPL>
+                          <OR>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="A"/>
+                          </OR>
+                          <PREDVAR id="A"/>
+                        </IMPL>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <OR>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="A"/>
+                          </OR>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="A"/>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="5">
+                    <PREDVAR id="C"/>
+                    <FORMULA>
+                      <PREDVAR id="A"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="7">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <OR>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="A"/>
+                        </OR>
+                      </IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="A"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="6" ref2="4"/>
+                </L>
+                <L label="8">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <PREDVAR id="A"/>
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="7" ref2="3"/>
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
       </SUBSECTIONS>
     </SECTION>
   </CHAPTER>
