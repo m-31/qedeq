@@ -16,6 +16,7 @@
 package org.qedeq.gui.se.pane;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
@@ -45,6 +46,7 @@ import javax.swing.text.StyleConstants;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.SelectionListenerList;
+import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.log.ModuleEventListener;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -239,20 +241,24 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
         final JTableHeader header = list.getTableHeader();
         ((JLabel) header.getDefaultRenderer()).setHorizontalAlignment(JLabel.LEFT);
 
-        changeHeaderWidth();
+        //set height of header correctly
+        header.setPreferredSize(new Dimension(list.getTableHeader().getWidth(),
+            (int) (1.1 * this.getFontMetrics(getFont()).getHeight())));
+
+        changeColumnHeaderWidth();
     }
 
     /**
      * Make 2. column smaller.
      */
-    private void changeHeaderWidth() {
+    private void changeColumnHeaderWidth() {
         TableColumnModel columnModel = list.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(24);
         columnModel.getColumn(0).setMinWidth(24);
         columnModel.getColumn(1).setPreferredWidth(2000);
         columnModel.getColumn(1).setMinWidth(100);
-        columnModel.getColumn(2).setPreferredWidth(100);
-        columnModel.getColumn(2).setMinWidth(100);
+        columnModel.getColumn(2).setPreferredWidth(50);
+        columnModel.getColumn(2).setMinWidth(50);
         columnModel.getColumn(3).setPreferredWidth(100);
         columnModel.getColumn(3).setMinWidth(100);
     }
@@ -284,7 +290,7 @@ public class ModuleErrorAndWarningListPane extends JPanel implements ModuleEvent
         Trace.begin(CLASS, this, method);
         ((AbstractTableModel) list.getModel()).fireTableDataChanged();
         ((AbstractTableModel) list.getModel()).fireTableStructureChanged();
-        changeHeaderWidth();
+        changeColumnHeaderWidth();
         list.invalidate();
         list.repaint();
         this.repaint();

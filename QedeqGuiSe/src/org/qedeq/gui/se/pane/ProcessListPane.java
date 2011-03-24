@@ -16,6 +16,7 @@
 package org.qedeq.gui.se.pane;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -205,6 +206,9 @@ public class ProcessListPane extends JPanel  {
         // TODO mime 20080415: left align with small spaces would be better
         final JTableHeader header = list.getTableHeader();
         ((JLabel) header.getDefaultRenderer()).setHorizontalAlignment(JLabel.LEFT);
+        //set height of header correctly
+        header.setPreferredSize(new Dimension(list.getTableHeader().getWidth(),
+            (int) (1.1 * this.getFontMetrics(getFont()).getHeight())));
 
         changeHeaderWidth();
         final Thread refresh = new Thread() {
