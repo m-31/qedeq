@@ -45,8 +45,8 @@ import org.qedeq.kernel.bo.logic.model.ThreeDynamicModel;
 import org.qedeq.kernel.bo.logic.model.UnaryDynamicModel;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
-import org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin;
 import org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeTextPlugin;
+import org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin;
 import org.qedeq.kernel.se.common.Plugin;
 
 import com.jgoodies.forms.builder.ButtonBarBuilder;
@@ -95,11 +95,11 @@ public class PluginPreferencesDialog extends JDialog {
 //    /** Plugin for checking formulas with the help of a static model. */
 //    private HeuristicCheckerPlugin heuristicChecker;
 
+//    /** Class string for static model. */
+//    private String heuristicCheckerModel = "";
+
     /** Plugin for checking formulas with the help of a dynamically calculated static model. */
     private DynamicHeuristicCheckerPlugin dynamicHeuristicChecker;
-
-    /** Class string for static model. */
-    private String heuristicCheckerModel = "";
 
     /** Class string for dynamic static model. */
     private String dynamicHeuristicCheckerModel = "";

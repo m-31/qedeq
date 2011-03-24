@@ -46,7 +46,6 @@ import javax.swing.text.StyleConstants;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.gui.se.control.SelectionListenerList;
-import org.qedeq.gui.se.util.GuiHelper;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.log.ModuleEventListener;
 import org.qedeq.kernel.se.common.SourceFileException;
