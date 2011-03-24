@@ -70,7 +70,7 @@ public final class XmlSyntaxException extends QedeqException implements ErrorCod
     /** Unexpected tag message text, part one. */
     public static final String IO_ERROR_TEXT = "An IO error occurred.";
 
-    /** Error code for a programming error. */
+    /** Error code for a sax parser error. */
     public static final int SAX_ERROR_CODE = 9910;
 
     /** Unexpected tag message text, part one. */
@@ -161,7 +161,7 @@ public final class XmlSyntaxException extends QedeqException implements ErrorCod
      */
     public static final XmlSyntaxException createByIOException(
             final IOException e) {
-        return new XmlSyntaxException(PROGRAMMING_ERROR_CODE, PROGRAMMING_ERROR_TEXT, e);
+        return new XmlSyntaxException(IO_ERROR_CODE, IO_ERROR_TEXT, e);
     }
 
     /**
@@ -172,7 +172,7 @@ public final class XmlSyntaxException extends QedeqException implements ErrorCod
      */
     public static final XmlSyntaxException createBySAXException(
             final SAXException e) {
-        return new XmlSyntaxException(PROGRAMMING_ERROR_CODE, PROGRAMMING_ERROR_TEXT, e);
+        return new XmlSyntaxException(SAX_ERROR_CODE, SAX_ERROR_TEXT, e);
     }
 
     /**

@@ -159,7 +159,7 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
     public void saveQedeq(final KernelQedeqBo prop, final File localFile)
             throws SourceFileExceptionList, IOException {
         final OutputStream outputStream = new FileOutputStream(localFile);
-        final TextOutput printer = new TextOutput(localFile.getName(), outputStream);
+        final TextOutput printer = new TextOutput(localFile.getName(), outputStream, "UTF-8");
         Qedeq2Xml.print(this, prop, printer);
     }
 
