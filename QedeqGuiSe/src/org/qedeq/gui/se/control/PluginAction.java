@@ -91,6 +91,7 @@ public class PluginAction extends AbstractAction {
                     }
                 };
                 thread.setDaemon(true);
+                thread.setPriority(Thread.MIN_PRIORITY);
                 thread.start();
             }
         } finally {
