@@ -306,18 +306,12 @@
             </FORMULA>
           </AXIOM>
         </NODE>
-        <NODE id="proposition:conjunctionCommutative1" >
+        <NODE id="proposition:implicationReflexive" >
           <THEOREM>
             <FORMULA>
               <IMPL>
-                <AND>
-                  <PREDVAR id="A" />
-                  <PREDVAR id="B" />
-                </AND>
-                <AND>
-                  <PREDVAR id="B" />
-                  <PREDVAR id="A" />
-                </AND>
+                <PREDVAR id="A" />
+                <PREDVAR id="A" />
               </IMPL>
             </FORMULA>
           </THEOREM>
