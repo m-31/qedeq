@@ -48,7 +48,7 @@ public class QedeqNotNullTraverserTest extends QedeqTestCase {
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
-    private final TextOutput text = new TextOutput("local", out);
+    private final TextOutput text = new TextOutput("local", out, "UTF-8");
 
     private final Stack stack = new Stack();
 
