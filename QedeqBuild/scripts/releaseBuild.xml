@@ -392,11 +392,11 @@ currently in ants classpath
         <delete dir="${qedeq.dest}/bin"/>
         <mkdir dir="${qedeq.dest}/bin"/>
         <copy todir="${qedeq.dest}/bin">
-            <fileset dir="${qedeq.resources}/bin/" includes="*.bat,*.sh" excludes="qedeq_se.*,xml2*.*"/>
+            <fileset dir="${qedeq.resources}/bin/" includes="*.bat,*.sh" excludes="qedeq_*,xml2*.*"/>
             <filterset refid="qedeq_filter_dev" />
         </copy>
         <copy todir="${qedeq.dest}">
-            <fileset dir="${qedeq.resources}/bin/" includes="qedeq_se.*"/>
+            <fileset dir="${qedeq.resources}/bin/" includes="qedeq_*"/>
             <filterset refid="qedeq_filter_dev" />
         </copy>
         <copy todir="${qedeq.dest}">
