@@ -47,7 +47,7 @@ import org.qedeq.kernel.se.dto.module.SubstPredVo;
  */
 public class ProofFinderImpl implements ProofFinder {
 
-    /** Proof we extended. */
+    /** Proof with basic formulas added by "Add". */
     private FormalProofLineList proof;
 
     /** List of proof lines. */
