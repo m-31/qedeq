@@ -56,7 +56,6 @@ import com.jgoodies.looks.Options;
  * version of <b>Hilbert II</b>.
  *
  * @author  Michael Meyling
- * @version $Revision: 1.6 $
  */
 public class QedeqMainFrame extends JFrame {
 
