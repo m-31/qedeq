@@ -32,7 +32,6 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.log.TraceListener;
 import org.qedeq.kernel.bo.service.DefaultInternalKernelServices;
 import org.qedeq.kernel.bo.service.logic.MultiProofFinderPlugin;
-import org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
 
