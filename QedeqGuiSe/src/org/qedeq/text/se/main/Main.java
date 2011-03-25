@@ -31,6 +31,7 @@ import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.log.TraceListener;
 import org.qedeq.kernel.bo.service.DefaultInternalKernelServices;
+import org.qedeq.kernel.bo.service.logic.MultiProofFinderPlugin;
 import org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.xml.dao.XmlQedeqFileDao;
@@ -171,7 +172,7 @@ public final class Main {
                 KernelContext.getInstance().startup();
                 final ModuleAddress address = KernelContext.getInstance().getModuleAddress(args[0]);
                 KernelContext.getInstance().loadModule(address);
-                KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
+                KernelContext.getInstance().executePlugin(MultiProofFinderPlugin.class.getName(),
                     address, null);
                 KernelContext.getInstance().shutdown();
             } catch (IOException e) {
