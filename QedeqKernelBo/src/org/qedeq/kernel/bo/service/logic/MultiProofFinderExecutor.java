@@ -78,7 +78,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
     /** List of formulas we need a proof for. */
     private ElementList goalFormulas;
 
-    // IDs for the goal formulas. */
+    /** IDs for the goal formulas. */
     private List idsForGoalFormulas;
 
     /** List of axioms, definitions and propositions. */
@@ -229,6 +229,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
         final String context = getCurrentContext().getLocationWithinModule();
         // we try creating
         if (proposition.getFormalProofList() == null) {
+            idsForGoalFormulas.add(getNodeBo().getNodeVo().getId());
             goalFormulas.add(proposition.getFormula().getElement());
         } else {
             validFormulas.add(new FormalProofLineVo(new FormulaVo(getNodeBo().getFormula()),
