@@ -29,11 +29,10 @@ public interface ProofFinder {
      * Finds a formal proof.
      *
      * @param   formula             Formula we want to proof.
-     * @param   proof               Initial proof lines containing only Add lines.
+     * @param   proof               Initial proof lines containing only "Add" lines.
      * @return  Created formal proof. <code>null</code> if we did not find one.
      */
-    public FormalProofLineList findProof(final Element formula,
-            final FormalProofLineList proof);
+    public FormalProofLineList findProof(Element formula, FormalProofLineList proof);
 
 
 }
