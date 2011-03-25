@@ -38,13 +38,15 @@ public class TextOutput extends AbstractOutput {
     private long position;
 
     /**
-     * Constructor. Write in ISO-8859-1 encoding.
+     * Constructor.
      *
      * @param   name        File name.
-     * @param   output      Write to this output.
+     * @param   output      Write to this output. Must have the correct encoding.
      */
-    public TextOutput(final String name, final OutputStream output) {
-        this(name, output, "ISO-8859-1");
+    public TextOutput(final String name, final PrintStream output) {
+        super();
+        this.name = name;
+        this.output = output;
     }
 
     /**
