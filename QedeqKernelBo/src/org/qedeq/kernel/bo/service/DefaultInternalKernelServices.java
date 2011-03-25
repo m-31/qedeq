@@ -54,6 +54,7 @@ import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.logic.FormalProofCheckerPlugin;
+import org.qedeq.kernel.bo.service.logic.MultiProofFinderPlugin;
 import org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin;
 import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
 import org.qedeq.kernel.se.base.module.Qedeq;
@@ -121,6 +122,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         pluginManager.addPlugin(FormalProofCheckerPlugin.class.getName());
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin");
         pluginManager.addPlugin(SimpleProofFinderPlugin.class.getName());
+        pluginManager.addPlugin(MultiProofFinderPlugin.class.getName());
         loader.setServices(this);
     }
 
