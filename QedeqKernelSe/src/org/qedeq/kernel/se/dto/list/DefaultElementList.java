@@ -203,6 +203,7 @@ public final class DefaultElementList implements ElementList {
     public final void remove(final int i) {
         if (i >= 0 && i < elements.size()) {
             elements.remove(i);
+            return;
         }
         if (size() == 0)  {
             throw new IllegalArgumentException(
