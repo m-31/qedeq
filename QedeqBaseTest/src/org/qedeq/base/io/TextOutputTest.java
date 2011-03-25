@@ -75,7 +75,7 @@ public class TextOutputTest extends QedeqTestCase {
      */
     public void testComplete() throws Exception {
         final ByteArrayOutputStream to = new ByteArrayOutputStream();
-        final TextOutput out = new TextOutput("flying toasters", to);
+        final TextOutput out = new TextOutput("flying toasters", to, "ISO-8859-1");
         out.println("<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>");
         out.println("<QEDEQ ");
         out.pushLevel();
@@ -139,7 +139,7 @@ public class TextOutputTest extends QedeqTestCase {
 
     public void testPushPop() throws Exception {
         final ByteArrayOutputStream to = new ByteArrayOutputStream();
-        final TextOutput out = new TextOutput("jumper", to);
+        final TextOutput out = new TextOutput("jumper", to, "UTF-8");
         out.popLevel();
         out.popLevel();
         out.print("James Bond");
@@ -157,7 +157,7 @@ public class TextOutputTest extends QedeqTestCase {
                 throw new IOException("i have got you");
             }
         };
-        TextOutput out = new TextOutput("flying toasters", to);
+        TextOutput out = new TextOutput("flying toasters", to, "UTF-8");
         assertFalse(out.checkError());
         assertNull(out.getError());
         out.flush();
