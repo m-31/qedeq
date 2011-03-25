@@ -15,27 +15,26 @@
 
 package org.qedeq.kernel.bo.logic.common;
 
+import org.qedeq.kernel.se.base.list.ElementList;
+import org.qedeq.kernel.se.base.module.FormalProofLineList;
 
 /**
- * Can create a {@link ProofFinder}.
+ * A proof finder can create formal proofs for propositions.
  *
  * @author  Michael Meyling
  */
-public interface ProofFinderFactory {
+public interface MultiProofFinder {
 
     /**
-     * Create a {@link ProofFinder}.
+     * Finds a multiple formal proofs.
      *
-     * @return  Instance that can create formal proofs for propositions.
+     * @param   formulas    Formulas we want to proof.
+     * @param   proof       Initial proof lines containing only "Add" lines.
+     * @param   listener    Proof found listener.
+     * @return  Did we found any proof at all?
      */
-    public ProofFinder createProofFinder();
-
-    /**
-     * Create a {@link MultiProofFinder}.
-     *
-     * @return  Instance that can create formal proofs for propositions.
-     */
-    public MultiProofFinder createMultiProofFinder();
+    public boolean findProof(ElementList formulas, FormalProofLineList proof,
+        ProofFoundListener listener);
 
 
 }

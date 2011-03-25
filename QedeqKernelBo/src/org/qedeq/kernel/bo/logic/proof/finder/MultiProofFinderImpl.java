@@ -20,8 +20,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
+import org.qedeq.kernel.bo.logic.common.MultiProofFinder;
 import org.qedeq.kernel.bo.logic.common.Operators;
-import org.qedeq.kernel.bo.logic.common.ProofFinder;
+import org.qedeq.kernel.bo.logic.common.ProofFoundListener;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -37,7 +38,7 @@ import org.qedeq.kernel.se.dto.list.ElementSet;
  *
  * @author  Michael Meyling
  */
-public class ProofFinderImpl implements ProofFinder {
+public class MultiProofFinderImpl implements MultiProofFinder {
 
     /** Proof with basic formulas added by "Add". */
     private FormalProofLineList proof;
@@ -54,20 +55,24 @@ public class ProofFinderImpl implements ProofFinder {
     /** Below this number MP was tried. */
     private int mpLast;
 
-    /** Goal to prove. */
-    private Element goalFormula;
+    /** Goals to prove. */
+    private ElementList goalFormulas;
+
+    /** Listener to give informations about found proofs. */
+    private ProofFoundListener listener;
 
     /**
      * Constructor.
      *
      */
-    public ProofFinderImpl() {
+    public MultiProofFinderImpl() {
     }
 
-    public FormalProofLineList findProof(final Element formula,
-            final FormalProofLineList proof) {
-        this.goalFormula = formula;
+    public boolean findProof(final ElementList formulas,
+            final FormalProofLineList proof, final ProofFoundListener listener) {
+        this.goalFormulas = formulas;
         this.proof = proof;
+        this.listener = listener;
         lines = new ArrayList();
         reasons = new ArrayList();
         allPredVars = new ElementSet();
@@ -93,16 +98,16 @@ public class ProofFinderImpl implements ProofFinder {
             try {
                 tryModusPonensAll();
                 trySubstitution(i++);
-            } catch (ProofFoundException e) {
-                System.out.println("proof found. lines: " + lines.size());
-                return ProofFinderUtility.shortenProof(lines, reasons);
+            } catch (AllProvedException e) {
+                System.out.println("all proofs found. lines: " + lines.size());
+                return true;
             }
         }
-        System.out.println("proof not found. lines: " + lines.size());
-        return null;
+        System.out.println("no proofs found. lines: " + lines.size());
+        return false;
     }
 
-    private void tryModusPonensAll() throws ProofFoundException {
+    private void tryModusPonensAll() throws AllProvedException {
         int until = lines.size();
         for (int i = 0; i < until; i++) {
             final Element first = (Element) lines.get(i);
@@ -127,7 +132,7 @@ public class ProofFinderImpl implements ProofFinder {
      * @param   i   Proof line number we want to try substitution.
      * @throws  ProofFoundException     We found a proof!
      */
-    private void trySubstitution(final int i) throws ProofFoundException {
+    private void trySubstitution(final int i) throws AllProvedException {
 //        System.out.print("subst " + i + " ");
         final Element f = (Element) lines.get(i);
 //        FormulaUtility.println(f);
@@ -190,7 +195,7 @@ public class ProofFinderImpl implements ProofFinder {
      * @throws  ProofFoundException     We found a proof!
      */
     private void createReplacement(final int i, final Element f,
-            final ElementList var, final String operator, final boolean left) throws ProofFoundException {
+            final ElementList var, final String operator, final boolean left) throws AllProvedException {
         final Iterator a = allPredVars.iterator();
         while (a.hasNext()) {
             final ElementList var2 = (ElementList) a.next();
@@ -208,13 +213,18 @@ public class ProofFinderImpl implements ProofFinder {
         }
     }
 
-    private void addFormula(final Element formula, final Reason reason) throws ProofFoundException {
+    private void addFormula(final Element formula, final Reason reason) throws AllProvedException {
         if (!lines.contains(formula)) {
             lines.add(formula);
             reasons.add(reason);
-//            printLine(lines.size() - 1);
-            if (goalFormula.equals(formula)) {
-                throw new ProofFoundException();
+            for (int i = goalFormulas.size() - 1; i >= 0; i--) {
+                if (goalFormulas.getElement(i).equals(formula)) {
+                    listener.proofFound(formula, ProofFinderUtility.shortenProof(lines, reasons));
+                    goalFormulas.remove(i);
+                    if (goalFormulas.size() == 0) {
+                        throw new AllProvedException();
+                    }
+                }
             }
             if ((lines.size() - 1) % 1000 == 0) {
                 ProofFinderUtility.printLine(lines, reasons, lines.size() - 1);
@@ -223,12 +233,12 @@ public class ProofFinderImpl implements ProofFinder {
     }
 
     /**
-     * Indicates we fond a proof.
+     * Indicates we have nothing left to prove.
      *
      * @author  Michael Meyling.
      *
      */
-    private static class ProofFoundException extends Exception {
+    private static class AllProvedException extends Exception {
 
     }
 
