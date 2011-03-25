@@ -755,8 +755,8 @@
           <THEOREM>
             <FORMULA>
               <IMPL>
-                <PREDVAR id="B"/>
-                <PREDVAR id="B"/>
+                <PREDVAR id="C"/>
+                <PREDVAR id="C"/>
               </IMPL>
             </FORMULA>
           </THEOREM>
