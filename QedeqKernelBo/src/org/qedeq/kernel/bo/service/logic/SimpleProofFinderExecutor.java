@@ -113,9 +113,6 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
     }
 
     public Object executePlugin() {
-        if (getQedeqBo().isChecked()) {
-            return Boolean.TRUE;
-        }
         QedeqLog.getInstance().logRequest(
                 "Try to create formal proofs for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         KernelContext.getInstance().checkModule(getQedeqBo().getModuleAddress());
