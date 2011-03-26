@@ -128,9 +128,6 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
     }
 
     public Object executePlugin() {
-        if (getQedeqBo().isChecked()) {
-            return Boolean.TRUE;
-        }
         QedeqLog.getInstance().logRequest(
                 "Try to create formal proofs for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         KernelContext.getInstance().checkModule(getQedeqBo().getModuleAddress());
