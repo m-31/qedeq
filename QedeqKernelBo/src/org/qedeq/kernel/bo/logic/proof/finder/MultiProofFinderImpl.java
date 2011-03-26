@@ -55,6 +55,9 @@ public class MultiProofFinderImpl implements MultiProofFinder {
     /** Below this number MP was tried. */
     private int mpLast;
 
+    /** Below this number MP was tried. */
+    private int substCall;
+
     /** Goals to prove. */
     private ElementList goalFormulas;
 
@@ -73,6 +76,8 @@ public class MultiProofFinderImpl implements MultiProofFinder {
         this.goalFormulas = formulas;
         this.proof = proof;
         this.listener = listener;
+        mpLast = 0;
+        substCall = 0;
         lines = new ArrayList();
         reasons = new ArrayList();
         allPredVars = new ElementSet();
@@ -130,10 +135,10 @@ public class MultiProofFinderImpl implements MultiProofFinder {
      * Make all possible substitutions in a proof line.
      *
      * @param   i   Proof line number we want to try substitution.
-     * @throws  ProofFoundException     We found a proof!
      */
     private void trySubstitution(final int i) throws AllProvedException {
 //        System.out.print("subst " + i + " ");
+        substCall++;
         final Element f = (Element) lines.get(i);
 //        FormulaUtility.println(f);
         final ElementSet vars = FormulaUtility.getPredicateVariables(f);
@@ -171,12 +176,15 @@ public class MultiProofFinderImpl implements MultiProofFinder {
                     addFormula(created, new SubstPredBo(i, var, subst));
                 }
             }
-            // substitute by conjunction with another variable
-            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, true);
-            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, false);
+            // substitute by implication with another variable
+            createReplacement(i, f, var, Operators.IMPLICATION_OPERATOR, true);
+            createReplacement(i, f, var, Operators.IMPLICATION_OPERATOR, false);
             // substitute by disjunction with another variable
             createReplacement(i, f, var, Operators.DISJUNCTION_OPERATOR, true);
             createReplacement(i, f, var, Operators.DISJUNCTION_OPERATOR, false);
+            // substitute by conjunction with another variable
+            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, true);
+            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, false);
             // substitute by equivalence with another variable
             createReplacement(i, f, var, Operators.EQUIVALENCE_OPERATOR, true);
             createReplacement(i, f, var, Operators.EQUIVALENCE_OPERATOR, false);
@@ -192,7 +200,6 @@ public class MultiProofFinderImpl implements MultiProofFinder {
      * @param   var         Predicate variable we want to replace.
      * @param   operator    Operator of replacement formula.
      * @param   left        Is old variable at left hand of new operator?
-     * @throws  ProofFoundException     We found a proof!
      */
     private void createReplacement(final int i, final Element f,
             final ElementList var, final String operator, final boolean left) throws AllProvedException {
@@ -227,6 +234,7 @@ public class MultiProofFinderImpl implements MultiProofFinder {
                 }
             }
             if ((lines.size() - 1) % 1000 == 0) {
+                System.out.print(substCall + " : ");
                 ProofFinderUtility.printLine(lines, reasons, lines.size() - 1);
             }
         }
