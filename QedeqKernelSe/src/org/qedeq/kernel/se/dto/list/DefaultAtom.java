@@ -23,7 +23,6 @@ import org.qedeq.kernel.se.base.list.ElementList;
 /**
  * An object of this class represents a text string.
  *
- * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public final class DefaultAtom implements Atom {
