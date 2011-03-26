@@ -29,7 +29,6 @@ import org.qedeq.kernel.se.base.list.ElementList;
  * provide the standard implementation of {@link #equals}
  * and {@link #hashCode}.
  *
- * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public final class DefaultElementList implements ElementList {
