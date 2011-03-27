@@ -58,6 +58,8 @@ public interface ElementList extends Element {
     public List getElements();
 
     /**
+     * FIXME 20110327 m31: do we have to use modifying methods like this or {@link ElementList#remove(int)}
+     * and so on? If we need them we have to make a deep copy. Otherwise we can save lots of space!
      * Adds an element to end of list.
      *
      * @param element Element to add.
