@@ -333,7 +333,7 @@ public final class FormulaUtility implements Operators {
     /**
      * Replace bound subject variables at given occurrence by another one.
      * If goal occurrence number is below number of occurrences within the formula nothing is
-     * changed.
+     * changed. Original parts are used, so don't modify the formulas directly.
      *
      * @param   originalSubjectVariable     Replace this subject variable.
      * @param   replacementSubjectVariable  By this subject variable.
@@ -346,7 +346,7 @@ public final class FormulaUtility implements Operators {
             final Element replacementSubjectVariable, final Element formulaElement,
             final int occurrenceGoal, final Enumerator occurreneCurrent) {
         if (formulaElement.isAtom()) {
-            return formulaElement.copy();
+            return formulaElement;
         }
         final ElementList formula = formulaElement.getList();
         if (occurreneCurrent.getNumber() > occurrenceGoal) {
@@ -372,7 +372,8 @@ public final class FormulaUtility implements Operators {
     }
 
     /**
-     * Replace function or predicate variable by given term or formula.
+     * Replace function or predicate variable by given term or formula. Old parts are not copied
+     * but taken directly - so don't modify the formulas!
      *
      * @param   formula             Formula we want the replacement take place.
      * @param   operatorVariable    Predicate variable or function variable with only subject
@@ -385,7 +386,7 @@ public final class FormulaUtility implements Operators {
     public static Element replaceOperatorVariable(final Element formula,
             final Element operatorVariable, final Element replacement) {
         if (formula.isAtom() || operatorVariable.isAtom() || replacement.isAtom()) {
-            return formula.copy();
+            return formula;
         }
         final ElementList f = formula.getList();
         final ElementList ov = operatorVariable.getList();
@@ -394,7 +395,7 @@ public final class FormulaUtility implements Operators {
 //        System.out.println("ov.size=" + ov.size());
         if (f.size() < 1 || ov.size() < 1) {
 //            System.out.println("failed elementary conditions");
-            return formula.copy();
+            return formula;
         }
         // construct replacement formula with meta variables
         Element rn = r;
@@ -405,7 +406,8 @@ public final class FormulaUtility implements Operators {
     }
 
     /**
-     * Replace function or predicate variable by given term or formula.
+     * Replace function or predicate variable by given term or formula. Original parts are used -
+     * so don't modify them!
      *
      * @param   formula             Formula we want the replacement take place.
      * @param   operatorVariable    Predicate variable or function variable with only subject
@@ -418,7 +420,7 @@ public final class FormulaUtility implements Operators {
     private static Element replaceOperatorVariableMeta(final Element formula,
             final Element operatorVariable, final Element replacement) {
         if (formula.isAtom() || operatorVariable.isAtom() || replacement.isAtom()) {
-            return formula.copy();
+            return formula;
         }
         final ElementList f = formula.getList();
         final ElementList ov = operatorVariable.getList();
@@ -503,10 +505,10 @@ public final class FormulaUtility implements Operators {
      */
     public static Element createMeta(final Element subjectVariable) {
         if (!isSubjectVariable(subjectVariable)) {
-            return subjectVariable.copy();
+            return subjectVariable;
         }
         final DefaultElementList result = new DefaultElementList(META_VARIABLE);
-        result.add(subjectVariable.getList().getElement(0).copy());
+        result.add(subjectVariable.getList().getElement(0));
         return result;
     }
 
