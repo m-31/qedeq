@@ -17,6 +17,8 @@ package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
+import org.qedeq.kernel.se.common.ModuleContext;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 /**
  * A proof finder can create formal proofs for propositions.
@@ -30,9 +32,12 @@ public interface ProofFinder {
      *
      * @param   formula             Formula we want to proof.
      * @param   proof               Initial proof lines containing only "Add" lines.
+     * @param   context             We are in this context.
+     * @throws  InterruptException  Proof finding was interrupted.
      * @return  Created formal proof. <code>null</code> if we did not find one.
      */
-    public FormalProofLineList findProof(Element formula, FormalProofLineList proof);
+    public FormalProofLineList findProof(Element formula, FormalProofLineList proof,
+            ModuleContext context) throws InterruptException;
 
 
 }

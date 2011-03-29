@@ -200,7 +200,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         // we try creating
         if (proposition.getFormalProofList() == null) {
             final FormalProofLineList proof = finderFactory.createProofFinder().findProof(
-                proposition.getFormula().getElement(), validFormulas);
+                proposition.getFormula().getElement(), validFormulas, getCurrentContext());
             // TODO 20110323 m31: we do a dirty cast to modify the current module
             ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
             if (proof != null) {

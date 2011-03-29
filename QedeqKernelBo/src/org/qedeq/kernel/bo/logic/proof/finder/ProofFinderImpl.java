@@ -28,8 +28,10 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Reason;
+import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.se.dto.list.ElementSet;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
@@ -65,7 +67,7 @@ public class ProofFinderImpl implements ProofFinder {
     }
 
     public FormalProofLineList findProof(final Element formula,
-            final FormalProofLineList proof) {
+            final FormalProofLineList proof, final ModuleContext context) throws InterruptException {
         this.goalFormula = formula;
         this.proof = proof;
         lines = new ArrayList();
@@ -92,6 +94,9 @@ public class ProofFinderImpl implements ProofFinder {
         while (lines.size() < Integer.MAX_VALUE - 1000) {
             try {
                 tryModusPonensAll();
+                if (Thread.interrupted()) {
+                    throw new InterruptException(context);
+                }
                 trySubstitution(i++);
             } catch (ProofFoundException e) {
                 System.out.println("proof found. lines: " + lines.size());

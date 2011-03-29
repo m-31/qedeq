@@ -29,8 +29,10 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Reason;
+import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.se.dto.list.ElementSet;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
@@ -72,7 +74,8 @@ public class MultiProofFinderImpl implements MultiProofFinder {
     }
 
     public boolean findProof(final ElementList formulas,
-            final FormalProofLineList proof, final ProofFoundListener listener) {
+            final FormalProofLineList proof, final ProofFoundListener listener,
+            final ModuleContext context) throws InterruptException {
         this.goalFormulas = formulas;
         this.proof = proof;
         this.listener = listener;

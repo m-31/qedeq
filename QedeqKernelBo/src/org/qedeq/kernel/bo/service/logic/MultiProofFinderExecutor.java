@@ -56,6 +56,7 @@ import org.qedeq.kernel.se.dto.module.FormalProofVo;
 import org.qedeq.kernel.se.dto.module.FormulaVo;
 import org.qedeq.kernel.se.dto.module.PropositionVo;
 import org.qedeq.kernel.se.dto.module.ReasonTypeVo;
+import org.qedeq.kernel.se.visitor.InterruptException;
 
 
 /**
@@ -138,12 +139,17 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
             idsForGoalFormulas = new ArrayList();
             traverse();
             result = finderFactory.createMultiProofFinder().findProof(
-                    (ElementList) goalFormulas.copy(), validFormulas, this);
+                    (ElementList) goalFormulas.copy(), validFormulas, this, getCurrentContext());
         } catch (SourceFileExceptionList e) {
             final String msg = "Proof creation not fully successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
                 + "\"";
             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
             return Boolean.FALSE;
+        } catch (InterruptException e) {
+            final String msg = "Proof creation was interrupted for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
+            + "\"";
+            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            e.printStackTrace();
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
@@ -254,45 +260,6 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-    }
-
-    public boolean hasProvedFormula(final String reference) {
-        final Reference ref = getReference(reference, getCurrentContext(), false, false);
-        if (ref == null) {
-            System.out.println("ref == null");
-            return false;
-        }
-        if (ref.isExternalModuleReference()) {
-            System.out.println("ref is external module");
-            return false;
-        }
-        if (!ref.isNodeReference()) {
-            System.out.println("ref is no node reference");
-            return false;
-        }
-        if (null == ref.getNode()) {
-            System.out.println("ref node == null");
-            return false;
-        }
-        if (ref.isSubReference()) {
-            return false;
-        }
-        if (!ref.isProofLineReference()) {
-            if (!ref.getNode().isProved()) {
-                System.out.println("ref node is not marked as proved: " + reference);
-            }
-            if (!ref.getNode().isProved()) {
-                return false;
-            }
-            if (!ref.getNode().hasFormula()) {
-                System.out.println("node has no formula: " + reference);
-                return false;
-            }
-            return ref.getNode().isProved();
-        } else {
-            System.out.println("proof line references are not ok!");
-            return false;
-        }
     }
 
     public void proofFound(final Element formula, final FormalProofLineList proof) {
