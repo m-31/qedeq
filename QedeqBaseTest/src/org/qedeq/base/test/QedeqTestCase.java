@@ -49,7 +49,7 @@ public abstract class QedeqTestCase extends TestCase {
                 // try development environment
                 url = IoUtility.toUrl(new File("../QedeqBuild/resources/config/log4j.xml"));
             }
-            System.out.println(url);
+//            System.out.println(url);
             if (url != null) {
                 // set properties and watch file every 15 seconds
                 DOMConfigurator.configureAndWatch(url.getPath(), 15000);
