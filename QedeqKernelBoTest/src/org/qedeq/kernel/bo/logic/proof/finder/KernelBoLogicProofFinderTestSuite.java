@@ -13,18 +13,18 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.service.logic;
+package org.qedeq.kernel.bo.logic.proof.finder;
 
 import junit.framework.Test;
 
 import org.qedeq.base.test.QedeqTestSuite;
 
 /**
- * Run all JUnit tests for package org.qedeq.kernel.bo.service.logic
+ * Run all JUnit tests for package org.qedeq.kernel.bo.logic.proof.finder
  *
  * @author    Michael Meyling
  */
-public class KernelBoServiceLogicTestSuite extends QedeqTestSuite {
+public class KernelBoLogicProofFinderTestSuite extends QedeqTestSuite {
 
     /**
      * Get a new <code>KernelVoModuleTestSuite</code>.
@@ -32,15 +32,14 @@ public class KernelBoServiceLogicTestSuite extends QedeqTestSuite {
      * @return  Test.
      */
     public static Test suite() {
-        return new KernelBoServiceLogicTestSuite();
+        return new KernelBoLogicProofFinderTestSuite();
     }
 
     /**
      * Constructor.
      */
-    public KernelBoServiceLogicTestSuite() {
+    public KernelBoLogicProofFinderTestSuite() {
         super();
-        addTestSuite(QedeqBoFormalLogicCheckerDirectTest.class);
-        addTestSuite(QedeqBoFormalLogicCheckerTest.class);
+        addTestSuite(ProofFinderTest.class);
     }
 }

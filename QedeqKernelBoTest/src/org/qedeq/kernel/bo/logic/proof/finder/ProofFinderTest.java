@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
-package org.qedeq.kernel.bo.service.logic;
+package org.qedeq.kernel.bo.logic.proof.finder;
 
 import java.io.File;
 
@@ -30,7 +30,7 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 
 /**
- * For testing of loading required QEDEQ modules.
+ * For testing of finding formal proofs.
  *
  * FIXME 20110322 m31: work in progress
  *
@@ -67,7 +67,7 @@ public class ProofFinderTest extends QedeqBoTestCase {
         final FormalProofLineList original = prop.getFormalProofList().get(0)
             .getFormalProofLineList();
         final FormalProofLineListVo list = new FormalProofLineListVo();
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 4; i++) {
             list.add(original.get(i));
         }
         finder.findProof(prop.getFormula().getElement(), list);
@@ -88,13 +88,13 @@ public class ProofFinderTest extends QedeqBoTestCase {
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
         final KernelQedeqBo q = (KernelQedeqBo) bo;
-        final KernelNodeBo node = q.getLabels().getNode("proposition:one");
+        final KernelNodeBo node = q.getLabels().getNode("proposition:two");
         final Proposition prop = node.getNodeVo().getNodeType().getProposition();
         final ProofFinder finder = new ProofFinderImpl();
         final FormalProofLineList original = prop.getFormalProofList().get(0)
             .getFormalProofLineList();
         final FormalProofLineListVo list = new FormalProofLineListVo();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 3; i++) {
             list.add(original.get(i));
         }
         finder.findProof(prop.getFormula().getElement(), list);
