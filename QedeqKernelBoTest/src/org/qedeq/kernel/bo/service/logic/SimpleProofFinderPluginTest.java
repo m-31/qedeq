@@ -26,12 +26,13 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
 import org.qedeq.kernel.se.dto.module.FormalProofVo;
+import org.qedeq.kernel.se.dto.module.NodeVo;
 import org.qedeq.kernel.se.dto.module.PropositionVo;
 
 /**
  * For testing of loading required QEDEQ modules.
  *
- * FIXME m31 20100823: integrate some more unit tests here!
+ * FIXME m31 20100823: integrate some more unit tests here! Check proof result validity.
  *
  * @author Michael Meyling
  */
@@ -46,11 +47,34 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
     }
 
     /**
-     * Check module that imports a module with logical errors.
+     * Try proof finder.
      *
      * @throws Exception
      */
     public void testPlugin() throws Exception {
+        if (slow()) {
+            final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+                "sample/qedeq_sample3.xml"));
+            KernelContext.getInstance().checkModule(address);
+            final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
+            assertTrue(bo.isChecked());
+            assertEquals(0, bo.getWarnings().size());
+            assertEquals(0, bo.getErrors().size());
+            KernelQedeqBo qedeq = (KernelQedeqBo) bo;
+            removeFormalProof(qedeq, "proposition:one");
+            removeFormalProof(qedeq, "proposition:two");
+            addDummyFormalProof(qedeq, "proposition:three");
+            KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
+                address, null);
+        }
+    }
+
+    /**
+     * Try proof finder. Removes unused axioms (and is two formulas faster...).
+     *
+     * @throws Exception
+     */
+    public void testPluginFast() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "sample/qedeq_sample3.xml"));
         KernelContext.getInstance().checkModule(address);
@@ -59,9 +83,34 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
         KernelQedeqBo qedeq = (KernelQedeqBo) bo;
+        removeNodeType(qedeq, "axiom:universalInstantiation");
+        removeNodeType(qedeq, "axiom:existencialGeneralization");
         removeFormalProof(qedeq, "proposition:one");
         removeFormalProof(qedeq, "proposition:two");
         addDummyFormalProof(qedeq, "proposition:three");
+        KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
+            address, null);
+    }
+
+    /**
+     * Try proof finder. Removes unused axioms (and is two formulas faster...).
+     *
+     * @throws Exception
+     */
+    public void testPluginFast2() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+            "sample/qedeq_sample3.xml"));
+        KernelContext.getInstance().checkModule(address);
+        final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
+        assertTrue(bo.isChecked());
+        assertEquals(0, bo.getWarnings().size());
+        assertEquals(0, bo.getErrors().size());
+        KernelQedeqBo qedeq = (KernelQedeqBo) bo;
+        removeNodeType(qedeq, "axiom:universalInstantiation");
+        removeNodeType(qedeq, "axiom:existencialGeneralization");
+        addDummyFormalProof(qedeq, "proposition:one");
+        addDummyFormalProof(qedeq, "proposition:two");
+        removeFormalProof(qedeq, "proposition:three");
         KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
             address, null);
     }
@@ -76,6 +125,18 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         KernelNodeBo node = qedeq.getLabels().getNode(id);
         PropositionVo proposition = (PropositionVo) node.getNodeVo().getNodeType().getProposition();
         proposition.setFormalProofList(null);
+    }
+
+    /**
+     * Remove axiom node.
+     *
+     * @param   qedeq   Module.
+     * @param   id      Id of proposition where we remove all formal proofs.
+     */
+    private void removeNodeType(KernelQedeqBo qedeq, final String id) {
+        KernelNodeBo node = qedeq.getLabels().getNode(id);
+        NodeVo node2 = node.getNodeVo();
+        node2.setNodeType(null);
     }
 
     /**
