@@ -262,6 +262,15 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     }
 
     /**
+     * Get internal kernel services. Convenience method.
+     *
+     * @return  Internal kernel services.
+     */
+    public InternalKernelServices getServices() {
+        return prop.getKernelServices();
+    }
+
+    /**
      * Get link for given reference.
      *
      * @param   reference   String to parse.
