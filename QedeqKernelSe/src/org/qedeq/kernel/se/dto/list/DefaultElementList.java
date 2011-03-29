@@ -119,6 +119,10 @@ public final class DefaultElementList implements ElementList {
     }
 
     public final boolean equals(final Object object) {
+        // first we check if we compare us with ourself
+        if (this == object) {
+            return true;
+        }
         if (object == null) {
             return false;
         }
