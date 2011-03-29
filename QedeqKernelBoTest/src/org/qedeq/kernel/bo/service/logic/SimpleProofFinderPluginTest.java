@@ -15,6 +15,8 @@
 package org.qedeq.kernel.bo.service.logic;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
@@ -64,8 +66,10 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
             removeFormalProof(qedeq, "proposition:one");
             removeFormalProof(qedeq, "proposition:two");
             addDummyFormalProof(qedeq, "proposition:three");
+            final Map parameters = new HashMap();
+            parameters.put("noSave", "true");
             KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
-                address, null);
+                address, parameters);
         }
     }
 
@@ -88,8 +92,10 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         removeFormalProof(qedeq, "proposition:one");
         removeFormalProof(qedeq, "proposition:two");
         addDummyFormalProof(qedeq, "proposition:three");
+        final Map parameters = new HashMap();
+        parameters.put("noSave", "true");
         KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
-            address, null);
+            address, parameters);
     }
 
     /**
@@ -111,8 +117,10 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         addDummyFormalProof(qedeq, "proposition:one");
         addDummyFormalProof(qedeq, "proposition:two");
         removeFormalProof(qedeq, "proposition:three");
+        final Map parameters = new HashMap();
+        parameters.put("noSave", "true");
         KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
-            address, null);
+            address, parameters);
     }
 
     /**
