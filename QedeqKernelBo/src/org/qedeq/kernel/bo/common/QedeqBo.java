@@ -162,6 +162,8 @@ public interface QedeqBo {
     /**
      * Was the module checked?
      *
+     * TODO 20110329 m31: this is currently only a check for "are all formulas well formed and dependencies ok"
+     *
      * @return  Module is checked?
      */
     public boolean isChecked();
