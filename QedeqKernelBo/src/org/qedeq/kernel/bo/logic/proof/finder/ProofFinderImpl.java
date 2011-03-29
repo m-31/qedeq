@@ -84,9 +84,20 @@ public class ProofFinderImpl implements ProofFinder {
             // FIXME only predvars with null arguments!
             allPredVars.union(FormulaUtility.getPredicateVariables(
                 proof.get(i).getFormula().getElement()));
-//            allPredVars.add(FormulaUtility.createPredicateVariable("E"));
-//            allPredVars.add(FormulaUtility.createPredicateVariable("F"));
         }
+        String max = "A";
+        final Iterator j = allPredVars.iterator();
+        while (j.hasNext()) {
+            final ElementList v = (ElementList) j.next();
+            final String name = v.getElement(0).getAtom().getString();
+            if (-1 == max.compareTo(name)) {
+                max = name;
+            }
+        }
+        max = (char) (max.charAt(0) + 1) + "";
+        System.out.println(max);
+        // add one extra predicate variable
+        allPredVars.add(FormulaUtility.createPredicateVariable(max));
         for (int i = 0; i < lines.size(); i++) {
             ProofFinderUtility.printLine(lines, reasons, i);
         }
