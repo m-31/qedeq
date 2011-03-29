@@ -49,7 +49,7 @@ public class QedeqBoSimpleProofFinderTest extends QedeqBoTestCase {
             "sample/qedeq_sample3.xml"));
         KernelContext.getInstance().checkModule(address);
         final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
-        assertTrue(bo.getLogicalState().isFailure());
+        assertTrue(bo.isChecked());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
         KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
