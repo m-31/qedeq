@@ -697,6 +697,34 @@
           <THEOREM>
             <FORMULA>
               <IMPL>
+                <OR>
+                  <OR>
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="B"/>
+                  </OR>
+                  <OR>
+                    <PREDVAR id="C"/>
+                    <PREDVAR id="D"/>
+                  </OR>
+                </OR>
+                <OR>
+                  <OR>
+                    <PREDVAR id="D"/>
+                    <PREDVAR id="C"/>
+                  </OR>
+                  <OR>
+                    <PREDVAR id="B"/>
+                    <PREDVAR id="A"/>
+                  </OR>
+                </OR>
+              </IMPL>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:four" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
                 <FORALL>
                   <VAR id="x"/>
                   <PREDVAR id="\phi">
@@ -953,7 +981,7 @@
             </FORMAL_PROOF>
           </THEOREM>
         </NODE>
-        <NODE id="proposition:four" level="formal">
+        <NODE id="proposition:five" level="formal">
           <THEOREM>
             <FORMULA>
               <IMPL>
@@ -1493,7 +1521,7 @@
             </FORMAL_PROOF>
           </THEOREM>
         </NODE>
-        <NODE id="proposition:five" level="formal">
+        <NODE id="proposition:six" level="formal">
           <THEOREM>
             <FORMULA>
               <IMPL>
@@ -2036,7 +2064,7 @@
             </FORMAL_PROOF>
           </THEOREM>
         </NODE>
-        <NODE id="proposition:six" level="formal">
+        <NODE id="proposition:seven" level="formal">
           <THEOREM>
             <FORMULA>
               <IMPL>
