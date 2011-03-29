@@ -19,7 +19,6 @@ import java.io.File;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.logic.common.ProofFinder;
-import org.qedeq.kernel.bo.logic.proof.finder.ProofFinderImpl;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -27,6 +26,7 @@ import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
+import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 
 /**
@@ -70,7 +70,8 @@ public class ProofFinderTest extends QedeqBoTestCase {
         for (int i = 0; i < 4; i++) {
             list.add(original.get(i));
         }
-        finder.findProof(prop.getFormula().getElement(), list);
+        finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
+            new DefaultModuleAddress()));
     }
 
     /**
@@ -97,7 +98,8 @@ public class ProofFinderTest extends QedeqBoTestCase {
         for (int i = 0; i < 3; i++) {
             list.add(original.get(i));
         }
-        finder.findProof(prop.getFormula().getElement(), list);
+        finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
+            new DefaultModuleAddress()));
     }
 
 }
