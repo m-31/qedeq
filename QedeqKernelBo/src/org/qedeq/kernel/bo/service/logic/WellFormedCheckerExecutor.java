@@ -66,6 +66,8 @@ import org.qedeq.kernel.se.dto.list.ElementSet;
  * Checks if all formulas of a QEDEQ module are well formed.
  * This plugin assumes all required modules are loaded!
  *
+ * FIXME 20110329 m31: we must also check, that OR, AND, IMPL and EQUI have only 2 arguments
+ *
  * @author  Michael Meyling
  */
 public final class WellFormedCheckerExecutor extends ControlVisitor implements PluginExecutor {
