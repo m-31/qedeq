@@ -23,7 +23,7 @@
     <ABSTRACT>
       <LATEX language="en">
         <![CDATA[
-          Here we formally develop the propositional calculus beginning from the axioms
+          Here we formally develop the propositional calculus beginning from the axioms.
         ]]>
       </LATEX>
       <LATEX language="de">
@@ -455,7 +455,6 @@
             </FORMULA>
           </AXIOM>
         </NODE>
-<!-- 
         <NODE id="axiom:NOT-1">
           <NAME>
             <LATEX language="en">
@@ -704,7 +703,6 @@
             </FORMULA>
           </AXIOM>
         </NODE>
-         -->
       </SUBSECTIONS>
     </SECTION>
     <SECTION>
