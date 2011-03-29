@@ -15,18 +15,16 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
+import java.io.File;
 import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.base.utility.YodaUtility;
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.ProofFinderFactory;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.module.Reference;
@@ -121,22 +119,23 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
     }
 
     public Object executePlugin() {
+        getServices().checkModule(getQedeqBo().getModuleAddress());
         QedeqLog.getInstance().logRequest(
-                "Try to create formal proofs for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
-        KernelContext.getInstance().checkModule(getQedeqBo().getModuleAddress());
+            "Trying to create formal proofs for \""
+            + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         try {
             validFormulas = new FormalProofLineListVo();
             traverse();
         } catch (SourceFileExceptionList e) {
-            final String msg = "Proof creation not fully successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
-                + "\"";
+            final String msg = "Proof creation not fully successful for \""
+                + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
             return Boolean.FALSE;
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
         QedeqLog.getInstance().logSuccessfulReply(
-                "Proof creation successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+            "Proof creation finished for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         return Boolean.TRUE;
     }
 
@@ -212,17 +211,20 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             // TODO 20110323 m31: we do a dirty cast to modify the current module
             ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
             if (proof != null && !noSave) {
-                Object obj;
+                final File file = getServices().getLocalFilePath(
+                    getQedeqBo().getModuleAddress());
                 try {
-                    obj = YodaUtility.getFieldValue(KernelContext.getInstance(), "services");
-                    System.out.println(obj.getClass());
-                    InternalKernelServices services = (InternalKernelServices) obj;
-                    QedeqFileDao dao = services.getQedeqFileDao();
-                    dao.saveQedeq(getQedeqBo(),
-                        services.getLocalFilePath(getQedeqBo().getModuleAddress()));
+                    QedeqLog.getInstance().logMessage(
+                        "Saving file \"" + file + "\"");
+                    QedeqFileDao dao = getServices().getQedeqFileDao();
+                    dao.saveQedeq(getQedeqBo(), file);
+                    if (!getQedeqBo().getModuleAddress().isFileAddress()) {
+                        QedeqLog.getInstance().logMessage("Only the the buffered file changed!");
+                    }
                 } catch (Exception e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
+                    final String msg = "Saving file \"" + file + "\" failed";
+                    Trace.fatal(CLASS, "visitEnter(Proposition)", msg, e);
+                    QedeqLog.getInstance().logMessage(msg + " " +  e.toString());
                 }
             }
         } else {
