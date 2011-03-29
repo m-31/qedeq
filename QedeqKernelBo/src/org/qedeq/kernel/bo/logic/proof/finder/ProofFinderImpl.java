@@ -102,7 +102,7 @@ public class ProofFinderImpl implements ProofFinder {
             ProofFinderUtility.printLine(lines, reasons, i);
         }
         System.out.println("Goal: ");
-        FormulaUtility.print(formula);
+        FormulaUtility.println(formula);
         int i = 0;
         while (lines.size() < Integer.MAX_VALUE - 1000) {
             try {
