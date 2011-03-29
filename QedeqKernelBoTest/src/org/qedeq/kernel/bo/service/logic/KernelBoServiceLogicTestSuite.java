@@ -42,5 +42,6 @@ public class KernelBoServiceLogicTestSuite extends QedeqTestSuite {
         super();
         addTestSuite(QedeqBoFormalLogicCheckerDirectTest.class);
         addTestSuite(QedeqBoFormalLogicCheckerTest.class);
+        addTestSuite(SimpleProofFinderPluginTest.class);
     }
 }
