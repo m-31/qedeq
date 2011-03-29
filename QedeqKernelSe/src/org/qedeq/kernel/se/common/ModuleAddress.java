@@ -22,7 +22,6 @@ import org.qedeq.kernel.se.base.module.Specification;
 /**
  * An address for a QEDEQ module.
  *
- * @version $Revision: 1.2 $
  * @author  Michael Meyling
  */
 public interface ModuleAddress {
