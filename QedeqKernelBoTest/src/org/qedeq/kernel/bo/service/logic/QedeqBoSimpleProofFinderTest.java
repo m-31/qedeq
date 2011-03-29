@@ -14,6 +14,8 @@
  */
 package org.qedeq.kernel.bo.service.logic;
 
+import java.io.File;
+
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -27,13 +29,13 @@ import org.qedeq.kernel.se.common.ModuleAddress;
  *
  * @author Michael Meyling
  */
-public class QedeqBoFormalLogicCheckerTest extends QedeqBoTestCase {
+public class QedeqBoSimpleProofFinderTest extends QedeqBoTestCase {
 
-    public QedeqBoFormalLogicCheckerTest() {
+    public QedeqBoSimpleProofFinderTest() {
         super();
     }
 
-    public QedeqBoFormalLogicCheckerTest(final String name) {
+    public QedeqBoSimpleProofFinderTest(final String name) {
         super(name);
     }
 
@@ -42,8 +44,9 @@ public class QedeqBoFormalLogicCheckerTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testCheckModule() throws Exception {
-        final ModuleAddress address = new DefaultModuleAddress(getFile("qedeq_error_sample_05.xml"));
+    public void testPlugin() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+            "sample/qedeq_sample3.xml"));
         KernelContext.getInstance().checkModule(address);
         final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
         assertTrue(bo.getLogicalState().isFailure());
