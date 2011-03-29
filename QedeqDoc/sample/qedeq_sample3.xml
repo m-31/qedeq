@@ -492,6 +492,205 @@
                 </OR>
               </IMPL>
             </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <OR>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:disjunction_weakening"/>
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <OR>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </OR>
+                      <OR>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="A"/>
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:disjunction_commutative"/>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="C"/>
+                          <PREDVAR id="A"/>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="C"/>
+                          <PREDVAR id="B"/>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:disjunction_addition"/>
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <OR>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="C"/>
+                        </OR>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="C"/>
+                          <PREDVAR id="A"/>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="C"/>
+                          <OR>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="C"/>
+                          </OR>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="3">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <OR>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="C"/>
+                      </OR>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="5">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <OR>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="B"/>
+                        </OR>
+                        <OR>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="C"/>
+                        </OR>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="C"/>
+                          <OR>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </OR>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="C"/>
+                          <OR>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="C"/>
+                          </OR>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="4">
+                    <PREDVAR id="A"/>
+                    <FORMULA>
+                      <OR>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </OR>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="6">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <OR>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="B"/>
+                        </OR>
+                        <OR>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="A"/>
+                        </OR>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <OR>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </OR>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <OR>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="A"/>
+                          </OR>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="5">
+                    <PREDVAR id="C"/>
+                    <FORMULA>
+                      <PREDVAR id="A"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="7">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <OR>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="B"/>
+                        </OR>
+                      </IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <OR>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="A"/>
+                        </OR>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="6" ref2="2"/>
+                </L>
+                <L label="8">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <OR>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="A"/>
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="7" ref2="1"/>
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
           </THEOREM>
         </NODE>
         <NODE id="proposition:three" level="formal">
@@ -501,13 +700,13 @@
                 <FORALL>
                   <VAR id="x"/>
                   <PREDVAR id="\phi">
-                    <VAR id="x" />
+                    <VAR id="x"/>
                   </PREDVAR>
                 </FORALL>
                 <EXISTS>
-                  <VAR id="x" />
+                  <VAR id="x"/>
                   <PREDVAR id="\phi">
-                    <VAR id="x" />
+                    <VAR id="x"/>
                   </PREDVAR>
                 </EXISTS>
               </IMPL>
@@ -520,11 +719,11 @@
                       <FORALL>
                         <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </FORALL>
                       <PREDVAR id="\phi">
-                        <VAR id="y" />
+                        <VAR id="y"/>
                       </PREDVAR>
                     </IMPL>
                   </FORMULA>
@@ -534,16 +733,16 @@
                   <FORMULA>
                     <IMPL>
                       <PREDVAR id="\phi">
-                        <VAR id="y" />
+                        <VAR id="y"/>
                       </PREDVAR>
                       <EXISTS>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </EXISTS>
                     </IMPL>
-                    </FORMULA>
+                  </FORMULA>
                   <ADD ref="axiom:existencialGeneralization"/>
                 </L>
                 <L label="3">
@@ -572,16 +771,16 @@
                     <IMPL>
                       <IMPL>
                         <PREDVAR id="\phi">
-                          <VAR id="y" />
+                          <VAR id="y"/>
                         </PREDVAR>
                         <PREDVAR id="B"/>
                       </IMPL>
                       <IMPL>
                         <IMPL>
                           <PREDVAR id="C"/>
-                        <PREDVAR id="\phi">
-                          <VAR id="y" />
-                        </PREDVAR>
+                          <PREDVAR id="\phi">
+                            <VAR id="y"/>
+                          </PREDVAR>
                         </IMPL>
                         <IMPL>
                           <PREDVAR id="C"/>
@@ -594,7 +793,7 @@
                     <PREDVAR id="A"/>
                     <FORMULA>
                       <PREDVAR id="\phi">
-                        <VAR id="y" />
+                        <VAR id="y"/>
                       </PREDVAR>
                     </FORMULA>
                   </SUBST_PREDVAR>
@@ -604,27 +803,27 @@
                     <IMPL>
                       <IMPL>
                         <PREDVAR id="\phi">
-                          <VAR id="y" />
+                          <VAR id="y"/>
                         </PREDVAR>
                         <PREDVAR id="B"/>
                       </IMPL>
                       <IMPL>
                         <IMPL>
                           <FORALL>
-                            <VAR id="x" />
+                            <VAR id="x"/>
                             <PREDVAR id="\phi">
-                              <VAR id="x" />
+                              <VAR id="x"/>
                             </PREDVAR>
                           </FORALL>
                           <PREDVAR id="\phi">
-                            <VAR id="y" />
+                            <VAR id="y"/>
                           </PREDVAR>
                         </IMPL>
                         <IMPL>
                           <FORALL>
-                            <VAR id="x" />
+                            <VAR id="x"/>
                             <PREDVAR id="\phi">
-                              <VAR id="x" />
+                              <VAR id="x"/>
                             </PREDVAR>
                           </FORALL>
                           <PREDVAR id="B"/>
@@ -636,9 +835,9 @@
                     <PREDVAR id="C"/>
                     <FORMULA>
                       <FORALL>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </FORALL>
                     </FORMULA>
@@ -649,38 +848,38 @@
                     <IMPL>
                       <IMPL>
                         <PREDVAR id="\phi">
-                          <VAR id="y" />
+                          <VAR id="y"/>
                         </PREDVAR>
                         <EXISTS>
-                          <VAR id="x" />
+                          <VAR id="x"/>
                           <PREDVAR id="\phi">
-                            <VAR id="x" />
+                            <VAR id="x"/>
                           </PREDVAR>
                         </EXISTS>
                       </IMPL>
                       <IMPL>
                         <IMPL>
                           <FORALL>
-                            <VAR id="x" />
+                            <VAR id="x"/>
                             <PREDVAR id="\phi">
-                              <VAR id="x" />
+                              <VAR id="x"/>
                             </PREDVAR>
                           </FORALL>
                           <PREDVAR id="\phi">
-                            <VAR id="y" />
+                            <VAR id="y"/>
                           </PREDVAR>
                         </IMPL>
                         <IMPL>
                           <FORALL>
-                            <VAR id="x" />
+                            <VAR id="x"/>
                             <PREDVAR id="\phi">
-                              <VAR id="x" />
+                              <VAR id="x"/>
                             </PREDVAR>
                           </FORALL>
                           <EXISTS>
-                            <VAR id="x" />
+                            <VAR id="x"/>
                             <PREDVAR id="\phi">
-                              <VAR id="x" />
+                              <VAR id="x"/>
                             </PREDVAR>
                           </EXISTS>
                         </IMPL>
@@ -691,9 +890,9 @@
                     <PREDVAR id="B"/>
                     <FORMULA>
                       <EXISTS>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </EXISTS>
                     </FORMULA>
@@ -704,51 +903,51 @@
                     <IMPL>
                       <IMPL>
                         <FORALL>
-                          <VAR id="x" />
+                          <VAR id="x"/>
                           <PREDVAR id="\phi">
-                            <VAR id="x" />
+                            <VAR id="x"/>
                           </PREDVAR>
                         </FORALL>
                         <PREDVAR id="\phi">
-                          <VAR id="y" />
+                          <VAR id="y"/>
                         </PREDVAR>
                       </IMPL>
                       <IMPL>
                         <FORALL>
-                          <VAR id="x" />
+                          <VAR id="x"/>
                           <PREDVAR id="\phi">
-                            <VAR id="x" />
+                            <VAR id="x"/>
                           </PREDVAR>
                         </FORALL>
                         <EXISTS>
-                          <VAR id="x" />
+                          <VAR id="x"/>
                           <PREDVAR id="\phi">
-                            <VAR id="x" />
+                            <VAR id="x"/>
                           </PREDVAR>
                         </EXISTS>
                       </IMPL>
                     </IMPL>
                   </FORMULA>
-                  <MP ref1="6" ref2="2" />
+                  <MP ref1="6" ref2="2"/>
                 </L>
                 <L label="8">
                   <FORMULA>
                     <IMPL>
                       <FORALL>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </FORALL>
                       <EXISTS>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </EXISTS>
                     </IMPL>
                   </FORMULA>
-                  <MP ref1="7" ref2="1" />
+                  <MP ref1="7" ref2="1"/>
                 </L>
               </LINES>
             </FORMAL_PROOF>
@@ -759,22 +958,22 @@
             <FORMULA>
               <IMPL>
                 <EXISTS>
-                  <VAR id="x" />
+                  <VAR id="x"/>
                   <FORALL>
                     <VAR id="y"/>
                     <PREDVAR id="\phi">
-                      <VAR id="x" />
-                      <VAR id="y" />
+                      <VAR id="x"/>
+                      <VAR id="y"/>
                     </PREDVAR>
                   </FORALL>
                 </EXISTS>
                 <FORALL>
                   <VAR id="y"/>
                   <EXISTS>
-                    <VAR id="x" />
+                    <VAR id="x"/>
                     <PREDVAR id="\phi">
-                      <VAR id="x" />
-                      <VAR id="y" />
+                      <VAR id="x"/>
+                      <VAR id="y"/>
                     </PREDVAR>
                   </EXISTS>
                 </FORALL>
@@ -786,36 +985,36 @@
                   <FORMULA>
                     <IMPL>
                       <FORALL>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </FORALL>
                       <PREDVAR id="\phi">
-                        <VAR id="y" />
+                        <VAR id="y"/>
                       </PREDVAR>
                     </IMPL>
                   </FORMULA>
-                  <ADD ref="axiom:universalInstantiation" />
+                  <ADD ref="axiom:universalInstantiation"/>
                 </L>
                 <L label="2">
                   <FORMULA>
                     <IMPL>
                       <FORALL>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </FORALL>
                       <PREDVAR id="\phi">
-                        <VAR id="u" />
+                        <VAR id="u"/>
                       </PREDVAR>
                     </IMPL>
                   </FORMULA>
                   <SUBST_FREE ref="1">
-                    <VAR id="y" />
+                    <VAR id="y"/>
                     <TERM>
-                      <VAR id="u" />
+                      <VAR id="u"/>
                     </TERM>
                   </SUBST_FREE>
                 </L>
@@ -823,45 +1022,45 @@
                   <FORMULA>
                     <IMPL>
                       <FORALL>
-                        <VAR id="y" />
+                        <VAR id="y"/>
                         <PREDVAR id="\phi">
-                          <VAR id="y" />
+                          <VAR id="y"/>
                         </PREDVAR>
                       </FORALL>
                       <PREDVAR id="\phi">
-                        <VAR id="u" />
+                        <VAR id="u"/>
                       </PREDVAR>
                     </IMPL>
                   </FORMULA>
                   <RENAME ref="2" occurrence="1">
-                    <VAR id="x" />
-                    <VAR id="y" />
+                    <VAR id="x"/>
+                    <VAR id="y"/>
                   </RENAME>
                 </L>
                 <L label="4">
                   <FORMULA>
                     <IMPL>
                       <FORALL>
-                        <VAR id="y" />
+                        <VAR id="y"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
-                          <VAR id="y" />
+                          <VAR id="x"/>
+                          <VAR id="y"/>
                         </PREDVAR>
                       </FORALL>
                       <PREDVAR id="\phi">
-                        <VAR id="x" />
-                        <VAR id="u" />
+                        <VAR id="x"/>
+                        <VAR id="u"/>
                       </PREDVAR>
                     </IMPL>
                   </FORMULA>
                   <SUBST_PREDVAR ref="3">
-                    <PREDVAR id="\phi" >
-                      <VAR id="y" />
+                    <PREDVAR id="\phi">
+                      <VAR id="y"/>
                     </PREDVAR>
                     <FORMULA>
-                      <PREDVAR id="\phi" >
-                        <VAR id="x" />
-                        <VAR id="y" />
+                      <PREDVAR id="\phi">
+                        <VAR id="x"/>
+                        <VAR id="y"/>
                       </PREDVAR>
                     </FORMULA>
                   </SUBST_PREDVAR>
@@ -870,55 +1069,55 @@
                   <FORMULA>
                     <IMPL>
                       <PREDVAR id="\phi">
-                        <VAR id="y" />
+                        <VAR id="y"/>
                       </PREDVAR>
                       <EXISTS>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </EXISTS>
                     </IMPL>
                   </FORMULA>
-                  <ADD ref="axiom:existencialGeneralization" />
+                  <ADD ref="axiom:existencialGeneralization"/>
                 </L>
                 <L label="6">
                   <FORMULA>
                     <IMPL>
                       <PREDVAR id="\phi">
-                        <VAR id="y" />
+                        <VAR id="y"/>
                       </PREDVAR>
                       <EXISTS>
-                        <VAR id="z" />
+                        <VAR id="z"/>
                         <PREDVAR id="\phi">
-                          <VAR id="z" />
+                          <VAR id="z"/>
                         </PREDVAR>
                       </EXISTS>
                     </IMPL>
                   </FORMULA>
                   <RENAME ref="5" occurrence="1">
-                    <VAR id="x" />
-                    <VAR id="z" />
+                    <VAR id="x"/>
+                    <VAR id="z"/>
                   </RENAME>
                 </L>
                 <L label="7">
                   <FORMULA>
                     <IMPL>
                       <PREDVAR id="\phi">
-                        <VAR id="x" />
+                        <VAR id="x"/>
                       </PREDVAR>
                       <EXISTS>
-                        <VAR id="z" />
+                        <VAR id="z"/>
                         <PREDVAR id="\phi">
-                          <VAR id="z" />
+                          <VAR id="z"/>
                         </PREDVAR>
                       </EXISTS>
                     </IMPL>
                   </FORMULA>
                   <SUBST_FREE ref="6">
-                    <VAR id="y" />
+                    <VAR id="y"/>
                     <TERM>
-                      <VAR id="x" />
+                      <VAR id="x"/>
                     </TERM>
                   </SUBST_FREE>
                 </L>
@@ -926,26 +1125,26 @@
                   <FORMULA>
                     <IMPL>
                       <PREDVAR id="\phi">
-                        <VAR id="x" />
-                        <VAR id="u" />
+                        <VAR id="x"/>
+                        <VAR id="u"/>
                       </PREDVAR>
                       <EXISTS>
-                        <VAR id="z" />
+                        <VAR id="z"/>
                         <PREDVAR id="\phi">
-                          <VAR id="z" />
-                          <VAR id="u" />
+                          <VAR id="z"/>
+                          <VAR id="u"/>
                         </PREDVAR>
                       </EXISTS>
                     </IMPL>
                   </FORMULA>
                   <SUBST_PREDVAR ref="7">
                     <PREDVAR id="\phi">
-                      <VAR id="x" />
+                      <VAR id="x"/>
                     </PREDVAR>
                     <FORMULA>
                       <PREDVAR id="\phi">
-                        <VAR id="x" />
-                        <VAR id="u" />
+                        <VAR id="x"/>
+                        <VAR id="u"/>
                       </PREDVAR>
                     </FORMULA>
                   </SUBST_PREDVAR>
@@ -969,7 +1168,7 @@
                       </IMPL>
                     </IMPL>
                   </FORMULA>
-                  <ADD ref="axiom:disjunction_addition" />
+                  <ADD ref="axiom:disjunction_addition"/>
                 </L>
                 <L label="10">
                   <FORMULA>
@@ -1123,7 +1322,7 @@
                     <IMPL>
                       <IMPL>
                         <FORALL>
-                        <VAR id="y"/>
+                          <VAR id="y"/>
                           <PREDVAR id="\phi">
                             <VAR id="x"/>
                             <VAR id="y"/>
@@ -1152,7 +1351,7 @@
                       </IMPL>
                     </IMPL>
                   </FORMULA>
-                  <MP ref1="12" ref2="8" />
+                  <MP ref1="12" ref2="8"/>
                 </L>
                 <L label="14">
                   <FORMULA>
@@ -1173,7 +1372,7 @@
                       </EXISTS>
                     </IMPL>
                   </FORMULA>
-                  <MP ref1="13" ref2="4" />
+                  <MP ref1="13" ref2="4"/>
                 </L>
                 <L label="15">
                   <FORMULA>
@@ -1292,29 +1491,29 @@
                 </L>
               </LINES>
             </FORMAL_PROOF>
-         </THEOREM>
+          </THEOREM>
         </NODE>
         <NODE id="proposition:five" level="formal">
           <THEOREM>
             <FORMULA>
               <IMPL>
                 <FORALL>
-                  <VAR id="x" />
+                  <VAR id="x"/>
                   <FORALL>
                     <VAR id="y"/>
                     <PREDVAR id="\phi">
-                      <VAR id="x" />
-                      <VAR id="y" />
+                      <VAR id="x"/>
+                      <VAR id="y"/>
                     </PREDVAR>
                   </FORALL>
                 </FORALL>
                 <FORALL>
                   <VAR id="y"/>
                   <FORALL>
-                    <VAR id="x" />
+                    <VAR id="x"/>
                     <PREDVAR id="\phi">
-                      <VAR id="x" />
-                      <VAR id="y" />
+                      <VAR id="x"/>
+                      <VAR id="y"/>
                     </PREDVAR>
                   </FORALL>
                 </FORALL>
@@ -1336,7 +1535,7 @@
                       </PREDVAR>
                     </IMPL>
                   </FORMULA>
-                  <ADD ref="axiom:universalInstantiation" />
+                  <ADD ref="axiom:universalInstantiation"/>
                 </L>
                 <L label="2">
                   <FORMULA>
@@ -1353,9 +1552,9 @@
                     </IMPL>
                   </FORMULA>
                   <SUBST_FREE ref="1">
-                    <VAR id="y" />
+                    <VAR id="y"/>
                     <TERM>
-                      <VAR id="u" />
+                      <VAR id="u"/>
                     </TERM>
                   </SUBST_FREE>
                 </L>
@@ -1374,8 +1573,8 @@
                     </IMPL>
                   </FORMULA>
                   <RENAME ref="2" occurrence="1">
-                    <VAR id="x" />
-                    <VAR id="y" />
+                    <VAR id="x"/>
+                    <VAR id="y"/>
                   </RENAME>
                 </L>
                 <L label="4">
@@ -1396,12 +1595,12 @@
                   </FORMULA>
                   <SUBST_PREDVAR ref="3">
                     <PREDVAR id="\phi">
-                      <VAR id="x" />
+                      <VAR id="x"/>
                     </PREDVAR>
                     <FORMULA>
                       <PREDVAR id="\phi">
-                        <VAR id="z" />
-                        <VAR id="x" />
+                        <VAR id="z"/>
+                        <VAR id="x"/>
                       </PREDVAR>
                     </FORMULA>
                   </SUBST_PREDVAR>
@@ -1430,14 +1629,14 @@
                   </FORMULA>
                   <SUBST_PREDVAR ref="2">
                     <PREDVAR id="\phi">
-                      <VAR id="x" />
+                      <VAR id="x"/>
                     </PREDVAR>
                     <FORMULA>
                       <FORALL>
-                        <VAR id="y" />
+                        <VAR id="y"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
-                          <VAR id="y" />
+                          <VAR id="x"/>
+                          <VAR id="y"/>
                         </PREDVAR>
                       </FORALL>
                     </FORMULA>
@@ -1466,9 +1665,9 @@
                     </IMPL>
                   </FORMULA>
                   <SUBST_FREE ref="5">
-                    <VAR id="u" />
+                    <VAR id="u"/>
                     <TERM>
-                      <VAR id="z" />
+                      <VAR id="z"/>
                     </TERM>
                   </SUBST_FREE>
                 </L>
@@ -1498,10 +1697,10 @@
                     <IMPL>
                       <IMPL>
                         <FORALL>
-                          <VAR id="y" />
+                          <VAR id="y"/>
                           <PREDVAR id="\phi">
-                            <VAR id="z" />
-                            <VAR id="y" />
+                            <VAR id="z"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                         <PREDVAR id="B"/>
@@ -1510,10 +1709,10 @@
                         <IMPL>
                           <PREDVAR id="C"/>
                           <FORALL>
-                            <VAR id="y" />
+                            <VAR id="y"/>
                             <PREDVAR id="\phi">
-                              <VAR id="z" />
-                              <VAR id="y" />
+                              <VAR id="z"/>
+                              <VAR id="y"/>
                             </PREDVAR>
                           </FORALL>
                         </IMPL>
@@ -1525,13 +1724,13 @@
                     </IMPL>
                   </FORMULA>
                   <SUBST_PREDVAR ref="7">
-                    <PREDVAR id="A" />
+                    <PREDVAR id="A"/>
                     <FORMULA>
                       <FORALL>
-                        <VAR id="y" />
+                        <VAR id="y"/>
                         <PREDVAR id="\phi">
-                          <VAR id="z" />
-                          <VAR id="y" />
+                          <VAR id="z"/>
+                          <VAR id="y"/>
                         </PREDVAR>
                       </FORALL>
                     </FORMULA>
@@ -1542,44 +1741,44 @@
                     <IMPL>
                       <IMPL>
                         <FORALL>
-                          <VAR id="y" />
+                          <VAR id="y"/>
                           <PREDVAR id="\phi">
-                            <VAR id="z" />
-                            <VAR id="y" />
+                            <VAR id="z"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                         <PREDVAR id="\phi">
-                          <VAR id="z" />
-                          <VAR id="u" />
+                          <VAR id="z"/>
+                          <VAR id="u"/>
                         </PREDVAR>
                       </IMPL>
                       <IMPL>
                         <IMPL>
                           <PREDVAR id="C"/>
                           <FORALL>
-                            <VAR id="y" />
+                            <VAR id="y"/>
                             <PREDVAR id="\phi">
-                              <VAR id="z" />
-                              <VAR id="y" />
+                              <VAR id="z"/>
+                              <VAR id="y"/>
                             </PREDVAR>
                           </FORALL>
                         </IMPL>
                         <IMPL>
                           <PREDVAR id="C"/>
                           <PREDVAR id="\phi">
-                            <VAR id="z" />
-                            <VAR id="u" />
+                            <VAR id="z"/>
+                            <VAR id="u"/>
                           </PREDVAR>
                         </IMPL>
                       </IMPL>
                     </IMPL>
                   </FORMULA>
                   <SUBST_PREDVAR ref="8">
-                    <PREDVAR id="B" />
+                    <PREDVAR id="B"/>
                     <FORMULA>
                       <PREDVAR id="\phi">
-                        <VAR id="z" />
-                        <VAR id="u" />
+                        <VAR id="z"/>
+                        <VAR id="u"/>
                       </PREDVAR>
                     </FORMULA>
                   </SUBST_PREDVAR>
@@ -1589,66 +1788,66 @@
                     <IMPL>
                       <IMPL>
                         <FORALL>
-                          <VAR id="y" />
+                          <VAR id="y"/>
                           <PREDVAR id="\phi">
-                            <VAR id="z" />
-                            <VAR id="y" />
+                            <VAR id="z"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                         <PREDVAR id="\phi">
-                          <VAR id="z" />
-                          <VAR id="u" />
+                          <VAR id="z"/>
+                          <VAR id="u"/>
                         </PREDVAR>
                       </IMPL>
                       <IMPL>
                         <IMPL>
                           <FORALL>
-                            <VAR id="x" />
+                            <VAR id="x"/>
                             <FORALL>
-                              <VAR id="y" />
+                              <VAR id="y"/>
                               <PREDVAR id="\phi">
-                                <VAR id="x" />
-                                <VAR id="y" />
+                                <VAR id="x"/>
+                                <VAR id="y"/>
                               </PREDVAR>
                             </FORALL>
                           </FORALL>
                           <FORALL>
-                            <VAR id="y" />
+                            <VAR id="y"/>
                             <PREDVAR id="\phi">
-                              <VAR id="z" />
-                              <VAR id="y" />
+                              <VAR id="z"/>
+                              <VAR id="y"/>
                             </PREDVAR>
                           </FORALL>
                         </IMPL>
                         <IMPL>
                           <FORALL>
-                            <VAR id="x" />
+                            <VAR id="x"/>
                             <FORALL>
-                              <VAR id="y" />
+                              <VAR id="y"/>
                               <PREDVAR id="\phi">
-                                <VAR id="x" />
-                                <VAR id="y" />
+                                <VAR id="x"/>
+                                <VAR id="y"/>
                               </PREDVAR>
                             </FORALL>
                           </FORALL>
                           <PREDVAR id="\phi">
-                            <VAR id="z" />
-                            <VAR id="u" />
+                            <VAR id="z"/>
+                            <VAR id="u"/>
                           </PREDVAR>
                         </IMPL>
                       </IMPL>
                     </IMPL>
                   </FORMULA>
                   <SUBST_PREDVAR ref="9">
-                    <PREDVAR id="C" />
+                    <PREDVAR id="C"/>
                     <FORMULA>
                       <FORALL>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <FORALL>
-                          <VAR id="y" />
+                          <VAR id="y"/>
                           <PREDVAR id="\phi">
-                            <VAR id="x" />
-                            <VAR id="y" />
+                            <VAR id="x"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                       </FORALL>
@@ -1660,177 +1859,177 @@
                     <IMPL>
                       <IMPL>
                         <FORALL>
-                          <VAR id="x" />
+                          <VAR id="x"/>
                           <FORALL>
-                            <VAR id="y" />
+                            <VAR id="y"/>
                             <PREDVAR id="\phi">
-                              <VAR id="x" />
-                              <VAR id="y" />
+                              <VAR id="x"/>
+                              <VAR id="y"/>
                             </PREDVAR>
                           </FORALL>
                         </FORALL>
                         <FORALL>
-                          <VAR id="y" />
+                          <VAR id="y"/>
                           <PREDVAR id="\phi">
-                            <VAR id="z" />
-                            <VAR id="y" />
+                            <VAR id="z"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                       </IMPL>
                       <IMPL>
                         <FORALL>
-                          <VAR id="x" />
+                          <VAR id="x"/>
                           <FORALL>
-                            <VAR id="y" />
+                            <VAR id="y"/>
                             <PREDVAR id="\phi">
-                              <VAR id="x" />
-                              <VAR id="y" />
+                              <VAR id="x"/>
+                              <VAR id="y"/>
                             </PREDVAR>
                           </FORALL>
                         </FORALL>
                         <PREDVAR id="\phi">
-                          <VAR id="z" />
-                          <VAR id="u" />
+                          <VAR id="z"/>
+                          <VAR id="u"/>
                         </PREDVAR>
                       </IMPL>
                     </IMPL>
                   </FORMULA>
-                  <MP ref1="10" ref2="4" />
+                  <MP ref1="10" ref2="4"/>
                 </L>
                 <L label="12">
                   <FORMULA>
                     <IMPL>
                       <FORALL>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <FORALL>
-                          <VAR id="y" />
+                          <VAR id="y"/>
                           <PREDVAR id="\phi">
-                            <VAR id="x" />
-                            <VAR id="y" />
+                            <VAR id="x"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                       </FORALL>
                       <PREDVAR id="\phi">
-                        <VAR id="z" />
-                        <VAR id="u" />
+                        <VAR id="z"/>
+                        <VAR id="u"/>
                       </PREDVAR>
                     </IMPL>
                   </FORMULA>
-                  <MP ref1="11" ref2="6" />
+                  <MP ref1="11" ref2="6"/>
                 </L>
                 <L label="13">
                   <FORMULA>
                     <IMPL>
                       <FORALL>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <FORALL>
-                          <VAR id="y" />
+                          <VAR id="y"/>
                           <PREDVAR id="\phi">
-                            <VAR id="x" />
-                            <VAR id="y" />
+                            <VAR id="x"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                       </FORALL>
                       <FORALL>
-                        <VAR id="z" />
+                        <VAR id="z"/>
                         <PREDVAR id="\phi">
-                          <VAR id="z" />
-                          <VAR id="u" />
+                          <VAR id="z"/>
+                          <VAR id="u"/>
                         </PREDVAR>
                       </FORALL>
                     </IMPL>
                   </FORMULA>
                   <UNIVERSAL ref="12">
-                    <VAR id="z" />
+                    <VAR id="z"/>
                   </UNIVERSAL>
                 </L>
                 <L label="14">
                   <FORMULA>
                     <IMPL>
                       <FORALL>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <FORALL>
-                          <VAR id="y" />
+                          <VAR id="y"/>
                           <PREDVAR id="\phi">
-                            <VAR id="x" />
-                            <VAR id="y" />
+                            <VAR id="x"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                       </FORALL>
                       <FORALL>
-                        <VAR id="u" />
+                        <VAR id="u"/>
                         <FORALL>
-                          <VAR id="z" />
+                          <VAR id="z"/>
                           <PREDVAR id="\phi">
-                            <VAR id="z" />
-                            <VAR id="u" />
+                            <VAR id="z"/>
+                            <VAR id="u"/>
                           </PREDVAR>
                         </FORALL>
                       </FORALL>
                     </IMPL>
                   </FORMULA>
                   <UNIVERSAL ref="13">
-                    <VAR id="u" />
+                    <VAR id="u"/>
                   </UNIVERSAL>
                 </L>
                 <L label="15">
                   <FORMULA>
                     <IMPL>
                       <FORALL>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <FORALL>
-                          <VAR id="y" />
+                          <VAR id="y"/>
                           <PREDVAR id="\phi">
-                            <VAR id="x" />
-                            <VAR id="y" />
+                            <VAR id="x"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                       </FORALL>
                       <FORALL>
-                        <VAR id="y" />
+                        <VAR id="y"/>
                         <FORALL>
-                          <VAR id="z" />
+                          <VAR id="z"/>
                           <PREDVAR id="\phi">
-                            <VAR id="z" />
-                            <VAR id="y" />
+                            <VAR id="z"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                       </FORALL>
                     </IMPL>
                   </FORMULA>
                   <RENAME ref="14" occurrence="1">
-                    <VAR id="u" />
-                    <VAR id="y" />
+                    <VAR id="u"/>
+                    <VAR id="y"/>
                   </RENAME>
                 </L>
                 <L label="16">
                   <FORMULA>
                     <IMPL>
                       <FORALL>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <FORALL>
-                          <VAR id="y" />
+                          <VAR id="y"/>
                           <PREDVAR id="\phi">
-                            <VAR id="x" />
-                            <VAR id="y" />
+                            <VAR id="x"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                       </FORALL>
                       <FORALL>
-                        <VAR id="y" />
+                        <VAR id="y"/>
                         <FORALL>
-                          <VAR id="x" />
+                          <VAR id="x"/>
                           <PREDVAR id="\phi">
-                            <VAR id="x" />
-                            <VAR id="y" />
+                            <VAR id="x"/>
+                            <VAR id="y"/>
                           </PREDVAR>
                         </FORALL>
                       </FORALL>
                     </IMPL>
                   </FORMULA>
                   <RENAME ref="15" occurrence="1">
-                    <VAR id="z" />
-                    <VAR id="x" />
+                    <VAR id="z"/>
+                    <VAR id="x"/>
                   </RENAME>
                 </L>
               </LINES>
@@ -1844,14 +2043,14 @@
                 <FORALL>
                   <VAR id="x"/>
                   <PREDVAR id="\phi">
-                    <VAR id="x" />
+                    <VAR id="x"/>
                   </PREDVAR>
                 </FORALL>
                 <FORALL>
-                  <VAR id="x" />
+                  <VAR id="x"/>
                   <PREDVAR id="\phi">
                     <FUNVAR id="f">
-                      <VAR id="x" />
+                      <VAR id="x"/>
                     </FUNVAR>
                   </PREDVAR>
                 </FORALL>
@@ -1865,11 +2064,11 @@
                       <FORALL>
                         <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </FORALL>
                       <PREDVAR id="\phi">
-                        <VAR id="y" />
+                        <VAR id="y"/>
                       </PREDVAR>
                     </IMPL>
                   </FORMULA>
@@ -1881,23 +2080,23 @@
                       <FORALL>
                         <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </FORALL>
                       <PREDVAR id="\phi">
                         <FUNVAR id="g">
-                          <VAR id="y" />
+                          <VAR id="y"/>
                         </FUNVAR>
                       </PREDVAR>
                     </IMPL>
                   </FORMULA>
                   <SUBST_FREE ref="1">
-                     <VAR id="y" />
-                     <TERM>
-                       <FUNVAR id="g">
-                         <VAR id="y" />
-                       </FUNVAR>
-                     </TERM>
+                    <VAR id="y"/>
+                    <TERM>
+                      <FUNVAR id="g">
+                        <VAR id="y"/>
+                      </FUNVAR>
+                    </TERM>
                   </SUBST_FREE>
                 </L>
                 <L label="3">
@@ -1906,25 +2105,25 @@
                       <FORALL>
                         <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </FORALL>
                       <PREDVAR id="\phi">
                         <FUNVAR id="f">
-                          <VAR id="y" />
+                          <VAR id="y"/>
                         </FUNVAR>
                       </PREDVAR>
                     </IMPL>
                   </FORMULA>
                   <SUBST_FUNVAR ref="2">
-                     <FUNVAR id="g">
-                       <VAR id="y" />
-                     </FUNVAR>
-                     <TERM>
-                       <FUNVAR id="f">
-                         <VAR id="y" />
-                       </FUNVAR>
-                     </TERM>
+                    <FUNVAR id="g">
+                      <VAR id="y"/>
+                    </FUNVAR>
+                    <TERM>
+                      <FUNVAR id="f">
+                        <VAR id="y"/>
+                      </FUNVAR>
+                    </TERM>
                   </SUBST_FUNVAR>
                 </L>
                 <L label="4">
@@ -1933,21 +2132,21 @@
                       <FORALL>
                         <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </FORALL>
                       <FORALL>
-                        <VAR id="y" />
+                        <VAR id="y"/>
                         <PREDVAR id="\phi">
                           <FUNVAR id="f">
-                            <VAR id="y" />
+                            <VAR id="y"/>
                           </FUNVAR>
                         </PREDVAR>
                       </FORALL>
                     </IMPL>
                   </FORMULA>
                   <UNIVERSAL ref="3">
-                    <VAR id="y" />
+                    <VAR id="y"/>
                   </UNIVERSAL>
                 </L>
                 <L label="5">
@@ -1956,22 +2155,22 @@
                       <FORALL>
                         <VAR id="x"/>
                         <PREDVAR id="\phi">
-                          <VAR id="x" />
+                          <VAR id="x"/>
                         </PREDVAR>
                       </FORALL>
                       <FORALL>
-                        <VAR id="x" />
+                        <VAR id="x"/>
                         <PREDVAR id="\phi">
                           <FUNVAR id="f">
-                            <VAR id="x" />
+                            <VAR id="x"/>
                           </FUNVAR>
                         </PREDVAR>
                       </FORALL>
                     </IMPL>
                   </FORMULA>
                   <RENAME ref="4" occurrence="1">
-                    <VAR id="y" />
-                    <VAR id="x" />
+                    <VAR id="y"/>
+                    <VAR id="x"/>
                   </RENAME>
                 </L>
               </LINES>
