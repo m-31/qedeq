@@ -69,6 +69,9 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
     /** List of axioms, definitions and propositions. */
     private FormalProofLineListVo validFormulas;
 
+    /** Save changed modules directly? */
+    private boolean noSave;
+
     /**
      * Constructor.
      *
@@ -106,6 +109,11 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         if (finderFactory == null) {
             finderFactory = new ProofFinderFactoryImpl();
         }
+        String noSaveString = null;
+        if (parameters != null) {
+            noSaveString = (String) parameters.get("noSave");
+        }
+        noSave = "true".equalsIgnoreCase(noSaveString);
     }
 
     private Map getParameters() {
@@ -203,7 +211,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                 proposition.getFormula().getElement(), validFormulas, getCurrentContext());
             // TODO 20110323 m31: we do a dirty cast to modify the current module
             ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
-            if (proof != null) {
+            if (proof != null && !noSave) {
                 Object obj;
                 try {
                     obj = YodaUtility.getFieldValue(KernelContext.getInstance(), "services");
