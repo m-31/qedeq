@@ -18,7 +18,7 @@ package org.qedeq.kernel.bo.logic.wf;
 import java.lang.reflect.InvocationTargetException;
 
 import org.qedeq.base.test.DynamicGetter;
-import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.se.base.module.Qedeq;
 
 
@@ -29,11 +29,14 @@ import org.qedeq.kernel.se.base.module.Qedeq;
  */
 public class TestFormulaCheckerImpl extends FormulaCheckerImpl {
 
+    private KernelServices services;
+
     /**
      * Constructor.
      *
      */
-    public TestFormulaCheckerImpl() {
+    public TestFormulaCheckerImpl(final KernelServices services) {
+        this.services = services;
     }
 
     /**
@@ -42,7 +45,7 @@ public class TestFormulaCheckerImpl extends FormulaCheckerImpl {
      * @param   locationWithinModule    Location within module.
      */
     protected void setLocationWithinModule(final String locationWithinModule) {
-        final Qedeq qedeq = KernelFacade.getKernelContext().getQedeqBo(getCurrentContext()
+        final Qedeq qedeq = services.getQedeqBo(getCurrentContext()
             .getModuleLocation()).getQedeq();
         try {
 //            System.out.println(locationWithinModule);

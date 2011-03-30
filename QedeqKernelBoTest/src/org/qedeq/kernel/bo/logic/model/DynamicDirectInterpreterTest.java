@@ -21,7 +21,6 @@ import java.lang.reflect.InvocationTargetException;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
@@ -50,11 +49,11 @@ public class DynamicDirectInterpreterTest extends QedeqBoTestCase {
 
     public void setUp() throws Exception {
         super.setUp();
-        final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
+        final ModuleAddress address = getServices().getModuleAddress(
                 IoUtility.toUrl(new File(getDocDir(), "math/qedeq_set_theory_v1.xml")));
-        prop = (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(
+        prop = (KernelQedeqBo) getServices().loadModule(
             address);
-        KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
+        getServices().checkModule(prop.getModuleAddress());
     }
 
     public void tearDown() throws Exception {

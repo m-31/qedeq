@@ -14,7 +14,6 @@
  */
 package org.qedeq.kernel.bo.service.logic;
 
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
@@ -44,8 +43,8 @@ public class QedeqBoFormalLogicCheckerTest extends QedeqBoTestCase {
      */
     public void testCheckModule() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("qedeq_error_sample_05.xml"));
-        KernelContext.getInstance().checkModule(address);
-        final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
+        getServices().checkModule(address);
+        final QedeqBo bo = getServices().getQedeqBo(address);
         assertTrue(bo.getLogicalState().isFailure());
         assertNotNull(bo.getWarnings());
         assertEquals(0, bo.getWarnings().size());

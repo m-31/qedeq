@@ -19,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.base.test.QedeqTestCase;
+import org.qedeq.kernel.bo.common.KernelServices;
 
 /**
  * Test generating LaTeX files for all known samples.
@@ -80,6 +81,10 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
      */
     public File getDocFile(final String fileName) {
         return new File(getDocDir(), fileName);
+    }
+
+    public KernelServices getServices() {
+        return KernelFacade.getKernelContext();
     }
 
 }

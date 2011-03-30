@@ -25,7 +25,6 @@ import java.util.Locale;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.ModuleAddress;
@@ -74,7 +73,7 @@ public final class Xml2Xml implements Plugin {
                 }
                 destination = new File(from.getParentFile(), xml + "_.xml").getCanonicalFile();
             }
-            return generate(IoUtility.toUrl(from), destination);
+            return generate(services, IoUtility.toUrl(from), destination);
         } catch (IOException e) {
             Trace.fatal(CLASS, "Writing failed destionation", method, e);
             throw services.createSourceFileExceptionList(
@@ -87,13 +86,14 @@ public final class Xml2Xml implements Plugin {
     /**
      * Generate XML file out of XML file.
      *
+     * @param   services        Here we get our kernel services.
      * @param   from            Read this XML file.
      * @param   to              Write to this file. Could not be <code>null</code>.
      * @throws  SourceFileExceptionList     Module could not be successfully loaded.
      * @throws  IOException                 Writing (or reading) failed.
      * @return  File name of generated LaTeX file.
      */
-    public static String generate(final URL from, final File to)
+    private static String generate(final InternalKernelServices services, final URL from, final File to)
             throws SourceFileExceptionList, IOException {
         final String method = "generate(URL, File)";
         Trace.begin(CLASS, method);
@@ -101,10 +101,9 @@ public final class Xml2Xml implements Plugin {
         Trace.param(CLASS, method, "to", to);
         TextOutput printer = null;
         try {
-            final ModuleAddress address = KernelContext.getInstance().getModuleAddress(from);
+            final ModuleAddress address = services.getModuleAddress(from);
             // TODO mime 20080303: find a solution without casting!
-            final KernelQedeqBo prop = (KernelQedeqBo) KernelContext.getInstance()
-                .loadModule(address);
+            final KernelQedeqBo prop = (KernelQedeqBo) services.loadModule(address);
             if (prop.getLoadingState().isFailure()) {
                 throw prop.getErrors();
             }

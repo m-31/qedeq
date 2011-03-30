@@ -25,10 +25,9 @@ import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.test.ObjectProxy;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
-import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
@@ -46,7 +45,7 @@ import org.xml.sax.SAXException;
  *
  * @author Michael Meyling
  */
-public class QedeqBoFactoryTest extends QedeqTestCase {
+public class QedeqBoFactoryTest extends QedeqBoTestCase {
 
     /** This class. */
     private static final Class CLASS = QedeqBoFactoryTest.class;
@@ -61,7 +60,6 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        KernelFacade.startup();
         try {
             okFile = getFile("qedeq_sample1.xml");
             errorFile = getFile("qedeq_error_sample_12.xml");
@@ -72,12 +70,12 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
             error = (Qedeq) ObjectProxy.createProxy(createQedeqFromFile(errorFile));
         } catch (Exception e) {
             e.printStackTrace(System.out);
-            KernelFacade.shutdown();
+            super.tearDown();
+            throw e;
         }
     }
 
     protected void tearDown() throws Exception {
-        KernelFacade.shutdown();
         ok = null;
         error = null;
         super.tearDown();
@@ -101,7 +99,7 @@ public class QedeqBoFactoryTest extends QedeqTestCase {
     public void testCreateStringQedeq1() throws IOException, ParserConfigurationException,
             SAXException, ModuleDataException, SourceFileExceptionList {
         final String method = "testCreateStringQedeq()";
-        final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
+        final ModuleAddress address = getServices().getModuleAddress(
             IoUtility.toUrl(errorFile.getCanonicalFile()));
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(address);

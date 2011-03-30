@@ -29,6 +29,7 @@ import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.config.QedeqConfig;
 
 public class DummyInternalKernalServices implements InternalKernelServices {
 
@@ -110,6 +111,39 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     }
     public ServiceProcess[] getServiceProcesses() {
         return null;
+    }
+    public String getBuildId() {
+        return null;
+    }
+    public QedeqConfig getConfig() {
+        return null;
+    }
+    public String getDedication() {
+        return null;
+    }
+    public String getDescriptiveKernelVersion() {
+        return null;
+    }
+    public String getKernelCodeName() {
+        return null;
+    }
+    public String getKernelVersion() {
+        return null;
+    }
+    public String getKernelVersionDirectory() {
+        return null;
+    }
+    public String getMaximalRuleVersion() {
+        return null;
+    }
+    public boolean isRuleVersionSupported(String ruleVersion) {
+        return false;
+    }
+    public boolean isSetConnectionTimeOutSupported() {
+        return false;
+    }
+    public boolean isSetReadTimeoutSupported() {
+        return false;
     }
 
 }

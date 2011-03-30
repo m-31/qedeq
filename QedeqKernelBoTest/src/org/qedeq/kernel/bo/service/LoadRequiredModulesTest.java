@@ -14,9 +14,7 @@
  */
 package org.qedeq.kernel.bo.service;
 
-import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -26,17 +24,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public class LoadRequiredModulesTest extends QedeqTestCase {
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        KernelFacade.startup();
-    }
-
-    protected void tearDown() throws Exception {
-        KernelFacade.shutdown();
-        super.tearDown();
-    }
+public class LoadRequiredModulesTest extends QedeqBoTestCase {
 
     public LoadRequiredModulesTest() {
         super();
@@ -57,7 +45,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      */
     public void testLoadRequiredModules_01() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("loadRequired/LRM011.xml"));
-        if (!KernelContext.getInstance().loadRequiredModules(address)) {
+        if (!getServices().loadRequiredModules(address)) {
             fail("loading should be successful");
         }
     }
@@ -73,10 +61,10 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
     public void testLoadRequiredModules_02() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(
             getFile("loadRequired/LRM021.xml"));
-        if (KernelContext.getInstance().loadRequiredModules(address)) {
+        if (getServices().loadRequiredModules(address)) {
             fail("021 -> 021 cycle");
         } else {
-            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
+            SourceFileExceptionList e = getServices().getQedeqBo(address).getErrors();
             assertEquals(1, e.size());
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
@@ -97,11 +85,11 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
     public void testLoadRequiredModules_03() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(
             getFile("loadRequired/LRM031.xml"));
-        KernelContext.getInstance().loadRequiredModules(address);
-        if (KernelContext.getInstance().loadRequiredModules(address)) {
+        getServices().loadRequiredModules(address);
+        if (getServices().loadRequiredModules(address)) {
             fail("031 -> 032 -> 031 cycle");
         } else {
-            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
+            SourceFileExceptionList e = getServices().getQedeqBo(address).getErrors();
             assertEquals(1, e.size());
             // e.printStackTrace();
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
@@ -126,13 +114,13 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
     public void testLoadRequiredModules_04() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(
             getFile("loadRequired/LRM041.xml"));
-        KernelContext.getInstance().loadRequiredModules(address);
-        if (KernelContext.getInstance().loadRequiredModules(address)) {
+        getServices().loadRequiredModules(address);
+        if (getServices().loadRequiredModules(address)) {
             fail("041 -> 042 -> 043 -> 044 -> 042 cycle\n"
                + "041 -> 043 -> 044 -> 042 -> 043 cycle\n"
                + "041 -> 044 -> 042 -> 043 -> 044 cycle");
         } else {
-            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
+            SourceFileExceptionList e = getServices().getQedeqBo(address).getErrors();
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
             assertEquals(90723, e.get(0).getErrorCode());
@@ -175,7 +163,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
     public void testLoadRequiredModules_05() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(
             getFile("loadRequired/LRM051.xml"));
-        if (!KernelContext.getInstance().loadRequiredModules(address)) {
+        if (!getServices().loadRequiredModules(address)) {
             fail("loading should be successful");
         }
     }
@@ -196,7 +184,7 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      */
     public void testLoadRequiredModules_06() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("loadRequired/LRM061.xml"));
-        if (!KernelContext.getInstance().loadRequiredModules(address)) {
+        if (!getServices().loadRequiredModules(address)) {
             fail("loading should be successful");
         }
     }
@@ -228,10 +216,10 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
     public void testLoadRequiredModules_07() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(
             getFile("loadRequired/LRM071.xml"));
-        if (KernelContext.getInstance().loadRequiredModules(address)) {
+        if (getServices().loadRequiredModules(address)) {
             fail("see test method description");
         } else {
-            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
+            SourceFileExceptionList e = getServices().getQedeqBo(address).getErrors();
             // e.printStackTrace(System.out);
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
@@ -275,11 +263,11 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
      */
     public void testLoadRequiredModules_08() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("loadRequired/LRM081.xml"));
-        if (!KernelContext.getInstance().loadRequiredModules(address)) {
+        if (!getServices().loadRequiredModules(address)) {
             fail("loading should be successful");
         }
-        assertEquals(0, KernelContext.getInstance().getQedeqBo(address).getErrors().size());
-        assertTrue(!KernelContext.getInstance().getQedeqBo(address).hasBasicFailures());
+        assertEquals(0, getServices().getQedeqBo(address).getErrors().size());
+        assertTrue(!getServices().getQedeqBo(address).hasBasicFailures());
     }
 
     /**
@@ -293,10 +281,10 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
     public void testLoadRequiredModules_09() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(
             getFile("loadRequired/LRM091.xml"));
-        if (KernelContext.getInstance().loadRequiredModules(address)) {
+        if (getServices().loadRequiredModules(address)) {
             fail("091 -> 092 -> 093 -> 094 -> 095 -> 096 -> 097 -> 098 -> 099 -> 091 cycle\n");
         } else {
-            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
+            SourceFileExceptionList e = getServices().getQedeqBo(address).getErrors();
             assertEquals(31, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
             assertEquals(90723, e.get(0).getErrorCode());
@@ -326,10 +314,10 @@ public class LoadRequiredModulesTest extends QedeqTestCase {
     public void testLoadRequiredModules_10() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(
                 getFile("loadRequired/LRM101.xml"));
-        if (KernelContext.getInstance().loadRequiredModules(address)) {
+        if (getServices().loadRequiredModules(address)) {
             fail("two imports don't exist: \"notThere\" and \"alsoNotThere\"\n");
         } else {
-            SourceFileExceptionList e = KernelContext.getInstance().getQedeqBo(address).getErrors();
+            SourceFileExceptionList e = getServices().getQedeqBo(address).getErrors();
             assertEquals(38, e.get(0).getSourceArea().getStartPosition().getRow());
             assertEquals(15, e.get(0).getSourceArea().getStartPosition().getColumn());
             assertEquals(90710, e.get(0).getErrorCode());

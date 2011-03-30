@@ -22,9 +22,8 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.qedeq.base.io.IoUtility;
-import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
-import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.test.XmlNormalizer;
 import org.xml.sax.SAXException;
@@ -34,17 +33,7 @@ import org.xml.sax.SAXException;
  *
  * @author  Michael Meyling
  */
-public final class GenerateXmlTest extends QedeqTestCase {
-
-    public void setUp() throws Exception {
-        super.setUp();
-        KernelFacade.startup();
-    }
-
-    public void tearDown() throws Exception {
-        KernelFacade.shutdown();
-        super.tearDown();
-    }
+public final class GenerateXmlTest extends QedeqBoTestCase {
 
     /**
      * Start main process.

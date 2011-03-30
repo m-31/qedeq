@@ -14,15 +14,13 @@
  */
 package org.qedeq.kernel.bo.service;
 
-import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
 import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
-import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -32,17 +30,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        KernelFacade.startup();
-    }
-
-    protected void tearDown() throws Exception {
-        KernelFacade.shutdown();
-        super.tearDown();
-    }
+public class ModuleConstantsExistenceCheckerTest extends QedeqBoTestCase {
 
     public ModuleConstantsExistenceCheckerTest() {
         super();
@@ -64,11 +52,11 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
      */
     public void testModuleConstancsExistenceChecker_01() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC011.xml"));
-        if (!KernelContext.getInstance().checkModule(address)) {
-            KernelContext.getInstance().getQedeqBo(address).getErrors().printStackTrace(System.out);
-            throw KernelContext.getInstance().getQedeqBo(address).getErrors();
+        if (!getServices().checkModule(address)) {
+            getServices().getQedeqBo(address).getErrors().printStackTrace(System.out);
+            throw getServices().getQedeqBo(address).getErrors();
         }
-        final DefaultKernelQedeqBo qedeq = (DefaultKernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
+        final DefaultKernelQedeqBo qedeq = (DefaultKernelQedeqBo) getServices().getQedeqBo(address);
         SourceFileExceptionList errors = qedeq.getErrors();
         SourceFileExceptionList warnings = qedeq.getWarnings();
         assertNotNull(warnings);
@@ -89,9 +77,9 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
      */
     public void testModuleConstancsExistenceChecker_02() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC021.xml"));
-        if (!KernelContext.getInstance().checkModule(address)) {
-            SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
-            SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
+        if (!getServices().checkModule(address)) {
+            SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
+            SourceFileExceptionList warnings = getServices().getQedeqBo(address).getWarnings();
             assertNotNull(warnings);
             assertEquals(0, warnings.size());
             assertEquals(1, errors.size());
@@ -115,9 +103,9 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
      */
     public void testModuleConstancsExistenceChecker_03() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC031.xml"));
-        if (!KernelContext.getInstance().checkModule(address)) {
-            SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
-            SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
+        if (!getServices().checkModule(address)) {
+            SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
+            SourceFileExceptionList warnings = getServices().getQedeqBo(address).getWarnings();
             assertNotNull(warnings);
             assertEquals(0, warnings.size());
             assertEquals(1, errors.size());
@@ -142,12 +130,12 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
     public void testModuleConstancsExistenceChecker_04() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC041.xml"));
         SourceFileExceptionList errors;
-        if (!KernelContext.getInstance().checkModule(address)) {
-            errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
+        if (!getServices().checkModule(address)) {
+            errors = getServices().getQedeqBo(address).getErrors();
             throw errors;
         }
-        errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
-        SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
+        errors = getServices().getQedeqBo(address).getErrors();
+        SourceFileExceptionList warnings = getServices().getQedeqBo(address).getWarnings();
         assertNotNull(warnings);
         assertEquals(0, warnings.size());
         assertNotNull(errors);
@@ -165,11 +153,11 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
      */
     public void testModuleConstancsExistenceChecker_05() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC051.xml"));
-        if (!KernelContext.getInstance().checkModule(address)) {
-            KernelContext.getInstance().getQedeqBo(address).getErrors().printStackTrace(System.out);
-            throw KernelContext.getInstance().getQedeqBo(address).getErrors();
+        if (!getServices().checkModule(address)) {
+            getServices().getQedeqBo(address).getErrors().printStackTrace(System.out);
+            throw getServices().getQedeqBo(address).getErrors();
         }
-        final DefaultKernelQedeqBo qedeq = (DefaultKernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
+        final DefaultKernelQedeqBo qedeq = (DefaultKernelQedeqBo) getServices().getQedeqBo(address);
         SourceFileExceptionList errors = qedeq.getErrors();
         SourceFileExceptionList warnings = qedeq.getWarnings();
         assertNotNull(warnings);
@@ -183,7 +171,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertFalse(qedeq.equals(checker.getQedeq(new PredicateKey(ExistenceChecker.NAME_EQUAL, "" + 2))));
         assertNull(checker.getQedeq(new PredicateKey(ExistenceChecker.NAME_EQUAL, "" + 2)));
         assertNull(checker.getQedeq(new PredicateKey("unknown." + ExistenceChecker.NAME_EQUAL, "" + 2)));
-        assertEquals(KernelContext.getInstance().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC052.xml"))),
+        assertEquals(getServices().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC052.xml"))),
                 checker.getQedeq(new PredicateKey("MCEC052." + ExistenceChecker.NAME_EQUAL, "" + 2)));
         {
             final PredicateKey predicate = new PredicateKey("MCEC052." + ExistenceChecker.NAME_EQUAL, "" + 2);
@@ -221,7 +209,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertFalse(qedeq.equals(checker.getQedeq(new FunctionKey("union", "" + 2))));
         assertNull(checker.getQedeq(new FunctionKey("union", "" + 2)));
         assertNull(checker.getQedeq(new FunctionKey("unknown." + "union", "" + 2)));
-        assertEquals(KernelContext.getInstance().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC052.xml"))),
+        assertEquals(getServices().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC052.xml"))),
                 checker.getQedeq(new FunctionKey("MCEC052." + "union", "" + 2)));
         {
             final FunctionKey function = new FunctionKey("MCEC052x." + "union", "" + 2);
@@ -280,11 +268,11 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
      */
     public void testModuleConstancsExistenceChecker_06() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC061.xml"));
-        if (!KernelContext.getInstance().checkModule(address)) {
-            KernelContext.getInstance().getQedeqBo(address).getErrors().printStackTrace(System.out);
-            throw KernelContext.getInstance().getQedeqBo(address).getErrors();
+        if (!getServices().checkModule(address)) {
+            getServices().getQedeqBo(address).getErrors().printStackTrace(System.out);
+            throw getServices().getQedeqBo(address).getErrors();
         }
-        final DefaultKernelQedeqBo qedeq = (DefaultKernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
+        final DefaultKernelQedeqBo qedeq = (DefaultKernelQedeqBo) getServices().getQedeqBo(address);
         SourceFileExceptionList errors = qedeq.getErrors();
         SourceFileExceptionList warnings = qedeq.getWarnings();
         assertNotNull(warnings);
@@ -299,7 +287,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertNull(checker.getQedeq(new PredicateKey(ExistenceChecker.NAME_EQUAL, "" + 2)));
         assertNull(checker.getQedeq(new PredicateKey("unknown." + ExistenceChecker.NAME_EQUAL, "" + 2)));
         final PredicateKey key = new PredicateKey("MCEC062a." + ExistenceChecker.NAME_EQUAL, "" + 2);
-        assertEquals(KernelContext.getInstance().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC062.xml"))),
+        assertEquals(getServices().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC062.xml"))),
                 checker.getQedeq(key));
         final PredicateConstant def = checker.get(key);
 //        assertEquals("#1 \\ =  \\ #2", def.getLatexPattern());
@@ -312,7 +300,7 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
         assertNull(checker.getQedeq(new FunctionKey("union", "" + 2)));
         assertNull(checker.getQedeq(new FunctionKey("unknown." + "union", "" + 2)));
         final FunctionKey key2 = new FunctionKey("MCEC062a." + "union", "" + 2);
-        assertEquals(KernelContext.getInstance().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC062.xml"))),
+        assertEquals(getServices().getQedeqBo(new DefaultModuleAddress(getFile("existence/MCEC062.xml"))),
                 checker.getQedeq(key2));
         final FunctionConstant def2 = checker.get(key2);
 //        assertEquals("(#1 \\cup #2)", def2.getLatexPattern());
@@ -337,9 +325,9 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
      */
     public void testModuleConstancsExistenceChecker_07() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC071.xml"));
-        if (!KernelContext.getInstance().checkModule(address)) {
-            SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
-            SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
+        if (!getServices().checkModule(address)) {
+            SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
+            SourceFileExceptionList warnings = getServices().getQedeqBo(address).getWarnings();
             assertNotNull(warnings);
             assertEquals(0, warnings.size());
             assertEquals(1, errors.size());
@@ -362,9 +350,9 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
      */
     public void testModuleConstancsExistenceChecker_08() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC081.xml"));
-        if (!KernelContext.getInstance().checkModule(address)) {
-            SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
-            SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
+        if (!getServices().checkModule(address)) {
+            SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
+            SourceFileExceptionList warnings = getServices().getQedeqBo(address).getWarnings();
             assertNotNull(warnings);
             assertEquals(0, warnings.size());
             assertEquals(1, errors.size());
@@ -387,9 +375,9 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
      */
     public void testModuleConstancsExistenceChecker_09() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC091.xml"));
-        if (!KernelContext.getInstance().checkModule(address)) {
-            SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
-            SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
+        if (!getServices().checkModule(address)) {
+            SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
+            SourceFileExceptionList warnings = getServices().getQedeqBo(address).getWarnings();
             assertNotNull(warnings);
             assertEquals(0, warnings.size());
 //            System.out.println(errors);
@@ -413,9 +401,9 @@ public class ModuleConstantsExistenceCheckerTest extends QedeqTestCase {
      */
     public void testModuleConstancsExistenceChecker_10() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("existence/MCEC101.xml"));
-        if (!KernelContext.getInstance().checkModule(address)) {
-            SourceFileExceptionList errors = KernelContext.getInstance().getQedeqBo(address).getErrors();
-            SourceFileExceptionList warnings = KernelContext.getInstance().getQedeqBo(address).getWarnings();
+        if (!getServices().checkModule(address)) {
+            SourceFileExceptionList errors = getServices().getQedeqBo(address).getErrors();
+            SourceFileExceptionList warnings = getServices().getQedeqBo(address).getWarnings();
             assertNotNull(warnings);
             assertEquals(0, warnings.size());
 //            System.out.println(errors);

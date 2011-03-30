@@ -181,10 +181,10 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
      *
      * @param   xmlFile Module file to check.
      */
-    public static void check(final File xmlFile) throws IOException,
+    public void check(final File xmlFile) throws IOException,
             ParserConfigurationException, SAXException, ModuleDataException,
             SourceFileExceptionList, NoSuchFieldException {
-        final ModuleAddress context = KernelFacade.getKernelContext().getModuleAddress(
+        final ModuleAddress context = getServices().getModuleAddress(
             IoUtility.toUrl(xmlFile.getAbsoluteFile()));
         SaxDefaultHandler handler = new SaxDefaultHandler(new DummyPlugin());
         QedeqHandler simple = new QedeqHandler(handler);
@@ -193,7 +193,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         parser.parse(xmlFile, xmlFile.getPath());
         final QedeqVo qedeq = (QedeqVo) simple.getQedeq();
         final InternalKernelServices services = (InternalKernelServices) IoUtility
-            .getFieldContent(KernelFacade.getKernelContext(), "services");
+            .getFieldContent(getServices(), "services");
         final QedeqFileDao loader = new XmlQedeqFileDao();
         loader.setServices(services);
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
@@ -221,10 +221,10 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
      *
      * @param   xmlFile Module file to check.
      */
-    public static void checkViaKernel(final File xmlFile) throws NoSuchFieldException, SourceFileExceptionList, IOException {
-        final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
+    public void checkViaKernel(final File xmlFile) throws NoSuchFieldException, SourceFileExceptionList, IOException {
+        final ModuleAddress address = getServices().getModuleAddress(
             IoUtility.toUrl(xmlFile.getAbsoluteFile()));
-        KernelQedeqBo qedeqBo= (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(address);
+        KernelQedeqBo qedeqBo= (KernelQedeqBo) getServices().loadModule(address);
         final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
         final Map parameters = new HashMap();
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());

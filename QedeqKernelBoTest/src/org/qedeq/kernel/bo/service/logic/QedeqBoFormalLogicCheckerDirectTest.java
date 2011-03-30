@@ -21,7 +21,6 @@ import java.io.IOException;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.base.io.IoUtility;
-import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
@@ -31,9 +30,9 @@ import org.qedeq.kernel.bo.module.QedeqFileDao;
 import org.qedeq.kernel.bo.service.DefaultKernelQedeqBo;
 import org.qedeq.kernel.bo.service.ModuleLabelsCreator;
 import org.qedeq.kernel.bo.service.QedeqVoBuilder;
-import org.qedeq.kernel.bo.service.logic.WellFormedCheckerPlugin;
 import org.qedeq.kernel.bo.test.DummyPlugin;
 import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleDataException;
@@ -51,7 +50,7 @@ import org.xml.sax.SAXException;
  *
  * @author Michael Meyling
  */
-public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqTestCase {
+public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
 
     /** This class. */
     private static final Class CLASS = FormulaChecker.class;
@@ -63,14 +62,6 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqTestCase {
 
     public QedeqBoFormalLogicCheckerDirectTest(final String name) {
         super(name);
-    }
-
-    public void setUp() {
-       KernelFacade.startup();
-    }
-
-    public void tearDown() {
-        KernelFacade.shutdown();
     }
 
     public void testNegative00() throws Exception {
@@ -157,10 +148,10 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqTestCase {
      *
      * @param   xmlFile Module file to check.
      */
-    public static void check(final File xmlFile) throws IOException,
+    public void check(final File xmlFile) throws IOException,
             ParserConfigurationException, SAXException, ModuleDataException,
             SourceFileExceptionList {
-        final ModuleAddress context = KernelFacade.getKernelContext().getModuleAddress(
+        final ModuleAddress context = getServices().getModuleAddress(
             IoUtility.toUrl(xmlFile.getAbsoluteFile()));
         SaxDefaultHandler handler = new SaxDefaultHandler(new DummyPlugin());
         QedeqHandler simple = new QedeqHandler(handler);
@@ -169,7 +160,7 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqTestCase {
         parser.parse(xmlFile, xmlFile.getPath());
         final QedeqVo qedeq = (QedeqVo) simple.getQedeq();
         final InternalKernelServices services = (InternalKernelServices) IoUtility
-            .getFieldContent(KernelFacade.getKernelContext(), "services");
+            .getFieldContent(getServices(), "services");
         final QedeqFileDao loader = new XmlQedeqFileDao();
         loader.setServices(services);
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade

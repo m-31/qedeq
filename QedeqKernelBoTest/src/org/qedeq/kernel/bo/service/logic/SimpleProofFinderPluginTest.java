@@ -18,7 +18,6 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -57,8 +56,8 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         if (slow()) {
             final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
                 "sample/qedeq_sample3.xml"));
-            KernelContext.getInstance().checkModule(address);
-            final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
+            getServices().checkModule(address);
+            final QedeqBo bo = getServices().getQedeqBo(address);
             assertTrue(bo.isChecked());
             assertEquals(0, bo.getWarnings().size());
             assertEquals(0, bo.getErrors().size());
@@ -68,7 +67,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
             addDummyFormalProof(qedeq, "proposition:three");
             final Map parameters = new HashMap();
             parameters.put("noSave", "true");
-            KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
+            getServices().executePlugin(SimpleProofFinderPlugin.class.getName(),
                 address, parameters);
         }
     }
@@ -81,8 +80,8 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
     public void testPluginFast() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "sample/qedeq_sample3.xml"));
-        KernelContext.getInstance().checkModule(address);
-        final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
+        getServices().checkModule(address);
+        final QedeqBo bo = getServices().getQedeqBo(address);
         assertTrue(bo.isChecked());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
@@ -94,7 +93,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         addDummyFormalProof(qedeq, "proposition:three");
         final Map parameters = new HashMap();
         parameters.put("noSave", "true");
-        KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
+        getServices().executePlugin(SimpleProofFinderPlugin.class.getName(),
             address, parameters);
     }
 
@@ -106,8 +105,8 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
     public void testPluginFast2() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "sample/qedeq_sample3.xml"));
-        KernelContext.getInstance().checkModule(address);
-        final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
+        getServices().checkModule(address);
+        final QedeqBo bo = getServices().getQedeqBo(address);
         assertTrue(bo.isChecked());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
@@ -119,7 +118,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         removeFormalProof(qedeq, "proposition:three");
         final Map parameters = new HashMap();
         parameters.put("noSave", "true");
-        KernelContext.getInstance().executePlugin(SimpleProofFinderPlugin.class.getName(),
+        getServices().executePlugin(SimpleProofFinderPlugin.class.getName(),
             address, parameters);
     }
 

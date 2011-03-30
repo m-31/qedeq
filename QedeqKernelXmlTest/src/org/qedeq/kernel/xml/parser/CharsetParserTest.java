@@ -19,10 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.base.io.TextInput;
-import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.test.KernelFacade;
+import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -33,17 +31,7 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
  *
  * @author  Michael Meyling
  */
-public class CharsetParserTest extends QedeqTestCase {
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        KernelFacade.startup();
-    }
-
-    protected void tearDown() throws Exception {
-        KernelFacade.shutdown();
-        super.tearDown();
-    }
+public class CharsetParserTest extends QedeqBoTestCase {
 
     /**
      * Test parsing with default SAX parser.
@@ -51,10 +39,10 @@ public class CharsetParserTest extends QedeqTestCase {
      * @throws  Exception   Something bad happened.
      */
     public void testParse1() throws Exception {
-        final ModuleAddress address = KernelContext.getInstance()
+        final ModuleAddress address = getServices()
             .getModuleAddress(getFile("charset/qedeq_utf8_with_errors_01.xml"));
-        KernelContext.getInstance().loadModule(address);
-        assertFalse(KernelContext.getInstance().checkModule(address));
+        getServices().loadModule(address);
+        assertFalse(getServices().checkModule(address));
         final String[] errors = getSourceFileExceptionList(address);
 //        for (int i = 0; i < errors.length; i++) {
 //            System.out.println(errors[i]);
@@ -72,10 +60,10 @@ public class CharsetParserTest extends QedeqTestCase {
      * @throws  Exception   Something bad happened.
      */
     public void testParse2() throws Exception {
-        final ModuleAddress address = KernelContext.getInstance()
+        final ModuleAddress address = getServices()
             .getModuleAddress(getFile("charset/qedeq_utf16_with_errors_01.xml"));
-        KernelContext.getInstance().loadModule(address);
-        assertFalse(KernelContext.getInstance().checkModule(address));
+        getServices().loadModule(address);
+        assertFalse(getServices().checkModule(address));
         final String[] errors = getSourceFileExceptionList(address);
         assertEquals(2, errors.length);
         String[] lines = errors[0].split("\n");
@@ -93,11 +81,11 @@ public class CharsetParserTest extends QedeqTestCase {
      */
     public String[] getSourceFileExceptionList(final ModuleAddress address) throws IOException {
         final List list = new ArrayList();
-        final SourceFileExceptionList sfl = KernelContext.getInstance().getQedeqBo(address)
+        final SourceFileExceptionList sfl = getServices().getQedeqBo(address)
             .getErrors();
         if (sfl != null) {
             final StringBuffer buffer
-                = new StringBuffer(KernelContext.getInstance().getSource(address));
+                = new StringBuffer(getServices().getSource(address));
             final TextInput input = new TextInput(buffer);
             input.setPosition(0);
             final StringBuffer buf = new StringBuffer();

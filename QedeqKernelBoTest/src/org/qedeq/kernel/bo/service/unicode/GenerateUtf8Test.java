@@ -22,10 +22,10 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
@@ -126,18 +126,18 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
     public void generate(final File dir, final String xml, final String language,
             final File destinationDirectory) throws IOException, SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
-        final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
+        final ModuleAddress address = getServices().getModuleAddress(
             IoUtility.toUrl(xmlFile));
-        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(
+        final KernelQedeqBo prop = (KernelQedeqBo) getServices().loadModule(
             address);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
+        getServices().loadRequiredModules(prop.getModuleAddress());
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
+        getServices().checkModule(prop.getModuleAddress());
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
@@ -146,15 +146,15 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         }
 
         final String web = "http://www.qedeq.org/"
-            + KernelFacade.getKernelContext().getKernelVersionDirectory() + "/doc/" + xml;
+            + ((KernelProperties) getServices()).getKernelVersionDirectory() + "/doc/" + xml;
         final InternalKernelServices services = (InternalKernelServices) IoUtility.getFieldContent(
-            KernelFacade.getKernelContext(), "services");
+            getServices(), "services");
         final ModuleAddress webAddress = new DefaultModuleAddress(web);
         services.getLocalFilePath(webAddress);
         IoUtility.copyFile(xmlFile, services.getLocalFilePath(webAddress));
 
-        KernelFacade.getKernelContext().checkModule(webAddress);
-        final QedeqBo webBo = KernelFacade.getKernelContext().getQedeqBo(webAddress);
+        getServices().checkModule(webAddress);
+        final QedeqBo webBo = getServices().getQedeqBo(webAddress);
         final File texFile = new File(destinationDirectory, xml.substring(0, xml.lastIndexOf('.'))
             + "_" + language + ".txt");
         generate((KernelQedeqBo) webBo, texFile, language, "1");

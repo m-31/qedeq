@@ -24,7 +24,6 @@ import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.logic.model.Model;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -50,18 +49,18 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
     public QedeqBo check(final Model model, final File dir, final String xml) throws IOException,
             SourceFileExceptionList {
         final File xmlFile = new File(dir, xml);
-        final ModuleAddress address = KernelFacade.getKernelContext().getModuleAddress(
+        final ModuleAddress address = getServices().getModuleAddress(
             IoUtility.toUrl(xmlFile));
-        final KernelQedeqBo prop = (KernelQedeqBo) KernelFacade.getKernelContext().loadModule(
+        final KernelQedeqBo prop = (KernelQedeqBo) getServices().loadModule(
             address);
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        KernelFacade.getKernelContext().loadRequiredModules(prop.getModuleAddress());
+        getServices().loadRequiredModules(prop.getModuleAddress());
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-        KernelFacade.getKernelContext().checkModule(prop.getModuleAddress());
+        getServices().checkModule(prop.getModuleAddress());
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
@@ -69,7 +68,7 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
         final Map parameters = new HashMap();
         parameters.put(HeuristicCheckerPlugin.class.getName() + "$model",
             model.getClass().getName());
-        KernelFacade.getKernelContext().executePlugin(
+        getServices().executePlugin(
             "org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin", prop.getModuleAddress(), 
             parameters);
         if (prop.hasErrors()) {

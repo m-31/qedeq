@@ -17,6 +17,7 @@ package org.qedeq.kernel.bo.logic.wf;
 
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.FormulaCheckerFactory;
+import org.qedeq.kernel.bo.test.KernelFacade;
 
 
 /**
@@ -27,7 +28,7 @@ import org.qedeq.kernel.bo.logic.common.FormulaCheckerFactory;
 public class TestFormulaCheckerFactoryImpl implements FormulaCheckerFactory {
 
     public FormulaChecker createFormulaChecker() {
-        return new TestFormulaCheckerImpl();
+        return new TestFormulaCheckerImpl(KernelFacade.getKernelContext());
     }
 
 
