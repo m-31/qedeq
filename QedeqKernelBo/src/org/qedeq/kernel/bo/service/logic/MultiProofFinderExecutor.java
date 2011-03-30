@@ -25,6 +25,7 @@ import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
+import org.qedeq.kernel.bo.logic.common.MultiProofFinder;
 import org.qedeq.kernel.bo.logic.common.ProofFinderFactory;
 import org.qedeq.kernel.bo.logic.common.ProofFoundListener;
 import org.qedeq.kernel.bo.module.ControlVisitor;
@@ -81,6 +82,12 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
     /** List of axioms, definitions and propositions. */
     private FormalProofLineListVo validFormulas;
 
+    /** Save changed modules directly? */
+    private boolean noSave;
+
+    /** Currently running proof finder. */
+    private MultiProofFinder finder;
+
     /**
      * Constructor.
      *
@@ -118,6 +125,11 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
         if (finderFactory == null) {
             finderFactory = new ProofFinderFactoryImpl();
         }
+        String noSaveString = null;
+        if (parameters != null) {
+            noSaveString = (String) parameters.get("noSave");
+        }
+        noSave = "true".equalsIgnoreCase(noSaveString);
     }
 
     private Map getParameters() {
@@ -125,20 +137,24 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
     }
 
     public Object executePlugin() {
-        QedeqLog.getInstance().logRequest(
-                "Try to create formal proofs for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         getServices().checkModule(getQedeqBo().getModuleAddress());
+        QedeqLog.getInstance().logRequest(
+            "Trying to create formal proofs for \""
+            + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         boolean result = false;
         try {
             validFormulas = new FormalProofLineListVo();
             goalFormulas = new DefaultElementList("goalFormulas");
             idsForGoalFormulas = new ArrayList();
             traverse();
-            result = finderFactory.createMultiProofFinder().findProof(
+            finder = finderFactory.createMultiProofFinder();
+            result = finder.findProof(
                     (ElementList) goalFormulas.copy(), validFormulas, this, getCurrentContext());
+            QedeqLog.getInstance().logSuccessfulReply(
+                    "Proof creation finished for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         } catch (SourceFileExceptionList e) {
-            final String msg = "Proof creation not fully successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
-                + "\"";
+            final String msg = "Proof creation not (fully?) successful for \""
+                + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
             return Boolean.FALSE;
         } catch (InterruptException e) {
@@ -151,7 +167,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
         }
         if (result) {
             QedeqLog.getInstance().logSuccessfulReply(
-                "Proof creation successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+                "Proof creation finished for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
             return Boolean.TRUE;
         } else {
             final String msg = "Proof creation not fully successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())

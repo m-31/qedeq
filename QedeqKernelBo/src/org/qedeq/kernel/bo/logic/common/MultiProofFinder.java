@@ -40,5 +40,12 @@ public interface MultiProofFinder {
     public boolean findProof(ElementList formulas, FormalProofLineList proof,
         ProofFoundListener listener, ModuleContext context) throws InterruptException;
 
+    /**
+     * Get a description which action is currently taken.
+     *
+     * @return  Description.
+     */
+    public String getExecutionActionDescription();
+
 
 }

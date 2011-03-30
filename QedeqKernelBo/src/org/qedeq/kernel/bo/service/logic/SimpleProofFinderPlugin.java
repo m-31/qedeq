@@ -41,7 +41,7 @@ public final class SimpleProofFinderPlugin implements PluginBo {
     }
 
     public String getPluginDescription() {
-        return "finds simple formal proofs";
+        return "finds simple formal proofs [EXPERIMENTAL]";
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {

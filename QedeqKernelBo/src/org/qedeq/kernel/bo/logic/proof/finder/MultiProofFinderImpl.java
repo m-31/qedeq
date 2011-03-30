@@ -243,6 +243,11 @@ public class MultiProofFinderImpl implements MultiProofFinder {
         }
     }
 
+    public String getExecutionActionDescription() {
+        return ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1);
+    }
+
+
     /**
      * Indicates we have nothing left to prove.
      *

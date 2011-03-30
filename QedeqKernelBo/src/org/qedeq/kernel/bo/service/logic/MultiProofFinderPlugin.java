@@ -41,7 +41,7 @@ public final class MultiProofFinderPlugin implements PluginBo {
     }
 
     public String getPluginDescription() {
-        return "finds simple formal proofs simultanously";
+        return "finds simple formal proofs simultanously  [EXPERIMENTAL]";
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {

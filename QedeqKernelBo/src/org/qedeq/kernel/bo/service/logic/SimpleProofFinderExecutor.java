@@ -70,6 +70,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
     /** Save changed modules directly? */
     private boolean noSave;
 
+    /** Currently running proof finder. */
     private ProofFinder finder;
 
     /**
@@ -91,10 +92,10 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                 Class cl = Class.forName(finderFactoryClass);
                 finderFactory = (ProofFinderFactory) cl.newInstance();
             } catch (ClassNotFoundException e) {
-                Trace.fatal(CLASS, this, method, "ProofCheckerFactory class not in class path: "
+                Trace.fatal(CLASS, this, method, "ProofFinderFactory class not in class path: "
                     + finderFactoryClass, e);
             } catch (InstantiationException e) {
-                Trace.fatal(CLASS, this, method, "ProofCheckerFactory class could not be instanciated: "
+                Trace.fatal(CLASS, this, method, "ProofFinderFactory class could not be instanciated: "
                     + finderFactoryClass, e);
             } catch (IllegalAccessException e) {
                 Trace.fatal(CLASS, this, method,
