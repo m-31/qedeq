@@ -139,6 +139,7 @@ public class MultiProofFinderImpl implements MultiProofFinder {
      * Make all possible substitutions in a proof line.
      *
      * @param   i   Proof line number we want to try substitution.
+     * @throws  AllProvedException  We found all proofs.
      */
     private void trySubstitution(final int i) throws AllProvedException {
 //        System.out.print("subst " + i + " ");
@@ -204,6 +205,7 @@ public class MultiProofFinderImpl implements MultiProofFinder {
      * @param   var         Predicate variable we want to replace.
      * @param   operator    Operator of replacement formula.
      * @param   left        Is old variable at left hand of new operator?
+     * @throws  AllProvedException  We found all proofs.
      */
     private void createReplacement(final int i, final Element f,
             final ElementList var, final String operator, final boolean left) throws AllProvedException {
