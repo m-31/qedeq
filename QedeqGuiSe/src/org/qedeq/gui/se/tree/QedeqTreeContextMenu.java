@@ -59,6 +59,20 @@ public final class QedeqTreeContextMenu extends JPopupMenu {
         for (int i = 0; i < pluginMenu.length; i++) {
             this.add(pluginMenu[i]);
         }
+
+        this.addSeparator();
+
+        item = MenuHelper.createMenuItem("Load from Web", 'W');
+        item.setToolTipText("Load QEDEQ module from anywhere in the Web");
+        item.addActionListener(controller.getAddAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/list-add.png"));
+        this.add(item);
+
+        item = MenuHelper.createMenuItem("Load local File", 'F');
+        item.setToolTipText("Load QEDEQ module from file system");
+        item.addActionListener(controller.getAddFileAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/document-open.png"));
+        this.add(item);
     }
 
 }
