@@ -78,7 +78,7 @@ public final class ProofFinderUtility {
         }
         for (int j = 0; j < lines.size(); j++) {
             if (used[j]) {
-                printLine(lines, reasons, j);
+                printUtf8Line(lines, reasons, j);
             }
         }
         new2Old = new ArrayList();
@@ -131,22 +131,42 @@ public final class ProofFinderUtility {
         return result;
     }
 
-    public static void printLine(final List lines, final List reasons, final int i) {
-        System.out.print(i + ": ");
+    /**
+     * Get UTF-8 representation of proof line.
+     *
+     * @param   lines       Proof line formulas.
+     * @param   reasons     Proof line reasons.
+     * @param   i           Proof line to print.
+     * @return  UTF-8 display text for proof line.
+     */
+    public static String getUtf8Line(final List lines, final List reasons, final int i) {
+        final StringBuffer result = new StringBuffer();
+        result.append(i + ": ");
         Reason reason = (Reason) reasons.get(i);
         Element formula = (Element) lines.get(i);
-        FormulaUtility.print(formula);
-        System.out.print("  : ");
+        result.append(FormulaUtility.getUtf8(formula));
+        result.append("  : ");
         if (reason instanceof SubstPred) {
             SubstPred s = (SubstPred) reason;
-            System.out.print("Subst " + s.getReference() + " ");
-            FormulaUtility.print(s.getPredicateVariable());
-            System.out.print(" by ");
-            FormulaUtility.print(s.getSubstituteFormula());
+            result.append("Subst " + s.getReference() + " ");
+            result.append(FormulaUtility.getUtf8(s.getPredicateVariable()));
+            result.append(" by ");
+            result.append(FormulaUtility.getUtf8(s.getSubstituteFormula()));
         } else {
-            System.out.print(reason);
+            result.append(reason);
         }
-        System.out.println();
+        return result.toString();
+    }
+
+    /**
+     * Print UTF-8 representation of proof line to <code>System.out</code>.
+     *
+     * @param   lines       Proof line formulas.
+     * @param   reasons     Proof line reasons.
+     * @param   i           Proof line to print.
+     */
+    public static void printUtf8Line(final List lines, final List reasons, final int i) {
+        System.out.println(getUtf8Line(lines, reasons, i));
     }
 
 }

@@ -99,7 +99,7 @@ public class ProofFinderImpl implements ProofFinder {
         // add one extra predicate variable
         allPredVars.add(FormulaUtility.createPredicateVariable(max));
         for (int i = 0; i < lines.size(); i++) {
-            ProofFinderUtility.printLine(lines, reasons, i);
+            ProofFinderUtility.printUtf8Line(lines, reasons, i);
         }
         System.out.println("Goal: ");
         FormulaUtility.println(formula);
@@ -235,10 +235,15 @@ public class ProofFinderImpl implements ProofFinder {
                 throw new ProofFoundException();
             }
             if ((lines.size() - 1) % 1000 == 0) {
-                ProofFinderUtility.printLine(lines, reasons, lines.size() - 1);
+                ProofFinderUtility.printUtf8Line(lines, reasons, lines.size() - 1);
             }
         }
     }
+
+    public String getExecutionActionDescription() {
+        return ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1);
+    }
+
 
     /**
      * Indicates we fond a proof.

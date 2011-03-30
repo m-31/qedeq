@@ -100,7 +100,7 @@ public class MultiProofFinderImpl implements MultiProofFinder {
 //            allPredVars.add(FormulaUtility.createPredicateVariable("F"));
         }
         for (int i = 0; i < lines.size(); i++) {
-            ProofFinderUtility.printLine(lines, reasons, i);
+            ProofFinderUtility.printUtf8Line(lines, reasons, i);
         }
         int i = 0;
         while (lines.size() < Integer.MAX_VALUE - 1000) {
@@ -238,8 +238,7 @@ public class MultiProofFinderImpl implements MultiProofFinder {
                 }
             }
             if ((lines.size() - 1) % 1000 == 0) {
-                System.out.print(substCall + " : ");
-                ProofFinderUtility.printLine(lines, reasons, lines.size() - 1);
+                ProofFinderUtility.printUtf8Line(lines, reasons, lines.size() - 1);
             }
         }
     }
