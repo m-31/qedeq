@@ -254,26 +254,6 @@
             </FORMULA>
           </THEOREM>
         </NODE>
-        <NODE id="proposition:four" level="formal">
-          <THEOREM>
-            <FORMULA>
-              <IMPL>
-                <FORALL>
-                  <VAR id="x"/>
-                  <PREDVAR id="\phi">
-                    <VAR id="x"/>
-                  </PREDVAR>
-                </FORALL>
-                <EXISTS>
-                  <VAR id="x"/>
-                  <PREDVAR id="\phi">
-                    <VAR id="x"/>
-                  </PREDVAR>
-                </EXISTS>
-              </IMPL>
-            </FORMULA>
-          </THEOREM>
-        </NODE>
       </SUBSECTIONS>
     </SECTION>
   </CHAPTER>
