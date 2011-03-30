@@ -237,14 +237,14 @@ public class ProofCheckerImpl implements ProofChecker {
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
                 + rename.getReference(),
                 getCurrentContext());
-        } else if (!lineProved[n.intValue()]) {
-            ok = false;
-            setLocationWithinModule(context + ".getReference()");
-            handleProofCheckException(
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
-                + rename.getReference(),
-                getCurrentContext());
+//        } else if (!lineProved[n.intValue()]) {
+//            ok = false;
+//            setLocationWithinModule(context + ".getReference()");
+//            handleProofCheckException(
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+//                + rename.getReference(),
+//                getCurrentContext());
         } else {
             final Element f = getNormalizedProofLine(n);
             final Element expected = FormulaUtility.replaceSubjectVariableQuantifier(
@@ -279,14 +279,14 @@ public class ProofCheckerImpl implements ProofChecker {
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
                 + substfree.getReference(),
                 getCurrentContext());
-        } else if (!lineProved[n.intValue()]) {
-            ok = false;
-            setLocationWithinModule(context + ".getReference()");
-            handleProofCheckException(
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
-                + substfree.getReference(),
-                getCurrentContext());
+//        } else if (!lineProved[n.intValue()]) {
+//            ok = false;
+//            setLocationWithinModule(context + ".getReference()");
+//            handleProofCheckException(
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+//                + substfree.getReference(),
+//                getCurrentContext());
         } else {
             final Element f = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
@@ -317,14 +317,14 @@ public class ProofCheckerImpl implements ProofChecker {
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
                 + substpred.getReference(),
                 getCurrentContext());
-        } else if (!lineProved[n.intValue()]) {
-            ok = false;
-            setLocationWithinModule(context + ".getReference()");
-            handleProofCheckException(
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
-                + substpred.getReference(),
-                getCurrentContext());
+//        } else if (!lineProved[n.intValue()]) {
+//            ok = false;
+//            setLocationWithinModule(context + ".getReference()");
+//            handleProofCheckException(
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+//                + substpred.getReference(),
+//                getCurrentContext());
         } else {
             final Element alpha = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
@@ -414,14 +414,14 @@ public class ProofCheckerImpl implements ProofChecker {
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
                 + substfunc.getReference(),
                 getCurrentContext());
-        } else if (!lineProved[n.intValue()]) {
-            ok = false;
-            setLocationWithinModule(context + ".getReference()");
-            handleProofCheckException(
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
-                + substfunc.getReference(),
-                getCurrentContext());
+//        } else if (!lineProved[n.intValue()]) {
+//            ok = false;
+//            setLocationWithinModule(context + ".getReference()");
+//            handleProofCheckException(
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+//                + substfunc.getReference(),
+//                getCurrentContext());
         } else {
             final Element alpha = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
@@ -511,14 +511,14 @@ public class ProofCheckerImpl implements ProofChecker {
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
                 + mp.getReference1(),
                 getCurrentContext());
-        } else if (!lineProved[n1.intValue()]) {
-            ok = false;
-            setLocationWithinModule(context + ".getReference1()");
-            handleProofCheckException(
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
-                + mp.getReference1(),
-                getCurrentContext());
+//        } else if (!lineProved[n1.intValue()]) {
+//            ok = false;
+//            setLocationWithinModule(context + ".getReference1()");
+//            handleProofCheckException(
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+//                + mp.getReference1(),
+//                getCurrentContext());
         }
         final Integer n2 = (Integer) label2line.get(mp.getReference2());
         if (n2 == null) {
@@ -529,14 +529,14 @@ public class ProofCheckerImpl implements ProofChecker {
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
                 + mp.getReference2(),
                 getCurrentContext());
-        } else if (!lineProved[n2.intValue()]) {
-            ok = false;
-            setLocationWithinModule(context + ".getReference2()");
-            handleProofCheckException(
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
-                + mp.getReference1(),
-                getCurrentContext());
+//        } else if (!lineProved[n2.intValue()]) {
+//            ok = false;
+//            setLocationWithinModule(context + ".getReference2()");
+//            handleProofCheckException(
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+//                + mp.getReference1(),
+//                getCurrentContext());
         }
         if (ok) {
             final Element f1 = getNormalizedProofLine(n1);
@@ -587,14 +587,14 @@ public class ProofCheckerImpl implements ProofChecker {
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
                 + universal.getReference(),
                 getCurrentContext());
-        } else if (!lineProved[n.intValue()]) {
-            ok = false;
-            setLocationWithinModule(context + ".getReference()");
-            handleProofCheckException(
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
-                + universal.getReference(),
-                getCurrentContext());
+//        } else if (!lineProved[n.intValue()]) {
+//            ok = false;
+//            setLocationWithinModule(context + ".getReference()");
+//            handleProofCheckException(
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+//                + universal.getReference(),
+//                getCurrentContext());
         } else {
             final Element f = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
@@ -639,14 +639,14 @@ public class ProofCheckerImpl implements ProofChecker {
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
                 + existential.getReference(),
                 getCurrentContext());
-        } else if (!lineProved[n.intValue()]) {
-            ok = false;
-            setLocationWithinModule(context + ".getReference()");
-            handleProofCheckException(
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
-                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
-                + existential.getReference(),
-                getCurrentContext());
+//        } else if (!lineProved[n.intValue()]) {
+//            ok = false;
+//            setLocationWithinModule(context + ".getReference()");
+//            handleProofCheckException(
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_CODE,
+//                BasicProofErrors.THIS_IS_NO_REFERENCE_TO_A_PROVED_FORMULA_TEXT
+//                + existential.getReference(),
+//                getCurrentContext());
         } else {
             final Element f = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
