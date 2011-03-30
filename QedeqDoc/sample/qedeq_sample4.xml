@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<QEDEQ
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_02/xml/qedeq.xsd">
+  <HEADER email="mime@qedeq.org">
+    <SPECIFICATION name="qedeq_sample4" ruleVersion="1.00.00">
+      <LOCATIONS>
+        <LOCATION value="http://www.qedeq.org/0_04_02/sample" />
+      </LOCATIONS>
+    </SPECIFICATION>
+    <TITLE>
+      <LATEX language="en">
+        <![CDATA[
+          Search for simple formal proofs.
+        ]]>
+      </LATEX>
+    </TITLE>
+    <ABSTRACT>
+      <LATEX language="en">
+        <![CDATA[
+          Here we have some propositional calculus axioms and some propositions. Initially these propositions have no formal proofs. By using our proof finder we get such formal proofs.
+        ]]>
+      </LATEX>
+    </ABSTRACT>
+    <AUTHORS>
+      <AUTHOR email="michael@meyling.com">
+        <NAME>
+          <LATEX language="en">
+            <![CDATA[
+              Michael Meyling
+            ]]>
+          </LATEX>
+        </NAME>
+      </AUTHOR>
+    </AUTHORS>
+  </HEADER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">
+        <![CDATA[
+          First
+        ]]>
+      </LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        <![CDATA[
+          After presenting some axioms we present some propositions.
+        ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+          <![CDATA[
+            Axioms
+          ]]>
+        </LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            Here we state our axioms.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE id="axiom:disjunction_idempotence">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of disjunction idempotence
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Disjunction Idempotence
+              ]]>
+            </LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <OR>
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="A"/>
+                </OR>
+                <PREDVAR id="A"/>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+        <NODE id="axiom:disjunction_weakening">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of weakening
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Axiom of Weakening
+              ]]>
+            </LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <PREDVAR id="A"/>
+                <OR>
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
+                </OR>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+        <NODE id="axiom:disjunction_commutative">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                commutativity of the disjunction
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Commutativity of the Disjunction
+              ]]>
+            </LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <OR>
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
+                </OR>
+                <OR>
+                  <PREDVAR id="B"/>
+                  <PREDVAR id="A"/>
+                </OR>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+        <NODE id="axiom:disjunction_addition">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of disjunctive addition
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Disjunctive Addition
+              ]]>
+            </LATEX>
+          </TITLE>
+          <AXIOM>
+            <FORMULA>
+              <IMPL>
+                <IMPL>
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
+                </IMPL>
+                <IMPL>
+                  <IMPL>
+                    <PREDVAR id="C"/>
+                    <PREDVAR id="A"/>
+                  </IMPL>
+                  <IMPL>
+                    <PREDVAR id="C"/>
+                    <PREDVAR id="B"/>
+                  </IMPL>
+                </IMPL>
+              </IMPL>
+            </FORMULA>
+          </AXIOM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+          <![CDATA[
+            One
+          ]]>
+        </LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            Here we start.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE id="proposition:one" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <PREDVAR id="A"/>
+                <PREDVAR id="A"/>
+              </IMPL>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:two" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <PREDVAR id="A"/>
+                <OR>
+                  <PREDVAR id="B"/>
+                  <PREDVAR id="A"/>
+                </OR>
+              </IMPL>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:three" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <OR>
+                  <OR>
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="B"/>
+                  </OR>
+                  <OR>
+                    <PREDVAR id="C"/>
+                    <PREDVAR id="D"/>
+                  </OR>
+                </OR>
+                <OR>
+                  <OR>
+                    <PREDVAR id="C"/>
+                    <PREDVAR id="D"/>
+                  </OR>
+                  <OR>
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="B"/>
+                  </OR>
+                </OR>
+              </IMPL>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:four" level="formal">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <FORALL>
+                  <VAR id="x"/>
+                  <PREDVAR id="\phi">
+                    <VAR id="x"/>
+                  </PREDVAR>
+                </FORALL>
+                <EXISTS>
+                  <VAR id="x"/>
+                  <PREDVAR id="\phi">
+                    <VAR id="x"/>
+                  </PREDVAR>
+                </EXISTS>
+              </IMPL>
+            </FORMULA>
+          </THEOREM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+  </CHAPTER>
+</QEDEQ>
