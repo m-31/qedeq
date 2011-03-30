@@ -39,5 +39,11 @@ public interface ProofFinder {
     public FormalProofLineList findProof(Element formula, FormalProofLineList proof,
             ModuleContext context) throws InterruptException;
 
+    /**
+     * Get a description which action is currently taken.
+     *
+     * @return  Description.
+     */
+    public String getExecutionActionDescription();
 
 }
