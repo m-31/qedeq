@@ -24,9 +24,9 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
-import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
@@ -197,7 +197,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(context);
         prop.setQedeqFileDao(loader);
-        IoUtility.setFieldContent(prop, "qedeq", qedeq);
+        YodaUtility.setFieldContent(prop, "qedeq", qedeq);
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
         creator.createLabels();
