@@ -77,24 +77,26 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testPluginFast() throws Exception {
-        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
-            "sample/qedeq_sample3.xml"));
-        getServices().checkModule(address);
-        final QedeqBo bo = getServices().getQedeqBo(address);
-        assertTrue(bo.isChecked());
-        assertEquals(0, bo.getWarnings().size());
-        assertEquals(0, bo.getErrors().size());
-        KernelQedeqBo qedeq = (KernelQedeqBo) bo;
-        removeNodeType(qedeq, "axiom:universalInstantiation");
-        removeNodeType(qedeq, "axiom:existencialGeneralization");
-        removeFormalProof(qedeq, "proposition:one");
-        removeFormalProof(qedeq, "proposition:two");
-        addDummyFormalProof(qedeq, "proposition:three");
-        final Map parameters = new HashMap();
-        parameters.put("noSave", "true");
-        getServices().executePlugin(SimpleProofFinderPlugin.class.getName(),
-            address, parameters);
+    public void testPlugin2() throws Exception {
+        if (slow()) {
+            final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+                "sample/qedeq_sample3.xml"));
+            getServices().checkModule(address);
+            final QedeqBo bo = getServices().getQedeqBo(address);
+            assertTrue(bo.isChecked());
+            assertEquals(0, bo.getWarnings().size());
+            assertEquals(0, bo.getErrors().size());
+            KernelQedeqBo qedeq = (KernelQedeqBo) bo;
+            removeNodeType(qedeq, "axiom:universalInstantiation");
+            removeNodeType(qedeq, "axiom:existencialGeneralization");
+            removeFormalProof(qedeq, "proposition:one");
+            removeFormalProof(qedeq, "proposition:two");
+            addDummyFormalProof(qedeq, "proposition:three");
+            final Map parameters = new HashMap();
+            parameters.put("noSave", "true");
+            getServices().executePlugin(SimpleProofFinderPlugin.class.getName(),
+                address, parameters);
+        }
     }
 
     /**
@@ -102,7 +104,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
      *
      * @throws Exception
      */
-    public void testPluginFast2() throws Exception {
+    public void testPluginFast() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "sample/qedeq_sample3.xml"));
         getServices().checkModule(address);
