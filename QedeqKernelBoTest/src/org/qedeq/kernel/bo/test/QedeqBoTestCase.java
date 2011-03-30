@@ -19,7 +19,9 @@ import java.io.File;
 import java.io.IOException;
 
 import org.qedeq.base.test.QedeqTestCase;
-import org.qedeq.kernel.bo.common.KernelServices;
+import org.qedeq.base.utility.YodaUtility;
+import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
 
 /**
  * Test generating LaTeX files for all known samples.
@@ -83,8 +85,14 @@ public abstract class QedeqBoTestCase extends QedeqTestCase {
         return new File(getDocDir(), fileName);
     }
 
-    public KernelServices getServices() {
-        return KernelFacade.getKernelContext();
+    public InternalKernelServices getServices() {
+        final KernelContext c = KernelFacade.getKernelContext();
+        try {
+            return (InternalKernelServices) YodaUtility.getFieldValue(c, "services");
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
     }
 
 }
