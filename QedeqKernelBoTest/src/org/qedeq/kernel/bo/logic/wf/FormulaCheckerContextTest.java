@@ -192,10 +192,8 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         SaxParser parser = new SaxParser(DummyPlugin.getInstance(), handler);
         parser.parse(xmlFile, xmlFile.getPath());
         final QedeqVo qedeq = (QedeqVo) simple.getQedeq();
-        final InternalKernelServices services = (InternalKernelServices) IoUtility
-            .getFieldContent(getServices(), "services");
         final QedeqFileDao loader = new XmlQedeqFileDao();
-        loader.setServices(services);
+        loader.setServices(getServices());
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(context);
         prop.setQedeqFileDao(loader);
