@@ -433,79 +433,37 @@ public final class KernelContext implements KernelProperties, KernelServices {
         return build;
     }
 
-    /**
-     * Get build information.
-     *
-     * @return  Implementation-version.
-     */
     public String getBuildId() {
         return getBuildIdFromManifest();
     }
 
-    /**
-     * Get version of this kernel.
-     *
-     * @return  Kernel version.
-     */
     public final String getKernelVersion() {
         return KERNEL_VERSION;
     }
 
-    /**
-     * Get code name of this kernel.
-     *
-     * @return  Kernel code name.
-     */
     public final String getKernelCodeName() {
         return KERNEL_CODE_NAME;
     }
 
-    /**
-     * Get relative version directory of this kernel.
-     *
-     * @return  Version sub directory.
-     */
     public final String getKernelVersionDirectory() {
         return KERNEL_VERSION_DIRECTORY;
     }
 
-    /**
-     * Get descriptive version information of this kernel.
-     *
-     * @return  Version Information.
-     */
     public final String getDescriptiveKernelVersion() {
         return DESCRIPTIVE_KERNEL_VERSION;
     }
 
-    /**
-     * Get dedication for this kernel.
-     *
-     * @return  Kernel code dedication.
-     */
     public final String getDedication() {
         return KERNEL_DEDICATED;
     }
 
-    /**
-     * Get maximal supported rule version of this kernel.
-     *
-     * @return  Maximal supported rule version.
-     */
     public final String getMaximalRuleVersion() {
         return MAXIMAL_RULE_VERSION;
     }
 
-    /**
-     * Is a given rule version supported?
-     *
-     * @param   ruleVersion Check this one.
-     * @return  Is the given rule version supported?
-     */
     public final boolean isRuleVersionSupported(final String ruleVersion) {
         return MAXIMAL_RULE_VERSION.equals(ruleVersion);
     }
-
 
     /**
      * This class ist just for solving the lazy loading problem thread save.
@@ -537,23 +495,10 @@ public final class KernelContext implements KernelProperties, KernelServices {
 
     }
 
-
-    /**
-     * Does {@link java.net.URLConnection} support the method <code>setConnectionTimeOut</code>
-     * in the currently running JVM. This should be true since version 1.5 but false for 1.4.2.
-     *
-     * @return Method is supported?
-     */
     public boolean isSetConnectionTimeOutSupported() {
         return LazyHolderTimeoutMethods.IS_SET_CONNECTION_TIMEOUT_SUPPORTED;
     }
 
-    /**
-     * Does {@link java.net.URLConnection} support the method <code>setReadTimeOut</code>
-     * in the currently running JVM. This should be true since version 1.5 but false for 1.4.2.
-     *
-     * @return Method is supported?
-     */
     public boolean isSetReadTimeoutSupported() {
         return LazyHolderTimeoutMethods.IS_SET_READ_TIMEOUT_SUSPPORTED;
     }

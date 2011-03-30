@@ -39,4 +39,71 @@ public interface KernelProperties {
      */
     public QedeqConfig getConfig();
 
+
+    /**
+     * Get build information.
+     *
+     * @return  Implementation-version.
+     */
+    public String getBuildId();
+
+    /**
+     * Get version of this kernel.
+     *
+     * @return  Kernel version.
+     */
+    public String getKernelVersion();
+
+    /**
+     * Get code name of this kernel.
+     *
+     * @return  Kernel code name.
+     */
+    public String getKernelCodeName();
+
+    /**
+     * Get descriptive version information of this kernel.
+     *
+     * @return  Version Information.
+     */
+    public String getDescriptiveKernelVersion();
+
+    /**
+     * Get dedication for this kernel.
+     *
+     * @return  Kernel code dedication.
+     */
+    public String getDedication();
+
+    /**
+     * Get maximal supported rule version of this kernel.
+     *
+     * @return  Maximal supported rule version.
+     */
+    public String getMaximalRuleVersion();
+
+    /**
+     * Is a given rule version supported?
+     *
+     * @param   ruleVersion Check this one.
+     * @return  Is the given rule version supported?
+     */
+    public boolean isRuleVersionSupported(String ruleVersion);
+
+    /**
+     * Does {@link java.net.URLConnection} support the method <code>setConnectionTimeOut</code>
+     * in the currently running JVM. This should be true since version 1.5 but false for 1.4.2.
+     *
+     * @return Method is supported?
+     */
+    public boolean isSetConnectionTimeOutSupported();
+
+    /**
+     * Does {@link java.net.URLConnection} support the method <code>setReadTimeOut</code>
+     * in the currently running JVM. This should be true since version 1.5 but false for 1.4.2.
+     *
+     * @return Method is supported?
+     */
+    public boolean isSetReadTimeoutSupported();
+
 }

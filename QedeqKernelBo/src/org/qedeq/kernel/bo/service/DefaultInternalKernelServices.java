@@ -67,6 +67,7 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.config.QedeqConfig;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
 
 
@@ -1084,6 +1085,50 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
     public String getPluginDescription() {
         return "provides basic services for loading QEDEQ modules";
+    }
+
+    public QedeqConfig getConfig() {
+        return kernel.getConfig();
+    }
+
+    public String getKernelVersionDirectory() {
+        return kernel.getKernelVersionDirectory();
+    }
+
+    public String getBuildId() {
+        return kernel.getBuildId();
+    }
+
+    public String getDedication() {
+        return kernel.getDedication();
+    }
+
+    public String getDescriptiveKernelVersion() {
+        return kernel.getDescriptiveKernelVersion();
+    }
+
+    public String getKernelCodeName() {
+        return kernel.getKernelCodeName();
+    }
+
+    public String getKernelVersion() {
+        return kernel.getKernelVersion();
+    }
+
+    public String getMaximalRuleVersion() {
+        return kernel.getMaximalRuleVersion();
+    }
+
+    public boolean isRuleVersionSupported(final String ruleVersion) {
+        return kernel.isRuleVersionSupported(ruleVersion);
+    }
+
+    public boolean isSetConnectionTimeOutSupported() {
+        return kernel.isSetConnectionTimeOutSupported();
+    }
+
+    public boolean isSetReadTimeoutSupported() {
+        return kernel.isSetReadTimeoutSupported();
     }
 
 }

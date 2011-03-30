@@ -30,7 +30,6 @@ import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.module.ControlVisitor;
@@ -239,7 +238,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         }
         // the destination is the configured destination directory plus the (relative)
         // localized file (or path) name
-        File destination = new File(KernelContext.getInstance().getConfig()
+        File destination = new File(getServices().getConfig()
             .getGenerationDirectory(), tex + ".tex").getCanonicalFile();
 
         init();
