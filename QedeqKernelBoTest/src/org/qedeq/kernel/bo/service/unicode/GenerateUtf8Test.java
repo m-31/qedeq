@@ -146,12 +146,10 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         }
 
         final String web = "http://www.qedeq.org/"
-            + ((KernelProperties) getServices()).getKernelVersionDirectory() + "/doc/" + xml;
-        final InternalKernelServices services = (InternalKernelServices) IoUtility.getFieldContent(
-            getServices(), "services");
+            + getServices().getKernelVersionDirectory() + "/doc/" + xml;
         final ModuleAddress webAddress = new DefaultModuleAddress(web);
-        services.getLocalFilePath(webAddress);
-        IoUtility.copyFile(xmlFile, services.getLocalFilePath(webAddress));
+        getServices().getLocalFilePath(webAddress);
+        IoUtility.copyFile(xmlFile, getServices().getLocalFilePath(webAddress));
 
         getServices().checkModule(webAddress);
         final QedeqBo webBo = getServices().getQedeqBo(webAddress);
