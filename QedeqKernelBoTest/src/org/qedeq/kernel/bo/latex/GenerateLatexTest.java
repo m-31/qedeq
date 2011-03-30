@@ -23,10 +23,8 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
-import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexExecutor;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
@@ -355,12 +353,10 @@ public class GenerateLatexTest extends QedeqBoTestCase {
         }
 
         final String web = "http://www.qedeq.org/"
-            + ((KernelProperties) getServices()).getKernelVersionDirectory() + "/doc/" + xml;
-        final InternalKernelServices services = (InternalKernelServices) IoUtility.getFieldContent(
-            getServices(), "services");
+            + getServices().getKernelVersionDirectory() + "/doc/" + xml;
         final ModuleAddress webAddress = new DefaultModuleAddress(web);
-        services.getLocalFilePath(webAddress);
-        IoUtility.copyFile(xmlFile, services.getLocalFilePath(webAddress));
+        getServices().getLocalFilePath(webAddress);
+        IoUtility.copyFile(xmlFile, getServices().getLocalFilePath(webAddress));
 
         getServices().checkModule(webAddress);
         final QedeqBo webBo = getServices().getQedeqBo(webAddress);
