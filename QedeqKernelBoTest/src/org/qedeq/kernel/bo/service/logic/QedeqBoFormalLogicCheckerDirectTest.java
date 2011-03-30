@@ -22,6 +22,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
@@ -150,7 +151,7 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
      */
     public void check(final File xmlFile) throws IOException,
             ParserConfigurationException, SAXException, ModuleDataException,
-            SourceFileExceptionList {
+            SourceFileExceptionList, NoSuchFieldException {
         final ModuleAddress context = getServices().getModuleAddress(
             IoUtility.toUrl(xmlFile.getAbsoluteFile()));
         SaxDefaultHandler handler = new SaxDefaultHandler(new DummyPlugin());
@@ -159,14 +160,13 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
         SaxParser parser = new SaxParser(DummyPlugin.getInstance(), handler);
         parser.parse(xmlFile, xmlFile.getPath());
         final QedeqVo qedeq = (QedeqVo) simple.getQedeq();
-        final InternalKernelServices services = (InternalKernelServices) IoUtility
-            .getFieldContent(getServices(), "services");
+        final InternalKernelServices services = getServices();
         final QedeqFileDao loader = new XmlQedeqFileDao();
         loader.setServices(services);
         final DefaultKernelQedeqBo prop = (DefaultKernelQedeqBo) KernelFacade
             .getKernelContext().getQedeqBo(context);
         prop.setQedeqFileDao(loader);
-        IoUtility.setFieldContent(prop, "qedeq", qedeq);
+        YodaUtility.setFieldContent(prop, "qedeq", qedeq);
         final ModuleLabelsCreator creator = new ModuleLabelsCreator(DummyPlugin.getInstance(),
             prop);
         creator.createLabels();
