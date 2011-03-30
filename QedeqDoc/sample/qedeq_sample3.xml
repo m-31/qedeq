@@ -45,7 +45,7 @@
     <INTRODUCTION>
       <LATEX language="en">
         <![CDATA[
-          After presenting some axioms we show some formal proofs.
+          After presenting some axioms we show some formal proofs. These axioms are not sufficient to develop the common predicate calculus but we will use them to demonstrate all basic proof methods.
         ]]>
       </LATEX>
     </INTRODUCTION>
