@@ -21,7 +21,6 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
@@ -133,14 +132,14 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         }
         QedeqLog.getInstance().logRequest(
                 "Check logical well formedness for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
-        KernelContext.getInstance().loadModule(getQedeqBo().getModuleAddress());
+        getServices().loadModule(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().isLoaded()) {
             final String msg = "Check of logical correctness failed for \"" + getQedeqBo().getUrl()
             + "\"";
             QedeqLog.getInstance().logFailureReply(msg, "Module could not even be loaded.");
             return Boolean.FALSE;
         }
-        KernelContext.getInstance().loadRequiredModules(getQedeqBo().getModuleAddress());
+        getServices().loadRequiredModules(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().hasLoadedRequiredModules()) {
             final String msg = "Check of logical well formedness failed for \""
                 + IoUtility.easyUrl(getQedeqBo().getUrl())

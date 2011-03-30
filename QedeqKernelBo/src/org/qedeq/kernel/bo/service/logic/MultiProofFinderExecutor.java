@@ -21,8 +21,6 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.base.utility.YodaUtility;
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
@@ -30,7 +28,6 @@ import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.ProofFinderFactory;
 import org.qedeq.kernel.bo.logic.common.ProofFoundListener;
 import org.qedeq.kernel.bo.module.ControlVisitor;
-import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
@@ -130,7 +127,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
     public Object executePlugin() {
         QedeqLog.getInstance().logRequest(
                 "Try to create formal proofs for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
-        KernelContext.getInstance().checkModule(getQedeqBo().getModuleAddress());
+        getServices().checkModule(getQedeqBo().getModuleAddress());
         boolean result = false;
         try {
             validFormulas = new FormalProofLineListVo();
@@ -284,14 +281,10 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
         }
         // TODO 20110323 m31: we do a dirty cast to modify the current module
         ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
-        Object obj;
         try {
-            obj = YodaUtility.getFieldValue(KernelContext.getInstance(), "services");
-            System.out.println(obj.getClass());
-            InternalKernelServices services = (InternalKernelServices) obj;
-            QedeqFileDao dao = services.getQedeqFileDao();
+            QedeqFileDao dao = getServices().getQedeqFileDao();
             dao.saveQedeq(getQedeqBo(),
-                services.getLocalFilePath(getQedeqBo().getModuleAddress()));
+                getServices().getLocalFilePath(getQedeqBo().getModuleAddress()));
         } catch (Exception e) {
             // TODO Auto-generated catch block
             e.printStackTrace();

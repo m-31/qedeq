@@ -23,11 +23,11 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
+import org.qedeq.kernel.bo.logic.common.ProofFinder;
 import org.qedeq.kernel.bo.logic.common.ProofFinderFactory;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
-import org.qedeq.kernel.bo.module.Reference;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -61,7 +61,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
     /** Factory for generating new checkers. */
     private ProofFinderFactory finderFactory = null;
 
-    /** Parameters for checker. */
+    /** Parameters for finder. */
     private Map parameters;
 
     /** List of axioms, definitions and propositions. */
@@ -69,6 +69,8 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
 
     /** Save changed modules directly? */
     private boolean noSave;
+
+    private ProofFinder finder;
 
     /**
      * Constructor.
@@ -114,10 +116,6 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         noSave = "true".equalsIgnoreCase(noSaveString);
     }
 
-    private Map getParameters() {
-        return parameters;
-    }
-
     public Object executePlugin() {
         getServices().checkModule(getQedeqBo().getModuleAddress());
         QedeqLog.getInstance().logRequest(
@@ -126,16 +124,16 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         try {
             validFormulas = new FormalProofLineListVo();
             traverse();
+            QedeqLog.getInstance().logSuccessfulReply(
+                "Proof creation finished for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         } catch (SourceFileExceptionList e) {
-            final String msg = "Proof creation not fully successful for \""
+            final String msg = "Proof creation not (fully?) successful for \""
                 + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
             QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
             return Boolean.FALSE;
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
-        QedeqLog.getInstance().logSuccessfulReply(
-            "Proof creation finished for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         return Boolean.TRUE;
     }
 
@@ -204,10 +202,16 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        // we try creating
         if (proposition.getFormalProofList() == null) {
-            final FormalProofLineList proof = finderFactory.createProofFinder().findProof(
-                proposition.getFormula().getElement(), validFormulas, getCurrentContext());
+            final FormalProofLineList proof;
+            // we try finding a proof
+            try {
+                finder = finderFactory.createProofFinder();
+                proof = finder.findProof(proposition.getFormula().getElement(), validFormulas,
+                    getCurrentContext());
+            } finally {
+                finder = null;  // so we always new if we are currently searching
+            }
             // TODO 20110323 m31: we do a dirty cast to modify the current module
             ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
             if (proof != null && !noSave) {
@@ -258,43 +262,12 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         getCurrentContext().setLocationWithinModule(locationWithinModule);
     }
 
-    public boolean hasProvedFormula(final String reference) {
-        final Reference ref = getReference(reference, getCurrentContext(), false, false);
-        if (ref == null) {
-            System.out.println("ref == null");
-            return false;
+    public String getExecutionActionDescription() {
+        final String s = super.getExecutionActionDescription();
+        if (finder == null) {
+            return s;
         }
-        if (ref.isExternalModuleReference()) {
-            System.out.println("ref is external module");
-            return false;
-        }
-        if (!ref.isNodeReference()) {
-            System.out.println("ref is no node reference");
-            return false;
-        }
-        if (null == ref.getNode()) {
-            System.out.println("ref node == null");
-            return false;
-        }
-        if (ref.isSubReference()) {
-            return false;
-        }
-        if (!ref.isProofLineReference()) {
-            if (!ref.getNode().isProved()) {
-                System.out.println("ref node is not marked as proved: " + reference);
-            }
-            if (!ref.getNode().isProved()) {
-                return false;
-            }
-            if (!ref.getNode().hasFormula()) {
-                System.out.println("node has no formula: " + reference);
-                return false;
-            }
-            return ref.getNode().isProved();
-        } else {
-            System.out.println("proof line references are not ok!");
-            return false;
-        }
+        return s + " " + finder.getExecutionActionDescription();
     }
 
 }

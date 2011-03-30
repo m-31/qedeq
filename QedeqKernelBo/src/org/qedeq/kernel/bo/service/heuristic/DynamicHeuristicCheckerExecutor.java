@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.model.DynamicDirectInterpreter;
@@ -109,7 +108,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             QedeqLog.getInstance().logRequest("Dynamic heuristic test for " + ref);
             // first we try to get more information about required modules and their predicates..
             try {
-                KernelContext.getInstance().checkModule(getQedeqBo().getModuleAddress());
+                getServices().checkModule(getQedeqBo().getModuleAddress());
             } catch (Exception e) {
                 // we continue and ignore external predicates
                 Trace.trace(CLASS, method, e);

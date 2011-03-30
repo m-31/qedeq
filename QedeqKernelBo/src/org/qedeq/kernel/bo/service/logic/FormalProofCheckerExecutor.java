@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofCheckerFactoryImpl;
@@ -121,7 +120,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
-        KernelContext.getInstance().checkModule(getQedeqBo().getModuleAddress());
+        getServices().checkModule(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().isChecked()) {
             final String msg = "Check of logical correctness failed for \"" + getQedeqBo().getUrl()
             + "\"";

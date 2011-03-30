@@ -143,8 +143,10 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
 
         // first we try to get more information about required modules and their predicates..
         try {
-            KernelContext.getInstance().loadRequiredModules(visitor.getQedeqBo().getModuleAddress());
-            KernelContext.getInstance().checkModule(visitor.getQedeqBo().getModuleAddress());
+            visitor.getQedeqBo().getKernelServices().loadRequiredModules(
+                visitor.getQedeqBo().getModuleAddress());
+            visitor.getQedeqBo().getKernelServices().checkModule(
+                visitor.getQedeqBo().getModuleAddress());
         } catch (Exception e) {
             // we continue and ignore external predicates
             Trace.trace(CLASS, "generateUtf8(KernelQedeqBo, String, String)", e);
