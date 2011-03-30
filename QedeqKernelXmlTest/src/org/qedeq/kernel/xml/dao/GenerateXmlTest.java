@@ -22,7 +22,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.qedeq.base.io.IoUtility;
-import org.qedeq.kernel.bo.test.DummyInternalKernalServices;
+import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.test.XmlNormalizer;
@@ -95,7 +95,7 @@ public final class GenerateXmlTest extends QedeqBoTestCase {
      * @param   normalize   Normalize before comparing?
      * @throws  IOException File IO failed.
      */
-    private static void generate(final File dir, final String xml,
+    private void generate(final File dir, final String xml,
             final File destinationDirectory, final boolean normalize)
             throws IOException, SourceFileExceptionList, SAXException {
         generate(new File(dir, xml), destinationDirectory, normalize);
@@ -109,11 +109,11 @@ public final class GenerateXmlTest extends QedeqBoTestCase {
      * @param   normalize               Normalize before comparing?
      * @throws  IOException             File IO failed.
      */
-    private static void generate(final File xmlFile, final File destinationDirectory, final boolean normalize)
+    private void generate(final File xmlFile, final File destinationDirectory, final boolean normalize)
             throws IOException, SourceFileExceptionList, SAXException {
         final File destination = new File(destinationDirectory, xmlFile.getName() + "_").getAbsoluteFile();
         System.out.println("generation of " + xmlFile + " to " + destination);
-        Xml2Xml.generate(new DummyInternalKernalServices(), xmlFile, destination);
+        Xml2Xml.generate((InternalKernelServices) getServices(), xmlFile, destination);
         if (!normalize) {
             assertEquals(true, IoUtility.compareTextFiles(xmlFile, destination, "UTF-8"));
 //        assertEquals(IoUtility.loadFile(xmlFile.getAbsolutePath(), "ISO-8859-1"), 

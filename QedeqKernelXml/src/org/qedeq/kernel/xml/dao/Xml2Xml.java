@@ -25,6 +25,7 @@ import java.util.Locale;
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.module.InternalKernelServices;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.ModuleAddress;
@@ -93,7 +94,7 @@ public final class Xml2Xml implements Plugin {
      * @throws  IOException                 Writing (or reading) failed.
      * @return  File name of generated LaTeX file.
      */
-    private static String generate(final InternalKernelServices services, final URL from, final File to)
+    private static String generate(final KernelServices services, final URL from, final File to)
             throws SourceFileExceptionList, IOException {
         final String method = "generate(URL, File)";
         Trace.begin(CLASS, method);
