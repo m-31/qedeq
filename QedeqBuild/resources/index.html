@@ -222,6 +222,22 @@
   Sample XML files can be found in the <a href="sample/">sample directory</a>. The main structure of an QEDEQ XML file looks like the LaTeX book format. There is a special kind of subsections called <code>node</code> that contain an axiom, definition or proposition. Each node is labeled and could be referenced by that label. Here is the <a href="xml/qedeq.xsd">XSD</a> and here it's <a href="xml/qedeq.html">documentation</a>. The root element is called <a href="xml/qedeq.html#element_QEDEQ">QEDEQ</a>.
   </p>
 
+  <p>
+  So what can we do? You can load existing QEDEQ modules from the local file system or via http. Files loaded from web are stored in a local buffer directory. Even after successfully buffering a QEDEQ module loading it might fail due to XML validation or elementary application errors. In such a case the tree icon changes its color to red. A successfully loaded module looks dark grey. Now we have various plugins to work on a loaded module.
+  </p>
+
+  <p>
+  </p>
+
+  <p>
+  Modules without errors are reloaded automatically when the application is restarted. This behavior can be changed in the <em>Tools / Preferences</em> menu.
+  </p>
+
+  <p>
+  We still provide no further tools to create new QEDEQ modules. You still have to copy an existing QEDEQ file and modify its content. A file modification that takes place after the module is already loaded is not recognized. You must <em>Remove</em> the module and then <em>Load local file</em>. If you modified an already buffered file you must do even more. The application takes the local buffered file when reloading such a file. The buffer location can be found under <em>Tools / Preferences</em>.
+You have clear the buffer via <em>File / Clear Buffer</em>.
+  </p>
+
 @QEDEQ_BUILD_DEV_BEGIN@
   <p>
   This release includes the <a href="src/">source code</a> and the <a href="http://www.junit.org/">JUnit</a> test classes. The code coverage results of these tests where produced by <a href="http://www.atlassian.com/software/clover/">clover&nbsp;<img style="vertical-align:middle" src="res/clover_logo.gif" width="30" height="29" border="0" alt="Clover Picture"/></a>.
