@@ -119,21 +119,48 @@
 
   <h2><a name="overview">Overview</a></h2>
   <p>
-  This is an unstable development release of <a href="http://www.qedeq.org/"><font color="#d97d49"><b>Hilbert&nbsp;II</b></font></a>. In the tradition of Hilbert's program the project creates a formal correct (checkable by a proof verifier) but readable (like an ordinary LaTeX textbook) mathematical knowledge base which is freely accessible within the internet. The project started with logic and set theory.
+  This is an unstable development release of <a href="http://www.qedeq.org/"><font color="#d97d49"><b>Hilbert&nbsp;II</b></font></a>. In the tradition of Hilbert's program the project creates a formal correct (checkable by a proof verifier) but readable (like an ordinary LaTeX textbook) mathematical knowledge base which is freely accessible within the internet. The mathematical axioms, definitions and propositions are combined to so called QEDEQ modules. Such a module could be seen as a mathematical textbook which includes formal correct proofs. The project started with logic and set theory.
   </p>
 
   <p>
-  This release contains a program suite that can produce LaTeX and UTF-8 files out of QEDEQ XML files. The QEDEQ files can be checked for syntactic correctness. In <a href="doc/project/qedeq_logic_language_en.pdf">Logical Language</a> more formal details are explained. For set theory we provide some small finite models. Checks for model validity are also available.
-  <br/>
-  Samples and a <a href="doc/math/qedeq_set_theory_v1_en.pdf">script with the beginning of axiomatic set theory</a> are included. All the formulas of axioms, definitions and propositions written are written in the formal language. See <a href="doc/math/qedeq_logic_v1_en.pdf">Elements of Mathematical Logic</a> for the logical background of this project. Currently all given proofs are non formal.
+  This release contains a program suite that can produce LaTeX and UTF-8 files out of QEDEQ XML files. The QEDEQ files can be checked for syntactic correctness. Simple formal proofs can also be validated. For set theory we provide some small finite models. Checks for model validity are also available. The following files were mostly generated out of QEDEQ modules and contain more information. (Some files are also available in German.) 
   </p>
 
-  <p>
-  You could read the <a href="doc/project/changes.txt">change history</a> to know the difference to the previous release.
-  </p>
+  <table width="90%" cellspacing="2" cellpadding="4">
+  <tr>
+  <td><code><a href="doc/math/qedeq_set_theory_v1_en.pdf">qedeq_set_theory_v1_en.pdf</a></code></td>
+  <td>Script with the beginning of axiomatic set theory; Currently all given proofs are non formal.</td>
+  </tr>
+  <tr>
+  <td><code><a href="doc/math/qedeq_logic_v1_en.pdf">qedeq_logic_v1_en.pdf</a></code></td>
+  <td>Logical background of this project. Contains main logical axioms, definitions, rules and propositions.</td>
+  </tr>
+  <tr>
+  <td><code><a href="doc/project/qedeq_logic_language_en.pdf">qedeq_logic_language_en.pdf</a></code></td>
+  <td>Explains more formal details.</td>
+  </tr>
+  <tr>
+  <td><code><a href="doc/project/qedeq_propositional_v1_en.pdf">qedeq_propositional_v1_en.pdf</a></code></td>
+  <td>Here are all propositional calculus axioms and propositions with formal proofs. The corresponding QEDEQ module was successfully checked with the application proof checker. Will be expanded.</td>
+  </tr>
+  <tr>
+  <td><code><a href="doc/project/changes.txt">changes.txt</a></code></td>
+  <td>Change history to know the difference to the previous release.
+  </td>
+  </tr>
+  <tr>
+  <td><code><a href="doc/project/changes.txt">changes.txt</a></code></td>
+  <td>Change history to know the difference to the previous release.
+  </td>
+  </tr>
+  <tr>
+  <td><code><a href="doc/project/qedeq_basic_concept_en.pdf">qedeq_basic_concept_en.pdf</a></code></td>
+  <td>QEDEQ basic concept for more project details.</td>a
+  </tr>
+  </table>
 
   <p>
-  A convenient way to start this application is via Java Web Start. Just click on: <a href="@QEDEQ_DIRECTORY@/webstart/qedeq.jnlp">START</a>. There should be a splash screen for Java Web Start, asking you to trust the signature. Although it will be not recommended you must trust the signature of <font color="#d97d49"><b>Hilbert&nbsp;II</b></font> to start the application. If you already started an older program version via Web Start you should remove the files in the <code>config</code> directory.
+  A convenient way to start this application is via Java Web Start. Just click on: <a href="@QEDEQ_DIRECTORY@/webstart/qedeq.jnlp">START</a>. There should be a splash screen for Java Web Start, asking you to trust the signature. Although it will be not recommended you must trust the signature of <font color="#d97d49"><b>Hilbert&nbsp;II</b></font> to start the application. If you already started an older program version via Web Start you should remove the files in the <code>config</code> directory. In this case must also empty the local buffer directory by selecting <em>File / Clear Buffer</em> in the menu.
   </p>
 
   <p>
