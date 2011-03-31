@@ -100,11 +100,15 @@
   <td>about this project</td>
   </tr>
   <tr>
+  <td><a href="#installation">Installing and Starting</a></td>
+  <td>preconditions and other stuff about starting the application</td>
+  </tr>
+  <tr>
   <td><a href="#sitemap">Release Contents</a></td>
   <td>detailed directory description of this release</td>
   </tr>
   <tr>
-  <td><a href="#installation">Further Installation</a></td>
+  <td><a href="#further_installation">Further Installation</a></td>
   <td>some more or less optional adjustments</td>
   </tr>
   <tr>
@@ -123,7 +127,7 @@
   </p>
 
   <p>
-  This release contains a program suite that can produce LaTeX and UTF-8 files out of QEDEQ XML files. The QEDEQ files can be checked for syntactic correctness. Simple formal proofs can also be validated. For set theory we provide some small finite models. Checks for model validity are also available. The following files were mostly generated out of QEDEQ modules and contain more information. (Some files are also available in German.) 
+  This release contains a program suite that can produce LaTeX and UTF-8 files out of QEDEQ XML files. The QEDEQ files can be checked for syntactic correctness. Simple formal proofs can also be validated. For set theory we provide some small finite models. Checks for model validity are also available. The following files were mostly generated out of QEDEQ modules and contain more information. (Some files are also available in German and not in our terribly, awfully bad English...) 
   </p>
 
   <table width="90%" cellspacing="2" cellpadding="4">
@@ -161,33 +165,6 @@
   A convenient way to start this application is via Java Web Start. Just click on: <a href="@QEDEQ_DIRECTORY@/webstart/qedeq.jnlp">START</a>. There should be a splash screen for Java Web Start, asking you to trust the signature. Although it will be not recommended you must trust the signature of <font color="#d97d49"><b>Hilbert&nbsp;II</b></font> to start the application. If you already started an older program version via Web Start you should remove the files in the <code>config</code> directory. In this case must also empty the local buffer directory by selecting <em>File / Clear Buffer</em> in the menu.
   </p>
 
-  <p>
-  Precondition is a Java Runtime Environment, at least version 1.4. From <a href="http://www.oracle.com/technetwork/java/javase/download-138376.html">Download Java 2 Platform</a> you could get the Java Runtime Environment  J2SE v 1.4.2 JRE. To work with the created LaTeX documents you need an appropriate LaTeX environment.
-  </p>
-
-  <p>
-  To start the application call:
-  </p>
-
-  <p>
-  <code>&nbsp;&nbsp;org.qedeq.gui.se.main.QedeqMainFrame</code>
-  </p>
-
-  <p>
-  The classpath must include the files in the <a href="lib/">lib directory</a>. A convenient to start the application is the script <code>qedeq_se</code> in the main directory. If you connect to the internet via a proxy server you should start the preferences dialog via the menu (Tools/Preferences). There you can enter the appropriate proxy parameters.
-
-  </p>
-
-  <p>
-  Sample XML files can be found in the <a href="sample/">sample directory</a>. The main structure of an QEDEQ XML file looks like the LaTeX book format. There is a special kind of subsections called <code>node</code> that contain an axiom, definition or proposition. Each node is labeled and could be referenced by that label. Here is the <a href="xml/qedeq.xsd">XSD</a> and here it's <a href="xml/qedeq.html">documentation</a>. The root element is called <a href="xml/qedeq.html#element_QEDEQ">QEDEQ</a>.
-  </p>
-
-@QEDEQ_BUILD_DEV_BEGIN@
-  <p>
-  This release includes the <a href="src/">source code</a> and the <a href="http://www.junit.org/">JUnit</a> test classes. The code coverage results of these tests where produced by <a href="http://www.atlassian.com/software/clover/">clover&nbsp;<img style="vertical-align:middle" src="res/clover_logo.gif" width="30" height="29" border="0" alt="Clover Picture"/></a>.
-  </p>
-@QEDEQ_BUILD_DEV_END@
-
   <h2><a name="goals"></a>Project Goals</h2>
   <p>
   The goal of <font color="#d97d49"><b>Hilbert&nbsp;II</b></font> is decentralized access to verified and readable mathematical knowledge.
@@ -219,6 +196,37 @@
   The logical language is described in <a href="doc/project/qedeq_logic_language_en.pdf">qedeq_logic_language_en.pdf</a> (in development).
   The mathematical logical propositions are noted in <a href="doc/math/qedeq_logic_v1_en.pdf">qedeq_logic_v1.pdf</a>.
   </p>
+
+  <h2><a name="installation">Installing and Starting</a></h2>
+  <p>
+  Precondition is a Java Runtime Environment, at least version 1.4. From <a href="http://www.oracle.com/technetwork/java/javase/download-138376.html">Download Java 2 Platform</a> you could get the Java Runtime Environment  J2SE v 1.4.2 JRE. To work with the created LaTeX documents you need an appropriate LaTeX environment.
+  </p>
+
+  <p>
+  A convenient to start the application is the script <a href="qedeq_se.bat"><code>qedeq_se.bat</code></a> or <a href="qedeq_se.sh"><code>qedeq_se.sh</code></a> in the main directory. If you connect to the internet via a proxy server you should start the preferences dialog via the menu <em>Tools / Preferences</em>. There you can enter the appropriate proxy parameters.
+  </p>
+
+  <p>
+  To start the application more manually call via java:
+  </p>
+
+  <p>
+  <code>&nbsp;&nbsp;org.qedeq.gui.se.main.QedeqMainFrame</code>
+  </p>
+
+  <p>
+  The classpath must include the files in the <a href="lib/">lib directory</a>..
+  </p>
+
+  <p>
+  Sample XML files can be found in the <a href="sample/">sample directory</a>. The main structure of an QEDEQ XML file looks like the LaTeX book format. There is a special kind of subsections called <code>node</code> that contain an axiom, definition or proposition. Each node is labeled and could be referenced by that label. Here is the <a href="xml/qedeq.xsd">XSD</a> and here it's <a href="xml/qedeq.html">documentation</a>. The root element is called <a href="xml/qedeq.html#element_QEDEQ">QEDEQ</a>.
+  </p>
+
+@QEDEQ_BUILD_DEV_BEGIN@
+  <p>
+  This release includes the <a href="src/">source code</a> and the <a href="http://www.junit.org/">JUnit</a> test classes. The code coverage results of these tests where produced by <a href="http://www.atlassian.com/software/clover/">clover&nbsp;<img style="vertical-align:middle" src="res/clover_logo.gif" width="30" height="29" border="0" alt="Clover Picture"/></a>.
+  </p>
+@QEDEQ_BUILD_DEV_END@
 
   <h2><a name="sitemap"></a>Release Contents</h2>
   This release has the following directory structure.
@@ -523,7 +531,7 @@
   </tr>
   </table>
 
-  <h2><a name="installation"></a>Further Installation</h2>
+  <h2><a name="further_installation"></a>Further Installation</h2>
   <p>
   Beside the steps mentioned in <a href="#overview">Overview</a> you should install a correction for the buggy LaTeX package <em>longtable</em>. One possibility is <a href="http://www.cs.rutgers.edu/~ccshan/longtable/">this patch</a> from <a href="http://www.cs.rutgers.edu/~ccshan/">Chung-chieh Shan</a>. It was used to produce the provided PDF files.
   </p>
