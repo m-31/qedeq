@@ -127,7 +127,7 @@
   </p>
 
   <p>
-  This release contains a program suite that can produce LaTeX and UTF-8 files out of QEDEQ XML files. The QEDEQ files can be checked for syntactic correctness. Simple formal proofs can also be validated. For set theory we provide some small finite models. Checks for model validity are also available. The following files were mostly generated out of QEDEQ modules and contain more information. (Some files are also available in German and not in our terribly, awfully bad English...) 
+  This release contains a program suite that can produce LaTeX and UTF-8 files out of QEDEQ XML files. The QEDEQ files can be checked for syntactic correctness. Simple formal proofs can also be validated. For set theory we provide some small finite models. Checks for model validity are also available. The following files were mostly generated out of QEDEQ modules and contain more information. Some files are also available in German and not in our terribly, awfully bad English... 
   </p>
 
   <table width="90%" cellspacing="2" cellpadding="4">
@@ -203,27 +203,25 @@
   </p>
 
   <p>
-  A convenient to start the application is the script <a href="qedeq_se.bat"><code>qedeq_se.bat</code></a> or <a href="qedeq_se.sh"><code>qedeq_se.sh</code></a> in the main directory. If you connect to the internet via a proxy server you should start the preferences dialog via the menu <em>Tools / Preferences</em>. There you can enter the appropriate proxy parameters.
+  You can start the application by the script <a href="qedeq_se.bat"><code>qedeq_se.bat</code></a> or <a href="qedeq_se.sh"><code>qedeq_se.sh</code></a> in the main directory. If you connect to the internet via a proxy server you should start the preferences dialog via the menu <em>Tools / Preferences</em>. There you can enter the appropriate proxy parameters.
   </p>
-
   <p>
   To start the application more manually call via java:
   </p>
-
   <p>
   <code>&nbsp;&nbsp;org.qedeq.gui.se.main.QedeqMainFrame</code>
   </p>
-
   <p>
   The classpath must include the files in the <a href="lib/">lib directory</a>..
   </p>
-
+  <p>
+  You also can start the applicaton via Java Web Start. Just click on: <a href="@QEDEQ_DIRECTORY@/webstart/qedeq.jnlp">START</a>. 
+  </p>
   <p>
   Sample XML files can be found in the <a href="sample/">sample directory</a>. The main structure of an QEDEQ XML file looks like the LaTeX book format. There is a special kind of subsections called <code>node</code> that contain an axiom, definition or proposition. Each node is labeled and could be referenced by that label. Here is the <a href="xml/qedeq.xsd">XSD</a> and here it's <a href="xml/qedeq.html">documentation</a>. The root element is called <a href="xml/qedeq.html#element_QEDEQ">QEDEQ</a>.
   </p>
-
   <p>
-  So what can we do? You can load existing QEDEQ modules from the local file system or via http. Files loaded from web are stored in a local buffer directory. Even after successfully buffering a QEDEQ module loading it might fail due to XML validation or elementary application errors. In such a case the tree icon changes its color to red. A successfully loaded module looks dark grey. So to get some modules we just select <em>File / Load all from QEDEQ.org</em>. Depending from your internet connection you will see new modules appearing in the tree at the left side. They will successive change their color from baby pink into dark grey. Some modules even get a little bit of red color. The log panel lists all module states changes.
+  So what can we do? You can load existing QEDEQ modules from the local file system or via http. Files loaded from web are stored in a local buffer directory. Even after successfully buffering a QEDEQ module loading it might fail due to XML validation or elementary application errors. In such a case the tree icon changes its color to red. A successfully loaded module looks dark grey. To get some modules we just select <em>File / Load all from QEDEQ.org</em>. Depending from your internet connection you will see new modules appearing in the tree at the left side. They will successive change their color from baby pink into dark grey. Some modules even get a little bit of red color. The log panel lists all module states changes.
   </p>
   <p>
   By selecting a red module at the three the state panel will show more details about the selected module. If you select the error module  <em>qedeq_error_sample_00</em> and activate the pane labeled <em>Errors</em> you will see an entry like <em>cvc-complex-type.2.4.a: Invalid content was found starting with element 'XOR'. One of '{"":FORMULATYPE}' is expected.</em> This list entry describes am XML parsing error that occurs in line 36. If you click on this entry the XML source will open at the error location in the QEDEQ panel. The error location is marked and we see the usage of the unknown element 'XOR'.
@@ -241,7 +239,7 @@
 
   <p>
   We still provide no further tools to create new QEDEQ modules. You still have to copy an existing QEDEQ file and modify its content. A file modification that takes place after the module is already loaded is not recognized. You must <em>Remove</em> the module and then <em>Load local file</em>. If you modified an already buffered file you must do even more. The application takes the local buffered file when reloading such a file. The buffer location can be found under <em>Tools / Preferences</em>.
-You have clear the buffer via <em>File / Clear Buffer</em>.
+You have to clear the buffer via <em>File / Clear Buffer</em>.
   </p>
 
 @QEDEQ_BUILD_DEV_BEGIN@
