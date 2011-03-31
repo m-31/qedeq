@@ -223,10 +223,16 @@
   </p>
 
   <p>
-  So what can we do? You can load existing QEDEQ modules from the local file system or via http. Files loaded from web are stored in a local buffer directory. Even after successfully buffering a QEDEQ module loading it might fail due to XML validation or elementary application errors. In such a case the tree icon changes its color to red. A successfully loaded module looks dark grey. Now we have various plugins to work on a loaded module.
+  So what can we do? You can load existing QEDEQ modules from the local file system or via http. Files loaded from web are stored in a local buffer directory. Even after successfully buffering a QEDEQ module loading it might fail due to XML validation or elementary application errors. In such a case the tree icon changes its color to red. A successfully loaded module looks dark grey. So to get some modules we just select <em>File / Load all from QEDEQ.org</em>. Depending from your internet connection you will see new modules appearing in the tree at the left side. They will successive change their color from baby pink into dark grey. Some modules even get a little bit of red color. The log panel lists all module states changes.
   </p>
-
   <p>
+  By selecting a red module at the three the state panel will show more details about the selected module. If you select the error module  <em>qedeq_error_sample_00</em> and activate the pane labeled <em>Errors</em> you will see an entry like <em>cvc-complex-type.2.4.a: Invalid content was found starting with element 'XOR'. One of '{"":FORMULATYPE}' is expected.</em> This list entry describes am XML parsing error that occurs in line 36. If you click on this entry the XML source will open at the error location in the QEDEQ panel. The error location is marked and we see the usage of the unknown element 'XOR'.
+  </p>
+  <p>
+  If you look at <em>qedeq_error_sample_12</em> you can see an application error. This module has two <a href="xml/qedeq.html#element_NODE">Nodes</a> that have the same <em>id</em>. This is a violation of the uniqueness of nodes and leads to an loading error. By the way, the state of the module is <em>loading into memory failed</em> the other red modules have the state <em>loading from local buffer failed</em>.
+  </p>
+  <p>
+  Now we have various plugins to work on a loaded module. Firstly you can select a module and choose <em>Show module as UTF-8 text</em> in the context menu. This plugin transforms a QEDEQ module into an UTF-8 text and displays the result in an extra window.
   </p>
 
   <p>
