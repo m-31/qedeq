@@ -78,12 +78,12 @@
     <INTRODUCTION>
       <LATEX language="en">
         <![CDATA[
-	  We just use the two main QEDEQ modules and show a simple proposition.
+          We just use the two main QEDEQ modules and note a simple proposition.
         ]]>
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-	  Wir verwenden die beiden QEDEQ-Hauptmodule und zeigen eine einfache Proposition.
+          Wir verwenden die beiden QEDEQ-Hauptmodule und notieren eine einfache Proposition.
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -103,17 +103,29 @@
       <INTRODUCTION>
         <LATEX language="en">
           <![CDATA[
-	    Here we start.
+            Here we start.
           ]]>
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-	    Hier starten wir.
+            Hier starten wir.
           ]]>
         </LATEX>
       </INTRODUCTION>
       <SUBSECTIONS>
        <NODE id="proposition:one" level="formal">
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                Wir schreiben unsere Proposition, welche Predicate benutzt, die in importierten QEDEQ-Modulen definiert sind.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                We state our proposition which uses predicates that are defined in imported QEDEQ modules.
+              ]]>
+            </LATEX>
+          </PRECEDING>
           <THEOREM>
             <FORMULA>
               <IMPL>
