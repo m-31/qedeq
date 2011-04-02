@@ -383,9 +383,11 @@ currently in ants classpath
             <fileset dir="${qedeq.dest.module}/QedeqKernelBo/src/test/resources/data"
                 includes="*_error.xml,qedeq_error_sample_*.xml,predlogic.xml,proplogic.xml"
             />
+<!-- we don't want to have double locations
             <fileset dir="${basedir}/QedeqDoc"
                 includes="**/*.xml"
             />
+-->
         </copy>
        
         <!-- copy binaries --> 
