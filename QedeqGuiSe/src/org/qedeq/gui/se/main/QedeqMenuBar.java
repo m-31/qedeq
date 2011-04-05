@@ -32,7 +32,6 @@ import com.jgoodies.looks.windows.WindowsLookAndFeel;
  * Menu bar and pull-down menus.
  *
  * @author  Michael Meyling
- * @version $Revision: 1.4 $
  */
 public class QedeqMenuBar extends JMenuBar {
 
@@ -132,8 +131,8 @@ public class QedeqMenuBar extends JMenuBar {
 
         JMenu menu = MenuHelper.createMenu("Check", 'C');
 
-        item = MenuHelper.createMenuItem("Check Mathematical Logic", 'M');
-        item.setToolTipText("Check if all formulas are well formed within selected QEDEQ modules");
+        item = MenuHelper.createMenuItem("Check Well-Formedness", 'W');
+        item.setToolTipText("Check if all formulas are well formed within selected QEDEQ modules. This in");
         item.addActionListener(controller.getCheckLogicAction());
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/run.png"));
         menu.add(item);
