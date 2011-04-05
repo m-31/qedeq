@@ -43,7 +43,7 @@ public class HeuristicCheckerPlugin implements PluginBo {
         return CLASS.getName();
     }
 
-    public String getPluginName() {
+    public String getPluginActionName() {
         return "Heuristic tester";
     }
 

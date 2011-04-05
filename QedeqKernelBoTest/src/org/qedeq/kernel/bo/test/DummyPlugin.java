@@ -30,7 +30,7 @@ public class DummyPlugin implements Plugin {
         return DummyPlugin.class.getName();
     }
 
-    public String getPluginName() {
+    public String getPluginActionName() {
         return "Dummy Plugin";
     }
 

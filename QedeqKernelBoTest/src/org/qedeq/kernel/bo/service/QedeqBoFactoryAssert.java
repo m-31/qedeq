@@ -103,7 +103,7 @@ public class QedeqBoFactoryAssert extends QedeqVoBuilder {
                     return QedeqBoDuplicateLanguageChecker.class.getName();
                 }
     
-                public String getPluginName() {
+                public String getPluginActionName() {
                     return "duplicate language checker";
                 }
     
