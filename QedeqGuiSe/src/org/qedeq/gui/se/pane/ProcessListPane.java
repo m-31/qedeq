@@ -17,6 +17,7 @@ package org.qedeq.gui.se.pane;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -147,6 +148,8 @@ public class ProcessListPane extends JPanel  {
      * Assembles the GUI components of the panel.
      */
     private final void setupView() {
+        list.setFont(new Font("Lucida Sans Unicode", Font.PLAIN, list.getFont().getSize()));
+
         FormLayout layout = new FormLayout(
             "min:grow",
             "0:grow");

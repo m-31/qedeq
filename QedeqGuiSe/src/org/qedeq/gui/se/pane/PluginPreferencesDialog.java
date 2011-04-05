@@ -141,11 +141,11 @@ public class PluginPreferencesDialog extends JDialog {
 
         final JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.setOpaque(false);
-        tabbedPane.addTab(qedeq2utf8Show.getPluginName(), qedeq2Utf8ShowConfig(qedeq2utf8Show));
-        tabbedPane.addTab(qedeq2latex.getPluginName(), qedeq2LatexConfig(qedeq2latex));
-        tabbedPane.addTab(qedeq2utf8.getPluginName(), qedeq2Utf8Config(qedeq2utf8));
+        tabbedPane.addTab(qedeq2utf8Show.getPluginActionName(), qedeq2Utf8ShowConfig(qedeq2utf8Show));
+        tabbedPane.addTab(qedeq2latex.getPluginActionName(), qedeq2LatexConfig(qedeq2latex));
+        tabbedPane.addTab(qedeq2utf8.getPluginActionName(), qedeq2Utf8Config(qedeq2utf8));
 //        tabbedPane.addTab(heuristicChecker.getPluginName(), heuristicCheckerConfig(heuristicChecker));
-        tabbedPane.addTab(dynamicHeuristicChecker.getPluginName(),
+        tabbedPane.addTab(dynamicHeuristicChecker.getPluginActionName(),
             dynamicHeuristicCheckerConfig(dynamicHeuristicChecker));
 
 //        tabbedPane.setBorder(GuiHelper.getEmptyBorder());

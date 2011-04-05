@@ -104,7 +104,7 @@ public class ModuleErrorAndWarningListModel extends AbstractTableModel {
                 }
                 break;
         case 3: if (getSourceFileException(row) != null) {
-                    return getSourceFileException(row).getPlugin().getPluginName();
+                    return getSourceFileException(row).getPlugin().getPluginActionName();
                 }
                 break;
         default:
