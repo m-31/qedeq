@@ -42,7 +42,7 @@ public class DefaultSourceFileExceptionListTest extends QedeqTestCase {
             return this.getClass().toString();
         }
 
-        public String getPluginName() {
+        public String getPluginActionName() {
             return "dummy";
         }
     };
