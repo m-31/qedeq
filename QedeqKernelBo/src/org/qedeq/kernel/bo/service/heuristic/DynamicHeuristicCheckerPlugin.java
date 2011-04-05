@@ -43,8 +43,8 @@ public class DynamicHeuristicCheckerPlugin implements PluginBo {
         return CLASS.getName();
     }
 
-    public String getPluginName() {
-        return "Model Tester";
+    public String getPluginActionName() {
+        return "Test Formulas with Model";
     }
 
     public String getPluginDescription() {

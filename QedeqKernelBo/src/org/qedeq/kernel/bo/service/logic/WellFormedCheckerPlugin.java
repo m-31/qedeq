@@ -23,7 +23,7 @@ import org.qedeq.kernel.bo.module.PluginBo;
 
 
 /**
- * Checks if all formulas of a QEDEQ module are well formed.
+ * Checks if all formulas of a QEDEQ module are well formed. Also dependency checks are included.
  *
  * @author  Michael Meyling
  */
@@ -36,12 +36,12 @@ public final class WellFormedCheckerPlugin implements PluginBo {
         return CLASS.getName();
     }
 
-    public String getPluginName() {
-        return "well formed";
+    public String getPluginActionName() {
+        return "check well-formedness";
     }
 
     public String getPluginDescription() {
-        return "checks well formedness";
+        return "checks well-formedness of formulas and correct dependency of declarations";
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {

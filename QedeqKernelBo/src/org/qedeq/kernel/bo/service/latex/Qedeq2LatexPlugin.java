@@ -42,7 +42,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
         return CLASS.getName();
     }
 
-    public String getPluginName() {
+    public String getPluginActionName() {
         return "Create LaTeX";
     }
 

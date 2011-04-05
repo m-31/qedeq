@@ -36,8 +36,8 @@ public final class FormalProofCheckerPlugin implements PluginBo {
         return CLASS.getName();
     }
 
-    public String getPluginName() {
-        return "Proof Checker";
+    public String getPluginActionName() {
+        return "Check Proofs";
     }
 
     public String getPluginDescription() {

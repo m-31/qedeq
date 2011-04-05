@@ -129,7 +129,7 @@ public class PluginResultManager {
             }
             final PluginBo key = (PluginBo) iterator.next();
             PluginResults result = (PluginResults) plugins.get(key);
-            text.append(key.getPluginName());
+            text.append(key.getPluginActionName());
             text.append(" ");
             if (result.hasErrors() && result.hasWarnings()) {
                 text.append("has errors and warnings");

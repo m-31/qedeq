@@ -42,8 +42,8 @@ public final class Qedeq2UnicodeTextPlugin implements PluginBo {
         return CLASS.getName();
     }
 
-    public String getPluginName() {
-        return "Show module as UTF-8 text";
+    public String getPluginActionName() {
+        return "Show Module as UTF-8 text";
     }
 
     public String getPluginDescription() {

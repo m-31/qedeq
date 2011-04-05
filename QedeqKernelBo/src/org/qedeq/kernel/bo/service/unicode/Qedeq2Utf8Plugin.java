@@ -42,7 +42,7 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
         return CLASS.getName();
     }
 
-    public String getPluginName() {
+    public String getPluginActionName() {
         return "Create UTF-8";
     }
 

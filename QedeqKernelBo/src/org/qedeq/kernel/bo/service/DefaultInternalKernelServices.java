@@ -1077,7 +1077,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return CLASS.getName();
     }
 
-    public String getPluginName() {
+    public String getPluginActionName() {
         return "Basis";
     }
     public QedeqFileDao getQedeqFileDao() {

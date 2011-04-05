@@ -36,12 +36,12 @@ public final class SimpleProofFinderPlugin implements PluginBo {
         return CLASS.getName();
     }
 
-    public String getPluginName() {
-        return "Simple Proof Finder";
+    public String getPluginActionName() {
+        return "Find Proofs";
     }
 
     public String getPluginDescription() {
-        return "finds simple formal proofs [EXPERIMENTAL]";
+        return "finds simple formal proofs and add them to module  [EXPERIMENTAL]";
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {

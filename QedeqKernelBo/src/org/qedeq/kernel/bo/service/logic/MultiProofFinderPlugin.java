@@ -36,12 +36,12 @@ public final class MultiProofFinderPlugin implements PluginBo {
         return CLASS.getName();
     }
 
-    public String getPluginName() {
-        return "Multi Proof Finder";
+    public String getPluginActionName() {
+        return "Find Proofs Simultanously";
     }
 
     public String getPluginDescription() {
-        return "finds simple formal proofs simultanously  [EXPERIMENTAL]";
+        return "finds simple formal proofs simultanously and add them to module  [EXPERIMENTAL]";
     }
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
