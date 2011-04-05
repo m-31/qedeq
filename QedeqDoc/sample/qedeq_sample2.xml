@@ -117,12 +117,12 @@
           <PRECEDING>
             <LATEX language="en">
               <![CDATA[
-                Wir schreiben unsere Proposition, welche Predicate benutzt, die in importierten QEDEQ-Modulen definiert sind.
+                We state our proposition which uses predicates that are defined in imported QEDEQ modules.
               ]]>
             </LATEX>
             <LATEX language="de">
+                Wir schreiben unsere Proposition, welche Predicate benutzt, die in importierten QEDEQ-Modulen definiert sind.
               <![CDATA[
-                We state our proposition which uses predicates that are defined in imported QEDEQ modules.
               ]]>
             </LATEX>
           </PRECEDING>
