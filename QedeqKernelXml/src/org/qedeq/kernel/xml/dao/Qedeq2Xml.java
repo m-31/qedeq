@@ -771,7 +771,7 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         return this.getClass().getName();
     }
 
-    public String getPluginName() {
+    public String getPluginActionName() {
         return "generate XML";
     }
 

@@ -124,7 +124,7 @@ public final class Xml2Xml implements Plugin {
     public String getPluginId() {
         return CLASS.getName();
     }
-    public String getPluginName() {
+    public String getPluginActionName() {
         return "Xml2Xml";
     }
     public String getPluginDescription() {

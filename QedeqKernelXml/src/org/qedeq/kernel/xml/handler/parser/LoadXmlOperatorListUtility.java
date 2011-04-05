@@ -108,7 +108,7 @@ public final class LoadXmlOperatorListUtility implements Plugin {
         return CLASS.getName();
     }
 
-    public String getPluginName() {
+    public String getPluginActionName() {
         return "Operator Loader";
     }
 

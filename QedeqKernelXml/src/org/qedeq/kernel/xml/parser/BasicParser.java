@@ -58,7 +58,7 @@ public final class BasicParser {
         public String getPluginId() {
             return BasicParser.class.getName();
         }
-        public String getPluginName() {
+        public String getPluginActionName() {
             return "element parser";
         }
     };

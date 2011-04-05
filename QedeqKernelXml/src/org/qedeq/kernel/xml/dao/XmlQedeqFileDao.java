@@ -199,7 +199,7 @@ public class XmlQedeqFileDao implements QedeqFileDao, Plugin {
         return CLASS.getName();
     }
 
-    public String getPluginName() {
+    public String getPluginActionName() {
         return "XML Worker";
     }
 
