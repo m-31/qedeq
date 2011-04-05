@@ -230,7 +230,10 @@
   If you look at <em>qedeq_error_sample_12</em> you can see an application error. This module has two <a href="xml/qedeq.html#element_NODE">Nodes</a> that have the same <em>id</em>. This is a violation of the uniqueness of nodes and leads to an loading error. By the way, the state of the module is <em>loading into memory failed</em> the other red modules have the state <em>loading from local buffer failed</em>.
   </p>
   <p>
-  Now we have various plugins to work on a loaded module. Firstly you can select a module and choose <em>Show module as UTF-8 text</em> in the context menu. This plugin transforms a QEDEQ module into an UTF-8 text and displays the result in an extra window.
+  Now we have various plugins to work on a loaded module. Firstly you can select a module and choose <em>Show module as UTF-8 text</em> in the context menu. This plugin transforms a QEDEQ module into an UTF-8 text and displays the result in an extra window. We try that on module <em>qedeq_sample3</em> and see same axioms, propositions and their proofs. The layout and format of the displayed text is not satisfying but you get a visual impression of the QEDEQ module. 
+  
+  <p>
+  Now we test the generation of UTF-8 text files by selecting the appropriate context menu entry on <em>qedeq_sample2</em>. We notice that three modules change their color to green. First <em>qedeq_logic_v1</em> second <em>qedeq_set_theory_v1</em> and last <em>qedeq_sample2</em>. The green color is a signal for the state <em>well formed</em>. This means all imported modules are well formed too and that all formulas passed the syntax checker. This check was initiated by the UTF-8 text plugin because the plugin has to know the LaTeX representation of every imported operator. If loading an imported module fails then the plugin tries to use backup definitions for unknown operators. We see the location of the generated UTF-8 text files in the log pane and can open such a file within a web browser. (Perhaps you must change the encoding to UTF-8.)
   </p>
 
   <p>
