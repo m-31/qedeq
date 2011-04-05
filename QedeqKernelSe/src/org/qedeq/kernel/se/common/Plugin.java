@@ -31,11 +31,11 @@ public interface Plugin {
     public String getPluginId();
 
     /**
-     * Get plugin name.
+     * Get plugin action name. This is what the plugin does.
      *
      * @return  Plugin name
      */
-    public String getPluginName();
+    public String getPluginActionName();
 
     /**
      * Get plugin description.
