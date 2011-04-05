@@ -81,7 +81,7 @@ public class PluginAction extends AbstractAction {
                         if (result instanceof String) {
                             final Runnable showTextResult = new Runnable() {
                                 public void run() {
-                                    (new TextPaneWindow(plugin.getPluginName(),
+                                    (new TextPaneWindow(plugin.getPluginActionName(),
                                         PluginAction.this.getIcon(),
                                         (String) result)).setVisible(true);
                                 }
@@ -109,16 +109,19 @@ public class PluginAction extends AbstractAction {
     }
 
     public ImageIcon getIcon() {
-        if (plugin.getPluginName().endsWith("LaTeX")) {
+        if (plugin.getPluginActionName().endsWith("LaTeX")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/mimetypes/x-office-document.png");
-        } else if (-1 < plugin.getPluginName().indexOf("euristic")) {
+        } else if (-1 < plugin.getPluginActionName().indexOf("euristic")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/apps/accessories-calculator.png");
-        } else if (plugin.getPluginName().endsWith("earch")) {
+        } else if (plugin.getPluginActionName().endsWith("earch")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/categories/applications-system.png");
-        } else if (-1 < plugin.getPluginName().indexOf("Show")) {
+        } else if (-1 < plugin.getPluginActionName().indexOf("how")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-find.png");
-        } else if (-1 < plugin.getPluginName().indexOf("UTF-8")) {
+        } else if (-1 < plugin.getPluginActionName().indexOf("UTF-8")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/mimetypes/text-x-generic.png");
+        } else if (-1 < plugin.getPluginActionName().indexOf("heck")
+                && -1 < plugin.getPluginActionName().indexOf("oofs")) {
+            return GuiHelper.readImageIcon("tango/" + resolution + "/actions/run.png");
         } else {
             return GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-find.png");
         }
