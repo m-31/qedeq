@@ -109,7 +109,7 @@ public class QedeqController {
     private final JFrame main;
 
     /** Maximum number of entries in history. */
-    static final int MAXIMUM_MODULE_HISTORY = 10; // LATER 20070606: put into properties
+    static final int MAXIMUM_MODULE_HISTORY = 20; // LATER 20070606: put into properties
 
     /**
      * Constructor.
@@ -160,6 +160,7 @@ public class QedeqController {
             getModuleHistory().add(prefix + "sample/qedeq_sample1.xml");
             getModuleHistory().add(prefix + "sample/qedeq_sample2.xml");
             getModuleHistory().add(prefix + "sample/qedeq_sample3.xml");
+            getModuleHistory().add(prefix + "sample/qedeq_sample4.xml");
         }
     }
 
@@ -281,7 +282,7 @@ public class QedeqController {
         JMenuItem[] result = new JMenuItem[pluginActions.length];
         for (int i = 0; i < pluginActions.length; i++) {
             final JMenuItem item = MenuHelper.createMenuItem(pluginActions[i].getPlugin()
-                .getPluginName());
+                .getPluginActionName());
             item.addActionListener(pluginActions[i]);
             item.setIcon(pluginActions[i].getIcon());
             item.setToolTipText(pluginActions[i].getPlugin().getPluginDescription());
