@@ -19,6 +19,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
@@ -39,6 +40,7 @@ import javax.swing.KeyStroke;
 import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.border.Border;
+import javax.swing.plaf.FontUIResource;
 import javax.swing.plaf.metal.DefaultMetalTheme;
 import javax.swing.plaf.metal.MetalLookAndFeel;
 import javax.swing.table.JTableHeader;
@@ -113,7 +115,12 @@ public final class GuiHelper {
         UIManager.put("TextArea.disabledBackground", UIManager
             .get("TextArea.background"));
 
-        // Swing Settings
+        // TODO 20110330 check if this is the correct way to enable unicode under ms windows
+        UIManager.getFont("ToolTip.font").getSize();
+           new FontUIResource("Lucida Sans Unicode", Font.PLAIN,
+           UIManager.getFont("ToolTip.font").getSize());
+
+           // Swing Settings
         LookAndFeel selectedLaf = options.getSelectedLookAndFeel();
         if (selectedLaf instanceof PlasticLookAndFeel) {
             PlasticLookAndFeel.setPlasticTheme(options.getSelectedTheme());
