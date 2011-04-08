@@ -132,7 +132,8 @@ public class QedeqMenuBar extends JMenuBar {
         JMenu menu = MenuHelper.createMenu("Check", 'C');
 
         item = MenuHelper.createMenuItem("Check Well-Formedness", 'W');
-        item.setToolTipText("Check if all formulas are well formed within selected QEDEQ modules. This in");
+        item.setToolTipText(
+            "Check if all formulas are well formed within selected QEDEQ modules. This includes dependency checking.");
         item.addActionListener(controller.getCheckLogicAction());
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/run.png"));
         menu.add(item);
@@ -151,6 +152,7 @@ public class QedeqMenuBar extends JMenuBar {
         JMenuItem item;
         item = MenuHelper.createMenuItem("Plugin Preferences", 'S');
         item.addActionListener(controller.getPluginPreferencesAction());
+        item.setToolTipText("Set parameters for specific plugins.");
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/categories/preferences-desktop.png"));
         menu.add(item);
 
@@ -169,6 +171,8 @@ public class QedeqMenuBar extends JMenuBar {
 
         item = MenuHelper.createMenuItem("Remove Plugin Results", 'R');
         item.addActionListener(controller.getRemovePluginResultsAction());
+        item.setToolTipText(
+            "Remove all warnings and errors that were produced by all plugin executions for the selected module.");
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-clear.png"));
         menu.add(item);
 

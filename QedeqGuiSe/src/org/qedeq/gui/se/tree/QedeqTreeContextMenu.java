@@ -48,7 +48,8 @@ public final class QedeqTreeContextMenu extends JPopupMenu {
         this.addSeparator();
 
         item = MenuHelper.createMenuItem("Check Well-Formedness", 'W');
-        item.setToolTipText("Check if all formulas are well formed within selected QEDEQ modules");
+        item.setToolTipText(
+            "Check if all formulas are well formed within selected QEDEQ modules. This includes dependency checking.");
         item.addActionListener(controller.getCheckLogicAction());
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/run.png"));
         this.add(item);
@@ -64,6 +65,8 @@ public final class QedeqTreeContextMenu extends JPopupMenu {
 
         item = MenuHelper.createMenuItem("Remove Plugin Results", 'R');
         item.addActionListener(controller.getRemovePluginResultsAction());
+        item.setToolTipText(
+            "Remove all warnings and errors that were produced by all plugin executions for the selected module.");
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-clear.png"));
         this.add(item);
 
