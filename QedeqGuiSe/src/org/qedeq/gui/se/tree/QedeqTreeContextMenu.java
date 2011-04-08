@@ -62,6 +62,13 @@ public final class QedeqTreeContextMenu extends JPopupMenu {
 
         this.addSeparator();
 
+        item = MenuHelper.createMenuItem("Remove Plugin Results", 'R');
+        item.addActionListener(controller.getRemovePluginResultsAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-clear.png"));
+        this.add(item);
+
+        this.addSeparator();
+
         item = MenuHelper.createMenuItem("Load from Web", 'W');
         item.setToolTipText("Load QEDEQ module from anywhere in the Web");
         item.addActionListener(controller.getAddAction());
