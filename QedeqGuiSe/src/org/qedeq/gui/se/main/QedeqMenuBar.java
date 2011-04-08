@@ -158,6 +158,7 @@ public class QedeqMenuBar extends JMenuBar {
 
         item = MenuHelper.createMenuItem("Threads", 'T');
         item.addActionListener(controller.getProcessViewAction());
+        item.setToolTipText("Show all plugin exections. Can stop running plugin threads.");
         item.setIcon(GuiHelper.readImageIcon("oil/" + resolution + "/apps/utilities-system-monitor.png"));
         menu.add(item);
 
@@ -192,16 +193,19 @@ public class QedeqMenuBar extends JMenuBar {
 
         item = MenuHelper.createMenuItem("LaTeX to QEDEQ", 'L');
         item.addActionListener(controller.getLatexParserAction());
+        item.setToolTipText("Enter LaTeX formulas and transform them into QEDEQ syntax.");
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/format-indent-more.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Text to QEDEQ", 'L');
         item.addActionListener(controller.getTextParserAction());
+        item.setToolTipText("Enter text formulas and transform them into QEDEQ syntax.");
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/format-indent-more.png"));
         menu.add(item);
 
         item = MenuHelper.createMenuItem("Preferences", 'P');
         item.addActionListener(controller.getPreferencesAction());
+        item.setToolTipText("Edit various application parameters.");
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/categories/preferences-system.png"));
         menu.add(item);
 
@@ -220,6 +224,7 @@ public class QedeqMenuBar extends JMenuBar {
         JMenuItem item;
         item = MenuHelper.createMenuItem("Help Contents",
             GuiHelper.readImageIcon("tango/" + resolution + "/apps/help-browser.png"), 'H');
+        item.setToolTipText("Integrated help system.");
         item.addActionListener(controller.getHelpAction());
         menu.add(item);
         if (!MenuHelper.isAboutInOSMenu()) {
