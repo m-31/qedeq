@@ -235,7 +235,12 @@
   <p>
   Now we test the generation of UTF-8 text files by selecting the appropriate context menu entry on <em>qedeq_sample2</em>. We notice that three modules change their color to green. First <em>qedeq_logic_v1</em> second <em>qedeq_set_theory_v1</em> and last <em>qedeq_sample2</em>. The green color is a signal for the state <em>well formed</em>. This means all imported modules are well formed too and that all formulas passed the syntax checker. This check was initiated by the UTF-8 text plugin because the plugin has to know the LaTeX representation of every imported operator. If loading an imported module fails then the plugin tries to use backup definitions for unknown operators. We see the location of the generated UTF-8 text files in the log pane and can open such a file within a web browser. (Perhaps you must change the encoding to UTF-8.)
   </p>
-
+  <p>
+  If we generate UTF-8 files for <em>qedeq_sample1</em> or <em>qedeq_logic_language</em> the modules turns yellow and we get some warnings because the LaTeX texts contain not supported constructs. To remove plugin errors and warnings you can select  <em>Remove Plugin Results</em> in the context menu for the appropiate module.
+  </p>
+  <p>
+  Now we come to the important features. We take <em>qedeq_sample4</em> and start <em>Check Well-Formdness</em>.
+  </p>
   <p>
   Modules without errors are reloaded automatically when the application is restarted. This behavior can be changed in the <em>Tools / Preferences</em> menu.
   </p>
