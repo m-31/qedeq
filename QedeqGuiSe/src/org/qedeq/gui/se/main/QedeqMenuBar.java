@@ -154,11 +154,6 @@ public class QedeqMenuBar extends JMenuBar {
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/categories/preferences-desktop.png"));
         menu.add(item);
 
-        item = MenuHelper.createMenuItem("Remove Plugin Results", 'R');
-        item.addActionListener(controller.getRemovePluginResultsAction());
-        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-clear.png"));
-        menu.add(item);
-
         item = MenuHelper.createMenuItem("Threads", 'T');
         item.addActionListener(controller.getProcessViewAction());
         item.setIcon(GuiHelper.readImageIcon("oil/" + resolution + "/apps/utilities-system-monitor.png"));
@@ -169,6 +164,14 @@ public class QedeqMenuBar extends JMenuBar {
         for (int i = 0; i < pluginMenu.length; i++) {
             menu.add(pluginMenu[i]);
         }
+
+        menu.addSeparator();
+
+        item = MenuHelper.createMenuItem("Remove Plugin Results", 'R');
+        item.addActionListener(controller.getRemovePluginResultsAction());
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-clear.png"));
+        menu.add(item);
+
         return menu;
     }
 
