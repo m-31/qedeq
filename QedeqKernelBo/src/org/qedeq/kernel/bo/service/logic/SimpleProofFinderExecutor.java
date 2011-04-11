@@ -20,7 +20,9 @@ import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
+import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.ProofFinder;
@@ -28,6 +30,7 @@ import org.qedeq.kernel.bo.logic.common.ProofFinderFactory;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
+import org.qedeq.kernel.bo.service.StateManager;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -36,6 +39,7 @@ import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
+import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
@@ -214,7 +218,22 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                 finder = null;  // so we always new if we are currently searching
             }
             // TODO 20110323 m31: we do a dirty cast to modify the current module
-            ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
+            StateManager state;
+            try {
+                state = (StateManager) YodaUtility.getFieldValue(getQedeqBo(), "stateManager");
+                YodaUtility.executeMethod(state, "setLogicalState", new Class[] {
+                    LogicalModuleState.class},
+                    new Object[] {LogicalModuleState.STATE_UNCHECKED});
+                ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
+                YodaUtility.executeMethod(state, "setErrors", new Class[] {
+                        SourceFileExceptionList.class},
+                        new Object[] {null});
+                    ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
+            } catch (Exception e) {
+                final String msg = "changing properties failed";
+                Trace.fatal(CLASS, "visitEnter(Proposition)", msg, e);
+                QedeqLog.getInstance().logMessage(msg + " " +  e.toString());
+            }
             if (proof != null && !noSave) {
                 final File file = getServices().getLocalFilePath(
                     getQedeqBo().getModuleAddress());
