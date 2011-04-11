@@ -115,9 +115,6 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     }
 
     public Object executePlugin() {
-        if (getQedeqBo().isChecked()) {
-            return Boolean.TRUE;
-        }
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         getServices().checkModule(getQedeqBo().getModuleAddress());
