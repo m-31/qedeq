@@ -239,7 +239,7 @@
   If we generate UTF-8 files for <em>qedeq_sample1</em> or <em>qedeq_logic_language</em> the modules turns yellow and we get some warnings because the LaTeX texts contain not supported constructs. To remove plugin errors and warnings you can select  <em>Remove Plugin Results</em> in the context menu for the appropiate module.
   </p>
   <p>
-  Now we come to the important features. We take <em>qedeq_sample4</em> and start <em>Check Well-Formdness</em>. Firstly all imported modules are checked for being well formed.
+  Now we come to the important features. We take <em>qedeq_sample3</em> and start <em>Check Well-Formdness</em>. Firstly all imported modules are checked for being well formed. Then the rest of the module is sequentially analyzed. Formulas are checked for beeing well formed and that their operators are all defined. There should be no problems with <em>qedeq_sample3</em> and the module status color should change to green. Now we want to know if the module is fully correct - that is all propostions have correct formal proofs. So we start the <em>Check Proof</em> plugin and the state changes to <em>well formed; Check Proofs successful</em>. All other QEDEQ modules with propositions will get errors. We test that wit <em>qedeq_sample1</em>. We 
   </p>
   <p>
   Modules without errors are reloaded automatically when the application is restarted. This behavior can be changed in the <em>Tools / Preferences</em> menu.
