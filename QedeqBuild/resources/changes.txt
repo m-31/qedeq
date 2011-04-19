@@ -10,10 +10,8 @@ Functional Changes
 
   Extensions
   ----------
-  - You can write formal proofs that use only the basic rules. These proofs
-    can be seen in the text viewer and the generated LaTeX sources. They are
-    still not checked for correctness.
-    For an example see "sample\qedeq_sample3.xml" 
+  - These formal proofs can be checked. First successfully checked module:
+    "sample\qedeq_sample3.xml" 
   
   Fixed Bugs
   ----------
@@ -29,76 +27,42 @@ XML Files
 
   Extensions
   ----------
-  math\qedeq_logic_v1.xml and math\qedeq_set_theory_v1.xml
-  - further integration of Amrum notes (and some other) (made possible by
-    the Ramada Cup in Hamburg Bergedorf ;-)
-  
-  project\qedeq_logic_language.xml
-  - now with listing of basic formal proof rules
-
-  project\qedeq_basic_concept.xml
-  - some updates and extensions included
-
-  sample\qedeq_sample3.xml
-  - this file was added to demonstrate the new syntax for basic formal proofs
+  - added "sample\qedeq_sample4.xml" 
 
   Fixed Bugs
   ----------
-  math\qedeq_logic_v1.xml
-  -
-
-  math\qedeq_set_theory_v1.xml
-  - theorem:powerProposition isSet(x) changed to isSet(x)
+  sample\qedeq_sample3.xml
+  - our proof checker found some errors - these were corrected
 
   Other Changes
   -------------
-  - rename of error sample XML files
-  - label naming convention changed: labels are now parsed by
-    ControlVisitor and have the following syntax:
-    external module                   importLabel
-    (external) node reference         [importLabel].nodeLabel
-    (external) node sub formula ref.  [importLabel].nodeLabel/subFormula
-    (external) node proof line ref.   [[importLabel].nodeLabel!]lineLabel
+  none
+
 
 Source Code
 -----------
 
   Extensions
   ----------
-  - DynamicDirectInterpreter uses now Latex2Utf8Parser to produce readable
-    debug output
-  - new constructor for dummy areas for SourceArea
-  - various classes in different tiers for proof reason integration
-  - Qedeq2Xml escapes XML entities now
-  - new class Reference describes reference links
-  
+  none
+
 
   Fixed Bugs
   ----------
-  - removed # in userinterface.html
-  - loading from local file failed is now correctly noted
-  - definedOperator is now set within QedeqVoBuilder
-  
+  - "LoadingStateDescriptions" text of "LOADING_FROM_LOCAL_FILE_FAILED"
+    corrected
+  - 
+
 
   Other Changes
   -------------
-  - InternalKernelServices (and implementations) must now provide an error
-    code and text when creating errors
-  - refactoring of error code and warnings: name convention implemented
-  - FormulaChecker renamed into FormulaCheckerImpl and now we use a factory
-    to produce instances of the new interface FormulaChecker, some methods
-    are now in the new class FormulaUtility
-  - KernelServices run now with QedeqBoFormalLogicCheckerPlugin which is
-    more like a real plugin now
-  - KernelServices (and implementations) loadModule and loadRequredModule
-    doesn't throw a SourceFileExceptionList any longer
-  - DefaultKernelQedeqBo's existence checker is now also set if logical
-    check fails
-  - refactoring of QedeqKernelSe: "se" package name inserted
-  - SaxDefaultHandler accepts now only 20 XML errors and ignores the rest
-  - copy QedeqKernelBoTest test data also to QedeqKernelXmlTest during build
-  - TextPaneWindow uses now font "Monospaced"
-  - StringUtility has new method to get a substring
+  - refactoring: split "FunctionDefinitionVo" into "FunctionDefinitionVo"
+    and "InitialFunctionDefinitionVo"; accordingly "PredicateDefinitionVo";
+    this lead to other changes through all tiers; now NodeType has two more
+    implementations
+  - FunctionConstant and PredicateConstant work now directly with subject
+    variables and not only with their string atoms
+  - relocation:   "math/qedeq_sample*" -> "sample"
 
 
 XSD
@@ -106,32 +70,7 @@ XSD
 
   Extensions
   ----------
-  - FORMAL_PROOF extended in following form 
-     <FORMAL_PROOF> 
-       <PRECEDING> ... </PRECEDING> [0..1]
-       <LINES> [1] ? 
-         <L> ... </L> [1..*]
-      </LINES>
-      <SUCCEEDING> ... </SUCCEEDING> [0..1]
-    </FORMAL_PROOF>
-    
-    And a proof line looks like:
-    <L label=" xs:NMTOKEN [0..1] ?"> 
-      <FORMULA> ... </FORMULA> [1] ?
-      <REASONTYPE> ... </REASONTYPE> [1] ?
-    </L>
-    
-    basic proof rules are (REASONTYPE)
-      MP
-      ADD
-      RENAME
-      SUBST_FREE
-      SUBST_FUNVAR
-      SUBST_PREDVAR
-      EXISTENTIAL
-      UNIVERSAL
-
-  - EMAILTYPE has now a maximum length of 200 instead of 100
+  none
 
   Fixed Bugs
   ----------
@@ -139,4 +78,4 @@ XSD
 
   Other Changes
   -------------
-  - documentation of classes to change if XSD changes
+  none

@@ -239,15 +239,15 @@
   If we generate UTF-8 files for <em>qedeq_sample1</em> or <em>qedeq_logic_language</em> the modules turns yellow and we get some warnings because the LaTeX texts contain not supported constructs. To remove plugin errors and warnings you can select  <em>Remove Plugin Results</em> in the context menu for the appropiate module.
   </p>
   <p>
-  Now we come to the important features. We take <em>qedeq_sample3</em> and start <em>Check Well-Formdness</em>. Firstly all imported modules are checked for being well formed. Then the rest of the module is sequentially analyzed. Formulas are checked for beeing well formed and that their operators are all defined. There should be no problems with <em>qedeq_sample3</em> and the module status color should change to green. Now we want to know if the module is fully correct - that is all propostions have correct formal proofs. So we start the <em>Check Proof</em> plugin and the state changes to <em>well formed; Check Proofs successful</em>. All other QEDEQ modules with propositions will get errors. We test that wit <em>qedeq_sample1</em>. We 
+  Now we come to the important features. We take <em>qedeq_sample3</em> and start <em>Check Well-Formdness</em>. Firstly all imported modules are checked for being well formed. Then the rest of the module is sequentially analyzed. Formulas are checked for beeing well formed and that their operators are all defined. There should be no problems with <em>qedeq_sample3</em> and the module status color should change to green. Now we want to know if the module is fully correct - that is all propostions have correct formal proofs. So we start the <em>Check Proof</em> plugin and the state changes to <em>well formed; Check Proofs successful</em>. All other QEDEQ modules with propositions will get errors. We test that with <em>qedeq_sample1</em>. We see that <em>qedeq_logic_v1</em> and <em>qedeq_sample1</em> both change their colors to red. <em>qedeq_logic_v1</em> has still no formal proofs and neither has <em>qedeq_sample1</em>.
+  We now try that with <em>qedeq_sample4</em> and get also errors for missing formal proofs. But now we try the new (experimental!) plugin <em>Find Proofs</em>. After quite (six minutes on an an Intel Celeron with 2 GHz) a while this plugin finds the missing proofs. It works only for propositional proofs and uses brute-force. If we execute <em>Check Proof</em> now the color changes to green. The plugin changes only the buffered file so you loose these findings after executing <em>Clear Buffer</em>. By the way: the blue color signals that all neccessary imports were done.
   </p>
-  <p>
-  Modules without errors are reloaded automatically when the application is restarted. This behavior can be changed in the <em>Tools / Preferences</em> menu.
-  </p>
-
   <p>
   We still provide no further tools to create new QEDEQ modules. You still have to copy an existing QEDEQ file and modify its content. A file modification that takes place after the module is already loaded is not recognized. You must <em>Remove</em> the module and then <em>Load local file</em>. If you modified an already buffered file you must do even more. The application takes the local buffered file when reloading such a file. The buffer location can be found under <em>Tools / Preferences</em>.
 You have to clear the buffer via <em>File / Clear Buffer</em>.
+  </p>
+  <p>
+  Modules without errors are reloaded automatically when the application is restarted. This behavior can be changed in the <em>Tools / Preferences</em> menu.
   </p>
 
 @QEDEQ_BUILD_DEV_BEGIN@
