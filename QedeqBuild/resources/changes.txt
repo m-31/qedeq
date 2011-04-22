@@ -11,7 +11,9 @@ Functional Changes
   Extensions
   ----------
   - These formal proofs can be checked. First successfully checked module:
-    "sample\qedeq_sample3.xml" 
+    "sample\qedeq_sample3.xml"
+  - new plugins to find propositional calculus proofs; these can be tested
+    with "sample\qedeq_sample4.xml"
   
   Fixed Bugs
   ----------
@@ -36,7 +38,7 @@ XML Files
 
   Other Changes
   -------------
-  none
+  - QEDEQ modules in "doc\" are not duplicated in "sample\"
 
 
 Source Code
@@ -44,7 +46,9 @@ Source Code
 
   Extensions
   ----------
-  none
+  - KernelNodeBo uses (and "implements") now new interface CheckLevel for
+    providing informations if this node is well-formed or proved. 
+    
 
 
   Fixed Bugs
