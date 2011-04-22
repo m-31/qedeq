@@ -22,7 +22,7 @@ package org.qedeq.kernel.se.common;
  */
 public interface CheckLevel {
 
-    /** Check has not be done. */
+    /** Check was not performed yet. */
     public int UNCHECKED = 0;
 
     /** Check had failure result. */
