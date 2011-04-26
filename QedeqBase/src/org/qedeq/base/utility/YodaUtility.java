@@ -143,6 +143,43 @@ public abstract class YodaUtility {
     }
 
     /**
+     * This method executes a class method (even if it is private).
+     * <p>
+     * Example: you can compile <code>YodaUtility.executeMethod((URLConnection) httpConnection,
+     * "setConnectTimeout", new Class[] {Integer.TYPE}, new Object[] { new Integer(100)});</code>
+     * with JDK 1.4.2 and if you run it with a 1.5 JRE or higher then it will be successfully
+     * executed.
+     *
+     * @param   clazzName       Name of class.
+     * @param   name            Method name.
+     * @param   parameterTypes  Parameter types.
+     * @param   parameter       Parameter values.
+     * @return  Execution result.
+     * @throws  NoSuchMethodException       Method not found.
+     * @throws  InvocationTargetException   Wrapped exception.
+     */
+    public static Object executeMethod(final String clazzName, final String name,
+            final Class[] parameterTypes, final Object[] parameter) throws NoSuchMethodException,
+            InvocationTargetException {
+        Method method = null;
+        try {
+            Class cl = Class.forName(clazzName);
+            method = cl.getDeclaredMethod(name, parameterTypes);
+            if (method == null) {
+                throw new NoSuchMethodException(name);
+            }
+            method.setAccessible(true);
+            return method.invoke(cl, parameter);
+        } catch (SecurityException e) {
+            throw new RuntimeException(e);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    /**
      * This method returns the contents of an object variable .The class hierarchy is recursively
      * searched to find such a field (even if it is private).
      *
