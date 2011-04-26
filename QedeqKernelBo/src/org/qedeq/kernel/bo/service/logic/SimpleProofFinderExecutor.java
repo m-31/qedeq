@@ -64,9 +64,6 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
     /** Factory for generating new checkers. */
     private ProofFinderFactory finderFactory = null;
 
-    /** Parameters for finder. */
-    private Map parameters;
-
     /** List of axioms, definitions and propositions. */
     private FormalProofLineListVo validFormulas;
 
@@ -87,7 +84,6 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             final Map parameters) {
         super(plugin, qedeq);
         final String method = "SimpleProofFinderExecutor(Plugin, KernelQedeqBo, Map)";
-        this.parameters = parameters;
         final String finderFactoryClass
             = (parameters != null ? (String) parameters.get("checkerFactory") : null);
         if (finderFactoryClass != null && finderFactoryClass.length() > 0) {
