@@ -30,12 +30,4 @@ public interface ProofFinderFactory {
      */
     public ProofFinder createProofFinder();
 
-    /**
-     * Create a {@link MultiProofFinder}.
-     *
-     * @return  Instance that can create formal proofs for propositions.
-     */
-    public MultiProofFinder createMultiProofFinder();
-
-
 }

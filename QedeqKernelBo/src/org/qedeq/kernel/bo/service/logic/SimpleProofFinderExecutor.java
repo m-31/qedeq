@@ -22,7 +22,6 @@ import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
-import org.qedeq.kernel.bo.log.ModuleEventLog;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.ProofFinder;

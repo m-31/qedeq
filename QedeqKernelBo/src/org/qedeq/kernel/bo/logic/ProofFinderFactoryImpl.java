@@ -15,10 +15,8 @@
 
 package org.qedeq.kernel.bo.logic;
 
-import org.qedeq.kernel.bo.logic.common.MultiProofFinder;
 import org.qedeq.kernel.bo.logic.common.ProofFinder;
 import org.qedeq.kernel.bo.logic.common.ProofFinderFactory;
-import org.qedeq.kernel.bo.logic.proof.finder.MultiProofFinderImpl;
 import org.qedeq.kernel.bo.logic.proof.finder.ProofFinderImpl;
 
 
@@ -33,10 +31,5 @@ public class ProofFinderFactoryImpl implements ProofFinderFactory {
     public ProofFinder createProofFinder() {
         return new ProofFinderImpl();
     }
-
-    public MultiProofFinder createMultiProofFinder() {
-        return new MultiProofFinderImpl();
-    }
-
 
 }
