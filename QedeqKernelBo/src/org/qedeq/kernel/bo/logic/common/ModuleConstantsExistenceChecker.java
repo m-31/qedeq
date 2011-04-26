@@ -13,13 +13,11 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.module;
+package org.qedeq.kernel.bo.logic.common;
 
-import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
-import org.qedeq.kernel.bo.logic.common.FunctionKey;
-import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
 import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
+import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
