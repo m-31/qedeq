@@ -192,9 +192,10 @@ public final class Main {
         System.err.println();
         System.err.println("Description");
         System.err.println("-----------");
-        System.err.println("This program finds formal proofs for propositional calculus propositions. You give it");
-        System.err.println("an QEDEQ module URL and the missing formal proofs will be added. When a proof was found");
-        System.err.println("the buffered file (or original if the protocol is \"file\") will be altered.");
+        System.err.println("This program finds formal proofs for propositional calculus propositions.");
+        System.err.println("You give it an QEDEQ module URL and the missing formal proofs will be added.");
+        System.err.println("When a proof was found the buffered file (or original if the protocol is");
+        System.err.println("\"file\") will be altered.");
         System.err.println();
         System.err.println("Options and Parameter");
         System.err.println("---------------------");
