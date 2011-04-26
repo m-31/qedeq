@@ -115,10 +115,9 @@ public final class GuiHelper {
         UIManager.put("TextArea.disabledBackground", UIManager
             .get("TextArea.background"));
 
-        // TODO 20110330 check if this is the correct way to enable unicode under ms windows
-        UIManager.getFont("ToolTip.font").getSize();
-           new FontUIResource("Lucida Sans Unicode", Font.PLAIN,
-           UIManager.getFont("ToolTip.font").getSize());
+        UIManager.put("ToolTip.font",
+                new FontUIResource("Lucida Sans Unicode", Font.PLAIN,
+                UIManager.getFont("ToolTip.font").getSize()));
 
            // Swing Settings
         LookAndFeel selectedLaf = options.getSelectedLookAndFeel();
