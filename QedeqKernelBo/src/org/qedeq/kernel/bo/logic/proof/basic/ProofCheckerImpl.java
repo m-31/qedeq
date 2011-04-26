@@ -714,22 +714,6 @@ public class ProofCheckerImpl implements ProofChecker {
      *
      * @param code      Error code.
      * @param msg       Error message.
-     * @param element   Element with error.
-     * @param context   Error context.
-     */
-    private void handleProofCheckException(final int code, final String msg,
-            final Element element, final ModuleContext context) {
-//        System.out.println(context);
-//        System.setProperty("qedeq.test.xmlLocationFailures", "true");
-        final ProofCheckException ex = new ProofCheckException(code, msg, element, context);
-        exceptions.add(ex);
-    }
-
-    /**
-     * Add new {@link ProofCheckException} to exception list.
-     *
-     * @param code      Error code.
-     * @param msg       Error message.
      * @param context   Error context.
      */
     private void handleProofCheckException(final int code, final String msg,
