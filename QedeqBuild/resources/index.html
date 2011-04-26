@@ -243,6 +243,9 @@
   We now try that with <em>qedeq_sample4</em> and get also errors for missing formal proofs. But now we try the new (experimental!) plugin <em>Find Proofs</em>. After quite (six minutes on an an Intel Celeron with 2 GHz) a while this plugin finds the missing proofs. It works only for propositional proofs and uses brute-force. If we execute <em>Check Proof</em> now the color changes to green. The plugin changes only the buffered file so you loose these findings after executing <em>Clear Buffer</em>. By the way: the blue color signals that all neccessary imports were done.
   </p>
   <p>
+  During a plugin execution (proof finding is a good example) one could check the execution status by selecting the menu entry <em>Plugins / Threads</em>. The new window shows all plugin processes that were executed. If you select a running process you can see the current element the plugin works on. The proof finder plugin shows you even the last generated proof line.
+  </p>
+  <p>
   We still provide no further tools to create new QEDEQ modules. You still have to copy an existing QEDEQ file and modify its content. A file modification that takes place after the module is already loaded is not recognized. You must <em>Remove</em> the module and then <em>Load local file</em>. If you modified an already buffered file you must do even more. The application takes the local buffered file when reloading such a file. The buffer location can be found under <em>Tools / Preferences</em>.
 You have to clear the buffer via <em>File / Clear Buffer</em>.
   </p>
@@ -266,7 +269,7 @@ You have to clear the buffer via <em>File / Clear Buffer</em>.
   </tr>
   <tr>
   <td><a href="bin/"><code>bin</code></a></td>
-  <td>executable files, currently empty</td>
+  <td>executable files, currently containing script for finding simple propositional proofs</td>
   </tr>
   <tr>
   <td><a href="config/"><code>config</code></a></td>
