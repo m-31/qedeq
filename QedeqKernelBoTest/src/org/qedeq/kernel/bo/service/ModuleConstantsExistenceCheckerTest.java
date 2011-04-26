@@ -16,10 +16,10 @@ package org.qedeq.kernel.bo.service;
 
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
+import org.qedeq.kernel.bo.logic.common.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
 import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
-import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
