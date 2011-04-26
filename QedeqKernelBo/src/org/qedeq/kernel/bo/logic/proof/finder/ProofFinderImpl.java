@@ -41,9 +41,6 @@ import org.qedeq.kernel.se.visitor.InterruptException;
  */
 public class ProofFinderImpl implements ProofFinder {
 
-    /** Proof with basic formulas added by "Add". */
-    private FormalProofLineList proof;
-
     /** List of proof lines. */
     private List lines;
 
@@ -69,7 +66,6 @@ public class ProofFinderImpl implements ProofFinder {
     public FormalProofLineList findProof(final Element formula,
             final FormalProofLineList proof, final ModuleContext context) throws InterruptException {
         this.goalFormula = formula;
-        this.proof = proof;
         lines = new ArrayList();
         reasons = new ArrayList();
         allPredVars = new ElementSet();
