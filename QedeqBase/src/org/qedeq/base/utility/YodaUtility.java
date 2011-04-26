@@ -143,15 +143,16 @@ public abstract class YodaUtility {
     }
 
     /**
-     * This method executes a class method (even if it is private).
+     * This method executes a static class method (even if it is private).
      * <p>
-     * Example: you can compile <code>YodaUtility.executeMethod((URLConnection) httpConnection,
-     * "setConnectTimeout", new Class[] {Integer.TYPE}, new Object[] { new Integer(100)});</code>
+     * Example: you can compile <code>YodaUtility.executeMethod(
+     * "java.util.concurrent.locks.LockSupport",
+     * "park", new Class[0], new Object[0]);</code>
      * with JDK 1.4.2 and if you run it with a 1.5 JRE or higher then it will be successfully
      * executed.
      *
      * @param   clazzName       Name of class.
-     * @param   name            Method name.
+     * @param   name            Name of static method to execute.
      * @param   parameterTypes  Parameter types.
      * @param   parameter       Parameter values.
      * @return  Execution result.
