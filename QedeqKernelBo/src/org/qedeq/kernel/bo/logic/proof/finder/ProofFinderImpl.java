@@ -98,7 +98,7 @@ public class ProofFinderImpl implements ProofFinder {
             ProofFinderUtility.printUtf8Line(lines, reasons, i);
         }
         System.out.println("Goal: ");
-        FormulaUtility.println(formula);
+        ProofFinderUtility.println(formula);
         int i = 0;
         while (i < lines.size() && lines.size() < Integer.MAX_VALUE - 1000) {
             try {

@@ -17,9 +17,6 @@ package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.base.utility.Enumerator;
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.bo.service.Element2LatexImpl;
-import org.qedeq.kernel.bo.service.Element2Utf8Impl;
 import org.qedeq.kernel.se.base.list.Atom;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -534,37 +531,6 @@ public final class FormulaUtility implements Operators {
         final DefaultElementList result = new DefaultElementList(PREDICATE_VARIABLE);
         result.add(new DefaultAtom(predicateVariableName));
         return result;
-    }
-
-    /**
-     * Get UTF-8 representation for formula.
-     *
-     * @param   element For this element.
-     * @return  Get the UTF-8 display text.
-     */
-    public static String getUtf8(final Element element) {
-        ModuleLabels labels = new ModuleLabels();
-        Element2LatexImpl converter = new Element2LatexImpl(labels);
-        Element2Utf8Impl textConverter = new Element2Utf8Impl(converter);
-        return textConverter.getUtf8(element);
-    }
-
-    /**
-     * Print UTF-8 representation of formula to <code>System.out</code>.
-     *
-     * @param   element For this element.
-     */
-    public static void print(final Element element) {
-        System.out.print(getUtf8(element));
-    }
-
-    /**
-     * Println UTF-8 representation of formula to <code>System.out</code>.
-     *
-     * @param   element For this element.
-     */
-    public static void println(final Element element) {
-        System.out.println(getUtf8(element));
     }
 
 }

@@ -24,11 +24,11 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
-import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.MultiProofFinder;
 import org.qedeq.kernel.bo.logic.common.ProofFinderFactory;
 import org.qedeq.kernel.bo.logic.common.ProofFoundListener;
 import org.qedeq.kernel.bo.logic.proof.finder.MultiProofFinderImpl;
+import org.qedeq.kernel.bo.logic.proof.finder.ProofFinderUtility;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -284,7 +284,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
         }
         if (n >= goalFormulas.size()) {
             System.out.println("Not found formula: ");
-            FormulaUtility.print(formula);
+            ProofFinderUtility.print(formula);
         }
         final String id = (String) idsForGoalFormulas.get(n);
         final KernelNodeBo node = getQedeqBo().getLabels().getNode(

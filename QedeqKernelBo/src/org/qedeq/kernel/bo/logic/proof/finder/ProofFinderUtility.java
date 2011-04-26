@@ -18,7 +18,9 @@ package org.qedeq.kernel.bo.logic.proof.finder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.kernel.bo.logic.common.FormulaUtility;
+import org.qedeq.kernel.bo.module.ModuleLabels;
+import org.qedeq.kernel.bo.service.Element2LatexImpl;
+import org.qedeq.kernel.bo.service.Element2Utf8Impl;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
@@ -34,7 +36,7 @@ import org.qedeq.kernel.se.dto.module.SubstPredVo;
 
 
 /**
- * Find basic proofs for formulas.
+ * Utilities for proofs finders.
  *
  * @author  Michael Meyling
  */
@@ -112,7 +114,7 @@ public final class ProofFinderUtility {
         }
         for (int j = 0; j < result.size(); j++) {
             System.out.print(result.get(j).getLabel() + ": ");
-            FormulaUtility.print(result.get(j).getFormula().getElement());
+            print(result.get(j).getFormula().getElement());
             System.out.println("  " + result.get(j).getReasonType());
         }
         return result;
@@ -132,6 +134,37 @@ public final class ProofFinderUtility {
     }
 
     /**
+     * Println UTF-8 representation of formula to <code>System.out</code>.
+     *
+     * @param   element For this element.
+     */
+    public static void println(final Element element) {
+        System.out.println(getUtf8(element));
+    }
+
+    /**
+     * Print UTF-8 representation of formula to <code>System.out</code>.
+     *
+     * @param   element For this element.
+     */
+    public static void print(final Element element) {
+        System.out.print(getUtf8(element));
+    }
+
+    /**
+     * Get UTF-8 representation for formula.
+     *
+     * @param   element For this element.
+     * @return  Get the UTF-8 display text.
+     */
+    public static String getUtf8(final Element element) {
+        ModuleLabels labels = new ModuleLabels();
+        Element2LatexImpl converter = new Element2LatexImpl(labels);
+        Element2Utf8Impl textConverter = new Element2Utf8Impl(converter);
+        return textConverter.getUtf8(element);
+    }
+
+    /**
      * Get UTF-8 representation of proof line.
      *
      * @param   lines       Proof line formulas.
@@ -144,14 +177,14 @@ public final class ProofFinderUtility {
         result.append(i + ": ");
         Reason reason = (Reason) reasons.get(i);
         Element formula = (Element) lines.get(i);
-        result.append(FormulaUtility.getUtf8(formula));
+        result.append(ProofFinderUtility.getUtf8(formula));
         result.append("  : ");
         if (reason instanceof SubstPred) {
             SubstPred s = (SubstPred) reason;
             result.append("Subst " + s.getReference() + " ");
-            result.append(FormulaUtility.getUtf8(s.getPredicateVariable()));
+            result.append(ProofFinderUtility.getUtf8(s.getPredicateVariable()));
             result.append(" by ");
-            result.append(FormulaUtility.getUtf8(s.getSubstituteFormula()));
+            result.append(ProofFinderUtility.getUtf8(s.getSubstituteFormula()));
         } else {
             result.append(reason);
         }
