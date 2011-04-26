@@ -67,6 +67,8 @@ Source Code
   - FunctionConstant and PredicateConstant work now directly with subject
     variables and not only with their string atoms
   - relocation:   "math/qedeq_sample*" -> "sample"
+  - ToolTip uses now UTF-8 capable font, so we get the current proof line
+    formula when looking at the proof finder plugin in the thread window
 
 
 XSD
