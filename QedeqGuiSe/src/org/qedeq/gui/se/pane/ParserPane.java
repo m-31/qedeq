@@ -39,6 +39,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JViewport;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.ResourceLoaderUtility;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
@@ -423,6 +424,7 @@ public class ParserPane extends JFrame {
             System.out.println(result.toString());
             error.setText(result.toString());
         }
+        IoUtility.close(input);  // to satisfy checkstyle
         return out.toString();
     }
 
