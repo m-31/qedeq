@@ -92,7 +92,7 @@ public class MultiProofFinderImpl implements MultiProofFinder {
             }
             lines.add(proof.get(i).getFormula().getElement().copy());
             reasons.add(r);
-            // FIXME only predvars with null arguments!
+            // TODO 20110427 m31: only predvars with null arguments!
             allPredVars.union(FormulaUtility.getPredicateVariables(
                 proof.get(i).getFormula().getElement()));
             allPredVars.add(FormulaUtility.createPredicateVariable("D"));
