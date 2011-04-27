@@ -303,7 +303,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
             dao.saveQedeq(getQedeqBo(),
                 getServices().getLocalFilePath(getQedeqBo().getModuleAddress()));
         } catch (Exception e) {
-            // TODO Auto-generated catch block
+            // TODO 20110427 m31: rework
             e.printStackTrace();
         }
     }
