@@ -17,12 +17,12 @@ package org.qedeq.kernel.bo.service.logic;
 
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.common.ClassOperatorAlreadyExistsException;
+import org.qedeq.kernel.bo.logic.common.FunctionConstant;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.IdentityOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.logic.common.ModuleConstantsExistenceChecker;
+import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
-import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
-import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;

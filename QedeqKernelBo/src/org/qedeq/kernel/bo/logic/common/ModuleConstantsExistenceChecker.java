@@ -15,8 +15,6 @@
 
 package org.qedeq.kernel.bo.logic.common;
 
-import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
-import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.ModuleContext;
 

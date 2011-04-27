@@ -20,10 +20,10 @@ import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
+import org.qedeq.kernel.bo.logic.common.FunctionConstant;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
+import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
-import org.qedeq.kernel.bo.logic.wf.FunctionConstant;
-import org.qedeq.kernel.bo.logic.wf.PredicateConstant;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 

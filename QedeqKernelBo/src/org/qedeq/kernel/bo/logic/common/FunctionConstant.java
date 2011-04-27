@@ -13,14 +13,12 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.wf;
+package org.qedeq.kernel.bo.logic.common;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.base.utility.EqualsUtility;
-import org.qedeq.kernel.bo.logic.common.FunctionKey;
-import org.qedeq.kernel.bo.logic.common.SubjectVariable;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.common.ModuleContext;
