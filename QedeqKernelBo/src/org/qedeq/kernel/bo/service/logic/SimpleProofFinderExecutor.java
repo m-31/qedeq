@@ -213,7 +213,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                 finder = null;  // so we always new if we are currently searching
             }
             // TODO 20110323 m31: we do a dirty cast to modify the current module
-            StateManager state;
+            Object state;
             try {
                 state = (StateManager) YodaUtility.getFieldValue(getQedeqBo(), "stateManager");
                 YodaUtility.executeMethod(state, "setLogicalState", new Class[] {
