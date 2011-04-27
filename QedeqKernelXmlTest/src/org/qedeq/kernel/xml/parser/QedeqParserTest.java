@@ -16,6 +16,9 @@ package org.qedeq.kernel.xml.parser;
 
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.kernel.bo.test.DummyPlugin;
+import org.qedeq.kernel.xml.handler.common.AbstractSimpleHandler;
+import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
+import org.qedeq.kernel.xml.handler.common.SimpleAttributes;
 import org.qedeq.kernel.xml.handler.module.QedeqHandler;
 
 /**
