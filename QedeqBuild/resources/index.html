@@ -100,8 +100,12 @@
   <td>about this project</td>
   </tr>
   <tr>
-  <td><a href="#installation">Installing and Starting</a></td>
-  <td>preconditions and other stuff about starting the application</td>
+  <td><a href="#mathematics">Mathematics</a></td>
+  <td>mathematical contents</td>
+  </tr>
+  <tr>
+  <td><a href="#installation">Installing,&nbsp;Starting&nbsp;and&nbsp;Working</a></td>
+  <td>preconditions and other stuff about starting and working with the application</td>
   </tr>
   <tr>
   <td><a href="#sitemap">Release Contents</a></td>
@@ -121,7 +125,9 @@
   </tr>
   </table>
 
-  <h2><a name="overview">Overview</a></h2>
+
+  <h2><a name="overview"></a>Overview</h2>
+
   <p>
   This is an unstable development release of <a href="http://www.qedeq.org/"><font color="#d97d49"><b>Hilbert&nbsp;II</b></font></a>. In the tradition of Hilbert's program the project creates a formal correct (checkable by a proof verifier) but readable (like an ordinary LaTeX textbook) mathematical knowledge base which is freely accessible within the internet. The mathematical axioms, definitions and propositions are combined to so called QEDEQ modules. Such a module could be seen as a mathematical textbook which includes formal correct proofs. The project started with logic and set theory.
   </p>
@@ -165,7 +171,9 @@
   A convenient way to start this application is via Java Web Start. Just click on: <a href="@QEDEQ_DIRECTORY@/webstart/qedeq.jnlp">START</a>. There should be a splash screen for Java Web Start, asking you to trust the signature. Although it will be not recommended you must trust the signature of <font color="#d97d49"><b>Hilbert&nbsp;II</b></font> to start the application. If you already started an older program version via Web Start you should remove the files in the <code>config</code> directory. In this case must also empty the local buffer directory by selecting <em>File / Clear Buffer</em> in the menu.
   </p>
 
+
   <h2><a name="goals"></a>Project Goals</h2>
+
   <p>
   The goal of <font color="#d97d49"><b>Hilbert&nbsp;II</b></font> is decentralized access to verified and readable mathematical knowledge.
   The knowledge base contains mathematical texts in different languages and detail levels, axioms, definitions, propositions and their proofs. Beside common non formal proofs the system includes formal proofs that were verified by a proof checker.
@@ -187,17 +195,43 @@
   See also under <a href="doc/project/qedeq_basic_concept_en.pdf">QEDEQ basic concept</a> for more project details. This document was generated out of the following XML file: <a href="doc/project/qedeq_basic_concept.xml">qedeq_basic_concept.xml</a>.
   </p>
 
+
+  <h2><a name="mathematics"></a>Mathematics</h2>
+
   <p>
-  This release contains also the beginning of a <a href="doc/math/qedeq_set_theory_v1_en.pdf">script about axiomatic set theory</a>. This script is also available in <a href="doc/math/qedeq_set_theory_v1_de.pdf">German</a> and has this <a href="doc/math/qedeq_set_theory_v1.xml">XML source</a>.
+  The mathematical knowledge of this project is organized in so called <em>QEDEQ modules</em>. Such a module can be read and edited with a simple text editor. It could contain references to other QEDEQ modules which lay anywhere in the world wide web.
+ A QEDEQ module is structured like a mathematical text book. It contains chapters which are composed of <em>paragraphs</em> each with an axiom, abbreviation, definition or proposition. Every paragraph has a label and could be referenced by that label. Essential formal  element of a paragraph are <em>formulas</em>. The formulas are written in a first order predicate calculus, also the proofs are in this language. Therefore a proof verifier can check the formulas and their proofs for formal correctness. In this manner linked mathematical text books could be typed which have the extended analytic possibilities of the formal language. Beside the assured correctness of formulas and proofs there is for example a dependency analysis easily done.
+  </p>
+
+  <p>
+  In addition to the basic rules also other derived rules, so called meta rules, could be used. A proof that uses meta rules could be automatically transformed into a proof which only uses the basis rules. Some other language extensions, for example abbreviations, are established for shorter writing and convenient argumentation. These extensions can also be automatically removed and transformed into the original system.
+  <br>
+  We are aware of the fact that this transformation is not in each case practically realisable. For example it is not possible to write down the natural number 1000000000000000 completely in set notation: {{}, {{}}, {{}, {{}}}, {{}, {{}}, {{}, {{}}}}, ...}.
   </p>
 
   <p>
   The XML files have a formal structure that is defined <a href="xml/qedeq.html#element_QEDEQ">here</a> or <a href="xml/qedeq/index.html">here</a>.
   The logical language is described in <a href="doc/project/qedeq_logic_language_en.pdf">qedeq_logic_language_en.pdf</a> (in development).
-  The mathematical logical propositions are noted in <a href="doc/math/qedeq_logic_v1_en.pdf">qedeq_logic_v1.pdf</a>.
   </p>
 
-  <h2><a name="installation">Installing and Starting</a></h2>
+  <p>
+  In <font color="#d97d49"><b>Hilbert&nbsp;II</b></font> a formal language is used which enables us to describe most domains of mathematics. It is a first order <a href="glossary.html#logic">predicate calculus</a> based on the text <em>Elements of Mathematical Logic</em> from P.&nbsp;S.&nbsp;Novikov. The logical axioms and basic rules originate from the book <em>Principles of Mathematical Logic (Grundz&uuml;ge der theoretischen Logik)</em> (1928) by D.&nbsp;Hilbert and W.&nbsp;Ackermann.
+  The mathematical logical propositions are noted in <a href="doc/math/qedeq_logic_v1_en.pdf">qedeq_logic_v1.pdf</a>.
+  There are all rules, axioms, definitions and propositions assembled. The propositions are not complete and currently proofs are missing, but the mathematical orientation becomes clear.
+  </p>
+
+  <p>
+  Currently we change the logical structure along the lines of Vilnis Detlovs and Karlis Podnieks <a href="http://www.ltn.lv/~podnieks/mlog/ml2.htm">Introduction to Mathematical Logic</a> to have a fully formalized presentation. Take a look at <a href="doc/math/qedeq_propositional_v1_en.pdf">qedeq_propositional_v1.pdf</a> to see the current state.
+  </p>
+
+  <p>
+Beside logical ones the only axioms in <font color="#d97d49"><b>Hilbert II</b></font> are those of axiomatic set theory.  As usual for mathematics the axioms of all other theories could be expressed as simple predicate constant definitions. With common mathematical practice in mind, the set theory used here is not ZFC but <a href="http://en.wikipedia.org/wiki/Morse%E2%80%93Kelley_set_theory">Morse-Kelley</a> (an impredicative <em>Neumann-Bernays-G&ouml;del</em> extension). Our mathematical basis text is E.&nbsp;J.&nbsp;Lemmon's wonderful <em>Introduction to Axiomatic Set Theory</em>.
+  This release contains also the beginning of a <a href="doc/math/qedeq_set_theory_v1_en.pdf">script about axiomatic set theory</a>. This script is also available in <a href="doc/math/qedeq_set_theory_v1_de.pdf">German</a> and has this <a href="doc/math/qedeq_set_theory_v1.xml">XML source</a>.
+  </p>
+
+
+  <h2><a name="installation"></a>Installing, Starting and Working</h2>
+
   <p>
   Precondition is a Java Runtime Environment, at least version 1.4. From <a href="http://www.oracle.com/technetwork/java/javase/download-138376.html">Download Java 2 Platform</a> you could get the Java Runtime Environment  J2SE v 1.4.2 JRE. To work with the created LaTeX documents you need an appropriate LaTeX environment.
   </p>
@@ -242,16 +276,20 @@
   Now we come to the important features. We take <em>qedeq_sample3</em> and start <em>Check Well-Formdness</em>. Firstly all imported modules are checked for being well formed. Then the rest of the module is sequentially analyzed. Formulas are checked for beeing well formed and that their operators are all defined. There should be no problems with <em>qedeq_sample3</em> and the module status color should change to green. Now we want to know if the module is fully correct - that is all propostions have correct formal proofs. So we start the <em>Check Proof</em> plugin and the state changes to <em>well formed; Check Proofs successful</em>. All other QEDEQ modules with propositions will get errors. We test that with <em>qedeq_sample1</em>. We see that <em>qedeq_logic_v1</em> and <em>qedeq_sample1</em> both change their colors to red. <em>qedeq_logic_v1</em> has still no formal proofs and neither has <em>qedeq_sample1</em>.
   We now try that with <em>qedeq_sample4</em> and get also errors for missing formal proofs. But now we try the new (experimental!) plugin <em>Find Proofs</em>. After quite (six minutes on an an Intel Celeron with 2 GHz) a while this plugin finds the missing proofs. It works only for propositional proofs and uses brute-force. If we execute <em>Check Proof</em> now the color changes to green. The plugin changes only the buffered file so you loose these findings after executing <em>Clear Buffer</em>. By the way: the blue color signals that all neccessary imports were done.
   </p>
+
   <p>
   During a plugin execution (proof finding is a good example) one could check the execution status by selecting the menu entry <em>Plugins / Threads</em>. The new window shows all plugin processes that were executed. If you select a running process you can see the current element the plugin works on. The proof finder plugin shows you even the last generated proof line.
   </p>
+
   <p>
   We still provide no further tools to create new QEDEQ modules. You still have to copy an existing QEDEQ file and modify its content. A file modification that takes place after the module is already loaded is not recognized. You must <em>Remove</em> the module and then <em>Load local file</em>. If you modified an already buffered file you must do even more. The application takes the local buffered file when reloading such a file. The buffer location can be found under <em>Tools / Preferences</em>.
 You have to clear the buffer via <em>File / Clear Buffer</em>.
   </p>
+
   <p>
   Modules without errors are reloaded automatically when the application is restarted. This behavior can be changed in the <em>Tools / Preferences</em> menu.
   </p>
+
 
 @QEDEQ_BUILD_DEV_BEGIN@
   <p>
