@@ -32,8 +32,6 @@ import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 /**
  * For testing of finding formal proofs.
  *
- * FIXME 20110322 m31: work in progress
- *
  * @author Michael Meyling
  */
 public class ProofFinderTest extends QedeqBoTestCase {
