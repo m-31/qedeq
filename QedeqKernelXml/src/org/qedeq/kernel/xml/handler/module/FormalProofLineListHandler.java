@@ -20,8 +20,8 @@ import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
 import org.qedeq.kernel.se.dto.module.ReasonTypeVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
-import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
-import org.qedeq.kernel.xml.parser.SimpleAttributes;
+import org.qedeq.kernel.xml.handler.common.AbstractSimpleHandler;
+import org.qedeq.kernel.xml.handler.common.SimpleAttributes;
 
 
 /**

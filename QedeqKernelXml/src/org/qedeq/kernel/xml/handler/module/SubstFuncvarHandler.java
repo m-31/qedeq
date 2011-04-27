@@ -19,9 +19,9 @@ import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Term;
 import org.qedeq.kernel.se.dto.module.SubstFuncVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
+import org.qedeq.kernel.xml.handler.common.AbstractSimpleHandler;
+import org.qedeq.kernel.xml.handler.common.SimpleAttributes;
 import org.qedeq.kernel.xml.handler.list.ElementHandler;
-import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
-import org.qedeq.kernel.xml.parser.SimpleAttributes;
 
 
 /**

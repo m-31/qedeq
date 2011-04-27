@@ -12,7 +12,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
-package org.qedeq.kernel.xml.parser;
+package org.qedeq.kernel.xml.handler.common;
 
 import java.util.Stack;
 
@@ -30,9 +30,9 @@ import org.xml.sax.SAXParseException;
 
 /**
  * Default SAX handler. Delegates SAX events to a
- * {@link org.qedeq.kernel.xml.parser.AbstractSimpleHandler}
+ * {@link org.qedeq.kernel.xml.handler.common.AbstractSimpleHandler}
  * which could also delegate events to other
- * {@link org.qedeq.kernel.xml.parser.AbstractSimpleHandler}s.
+ * {@link org.qedeq.kernel.xml.handler.common.AbstractSimpleHandler}s.
  * <p>
  * Before anything is parsed the method {@link #setExceptionList(DefaultSourceFileExceptionList)}
  * must be called.
@@ -331,7 +331,7 @@ public class SaxDefaultHandler extends SimpleHandler {
      *
      * @return  Current area.
      */
-    protected final SourceArea createSourceArea() {
+    public final SourceArea createSourceArea() {
         if (getLocator() != null && getUrl() != null) {
             return new SourceArea(getUrl(), new SourcePosition(getLocator().getLineNumber(), 1),
                 new SourcePosition(getLocator().getLineNumber(), getLocator().getColumnNumber()));

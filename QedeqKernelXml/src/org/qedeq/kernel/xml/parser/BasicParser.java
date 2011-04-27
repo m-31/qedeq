@@ -28,6 +28,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
 import org.qedeq.kernel.xml.handler.list.BasicHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

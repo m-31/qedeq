@@ -20,6 +20,7 @@ import java.io.InputStream;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

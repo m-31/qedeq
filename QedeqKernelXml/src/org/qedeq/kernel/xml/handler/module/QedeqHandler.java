@@ -18,9 +18,9 @@ package org.qedeq.kernel.xml.handler.module;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
-import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
-import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
-import org.qedeq.kernel.xml.parser.SimpleAttributes;
+import org.qedeq.kernel.xml.handler.common.AbstractSimpleHandler;
+import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
+import org.qedeq.kernel.xml.handler.common.SimpleAttributes;
 
 
 /**

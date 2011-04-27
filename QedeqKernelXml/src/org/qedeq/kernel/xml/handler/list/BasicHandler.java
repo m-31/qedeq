@@ -19,9 +19,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
-import org.qedeq.kernel.xml.parser.AbstractSimpleHandler;
-import org.qedeq.kernel.xml.parser.SaxDefaultHandler;
-import org.qedeq.kernel.xml.parser.SimpleAttributes;
+import org.qedeq.kernel.xml.handler.common.AbstractSimpleHandler;
+import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
+import org.qedeq.kernel.xml.handler.common.SimpleAttributes;
 
 /**
  * Parse unknown number of elements.

@@ -34,7 +34,7 @@ import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.Enumerator;
-import org.qedeq.kernel.xml.parser.SimpleHandler;
+import org.qedeq.kernel.xml.handler.common.SimpleHandler;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

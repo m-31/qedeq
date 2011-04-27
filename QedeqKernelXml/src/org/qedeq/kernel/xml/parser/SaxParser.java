@@ -30,6 +30,8 @@ import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
+import org.qedeq.kernel.xml.handler.common.SaxDefaultHandler;
+import org.qedeq.kernel.xml.handler.common.SimpleHandler;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;

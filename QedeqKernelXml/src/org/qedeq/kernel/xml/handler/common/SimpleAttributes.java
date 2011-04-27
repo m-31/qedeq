@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.xml.parser;
+package org.qedeq.kernel.xml.handler.common;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -34,7 +34,6 @@ import java.util.TreeMap;
  * With {@link #add} another key value pair is added. An {@link IllegalArgumentException} is thrown,
  * if the key is already known.
  *
- * @version $Revision: 1.1 $
  * @author    Michael Meyling
  */
 public class SimpleAttributes {

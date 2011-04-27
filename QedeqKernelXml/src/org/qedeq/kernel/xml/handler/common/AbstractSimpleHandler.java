@@ -13,7 +13,7 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.xml.parser;
+package org.qedeq.kernel.xml.handler.common;
 
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
@@ -21,7 +21,7 @@ import org.qedeq.kernel.xml.common.XmlSyntaxException;
 
 /**
  * Simple handler that gets SAX parser events. These events were received by the
- * {@link org.qedeq.kernel.xml.parser.SaxDefaultHandler} and are delegated to the
+ * {@link org.qedeq.kernel.xml.handler.common.SaxDefaultHandler} and are delegated to the
  * current {@link AbstractSimpleHandler}.
  *
  * @author  Michael Meyling
