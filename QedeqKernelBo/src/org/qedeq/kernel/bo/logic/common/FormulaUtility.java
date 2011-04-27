@@ -383,9 +383,9 @@ public final class FormulaUtility implements Operators {
         if (isBindingOperator(formula)
                 && formula.getElement(0).equals(originalSubjectVariable)) {
             occurreneCurrent.increaseNumber();
-            System.out.println("found: " + occurreneCurrent);
+//            System.out.println("found: " + occurreneCurrent);
             if (occurrenceGoal == occurreneCurrent.getNumber()) {
-                System.out.println("match: " + occurrenceGoal);
+//                System.out.println("match: " + occurrenceGoal);
                 return formula.replace(originalSubjectVariable,
                     replacementSubjectVariable);
             }
@@ -412,7 +412,8 @@ public final class FormulaUtility implements Operators {
      */
     public static Element replaceOperatorVariable(final Element formula,
             final Element operatorVariable, final Element replacement) {
-        if (formula.isAtom() || operatorVariable.isAtom() || replacement.isAtom()) {
+        if (formula == null || operatorVariable == null || replacement == null
+                || formula.isAtom() || operatorVariable.isAtom() || replacement.isAtom()) {
             return formula;
         }
         final ElementList f = formula.getList();
