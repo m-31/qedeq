@@ -220,7 +220,7 @@ public class AboutDialog extends JDialog {
         sb.append("This is Hilbert II - a project to create a formal correct (checkable by a proof"
             + " verifier) but readable (like an ordinary LaTeX textbook) mathematical knowledge base.");
         sb.append("\n\nWritten by Michael Meyling <mime@qedeq.org>");
-        sb.append("\nCopyright \u00a9 2010 Michael Meyling. All Rights Reserved.");
+        sb.append("\nCopyright \u00a9 2000 - 2011 Michael Meyling. All Rights Reserved.");
         sb.append("\n\nHilbert II comes with ABSOLUTELY NO WARRANTY. This is free software, and you"
             + " are welcome to redistribute it under certain conditions.");
         sb.append(" Please take a look at the license argreements section in the online help.");
