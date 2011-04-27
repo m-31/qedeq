@@ -383,21 +383,22 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     }
 
     public boolean hasProvedFormula(final String reference) {
+        final String method = "hasProvedFormula";
         final Reference ref = getReference(reference, getCurrentContext(), false, false);
         if (ref == null) {
-            System.out.println("ref == null");
+            Trace.info(CLASS, method, "ref == null");
             return false;
         }
         if (ref.isExternalModuleReference()) {
-            System.out.println("ref is external module");
+            Trace.info(CLASS, method, "ref is external module");
             return false;
         }
         if (!ref.isNodeReference()) {
-            System.out.println("ref is no node reference");
+            Trace.info(CLASS, method, "ref is no node reference");
             return false;
         }
         if (null == ref.getNode()) {
-            System.out.println("ref node == null");
+            Trace.info(CLASS, method, "ref node == null");
             return false;
         }
         if (ref.isSubReference()) {
@@ -405,18 +406,18 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
         if (!ref.isProofLineReference()) {
             if (!ref.getNode().isProved()) {
-                System.out.println("ref node is not marked as proved: " + reference);
+                Trace.info(CLASS, method, "ref node is not marked as proved: " + reference);
             }
             if (!ref.getNode().isProved()) {
                 return false;
             }
             if (!ref.getNode().hasFormula()) {
-                System.out.println("node has no formula: " + reference);
+                Trace.info(CLASS, method, "node has no formula: " + reference);
                 return false;
             }
             return ref.getNode().isProved();
         } else {
-            System.out.println("proof line references are not ok!");
+            Trace.info(CLASS, method, "proof line references are not ok!");
             return false;
         }
     }
