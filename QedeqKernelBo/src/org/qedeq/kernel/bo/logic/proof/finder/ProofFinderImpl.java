@@ -77,8 +77,7 @@ public class ProofFinderImpl implements ProofFinder {
             }
             lines.add(proof.get(i).getFormula().getElement());
             reasons.add(r);
-            // FIXME only predvars with null arguments!
-            allPredVars.union(FormulaUtility.getPredicateVariables(
+            allPredVars.union(FormulaUtility.getPropositionVariables(
                 proof.get(i).getFormula().getElement()));
         }
         String max = "A";

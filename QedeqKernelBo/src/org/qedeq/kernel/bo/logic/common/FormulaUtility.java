@@ -73,10 +73,20 @@ public final class FormulaUtility implements Operators {
      * Is {@link Element} a predicate variable?
      *
      * @param   element    Element to look onto.
-     * @return  Is it a predicate constant?
+     * @return  Is it a predicate variable?
      */
     public static final boolean isPredicateVariable(final Element element) {
         return isOperator(PREDICATE_VARIABLE, element);
+    }
+
+    /**
+     * Is {@link Element} a proposition variable?
+     *
+     * @param   element    Element to look onto.
+     * @return  Is it a proposition variable?
+     */
+    public static final boolean isPropositionVariable(final Element element) {
+        return isOperator(PREDICATE_VARIABLE, element) && element.getList().size() <= 1;
     }
 
     /**
@@ -246,11 +256,31 @@ public final class FormulaUtility implements Operators {
             for (int i = 1; i < pred.size(); i++) {
                 normalized.add(createSubjectVariable("x_" + i));
             }
-            all.add(element);
+            all.add(normalized);
         } else if (element.isList()) {
             final ElementList list = element.getList();
             for (int i = 0; i < list.size(); i++) {
                 all.union(getPredicateVariables(list.getElement(i)));
+            }
+        }
+        return all;
+    }
+
+    /**
+     * Return all proposition variables of an element. That are predicate variables with
+     * arity zero.
+     *
+     * @param   element    Work on this element.
+     * @return  All normalized predicate variables of that formula.
+     */
+    public static final ElementSet getPropositionVariables(final Element element) {
+        final ElementSet all = new ElementSet();
+        if (isPropositionVariable(element)) {
+            all.add(element);
+        } else if (element.isList()) {
+            final ElementList list = element.getList();
+            for (int i = 0; i < list.size(); i++) {
+                all.union(getPropositionVariables(list.getElement(i)));
             }
         }
         return all;
