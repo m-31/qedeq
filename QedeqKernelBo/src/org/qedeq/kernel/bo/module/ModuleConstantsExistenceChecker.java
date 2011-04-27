@@ -13,9 +13,15 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.common;
+package org.qedeq.kernel.bo.module;
 
-import org.qedeq.kernel.bo.module.KernelQedeqBo;
+import org.qedeq.kernel.bo.logic.common.ClassOperatorAlreadyExistsException;
+import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
+import org.qedeq.kernel.bo.logic.common.FunctionConstant;
+import org.qedeq.kernel.bo.logic.common.FunctionKey;
+import org.qedeq.kernel.bo.logic.common.IdentityOperatorAlreadyExistsException;
+import org.qedeq.kernel.bo.logic.common.PredicateConstant;
+import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 /**

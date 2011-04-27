@@ -1,7 +1,6 @@
 package org.qedeq.kernel.bo.module;
 
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.logic.common.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
