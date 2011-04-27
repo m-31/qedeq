@@ -29,7 +29,6 @@ import org.qedeq.kernel.bo.logic.common.ProofFinderFactory;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
-import org.qedeq.kernel.bo.service.StateManager;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
@@ -215,7 +214,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             // TODO 20110323 m31: we do a dirty cast to modify the current module
             Object state;
             try {
-                state = (StateManager) YodaUtility.getFieldValue(getQedeqBo(), "stateManager");
+                state = YodaUtility.getFieldValue(getQedeqBo(), "stateManager");
                 YodaUtility.executeMethod(state, "setLogicalState", new Class[] {
                     LogicalModuleState.class},
                     new Object[] {LogicalModuleState.STATE_UNCHECKED});
