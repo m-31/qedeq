@@ -230,6 +230,8 @@
 -->
 	<p>FindBugs version: <xsl:value-of select="/BugCollection/@version"/></p>
 	
+
+<!-- LATER 20110428 m31: choose correct name
 	<p>Code analyzed:</p>
 	<ul>
 		<xsl:for-each select="./Jar">
@@ -237,6 +239,7 @@
 		</xsl:for-each>
 	</ul>
 	<p><br/><br/></p>
+->
 </xsl:template>
 
 <xsl:template match="BugInstance[not(@last)]">
