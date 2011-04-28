@@ -21,7 +21,7 @@ Functional Changes
 
   Other Changes
   -------------
-  none
+  - more reports under src/reports/
 
 
 XML Files
