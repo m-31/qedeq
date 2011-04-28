@@ -161,4 +161,12 @@ public interface BasicProofErrors extends ErrorCodes {
         + "replacement formula";
 
 
+    /** Error code. */
+    public static final int SUBJECT_VARIABLE_IS_MISSING_CODE = 37270;
+
+    /** Error message. */
+    public static final String SUBJECT_VARIABLE_IS_MISSING_TEXT
+        = "subject variable is missing";
+
+
 }

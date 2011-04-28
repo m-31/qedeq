@@ -225,7 +225,6 @@ public class ProofCheckerImpl implements ProofChecker {
     }
 
     private boolean check(final Rename rename, final int i, final Element element) {
-        System.out.println("Testing rename");
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
         final Integer n = (Integer) label2line.get(rename.getReference());
@@ -263,7 +262,6 @@ public class ProofCheckerImpl implements ProofChecker {
                 ok = true;
             }
         }
-        System.out.println("rename status: " + ok);
         return ok;
     }
 
@@ -608,6 +606,15 @@ public class ProofCheckerImpl implements ProofChecker {
                     getCurrentContext());
                 return ok;
             }
+            if (!FormulaUtility.isSubjectVariable(universal.getSubjectVariable())) {
+                ok = false;
+                setLocationWithinModule(context + ".getSubjectVariable()");
+                handleProofCheckException(
+                    BasicProofErrors.SUBJECT_VARIABLE_IS_MISSING_CODE,
+                    BasicProofErrors.SUBJECT_VARIABLE_IS_MISSING_TEXT,
+                    getCurrentContext());
+                return ok;
+            }
             final DefaultElementList expected = new DefaultElementList(f.getList().getOperator());
             expected.add((f.getList().getElement(0)));
             final ElementList uni = new DefaultElementList(Operators.UNIVERSAL_QUANTIFIER_OPERATOR);
@@ -657,6 +664,15 @@ public class ProofCheckerImpl implements ProofChecker {
                     BasicProofErrors.IMPLICATION_EXPECTED_CODE,
                     BasicProofErrors.IMPLICATION_EXPECTED_TEXT
                     + existential.getReference(),
+                    getCurrentContext());
+                return ok;
+            }
+            if (!FormulaUtility.isSubjectVariable(existential.getSubjectVariable())) {
+                ok = false;
+                setLocationWithinModule(context + ".getSubjectVariable()");
+                handleProofCheckException(
+                    BasicProofErrors.SUBJECT_VARIABLE_IS_MISSING_CODE,
+                    BasicProofErrors.SUBJECT_VARIABLE_IS_MISSING_TEXT,
                     getCurrentContext());
                 return ok;
             }
