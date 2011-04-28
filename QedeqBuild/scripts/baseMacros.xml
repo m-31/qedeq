@@ -421,6 +421,11 @@
                   <pathelement location="${qedeq.lib}/jdepend-2.9.jar" /> 
               </classpath>
             </jdepend> 
+            <style basedir="@{dir}/target/reports/jdepend/report/"
+              destdir="@{dir}/target/reports/jdepend/report/"
+              includes="jdepend-report.xml"
+              style="${ant.home}/etc/jdepend.xsl"
+            />
         </sequential>
     </macrodef>
 
