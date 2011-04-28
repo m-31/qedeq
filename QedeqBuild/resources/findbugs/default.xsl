@@ -220,12 +220,14 @@
 </xsl:template>
 
 <xsl:template match="Project">
+<!-- LATER 20110428 m31: choose correct name
 	<p>Project: 
 		<xsl:choose>
 			<xsl:when test='string-length(/BugCollection/Project/@projectName)>0'><xsl:value-of select="/BugCollection/Project/@projectName" /></xsl:when>
 			<xsl:otherwise><xsl:value-of select="/BugCollection/Project/@filename" /></xsl:otherwise>
 		</xsl:choose>
 	</p>
+-->
 	<p>FindBugs version: <xsl:value-of select="/BugCollection/@version"/></p>
 	
 	<p>Code analyzed:</p>

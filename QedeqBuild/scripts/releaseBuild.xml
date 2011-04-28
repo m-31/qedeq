@@ -225,12 +225,12 @@ currently in ants classpath
     </target>
                 
     <target name="findbugs" description="run findbugs" depends="">
-        <findbugsReport  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/fancy.xsl"/>
-        <findbugsReport  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/fancy.xsl"/>
-        <findbugsReport  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/fancy.xsl"/>
-        <findbugsReport  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/fancy.xsl"/>
-        <findbugsReport  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate" excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/fancy.xsl"/> 
-        <findbugsReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.aggregate" excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/fancy.xsl"/>
+        <findbugsReport  name="QedeqBase"      dir="${qedeq.dest.module}/QedeqBase"      classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/default.xsl"/>
+        <findbugsReport  name="QedeqKernelSe"  dir="${qedeq.dest.module}/QedeqKernelSe"  classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/default.xsl"/>
+        <findbugsReport  name="QedeqKernelBo"  dir="${qedeq.dest.module}/QedeqKernelBo"  classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/default.xsl"/>
+        <findbugsReport  name="QedeqKernelXml" dir="${qedeq.dest.module}/QedeqKernelXml" classpath="classpath.common"    excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/default.xsl"/>
+        <findbugsReport  name="qedeq_kernel"   dir="${qedeq.dest.module}/qedeq_kernel"   classpath="classpath.aggregate" excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/default.xsl"/> 
+        <findbugsReport  name="qedeq_gui_se"   dir="${qedeq.dest.module}/qedeq_gui_se"   classpath="classpath.aggregate" excludeFilter="${qedeq.resources}/findbugs/excludeFilter.xml" style="${qedeq.resources}/findbugs/default.xsl"/>
     </target>
 
     <target name="jdepend" description="run jdepend" depends="">

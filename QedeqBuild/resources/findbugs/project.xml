@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?> 
-<?xml-stylesheet type="text/xsl" href="http://findbugs.sourceforge.net/xsl/default.xsl"?> 
- 
-<BugCollection release="@QEDEQ_BUILD_ID@"> 
-  <Project filename="QEDEQ" projectName="Hilbert II"> 
-  </Project> 
-  <ClassFeatures></ClassFeatures> 
-  <History></History> 
-</BugCollection> 
