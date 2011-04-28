@@ -365,6 +365,7 @@
         <attribute name="dir" />   <!-- destination directory -->
         <attribute name="classpath" />      <!-- refid for test runtime classpath -->
     	<attribute name="excludeFilter" />  <!-- exclude these bug types -->
+        <attribute name="style" />       <!-- XSLT transformer file -->
         <sequential>
             <echo>findbugs @{name} with $${findbugs.home}=${findbugs.home}</echo>
 
@@ -384,6 +385,11 @@
                 <sourcePath path="@{dir}/src/main/java" />
                 <class location="@{dir}/target/classes" />
             </findbugs>
+            <xslt basedir="@{dir}/target/reports/findbugs/data/"
+              destdir="@{dir}/target/reports/findbugs/data/"
+              includes="@{name}-fb.xml"
+              style="@{style}"
+            />
         </sequential>
     </macrodef>
 
@@ -421,7 +427,7 @@
                   <pathelement location="${qedeq.lib}/jdepend-2.9.jar" /> 
               </classpath>
             </jdepend> 
-            <style basedir="@{dir}/target/reports/jdepend/report/"
+            <xslt basedir="@{dir}/target/reports/jdepend/report/"
               destdir="@{dir}/target/reports/jdepend/report/"
               includes="jdepend-report.xml"
               style="${ant.home}/etc/jdepend.xsl"
@@ -449,21 +455,21 @@
             </copy>   
             <mkdir dir="${qedeq.dest}/src/reports/@{name}/jdepend" />
             <copy todir="${qedeq.dest}/src/reports/@{name}/jdepend" failonerror="false">
-                <fileset dir="@{dir}/target/reports/jedepend/report" />
+                <fileset dir="@{dir}/target/reports/jdepend/report" />
             </copy>   
             <mkdir dir="${qedeq.dest}/src/reports/@{name}/checkstyle" />
             <copy todir="${qedeq.dest}/src/reports/@{name}/checkstyle" failonerror="false">
-                <fileset dir="@{dir}/target/reports/jedepend/checkstyle/report" />
-                <fileset dir="@{dir}/target/reports/jedepend/checkstyle/data" />
+                <fileset dir="@{dir}/target/reports/checkstyle/report" />
+                <fileset dir="@{dir}/target/reports/checkstyle/data" />
             </copy>   
             <mkdir dir="${qedeq.dest}/src/reports/@{name}/source" />
             <copy todir="${qedeq.dest}/src/reports/@{name}/source" failonerror="false">
-                <fileset dir="@{dir}/target/reports/jedepend/source/report" />
+                <fileset dir="@{dir}/target/reports/source/report" />
             </copy>   
             <mkdir dir="${qedeq.dest}/src/reports/@{name}/findbugs" />
             <copy todir="${qedeq.dest}/src/reports/@{name}/findbugs" failonerror="false">
-                <fileset dir="@{dir}/target/reports/jedepend/findbugs/report" />
-                <fileset dir="@{dir}/target/reports/jedepend/findbugs/data" />
+                <fileset dir="@{dir}/target/reports/findbugs/report" />
+                <fileset dir="@{dir}/target/reports/findbugs/data" />
             </copy>   
         </sequential>
     </macrodef>
