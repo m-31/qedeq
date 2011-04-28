@@ -375,7 +375,7 @@
             <copy file="@{excludeFilter}" todir="@{dir}/target/reports/findbugs/data" />
             <mkdir dir="@{dir}/target/reports/findbugs/report" />
             <findbugs home="${findbugs.home}"
-              output="xml"
+              output="xml:withMessages"
               outputFile="@{dir}/target/reports/findbugs/data/@{name}-fb.xml"
               jvmargs="-Xmx512m -Xms512m -XX:MaxPermSize=256m"
               excludeFilter="@{excludeFilter}"
@@ -446,6 +446,24 @@
             <mkdir dir="${qedeq.dest}/src/reports/@{name}/clover" />
             <copy todir="${qedeq.dest}/src/reports/@{name}/clover" failonerror="false">
                 <fileset dir="@{dir}/target/reports/clover/report" />
+            </copy>   
+            <mkdir dir="${qedeq.dest}/src/reports/@{name}/jdepend" />
+            <copy todir="${qedeq.dest}/src/reports/@{name}/jdepend" failonerror="false">
+                <fileset dir="@{dir}/target/reports/jedepend/report" />
+            </copy>   
+            <mkdir dir="${qedeq.dest}/src/reports/@{name}/checkstyle" />
+            <copy todir="${qedeq.dest}/src/reports/@{name}/checkstyle" failonerror="false">
+                <fileset dir="@{dir}/target/reports/jedepend/checkstyle/report" />
+                <fileset dir="@{dir}/target/reports/jedepend/checkstyle/data" />
+            </copy>   
+            <mkdir dir="${qedeq.dest}/src/reports/@{name}/source" />
+            <copy todir="${qedeq.dest}/src/reports/@{name}/source" failonerror="false">
+                <fileset dir="@{dir}/target/reports/jedepend/source/report" />
+            </copy>   
+            <mkdir dir="${qedeq.dest}/src/reports/@{name}/findbugs" />
+            <copy todir="${qedeq.dest}/src/reports/@{name}/findbugs" failonerror="false">
+                <fileset dir="@{dir}/target/reports/jedepend/findbugs/report" />
+                <fileset dir="@{dir}/target/reports/jedepend/findbugs/data" />
             </copy>   
         </sequential>
     </macrodef>
