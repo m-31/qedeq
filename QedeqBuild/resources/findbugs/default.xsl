@@ -239,7 +239,7 @@
 		</xsl:for-each>
 	</ul>
 	<p><br/><br/></p>
-->
+-->
 </xsl:template>
 
 <xsl:template match="BugInstance[not(@last)]">
