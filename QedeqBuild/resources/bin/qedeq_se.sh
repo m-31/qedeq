@@ -5,7 +5,7 @@
 # change to directory of script directory
 cd $(dirname $0)
 
-# set http proxy (if any)
+# you can set a proxy in the application or you can set the http proxy here
 QEDEQ_PROXY=
 # if you need a proxy please remove the leading # of the following line and adjust the settings
 # QEDEQ_PROXY="-DproxySet=true  -DproxyHost=myProxyHost -DproxyPort=myProxyPort" 

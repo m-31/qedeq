@@ -4,7 +4,7 @@ REM this script starts the standalone GUI front end of *Hilbert II*
 REM remove the following line for Windows 98 or below
 @setlocal
 
-REM set http proxy (if any)
+REM you can set a proxy in the application or you can set the http proxy here
 set QEDEQ_PROXY=
 REM if you need a proxy please remove the leading REM of the following line and adjust the settings
 REM set QEDEQ_PROXY=-DproxySet=true -DproxyHost=myProxyHost -DproxyPort=myProxyPort
