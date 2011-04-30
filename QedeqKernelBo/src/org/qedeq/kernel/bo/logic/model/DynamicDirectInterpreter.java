@@ -269,8 +269,8 @@ public class DynamicDirectInterpreter {
                     }
                 }
                 final PredicateKey predicateKey = new PredicateKey(name, "" + (list.size() - 1));
-                final PredicateConstant constant
-                    =  newProp.getExistenceChecker().get(predicateKey);
+                final PredicateConstant constant = (newProp.getExistenceChecker() != null ?
+                    newProp.getExistenceChecker().get(predicateKey) : null);
                 if (constant != null) {
                     setLocationWithinModule(context + ".getList()");
                     final Entity[] arguments = getEntities(list);
