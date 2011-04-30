@@ -117,6 +117,8 @@ public class PluginAction extends AbstractAction {
             return GuiHelper.readImageIcon("tango/" + resolution + "/categories/applications-system.png");
         } else if (-1 < plugin.getPluginActionName().indexOf("how")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-find.png");
+        } else if (-1 < plugin.getPluginActionName().indexOf("odel")) {
+            return GuiHelper.readImageIcon("oil/" + resolution + "/apps/accessories-calculator-3.png");
         } else if (-1 < plugin.getPluginActionName().indexOf("UTF-8")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/mimetypes/text-x-generic.png");
         } else if (-1 < plugin.getPluginActionName().indexOf("heck")
