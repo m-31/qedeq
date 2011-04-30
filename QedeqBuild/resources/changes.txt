@@ -11,9 +11,9 @@ Functional Changes
   Extensions
   ----------
   - These formal proofs can be checked. First successfully checked module:
-    "sample\qedeq_sample3.xml"
+    "sample/qedeq_sample3.xml"
   - new plugins to find propositional calculus proofs; these can be tested
-    with "sample\qedeq_sample4.xml"
+    with "sample/qedeq_sample4.xml"
   
   Fixed Bugs
   ----------
@@ -29,16 +29,20 @@ XML Files
 
   Extensions
   ----------
-  - added "sample\qedeq_sample4.xml" 
+  - added "sample/qedeq_sample4.xml" which contains propositions without
+    formal proofs; these proofs can be found by the new proof finder
+  - added "doc/math/qedeq_propositional_v1.xml"
 
   Fixed Bugs
   ----------
-  sample\qedeq_sample3.xml
+  sample/qedeq_sample3.xml
   - our proof checker found some errors - these were corrected
 
   Other Changes
   -------------
-  - QEDEQ modules in "doc\" are not duplicated in "sample\"
+  - definitions are now direct equivalences or equality relations, thus
+    we can reference definition formulas in formal proofs directly
+  - QEDEQ modules in "doc/" are not duplicated in "sample/" any longer
 
 
 Source Code
