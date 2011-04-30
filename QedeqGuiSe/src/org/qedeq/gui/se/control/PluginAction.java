@@ -122,8 +122,11 @@ public class PluginAction extends AbstractAction {
         } else if (-1 < plugin.getPluginActionName().indexOf("UTF-8")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/mimetypes/text-x-generic.png");
         } else if (-1 < plugin.getPluginActionName().indexOf("heck")
-                && -1 < plugin.getPluginActionName().indexOf("oofs")) {
+                && -1 < plugin.getPluginActionName().indexOf("roofs")) {
             return GuiHelper.readImageIcon("tango/" + resolution + "/actions/run.png");
+        } else if (-1 < plugin.getPluginActionName().indexOf("ind")
+                && -1 < plugin.getPluginActionName().indexOf("roofs")) {
+            return GuiHelper.readImageIcon("oil/" + resolution + "/apps/development-java-3.png");
         } else {
             return GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-find.png");
         }
