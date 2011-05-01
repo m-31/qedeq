@@ -10,10 +10,12 @@ Functional Changes
 
   Extensions
   ----------
-  - These formal proofs can be checked. First successfully checked module:
+  - these formal proofs can be checked. First successfully checked module:
     "sample/qedeq_sample3.xml"
   - new plugins to find propositional calculus proofs; these can be tested
     with "sample/qedeq_sample4.xml"
+  - under "bin/" are now executables for console programs that search for
+    simple propositional proofs 
   
   Fixed Bugs
   ----------
@@ -40,8 +42,9 @@ XML Files
 
   Other Changes
   -------------
-  - definitions are now direct equivalences or equality relations, thus
-    we can reference definition formulas in formal proofs directly
+  - definitions are now direct equivalences or identity relations, thus
+    we can reference definition formulas in formal proofs directly, all
+    XML files with definitions were changed accordingly
   - QEDEQ modules in "doc/" are not duplicated in "sample/" any longer
 
 
@@ -73,6 +76,8 @@ Source Code
   - relocation:   "math/qedeq_sample*" -> "sample"
   - ToolTip uses now UTF-8 capable font, so we get the current proof line
     formula when looking at the proof finder plugin in the thread window
+  - VariableList was removed due to changes in defining new predicates and
+    functions
 
 
 XSD
@@ -88,4 +93,8 @@ XSD
 
   Other Changes
   -------------
-  none
+  - element VARLIST was removed; new definition types were introduced; now
+    we have either an initial predicate or function constant definition,
+    that is a definition without a formula, or we have a definition that
+    is an equivalence between the new predicate and a defining formula, or
+    an identity relation between the new function and a defining term.
