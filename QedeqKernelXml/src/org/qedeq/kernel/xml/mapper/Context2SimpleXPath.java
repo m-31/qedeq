@@ -29,6 +29,7 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
@@ -37,6 +38,7 @@ import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
+import org.qedeq.kernel.se.base.module.Hypothesis;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
@@ -688,8 +690,6 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         traverser.setLocationWithinModule(context + ".getReference()");
         current.setAttribute("ref");
         checkIfFound();
-
-        checkIfFound();
     }
 
     public final void visitLeave(final SubstFree reason) {
@@ -705,8 +705,6 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
         traverser.setLocationWithinModule(context + ".getReference()");
         current.setAttribute("ref");
-        checkIfFound();
-
         checkIfFound();
     }
 
@@ -724,8 +722,6 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         traverser.setLocationWithinModule(context + ".getReference()");
         current.setAttribute("ref");
         checkIfFound();
-
-        checkIfFound();
     }
 
     public final void visitLeave(final SubstPred reason) {
@@ -741,8 +737,6 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
         traverser.setLocationWithinModule(context + ".getReference()");
         current.setAttribute("ref");
-        checkIfFound();
-
         checkIfFound();
     }
 
@@ -760,11 +754,36 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         traverser.setLocationWithinModule(context + ".getReference()");
         current.setAttribute("ref");
         checkIfFound();
-
-        checkIfFound();
     }
 
     public final void visitLeave(final Universal reason) {
+        leave();
+    }
+
+    public final void visitEnter(final ConditionalProof reason) throws ModuleDataException {
+        enter("CP");
+        final String method = "visitEnter(ConditionalProof)";
+        Trace.param(CLASS, this, method, "current", current);
+        checkMatching(method);
+    }
+
+    public final void visitLeave(final ConditionalProof reason) {
+        leave();
+    }
+
+    public final void visitEnter(final Hypothesis hypothesis) throws ModuleDataException {
+        enter("HYPOTHESIS");
+        final String method = "visitEnter(ConditionalProof)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getLabel()");
+        current.setAttribute("label");
+        checkIfFound();
+    }
+
+    public final void visitLeave(final Hypothesis hypothesis) {
         leave();
     }
 

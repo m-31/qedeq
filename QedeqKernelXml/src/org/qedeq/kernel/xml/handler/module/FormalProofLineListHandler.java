@@ -18,14 +18,14 @@ package org.qedeq.kernel.xml.handler.module;
 import org.qedeq.kernel.se.base.module.Reason;
 import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
-import org.qedeq.kernel.se.dto.module.ReasonTypeVo;
+import org.qedeq.kernel.se.dto.module.ReasonTypeVo2;
 import org.qedeq.kernel.xml.common.XmlSyntaxException;
 import org.qedeq.kernel.xml.handler.common.AbstractSimpleHandler;
 import org.qedeq.kernel.xml.handler.common.SimpleAttributes;
 
 
 /**
- * Parse author list.
+ * Parse formal proof lines.
  *
  * @author  Michael Meyling
  */
@@ -61,6 +61,9 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
     /** Handler for Universal Generalization usage. */
     private final UniversalHandler universalHandler;
 
+    /** Handler for Universal Generalization usage. */
+    private final ConditionalProofHandler conditionalProofHandler;
+
     /** Label for a single module. */
     private String label;
 
@@ -84,6 +87,7 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
         substFuncvarHandler = new SubstFuncvarHandler(this);
         existentialHandler = new ExistentialHandler(this);
         universalHandler = new UniversalHandler(this);
+        conditionalProofHandler = new ConditionalProofHandler(this);
     }
 
     public final void init() {
@@ -126,6 +130,8 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
             changeHandler(existentialHandler, name, attributes);
         } else if (universalHandler.getStartTag().equals(name)) {
             changeHandler(universalHandler, name, attributes);
+        } else if (conditionalProofHandler.getStartTag().equals(name)) {
+            changeHandler(conditionalProofHandler, name, attributes);
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
@@ -137,7 +143,7 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
         } else if (formulaHandler.getStartTag().equals(name)) {
             // nothing to do
         } else if ("L".equals(name)) {
-            list.add(new FormalProofLineVo(label, formulaHandler.getFormula(), new ReasonTypeVo(reason)));
+            list.add(new FormalProofLineVo(label, formulaHandler.getFormula(), new ReasonTypeVo2(reason)));
         } else if (modusPonensHandler.getStartTag().equals(name)) {
             reason = modusPonensHandler.getModusPonensVo();
         } else if (addHandler.getStartTag().equals(name)) {
@@ -154,6 +160,8 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
             reason = existentialHandler.getExistentialVo();
         } else if (universalHandler.getStartTag().equals(name)) {
             reason = universalHandler.getUniversalVo();
+        } else if (conditionalProofHandler.getStartTag().equals(name)) {
+            reason = conditionalProofHandler.getConditionalProofVo();
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
