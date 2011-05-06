@@ -28,6 +28,7 @@ import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
@@ -35,6 +36,7 @@ import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
+import org.qedeq.kernel.se.base.module.Hypothesis;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
@@ -569,6 +571,30 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitLeave(final Universal reason) {
         printer.popLevel();
         printer.println("</UNIVERSAL>");
+    }
+
+    public void visitEnter(final ConditionalProof reason) {
+        printer.print("<CP>");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final ConditionalProof reason) {
+        printer.popLevel();
+        printer.println("</CP>");
+    }
+
+    public void visitEnter(final Hypothesis hypothesis) {
+        printer.print("<HYPOTHESIS");
+        if (hypothesis.getLabel() != null) {
+            printer.print(" label=\"" + StringUtility.escapeXml(hypothesis.getLabel()) + "\"");
+        }
+        printer.println(">");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final Hypothesis hypothesis) {
+        printer.popLevel();
+        printer.println("</HYPOTHESIS>");
     }
 
     public void visitEnter(final InitialPredicateDefinition definition) {
