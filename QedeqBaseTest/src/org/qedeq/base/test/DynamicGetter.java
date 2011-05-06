@@ -60,7 +60,7 @@ public final class DynamicGetter {
             Trace.trace(DynamicGetter.class, "getMethodResult(Object)", "obj = null!");
             throw new RuntimeException("trying to execute method on null object: \"" + methodName + "\"");
         }
-        final Method[] method = obj.getClass().getDeclaredMethods();
+        Method[] method = obj.getClass().getMethods();
         for (int i = 0; i < method.length; i++) {
             if (method[i].getName().equals(methodName)) {
                 Trace.trace(CLASS, "getMethodResult(Object)", "invoking:",
@@ -69,6 +69,8 @@ public final class DynamicGetter {
             }
         }
         // mime 20050622: other exception?
+        System.out.println(obj.getClass());
+        System.out.println(obj);
         throw new RuntimeException("method not found: " + methodName);
     }
 
