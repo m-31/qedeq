@@ -916,6 +916,93 @@
             </FORMAL_PROOF>
           </THEOREM>
         </NODE>
+        <NODE id="proposition:implication10">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <IMPL>
+                  <PREDVAR id="A"/>
+                  <IMPL>
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="B"/>
+                  </IMPL>
+                </IMPL>
+                <IMPL>
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
+                </IMPL>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="B"/>
+                        </IMPL>
+                      </IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <CP>
+                    <HYPOTHESIS label="2">
+                      <FORMULA>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <IMPL>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </IMPL>
+                        </IMPL>
+                      </FORMULA>
+                    </HYPOTHESIS>
+                    <LINES>
+                      <L label="3">
+                        <FORMULA>
+                          <IMPL>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </IMPL>
+                        </FORMULA>
+                        <CP>
+                          <HYPOTHESIS label="4">
+                            <FORMULA>
+                              <PREDVAR id="A"/>
+                            </FORMULA>
+                          </HYPOTHESIS>
+                          <LINES>
+                            <L label="5">
+                              <FORMULA>
+                                <IMPL>
+                                  <PREDVAR id="A"/>
+                                  <PREDVAR id="B"/>
+                                </IMPL>
+                              </FORMULA>
+                              <MP ref1="2" ref2="4"/>
+                            </L>
+                            <L label="6">
+                              <FORMULA>
+                                <PREDVAR id="B"/>
+                              </FORMULA>
+                              <MP ref1="5" ref2="4"/>
+                            </L>
+                          </LINES>
+                        </CP>
+                      </L>
+                    </LINES>
+                  </CP>
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
         <NODE id="proposition:implication12">
           <THEOREM>
             <FORMULA>
