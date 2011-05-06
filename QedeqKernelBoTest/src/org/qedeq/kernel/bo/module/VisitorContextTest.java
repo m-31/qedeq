@@ -31,6 +31,7 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
@@ -39,6 +40,7 @@ import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
+import org.qedeq.kernel.se.base.module.Hypothesis;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
@@ -138,6 +140,10 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
         checkContext();
     }
 
+    public void visitEnter(final ConditionalProof cp) throws ModuleDataException {
+        checkContext();
+    }
+
     public void visitEnter(final Formula formula) throws ModuleDataException {
         checkContext();
     }
@@ -147,6 +153,10 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
     }
 
     public void visitEnter(final Header header) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(final Hypothesis hypothesis) throws ModuleDataException {
         checkContext();
     }
 
@@ -429,6 +439,14 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
     }
 
     public void visitLeave(final Universal reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final ConditionalProof reason) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final Hypothesis hypothesis) throws ModuleDataException {
         checkContext();
     }
 

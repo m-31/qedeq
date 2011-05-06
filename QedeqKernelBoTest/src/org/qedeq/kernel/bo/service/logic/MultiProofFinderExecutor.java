@@ -53,7 +53,7 @@ import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
 import org.qedeq.kernel.se.dto.module.FormalProofVo;
 import org.qedeq.kernel.se.dto.module.FormulaVo;
 import org.qedeq.kernel.se.dto.module.PropositionVo;
-import org.qedeq.kernel.se.dto.module.ReasonTypeVo;
+import org.qedeq.kernel.se.dto.module.ReasonTypeVo2;
 import org.qedeq.kernel.se.visitor.InterruptException;
 
 
@@ -183,7 +183,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
             return;
         }
         validFormulas.add(new FormalProofLineVo(new FormulaVo(getNodeBo().getFormula()),
-            new ReasonTypeVo(new AddVo(getNodeBo().getNodeVo().getId()))));
+            new ReasonTypeVo2(new AddVo(getNodeBo().getNodeVo().getId()))));
         setBlocked(true);
     }
 
@@ -197,7 +197,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
             return;
         }
         validFormulas.add(new FormalProofLineVo(new FormulaVo(getNodeBo().getFormula()),
-                new ReasonTypeVo(new AddVo(getNodeBo().getNodeVo().getId()))));
+                new ReasonTypeVo2(new AddVo(getNodeBo().getNodeVo().getId()))));
         setBlocked(true);
     }
 
@@ -229,7 +229,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
             return;
         }
         validFormulas.add(new FormalProofLineVo(new FormulaVo(getNodeBo().getFormula()),
-                new ReasonTypeVo(new AddVo(getNodeBo().getNodeVo().getId()))));
+                new ReasonTypeVo2(new AddVo(getNodeBo().getNodeVo().getId()))));
         setBlocked(true);
     }
 
@@ -249,7 +249,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
             goalFormulas.add(proposition.getFormula().getElement());
         } else {
             validFormulas.add(new FormalProofLineVo(new FormulaVo(getNodeBo().getFormula()),
-                    new ReasonTypeVo(new AddVo(getNodeBo().getNodeVo().getId()))));
+                    new ReasonTypeVo2(new AddVo(getNodeBo().getNodeVo().getId()))));
         }
         setBlocked(true);
     }
