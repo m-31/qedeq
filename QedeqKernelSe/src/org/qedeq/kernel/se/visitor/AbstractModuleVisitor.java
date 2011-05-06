@@ -23,6 +23,7 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
@@ -31,6 +32,7 @@ import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
+import org.qedeq.kernel.se.base.module.Hypothesis;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
@@ -70,7 +72,7 @@ import org.qedeq.kernel.se.common.ModuleDataException;
 /**
  * Basic visitor that makes nothing.
  *
- * @author Michael Meyling
+ * @author  Michael Meyling
  */
 public abstract class AbstractModuleVisitor implements QedeqVisitor {
 
@@ -180,6 +182,12 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     }
 
     public void visitEnter(final Universal reason) throws ModuleDataException {
+    }
+
+    public void visitEnter(final ConditionalProof reason) throws ModuleDataException {
+    }
+
+    public void visitEnter(final Hypothesis hypothesis) throws ModuleDataException {
     }
 
     public void visitEnter(final FormalProofLineList proofLineList) throws ModuleDataException {
@@ -326,6 +334,12 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     }
 
     public void visitLeave(final Universal reason) throws ModuleDataException {
+    }
+
+    public void visitLeave(final ConditionalProof reason) throws ModuleDataException {
+    }
+
+    public void visitLeave(final Hypothesis hypothesis) throws ModuleDataException {
     }
 
     public void visitLeave(final FormalProofLineList proofLineList) throws ModuleDataException {

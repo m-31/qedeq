@@ -17,31 +17,34 @@ package org.qedeq.kernel.se.base.module;
 
 
 /**
- * Contains a line of a formal proof for a proposition.
+ * Usage of conditional proof method. If you can derive the proposition A out of
+ * the assumed formulas then the following formula is true:
+ * conjunction of the assumed formulas implies A
+ * <pre>
+ *      H    hypothesis
+ *     -------------------
+ *      A
+ *  ---------------
+ *   H -&gt; A
+ * </pre>
  *
  * @author  Michael Meyling
  */
-public interface FormalProofLine {
+public interface ConditionalProof extends Reason {
 
     /**
-     * Get label for this proof line. Used for back references.
+     * Get reference to already proven formula.
      *
-     * @return  Label.
+     * @return  Reference to previously proved formula.
      */
-    public String getLabel();
+    public Hypothesis getHypothesis();
 
     /**
-     * Get formula for this line.
+     * Get free subject variable that should be replaced.
      *
-     * @return  Formula.
+     * @return  Subject variable.
      */
-    public Formula getFormula();
+    public FormalProofLineList getFormalProofLineList();
 
-    /**
-     * Get reason for deriving this line.
-     *
-     * @return  Reason.
-     */
-    public ReasonType2 getReasonType();
 
 }

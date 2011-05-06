@@ -29,7 +29,7 @@ import org.qedeq.kernel.se.base.module.Universal;
 
 
 /**
- * Contains a formal proof for a proposition.
+ * Reason type for getting a new proof line.
  *
  * @author  Michael Meyling
  */

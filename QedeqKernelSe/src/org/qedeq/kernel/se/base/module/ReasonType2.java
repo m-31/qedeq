@@ -17,31 +17,19 @@ package org.qedeq.kernel.se.base.module;
 
 
 /**
- * Contains a line of a formal proof for a proposition.
+ * Encapsulates all rules of interference.
+ *
+ * Contains rules for higher rule version. Version 1.01.
  *
  * @author  Michael Meyling
  */
-public interface FormalProofLine {
+public interface ReasonType2 extends ReasonType {
 
     /**
-     * Get label for this proof line. Used for back references.
-     *
-     * @return  Label.
-     */
-    public String getLabel();
-
-    /**
-     * Get formula for this line.
-     *
-     * @return  Formula.
-     */
-    public Formula getFormula();
-
-    /**
-     * Get reason for deriving this line.
+     * Get ModusPonens reason for deriving this line.
      *
      * @return  Reason.
      */
-    public ReasonType2 getReasonType();
+    public ConditionalProof getConditionalProof();
 
 }

@@ -26,6 +26,7 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
@@ -34,6 +35,7 @@ import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
+import org.qedeq.kernel.se.base.module.Hypothesis;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
@@ -53,7 +55,7 @@ import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.base.module.Reason;
-import org.qedeq.kernel.se.base.module.ReasonType;
+import org.qedeq.kernel.se.base.module.ReasonType2;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
@@ -926,7 +928,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         setLocationWithinModule(context);
     }
 
-    public void accept(final ReasonType reasonType) throws ModuleDataException {
+    public void accept(final ReasonType2 reasonType) throws ModuleDataException {
         checkForInterrupt();
         if (blocked || reasonType == null) {
             return;
@@ -961,6 +963,9 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             } else if (reason instanceof Universal) {
                 setLocationWithinModule(context + ".getUniversal()");
                 accept(reasonType.getUniversal());
+            } else if (reason instanceof ConditionalProof) {
+                setLocationWithinModule(context + ".getConditionalProof()");
+                accept(reasonType.getConditionalProof());
             } else {
                 throw new IllegalArgumentException("unexpected reason type: "
                     + reason.getClass());
@@ -1104,6 +1109,42 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         }
         setLocationWithinModule(context);
         visitor.visitLeave(reason);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final ConditionalProof reason) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || reason == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(reason);
+        if (reason.getHypothesis() != null) {
+            setLocationWithinModule(context + ".getHypothesis()");
+            accept(reason.getHypothesis());
+        }
+        if (reason.getFormalProofLineList() != null) {
+            setLocationWithinModule(context + ".getFormalProofLineList()");
+            accept(reason.getFormalProofLineList());
+        }
+        setLocationWithinModule(context);
+        visitor.visitLeave(reason);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final Hypothesis hypothesis) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || hypothesis == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(hypothesis);
+        if (hypothesis.getFormula() != null) {
+            setLocationWithinModule(context + ".getFormula()");
+            accept(hypothesis.getFormula());
+        }
+        setLocationWithinModule(context);
+        visitor.visitLeave(hypothesis);
         setLocationWithinModule(context);
     }
 

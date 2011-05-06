@@ -21,6 +21,7 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
@@ -29,6 +30,7 @@ import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
+import org.qedeq.kernel.se.base.module.Hypothesis;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
@@ -335,6 +337,22 @@ public interface QedeqVisitor extends ListVisitor {
      * @throws  ModuleDataException Major problem occurred.
      */
     public void visitEnter(Universal reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   reason              Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(ConditionalProof reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   hypothesis          Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(Hypothesis hypothesis) throws ModuleDataException;
 
     /**
      * Visit certain element. Begin of visit.
@@ -727,6 +745,22 @@ public interface QedeqVisitor extends ListVisitor {
      * @throws  ModuleDataException Major problem occurred.
      */
     public void visitLeave(Universal reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   reason              End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(ConditionalProof reason) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   hypothesis          End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(Hypothesis hypothesis) throws ModuleDataException;
 
     /**
      * Visit certain element. End of visit.

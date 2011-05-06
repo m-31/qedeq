@@ -17,14 +17,14 @@ package org.qedeq.kernel.se.base.module;
 
 
 /**
- * Contains a line of a formal proof for a proposition.
+ * Hypothesis that can be used as an assumption within a proof.
  *
  * @author  Michael Meyling
  */
-public interface FormalProofLine {
+public interface Hypothesis {
 
     /**
-     * Get label for this proof line. Used for back references.
+     * Get label for this hypothesis. Used for back references.
      *
      * @return  Label.
      */
@@ -37,11 +37,5 @@ public interface FormalProofLine {
      */
     public Formula getFormula();
 
-    /**
-     * Get reason for deriving this line.
-     *
-     * @return  Reason.
-     */
-    public ReasonType2 getReasonType();
 
 }
