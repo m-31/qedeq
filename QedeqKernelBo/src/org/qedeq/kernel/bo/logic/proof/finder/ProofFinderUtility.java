@@ -31,7 +31,7 @@ import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
 import org.qedeq.kernel.se.dto.module.FormulaVo;
 import org.qedeq.kernel.se.dto.module.ModusPonensVo;
-import org.qedeq.kernel.se.dto.module.ReasonTypeVo;
+import org.qedeq.kernel.se.dto.module.ReasonTypeVo2;
 import org.qedeq.kernel.se.dto.module.SubstPredVo;
 
 
@@ -110,7 +110,7 @@ public final class ProofFinderUtility {
             }
             result.add(new FormalProofLineVo("" + (1 + j),
                 new FormulaVo((Element) lines.get(new2old(j))),
-                new ReasonTypeVo(newReason)));
+                new ReasonTypeVo2(newReason)));
         }
         for (int j = 0; j < result.size(); j++) {
             System.out.print(result.get(j).getLabel() + ": ");

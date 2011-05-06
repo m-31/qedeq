@@ -24,6 +24,7 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
@@ -32,6 +33,7 @@ import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
+import org.qedeq.kernel.se.base.module.Hypothesis;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
@@ -51,7 +53,7 @@ import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.base.module.Reason;
-import org.qedeq.kernel.se.base.module.ReasonType;
+import org.qedeq.kernel.se.base.module.ReasonType2;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
@@ -76,6 +78,7 @@ import org.qedeq.kernel.se.dto.module.AuthorVo;
 import org.qedeq.kernel.se.dto.module.AxiomVo;
 import org.qedeq.kernel.se.dto.module.ChapterListVo;
 import org.qedeq.kernel.se.dto.module.ChapterVo;
+import org.qedeq.kernel.se.dto.module.ConditionalProofVo;
 import org.qedeq.kernel.se.dto.module.ExistentialVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineVo;
@@ -84,6 +87,7 @@ import org.qedeq.kernel.se.dto.module.FormalProofVo;
 import org.qedeq.kernel.se.dto.module.FormulaVo;
 import org.qedeq.kernel.se.dto.module.FunctionDefinitionVo;
 import org.qedeq.kernel.se.dto.module.HeaderVo;
+import org.qedeq.kernel.se.dto.module.HypothesisVo;
 import org.qedeq.kernel.se.dto.module.ImportListVo;
 import org.qedeq.kernel.se.dto.module.ImportVo;
 import org.qedeq.kernel.se.dto.module.InitialFunctionDefinitionVo;
@@ -102,7 +106,7 @@ import org.qedeq.kernel.se.dto.module.ProofListVo;
 import org.qedeq.kernel.se.dto.module.ProofVo;
 import org.qedeq.kernel.se.dto.module.PropositionVo;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
-import org.qedeq.kernel.se.dto.module.ReasonTypeVo;
+import org.qedeq.kernel.se.dto.module.ReasonTypeVo2;
 import org.qedeq.kernel.se.dto.module.RenameVo;
 import org.qedeq.kernel.se.dto.module.RuleVo;
 import org.qedeq.kernel.se.dto.module.SectionListVo;
@@ -944,12 +948,12 @@ public class QedeqVoBuilder {
         return line;
     }
 
-    private final ReasonTypeVo create(final ReasonType reasonType) {
+    private final ReasonTypeVo2 create(final ReasonType2 reasonType) {
         if (reasonType == null) {
             return null;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        final ReasonTypeVo result = new ReasonTypeVo();
+        final ReasonTypeVo2 result = new ReasonTypeVo2();
         if (reasonType.getReason() != null) {
             final Reason reason = reasonType.getReason();
             Reason res = null;
@@ -989,6 +993,11 @@ public class QedeqVoBuilder {
                 setLocationWithinModule(context + ".getUniversal()");
                 final Universal r = (Universal) reason;
                 res = new UniversalVo(r.getReference(), r.getSubjectVariable());
+            } else if (reason instanceof ConditionalProof) {
+                setLocationWithinModule(context + ".getConditionalProof()");
+                final ConditionalProof r = (ConditionalProof) reason;
+                res = new ConditionalProofVo(create(r.getHypothesis()),
+                    create(r.getFormalProofLineList()));
             } else {
                 throw new RuntimeException("unknown reason class: " + reason.getClass());
             }
@@ -996,6 +1005,23 @@ public class QedeqVoBuilder {
         }
         setLocationWithinModule(context);
         return result;
+    }
+
+    private final HypothesisVo create(final Hypothesis hypothesis) {
+        if (hypothesis == null) {
+            return null;
+        }
+        final HypothesisVo h = new HypothesisVo();
+        final String context = getCurrentContext().getLocationWithinModule();
+        if (hypothesis.getLabel() != null) {
+            h.setLabel(hypothesis.getLabel());
+        }
+        if (hypothesis.getFormula() != null) {
+            setLocationWithinModule(context + ".getFormula()");
+            h.setFormula(create(hypothesis.getFormula()));
+        }
+        setLocationWithinModule(context);
+        return h;
     }
 
     private final FormulaVo create(final Formula formula) {

@@ -36,11 +36,13 @@ import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
+import org.qedeq.kernel.se.base.module.Hypothesis;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
@@ -129,6 +131,9 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
 
     /** This is the maximal reason width. All proof line reasons that are bigger are wrapped. */
     private int reasonWidth = 35;
+
+    /** Tabulation string. */
+    private String tab = "";
 
     /**
      * Constructor.
@@ -534,16 +539,28 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             reason = new String[0];
         }
         if (line.getFormula() != null) {
-            formula = getQedeqBo().getElement2Utf8().getUtf8(line.getFormula().getElement(), formulaWidth);
+            formula = getQedeqBo().getElement2Utf8().getUtf8(line.getFormula().getElement(),
+                formulaWidth - tab.length());
         } else {
             formula = new String[0];
         }
     }
 
     public void visitLeave(final FormalProofLine line) {
+        linePrintln();
+    }
+
+    /**
+     * Print formula and reason.
+     */
+    private void linePrintln() {
         int to = Math.max(formula.length, reason.length);
+        if (to == 0) {
+            return;
+        }
         for (int i = 0; i < to; i++) {
             printer.skipToColumn(6);
+            printer.print(tab);
             if (i < formula.length) {
                 printer.print(formula[i]);
             }
@@ -553,6 +570,25 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             }
             printer.println();
         }
+        formula = new String[0];
+        reason = new String[0];
+    }
+
+    public void visitEnter(final Hypothesis hypothesis) {
+        if (hypothesis.getLabel() != null) {
+            printer.print(StringUtility.alignRight("(" + hypothesis.getLabel() + ")", 5) + " ");
+        }
+        setReason("Hypothesis");
+        if (hypothesis.getFormula() != null) {
+            formula = getQedeqBo().getElement2Utf8().getUtf8(hypothesis.getFormula().getElement(),
+                formulaWidth);
+        } else {
+            formula = new String[0];
+        }
+    }
+
+    public void visitLeave(final Hypothesis hypothesis) {
+        linePrintln();
     }
 
     private void setReason(final String reasonString) {
@@ -690,10 +726,15 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
         setReason(buffer);
     }
-    public void visitLeave(final FormalProof proof) {
-        printer.println();
-        printer.println("q.e.d.");
-        printer.println();
+
+    public void visitEnter(final ConditionalProof r) throws ModuleDataException {
+        setReason("CP");
+        linePrintln();
+        tab = tab + "  ";
+    }
+
+    public void visitLeave(final ConditionalProof proof) {
+        tab = StringUtility.substring(tab, 0, tab.length() - 2);
     }
 
     public void visitEnter(final InitialPredicateDefinition definition) {

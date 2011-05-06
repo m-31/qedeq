@@ -74,7 +74,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
         + getBuildIdFromManifest() + "] " + KERNEL_DEDICATED;
 
     /** Maximal supported rule version of this kernel. */
-    private static final String MAXIMAL_RULE_VERSION = "1.00.00";
+    private static final String MAXIMAL_RULE_VERSION = "1.01.00";
 
     /** One and only instance of this class. */
     private static final KernelContext INSTANCE = new KernelContext();
