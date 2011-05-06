@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.module;
 import org.qedeq.kernel.bo.common.NodeBo;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.NodeType;
@@ -154,9 +155,15 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
             if (label.equals(list.get(j).getLabel())) {
                 return true;
             }
-            if (list.get(j).getReasonType().getConditionalProof() != null) {
-                final FormalProofLineList list2 = list.get(j).getReasonType()
-                    .getConditionalProof().getFormalProofLineList();
+            final ConditionalProof conditionalProof = list.get(j).getReasonType()
+                .getConditionalProof();
+            if (conditionalProof != null) {
+                if (conditionalProof.getHypothesis() != null) {
+                    if (label.equals(conditionalProof.getHypothesis().getLabel())) {
+                        return true;
+                    }
+                }
+                final FormalProofLineList list2 = conditionalProof.getFormalProofLineList();
                 if (hasProofLineLabel(label, list2)) {
                     return true;
                 }
