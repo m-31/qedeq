@@ -138,19 +138,32 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
         // iterate through all formal proofs
         for (int i = 0; i < proofs.size(); i++) {
             final FormalProofLineList list = proofs.get(i).getFormalProofLineList();
-            if (list == null) {
-                continue;
-            }
-            for (int j = 0; j < list.size(); j++) {
-                if (label.equals(list.get(j).getLabel())) {
-                    return true;
-                }
+            if (hasProofLineLabel(label, list)) {
+                return true;
             }
         }
         // nowhere found:
         return false;
     }
 
+    private boolean hasProofLineLabel(final String label, final FormalProofLineList list) {
+        if (list == null) {
+            return false;
+        }
+        for (int j = 0; j < list.size(); j++) {
+            if (label.equals(list.get(j).getLabel())) {
+                return true;
+            }
+            if (list.get(j).getReasonType().getConditionalProof() != null) {
+                final FormalProofLineList list2 = list.get(j).getReasonType()
+                    .getConditionalProof().getFormalProofLineList();
+                if (hasProofLineLabel(label, list2)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 
     /**
      * Set proved parameter. See {@link #isWellFormed()}.
