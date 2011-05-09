@@ -505,8 +505,8 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         }
         printer.print("{");
         printer.print(getLatexListEntry("getTitle()", chapter.getTitle()));
-        final String label = "chapter" + chapterNumber;
-        printer.println("} \\label{" + label + "} \\hypertarget{" + label + "}{}");
+        final String chapterLabel = "chapter" + chapterNumber;
+        printer.println("} \\label{" + chapterLabel + "} \\hypertarget{" + chapterLabel + "}{}");
         if (chapter.getNoNumber() != null && chapter.getNoNumber().booleanValue()) {
             printer.println("\\addcontentsline{toc}{chapter}{"
                 + getLatexListEntry("getTitle()", chapter.getTitle()) + "}");
@@ -536,8 +536,8 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         }
         printer.print("{");
         printer.print(getLatexListEntry("getTitle()", section.getTitle()));
-        final String label = "chapter" + chapterNumber + "_section" + sectionNumber;
-        printer.println("} \\label{" + label + "} \\hypertarget{" + label + "}{}");
+        final String chapterLabel = "chapter" + chapterNumber + "_section" + sectionNumber;
+        printer.println("} \\label{" + chapterLabel + "} \\hypertarget{" + chapterLabel + "}{}");
         printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
         printer.println();
     }
