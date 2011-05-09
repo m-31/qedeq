@@ -687,7 +687,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (label.length() > 0) {
             String display = getNodeBo().getNodeVo().getId() + ":" + label;
             printer.print("\\label{" + display + "} \\hypertarget{" + display
-                + "}{} \\mbox{\\emph{(" + label + ")}} ");
+                + "}{} \\mbox{(" + label + ")} ");
         }
         printer.print(" \\ &  \\ ");
         for (int i = 0; i < tabLevel; i++) {
