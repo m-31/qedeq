@@ -681,6 +681,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
      * Print reason.
      */
     private void linePrintln() {
+        if (formula.length() == 0 && reason.length() == 0) {
+            return;
+        }
         if (label.length() > 0) {
             String display = getNodeBo().getNodeVo().getId() + ":" + label;
             printer.print("\\label{" + display + "} \\hypertarget{" + display
