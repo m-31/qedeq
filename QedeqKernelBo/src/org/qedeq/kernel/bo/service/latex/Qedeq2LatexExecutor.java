@@ -690,6 +690,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                 + "}{} \\mbox{\\emph{(" + label + ")}} ");
         }
         printer.print(" \\ &  \\ ");
+        for (int i = 0; i < tabLevel; i++) {
+            printer.print("\\mbox{\\qquad\\qquad}");
+        }
         if (formula.length() > 0) {
             printer.print(formula);
         }
