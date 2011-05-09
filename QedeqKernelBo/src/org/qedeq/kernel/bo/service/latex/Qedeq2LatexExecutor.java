@@ -43,12 +43,14 @@ import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
+import org.qedeq.kernel.se.base.module.Hypothesis;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
@@ -127,8 +129,14 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     /** Sub context like "getIntroduction()". */
     private String subContext = "";
 
+    /** Remembered proof line label. */
+    private String label = "";
+
+    /** Remembered proof line formula. */
+    private String formula = "";
+
     /** Remembered proof line reason. */
-    private String reason;
+    private String reason = "";
 
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
@@ -641,18 +649,15 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
     public void visitEnter(final FormalProofLine line) {
         if (line.getLabel() != null) {
-            String display = getNodeBo().getNodeVo().getId() + ":"
-                                + line.getLabel();
-            printer.print("\\label{" + display + "} \\hypertarget{" + display
-                + "}{} \\mbox{\\emph{(" + line.getLabel() + ")}} ");
+            label = line.getLabel();
+        } else {
+            label = "";
         }
-        printer.print(" \\ &  \\ ");
         if (line.getFormula() != null) {
-            printer.print("$");
-            printer.print(getQedeqBo().getElement2Latex().getLatex(line.getFormula().getElement()));
-            printer.print("$");
+            formula = "$" + getQedeqBo().getElement2Latex().getLatex(line.getFormula().getElement()) + "$";
+        } else {
+            formula = "";
         }
-        printer.print(" \\ &  \\ ");
         if (line.getReasonType() != null && line.getReasonType().getReason() != null) {
             reason = line.getReasonType().getReason().toString();
         } else {
@@ -661,13 +666,32 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitLeave(final FormalProofLine line) {
+        linePrintln();
+    }
+
+    /**
+     * Print reason.
+     */
+    private void linePrintln() {
+        if (label.length() > 0) {
+            String display = getNodeBo().getNodeVo().getId() + ":" + label;
+            printer.print("\\label{" + display + "} \\hypertarget{" + display
+                + "}{} \\mbox{\\emph{(" + label + ")}} ");
+        }
+        printer.print(" \\ &  \\ ");
+        if (formula.length() > 0) {
+            printer.print(formula);
+        }
+        printer.print(" \\ &  \\ ");
         if (reason.length() > 0) {
             printer.print("{\\tiny ");
-//            printer.print("dummy");
             printer.print(reason);
             printer.print("}");
         }
         printer.println(" \\\\ ");
+        reason = "";
+        formula = "";
+        label = "";
     }
 
     private String getReference(final String reference) {
@@ -787,6 +811,32 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             reason += " in " + getReference(r.getReference());
         }
     }
+
+    public void visitEnter(final ConditionalProof r) throws ModuleDataException {
+        reason = "CP";
+        linePrintln();
+//        tab = tab + "  ";
+    }
+
+    public void visitLeave(final ConditionalProof proof) {
+//        tab = StringUtility.substring(tab, 0, tab.length() - 2);
+    }
+
+    public void visitEnter(final Hypothesis hypothesis) {
+        reason = "Hypothesis";
+        if (hypothesis.getLabel() != null) {
+            label = hypothesis.getLabel();
+        }
+        if (hypothesis.getFormula() != null) {
+            formula = "$" + getQedeqBo().getElement2Latex().getLatex(
+                hypothesis.getFormula().getElement()) + "$";
+        }
+    }
+
+    public void visitLeave(final Hypothesis hypothesis) {
+        linePrintln();
+    }
+
 
     public void visitLeave(final FormalProof proof) {
         printer.println("\\end{proof}");
@@ -986,21 +1036,21 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println("\\mbox{}");
         printer.println("\\begin{longtable}{{@{\\extracolsep{\\fill}}p{0.9\\linewidth}l}}");
         for (int i = 0; i < list.size(); i++)  {
-            String label = "";
+            String newLabel = "";
             if (list.size() >= ALPHABET.length() * ALPHABET.length()) {
-                label = "" + (i + 1);
+                newLabel = "" + (i + 1);
             } else {
                 // TODO 20110303 m31: this dosn't work if we have more than 26 * 26 elements
                 if (list.size() > ALPHABET.length()) {
                     final int div = (i / ALPHABET.length());
-                    label = "" + ALPHABET.charAt(div);
+                    newLabel = "" + ALPHABET.charAt(div);
                 }
-                label += ALPHABET.charAt(i % ALPHABET.length());
+                newLabel += ALPHABET.charAt(i % ALPHABET.length());
             }
 //            final String label = (i < ALPHABET.length() ? "" + ALPHABET .charAt(i) : "" + i);
             printer.println("\\centering $" + getLatex(list.getElement(i)) + "$"
-                + " & \\label{" + mainLabel + "/" + label + "} \\hypertarget{" + mainLabel + "/"
-                + label + "}{} \\mbox{\\emph{(" + label + ")}} "
+                + " & \\label{" + mainLabel + "/" + newLabel + "} \\hypertarget{" + mainLabel + "/"
+                + newLabel + "}{} \\mbox{\\emph{(" + newLabel + ")}} "
                 + (i + 1 < list.size() ? "\\\\" : ""));
         }
         printer.println("\\end{longtable}");
