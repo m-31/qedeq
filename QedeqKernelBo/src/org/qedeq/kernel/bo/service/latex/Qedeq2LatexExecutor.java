@@ -678,7 +678,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     /**
-     * Print reason.
+     * Print proof line made out of label, formula and reason.
      */
     private void linePrintln() {
         if (formula.length() == 0 && reason.length() == 0) {
