@@ -138,6 +138,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     /** Remembered proof line reason. */
     private String reason = "";
 
+    /** Remembered proof line tabulator level. */
+    private int tabLevel = 0;
+
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
@@ -629,6 +632,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final FormalProof proof) {
+        tabLevel = 0;
         printer.println("\\begin{proof}");
 //        if ("de".equals(language)) {
 //            printer.println("Beweis (formal):");
@@ -638,13 +642,17 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final FormalProofLineList lines) {
-        printer.println("\\mbox{}\\\\");
-        printer.println("\\begin{longtable}[h!]{r@{\\extracolsep{\\fill}}p{9cm}@{\\extracolsep{\\fill}}p{4cm}}");
+        if (tabLevel == 0) {
+            printer.println("\\mbox{}\\\\");
+            printer.println("\\begin{longtable}[h!]{r@{\\extracolsep{\\fill}}p{9cm}@{\\extracolsep{\\fill}}p{4cm}}");
+        }
     }
 
     public void visitLeave(final FormalProofLineList lines) {
-        printer.println(" & & \\qedhere");
-        printer.println("\\end{longtable}");
+        if (tabLevel == 0) {
+            printer.println(" & & \\qedhere");
+            printer.println("\\end{longtable}");
+        }
     }
 
     public void visitEnter(final FormalProofLine line) {
@@ -815,11 +823,11 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     public void visitEnter(final ConditionalProof r) throws ModuleDataException {
         reason = "CP";
         linePrintln();
-//        tab = tab + "  ";
+        tabLevel++;
     }
 
     public void visitLeave(final ConditionalProof proof) {
-//        tab = StringUtility.substring(tab, 0, tab.length() - 2);
+        tabLevel--;
     }
 
     public void visitEnter(final Hypothesis hypothesis) {
