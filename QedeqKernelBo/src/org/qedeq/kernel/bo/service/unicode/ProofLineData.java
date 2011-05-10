@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.bo.service.unicode;
 
+
 /**
  * Contains printing data for a formal proof line.
  *
@@ -49,6 +50,19 @@ public class ProofLineData {
         this.lineLabel = lineLabel;
         this.formula = formula;
         this.reason = reason;
+    }
+
+    /**
+     * Copy constructor.
+     *
+     * @param   lineData    Existing object.
+     */
+    public ProofLineData(final ProofLineData lineData) {
+        this.lineLabel = lineData.lineLabel;
+        this.formula = new String[lineData.formula.length];
+        System.arraycopy(lineData.formula, 0, this.formula, 0, lineData.formula.length);
+        this.reason = new String[lineData.reason.length];
+        System.arraycopy(lineData.reason, 0, this.reason, 0, lineData.reason.length);
     }
 
     /**
@@ -101,4 +115,5 @@ public class ProofLineData {
     public void setReason(final String[] reason) {
         this.reason = reason;
     }
+
 }
