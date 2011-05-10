@@ -1003,6 +1003,200 @@
             </FORMAL_PROOF>
           </THEOREM>
         </NODE>
+        <NODE id="proposition:implication11">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <IMPL>
+                  <IMPL>
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="B"/>
+                  </IMPL>
+                  <IMPL>
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="C"/>
+                  </IMPL>
+                </IMPL>
+                <IMPL>
+                  <PREDVAR id="A"/>
+                  <IMPL>
+                    <PREDVAR id="B"/>
+                    <PREDVAR id="C"/>
+                  </IMPL>
+                </IMPL>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <IMPL>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="A"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:THEN-1"/>
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="D"/>
+                      <IMPL>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="D"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="1">
+                    <PREDVAR id="A"/>
+                    <FORMULA>
+                      <PREDVAR id="D"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="D"/>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="D"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="2">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <PREDVAR id="A"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="B"/>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="3">
+                    <PREDVAR id="D"/>
+                    <FORMULA>
+                      <PREDVAR id="B"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="5">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="B"/>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="C"/>
+                        </IMPL>
+                      </IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <IMPL>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="C"/>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <CP>
+                    <HYPOTHESIS label="6">
+                      <FORMULA>
+                        <IMPL>
+                          <IMPL>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </IMPL>
+                          <IMPL>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="C"/>
+                          </IMPL>
+                        </IMPL>
+                      </FORMULA>
+                    </HYPOTHESIS>
+                    <LINES>
+                      <L label="7">
+                        <FORMULA>
+                          <IMPL>
+                            <PREDVAR id="A"/>
+                            <IMPL>
+                              <PREDVAR id="B"/>
+                              <PREDVAR id="C"/>
+                            </IMPL>
+                          </IMPL>
+                        </FORMULA>
+                        <CP>
+                          <HYPOTHESIS label="8">
+                            <FORMULA>
+                              <PREDVAR id="A"/>
+                            </FORMULA>
+                          </HYPOTHESIS>
+                          <LINES>
+                            <L label="9">
+                              <FORMULA>
+                                <IMPL>
+                                  <PREDVAR id="B"/>
+                                  <PREDVAR id="C"/>
+                                </IMPL>
+                              </FORMULA>
+                              <CP>
+                                <HYPOTHESIS label="10">
+                                  <FORMULA>
+                                    <PREDVAR id="B"/>
+                                  </FORMULA>
+                                </HYPOTHESIS>
+                                <LINES>
+                                  <L label="11">
+                                    <FORMULA>
+                                      <IMPL>
+                                        <PREDVAR id="A"/>
+                                        <PREDVAR id="B"/>
+                                      </IMPL>
+                                    </FORMULA>
+                                    <MP ref1="4" ref2="10"/>
+                                  </L>
+                                  <L label="12">
+                                    <FORMULA>
+                                      <IMPL>
+                                        <PREDVAR id="A"/>
+                                        <PREDVAR id="C"/>
+                                      </IMPL>
+                                    </FORMULA>
+                                    <MP ref1="6" ref2="11"/>
+                                  </L>
+                                  <L label="13">
+                                    <FORMULA>
+                                      <PREDVAR id="C"/>
+                                    </FORMULA>
+                                    <MP ref1="12" ref2="8"/>
+                                  </L>
+                                </LINES>
+                              </CP>
+                            </L>
+                          </LINES>
+                        </CP>
+                      </L>
+                    </LINES>
+                  </CP>
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
         <NODE id="proposition:implication12">
           <THEOREM>
             <FORMULA>
