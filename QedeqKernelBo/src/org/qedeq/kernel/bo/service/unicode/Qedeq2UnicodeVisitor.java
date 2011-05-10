@@ -728,9 +728,12 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public void visitEnter(final ConditionalProof r) throws ModuleDataException {
-        setReason("CP");
+        setReason("Conclusion");
         stackedLines.push(new ProofLineData(lineData));
         lineData.init();
+        printer.skipToColumn(6);
+        printer.print(tab);
+        printer.println("Conditional Proof");
         tab = tab + "  ";
     }
 
