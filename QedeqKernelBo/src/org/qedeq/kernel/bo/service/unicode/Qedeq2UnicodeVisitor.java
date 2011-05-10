@@ -120,11 +120,8 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
-    /** String representation of formal proof line formula. */
-    private String[] formula = new String[0];
-
-    /** String representation of formal proof line reason. */
-    private String[] reason = new String[0];
+    /** Printing data for a single formal proof line. */
+    private ProofLineData lineData = new ProofLineData();
 
     /** This is the maximal formula width. All proof line formulas that are bigger are wrapped. */
     private int formulaWidth = 60;
@@ -530,19 +527,16 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public void visitEnter(final FormalProofLine line) {
+        lineData.init();
         if (line.getLabel() != null) {
-            printer.print(StringUtility.alignRight("(" + line.getLabel() + ")", 5) + " ");
+            lineData.setLineLabel(line.getLabel());
         }
         if (line.getReasonType() != null && line.getReasonType().getReason() != null) {
             setReason(line.getReasonType().getReason().toString());
-        } else {
-            reason = new String[0];
         }
         if (line.getFormula() != null) {
-            formula = getQedeqBo().getElement2Utf8().getUtf8(line.getFormula().getElement(),
-                formulaWidth - tab.length());
-        } else {
-            formula = new String[0];
+            lineData.setFormula(getQedeqBo().getElement2Utf8().getUtf8(line.getFormula().getElement(),
+                formulaWidth - tab.length()));
         }
     }
 
@@ -554,36 +548,37 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
      * Print formula and reason.
      */
     private void linePrintln() {
-        int to = Math.max(formula.length, reason.length);
-        if (to == 0) {
+        if (!lineData.containsData()) {
             return;
         }
-        for (int i = 0; i < to; i++) {
+        if (lineData.getLineLabel().length() > 0) {
+            printer.print(StringUtility.alignRight("(" + lineData.getLineLabel() + ")", 5) + " ");
+        }
+        for (int i = 0; i < lineData.lines(); i++) {
             printer.skipToColumn(6);
             printer.print(tab);
-            if (i < formula.length) {
-                printer.print(formula[i]);
+            if (i < lineData.getFormula().length) {
+                printer.print(lineData.getFormula()[i]);
             }
-            if (i < reason.length) {
+            if (i < lineData.getReason().length) {
                 printer.skipToColumn(6 + 2 + formulaWidth);
-                printer.print(reason[i]);
+                printer.print(lineData.getReason()[i]);
             }
             printer.println();
         }
-        formula = new String[0];
-        reason = new String[0];
+        lineData.init();
     }
 
     public void visitEnter(final Hypothesis hypothesis) {
         if (hypothesis.getLabel() != null) {
-            printer.print(StringUtility.alignRight("(" + hypothesis.getLabel() + ")", 5) + " ");
+            lineData.setLineLabel(hypothesis.getLabel());
         }
         setReason("Hypothesis");
         if (hypothesis.getFormula() != null) {
-            formula = getQedeqBo().getElement2Utf8().getUtf8(hypothesis.getFormula().getElement(),
-                formulaWidth);
+            lineData.setFormula(getQedeqBo().getElement2Utf8().getUtf8(hypothesis.getFormula().getElement(),
+                formulaWidth));
         } else {
-            formula = new String[0];
+            lineData.setFormula(new String[0]);
         }
     }
 
@@ -598,7 +593,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             list.add(StringUtility.substring(reasonString, index, reasonWidth));
             index += reasonWidth;
         }
-        reason = (String[]) list.toArray(new String[] {});
+        lineData.setReason((String[]) list.toArray(new String[] {}));
     }
 
     private String getReference(final String reference) {
