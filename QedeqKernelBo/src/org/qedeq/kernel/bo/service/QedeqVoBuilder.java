@@ -996,6 +996,7 @@ public class QedeqVoBuilder {
             } else if (reason instanceof ConditionalProof) {
                 setLocationWithinModule(context + ".getConditionalProof()");
                 final ConditionalProof r = (ConditionalProof) reason;
+                setLocationWithinModule(context + ".getConditionalProof().getHypothesis()");
                 res = new ConditionalProofVo(create(r.getHypothesis()),
                     create(r.getFormalProofLineList()));
             } else {
