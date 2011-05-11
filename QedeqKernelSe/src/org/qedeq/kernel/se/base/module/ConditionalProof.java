@@ -30,19 +30,19 @@ package org.qedeq.kernel.se.base.module;
  *
  * @author  Michael Meyling
  */
-public interface ConditionalProof extends Reason {
+public interface ConditionalProof extends Reason, FormalProofLine {
 
     /**
-     * Get reference to already proven formula.
+     * Get hypothesis.
      *
-     * @return  Reference to previously proved formula.
+     * @return  Hypothesis.
      */
     public Hypothesis getHypothesis();
 
     /**
-     * Get free subject variable that should be replaced.
+     * Get proof that can use the hypothesis.
      *
-     * @return  Subject variable.
+     * @return  Conditional proof.
      */
     public FormalProofLineList getFormalProofLineList();
 
