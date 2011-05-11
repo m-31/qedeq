@@ -28,6 +28,7 @@ import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
+import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
@@ -595,6 +596,20 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
     public void visitLeave(final Hypothesis hypothesis) {
         printer.popLevel();
         printer.println("</HYPOTHESIS>");
+    }
+
+    public void visitEnter(final Conclusion conclusion) {
+        printer.print("<CONCLUSION");
+        if (conclusion.getLabel() != null) {
+            printer.print(" label=\"" + StringUtility.escapeXml(conclusion.getLabel()) + "\"");
+        }
+        printer.println(">");
+        printer.pushLevel();
+    }
+
+    public void visitLeave(final Conclusion conclusion) {
+        printer.popLevel();
+        printer.println("</CONCLUSION>");
     }
 
     public void visitEnter(final InitialPredicateDefinition definition) {

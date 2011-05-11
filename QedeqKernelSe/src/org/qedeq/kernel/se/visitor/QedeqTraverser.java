@@ -24,6 +24,8 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.Conclusion;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
@@ -32,6 +34,7 @@ import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.Header;
+import org.qedeq.kernel.se.base.module.Hypothesis;
 import org.qedeq.kernel.se.base.module.Import;
 import org.qedeq.kernel.se.base.module.ImportList;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
@@ -403,6 +406,30 @@ public interface QedeqTraverser {
      * @throws  ModuleDataException     Severe error during occurred.
      */
     public void accept(final Universal reason) throws ModuleDataException;
+
+    /**
+     * Traverse formal proof line wit conditional proof.
+     *
+     * @param   line                    Traverse this element.
+     * @throws  ModuleDataException     Severe error during occurred.
+     */
+    public void accept(final ConditionalProof line) throws ModuleDataException;
+
+    /**
+     * Traverse formal proof line hypothesis.
+     *
+     * @param   hypothesis              Traverse this element.
+     * @throws  ModuleDataException     Severe error during occurred.
+     */
+    public void accept(final Hypothesis hypothesis) throws ModuleDataException;
+
+    /**
+     * Traverse formal proof line conclusion.
+     *
+     * @param   conclusion              Traverse this element.
+     * @throws  ModuleDataException     Severe error during occurred.
+     */
+    public void accept(final Conclusion conclusion) throws ModuleDataException;
 
     /**
      * Traverse proof list.

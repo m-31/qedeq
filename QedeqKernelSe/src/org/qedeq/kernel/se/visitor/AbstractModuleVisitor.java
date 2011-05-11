@@ -23,6 +23,7 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
@@ -190,6 +191,9 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     public void visitEnter(final Hypothesis hypothesis) throws ModuleDataException {
     }
 
+    public void visitEnter(final Conclusion conclusion) throws ModuleDataException {
+    }
+
     public void visitEnter(final FormalProofLineList proofLineList) throws ModuleDataException {
     }
 
@@ -340,6 +344,9 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     }
 
     public void visitLeave(final Hypothesis hypothesis) throws ModuleDataException {
+    }
+
+    public void visitLeave(final Conclusion conclusion) throws ModuleDataException {
     }
 
     public void visitLeave(final FormalProofLineList proofLineList) throws ModuleDataException {
