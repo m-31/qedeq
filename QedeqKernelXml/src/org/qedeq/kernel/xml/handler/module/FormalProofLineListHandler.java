@@ -161,7 +161,7 @@ public class FormalProofLineListHandler extends AbstractSimpleHandler {
         } else if (universalHandler.getStartTag().equals(name)) {
             reason = universalHandler.getUniversalVo();
         } else if (conditionalProofHandler.getStartTag().equals(name)) {
-            reason = conditionalProofHandler.getConditionalProofVo();
+            list.add(conditionalProofHandler.getConditionalProofVo());
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }

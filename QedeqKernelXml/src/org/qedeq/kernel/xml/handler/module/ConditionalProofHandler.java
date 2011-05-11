@@ -84,7 +84,8 @@ public class ConditionalProofHandler extends AbstractSimpleHandler {
     public final void endElement(final String name) throws XmlSyntaxException {
         if (getStartTag().equals(name)) {
             conditionalProof = new ConditionalProofVo(hypothesisHandler.getHypothesis(),
-                proofListHandler.getFormalProofLineList());
+                proofListHandler.getFormalProofLineList(),
+                conclusionHandler.getConclusion());
         } else if (hypothesisHandler.getStartTag().equals(name)) {
             // ok
         } else if (proofListHandler.getStartTag().equals(name)) {
