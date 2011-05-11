@@ -936,7 +936,7 @@
             <FORMAL_PROOF>
               <LINES>
                 <CP>
-                  <HYPOTHESIS label="2">
+                  <HYPOTHESIS label="1">
                     <FORMULA>
                       <IMPL>
                         <PREDVAR id="A"/>
@@ -949,29 +949,29 @@
                   </HYPOTHESIS>
                   <LINES>
                     <CP>
-                      <HYPOTHESIS label="4">
+                      <HYPOTHESIS label="2">
                         <FORMULA>
                           <PREDVAR id="A"/>
                         </FORMULA>
                       </HYPOTHESIS>
                       <LINES>
-                        <L label="5">
+                        <L label="3">
                           <FORMULA>
                             <IMPL>
                               <PREDVAR id="A"/>
                               <PREDVAR id="B"/>
                             </IMPL>
                           </FORMULA>
-                          <MP ref1="2" ref2="4"/>
+                          <MP ref1="1" ref2="2"/>
                         </L>
-                        <L label="6">
+                        <L label="4">
                           <FORMULA>
                             <PREDVAR id="B"/>
                           </FORMULA>
-                          <MP ref1="5" ref2="4"/>
+                          <MP ref1="3" ref2="2"/>
                         </L>
                       </LINES>
-                      <CONCLUSION label="3">
+                      <CONCLUSION label="5">
                         <FORMULA>
                           <IMPL>
                             <PREDVAR id="A"/>
@@ -981,7 +981,7 @@
                       </CONCLUSION>
                     </CP>
                   </LINES>
-                  <CONCLUSION label="1">
+                  <CONCLUSION label="6">
                     <FORMULA>
                       <IMPL>
                         <IMPL>
@@ -1092,7 +1092,7 @@
                   </SUBST_PREDVAR>
                 </L>
                 <CP>
-                  <HYPOTHESIS label="6">
+                  <HYPOTHESIS label="5">
                     <FORMULA>
                       <IMPL>
                         <IMPL>
@@ -1108,45 +1108,45 @@
                   </HYPOTHESIS>
                   <LINES>
                     <CP>
-                      <HYPOTHESIS label="8">
+                      <HYPOTHESIS label="6">
                         <FORMULA>
                           <PREDVAR id="A"/>
                         </FORMULA>
                       </HYPOTHESIS>
                       <LINES>
                         <CP>
-                          <HYPOTHESIS label="10">
+                          <HYPOTHESIS label="7">
                             <FORMULA>
                               <PREDVAR id="B"/>
                             </FORMULA>
                           </HYPOTHESIS>
                           <LINES>
-                            <L label="11">
+                            <L label="8">
                               <FORMULA>
                                 <IMPL>
                                   <PREDVAR id="A"/>
                                   <PREDVAR id="B"/>
                                 </IMPL>
                               </FORMULA>
-                              <MP ref1="4" ref2="10"/>
+                              <MP ref1="4" ref2="7"/>
                             </L>
-                            <L label="12">
+                            <L label="9">
                               <FORMULA>
                                 <IMPL>
                                   <PREDVAR id="A"/>
                                   <PREDVAR id="C"/>
                                 </IMPL>
                               </FORMULA>
-                              <MP ref1="6" ref2="11"/>
+                              <MP ref1="5" ref2="8"/>
                             </L>
-                            <L label="13">
+                            <L label="10">
                               <FORMULA>
                                 <PREDVAR id="C"/>
                               </FORMULA>
-                              <MP ref1="12" ref2="8"/>
+                              <MP ref1="9" ref2="6"/>
                             </L>
                           </LINES>
-                          <CONCLUSION label="12">
+                          <CONCLUSION label="11">
                             <FORMULA>
                               <IMPL>
                                 <PREDVAR id="B"/>
@@ -1156,7 +1156,7 @@
                           </CONCLUSION>
                         </CP>
                       </LINES>
-                      <CONCLUSION label="13">
+                      <CONCLUSION label="12">
                         <FORMULA>
                           <IMPL>
                             <PREDVAR id="A"/>
@@ -1169,7 +1169,7 @@
                       </CONCLUSION>
                     </CP>
                   </LINES>
-                  <CONCLUSION label="14">
+                  <CONCLUSION label="13">
                     <FORMULA>
                       <IMPL>
                         <IMPL>
