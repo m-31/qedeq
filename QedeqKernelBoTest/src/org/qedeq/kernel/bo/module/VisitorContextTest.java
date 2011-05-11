@@ -31,6 +31,7 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
@@ -257,6 +258,10 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
         checkContext();
     }
 
+    public void visitEnter(final Conclusion conclusion) throws ModuleDataException {
+        checkContext();
+    }
+
     public void visitEnter(final Proof proof) throws ModuleDataException {
         checkContext();
     }
@@ -447,6 +452,10 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
     }
 
     public void visitLeave(final Hypothesis hypothesis) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(final Conclusion conclusion) throws ModuleDataException {
         checkContext();
     }
 
