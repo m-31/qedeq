@@ -16,6 +16,7 @@
 package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
+import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.Hypothesis;
@@ -35,6 +36,9 @@ public class ConditionalProofVo implements ConditionalProof {
 
     /** Proof lines term. */
     private FormalProofLineList proofLines;
+
+    /** Conclusion. */
+    private Conclusion conclusion;
 
     /**
      * Constructs an reason.
@@ -82,6 +86,19 @@ public class ConditionalProofVo implements ConditionalProof {
      */
     public void setFormalProofLinesList(final FormalProofLineList proofLines) {
         this.proofLines = proofLines;
+    }
+
+    public Conclusion getConclusion() {
+        return conclusion;
+    }
+
+    /**
+     * Set conclusion.
+     *
+     * @param   conclusion  New derived formula.
+     */
+    public void setConclusion(final Conclusion conclusion) {
+        this.conclusion = conclusion;
     }
 
     public String getName() {

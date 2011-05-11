@@ -47,4 +47,11 @@ public interface ConditionalProof extends Reason {
     public FormalProofLineList getFormalProofLineList();
 
 
+    /**
+     * Get conclusion. This is a newly proven formula.
+     *
+     * @return  Reference to proved formula.
+     */
+    public Conclusion getConclusion();
+
 }
