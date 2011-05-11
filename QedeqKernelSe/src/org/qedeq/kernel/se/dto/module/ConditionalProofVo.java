@@ -19,7 +19,9 @@ import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
+import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.Hypothesis;
+import org.qedeq.kernel.se.base.module.ReasonType2;
 
 
 /**
@@ -43,12 +45,15 @@ public class ConditionalProofVo implements ConditionalProof {
     /**
      * Constructs an reason.
      *
-     * @param   hypothesis             Free subject variable that will be replaced.
-     * @param   proofLines             Bound subject variable that will be substituted.
+     * @param   hypothesis              Free subject variable that will be replaced.
+     * @param   proofLines              Bound subject variable that will be substituted.
+     * @param   conclusion              Conclusion.
      */
-    public ConditionalProofVo(final Hypothesis hypothesis, final FormalProofLineList proofLines) {
+    public ConditionalProofVo(final Hypothesis hypothesis, final FormalProofLineList proofLines,
+            final Conclusion conclusion) {
         this.hypothesis = hypothesis;
         this.proofLines = proofLines;
+        this.conclusion = conclusion;
     }
 
     /**
@@ -73,6 +78,15 @@ public class ConditionalProofVo implements ConditionalProof {
 
     public String[] getReferences() {
         return new String[0];
+    }
+
+    /**
+     * Set proof.
+     *
+     * @param   list    Proof.
+     */
+    public void setFormalProofLineList(final FormalProofLineList list) {
+        this.proofLines = list;
     }
 
     public FormalProofLineList getFormalProofLineList() {
@@ -101,8 +115,27 @@ public class ConditionalProofVo implements ConditionalProof {
         this.conclusion = conclusion;
     }
 
+    public Formula getFormula() {
+        if (conclusion == null)  {
+            return null;
+        }
+        return conclusion.getFormula();
+    }
+
+    public String getLabel() {
+        if (conclusion == null)  {
+            return null;
+        }
+        return conclusion.getLabel();
+    }
+
     public String getName() {
         return "CP";
+    }
+
+    public ReasonType2 getReasonType() {
+        // FIXME no no no!
+        return new ReasonTypeVo2(this);
     }
 
     public boolean equals(final Object obj) {
@@ -111,17 +144,19 @@ public class ConditionalProofVo implements ConditionalProof {
         }
         final ConditionalProofVo other = (ConditionalProofVo) obj;
         return EqualsUtility.equals(hypothesis, other.hypothesis)
-            && EqualsUtility.equals(proofLines, other.proofLines);
+            && EqualsUtility.equals(proofLines, other.proofLines)
+            && EqualsUtility.equals(conclusion, other.conclusion);
     }
 
     public int hashCode() {
         return (hypothesis != null ? hypothesis.hashCode() : 0)
-            ^ (proofLines != null ? 2 ^ proofLines.hashCode() : 0);
+            ^ (proofLines != null ? 2 ^ proofLines.hashCode() : 0)
+            ^ (conclusion != null ? 4 ^ conclusion.hashCode() : 0);
     }
 
     public String toString() {
         StringBuffer result = new StringBuffer();
-        result.append("CP");
+        result.append(getName());
         if (hypothesis != null || proofLines != null) {
             result.append(" (");
             if (hypothesis != null) {
@@ -131,6 +166,10 @@ public class ConditionalProofVo implements ConditionalProof {
             if (proofLines != null) {
                 result.append("\n");
                 result.append(proofLines);
+            }
+            if (conclusion != null) {
+                result.append("\n");
+                result.append(conclusion);
             }
             result.append("\n");
             result.append(")");
