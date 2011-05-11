@@ -24,6 +24,7 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
@@ -78,6 +79,7 @@ import org.qedeq.kernel.se.dto.module.AuthorVo;
 import org.qedeq.kernel.se.dto.module.AxiomVo;
 import org.qedeq.kernel.se.dto.module.ChapterListVo;
 import org.qedeq.kernel.se.dto.module.ChapterVo;
+import org.qedeq.kernel.se.dto.module.ConclusionVo;
 import org.qedeq.kernel.se.dto.module.ConditionalProofVo;
 import org.qedeq.kernel.se.dto.module.ExistentialVo;
 import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
@@ -920,7 +922,11 @@ public class QedeqVoBuilder {
         final String context = getCurrentContext().getLocationWithinModule();
         for (int i = 0; i < proofList.size(); i++) {
             setLocationWithinModule(context + ".get(" + i + ")");
-            list.add(create(proofList.get(i)));
+            if (proofList.get(i) instanceof ConditionalProof) {
+                list.add(create((ConditionalProof) proofList.get(i)));
+            } else {
+                list.add(create(proofList.get(i)));
+            }
         }
         setLocationWithinModule(context);
         return list;
@@ -945,6 +951,30 @@ public class QedeqVoBuilder {
             line.setReasonType(create(proofLine.getReasonType()));
         }
         setLocationWithinModule(context);
+        return line;
+    }
+
+    private final ConditionalProofVo create(final ConditionalProof proofLine) {
+        if (proofLine == null) {
+            return null;
+        }
+        final ConditionalProofVo line = new ConditionalProofVo();
+        final String context = getCurrentContext().getLocationWithinModule();
+        if (proofLine.getHypothesis() != null) {
+            setLocationWithinModule(context + ".getHypothesis()");
+            line.setHypothesis(proofLine.getHypothesis());
+        }
+        if (proofLine.getFormalProofLineList() != null) {
+            setLocationWithinModule(context + ".getFormalProofLineList()");
+            line.setFormalProofLineList(create(proofLine.getFormalProofLineList()));
+        }
+        if (proofLine.getConclusion() != null) {
+            setLocationWithinModule(context + ".getConclusion()");
+            line.setConclusion(create(proofLine.getConclusion()));
+        }
+        setLocationWithinModule(context);
+        // FIXME new created
+        System.out.println(line);
         return line;
     }
 
@@ -997,8 +1027,12 @@ public class QedeqVoBuilder {
                 setLocationWithinModule(context + ".getConditionalProof()");
                 final ConditionalProof r = (ConditionalProof) reason;
                 setLocationWithinModule(context + ".getConditionalProof().getHypothesis()");
-                res = new ConditionalProofVo(create(r.getHypothesis()),
-                    create(r.getFormalProofLineList()));
+                final Hypothesis h = create(r.getHypothesis());
+                setLocationWithinModule(context + ".getConditionalProof().getFormalProofLineList()");
+                final FormalProofLineList l = create(r.getFormalProofLineList());
+                setLocationWithinModule(context + ".getConditionalProof().getConclusion()");
+                final Conclusion c = create(r.getConclusion());
+                res = new ConditionalProofVo(h, l, c);
             } else {
                 throw new RuntimeException("unknown reason class: " + reason.getClass());
             }
@@ -1023,6 +1057,23 @@ public class QedeqVoBuilder {
         }
         setLocationWithinModule(context);
         return h;
+    }
+
+    private final ConclusionVo create(final Conclusion conclusion) {
+        if (conclusion == null) {
+            return null;
+        }
+        final ConclusionVo c = new ConclusionVo();
+        final String context = getCurrentContext().getLocationWithinModule();
+        if (conclusion.getLabel() != null) {
+            c.setLabel(conclusion.getLabel());
+        }
+        if (conclusion.getFormula() != null) {
+            setLocationWithinModule(context + ".getFormula()");
+            c.setFormula(create(conclusion.getFormula()));
+        }
+        setLocationWithinModule(context);
+        return c;
     }
 
     private final FormulaVo create(final Formula formula) {
