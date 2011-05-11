@@ -37,6 +37,9 @@ public class ConditionalProofHandler extends AbstractSimpleHandler {
     /** Handle elements. */
     private FormalProofLineListHandler proofListHandler;
 
+    /** Handle hypothesis. */
+    private ConclusionHandler conclusionHandler;
+
     /**
      * Deals with definitions.
      *
@@ -51,6 +54,7 @@ public class ConditionalProofHandler extends AbstractSimpleHandler {
         // we initialize the parsers only when really needed (so we have no recursive calls)
         hypothesisHandler = new HypothesisHandler(this);
         proofListHandler = new FormalProofLineListHandler(this);
+        conclusionHandler = new ConclusionHandler(this);
     }
 
     /**
@@ -70,6 +74,8 @@ public class ConditionalProofHandler extends AbstractSimpleHandler {
             changeHandler(hypothesisHandler, name, attributes);
         } else if (proofListHandler.getStartTag().equals(name)) {
             changeHandler(proofListHandler, name, attributes);
+        } else if (conclusionHandler.getStartTag().equals(name)) {
+            changeHandler(conclusionHandler, name, attributes);
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
         }
@@ -82,6 +88,8 @@ public class ConditionalProofHandler extends AbstractSimpleHandler {
         } else if (hypothesisHandler.getStartTag().equals(name)) {
             // ok
         } else if (proofListHandler.getStartTag().equals(name)) {
+            // ok
+        } else if (conclusionHandler.getStartTag().equals(name)) {
             // ok
         } else {
             throw XmlSyntaxException.createUnexpectedTagException(name);
