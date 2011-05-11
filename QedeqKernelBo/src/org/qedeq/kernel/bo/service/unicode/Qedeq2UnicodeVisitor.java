@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.service.unicode;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import org.qedeq.base.io.AbstractOutput;
 import org.qedeq.base.io.SourcePosition;
@@ -37,6 +36,7 @@ import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
+import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
@@ -124,9 +124,6 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
 
     /** Printing data for a single formal proof line. */
     private ProofLineData lineData = new ProofLineData();
-
-    /** Stack for ProofLineData objects. Used during conditional proofs. */
-    private Stack stackedLines = new Stack();
 
     /** This is the maximal formula width. All proof line formulas that are bigger are wrapped. */
     private int formulaWidth = 60;
@@ -571,6 +568,19 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         lineData.init();
     }
 
+    public void visitEnter(final ConditionalProof r) throws ModuleDataException {
+        setReason("Conclusion");
+        lineData.init();
+        printer.skipToColumn(6);
+        printer.print(tab);
+        printer.println("Conditional Proof");
+        tab = tab + "  ";
+    }
+
+    public void visitLeave(final ConditionalProof proof) {
+        tab = StringUtility.substring(tab, 0, tab.length() - 2);
+    }
+
     public void visitEnter(final Hypothesis hypothesis) {
         lineData.init();
         if (hypothesis.getLabel() != null) {
@@ -578,10 +588,26 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
         setReason("Hypothesis");
         setFormula(hypothesis.getFormula());
-        linePrintln();
     }
 
     public void visitLeave(final Hypothesis hypothesis) {
+        linePrintln();
+    }
+
+    public void visitEnter(final Conclusion conclusion) {
+        tab = StringUtility.substring(tab, 0, tab.length() - 2);
+        lineData.init();
+        if (conclusion.getLabel() != null) {
+            lineData.setLineLabel(conclusion.getLabel());
+        }
+        setReason("Conclusion");
+        setFormula(conclusion.getFormula());
+        linePrintln();
+    }
+
+    public void visitLeave(final Conclusion conclusion) {
+        linePrintln();
+        tab = tab + "  ";
     }
 
     private void setReason(final String reasonString) {
@@ -725,22 +751,6 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             buffer += " in " + getReference(r.getReference());
         }
         setReason(buffer);
-    }
-
-    public void visitEnter(final ConditionalProof r) throws ModuleDataException {
-        setReason("Conclusion");
-        stackedLines.push(new ProofLineData(lineData));
-        lineData.init();
-        printer.skipToColumn(6);
-        printer.print(tab);
-        printer.println("Conditional Proof");
-        tab = tab + "  ";
-    }
-
-    public void visitLeave(final ConditionalProof proof) {
-        tab = StringUtility.substring(tab, 0, tab.length() - 2);
-        lineData = (ProofLineData) stackedLines.pop();
-        linePrintln();
     }
 
     public void visitEnter(final InitialPredicateDefinition definition) {
