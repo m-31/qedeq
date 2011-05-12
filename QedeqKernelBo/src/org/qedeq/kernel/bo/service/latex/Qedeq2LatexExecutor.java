@@ -43,6 +43,7 @@ import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
+import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
@@ -828,7 +829,13 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
     public void visitEnter(final ConditionalProof r) throws ModuleDataException {
         reason = "CP";
-        linePrintln();
+        printer.print(" \\ &  \\ ");
+        for (int i = 0; i < tabLevel; i++) {
+            printer.print("\\mbox{\\qquad}");
+        }
+        printer.println("Conditional Proof");
+        printer.print(" \\ &  \\ ");
+        printer.println(" \\\\ ");
         tabLevel++;
     }
 
@@ -851,6 +858,22 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         linePrintln();
     }
 
+    public void visitEnter(final Conclusion conclusion) {
+        tabLevel--;
+        reason = "Conclusion";
+        if (conclusion.getLabel() != null) {
+            label = conclusion.getLabel();
+        }
+        if (conclusion.getFormula() != null) {
+            formula = "$" + getQedeqBo().getElement2Latex().getLatex(
+                    conclusion.getFormula().getElement()) + "$";
+        }
+    }
+
+    public void visitLeave(final Conclusion conclusion) {
+        linePrintln();
+        tabLevel++;
+    }
 
     public void visitLeave(final FormalProof proof) {
         printer.println("\\end{proof}");
