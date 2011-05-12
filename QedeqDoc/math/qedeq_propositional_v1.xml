@@ -1681,28 +1681,6 @@
             </FORMAL_PROOF>
           </THEOREM>
         </NODE>
-        <NODE id="proposition:implication16">
-          <THEOREM>
-            <FORMULA>
-              <IMPL>
-                <IMPL>
-                  <PREDVAR id="A"/>
-                  <PREDVAR id="B"/>
-                </IMPL>
-                <IMPL>
-                  <IMPL>
-                    <PREDVAR id="B"/>
-                    <PREDVAR id="C"/>
-                  </IMPL>
-                  <IMPL>
-                    <PREDVAR id="A"/>
-                    <PREDVAR id="C"/>
-                  </IMPL>
-                </IMPL>
-              </IMPL>
-            </FORMULA>
-          </THEOREM>
-        </NODE>
         <NODE id="proposition:implication17">
           <THEOREM>
             <FORMULA>
