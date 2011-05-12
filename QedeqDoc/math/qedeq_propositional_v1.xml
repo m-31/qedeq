@@ -1610,17 +1610,53 @@
                       </FORMULA>
                       <MP ref1="1" ref2="3"/>
                     </L>
-                    <L label="9">
+                    <L label="10">
+                      <FORMULA>
+                        <IMPL>
+                          <IMPL>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </IMPL>
+                          <IMPL>
+                            <IMPL>
+                              <PREDVAR id="B"/>
+                              <PREDVAR id="C"/>
+                            </IMPL>
+                            <IMPL>
+                              <PREDVAR id="A"/>
+                              <PREDVAR id="C"/>
+                            </IMPL>
+                          </IMPL>
+                        </IMPL>
+                      </FORMULA>
+                      <ADD ref="proposition:implication12"/>
+                    </L>
+                    <L label="11">
+                      <FORMULA>
+                        <IMPL>
+                          <IMPL>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="C"/>
+                          </IMPL>
+                          <IMPL>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="C"/>
+                          </IMPL>
+                        </IMPL>
+                      </FORMULA>
+                      <MP ref1="10" ref2="8"/>
+                    </L>
+                    <L label="12">
                       <FORMULA>
                         <IMPL>
                           <PREDVAR id="A"/>
                           <PREDVAR id="C"/>
                         </IMPL>
                       </FORMULA>
-                      <MP ref1="1" ref2="3"/>
+                      <MP ref1="11" ref2="9"/>
                     </L>
                   </LINES>
-                  <CONCLUSION label="10">
+                  <CONCLUSION label="13">
                     <FORMULA>
                       <IMPL>
                         <AND>
