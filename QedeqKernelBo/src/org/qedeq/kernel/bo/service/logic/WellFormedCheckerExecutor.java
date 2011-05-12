@@ -689,6 +689,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         final String context = getCurrentContext().getLocationWithinModule();
         LogicalCheckExceptionList elist = new LogicalCheckExceptionList();
         if (line != null) {
+            // FIXME 20110512 m31: check for conditional proof
             final Formula formula = line.getFormula();
             if (formula != null) {
                 setLocationWithinModule(context + ".getFormula().getElement()");
