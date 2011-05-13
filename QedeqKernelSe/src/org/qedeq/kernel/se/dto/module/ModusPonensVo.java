@@ -50,6 +50,10 @@ public class ModusPonensVo implements ModusPonens {
         // nothing to do
     }
 
+    public ModusPonens getModusPonens() {
+        return this;
+    }
+
     public String getReference1() {
         return reference1;
     }

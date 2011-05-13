@@ -60,7 +60,7 @@ import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
-import org.qedeq.kernel.se.base.module.ReasonType;
+import org.qedeq.kernel.se.base.module.Reason;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
@@ -222,7 +222,7 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
         checkContext();
     }
 
-    public void visitEnter(final ReasonType reasonType) throws ModuleDataException {
+    public void visitEnter(final Reason reason) throws ModuleDataException {
         checkContext();
     }
 
@@ -407,7 +407,7 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
         checkContext();
     }
 
-    public void visitLeave(final ReasonType reasonType) throws ModuleDataException {
+    public void visitLeave(final Reason reason) throws ModuleDataException {
         checkContext();
     }
 

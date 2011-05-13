@@ -65,6 +65,10 @@ public class RenameVo implements Rename {
         // nothing to do
     }
 
+    public Rename getRename() {
+        return this;
+    }
+
     public String getReference() {
         return reference;
     }

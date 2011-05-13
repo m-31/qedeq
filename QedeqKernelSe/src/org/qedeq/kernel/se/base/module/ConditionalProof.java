@@ -33,6 +33,13 @@ package org.qedeq.kernel.se.base.module;
 public interface ConditionalProof extends Reason, FormalProofLine {
 
     /**
+     * Get this reason.
+     *
+     * @return  This reason.
+     */
+    public ConditionalProof getConditionalProof();
+
+    /**
      * Get hypothesis.
      *
      * @return  Hypothesis.

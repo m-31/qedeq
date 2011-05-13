@@ -58,6 +58,10 @@ public class SubstFuncVo implements SubstFunc {
         // nothing to do
     }
 
+    public SubstFunc getSubstFunc() {
+        return this;
+    }
+
     public String getReference() {
         return reference;
     }

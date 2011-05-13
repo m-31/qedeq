@@ -51,6 +51,10 @@ public class SubstPredBo implements SubstPred {
         this.substituteFormula = substituteFormula;
     }
 
+    public SubstPred getSubstPred() {
+        return this;
+    }
+
     public String getReference() {
         return "" + n;
     }

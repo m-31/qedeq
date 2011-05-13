@@ -667,8 +667,8 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         } else {
             formula = "";
         }
-        if (line.getReasonType() != null && line.getReasonType().getReason() != null) {
-            reason = line.getReasonType().getReason().toString();
+        if (line.getReason() != null) {
+            reason = line.getReason().toString();
         } else {
             reason = "";
         }

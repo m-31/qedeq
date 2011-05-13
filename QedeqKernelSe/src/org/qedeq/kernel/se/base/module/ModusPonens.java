@@ -30,6 +30,13 @@ package org.qedeq.kernel.se.base.module;
 public interface ModusPonens extends Reason {
 
     /**
+     * Get this reason.
+     *
+     * @return  This reason.
+     */
+    public ModusPonens getModusPonens();
+
+    /**
      * Get reference to formula. Usually this a formula of type A -&gt; B
      *
      * @return  Reference to previously proved formula.

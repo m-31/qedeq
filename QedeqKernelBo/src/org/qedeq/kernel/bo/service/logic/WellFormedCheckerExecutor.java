@@ -48,8 +48,11 @@ import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
-import org.qedeq.kernel.se.base.module.ReasonType;
+import org.qedeq.kernel.se.base.module.Reason;
 import org.qedeq.kernel.se.base.module.Rule;
+import org.qedeq.kernel.se.base.module.SubstFree;
+import org.qedeq.kernel.se.base.module.SubstFunc;
+import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
@@ -699,29 +702,35 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                     addError(elist.get(k));
                 }
             }
-            final ReasonType reasonType = line.getReasonType();
-            if (reasonType != null) {
-                if (reasonType.getSubstFree() != null
-                        && reasonType.getSubstFree().getSubstituteTerm() != null) {
-                    setLocationWithinModule(context
-                        + ".getReasonType().getSubstFree().getSubstituteTerm()");
-                    elist = checkerFactory.createFormulaChecker().checkTerm(
-                        reasonType.getSubstFree().getSubstituteTerm(),
-                        getCurrentContext(), existence);
-                } else if (reasonType.getSubstPred() != null
-                        && reasonType.getSubstPred().getSubstituteFormula() != null) {
-                    setLocationWithinModule(context
-                        + ".getReasonType().getSubstPred().getSubstituteFormula()");
-                    elist = checkerFactory.createFormulaChecker().checkFormula(
-                        reasonType.getSubstPred().getSubstituteFormula(),
-                        getCurrentContext(), existence);
-                } else if (reasonType.getSubstFunc() != null
-                        && reasonType.getSubstFunc().getSubstituteTerm() != null) {
-                    setLocationWithinModule(context
-                        + ".getReasonType().getSubstFunc().getSubstituteTerm()");
-                    elist = checkerFactory.createFormulaChecker().checkTerm(
-                        reasonType.getSubstFunc().getSubstituteTerm(),
-                        getCurrentContext(), existence);
+            final Reason reason = line.getReason();
+            if (reason != null) {
+                if (reason instanceof SubstFree) {
+                    final SubstFree subst = (SubstFree) reason;
+                    if (subst.getSubstFree().getSubstituteTerm() != null) {
+                        setLocationWithinModule(context
+                            + ".getReason().getSubstFree().getSubstituteTerm()");
+                        elist = checkerFactory.createFormulaChecker().checkTerm(
+                            subst.getSubstFree().getSubstituteTerm(),
+                            getCurrentContext(), existence);
+                    }
+                } else if (reason instanceof SubstPred) {
+                    final SubstPred subst = (SubstPred) reason;
+                    if (subst.getSubstPred().getSubstituteFormula() != null) {
+                        setLocationWithinModule(context
+                            + ".getReason().getSubstPred().getSubstituteFormula()");
+                        elist = checkerFactory.createFormulaChecker().checkFormula(
+                            subst.getSubstPred().getSubstituteFormula(),
+                            getCurrentContext(), existence);
+                    }
+                } else if (reason instanceof SubstFunc) {
+                    final SubstFunc subst = (SubstFunc) reason;
+                    if (subst.getSubstFunc().getSubstituteTerm() != null) {
+                        setLocationWithinModule(context
+                            + ".getReason().getSubstFunc().getSubstituteTerm()");
+                        elist = checkerFactory.createFormulaChecker().checkTerm(
+                            subst.getSubstFunc().getSubstituteTerm(),
+                            getCurrentContext(), existence);
+                    }
                 }
                 for (int k = 0; k < elist.size(); k++) {
                     addError(elist.get(k));

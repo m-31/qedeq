@@ -533,8 +533,8 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         if (line.getLabel() != null) {
             lineData.setLineLabel(line.getLabel());
         }
-        if (line.getReasonType() != null && line.getReasonType().getReason() != null) {
-            setReason(line.getReasonType().getReason().toString());
+        if (line.getReason() != null) {
+            setReason(line.getReason().toString());
         }
         setFormula(line.getFormula());
     }

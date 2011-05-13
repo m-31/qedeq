@@ -86,7 +86,7 @@ public class MultiProofFinderImpl implements MultiProofFinder {
         allPredVars = new ElementSet();
         // add first proof formulas to our proof line list
         for (int i = 0; i < proof.size(); i++) {
-            final Reason r = proof.get(i).getReasonType().getReason();
+            final Reason r = proof.get(i).getReason();
             if (!(r instanceof Add)) {
                 continue;
             }

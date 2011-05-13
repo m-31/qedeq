@@ -42,6 +42,6 @@ public interface FormalProofLine {
      *
      * @return  Reason.
      */
-    public ReasonType2 getReasonType();
+    public Reason getReason();
 
 }

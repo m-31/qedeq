@@ -23,6 +23,7 @@ import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FormalProofList;
 import org.qedeq.kernel.se.base.module.NodeType;
 import org.qedeq.kernel.se.base.module.Proposition;
+import org.qedeq.kernel.se.base.module.Reason;
 import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.module.NodeVo;
@@ -155,9 +156,9 @@ public class KernelNodeBo implements NodeBo, CheckLevel {
             if (label.equals(list.get(j).getLabel())) {
                 return true;
             }
-            final ConditionalProof conditionalProof = list.get(j).getReasonType()
-                .getConditionalProof();
-            if (conditionalProof != null) {
+            final Reason reason = list.get(j).getReason();
+            if (reason instanceof ConditionalProof) {
+                final ConditionalProof conditionalProof = (ConditionalProof) reason;
                 if (conditionalProof.getHypothesis() != null) {
                     if (label.equals(conditionalProof.getHypothesis().getLabel())) {
                         return true;

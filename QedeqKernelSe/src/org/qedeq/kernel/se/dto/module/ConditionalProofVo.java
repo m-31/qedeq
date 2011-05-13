@@ -21,7 +21,7 @@ import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.Formula;
 import org.qedeq.kernel.se.base.module.Hypothesis;
-import org.qedeq.kernel.se.base.module.ReasonType2;
+import org.qedeq.kernel.se.base.module.Reason;
 
 
 /**
@@ -61,6 +61,10 @@ public class ConditionalProofVo implements ConditionalProof {
      */
     public ConditionalProofVo() {
         // nothing to do
+    }
+
+    public ConditionalProof getConditionalProof() {
+        return this;
     }
 
     public Hypothesis getHypothesis() {
@@ -133,9 +137,8 @@ public class ConditionalProofVo implements ConditionalProof {
         return "CP";
     }
 
-    public ReasonType2 getReasonType() {
-        // FIXME no no no!
-        return new ReasonTypeVo2(this);
+    public Reason getReason() {
+        return this;
     }
 
     public boolean equals(final Object obj) {

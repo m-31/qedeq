@@ -33,6 +33,13 @@ import org.qedeq.kernel.se.base.list.Element;
 public interface Rename extends Reason {
 
     /**
+     * Get this reason.
+     *
+     * @return  This reason.
+     */
+    public Rename getRename();
+
+    /**
      * Get reference to formula. Usually this a formula of type A(x)
      *
      * @return  Reference to previously proved formula.

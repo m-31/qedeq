@@ -31,6 +31,12 @@ import org.qedeq.kernel.se.base.list.Element;
 public interface Universal extends Reason {
 
     /**
+     * Get this reason.
+     *
+     * @return  This reason.
+     */
+    public Universal getUniversal();
+    /**
      * Get reference to formula. Usually this a formula of type A -&gt; B(x)
      *
      * @return  Reference to previously proved formula.

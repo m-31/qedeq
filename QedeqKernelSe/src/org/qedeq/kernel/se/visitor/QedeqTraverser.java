@@ -53,7 +53,7 @@ import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
-import org.qedeq.kernel.se.base.module.ReasonType2;
+import org.qedeq.kernel.se.base.module.Reason;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
@@ -338,10 +338,10 @@ public interface QedeqTraverser {
     /**
      * Traverse formal proof line reason.
      *
-     * @param   reasonType              Traverse this element.
+     * @param   reason                  Traverse this element.
      * @throws  ModuleDataException     Severe error during occurred.
      */
-    public void accept(final ReasonType2 reasonType) throws ModuleDataException;
+    public void accept(final Reason reason) throws ModuleDataException;
 
     /**
      * Traverse formal proof line reason.

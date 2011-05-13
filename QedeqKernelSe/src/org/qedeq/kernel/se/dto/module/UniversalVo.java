@@ -59,6 +59,10 @@ public class UniversalVo implements Universal {
         // nothing to do
     }
 
+    public Universal getUniversal() {
+        return this;
+    }
+
     public String getReference() {
         return reference;
     }

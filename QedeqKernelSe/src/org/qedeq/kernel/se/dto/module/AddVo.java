@@ -45,6 +45,10 @@ public class AddVo implements Add {
         // nothing to do
     }
 
+    public Add getAdd() {
+        return this;
+    }
+
     public String getReference() {
         return reference;
     }

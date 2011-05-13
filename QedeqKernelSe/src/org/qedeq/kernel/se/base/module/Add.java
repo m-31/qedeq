@@ -29,6 +29,13 @@ package org.qedeq.kernel.se.base.module;
 public interface Add extends Reason {
 
     /**
+     * Get this reason.
+     *
+     * @return  This reason.
+     */
+    public Add getAdd();
+
+    /**
      * Get reference to formula.
      *
      * @return  Reference to previously proved formula.

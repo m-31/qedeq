@@ -31,6 +31,13 @@ import org.qedeq.kernel.se.base.list.Element;
 public interface Existential extends Reason {
 
     /**
+     * Get this reason.
+     *
+     * @return  This reason.
+     */
+    public Existential getExistential();
+
+    /**
      * Get reference to formula. Usually this a formula of type A(x) -&gt; B
      *
      * @return  Reference to previously proved formula.

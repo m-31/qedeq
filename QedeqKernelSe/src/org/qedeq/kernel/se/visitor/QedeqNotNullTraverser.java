@@ -56,7 +56,6 @@ import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.base.module.Reason;
-import org.qedeq.kernel.se.base.module.ReasonType2;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
@@ -903,8 +902,8 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         for (int i = 0; i < proofLineList.size(); i++) {
             setLocationWithinModule(context + ".get(" + i + ")");
             if (proofLineList.get(i) instanceof ConditionalProof) {
-                setLocationWithinModule(context + ".get(" + i + ")" + ".getReasonType().getConditionalProof()");
-                accept(proofLineList.get(i).getReasonType().getConditionalProof());
+                setLocationWithinModule(context + ".get(" + i + ")" + ".getReason().getConditionalProof()");
+                accept(((ConditionalProof) proofLineList.get(i).getReason()).getConditionalProof());
             } else {
                 accept(proofLineList.get(i));
             }
@@ -925,57 +924,52 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             setLocationWithinModule(context + ".getFormula()");
             accept(proofLine.getFormula());
         }
-        if (proofLine.getReasonType() != null) {
-            setLocationWithinModule(context + ".getReasonType()");
-            accept(proofLine.getReasonType());
+        if (proofLine.getReason() != null) {
+            setLocationWithinModule(context + ".getReason()");
+            accept(proofLine.getReason());
         }
         setLocationWithinModule(context);
         visitor.visitLeave(proofLine);
         setLocationWithinModule(context);
     }
 
-    public void accept(final ReasonType2 reasonType) throws ModuleDataException {
+    public void accept(final Reason reason) throws ModuleDataException {
         checkForInterrupt();
-        if (blocked || reasonType == null) {
+        if (blocked || reason == null) {
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        visitor.visitEnter(reasonType);
-        if (reasonType.getReason() != null) {
-            setLocationWithinModule(context + ".getReason()");
-            final Reason reason = reasonType.getReason();
-            // TODO 20110124 m31: here the context is type dependently specified
-            if (reason instanceof ModusPonens) {
-                setLocationWithinModule(context + ".getModusPonens()");
-                accept(reasonType.getModusPonens());
-            } else if (reason instanceof Add) {
-                setLocationWithinModule(context + ".getAdd()");
-                accept(reasonType.getAdd());
-            } else if (reason instanceof Rename) {
-                setLocationWithinModule(context + ".getRename()");
-                accept(reasonType.getRename());
-            } else if (reason instanceof SubstFree) {
-                setLocationWithinModule(context + ".getSubstFree()");
-                accept(reasonType.getSubstFree());
-            } else if (reason instanceof SubstFunc) {
-                setLocationWithinModule(context + ".getSubstFunc()");
-                accept(reasonType.getSubstFunc());
-            } else if (reason instanceof SubstPred) {
-                setLocationWithinModule(context + ".getSubstPred()");
-                accept(reasonType.getSubstPred());
-            } else if (reason instanceof Existential) {
-                setLocationWithinModule(context + ".getExistential()");
-                accept(reasonType.getExistential());
-            } else if (reason instanceof Universal) {
-                setLocationWithinModule(context + ".getUniversal()");
-                accept(reasonType.getUniversal());
-            } else {
-                throw new IllegalArgumentException("unexpected reason type: "
-                    + reason.getClass());
-            }
+        visitor.visitEnter(reason);
+        if (reason instanceof ModusPonens) {
+            setLocationWithinModule(context + ".getModusPonens()");
+            accept(((ModusPonens) reason).getModusPonens());
+        } else if (reason instanceof Add) {
+            setLocationWithinModule(context + ".getAdd()");
+            accept(((Add) reason).getAdd());
+        } else if (reason instanceof Rename) {
+            setLocationWithinModule(context + ".getRename()");
+            accept(((Rename) reason).getRename());
+        } else if (reason instanceof SubstFree) {
+            setLocationWithinModule(context + ".getSubstFree()");
+            accept(((SubstFree) reason).getSubstFree());
+        } else if (reason instanceof SubstFunc) {
+            setLocationWithinModule(context + ".getSubstFunc()");
+            accept(((SubstFunc) reason).getSubstFunc());
+        } else if (reason instanceof SubstPred) {
+            setLocationWithinModule(context + ".getSubstPred()");
+            accept(((SubstPred) reason).getSubstPred());
+        } else if (reason instanceof Existential) {
+            setLocationWithinModule(context + ".getExistential()");
+            accept(((Existential) reason).getExistential());
+        } else if (reason instanceof Universal) {
+            setLocationWithinModule(context + ".getUniversal()");
+            accept(((Universal) reason).getUniversal());
+        } else {
+            throw new IllegalArgumentException("unexpected reason type: "
+                + reason.getClass());
         }
         setLocationWithinModule(context);
-        visitor.visitLeave(reasonType);
+        visitor.visitLeave(reason);
         setLocationWithinModule(context);
     }
 

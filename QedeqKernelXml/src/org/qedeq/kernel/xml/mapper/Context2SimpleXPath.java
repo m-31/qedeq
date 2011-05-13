@@ -56,7 +56,7 @@ import org.qedeq.kernel.se.base.module.Proof;
 import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
-import org.qedeq.kernel.se.base.module.ReasonType;
+import org.qedeq.kernel.se.base.module.Reason;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
@@ -612,15 +612,15 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         leave();
     }
 
-    public final void visitEnter(final ReasonType reasonType) throws ModuleDataException {
+    public final void visitEnter(final Reason reason) throws ModuleDataException {
         // nothing to enter in XML
-        final String method = "visitEnter(ReasonType)";
+        final String method = "visitEnter(Reason)";
         Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
 
     }
 
-    public final void visitLeave(final ReasonType reasonType) {
+    public final void visitLeave(final Reason reason) {
         // nothing to leave in XML
     }
 

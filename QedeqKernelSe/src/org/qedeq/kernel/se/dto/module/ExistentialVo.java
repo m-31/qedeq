@@ -52,6 +52,10 @@ public class ExistentialVo implements Existential {
         // nothing to do
     }
 
+    public Existential getExistential() {
+        return this;
+    }
+
     public String getReference() {
         return reference;
     }

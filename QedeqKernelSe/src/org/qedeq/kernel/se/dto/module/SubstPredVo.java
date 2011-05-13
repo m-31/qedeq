@@ -58,6 +58,10 @@ public class SubstPredVo implements SubstPred {
         // nothing to do
     }
 
+    public SubstPred getSubstPred() {
+        return this;
+    }
+
     public String getReference() {
         return reference;
     }

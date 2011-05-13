@@ -43,6 +43,10 @@ public class ModusPonensBo implements ModusPonens {
         this.n2 = n2;
     }
 
+    public ModusPonens getModusPonens() {
+        return this;
+    }
+
     public String getReference1() {
         return "" + n1;
     }

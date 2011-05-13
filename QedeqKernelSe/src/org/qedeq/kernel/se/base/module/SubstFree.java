@@ -31,6 +31,13 @@ import org.qedeq.kernel.se.base.list.Element;
 public interface SubstFree extends Reason {
 
     /**
+     * Get this reason.
+     *
+     * @return  This reason.
+     */
+    public SubstFree getSubstFree();
+
+    /**
      * Get reference to already proven formula.
      *
      * @return  Reference to previously proved formula.

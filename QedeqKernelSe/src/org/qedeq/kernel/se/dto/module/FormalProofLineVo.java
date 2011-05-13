@@ -18,7 +18,7 @@ package org.qedeq.kernel.se.dto.module;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.Formula;
-import org.qedeq.kernel.se.base.module.ReasonType2;
+import org.qedeq.kernel.se.base.module.Reason;
 
 
 /**
@@ -32,7 +32,7 @@ public class FormalProofLineVo implements FormalProofLine {
     private String label;
 
     /** Rule that is used for deriving. */
-    private ReasonType2 reasonType;
+    private Reason reason;
 
     /** Derived formula. */
     private Formula formula;
@@ -41,11 +41,11 @@ public class FormalProofLineVo implements FormalProofLine {
      * Constructs an proof line.
      *
      * @param   formula     New derived formula.
-     * @param   reasonType  Rule that was used to derive the formula.
+     * @param   reason      Rule that was used to derive the formula.
      */
-    public FormalProofLineVo(final Formula formula, final ReasonType2 reasonType) {
+    public FormalProofLineVo(final Formula formula, final Reason reason) {
         this.label = null;
-        this.reasonType = reasonType;
+        this.reason = reason;
         this.formula = formula;
     }
 
@@ -54,11 +54,11 @@ public class FormalProofLineVo implements FormalProofLine {
      *
      * @param   label       Label for back references. Might be <code>null</code>.
      * @param   formula     New derived formula.
-     * @param   reasonType  Rule that was used to derive the formula.
+     * @param   reason      Rule that was used to derive the formula.
      */
-    public FormalProofLineVo(final String label, final Formula formula, final ReasonType2 reasonType) {
+    public FormalProofLineVo(final String label, final Formula formula, final Reason reason) {
         this.label = label;
-        this.reasonType = reasonType;
+        this.reason = reason;
         this.formula = formula;
     }
 
@@ -95,17 +95,17 @@ public class FormalProofLineVo implements FormalProofLine {
         this.label = label;
     }
 
-    public ReasonType2 getReasonType() {
-        return reasonType;
+    public Reason getReason() {
+        return reason;
     }
 
     /**
      * Set reason type for proof line.
      *
-     * @param   reasonType      Set this reason type.
+     * @param   reason  Set this reason type.
      */
-    public void setReasonType(final ReasonType2 reasonType) {
-        this.reasonType = reasonType;
+    public void setReason(final Reason reason) {
+        this.reason = reason;
     }
 
     public boolean equals(final Object obj) {
@@ -115,18 +115,18 @@ public class FormalProofLineVo implements FormalProofLine {
         final FormalProofLineVo other = (FormalProofLineVo) obj;
         return  EqualsUtility.equals(label, other.label)
           && EqualsUtility.equals(formula, other.formula)
-          && EqualsUtility.equals(reasonType, other.reasonType);
+          && EqualsUtility.equals(reason, other.reason);
     }
 
     public int hashCode() {
         return (label != null ? label.hashCode() : 0)
            ^ (formula != null ?  1 ^ formula.hashCode() : 0)
-           ^ (reasonType != null ?  2 ^ reasonType.hashCode() : 0);
+           ^ (reason != null ?  2 ^ reason.hashCode() : 0);
     }
 
     public String toString() {
         return (label != null ? "[" + label + "] " : "    ") + getFormula() + " "
-            + getReasonType();
+            + getReason();
     }
 
 }

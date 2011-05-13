@@ -58,6 +58,10 @@ public class SubstFreeVo implements SubstFree {
         // nothing to do
     }
 
+    public SubstFree getSubstFree() {
+        return this;
+    }
+
     public String getReference() {
         return reference;
     }

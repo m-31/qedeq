@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * Marker interface for different subsection types.
  *
- * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public interface SubsectionType {

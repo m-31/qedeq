@@ -34,7 +34,6 @@ import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Reason;
-import org.qedeq.kernel.se.base.module.ReasonType;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.SubstFree;
 import org.qedeq.kernel.se.base.module.SubstFunc;
@@ -104,17 +103,8 @@ public class ProofCheckerImpl implements ProofChecker {
                     getCurrentContext());
                 continue;
             }
-            setLocationWithinModule(context + ".get("  + i + ").getReasonType()");
-            final ReasonType reasonType = line.getReasonType();
-            if (reasonType == null) {
-                ok = false;
-                handleProofCheckException(
-                    BasicProofErrors.REASON_MUST_NOT_BE_NULL_CODE,
-                    BasicProofErrors.REASON_MUST_NOT_BE_NULL_TEXT,
-                    getCurrentContext());
-                continue;
-            }
-            final Reason reason = reasonType.getReason();
+            setLocationWithinModule(context + ".get("  + i + ").getReason()");
+            final Reason reason = line.getReason();
             if (reason == null) {
                 ok = false;
                 handleProofCheckException(
@@ -146,25 +136,25 @@ public class ProofCheckerImpl implements ProofChecker {
             String getReason = ".get" + StringUtility.getClassName(reason.getClass());
             if (getReason.endsWith("Vo")) {
                 getReason = getReason.substring(0, getReason.length() - 2) + "()";
-                setLocationWithinModule(context + ".get("  + i + ").getReasonType()"
+                setLocationWithinModule(context + ".get("  + i + ").getReason()"
                     + getReason);
             }
             if (reason instanceof Add) {
-                ok = check(reasonType.getAdd(), i, line.getFormula().getElement());
+                ok = check((Add) reason, i, line.getFormula().getElement());
             } else if (reason instanceof Rename) {
-                ok = check(reasonType.getRename(), i, line.getFormula().getElement());
+                ok = check((Rename) reason, i, line.getFormula().getElement());
             } else if (reason instanceof ModusPonens) {
-                ok = check(reasonType.getModusPonens(), i, line.getFormula().getElement());
+                ok = check((ModusPonens) reason, i, line.getFormula().getElement());
             } else if (reason instanceof SubstFree) {
-                ok = check(reasonType.getSubstFree(), i, line.getFormula().getElement());
+                ok = check((SubstFree) reason, i, line.getFormula().getElement());
             } else if (reason instanceof SubstPred) {
-                ok = check(reasonType.getSubstPred(), i, line.getFormula().getElement());
+                ok = check((SubstPred) reason, i, line.getFormula().getElement());
             } else if (reason instanceof SubstFunc) {
-                ok = check(reasonType.getSubstFunc(), i, line.getFormula().getElement());
+                ok = check((SubstFunc) reason, i, line.getFormula().getElement());
             } else if (reason instanceof Universal) {
-                ok = check(reasonType.getUniversal(), i, line.getFormula().getElement());
+                ok = check((Universal) reason, i, line.getFormula().getElement());
             } else if (reason instanceof Existential) {
-                ok = check(reasonType.getExistential(), i, line.getFormula().getElement());
+                ok = check((Existential) reason, i, line.getFormula().getElement());
             } else {
                 ok = false;
                 handleProofCheckException(

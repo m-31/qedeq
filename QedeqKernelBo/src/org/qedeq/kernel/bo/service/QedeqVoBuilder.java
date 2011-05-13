@@ -54,7 +54,6 @@ import org.qedeq.kernel.se.base.module.ProofList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Qedeq;
 import org.qedeq.kernel.se.base.module.Reason;
-import org.qedeq.kernel.se.base.module.ReasonType2;
 import org.qedeq.kernel.se.base.module.Rename;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.Section;
@@ -108,7 +107,6 @@ import org.qedeq.kernel.se.dto.module.ProofListVo;
 import org.qedeq.kernel.se.dto.module.ProofVo;
 import org.qedeq.kernel.se.dto.module.PropositionVo;
 import org.qedeq.kernel.se.dto.module.QedeqVo;
-import org.qedeq.kernel.se.dto.module.ReasonTypeVo2;
 import org.qedeq.kernel.se.dto.module.RenameVo;
 import org.qedeq.kernel.se.dto.module.RuleVo;
 import org.qedeq.kernel.se.dto.module.SectionListVo;
@@ -946,9 +944,9 @@ public class QedeqVoBuilder {
             setLocationWithinModule(context + ".getFormula()");
             line.setFormula(create(proofLine.getFormula()));
         }
-        if (proofLine.getReasonType() != null) {
-            setLocationWithinModule(context + ".getReasonType()");
-            line.setReasonType(create(proofLine.getReasonType()));
+        if (proofLine.getReason() != null) {
+            setLocationWithinModule(context + ".getReason()");
+            line.setReason(create(proofLine.getReason()));
         }
         setLocationWithinModule(context);
         return line;
@@ -978,65 +976,60 @@ public class QedeqVoBuilder {
         return line;
     }
 
-    private final ReasonTypeVo2 create(final ReasonType2 reasonType) {
-        if (reasonType == null) {
+    private final Reason create(final Reason reason) {
+        if (reason == null) {
             return null;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        final ReasonTypeVo2 result = new ReasonTypeVo2();
-        if (reasonType.getReason() != null) {
-            final Reason reason = reasonType.getReason();
-            Reason res = null;
-            if (reason instanceof ModusPonens) {
-                setLocationWithinModule(context + ".getModusPonens()");
-                final ModusPonens r = (ModusPonens) reason;
-                res = new ModusPonensVo(r.getReference1(), r.getReference2());
-            } else if (reason instanceof Add) {
-                setLocationWithinModule(context + ".getAdd()");
-                final Add r = (Add) reason;
-                res = new AddVo(r.getReference());
-            } else if (reason instanceof Rename) {
-                setLocationWithinModule(context + ".getRename()");
-                final Rename r = (Rename) reason;
-                res = new RenameVo(r.getReference(), r.getOriginalSubjectVariable(),
-                    r.getReplacementSubjectVariable(), r.getOccurrence());
-            } else if (reason instanceof SubstFree) {
-                setLocationWithinModule(context + ".getSubstFree()");
-                final SubstFree r = (SubstFree) reason;
-                res = new SubstFreeVo(r.getReference(), r.getSubjectVariable(),
-                    r.getSubstituteTerm());
-            } else if (reason instanceof SubstFunc) {
-                setLocationWithinModule(context + ".getSubstFunc()");
-                final SubstFunc r = (SubstFunc) reason;
-                res = new SubstFuncVo(r.getReference(), r.getFunctionVariable(),
-                    r.getSubstituteTerm());
-            } else if (reason instanceof SubstPred) {
-                setLocationWithinModule(context + ".getSubstPred()");
-                final SubstPred r = (SubstPred) reason;
-                res = new SubstPredVo(r.getReference(), r.getPredicateVariable(),
-                    r.getSubstituteFormula());
-            } else if (reason instanceof Existential) {
-                setLocationWithinModule(context + ".getExistential()");
-                final Existential r = (Existential) reason;
-                res = new ExistentialVo(r.getReference(), r.getSubjectVariable());
-            } else if (reason instanceof Universal) {
-                setLocationWithinModule(context + ".getUniversal()");
-                final Universal r = (Universal) reason;
-                res = new UniversalVo(r.getReference(), r.getSubjectVariable());
-            } else if (reason instanceof ConditionalProof) {
-                setLocationWithinModule(context + ".getConditionalProof()");
-                final ConditionalProof r = (ConditionalProof) reason;
-                setLocationWithinModule(context + ".getConditionalProof().getHypothesis()");
-                final Hypothesis h = create(r.getHypothesis());
-                setLocationWithinModule(context + ".getConditionalProof().getFormalProofLineList()");
-                final FormalProofLineList l = create(r.getFormalProofLineList());
-                setLocationWithinModule(context + ".getConditionalProof().getConclusion()");
-                final Conclusion c = create(r.getConclusion());
-                res = new ConditionalProofVo(h, l, c);
-            } else {
-                throw new RuntimeException("unknown reason class: " + reason.getClass());
-            }
-            result.setReason(res);
+        Reason result = null;
+        if (reason instanceof ModusPonens) {
+            setLocationWithinModule(context + ".getModusPonens()");
+            final ModusPonens r = (ModusPonens) reason;
+            result = new ModusPonensVo(r.getReference1(), r.getReference2());
+        } else if (reason instanceof Add) {
+            setLocationWithinModule(context + ".getAdd()");
+            final Add r = (Add) reason;
+            result = new AddVo(r.getReference());
+        } else if (reason instanceof Rename) {
+            setLocationWithinModule(context + ".getRename()");
+            final Rename r = (Rename) reason;
+            result = new RenameVo(r.getReference(), r.getOriginalSubjectVariable(),
+                r.getReplacementSubjectVariable(), r.getOccurrence());
+        } else if (reason instanceof SubstFree) {
+            setLocationWithinModule(context + ".getSubstFree()");
+            final SubstFree r = (SubstFree) reason;
+            result = new SubstFreeVo(r.getReference(), r.getSubjectVariable(),
+                r.getSubstituteTerm());
+        } else if (reason instanceof SubstFunc) {
+            setLocationWithinModule(context + ".getSubstFunc()");
+            final SubstFunc r = (SubstFunc) reason;
+            result = new SubstFuncVo(r.getReference(), r.getFunctionVariable(),
+                r.getSubstituteTerm());
+        } else if (reason instanceof SubstPred) {
+            setLocationWithinModule(context + ".getSubstPred()");
+            final SubstPred r = (SubstPred) reason;
+            result = new SubstPredVo(r.getReference(), r.getPredicateVariable(),
+                r.getSubstituteFormula());
+        } else if (reason instanceof Existential) {
+            setLocationWithinModule(context + ".getExistential()");
+            final Existential r = (Existential) reason;
+            result = new ExistentialVo(r.getReference(), r.getSubjectVariable());
+        } else if (reason instanceof Universal) {
+            setLocationWithinModule(context + ".getUniversal()");
+            final Universal r = (Universal) reason;
+            result = new UniversalVo(r.getReference(), r.getSubjectVariable());
+        } else if (reason instanceof ConditionalProof) {
+            setLocationWithinModule(context + ".getConditionalProof()");
+            final ConditionalProof r = (ConditionalProof) reason;
+            setLocationWithinModule(context + ".getConditionalProof().getHypothesis()");
+            final Hypothesis h = create(r.getHypothesis());
+            setLocationWithinModule(context + ".getConditionalProof().getFormalProofLineList()");
+            final FormalProofLineList l = create(r.getFormalProofLineList());
+            setLocationWithinModule(context + ".getConditionalProof().getConclusion()");
+            final Conclusion c = create(r.getConclusion());
+            result = new ConditionalProofVo(h, l, c);
+        } else {
+            throw new RuntimeException("unknown reason class: " + reason.getClass());
         }
         setLocationWithinModule(context);
         return result;
