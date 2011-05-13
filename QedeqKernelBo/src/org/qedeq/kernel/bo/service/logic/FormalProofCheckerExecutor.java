@@ -15,11 +15,9 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
-import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
@@ -48,6 +46,7 @@ import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.CheckLevel;
 import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
+import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
 import org.qedeq.kernel.se.common.SourceFileException;
@@ -383,16 +382,16 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
         // FIXME remove test dependency
-        try {
-            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
-        } catch (RuntimeException e) {
-            System.err.println(getCurrentContext().getLocationWithinModule());
-            throw e;
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
+//        try {
+//            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
+//        } catch (RuntimeException e) {
+//            System.err.println(getCurrentContext().getLocationWithinModule());
+//            throw e;
+//        } catch (IllegalAccessException e) {
+//            throw new RuntimeException(e);
+//        } catch (InvocationTargetException e) {
+//            throw new RuntimeException(e);
+//        }
 
     }
 
@@ -487,6 +486,21 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             }
         }
         return result;
+    }
+
+    public boolean isLocalProofLineReference(final String reference) {
+        // here we have no proof lines
+        return false;
+    }
+
+    public ModuleContext getLocalProofLineReferenceContext(final String reference) {
+        // here we have no proof lines
+        return null;
+    }
+
+    public ModuleContext getLocalProofLineReference(final String reference) {
+        // here we have no proof lines
+        return null;
     }
 
 }
