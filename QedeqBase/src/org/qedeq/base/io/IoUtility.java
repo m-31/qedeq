@@ -931,7 +931,7 @@ public final class IoUtility {
      */
     public static URL toUrl(final File file) {
         try {
-            return file.toURI().toURL();
+            return file.getAbsoluteFile().toURI().toURL();
         } catch (MalformedURLException e) { // should only happen if there is a bug in the JDK
             throw new RuntimeException(e);
         }
