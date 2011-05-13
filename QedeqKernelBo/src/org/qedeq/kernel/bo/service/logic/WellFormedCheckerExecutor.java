@@ -666,7 +666,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 if (proof != null) {
                     final FormalProofLineList list = proof.getFormalProofLineList();
                     setLocationWithinModule(context + ".getFormalProofList().get("
-                            + i + ").getFormalProofLineList())");
+                            + i + ").getFormalProofLineList()");
                     checkFormalProof(list);
                 }
             }
@@ -688,12 +688,9 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         final String context = getCurrentContext().getLocationWithinModule();
         if (list != null) {
             for (int i = 0; i < list.size(); i++) {
-                for (int j = 0; j < list.size(); j++) {
-                    final FormalProofLine line = list.get(j);
-                    setLocationWithinModule(context + ".getFormalProofList().get("
-                        + i + ").getFormalProofLineList().get(" + j + ")");
-                    checkProofLine(line);
-                }
+                final FormalProofLine line = list.get(i);
+                setLocationWithinModule(context + ".get(" + i + ")");
+                checkProofLine(line);
             }
         }
     }
