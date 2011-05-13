@@ -39,6 +39,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
@@ -664,14 +665,9 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 final FormalProof proof = proposition.getFormalProofList().get(i);
                 if (proof != null) {
                     final FormalProofLineList list = proof.getFormalProofLineList();
-                    if (list != null) {
-                        for (int j = 0; j < list.size(); j++) {
-                            final FormalProofLine line = list.get(j);
-                            setLocationWithinModule(context + ".getFormalProofList().get("
-                                + i + ").getFormalProofLineList().get(" + j + ")");
-                            checkProofLine(line);
-                        }
-                    }
+                    setLocationWithinModule(context + ".getFormalProofList().get("
+                            + i + ").getFormalProofLineList())");
+                    checkFormalProof(list);
                 }
             }
         }
@@ -684,15 +680,37 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
     }
 
     /**
+     * Check formal proof formulas.
+     *
+     * @param   list    List of lines.
+     */
+    private void checkFormalProof(final FormalProofLineList list) {
+        final String context = getCurrentContext().getLocationWithinModule();
+        if (list != null) {
+            for (int i = 0; i < list.size(); i++) {
+                for (int j = 0; j < list.size(); j++) {
+                    final FormalProofLine line = list.get(j);
+                    setLocationWithinModule(context + ".getFormalProofList().get("
+                        + i + ").getFormalProofLineList().get(" + j + ")");
+                    checkProofLine(line);
+                }
+            }
+        }
+    }
+
+    /**
      * Check well-formedness of proof lines.
      *
      * @param   line    Check formulas and terms of this proof line.
      */
     private void checkProofLine(final FormalProofLine line) {
+        if (line instanceof ConditionalProof) {
+            checkProofLine((ConditionalProof) line);
+            return;
+        }
         final String context = getCurrentContext().getLocationWithinModule();
         LogicalCheckExceptionList elist = new LogicalCheckExceptionList();
         if (line != null) {
-            // FIXME 20110512 m31: check for conditional proof
             final Formula formula = line.getFormula();
             if (formula != null) {
                 setLocationWithinModule(context + ".getFormula().getElement()");
@@ -734,6 +752,57 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                 }
                 for (int k = 0; k < elist.size(); k++) {
                     addError(elist.get(k));
+                }
+            }
+        }
+    }
+
+    /**
+     * Check well-formedness of proof lines.
+     *
+     * @param   line    Check formulas and terms of this proof line.
+     */
+    private void checkProofLine(final ConditionalProof line) {
+        final String context = getCurrentContext().getLocationWithinModule();
+        LogicalCheckExceptionList elist = new LogicalCheckExceptionList();
+        if (line != null) {
+            {
+                final Formula formula = line.getFormula();
+                if (formula != null && formula.getElement() != null) {
+                    setLocationWithinModule(context + ".getFormula().getElement()");
+                    elist = checkerFactory.createFormulaChecker().checkFormula(
+                        formula.getElement(), getCurrentContext(), existence);
+                    for (int k = 0; k < elist.size(); k++) {
+                        addError(elist.get(k));
+                    }
+                }
+            }
+            if (line.getHypothesis() != null) {
+                final Formula formula = line.getHypothesis().getFormula();;
+                if (formula != null && formula.getElement() != null) {
+                    setLocationWithinModule(context
+                        + ".getHypothesis().getFormula().getFormula().getElement()");
+                    elist = checkerFactory.createFormulaChecker().checkFormula(
+                        formula.getElement(), getCurrentContext(), existence);
+                    for (int k = 0; k < elist.size(); k++) {
+                        addError(elist.get(k));
+                    }
+                }
+            }
+            if (line.getFormalProofLineList() != null) {
+                setLocationWithinModule(context + ".getFormalProofLineList()");
+                checkFormalProof(line.getFormalProofLineList());
+            }
+            if (line.getConclusion() != null) {
+                final Formula formula = line.getConclusion().getFormula();;
+                if (formula != null && formula.getElement() != null) {
+                    setLocationWithinModule(context
+                        + "getConclusion().getFormula().getFormula().getElement()");
+                    elist = checkerFactory.createFormulaChecker().checkFormula(
+                        formula.getElement(), getCurrentContext(), existence);
+                    for (int k = 0; k < elist.size(); k++) {
+                        addError(elist.get(k));
+                    }
                 }
             }
         }
