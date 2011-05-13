@@ -95,7 +95,8 @@ public class ProofCheckerImpl implements ProofChecker {
             boolean ok = true;
             setLocationWithinModule(context + ".get("  + i + ")");
             final FormalProofLine line = proof.get(i);
-            if (line == null) {
+            if (line == null || line.getFormula() == null
+                    || line.getFormula().getElement() == null) {
                 ok = false;
                 handleProofCheckException(
                     BasicProofErrors.PROOF_LINE_MUST_NOT_BE_NULL_CODE,

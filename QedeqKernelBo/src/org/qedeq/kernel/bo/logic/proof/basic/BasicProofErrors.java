@@ -29,7 +29,7 @@ public interface BasicProofErrors extends ErrorCodes {
 
     /** Error message. */
     public static final String ELEMENT_MUST_NOT_BE_NULL_TEXT
-        = "proof line must not be null";
+        = "proof line must not be empty";
 
 
     /** Error code. */
@@ -37,7 +37,7 @@ public interface BasicProofErrors extends ErrorCodes {
 
     /** Error message. */
     public static final String REASON_MUST_NOT_BE_NULL_TEXT
-        = "reason must not be null";
+        = "reason must not be empty";
 
 
     /** Error code. */
@@ -62,6 +62,14 @@ public interface BasicProofErrors extends ErrorCodes {
     /** Error message. */
     public static final String EXPECTED_FORMULA_DIFFERS_TEXT
         = "this is not the expected part formula, please check with label: ";
+
+
+    /** Error code. */
+    public static final int EXPECTED_FORMULA_DIFFERS_2_CODE = 37142;
+
+    /** Error message. */
+    public static final String EXPECTED_FORMULA_DIFFERS_2_TEXT
+        = "this is not the expected part formula";
 
 
     /** Error code. */
@@ -167,6 +175,14 @@ public interface BasicProofErrors extends ErrorCodes {
     /** Error message. */
     public static final String SUBJECT_VARIABLE_IS_MISSING_TEXT
         = "subject variable is missing";
+
+
+    /** Error code. */
+    public static final int MISSING_PROOF_LINE_FOR_CONDITIONAL_PROOF_CODE = 37370;
+
+    /** Error message. */
+    public static final String MISSING_PROOF_LINE_FOR_CONDITIONAL_PROOF_TEXT
+        = "missing proof lines for conditional proof";
 
 
 }
