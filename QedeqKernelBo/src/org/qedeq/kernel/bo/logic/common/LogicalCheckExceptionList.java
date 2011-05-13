@@ -44,6 +44,15 @@ public class LogicalCheckExceptionList {
     }
 
     /**
+     * Add exceptions.
+     *
+     * @param   e   Exceptions to add.
+     */
+    public void add(final LogicalCheckExceptionList e) {
+        exceptions.addAll(e.exceptions);
+    }
+
+    /**
      * Get number of collected exceptions.
      *
      * @return  Number of collected exceptions.
