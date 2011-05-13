@@ -971,8 +971,6 @@ public class QedeqVoBuilder {
             line.setConclusion(create(proofLine.getConclusion()));
         }
         setLocationWithinModule(context);
-        // FIXME new created
-        System.out.println(line);
         return line;
     }
 
