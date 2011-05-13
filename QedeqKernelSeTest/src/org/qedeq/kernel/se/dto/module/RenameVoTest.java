@@ -33,6 +33,7 @@ public class RenameVoTest extends AbstractVoModuleTest {
 
     protected void setUp() throws Exception {
         super.setUp();
+        removeMethodToCheck("getRename");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
         rename = new RenameVo("first", new DefaultAtom("first"), new DefaultAtom("second"), 3);

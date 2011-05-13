@@ -33,6 +33,7 @@ public class SubstPredVoTest extends AbstractVoModuleTest {
 
     protected void setUp() throws Exception {
         super.setUp();
+        removeMethodToCheck("getSubstPred");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
         subst = new SubstPredVo("first", new DefaultAtom("first"), new DefaultAtom("second"));

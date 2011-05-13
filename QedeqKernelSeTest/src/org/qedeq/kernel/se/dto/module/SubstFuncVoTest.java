@@ -33,6 +33,7 @@ public class SubstFuncVoTest extends AbstractVoModuleTest {
 
     protected void setUp() throws Exception {
         super.setUp();
+        removeMethodToCheck("getSubstFunc");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
         subst = new SubstFuncVo("first", new DefaultAtom("first"), new DefaultAtom("second"));

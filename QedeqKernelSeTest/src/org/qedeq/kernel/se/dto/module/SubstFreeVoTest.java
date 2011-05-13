@@ -33,6 +33,7 @@ public class SubstFreeVoTest extends AbstractVoModuleTest {
 
     protected void setUp() throws Exception {
         super.setUp();
+        removeMethodToCheck("getSubstFree");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
         free = new SubstFreeVo("first", new DefaultAtom("first"), new DefaultAtom("second"));

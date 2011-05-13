@@ -16,9 +16,12 @@
 package org.qedeq.kernel.se.common;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.SystemUtils;
 import org.qedeq.base.test.QedeqTestCase;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.dto.module.LocationListVo;
@@ -151,8 +154,10 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
         assertEquals("hulouo.xml", dflt.getFileName());
         assertEquals("file:", dflt.getHeader());
         assertEquals("hulouo", dflt.getName());
-        assertEquals(file.getCanonicalFile().getParentFile().getPath() + "/", dflt.getPath());
-        assertEquals("file:" + file.getCanonicalPath(), dflt.getUrl());
+        assertEquals((SystemUtils.IS_OS_WINDOWS ? "/" : "") + FilenameUtils.separatorsToUnix(
+            file.getCanonicalFile().getParentFile().getPath()) + "/", dflt.getPath());
+        assertEquals("file:" + (SystemUtils.IS_OS_WINDOWS ? "/" : "")+ FilenameUtils.separatorsToUnix(
+                file.getCanonicalPath()), dflt.getUrl());
         assertEquals(true, dflt.isFileAddress());
         assertEquals(false, dflt.isRelativeAddress());
         assertEquals(dflt, dflt.createModuleContext().getModuleLocation());

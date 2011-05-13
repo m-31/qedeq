@@ -32,6 +32,7 @@ public class ModusPonensVoTest extends AbstractVoModuleTest {
 
     protected void setUp() throws Exception {
         super.setUp();
+        removeMethodToCheck("getModusPonens");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
         mp = new ModusPonensVo("first", "second");

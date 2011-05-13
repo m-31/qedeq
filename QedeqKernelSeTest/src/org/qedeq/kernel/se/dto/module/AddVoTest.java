@@ -32,6 +32,7 @@ public class AddVoTest extends AbstractVoModuleTest {
 
     protected void setUp() throws Exception {
         super.setUp();
+        removeMethodToCheck("getAdd");
         removeMethodToCheck("getName");
         removeMethodToCheck("getReferences");
         add = new AddVo("first");
