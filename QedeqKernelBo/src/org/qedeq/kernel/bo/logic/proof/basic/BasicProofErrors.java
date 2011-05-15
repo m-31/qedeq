@@ -28,7 +28,7 @@ public interface BasicProofErrors extends ErrorCodes {
     public static final int PROOF_LINE_MUST_NOT_BE_NULL_CODE = 37100;
 
     /** Error message. */
-    public static final String ELEMENT_MUST_NOT_BE_NULL_TEXT
+    public static final String PROOF_LINE_MUST_NOT_BE_NULL_TEXT
         = "proof line must not be empty";
 
 

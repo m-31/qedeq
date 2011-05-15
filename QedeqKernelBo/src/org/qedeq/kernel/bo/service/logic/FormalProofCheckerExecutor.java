@@ -498,7 +498,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         return null;
     }
 
-    public ModuleContext getLocalProofLineReference(final String reference) {
+    public Element getLocalProofLineReference(final String reference) {
         // here we have no proof lines
         return null;
     }

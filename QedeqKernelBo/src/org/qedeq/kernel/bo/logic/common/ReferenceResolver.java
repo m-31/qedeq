@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.common.ModuleContext;
 
 
 /**
@@ -43,12 +44,36 @@ public interface ReferenceResolver {
 
 
     /**
-     * Get reference formula in an local format.
+     * Get formula in a normalized format.
      *
-     * @param   formula   Local formula to normalize.
+     * @param   element   Local formula to normalize.
      * @return  Normalized formula.
      */
-    public Element getNormalizedFormula(Element formula);
+    public Element getNormalizedFormula(Element element);
 
+
+    /**
+     * Is this a local proof line reference?
+     *
+     * @param   reference   Local proof line reference to check for.
+     * @return  Is this a local proof line reference for the caller?
+     */
+    public boolean isLocalProofLineReference(String reference);
+
+    /**
+     * Module context for proof line reference.
+     *
+     * @param   reference   Local proof line reference to check for.
+     * @return  Local proof line reference for the caller. Might be <code>null</code>.
+     */
+    public ModuleContext getLocalProofLineReferenceContext(String reference);
+
+    /**
+     * Get local for proof line reference.
+     *
+     * @param   reference   Local proof line reference to check for.
+     * @return  Local proof line for the caller. Might be <code>null</code>.
+     */
+    public Element getLocalProofLineReference(String reference);
 
 }

@@ -100,7 +100,7 @@ public class ProofCheckerImpl implements ProofChecker {
                 ok = false;
                 handleProofCheckException(
                     BasicProofErrors.PROOF_LINE_MUST_NOT_BE_NULL_CODE,
-                    BasicProofErrors.ELEMENT_MUST_NOT_BE_NULL_TEXT,
+                    BasicProofErrors.PROOF_LINE_MUST_NOT_BE_NULL_TEXT,
                     getCurrentContext());
                 continue;
             }
