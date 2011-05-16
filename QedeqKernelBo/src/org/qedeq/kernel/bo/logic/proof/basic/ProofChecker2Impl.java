@@ -127,7 +127,7 @@ public class ProofChecker2Impl implements ProofChecker {
                 getReason = getReason.substring(0, getReason.length() - 2) + "()";
                 setLocationWithinModule(context + ".get("  + i + ").getReason()"
                     + getReason);
-                System.out.println(getCurrentContext());    // FIXME
+//                System.out.println(getCurrentContext());    // FIXME
             }
             if (reason instanceof Add) {
                 ok = check((Add) reason, i, line.getFormula().getElement());
@@ -683,24 +683,13 @@ public class ProofChecker2Impl implements ProofChecker {
             }
 
             public Element getNormalizedReferenceFormula(final String reference) {
+                System.out.println("Looking for " + reference);
                 if (EqualsUtility.equals(reference, cp.getHypothesis().getLabel())) {
                     return resolver.getNormalizedFormula(cp.getHypothesis().getFormula()
                         .getElement());
                 }
-                for (int i = 0; i < proof.size(); i++)  {
-                    if (proof.get(i) != null) {
-                        final String label = proof.get(i).getLabel();
-                        if (EqualsUtility.equals(reference, label)) {
-                            if (proof.get(i).getFormula() != null) {
-                                return resolver.getNormalizedFormula(proof.get(i).getFormula()
-                                    .getElement());
-                            } else {
-                                return null;
-                            }
-                        }
-                    }
-                }
-                return resolver.getNormalizedReferenceFormula(reference);
+                System.out.println("not found in local " + reference);
+                return getNormalizedProofLine(reference);
             }
 
             public boolean hasProvedFormula(final String reference) {
@@ -719,6 +708,9 @@ public class ProofChecker2Impl implements ProofChecker {
             }
 
             public boolean isLocalProofLineReference(final String reference) {
+                if (EqualsUtility.equals(reference, cp.getHypothesis().getLabel())) {
+                    return true;
+                }
                 if (label2line.containsValue(reference)) {
                     return true;
                 }
@@ -726,6 +718,9 @@ public class ProofChecker2Impl implements ProofChecker {
             }
 
             public ModuleContext getLocalProofLineReferenceContext(final String reference) {
+                if (EqualsUtility.equals(reference, cp.getHypothesis().getLabel())) {
+                    // FIXME 20110515 m31: still missing
+                }
                 if (label2line.containsValue(reference)) {
                     final ModuleContext lc = new ModuleContext(moduleContext.getModuleLocation(),
                         moduleContext.getLocationWithinModule() + ".get("
@@ -737,6 +732,10 @@ public class ProofChecker2Impl implements ProofChecker {
             }
 
             public Element getLocalProofLineReference(final String reference) {
+                if (EqualsUtility.equals(reference, cp.getHypothesis().getLabel())) {
+                    return resolver.getNormalizedFormula(
+                        cp.getHypothesis().getFormula().getElement());
+                }
                 if (label2line.containsValue(reference)) {
                     return getNormalizedProofLine((Integer) label2line.get(reference));
                 }
@@ -827,7 +826,13 @@ public class ProofChecker2Impl implements ProofChecker {
     }
 
     private Element getNormalizedProofLine(final String reference) {
-        return resolver.getLocalProofLineReference(reference);
+        // firstly we try our local proof lines
+        final Integer n = (Integer) label2line.get(reference);
+        if (n == null) {
+            // we have not found a local line, we try the resolver
+            return resolver.getLocalProofLineReference(reference);
+        }
+        return getNormalizedProofLine(n);
     }
 
     /**
