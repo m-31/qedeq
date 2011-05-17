@@ -29,6 +29,7 @@ import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
+import org.qedeq.kernel.se.base.module.Conclusion;
 import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.Existential;
 import org.qedeq.kernel.se.base.module.FormalProof;
@@ -598,6 +599,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
     public final void visitEnter(final FormalProofLine line) throws ModuleDataException {
         enter("L");
+        System.out.println("Enter: " + current);    // FIXME m31 20110516: remove me
         final String method = "visitEnter(FormalProofLine)";
         Trace.param(CLASS, this, method, "current", current);
         final String context = traverser.getCurrentContext().getLocationWithinModule();
@@ -609,6 +611,18 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     public final void visitLeave(final FormalProofLine line) {
+        leave();
+    }
+
+    public final void visitEnter(final ConditionalProof reason) throws ModuleDataException {
+        enter("CP");
+        System.out.println("Enter: " + current);    // FIXME m31 20110516: remove me
+        final String method = "visitEnter(ConditionalProof)";
+        Trace.param(CLASS, this, method, "current", current);
+        checkMatching(method);
+    }
+
+    public final void visitLeave(final ConditionalProof reason) {
         leave();
     }
 
@@ -760,20 +774,9 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         leave();
     }
 
-    public final void visitEnter(final ConditionalProof reason) throws ModuleDataException {
-        enter("CP");
-        final String method = "visitEnter(ConditionalProof)";
-        Trace.param(CLASS, this, method, "current", current);
-        checkMatching(method);
-    }
-
-    public final void visitLeave(final ConditionalProof reason) {
-        leave();
-    }
-
     public final void visitEnter(final Hypothesis hypothesis) throws ModuleDataException {
         enter("HYPOTHESIS");
-        final String method = "visitEnter(ConditionalProof)";
+        final String method = "visitEnter(Hypothesis)";
         Trace.param(CLASS, this, method, "current", current);
         final String context = traverser.getCurrentContext().getLocationWithinModule();
         checkMatching(method);
@@ -784,6 +787,22 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     public final void visitLeave(final Hypothesis hypothesis) {
+        leave();
+    }
+
+    public final void visitEnter(final Conclusion conclusion) throws ModuleDataException {
+        enter("CONCLUSION");
+        final String method = "visitEnter(Conclusion)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getLabel()");
+        current.setAttribute("label");
+        checkIfFound();
+    }
+
+    public final void visitLeave(final Conclusion conclusion) {
         leave();
     }
 
