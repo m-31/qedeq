@@ -599,7 +599,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
     public final void visitEnter(final FormalProofLine line) throws ModuleDataException {
         enter("L");
-        System.out.println("Enter: " + current);    // FIXME m31 20110516: remove me
+//        System.out.println("Enter: " + current);    // FIXME m31 20110516: remove me
         final String method = "visitEnter(FormalProofLine)";
         Trace.param(CLASS, this, method, "current", current);
         final String context = traverser.getCurrentContext().getLocationWithinModule();
@@ -616,7 +616,7 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
 
     public final void visitEnter(final ConditionalProof reason) throws ModuleDataException {
         enter("CP");
-        System.out.println("Enter: " + current);    // FIXME m31 20110516: remove me
+//        System.out.println("Enter: " + current);    // FIXME m31 20110516: remove me
         final String method = "visitEnter(ConditionalProof)";
         Trace.param(CLASS, this, method, "current", current);
         checkMatching(method);
