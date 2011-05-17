@@ -94,7 +94,7 @@ public class ProofChecker2Impl implements ProofChecker {
         label2line = new HashMap();
         for (int i = 0; i < proof.size(); i++) {
             boolean ok = true;
-            setLocationWithinModule(context + ".get("  + i + ")");
+            setLocationWithinModule(context + ".get(" + i + ")");
             final FormalProofLine line = proof.get(i);
             if (line == null || line.getFormula() == null
                     || line.getFormula().getElement() == null) {
@@ -105,7 +105,7 @@ public class ProofChecker2Impl implements ProofChecker {
                     getCurrentContext());
                 continue;
             }
-            setLocationWithinModule(context + ".get("  + i + ").getReason()");
+            setLocationWithinModule(context + ".get(" + i + ").getReason()");
             final Reason reason = line.getReason();
             if (reason == null) {
                 ok = false;
@@ -116,7 +116,7 @@ public class ProofChecker2Impl implements ProofChecker {
                 continue;
             }
             if (line.getLabel() != null && line.getLabel().length() > 0) {
-                setLocationWithinModule(context + ".get("  + i + ").getLabel()");
+                setLocationWithinModule(context + ".get(" + i + ").getLabel()");
                 addLocalLineLabel(i, line.getLabel());
             }
             // check if only basis rules are used
@@ -125,7 +125,7 @@ public class ProofChecker2Impl implements ProofChecker {
             String getReason = ".get" + StringUtility.getClassName(reason.getClass());
             if (getReason.endsWith("Vo")) {
                 getReason = getReason.substring(0, getReason.length() - 2) + "()";
-                setLocationWithinModule(context + ".get("  + i + ").getReason()"
+                setLocationWithinModule(context + ".get(" + i + ").getReason()"
                     + getReason);
 //                System.out.println(getCurrentContext());    // FIXME
             }
@@ -146,6 +146,7 @@ public class ProofChecker2Impl implements ProofChecker {
             } else if (reason instanceof Existential) {
                 ok = check((Existential) reason, i, line.getFormula().getElement());
             } else if (reason instanceof ConditionalProof) {
+                setLocationWithinModule(context + ".get(" + i + ")");
                 ok = check((ConditionalProof) reason, i, line.getFormula().getElement());
             } else {
                 ok = false;
@@ -656,6 +657,7 @@ public class ProofChecker2Impl implements ProofChecker {
 
     private boolean check(final ConditionalProof cp, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
+        System.out.println(getCurrentContext());    // FIXME
         boolean ok = true;
         if (cp.getHypothesis() == null || cp.getHypothesis().getFormula() == null
                 || cp.getHypothesis().getFormula().getElement() == null) {
@@ -762,10 +764,10 @@ public class ProofChecker2Impl implements ProofChecker {
                 getCurrentContext(), newResolver);
         exceptions.add(eList);
         ok = eList.size() == 0;
+        setLocationWithinModule(context + ".getConclusion()");
         if (cp.getConclusion() == null || cp.getConclusion().getFormula() == null
                 || cp.getConclusion().getFormula().getElement() == null) {
             ok = false;
-            setLocationWithinModule(context + ".getConclusion()");
             handleProofCheckException(
                 BasicProofErrors.PROOF_LINE_MUST_NOT_BE_NULL_CODE,
                 BasicProofErrors.PROOF_LINE_MUST_NOT_BE_NULL_TEXT,
@@ -773,9 +775,9 @@ public class ProofChecker2Impl implements ProofChecker {
             return ok;
         }
         final Element c = resolver.getNormalizedFormula(cp.getConclusion().getFormula().getElement());
+        setLocationWithinModule(context + ".getConclusion().getFormula().getElement()");
         if (!FormulaUtility.isImplication(c)) {
             ok = false;
-            setLocationWithinModule(context + ".getConclusion()");
             handleProofCheckException(
                 BasicProofErrors.IMPLICATION_EXPECTED_CODE,
                 BasicProofErrors.IMPLICATION_EXPECTED_TEXT,
@@ -797,6 +799,11 @@ public class ProofChecker2Impl implements ProofChecker {
     }
 
     private ModuleContext getModuleContextOfProofLineFormula(final int i) {
+        if (proof.get(i) instanceof ConditionalProof) {
+            return new ModuleContext(moduleContext.getModuleLocation(),
+                    moduleContext.getLocationWithinModule() + ".get(" + i
+                    + ").getConclusion().getFormula().getElement()");
+        }
         return new ModuleContext(moduleContext.getModuleLocation(),
             moduleContext.getLocationWithinModule() + ".get(" + i
             + ").getFormula().getElement()");
@@ -806,6 +813,11 @@ public class ProofChecker2Impl implements ProofChecker {
             final Element expected) {
         final String diff = FormulaUtility.getDifferenceLocation(
             proof.get(i).getFormula().getElement(),  expected);
+        if (proof.get(i) instanceof ConditionalProof) {
+            return new ModuleContext(moduleContext.getModuleLocation(),
+                    moduleContext.getLocationWithinModule() + ".get(" + i
+                    + ").getConclusion().getFormula().getElement()" + diff);
+        }
         return new ModuleContext(moduleContext.getModuleLocation(),
             moduleContext.getLocationWithinModule() + ".get(" + i
             + ").getFormula().getElement()" + diff);
@@ -874,6 +886,20 @@ public class ProofChecker2Impl implements ProofChecker {
      */
     protected void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
+        // FIXME remove test dependency
+//        try {
+//            System.out.println("testing context " + locationWithinModule);
+//            QedeqBo qedeq = KernelContext.getInstance().getQedeqBo(getCurrentContext().getModuleLocation());
+//            DynamicGetter.get(qedeq.getQedeq(), getCurrentContext().getLocationWithinModule());
+//        } catch (RuntimeException e) {
+//            System.err.println(getCurrentContext().getLocationWithinModule());
+//            throw e;
+//        } catch (IllegalAccessException e) {
+//            throw new RuntimeException(e);
+//        } catch (InvocationTargetException e) {
+//            throw new RuntimeException(e);
+//        }
+
     }
 
     /**
