@@ -657,7 +657,7 @@ public class ProofChecker2Impl implements ProofChecker {
 
     private boolean check(final ConditionalProof cp, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
-        System.out.println(getCurrentContext());    // FIXME
+//        System.out.println(getCurrentContext());    // FIXME
         boolean ok = true;
         if (cp.getHypothesis() == null || cp.getHypothesis().getFormula() == null
                 || cp.getHypothesis().getFormula().getElement() == null) {
