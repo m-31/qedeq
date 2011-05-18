@@ -2,11 +2,11 @@
 <?xml-stylesheet type="text/xsl" href="qedeq.xsl"?>
 <QEDEQ 
 		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_02/xml/qedeq.xsd">
+		xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_03/xml/qedeq.xsd">
 	<HEADER email="mime@qedeq.org">
 		<SPECIFICATION name="module1" ruleVersion="1.00.00">
 			<LOCATIONS>
-				<LOCATION value="http://www.qedeq.org/0_04_02/"/>
+				<LOCATION value="http://www.qedeq.org/0_04_03/"/>
 			</LOCATIONS>
 		</SPECIFICATION>
 		<TITLE>
@@ -38,14 +38,14 @@
 			<IMPORT label="predlogic">
 				<SPECIFICATION name="predlogic" ruleVersion="1.00.00">
 					<LOCATIONS>
-						<LOCATION value="http://www.qedeq.org/0_04_02/"/>
+						<LOCATION value="http://www.qedeq.org/0_04_03/"/>
 					</LOCATIONS>
 				</SPECIFICATION>
 			</IMPORT>
 			<IMPORT label="proplogic">
 				<SPECIFICATION name="proplogic" ruleVersion="1.00.00">
 					<LOCATIONS>
-						<LOCATION value="http://www.qedeq.org/0_04_02/"/>
+						<LOCATION value="http://www.qedeq.org/0_04_03/"/>
 					</LOCATIONS>
 				</SPECIFICATION>
 			</IMPORT>
