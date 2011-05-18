@@ -15,9 +15,11 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.test.DynamicGetter;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
@@ -382,16 +384,16 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
         // FIXME remove test dependency
-//        try {
-//            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
-//        } catch (RuntimeException e) {
-//            System.err.println(getCurrentContext().getLocationWithinModule());
-//            throw e;
-//        } catch (IllegalAccessException e) {
-//            throw new RuntimeException(e);
-//        } catch (InvocationTargetException e) {
-//            throw new RuntimeException(e);
-//        }
+        try {
+            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
+        } catch (RuntimeException e) {
+            System.err.println(getCurrentContext().getLocationWithinModule());
+            throw e;
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
