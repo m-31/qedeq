@@ -31,7 +31,7 @@ import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
 
 /**
- * Test generating LaTeX files for all known samples.
+ * Test generating UTF-8 files for all known samples and scripts.
  * LATER 20110215 m31: perhaps support more LaTeX commands for unicode generation
  *
  * @author Michael Meyling
@@ -49,6 +49,10 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         }
     }
 
+    public void testGeneration1b() throws Exception {
+        generate(getDocDir(), "math/qedeq_propositional_v1.xml", getGenDir(), false);
+    }
+
     public void testGeneration2() throws Exception {
         try {
             generate(getDocDir(), "sample/qedeq_sample1.xml", getGenDir(), false);
@@ -59,6 +63,14 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
 
     public void testGeneration3() throws Exception {
         generate(getDocDir(), "sample/qedeq_sample2.xml", getGenDir(), false);
+    }
+
+    public void testGeneration3b() throws Exception {
+        generate(getDocDir(), "sample/qedeq_sample3.xml", getGenDir(), false);
+    }
+
+    public void testGeneration3c() throws Exception {
+        generate(getDocDir(), "sample/qedeq_sample4.xml", getGenDir(), false);
     }
 
     public void testGeneration4() throws Exception {
@@ -112,7 +124,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
     }
 
     /**
-     * Call the generation of one LaTeX file and copy XML source to same destination directory.
+     * Call the generation of one UTF-8 file and copy XML source to same destination directory.
      *
      * @param dir Start directory.
      * @param xml Relative path to XML file. Must not be <code>null</code>.
@@ -144,7 +156,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
         }
 
         final String web = "http://www.qedeq.org/"
-            + getServices().getKernelVersionDirectory() + "/doc/" + xml;
+            + getServices().getKernelVersionDirectory() + (!xml.startsWith("sample") ? "/doc/" : "/") + xml;
         final ModuleAddress webAddress = new DefaultModuleAddress(web);
         getServices().getLocalFilePath(webAddress);
         IoUtility.copyFile(xmlFile, getServices().getLocalFilePath(webAddress));
