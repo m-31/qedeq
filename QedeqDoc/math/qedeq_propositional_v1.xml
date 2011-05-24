@@ -1259,7 +1259,7 @@
                               <MP ref1="2" ref2="4"/>
                             </L>
                           </LINES>
-                          <CONCLUSION label="5">
+                          <CONCLUSION label="6">
                             <FORMULA>
                               <IMPL>
                                 <PREDVAR id="A"/>
@@ -1269,7 +1269,7 @@
                           </CONCLUSION>
                         </CP>
                       </LINES>
-                      <CONCLUSION label="6">
+                      <CONCLUSION label="7">
                         <FORMULA>
                           <IMPL>
                             <IMPL>
@@ -1285,7 +1285,7 @@
                       </CONCLUSION>
                     </CP>
                   </LINES>
-                  <CONCLUSION label="7">
+                  <CONCLUSION label="8">
                     <FORMULA>
                       <IMPL>
                         <IMPL>
@@ -1372,10 +1372,10 @@
                               <FORMULA>
                                 <PREDVAR id="C"/>
                               </FORMULA>
-                              <MP ref1="2" ref2="4"/>
+                              <MP ref1="4" ref2="2"/>
                             </L>
                           </LINES>
-                          <CONCLUSION label="5">
+                          <CONCLUSION label="6">
                             <FORMULA>
                               <IMPL>
                                 <PREDVAR id="A"/>
@@ -1385,7 +1385,7 @@
                           </CONCLUSION>
                         </CP>
                       </LINES>
-                      <CONCLUSION label="6">
+                      <CONCLUSION label="7">
                         <FORMULA>
                           <IMPL>
                             <PREDVAR id="B"/>
@@ -1398,7 +1398,7 @@
                       </CONCLUSION>
                     </CP>
                   </LINES>
-                  <CONCLUSION label="7">
+                  <CONCLUSION label="8">
                     <FORMULA>
                       <IMPL>
                         <IMPL>
@@ -1599,7 +1599,7 @@
                           <PREDVAR id="B"/>
                         </IMPL>
                       </FORMULA>
-                      <MP ref1="1" ref2="3"/>
+                      <MP ref1="3" ref2="7"/>
                     </L>
                     <L label="9">
                       <FORMULA>
@@ -1608,7 +1608,7 @@
                           <PREDVAR id="C"/>
                         </IMPL>
                       </FORMULA>
-                      <MP ref1="1" ref2="3"/>
+                      <MP ref1="6" ref2="7"/>
                     </L>
                     <L label="10">
                       <FORMULA>
