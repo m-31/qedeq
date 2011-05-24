@@ -51,6 +51,8 @@ import org.qedeq.kernel.se.common.SourceFileExceptionList;
 /**
  * Check if formulas are valid in our model.
  *
+ * FIXME 20110524 m31: for conditional proofs: add condition implication
+ *
  * @author  Michael Meyling
  */
 public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implements PluginExecutor {
