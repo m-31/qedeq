@@ -395,7 +395,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     }
 
-    public boolean hasProvedFormula(final String reference) {
+    public boolean isProvedFormula(final String reference) {
         final String method = "hasProvedFormula";
         final Reference ref = getReference(reference, getCurrentContext(), false, false);
         if (ref == null) {
@@ -436,7 +436,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     }
 
     public Element getNormalizedReferenceFormula(final String reference) {
-        if (!hasProvedFormula(reference)) {
+        if (!isProvedFormula(reference)) {
             return null;
         }
         final Reference ref = getReference(reference, getCurrentContext(), false, false);
@@ -493,14 +493,18 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         return false;
     }
 
-    public ModuleContext getLocalProofLineReferenceContext(final String reference) {
+    public ModuleContext getReferenceContext(final String reference) {
         // here we have no proof lines
         return null;
     }
 
-    public Element getLocalProofLineReference(final String reference) {
+    public Element getNormalizedLocalProofLineReference(final String reference) {
         // here we have no proof lines
         return null;
+    }
+
+    public ElementList getConditions() {
+        return new DefaultElementList("conditions");
     }
 
 }

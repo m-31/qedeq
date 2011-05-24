@@ -165,16 +165,16 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
     }
 
 // FIXME correct
-//    public void testPlugin4() throws Exception {
-//        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
-//            "doc/math/qedeq_propositional_v1.xml"));
-//        final Map parameters = new HashMap();
-//        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(),
-//            address, parameters);
-//        final QedeqBo bo = getServices().getQedeqBo(address);
+    public void testPlugin4() throws Exception {
+        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+            "math/qedeq_propositional_v1.xml"));
+        final Map parameters = new HashMap();
+        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(),
+            address, parameters);
+        final QedeqBo bo = getServices().getQedeqBo(address);
 //        assertTrue(bo.isChecked());
-//        assertEquals(0, bo.getWarnings().size());
-//        assertEquals(0, bo.getErrors().size());
-//    }
+        assertEquals(0, bo.getWarnings().size());
+        assertEquals(8, bo.getErrors().size());
+    }
 
 }
