@@ -68,7 +68,7 @@ public class DynamicDirectInterpreter {
     * Constructor.
     *
     * @param   qedeq       We work with this module.
- * @param   model       We work with this model.
+    * @param   model       We work with this model.
     */
    public DynamicDirectInterpreter(final KernelQedeqBo qedeq, final DynamicModel model) {
        this(qedeq, model, new SubjectVariableInterpreter(model), new PredicateVariableInterpreter(
