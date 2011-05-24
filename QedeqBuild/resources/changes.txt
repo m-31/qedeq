@@ -10,12 +10,9 @@ Functional Changes
 
   Extensions
   ----------
-  - these formal proofs can be checked. First successfully checked module:
-    "sample/qedeq_sample3.xml"
-  - new plugins to find propositional calculus proofs; these can be tested
-    with "sample/qedeq_sample4.xml"
-  - under "bin/" are now executables for console programs that search for
-    simple propositional proofs 
+  - conditional formal proof method supported, this means we can add a
+    hypothesis, draw proof lines and a conclusion (hypothesis implies
+    last proof line); see "doc/math/qedeq_propositional_v1.xml"
   
   Fixed Bugs
   ----------
@@ -23,7 +20,7 @@ Functional Changes
 
   Other Changes
   -------------
-  - more reports under src/reports/
+  none
 
 
 XML Files
@@ -31,21 +28,15 @@ XML Files
 
   Extensions
   ----------
-  - added "sample/qedeq_sample4.xml" which contains propositions without
-    formal proofs; these proofs can be found by the new proof finder
-  - added "doc/math/qedeq_propositional_v1.xml"
+  - new proofs in "doc/math/qedeq_propositional_v1.xml"
 
   Fixed Bugs
   ----------
-  sample/qedeq_sample3.xml
-  - our proof checker found some errors - these were corrected
+  none
 
   Other Changes
   -------------
-  - definitions are now direct equivalences or identity relations, thus
-    we can reference definition formulas in formal proofs directly, all
-    XML files with definitions were changed accordingly
-  - QEDEQ modules in "doc/" are not duplicated in "sample/" any longer
+  none
 
 
 Source Code
@@ -53,31 +44,28 @@ Source Code
 
   Extensions
   ----------
-  - KernelNodeBo uses (and "implements") now new interface CheckLevel for
-    providing informations if this node is well-formed or proved. 
+  - added ConditionalProof that is an extension of FormalProofLine and of
+    reason; also Hypothesis and Conclusion were added in this context
+  - new implementation of ProofChecker that supports ConditionalProof
     
 
 
   Fixed Bugs
   ----------
-  - "LoadingStateDescriptions" text of "LOADING_FROM_LOCAL_FILE_FAILED"
-    corrected
   - 
 
 
   Other Changes
   -------------
-  - refactoring: split "FunctionDefinitionVo" into "FunctionDefinitionVo"
-    and "InitialFunctionDefinitionVo"; accordingly "PredicateDefinitionVo";
-    this lead to other changes through all tiers; now NodeType has two more
-    implementations
-  - FunctionConstant and PredicateConstant work now directly with subject
-    variables and not only with their string atoms
-  - relocation:   "math/qedeq_sample*" -> "sample"
-  - ToolTip uses now UTF-8 capable font, so we get the current proof line
-    formula when looking at the proof finder plugin in the thread window
-  - VariableList was removed due to changes in defining new predicates and
-    functions
+  - removed interface ReasonType and all implementations, now every
+    Reason implementation has an identifying method e.g.
+    ModusPonens.getModusPonens;
+  - IoUtility.toUrl calls getAbsoluteFile to get rid of relative path
+    elements
+  - LogicalCheckExceptionList has now a add(LogicalCheckExceptionList)
+    method
+  - ReferenceResolver has more methods
+  
 
 
 XSD
@@ -85,7 +73,8 @@ XSD
 
   Extensions
   ----------
-  none
+  - we now support a "CP" element; that is a conditional proof that
+    contains a hypothesis, proof lines and a conclusion
 
   Fixed Bugs
   ----------
@@ -93,8 +82,4 @@ XSD
 
   Other Changes
   -------------
-  - element VARLIST was removed; new definition types were introduced; now
-    we have either an initial predicate or function constant definition,
-    that is a definition without a formula, or we have a definition that
-    is an equivalence between the new predicate and a defining formula, or
-    an identity relation between the new function and a defining term.
+  none
