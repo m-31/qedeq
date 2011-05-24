@@ -97,6 +97,7 @@ public class QedeqMainPane extends JPanel {
             horizontalSplit,
             lower);
 
+        verticalSplit.setResizeWeight(0.80);
         return verticalSplit;
     }
 
