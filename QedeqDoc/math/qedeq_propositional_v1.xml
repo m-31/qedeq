@@ -1754,7 +1754,7 @@
                       </IMPL>
                     </IMPL>
                   </FORMULA>
-                  <SUBST_PREDVAR ref="1">
+                  <SUBST_PREDVAR ref="2">
                     <PREDVAR id="A"/>
                     <FORMULA>
                       <PREDVAR id="B"/>
