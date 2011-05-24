@@ -174,7 +174,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
         final QedeqBo bo = getServices().getQedeqBo(address);
 //        assertTrue(bo.isChecked());
         assertEquals(0, bo.getWarnings().size());
-        assertEquals(8, bo.getErrors().size());
+        assertEquals(6, bo.getErrors().size());
     }
 
 }
