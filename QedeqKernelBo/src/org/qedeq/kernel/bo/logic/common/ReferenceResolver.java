@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.kernel.se.base.list.Element;
+import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 
@@ -32,7 +33,7 @@ public interface ReferenceResolver {
      * @param   reference   Reference to axiom, definition or proposition.
      * @return  Reference has a proved formula.
      */
-    public boolean hasProvedFormula(String reference);
+    public boolean isProvedFormula(String reference);
 
     /**
      * Get reference formula in a normalized format.
@@ -61,19 +62,26 @@ public interface ReferenceResolver {
     public boolean isLocalProofLineReference(String reference);
 
     /**
-     * Module context for proof line reference.
-     *
-     * @param   reference   Local proof line reference to check for.
-     * @return  Local proof line reference for the caller. Might be <code>null</code>.
-     */
-    public ModuleContext getLocalProofLineReferenceContext(String reference);
-
-    /**
      * Get local for proof line reference.
      *
      * @param   reference   Local proof line reference to check for.
      * @return  Local proof line for the caller. Might be <code>null</code>.
      */
-    public Element getLocalProofLineReference(String reference);
+    public Element getNormalizedLocalProofLineReference(String reference);
+
+    /**
+     * Module context for proof line reference.
+     *
+     * @param   reference   Local proof line reference to check for.
+     * @return  Local proof line reference for the caller. Might be <code>null</code>.
+     */
+    public ModuleContext getReferenceContext(String reference);
+
+    /**
+     * Get all preconditions for this proof.
+     *
+     * @return Preconditions.
+     */
+    public ElementList getConditions();
 
 }

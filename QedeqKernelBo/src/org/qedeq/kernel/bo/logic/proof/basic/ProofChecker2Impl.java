@@ -26,6 +26,7 @@ import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
+import org.qedeq.kernel.bo.logic.proof.finder.ProofFinderUtility;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -40,6 +41,7 @@ import org.qedeq.kernel.se.base.module.SubstFree;
 import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
 import org.qedeq.kernel.se.base.module.Universal;
+import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.list.DefaultElementList;
 import org.qedeq.kernel.se.dto.list.ElementSet;
@@ -50,7 +52,7 @@ import org.qedeq.kernel.se.dto.list.ElementSet;
  *
  * @author  Michael Meyling
  */
-public class ProofChecker2Impl implements ProofChecker {
+public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
 
     /** Proof we want to check. */
     private FormalProofLineList proof;
@@ -186,13 +188,15 @@ public class ProofChecker2Impl implements ProofChecker {
                     getCurrentContext(),
                     lc);
             } else {
-                if (resolver.isLocalProofLineReference(label)) {
+                if (isLocalProofLineReference(label)) {
                     handleProofCheckException(
                         BasicProofErrors.LOCAL_LABEL_ALREADY_EXISTS_CODE,
                         BasicProofErrors.LOCAL_LABEL_ALREADY_EXISTS_TEXT
                         + label,
                         getCurrentContext(),
-                        resolver.getLocalProofLineReferenceContext(label));
+                        resolver.getReferenceContext(label));
+                    System.out.println("we hava label already: " + label);
+                    ProofFinderUtility.println(getNormalizedLocalProofLineReference(label));
                 }
             }
             System.out.println("adding label: " + label);
@@ -213,7 +217,7 @@ public class ProofChecker2Impl implements ProofChecker {
                 getCurrentContext());
             return ok;
         }
-        if (!resolver.hasProvedFormula(add.getReference())) {
+        if (!resolver.isProvedFormula(add.getReference())) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
@@ -240,7 +244,7 @@ public class ProofChecker2Impl implements ProofChecker {
     private boolean check(final Rename rename, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Element f = getNormalizedProofLine(rename.getReference());
+        final Element f = getNormalizedLocalProofLineReference(rename.getReference());
         if (f == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
@@ -272,7 +276,7 @@ public class ProofChecker2Impl implements ProofChecker {
     private boolean check(final SubstFree substfree, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Element f = getNormalizedProofLine(substfree.getReference());
+        final Element f = getNormalizedLocalProofLineReference(substfree.getReference());
         if (f == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
@@ -295,13 +299,24 @@ public class ProofChecker2Impl implements ProofChecker {
                 return ok;
             }
         }
+        // check precondition: subject variable doesn't occur in a precondition
+        final ElementList conditions = getConditions();
+        if (FormulaUtility.containsOperatorVariable(conditions, substfree.getSubjectVariable())) {
+            ok = false;
+            setLocationWithinModule(context + ".getSubstituteFormula()");
+            handleProofCheckException(
+                BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_CODE,
+                BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_TEXT,
+                getCurrentContext());
+            return ok;
+        }
         return ok;
     }
 
     private boolean check(final SubstPred substpred, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Element alpha = getNormalizedProofLine(substpred.getReference());
+        final Element alpha = getNormalizedLocalProofLineReference(substpred.getReference());
         if (alpha == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
@@ -380,6 +395,17 @@ public class ProofChecker2Impl implements ProofChecker {
                     getCurrentContext());
                 return ok;
             }
+            // check precondition: $\sigma(...)$ dosn't occur in a precondition
+            final ElementList conditions = getConditions();
+            if (FormulaUtility.containsOperatorVariable(conditions, p)) {
+                ok = false;
+                setLocationWithinModule(context + ".getPredicateVariable()");
+                handleProofCheckException(
+                    BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_CODE,
+                    BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_TEXT,
+                    getCurrentContext());
+                return ok;
+            }
             // check precondition: resulting formula is well formed was already done by well formed
             // checker
         }
@@ -389,7 +415,7 @@ public class ProofChecker2Impl implements ProofChecker {
     private boolean check(final SubstFunc substfunc, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Element alpha = getNormalizedProofLine(substfunc.getReference());
+        final Element alpha = getNormalizedLocalProofLineReference(substfunc.getReference());
         if (alpha == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
@@ -468,6 +494,17 @@ public class ProofChecker2Impl implements ProofChecker {
                     getCurrentContext());
                 return ok;
             }
+            // check precondition: $\sigma(...)$ dosn't occur in a precondition
+            final ElementList conditions = getConditions();
+            if (FormulaUtility.containsOperatorVariable(conditions, sigma)) {
+                ok = false;
+                setLocationWithinModule(context + ".getPredicateVariable()");
+                handleProofCheckException(
+                    BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_CODE,
+                    BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_TEXT,
+                    getCurrentContext());
+                return ok;
+            }
             // check precondition: resulting formula is well formed was already done by well formed
             // checker
         }
@@ -477,7 +514,7 @@ public class ProofChecker2Impl implements ProofChecker {
     private boolean check(final ModusPonens mp, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Element f1 = getNormalizedProofLine(mp.getReference1());
+        final Element f1 = getNormalizedLocalProofLineReference(mp.getReference1());
         if (f1 == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference1()");
@@ -487,7 +524,7 @@ public class ProofChecker2Impl implements ProofChecker {
                 + mp.getReference1(),
                 getCurrentContext());
         }
-        final Element f2 = getNormalizedProofLine(mp.getReference2());
+        final Element f2 = getNormalizedLocalProofLineReference(mp.getReference2());
         if (f2 == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference2()");
@@ -498,7 +535,7 @@ public class ProofChecker2Impl implements ProofChecker {
                 getCurrentContext());
         }
         if (ok) {
-            final Element current = getNormalizedProofLine(i);
+            final Element current = getNormalizedFormula(element);
             if (!FormulaUtility.isImplication(f1)) {
                 ok = false;
                 setLocationWithinModule(context + ".getReference1()");
@@ -515,7 +552,7 @@ public class ProofChecker2Impl implements ProofChecker {
                     BasicProofErrors.MUST_BE_HYPOTHESIS_OF_FIRST_REFERENCE_TEXT
                     + mp.getReference2(),
                     getCurrentContext(),
-                    resolver.getLocalProofLineReferenceContext(mp.getReference1()));
+                    resolver.getReferenceContext(mp.getReference1()));
             } else if (!current.equals(f1.getList().getElement(1))) {
                 ok = false;
                 setLocationWithinModule(context + ".getReference1()");
@@ -524,7 +561,7 @@ public class ProofChecker2Impl implements ProofChecker {
                     BasicProofErrors.CURRENT_MUST_BE_CONCLUSION_TEXT
                     + mp.getReference1(),
                     getCurrentContext(),
-                    resolver.getLocalProofLineReferenceContext(mp.getReference1()));
+                    resolver.getReferenceContext(mp.getReference1()));
             } else {
                 ok = true;
             }
@@ -535,8 +572,8 @@ public class ProofChecker2Impl implements ProofChecker {
     private boolean check(final Universal universal, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Integer n = (Integer) label2line.get(universal.getReference());
-        if (n == null) {
+        final Element reference = getNormalizedLocalProofLineReference(universal.getReference());
+        if (reference == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
@@ -553,9 +590,8 @@ public class ProofChecker2Impl implements ProofChecker {
 //                + universal.getReference(),
 //                getCurrentContext());
         } else {
-            final Element f = getNormalizedProofLine(n);
-            final Element current = resolver.getNormalizedFormula(element);
-            if (!FormulaUtility.isImplication(f)) {
+            final Element current = getNormalizedFormula(element);
+            if (!FormulaUtility.isImplication(current)) {
                 ok = false;
                 setLocationWithinModule(context + ".getReference()");
                 handleProofCheckException(
@@ -574,12 +610,17 @@ public class ProofChecker2Impl implements ProofChecker {
                     getCurrentContext());
                 return ok;
             }
-            final DefaultElementList expected = new DefaultElementList(f.getList().getOperator());
-            expected.add((f.getList().getElement(0)));
+            final DefaultElementList expected = new DefaultElementList(Operators.IMPLICATION_OPERATOR);
+            expected.add(reference.getList().getElement(0));
             final ElementList uni = new DefaultElementList(Operators.UNIVERSAL_QUANTIFIER_OPERATOR);
             uni.add(universal.getSubjectVariable());
-            uni.add(f.getList().getElement(1));
+            uni.add(reference.getList().getElement(1));
             expected.add(uni);
+            // FIXME remove me
+            System.out.print("Expected: ");
+            ProofFinderUtility.println(expected);
+            System.out.print("Current : ");
+            ProofFinderUtility.println(current);
             if (!EqualsUtility.equals(current, expected)) {
                 ok = false;
                 handleProofCheckException(
@@ -596,8 +637,8 @@ public class ProofChecker2Impl implements ProofChecker {
     private boolean check(final Existential existential, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Integer n = (Integer) label2line.get(existential.getReference());
-        if (n == null) {
+        final Element reference = getNormalizedLocalProofLineReference(existential.getReference());
+        if (reference == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
@@ -614,9 +655,8 @@ public class ProofChecker2Impl implements ProofChecker {
 //                + existential.getReference(),
 //                getCurrentContext());
         } else {
-            final Element f = getNormalizedProofLine(n);
-            final Element current = resolver.getNormalizedFormula(element);
-            if (!FormulaUtility.isImplication(f)) {
+            final Element current = getNormalizedFormula(element);
+            if (!FormulaUtility.isImplication(current)) {
                 ok = false;
                 setLocationWithinModule(context + ".getReference()");
                 handleProofCheckException(
@@ -635,13 +675,13 @@ public class ProofChecker2Impl implements ProofChecker {
                     getCurrentContext());
                 return ok;
             }
-            final DefaultElementList expected = new DefaultElementList(f.getList().getOperator());
+            final DefaultElementList expected = new DefaultElementList(Operators.IMPLICATION_OPERATOR);
             final ElementList exi = new DefaultElementList(
                 Operators.EXISTENTIAL_QUANTIFIER_OPERATOR);
             exi.add(existential.getSubjectVariable());
-            exi.add(f.getList().getElement(0));
+            exi.add(reference.getList().getElement(0));
             expected.add(exi);
-            expected.add((f.getList().getElement(1)));
+            expected.add((reference.getList().getElement(1)));
             if (!EqualsUtility.equals(current, expected)) {
                 ok = false;
                 handleProofCheckException(
@@ -656,6 +696,7 @@ public class ProofChecker2Impl implements ProofChecker {
     }
 
     private boolean check(final ConditionalProof cp, final int i, final Element element) {
+        final ModuleAddress address = currentContext.getModuleLocation();
         final String context = currentContext.getLocationWithinModule();
 //        System.out.println(getCurrentContext());    // FIXME
         boolean ok = true;
@@ -681,7 +722,7 @@ public class ProofChecker2Impl implements ProofChecker {
         final ReferenceResolver newResolver = new ReferenceResolver() {
 
             public Element getNormalizedFormula(final Element formula) {
-                return resolver.getNormalizedFormula(formula);
+                return ProofChecker2Impl.this.getNormalizedFormula(formula);
             }
 
             public Element getNormalizedReferenceFormula(final String reference) {
@@ -690,58 +731,48 @@ public class ProofChecker2Impl implements ProofChecker {
                     return resolver.getNormalizedFormula(cp.getHypothesis().getFormula()
                         .getElement());
                 }
-                System.out.println("not found in local " + reference);
-                return getNormalizedProofLine(reference);
+                return ProofChecker2Impl.this.getNormalizedReferenceFormula(reference);
             }
 
-            public boolean hasProvedFormula(final String reference) {
+            public boolean isProvedFormula(final String reference) {
                 if (EqualsUtility.equals(reference, cp.getHypothesis().getLabel())) {
                     return true;
                 }
-                for (int i = 0; i < proof.size(); i++)  {
-                    if (proof.get(i) != null) {
-                        final String label = proof.get(i).getLabel();
-                        if (EqualsUtility.equals(reference, label)) {
-                            return lineProved[i];
-                        }
-                    }
-                }
-                return resolver.hasProvedFormula(reference);
+                return ProofChecker2Impl.this.isProvedFormula(reference);
             }
 
             public boolean isLocalProofLineReference(final String reference) {
                 if (EqualsUtility.equals(reference, cp.getHypothesis().getLabel())) {
                     return true;
                 }
-                if (label2line.containsValue(reference)) {
-                    return true;
-                }
-                return resolver.isLocalProofLineReference(reference);
+                return ProofChecker2Impl.this.isLocalProofLineReference(reference);
             }
 
-            public ModuleContext getLocalProofLineReferenceContext(final String reference) {
+            public ModuleContext getReferenceContext(final String reference) {
                 if (EqualsUtility.equals(reference, cp.getHypothesis().getLabel())) {
-                    // FIXME 20110515 m31: still missing
+                    return new ModuleContext(address, context
+                        + ".getHypothesis().getLabel()");
                 }
-                if (label2line.containsValue(reference)) {
-                    final ModuleContext lc = new ModuleContext(moduleContext.getModuleLocation(),
-                        moduleContext.getLocationWithinModule() + ".get("
-                        + ((Integer) label2line.get(reference)
-                        + ").getLabel()"));
-                    return lc;
-                }
-                return resolver.getLocalProofLineReferenceContext(reference);
+                return ProofChecker2Impl.this.getReferenceContext(reference);
             }
 
-            public Element getLocalProofLineReference(final String reference) {
+            public Element getNormalizedLocalProofLineReference(final String reference) {
+                System.out.println("\t resolver looks for " + reference);
                 if (EqualsUtility.equals(reference, cp.getHypothesis().getLabel())) {
+                    System.out.println("\t resolver found local " + reference);
                     return resolver.getNormalizedFormula(
                         cp.getHypothesis().getFormula().getElement());
                 }
-                if (label2line.containsValue(reference)) {
-                    return getNormalizedProofLine((Integer) label2line.get(reference));
+                return ProofChecker2Impl.this.getNormalizedLocalProofLineReference(reference);
+            }
+
+            public ElementList getConditions() {
+                final ElementList result = resolver.getConditions();
+                if (cp.getHypothesis() != null && cp.getHypothesis().getFormula() != null
+                        && cp.getHypothesis().getFormula().getElement() != null) {
+                    result.add(cp.getHypothesis().getFormula().getElement());
                 }
-                return resolver.getLocalProofLineReference(reference);
+                return result;
             }
 
         };
@@ -786,8 +817,12 @@ public class ProofChecker2Impl implements ProofChecker {
         }
         final DefaultElementList expected = new DefaultElementList(Operators.IMPLICATION_OPERATOR);
         expected.add(cp.getHypothesis().getFormula().getElement());
-        expected.add(cp.getConclusion().getFormula().getElement());
-        if (!EqualsUtility.equals(element, expected)) {
+        expected.add(lastFormula);
+        System.out.println("expected: "); // FIXME remove 2 lines
+        ProofFinderUtility.println(cp.getConclusion().getFormula().getElement());
+        if (!EqualsUtility.equals(cp.getConclusion().getFormula().getElement(), expected)) {
+            System.out.println("found: ");  // FIXME remove 2 lines
+            ProofFinderUtility.println(cp.getConclusion().getFormula().getElement());
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.EXPECTED_FORMULA_DIFFERS_2_CODE,
@@ -823,28 +858,16 @@ public class ProofChecker2Impl implements ProofChecker {
             + ").getFormula().getElement()" + diff);
     }
 
+
     private Element getNormalizedProofLine(final Integer n) {
         if (n == null) {
             return null;
         }
-        return getNormalizedProofLine(n.intValue());
-    }
-
-    private Element getNormalizedProofLine(final int i) {
+        int i = n.intValue();
         if (i < 0 || i >= proof.size()) {
             return null;
         }
         return resolver.getNormalizedFormula(proof.get(i).getFormula().getElement());
-    }
-
-    private Element getNormalizedProofLine(final String reference) {
-        // firstly we try our local proof lines
-        final Integer n = (Integer) label2line.get(reference);
-        if (n == null) {
-            // we have not found a local line, we try the resolver
-            return resolver.getLocalProofLineReference(reference);
-        }
-        return getNormalizedProofLine(n);
     }
 
     /**
@@ -911,4 +934,62 @@ public class ProofChecker2Impl implements ProofChecker {
         return currentContext;
     }
 
+    public boolean isProvedFormula(final String reference) {
+        if (label2line.containsKey(reference)) {
+            return lineProved[((Integer) label2line.get(reference)).intValue()];
+        }
+        return resolver.isProvedFormula(reference);
+    }
+
+    public Element getNormalizedReferenceFormula(final String reference) {
+        System.out.println("looking for " + reference);
+        if (label2line.containsKey(reference)) {
+            System.out.println("found in local " + reference);
+            return getNormalizedProofLine((Integer) label2line.get(reference));
+        }
+        System.out.println("not found in local " + reference);
+        return resolver.getNormalizedReferenceFormula(reference);
+    }
+
+    public Element getNormalizedFormula(final Element element) {
+        return resolver.getNormalizedFormula(element);
+    }
+
+    public boolean isLocalProofLineReference(final String reference) {
+        if (label2line.containsKey(reference)) {
+            return true;
+        }
+        return resolver.isLocalProofLineReference(reference);
+    }
+
+    public Element getNormalizedLocalProofLineReference(final String reference) {
+        System.out.println("\t resolver looks for " + reference);
+        if (label2line.containsKey(reference)) {
+            System.out.println("\t resolver found local " + reference);
+            return getNormalizedProofLine((Integer) label2line.get(reference));
+        }
+        System.out.println("\t resolver asks super resolver for " + reference);
+        final Element result = resolver.getNormalizedLocalProofLineReference(reference);
+        if (result == null) {
+            System.out.println("\t super resolver didn't find " + reference);
+        } else {
+            System.out.println("\t super resolver found " + reference);
+        }
+        return result;
+    }
+
+    public ModuleContext getReferenceContext(final String reference) {
+        if (label2line.containsKey(reference)) {
+            final ModuleContext lc = new ModuleContext(moduleContext.getModuleLocation(),
+                moduleContext.getLocationWithinModule() + ".get("
+                + ((Integer) label2line.get(reference)
+                + ").getLabel()"));
+            return lc;
+        }
+        return resolver.getReferenceContext(reference);
+    }
+
+    public ElementList getConditions() {
+        return resolver.getConditions();
+    }
 }

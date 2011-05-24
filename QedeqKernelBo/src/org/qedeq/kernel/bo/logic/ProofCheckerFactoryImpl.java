@@ -29,6 +29,8 @@ import org.qedeq.kernel.bo.logic.proof.basic.ProofChecker2Impl;
 public class ProofCheckerFactoryImpl implements ProofCheckerFactory {
 
     public ProofChecker createProofChecker() {
+        // FIXME 201105022 m31: create dependent from module version
+        // return new ProofCheckerImpl();
         return new ProofChecker2Impl();
     }
 

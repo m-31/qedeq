@@ -191,7 +191,7 @@ public class ProofCheckerImpl implements ProofChecker {
                 getCurrentContext());
             return ok;
         }
-        if (!resolver.hasProvedFormula(add.getReference())) {
+        if (!resolver.isProvedFormula(add.getReference())) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
@@ -606,7 +606,7 @@ public class ProofCheckerImpl implements ProofChecker {
                     getCurrentContext());
                 return ok;
             }
-            final DefaultElementList expected = new DefaultElementList(f.getList().getOperator());
+            final DefaultElementList expected = new DefaultElementList(Operators.IMPLICATION_OPERATOR);
             expected.add((f.getList().getElement(0)));
             final ElementList uni = new DefaultElementList(Operators.UNIVERSAL_QUANTIFIER_OPERATOR);
             uni.add(universal.getSubjectVariable());

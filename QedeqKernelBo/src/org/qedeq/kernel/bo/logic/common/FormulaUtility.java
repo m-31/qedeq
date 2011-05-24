@@ -330,6 +330,9 @@ public final class FormulaUtility implements Operators {
         if (first == null) {
             return second == null;
         }
+        if (second == null) {
+            return false;
+        }
         if (first.isAtom()) {
             if (!second.isAtom()) {
                 return false;
@@ -473,6 +476,38 @@ public final class FormulaUtility implements Operators {
             }
         }
         return result;
+    }
+
+    /**
+     * Checks if a given term or formula contains a given function or predicate variable with same
+     * size.
+     *
+     * @param   formula             Formula we want the replacement take place.
+     * @param   operatorVariable    Predicate variable or function variable with only subject
+     *                              variables as arguments.
+     * @return  Do we have any occurrence?
+     */
+    public static boolean containsOperatorVariable(final Element formula,
+            final Element operatorVariable) {
+        if (formula == null || formula.isAtom() || operatorVariable == null
+                || operatorVariable.isAtom()) {
+            return false;
+        }
+        final ElementList f = formula.getList();
+        final ElementList ov = operatorVariable.getList();
+        if (f.size() < 1 || ov.size() < 1) {
+            return f.equals(ov);
+        }
+        if (f.getOperator() == ov.getOperator() && f.size() == ov.size()
+                && f.getElement(0).equals(ov.getElement(0))) {
+            return true;
+        }
+        for (int i = 0; i < f.size(); i++) {
+            if (containsOperatorVariable(f.getElement(i), operatorVariable)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

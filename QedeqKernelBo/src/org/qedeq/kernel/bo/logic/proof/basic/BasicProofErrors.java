@@ -185,4 +185,11 @@ public interface BasicProofErrors extends ErrorCodes {
         = "missing proof lines for conditional proof";
 
 
+    /** Error code. */
+    public static final int SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_CODE = 37380;
+
+    /** Error message. */
+    public static final String SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_TEXT
+        = "the operator that should be substituted was found within a precondition";
+
 }
