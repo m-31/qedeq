@@ -397,10 +397,10 @@
           <AXIOM>
             <FORMULA>
               <IMPL>
-                <PREDVAR id="A"/>
+                <PREDVAR id="B"/>
                 <OR>
-                  <PREDVAR id="B"/>
                   <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
                 </OR>
               </IMPL>
             </FORMULA>
@@ -436,19 +436,19 @@
               <IMPL>
                 <IMPL>
                   <PREDVAR id="A"/>
-                  <PREDVAR id="B"/>
+                  <PREDVAR id="C"/>
                 </IMPL>
                 <IMPL>
                   <IMPL>
+                    <PREDVAR id="B"/>
                     <PREDVAR id="C"/>
-                    <PREDVAR id="A"/>
                   </IMPL>
                   <IMPL>
                     <OR>
                       <PREDVAR id="A"/>
-                      <PREDVAR id="C"/>
+                      <PREDVAR id="B"/>
                     </OR>
-                    <PREDVAR id="B"/>
+                    <PREDVAR id="C"/>
                   </IMPL>
                 </IMPL>
               </IMPL>
