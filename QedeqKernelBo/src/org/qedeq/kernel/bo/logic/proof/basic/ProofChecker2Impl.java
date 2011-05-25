@@ -164,8 +164,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 if (!formula.equals(line.getFormula().getElement())) {
                     handleProofCheckException(
                         BasicProofErrors.LAST_PROOF_LINE_MUST_BE_IDENTICAL_TO_PROPOSITION_CODE,
-                        BasicProofErrors.LAST_PROOF_LINE_MUST_BE_IDENTICAL_TO_PROPOSITION_TEXT
-                        + reason.getName(),
+                        BasicProofErrors.LAST_PROOF_LINE_MUST_BE_IDENTICAL_TO_PROPOSITION_TEXT,
                         getModuleContextOfProofLineFormula(i));
                 }
             }
