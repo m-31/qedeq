@@ -2533,6 +2533,199 @@
           <THEOREM>
             <FORMULA>
               <IMPL>
+                <IMPL>
+                  <PREDVAR id="A"/>
+                  <NOT>
+                    <PREDVAR id="B"/>
+                  </NOT>
+                </IMPL>
+                <IMPL>
+                  <PREDVAR id="B"/>
+                  <NOT>
+                    <PREDVAR id="A"/>
+                  </NOT>
+                </IMPL>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <IMPL>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="A"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:THEN-1"/>
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="C"/>
+                      <IMPL>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="C"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="1">
+                    <PREDVAR id="A"/>
+                    <FORMULA>
+                      <PREDVAR id="C"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="C"/>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="C"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="2">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <PREDVAR id="A"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="B"/>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="3">
+                    <PREDVAR id="C"/>
+                    <FORMULA>
+                      <PREDVAR id="B"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="5">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <NOT>
+                            <PREDVAR id="B"/>
+                          </NOT>
+                        </IMPL>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:NOT-1"/>
+                </L>
+                <CP>
+                  <HYPOTHESIS label="6">
+                    <FORMULA>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <NOT>
+                          <PREDVAR id="B"/>
+                        </NOT>
+                      </IMPL>
+                    </FORMULA>
+                  </HYPOTHESIS>
+                  <LINES>
+                    <CP>
+                      <HYPOTHESIS label="7">
+                        <FORMULA>
+                          <PREDVAR id="B"/>
+                        </FORMULA>
+                      </HYPOTHESIS>
+                      <LINES>
+                        <L label="8">
+                          <FORMULA>
+                            <IMPL>
+                              <PREDVAR id="A"/>
+                              <PREDVAR id="B"/>
+                            </IMPL>
+                          </FORMULA>
+                          <MP ref1="4" ref2="7"/>
+                        </L>
+                        <L label="9">
+                          <FORMULA>
+                            <IMPL>
+                              <IMPL>
+                                <PREDVAR id="A"/>
+                                <NOT>
+                                  <PREDVAR id="B"/>
+                                </NOT>
+                              </IMPL>
+                              <NOT>
+                                <PREDVAR id="A"/>
+                              </NOT>
+                            </IMPL>
+                          </FORMULA>
+                          <MP ref1="5" ref2="8"/>
+                        </L>
+                        <L label="10">
+                          <FORMULA>
+                            <NOT>
+                              <PREDVAR id="A"/>
+                            </NOT>
+                          </FORMULA>
+                          <MP ref1="9" ref2="6"/>
+                        </L>
+                      </LINES>
+                      <CONCLUSION label="11">
+                        <FORMULA>
+                          <IMPL>
+                            <PREDVAR id="B"/>
+                            <NOT>
+                              <PREDVAR id="A"/>
+                            </NOT>
+                          </IMPL>
+                        </FORMULA>
+                      </CONCLUSION>
+                    </CP>
+                  </LINES>
+                  <CONCLUSION label="12">
+                    <FORMULA>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <NOT>
+                            <PREDVAR id="B"/>
+                          </NOT>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="B"/>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </IMPL>
+                      </IMPL>
+                    </FORMULA>
+                  </CONCLUSION>
+                </CP>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:implication31">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
                 <NOT>
                   <NOT>
                     <PREDVAR id="A"/>
@@ -2543,7 +2736,7 @@
             </FORMULA>
           </THEOREM>
         </NODE>
-        <NODE id="proposition:implication23">
+        <NODE id="proposition:implication33">
           <THEOREM>
             <FORMULA>
               <IMPL>
@@ -2565,7 +2758,7 @@
             </FORMULA>
           </THEOREM>
         </NODE>
-        <NODE id="proposition:implication24">
+        <NODE id="proposition:implication34">
           <THEOREM>
             <FORMULA>
               <IMPL>
