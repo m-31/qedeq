@@ -557,6 +557,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             final String prefix = "http://www.qedeq.org/" + kernel.getKernelVersionDirectory() + "/";
             final String[] list = new String[] {
                 prefix + "doc/math/qedeq_logic_v1.xml",
+                prefix + "doc/math/qedeq_propositional_v1.xml",
                 prefix + "doc/math/qedeq_set_theory_v1.xml",
                 prefix + "doc/project/qedeq_basic_concept.xml",
                 prefix + "doc/project/qedeq_logic_language.xml",
