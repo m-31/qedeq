@@ -221,7 +221,6 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                 YodaUtility.executeMethod(state, "setErrors", new Class[] {
                         SourceFileExceptionList.class},
                         new Object[] {null});
-                    ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
             } catch (Exception e) {
                 final String msg = "changing properties failed";
                 Trace.fatal(CLASS, "visitEnter(Proposition)", msg, e);
