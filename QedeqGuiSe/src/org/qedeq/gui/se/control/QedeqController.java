@@ -153,7 +153,7 @@ public class QedeqController {
             final String prefix = "http://wwww.qedeq.org/"
                 + KernelContext.getInstance().getKernelVersionDirectory() + "/doc/";
             getModuleHistory().add(prefix + "math/qedeq_logic_v1.xml");
-            getModuleHistory().add(prefix + "math/qedeq_propositional_v1.xml");
+            getModuleHistory().add(prefix + "math/qedeq_formal_logic_v1.xml");
             getModuleHistory().add(prefix + "math/qedeq_set_theory_v1.xml");
             getModuleHistory().add(prefix + "project/qedeq_basic_concept.xml");
             getModuleHistory().add(prefix + "project/qedeq_logic_language.xml");
