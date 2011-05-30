@@ -28,7 +28,7 @@ XML Files
 
   Extensions
   ----------
-  - new proofs in "doc/math/qedeq_propositional_v1.xml"
+  - new proofs in "doc/math/qedeq_formal_logic_v1.xml"
 
   Fixed Bugs
   ----------
@@ -36,7 +36,8 @@ XML Files
 
   Other Changes
   -------------
-  none
+  - renamed "doc/math/qedeq_propositional_v1.xml" into
+    "doc/math/qedeq_formal_logic_v1.xml"
 
 
 Source Code
