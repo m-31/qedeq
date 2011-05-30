@@ -50,7 +50,7 @@ public class GenerateUtf8Test extends QedeqBoTestCase {
     }
 
     public void testGeneration1b() throws Exception {
-        generate(getDocDir(), "math/qedeq_propositional_v1.xml", getGenDir(), false);
+        generate(getDocDir(), "math/qedeq_formal_logic_v1.xml", getGenDir(), false);
     }
 
     public void testGeneration2() throws Exception {

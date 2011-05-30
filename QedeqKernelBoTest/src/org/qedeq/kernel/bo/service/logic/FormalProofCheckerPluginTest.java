@@ -167,7 +167,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
 // FIXME correct
     public void testPlugin4() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
-            "math/qedeq_propositional_v1.xml"));
+            "math/qedeq_formal_logic_v1.xml"));
         final Map parameters = new HashMap();
         getServices().executePlugin(FormalProofCheckerPlugin.class.getName(),
             address, parameters);
