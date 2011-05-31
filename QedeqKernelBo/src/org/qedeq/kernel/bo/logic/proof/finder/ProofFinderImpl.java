@@ -59,6 +59,7 @@ public class ProofFinderImpl implements ProofFinder {
     /**
      * Constructor.
      *
+     * FIXME 20110525 m31: enable all generations again
      */
     public ProofFinderImpl() {
     }
@@ -167,27 +168,30 @@ public class ProofFinderImpl implements ProofFinder {
                     addFormula(created, new SubstPredBo(i, var, subst));
                 }
             }
-//            // substitute by negation
-//            {
-//                final Iterator all = allPredVars.iterator();
-//                while (all.hasNext()) {
-//                    final ElementList var2 = (ElementList) all.next();
-//                    final ElementList subst = new DefaultElementList(Operators.NEGATION_OPERATOR);
-//                    subst.add(var2);
-//                    final Element created = FormulaUtility.replaceOperatorVariable(
-//                        f, var, subst);
-//                    addFormula(created, new SubstPredBo(i, var, subst));
-//                }
-//            }
-//            // substitute by conjunction with another variable
-//            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, true);
-//            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, false);
+            // substitute by negation
+            {
+                final Iterator all = allPredVars.iterator();
+                while (all.hasNext()) {
+                    final ElementList var2 = (ElementList) all.next();
+                    final ElementList subst = new DefaultElementList(Operators.NEGATION_OPERATOR);
+                    subst.add(var2);
+                    final Element created = FormulaUtility.replaceOperatorVariable(
+                        f, var, subst);
+                    addFormula(created, new SubstPredBo(i, var, subst));
+                }
+            }
+            // substitute by conjunction with another variable
+            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, true);
+            createReplacement(i, f, var, Operators.CONJUNCTION_OPERATOR, false);
             // substitute by disjunction with another variable
             createReplacement(i, f, var, Operators.DISJUNCTION_OPERATOR, true);
             createReplacement(i, f, var, Operators.DISJUNCTION_OPERATOR, false);
 //            // substitute by implication with another variable
-//            createReplacement(i, f, var, Operators.EQUIVALENCE_OPERATOR, true);
-//            createReplacement(i, f, var, Operators.EQUIVALENCE_OPERATOR, false);
+            createReplacement(i, f, var, Operators.IMPLICATION_OPERATOR, true);
+            createReplacement(i, f, var, Operators.IMPLICATION_OPERATOR, false);
+//          // substitute by equivalence with another variable
+            createReplacement(i, f, var, Operators.EQUIVALENCE_OPERATOR, true);
+            createReplacement(i, f, var, Operators.EQUIVALENCE_OPERATOR, false);
         }
     }
 

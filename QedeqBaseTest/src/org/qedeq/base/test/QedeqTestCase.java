@@ -123,18 +123,18 @@ public abstract class QedeqTestCase extends TestCase {
     }
 
     /**
-     * Should the test case be finished fast? The test case should ask this method
-     * at the begin of long running test methods.
+     * Should the test case be finished fast?
      *
      * @return  Should the test case be finished fast?
      */
-    public boolean fast() {
+    private boolean fast() {
         return fast;
     }
 
     /**
      * Should a slow test method be executed?. Also prints name of current method
      * to System.out.
+     * The test case should ask this method at the begin of long running test methods.
      *
      * @return  Should even slow test methods be executed?
      */

@@ -45,59 +45,63 @@ public class ProofFinderTest extends QedeqBoTestCase {
     }
 
     /**
-     * Check module that imports a module with logical errors.
+     * Find a proof.
      *
      * @throws Exception
      */
-    public void testCheckModule() throws Exception {
-        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
-            "sample/qedeq_sample3.xml"));
-        KernelContext.getInstance().checkModule(address);
-        final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
-        assertTrue(bo.isChecked());
-        assertNotNull(bo.getWarnings());
-        assertEquals(0, bo.getWarnings().size());
-        assertEquals(0, bo.getErrors().size());
-        final KernelQedeqBo q = (KernelQedeqBo) bo;
-        final KernelNodeBo node = q.getLabels().getNode("proposition:one");
-        final Proposition prop = node.getNodeVo().getNodeType().getProposition();
-        final ProofFinder finder = new ProofFinderImpl();
-        final FormalProofLineList original = prop.getFormalProofList().get(0)
-            .getFormalProofLineList();
-        final FormalProofLineListVo list = new FormalProofLineListVo();
-        for (int i = 0; i < 4; i++) {
-            list.add(original.get(i));
+    public void testFind() throws Exception {
+        if (slow()) {
+            final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+                "sample/qedeq_sample3.xml"));
+            KernelContext.getInstance().checkModule(address);
+            final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
+            assertTrue(bo.isChecked());
+            assertNotNull(bo.getWarnings());
+            assertEquals(0, bo.getWarnings().size());
+            assertEquals(0, bo.getErrors().size());
+            final KernelQedeqBo q = (KernelQedeqBo) bo;
+            final KernelNodeBo node = q.getLabels().getNode("proposition:one");
+            final Proposition prop = node.getNodeVo().getNodeType().getProposition();
+            final ProofFinder finder = new ProofFinderImpl();
+            final FormalProofLineList original = prop.getFormalProofList().get(0)
+                .getFormalProofLineList();
+            final FormalProofLineListVo list = new FormalProofLineListVo();
+            for (int i = 0; i < 4; i++) {
+                list.add(original.get(i));
+            }
+            finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
+                new DefaultModuleAddress()));
         }
-        finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-            new DefaultModuleAddress()));
     }
 
     /**
-     * Check module that imports a module with logical errors.
+     * Find a proof.
      *
      * @throws Exception
      */
-    public void testCheckModule2() throws Exception {
-        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
-            "sample/qedeq_sample3.xml"));
-        KernelContext.getInstance().checkModule(address);
-        final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
-        assertTrue(bo.isChecked());
-        assertNotNull(bo.getWarnings());
-        assertEquals(0, bo.getWarnings().size());
-        assertEquals(0, bo.getErrors().size());
-        final KernelQedeqBo q = (KernelQedeqBo) bo;
-        final KernelNodeBo node = q.getLabels().getNode("proposition:two");
-        final Proposition prop = node.getNodeVo().getNodeType().getProposition();
-        final ProofFinder finder = new ProofFinderImpl();
-        final FormalProofLineList original = prop.getFormalProofList().get(0)
-            .getFormalProofLineList();
-        final FormalProofLineListVo list = new FormalProofLineListVo();
-        for (int i = 0; i < 3; i++) {
-            list.add(original.get(i));
+    public void testFind2() throws Exception {
+        if (slow()) {
+            final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+                "sample/qedeq_sample3.xml"));
+            KernelContext.getInstance().checkModule(address);
+            final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
+            assertTrue(bo.isChecked());
+            assertNotNull(bo.getWarnings());
+            assertEquals(0, bo.getWarnings().size());
+            assertEquals(0, bo.getErrors().size());
+            final KernelQedeqBo q = (KernelQedeqBo) bo;
+            final KernelNodeBo node = q.getLabels().getNode("proposition:two");
+            final Proposition prop = node.getNodeVo().getNodeType().getProposition();
+            final ProofFinder finder = new ProofFinderImpl();
+            final FormalProofLineList original = prop.getFormalProofList().get(0)
+                .getFormalProofLineList();
+            final FormalProofLineListVo list = new FormalProofLineListVo();
+            for (int i = 0; i < 3; i++) {
+                list.add(original.get(i));
+            }
+            finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
+                new DefaultModuleAddress()));
         }
-        finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-            new DefaultModuleAddress()));
     }
 
 }
