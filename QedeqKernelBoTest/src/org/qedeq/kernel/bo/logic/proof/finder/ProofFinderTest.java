@@ -69,8 +69,8 @@ public class ProofFinderTest extends QedeqBoTestCase {
             for (int i = 0; i < 4; i++) {
                 list.add(original.get(i));
             }
-            finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-                new DefaultModuleAddress()));
+            assertNotNull(finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
+                new DefaultModuleAddress())));
         }
     }
 
@@ -99,8 +99,8 @@ public class ProofFinderTest extends QedeqBoTestCase {
             for (int i = 0; i < 3; i++) {
                 list.add(original.get(i));
             }
-            finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-                new DefaultModuleAddress()));
+            assertNotNull(finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
+                new DefaultModuleAddress())));
         }
     }
 

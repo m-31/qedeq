@@ -127,7 +127,7 @@ public final class FormulaUtility implements Operators {
      * @param   element     Check this element.
      * @return  Check successful?
      */
-    private static boolean isOperator(final String operator,
+    public static boolean isOperator(final String operator,
             final Element element) {
         return isOperator(operator, element, 0);
     }
@@ -245,7 +245,7 @@ public final class FormulaUtility implements Operators {
      * variables "x_1", "x_2" and so on.
      *
      * @param   element    Work on this element.
-     * @return  All normalized predicate variables of that formula.
+     * @return  All predicate variables of that formula.
      */
     public static final ElementSet getPredicateVariables(final Element element) {
         final ElementSet all = new ElementSet();
@@ -271,7 +271,7 @@ public final class FormulaUtility implements Operators {
      * arity zero.
      *
      * @param   element    Work on this element.
-     * @return  All normalized predicate variables of that formula.
+     * @return  All proposition variables of that formula.
      */
     public static final ElementSet getPropositionVariables(final Element element) {
         final ElementSet all = new ElementSet();
@@ -281,6 +281,48 @@ public final class FormulaUtility implements Operators {
             final ElementList list = element.getList();
             for (int i = 0; i < list.size(); i++) {
                 all.union(getPropositionVariables(list.getElement(i)));
+            }
+        }
+        return all;
+    }
+
+    /**
+     * Return all part formulas of an element.
+     *
+     * @param   element    Work on this element.
+     * @return  All part formulas of that element.
+     */
+    public static final ElementSet getPartFormulas(final Element element) {
+        final ElementSet all = new ElementSet();
+        if (element == null || element.isAtom()) {
+            return all;
+        }
+        final ElementList list = element.getList();
+        if (isPredicateVariable(list)) {
+            all.add(element);
+        } else if (isPredicateConstant(list)) {
+            all.add(list);
+        } else if (Operators.CONJUNCTION_OPERATOR.equals(list.getOperator())
+                || Operators.DISJUNCTION_OPERATOR.equals(list.getOperator())
+                || Operators.NEGATION_OPERATOR.equals(list.getOperator())
+                || Operators.IMPLICATION_OPERATOR.equals(list.getOperator())
+                || Operators.EQUIVALENCE_OPERATOR.equals(list.getOperator())
+                ) {
+            all.add(list);
+            for (int i = 0; i < list.size(); i++) {
+                all.union(getPartFormulas(list.getElement(i)));
+            }
+        } else if (isBindingOperator(list)) {
+            all.add(list);
+            for (int i = 0; i < list.size(); i++) {
+                all.union(getPartFormulas(list.getElement(i)));
+            }
+        } else if (isSubjectVariable(list)) {
+        } else if (isFunctionVariable(list)) {
+        } else if (isFunctionConstant(list)) {
+        } else {
+            for (int i = 0; i < list.size(); i++) {
+                all.union(getPartFormulas(list.getElement(i)));
             }
         }
         return all;
