@@ -88,9 +88,9 @@ public class ProofFinderImpl2 implements ProofFinder {
                 proof.get(i).getFormula().getElement()));
         }
         String max = "A";
-        final Iterator j = allPredVars.iterator();
-        while (j.hasNext()) {
-            final ElementList v = (ElementList) j.next();
+        final Iterator iter = allPredVars.iterator();
+        while (iter.hasNext()) {
+            final ElementList v = (ElementList) iter.next();
             final String name = v.getElement(0).getAtom().getString();
             if (-1 == max.compareTo(name)) {
                 max = name;
@@ -108,23 +108,25 @@ public class ProofFinderImpl2 implements ProofFinder {
         System.out.println("Goal: ");
         ProofFinderUtility.println(formula);
         int i = 0;
-        while (i < lines.size() && lines.size() < Integer.MAX_VALUE - 1000) {
-            try {
-                tryModusPonensAll();
+        try {
+            while (i < lines.size() && lines.size() < Integer.MAX_VALUE - 1000) {
                 if (Thread.interrupted()) {
                     throw new InterruptException(context);
                 }
-                trySubstitution(i++);
-                if (i == 10) {
-                    phase++;
+                tryModusPonensAll();
+                final int size = lines.size();
+                for (int j = i; j < size; j++) {
+                    trySubstitution1(j);
                 }
-                if (i == 100) {
-                    phase++;
+                tryModusPonensAll();
+                for (int j = i; j < size; j++) {
+                    trySubstitution2(j);
                 }
-            } catch (ProofFoundException e) {
-                System.out.println("proof found. lines: " + lines.size());
-                return ProofFinderUtility.shortenProof(lines, reasons);
+                i = size + 1;
             }
+        } catch (ProofFoundException e) {
+            System.out.println("proof found. lines: " + lines.size());
+            return ProofFinderUtility.shortenProof(lines, reasons);
         }
         System.out.println("proof not found. lines: " + lines.size());
         return null;
@@ -155,7 +157,7 @@ public class ProofFinderImpl2 implements ProofFinder {
      * @param   i   Proof line number we want to try substitution.
      * @throws  ProofFoundException     We found a proof!
      */
-    private void trySubstitution(final int i) throws ProofFoundException {
+    private void trySubstitution1(final int i) throws ProofFoundException {
 //        System.out.print("subst " + i + " ");
         final Element f = (Element) lines.get(i);
 //        FormulaUtility.println(f);
@@ -169,9 +171,8 @@ public class ProofFinderImpl2 implements ProofFinder {
 //            FormulaUtility.println(var);
             // substitute by different variable
             {
-//                System.out.print("allPredVars=");
-//                System.out.println(allPredVars);
-// FIXME                final Iterator all = allPredVars.iterator();
+//              System.out.print("allPredVars=");
+//              System.out.println(allPredVars);
                 final Iterator all = substFormulas.iterator();
                 while (all.hasNext()) {
                     final ElementList subst = (ElementList) all.next();
@@ -187,6 +188,27 @@ public class ProofFinderImpl2 implements ProofFinder {
                     addFormula(created, new SubstPredBo(i, var, subst));
                 }
             }
+        }
+    }
+
+    /**
+     * Make all possible substitutions in a proof line.
+     *
+     * @param   i   Proof line number we want to try substitution.
+     * @throws  ProofFoundException     We found a proof!
+     */
+    private void trySubstitution2(final int i) throws ProofFoundException {
+//        System.out.print("subst " + i + " ");
+        final Element f = (Element) lines.get(i);
+//        FormulaUtility.println(f);
+        final ElementSet vars = FormulaUtility.getPredicateVariables(f);
+//        System.out.print("vars=");
+//        System.out.println(vars);
+        final Iterator iter = vars.iterator();
+        while (iter.hasNext()) {
+            final ElementList var = (ElementList) iter.next();
+//            System.out.print("var=");
+//            FormulaUtility.println(var);
             {
 //              System.out.print("allPredVars=");
 //              System.out.println(allPredVars);
