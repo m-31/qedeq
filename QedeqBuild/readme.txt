@@ -27,7 +27,7 @@ checks: "are all defined labels different" and "are all formulas
 well formed"?
 
 Currently no formal proofs can be found in the main mathematical
-documents. But "doc/math/qedeq_propositional_v1_en.pdf" contains
+documents. But "doc/math/qedeq_formal_logic_v1_en.pdf" contains
 the propositional axioms that enable us to produce all formal
 derivations. There you can find the first formal proofs.
 "set_theory_v1" contains some informal proofs that are close to 
