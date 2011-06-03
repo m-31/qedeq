@@ -19,6 +19,7 @@ import java.io.File;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.logic.common.ProofFinder;
+import org.qedeq.kernel.bo.logic.common.ProofFoundException;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -68,8 +69,13 @@ public class ProofFinder2Test extends QedeqBoTestCase {
         for (int i = 0; i < 4; i++) {
             list.add(original.get(i));
         }
-        assertNotNull(finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-            new DefaultModuleAddress()), null));
+        try {
+            finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
+            new DefaultModuleAddress()), null);
+            fail("no proof found");
+        } catch (ProofFoundException e) {
+            assertNotNull(e.getProofLines());
+        }
     }
 
     /**
@@ -96,8 +102,13 @@ public class ProofFinder2Test extends QedeqBoTestCase {
         for (int i = 0; i < 3; i++) {
             list.add(original.get(i));
         }
-        assertNotNull(finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-            new DefaultModuleAddress()), null));
+        try {
+            finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
+                new DefaultModuleAddress()), null);
+                fail("no proof found");
+        } catch (ProofFoundException e) {
+            assertNotNull(e.getProofLines());
+        }
     }
 
 }
