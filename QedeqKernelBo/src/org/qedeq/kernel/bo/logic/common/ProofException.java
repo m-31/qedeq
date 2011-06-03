@@ -29,6 +29,11 @@ public abstract class ProofException extends ModuleDataException {
         this.lines = lines;
     }
 
+    /**
+     * Get proof lines we found. If any.
+     *
+     * @return  Found proof lines. Might be <code>null</code>.
+     */
     public FormalProofLineList getProofLines() {
         return lines;
     }
