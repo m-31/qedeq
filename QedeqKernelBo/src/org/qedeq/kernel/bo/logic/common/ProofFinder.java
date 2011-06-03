@@ -37,7 +37,7 @@ public interface ProofFinder {
      * @param   context             We are in this context.
      * @param   parameters          Further parameters to tune search process.
      * @throws  InterruptException  Proof finding was interrupted.
-     * @return  Created formal proof. <code>null</code> if we did not find one. FIXME remove line!
+     * @return  Created formal proof. <code>null</code> if we did not find one. TODO remove line!
      * @throws  ProofException      Finding result.
      */
     public FormalProofLineList findProof(Element formula, FormalProofLineList proof,

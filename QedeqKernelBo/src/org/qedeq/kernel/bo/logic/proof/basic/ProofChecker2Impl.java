@@ -129,7 +129,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 getReason = getReason.substring(0, getReason.length() - 2) + "()";
                 setLocationWithinModule(context + ".get(" + i + ").getReason()"
                     + getReason);
-//                System.out.println(getCurrentContext());    // FIXME
+//                System.out.println(getCurrentContext());
             }
             if (reason instanceof Add) {
                 ok = check((Add) reason, i, line.getFormula().getElement());
@@ -697,7 +697,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
     private boolean check(final ConditionalProof cp, final int i, final Element element) {
         final ModuleAddress address = currentContext.getModuleLocation();
         final String context = currentContext.getLocationWithinModule();
-//        System.out.println(getCurrentContext());    // FIXME
+//        System.out.println(getCurrentContext());
         boolean ok = true;
         if (cp.getHypothesis() == null || cp.getHypothesis().getFormula() == null
                 || cp.getHypothesis().getFormula().getElement() == null) {
@@ -908,7 +908,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
      */
     protected void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-        // FIXME remove test dependency
+        // for testing
 //        try {
 //            System.out.println("testing context " + locationWithinModule);
 //            QedeqBo qedeq = KernelContext.getInstance().getQedeqBo(getCurrentContext().getModuleLocation());

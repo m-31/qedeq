@@ -381,7 +381,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-        // FIXME remove test dependency
+        // for testing
 //        try {
 //            DynamicGetter.get(getQedeqBo().getQedeq(), getCurrentContext().getLocationWithinModule());
 //        } catch (RuntimeException e) {
