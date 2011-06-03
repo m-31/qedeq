@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.logic.proof.finder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.Operators;
@@ -65,7 +66,8 @@ public class ProofFinderImpl implements ProofFinder {
     }
 
     public FormalProofLineList findProof(final Element formula,
-            final FormalProofLineList proof, final ModuleContext context) throws InterruptException {
+            final FormalProofLineList proof, final ModuleContext context,
+            final Map parameters) throws InterruptException {
         this.goalFormula = formula;
         lines = new ArrayList();
         reasons = new ArrayList();
@@ -145,7 +147,7 @@ public class ProofFinderImpl implements ProofFinder {
 //        System.out.print("subst " + i + " ");
         final Element f = (Element) lines.get(i);
 //        FormulaUtility.println(f);
-        final ElementSet vars = FormulaUtility.getPredicateVariables(f);
+        final ElementSet vars = FormulaUtility.getPropositionVariables(f);
 //        System.out.print("vars=");
 //        System.out.println(vars);
         final Iterator iter = vars.iterator();

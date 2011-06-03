@@ -26,6 +26,8 @@ import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
 import org.qedeq.kernel.bo.logic.common.ProofFinder;
 import org.qedeq.kernel.bo.logic.common.ProofFinderFactory;
+import org.qedeq.kernel.bo.logic.common.ProofFoundException;
+import org.qedeq.kernel.bo.logic.common.ProofNotFoundException;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
@@ -71,6 +73,9 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
     /** Currently running proof finder. */
     private ProofFinder finder;
 
+    /** All parameters for this search. */
+    private Map parameters;
+
     /**
      * Constructor.
      *
@@ -112,6 +117,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             noSaveString = (String) parameters.get("noSave");
         }
         noSave = "true".equalsIgnoreCase(noSaveString);
+        this.parameters = parameters;
     }
 
     public Object executePlugin() {
@@ -201,12 +207,16 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         }
         final String context = getCurrentContext().getLocationWithinModule();
         if (proposition.getFormalProofList() == null) {
-            final FormalProofLineList proof;
+            FormalProofLineList proof = null;
             // we try finding a proof
             try {
                 finder = finderFactory.createProofFinder();
                 proof = finder.findProof(proposition.getFormula().getElement(), validFormulas,
-                    getCurrentContext());
+                    getCurrentContext(), parameters);
+            } catch (ProofFoundException e) {
+                proof = e.getProofLines();
+            } catch (ProofNotFoundException e) {
+                addWarning(e);
             } finally {
                 finder = null;  // so we always new if we are currently searching
             }
