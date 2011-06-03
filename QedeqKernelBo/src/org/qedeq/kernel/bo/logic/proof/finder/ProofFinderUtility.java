@@ -51,6 +51,13 @@ public final class ProofFinderUtility {
     private ProofFinderUtility() {
     }
 
+    /**
+     * Shorten given formal proof.
+     *
+     * @param   lines   Lines of formulas.
+     * @param   reasons Reasons for derivation of formula. Must be Add, MP or SubstPred.
+     * @return  Reduced formal proof.
+     */
     public static FormalProofLineList shortenProof(final List lines, final List reasons) {
         return (new ProofFinderUtility()).shorten(lines, reasons);
     }
