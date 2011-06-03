@@ -70,7 +70,7 @@ public class ProofFinderTest extends QedeqBoTestCase {
                 list.add(original.get(i));
             }
             assertNotNull(finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-                new DefaultModuleAddress())));
+                new DefaultModuleAddress()), null));
         }
     }
 
@@ -100,7 +100,7 @@ public class ProofFinderTest extends QedeqBoTestCase {
                 list.add(original.get(i));
             }
             assertNotNull(finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-                new DefaultModuleAddress())));
+                new DefaultModuleAddress()), null));
         }
     }
 
