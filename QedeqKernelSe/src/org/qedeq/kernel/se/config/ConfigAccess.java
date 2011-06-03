@@ -214,7 +214,7 @@ final class ConfigAccess {
      *          The prefix is removed of for the resulting map.
      */
     public final Map getProperties(final String namePrefix) {
-        final Map result = new HashMap(getProperties());
+        final Map result = new HashMap();
         Iterator i = getProperties().entrySet().iterator();
         while (i.hasNext()) {
             Map.Entry entry = (Map.Entry) i.next();
