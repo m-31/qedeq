@@ -11,24 +11,24 @@
     <TITLE>
       <LATEX language="en">
         <![CDATA[
-          Propositional Calculus
+          Predicate Calculus
         ]]>
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          Aussagenlogik
+          Predicatenlogik
         ]]>
       </LATEX>
     </TITLE>
     <ABSTRACT>
       <LATEX language="en">
         <![CDATA[
-          Here we formally develop the propositional calculus beginning from the axioms.
+          Here we formally develop the predicate calculus beginning from the axioms.
         ]]>
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          In diesem Text wird die Aussagenlogik in formaler Weise von den Axiomen ausgehend entwickelt.
+          In diesem Text wird die Prädikatenlogik in formaler Weise von den Axiomen ausgehend entwickelt.
         ]]>
       </LATEX>
     </ABSTRACT>
@@ -67,16 +67,18 @@
     <INTRODUCTION>
       <LATEX language="en">
         <![CDATA[
-          In this text we present the development of propositional calculus in axiomatic form.
-          For background informations see under \url{http://en.wikipedia.org/wiki/Propositional_calculus}
-          and \url{http://www.ltn.lv/~podnieks/mlog/ml1.htm#axioms}.
+          In this text we present the development of predicate calculus in axiomatic form.
+          The language of our calculus bases on the formalizations of \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~S.~Novikov}\cite{novikov}, \emph{V.~Detlovs} and \emph{K.~Podnieks}\cite{detnieks}. New rules can be derived from the herein presented logical axioms and basic inference rules. Only these meta rules lead to a smooth flowing logical argumentation.
+          For background informations see under \url{http://www.ltn.lv/~podnieks/mlog/ml.htm}
+          and \url{http://en.wikipedia.org/wiki/Propositional_calculus}.
         ]]>
       </LATEX>
       <LATEX language="de">
         <![CDATA[
-          In diesem Text wird die Aussagenlogik in axiomatischer Weise entwickelt.
-          Hintergrundinformationen stehen unter \url{http://en.wikipedia.org/wiki/Propositional_calculus}
-          und \url{http://www.ltn.lv/~podnieks/mlog/ml1.htm#axioms}.
+          In diesem Text wird die Prädikatenlogik in axiomatischer Weise entwickelt.
+          Die folgende Kalkülsprache und ihre Axiome basieren auf den Formulierungen von \emph{D.~Hilbert}, \emph{W.~Ackermann}\cite{hilback}, \emph{P.~S.~Novikov}\cite{novikov}, \emph{V.~Detlovs} und \emph{K.~Podnieks}\cite{detnieks}. Aus den hier angegebenen logischen Axiomen und den elementaren Schlussregeln können weitere Gesetzmäßigkeiten abgeleitet werden. Erst diese neuen Metaregeln führen zu einer komfortablen logischen Argumentation.
+          Hintergrundinformationen stehen unter \url{http://www.ltn.lv/~podnieks/mlog/ml.htm}
+          und \url{http://en.wikipedia.org/wiki/Propositional_calculus}.
         ]]>
       </LATEX>
     </INTRODUCTION>
@@ -3863,4 +3865,57 @@
       </SUBSECTIONS>
     </SECTION>
   </CHAPTER>
+  <BIBLIOGRAPHY>
+    <ITEM label="novikov">
+      <LATEX language="en">
+        <![CDATA[
+           \emph{P.S. Novikov}, Elements of Mathematical Logic, Edinburgh: Oliver and Boyd, 1964.
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          \emph{P.S. Novikov}, Grundzüge der mathematischen Logik, VEB Deutscher Verlag der Wissenschaften, Berlin 1973
+        ]]>
+      </LATEX>
+    </ITEM>
+    <ITEM label="detnieks">
+      <LATEX language="en">
+        <![CDATA[
+           \emph{V.~Detlovs, K.~Podnieks}, Introduction to Mathematical Logic, 
+           \url{http://www.ltn.lv/~podnieks/mlog/ml.htm}.
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          \emph{V.~Detlovs, K.~Podnieks}, Introduction to Mathematical Logic, \url{http://www.ltn.lv/~podnieks/mlog/ml.htm}
+        ]]>
+      </LATEX>
+    </ITEM>
+    <ITEM label="hilback">
+      <LATEX language="en">
+        <![CDATA[
+           \emph{D.~Hilbert, W.~Ackermann}, Grundzüge der theoretischen Logik, 2nd ed., Berlin: Springer, 1938. English version: Principles of Mathematical Logic, Chelsea, New York 1950, ed. by R.~E.~Luce.
+           See also \url{http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert.html}
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          \emph{D.~Hilbert, W.~Ackermann}, Grundzüge der theoretischen Logik, 2. Ed., Springer, Berlin 1938. Siehe auch \url{http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert.html}
+        ]]>
+      </LATEX>
+    </ITEM>
+    <ITEM label="mendelson">
+      <LATEX language="en">
+        <![CDATA[
+           \emph{E.~Mendelson}, Introduction to Mathematical Logic, 3rd. ed., Belmont, CA: Wadsworth, 1987.
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          \emph{E.~Mendelson}, Introduction to Mathematical Logic, 3. ed., Wadsworth, Belmont, CA 1987
+        ]]>
+      </LATEX>
+    </ITEM>
+  </BIBLIOGRAPHY>
+  
 </QEDEQ>
