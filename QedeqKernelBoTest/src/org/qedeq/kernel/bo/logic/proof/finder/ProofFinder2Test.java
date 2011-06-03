@@ -15,6 +15,8 @@
 package org.qedeq.kernel.bo.logic.proof.finder;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
@@ -69,9 +71,20 @@ public class ProofFinder2Test extends QedeqBoTestCase {
         for (int i = 0; i < 4; i++) {
             list.add(original.get(i));
         }
+        final Map parameters = new HashMap();
+        parameters.put("extraVars", "0");
+        parameters.put("propositionVariableOrder", "2");
+        parameters.put("propositionVariableWeight", "3");
+        parameters.put("partFormulaWeight", "0");
+        parameters.put("disjunctionOrder", "1");
+        parameters.put("disjunctionWeight", "3");
+        parameters.put("implicationWeight", "0");
+        parameters.put("negationWeight", "0");
+        parameters.put("conjunctionWeight", "0");
+        parameters.put("equivalenceWeight", "0");
         try {
             finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-            new DefaultModuleAddress()), null);
+            new DefaultModuleAddress()), parameters);
             fail("no proof found");
         } catch (ProofFoundException e) {
             assertNotNull(e.getProofLines());
@@ -102,10 +115,21 @@ public class ProofFinder2Test extends QedeqBoTestCase {
         for (int i = 0; i < 3; i++) {
             list.add(original.get(i));
         }
+        final Map parameters = new HashMap();
+        parameters.put("extraVars", "0");
+        parameters.put("propositionVariableOrder", "2");
+        parameters.put("propositionVariableWeight", "3");
+        parameters.put("partFormulaWeight", "0");
+        parameters.put("disjunctionOrder", "1");
+        parameters.put("disjunctionWeight", "3");
+        parameters.put("implicationWeight", "0");
+        parameters.put("negationWeight", "0");
+        parameters.put("conjunctionWeight", "0");
+        parameters.put("equivalenceWeight", "0");
         try {
             finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-                new DefaultModuleAddress()), null);
-                fail("no proof found");
+                new DefaultModuleAddress()), parameters);
+            fail("no proof found");
         } catch (ProofFoundException e) {
             assertNotNull(e.getProofLines());
         }
