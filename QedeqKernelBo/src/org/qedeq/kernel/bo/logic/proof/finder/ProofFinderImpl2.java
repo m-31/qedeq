@@ -164,7 +164,6 @@ public class ProofFinderImpl2 implements ProofFinder {
         }
         System.out.println("Goal: ");
         ProofFinderUtility.println(formula);
-        int i = 0;
         while (true) {
             // check if the thread should be
             if (Thread.interrupted()) {
@@ -451,13 +450,18 @@ public class ProofFinderImpl2 implements ProofFinder {
         return ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1);
     }
 
+    /**
+     * These is the basis implementation for substitution methods.
+     */
     private abstract class SubstituteBase implements Substitute {
 
         /** Next proof line we will work on. */
         private int next = 0;
 
+        /** Weight of proof method. */
         private final int weight;
 
+        /** Order of proof method. */
         private final int order;
 
         SubstituteBase(final int weight, final int order) {
