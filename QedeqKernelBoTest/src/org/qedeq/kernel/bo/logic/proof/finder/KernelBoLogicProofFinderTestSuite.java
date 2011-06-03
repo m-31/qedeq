@@ -40,6 +40,6 @@ public class KernelBoLogicProofFinderTestSuite extends QedeqTestSuite {
      */
     public KernelBoLogicProofFinderTestSuite() {
         super();
-        addTestSuite(ProofFinderTest.class);
+        addTestSuite(ProofFinder2Test.class);
     }
 }
