@@ -33,8 +33,11 @@
 <!--  PRODUCTIVE -->
 
     <Match>
-        <Bug code="RV" />
-        <Bug code="EI_EXPOSE_REP2" />
+      <Or> 
+        <Class name="org.qedeq.kernel.bo.service.unicode.ProofLineData"/>
+        <Bug pattern="EI_EXPOSE_REP" />
+        <Bug pattern="EI_EXPOSE_REP2" />
+      </Or> 
     </Match>
 
 </FindBugsFilter>
