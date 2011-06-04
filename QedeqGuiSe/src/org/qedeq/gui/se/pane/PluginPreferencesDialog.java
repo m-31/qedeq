@@ -45,6 +45,7 @@ import org.qedeq.kernel.bo.logic.model.ThreeDynamicModel;
 import org.qedeq.kernel.bo.logic.model.UnaryDynamicModel;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
+import org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin;
 import org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeTextPlugin;
 import org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin;
 import org.qedeq.kernel.se.common.Plugin;
@@ -91,6 +92,9 @@ public class PluginPreferencesDialog extends JDialog {
     /** Plugin for showing QEDEQ modules as UTF-8 text. */
     private final Qedeq2UnicodeTextPlugin qedeq2utf8Show;
 
+    /** Plugin for finding simple propositional calculus proofs. */
+    private final SimpleProofFinderPlugin proofFinder;
+
 // LATER 20101222 m31: remove if not used for a long time
 //    /** Plugin for checking formulas with the help of a static model. */
 //    private HeuristicCheckerPlugin heuristicChecker;
@@ -103,6 +107,54 @@ public class PluginPreferencesDialog extends JDialog {
 
     /** Class string for dynamic static model. */
     private String dynamicHeuristicCheckerModel = "";
+
+    /** Text field for maximum proof length of proof finder plugin. */
+    private JTextField proofFinderMaximumProofLengthTF;
+
+    /** Text field for number of additional propositional variables for substitution. */
+    private JTextField proofFinderExtraVarsTF;
+
+    /** Text field for number for order of substitution. */
+    private JTextField proofFinderPropositionVariableOrderTF;
+
+    /** Text field for number for weight of substitution. */
+    private JTextField proofFinderPropositionVariableWeightTF;
+
+    /** Text field for number for order of substitution. */
+    private JTextField proofFinderPartFormulaOrderTF;
+
+    /** Text field for number for weight of substitution. */
+    private JTextField proofFinderPartFormulaWeightTF;
+
+    /** Text field for number for order of substitution. */
+    private JTextField proofFinderDisjunctionOrderTF;
+
+    /** Text field for number for weight of substitution. */
+    private JTextField proofFinderDisjunctionWeightTF;
+
+    /** Text field for number for order of substitution. */
+    private JTextField proofFinderImplicationOrderTF;
+
+    /** Text field for number for weight of substitution. */
+    private JTextField proofFinderImplicationWeightTF;
+
+    /** Text field for number for order of substitution. */
+    private JTextField proofFinderNegationOrderTF;
+
+    /** Text field for number for weight of substitution. */
+    private JTextField proofFinderNegationWeightTF;
+
+    /** Text field for number for order of substitution. */
+    private JTextField proofFinderConjunctionOrderTF;
+
+    /** Text field for number for weight of substitution. */
+    private JTextField proofFinderConjunctionWeightTF;
+
+    /** Text field for number for order of substitution. */
+    private JTextField proofFinderEquivalenceOrderTF;
+
+    /** Text field for number for weight of substitution. */
+    private JTextField proofFinderEquivalenceWeightTF;
 
     /**
      * Creates new Panel.
@@ -120,6 +172,7 @@ public class PluginPreferencesDialog extends JDialog {
 // LATER 20101222 m31: remove if not used for a long time
 //            heuristicChecker = new HeuristicCheckerPlugin();
             dynamicHeuristicChecker = new DynamicHeuristicCheckerPlugin();
+            proofFinder = new SimpleProofFinderPlugin();
             setModal(true);
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             setupView();
@@ -147,6 +200,8 @@ public class PluginPreferencesDialog extends JDialog {
 //        tabbedPane.addTab(heuristicChecker.getPluginName(), heuristicCheckerConfig(heuristicChecker));
         tabbedPane.addTab(dynamicHeuristicChecker.getPluginActionName(),
             dynamicHeuristicCheckerConfig(dynamicHeuristicChecker));
+        tabbedPane.addTab(proofFinder.getPluginActionName(),
+                proofFinderConfig(proofFinder));
 
 //        tabbedPane.setBorder(GuiHelper.getEmptyBorder());
         tabbedPane.setBorder(new CompoundBorder(new EmptyBorder(0, 10, 10, 10),
@@ -399,6 +454,109 @@ public class PluginPreferencesDialog extends JDialog {
         return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
     }
 
+    /**
+     * Assembles settings for {@link ProofFinderPlugin}.
+     *
+     * @param   plugin  The transformation plugin.
+     * @return  Created panel.
+     */
+    private JComponent proofFinderConfig(final Plugin plugin) {
+        FormLayout layout = new FormLayout(
+            "left:pref, 5dlu, fill:50dlu, 5dlu, fill:50dlu, fill:pref:grow");    // columns
+
+        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+        builder.getPanel().setOpaque(false);
+
+        builder.append("Maximum proof lines");
+        proofFinderMaximumProofLengthTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+            plugin, "maximumProofLines", Integer.MAX_VALUE - 2));
+        proofFinderMaximumProofLengthTF.setToolTipText("After this proof line number we abandom."
+            + " the search. This is not the maximum proof line length of the final proof but the"
+            + " but the maximum number of all generated proof lines.");
+        builder.append(proofFinderMaximumProofLengthTF);
+        builder.nextLine();
+
+        proofFinderExtraVarsTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+            plugin, "extraVars", 1));
+        builder.append("Extra proposition variables");
+        builder.append(proofFinderExtraVarsTF);
+        proofFinderExtraVarsTF.setToolTipText("We use these number of extra proposition variables"
+                + " beside the ones we have in our initial formulas and the goal formula.");
+        builder.nextLine();
+
+        builder.appendSeparator();
+        builder.append("Operator");
+        builder.append("Order");
+        builder.append("Weight");
+        builder.nextLine();
+
+        builder.append("Proposition variable");
+        proofFinderPropositionVariableOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "propositionVariableOrder", 1));
+        builder.append(proofFinderPropositionVariableOrderTF);
+        proofFinderPropositionVariableWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "propositionVariableWeight", 3));
+        builder.append(proofFinderPropositionVariableWeightTF);
+        builder.nextLine();
+
+        builder.append("Part formula");
+        proofFinderPartFormulaOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "partFormulaOrder", 2));
+        builder.append(proofFinderPartFormulaOrderTF);
+        proofFinderPartFormulaWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "partFormulaWeight", 1));
+        builder.append(proofFinderPartFormulaWeightTF);
+        builder.nextLine();
+
+        builder.append("Disjunction");
+        proofFinderDisjunctionOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "disjunctionOrder", 3));
+        builder.append(proofFinderDisjunctionOrderTF);
+        proofFinderDisjunctionWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "disjunctionWeight", 3));
+        builder.append(proofFinderDisjunctionWeightTF);
+        builder.nextLine();
+
+        builder.append("Implication");
+        proofFinderImplicationOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "implicationOrder", 4));
+        builder.append(proofFinderImplicationOrderTF);
+        proofFinderImplicationWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "implicationWeight", 1));
+        builder.append(proofFinderImplicationWeightTF);
+        builder.nextLine();
+
+        builder.append("Negation");
+        proofFinderNegationOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "negationOrder", 5));
+        builder.append(proofFinderNegationOrderTF);
+        proofFinderNegationWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "negationWeight", 1));
+        builder.append(proofFinderNegationWeightTF);
+        builder.nextLine();
+
+        builder.append("Conjunction");
+        proofFinderConjunctionOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "conjunctionOrder", 6));
+        builder.append(proofFinderConjunctionOrderTF);
+        proofFinderConjunctionWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "conjunctionWeight", 1));
+        builder.append(proofFinderConjunctionWeightTF);
+        builder.nextLine();
+
+        builder.append("Equivalence");
+        proofFinderEquivalenceOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "equivalenceOrder", 7));
+        builder.append(proofFinderEquivalenceOrderTF);
+        proofFinderEquivalenceWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                plugin, "equivalenceWeight", 1));
+        builder.append(proofFinderEquivalenceWeightTF);
+        builder.nextLine();
+
+        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+    }
+
     private JTextArea getDescription(final String text) {
         JTextArea description = new JTextArea(text);
         description.setEditable(false);
@@ -472,6 +630,41 @@ public class PluginPreferencesDialog extends JDialog {
             {
                 final Plugin plugin = dynamicHeuristicChecker;
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "model", dynamicHeuristicCheckerModel);
+            }
+            {
+                final Plugin plugin = proofFinder;
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "maximumProofLines",
+                    proofFinderMaximumProofLengthTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "extraVars",
+                        proofFinderExtraVarsTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "propositionVariableOrder",
+                        proofFinderPropositionVariableOrderTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "propositionVariableWeight",
+                        proofFinderPropositionVariableWeightTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "partFormulaOrder",
+                        proofFinderPartFormulaOrderTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "partFormulaWeight",
+                        proofFinderPartFormulaWeightTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "disjunctionOrder",
+                        proofFinderDisjunctionOrderTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "disjunctionWeight",
+                        proofFinderDisjunctionWeightTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "implicationOrder",
+                        proofFinderImplicationOrderTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "implicationWeight",
+                        proofFinderImplicationWeightTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "negationOrder",
+                        proofFinderNegationOrderTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "negationWeight",
+                        proofFinderNegationWeightTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "conjunctionOrder",
+                        proofFinderConjunctionOrderTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "conjunctionWeight",
+                        proofFinderConjunctionWeightTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "equivalenceOrder",
+                        proofFinderEquivalenceOrderTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "equivalenceWeight",
+                        proofFinderEquivalenceWeightTF.getText());
             }
         } catch (RuntimeException e) {
             Trace.fatal(CLASS, this, "save", "couldn't save preferences", e);
