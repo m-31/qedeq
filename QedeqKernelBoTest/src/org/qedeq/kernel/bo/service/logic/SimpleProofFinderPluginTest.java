@@ -67,6 +67,16 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
             addDummyFormalProof(qedeq, "proposition:three");
             final Map parameters = new HashMap();
             parameters.put("noSave", "true");
+            parameters.put("extraVars", "0");
+            parameters.put("propositionVariableOrder", "2");
+            parameters.put("propositionVariableWeight", "3");
+            parameters.put("partFormulaWeight", "0");
+            parameters.put("disjunctionOrder", "1");
+            parameters.put("disjunctionWeight", "3");
+            parameters.put("implicationWeight", "0");
+            parameters.put("negationWeight", "0");
+            parameters.put("conjunctionWeight", "0");
+            parameters.put("equivalenceWeight", "0");
             getServices().executePlugin(SimpleProofFinderPlugin.class.getName(),
                 address, parameters);
         }
@@ -78,25 +88,33 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testPlugin2() throws Exception {
-        if (slow()) {
-            final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
-                "sample/qedeq_sample3.xml"));
-            getServices().checkModule(address);
-            final QedeqBo bo = getServices().getQedeqBo(address);
-            assertTrue(bo.isChecked());
-            assertEquals(0, bo.getWarnings().size());
-            assertEquals(0, bo.getErrors().size());
-            KernelQedeqBo qedeq = (KernelQedeqBo) bo;
-            removeNodeType(qedeq, "axiom:universalInstantiation");
-            removeNodeType(qedeq, "axiom:existencialGeneralization");
-            removeFormalProof(qedeq, "proposition:one");
-            removeFormalProof(qedeq, "proposition:two");
-            addDummyFormalProof(qedeq, "proposition:three");
-            final Map parameters = new HashMap();
-            parameters.put("noSave", "true");
-            getServices().executePlugin(SimpleProofFinderPlugin.class.getName(),
-                address, parameters);
-        }
+        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+            "sample/qedeq_sample3.xml"));
+        getServices().checkModule(address);
+        final QedeqBo bo = getServices().getQedeqBo(address);
+        assertTrue(bo.isChecked());
+        assertEquals(0, bo.getWarnings().size());
+        assertEquals(0, bo.getErrors().size());
+        KernelQedeqBo qedeq = (KernelQedeqBo) bo;
+        removeNodeType(qedeq, "axiom:universalInstantiation");
+        removeNodeType(qedeq, "axiom:existencialGeneralization");
+        removeFormalProof(qedeq, "proposition:one");
+        removeFormalProof(qedeq, "proposition:two");
+        addDummyFormalProof(qedeq, "proposition:three");
+        final Map parameters = new HashMap();
+        parameters.put("noSave", "true");
+        parameters.put("extraVars", "0");
+        parameters.put("propositionVariableOrder", "2");
+        parameters.put("propositionVariableWeight", "3");
+        parameters.put("partFormulaWeight", "0");
+        parameters.put("disjunctionOrder", "1");
+        parameters.put("disjunctionWeight", "3");
+        parameters.put("implicationWeight", "0");
+        parameters.put("negationWeight", "0");
+        parameters.put("conjunctionWeight", "0");
+        parameters.put("equivalenceWeight", "0");
+        getServices().executePlugin(SimpleProofFinderPlugin.class.getName(),
+            address, parameters);
     }
 
     /**
@@ -121,6 +139,16 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
             removeFormalProof(qedeq, "proposition:three");
             final Map parameters = new HashMap();
             parameters.put("noSave", "true");
+            parameters.put("extraVars", "0");
+            parameters.put("propositionVariableOrder", "2");
+            parameters.put("propositionVariableWeight", "3");
+            parameters.put("partFormulaWeight", "0");
+            parameters.put("disjunctionOrder", "1");
+            parameters.put("disjunctionWeight", "3");
+            parameters.put("implicationWeight", "0");
+            parameters.put("negationWeight", "0");
+            parameters.put("conjunctionWeight", "0");
+            parameters.put("equivalenceWeight", "0");
             getServices().executePlugin(SimpleProofFinderPlugin.class.getName(),
                 address, parameters);
         }
