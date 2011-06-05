@@ -48,4 +48,16 @@ public final class SimpleProofFinderPlugin implements PluginBo {
         return new SimpleProofFinderExecutor(this, qedeq, parameters);
     }
 
+    // FIXME 20110605 m31: set default plugin values for not existing values
+    // this method should be called from PluginPreferences or PluginManager during
+    // plugin registration otherwise we have the default definition in GUI and PluginExecutor
+    // that is not very wise
+    public void setDefaultValuesForEmptyPluginParameters() {
+    }
+
+    // this method must be in PluginManager and empty all plugin parameters and then
+    // call setDefaultValuesForEmptyPluginParameters() ...
+    public void setDefaultValues() {
+    }
+
 }
