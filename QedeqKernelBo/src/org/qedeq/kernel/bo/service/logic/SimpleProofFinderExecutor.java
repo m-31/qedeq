@@ -211,6 +211,9 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         if (proposition.getFormalProofList() == null) {
             QedeqLog.getInstance().logMessage("looking for proof of "
                 + super.getExecutionActionDescription());
+            final String utf8 = getQedeqBo().getElement2Utf8().getUtf8(proposition.getFormula()
+                .getElement());
+            QedeqLog.getInstance().logMessage(utf8);
             FormalProofLineList proof = null;
             // we try finding a proof
             try {
