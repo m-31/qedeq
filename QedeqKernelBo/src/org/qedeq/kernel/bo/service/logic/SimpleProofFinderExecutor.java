@@ -202,11 +202,15 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
 
     public void visitEnter(final Proposition proposition)
             throws ModuleDataException {
+        final String method = "visitEnter(Proposition)";
+        Trace.begin(CLASS, this, method);
         if (proposition == null) {
+            Trace.end(CLASS, this, method);
             return;
         }
-        final String context = getCurrentContext().getLocationWithinModule();
         if (proposition.getFormalProofList() == null) {
+            QedeqLog.getInstance().logMessage("looking for proof of "
+                + super.getExecutionActionDescription());
             FormalProofLineList proof = null;
             // we try finding a proof
             try {
@@ -220,21 +224,28 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             } finally {
                 finder = null;  // so we always new if we are currently searching
             }
-            // TODO 20110323 m31: we do a dirty cast to modify the current module
-            Object state;
-            try {
-                state = YodaUtility.getFieldValue(getQedeqBo(), "stateManager");
-                YodaUtility.executeMethod(state, "setLogicalState", new Class[] {
-                    LogicalModuleState.class},
-                    new Object[] {LogicalModuleState.STATE_UNCHECKED});
-                ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
-                YodaUtility.executeMethod(state, "setErrors", new Class[] {
-                        SourceFileExceptionList.class},
-                        new Object[] {null});
-            } catch (Exception e) {
-                final String msg = "changing properties failed";
-                Trace.fatal(CLASS, "visitEnter(Proposition)", msg, e);
-                QedeqLog.getInstance().logMessage(msg + " " +  e.toString());
+            if (proof != null) {
+                QedeqLog.getInstance().logMessage("proof found for "
+                    + super.getExecutionActionDescription());
+                // TODO 20110323 m31: we do a dirty cast to modify the current module
+                Object state;
+                try {
+                    state = YodaUtility.getFieldValue(getQedeqBo(), "stateManager");
+                    YodaUtility.executeMethod(state, "setLogicalState", new Class[] {
+                        LogicalModuleState.class},
+                        new Object[] {LogicalModuleState.STATE_UNCHECKED});
+                    ((PropositionVo) proposition).addFormalProof(new FormalProofVo(proof));
+                    YodaUtility.executeMethod(state, "setErrors", new Class[] {
+                            SourceFileExceptionList.class},
+                            new Object[] {null});
+                } catch (Exception e) {
+                    final String msg = "changing properties failed";
+                    Trace.fatal(CLASS, "visitEnter(Proposition)", msg, e);
+                    QedeqLog.getInstance().logMessage(msg + " " +  e.toString());
+                }
+            } else {
+                QedeqLog.getInstance().logMessage("proof not found for "
+                    + super.getExecutionActionDescription());
             }
             if (proof != null && !noSave) {
                 final File file = getServices().getLocalFilePath(
@@ -254,10 +265,13 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                 }
             }
         } else {
+            Trace.info(CLASS, method, "has already a proof: "
+                + super.getExecutionActionDescription());
             validFormulas.add(new FormalProofLineVo(new FormulaVo(getNodeBo().getFormula()),
                 new AddVo(getNodeBo().getNodeVo().getId())));
         }
         setBlocked(true);
+        Trace.end(CLASS, this, method);
     }
 
     public void visitLeave(final Proposition definition) {
