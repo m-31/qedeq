@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.common;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
 
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
@@ -145,10 +144,9 @@ public interface KernelServices {
      *
      * @param   id          Plugin id.
      * @param   address     QEDEQ module address.
-     * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      */
-    public Object executePlugin(final String id, final ModuleAddress address, final Map parameters);
+    public Object executePlugin(final String id, final ModuleAddress address);
 
     /**
      * Clear all plugin warnings and errors for given module.

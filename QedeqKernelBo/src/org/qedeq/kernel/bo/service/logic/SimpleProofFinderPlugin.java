@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginBoImpl;
 
 
 /**
@@ -27,7 +27,7 @@ import org.qedeq.kernel.bo.module.PluginBo;
  *
  * @author  Michael Meyling
  */
-public final class SimpleProofFinderPlugin implements PluginBo {
+public final class SimpleProofFinderPlugin extends PluginBoImpl {
 
     /** This class. */
     private static final Class CLASS = SimpleProofFinderPlugin.class;
@@ -48,16 +48,26 @@ public final class SimpleProofFinderPlugin implements PluginBo {
         return new SimpleProofFinderExecutor(this, qedeq, parameters);
     }
 
-    // FIXME 20110605 m31: set default plugin values for not existing values
-    // this method should be called from PluginPreferences or PluginManager during
-    // plugin registration otherwise we have the default definition in GUI and PluginExecutor
-    // that is not very wise
-    public void setDefaultValuesForEmptyPluginParameters() {
-    }
-
-    // this method must be in PluginManager and empty all plugin parameters and then
-    // call setDefaultValuesForEmptyPluginParameters() ...
-    public void setDefaultValues() {
+    public void setDefaultValuesForEmptyPluginParameters(final Map parameters) {
+        setDefault(parameters, "extraVars", 1);
+        setDefault(parameters, "maximumProofLines", Integer.MAX_VALUE - 2);
+        setDefault(parameters, "skipFormulas", "");
+        setDefault(parameters, "propositionVariableWeight", 3);
+        setDefault(parameters, "propositionVariableOrder", 1);
+        setDefault(parameters, "partFormulaOrder", 2);
+        setDefault(parameters, "partFormulaWeight", 1);
+        setDefault(parameters, "disjunctionOrder", 3);
+        setDefault(parameters, "disjunctionWeight", 3);
+        setDefault(parameters, "implicationOrder", 4);
+        setDefault(parameters, "implicationWeight", 1);
+        setDefault(parameters, "negationOrder", 5);
+        setDefault(parameters, "negationWeight", 1);
+        setDefault(parameters, "conjunctionOrder", 6);
+        setDefault(parameters, "conjunctionWeight", 1);
+        setDefault(parameters, "equivalenceOrder", 7);
+        setDefault(parameters, "equivalenceWeight", 1);
+        setDefault(parameters, "logFrequence", 1000);
+        setDefault(parameters, "noSave", false);
     }
 
 }

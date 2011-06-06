@@ -154,11 +154,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
      */
     public Qedeq2LatexExecutor(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
         super(plugin, prop);
-        String infoString = null;
-        if (parameters != null) {
-            infoString = (String) parameters.get("info");
-        }
-        info = "true".equalsIgnoreCase(infoString);
+        info = "true".equalsIgnoreCase((String) parameters.get("info"));
     }
 
     public Object executePlugin() {

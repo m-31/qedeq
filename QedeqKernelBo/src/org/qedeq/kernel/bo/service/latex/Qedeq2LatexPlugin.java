@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginBoImpl;
 
 
 /**
@@ -27,7 +27,7 @@ import org.qedeq.kernel.bo.module.PluginBo;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2LatexPlugin implements PluginBo {
+public final class Qedeq2LatexPlugin extends PluginBoImpl {
 
     /** This class. */
     public static final Class CLASS = Qedeq2LatexPlugin.class;
@@ -52,6 +52,10 @@ public final class Qedeq2LatexPlugin implements PluginBo {
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
         return new Qedeq2LatexExecutor(this, qedeq, parameters);
+    }
+
+    public void setDefaultValuesForEmptyPluginParameters(final Map parameters) {
+        setDefault(parameters, "info", true);
     }
 
 }

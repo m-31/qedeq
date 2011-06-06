@@ -19,7 +19,7 @@ import java.util.Map;
 
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginBoImpl;
 
 
 /**
@@ -27,7 +27,7 @@ import org.qedeq.kernel.bo.module.PluginBo;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Utf8Plugin implements PluginBo {
+public final class Qedeq2Utf8Plugin extends PluginBoImpl {
 
     /** This class. */
     public static final Class CLASS = Qedeq2Utf8Plugin.class;
@@ -52,6 +52,13 @@ public final class Qedeq2Utf8Plugin implements PluginBo {
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
         return new Qedeq2Utf8Executor(this, qedeq, parameters);
+    }
+
+    public void setDefaultValuesForEmptyPluginParameters(final Map parameters) {
+        setDefault(parameters, "language", "en");
+        setDefault(parameters, "info", true);
+        // automatically line break after this column. 0 means no automatic line breaking
+        setDefault(parameters, "maximumColumn", 80);
     }
 
 }

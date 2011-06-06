@@ -946,8 +946,10 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             return true; // everything is OK
         }
         try {
+            // TODO 20110606 m31: perhaps this should be a real plugin and is managed by the PluginManager?
             final WellFormedCheckerPlugin checker = new WellFormedCheckerPlugin();
-            checker.createExecutor(prop, null).executePlugin();
+            final Map parameters = KernelContext.getInstance().getConfig().getPluginEntries(checker);
+            checker.createExecutor(prop, parameters).executePlugin();
         } catch (final RuntimeException e) {
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())
                 + "\"";
@@ -976,9 +978,8 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return pluginManager.getPlugins();
     }
 
-    public Object executePlugin(final String id, final ModuleAddress address,
-            final Map parameters) {
-        return pluginManager.executePlugin(id, getKernelQedeqBo(address), parameters);
+    public Object executePlugin(final String id, final ModuleAddress address) {
+        return pluginManager.executePlugin(id, getKernelQedeqBo(address));
     }
 
     public void clearAllPluginResults(final ModuleAddress address) {

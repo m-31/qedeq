@@ -18,8 +18,9 @@ package org.qedeq.kernel.bo.service.logic;
 import java.util.Map;
 
 import org.qedeq.kernel.bo.common.PluginExecutor;
+import org.qedeq.kernel.bo.logic.ProofCheckerFactoryImpl;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginBoImpl;
 
 
 /**
@@ -27,7 +28,7 @@ import org.qedeq.kernel.bo.module.PluginBo;
  *
  * @author  Michael Meyling
  */
-public final class FormalProofCheckerPlugin implements PluginBo {
+public final class FormalProofCheckerPlugin extends PluginBoImpl {
 
     /** This class. */
     private static final Class CLASS = FormalProofCheckerPlugin.class;
@@ -46,6 +47,10 @@ public final class FormalProofCheckerPlugin implements PluginBo {
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
         return new FormalProofCheckerExecutor(this, qedeq, parameters);
+    }
+
+    public void setDefaultValuesForEmptyPluginParameters(final Map parameters) {
+        setDefault(parameters, "checkerFactory", ProofCheckerFactoryImpl.class.getName());
     }
 
 }

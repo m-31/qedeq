@@ -74,8 +74,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             final Map parameters) {
         super(plugin, qedeq);
         final String method = "DynamicHeuristicChecker(PluginBo, QedeqBo, Map)";
-        final String modelClass
-            = (parameters != null ? (String) parameters.get("model") : null);
+        final String modelClass = (String) parameters.get("model");
         DynamicModel model = null;
         if (modelClass != null && modelClass.length() > 0) {
             try {
@@ -322,7 +321,6 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
 
     public void visitEnter(final FunctionDefinition definition)
             throws ModuleDataException {
-        final String method = "visitEnter(FunctionDefinition)";
         if (definition == null) {
             return;
         }

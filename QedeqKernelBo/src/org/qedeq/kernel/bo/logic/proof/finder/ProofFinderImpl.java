@@ -111,9 +111,9 @@ public class ProofFinderImpl implements ProofFinder {
         this.log = log;
         this.trans = trans;
         substitutionMethods = new TreeSet();
-        extraVars = getInt("extraVars", 1);
-        maxProofLines = getInt("maximumProofLines", Integer.MAX_VALUE - 2);
-        skipFormulas = getString("skipFormulas", "").trim();
+        extraVars = getInt("extraVars");
+        maxProofLines = getInt("maximumProofLines");
+        skipFormulas = getString("skipFormulas").trim();
         if (skipFormulas.length() > 0) {
             log.logMessage("skipping the following formula numbers: " + skipFormulas);
             skipFormulas = "," + StringUtility.replace(skipFormulas, " ", "") + ",";
@@ -121,63 +121,63 @@ public class ProofFinderImpl implements ProofFinder {
         // TODO 20110606 m31: check that we have the correct format (e.g. only "," as separator)
         System.out.println("maximumProofLines = " + maxProofLines);
         int weight = 0;
-        weight = getInt("propositionVariableWeight", 3);
+        weight = getInt("propositionVariableWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("propositionVariableOrder", 1)) {
+            substitutionMethods.add(new SubstituteBase(weight, getInt("propositionVariableOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteByPropositionVariables(i);
                 }
             });
         }
-        weight = getInt("partFormulaWeight", 1);
+        weight = getInt("partFormulaWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("partFormulaOrder", 2)) {
+            substitutionMethods.add(new SubstituteBase(weight, getInt("partFormulaOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substitutePartGoalFormulas(i);
                 }
             });
         }
-        weight = getInt("disjunctionWeight", 3);
+        weight = getInt("disjunctionWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("disjunctionOrder", 3)) {
+            substitutionMethods.add(new SubstituteBase(weight, getInt("disjunctionOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteDisjunction(i);
                 }
             });
         }
-        weight = getInt("implicationWeight", 1);
+        weight = getInt("implicationWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("implicationOrder", 4)) {
+            substitutionMethods.add(new SubstituteBase(weight, getInt("implicationOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteImplication(i);
                 }
             });
         }
-        weight = getInt("negationWeight", 1);
+        weight = getInt("negationWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("negationOrder", 5)) {
+            substitutionMethods.add(new SubstituteBase(weight, getInt("negationOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteNegation(i);
                 }
             });
         }
-        weight = getInt("conjunctionWeight", 1);
+        weight = getInt("conjunctionWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("conjunctionOrder", 6)) {
+            substitutionMethods.add(new SubstituteBase(weight, getInt("conjunctionOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteConjunction(i);
                 }
             });
         }
-        weight = getInt("equivalenceWeight", 1);
+        weight = getInt("equivalenceWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("equivalenceOrder", 7)) {
+            substitutionMethods.add(new SubstituteBase(weight, getInt("equivalenceOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteEquivalence(i);
                 }
             });
         }
-        logFrequence = getInt("logFrequence", 1000);
+        logFrequence = getInt("logFrequence");
 
         lines = new ArrayList();
         reasons = new ArrayList();
@@ -243,25 +243,24 @@ public class ProofFinderImpl implements ProofFinder {
         }
     }
 
-    private int getInt(final String key, final int std) {
-        int result = std;
-        if (parameters != null) {
+    private int getInt(final String key) {
+        int result = 0;
+        try {
             final String string = (String) parameters.get(key);
-            try {
-                result = Integer.parseInt(string);
-            } catch (RuntimeException e) {
-            }
+            result = Integer.parseInt(string);
+        } catch (RuntimeException e) {
         }
         return result;
     }
 
-    private String getString(final String key, final String std) {
-        String result = std;
-        if (parameters != null) {
+    private String getString(final String key) {
+        String result = "";
+        try {
             final String string = (String) parameters.get(key);
             if (string != null) {
                 result = string;
             }
+        } catch (RuntimeException e) {
         }
         return result;
     }

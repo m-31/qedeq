@@ -18,8 +18,9 @@ package org.qedeq.kernel.bo.service.heuristic;
 import java.util.Map;
 
 import org.qedeq.kernel.bo.common.PluginExecutor;
+import org.qedeq.kernel.bo.logic.model.FourDynamicModel;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBo;
+import org.qedeq.kernel.bo.module.PluginBoImpl;
 
 
 /**
@@ -27,7 +28,7 @@ import org.qedeq.kernel.bo.module.PluginBo;
  *
  * @author  Michael Meyling
  */
-public class DynamicHeuristicCheckerPlugin implements PluginBo {
+public class DynamicHeuristicCheckerPlugin extends PluginBoImpl {
 
     /** This class. */
     public static final Class CLASS = DynamicHeuristicCheckerPlugin.class;
@@ -53,6 +54,10 @@ public class DynamicHeuristicCheckerPlugin implements PluginBo {
 
     public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
         return new DynamicHeuristicCheckerExecutor(this, qedeq, parameters);
+    }
+
+    public void setDefaultValuesForEmptyPluginParameters(final Map parameters) {
+        setDefault(parameters, "model", FourDynamicModel.class.getName());
     }
 
 

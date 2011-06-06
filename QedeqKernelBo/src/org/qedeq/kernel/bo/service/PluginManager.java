@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.qedeq.base.trace.Trace;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -120,12 +121,10 @@ public class PluginManager {
      *
      * @param   id          Plugin to use.
      * @param   qedeq       QEDEQ module to work on.
-     * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
      * @return  Plugin specific resulting object. Might be <code>null</code>.
      * @throws  RuntimeException    Plugin unknown, or execution had a major problem.
      */
-    Object executePlugin(final String id, final KernelQedeqBo qedeq,
-            final Map parameters) {
+    Object executePlugin(final String id, final KernelQedeqBo qedeq) {
         final PluginBo plugin = (PluginBo) id2plugin.get(id);
         if (plugin == null) {
             final String message = "Kernel does not know about plugin: ";
@@ -134,17 +133,14 @@ public class PluginManager {
                 e);
             throw e;
         }
-        Map para = parameters;
-        if (parameters == null) {
-            para = new HashMap();
-        }
+        final Map parameters = KernelContext.getInstance().getConfig().getPluginEntries(plugin);
         final ServiceProcess process = processManager.createProcess(plugin,
-            qedeq, para);
+            qedeq, parameters);
         process.setBlocked(true);
         synchronized (qedeq) {
             process.setBlocked(false);
             try {
-                final PluginExecutor exe = plugin.createExecutor(qedeq, para);
+                final PluginExecutor exe = plugin.createExecutor(qedeq, parameters);
                 process.setExecutor(exe);
                 final Object result = exe.executePlugin();
                 process.setSuccessState();

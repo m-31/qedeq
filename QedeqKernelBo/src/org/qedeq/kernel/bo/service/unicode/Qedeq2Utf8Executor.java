@@ -71,25 +71,14 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
      * @param   parameters  Plugin parameter.
      */
     public Qedeq2Utf8Executor(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
-        String infoString = null;
-        String maxColumnsString = "0";
-        if (parameters != null) {
-            infoString = (String) parameters.get("info");
-            if (infoString == null) {
-                infoString = "false";
-            }
-            maxColumnsString = (String) parameters.get("maximumColumn");
-            if (maxColumnsString == null || maxColumnsString.length() == 0) {
-                maxColumnsString = "80";
-            }
-        }
-        boolean info = "true".equalsIgnoreCase(infoString);
-        maxColumns = 0;
+        boolean info = "true".equalsIgnoreCase((String) parameters.get("info"));
+        maxColumns = 80;
         try {
-            maxColumns = Integer.parseInt(maxColumnsString.trim());
+            maxColumns = Integer.parseInt((String) parameters.get("maximumColumn"));
         } catch (RuntimeException e) {
             // ignore
         }
+        maxColumns = Math.max(10, maxColumns);
         visitor = new Qedeq2UnicodeVisitor(plugin, prop, info , maxColumns, true);
     }
 

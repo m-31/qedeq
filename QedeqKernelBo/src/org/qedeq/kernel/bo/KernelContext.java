@@ -21,7 +21,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.nio.channels.FileLock;
-import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
@@ -187,8 +186,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
-        public Object executePlugin(final String pluginName, final ModuleAddress address,
-                final Map parameters) {
+        public Object executePlugin(final String pluginName, final ModuleAddress address) {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
@@ -279,8 +277,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             return services.getPlugins();
         }
 
-        public Object executePlugin(final String pluginName, final ModuleAddress address,
-                final Map parameters) {
+        public Object executePlugin(final String pluginName, final ModuleAddress address) {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -379,9 +376,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
             return services.getPlugins();
         }
 
-        public Object executePlugin(final String pluginName, final ModuleAddress address,
-                final Map parameters) {
-            return services.executePlugin(pluginName, address, parameters);
+        public Object executePlugin(final String pluginName, final ModuleAddress address) {
+            return services.executePlugin(pluginName, address);
         }
 
         public void clearAllPluginResults(final ModuleAddress address) {
@@ -589,9 +585,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
         return currentState.getPlugins();
     }
 
-    public Object executePlugin(final String pluginName, final ModuleAddress address,
-            final Map parameters) {
-        return currentState.executePlugin(pluginName, address, parameters);
+    public Object executePlugin(final String pluginName, final ModuleAddress address) {
+        return currentState.executePlugin(pluginName, address);
     }
 
     public void clearAllPluginResults(final ModuleAddress address) {

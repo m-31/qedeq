@@ -32,10 +32,21 @@ public interface PluginBo extends Plugin {
      * Create execution instance for this plugin.
      *
      * @param   qedeq       QEDEQ module to work on.
-     * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
+     * @param   parameters  Plugin specific parameters. Might not be <code>null</code>.
      * @return  Instance to execute the plugin.
      */
     public PluginExecutor createExecutor(KernelQedeqBo qedeq, Map parameters);
+
+    // FIXME 20110605 m31: set default plugin values for not existing values
+    // this method should be called from PluginPreferences or PluginManager during
+    // plugin registration otherwise we have the default definition in GUI and PluginExecutor
+    // that is not very wise
+    /**
+     * Set default configuration parameters.
+     *
+     * @param   parameters  Plugin specific parameters. Might be <code>null</code>.
+     */
+    public void setDefaultValuesForEmptyPluginParameters(Map parameters);
 
 
 }

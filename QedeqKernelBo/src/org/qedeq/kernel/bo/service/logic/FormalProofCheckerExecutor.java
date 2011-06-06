@@ -84,8 +84,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         super(plugin, qedeq);
         final String method = "FormalProofCheckerExecutor(Plugin, KernelQedeqBo, Map)";
         this.parameters = parameters;
-        final String checkerFactoryClass
-            = (parameters != null ? (String) parameters.get("checkerFactory") : null);
+        final String checkerFactoryClass = (String) parameters.get("checkerFactory");
         if (checkerFactoryClass != null && checkerFactoryClass.length() > 0) {
             try {
                 Class cl = Class.forName(checkerFactoryClass);
