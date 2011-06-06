@@ -24,6 +24,10 @@ import org.qedeq.base.trace.Trace;
 /**
  * This class organizes the logging.
  *
+ * TODO 20110606 m31: this class is a singleton but it would be better if it is not
+ *                    to accomplish this we must put a getLogInstance method in all
+ *                    important BO classes.
+ *
  * @author  Michael Meyling
  */
 public final class QedeqLog implements LogListener {
