@@ -25,7 +25,6 @@ import org.qedeq.kernel.se.config.QedeqConfig;
 /**
  * This class gives a type save access to the GUI properties of the application.
  *
- * @version $Revision: 1.4 $
  * @author  Michael Meyling
  */
 public final class QedeqGuiConfig extends QedeqConfig {

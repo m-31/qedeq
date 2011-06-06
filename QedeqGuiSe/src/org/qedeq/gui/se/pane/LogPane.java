@@ -17,6 +17,7 @@ package org.qedeq.gui.se.pane;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
@@ -83,6 +84,8 @@ public class LogPane extends JPanel implements LogListener {
         textPane.setCaretPosition(0);
         textPane.setEditable(false);
         textPane.getCaret().setVisible(false);
+        textPane.setFont(new Font("Lucida Sans Unicode", Font.PLAIN,
+            textPane.getFont().getSize()));
 //      final DefaultCaret caret = (DefaultCaret) text.getCaret();
 //      caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);  // LATER mime JRE 1.5
         textPane.setFocusable(true);

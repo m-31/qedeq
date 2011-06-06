@@ -156,6 +156,12 @@ public class PluginPreferencesDialog extends JDialog {
     /** Text field for number for weight of substitution. */
     private JTextField proofFinderEquivalenceWeightTF;
 
+    /** Text field for number of new proof lines before a new log entry. */
+    private JTextField proofFinderLogFrequenceTF;
+
+    /** Text field for sequence of formula numbers we want to skip. */
+    private JTextField proofFinderSkipFormulasTF;
+
     /**
      * Creates new Panel.
      *
@@ -477,6 +483,22 @@ public class PluginPreferencesDialog extends JDialog {
         builder.append(proofFinderMaximumProofLengthTF);
         builder.nextLine();
 
+        builder.append("Log frequence");
+        proofFinderLogFrequenceTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+            plugin, "logFrequence", 1000));
+        proofFinderLogFrequenceTF.setToolTipText("After this number of new proof lines we"
+            + " create a logging output.");
+        builder.append(proofFinderLogFrequenceTF);
+        builder.nextLine();
+
+        builder.append("Skip formulas");
+        proofFinderSkipFormulasTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+            plugin, "skipFormulas", ""));
+        proofFinderSkipFormulasTF.setToolTipText("Skip these list of formula numbers (see log output)."
+            + " This a comma separated list of numbers.");
+        builder.append(proofFinderSkipFormulasTF);
+        builder.nextLine();
+
         proofFinderExtraVarsTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
             plugin, "extraVars", 1));
         builder.append("Extra proposition variables");
@@ -635,6 +657,10 @@ public class PluginPreferencesDialog extends JDialog {
                 final Plugin plugin = proofFinder;
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "maximumProofLines",
                     proofFinderMaximumProofLengthTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "logFrequence",
+                        proofFinderLogFrequenceTF.getText());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "skipFormulas",
+                        proofFinderSkipFormulasTF.getText());
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "extraVars",
                         proofFinderExtraVarsTF.getText());
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "propositionVariableOrder",
