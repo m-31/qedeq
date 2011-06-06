@@ -251,7 +251,12 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
         assertEquals("ho.xml", DefaultModuleAddress.createRelativeAddress("http://hi/tic.xml", "http://hi/ho.xml"));
         assertEquals("http://gu/hi/ho.xml", DefaultModuleAddress.createRelativeAddress("http://go/hi/tic.xml", "http://gu/hi/ho.xml"));
         assertEquals("../ho.xml", DefaultModuleAddress.createRelativeAddress("http://go/hi/tic.xml", "http://go/ho.xml"));
-        // FIXME 20110227 m31: should work also for this:
-        // assertEquals("./ho", DefaultModuleAddress.createRelativeAddress("hi/ti", "hi/ho"));
+        
     }
+
+    // FIXME 20110227 m31: should work also for this:
+    public void pestCreateRelativeAddress2() {
+        assertEquals("./ho", DefaultModuleAddress.createRelativeAddress("hi/ti", "hi/ho"));
+    }
+
 }
