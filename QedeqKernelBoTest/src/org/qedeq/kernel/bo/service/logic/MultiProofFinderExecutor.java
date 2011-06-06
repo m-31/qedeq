@@ -149,7 +149,8 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
             traverse();
             finder = new MultiProofFinderImpl();
             result = finder.findProof(
-                    (ElementList) goalFormulas.copy(), validFormulas, this, getCurrentContext());
+                (ElementList) goalFormulas.copy(), validFormulas, this, getCurrentContext(),
+                QedeqLog.getInstance(), getQedeqBo().getElement2Utf8());
             QedeqLog.getInstance().logSuccessfulReply(
                     "Proof creation finished for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
         } catch (SourceFileExceptionList e) {

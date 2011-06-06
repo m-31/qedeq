@@ -17,6 +17,8 @@ package org.qedeq.kernel.bo.logic.common;
 
 import java.util.Map;
 
+import org.qedeq.kernel.bo.log.LogListener;
+import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -36,12 +38,14 @@ public interface ProofFinder {
      * @param   proof               Initial proof lines containing only "Add" lines.
      * @param   context             We are in this context.
      * @param   parameters          Further parameters to tune search process.
+     * @param   log                 Log progress.
+     * @param   transform           Transformer for getting UTF-8 out of elements.
      * @throws  InterruptException  Proof finding was interrupted.
-     * @return  Created formal proof. <code>null</code> if we did not find one. TODO remove line!
      * @throws  ProofException      Finding result.
      */
-    public FormalProofLineList findProof(Element formula, FormalProofLineList proof,
-            ModuleContext context, Map parameters) throws InterruptException, ProofException;
+    public void findProof(Element formula, FormalProofLineList proof,
+            ModuleContext context, Map parameters, LogListener log, Element2Utf8 transform)
+            throws InterruptException, ProofException;
 
     /**
      * Get a description which action is currently taken.

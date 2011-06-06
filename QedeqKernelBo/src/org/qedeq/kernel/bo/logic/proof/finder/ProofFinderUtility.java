@@ -18,6 +18,8 @@ package org.qedeq.kernel.bo.logic.proof.finder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.qedeq.kernel.bo.log.LogListener;
+import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.service.Element2LatexImpl;
 import org.qedeq.kernel.bo.service.Element2Utf8Impl;
@@ -56,13 +58,17 @@ public final class ProofFinderUtility {
      *
      * @param   lines   Lines of formulas.
      * @param   reasons Reasons for derivation of formula. Must be Add, MP or SubstPred.
+     * @param   log     For BO logging.
+     * @param   trans   Transformer (used for logging).
      * @return  Reduced formal proof.
      */
-    public static FormalProofLineList shortenProof(final List lines, final List reasons) {
-        return (new ProofFinderUtility()).shorten(lines, reasons);
+    public static FormalProofLineList shortenProof(final List lines, final List reasons,
+            final LogListener log, final Element2Utf8 trans) {
+        return (new ProofFinderUtility()).shorten(lines, reasons, log, trans);
     }
 
-    private FormalProofLineList shorten(final List lines, final List reasons) {
+    private FormalProofLineList shorten(final List lines, final List reasons,
+            final LogListener log, final Element2Utf8 trans) {
         final boolean[] used = new boolean[lines.size()];
         int n = lines.size() - 1;
         used[n] = true;
@@ -86,7 +92,7 @@ public final class ProofFinderUtility {
         }
         for (int j = 0; j < lines.size(); j++) {
             if (used[j]) {
-                printUtf8Line(lines, reasons, j);
+                log.logMessage(getUtf8Line(lines, reasons, j, trans));
             }
         }
         new2Old = new ArrayList();
@@ -176,13 +182,31 @@ public final class ProofFinderUtility {
      * @param   lines       Proof line formulas.
      * @param   reasons     Proof line reasons.
      * @param   i           Proof line to print.
+     * @param   trans       Transformer to get UTF-8 out of a formula.
      * @return  UTF-8 display text for proof line.
      */
-    public static String getUtf8Line(final List lines, final List reasons, final int i) {
+    public static String getUtf8Line(final List lines, final List reasons, final int i,
+            final Element2Utf8 trans) {
         final StringBuffer result = new StringBuffer();
-        result.append(i + ": ");
+        result.append((i + 1) + ": ");
         Reason reason = (Reason) reasons.get(i);
         Element formula = (Element) lines.get(i);
+        return getUtf8Line(formula, reason, i, trans);
+    }
+
+    /**
+     * Get UTF-8 representation of proof line.
+     *
+     * @param   formula     Proof line formula.
+     * @param   reason      Proof line reason.
+     * @param   i           Proof line number.
+     * @param   trans       Transformer to get UTF-8 out of a formula.
+     * @return  UTF-8 display text for proof line.
+     */
+    public static String getUtf8Line(final Element formula, final Reason reason, final int i,
+            final Element2Utf8 trans) {
+        final StringBuffer result = new StringBuffer();
+        result.append((i + 1) + ": ");
         result.append(ProofFinderUtility.getUtf8(formula));
         result.append("  : ");
         if (reason instanceof SubstPred) {
@@ -195,17 +219,6 @@ public final class ProofFinderUtility {
             result.append(reason);
         }
         return result.toString();
-    }
-
-    /**
-     * Print UTF-8 representation of proof line to <code>System.out</code>.
-     *
-     * @param   lines       Proof line formulas.
-     * @param   reasons     Proof line reasons.
-     * @param   i           Proof line to print.
-     */
-    public static void printUtf8Line(final List lines, final List reasons, final int i) {
-        System.out.println(getUtf8Line(lines, reasons, i));
     }
 
 }

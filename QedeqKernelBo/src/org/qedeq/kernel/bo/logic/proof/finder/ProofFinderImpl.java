@@ -22,12 +22,15 @@ import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.log.LogListener;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ProofException;
 import org.qedeq.kernel.bo.logic.common.ProofFinder;
 import org.qedeq.kernel.bo.logic.common.ProofFoundException;
 import org.qedeq.kernel.bo.logic.common.ProofNotFoundException;
+import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -45,7 +48,7 @@ import org.qedeq.kernel.se.visitor.InterruptException;
  *
  * @author  Michael Meyling
  */
-public class ProofFinderImpl2 implements ProofFinder {
+public class ProofFinderImpl implements ProofFinder {
 
     /** Search parameters. */
     private Map parameters;
@@ -71,6 +74,12 @@ public class ProofFinderImpl2 implements ProofFinder {
     /** Number of extra propositional variables. */
     private int extraVars;
 
+    /** Skip this number list of formulas. */
+    private String skipFormulas;
+
+    /** Log proof line after this number of new proof lines. */
+    private int logFrequence;
+
     /** Ordered substitution methods that implement {@link Substitute}. */
     private SortedSet substitutionMethods;
 
@@ -80,21 +89,36 @@ public class ProofFinderImpl2 implements ProofFinder {
     /** Here are we. */
     private ModuleContext context;
 
+    /** Log progress herein. */
+    private LogListener log;
+
+    /** Transformer to get UTF-8 out of formulas. */
+    private Element2Utf8 trans;
+
     /**
      * Constructor.
      */
-    public ProofFinderImpl2() {
+    public ProofFinderImpl() {
     }
 
-    public FormalProofLineList findProof(final Element formula,
+    public void findProof(final Element formula,
             final FormalProofLineList proof, final ModuleContext context,
-            final Map parameters) throws ProofException, InterruptException {
+            final Map parameters, final LogListener log, final Element2Utf8 trans)
+            throws ProofException, InterruptException {
         this.goalFormula = formula;
         this.parameters = parameters;
-        this.context = new ModuleContext(context);
+        this.context = new ModuleContext(context);  // use copy constructor to fix it
+        this.log = log;
+        this.trans = trans;
         substitutionMethods = new TreeSet();
         extraVars = getInt("extraVars", 1);
         maxProofLines = getInt("maximumProofLines", Integer.MAX_VALUE - 2);
+        skipFormulas = getString("skipFormulas", "").trim();
+        if (skipFormulas.length() > 0) {
+            log.logMessage("skipping the following formula numbers: " + skipFormulas);
+            skipFormulas = "," + StringUtility.replace(skipFormulas, " ", "") + ",";
+        }
+        // TODO 20110606 m31: check that we have the correct format (e.g. only "," as separator)
         System.out.println("maximumProofLines = " + maxProofLines);
         int weight = 0;
         weight = getInt("propositionVariableWeight", 3);
@@ -153,17 +177,13 @@ public class ProofFinderImpl2 implements ProofFinder {
                 }
             });
         }
+        logFrequence = getInt("logFrequence", 1000);
 
         lines = new ArrayList();
         reasons = new ArrayList();
         setAllPredVars(proof);
         partGoalFormulas = FormulaUtility.getPartFormulas(goalFormula);
-        System.out.println(partGoalFormulas);
-        for (int i = 0; i < lines.size(); i++) {
-            ProofFinderUtility.printUtf8Line(lines, reasons, i);
-        }
-        System.out.println("Goal: ");
-        ProofFinderUtility.println(formula);
+        log.logMessage("our goal: " + trans.getUtf8(formula));
         while (true) {
             // check if the thread should be
             if (Thread.interrupted()) {
@@ -186,17 +206,24 @@ public class ProofFinderImpl2 implements ProofFinder {
     }
 
     private void setAllPredVars(final FormalProofLineList proof) {
+        log.logMessage("using the following formulas:");
         allPredVars = new ElementSet();
         // add all "add" proof formulas to our proof line list
         for (int i = 0; i < proof.size(); i++) {
-            final Reason r = proof.get(i).getReason();
-            if (!(r instanceof Add)) {
+            // should we skip this formula
+            if (skipFormulas.indexOf("," + (i + 1) + ",") >= 0) {
                 continue;
             }
-            lines.add(proof.get(i).getFormula().getElement());
-            reasons.add(r);
+            final Reason reason = proof.get(i).getReason();
+            if (!(reason instanceof Add)) {
+                continue;
+            }
+            final Element formula = proof.get(i).getFormula().getElement();
+            lines.add(formula);
+            reasons.add(reason);
+            log.logMessage(ProofFinderUtility.getUtf8Line(formula, reason, i, trans));
             allPredVars.union(FormulaUtility.getPropositionVariables(
-                proof.get(i).getFormula().getElement()));
+                formula));
         }
         String max = "A";
         final Iterator iter = allPredVars.iterator();
@@ -219,10 +246,21 @@ public class ProofFinderImpl2 implements ProofFinder {
     private int getInt(final String key, final int std) {
         int result = std;
         if (parameters != null) {
-            final String extraVarsString = (String) parameters.get(key);
+            final String string = (String) parameters.get(key);
             try {
-                result = Integer.parseInt(extraVarsString);
+                result = Integer.parseInt(string);
             } catch (RuntimeException e) {
+            }
+        }
+        return result;
+    }
+
+    private String getString(final String key, final String std) {
+        String result = std;
+        if (parameters != null) {
+            final String string = (String) parameters.get(key);
+            if (string != null) {
+                result = string;
             }
         }
         return result;
@@ -428,26 +466,31 @@ public class ProofFinderImpl2 implements ProofFinder {
 //            printLine(lines.size() - 1);
             if (goalFormula.equals(formula)) {
                 final int size = lines.size();
-                System.out.println("proof found. lines: " + size);
+                log.logMessage(FinderErrors.PROOF_FOUND_TEXT + size);
                 throw new ProofFoundException(FinderErrors.PROOF_FOUND_CODE,
                     FinderErrors.PROOF_FOUND_TEXT + size,
-                    ProofFinderUtility.shortenProof(lines, reasons), context);
+                    ProofFinderUtility.shortenProof(lines, reasons, log, trans), context);
             }
             // did we reach our maximum?
             if (lines.size() >= maxProofLines) {
                 final int size = lines.size();
-                ProofFinderUtility.printUtf8Line(lines, reasons, lines.size() - 1);
+                if (logFrequence > 0) {
+                    log.logMessage(ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1,
+                        trans));
+                }
+                log.logMessage(FinderErrors.PROOF_NOT_FOUND_TEXT + size);
                 throw new ProofNotFoundException(FinderErrors.PROOF_NOT_FOUND_CODE,
                     FinderErrors.PROOF_NOT_FOUND_TEXT + size, context);
             }
-            if ((lines.size() - 1) % 1000 == 0) {
-                ProofFinderUtility.printUtf8Line(lines, reasons, lines.size() - 1);
+            if (logFrequence > 0 && (lines.size() - 1) % logFrequence == 0) {
+                log.logMessage(ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1,
+                        trans));
             }
         }
     }
 
     public String getExecutionActionDescription() {
-        return ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1);
+        return ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1, trans);
     }
 
     /**

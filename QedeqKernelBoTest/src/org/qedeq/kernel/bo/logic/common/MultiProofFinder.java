@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.bo.logic.common;
 
+import org.qedeq.kernel.bo.log.LogListener;
+import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -34,11 +36,14 @@ public interface MultiProofFinder {
      * @param   proof       Initial proof lines containing only "Add" lines.
      * @param   listener    Proof found listener.
      * @param   context             We are in this context.
+     * @param   log                 Log progress.
+     * @param   transform           Transformer for getting UTF-8 out of elements.
      * @throws  InterruptException  Proof finding was interrupted.
      * @return  Did we found any proof at all?
      */
     public boolean findProof(ElementList formulas, FormalProofLineList proof,
-        ProofFoundListener listener, ModuleContext context) throws InterruptException;
+        ProofFoundListener listener, ModuleContext context, LogListener log,
+        Element2Utf8 trans) throws InterruptException;
 
     /**
      * Get a description which action is currently taken.

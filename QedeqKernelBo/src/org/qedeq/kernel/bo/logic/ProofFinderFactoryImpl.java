@@ -17,7 +17,7 @@ package org.qedeq.kernel.bo.logic;
 
 import org.qedeq.kernel.bo.logic.common.ProofFinder;
 import org.qedeq.kernel.bo.logic.common.ProofFinderFactory;
-import org.qedeq.kernel.bo.logic.proof.finder.ProofFinderImpl2;
+import org.qedeq.kernel.bo.logic.proof.finder.ProofFinderImpl;
 
 
 
@@ -29,7 +29,7 @@ import org.qedeq.kernel.bo.logic.proof.finder.ProofFinderImpl2;
 public class ProofFinderFactoryImpl implements ProofFinderFactory {
 
     public ProofFinder createProofFinder() {
-        return new ProofFinderImpl2();
+        return new ProofFinderImpl();
     }
 
 }

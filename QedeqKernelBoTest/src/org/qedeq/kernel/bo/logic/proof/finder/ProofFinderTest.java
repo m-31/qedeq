@@ -15,10 +15,14 @@
 package org.qedeq.kernel.bo.logic.proof.finder;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.common.QedeqBo;
+import org.qedeq.kernel.bo.log.LogListenerImpl;
+import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.common.ProofFinder;
+import org.qedeq.kernel.bo.logic.common.ProofFoundException;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -50,28 +54,41 @@ public class ProofFinderTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testFind() throws Exception {
-//        if (slow()) {
-//            final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
-//                "sample/qedeq_sample3.xml"));
-//            KernelContext.getInstance().checkModule(address);
-//            final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
-//            assertTrue(bo.isChecked());
-//            assertNotNull(bo.getWarnings());
-//            assertEquals(0, bo.getWarnings().size());
-//            assertEquals(0, bo.getErrors().size());
-//            final KernelQedeqBo q = (KernelQedeqBo) bo;
-//            final KernelNodeBo node = q.getLabels().getNode("proposition:one");
-//            final Proposition prop = node.getNodeVo().getNodeType().getProposition();
-//            final ProofFinder finder = new ProofFinderImpl();
-//            final FormalProofLineList original = prop.getFormalProofList().get(0)
-//                .getFormalProofLineList();
-//            final FormalProofLineListVo list = new FormalProofLineListVo();
-//            for (int i = 0; i < 4; i++) {
-//                list.add(original.get(i));
-//            }
-//            assertNotNull(finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-//                new DefaultModuleAddress()), null));
-//        }
+        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+            "sample/qedeq_sample3.xml"));
+        KernelContext.getInstance().checkModule(address);
+        final KernelQedeqBo bo = (KernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
+        assertTrue(bo.isChecked());
+        assertNotNull(bo.getWarnings());
+        assertEquals(0, bo.getWarnings().size());
+        assertEquals(0, bo.getErrors().size());
+        final KernelNodeBo node = bo.getLabels().getNode("proposition:one");
+        final Proposition prop = node.getNodeVo().getNodeType().getProposition();
+        final ProofFinder finder = new ProofFinderImpl();
+        final FormalProofLineList original = prop.getFormalProofList().get(0)
+            .getFormalProofLineList();
+        final FormalProofLineListVo list = new FormalProofLineListVo();
+        for (int i = 0; i < 4; i++) {
+            list.add(original.get(i));
+        }
+        final Map parameters = new HashMap();
+        parameters.put("extraVars", "0");
+        parameters.put("propositionVariableOrder", "2");
+        parameters.put("propositionVariableWeight", "3");
+        parameters.put("partFormulaWeight", "0");
+        parameters.put("disjunctionOrder", "1");
+        parameters.put("disjunctionWeight", "3");
+        parameters.put("implicationWeight", "0");
+        parameters.put("negationWeight", "0");
+        parameters.put("conjunctionWeight", "0");
+        parameters.put("equivalenceWeight", "0");
+        try {
+            finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
+            new DefaultModuleAddress()), parameters, new LogListenerImpl(), bo.getElement2Utf8());
+            fail("no proof found");
+        } catch (ProofFoundException e) {
+            assertNotNull(e.getProofLines());
+        }
     }
 
     /**
@@ -80,28 +97,42 @@ public class ProofFinderTest extends QedeqBoTestCase {
      * @throws Exception
      */
     public void testFind2() throws Exception {
-//        if (slow()) {
-//            final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
-//                "sample/qedeq_sample3.xml"));
-//            KernelContext.getInstance().checkModule(address);
-//            final QedeqBo bo = KernelContext.getInstance().getQedeqBo(address);
-//            assertTrue(bo.isChecked());
-//            assertNotNull(bo.getWarnings());
-//            assertEquals(0, bo.getWarnings().size());
-//            assertEquals(0, bo.getErrors().size());
-//            final KernelQedeqBo q = (KernelQedeqBo) bo;
-//            final KernelNodeBo node = q.getLabels().getNode("proposition:two");
-//            final Proposition prop = node.getNodeVo().getNodeType().getProposition();
-//            final ProofFinder finder = new ProofFinderImpl();
-//            final FormalProofLineList original = prop.getFormalProofList().get(0)
-//                .getFormalProofLineList();
-//            final FormalProofLineListVo list = new FormalProofLineListVo();
-//            for (int i = 0; i < 3; i++) {
-//                list.add(original.get(i));
-//            }
-//            assertNotNull(finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-//                new DefaultModuleAddress()), null));
-//        }
+        final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
+            "sample/qedeq_sample3.xml"));
+        KernelContext.getInstance().checkModule(address);
+        final KernelQedeqBo bo = (KernelQedeqBo) KernelContext.getInstance().getQedeqBo(address);
+        assertTrue(bo.isChecked());
+        assertNotNull(bo.getWarnings());
+        assertEquals(0, bo.getWarnings().size());
+        assertEquals(0, bo.getErrors().size());
+        final KernelNodeBo node = bo.getLabels().getNode("proposition:two");
+        final Proposition prop = node.getNodeVo().getNodeType().getProposition();
+        final ProofFinder finder = new ProofFinderImpl();
+        final FormalProofLineList original = prop.getFormalProofList().get(0)
+            .getFormalProofLineList();
+        final FormalProofLineListVo list = new FormalProofLineListVo();
+        for (int i = 0; i < 3; i++) {
+            list.add(original.get(i));
+        }
+        final Map parameters = new HashMap();
+        parameters.put("extraVars", "0");
+        parameters.put("propositionVariableOrder", "2");
+        parameters.put("propositionVariableWeight", "3");
+        parameters.put("partFormulaWeight", "0");
+        parameters.put("disjunctionOrder", "1");
+        parameters.put("disjunctionWeight", "3");
+        parameters.put("implicationWeight", "0");
+        parameters.put("negationWeight", "0");
+        parameters.put("conjunctionWeight", "0");
+        parameters.put("equivalenceWeight", "0");
+        try {
+            finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
+                new DefaultModuleAddress()), parameters, QedeqLog.getInstance(),
+                bo.getElement2Utf8());
+            fail("no proof found");
+        } catch (ProofFoundException e) {
+            assertNotNull(e.getProofLines());
+        }
     }
 
 }

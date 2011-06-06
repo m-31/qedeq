@@ -209,20 +209,17 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             return;
         }
         if (proposition.getFormalProofList() == null) {
-            QedeqLog.getInstance().logMessage("looking for proof of "
-                + super.getExecutionActionDescription());
-            final String utf8 = getQedeqBo().getElement2Utf8().getUtf8(proposition.getFormula()
-                .getElement());
-            QedeqLog.getInstance().logMessage(utf8);
             FormalProofLineList proof = null;
             // we try finding a proof
             try {
                 finder = finderFactory.createProofFinder();
-                proof = finder.findProof(proposition.getFormula().getElement(), validFormulas,
-                    getCurrentContext(), parameters);
+                finder.findProof(proposition.getFormula().getElement(), validFormulas,
+                    getCurrentContext(), parameters, QedeqLog.getInstance(),
+                    getQedeqBo().getElement2Utf8());
             } catch (ProofFoundException e) {
                 proof = e.getProofLines();
             } catch (ProofNotFoundException e) {
+                proof = null;
                 addWarning(e);
             } finally {
                 finder = null;  // so we always new if we are currently searching

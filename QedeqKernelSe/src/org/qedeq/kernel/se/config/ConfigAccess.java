@@ -37,7 +37,6 @@ import org.qedeq.base.io.IoUtility;
  * This class reads entries from property files. This class should not
  * be used outside this package.
  *
- * @version $Revision: 1.6 $
  * @author  Michael Meyling
  */
 final class ConfigAccess {

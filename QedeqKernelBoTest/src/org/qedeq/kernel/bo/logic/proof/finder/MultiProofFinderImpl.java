@@ -19,10 +19,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.qedeq.kernel.bo.log.LogListener;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.MultiProofFinder;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ProofFoundListener;
+import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -66,6 +68,12 @@ public class MultiProofFinderImpl implements MultiProofFinder {
     /** Listener to give informations about found proofs. */
     private ProofFoundListener listener;
 
+    /** Log progress herein. */
+    private LogListener log;
+
+    /** Transformer to get UTF-8 out of formulas. */
+    private Element2Utf8 trans;
+
     /**
      * Constructor.
      *
@@ -75,10 +83,13 @@ public class MultiProofFinderImpl implements MultiProofFinder {
 
     public boolean findProof(final ElementList formulas,
             final FormalProofLineList proof, final ProofFoundListener listener,
-            final ModuleContext context) throws InterruptException {
+            final ModuleContext context, final LogListener log, final Element2Utf8 trans) 
+    throws InterruptException {
         this.goalFormulas = formulas;
         this.proof = proof;
         this.listener = listener;
+        this.log = log;
+        this.trans = trans;
         mpLast = 0;
         substCall = 0;
         lines = new ArrayList();
@@ -100,7 +111,7 @@ public class MultiProofFinderImpl implements MultiProofFinder {
 //            allPredVars.add(FormulaUtility.createPredicateVariable("F"));
         }
         for (int i = 0; i < lines.size(); i++) {
-            ProofFinderUtility.printUtf8Line(lines, reasons, i);
+            log.logMessage(ProofFinderUtility.getUtf8Line(lines, reasons, i, trans));
         }
         int i = 0;
         while (lines.size() < Integer.MAX_VALUE - 1000) {
@@ -232,7 +243,7 @@ public class MultiProofFinderImpl implements MultiProofFinder {
             reasons.add(reason);
             for (int i = goalFormulas.size() - 1; i >= 0; i--) {
                 if (goalFormulas.getElement(i).equals(formula)) {
-                    listener.proofFound(formula, ProofFinderUtility.shortenProof(lines, reasons));
+                    listener.proofFound(formula, ProofFinderUtility.shortenProof(lines, reasons, log, trans));
                     goalFormulas.remove(i);
                     if (goalFormulas.size() == 0) {
                         throw new AllProvedException();
@@ -240,13 +251,13 @@ public class MultiProofFinderImpl implements MultiProofFinder {
                 }
             }
             if ((lines.size() - 1) % 1000 == 0) {
-                ProofFinderUtility.printUtf8Line(lines, reasons, lines.size() - 1);
+                log.logMessage(ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1, trans));
             }
         }
     }
 
     public String getExecutionActionDescription() {
-        return ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1);
+        return ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1, trans);
     }
 
 
