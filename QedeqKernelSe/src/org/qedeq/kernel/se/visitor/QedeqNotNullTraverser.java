@@ -902,10 +902,7 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         for (int i = 0; i < proofLineList.size(); i++) {
             setLocationWithinModule(context + ".get(" + i + ")");
             if (proofLineList.get(i) instanceof ConditionalProof) {
-// FIXME 20110517 m31: test other access:
                 accept((ConditionalProof) proofLineList.get(i));
-//                setLocationWithinModule(context + ".get(" + i + ")" + ".getReason().getConditionalProof()");
-//                accept(((ConditionalProof) proofLineList.get(i).getReason()).getConditionalProof());
             } else {
                 accept(proofLineList.get(i));
             }
