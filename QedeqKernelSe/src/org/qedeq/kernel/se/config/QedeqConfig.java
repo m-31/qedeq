@@ -17,6 +17,7 @@ package org.qedeq.kernel.se.config;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -493,6 +494,20 @@ public class QedeqConfig {
      */
     public void setPluginKeyValue(final Plugin plugin, final String key, final String value) {
         setKeyValue(plugin.getPluginId() + "$" + key, value);
+    }
+
+    /**
+     * Set value for given plugin key.
+     *
+     * @param   plugin      Setting for this plugin.
+     * @param   parameters  Parameters for this plugin.
+     */
+    public void setPluginKeyValues(final Plugin plugin, final Map parameters) {
+        final Iterator it = parameters.keySet().iterator();
+        while (it.hasNext()) {
+            final String key = (String) it.next();
+            setKeyValue(plugin.getPluginId() + "$" + key, (String) parameters.get(key));
+        }
     }
 
     /**

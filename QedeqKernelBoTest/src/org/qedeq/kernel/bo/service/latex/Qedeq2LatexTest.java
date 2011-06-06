@@ -15,7 +15,6 @@
 package org.qedeq.kernel.bo.service.latex;
 
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.test.KernelFacade;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.LogicalModuleState;
@@ -43,8 +42,8 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
      */
     public void testQ2L001_v1() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("latex/Q2L001.xml"));
-        final QedeqBo bo = KernelFacade.getKernelContext().getQedeqBo(address);
-        KernelFacade.getKernelContext().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
+        final QedeqBo bo = getServices().getQedeqBo(address);
+        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address);
         assertFalse(bo.getLoadingState().isFailure());
         assertEquals(LogicalModuleState.STATE_UNCHECKED, bo.getLogicalState());
         assertFalse(bo.hasErrors());
@@ -63,15 +62,15 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
      */
     public void testQ2L001_v2() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("latex/Q2L001.xml"));
-        KernelFacade.getKernelContext().checkModule(address);
-        final QedeqBo bo = KernelFacade.getKernelContext().getQedeqBo(address);
+        getServices().checkModule(address);
+        final QedeqBo bo = getServices().getQedeqBo(address);
         assertTrue(bo.getLogicalState().isFailure());
         assertFalse(bo.hasWarnings());
         assertNotNull(bo.getWarnings());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(1, bo.getErrors().size());
         assertEquals(11231, bo.getErrors().get(0).getErrorCode());
-        KernelFacade.getKernelContext().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
+        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address);
         assertTrue(bo.getLogicalState().isFailure());
         assertFalse(bo.hasWarnings());
         assertNotNull(bo.getWarnings());
@@ -88,8 +87,8 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
      */
     public void testQ2L002() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("latex/Q2L002.xml"));
-        KernelFacade.getKernelContext().checkModule(address);
-        final QedeqBo bo = KernelFacade.getKernelContext().getQedeqBo(address);
+        getServices().checkModule(address);
+        final QedeqBo bo = getServices().getQedeqBo(address);
         assertFalse(bo.getLogicalState().isFailure());
         assertFalse(bo.hasWarnings());
         assertNotNull(bo.getWarnings());
@@ -97,7 +96,7 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
         assertFalse(bo.hasErrors());
         assertNotNull(bo.getErrors());
         assertEquals(0, bo.getErrors().size());
-        KernelFacade.getKernelContext().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
+        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address);
         assertFalse(bo.getLogicalState().isFailure());
         assertFalse(bo.hasErrors());
         assertNotNull(bo.getErrors());
@@ -115,8 +114,8 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
      */
     public void testQ2L003() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(getFile("latex/Q2L003.xml"));
-        KernelFacade.getKernelContext().checkModule(address);
-        final QedeqBo bo = KernelFacade.getKernelContext().getQedeqBo(address);
+        getServices().checkModule(address);
+        final QedeqBo bo = getServices().getQedeqBo(address);
         assertFalse(bo.getLogicalState().isFailure());
         assertFalse(bo.hasWarnings());
         assertNotNull(bo.getWarnings());
@@ -124,7 +123,7 @@ public class Qedeq2LatexTest extends QedeqBoTestCase {
         assertFalse(bo.hasErrors());
         assertNotNull(bo.getErrors());
         assertEquals(0, bo.getErrors().size());
-        KernelFacade.getKernelContext().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address, null);
+        getServices().executePlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin", address);
         assertFalse(bo.getLogicalState().isFailure());
         assertFalse(bo.hasErrors());
         assertNotNull(bo.getErrors());

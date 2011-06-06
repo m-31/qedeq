@@ -17,6 +17,7 @@ package org.qedeq.kernel.bo.service.logic;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.xml.parsers.ParserConfigurationException;
 
@@ -174,7 +175,8 @@ public final class QedeqBoFormalLogicCheckerDirectTest extends QedeqBoTestCase {
             creator.getLabels(), creator.getConverter(), creator.getTextConverter());
         prop.setLoadedRequiredModules(new KernelModuleReferenceList());
         final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
-        plugin.createExecutor(prop, null).executePlugin();
+        final Map parameters = getServices().getConfig().getPluginEntries(plugin);
+        plugin.createExecutor(prop, parameters).executePlugin();
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }

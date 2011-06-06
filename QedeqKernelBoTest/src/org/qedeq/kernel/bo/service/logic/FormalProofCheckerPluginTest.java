@@ -15,8 +15,6 @@
 package org.qedeq.kernel.bo.service.logic;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -43,9 +41,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
     public void testPlugin() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "sample/qedeq_sample3.xml"));
-        final Map parameters = new HashMap();
-        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(),
-            address, parameters);
+        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
         final QedeqBo bo = getServices().getQedeqBo(address);
         assertTrue(bo.isChecked());
         assertEquals(0, bo.getWarnings().size());
@@ -60,9 +56,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
         assertTrue(bo.isChecked());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
-        final Map parameters = new HashMap();
-        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(),
-                address, parameters);
+        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
         assertTrue(bo.isChecked());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(16, bo.getErrors().size());
@@ -94,9 +88,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
         assertTrue(bo.isChecked());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(0, bo.getErrors().size());
-        final Map parameters = new HashMap();
-        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(),
-                address, parameters);
+        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
         assertTrue(bo.isChecked());
         assertEquals(0, bo.getWarnings().size());
         assertEquals(60, bo.getErrors().size());
@@ -168,9 +160,7 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
     public void testPlugin4() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "math/qedeq_formal_logic_v1.xml"));
-        final Map parameters = new HashMap();
-        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(),
-            address, parameters);
+        getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
         final QedeqBo bo = getServices().getQedeqBo(address);
 //        assertTrue(bo.isChecked());
         assertEquals(0, bo.getWarnings().size());

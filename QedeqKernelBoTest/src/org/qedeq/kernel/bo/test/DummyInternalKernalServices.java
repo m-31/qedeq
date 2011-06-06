@@ -80,7 +80,7 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     public boolean checkModule(ModuleAddress address) {
         return false;
     }
-    public Object executePlugin(String pluginName, ModuleAddress address, Map parameters) {
+    public Object executePlugin(String pluginName, ModuleAddress address) {
         return null;
     }
     public QedeqFileDao getQedeqFileDao() {
@@ -145,5 +145,4 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     public boolean isSetReadTimeoutSupported() {
         return false;
     }
-
 }

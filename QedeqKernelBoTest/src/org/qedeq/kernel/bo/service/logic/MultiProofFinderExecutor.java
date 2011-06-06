@@ -242,7 +242,6 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
         if (proposition == null) {
             return;
         }
-        final String context = getCurrentContext().getLocationWithinModule();
         // we try creating
         if (proposition.getFormalProofList() == null) {
             idsForGoalFormulas.add(getNodeBo().getNodeVo().getId());

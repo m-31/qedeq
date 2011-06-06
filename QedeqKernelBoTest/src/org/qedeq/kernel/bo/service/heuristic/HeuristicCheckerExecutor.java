@@ -66,7 +66,7 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
     HeuristicCheckerExecutor(final PluginBo plugin, final KernelQedeqBo qedeq, final Map parameters) {
         super(plugin, qedeq);
         final String method = "HeuristicChecker(PluginBo, KernelQedeqBo, Map)";
-        final String modelClass = (parameters != null ? (String) parameters.get("model") : null);
+        final String modelClass = (String) parameters.get("model");
         if (modelClass != null && modelClass.length() > 0) {
             try {
                 Class cl = Class.forName(modelClass);

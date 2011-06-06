@@ -16,8 +16,6 @@ package org.qedeq.kernel.bo.service.heuristic;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.kernel.bo.common.QedeqBo;
@@ -64,13 +62,10 @@ public class DynamicHeuristicCheckerPluginTest extends QedeqBoTestCase {
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
-
-        final Map parameters = new HashMap();
-        parameters.put(HeuristicCheckerPlugin.class.getName() + "$model",
-            model.getClass().getName());
+        getServices().getConfig().setPluginKeyValue(new HeuristicCheckerPlugin(), "model",
+                model.getClass().getName());
         getServices().executePlugin(
-            "org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin", prop.getModuleAddress(), 
-            parameters);
+            "org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin", prop.getModuleAddress());
         if (prop.hasErrors()) {
             throw prop.getErrors();
         }
