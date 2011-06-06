@@ -73,6 +73,7 @@ public class ProofFinderTest extends QedeqBoTestCase {
         }
         final Map parameters = new HashMap();
         parameters.put("extraVars", "0");
+        parameters.put("maximumProofLines", "100000");
         parameters.put("propositionVariableOrder", "2");
         parameters.put("propositionVariableWeight", "3");
         parameters.put("partFormulaWeight", "0");
@@ -116,6 +117,7 @@ public class ProofFinderTest extends QedeqBoTestCase {
         }
         final Map parameters = new HashMap();
         parameters.put("extraVars", "0");
+        parameters.put("maximumProofLines", "100000");
         parameters.put("propositionVariableOrder", "2");
         parameters.put("propositionVariableWeight", "3");
         parameters.put("partFormulaWeight", "0");
