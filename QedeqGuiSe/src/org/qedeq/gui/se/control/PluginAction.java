@@ -76,8 +76,7 @@ public class PluginAction extends AbstractAction {
                     public void run() {
                         final Object result = KernelContext.getInstance().executePlugin(
                             plugin.getPluginId(),
-                            prop.getModuleAddress(),
-                            QedeqGuiConfig.getInstance().getPluginEntries(plugin));
+                            prop.getModuleAddress());
                         if (result instanceof String) {
                             final Runnable showTextResult = new Runnable() {
                                 public void run() {
