@@ -15,9 +15,8 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
-import java.util.Map;
-
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
@@ -85,7 +84,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
     private FormulaCheckerFactory checkerFactory = null;
 
     /** Parameters for checker. */
-    private Map parameters;
+    private Parameters parameters;
 
     /**
      * Constructor.
@@ -95,11 +94,11 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
      * @param   parameters  Parameters.
      */
     WellFormedCheckerExecutor(final Plugin plugin, final KernelQedeqBo qedeq,
-            final Map parameters) {
+            final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "QedeqBoFormalLogicChecker(Plugin, KernelQedeqBo, Map)";
         this.parameters = parameters;
-        final String checkerFactoryClass = (String) parameters.get("checkerFactory");
+        final String checkerFactoryClass = parameters.getString("checkerFactory");
         if (checkerFactoryClass != null && checkerFactoryClass.length() > 0) {
             try {
                 Class cl = Class.forName(checkerFactoryClass);
@@ -125,7 +124,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         }
     }
 
-    private Map getParameters() {
+    private Parameters getParameters() {
         return parameters;
     }
 

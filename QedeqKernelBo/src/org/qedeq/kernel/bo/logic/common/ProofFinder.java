@@ -15,8 +15,7 @@
 
 package org.qedeq.kernel.bo.logic.common;
 
-import java.util.Map;
-
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.log.LogListener;
 import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.se.base.list.Element;
@@ -44,7 +43,7 @@ public interface ProofFinder {
      * @throws  ProofException      Finding result.
      */
     public void findProof(Element formula, FormalProofLineList proof,
-            ModuleContext context, Map parameters, LogListener log, Element2Utf8 transform)
+            ModuleContext context, Parameters parameters, LogListener log, Element2Utf8 transform)
             throws InterruptException, ProofException;
 
     /**

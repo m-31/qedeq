@@ -16,9 +16,9 @@
 package org.qedeq.kernel.bo.service.logic;
 
 import java.io.File;
-import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
@@ -74,7 +74,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
     private ProofFinder finder;
 
     /** All parameters for this search. */
-    private Map parameters;
+    private Parameters parameters;
 
     /**
      * Constructor.
@@ -84,11 +84,10 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
      * @param   parameters  Parameters.
      */
     SimpleProofFinderExecutor(final Plugin plugin, final KernelQedeqBo qedeq,
-            final Map parameters) {
+            final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "SimpleProofFinderExecutor(Plugin, KernelQedeqBo, Map)";
-        final String finderFactoryClass
-            = (parameters != null ? (String) parameters.get("checkerFactory") : null);
+        final String finderFactoryClass = parameters.getString("checkerFactory");
         if (finderFactoryClass != null && finderFactoryClass.length() > 0) {
             try {
                 Class cl = Class.forName(finderFactoryClass);
@@ -112,11 +111,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         if (finderFactory == null) {
             finderFactory = new ProofFinderFactoryImpl();
         }
-        String noSaveString = null;
-        if (parameters != null) {
-            noSaveString = (String) parameters.get("noSave");
-        }
-        noSave = "true".equalsIgnoreCase(noSaveString);
+        noSave = parameters.getBoolean("noSave");
         this.parameters = parameters;
     }
 

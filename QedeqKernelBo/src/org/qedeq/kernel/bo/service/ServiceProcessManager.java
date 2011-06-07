@@ -17,8 +17,8 @@ package org.qedeq.kernel.bo.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.se.common.Plugin;
@@ -50,7 +50,7 @@ public class ServiceProcessManager {
      * @return  Created process.
      */
     public synchronized ServiceProcess createProcess(final Plugin service,
-            final KernelQedeqBo qedeq, final Map parameters) {
+            final KernelQedeqBo qedeq, final Parameters parameters) {
         final ServiceProcess process = new ServiceProcessImpl(service, qedeq, parameters);
         processes.add(process);
         return process;

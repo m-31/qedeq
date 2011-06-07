@@ -21,6 +21,7 @@ import java.net.URL;
 
 import org.qedeq.kernel.se.common.ModuleAddress;
 import org.qedeq.kernel.se.common.Plugin;
+import org.qedeq.kernel.se.config.QedeqConfig;
 
 /**
  * The main QEDEQ kernel methods are assembled here.
@@ -28,6 +29,13 @@ import org.qedeq.kernel.se.common.Plugin;
  * @author  Michael Meyling
  */
 public interface KernelServices {
+
+    /**
+     * Get access to configuration parameters.
+     *
+     * @return  Configuration access.
+     */
+    public QedeqConfig getConfig();
 
     /**
      * Remove all modules from memory.

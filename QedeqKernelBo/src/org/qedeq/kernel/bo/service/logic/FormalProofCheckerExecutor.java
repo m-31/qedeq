@@ -15,9 +15,8 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
-import java.util.Map;
-
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
@@ -70,7 +69,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     private ProofCheckerFactory checkerFactory = null;
 
     /** Parameters for checker. */
-    private Map parameters;
+    private Parameters parameters;
 
     /**
      * Constructor.
@@ -80,11 +79,11 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
      * @param   parameters  Parameters.
      */
     FormalProofCheckerExecutor(final Plugin plugin, final KernelQedeqBo qedeq,
-            final Map parameters) {
+            final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "FormalProofCheckerExecutor(Plugin, KernelQedeqBo, Map)";
         this.parameters = parameters;
-        final String checkerFactoryClass = (String) parameters.get("checkerFactory");
+        final String checkerFactoryClass = parameters.getString("checkerFactory");
         if (checkerFactoryClass != null && checkerFactoryClass.length() > 0) {
             try {
                 Class cl = Class.forName(checkerFactoryClass);
@@ -110,7 +109,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
     }
 
-    private Map getParameters() {
+    private Parameters getParameters() {
         return parameters;
     }
 

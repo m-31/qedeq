@@ -18,10 +18,10 @@ package org.qedeq.kernel.bo.logic.proof.finder;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.log.LogListener;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
@@ -51,7 +51,7 @@ import org.qedeq.kernel.se.visitor.InterruptException;
 public class ProofFinderImpl implements ProofFinder {
 
     /** Search parameters. */
-    private Map parameters;
+    private Parameters parameters;
 
     /** List of proof lines. */
     private List lines;
@@ -103,7 +103,7 @@ public class ProofFinderImpl implements ProofFinder {
 
     public void findProof(final Element formula,
             final FormalProofLineList proof, final ModuleContext context,
-            final Map parameters, final LogListener log, final Element2Utf8 trans)
+            final Parameters parameters, final LogListener log, final Element2Utf8 trans)
             throws ProofException, InterruptException {
         this.goalFormula = formula;
         this.parameters = parameters;
@@ -111,9 +111,9 @@ public class ProofFinderImpl implements ProofFinder {
         this.log = log;
         this.trans = trans;
         substitutionMethods = new TreeSet();
-        extraVars = getInt("extraVars");
-        maxProofLines = getInt("maximumProofLines");
-        skipFormulas = getString("skipFormulas").trim();
+        extraVars = parameters.getInt("extraVars");
+        maxProofLines = parameters.getInt("maximumProofLines");
+        skipFormulas = parameters.getString("skipFormulas").trim();
         if (skipFormulas.length() > 0) {
             log.logMessage("skipping the following formula numbers: " + skipFormulas);
             skipFormulas = "," + StringUtility.replace(skipFormulas, " ", "") + ",";
@@ -121,63 +121,63 @@ public class ProofFinderImpl implements ProofFinder {
         // TODO 20110606 m31: check that we have the correct format (e.g. only "," as separator)
         System.out.println("maximumProofLines = " + maxProofLines);
         int weight = 0;
-        weight = getInt("propositionVariableWeight");
+        weight = parameters.getInt("propositionVariableWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("propositionVariableOrder")) {
+            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("propositionVariableOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteByPropositionVariables(i);
                 }
             });
         }
-        weight = getInt("partFormulaWeight");
+        weight = parameters.getInt("partFormulaWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("partFormulaOrder")) {
+            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("partFormulaOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substitutePartGoalFormulas(i);
                 }
             });
         }
-        weight = getInt("disjunctionWeight");
+        weight = parameters.getInt("disjunctionWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("disjunctionOrder")) {
+            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("disjunctionOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteDisjunction(i);
                 }
             });
         }
-        weight = getInt("implicationWeight");
+        weight = parameters.getInt("implicationWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("implicationOrder")) {
+            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("implicationOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteImplication(i);
                 }
             });
         }
-        weight = getInt("negationWeight");
+        weight = parameters.getInt("negationWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("negationOrder")) {
+            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("negationOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteNegation(i);
                 }
             });
         }
-        weight = getInt("conjunctionWeight");
+        weight = parameters.getInt("conjunctionWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("conjunctionOrder")) {
+            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("conjunctionOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteConjunction(i);
                 }
             });
         }
-        weight = getInt("equivalenceWeight");
+        weight = parameters.getInt("equivalenceWeight");
         if (weight > 0) {
-            substitutionMethods.add(new SubstituteBase(weight, getInt("equivalenceOrder")) {
+            substitutionMethods.add(new SubstituteBase(weight, parameters.getInt("equivalenceOrder")) {
                 public void substitute(final int i) throws ProofException {
                     substituteEquivalence(i);
                 }
             });
         }
-        logFrequence = getInt("logFrequence");
+        logFrequence = parameters.getInt("logFrequence");
 
         lines = new ArrayList();
         reasons = new ArrayList();
@@ -241,28 +241,6 @@ public class ProofFinderImpl implements ProofFinder {
             // add extra predicate variable
             allPredVars.add(FormulaUtility.createPredicateVariable(max));
         }
-    }
-
-    private int getInt(final String key) {
-        int result = 0;
-        try {
-            final String string = (String) parameters.get(key);
-            result = Integer.parseInt(string);
-        } catch (RuntimeException e) {
-        }
-        return result;
-    }
-
-    private String getString(final String key) {
-        String result = "";
-        try {
-            final String string = (String) parameters.get(key);
-            if (string != null) {
-                result = string;
-            }
-        } catch (RuntimeException e) {
-        }
-        return result;
     }
 
     private void tryModusPonensAll() throws ProofException {

@@ -29,11 +29,12 @@ public interface KernelState extends KernelServices {
     /**
      * Kernel initialisation.
      *
+     * @param   config          Configuration access.
      * @param   moduleServices  Various kernel services are supported here.
-     * @param   qedeqConfig     Configuration to work with.
+     * @param   basic           Basic kernel properties.
      * @throws  IOException     Initialisation failed.
      */
-    public void init(ServiceModule moduleServices, QedeqConfig qedeqConfig)
+    public void init(QedeqConfig config, ServiceModule moduleServices, KernelProperties basic)
         throws IOException;
 
     /**

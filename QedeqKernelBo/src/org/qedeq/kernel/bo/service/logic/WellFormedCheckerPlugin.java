@@ -15,12 +15,11 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
-import java.util.Map;
-
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBoImpl;
+import org.qedeq.kernel.bo.module.PluginBo;
 
 
 /**
@@ -28,7 +27,7 @@ import org.qedeq.kernel.bo.module.PluginBoImpl;
  *
  * @author  Michael Meyling
  */
-public final class WellFormedCheckerPlugin extends PluginBoImpl {
+public final class WellFormedCheckerPlugin implements PluginBo {
 
     /** This class. */
     private static final Class CLASS = WellFormedCheckerPlugin.class;
@@ -45,12 +44,12 @@ public final class WellFormedCheckerPlugin extends PluginBoImpl {
         return "checks well-formedness of formulas and correct dependency of declarations";
     }
 
-    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
+    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
         return new WellFormedCheckerExecutor(this, qedeq, parameters);
     }
 
-    public void setDefaultValuesForEmptyPluginParameters(final Map parameters) {
-        setDefault(parameters, "checkerFactory", FormulaCheckerFactoryImpl.class.getName());
+    public void setDefaultValuesForEmptyPluginParameters(final Parameters parameters) {
+        parameters.setDefault("checkerFactory", FormulaCheckerFactoryImpl.class.getName());
     }
 
 }

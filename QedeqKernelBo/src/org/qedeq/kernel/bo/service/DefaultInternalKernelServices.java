@@ -31,7 +31,6 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
 import org.apache.commons.httpclient.HttpClient;
@@ -39,6 +38,7 @@ import org.apache.commons.httpclient.HttpStatus;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.params.HttpMethodParams;
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.SourceArea;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.trace.Trace;
@@ -89,7 +89,10 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     /** Collection of already known QEDEQ modules. */
     private KernelQedeqBoStorage modules;
 
-    /** Kernel properties access. */
+    /** Config access. */
+    private final QedeqConfig config;
+
+    /** Basic kernel properties. */
     private final KernelProperties kernel;
 
     /** This instance nows how to load a module from the file system. */
@@ -107,19 +110,19 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     /**
      * Constructor.
      *
-     * @param kernel For kernel access.
-     * @param loader For loading QEDEQ modules.
+     * @param   config  For config access.
+     * @param   kernel  For kernel properties.
+     * @param   loader  For loading QEDEQ modules.
      */
-    public DefaultInternalKernelServices(final KernelProperties kernel, final QedeqFileDao loader) {
+    public DefaultInternalKernelServices(final QedeqConfig config, final KernelProperties kernel,
+            final QedeqFileDao loader) {
+        this.config = config;
         this.kernel = kernel;
         this.qedeqFileDao = loader;
         processManager = new ServiceProcessManager();
-        pluginManager = new PluginManager(processManager);
+        pluginManager = new PluginManager(this, processManager);
         loader.setServices(this);
-    }
 
-    public void startupServices() {
-        modules = new KernelQedeqBoStorage();
 //      pluginManager.addPlugin(MultiProofFinderPlugin.class.getName());
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeTextPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin");
@@ -129,7 +132,11 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin");
         pluginManager.addPlugin(SimpleProofFinderPlugin.class.getName());
 
-        if (kernel.getConfig().isAutoReloadLastSessionChecked()) {
+    }
+
+    public void startupServices() {
+        modules = new KernelQedeqBoStorage();
+        if (config.isAutoReloadLastSessionChecked()) {
             autoReloadLastSessionChecked();
         }
     }
@@ -146,7 +153,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
      * If configured load all QEDEQ modules that where successfully loaded the last time.
      */
     public void autoReloadLastSessionChecked() {
-        if (kernel.getConfig().isAutoReloadLastSessionChecked()) {
+        if (config.isAutoReloadLastSessionChecked()) {
             final Thread thread = new Thread() {
                 public void run() {
                     final String method = "autoReloadLastSessionChecked.thread.run()";
@@ -154,7 +161,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                         Trace.begin(CLASS, this, method);
                         QedeqLog.getInstance().logMessage(
                             "Trying to load previously successfully loaded modules.");
-                        final int number = kernel.getConfig().getPreviouslyCheckedModules().length;
+                        final int number = config.getPreviouslyCheckedModules().length;
                         if (loadPreviouslySuccessfullyLoadedModules()) {
                             QedeqLog.getInstance().logMessage(
                                 "Loading of " + number + " previously successfully loaded module"
@@ -529,7 +536,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     public boolean loadPreviouslySuccessfullyLoadedModules() {
         processInc();
         try {
-            final String[] list = kernel.getConfig().getPreviouslyCheckedModules();
+            final String[] list = config.getPreviouslyCheckedModules();
             boolean errors = false;
             for (int i = 0; i < list.length; i++) {
                 try {
@@ -620,14 +627,14 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
 
         // set proxy properties according to kernel configuration (if not webstarted)
         if (!IoUtility.isWebStarted()) {
-            if (kernel.getConfig().getHttpProxyHost() != null) {
-                System.setProperty("http.proxyHost", kernel.getConfig().getHttpProxyHost());
+            if (config.getHttpProxyHost() != null) {
+                System.setProperty("http.proxyHost", config.getHttpProxyHost());
             }
-            if (kernel.getConfig().getHttpProxyPort() != null) {
-                System.setProperty("http.proxyPort", kernel.getConfig().getHttpProxyPort());
+            if (config.getHttpProxyPort() != null) {
+                System.setProperty("http.proxyPort", config.getHttpProxyPort());
             }
-            if (kernel.getConfig().getHttpNonProxyHosts() != null) {
-                System.setProperty("http.nonProxyHosts", kernel.getConfig().getHttpNonProxyHosts());
+            if (config.getHttpNonProxyHosts() != null) {
+                System.setProperty("http.nonProxyHosts", config.getHttpNonProxyHosts());
             }
         }
 
@@ -651,7 +658,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                     try {
                         YodaUtility.executeMethod(httpConnection, "setConnectTimeout",
                             new Class[] {Integer.TYPE}, new Object[] {new Integer(
-                            kernel.getConfig().getConnectTimeout())});
+                            config.getConnectTimeout())});
                     } catch (NoSuchMethodException e) {
                         Trace.fatal(CLASS, this, method,
                             "URLConnection.setConnectTimeout was previously found", e);
@@ -665,7 +672,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                     try {
                         YodaUtility.executeMethod(httpConnection, "setReadTimeout",
                             new Class[] {Integer.TYPE}, new Object[] {new Integer(
-                            kernel.getConfig().getReadTimeout())});
+                            config.getReadTimeout())});
                     } catch (NoSuchMethodException e) {
                         Trace.fatal(CLASS, this, method,
                             "URLConnection.setReadTimeout was previously found", e);
@@ -765,15 +772,15 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         HttpClient client = new HttpClient();
 
         // set proxy properties according to kernel configuration (if not webstarted)
-        if (!IoUtility.isWebStarted() && kernel.getConfig().getHttpProxyHost() != null) {
-            final String pHost = kernel.getConfig().getHttpProxyHost();
+        if (!IoUtility.isWebStarted() && config.getHttpProxyHost() != null) {
+            final String pHost = config.getHttpProxyHost();
             int pPort = 80;
-            if (kernel.getConfig().getHttpProxyPort() != null) {
+            if (config.getHttpProxyPort() != null) {
                 try {
-                    pPort = Integer.parseInt(kernel.getConfig().getHttpProxyPort());
+                    pPort = Integer.parseInt(config.getHttpProxyPort());
                 } catch (RuntimeException e) {
                     Trace.fatal(CLASS, this, method, "proxy port not numeric: "
-                        + kernel.getConfig().getHttpProxyPort(), e);
+                        + config.getHttpProxyPort(), e);
                 }
             }
             if (pHost.length() > 0) {
@@ -789,7 +796,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             httpMethod.getParams().setParameter(HttpMethodParams.RETRY_HANDLER,
                     new DefaultHttpMethodRetryHandler(3, false));
 
-            httpMethod.getParams().setSoTimeout(kernel.getConfig().getConnectTimeout());
+            httpMethod.getParams().setSoTimeout(config.getConnectTimeout());
             // Throws IOException on TimeOut.
 
             int statusCode = client.executeMethod(httpMethod);
@@ -894,11 +901,11 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public File getBufferDirectory() {
-        return kernel.getConfig().getBufferDirectory();
+        return config.getBufferDirectory();
     }
 
     public File getGenerationDirectory() {
-        return kernel.getConfig().getGenerationDirectory();
+        return config.getGenerationDirectory();
     }
 
     public KernelQedeqBo getKernelQedeqBo(final ModuleAddress address) {
@@ -950,7 +957,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             // perhaps we have to make a difference between normal and hidden internal plugins?
             final WellFormedCheckerPlugin checker = new WellFormedCheckerPlugin();
             // set default plugin values for not yet set parameters
-            final Map parameters = KernelContext.getInstance().getConfig().getPluginEntries(checker);
+            final Parameters parameters = KernelContext.getInstance().getConfig().getPluginEntries(checker);
             checker.setDefaultValuesForEmptyPluginParameters(parameters);
             KernelContext.getInstance().getConfig().setPluginKeyValues(checker, parameters);
             checker.createExecutor(prop, parameters).executePlugin();
@@ -1095,7 +1102,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     }
 
     public QedeqConfig getConfig() {
-        return kernel.getConfig();
+        return config;
     }
 
     public String getKernelVersionDirectory() {

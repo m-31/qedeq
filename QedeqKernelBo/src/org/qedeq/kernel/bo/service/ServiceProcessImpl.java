@@ -15,9 +15,7 @@
 
 package org.qedeq.kernel.bo.service;
 
-import java.util.Iterator;
-import java.util.Map;
-
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.common.QedeqBo;
@@ -42,7 +40,7 @@ public class ServiceProcessImpl implements ServiceProcess {
     private final Thread thread;
 
     /** Some important parameters for the service. For example QEDEQ module address. */
-    private final Map parameters;
+    private final Parameters parameters;
 
     /** Start time for process. */
     private long start;
@@ -77,7 +75,7 @@ public class ServiceProcessImpl implements ServiceProcess {
      * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
      */
     public ServiceProcessImpl(final Plugin service, final Thread thread, final KernelQedeqBo qedeq,
-            final Map parameters) {
+            final Parameters parameters) {
         this.service = service;
         this.thread = thread;
         this.qedeq = qedeq;
@@ -95,7 +93,7 @@ public class ServiceProcessImpl implements ServiceProcess {
      * @param   qedeq       Module we work on.
      * @param   parameters  Interesting process parameters (e.g. QEDEQ module).
      */
-    public ServiceProcessImpl(final Plugin service, final KernelQedeqBo qedeq, final Map parameters) {
+    public ServiceProcessImpl(final Plugin service, final KernelQedeqBo qedeq, final Parameters parameters) {
         this(service, Thread.currentThread(), qedeq, parameters);
     }
 
@@ -123,7 +121,7 @@ public class ServiceProcessImpl implements ServiceProcess {
     /* (non-Javadoc)
      * @see org.qedeq.kernel.bo.ServiceProcess#getParameters()
      */
-    public synchronized Map getParameters() {
+    public synchronized Parameters getParameters() {
         return parameters;
     }
 
@@ -145,28 +143,7 @@ public class ServiceProcessImpl implements ServiceProcess {
      * @see org.qedeq.kernel.bo.ServiceProcess#getParameterString()
      */
     public synchronized String getParameterString() {
-        final StringBuffer buffer = new StringBuffer(30);
-        final int len = service.getPluginId().length() + 1;
-        if (parameters != null) {
-            Iterator e = parameters.entrySet().iterator();
-            boolean notFirst = false;
-            while (e.hasNext()) {
-                final Map.Entry entry = (Map.Entry) e.next();
-                String key = String.valueOf(entry.getKey());
-                if (key.startsWith(service.getPluginId() + "$")) {
-                    if (notFirst) {
-                        buffer.append(", ");
-                    } else {
-                        notFirst = true;
-                    }
-                    key = key.substring(len);
-                    buffer.append(key);
-                    buffer.append("=");
-                    buffer.append(String.valueOf(entry.getValue()));
-                }
-            }
-        }
-        return buffer.toString();
+        return parameters.getParameterString();
     }
 
     /* (non-Javadoc)

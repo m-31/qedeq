@@ -15,11 +15,10 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
-import java.util.Map;
-
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBoImpl;
+import org.qedeq.kernel.bo.module.PluginBo;
 
 
 /**
@@ -27,7 +26,7 @@ import org.qedeq.kernel.bo.module.PluginBoImpl;
  *
  * @author  Michael Meyling
  */
-public final class SimpleProofFinderPlugin extends PluginBoImpl {
+public final class SimpleProofFinderPlugin implements PluginBo {
 
     /** This class. */
     private static final Class CLASS = SimpleProofFinderPlugin.class;
@@ -44,30 +43,30 @@ public final class SimpleProofFinderPlugin extends PluginBoImpl {
         return "finds simple formal proofs and add them to module  [EXPERIMENTAL]";
     }
 
-    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
+    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
         return new SimpleProofFinderExecutor(this, qedeq, parameters);
     }
 
-    public void setDefaultValuesForEmptyPluginParameters(final Map parameters) {
-        setDefault(parameters, "extraVars", 1);
-        setDefault(parameters, "maximumProofLines", Integer.MAX_VALUE - 2);
-        setDefault(parameters, "skipFormulas", "");
-        setDefault(parameters, "propositionVariableWeight", 3);
-        setDefault(parameters, "propositionVariableOrder", 1);
-        setDefault(parameters, "partFormulaOrder", 2);
-        setDefault(parameters, "partFormulaWeight", 1);
-        setDefault(parameters, "disjunctionOrder", 3);
-        setDefault(parameters, "disjunctionWeight", 3);
-        setDefault(parameters, "implicationOrder", 4);
-        setDefault(parameters, "implicationWeight", 1);
-        setDefault(parameters, "negationOrder", 5);
-        setDefault(parameters, "negationWeight", 1);
-        setDefault(parameters, "conjunctionOrder", 6);
-        setDefault(parameters, "conjunctionWeight", 1);
-        setDefault(parameters, "equivalenceOrder", 7);
-        setDefault(parameters, "equivalenceWeight", 1);
-        setDefault(parameters, "logFrequence", 1000);
-        setDefault(parameters, "noSave", false);
+    public void setDefaultValuesForEmptyPluginParameters(final Parameters parameters) {
+        parameters.setDefault("extraVars", 1);
+        parameters.setDefault("maximumProofLines", Integer.MAX_VALUE - 2);
+        parameters.setDefault("skipFormulas", "");
+        parameters.setDefault("propositionVariableWeight", 3);
+        parameters.setDefault("propositionVariableOrder", 1);
+        parameters.setDefault("partFormulaOrder", 2);
+        parameters.setDefault("partFormulaWeight", 1);
+        parameters.setDefault("disjunctionOrder", 3);
+        parameters.setDefault("disjunctionWeight", 3);
+        parameters.setDefault("implicationOrder", 4);
+        parameters.setDefault("implicationWeight", 1);
+        parameters.setDefault("negationOrder", 5);
+        parameters.setDefault("negationWeight", 1);
+        parameters.setDefault("conjunctionOrder", 6);
+        parameters.setDefault("conjunctionWeight", 1);
+        parameters.setDefault("equivalenceOrder", 7);
+        parameters.setDefault("equivalenceWeight", 1);
+        parameters.setDefault("logFrequence", 1000);
+        parameters.setDefault("noSave", false);
     }
 
 }

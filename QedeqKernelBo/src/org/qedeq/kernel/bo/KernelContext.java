@@ -19,13 +19,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
 import java.nio.channels.FileLock;
 
 import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.common.KernelProperties;
 import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.common.KernelState;
@@ -39,7 +37,7 @@ import org.qedeq.kernel.se.config.QedeqConfig;
 
 
 /**
- * This class provides static access methods for basic informations.
+ * This class provides static access methods for the kernel.
  *
  * @author  Michael Meyling
  */
@@ -54,27 +52,6 @@ public final class KernelContext implements KernelProperties, KernelServices {
     /** This class. */
     private static final Class CLASS = KernelContext.class;
 
-    /** Version of this kernel. */
-    private static final String KERNEL_VERSION = "0.04.03";
-
-    /** Version dependent directory of this kernel. */
-    private static final String KERNEL_VERSION_DIRECTORY = KERNEL_VERSION.replace('.', '_');
-
-    /** Version code . */
-    private static final String KERNEL_CODE_NAME = "gaffsie";
-
-    /** Kernel version dedication. */
-    private static final String KERNEL_DEDICATED
-        = "dedicated to the one I have chosen among all these stars twenty years ago";
-
-    /** Descriptive version information of this kernel. */
-    private static final String DESCRIPTIVE_KERNEL_VERSION
-        = "Hilbert II - Version " + KERNEL_VERSION + " (" + KERNEL_CODE_NAME + ") ["
-        + getBuildIdFromManifest() + "] " + KERNEL_DEDICATED;
-
-    /** Maximal supported rule version of this kernel. */
-    private static final String MAXIMAL_RULE_VERSION = "1.01.00";
-
     /** One and only instance of this class. */
     private static final KernelContext INSTANCE = new KernelContext();
 
@@ -87,9 +64,10 @@ public final class KernelContext implements KernelProperties, KernelServices {
     /** Initial kernel state. */
     private final KernelState initialState = new KernelState() {
 
-        public void init(final ServiceModule moduleServices, final QedeqConfig qedeqConfig)
+        public void init(final QedeqConfig config, final ServiceModule moduleServices, final KernelProperties basic)
                 throws IOException {
-            config = qedeqConfig;
+            KernelContext.this.config = config;
+            KernelContext.this.basic = basic;
             Trace.setTraceOn(config.isTraceOn());
             checkJavaVersion();
             createAllNecessaryDirectories();
@@ -198,13 +176,17 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
+        public QedeqConfig getConfig() {
+            return config;
+        }
+
     };
 
     /** Initial kernel state. */
     private final KernelState initializedState = new KernelState() {
 
-        public void init(final ServiceModule moduleServices, final QedeqConfig qedeqConfig)
-                throws IOException {
+        public void init(final QedeqConfig config, final ServiceModule moduleServices,
+                final KernelProperties basic) throws IOException {
             throw new IllegalStateException("Kernel is already initialized");
         }
 
@@ -289,13 +271,17 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
+        public QedeqConfig getConfig() {
+            return config;
+        }
+
     };
 
     /** State for ready kernel. */
     private final KernelState readyState = new KernelState() {
 
-        public void init(final ServiceModule moduleServices, final QedeqConfig qedeqConfig)
-                throws IOException {
+        public void init(final QedeqConfig config, final ServiceModule moduleServices,
+                final KernelProperties basic) throws IOException {
             // we are already ready
         }
 
@@ -310,8 +296,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
                 for (int i = 0; i < addresses.length; i++) {
                     buffer[i] = addresses[i].toString();
                 }
-                config.setLoadedModules(buffer);
-                config.store();
+                getConfig().setLoadedModules(buffer);
+                getConfig().store();
                 QedeqLog.getInstance().logMessage("Current config file successfully saved.");
             } catch (IOException e) {
                 Trace.trace(CLASS, this, "shutdown()", e);
@@ -388,13 +374,20 @@ public final class KernelContext implements KernelProperties, KernelServices {
             return services.getServiceProcesses();
         }
 
+        public QedeqConfig getConfig() {
+            return config;
+        }
+
     };
+
+    /** Kernel configuration. */
+    private QedeqConfig config;
 
     /** Initial kernel state. */
     private KernelState currentState = initialState;
 
-    /** For config access. */
-    private QedeqConfig config;
+    /** For basic kernel informations. */
+    private KernelProperties basic;
 
     /** This object can service QEDEQ modules. */
     private ServiceModule services;
@@ -403,7 +396,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
      * Constructor.
      */
     private KernelContext() {
-        // nothing to do
+        basic = new BasicKernel();
     }
 
     /**
@@ -415,88 +408,44 @@ public final class KernelContext implements KernelProperties, KernelServices {
         return INSTANCE;
     }
 
-    /**
-     * Get build information from JAR manifest file. Is also non empty string if no manifest
-     * information is available.
-     *
-     * @return  Implementation-version.
-     */
-    private static String getBuildIdFromManifest() {
-        String build = KernelContext.class.getPackage().getImplementationVersion();
-        if (build == null) {
-            build = "no regular build";
-        }
-        return build;
-    }
-
     public String getBuildId() {
-        return getBuildIdFromManifest();
+        return basic.getBuildId();
     }
 
     public final String getKernelVersion() {
-        return KERNEL_VERSION;
+        return basic.getKernelVersion();
     }
 
     public final String getKernelCodeName() {
-        return KERNEL_CODE_NAME;
+        return basic.getKernelCodeName();
     }
 
     public final String getKernelVersionDirectory() {
-        return KERNEL_VERSION_DIRECTORY;
+        return basic.getKernelVersionDirectory();
     }
 
     public final String getDescriptiveKernelVersion() {
-        return DESCRIPTIVE_KERNEL_VERSION;
+        return basic.getDescriptiveKernelVersion();
     }
 
     public final String getDedication() {
-        return KERNEL_DEDICATED;
+        return basic.getDedication();
     }
 
     public final String getMaximalRuleVersion() {
-        return MAXIMAL_RULE_VERSION;
+        return basic.getMaximalRuleVersion();
     }
 
     public final boolean isRuleVersionSupported(final String ruleVersion) {
-        return MAXIMAL_RULE_VERSION.equals(ruleVersion);
-    }
-
-    /**
-     * This class ist just for solving the lazy loading problem thread save.
-     * see <a href="http://en.wikipedia.org/wiki/Initialization_on_demand_holder_idiom">
-     * Initialization_on_demand_holder_idiom</a>.
-     */
-    private static final class LazyHolderTimeoutMethods {
-
-        /** Lazy initialized constant that knows about the existence of the method
-         * <code>URLConnection.setConnectTimeout</code>. This depends on the currently running
-         * JVM. */
-        private static final boolean IS_SET_CONNECTION_TIMEOUT_SUPPORTED = YodaUtility.existsMethod(
-            URLConnection.class, "setConnectTimeout",
-            new Class[] {Integer.TYPE});
-
-        /** Lazy initialized constant that knows about the existence of the method
-         * <code>URLConnection.setReadTimeout</code>. This depends on the currently running
-         * JVM. */
-        private static final boolean IS_SET_READ_TIMEOUT_SUSPPORTED = YodaUtility.existsMethod(
-                URLConnection.class, "setReadTimeout",
-                new Class[] {Integer.TYPE});
-
-        /**
-         * Hidden constructor.
-         */
-        private LazyHolderTimeoutMethods() {
-            // nothing to do
-        }
-
+        return basic.isRuleVersionSupported(ruleVersion);
     }
 
     public boolean isSetConnectionTimeOutSupported() {
-        return LazyHolderTimeoutMethods.IS_SET_CONNECTION_TIMEOUT_SUPPORTED;
+        return basic.isSetConnectionTimeOutSupported();
     }
 
     public boolean isSetReadTimeoutSupported() {
-        return LazyHolderTimeoutMethods.IS_SET_READ_TIMEOUT_SUSPPORTED;
+        return basic.isSetReadTimeoutSupported();
     }
 
     public QedeqConfig getConfig() {
@@ -506,13 +455,12 @@ public final class KernelContext implements KernelProperties, KernelServices {
     /**
      * Init the kernel.
      *
+     * @param   config          Configuration access.
      * @param   moduleServices  Services for the kernel.
-     * @param   qedeqConfig     Configuration for the kernel.
      * @throws  IOException     Initialization failure.
      */
-    public void init(final ServiceModule moduleServices, final QedeqConfig qedeqConfig)
-            throws IOException {
-        currentState.init(moduleServices, qedeqConfig);
+    public void init(final QedeqConfig config, final ServiceModule moduleServices) throws IOException {
+        currentState.init(config, moduleServices, basic);
     }
 
     /**
@@ -649,18 +597,18 @@ public final class KernelContext implements KernelProperties, KernelServices {
      */
     void createAllNecessaryDirectories() throws IOException {
         // log directory
-        final File logFile = new File(config.getBasisDirectory(), config.getLogFile());
+        final File logFile = new File(getConfig().getBasisDirectory(), getConfig().getLogFile());
         final File logDir = logFile.getParentFile();
         if (!logDir.exists() &&  !logDir.mkdirs()) {
             throw new IOException("can't create directory: " + logDir.getAbsolutePath());
         }
         // buffer directory
-        final File bufferDir = config.getBufferDirectory();
+        final File bufferDir = getConfig().getBufferDirectory();
         if (!bufferDir.exists() &&  !bufferDir.mkdirs()) {
             throw new IOException("can't create directory: " + bufferDir.getAbsolutePath());
         }
         // generation directory
-        final File generationDir = config.getGenerationDirectory();
+        final File generationDir = getConfig().getGenerationDirectory();
         if (!generationDir.exists() &&  !generationDir.mkdirs()) {
             throw new IOException("can't create directory: " + generationDir.getAbsolutePath());
         }
@@ -675,7 +623,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
      */
     private void checkIfApplicationIsAlreadyRunningAndLockFile()
             throws IOException {
-        lockFile = new File(config.getBufferDirectory(), "qedeq_lock.lck");
+        lockFile = new File(getConfig().getBufferDirectory(), "qedeq_lock.lck");
         FileLock fl = null;
         try {
             lockStream = new FileOutputStream(lockFile);

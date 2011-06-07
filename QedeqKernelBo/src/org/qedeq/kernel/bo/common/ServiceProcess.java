@@ -15,8 +15,7 @@
 
 package org.qedeq.kernel.bo.common;
 
-import java.util.Map;
-
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.se.common.Plugin;
 
 
@@ -53,7 +52,7 @@ public interface ServiceProcess {
      *
      * @return  Service parameter.
      */
-    public Map getParameters();
+    public Parameters getParameters();
 
     /**
      * Get associated executor.

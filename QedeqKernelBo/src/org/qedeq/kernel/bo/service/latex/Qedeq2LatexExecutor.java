@@ -21,9 +21,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Locale;
-import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.SourcePosition;
 import org.qedeq.base.io.TextInput;
 import org.qedeq.base.io.TextOutput;
@@ -152,9 +152,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
      * @param   prop        QEDEQ BO object.
      * @param   parameters  Parameters.
      */
-    public Qedeq2LatexExecutor(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
+    public Qedeq2LatexExecutor(final Plugin plugin, final KernelQedeqBo prop, final Parameters parameters) {
         super(plugin, prop);
-        info = "true".equalsIgnoreCase((String) parameters.get("info"));
+        info = parameters.getBoolean("info");
     }
 
     public Object executePlugin() {

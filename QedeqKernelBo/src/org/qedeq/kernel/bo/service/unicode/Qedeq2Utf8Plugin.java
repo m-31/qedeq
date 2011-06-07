@@ -15,11 +15,10 @@
 
 package org.qedeq.kernel.bo.service.unicode;
 
-import java.util.Map;
-
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBoImpl;
+import org.qedeq.kernel.bo.module.PluginBo;
 
 
 /**
@@ -27,7 +26,7 @@ import org.qedeq.kernel.bo.module.PluginBoImpl;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2Utf8Plugin extends PluginBoImpl {
+public final class Qedeq2Utf8Plugin implements PluginBo {
 
     /** This class. */
     public static final Class CLASS = Qedeq2Utf8Plugin.class;
@@ -50,15 +49,15 @@ public final class Qedeq2Utf8Plugin extends PluginBoImpl {
         return "transforms QEDEQ module into UTF-8 file";
     }
 
-    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
+    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
         return new Qedeq2Utf8Executor(this, qedeq, parameters);
     }
 
-    public void setDefaultValuesForEmptyPluginParameters(final Map parameters) {
-        setDefault(parameters, "language", "en");
-        setDefault(parameters, "info", true);
+    public void setDefaultValuesForEmptyPluginParameters(final Parameters parameters) {
+        parameters.setDefault("language", "en");
+        parameters.setDefault("info", true);
         // automatically line break after this column. 0 means no automatic line breaking
-        setDefault(parameters, "maximumColumn", 80);
+        parameters.setDefault("maximumColumn", 80);
     }
 
 }

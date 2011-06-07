@@ -20,8 +20,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
+import org.qedeq.kernel.bo.common.KernelServices;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.common.ServiceProcess;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -42,15 +44,19 @@ public class PluginManager {
     private final List plugins = new ArrayList();
 
     /** Collects process infos. */
-    private ServiceProcessManager processManager;
+    private final ServiceProcessManager processManager;
 
+    /** Basic kernel properties.  */
+    private final KernelServices kernel;
 
     /**
      * Constructor.
      *
+     * @param   kernel          Kernel access.
      * @param   processManager  Collects process information.
      */
-    public PluginManager(final ServiceProcessManager processManager) {
+    public PluginManager(final KernelServices kernel, final ServiceProcessManager processManager) {
+        this.kernel = kernel;
         this.processManager = processManager;
     }
 
@@ -96,11 +102,10 @@ public class PluginManager {
         }
         addPlugin(plugin);
         // set default plugin values for not yet set parameters
-        System.out.println(KernelContext.getInstance().getClass());
-        System.out.println(KernelContext.getInstance().getConfig().getClass());
-        final Map parameters = KernelContext.getInstance().getConfig().getPluginEntries(plugin);
+        System.out.println("adding plugin " + plugin.getPluginActionName());    // FIXME remove me
+        final Parameters parameters = kernel.getConfig().getPluginEntries(plugin);
         plugin.setDefaultValuesForEmptyPluginParameters(parameters);
-        KernelContext.getInstance().getConfig().setPluginKeyValues(plugin, parameters);
+        kernel.getConfig().setPluginKeyValues(plugin, parameters);
     }
 
     /**
@@ -139,7 +144,7 @@ public class PluginManager {
                 e);
             throw e;
         }
-        final Map parameters = KernelContext.getInstance().getConfig().getPluginEntries(plugin);
+        final Parameters parameters = KernelContext.getInstance().getConfig().getPluginEntries(plugin);
         final ServiceProcess process = processManager.createProcess(plugin,
             qedeq, parameters);
         process.setBlocked(true);

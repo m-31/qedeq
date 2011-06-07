@@ -16,9 +16,9 @@
 package org.qedeq.kernel.bo.service.unicode;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.StringOutput;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
@@ -58,16 +58,11 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
      * @param   prop        QEDEQ BO object.
      * @param   parameters  Plugin parameter.
      */
-    Qedeq2UnicodeTextExecutor(final Plugin plugin, final KernelQedeqBo prop, final Map parameters) {
-        language = (String) parameters.get("language");
-        boolean info = "true".equalsIgnoreCase((String) parameters.get("info"));
+    Qedeq2UnicodeTextExecutor(final Plugin plugin, final KernelQedeqBo prop, final Parameters parameters) {
+        language = parameters.getString("language");
+        final boolean info = parameters.getBoolean("info");
         // automatically line break after this column. 0 means no automatic line breaking
-        int maxColumns = 80;
-        try {
-            maxColumns = Integer.parseInt((String) parameters.get("maximumColumn"));
-        } catch (RuntimeException e) {
-            // ignore
-        }
+        int maxColumns = parameters.getInt("maximumColumn");
         maxColumns = Math.max(10, maxColumns);
         visitor = new Qedeq2UnicodeVisitor(plugin, prop, info , maxColumns, false);
     }

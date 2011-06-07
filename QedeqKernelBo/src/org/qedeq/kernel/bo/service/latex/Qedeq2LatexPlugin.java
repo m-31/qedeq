@@ -15,11 +15,10 @@
 
 package org.qedeq.kernel.bo.service.latex;
 
-import java.util.Map;
-
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBoImpl;
+import org.qedeq.kernel.bo.module.PluginBo;
 
 
 /**
@@ -27,7 +26,7 @@ import org.qedeq.kernel.bo.module.PluginBoImpl;
  *
  * @author  Michael Meyling
  */
-public final class Qedeq2LatexPlugin extends PluginBoImpl {
+public final class Qedeq2LatexPlugin implements PluginBo {
 
     /** This class. */
     public static final Class CLASS = Qedeq2LatexPlugin.class;
@@ -50,12 +49,12 @@ public final class Qedeq2LatexPlugin extends PluginBoImpl {
         return "transforms QEDEQ module into LaTeX file";
     }
 
-    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
+    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
         return new Qedeq2LatexExecutor(this, qedeq, parameters);
     }
 
-    public void setDefaultValuesForEmptyPluginParameters(final Map parameters) {
-        setDefault(parameters, "info", true);
+    public void setDefaultValuesForEmptyPluginParameters(final Parameters parameters) {
+        parameters.setDefault("info", true);
     }
 
 }
