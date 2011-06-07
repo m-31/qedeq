@@ -102,7 +102,6 @@ public class PluginManager {
         }
         addPlugin(plugin);
         // set default plugin values for not yet set parameters
-        System.out.println("adding plugin " + plugin.getPluginActionName());    // FIXME remove me
         final Parameters parameters = kernel.getConfig().getPluginEntries(plugin);
         plugin.setDefaultValuesForEmptyPluginParameters(parameters);
         kernel.getConfig().setPluginKeyValues(plugin, parameters);
