@@ -46,14 +46,14 @@ public class Parameters {
 
     /**
      * Searches for the value with the specified key.
-     * If the key has no String value <code>null</code> is returned.
+     * If the key has no String value an empty String is returned.
      *
      * @param   key   The key we want a value for.
      * @return  The value for the specified key value.
      */
     public String getString(final String key) {
         Object oval = map.get(key);
-        return (oval instanceof String) ? (String) oval : null;
+        return (oval instanceof String) ? (String) oval : "";
     }
 
 
