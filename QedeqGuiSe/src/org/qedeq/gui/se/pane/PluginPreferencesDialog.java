@@ -20,6 +20,11 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -39,10 +44,12 @@ import javax.swing.border.EmptyBorder;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
+import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.logic.model.FourDynamicModel;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.logic.model.ThreeDynamicModel;
 import org.qedeq.kernel.bo.logic.model.UnaryDynamicModel;
+import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin;
 import org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin;
 import org.qedeq.kernel.bo.service.logic.SimpleProofFinderPlugin;
@@ -162,6 +169,12 @@ public class PluginPreferencesDialog extends JDialog {
     /** Text field for sequence of formula numbers we want to skip. */
     private JTextField proofFinderSkipFormulasTF;
 
+    /** Here are the tabs. */
+    private JTabbedPane tabbedPane;
+
+    /** Here are the creators of class {@link PluginGuiPreferencesCreator}. */
+    private List creators;
+
     /**
      * Creates new Panel.
      *
@@ -179,6 +192,7 @@ public class PluginPreferencesDialog extends JDialog {
 //            heuristicChecker = new HeuristicCheckerPlugin();
             dynamicHeuristicChecker = new DynamicHeuristicCheckerPlugin();
             proofFinder = new SimpleProofFinderPlugin();
+            creators = new ArrayList();
             setModal(true);
             setDefaultCloseOperation(DISPOSE_ON_CLOSE);
             setupView();
@@ -198,16 +212,20 @@ public class PluginPreferencesDialog extends JDialog {
         final JPanel content = new JPanel(new BorderLayout());
         getContentPane().add(content);
 
-        final JTabbedPane tabbedPane = new JTabbedPane();
+        tabbedPane = new JTabbedPane();
         tabbedPane.setOpaque(false);
-        tabbedPane.addTab(qedeq2utf8Show.getPluginActionName(), qedeq2Utf8ShowConfig(qedeq2utf8Show));
-        tabbedPane.addTab(qedeq2latex.getPluginActionName(), qedeq2LatexConfig(qedeq2latex));
-        tabbedPane.addTab(qedeq2utf8.getPluginActionName(), qedeq2Utf8Config(qedeq2utf8));
-//        tabbedPane.addTab(heuristicChecker.getPluginName(), heuristicCheckerConfig(heuristicChecker));
-        tabbedPane.addTab(dynamicHeuristicChecker.getPluginActionName(),
-            dynamicHeuristicCheckerConfig(dynamicHeuristicChecker));
-        tabbedPane.addTab(proofFinder.getPluginActionName(),
-                proofFinderConfig(proofFinder));
+        creators.add(qedeq2LatexConfig(qedeq2utf8Show));
+        creators.add(qedeq2Utf8ShowConfig(qedeq2utf8Show));
+        creators.add(qedeq2LatexConfig(qedeq2latex));
+        creators.add(qedeq2Utf8Config(qedeq2utf8));
+//        creators.add(heuristicCheckerConfig(heuristicChecker));
+        creators.add(dynamicHeuristicCheckerConfig(dynamicHeuristicChecker));
+        creators.add(proofFinderConfig(proofFinder));
+        final Iterator iter = creators.iterator();
+        while (iter.hasNext()) {
+            PluginGuiPreferencesCreator creator = (PluginGuiPreferencesCreator) iter.next();
+            tabbedPane.addTab(creator.getName(), creator.create());
+        }
 
 //        tabbedPane.setBorder(GuiHelper.getEmptyBorder());
         tabbedPane.setBorder(new CompoundBorder(new EmptyBorder(0, 10, 10, 10),
@@ -234,19 +252,23 @@ public class PluginPreferencesDialog extends JDialog {
      * @param   plugin  The transformation plugin.
      * @return  Created panel.
      */
-    private JComponent qedeq2LatexConfig(final Plugin plugin) {
-        FormLayout layout = new FormLayout(
-            "left:pref, 5dlu, fill:pref:grow");    // columns
+    private PluginGuiPreferencesCreator qedeq2LatexConfig(final PluginBo plugin) {
+        return new PluginGuiPreferencesCreator(plugin) {
+            JComponent create() {
+                FormLayout layout = new FormLayout(
+                    "left:pref, 5dlu, fill:pref:grow");    // columns
 
-        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        builder.getPanel().setOpaque(false);
+                DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+                builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                builder.getPanel().setOpaque(false);
 
-        qedeq2LatexInfoCB = new JCheckBox(" Also write reference labels (makes it easier for authors)",
-            QedeqGuiConfig.getInstance().getPluginKeyValue(plugin, "info", true));
-        builder.append(qedeq2LatexInfoCB);
+                qedeq2LatexInfoCB = new JCheckBox(" Also write reference labels (makes it easier for authors)",
+                    QedeqGuiConfig.getInstance().getPluginKeyValue(plugin, "info", true));
+                builder.append(qedeq2LatexInfoCB);
 
-        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+            }
+        };
     }
 
     /**
@@ -255,27 +277,31 @@ public class PluginPreferencesDialog extends JDialog {
      * @param   plugin  The transformation plugin.
      * @return  Created panel.
      */
-    private JComponent qedeq2Utf8Config(final Plugin plugin) {
-        FormLayout layout = new FormLayout(
-            "left:pref, 5dlu, fill:50dlu, fill:pref:grow");    // columns
+    private PluginGuiPreferencesCreator qedeq2Utf8Config(final PluginBo plugin) {
+        return new PluginGuiPreferencesCreator(plugin) {
+            JComponent create() {
+                FormLayout layout = new FormLayout(
+                    "left:pref, 5dlu, fill:50dlu, fill:pref:grow");    // columns
 
-        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        builder.getPanel().setOpaque(false);
+                DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+                builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                builder.getPanel().setOpaque(false);
 
-        qedeq2Utf8InfoCB = new JCheckBox(" Also write reference labels (makes it easier for authors)",
-            QedeqGuiConfig.getInstance().getPluginKeyValue(plugin, "info", true));
-        builder.append(qedeq2Utf8InfoCB, 4);
+                qedeq2Utf8InfoCB = new JCheckBox(" Also write reference labels (makes it easier for authors)",
+                    QedeqGuiConfig.getInstance().getPluginKeyValue(plugin, "info", true));
+                builder.append(qedeq2Utf8InfoCB, 4);
 
-        builder.nextLine();
-        builder.append("Maximum row length");
-        qedeq2Utf8MaximumColumnTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
-            plugin, "maximumColumn", "80"));
-        qedeq2Utf8MaximumColumnTF.setToolTipText("After this character number the line is broken."
-            + "0 means no break at all.");
-        builder.append(qedeq2Utf8MaximumColumnTF);
+                builder.nextLine();
+                builder.append("Maximum row length");
+                qedeq2Utf8MaximumColumnTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
+                    plugin, "maximumColumn", "80"));
+                qedeq2Utf8MaximumColumnTF.setToolTipText("After this character number the line is broken."
+                    + "0 means no break at all.");
+                builder.append(qedeq2Utf8MaximumColumnTF);
 
-        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+            }
+        };
     }
 
     /**
@@ -284,34 +310,38 @@ public class PluginPreferencesDialog extends JDialog {
      * @param   plugin  The transformation plugin.
      * @return  Created panel.
      */
-    private JComponent qedeq2Utf8ShowConfig(final Plugin plugin) {
-        FormLayout layout = new FormLayout(
-            "left:pref, 5dlu, fill:50dlu, fill:pref:grow");    // columns
+    private PluginGuiPreferencesCreator qedeq2Utf8ShowConfig(final PluginBo plugin) {
+        return new PluginGuiPreferencesCreator(plugin) {
+            JComponent create() {
+                FormLayout layout = new FormLayout(
+                    "left:pref, 5dlu, fill:50dlu, fill:pref:grow");    // columns
 
-        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        builder.getPanel().setOpaque(false);
+                DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+                builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                builder.getPanel().setOpaque(false);
 
-        builder.append("Default language");
-        qedeq2Utf8ShowLanguageTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
-            plugin, "language", "en"));
-        qedeq2Utf8ShowLanguageTF.setToolTipText("Default language for showing module contents.");
-        builder.append(qedeq2Utf8ShowLanguageTF);
+                builder.append("Default language");
+                qedeq2Utf8ShowLanguageTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
+                    plugin, "language", "en"));
+                qedeq2Utf8ShowLanguageTF.setToolTipText("Default language for showing module contents.");
+                builder.append(qedeq2Utf8ShowLanguageTF);
 
-        builder.nextLine();
-        qedeq2Utf8ShowInfoCB = new JCheckBox(" Also write reference labels (makes it easier for authors)",
-            QedeqGuiConfig.getInstance().getPluginKeyValue(plugin, "info", true));
-        builder.append(qedeq2Utf8ShowInfoCB, 4);
+                builder.nextLine();
+                qedeq2Utf8ShowInfoCB = new JCheckBox(" Also write reference labels (makes it easier for authors)",
+                    QedeqGuiConfig.getInstance().getPluginKeyValue(plugin, "info", true));
+                builder.append(qedeq2Utf8ShowInfoCB, 4);
 
-        builder.nextLine();
-        builder.append("Maximum row length");
-        qedeq2Utf8ShowMaximumColumnTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
-            plugin, "maximumColumn", "80"));
-        qedeq2Utf8ShowMaximumColumnTF.setToolTipText("After this character number the line is broken."
-            + "0 means no break at all.");
-        builder.append(qedeq2Utf8ShowMaximumColumnTF);
+                builder.nextLine();
+                builder.append("Maximum row length");
+                qedeq2Utf8ShowMaximumColumnTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
+                    plugin, "maximumColumn", "80"));
+                qedeq2Utf8ShowMaximumColumnTF.setToolTipText("After this character number the line is broken."
+                    + "0 means no break at all.");
+                builder.append(qedeq2Utf8ShowMaximumColumnTF);
 
-        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+            }
+        };
     }
 
 // LATER 20101222 m31: remove if not used for a long time
@@ -321,7 +351,9 @@ public class PluginPreferencesDialog extends JDialog {
 //     * @param   plugin  The transformation plugin.
 //     * @return  Created panel.
 //     */
-//    private JComponent heuristicCheckerConfig(final Plugin plugin) {
+//    private PluginGuiPreferencesCreator heuristicCheckerConfig(final PluginBo plugin) {
+//    return new PluginGuiPreferencesCreator(plugin) {
+//        JComponent create() {
 //        FormLayout layout = new FormLayout(
 //            "left:pref, 5dlu, fill:pref:grow",          // columns
 //            "top:pref:grow, top:pref:grow, top:pref:grow");      // rows
@@ -373,6 +405,8 @@ public class PluginPreferencesDialog extends JDialog {
 //        builder.append(description);
 //
 //        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+//             }
+//        };
 //    }
 
     /**
@@ -381,83 +415,87 @@ public class PluginPreferencesDialog extends JDialog {
      * @param   plugin  The transformation plugin.
      * @return  Created panel.
      */
-    private JComponent dynamicHeuristicCheckerConfig(final Plugin plugin) {
-        FormLayout layout = new FormLayout(
-            "left:pref, 5dlu, fill:pref:grow",          // columns
-            "top:pref:grow, top:pref:grow, top:pref:grow");      // rows
+    private PluginGuiPreferencesCreator dynamicHeuristicCheckerConfig(final PluginBo plugin) {
+        return new PluginGuiPreferencesCreator(plugin) {
+            JComponent create() {
+                FormLayout layout = new FormLayout(
+                    "left:pref, 5dlu, fill:pref:grow",          // columns
+                    "top:pref:grow, top:pref:grow, top:pref:grow");      // rows
 
-        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        builder.getPanel().setOpaque(false);
+                DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+                builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                builder.getPanel().setOpaque(false);
 
-        final ThreeDynamicModel modelThree = new ThreeDynamicModel();
-        final FourDynamicModel modelFour = new FourDynamicModel();
-        final SixDynamicModel modelSix = new SixDynamicModel();
+                final ThreeDynamicModel modelThree = new ThreeDynamicModel();
+                final FourDynamicModel modelFour = new FourDynamicModel();
+                final SixDynamicModel modelSix = new SixDynamicModel();
 
-        final ButtonGroup dynamicHeuristicCheckerModelBG = new ButtonGroup();
+                final ButtonGroup dynamicHeuristicCheckerModelBG = new ButtonGroup();
 
-        final UnaryDynamicModel modelOne = new UnaryDynamicModel();
-        dynamicHeuristicCheckerModel = QedeqGuiConfig.getInstance()
-            .getPluginKeyValue(plugin, "model", modelOne.getClass().getName());
-        final ActionListener modelSelectionListener = new ActionListener() {
-            public void actionPerformed(final ActionEvent e) {
-                dynamicHeuristicCheckerModel = e.getActionCommand();
+                final UnaryDynamicModel modelOne = new UnaryDynamicModel();
+                dynamicHeuristicCheckerModel = QedeqGuiConfig.getInstance()
+                    .getPluginKeyValue(plugin, "model", modelOne.getClass().getName());
+                final ActionListener modelSelectionListener = new ActionListener() {
+                    public void actionPerformed(final ActionEvent e) {
+                        dynamicHeuristicCheckerModel = e.getActionCommand();
+                    }
+                };
+
+                // model with one element
+                {
+                    final JRadioButton dynamicHeuristicCheckerOneModelRB = new JRadioButton("One");
+                    if (dynamicHeuristicCheckerModel.equals(modelOne.getClass().getName())) {
+                        dynamicHeuristicCheckerOneModelRB.setSelected(true);
+                    }
+                    dynamicHeuristicCheckerOneModelRB.setActionCommand(modelOne.getClass().getName());
+                    dynamicHeuristicCheckerOneModelRB.addActionListener(modelSelectionListener);
+                    dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerOneModelRB);
+                    builder.append(dynamicHeuristicCheckerOneModelRB);
+                    builder.append(getDescription(modelOne.getDescription()));
+                }
+
+                // model with three elements
+                {
+                    final JRadioButton dynamicHeuristicCheckerThreeModelRB = new JRadioButton("Three");
+                    if (dynamicHeuristicCheckerModel.equals(modelThree.getClass().getName())) {
+                        dynamicHeuristicCheckerThreeModelRB.setSelected(true);
+                    }
+                    dynamicHeuristicCheckerThreeModelRB.setActionCommand(modelThree.getClass().getName());
+                    dynamicHeuristicCheckerThreeModelRB.addActionListener(modelSelectionListener);
+                    dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerThreeModelRB);
+                    builder.append(dynamicHeuristicCheckerThreeModelRB);
+                    builder.append(getDescription(modelThree.getDescription()));
+                }
+
+                // model with four elements
+                {
+                    final JRadioButton dynamicHeuristicCheckerFourModelRB = new JRadioButton("Four");
+                    if (dynamicHeuristicCheckerModel.equals(modelFour.getClass().getName())) {
+                        dynamicHeuristicCheckerFourModelRB.setSelected(true);
+                    }
+                    dynamicHeuristicCheckerFourModelRB.setActionCommand(modelFour.getClass().getName());
+                    dynamicHeuristicCheckerFourModelRB.addActionListener(modelSelectionListener);
+                    dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerFourModelRB);
+                    builder.append(dynamicHeuristicCheckerFourModelRB);
+                    builder.append(getDescription(modelFour.getDescription()));
+                }
+
+                // model with five elements
+                {
+                    final JRadioButton dynamicHeuristicCheckerSixModelRB = new JRadioButton("Six");
+                    if (dynamicHeuristicCheckerModel.equals(modelSix.getClass().getName())) {
+                        dynamicHeuristicCheckerSixModelRB.setSelected(true);
+                    }
+                    dynamicHeuristicCheckerSixModelRB.setActionCommand(modelSix.getClass().getName());
+                    dynamicHeuristicCheckerSixModelRB.addActionListener(modelSelectionListener);
+                    dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerSixModelRB);
+                    builder.append(dynamicHeuristicCheckerSixModelRB);
+                    builder.append(getDescription(modelSix.getDescription()));
+                }
+
+                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
             }
         };
-
-        // model with one element
-        {
-            final JRadioButton dynamicHeuristicCheckerOneModelRB = new JRadioButton("One");
-            if (dynamicHeuristicCheckerModel.equals(modelOne.getClass().getName())) {
-                dynamicHeuristicCheckerOneModelRB.setSelected(true);
-            }
-            dynamicHeuristicCheckerOneModelRB.setActionCommand(modelOne.getClass().getName());
-            dynamicHeuristicCheckerOneModelRB.addActionListener(modelSelectionListener);
-            dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerOneModelRB);
-            builder.append(dynamicHeuristicCheckerOneModelRB);
-            builder.append(getDescription(modelOne.getDescription()));
-        }
-
-        // model with three elements
-        {
-            final JRadioButton dynamicHeuristicCheckerThreeModelRB = new JRadioButton("Three");
-            if (dynamicHeuristicCheckerModel.equals(modelThree.getClass().getName())) {
-                dynamicHeuristicCheckerThreeModelRB.setSelected(true);
-            }
-            dynamicHeuristicCheckerThreeModelRB.setActionCommand(modelThree.getClass().getName());
-            dynamicHeuristicCheckerThreeModelRB.addActionListener(modelSelectionListener);
-            dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerThreeModelRB);
-            builder.append(dynamicHeuristicCheckerThreeModelRB);
-            builder.append(getDescription(modelThree.getDescription()));
-        }
-
-        // model with four elements
-        {
-            final JRadioButton dynamicHeuristicCheckerFourModelRB = new JRadioButton("Four");
-            if (dynamicHeuristicCheckerModel.equals(modelFour.getClass().getName())) {
-                dynamicHeuristicCheckerFourModelRB.setSelected(true);
-            }
-            dynamicHeuristicCheckerFourModelRB.setActionCommand(modelFour.getClass().getName());
-            dynamicHeuristicCheckerFourModelRB.addActionListener(modelSelectionListener);
-            dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerFourModelRB);
-            builder.append(dynamicHeuristicCheckerFourModelRB);
-            builder.append(getDescription(modelFour.getDescription()));
-        }
-
-        // model with five elements
-        {
-            final JRadioButton dynamicHeuristicCheckerSixModelRB = new JRadioButton("Six");
-            if (dynamicHeuristicCheckerModel.equals(modelSix.getClass().getName())) {
-                dynamicHeuristicCheckerSixModelRB.setSelected(true);
-            }
-            dynamicHeuristicCheckerSixModelRB.setActionCommand(modelSix.getClass().getName());
-            dynamicHeuristicCheckerSixModelRB.addActionListener(modelSelectionListener);
-            dynamicHeuristicCheckerModelBG.add(dynamicHeuristicCheckerSixModelRB);
-            builder.append(dynamicHeuristicCheckerSixModelRB);
-            builder.append(getDescription(modelSix.getDescription()));
-        }
-
-        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
     }
 
     /**
@@ -466,117 +504,123 @@ public class PluginPreferencesDialog extends JDialog {
      * @param   plugin  The transformation plugin.
      * @return  Created panel.
      */
-    private JComponent proofFinderConfig(final Plugin plugin) {
-        FormLayout layout = new FormLayout(
-            "left:pref, 5dlu, fill:50dlu, 5dlu, fill:50dlu, fill:pref:grow");    // columns
+    private PluginGuiPreferencesCreator proofFinderConfig(final PluginBo plugin) {
+        return new PluginGuiPreferencesCreator(plugin) {
+            JComponent create() {
+                FormLayout layout = new FormLayout(
+                    "left:pref, 5dlu, fill:50dlu, 5dlu, fill:50dlu, fill:pref:grow");    // columns
 
-        DefaultFormBuilder builder = new DefaultFormBuilder(layout);
-        builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-        builder.getPanel().setOpaque(false);
+                DefaultFormBuilder builder = new DefaultFormBuilder(layout);
+                builder.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+                builder.getPanel().setOpaque(false);
 
-        builder.append("Maximum proof lines");
-        proofFinderMaximumProofLengthTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-            plugin, "maximumProofLines", Integer.MAX_VALUE - 2));
-        proofFinderMaximumProofLengthTF.setToolTipText("After this proof line number we abandom."
-            + " the search. This is not the maximum proof line length of the final proof but the"
-            + " but the maximum number of all generated proof lines.");
-        builder.append(proofFinderMaximumProofLengthTF);
-        builder.nextLine();
+                builder.append("Maximum proof lines");
+                proofFinderMaximumProofLengthTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                    plugin, "maximumProofLines", Integer.MAX_VALUE - 2));
+                proofFinderMaximumProofLengthTF.setToolTipText("After this proof line number we abandom."
+                    + " the search. This is not the maximum proof line length of the final proof but the"
+                    + " but the maximum number of all generated proof lines.");
+                builder.append(proofFinderMaximumProofLengthTF);
+                builder.nextLine();
 
-        builder.append("Log frequence");
-        proofFinderLogFrequenceTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-            plugin, "logFrequence", 1000));
-        proofFinderLogFrequenceTF.setToolTipText("After this number of new proof lines we"
-            + " create a logging output.");
-        builder.append(proofFinderLogFrequenceTF);
-        builder.nextLine();
+                builder.append("Log frequence");
+                proofFinderLogFrequenceTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                    plugin, "logFrequence", 1000));
+                proofFinderLogFrequenceTF.setToolTipText("After this number of new proof lines we"
+                    + " create a logging output.");
+                builder.append(proofFinderLogFrequenceTF);
+                builder.nextLine();
 
-        builder.append("Skip formulas");
-        proofFinderSkipFormulasTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-            plugin, "skipFormulas", ""));
-        proofFinderSkipFormulasTF.setToolTipText("Skip these list of formula numbers (see log output)."
-            + " This a comma separated list of numbers.");
-        builder.append(proofFinderSkipFormulasTF);
-        builder.nextLine();
+                builder.append("Skip formulas");
+                proofFinderSkipFormulasTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                    plugin, "skipFormulas", ""));
+                proofFinderSkipFormulasTF.setToolTipText("Skip these list of formula numbers (see log output)."
+                    + " This a comma separated list of numbers.");
+                builder.append(proofFinderSkipFormulasTF);
+                builder.nextLine();
 
-        proofFinderExtraVarsTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-            plugin, "extraVars", 1));
-        builder.append("Extra proposition variables");
-        builder.append(proofFinderExtraVarsTF);
-        proofFinderExtraVarsTF.setToolTipText("We use these number of extra proposition variables"
-                + " beside the ones we have in our initial formulas and the goal formula.");
-        builder.nextLine();
+                proofFinderExtraVarsTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                    plugin, "extraVars", 1));
+                builder.append("Extra proposition variables");
+                builder.append(proofFinderExtraVarsTF);
+                proofFinderExtraVarsTF.setToolTipText("We use these number of extra proposition variables"
+                        + " beside the ones we have in our initial formulas and the goal formula.");
+                builder.nextLine();
 
-        builder.appendSeparator();
-        builder.append("Operator");
-        builder.append("Order");
-        builder.append("Weight");
-        builder.nextLine();
+                builder.appendSeparator();
+                builder.append("Operator");
+                builder.append("Order");
+                builder.append("Weight");
+                builder.nextLine();
 
-        builder.append("Proposition variable");
-        proofFinderPropositionVariableOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "propositionVariableOrder", 1));
-        builder.append(proofFinderPropositionVariableOrderTF);
-        proofFinderPropositionVariableWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "propositionVariableWeight", 3));
-        builder.append(proofFinderPropositionVariableWeightTF);
-        builder.nextLine();
+                builder.append("Proposition variable");
+                proofFinderPropositionVariableOrderTF = new JTextField(""
+                    + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                    plugin, "propositionVariableOrder", 1));
+                builder.append(proofFinderPropositionVariableOrderTF);
+                proofFinderPropositionVariableWeightTF = new JTextField(""
+                    + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                    plugin, "propositionVariableWeight", 3));
+                builder.append(proofFinderPropositionVariableWeightTF);
+                builder.nextLine();
 
-        builder.append("Part formula");
-        proofFinderPartFormulaOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "partFormulaOrder", 2));
-        builder.append(proofFinderPartFormulaOrderTF);
-        proofFinderPartFormulaWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "partFormulaWeight", 1));
-        builder.append(proofFinderPartFormulaWeightTF);
-        builder.nextLine();
+                builder.append("Part formula");
+                proofFinderPartFormulaOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "partFormulaOrder", 2));
+                builder.append(proofFinderPartFormulaOrderTF);
+                proofFinderPartFormulaWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "partFormulaWeight", 1));
+                builder.append(proofFinderPartFormulaWeightTF);
+                builder.nextLine();
 
-        builder.append("Disjunction");
-        proofFinderDisjunctionOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "disjunctionOrder", 3));
-        builder.append(proofFinderDisjunctionOrderTF);
-        proofFinderDisjunctionWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "disjunctionWeight", 3));
-        builder.append(proofFinderDisjunctionWeightTF);
-        builder.nextLine();
+                builder.append("Disjunction");
+                proofFinderDisjunctionOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "disjunctionOrder", 3));
+                builder.append(proofFinderDisjunctionOrderTF);
+                proofFinderDisjunctionWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "disjunctionWeight", 3));
+                builder.append(proofFinderDisjunctionWeightTF);
+                builder.nextLine();
 
-        builder.append("Implication");
-        proofFinderImplicationOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "implicationOrder", 4));
-        builder.append(proofFinderImplicationOrderTF);
-        proofFinderImplicationWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "implicationWeight", 1));
-        builder.append(proofFinderImplicationWeightTF);
-        builder.nextLine();
+                builder.append("Implication");
+                proofFinderImplicationOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "implicationOrder", 4));
+                builder.append(proofFinderImplicationOrderTF);
+                proofFinderImplicationWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "implicationWeight", 1));
+                builder.append(proofFinderImplicationWeightTF);
+                builder.nextLine();
 
-        builder.append("Negation");
-        proofFinderNegationOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "negationOrder", 5));
-        builder.append(proofFinderNegationOrderTF);
-        proofFinderNegationWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "negationWeight", 1));
-        builder.append(proofFinderNegationWeightTF);
-        builder.nextLine();
+                builder.append("Negation");
+                proofFinderNegationOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "negationOrder", 5));
+                builder.append(proofFinderNegationOrderTF);
+                proofFinderNegationWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "negationWeight", 1));
+                builder.append(proofFinderNegationWeightTF);
+                builder.nextLine();
 
-        builder.append("Conjunction");
-        proofFinderConjunctionOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "conjunctionOrder", 6));
-        builder.append(proofFinderConjunctionOrderTF);
-        proofFinderConjunctionWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "conjunctionWeight", 1));
-        builder.append(proofFinderConjunctionWeightTF);
-        builder.nextLine();
+                builder.append("Conjunction");
+                proofFinderConjunctionOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "conjunctionOrder", 6));
+                builder.append(proofFinderConjunctionOrderTF);
+                proofFinderConjunctionWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "conjunctionWeight", 1));
+                builder.append(proofFinderConjunctionWeightTF);
+                builder.nextLine();
 
-        builder.append("Equivalence");
-        proofFinderEquivalenceOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "equivalenceOrder", 7));
-        builder.append(proofFinderEquivalenceOrderTF);
-        proofFinderEquivalenceWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                plugin, "equivalenceWeight", 1));
-        builder.append(proofFinderEquivalenceWeightTF);
-        builder.nextLine();
+                builder.append("Equivalence");
+                proofFinderEquivalenceOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "equivalenceOrder", 7));
+                builder.append(proofFinderEquivalenceOrderTF);
+                proofFinderEquivalenceWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
+                        plugin, "equivalenceWeight", 1));
+                builder.append(proofFinderEquivalenceWeightTF);
+                builder.nextLine();
 
-        return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+                return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
+            }
+        };
     }
 
     private JTextArea getDescription(final String text) {
@@ -595,6 +639,16 @@ public class PluginPreferencesDialog extends JDialog {
     private JPanel buildButtonPanel() {
         ButtonBarBuilder bbuilder = ButtonBarBuilder.createLeftToRightBuilder();
 
+        JButton def = new JButton("Default");
+        def.addActionListener(new  ActionListener() {
+            public void actionPerformed(final ActionEvent actionEvent) {
+                final int i = tabbedPane.getSelectedIndex();
+                PluginGuiPreferencesCreator creator = (PluginGuiPreferencesCreator) creators.get(i);
+                tabbedPane.setComponentAt(i, creator.createDefault());
+            }
+        });
+        def.setToolTipText("Reset to default values for plugin currently displayed.");
+
         JButton ok = new JButton("OK");
         ok.addActionListener(new  ActionListener() {
             public void actionPerformed(final ActionEvent actionEvent) {
@@ -609,7 +663,9 @@ public class PluginPreferencesDialog extends JDialog {
                 PluginPreferencesDialog.this.dispose();
             }
         });
-
+        bbuilder.addGriddedButtons(new JButton[]{def});
+        bbuilder.addUnrelatedGap();
+        bbuilder.addUnrelatedGap();
         bbuilder.addGriddedButtons(new JButton[]{cancel, ok});
 
         final JPanel buttons = bbuilder.getPanel();
@@ -703,6 +759,33 @@ public class PluginPreferencesDialog extends JDialog {
             Trace.fatal(CLASS, this, "save", "couldn't save preferences", e);
             JOptionPane.showMessageDialog(this, "Couldn't save preferences", "Error", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    private abstract class PluginGuiPreferencesCreator {
+
+        final PluginBo plugin;
+
+        PluginGuiPreferencesCreator(final PluginBo plugin) {
+            this.plugin = plugin;
+        }
+
+        public String getName() {
+            return plugin.getPluginActionName();
+        }
+
+        private void resetPluginValuesToDefault() {
+            final Map parameters = new HashMap();
+            plugin.setDefaultValuesForEmptyPluginParameters(parameters);
+            KernelContext.getInstance().getConfig().setPluginKeyValues(plugin, parameters);
+        }
+
+        JComponent createDefault() {
+            resetPluginValuesToDefault();
+            return create();
+        }
+
+        abstract JComponent create();
+
     }
 
 }
