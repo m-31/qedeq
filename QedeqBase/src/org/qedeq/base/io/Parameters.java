@@ -176,7 +176,6 @@ public class Parameters {
     /**
      * Set default configuration parameter if the key has still no value.
      *
-     * @param   parameters  Plugin filtered parameter list.
      * @param   key         Key we want to check.
      * @param   value       Default value.
      */
