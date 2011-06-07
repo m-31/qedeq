@@ -19,9 +19,9 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.se.common.Plugin;
 
 
@@ -468,8 +468,8 @@ public class QedeqConfig {
      * @param   plugin  We want to know properties for this plugin
      * @return  Map with properties for this plugin.
      */
-    public Map getPluginEntries(final Plugin plugin) {
-        return configAccess.getProperties(plugin.getPluginId() + "$");
+    public Parameters getPluginEntries(final Plugin plugin) {
+        return new Parameters(configAccess.getProperties(plugin.getPluginId() + "$"));
     }
 
     /**
@@ -502,11 +502,11 @@ public class QedeqConfig {
      * @param   plugin      Setting for this plugin.
      * @param   parameters  Parameters for this plugin.
      */
-    public void setPluginKeyValues(final Plugin plugin, final Map parameters) {
+    public void setPluginKeyValues(final Plugin plugin, final Parameters parameters) {
         final Iterator it = parameters.keySet().iterator();
         while (it.hasNext()) {
             final String key = (String) it.next();
-            setKeyValue(plugin.getPluginId() + "$" + key, (String) parameters.get(key));
+            setKeyValue(plugin.getPluginId() + "$" + key, parameters.getString(key));
         }
     }
 
