@@ -82,7 +82,7 @@ public class Parameters {
         final Object oval = map.get(key);
         if (oval instanceof String) {
             try {
-                return Integer.parseInt((String) oval);
+                return Integer.parseInt(oval.toString().trim());
             } catch (NumberFormatException ex) {
                 // ignore
             }
@@ -103,7 +103,7 @@ public class Parameters {
         final Object oval = map.get(key);
         if (oval instanceof String) {
             try {
-                return Integer.parseInt((String) oval);
+                return Integer.parseInt(oval.toString().trim());
             } catch (NumberFormatException ex) {
                 // ignore
             }
@@ -121,7 +121,7 @@ public class Parameters {
     public boolean getBoolean(final String key) {
         final Object oval = map.get(key);
         if (oval instanceof String) {
-            return "true".equalsIgnoreCase((String) oval);
+            return "true".equalsIgnoreCase(oval.toString());
         }
         return false;
     }
