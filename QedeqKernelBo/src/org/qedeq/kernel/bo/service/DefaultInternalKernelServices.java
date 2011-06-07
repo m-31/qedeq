@@ -115,6 +115,12 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         this.qedeqFileDao = loader;
         processManager = new ServiceProcessManager();
         pluginManager = new PluginManager(processManager);
+        loader.setServices(this);
+    }
+
+    public void startupServices() {
+        modules = new KernelQedeqBoStorage();
+//      pluginManager.addPlugin(MultiProofFinderPlugin.class.getName());
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.unicode.Qedeq2UnicodeTextPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.latex.Qedeq2LatexPlugin");
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.unicode.Qedeq2Utf8Plugin");
@@ -123,12 +129,6 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         pluginManager.addPlugin("org.qedeq.kernel.bo.service.heuristic.DynamicHeuristicCheckerPlugin");
         pluginManager.addPlugin(SimpleProofFinderPlugin.class.getName());
 
-//        pluginManager.addPlugin(MultiProofFinderPlugin.class.getName());
-        loader.setServices(this);
-    }
-
-    public void startupServices() {
-        modules = new KernelQedeqBoStorage();
         if (kernel.getConfig().isAutoReloadLastSessionChecked()) {
             autoReloadLastSessionChecked();
         }
@@ -947,8 +947,12 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         }
         try {
             // TODO 20110606 m31: perhaps this should be a real plugin and is managed by the PluginManager?
+            // perhaps we have to make a difference between normal and hidden internal plugins?
             final WellFormedCheckerPlugin checker = new WellFormedCheckerPlugin();
+            // set default plugin values for not yet set parameters
             final Map parameters = KernelContext.getInstance().getConfig().getPluginEntries(checker);
+            checker.setDefaultValuesForEmptyPluginParameters(parameters);
+            KernelContext.getInstance().getConfig().setPluginKeyValues(checker, parameters);
             checker.createExecutor(prop, parameters).executePlugin();
         } catch (final RuntimeException e) {
             final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())

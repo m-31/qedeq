@@ -95,6 +95,12 @@ public class PluginManager {
             throw new RuntimeException(e);
         }
         addPlugin(plugin);
+        // set default plugin values for not yet set parameters
+        System.out.println(KernelContext.getInstance().getClass());
+        System.out.println(KernelContext.getInstance().getConfig().getClass());
+        final Map parameters = KernelContext.getInstance().getConfig().getPluginEntries(plugin);
+        plugin.setDefaultValuesForEmptyPluginParameters(parameters);
+        KernelContext.getInstance().getConfig().setPluginKeyValues(plugin, parameters);
     }
 
     /**
