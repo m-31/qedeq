@@ -24,6 +24,7 @@ import org.qedeq.kernel.bo.logic.KernelBoLogicTestSuite;
 import org.qedeq.kernel.bo.logic.common.FormulaUtilityReplaceOperatorVariableTest;
 import org.qedeq.kernel.bo.logic.common.FormulaUtilityReplaceSubjectVariableQuantifierTest;
 import org.qedeq.kernel.bo.logic.model.KernelBoLogicModelTestSuite;
+import org.qedeq.kernel.bo.logic.proof.finder.KernelBoLogicProofFinderTestSuite;
 import org.qedeq.kernel.bo.logic.wf.KernelBoLogicWfTestSuite;
 import org.qedeq.kernel.bo.module.KernelBoModuleTestSuite;
 import org.qedeq.kernel.bo.parser.KernelBoParserTestSuite;
@@ -66,6 +67,7 @@ public class KernelBoTestSuite extends QedeqTestSuite {
      */
     public KernelBoTestSuite(final boolean withTest, final boolean withPest) {
         super(withTest, withPest);
+        addTest(KernelBoLogicProofFinderTestSuite.suite());
         addTest(KernelBoLogicTestSuite.suite());
         addTest(KernelBoLogicWfTestSuite.suite());
         addTest(KernelBoModuleTestSuite.suite());
