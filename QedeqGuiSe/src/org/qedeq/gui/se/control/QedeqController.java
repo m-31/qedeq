@@ -257,7 +257,6 @@ public class QedeqController {
      * @return  Menu entries for plugins.
      */
     public JMenuItem[] getPluginMenuEntries() {
-        System.out.println("creating menu");    // FIXME remove me
         (new NullPointerException()).printStackTrace(System.out);
         final Plugin[] plugins = KernelContext.getInstance().getPlugins();
         final PluginAction[] pluginActions = new PluginAction[plugins.length];
