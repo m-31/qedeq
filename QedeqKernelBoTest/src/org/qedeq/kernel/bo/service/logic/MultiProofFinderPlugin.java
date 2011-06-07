@@ -15,11 +15,10 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
-import java.util.Map;
-
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
-import org.qedeq.kernel.bo.module.PluginBoImpl;
+import org.qedeq.kernel.bo.module.PluginBo;
 
 
 /**
@@ -27,7 +26,7 @@ import org.qedeq.kernel.bo.module.PluginBoImpl;
  *
  * @author  Michael Meyling
  */
-public final class MultiProofFinderPlugin extends PluginBoImpl {
+public final class MultiProofFinderPlugin implements PluginBo {
 
     /** This class. */
     private static final Class CLASS = MultiProofFinderPlugin.class;
@@ -44,12 +43,12 @@ public final class MultiProofFinderPlugin extends PluginBoImpl {
         return "finds simple formal proofs simultanously and add them to module  [EXPERIMENTAL]";
     }
 
-    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Map parameters) {
+    public PluginExecutor createExecutor(final KernelQedeqBo qedeq, final Parameters parameters) {
         return new MultiProofFinderExecutor(this, qedeq, parameters);
     }
 
-    public void setDefaultValuesForEmptyPluginParameters(final Map parameters) {
-        setDefault(parameters, "noSave", false);
+    public void setDefaultValuesForEmptyPluginParameters(final Parameters parameters) {
+        parameters.setDefault("noSave", false);
     }
 
 }

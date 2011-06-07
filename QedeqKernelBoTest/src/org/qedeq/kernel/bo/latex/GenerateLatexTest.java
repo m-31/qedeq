@@ -22,6 +22,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckException;
@@ -398,7 +399,8 @@ public class GenerateLatexTest extends QedeqBoTestCase {
             Trace.param(CLASS, method, "level", level);
             final Map parameters = new HashMap();
             parameters.put("info", "true");
-            final InputStream latex =(new Qedeq2LatexExecutor(new Qedeq2LatexPlugin(), prop, parameters)).createLatex(language, "1");
+            final InputStream latex =(new Qedeq2LatexExecutor(new Qedeq2LatexPlugin(), prop,
+                new Parameters(parameters))).createLatex(language, "1");
             if (to != null) {
                 IoUtility.createNecessaryDirectories(to);
                 IoUtility.saveFile(latex, to);

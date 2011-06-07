@@ -52,8 +52,8 @@ public final class KernelFacade {
             config.setAutoReloadLastSessionChecked(false);
             final QedeqFileDao loader = new XmlQedeqFileDao();
             final DefaultInternalKernelServices services = new DefaultInternalKernelServices(
-                KernelContext.getInstance(), loader);
-            KernelContext.getInstance().init(services , config);
+                config, KernelContext.getInstance(), loader);
+            KernelContext.getInstance().init(config , services);
 //          mod = new ModuleEventListenerLog();
 //          ModuleEventLog.getInstance().addLog(mod);
             KernelContext.getInstance().startup();

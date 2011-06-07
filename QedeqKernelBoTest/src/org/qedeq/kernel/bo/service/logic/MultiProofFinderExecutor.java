@@ -17,9 +17,9 @@ package org.qedeq.kernel.bo.service.logic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
@@ -71,7 +71,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
     private ProofFinderFactory finderFactory = null;
 
     /** Parameters for checker. */
-    private Map parameters;
+    private Parameters parameters;
 
     /** List of formulas we need a proof for. */
     private ElementList goalFormulas;
@@ -96,13 +96,12 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
      * @param   parameters  Parameters.
      */
     MultiProofFinderExecutor(final Plugin plugin, final KernelQedeqBo qedeq,
-            final Map parameters) {
+            final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "MultiProofFinderExecutor(Plugin, KernelQedeqBo, Map)";
         this.parameters = parameters;
-        final String finderFactoryClass
-            = (parameters != null ? (String) parameters.get("checkerFactory") : null);
-        if (finderFactoryClass != null && finderFactoryClass.length() > 0) {
+        final String finderFactoryClass = parameters.getString("checkerFactory");
+        if (finderFactoryClass.length() > 0) {
             try {
                 Class cl = Class.forName(finderFactoryClass);
                 finderFactory = (ProofFinderFactory) cl.newInstance();
@@ -125,15 +124,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
         if (finderFactory == null) {
             finderFactory = new ProofFinderFactoryImpl();
         }
-        String noSaveString = null;
-        if (parameters != null) {
-            noSaveString = (String) parameters.get("noSave");
-        }
-        noSave = "true".equalsIgnoreCase(noSaveString);
-    }
-
-    private Map getParameters() {
-        return parameters;
+        noSave = parameters.getBoolean("noSave");
     }
 
     public Object executePlugin() {

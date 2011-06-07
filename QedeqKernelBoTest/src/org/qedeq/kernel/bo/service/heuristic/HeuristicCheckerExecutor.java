@@ -15,9 +15,8 @@
 
 package org.qedeq.kernel.bo.service.heuristic;
 
-import java.util.Map;
-
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
@@ -63,10 +62,10 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
      * @param   qedeq       QEDEQ module object.
      * @param   parameters  Execution parameters.
      */
-    HeuristicCheckerExecutor(final PluginBo plugin, final KernelQedeqBo qedeq, final Map parameters) {
+    HeuristicCheckerExecutor(final PluginBo plugin, final KernelQedeqBo qedeq, final Parameters parameters) {
         super(plugin, qedeq);
         final String method = "HeuristicChecker(PluginBo, KernelQedeqBo, Map)";
-        final String modelClass = (String) parameters.get("model");
+        final String modelClass = parameters.getString("model");
         if (modelClass != null && modelClass.length() > 0) {
             try {
                 Class cl = Class.forName(modelClass);

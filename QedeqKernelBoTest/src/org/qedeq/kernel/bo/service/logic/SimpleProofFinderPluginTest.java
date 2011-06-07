@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -76,7 +77,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("negationWeight", "0");
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
-        getServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), parameters);
+        getServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
         getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address);
     }
 
@@ -111,7 +112,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("negationWeight", "0");
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
-        getServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), parameters);
+        getServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
         getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address);
     }
 
@@ -147,7 +148,7 @@ public class SimpleProofFinderPluginTest extends QedeqBoTestCase {
         parameters.put("negationWeight", "0");
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
-        getServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), parameters);
+        getServices().getConfig().setPluginKeyValues(new SimpleProofFinderPlugin(), new Parameters(parameters));
         getServices().executePlugin(SimpleProofFinderPlugin.class.getName(), address);
     }
 

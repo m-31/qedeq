@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.test;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Map;
 
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.common.ServiceProcess;

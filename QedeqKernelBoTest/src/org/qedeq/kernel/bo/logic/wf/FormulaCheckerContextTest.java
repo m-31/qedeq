@@ -23,6 +23,7 @@ import java.util.Map;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.qedeq.base.io.IoUtility;
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
@@ -207,7 +208,8 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
         final Map parameters = new HashMap();
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());
-        final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(prop, parameters);
+        final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(
+            prop, new Parameters(parameters));
         checker.executePlugin();
         if (prop.hasErrors()) {
             throw prop.getErrors();
@@ -226,7 +228,8 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
         final WellFormedCheckerPlugin plugin = new WellFormedCheckerPlugin();
         final Map parameters = new HashMap();
         parameters.put("checkerFactory", TestFormulaCheckerFactoryImpl.class.getName());
-        final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(qedeqBo, parameters);
+        final WellFormedCheckerExecutor checker = (WellFormedCheckerExecutor) plugin.createExecutor(
+            qedeqBo, new Parameters(parameters));
         checker.executePlugin();
         if (qedeqBo.hasErrors()) {
             throw qedeqBo.getErrors();

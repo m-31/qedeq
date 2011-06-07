@@ -18,6 +18,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.log.LogListenerImpl;
 import org.qedeq.kernel.bo.log.QedeqLog;
@@ -85,7 +86,8 @@ public class ProofFinderTest extends QedeqBoTestCase {
         parameters.put("equivalenceWeight", "0");
         try {
             finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-            new DefaultModuleAddress()), parameters, new LogListenerImpl(), bo.getElement2Utf8());
+            new DefaultModuleAddress()), new Parameters(parameters), new LogListenerImpl(),
+                bo.getElement2Utf8());
             fail("no proof found");
         } catch (ProofFoundException e) {
             assertNotNull(e.getProofLines());
@@ -129,7 +131,7 @@ public class ProofFinderTest extends QedeqBoTestCase {
         parameters.put("equivalenceWeight", "0");
         try {
             finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-                new DefaultModuleAddress()), parameters, QedeqLog.getInstance(),
+                new DefaultModuleAddress()), new Parameters(parameters), QedeqLog.getInstance(),
                 bo.getElement2Utf8());
             fail("no proof found");
         } catch (ProofFoundException e) {
