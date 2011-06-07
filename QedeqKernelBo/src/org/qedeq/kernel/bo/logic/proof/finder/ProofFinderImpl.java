@@ -50,9 +50,6 @@ import org.qedeq.kernel.se.visitor.InterruptException;
  */
 public class ProofFinderImpl implements ProofFinder {
 
-    /** Search parameters. */
-    private Parameters parameters;
-
     /** List of proof lines. */
     private List lines;
 
@@ -106,7 +103,6 @@ public class ProofFinderImpl implements ProofFinder {
             final Parameters parameters, final LogListener log, final Element2Utf8 trans)
             throws ProofException, InterruptException {
         this.goalFormula = formula;
-        this.parameters = parameters;
         this.context = new ModuleContext(context);  // use copy constructor to fix it
         this.log = log;
         this.trans = trans;
