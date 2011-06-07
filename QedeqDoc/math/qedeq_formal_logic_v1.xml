@@ -86,10 +86,14 @@
   <CHAPTER>
     <TITLE>
       <LATEX language="en">
-         Language
+        <![CDATA[
+          Language
+        ]]>
       </LATEX>
       <LATEX language="de">
-         Sprache
+        <![CDATA[
+          Sprache
+        ]]>
       </LATEX>
     </TITLE>
     <INTRODUCTION>
@@ -119,14 +123,17 @@
         ]]>
       </LATEX>
     </INTRODUCTION>
-    
     <SECTION>
       <TITLE>
         <LATEX language="en">
-           Terms\index{term} and Formulas\index{formula}
+          <![CDATA[
+            Terms\index{term} and Formulas\index{formula}
+          ]]>
         </LATEX>
         <LATEX language="de">
-           Terme\index{Term} und Formeln\index{Formel}
+          <![CDATA[
+            Terme\index{Term} und Formeln\index{Formel}
+          ]]>
         </LATEX>
       </TITLE>
       <INTRODUCTION>
@@ -196,13 +203,11 @@
             \emph{scope}\index{scope}\index{quantifier!scope} of the quantifier $\forall$ respectively $\exists$.
             
             \par
-            All formulas that are used to build up a formula by 1. to 4. are called \emph{part formulas}\index{part formula}\index{formula!part}. 
-
+            All formulas that are used to build up a formula by 1. to 4. are called \emph{part formulas}\index{part formula}\index{formula!part}.
           ]]>
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-          
             Als Symbole kommen die \emph{logischen Symbole} $L = \{$ \mbox{`$\neg$'}, \mbox{`$\vee$'}, \mbox{`$\wedge$'},             \mbox{`$\leftrightarrow$'}, \mbox{`$\rightarrow$'}, \mbox{`$\forall$'}, \mbox{`$\exists$'} $\}$, die 
             \emph{Prädikatenkonstanten}\index{Prädikatenkonstante}\index{Konstante!Prädikaten-} $C = \{c^k_i~|~i, k \in \omega\}$, die 
             \emph{Funktionsvariablen}\index{Funktionsvariablen}\index{Variable!Funktions-}\footnote{Funktionsvariablen dienen der einfacheren Notation und werden beispielsweise zur Formulierung eines identitätslogischen Satzes benötigt: $x = y \rightarrow f(x) = f(y)$. Ausserdem bereitet ihre Einführung die spätere Syntaxerweiterung zur Anwendung von funktionalen Klassen vor.} $F = \{f^k_i~|~i, k \in \omega \land k > 0\}$, die \emph{Funktionskonstanten}\index{Funktionskonstanten}\index{Konstante!Funktions-}\footnote{Funktionskonstanten dienen ebenfalls der Bequemlichkeit und werden später für direkt 
@@ -266,7 +271,6 @@
             
             \par
             Alle Formeln, die beim Aufbau einer Formel mittels 1. bis 4. benötigt werden, heißen \emph{Teilformeln}.
-
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -894,15 +898,30 @@
             </FORMULA>
           </AXIOM>
         </NODE>
-
         <NODE id="axiom:universalInstantiation">
           <NAME>
-            <LATEX language="en">axiom of universal instantiation</LATEX>
-            <LATEX language="de">Axiom der Spezialisierung</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of universal instantiation
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Spezialisierung
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Universal Instantiation\index{axiom!of universal instantiation}</LATEX>
-            <LATEX language="de">Spezialisierung\index{Axiom!der Spezialisierung}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Universal Instantiation\index{axiom!of universal instantiation}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Spezialisierung\index{Axiom!der Spezialisierung}
+              ]]>
+            </LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -920,27 +939,42 @@
             <FORMULA>
               <IMPL>
                 <FORALL>
-                  <VAR id="x" />
+                  <VAR id="x"/>
                   <PREDVAR id="\phi">
-                    <VAR id="x" />
+                    <VAR id="x"/>
                   </PREDVAR>
                 </FORALL>
                 <PREDVAR id="\phi">
-                  <VAR id="y" />
+                  <VAR id="y"/>
                 </PREDVAR>
               </IMPL>
             </FORMULA>
           </AXIOM>
         </NODE>
-
         <NODE id="axiom:existencialGeneralization">
           <NAME>
-            <LATEX language="en">axiom of existential generalization</LATEX>
-            <LATEX language="de">Axiom der Existenz</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                axiom of existential generalization
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Axiom der Existenz
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Existential Generalization\index{axiom!of existential generalization}</LATEX>
-            <LATEX language="de">Existenz\index{Axiom!der Existenz}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Existential Generalization\index{axiom!of existential generalization}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Existenz\index{Axiom!der Existenz}
+              ]]>
+            </LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -958,29 +992,31 @@
             <FORMULA>
               <IMPL>
                 <PREDVAR id="\phi">
-                  <VAR id="y" />
+                  <VAR id="y"/>
                 </PREDVAR>
                 <EXISTS>
-                  <VAR id="x" />
+                  <VAR id="x"/>
                   <PREDVAR id="\phi">
-                    <VAR id="x" />
+                    <VAR id="x"/>
                   </PREDVAR>
                 </EXISTS>
               </IMPL>
             </FORMULA>
           </AXIOM>
         </NODE>
-
-
       </SUBSECTIONS>
     </SECTION>
     <SECTION>
       <TITLE>
         <LATEX language="en">
-          Rules of Inference\index{rules!of predicate calculus}\index{rules!of inference}
+          <![CDATA[
+            Rules of Inference\index{rules!of predicate calculus}\index{rules!of inference}
+          ]]>
         </LATEX>
         <LATEX language="de">
-          Ableitungsregeln\index{Regeln!predikatenlogische}
+          <![CDATA[
+            Ableitungsregeln\index{Regeln!predikatenlogische}
+          ]]>
         </LATEX>
       </TITLE>
       <INTRODUCTION>
@@ -991,26 +1027,41 @@
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Die im folgenden angegebenen Regeln ermöglichen uns aus den wahr angesehenen Axiomen neue wahre Formeln zu gewinnen. Aus diesen können wiederum weitere Formeln abgeleitet werden, so dass sich die Menge der wahren Formeln sukzessive erweitern lässt. 
+            Die im folgenden angegebenen Regeln ermöglichen uns aus den wahr angesehenen Axiomen neue wahre Formeln zu gewinnen. Aus diesen können wiederum weitere Formeln abgeleitet werden, so dass sich die Menge der wahren Formeln sukzessive erweitern lässt.
           ]]>
         </LATEX>
       </INTRODUCTION>
       <SUBSECTIONS>
-
         <NODE id="rule:modusPonens">
           <NAME>
-            <LATEX language="en">modus ponens</LATEX>
-            <LATEX language="de">Modus Ponens</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                modus ponens
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Modus Ponens
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Modus Ponens\index{Modus Ponens}</LATEX>
-            <LATEX language="de">Abtrennung, Modus Ponens\index{Modus Ponens}\index{Abtrennungsregel}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Modus Ponens\index{Modus Ponens}
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Abtrennung, Modus Ponens\index{Modus Ponens}\index{Abtrennungsregel}
+              ]]>
+            </LATEX>
           </TITLE>
           <RULE name="modusPonens">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
-                  If both formulas $\alpha$ and $\alpha \rightarrow \beta$ are true, then we can conclude that $\beta$ is true as well.  
+                  If both formulas $\alpha$ and $\alpha \rightarrow \beta$ are true, then we can conclude that $\beta$ is true as well.
                 ]]>
               </LATEX>
               <LATEX language="de">
@@ -1021,15 +1072,30 @@
             </DESCRIPTION>
           </RULE>
         </NODE>
-
         <NODE id="rule:replaceFree">
           <NAME>
-            <LATEX language="en">replace free subject variable</LATEX>
-            <LATEX language="de">Ersetzung für freie Subjektvariable</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                replace free subject variable
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Ersetzung für freie Subjektvariable
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Replace Free Subject Variable</LATEX>
-            <LATEX language="de">Ersetzung für freie Subjektvariable</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Replace Free Subject Variable
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Ersetzung für freie Subjektvariable
+              ]]>
+            </LATEX>
           </TITLE>
           <RULE name="replaceFree">
             <DESCRIPTION>
@@ -1085,15 +1151,30 @@
             </LATEX>
           </SUCCEEDING>
         </NODE>
-
         <NODE id="rule:renameBound">
           <NAME>
-            <LATEX language="en">rename bound subject variable</LATEX>
-            <LATEX language="de">Umbenennung für gebundene Subjektvariable</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                rename bound subject variable
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Umbenennung für gebundene Subjektvariable
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Rename Bound Subject Variable</LATEX>
-            <LATEX language="de">Umbenennung für gebundene Subjektvariable</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Rename Bound Subject Variable
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Umbenennung für gebundene Subjektvariable
+              ]]>
+            </LATEX>
           </TITLE>
           <RULE name="renameBound">
             <DESCRIPTION>
@@ -1110,19 +1191,33 @@
             </DESCRIPTION>
           </RULE>
         </NODE>
-
         <NODE id="rule:replacePred">
           <NAME>
-            <LATEX language="en">replace predicate variable</LATEX>
-            <LATEX language="de">Einsetzung für Prädikatenvariable</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                replace predicate variable
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Einsetzung für Prädikatenvariable
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Replace Predicate Variable</LATEX>
-            <LATEX language="de">Einsetzung für Prädikatenvariable</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Replace Predicate Variable
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Einsetzung für Prädikatenvariable
+              ]]>
+            </LATEX>
           </TITLE>
           <RULE name="replacePred">
             <DESCRIPTION>
-            
               <LATEX language="en">
                 <![CDATA[
                   Let $\alpha$ be a true formula that contains a predicate variable $p$ of arity $n$, let $x_1$, \ldots, $x_n$ be pairwise different subject variables and let $\beta(x_1, \ldots, x_n)$ be a formula where $x_1$, \ldots, $x_n$ are not bound. The formula $\beta(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound.
@@ -1194,7 +1289,6 @@
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-              
                 Siehe III \S 5 in \cite{hilback}.
                 
                 \par
@@ -1220,15 +1314,30 @@
             </LATEX>
           </SUCCEEDING>
         </NODE>
-
         <NODE id="rule:replaceFunct">
           <NAME>
-            <LATEX language="en">replace function variable</LATEX>
-            <LATEX language="de">Einsetzung für Funktionsvariable</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                replace function variable
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Einsetzung für Funktionsvariable
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Replace Function Variable</LATEX>
-            <LATEX language="de">Einsetzung für Funktionsvariable</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Replace Function Variable
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Einsetzung für Funktionsvariable
+              ]]>
+            </LATEX>
           </TITLE>
           <PRECEDING>
             <LATEX language="en">
@@ -1267,7 +1376,6 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                
                   Es sei $\alpha$ eine bereits bewiesene Formel, die die $n$-stellige Funktionsvariable $\sigma$ enthält, $x_1$, \ldots, $x_n$ seien paarweise verschiedene Subjektvariable und $\tau(x_1, \ldots, x_n)$ ein beliebiger Term in dem die Subjektvariablen $x_1$, \ldots, $x_n$ nicht gebunden sind. In dem Term $\tau(x_1, \ldots, x_n)$ müssen nicht alle $x_1$, \ldots, $x_n$ als freie Subjektvariable vorkommen. Weiterhin können auch noch  noch weitere Variable frei oder gebunden vorkommen.
                   
                   Wenn die folgenden Bedingungen erfüllt sind, dann kann durch die Ersetzung jedes Vorkommens von $\sigma(t_1, \ldots, t_n)$ mit jeweils passenden Termen $t_1$, \ldots, $t_n$ in $\alpha$ durch $\tau(t_1, \ldots, t_n)$ eine weitere wahre Formel gewonnen 
@@ -1290,15 +1398,30 @@
             </DESCRIPTION>
           </RULE>
         </NODE>
-
         <NODE id="rule:universalGeneralization">
           <NAME>
-            <LATEX language="en">universal generalization</LATEX>
-            <LATEX language="de">Hintere Generalisierung</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                universal generalization
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Hintere Generalisierung
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Universal Generalization</LATEX>
-            <LATEX language="de">Hintere Generalisierung\index{Generalisierung!hintere}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Universal Generalization
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Hintere Generalisierung\index{Generalisierung!hintere}
+              ]]>
+            </LATEX>
           </TITLE>
           <RULE name="universalGeneralization">
             <DESCRIPTION>
@@ -1317,15 +1440,30 @@
             </DESCRIPTION>
           </RULE>
         </NODE>
-
         <NODE id="rule:existentialGeneralization">
           <NAME>
-            <LATEX language="en">existential generalization</LATEX>
-            <LATEX language="de">Vordere Partikularisierung</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                existential generalization
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Vordere Partikularisierung
+              ]]>
+            </LATEX>
           </NAME>
           <TITLE>
-            <LATEX language="en">Existential Generalization</LATEX>
-            <LATEX language="de">Vordere Partikularisierung\index{Partikularisierung!vordere}</LATEX>
+            <LATEX language="en">
+              <![CDATA[
+                Existential Generalization
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Vordere Partikularisierung\index{Partikularisierung!vordere}
+              ]]>
+            </LATEX>
           </TITLE>
           <RULE name="existentialGeneralization">
             <DESCRIPTION>
@@ -1336,18 +1474,14 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                
                   Wenn $\alpha(x_1) \rightarrow \beta$ eine wahre Formel ist und $\beta$ die Subjektvariable $x_1$ nicht enthält, dann ist auch $(\exists x_1~\alpha(x_1)) \rightarrow \beta$ eine wahre Formel.
-                  
                 ]]>
               </LATEX>
             </DESCRIPTION>
           </RULE>
         </NODE>
-
       </SUBSECTIONS>
     </SECTION>
-
     <SECTION>
       <TITLE>
         <LATEX language="en">
@@ -1578,8 +1712,7 @@
             </FORMULA>
             <FORMAL_PROOF>
               <LINES>
-                <CP>
-                  <HYPOTHESIS label="1">
+                <CP><HYPOTHESIS label="1">
                     <FORMULA>
                       <IMPL>
                         <PREDVAR id="A"/>
@@ -1591,8 +1724,7 @@
                     </FORMULA>
                   </HYPOTHESIS>
                   <LINES>
-                    <CP>
-                      <HYPOTHESIS label="2">
+                    <CP><HYPOTHESIS label="2">
                         <FORMULA>
                           <PREDVAR id="A"/>
                         </FORMULA>
@@ -1734,8 +1866,7 @@
                     </FORMULA>
                   </SUBST_PREDVAR>
                 </L>
-                <CP>
-                  <HYPOTHESIS label="5">
+                <CP><HYPOTHESIS label="5">
                     <FORMULA>
                       <IMPL>
                         <IMPL>
@@ -1750,15 +1881,13 @@
                     </FORMULA>
                   </HYPOTHESIS>
                   <LINES>
-                    <CP>
-                      <HYPOTHESIS label="6">
+                    <CP><HYPOTHESIS label="6">
                         <FORMULA>
                           <PREDVAR id="A"/>
                         </FORMULA>
                       </HYPOTHESIS>
                       <LINES>
-                        <CP>
-                          <HYPOTHESIS label="7">
+                        <CP><HYPOTHESIS label="7">
                             <FORMULA>
                               <PREDVAR id="B"/>
                             </FORMULA>
@@ -1862,8 +1991,7 @@
             </FORMULA>
             <FORMAL_PROOF>
               <LINES>
-                <CP>
-                  <HYPOTHESIS label="1">
+                <CP><HYPOTHESIS label="1">
                     <FORMULA>
                       <IMPL>
                         <PREDVAR id="A"/>
@@ -1872,8 +2000,7 @@
                     </FORMULA>
                   </HYPOTHESIS>
                   <LINES>
-                    <CP>
-                      <HYPOTHESIS label="2">
+                    <CP><HYPOTHESIS label="2">
                         <FORMULA>
                           <IMPL>
                             <PREDVAR id="B"/>
@@ -1882,8 +2009,7 @@
                         </FORMULA>
                       </HYPOTHESIS>
                       <LINES>
-                        <CP>
-                          <HYPOTHESIS label="3">
+                        <CP><HYPOTHESIS label="3">
                             <FORMULA>
                               <PREDVAR id="A"/>
                             </FORMULA>
@@ -1975,8 +2101,7 @@
             </FORMULA>
             <FORMAL_PROOF>
               <LINES>
-                <CP>
-                  <HYPOTHESIS label="1">
+                <CP><HYPOTHESIS label="1">
                     <FORMULA>
                       <IMPL>
                         <PREDVAR id="A"/>
@@ -1988,15 +2113,13 @@
                     </FORMULA>
                   </HYPOTHESIS>
                   <LINES>
-                    <CP>
-                      <HYPOTHESIS label="2">
+                    <CP><HYPOTHESIS label="2">
                         <FORMULA>
                           <PREDVAR id="B"/>
                         </FORMULA>
                       </HYPOTHESIS>
                       <LINES>
-                        <CP>
-                          <HYPOTHESIS label="3">
+                        <CP><HYPOTHESIS label="3">
                             <FORMULA>
                               <PREDVAR id="A"/>
                             </FORMULA>
@@ -2219,8 +2342,7 @@
                     </FORMULA>
                   </SUBST_PREDVAR>
                 </L>
-                <CP>
-                  <HYPOTHESIS label="7">
+                <CP><HYPOTHESIS label="7">
                     <FORMULA>
                       <AND>
                         <IMPL>
@@ -2362,7 +2484,7 @@
                       </IMPL>
                     </IMPL>
                   </FORMULA>
-                  <ADD ref="axiom:AND-3" />
+                  <ADD ref="axiom:AND-3"/>
                 </L>
                 <L label="2">
                   <FORMULA>
@@ -2404,8 +2526,7 @@
                     </FORMULA>
                   </SUBST_PREDVAR>
                 </L>
-                <CP>
-                  <HYPOTHESIS label="4">
+                <CP><HYPOTHESIS label="4">
                     <FORMULA>
                       <IMPL>
                         <PREDVAR id="A"/>
@@ -2414,8 +2535,7 @@
                     </FORMULA>
                   </HYPOTHESIS>
                   <LINES>
-                    <CP>
-                      <HYPOTHESIS label="5">
+                    <CP><HYPOTHESIS label="5">
                         <FORMULA>
                           <IMPL>
                             <PREDVAR id="A"/>
@@ -2424,8 +2544,7 @@
                         </FORMULA>
                       </HYPOTHESIS>
                       <LINES>
-                        <CP>
-                          <HYPOTHESIS label="6">
+                        <CP><HYPOTHESIS label="6">
                             <FORMULA>
                               <PREDVAR id="A"/>
                             </FORMULA>
@@ -2554,7 +2673,7 @@
                       </IMPL>
                     </IMPL>
                   </FORMULA>
-                  <ADD ref="axiom:AND-3" />
+                  <ADD ref="axiom:AND-3"/>
                 </L>
                 <L label="2">
                   <FORMULA>
@@ -2640,8 +2759,7 @@
                   </FORMULA>
                   <ADD ref="axiom:AND-2"/>
                 </L>
-                <CP>
-                  <HYPOTHESIS label="7">
+                <CP><HYPOTHESIS label="7">
                     <FORMULA>
                       <AND>
                         <PREDVAR id="A"/>
@@ -3106,8 +3224,7 @@
                     </FORMULA>
                   </SUBST_PREDVAR>
                 </L>
-                <CP>
-                  <HYPOTHESIS label="8">
+                <CP><HYPOTHESIS label="8">
                     <FORMULA>
                       <PREDVAR id="A"/>
                     </FORMULA>
@@ -3135,11 +3252,11 @@
                               <PREDVAR id="A"/>
                             </NOT>
                           </IMPL>
+                          <NOT>
                             <NOT>
-                              <NOT>
-                                <PREDVAR id="A"/>
-                              </NOT>
+                              <PREDVAR id="A"/>
                             </NOT>
+                          </NOT>
                         </IMPL>
                       </FORMULA>
                       <MP ref1="5" ref2="9"/>
@@ -3165,7 +3282,7 @@
                           </NOT>
                         </NOT>
                       </IMPL>
-                      </FORMULA>
+                    </FORMULA>
                   </CONCLUSION>
                 </CP>
               </LINES>
@@ -3277,8 +3394,7 @@
                   </FORMULA>
                   <ADD ref="axiom:NOT-1"/>
                 </L>
-                <CP>
-                  <HYPOTHESIS label="6">
+                <CP><HYPOTHESIS label="6">
                     <FORMULA>
                       <IMPL>
                         <PREDVAR id="A"/>
@@ -3289,8 +3405,7 @@
                     </FORMULA>
                   </HYPOTHESIS>
                   <LINES>
-                    <CP>
-                      <HYPOTHESIS label="7">
+                    <CP><HYPOTHESIS label="7">
                         <FORMULA>
                           <PREDVAR id="B"/>
                         </FORMULA>
@@ -3476,8 +3591,7 @@
                   </FORMULA>
                   <ADD ref="axiom:NOT-1"/>
                 </L>
-                <CP>
-                  <HYPOTHESIS label="6">
+                <CP><HYPOTHESIS label="6">
                     <FORMULA>
                       <IMPL>
                         <PREDVAR id="A"/>
@@ -3502,8 +3616,7 @@
                       </FORMULA>
                       <MP ref1="5" ref2="6"/>
                     </L>
-                    <CP>
-                      <HYPOTHESIS label="8">
+                    <CP><HYPOTHESIS label="8">
                         <FORMULA>
                           <NOT>
                             <PREDVAR id="B"/>
@@ -3810,6 +3923,316 @@
               <IMPL>
                 <NOT>
                   <NOT>
+                    <NOT>
+                      <PREDVAR id="A"/>
+                    </NOT>
+                  </NOT>
+                </NOT>
+                <NOT>
+                  <PREDVAR id="A"/>
+                </NOT>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <NOT>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </NOT>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="proposition:implication20"/>
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                      <IMPL>
+                        <NOT>
+                          <PREDVAR id="B"/>
+                        </NOT>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="proposition:implication22"/>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <NOT>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </NOT>
+                      </IMPL>
+                      <IMPL>
+                        <NOT>
+                          <NOT>
+                            <NOT>
+                              <PREDVAR id="A"/>
+                            </NOT>
+                          </NOT>
+                        </NOT>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="2">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <NOT>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </NOT>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <NOT>
+                        <NOT>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </NOT>
+                      </NOT>
+                      <NOT>
+                        <PREDVAR id="A"/>
+                      </NOT>
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="3" ref2="1"/>
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:implication33">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <IMPL>
+                  <NOT>
+                    <PREDVAR id="A"/>
+                  </NOT>
+                  <PREDVAR id="A"/>
+                </IMPL>
+                <NOT>
+                  <NOT>
+                    <PREDVAR id="A"/>
+                  </NOT>
+                </NOT>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <PREDVAR id="A"/>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="proposition:implicationReflexive1" />
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <NOT>
+                        <PREDVAR id="A"/>
+                      </NOT>
+                      <NOT>
+                        <PREDVAR id="A"/>
+                      </NOT>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="1">
+                    <PREDVAR id="A"/>
+                    <FORMULA>
+                      <NOT>
+                        <PREDVAR id="A"/>
+                      </NOT>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <NOT>
+                            <PREDVAR id="B"/>
+                          </NOT>
+                        </IMPL>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:NOT-1" />
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                          <NOT>
+                            <PREDVAR id="B"/>
+                          </NOT>
+                        </IMPL>
+                        <NOT>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </NOT>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="3">
+                    <PREDVAR id="A"/>
+                    <FORMULA>
+                      <NOT>
+                        <PREDVAR id="A"/>
+                      </NOT>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="5">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                        <PREDVAR id="A"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </IMPL>
+                        <NOT>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </NOT>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="4">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <PREDVAR id="A"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <CP>
+                  <HYPOTHESIS label="6">
+                    <FORMULA>
+                      <IMPL>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                        <PREDVAR id="A"/>
+                      </IMPL>
+                    </FORMULA>
+                  </HYPOTHESIS>
+                  <LINES>
+                    <L label="7">
+                      <FORMULA>
+                        <IMPL>
+                          <IMPL>
+                            <NOT>
+                              <PREDVAR id="A"/>
+                            </NOT>
+                            <NOT>
+                              <PREDVAR id="A"/>
+                            </NOT>
+                          </IMPL>
+                          <NOT>
+                            <NOT>
+                              <PREDVAR id="A"/>
+                            </NOT>
+                          </NOT>
+                        </IMPL>
+                      </FORMULA>
+                      <MP ref1="5" ref2="6"/>
+                    </L>
+                    <L label="8">
+                      <FORMULA>
+                        <NOT>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </NOT>
+                      </FORMULA>
+                      <MP ref1="7" ref2="2"/>
+                    </L>
+                  </LINES>
+                  <CONCLUSION>
+                    <FORMULA>
+                      <IMPL>
+                        <IMPL>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                          <PREDVAR id="A"/>
+                        </IMPL>
+                        <NOT>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </NOT>
+                      </IMPL>
+                    </FORMULA>
+                  </CONCLUSION>
+                </CP>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:implication35">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <NOT>
+                  <NOT>
                     <PREDVAR id="A"/>
                   </NOT>
                 </NOT>
@@ -3818,7 +4241,7 @@
             </FORMULA>
           </THEOREM>
         </NODE>
-        <NODE id="proposition:implication33">
+        <NODE id="proposition:implication43">
           <THEOREM>
             <FORMULA>
               <IMPL>
@@ -3840,7 +4263,7 @@
             </FORMULA>
           </THEOREM>
         </NODE>
-        <NODE id="proposition:implication34">
+        <NODE id="proposition:implication44">
           <THEOREM>
             <FORMULA>
               <IMPL>
@@ -3867,55 +4290,54 @@
   </CHAPTER>
   <BIBLIOGRAPHY>
     <ITEM label="novikov">
-      <LATEX language="en">
-        <![CDATA[
-           \emph{P.S. Novikov}, Elements of Mathematical Logic, Edinburgh: Oliver and Boyd, 1964.
-        ]]>
-      </LATEX>
-      <LATEX language="de">
-        <![CDATA[
-          \emph{P.S. Novikov}, Grundzüge der mathematischen Logik, VEB Deutscher Verlag der Wissenschaften, Berlin 1973
-        ]]>
-      </LATEX>
+        <LATEX language="en">
+          <![CDATA[
+            \emph{P.S. Novikov}, Elements of Mathematical Logic, Edinburgh: Oliver and Boyd, 1964.
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            \emph{P.S. Novikov}, Grundzüge der mathematischen Logik, VEB Deutscher Verlag der Wissenschaften, Berlin 1973
+          ]]>
+        </LATEX>
     </ITEM>
     <ITEM label="detnieks">
-      <LATEX language="en">
-        <![CDATA[
-           \emph{V.~Detlovs, K.~Podnieks}, Introduction to Mathematical Logic, 
+        <LATEX language="en">
+          <![CDATA[
+            \emph{V.~Detlovs, K.~Podnieks}, Introduction to Mathematical Logic, 
            \url{http://www.ltn.lv/~podnieks/mlog/ml.htm}.
-        ]]>
-      </LATEX>
-      <LATEX language="de">
-        <![CDATA[
-          \emph{V.~Detlovs, K.~Podnieks}, Introduction to Mathematical Logic, \url{http://www.ltn.lv/~podnieks/mlog/ml.htm}
-        ]]>
-      </LATEX>
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            \emph{V.~Detlovs, K.~Podnieks}, Introduction to Mathematical Logic, \url{http://www.ltn.lv/~podnieks/mlog/ml.htm}
+          ]]>
+        </LATEX>
     </ITEM>
     <ITEM label="hilback">
-      <LATEX language="en">
-        <![CDATA[
-           \emph{D.~Hilbert, W.~Ackermann}, Grundzüge der theoretischen Logik, 2nd ed., Berlin: Springer, 1938. English version: Principles of Mathematical Logic, Chelsea, New York 1950, ed. by R.~E.~Luce.
+        <LATEX language="en">
+          <![CDATA[
+            \emph{D.~Hilbert, W.~Ackermann}, Grundzüge der theoretischen Logik, 2nd ed., Berlin: Springer, 1938. English version: Principles of Mathematical Logic, Chelsea, New York 1950, ed. by R.~E.~Luce.
            See also \url{http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert.html}
-        ]]>
-      </LATEX>
-      <LATEX language="de">
-        <![CDATA[
-          \emph{D.~Hilbert, W.~Ackermann}, Grundzüge der theoretischen Logik, 2. Ed., Springer, Berlin 1938. Siehe auch \url{http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert.html}
-        ]]>
-      </LATEX>
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            \emph{D.~Hilbert, W.~Ackermann}, Grundzüge der theoretischen Logik, 2. Ed., Springer, Berlin 1938. Siehe auch \url{http://www.math.uwaterloo.ca/~snburris/htdocs/scav/hilbert/hilbert.html}
+          ]]>
+        </LATEX>
     </ITEM>
     <ITEM label="mendelson">
-      <LATEX language="en">
-        <![CDATA[
-           \emph{E.~Mendelson}, Introduction to Mathematical Logic, 3rd. ed., Belmont, CA: Wadsworth, 1987.
-        ]]>
-      </LATEX>
-      <LATEX language="de">
-        <![CDATA[
-          \emph{E.~Mendelson}, Introduction to Mathematical Logic, 3. ed., Wadsworth, Belmont, CA 1987
-        ]]>
-      </LATEX>
+        <LATEX language="en">
+          <![CDATA[
+            \emph{E.~Mendelson}, Introduction to Mathematical Logic, 3rd. ed., Belmont, CA: Wadsworth, 1987.
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            \emph{E.~Mendelson}, Introduction to Mathematical Logic, 3. ed., Wadsworth, Belmont, CA 1987
+          ]]>
+        </LATEX>
     </ITEM>
   </BIBLIOGRAPHY>
-  
 </QEDEQ>
