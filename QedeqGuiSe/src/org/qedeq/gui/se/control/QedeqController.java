@@ -75,14 +75,8 @@ public class QedeqController {
     /** Add all modules from <a href="http://www.qedeq.org/">Hilbert II</a> webpage. */
     private final Action addAllModulesFromQedeqAction;
 
-    /** Transform QEDEQ module into LaTeX. */
-    private final Action makeLatexAction;
-
     /** Show all service processes. */
     private final Action processViewAction;
-
-    /** All plugin actions. */
-    private final PluginAction[] pluginActions;
 
     /** Check logical correctness of QEDEQ module. */
     private final Action checkLogicAction;
@@ -131,16 +125,9 @@ public class QedeqController {
         removeAllAction = new RemoveAllAction();
         removeModuleAction = new RemoveModuleAction(this);
         removeLocalBufferAction = new RemoveLocalBufferAction(this);
-        makeLatexAction = new MakeLatexAction(this);
         checkLogicAction = new CheckLogicAction(this);
         removePluginResultsAction = new RemovePluginResultsAction(this);
         processViewAction = new ProcessViewAction();
-
-        final Plugin[] plugins = KernelContext.getInstance().getPlugins();
-        pluginActions = new PluginAction[plugins.length];
-        for (int i = 0; i < plugins.length; i++) {
-            pluginActions[i] = new PluginAction(this, plugins[i]);
-        }
 
         final String[] list = KernelContext.getInstance().getConfig().getModuleHistory();
         moduleHistory = new ArrayList();
@@ -265,20 +252,18 @@ public class QedeqController {
     }
 
     /**
-     * Get action for transforming the selected QEDEQ modules into LaTeX.
-     *
-     * @return  Action.
-     */
-    public Action getLatexAction() {
-        return makeLatexAction;
-    }
-
-    /**
      * Get all plugin actions as menu entries.
      *
      * @return  Menu entries for plugins.
      */
     public JMenuItem[] getPluginMenuEntries() {
+        System.out.println("creating menu");    // FIXME remove me
+        (new NullPointerException()).printStackTrace(System.out);
+        final Plugin[] plugins = KernelContext.getInstance().getPlugins();
+        final PluginAction[] pluginActions = new PluginAction[plugins.length];
+        for (int i = 0; i < plugins.length; i++) {
+            pluginActions[i] = new PluginAction(this, plugins[i]);
+        }
         JMenuItem[] result = new JMenuItem[pluginActions.length];
         for (int i = 0; i < pluginActions.length; i++) {
             final JMenuItem item = MenuHelper.createMenuItem(pluginActions[i].getPlugin()

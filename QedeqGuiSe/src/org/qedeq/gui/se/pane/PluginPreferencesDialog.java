@@ -21,10 +21,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.ButtonGroup;
@@ -42,9 +40,9 @@ import javax.swing.JTextField;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 
+import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.util.GuiHelper;
-import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.logic.model.FourDynamicModel;
 import org.qedeq.kernel.bo.logic.model.SixDynamicModel;
 import org.qedeq.kernel.bo.logic.model.ThreeDynamicModel;
@@ -224,7 +222,8 @@ public class PluginPreferencesDialog extends JDialog {
         final Iterator iter = creators.iterator();
         while (iter.hasNext()) {
             PluginGuiPreferencesCreator creator = (PluginGuiPreferencesCreator) iter.next();
-            tabbedPane.addTab(creator.getName(), creator.create());
+            tabbedPane.addTab(creator.getName(), creator.create(QedeqGuiConfig.getInstance()
+                .getPluginEntries(creator.getPlugin())));
         }
 
 //        tabbedPane.setBorder(GuiHelper.getEmptyBorder());
@@ -254,7 +253,7 @@ public class PluginPreferencesDialog extends JDialog {
      */
     private PluginGuiPreferencesCreator qedeq2LatexConfig(final PluginBo plugin) {
         return new PluginGuiPreferencesCreator(plugin) {
-            JComponent create() {
+            JComponent create(final Parameters parameters) {
                 FormLayout layout = new FormLayout(
                     "left:pref, 5dlu, fill:pref:grow");    // columns
 
@@ -263,7 +262,7 @@ public class PluginPreferencesDialog extends JDialog {
                 builder.getPanel().setOpaque(false);
 
                 qedeq2LatexInfoCB = new JCheckBox(" Also write reference labels (makes it easier for authors)",
-                    QedeqGuiConfig.getInstance().getPluginKeyValue(plugin, "info", true));
+                    parameters.getBoolean("info"));
                 builder.append(qedeq2LatexInfoCB);
 
                 return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
@@ -279,7 +278,7 @@ public class PluginPreferencesDialog extends JDialog {
      */
     private PluginGuiPreferencesCreator qedeq2Utf8Config(final PluginBo plugin) {
         return new PluginGuiPreferencesCreator(plugin) {
-            JComponent create() {
+            JComponent create(final Parameters parameters) {
                 FormLayout layout = new FormLayout(
                     "left:pref, 5dlu, fill:50dlu, fill:pref:grow");    // columns
 
@@ -312,7 +311,7 @@ public class PluginPreferencesDialog extends JDialog {
      */
     private PluginGuiPreferencesCreator qedeq2Utf8ShowConfig(final PluginBo plugin) {
         return new PluginGuiPreferencesCreator(plugin) {
-            JComponent create() {
+            JComponent create(final Parameters parameters) {
                 FormLayout layout = new FormLayout(
                     "left:pref, 5dlu, fill:50dlu, fill:pref:grow");    // columns
 
@@ -353,7 +352,7 @@ public class PluginPreferencesDialog extends JDialog {
 //     */
 //    private PluginGuiPreferencesCreator heuristicCheckerConfig(final PluginBo plugin) {
 //    return new PluginGuiPreferencesCreator(plugin) {
-//        JComponent create() {
+//    JComponent create(final Parameters parameters) {
 //        FormLayout layout = new FormLayout(
 //            "left:pref, 5dlu, fill:pref:grow",          // columns
 //            "top:pref:grow, top:pref:grow, top:pref:grow");      // rows
@@ -417,7 +416,7 @@ public class PluginPreferencesDialog extends JDialog {
      */
     private PluginGuiPreferencesCreator dynamicHeuristicCheckerConfig(final PluginBo plugin) {
         return new PluginGuiPreferencesCreator(plugin) {
-            JComponent create() {
+            JComponent create(final Parameters parameters) {
                 FormLayout layout = new FormLayout(
                     "left:pref, 5dlu, fill:pref:grow",          // columns
                     "top:pref:grow, top:pref:grow, top:pref:grow");      // rows
@@ -506,7 +505,7 @@ public class PluginPreferencesDialog extends JDialog {
      */
     private PluginGuiPreferencesCreator proofFinderConfig(final PluginBo plugin) {
         return new PluginGuiPreferencesCreator(plugin) {
-            JComponent create() {
+            JComponent create(final Parameters parameters) {
                 FormLayout layout = new FormLayout(
                     "left:pref, 5dlu, fill:50dlu, 5dlu, fill:50dlu, fill:pref:grow");    // columns
 
@@ -761,32 +760,58 @@ public class PluginPreferencesDialog extends JDialog {
         }
     }
 
+    /**
+     * This class is a basic creator for tabbed content.
+     */
     private abstract class PluginGuiPreferencesCreator {
 
-        final PluginBo plugin;
+        /** We work for this plugin. */
+        private final PluginBo plugin;
 
+        /**
+         * Constructor.
+         *
+         * @param   plugin  Plugin we work for.
+         */
         PluginGuiPreferencesCreator(final PluginBo plugin) {
             this.plugin = plugin;
         }
 
+        /**
+         * Get plugin we work for.
+         *
+         * @return  Plugin.
+         */
+        public PluginBo getPlugin() {
+            return plugin;
+        }
+
+        /**
+         * Get plugin action name.
+         *
+         * @return  Plugin action name.
+         */
         public String getName() {
             return plugin.getPluginActionName();
         }
 
-        private void resetPluginValuesToDefault() {
-            final Map parameters = new HashMap();
+        /**
+         * Get default plugin values.
+         *
+         * @return  Default values.
+         */
+        private Parameters getDefaultPluginValues() {
+            final Parameters parameters = new Parameters();
             plugin.setDefaultValuesForEmptyPluginParameters(parameters);
-            KernelContext.getInstance().getConfig().setPluginKeyValues(plugin, parameters);
+            return parameters;
         }
 
         JComponent createDefault() {
-            resetPluginValuesToDefault();
-            return create();
+            return create(getDefaultPluginValues());
         }
 
-        abstract JComponent create();
+        abstract JComponent create(Parameters parameters);
 
     }
 
 }
-

@@ -254,8 +254,9 @@ public final class Main {
 
                 // initialize the kernel, this may create already some logging events
                 KernelContext.getInstance().init(
-                    new DefaultInternalKernelServices(KernelContext.getInstance(), new XmlQedeqFileDao()),
-                    QedeqGuiConfig.getInstance());
+                    QedeqGuiConfig.getInstance(),
+                    new DefaultInternalKernelServices(QedeqGuiConfig.getInstance(),
+                        KernelContext.getInstance(), new XmlQedeqFileDao()));
                 KernelContext.getInstance().startup();
                 final ModuleAddress address = KernelContext.getInstance().getModuleAddress(qedeq);
                 KernelContext.getInstance().loadModule(address);
