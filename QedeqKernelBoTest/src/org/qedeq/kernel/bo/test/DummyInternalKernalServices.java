@@ -144,4 +144,6 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     public boolean isSetReadTimeoutSupported() {
         return false;
     }
+    public void stopAllPluginExecutions() {
+    }
 }
