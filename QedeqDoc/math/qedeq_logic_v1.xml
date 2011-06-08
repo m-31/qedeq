@@ -2488,7 +2488,7 @@
               </LATEX>
               <LATEX language="de">
                 <![CDATA[
-                  Eine Formel $\beta$ heißt \emph{aus der Formel $\alpha$ ableitbar}, wenn sich $\beta$ mit Hilfe aller Regeln des Prädikatenkalküls und der um $\alpha$ vermehrten Gesamtheit aller wahren Formeln des Prädikatenkalküls herleitbar und $\alpha \rightarrow \beta$ eine Formel ist. Dabei dürfen die beiden SQuantifizierungsregeln, die Einsetzungsregel für Prädikatenvariable und die Umbenennungsregel für freie Subjektvariable nur auf solche Variablen angewendet werden, die in der Formel $\alpha$ nicht auftreten.
+                  Eine Formel $\beta$ heißt \emph{aus der Formel $\alpha$ ableitbar}, wenn sich $\beta$ mit Hilfe aller Regeln des Prädikatenkalküls und der um $\alpha$ vermehrten Gesamtheit aller wahren Formeln des Prädikatenkalküls herleitbar und $\alpha \rightarrow \beta$ eine Formel ist. Dabei dürfen die beiden Quantifizierungsregeln, die Einsetzungsregel für Prädikatenvariable und die Umbenennungsregel für freie Subjektvariable nur auf solche Variablen angewendet werden, die in der Formel $\alpha$ nicht auftreten.
                   
                   \par
                   Schreibweise: $\alpha \vdash \beta$.
@@ -2499,12 +2499,12 @@
           <SUCCEEDING>
             <LATEX language="en">
               <![CDATA[
-                That a formula $\beta$ is deducible from th formula $\alpha$ must be strictly distinguished from the deduction of a true formula from the axioms of the predicate calculus. In the second case more derivation rules are available. For example if $A$ is added to the axioms then the formula $B$ can be derived. But $B$ is not deducible from $A$.
+                That a formula $\beta$ is deducible from the formula $\alpha$ must be strictly distinguished from the deduction of a true formula from the axioms of the predicate calculus. In the second case more derivation rules are available. For example if $A$ is added to the axioms then the formula $B$ can be derived. But $B$ is not deducible from $A$.\footnote{We must make this distinction due to possible substitution rule usages.}
               ]]>
             </LATEX>
             <LATEX language="de">
               <![CDATA[
-                Die Ableitbarkeit einer Formel $\beta$ aus der Formel $\alpha$ ist streng zu unterscheiden von der Ableitbarkeit einer wahren Formel aus den Axiomen des Kalküls, denn im zweiten Fall stehen mehr Ableitungsregeln zur Verfügung. Falls beispielsweise die Formel $A$ als Axiom aufgenommen wird, so ist die Formel $A$ herleitbar. Hingegen läßt sich aus $A$ nicht $B$ ableiten.
+                Die Ableitbarkeit einer Formel $\beta$ aus der Formel $\alpha$ ist streng zu unterscheiden von der Ableitbarkeit einer wahren Formel aus den Axiomen des Kalküls, denn im zweiten Fall stehen mehr Ableitungsregeln zur Verfügung. Falls beispielsweise die Formel $A$ als Axiom aufgenommen wird, so ist die Formel $A$ herleitbar. Hingegen läßt sich aus $A$ nicht $B$ ableiten.\footnote{Die Unterscheidung ist der möglichen Anwendung der verschiedenen Substitionsregeln geschuldet.}
               ]]>
             </LATEX>
           </SUCCEEDING>

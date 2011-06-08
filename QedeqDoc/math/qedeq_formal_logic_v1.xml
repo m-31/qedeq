@@ -1693,6 +1693,571 @@
             </FORMAL_PROOF>
           </THEOREM>
         </NODE>
+        <NODE id="proposition:implication19">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <OR>
+                  <PREDVAR id="A"/>
+                  <PREDVAR id="B"/>
+                </OR>
+                <OR>
+                  <PREDVAR id="B"/>
+                  <PREDVAR id="A"/>
+                </OR>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <OR>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:OR-1"/>
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="A"/>
+                      <OR>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="A"/>
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:OR-2"/>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="C"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="C"/>
+                        </IMPL>
+                        <IMPL>
+                          <OR>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </OR>
+                          <PREDVAR id="C"/>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:OR-3"/>
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="D"/>
+                      <OR>
+                        <PREDVAR id="D"/>
+                        <PREDVAR id="B"/>
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="1">
+                    <PREDVAR id="A"/>
+                    <FORMULA>
+                      <PREDVAR id="D"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="5">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <OR>
+                          <PREDVAR id="C"/>
+                          <PREDVAR id="A"/>
+                        </OR>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="B"/>
+                          <OR>
+                            <PREDVAR id="C"/>
+                            <PREDVAR id="A"/>
+                          </OR>
+                        </IMPL>
+                        <IMPL>
+                          <OR>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </OR>
+                          <OR>
+                            <PREDVAR id="C"/>
+                            <PREDVAR id="A"/>
+                          </OR>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="3">
+                    <PREDVAR id="C"/>
+                    <FORMULA>
+                      <OR>
+                        <PREDVAR id="C"/>
+                        <PREDVAR id="A"/>
+                      </OR>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="6">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="D"/>
+                      <OR>
+                        <PREDVAR id="D"/>
+                        <PREDVAR id="A"/>
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="4">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <PREDVAR id="A"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="7">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <OR>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="A"/>
+                        </OR>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="B"/>
+                          <OR>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="A"/>
+                          </OR>
+                        </IMPL>
+                        <IMPL>
+                          <OR>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </OR>
+                          <OR>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="A"/>
+                          </OR>
+                        </IMPL>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="5">
+                    <PREDVAR id="C"/>
+                    <FORMULA>
+                      <PREDVAR id="B"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="8">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="B"/>
+                        <OR>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="A"/>
+                        </OR>
+                      </IMPL>
+                      <IMPL>
+                        <OR>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="B"/>
+                        </OR>
+                        <OR>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="A"/>
+                        </OR>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="7" ref2="2"/>
+                </L>
+                <L label="9">
+                  <FORMULA>
+                    <IMPL>
+                      <PREDVAR id="B"/>
+                      <OR>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="A"/>
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="6">
+                    <PREDVAR id="D"/>
+                    <FORMULA>
+                      <PREDVAR id="B"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="10">
+                  <FORMULA>
+                    <IMPL>
+                      <OR>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </OR>
+                      <OR>
+                        <PREDVAR id="B"/>
+                        <PREDVAR id="A"/>
+                      </OR>
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="8" ref2="9"/>
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:implication23">
+          <THEOREM>
+            <FORMULA>
+              <NOT>
+                <AND>
+                  <PREDVAR id="A"/>
+                  <NOT>
+                    <PREDVAR id="A"/>
+                  </NOT>
+                </AND>
+              </NOT>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <L label="1">
+                  <FORMULA>
+                    <IMPL>
+                      <AND>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </AND>
+                      <PREDVAR id="A"/>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:AND-1"/>
+                </L>
+                <L label="2">
+                  <FORMULA>
+                    <IMPL>
+                      <AND>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </AND>
+                      <PREDVAR id="B"/>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:AND-2"/>
+                </L>
+                <L label="3">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <NOT>
+                            <PREDVAR id="B"/>
+                          </NOT>
+                        </IMPL>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <ADD ref="axiom:NOT-1"/>
+                </L>
+                <L label="4">
+                  <FORMULA>
+                    <IMPL>
+                      <AND>
+                        <PREDVAR id="A"/>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </AND>
+                      <PREDVAR id="A"/>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="1">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <NOT>
+                        <PREDVAR id="A"/>
+                      </NOT>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="5">
+                  <FORMULA>
+                    <IMPL>
+                      <AND>
+                        <PREDVAR id="A"/>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </AND>
+                      <NOT>
+                        <PREDVAR id="A"/>
+                      </NOT>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="2">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <NOT>
+                        <PREDVAR id="A"/>
+                      </NOT>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="6">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <AND>
+                          <PREDVAR id="A"/>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </AND>
+                        <PREDVAR id="B"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <AND>
+                            <PREDVAR id="A"/>
+                            <NOT>
+                              <PREDVAR id="A"/>
+                            </NOT>
+                          </AND>
+                          <NOT>
+                            <PREDVAR id="B"/>
+                          </NOT>
+                        </IMPL>
+                        <NOT>
+                          <AND>
+                            <PREDVAR id="A"/>
+                            <NOT>
+                              <PREDVAR id="A"/>
+                            </NOT>
+                          </AND>
+                        </NOT>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="3">
+                    <PREDVAR id="A"/>
+                    <FORMULA>
+                      <AND>
+                        <PREDVAR id="A"/>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </AND>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="7">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <AND>
+                          <PREDVAR id="A"/>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </AND>
+                        <PREDVAR id="A"/>
+                      </IMPL>
+                      <IMPL>
+                        <IMPL>
+                          <AND>
+                            <PREDVAR id="A"/>
+                            <NOT>
+                              <PREDVAR id="A"/>
+                            </NOT>
+                          </AND>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </IMPL>
+                        <NOT>
+                          <AND>
+                            <PREDVAR id="A"/>
+                            <NOT>
+                              <PREDVAR id="A"/>
+                            </NOT>
+                          </AND>
+                        </NOT>
+                      </IMPL>
+                    </IMPL>
+                  </FORMULA>
+                  <SUBST_PREDVAR ref="6">
+                    <PREDVAR id="B"/>
+                    <FORMULA>
+                      <PREDVAR id="A"/>
+                    </FORMULA>
+                  </SUBST_PREDVAR>
+                </L>
+                <L label="8">
+                  <FORMULA>
+                    <IMPL>
+                      <IMPL>
+                        <AND>
+                          <PREDVAR id="A"/>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </AND>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </IMPL>
+                      <NOT>
+                        <AND>
+                          <PREDVAR id="A"/>
+                          <NOT>
+                            <PREDVAR id="A"/>
+                          </NOT>
+                        </AND>
+                      </NOT>
+                    </IMPL>
+                  </FORMULA>
+                  <MP ref1="7" ref2="4"/>
+                </L>
+                <L label="9">
+                  <FORMULA>
+                    <NOT>
+                      <AND>
+                        <PREDVAR id="A"/>
+                        <NOT>
+                          <PREDVAR id="A"/>
+                        </NOT>
+                      </AND>
+                    </NOT>
+                  </FORMULA>
+                  <MP ref1="8" ref2="5"/>
+                </L>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+          <![CDATA[
+            Deduction Theorem\index{deduction theorem}
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Deduktionstheorem\index{Deduktionstheorem}
+          ]]>
+        </LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            We prove the deduction theorem. This leads to the new rule \emph{Conditional Proof}.
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Wir leiten das Deduktionstheorem her. Dies ermöglicht die neue Regel \emph{Conditional Proof}.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
+        <NODE id="rule:CP">
+          <PRECEDING>
+            <LATEX language="en">
+              <![CDATA[
+                If we can prove $B$ by assuming $A$ as a hypothesis then we have proved $A \rightarrow B$. This reasoning is justified by the so-called \emph{deduction theorem}. The deduction theorem holds for all first-order theories with the usual deductive systems for first-order logic. However our use of proposition variables and substitution rules make difficulties. We have to restrict the allowed inference rules to get a simular result.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Wenn wir $B$ beweisen können, indem wir $A$ als Hypothese annehmen, dann haben wir $A \rightarrow B$ bewiesen. Diese Argumentation wir durch das sogenannte \emph{Deduktionstheorem} gerechtfertigt. Das Deduktionstheorem gilt für alle üblichen Ableitungssysteme der Prädikatenlogik der ersten Stufe. Leider macht unsere Verwendung von Prädikatsvariablen und Ersetzungsregeln hier Schwierigkeiten. Wir müssen die Verwendung von Ableitungsregeln einschränken um ein entsprechendes Resultat zu erhalten.
+              ]]>
+            </LATEX>
+          </PRECEDING>
+          <RULE name="CP">
+            <LINK id=""/>
+            <LINK id=""/>
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  We have the well-formed formula $\alpha$ and add it as a new proof line. Now we modify the existing inference rules. We can add a further proof line $\beta$ if $\alpha \rightarrow \beta$ is a well-formed formula and the usage of a previous inference rule with the following restrictions justifies the addition:
+                  for \qref{rule:replaceFree} occurs the replaced free variable not in $\alpha$, for \qref{rule:replacePred} occurs the replaced predicate variable not in $\alpha$, for \qref{rule:replaceFunct} occurs the replaced function variable not in $\alpha$.
+                ]]>
+              </LATEX>
+              <LATEX language="en">
+                <![CDATA[
+                  Wir haben die wohlgeformte Formel $\alpha$ und fügen sie als neue Beweiszeile hinzu. Nun modifizieren wir die existierenden Ableitungsregeln. Wir können eine weitere Beweiszeile anfügen, wenn $\alpha \rightarrow \beta$ eine wohlgeformte Formel ist und die Verwendung einer vorherigen Regel mit den folgenden Einschränkungen die Hinzufügung rechtfertigt:
+                  für \qref{rule:replaceFree} kommt die ersetzte freie Variable nicht in $\alpha$ vor, für \qref{rule:replacePred} kommt die ersetzte Prädikatenvariable nicht in $\alpha$ vor, für \qref{rule:replaceFunct} kommt ide ersetzte Funktionsvariable nicht in $\alpha$ vor.
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+            <PROOF kind="informal" level="1">
+              <LATEX language="en">
+              </LATEX>
+            </PROOF>
+          </RULE>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+          <![CDATA[
+            Further Theorems
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Weitere Sätze
+          ]]>
+        </LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            The deduction theorem enables us to prove more propopsitions.
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Mittels Deduktionstheorem leiten wir weitere Sätze ab.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
         <NODE id="proposition:implication10">
           <THEOREM>
             <FORMULA>
@@ -2821,243 +3386,6 @@
             </FORMAL_PROOF>
           </THEOREM>
         </NODE>
-        <NODE id="proposition:implication19">
-          <THEOREM>
-            <FORMULA>
-              <IMPL>
-                <OR>
-                  <PREDVAR id="A"/>
-                  <PREDVAR id="B"/>
-                </OR>
-                <OR>
-                  <PREDVAR id="B"/>
-                  <PREDVAR id="A"/>
-                </OR>
-              </IMPL>
-            </FORMULA>
-            <FORMAL_PROOF>
-              <LINES>
-                <L label="1">
-                  <FORMULA>
-                    <IMPL>
-                      <PREDVAR id="A"/>
-                      <OR>
-                        <PREDVAR id="A"/>
-                        <PREDVAR id="B"/>
-                      </OR>
-                    </IMPL>
-                  </FORMULA>
-                  <ADD ref="axiom:OR-1"/>
-                </L>
-                <L label="2">
-                  <FORMULA>
-                    <IMPL>
-                      <PREDVAR id="A"/>
-                      <OR>
-                        <PREDVAR id="B"/>
-                        <PREDVAR id="A"/>
-                      </OR>
-                    </IMPL>
-                  </FORMULA>
-                  <ADD ref="axiom:OR-2"/>
-                </L>
-                <L label="3">
-                  <FORMULA>
-                    <IMPL>
-                      <IMPL>
-                        <PREDVAR id="A"/>
-                        <PREDVAR id="C"/>
-                      </IMPL>
-                      <IMPL>
-                        <IMPL>
-                          <PREDVAR id="B"/>
-                          <PREDVAR id="C"/>
-                        </IMPL>
-                        <IMPL>
-                          <OR>
-                            <PREDVAR id="A"/>
-                            <PREDVAR id="B"/>
-                          </OR>
-                          <PREDVAR id="C"/>
-                        </IMPL>
-                      </IMPL>
-                    </IMPL>
-                  </FORMULA>
-                  <ADD ref="axiom:OR-3"/>
-                </L>
-                <L label="4">
-                  <FORMULA>
-                    <IMPL>
-                      <PREDVAR id="D"/>
-                      <OR>
-                        <PREDVAR id="D"/>
-                        <PREDVAR id="B"/>
-                      </OR>
-                    </IMPL>
-                  </FORMULA>
-                  <SUBST_PREDVAR ref="1">
-                    <PREDVAR id="A"/>
-                    <FORMULA>
-                      <PREDVAR id="D"/>
-                    </FORMULA>
-                  </SUBST_PREDVAR>
-                </L>
-                <L label="5">
-                  <FORMULA>
-                    <IMPL>
-                      <IMPL>
-                        <PREDVAR id="A"/>
-                        <OR>
-                          <PREDVAR id="C"/>
-                          <PREDVAR id="A"/>
-                        </OR>
-                      </IMPL>
-                      <IMPL>
-                        <IMPL>
-                          <PREDVAR id="B"/>
-                          <OR>
-                            <PREDVAR id="C"/>
-                            <PREDVAR id="A"/>
-                          </OR>
-                        </IMPL>
-                        <IMPL>
-                          <OR>
-                            <PREDVAR id="A"/>
-                            <PREDVAR id="B"/>
-                          </OR>
-                          <OR>
-                            <PREDVAR id="C"/>
-                            <PREDVAR id="A"/>
-                          </OR>
-                        </IMPL>
-                      </IMPL>
-                    </IMPL>
-                  </FORMULA>
-                  <SUBST_PREDVAR ref="3">
-                    <PREDVAR id="C"/>
-                    <FORMULA>
-                      <OR>
-                        <PREDVAR id="C"/>
-                        <PREDVAR id="A"/>
-                      </OR>
-                    </FORMULA>
-                  </SUBST_PREDVAR>
-                </L>
-                <L label="6">
-                  <FORMULA>
-                    <IMPL>
-                      <PREDVAR id="D"/>
-                      <OR>
-                        <PREDVAR id="D"/>
-                        <PREDVAR id="A"/>
-                      </OR>
-                    </IMPL>
-                  </FORMULA>
-                  <SUBST_PREDVAR ref="4">
-                    <PREDVAR id="B"/>
-                    <FORMULA>
-                      <PREDVAR id="A"/>
-                    </FORMULA>
-                  </SUBST_PREDVAR>
-                </L>
-                <L label="7">
-                  <FORMULA>
-                    <IMPL>
-                      <IMPL>
-                        <PREDVAR id="A"/>
-                        <OR>
-                          <PREDVAR id="B"/>
-                          <PREDVAR id="A"/>
-                        </OR>
-                      </IMPL>
-                      <IMPL>
-                        <IMPL>
-                          <PREDVAR id="B"/>
-                          <OR>
-                            <PREDVAR id="B"/>
-                            <PREDVAR id="A"/>
-                          </OR>
-                        </IMPL>
-                        <IMPL>
-                          <OR>
-                            <PREDVAR id="A"/>
-                            <PREDVAR id="B"/>
-                          </OR>
-                          <OR>
-                            <PREDVAR id="B"/>
-                            <PREDVAR id="A"/>
-                          </OR>
-                        </IMPL>
-                      </IMPL>
-                    </IMPL>
-                  </FORMULA>
-                  <SUBST_PREDVAR ref="5">
-                    <PREDVAR id="C"/>
-                    <FORMULA>
-                      <PREDVAR id="B"/>
-                    </FORMULA>
-                  </SUBST_PREDVAR>
-                </L>
-                <L label="8">
-                  <FORMULA>
-                    <IMPL>
-                      <IMPL>
-                        <PREDVAR id="B"/>
-                        <OR>
-                          <PREDVAR id="B"/>
-                          <PREDVAR id="A"/>
-                        </OR>
-                      </IMPL>
-                      <IMPL>
-                        <OR>
-                          <PREDVAR id="A"/>
-                          <PREDVAR id="B"/>
-                        </OR>
-                        <OR>
-                          <PREDVAR id="B"/>
-                          <PREDVAR id="A"/>
-                        </OR>
-                      </IMPL>
-                    </IMPL>
-                  </FORMULA>
-                  <MP ref1="7" ref2="2"/>
-                </L>
-                <L label="9">
-                  <FORMULA>
-                    <IMPL>
-                      <PREDVAR id="B"/>
-                      <OR>
-                        <PREDVAR id="B"/>
-                        <PREDVAR id="A"/>
-                      </OR>
-                    </IMPL>
-                  </FORMULA>
-                  <SUBST_PREDVAR ref="6">
-                    <PREDVAR id="D"/>
-                    <FORMULA>
-                      <PREDVAR id="B"/>
-                    </FORMULA>
-                  </SUBST_PREDVAR>
-                </L>
-                <L label="10">
-                  <FORMULA>
-                    <IMPL>
-                      <OR>
-                        <PREDVAR id="A"/>
-                        <PREDVAR id="B"/>
-                      </OR>
-                      <OR>
-                        <PREDVAR id="B"/>
-                        <PREDVAR id="A"/>
-                      </OR>
-                    </IMPL>
-                  </FORMULA>
-                  <MP ref1="8" ref2="9"/>
-                </L>
-              </LINES>
-            </FORMAL_PROOF>
-          </THEOREM>
-        </NODE>
         <NODE id="proposition:implication20">
           <THEOREM>
             <FORMULA>
@@ -3677,242 +4005,6 @@
                     </FORMULA>
                   </CONCLUSION>
                 </CP>
-              </LINES>
-            </FORMAL_PROOF>
-          </THEOREM>
-        </NODE>
-        <NODE id="proposition:implication23">
-          <THEOREM>
-            <FORMULA>
-              <NOT>
-                <AND>
-                  <PREDVAR id="A"/>
-                  <NOT>
-                    <PREDVAR id="A"/>
-                  </NOT>
-                </AND>
-              </NOT>
-            </FORMULA>
-            <FORMAL_PROOF>
-              <LINES>
-                <L label="1">
-                  <FORMULA>
-                    <IMPL>
-                      <AND>
-                        <PREDVAR id="A"/>
-                        <PREDVAR id="B"/>
-                      </AND>
-                      <PREDVAR id="A"/>
-                    </IMPL>
-                  </FORMULA>
-                  <ADD ref="axiom:AND-1"/>
-                </L>
-                <L label="2">
-                  <FORMULA>
-                    <IMPL>
-                      <AND>
-                        <PREDVAR id="A"/>
-                        <PREDVAR id="B"/>
-                      </AND>
-                      <PREDVAR id="B"/>
-                    </IMPL>
-                  </FORMULA>
-                  <ADD ref="axiom:AND-2"/>
-                </L>
-                <L label="3">
-                  <FORMULA>
-                    <IMPL>
-                      <IMPL>
-                        <PREDVAR id="A"/>
-                        <PREDVAR id="B"/>
-                      </IMPL>
-                      <IMPL>
-                        <IMPL>
-                          <PREDVAR id="A"/>
-                          <NOT>
-                            <PREDVAR id="B"/>
-                          </NOT>
-                        </IMPL>
-                        <NOT>
-                          <PREDVAR id="A"/>
-                        </NOT>
-                      </IMPL>
-                    </IMPL>
-                  </FORMULA>
-                  <ADD ref="axiom:NOT-1"/>
-                </L>
-                <L label="4">
-                  <FORMULA>
-                    <IMPL>
-                      <AND>
-                        <PREDVAR id="A"/>
-                        <NOT>
-                          <PREDVAR id="A"/>
-                        </NOT>
-                      </AND>
-                      <PREDVAR id="A"/>
-                    </IMPL>
-                  </FORMULA>
-                  <SUBST_PREDVAR ref="1">
-                    <PREDVAR id="B"/>
-                    <FORMULA>
-                      <NOT>
-                        <PREDVAR id="A"/>
-                      </NOT>
-                    </FORMULA>
-                  </SUBST_PREDVAR>
-                </L>
-                <L label="5">
-                  <FORMULA>
-                    <IMPL>
-                      <AND>
-                        <PREDVAR id="A"/>
-                        <NOT>
-                          <PREDVAR id="A"/>
-                        </NOT>
-                      </AND>
-                      <NOT>
-                        <PREDVAR id="A"/>
-                      </NOT>
-                    </IMPL>
-                  </FORMULA>
-                  <SUBST_PREDVAR ref="2">
-                    <PREDVAR id="B"/>
-                    <FORMULA>
-                      <NOT>
-                        <PREDVAR id="A"/>
-                      </NOT>
-                    </FORMULA>
-                  </SUBST_PREDVAR>
-                </L>
-                <L label="6">
-                  <FORMULA>
-                    <IMPL>
-                      <IMPL>
-                        <AND>
-                          <PREDVAR id="A"/>
-                          <NOT>
-                            <PREDVAR id="A"/>
-                          </NOT>
-                        </AND>
-                        <PREDVAR id="B"/>
-                      </IMPL>
-                      <IMPL>
-                        <IMPL>
-                          <AND>
-                            <PREDVAR id="A"/>
-                            <NOT>
-                              <PREDVAR id="A"/>
-                            </NOT>
-                          </AND>
-                          <NOT>
-                            <PREDVAR id="B"/>
-                          </NOT>
-                        </IMPL>
-                        <NOT>
-                          <AND>
-                            <PREDVAR id="A"/>
-                            <NOT>
-                              <PREDVAR id="A"/>
-                            </NOT>
-                          </AND>
-                        </NOT>
-                      </IMPL>
-                    </IMPL>
-                  </FORMULA>
-                  <SUBST_PREDVAR ref="3">
-                    <PREDVAR id="A"/>
-                    <FORMULA>
-                      <AND>
-                        <PREDVAR id="A"/>
-                        <NOT>
-                          <PREDVAR id="A"/>
-                        </NOT>
-                      </AND>
-                    </FORMULA>
-                  </SUBST_PREDVAR>
-                </L>
-                <L label="7">
-                  <FORMULA>
-                    <IMPL>
-                      <IMPL>
-                        <AND>
-                          <PREDVAR id="A"/>
-                          <NOT>
-                            <PREDVAR id="A"/>
-                          </NOT>
-                        </AND>
-                        <PREDVAR id="A"/>
-                      </IMPL>
-                      <IMPL>
-                        <IMPL>
-                          <AND>
-                            <PREDVAR id="A"/>
-                            <NOT>
-                              <PREDVAR id="A"/>
-                            </NOT>
-                          </AND>
-                          <NOT>
-                            <PREDVAR id="A"/>
-                          </NOT>
-                        </IMPL>
-                        <NOT>
-                          <AND>
-                            <PREDVAR id="A"/>
-                            <NOT>
-                              <PREDVAR id="A"/>
-                            </NOT>
-                          </AND>
-                        </NOT>
-                      </IMPL>
-                    </IMPL>
-                  </FORMULA>
-                  <SUBST_PREDVAR ref="6">
-                    <PREDVAR id="B"/>
-                    <FORMULA>
-                      <PREDVAR id="A"/>
-                    </FORMULA>
-                  </SUBST_PREDVAR>
-                </L>
-                <L label="8">
-                  <FORMULA>
-                    <IMPL>
-                      <IMPL>
-                        <AND>
-                          <PREDVAR id="A"/>
-                          <NOT>
-                            <PREDVAR id="A"/>
-                          </NOT>
-                        </AND>
-                        <NOT>
-                          <PREDVAR id="A"/>
-                        </NOT>
-                      </IMPL>
-                      <NOT>
-                        <AND>
-                          <PREDVAR id="A"/>
-                          <NOT>
-                            <PREDVAR id="A"/>
-                          </NOT>
-                        </AND>
-                      </NOT>
-                    </IMPL>
-                  </FORMULA>
-                  <MP ref1="7" ref2="4"/>
-                </L>
-                <L label="9">
-                  <FORMULA>
-                    <NOT>
-                      <AND>
-                        <PREDVAR id="A"/>
-                        <NOT>
-                          <PREDVAR id="A"/>
-                        </NOT>
-                      </AND>
-                    </NOT>
-                  </FORMULA>
-                  <MP ref1="8" ref2="5"/>
-                </L>
               </LINES>
             </FORMAL_PROOF>
           </THEOREM>
