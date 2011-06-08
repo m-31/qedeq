@@ -254,7 +254,7 @@ public class DefaultModuleAddressTest extends QedeqTestCase {
         
     }
 
-    // FIXME 20110227 m31: should work also for this:
+    // FIXME 20110227 m31: test should work also for this:
     public void pestCreateRelativeAddress2() {
         assertEquals("./ho", DefaultModuleAddress.createRelativeAddress("hi/ti", "hi/ho"));
     }
