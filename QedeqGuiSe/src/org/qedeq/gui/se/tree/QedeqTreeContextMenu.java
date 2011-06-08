@@ -72,6 +72,15 @@ public final class QedeqTreeContextMenu extends JPopupMenu {
 
         this.addSeparator();
 
+        item = MenuHelper.createMenuItem("Terminate Threads", 'T');
+        item.addActionListener(controller.getTerminateAllAction());
+        item.setToolTipText(
+            "Terminate all currently running plugin processes.");
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/process-stop.png"));
+        this.add(item);
+
+        this.addSeparator();
+
         item = MenuHelper.createMenuItem("Load from Web", 'W');
         item.setToolTipText("Load QEDEQ module from anywhere in the Web");
         item.addActionListener(controller.getAddAction());

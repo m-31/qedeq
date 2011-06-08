@@ -177,6 +177,15 @@ public class QedeqMenuBar extends JMenuBar {
         item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/edit-clear.png"));
         menu.add(item);
 
+        menu.addSeparator();
+
+        item = MenuHelper.createMenuItem("Terminate Threads", 'T');
+        item.addActionListener(controller.getTerminateAllAction());
+        item.setToolTipText(
+            "Terminate all currently running plugin processes.");
+        item.setIcon(GuiHelper.readImageIcon("tango/" + resolution + "/actions/process-stop.png"));
+        menu.add(item);
+
         return menu;
     }
 

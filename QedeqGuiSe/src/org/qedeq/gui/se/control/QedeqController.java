@@ -78,6 +78,9 @@ public class QedeqController {
     /** Show all service processes. */
     private final Action processViewAction;
 
+    /** Terminate all service processes. */
+    private final Action terminateAllAction;
+
     /** Check logical correctness of QEDEQ module. */
     private final Action checkLogicAction;
 
@@ -128,6 +131,7 @@ public class QedeqController {
         checkLogicAction = new CheckLogicAction(this);
         removePluginResultsAction = new RemovePluginResultsAction(this);
         processViewAction = new ProcessViewAction();
+        terminateAllAction = new TerminateAllAction();
 
         final String[] list = KernelContext.getInstance().getConfig().getModuleHistory();
         moduleHistory = new ArrayList();
@@ -336,6 +340,15 @@ public class QedeqController {
      */
     public Action getProcessViewAction() {
         return processViewAction;
+    }
+
+    /**
+     * Get action for stopping all currently running plugin actions.
+     *
+     * @return  Action.
+     */
+    public Action getTerminateAllAction() {
+        return terminateAllAction;
     }
 
     /**

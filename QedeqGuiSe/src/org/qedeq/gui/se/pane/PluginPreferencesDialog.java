@@ -287,13 +287,13 @@ public class PluginPreferencesDialog extends JDialog {
                 builder.getPanel().setOpaque(false);
 
                 qedeq2Utf8InfoCB = new JCheckBox(" Also write reference labels (makes it easier for authors)",
-                    QedeqGuiConfig.getInstance().getPluginKeyValue(plugin, "info", true));
+                    parameters.getBoolean("info"));
                 builder.append(qedeq2Utf8InfoCB, 4);
 
                 builder.nextLine();
                 builder.append("Maximum row length");
-                qedeq2Utf8MaximumColumnTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
-                    plugin, "maximumColumn", "80"));
+                qedeq2Utf8MaximumColumnTF = new JTextField(parameters.getString(
+                    "maximumColumn"));
                 qedeq2Utf8MaximumColumnTF.setToolTipText("After this character number the line is broken."
                     + "0 means no break at all.");
                 builder.append(qedeq2Utf8MaximumColumnTF);
@@ -320,20 +320,20 @@ public class PluginPreferencesDialog extends JDialog {
                 builder.getPanel().setOpaque(false);
 
                 builder.append("Default language");
-                qedeq2Utf8ShowLanguageTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
-                    plugin, "language", "en"));
+                qedeq2Utf8ShowLanguageTF = new JTextField(parameters.getString(
+                    "language"));
                 qedeq2Utf8ShowLanguageTF.setToolTipText("Default language for showing module contents.");
                 builder.append(qedeq2Utf8ShowLanguageTF);
 
                 builder.nextLine();
                 qedeq2Utf8ShowInfoCB = new JCheckBox(" Also write reference labels (makes it easier for authors)",
-                    QedeqGuiConfig.getInstance().getPluginKeyValue(plugin, "info", true));
+                    parameters.getBoolean("info"));
                 builder.append(qedeq2Utf8ShowInfoCB, 4);
 
                 builder.nextLine();
                 builder.append("Maximum row length");
-                qedeq2Utf8ShowMaximumColumnTF = new JTextField(QedeqGuiConfig.getInstance().getPluginKeyValue(
-                    plugin, "maximumColumn", "80"));
+                qedeq2Utf8ShowMaximumColumnTF = new JTextField(parameters.getString(
+                    "maximumColumn"));
                 qedeq2Utf8ShowMaximumColumnTF.setToolTipText("After this character number the line is broken."
                     + "0 means no break at all.");
                 builder.append(qedeq2Utf8ShowMaximumColumnTF);
@@ -432,8 +432,8 @@ public class PluginPreferencesDialog extends JDialog {
                 final ButtonGroup dynamicHeuristicCheckerModelBG = new ButtonGroup();
 
                 final UnaryDynamicModel modelOne = new UnaryDynamicModel();
-                dynamicHeuristicCheckerModel = QedeqGuiConfig.getInstance()
-                    .getPluginKeyValue(plugin, "model", modelOne.getClass().getName());
+                dynamicHeuristicCheckerModel = parameters.getString(
+                    "model");
                 final ActionListener modelSelectionListener = new ActionListener() {
                     public void actionPerformed(final ActionEvent e) {
                         dynamicHeuristicCheckerModel = e.getActionCommand();
@@ -514,8 +514,8 @@ public class PluginPreferencesDialog extends JDialog {
                 builder.getPanel().setOpaque(false);
 
                 builder.append("Maximum proof lines");
-                proofFinderMaximumProofLengthTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                    plugin, "maximumProofLines", Integer.MAX_VALUE - 2));
+                proofFinderMaximumProofLengthTF = new JTextField(parameters.getString(
+                    "maximumProofLines"));
                 proofFinderMaximumProofLengthTF.setToolTipText("After this proof line number we abandom."
                     + " the search. This is not the maximum proof line length of the final proof but the"
                     + " but the maximum number of all generated proof lines.");
@@ -523,23 +523,23 @@ public class PluginPreferencesDialog extends JDialog {
                 builder.nextLine();
 
                 builder.append("Log frequence");
-                proofFinderLogFrequenceTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                    plugin, "logFrequence", 1000));
+                proofFinderLogFrequenceTF = new JTextField(parameters.getString(
+                    "logFrequence"));
                 proofFinderLogFrequenceTF.setToolTipText("After this number of new proof lines we"
                     + " create a logging output.");
                 builder.append(proofFinderLogFrequenceTF);
                 builder.nextLine();
 
                 builder.append("Skip formulas");
-                proofFinderSkipFormulasTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                    plugin, "skipFormulas", ""));
+                proofFinderSkipFormulasTF = new JTextField(parameters.getString(
+                    "skipFormulas"));
                 proofFinderSkipFormulasTF.setToolTipText("Skip these list of formula numbers (see log output)."
                     + " This a comma separated list of numbers.");
                 builder.append(proofFinderSkipFormulasTF);
                 builder.nextLine();
 
-                proofFinderExtraVarsTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                    plugin, "extraVars", 1));
+                proofFinderExtraVarsTF = new JTextField(parameters.getString(
+                    "extraVars"));
                 builder.append("Extra proposition variables");
                 builder.append(proofFinderExtraVarsTF);
                 proofFinderExtraVarsTF.setToolTipText("We use these number of extra proposition variables"
@@ -553,67 +553,65 @@ public class PluginPreferencesDialog extends JDialog {
                 builder.nextLine();
 
                 builder.append("Proposition variable");
-                proofFinderPropositionVariableOrderTF = new JTextField(""
-                    + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                    plugin, "propositionVariableOrder", 1));
+                proofFinderPropositionVariableOrderTF = new JTextField(parameters.getString(
+                    "propositionVariableOrder"));
                 builder.append(proofFinderPropositionVariableOrderTF);
-                proofFinderPropositionVariableWeightTF = new JTextField(""
-                    + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                    plugin, "propositionVariableWeight", 3));
+                proofFinderPropositionVariableWeightTF = new JTextField(parameters.getString(
+                    "propositionVariableWeight"));
                 builder.append(proofFinderPropositionVariableWeightTF);
                 builder.nextLine();
 
                 builder.append("Part formula");
-                proofFinderPartFormulaOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "partFormulaOrder", 2));
+                proofFinderPartFormulaOrderTF = new JTextField(parameters.getString(
+                    "partFormulaOrder"));
                 builder.append(proofFinderPartFormulaOrderTF);
-                proofFinderPartFormulaWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "partFormulaWeight", 1));
+                proofFinderPartFormulaWeightTF = new JTextField(parameters.getString(
+                    "partFormulaWeight"));
                 builder.append(proofFinderPartFormulaWeightTF);
                 builder.nextLine();
 
                 builder.append("Disjunction");
-                proofFinderDisjunctionOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "disjunctionOrder", 3));
+                proofFinderDisjunctionOrderTF = new JTextField(parameters.getString(
+                    "disjunctionOrder"));
                 builder.append(proofFinderDisjunctionOrderTF);
-                proofFinderDisjunctionWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "disjunctionWeight", 3));
+                proofFinderDisjunctionWeightTF = new JTextField(parameters.getString(
+                    "disjunctionWeight"));
                 builder.append(proofFinderDisjunctionWeightTF);
                 builder.nextLine();
 
                 builder.append("Implication");
-                proofFinderImplicationOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "implicationOrder", 4));
+                proofFinderImplicationOrderTF = new JTextField(parameters.getString(
+                    "implicationOrder"));
                 builder.append(proofFinderImplicationOrderTF);
-                proofFinderImplicationWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "implicationWeight", 1));
+                proofFinderImplicationWeightTF = new JTextField(parameters.getString(
+                    "implicationWeight"));
                 builder.append(proofFinderImplicationWeightTF);
                 builder.nextLine();
 
                 builder.append("Negation");
-                proofFinderNegationOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "negationOrder", 5));
+                proofFinderNegationOrderTF = new JTextField(parameters.getString(
+                    "negationOrder"));
                 builder.append(proofFinderNegationOrderTF);
-                proofFinderNegationWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "negationWeight", 1));
+                proofFinderNegationWeightTF = new JTextField(parameters.getString(
+                    "negationWeight"));
                 builder.append(proofFinderNegationWeightTF);
                 builder.nextLine();
 
                 builder.append("Conjunction");
-                proofFinderConjunctionOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "conjunctionOrder", 6));
+                proofFinderConjunctionOrderTF = new JTextField(parameters.getString(
+                    "conjunctionOrder"));
                 builder.append(proofFinderConjunctionOrderTF);
-                proofFinderConjunctionWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "conjunctionWeight", 1));
+                proofFinderConjunctionWeightTF = new JTextField(parameters.getString(
+                    "conjunctionWeight"));
                 builder.append(proofFinderConjunctionWeightTF);
                 builder.nextLine();
 
                 builder.append("Equivalence");
-                proofFinderEquivalenceOrderTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "equivalenceOrder", 7));
+                proofFinderEquivalenceOrderTF = new JTextField(parameters.getString(
+                    "equivalenceOrder"));
                 builder.append(proofFinderEquivalenceOrderTF);
-                proofFinderEquivalenceWeightTF = new JTextField("" + QedeqGuiConfig.getInstance().getPluginKeyValue(
-                        plugin, "equivalenceWeight", 1));
+                proofFinderEquivalenceWeightTF = new JTextField(parameters.getString(
+                    "equivalenceWeight"));
                 builder.append(proofFinderEquivalenceWeightTF);
                 builder.nextLine();
 
