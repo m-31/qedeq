@@ -2217,7 +2217,7 @@
                   for \qref{rule:replaceFree} occurs the replaced free variable not in $\alpha$, for \qref{rule:replacePred} occurs the replaced predicate variable not in $\alpha$, for \qref{rule:replaceFunct} occurs the replaced function variable not in $\alpha$.
                 ]]>
               </LATEX>
-              <LATEX language="en">
+              <LATEX language="de">
                 <![CDATA[
                   Wir haben die wohlgeformte Formel $\alpha$ und fügen sie als neue Beweiszeile hinzu. Nun modifizieren wir die existierenden Ableitungsregeln. Wir können eine weitere Beweiszeile anfügen, wenn $\alpha \rightarrow \beta$ eine wohlgeformte Formel ist und die Verwendung einer vorherigen Regel mit den folgenden Einschränkungen die Hinzufügung rechtfertigt:
                   für \qref{rule:replaceFree} kommt die ersetzte freie Variable nicht in $\alpha$ vor, für \qref{rule:replacePred} kommt die ersetzte Prädikatenvariable nicht in $\alpha$ vor, für \qref{rule:replaceFunct} kommt ide ersetzte Funktionsvariable nicht in $\alpha$ vor.
