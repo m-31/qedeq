@@ -176,6 +176,10 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
+        public void stopAllPluginExecutions() {
+            throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
+        }
+
         public QedeqConfig getConfig() {
             return config;
         }
@@ -268,6 +272,10 @@ public final class KernelContext implements KernelProperties, KernelServices {
         }
 
         public ServiceProcess[] getServiceProcesses() {
+            throw new IllegalStateException(KERNEL_NOT_STARTED);
+        }
+
+        public void stopAllPluginExecutions() {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -372,6 +380,10 @@ public final class KernelContext implements KernelProperties, KernelServices {
 
         public ServiceProcess[] getServiceProcesses() {
             return services.getServiceProcesses();
+        }
+
+        public void stopAllPluginExecutions() {
+            services.stopAllPluginExecutions();
         }
 
         public QedeqConfig getConfig() {
@@ -543,6 +555,10 @@ public final class KernelContext implements KernelProperties, KernelServices {
 
     public ServiceProcess[] getServiceProcesses() {
         return currentState.getServiceProcesses();
+    }
+
+    public void stopAllPluginExecutions() {
+        currentState.stopAllPluginExecutions();
     }
 
     /**

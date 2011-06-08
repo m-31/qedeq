@@ -170,4 +170,9 @@ public interface KernelServices {
      */
     public ServiceProcess[] getServiceProcesses();
 
+    /**
+     * Stop all currently running plugin executions.
+     */
+    public void stopAllPluginExecutions();
+
 }

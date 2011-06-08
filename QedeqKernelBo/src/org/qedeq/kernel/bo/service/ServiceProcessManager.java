@@ -60,11 +60,18 @@ public class ServiceProcessManager {
      * Remove all service processes. All processes are also terminated via interruption.
      */
     public synchronized void terminateAndRemoveAllServiceProcesses() {
+        terminateAllServiceProcesses();
+        processes.clear();
+    }
+
+    /**
+     * Terminate all service processes.
+     */
+    public synchronized void terminateAllServiceProcesses() {
         for (int i = 0; i < processes.size(); i++) {
             final ServiceProcess proc = (ServiceProcess) processes.get(i);
             proc.interrupt();
         }
-        processes.clear();
     }
 
 

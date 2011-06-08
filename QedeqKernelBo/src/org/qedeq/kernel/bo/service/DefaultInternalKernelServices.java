@@ -1001,6 +1001,11 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
         return processManager.getServiceProcesses();
     }
 
+    public void stopAllPluginExecutions() {
+        processManager.terminateAllServiceProcesses();
+    }
+
+
     /**
      * Get all loaded QEDEQ modules.
      *
