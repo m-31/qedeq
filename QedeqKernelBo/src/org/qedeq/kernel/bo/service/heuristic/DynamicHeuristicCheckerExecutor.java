@@ -32,6 +32,7 @@ import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.PluginBo;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ConditionalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
@@ -376,6 +377,26 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
     }
 
     public void visitLeave(final FormalProofLine line) {
+        setBlocked(false);
+    }
+
+    public void visitEnter(final ConditionalProof line)
+            throws ModuleDataException {
+        if (line == null) {
+            return;
+        }
+        System.out.println("\t\ttesting line " + line.getLabel());
+        final String context = getCurrentContext().getLocationWithinModule();
+        if (line.getFormula() != null) {
+            setLocationWithinModule(context + ".getFormula().getElement()");
+            final Element test = line.getFormula().getElement();
+            test(test);
+        }
+        setLocationWithinModule(context);
+        setBlocked(true);
+    }
+
+    public void visitLeave(final ConditionalProof line) {
         setBlocked(false);
     }
 
