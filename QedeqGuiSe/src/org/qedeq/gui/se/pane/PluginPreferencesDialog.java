@@ -212,7 +212,6 @@ public class PluginPreferencesDialog extends JDialog {
 
         tabbedPane = new JTabbedPane();
         tabbedPane.setOpaque(false);
-        creators.add(qedeq2LatexConfig(qedeq2utf8Show));
         creators.add(qedeq2Utf8ShowConfig(qedeq2utf8Show));
         creators.add(qedeq2LatexConfig(qedeq2latex));
         creators.add(qedeq2Utf8Config(qedeq2utf8));
