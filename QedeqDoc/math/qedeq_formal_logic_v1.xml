@@ -2208,8 +2208,8 @@
             </LATEX>
           </PRECEDING>
           <RULE name="CP">
-            <LINK id=""/>
-            <LINK id=""/>
+            <LINK id="axiom:THEN-1"/>
+            <LINK id="axiom:THEN-2"/>
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
