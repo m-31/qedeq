@@ -63,7 +63,7 @@ public final class QedeqLog implements LogListener {
      *
      * @param   log Add this listener.
      */
-    public final void addLog(final LogListener log) {
+    public synchronized void addLog(final LogListener log) {
         loggers.add(log);
         Trace.paramInfo(CLASS, this, "addLog(LogListener)", "log", log.getClass());
     }
@@ -73,12 +73,12 @@ public final class QedeqLog implements LogListener {
      *
      * @param   log Remove this listener.
      */
-    public final void removeLog(final LogListener log) {
+    public synchronized void removeLog(final LogListener log) {
         loggers.remove(log);
         Trace.paramInfo(CLASS, this, "removeLog(LogListener)", "log", log.getClass());
     }
 
-    public void logMessageState(final String text, final String url) {
+    public synchronized void logMessageState(final String text, final String url) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logMessageState(text, url);
@@ -89,7 +89,7 @@ public final class QedeqLog implements LogListener {
         }
     }
 
-    public void logFailureState(final String text, final String url, final String description) {
+    public synchronized void logFailureState(final String text, final String url, final String description) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logFailureState(text, url, description);
@@ -100,7 +100,7 @@ public final class QedeqLog implements LogListener {
         }
     }
 
-    public void logSuccessfulState(final String text, final String url) {
+    public synchronized void logSuccessfulState(final String text, final String url) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logSuccessfulState(text, url);
@@ -111,7 +111,7 @@ public final class QedeqLog implements LogListener {
         }
     }
 
-    public void logRequest(final String text) {
+    public synchronized void logRequest(final String text) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logRequest(text);
@@ -121,7 +121,7 @@ public final class QedeqLog implements LogListener {
         }
     }
 
-    public void logSuccessfulReply(final String text) {
+    public synchronized void logSuccessfulReply(final String text) {
         try {   // we don't know if the LogListener is free of programming errors...
             for (int i = 0; i < loggers.size(); i++) {
                 ((LogListener) loggers.get(i)).logSuccessfulReply(text);
@@ -132,7 +132,7 @@ public final class QedeqLog implements LogListener {
         }
     }
 
-    public void logFailureReply(final String text, final String description) {
+    public synchronized void logFailureReply(final String text, final String description) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logFailureReply(text, description);
@@ -143,7 +143,7 @@ public final class QedeqLog implements LogListener {
         }
     }
 
-    public void logMessage(final String text) {
+    public synchronized void logMessage(final String text) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the LogListener is free of programming errors...
                 ((LogListener) loggers.get(i)).logMessage(text);
