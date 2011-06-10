@@ -3367,7 +3367,7 @@
                       <MP ref1="9" ref2="10"/>
                     </L>
                   </LINES>
-                  <CONCLUSION>
+                  <CONCLUSION label="12">
                     <FORMULA>
                       <IMPL>
                         <AND>
@@ -4297,7 +4297,7 @@
                       <MP ref1="7" ref2="2"/>
                     </L>
                   </LINES>
-                  <CONCLUSION>
+                  <CONCLUSION label="9">
                     <FORMULA>
                       <IMPL>
                         <IMPL>
