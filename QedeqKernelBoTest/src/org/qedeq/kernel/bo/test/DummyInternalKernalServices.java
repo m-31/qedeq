@@ -45,7 +45,8 @@ public class DummyInternalKernalServices implements InternalKernelServices {
     }
     public void removeAllModules() {
     }
-    public void clearLocalBuffer() throws IOException {
+    public boolean clearLocalBuffer() {
+        return true;
     }
     public QedeqBo loadModule(ModuleAddress address) {
         return null;

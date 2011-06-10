@@ -1339,11 +1339,11 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
         location.push(text);
     }
     /**
-     * Get calculated visit percentage.
+     * Get readable description of current location.
      *
-     * @return  Value between 0 and 100.
+     * @return  Description.
      */
-    public String getVisitAction() {
+    public String getLocationDescription() {
         final StringBuffer buffer = new StringBuffer();
         for (int i = 0; i < location.size(); i++) {
             if (i > 0) {

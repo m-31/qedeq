@@ -18,7 +18,6 @@ package org.qedeq.kernel.bo.service.logic;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
@@ -130,8 +129,7 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
     public Object executePlugin() {
         getServices().checkModule(getQedeqBo().getModuleAddress());
         QedeqLog.getInstance().logRequest(
-            "Trying to create formal proofs for \""
-            + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+            "Trying to create formal proofs", getQedeqBo().getUrl());
         boolean result = false;
         try {
             validFormulas = new FormalProofLineListVo();
@@ -143,28 +141,24 @@ public final class MultiProofFinderExecutor extends ControlVisitor implements Pl
                 (ElementList) goalFormulas.copy(), validFormulas, this, getCurrentContext(),
                 QedeqLog.getInstance(), getQedeqBo().getElement2Utf8());
             QedeqLog.getInstance().logSuccessfulReply(
-                    "Proof creation finished for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+                    "Proof creation finished", getQedeqBo().getUrl());
         } catch (SourceFileExceptionList e) {
-            final String msg = "Proof creation not (fully?) successful for \""
-                + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            final String msg = "Proof creation not (fully?) successful";
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), e.getMessage());
             return Boolean.FALSE;
         } catch (InterruptException e) {
-            final String msg = "Proof creation was interrupted for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
-            + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            final String msg = "Proof creation was interrupted";
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), e.getMessage());
             e.printStackTrace();
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
         if (result) {
-            QedeqLog.getInstance().logSuccessfulReply(
-                "Proof creation finished for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+            QedeqLog.getInstance().logSuccessfulReply("Proof creation finished", getQedeqBo().getUrl());
             return Boolean.TRUE;
         } else {
-            final String msg = "Proof creation not fully successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
-            + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, "No proof found");
+            final String msg = "Proof creation not fully successful";
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), "No proof found");
             return Boolean.FALSE;
         }
     }

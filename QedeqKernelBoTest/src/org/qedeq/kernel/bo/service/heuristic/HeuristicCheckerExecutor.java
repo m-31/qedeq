@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.service.heuristic;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
@@ -97,20 +96,19 @@ public final class HeuristicCheckerExecutor extends ControlVisitor implements Pl
 
     public Object executePlugin() {
         final String method = "executePlugin)";
-        final String ref = "\"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
         try {
-            QedeqLog.getInstance().logRequest("Heuristic test for " + ref);
+            QedeqLog.getInstance().logRequest("Heuristic test", getQedeqBo().getUrl());
             traverse();
             QedeqLog.getInstance().logSuccessfulReply(
-                "Heuristic test succesfull for " + ref);
+                "Heuristic test succesfull", getQedeqBo().getUrl());
         } catch (final SourceFileExceptionList e) {
-            final String msg = "Test failed for " + ref;
+            final String msg = "Test failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), e.getMessage());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply(
-                "Test failed for " + ref, "unexpected problem: "
+                "Test failed", getQedeqBo().getUrl(), "unexpected problem: "
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(),

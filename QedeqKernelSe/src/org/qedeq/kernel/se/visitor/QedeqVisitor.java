@@ -260,7 +260,7 @@ public interface QedeqVisitor extends ListVisitor {
     public void visitEnter(FormalProofList proofList) throws ModuleDataException;
 
     /**
-     * Visit certain element. Begin of visit.
+     * Visit formal proof line (but not an conditional proof line).
      *
      * @param   proofLine           Begin visit of this element.
      * @throws  ModuleDataException Major problem occurred.
@@ -340,7 +340,7 @@ public interface QedeqVisitor extends ListVisitor {
     public void visitEnter(Universal reason) throws ModuleDataException;
 
     /**
-     * Visit certain element. Begin of visit.
+     * Visit conditional proof line.
      *
      * @param   reason              Begin visit of this element.
      * @throws  ModuleDataException Major problem occurred.
