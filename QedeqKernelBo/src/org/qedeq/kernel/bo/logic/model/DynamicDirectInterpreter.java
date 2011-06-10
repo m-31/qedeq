@@ -250,6 +250,7 @@ public class DynamicDirectInterpreter {
             } else if (Operators.PREDICATE_CONSTANT.equals(op)) {
                 final String label = list.getElement(0).getAtom().getString();
                 String name = label;
+//                System.out.println(label);
                 KernelQedeqBo newProp = qedeq;
                 while (name.indexOf(".") >= 0) {
                     name = name.substring(label.indexOf(".") + 1);
@@ -346,12 +347,12 @@ public class DynamicDirectInterpreter {
                     .getLatex(variable), 0), model.getEntity(i));
             }
             if (list.size() == 2) {
-                setLocationWithinModule(context + ".getList().getElement(1)");
+                setLocationWithinModule(context + ".getElement(1)");
                 result &= calculateValue(list.getElement(1));
             } else {  // must be 3
-                setLocationWithinModule(context + ".getList().getElement(1)");
+                setLocationWithinModule(context + ".getElement(1)");
                 final boolean result1 = calculateValue(list.getElement(1));
-                setLocationWithinModule(context + ".getList().getElement(2)");
+                setLocationWithinModule(context + ".getElement(2)");
                 final boolean result2 = calculateValue(list.getElement(2));
                 result &= !result1 || result2;
             }
@@ -386,12 +387,12 @@ public class DynamicDirectInterpreter {
                     model.getEntity(i));
             }
             if (list.size() == 2) {
-                setLocationWithinModule(context + ".getList().getElement(1)");
+                setLocationWithinModule(context + ".getElement(1)");
                 result |= calculateValue(list.getElement(1));
             } else {  // must be 3
-                setLocationWithinModule(context + ".getList().getElement(1)");
+                setLocationWithinModule(context + ".getElement(1)");
                 final boolean result1 = calculateValue(list.getElement(1));
-                setLocationWithinModule(context + ".getList().getElement(2)");
+                setLocationWithinModule(context + ".getElement(2)");
                 final boolean result2 = calculateValue(list.getElement(2));
                 result |= result1 && result2;
             }

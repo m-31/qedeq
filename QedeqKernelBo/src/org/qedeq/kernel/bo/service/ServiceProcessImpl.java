@@ -264,7 +264,7 @@ public class ServiceProcessImpl implements ServiceProcess {
     public synchronized String getExecutionActionDescription() {
         if (isRunning() || isBlocked()) {
             if (executor != null) {
-                executionActionDescription = executor.getExecutionActionDescription();
+                executionActionDescription = executor.getLocationDescription();
             }
         }
         return executionActionDescription;

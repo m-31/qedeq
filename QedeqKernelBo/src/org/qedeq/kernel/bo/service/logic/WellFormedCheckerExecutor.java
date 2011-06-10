@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
@@ -133,20 +132,19 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             return Boolean.TRUE;
         }
         QedeqLog.getInstance().logRequest(
-                "Check logical well formedness for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+            "Check logical well formedness", getQedeqBo().getUrl());
         getServices().loadModule(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().isLoaded()) {
             final String msg = "Check of logical correctness failed for \"" + getQedeqBo().getUrl()
             + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, "Module could not even be loaded.");
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), "Module could not even be loaded.");
             return Boolean.FALSE;
         }
         getServices().loadRequiredModules(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().hasLoadedRequiredModules()) {
-            final String msg = "Check of logical well formedness failed for \""
-                + IoUtility.easyUrl(getQedeqBo().getUrl())
-            + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, "Not all required modules could be loaded.");
+            final String msg = "Check of logical well formedness failed";
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+                "Not all required modules could be loaded.");
             return Boolean.FALSE;
         }
         getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_EXTERNAL_CHECKING);
@@ -169,27 +167,23 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         // has at least one import errors?
         if (sfl.size() > 0) {
             getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
-            final String msg = "Check of logical well formedness failed for \""
-                + IoUtility.easyUrl(getQedeqBo().getUrl())
-                + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
+            final String msg = "Check of logical well formedness failed";
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), sfl.getMessage());
             return Boolean.FALSE;
         }
         getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_INTERNAL_CHECKING);
-        getQedeqBo().setExistenceChecker(existence);
         try {
             traverse();
         } catch (SourceFileExceptionList e) {
             getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED, e);
-            final String msg = "Check of logical well formedness failed for \""
-                + IoUtility.easyUrl(getQedeqBo().getUrl())
-                + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
+            getQedeqBo().setExistenceChecker(existence);
+            final String msg = "Check of logical well formedness failed";
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), sfl.getMessage());
             return Boolean.FALSE;
         }
         getQedeqBo().setChecked(existence);
         QedeqLog.getInstance().logSuccessfulReply(
-            "Check of logical well formedness successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+            "Check of logical well formedness successful", getQedeqBo().getUrl());
         return Boolean.TRUE;
     }
 

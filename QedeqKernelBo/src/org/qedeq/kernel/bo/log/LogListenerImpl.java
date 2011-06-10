@@ -68,8 +68,8 @@ public final class LogListenerImpl implements LogListener {
         out.println(DateUtility.getTimestamp() + " success: " + text + "\n\t" + url);
     }
 
-    public void logRequest(final String text) {
-        out.println(DateUtility.getTimestamp() + " request: " + text);
+    public void logRequest(final String text, final String url) {
+        out.println(DateUtility.getTimestamp() + " request: " + text + "\n\t" + url);
     }
 
     public final void logMessage(final String text) {
@@ -77,12 +77,12 @@ public final class LogListenerImpl implements LogListener {
     }
 
 
-    public void logSuccessfulReply(final String text) {
-        out.println(DateUtility.getTimestamp() + " reply:   " + text);
+    public void logSuccessfulReply(final String text, final String url) {
+        out.println(DateUtility.getTimestamp() + " reply:   " + text + "\n\t" + url);
     }
 
-    public void logFailureReply(final String text, final String description) {
-        out.println(DateUtility.getTimestamp() + " reply:   " + text + "\n\t" + description);
+    public void logFailureReply(final String text, final String url, final String description) {
+        out.println(DateUtility.getTimestamp() + " reply:   " + text + "\n\t" + description + "\n\t" + url);
     }
 
 }

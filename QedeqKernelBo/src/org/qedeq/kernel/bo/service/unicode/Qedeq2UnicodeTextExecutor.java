@@ -17,7 +17,6 @@ package org.qedeq.kernel.bo.service.unicode;
 
 import java.io.IOException;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.StringOutput;
 import org.qedeq.base.trace.Trace;
@@ -69,25 +68,24 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
 
     public Object executePlugin() {
         final String method = "executePlugin()";
-        final String ref = "\"" + IoUtility.easyUrl(visitor.getQedeqBo().getUrl()) + "\"";
         String result = "";
         try {
-            QedeqLog.getInstance().logRequest("Show UTF-8 text for " + ref);
+            QedeqLog.getInstance().logRequest("Show UTF-8 text", visitor.getQedeqBo().getUrl());
             result = generateUtf8(language, "1");
             QedeqLog.getInstance().logSuccessfulReply(
-                "UTF-8 text was shown for " + ref + "\"");
+                "UTF-8 text was shown", visitor.getQedeqBo().getUrl());
         } catch (final SourceFileExceptionList e) {
-            final String msg = "Generation failed for " + ref;
+            final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, visitor.getQedeqBo().getUrl(), e.getMessage());
         } catch (IOException e) {
-            final String msg = "Generation failed for " + ref;
+            final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, visitor.getQedeqBo().getUrl(), e.getMessage());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply(
-                "Generation failed", "unexpected problem: "
+                "Generation failed", visitor.getQedeqBo().getUrl(), "unexpected problem: "
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         }
         return result;
@@ -116,8 +114,8 @@ public final class Qedeq2UnicodeTextExecutor implements PluginExecutor {
         return printer.toString();
     }
 
-    public String getExecutionActionDescription() {
-        return visitor.getExecutionActionDescription();
+    public String getLocationDescription() {
+        return visitor.getLocationDescription();
     }
 
     public double getExecutionPercentage() {

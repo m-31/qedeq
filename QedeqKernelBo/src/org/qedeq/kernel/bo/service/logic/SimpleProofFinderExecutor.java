@@ -17,7 +17,6 @@ package org.qedeq.kernel.bo.service.logic;
 
 import java.io.File;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
@@ -117,18 +116,15 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
 
     public Object executePlugin() {
         getServices().checkModule(getQedeqBo().getModuleAddress());
-        QedeqLog.getInstance().logRequest(
-            "Trying to create formal proofs for \""
-            + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+        QedeqLog.getInstance().logRequest("Trying to create formal proofs", getQedeqBo().getUrl());
         try {
             validFormulas = new FormalProofLineListVo();
             traverse();
             QedeqLog.getInstance().logSuccessfulReply(
-                "Proof creation finished for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+                "Proof creation finished for", getQedeqBo().getUrl());
         } catch (SourceFileExceptionList e) {
-            final String msg = "Proof creation not (fully?) successful for \""
-                + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            final String msg = "Proof creation not (fully?) successful";
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), e.getMessage());
             return Boolean.FALSE;
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
@@ -221,7 +217,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             }
             if (proof != null) {
                 QedeqLog.getInstance().logMessage("proof found for "
-                    + super.getExecutionActionDescription());
+                    + super.getLocationDescription());
                 // TODO 20110323 m31: we do a dirty cast to modify the current module
                 Object state;
                 try {
@@ -240,7 +236,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
                 }
             } else {
                 QedeqLog.getInstance().logMessage("proof not found for "
-                    + super.getExecutionActionDescription());
+                    + super.getLocationDescription());
             }
             if (proof != null && !noSave) {
                 final File file = getServices().getLocalFilePath(
@@ -261,7 +257,7 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             }
         } else {
             Trace.info(CLASS, method, "has already a proof: "
-                + super.getExecutionActionDescription());
+                + super.getLocationDescription());
             validFormulas.add(new FormalProofLineVo(new FormulaVo(getNodeBo().getFormula()),
                 new AddVo(getNodeBo().getNodeVo().getId())));
         }
@@ -293,8 +289,8 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
         getCurrentContext().setLocationWithinModule(locationWithinModule);
     }
 
-    public String getExecutionActionDescription() {
-        final String s = super.getExecutionActionDescription();
+    public String getLocationDescription() {
+        final String s = super.getLocationDescription();
         if (finder == null) {
             return s;
         }

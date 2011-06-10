@@ -111,20 +111,20 @@ public final class QedeqLog implements LogListener {
         }
     }
 
-    public synchronized void logRequest(final String text) {
+    public synchronized void logRequest(final String text, final String url) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the LogListener is free of programming errors...
-                ((LogListener) loggers.get(i)).logRequest(text);
+                ((LogListener) loggers.get(i)).logRequest(text, url);
             } catch (RuntimeException e) {
                 Trace.fatal(CLASS, this, "logRequest", "LogListener throwed RuntimeException", e);
             }
         }
     }
 
-    public synchronized void logSuccessfulReply(final String text) {
+    public synchronized void logSuccessfulReply(final String text, final String url) {
         try {   // we don't know if the LogListener is free of programming errors...
             for (int i = 0; i < loggers.size(); i++) {
-                ((LogListener) loggers.get(i)).logSuccessfulReply(text);
+                ((LogListener) loggers.get(i)).logSuccessfulReply(text, url);
             }
         } catch (RuntimeException e) {
             Trace.fatal(CLASS, this, "logSuccessfulReply", "LogListener throwed RuntimeException",
@@ -132,10 +132,10 @@ public final class QedeqLog implements LogListener {
         }
     }
 
-    public synchronized void logFailureReply(final String text, final String description) {
+    public synchronized void logFailureReply(final String text, final String url, final String description) {
         for (int i = 0; i < loggers.size(); i++) {
             try {   // we don't know if the LogListener is free of programming errors...
-                ((LogListener) loggers.get(i)).logFailureReply(text, description);
+                ((LogListener) loggers.get(i)).logFailureReply(text, url, description);
             } catch (RuntimeException e) {
                 Trace.fatal(CLASS, this, "logFailureReply", "LogListener throwed RuntimeException",
                     e);

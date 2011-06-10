@@ -42,6 +42,6 @@ public interface PluginExecutor {
      *
      * @return  We are doing this currently.
      */
-    public String getExecutionActionDescription();
+    public String getLocationDescription();
 
 }

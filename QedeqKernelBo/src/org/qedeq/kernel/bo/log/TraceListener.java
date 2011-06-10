@@ -43,20 +43,20 @@ public final class TraceListener implements LogListener {
         Trace.log(" success: " + text, url);
     }
 
-    public void logRequest(final String text) {
-        Trace.log(" request: " + text);
+    public void logRequest(final String text, final String url) {
+        Trace.log(" request: " + text, url);
     }
 
     public final void logMessage(final String text) {
         Trace.log(" " + text);
     }
 
-    public void logSuccessfulReply(final String text) {
-        Trace.log(" reply:   " + text);
+    public void logSuccessfulReply(final String text, final String url) {
+        Trace.log(" reply:   " + text, url);
     }
 
-    public void logFailureReply(final String text, final String description) {
-        Trace.log(" reply:   " + text, description);
+    public void logFailureReply(final String text, final String url, final String description) {
+        Trace.log(" reply:   " + text, url + "\n" + description);
     }
 
 }

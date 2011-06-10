@@ -211,7 +211,14 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     public void removeModule(final ModuleAddress address) {
         final QedeqBo prop = getQedeqBo(address);
         if (prop != null) {
-            removeModule(getModules().getKernelQedeqBo(this, address));
+            QedeqLog.getInstance().logRequest("Removing module", address.getUrl());
+            try {
+                removeModule(getModules().getKernelQedeqBo(this, address));
+            } catch (final RuntimeException e) {
+                QedeqLog.getInstance().logFailureReply(
+                    "Remove failed", address.getUrl(), e.getMessage());
+            }
+
             if (validate) {
                 modules.validateDependencies();
             }
@@ -251,17 +258,34 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
     /**
      * Clear local file buffer and all loaded QEDEQ modules.
      *
-     * @throws IOException Deletion of all buffered file was not successful.
+     * @return  Successful?
      */
-    public void clearLocalBuffer() throws IOException {
-        removeAllModules();
-        final File bufferDir = getBufferDirectory().getCanonicalFile();
-        if (bufferDir.exists() && !IoUtility.deleteDir(bufferDir, new FileFilter() {
-                    public boolean accept(final File pathname) {
-                        return pathname.getName().endsWith(".xml");
-                    }
-                })) {
-            throw new IOException("buffer could not be deleted: " + bufferDir);
+    public boolean clearLocalBuffer() {
+        final String method = "clearLocalBuffer";
+        try {
+            QedeqLog.getInstance().logMessage(
+                "Clear local buffer from all QEDEQ files.");
+            removeAllModules();
+            final File bufferDir = getBufferDirectory().getCanonicalFile();
+            if (bufferDir.exists() && !IoUtility.deleteDir(bufferDir, new FileFilter() {
+                        public boolean accept(final File pathname) {
+                            return pathname.getName().endsWith(".xml");
+                        }
+                    })) {
+                throw new IOException("buffer could not be deleted: " + bufferDir);
+            }
+            QedeqLog.getInstance().logMessage("Local buffer was cleared.");
+            return true;
+        } catch (IOException e) {
+            Trace.fatal(CLASS, this, method, "IO access problem", e);
+            QedeqLog.getInstance().logMessage(
+                "Local buffer not cleared. IO access problem. " + e.getMessage());
+            return false;
+        } catch (final RuntimeException e) {
+            Trace.fatal(CLASS, this, method, "unexpected problem", e);
+            QedeqLog.getInstance().logMessage(
+                "Local buffer not cleared. " + e.getMessage());
+            return false;
         }
     }
 
@@ -274,7 +298,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                 if (prop.isLoaded()) {
                     return prop;
                 }
-                QedeqLog.getInstance().logRequest("Load module \"" + IoUtility.easyUrl(address.getUrl()) + "\"");
+                QedeqLog.getInstance().logMessageState("Load module", address.getUrl());
                 if (prop.getModuleAddress().isFileAddress()) {
                     loadLocalModule(prop);
                 } else {
@@ -288,16 +312,15 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                     loadBufferedModule(prop);
                 }
                 QedeqLog.getInstance().logSuccessfulReply(
-                    "Module \"" + prop.getModuleAddress().getFileName()
-                        + "\" was successfully loaded.");
+                    "Successfully loaded", address.getUrl());
             }
         } catch (SourceFileExceptionList e) {
             Trace.trace(CLASS, this, method, e);
-            QedeqLog.getInstance().logFailureState("Loading of module failed!", IoUtility.easyUrl(address.getUrl()),
+            QedeqLog.getInstance().logFailureState("Loading of module failed!", address.getUrl(),
                 e.toString());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
-            QedeqLog.getInstance().logFailureReply("Loading failed", e.getMessage());
+            QedeqLog.getInstance().logFailureReply("Loading failed", address.getUrl(), e.getMessage());
         } finally {
             processDec();
         }
@@ -508,7 +531,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             return prop; // never called, only here to soothe the compiler
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
-            QedeqLog.getInstance().logFailureReply("Loading failed", e.getMessage());
+            QedeqLog.getInstance().logFailureReply("Loading failed", prop.getUrl(), e.getMessage());
             throw e;
         } finally {
             processDec();
@@ -962,10 +985,9 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
             KernelContext.getInstance().getConfig().setPluginKeyValues(checker, parameters);
             checker.createExecutor(prop, parameters).executePlugin();
         } catch (final RuntimeException e) {
-            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(address.getUrl())
-                + "\"";
+            final String msg = "Check of logical correctness failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, address.getUrl(), e.getMessage());
             throw e;
         } finally {
             if (validate) {

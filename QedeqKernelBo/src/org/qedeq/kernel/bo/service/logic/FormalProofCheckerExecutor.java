@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
@@ -115,12 +114,12 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     public Object executePlugin() {
         QedeqLog.getInstance().logRequest(
-                "Check logical correctness for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+                "Check logical correctness", getQedeqBo().getUrl());
         getServices().checkModule(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().isChecked()) {
             final String msg = "Check of logical correctness failed for \"" + getQedeqBo().getUrl()
             + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, "Module is not even well formed.");
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), "Module is not even well formed.");
             return Boolean.FALSE;
         }
 //        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_EXTERNAL_CHECKING);
@@ -143,9 +142,8 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         if (getQedeqBo().hasErrors()) {
 //            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), sfl, null);
-            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
-                + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
+            final String msg = "Check of logical correctness failed";
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), sfl.getMessage());
             return Boolean.FALSE;
         }
 //        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_INTERNAL_CHECKING);
@@ -154,16 +152,15 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             traverse();
         } catch (SourceFileExceptionList e) {
 //            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED, e);
-            final String msg = "Check of logical correctness failed for \"" + IoUtility.easyUrl(getQedeqBo().getUrl())
-                + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, sfl.getMessage());
+            final String msg = "Check of logical correctness failed";
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), sfl.getMessage());
             return Boolean.FALSE;
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
 //        getQedeqBo().setChecked(existence);
         QedeqLog.getInstance().logSuccessfulReply(
-                "Check of logical correctness successful for \"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+                "Check of logical correctness successful", getQedeqBo().getUrl());
         return Boolean.TRUE;
     }
 

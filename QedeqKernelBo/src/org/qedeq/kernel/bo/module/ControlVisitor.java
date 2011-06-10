@@ -239,8 +239,8 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
      *
      * @return  Location description.
      */
-    public String getExecutionActionDescription() {
-        return traverser.getVisitAction();
+    public String getLocationDescription() {
+        return traverser.getLocationDescription();
     }
 
     /**

@@ -116,7 +116,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
-        public void clearLocalBuffer() throws IOException {
+        public boolean clearLocalBuffer() {
             throw new IllegalStateException(KERNEL_NOT_INITIALIZED);
         }
 
@@ -215,7 +215,7 @@ public final class KernelContext implements KernelProperties, KernelServices {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
-        public void clearLocalBuffer() throws IOException {
+        public boolean clearLocalBuffer() {
             throw new IllegalStateException(KERNEL_NOT_STARTED);
         }
 
@@ -322,8 +322,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
             services.removeModule(address);
         }
 
-        public void clearLocalBuffer() throws IOException {
-            services.clearLocalBuffer();
+        public boolean clearLocalBuffer() {
+            return services.clearLocalBuffer();
         }
 
         public QedeqBo loadModule(final ModuleAddress address) {
@@ -497,8 +497,8 @@ public final class KernelContext implements KernelProperties, KernelServices {
         currentState.removeModule(address);
     }
 
-    public void clearLocalBuffer() throws IOException {
-        currentState.clearLocalBuffer();
+    public boolean clearLocalBuffer() {
+        return currentState.clearLocalBuffer();
     }
 
     public QedeqBo loadModule(final ModuleAddress address) {

@@ -15,11 +15,11 @@
 
 package org.qedeq.kernel.bo.service.heuristic;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
+import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.model.DynamicDirectInterpreter;
 import org.qedeq.kernel.bo.logic.model.DynamicModel;
 import org.qedeq.kernel.bo.logic.model.FourDynamicModel;
@@ -46,6 +46,7 @@ import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.SourceFileExceptionList;
+import org.qedeq.kernel.se.dto.list.DefaultElementList;
 
 
 /**
@@ -62,6 +63,9 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
 
     /** Interpretation for variables. */
     private final DynamicDirectInterpreter interpreter;
+
+    /** Current condition. */
+    private DefaultElementList condition;
 
     /**
      * Constructor.
@@ -104,9 +108,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
 
     public Object executePlugin() {
         final String method = "executePlugin()";
-        final String ref = "\"" + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
         try {
-            QedeqLog.getInstance().logRequest("Dynamic heuristic test for " + ref);
+            QedeqLog.getInstance().logRequest("Dynamic heuristic test", getQedeqBo().getUrl());
             // first we try to get more information about required modules and their predicates..
             try {
                 getServices().checkModule(getQedeqBo().getModuleAddress());
@@ -114,17 +117,18 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 // we continue and ignore external predicates
                 Trace.trace(CLASS, method, e);
             }
+            condition = new DefaultElementList(Operators.CONJUNCTION_OPERATOR);
             traverse();
             QedeqLog.getInstance().logSuccessfulReply(
-                "Heuristic test succesfull for " + ref);
+                "Heuristic test succesfull", getQedeqBo().getUrl());
         } catch (final SourceFileExceptionList e) {
-            final String msg = "Test failed for " + ref;
+            final String msg = "Test failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), e.getMessage());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply(
-                "Test failed for " + ref, "unexpected problem: "
+                "Test failed", getQedeqBo().getUrl(), "unexpected problem: "
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
@@ -136,22 +140,47 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
      * Check truth value in our model. If it is no tautology an warning is added.
      * This also happens if our model doesn't support an operator found in the formula.
      *
-     * @param   test    Test formula.
+     * @param   test            Test formula.
      */
     private void test(final Element test) {
+        boolean useCondition = condition.size() > 0; //Assume that we start with an implication,
+                            // but the real context begins after skipping ".getList().getElement(1)"
         try {
-            if (!isTautology(getCurrentContext(), test)) {
+            Element toast = test;
+            if (condition.size() > 0) {
+                final DefaultElementList withCondition = new DefaultElementList(Operators.IMPLICATION_OPERATOR);
+                withCondition.add(condition);
+                withCondition.add(test);
+                toast = withCondition;
+            }
+            if (!isTautology(getCurrentContext(), toast)) {
                 addWarning(new HeuristicException(HeuristicErrorCodes.EVALUATED_NOT_TRUE_CODE,
                     HeuristicErrorCodes.EVALUATED_NOT_TRUE_TEXT + " (\""
                         + interpreter.getModel().getName() + "\")", getCurrentContext()));
             }
         } catch (HeuristicException h) {
             // TODO 20101015 m31: better exception handling would be better!
-            if (getCurrentContext().getModuleLocation().equals(h.getContext().getModuleLocation())) {
-                addWarning(h);
-            } else {
+            final String begin = getCurrentContext().getLocationWithinModule();
+            // is the error context at the same location? if not we have a problem with a referenced
+            // predicate or function constant and we take the currrent context instead
+            if (!getCurrentContext().getModuleLocation().equals(h.getContext().getModuleLocation())
+                    || !h.getContext().getLocationWithinModule().startsWith(begin)) {
                 addWarning(new HeuristicException(h.getErrorCode(), h.getMessage(),
                         getCurrentContext()));
+            } else {
+                String further = h.getContext().getLocationWithinModule().substring(begin.length());
+                if (useCondition) {
+                    if (further.startsWith(".getList().getElement(1)")) {
+                        further = further.substring(".getList().getElement(1)".length());
+                        addWarning(new HeuristicException(h.getErrorCode(), h.getMessage(),
+                            new ModuleContext(h.getContext().getModuleLocation(), begin + further)));
+                    } else {    // must be an error in the condition and for that we have no context
+                        addWarning(new HeuristicException(h.getErrorCode(), h.getMessage(),
+                                getCurrentContext()));
+                    }
+                } else {
+                    addWarning(h);
+                }
             }
         } catch (RuntimeException e) {
             Trace.fatal(CLASS, this, "test(Element)", "unexpected runtime exception", e);
@@ -339,7 +368,9 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
     }
 
     public void visitEnter(final Node node) {
-        System.out.println(getLatexListEntry(node.getTitle()) + " " + node.getId());
+        QedeqLog.getInstance().logMessageState(super.getLocationDescription(),
+            getQedeqBo().getUrl());
+        System.out.println(super.getLocationDescription());
     }
 
     public void visitEnter(final Proposition proposition)
@@ -369,8 +400,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         final String context = getCurrentContext().getLocationWithinModule();
         if (line.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
-            final Element test = line.getFormula().getElement();
-            test(test);
+            test(line.getFormula().getElement());
         }
         setLocationWithinModule(context);
         setBlocked(true);
@@ -385,19 +415,30 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (line == null) {
             return;
         }
-        System.out.println("\t\ttesting line " + line.getLabel());
-        final String context = getCurrentContext().getLocationWithinModule();
-        if (line.getFormula() != null) {
-            setLocationWithinModule(context + ".getFormula().getElement()");
-            final Element test = line.getFormula().getElement();
-            test(test);
+        // add hypothesis to list of conditions
+        if (line.getHypothesis() != null && line.getHypothesis().getFormula() != null
+                && line.getHypothesis().getFormula().getElement() != null) {
+            condition.add(line.getHypothesis().getFormula().getElement());
+            System.out.println("\t\tadd condit. " + line.getHypothesis().getLabel());
         }
-        setLocationWithinModule(context);
-        setBlocked(true);
     }
 
     public void visitLeave(final ConditionalProof line) {
-        setBlocked(false);
+        if (line == null) {
+            return;
+        }
+        // remove hypothesis of list of conditions
+        if (line.getHypothesis() != null && line.getHypothesis().getFormula() != null
+                && line.getHypothesis().getFormula().getElement() != null) {
+            condition.remove(condition.size() - 1);
+        }
+        System.out.println("\t\ttesting line " + line.getConclusion().getLabel());
+        final String context = getCurrentContext().getLocationWithinModule();
+        if (line.getConclusion().getFormula() != null) {
+            setLocationWithinModule(context + ".getConclusion().getFormula().getElement()");
+            final Element test = line.getConclusion().getFormula().getElement();
+            test(test);
+        }
     }
 
     public void visitEnter(final Rule rule) throws ModuleDataException {
@@ -408,8 +449,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         setBlocked(false);
     }
 
-    public String getExecutionActionDescription() {
-        return super.getExecutionActionDescription() + "\n" + interpreter.toString();
+    public String getLocationDescription() {
+        return super.getLocationDescription() + "\n" + interpreter.toString();
     }
     /**
      * Set location information where are we within the original module.

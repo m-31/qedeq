@@ -45,9 +45,9 @@ public interface KernelServices {
     /**
      * Clear local buffer and all loaded QEDEQ modules.
      *
-     * @throws  IOException Deletion of all buffered file was not successful.
+     * @return  Was deletion successful?
      */
-    public void clearLocalBuffer() throws IOException;
+    public boolean clearLocalBuffer();
 
     /**
      * Get a certain module. You can check the status to know if the loading was successful.

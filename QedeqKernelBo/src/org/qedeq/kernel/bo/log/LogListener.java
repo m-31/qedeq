@@ -34,23 +34,26 @@ public interface LogListener {
      * Log request.
      *
      * @param   text    Request.
+     * @param   url     URL.
      */
-    public void logRequest(String text);
+    public void logRequest(String text, String url);
 
     /**
      * Log successful reply for an request.
      *
      * @param   text    Reply.
+     * @param   url         URL.
      */
-    public void logSuccessfulReply(String text);
+    public void logSuccessfulReply(String text, String url);
 
     /**
      * Log failure reply for an request.
      *
      * @param   text        Reply.
+     * @param   url         URL.
      * @param   description Reason for reply.
      */
-    public void logFailureReply(String text, String description);
+    public void logFailureReply(String text, String url, String description);
 
     /**
      * Log message state for URL.

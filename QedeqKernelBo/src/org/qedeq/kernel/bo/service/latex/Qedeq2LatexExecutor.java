@@ -160,8 +160,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     public Object executePlugin() {
         final String method = "executePlugin(QedeqBo, Map)";
         try {
-            QedeqLog.getInstance().logRequest("Generate LaTeX from \""
-                + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"");
+            QedeqLog.getInstance().logRequest("Generate LaTeX", getQedeqBo().getUrl());
             final String[] languages = getQedeqBo().getSupportedLanguages();
             for (int j = 0; j < languages.length; j++) {
                 language = languages[j];
@@ -170,29 +169,25 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                 if (languages[j] != null) {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "LaTeX for language \"" + languages[j]
-                        + "\" was generated from \""
-                        + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\" into \"" + result + "\"");
+                        + "\" was generated from into \"" + result + "\"", getQedeqBo().getUrl());
                 } else {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "LaTeX for default language "
-                        + "was generated from \""
-                        + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\" into \"" + result + "\"");
+                        + "was generated into \"" + result + "\"", getQedeqBo().getUrl());
                 }
             }
         } catch (final SourceFileExceptionList e) {
-            final String msg = "Generation failed for \""
-                + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
+            final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), e.getMessage());
         } catch (IOException e) {
-            final String msg = "Generation failed for \""
-                + IoUtility.easyUrl(getQedeqBo().getUrl()) + "\"";
+            final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), e.getMessage());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply(
-                "Generation failed", "unexpected problem: "
+                "Generation failed", getQedeqBo().getUrl(), "unexpected problem: "
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         }
         return null;

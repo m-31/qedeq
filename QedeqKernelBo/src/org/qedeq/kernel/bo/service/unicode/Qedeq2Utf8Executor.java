@@ -20,7 +20,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Locale;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.io.TextOutput;
 import org.qedeq.base.trace.Trace;
@@ -79,34 +78,33 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
 
     public Object executePlugin() {
         final String method = "executePlugin()";
-        final String ref = "\"" + IoUtility.easyUrl(visitor.getQedeqBo().getUrl()) + "\"";
         try {
-            QedeqLog.getInstance().logRequest("Generate UTF-8 from " + ref);
+            QedeqLog.getInstance().logRequest("Generate UTF-8", visitor.getQedeqBo().getUrl());
             languages = visitor.getQedeqBo().getSupportedLanguages();
             for (run = 0; run < languages.length; run++) {
                 final String result = generateUtf8(languages[run], "1");
                 if (languages[run] != null) {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "UTF-8 for language \"" + languages[run]
-                        + "\" was generated from " + ref + " into \"" + result + "\"");
+                        + "\" was generated into \"" + result + "\"", visitor.getQedeqBo().getUrl());
                 } else {
                     QedeqLog.getInstance().logSuccessfulReply(
                         "UTF-8 for default language "
-                        + "was generated from " + ref + " into \"" + result + "\"");
+                        + "was generated into \"" + result + "\"", visitor.getQedeqBo().getUrl());
                 }
             }
         } catch (final SourceFileExceptionList e) {
-            final String msg = "Generation failed for " + ref;
+            final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, visitor.getQedeqBo().getUrl(), e.getMessage());
         } catch (IOException e) {
-            final String msg = "Generation failed for " + ref;
+            final String msg = "Generation failed";
             Trace.fatal(CLASS, this, method, msg, e);
-            QedeqLog.getInstance().logFailureReply(msg, e.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, visitor.getQedeqBo().getUrl(), e.getMessage());
         } catch (final RuntimeException e) {
             Trace.fatal(CLASS, this, method, "unexpected problem", e);
             QedeqLog.getInstance().logFailureReply(
-                "Generation failed", "unexpected problem: "
+                "Generation failed", visitor.getQedeqBo().getUrl(), "unexpected problem: "
                 + (e.getMessage() != null ? e.getMessage() : e.toString()));
         }
         return null;
@@ -170,12 +168,12 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         return destination.toString();
     }
 
-    public String getExecutionActionDescription() {
+    public String getLocationDescription() {
         if (languages != null && run < languages.length) {
-            return languages[run] + " " + visitor.getExecutionActionDescription();
+            return languages[run] + " " + visitor.getLocationDescription();
         }
         if (languages != null && languages.length > 0) {
-            return languages[languages.length] + " " + visitor.getExecutionActionDescription();
+            return languages[languages.length] + " " + visitor.getLocationDescription();
         }
         return "unknown";
     }

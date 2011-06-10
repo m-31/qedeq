@@ -145,7 +145,8 @@ class KernelQedeqBoStorage {
             Trace.trace(CLASS, this, method, "removing " +  prop.getUrl());
             bos.remove(prop.getModuleAddress());
         } catch (RuntimeException e) {
-            Trace.trace(CLASS, this, method, e);
+            Trace.fatal(CLASS, this, method, "unexpected runtime exception", e);
+            throw e;
         } finally {
             Trace.end(CLASS, this, method);
         }
