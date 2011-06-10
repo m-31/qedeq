@@ -29,6 +29,9 @@ public final class LogListenerImpl implements LogListener {
     /** Stream for output. */
     private PrintStream out = System.out;
 
+    /** For this module we logged the last event. */
+    private String lastModuleUrl = "";
+
     /**
      * Constructor.
      */
@@ -55,34 +58,59 @@ public final class LogListenerImpl implements LogListener {
     }
 
     public final void logMessageState(final String text, final String url) {
-        out.println(DateUtility.getTimestamp() + " state:   " + text + "\n\t" + url);
+        if (!lastModuleUrl.equals(url)) {
+            out.println(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        out.println(DateUtility.getTimestamp() + " state:   " + text);
     }
 
     public final void logFailureState(final String text, final String url,
             final String description) {
-        out.println(DateUtility.getTimestamp() + " failure: " + text + "\n\t" + url + "\n\t"
+        if (!lastModuleUrl.equals(url)) {
+            out.println(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        out.println(DateUtility.getTimestamp() + " failure: " + text + "\n\t"
             + description);
     }
 
     public final void logSuccessfulState(final String text, final String url) {
-        out.println(DateUtility.getTimestamp() + " success: " + text + "\n\t" + url);
+        if (!lastModuleUrl.equals(url)) {
+            out.println(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        out.println(DateUtility.getTimestamp() + " success: " + text);
     }
 
     public void logRequest(final String text, final String url) {
-        out.println(DateUtility.getTimestamp() + " request: " + text + "\n\t" + url);
+        if (!lastModuleUrl.equals(url)) {
+            out.println(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        out.println(DateUtility.getTimestamp() + " request: " + text);
     }
 
     public final void logMessage(final String text) {
+        lastModuleUrl = "";
         out.println(DateUtility.getTimestamp() + " " + text);
     }
 
 
     public void logSuccessfulReply(final String text, final String url) {
-        out.println(DateUtility.getTimestamp() + " reply:   " + text + "\n\t" + url);
+        if (!lastModuleUrl.equals(url)) {
+            out.println(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        out.println(DateUtility.getTimestamp() + " reply:   " + text);
     }
 
     public void logFailureReply(final String text, final String url, final String description) {
-        out.println(DateUtility.getTimestamp() + " reply:   " + text + "\n\t" + description + "\n\t" + url);
+        if (!lastModuleUrl.equals(url)) {
+            out.println(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        out.println(DateUtility.getTimestamp() + " reply:   " + text + "\n\t" + description);
     }
 
 }
