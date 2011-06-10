@@ -31,6 +31,7 @@ import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 
+import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.element.CPTextPane;
 import org.qedeq.kernel.bo.log.LogListener;
@@ -60,6 +61,9 @@ public class LogPane extends JPanel implements LogListener {
 
     /** Text attributes for requests. */
     private final SimpleAttributeSet requestAttrs = new SimpleAttributeSet();
+
+    /** Last module we had a status or message output. */
+    private String lastModuleUrl = "";
 
 
     /**
@@ -119,8 +123,13 @@ public class LogPane extends JPanel implements LogListener {
         final Runnable runLater = new Runnable() {
             public void run() {
                 try {
+                    if (!lastModuleUrl.equals(url)) {
+                        textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                        lastModuleUrl = (url != null ? url : "");
+                    }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                        text + "\n\t" + url + "\n", messageAttrs);
+                        "\t" + text + "\n", messageAttrs);
                 } catch (BadLocationException e) {
                     Trace.trace(CLASS, this, "logMessageState", e);
                 }
@@ -134,13 +143,18 @@ public class LogPane extends JPanel implements LogListener {
 
         final Runnable runLater = new Runnable() {
             public void run() {
-            try {
-                textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                    text + "\n\t" + url + "\n", errorAttrs);
-            } catch (BadLocationException e) {
-                Trace.trace(CLASS, this, "logFailureState", e);
-            }
-            rework();
+                try {
+                    if (!lastModuleUrl.equals(url)) {
+                        textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                        lastModuleUrl = (url != null ? url : "");
+                    }
+                    textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                        "\t" + text + "\n", errorAttrs);
+                } catch (BadLocationException e) {
+                    Trace.trace(CLASS, this, "logFailureState", e);
+                }
+                rework();
             }
         };
         SwingUtilities.invokeLater(runLater);
@@ -151,8 +165,13 @@ public class LogPane extends JPanel implements LogListener {
         final Runnable runLater = new Runnable() {
             public void run() {
                 try {
+                    if (!lastModuleUrl.equals(url)) {
+                        textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                        lastModuleUrl = (url != null ? url : "");
+                    }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                        text + "\n\t" + url + "\n", successAttrs);
+                        "\t" + text + "\n", successAttrs);
                 } catch (BadLocationException e) {
                     Trace.trace(CLASS, this, "logSuccessfulState", e);
                 }
@@ -162,13 +181,18 @@ public class LogPane extends JPanel implements LogListener {
         SwingUtilities.invokeLater(runLater);
     }
 
-    public void logRequest(final String text) {
+    public void logRequest(final String text, final String url) {
 
         final Runnable runLater = new Runnable() {
             public void run() {
                 try {
+                    if (!lastModuleUrl.equals(url)) {
+                        textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                        lastModuleUrl = (url != null ? url : "");
+                    }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                        text + "\n", requestAttrs);
+                        "\t" + text + "\n", requestAttrs);
                 } catch (BadLocationException e) {
                     Trace.trace(CLASS, this, "logRequest", e);
                 }
@@ -178,13 +202,18 @@ public class LogPane extends JPanel implements LogListener {
         SwingUtilities.invokeLater(runLater);
     }
 
-    public void logSuccessfulReply(final String text) {
+    public void logSuccessfulReply(final String text, final String url) {
 
         final Runnable runLater = new Runnable() {
             public void run() {
                 try {
+                    if (!lastModuleUrl.equals(url)) {
+                        textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                        lastModuleUrl = (url != null ? url : "");
+                    }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                        text + "\n", successAttrs);
+                        "\t" + text + "\n", successAttrs);
                 } catch (BadLocationException e) {
                     Trace.trace(CLASS, this, "logSuccessfulReply", e);
                 }
@@ -194,11 +223,16 @@ public class LogPane extends JPanel implements LogListener {
         SwingUtilities.invokeLater(runLater);
     }
 
-    public void logFailureReply(final String text, final String description) {
+    public void logFailureReply(final String text, final String url, final String description) {
 
         final Runnable runLater = new Runnable() {
             public void run() {
                 try {
+                    if (!lastModuleUrl.equals(url)) {
+                        textPane.getDocument().insertString(textPane.getDocument().getLength(),
+                            IoUtility.easyUrl(url) + "\n", messageAttrs);
+                        lastModuleUrl = (url != null ? url : "");
+                    }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
                         text +  "\n\t" + description + "\n", errorAttrs);
                 } catch (BadLocationException e) {

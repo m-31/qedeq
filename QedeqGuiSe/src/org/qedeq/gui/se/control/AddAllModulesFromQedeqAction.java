@@ -39,18 +39,17 @@ class AddAllModulesFromQedeqAction extends AbstractAction {
 
         final Thread thread = new Thread() {
             public void run() {
-                QedeqLog.getInstance().logRequest(
+                QedeqLog.getInstance().logMessage(
                     "Load all modules from \"http://www.qedeq.org\"");
                 final boolean success = KernelContext.getInstance()
                     .loadAllModulesFromQedeq();
                 if (success) {
-                    QedeqLog.getInstance().logSuccessfulReply(
+                    QedeqLog.getInstance().logMessage(
                         "All modules from project page successfully loaded and checked again."
                         );
                 } else {
-                    QedeqLog.getInstance().logFailureReply(
-                        "Some modules couldn't be loaded and checked.",
-                        "see detailed status entries");
+                    QedeqLog.getInstance().logMessage(
+                        "Some modules couldn't be loaded and checked. See detailed status entries");
                 }
             }
         };

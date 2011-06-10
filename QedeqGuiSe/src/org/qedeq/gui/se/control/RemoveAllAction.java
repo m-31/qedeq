@@ -21,7 +21,6 @@ import javax.swing.AbstractAction;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.log.QedeqLog;
 
 /**
  * Remove all QEDEQ module files from memory.
@@ -36,13 +35,7 @@ class RemoveAllAction extends AbstractAction {
 
         final Thread thread = new Thread() {
             public void run() {
-                try {
-                    KernelContext.getInstance().removeAllModules();
-                } catch (final RuntimeException e) {
-                    Trace.fatal(CLASS, this, "actionPerformed", "unexpected problem", e);
-                    QedeqLog.getInstance().logFailureReply(
-                        "Removing failed", e.getMessage());
-                }
+                KernelContext.getInstance().removeAllModules();
             }
         };
         thread.setDaemon(true);

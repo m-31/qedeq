@@ -23,7 +23,6 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.log.QedeqLog;
 
 /**
  * Check logical correctness of modules.
@@ -61,14 +60,8 @@ class CheckLogicAction extends AbstractAction {
 
             final Thread thread = new Thread() {
                 public void run() {
-                    try {
-                        for (int i = 0; i < props.length; i++) {
-                            KernelContext.getInstance().checkModule(props[i].getModuleAddress());
-                        }
-                    } catch (final RuntimeException e) {
-                        Trace.fatal(CLASS, controller, "actionPerformed", "unexpected problem", e);
-                        QedeqLog.getInstance().logFailureReply(
-                            "Checking failed", e.getMessage());
+                    for (int i = 0; i < props.length; i++) {
+                        KernelContext.getInstance().checkModule(props[i].getModuleAddress());
                     }
                 }
             };

@@ -16,13 +16,11 @@
 package org.qedeq.gui.se.control;
 
 import java.awt.event.ActionEvent;
-import java.io.IOException;
 
 import javax.swing.AbstractAction;
 
 import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.log.QedeqLog;
 
 /**
  * Remove all QEDEQ module files from memory and local buffer.
@@ -32,16 +30,10 @@ class RemoveLocalBufferAction extends AbstractAction {
     /** This class. */
     private static final Class CLASS = RemoveLocalBufferAction.class;
 
-    /** Controller. */
-    private final QedeqController controller;
-
     /**
      * Constructor.
-     *
-     * @param   controller  Enables controller access.
      */
-    RemoveLocalBufferAction(final QedeqController controller) {
-        this.controller = controller;
+    RemoveLocalBufferAction() {
     }
 
     public void actionPerformed(final ActionEvent e) {
@@ -49,21 +41,7 @@ class RemoveLocalBufferAction extends AbstractAction {
 
         final Thread thread = new Thread() {
             public void run() {
-                try {
-                    QedeqLog.getInstance().logRequest(
-                        "Clear local buffer from all QEDEQ files.");
-                    KernelContext.getInstance().clearLocalBuffer();
-                    QedeqLog.getInstance().logSuccessfulReply(
-                        "Local buffer was cleared.");
-                } catch (IOException e) {
-                    Trace.fatal(CLASS, controller, "actionPerformed", "IO access problem", e);
-                    QedeqLog.getInstance().logFailureReply(
-                        "IO access problem", e.getMessage());
-                } catch (final RuntimeException e) {
-                    Trace.fatal(CLASS, controller, "actionPerformed", "unexpected problem", e);
-                    QedeqLog.getInstance().logFailureReply(
-                        "Remove failed", e.getMessage());
-                }
+                KernelContext.getInstance().clearLocalBuffer();
             }
         };
         thread.setDaemon(true);

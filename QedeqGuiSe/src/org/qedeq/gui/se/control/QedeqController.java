@@ -127,7 +127,7 @@ public class QedeqController {
         addAllModulesFromQedeqAction = new AddAllModulesFromQedeqAction();
         removeAllAction = new RemoveAllAction();
         removeModuleAction = new RemoveModuleAction(this);
-        removeLocalBufferAction = new RemoveLocalBufferAction(this);
+        removeLocalBufferAction = new RemoveLocalBufferAction();
         checkLogicAction = new CheckLogicAction(this);
         removePluginResultsAction = new RemovePluginResultsAction(this);
         processViewAction = new ProcessViewAction();
@@ -261,7 +261,6 @@ public class QedeqController {
      * @return  Menu entries for plugins.
      */
     public JMenuItem[] getPluginMenuEntries() {
-        (new NullPointerException()).printStackTrace(System.out);
         final Plugin[] plugins = KernelContext.getInstance().getPlugins();
         final PluginAction[] pluginActions = new PluginAction[plugins.length];
         for (int i = 0; i < plugins.length; i++) {

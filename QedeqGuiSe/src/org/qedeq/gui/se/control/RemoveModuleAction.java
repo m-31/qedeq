@@ -19,12 +19,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.gui.se.tree.NothingSelectedException;
 import org.qedeq.kernel.bo.KernelContext;
 import org.qedeq.kernel.bo.common.QedeqBo;
-import org.qedeq.kernel.bo.log.QedeqLog;
 
 /**
  * Create LaTeX file out of selected QEDEQ module files.
@@ -62,16 +60,8 @@ class RemoveModuleAction extends AbstractAction {
 
             final Thread thread = new Thread() {
                 public void run() {
-                    try {
-                        for (int i = 0; i < props.length; i++) {
-                            QedeqLog.getInstance().logRequest("Removing module \""
-                                + IoUtility.easyUrl(props[i].getUrl()) + "\"");
-                            KernelContext.getInstance().removeModule(props[i].getModuleAddress());
-                        }
-                    } catch (final RuntimeException e) {
-                        Trace.fatal(CLASS, controller, "actionPerformed", "unexpected problem", e);
-                        QedeqLog.getInstance().logFailureReply(
-                            "Remove failed", e.getMessage());
+                    for (int i = 0; i < props.length; i++) {
+                        KernelContext.getInstance().removeModule(props[i].getModuleAddress());
                     }
                 }
             };
