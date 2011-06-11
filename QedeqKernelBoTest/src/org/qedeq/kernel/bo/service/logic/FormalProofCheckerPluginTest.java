@@ -156,15 +156,14 @@ public class FormalProofCheckerPluginTest extends QedeqBoTestCase {
         assertEquals(37240, bo.getErrors().get(59).getErrorCode());
     }
 
-// FIXME correct
     public void testPlugin4() throws Exception {
         final ModuleAddress address = new DefaultModuleAddress(new File(getDocDir(),
             "math/qedeq_formal_logic_v1.xml"));
         getServices().executePlugin(FormalProofCheckerPlugin.class.getName(), address);
         final QedeqBo bo = getServices().getQedeqBo(address);
-//        assertTrue(bo.isChecked());
+        assertTrue(bo.isChecked());
         assertEquals(0, bo.getWarnings().size());
-        assertEquals(2, bo.getErrors().size());
+        assertEquals(0, bo.getErrors().size());
     }
 
 }
