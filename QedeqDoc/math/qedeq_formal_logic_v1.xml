@@ -4802,7 +4802,7 @@
                               <MP ref1="1" ref2="6"/>
                             </L>
                           </LINES>
-                          <CONCLUSION>
+                          <CONCLUSION label="8">
                             <FORMULA>
                               <IMPL>
                                 <PREDVAR id="B"/>
@@ -4812,7 +4812,7 @@
                           </CONCLUSION>
                         </CP>
                       </LINES>
-                      <CONCLUSION>
+                      <CONCLUSION label="9">
                         <FORMULA>
                           <IMPL>
                             <PREDVAR id="A"/>
@@ -4825,7 +4825,7 @@
                       </CONCLUSION>
                     </CP>
                   </LINES>
-                  <CONCLUSION>
+                  <CONCLUSION label="10">
                     <FORMULA>
                       <IMPL>
                         <IMPL>
