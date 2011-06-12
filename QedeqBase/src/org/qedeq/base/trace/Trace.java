@@ -27,7 +27,7 @@ import org.apache.commons.logging.LogFactory;
 public final class Trace {
 
     /** Logger for business messages. */
-    private static final Log BUSINESS = LogFactory.getFactory().getInstance("log");
+    private static final Log BUSINESS = LogFactory.getFactory().getInstance("log ");
 
     /** Is tracing on? If not only fatal errors and business messages are logged. */
     private static boolean traceOn = false;
