@@ -2277,7 +2277,8 @@
             </FORMULA>
             <FORMAL_PROOF>
               <LINES>
-                <CP><HYPOTHESIS label="1">
+                <CP>
+                  <HYPOTHESIS label="1">
                     <FORMULA>
                       <IMPL>
                         <PREDVAR id="A"/>
@@ -2289,7 +2290,8 @@
                     </FORMULA>
                   </HYPOTHESIS>
                   <LINES>
-                    <CP><HYPOTHESIS label="2">
+                    <CP>
+                      <HYPOTHESIS label="2">
                         <FORMULA>
                           <PREDVAR id="A"/>
                         </FORMULA>
