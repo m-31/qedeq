@@ -15,7 +15,6 @@
 
 package org.qedeq.kernel.bo.log;
 
-import org.qedeq.base.io.IoUtility;
 import org.qedeq.kernel.bo.common.QedeqBo;
 
 /**
@@ -32,21 +31,21 @@ public final class ModuleEventListenerLog implements ModuleEventListener {
     }
 
     public void addModule(final QedeqBo prop) {
-        QedeqLog.getInstance().logSuccessfulState("Module added", IoUtility.easyUrl(prop.getUrl()));
+        QedeqLog.getInstance().logSuccessfulState("Module added", prop.getUrl());
     }
 
     public void stateChanged(final QedeqBo prop) {
         if (prop.hasErrors()) {
             QedeqLog.getInstance().logFailureState("Module state changed: "
-                + prop.getStateDescription(), IoUtility.easyUrl(prop.getUrl()), prop.getErrors().getMessage());
+                + prop.getStateDescription(), prop.getUrl(), prop.getErrors().getMessage());
         } else {
             QedeqLog.getInstance().logSuccessfulState("Module state changed: "
-                + prop.getStateDescription(), IoUtility.easyUrl(prop.getUrl()));
+                + prop.getStateDescription(), prop.getUrl());
         }
     }
 
     public void removeModule(final QedeqBo prop) {
-        QedeqLog.getInstance().logSuccessfulState("Module removed", IoUtility.easyUrl(prop.getUrl()));
+        QedeqLog.getInstance().logSuccessfulState("Module removed", prop.getUrl());
     }
 
 }
