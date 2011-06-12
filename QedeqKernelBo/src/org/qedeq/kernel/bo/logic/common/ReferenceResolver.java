@@ -16,7 +16,6 @@
 package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.kernel.se.base.list.Element;
-import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 
