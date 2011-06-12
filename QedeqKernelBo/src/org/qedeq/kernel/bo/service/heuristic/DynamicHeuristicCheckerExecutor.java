@@ -37,8 +37,6 @@ import org.qedeq.kernel.se.base.module.FormalProofLine;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
-import org.qedeq.kernel.se.base.module.Latex;
-import org.qedeq.kernel.se.base.module.LatexList;
 import org.qedeq.kernel.se.base.module.Node;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
@@ -51,8 +49,6 @@ import org.qedeq.kernel.se.dto.list.DefaultElementList;
 
 /**
  * Check if formulas are valid in our model.
- *
- * FIXME 20110524 m31: for conditional proofs: add condition implication
  *
  * @author  Michael Meyling
  */
@@ -230,7 +226,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
             return;
         }
         final String context = getCurrentContext().getLocationWithinModule();
-        System.out.println("\ttesting axiom");
+        QedeqLog.getInstance().logMessageState("\ttesting axiom", getQedeqBo().getUrl());
         if (axiom.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
             final Element test = axiom.getFormula().getElement();
@@ -250,7 +246,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (definition == null) {
             return;
         }
-        System.out.println("\ttesting initial predicate definition");
+        QedeqLog.getInstance().logMessageState("\ttesting initial predicate definition",
+            getQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         try {
             ModelPredicateConstant predicate = new ModelPredicateConstant(
@@ -288,7 +285,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (definition == null) {
             return;
         }
-        System.out.println("\ttesting predicate definition");
+        QedeqLog.getInstance().logMessageState("\ttesting predicate definition",
+            getQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         try {
             // test new predicate constant: must always be successful otherwise there
@@ -317,7 +315,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (definition == null) {
             return;
         }
-        System.out.println("\ttesting initial function definition");
+        QedeqLog.getInstance().logMessageState("\ttesting initial function definition",
+            getQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         try {
             ModelFunctionConstant function = new ModelFunctionConstant(definition.getName(),
@@ -353,7 +352,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (definition == null) {
             return;
         }
-        System.out.println("\ttesting function definition");
+        QedeqLog.getInstance().logMessageState("\ttesting function definition",
+            getQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         // test new predicate constant: must always be successful otherwise there
         // must be a programming error or the predicate definition is not formal correct
@@ -370,7 +370,6 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
     public void visitEnter(final Node node) {
         QedeqLog.getInstance().logMessageState(super.getLocationDescription(),
             getQedeqBo().getUrl());
-        System.out.println(super.getLocationDescription());
     }
 
     public void visitEnter(final Proposition proposition)
@@ -378,7 +377,7 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (proposition == null) {
             return;
         }
-        System.out.println("\ttesting proposition");
+        QedeqLog.getInstance().logMessageState("\ttesting proposition", getQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         if (proposition.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
@@ -396,7 +395,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (line == null) {
             return;
         }
-        System.out.println("\t\ttesting line " + line.getLabel());
+        QedeqLog.getInstance().logMessageState("\t\ttesting line " + line.getLabel(),
+            getQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         if (line.getFormula() != null) {
             setLocationWithinModule(context + ".getFormula().getElement()");
@@ -419,7 +419,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
         if (line.getHypothesis() != null && line.getHypothesis().getFormula() != null
                 && line.getHypothesis().getFormula().getElement() != null) {
             condition.add(line.getHypothesis().getFormula().getElement());
-            System.out.println("\t\tadd condit. " + line.getHypothesis().getLabel());
+            QedeqLog.getInstance().logMessageState("\t\tadd condit. "
+                + line.getHypothesis().getLabel(), getQedeqBo().getUrl());
         }
     }
 
@@ -432,7 +433,8 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
                 && line.getHypothesis().getFormula().getElement() != null) {
             condition.remove(condition.size() - 1);
         }
-        System.out.println("\t\ttesting line " + line.getConclusion().getLabel());
+        QedeqLog.getInstance().logMessageState("\t\ttesting line "
+            + line.getConclusion().getLabel(), getQedeqBo().getUrl());
         final String context = getCurrentContext().getLocationWithinModule();
         if (line.getConclusion().getFormula() != null) {
             setLocationWithinModule(context + ".getConclusion().getFormula().getElement()");
@@ -459,46 +461,6 @@ public final class DynamicHeuristicCheckerExecutor extends ControlVisitor implem
      */
     public void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-    }
-
-    /**
-     * Filters correct entry out of LaTeX list. Filter criterion is for example the correct
-     * language.
-     *
-     * @param   list    List of LaTeX entries.
-     * @return  Filtered text.
-     */
-    private String getLatexListEntry(final LatexList list) {
-        if (list == null) {
-            return "";
-        }
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i) != null && "en".equals(list.get(i).getLanguage())) {
-                return getLatex(list.get(i));
-            }
-        }
-        // assume entry with missing language as default
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i) != null && list.get(i).getLanguage() == null) {
-                return getLatex(list.get(i));
-            }
-        }
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i) != null) {
-                return getLatex(list.get(i));
-            }
-        }
-        return "";
-    }
-
-    private String getLatex(final Latex latex) {
-        String result = latex.getLatex();
-        if (result == null) {
-            result = "";
-        }
-        result = result.trim();
-        result = result.replaceAll("\\\\index\\{.*\\}", "");
-        return result.trim();
     }
 
 }
