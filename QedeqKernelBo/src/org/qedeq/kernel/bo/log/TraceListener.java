@@ -24,6 +24,9 @@ import org.qedeq.base.trace.Trace;
  */
 public final class TraceListener implements LogListener {
 
+    /** Last modules URL .*/
+    private String lastModuleUrl = "";
+
     /**
      * Constructor.
      */
@@ -31,32 +34,56 @@ public final class TraceListener implements LogListener {
     }
 
     public final void logMessageState(final String text, final String url) {
-        Trace.log(" state:   " + text, url);
+        if (!lastModuleUrl.equals(url)) {
+            Trace.log(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        Trace.log(" state:   " + text);
     }
 
     public final void logFailureState(final String text, final String url,
             final String description) {
-        Trace.log(" failure: " + text, url, description);
+        if (!lastModuleUrl.equals(url)) {
+            Trace.log(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        Trace.log(" failure: " + text, description);
     }
 
     public final void logSuccessfulState(final String text, final String url) {
-        Trace.log(" success: " + text, url);
+        if (!lastModuleUrl.equals(url)) {
+            Trace.log(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        Trace.log(" success: " + text);
     }
 
     public void logRequest(final String text, final String url) {
-        Trace.log(" request: " + text, url);
+        if (!lastModuleUrl.equals(url)) {
+            Trace.log(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        Trace.log(" request: " + text);
     }
 
     public final void logMessage(final String text) {
-        Trace.log(" " + text);
+        Trace.log(text);
     }
 
     public void logSuccessfulReply(final String text, final String url) {
-        Trace.log(" reply:   " + text, url);
+        if (!lastModuleUrl.equals(url)) {
+            Trace.log(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        Trace.log(" reply:   " + text);
     }
 
     public void logFailureReply(final String text, final String url, final String description) {
-        Trace.log(" reply:   " + text, url + "\n" + description);
+        if (!lastModuleUrl.equals(url)) {
+            Trace.log(url);
+            lastModuleUrl = (url != null ? url : "");
+        }
+        Trace.log(" reply:   " + text, description);
     }
 
 }
