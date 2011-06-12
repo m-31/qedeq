@@ -17,7 +17,9 @@ package org.qedeq.kernel.bo.logic;
 
 import org.qedeq.kernel.bo.logic.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.common.ProofCheckerFactory;
+import org.qedeq.kernel.bo.logic.proof.basic.ProofChecker0Impl;
 import org.qedeq.kernel.bo.logic.proof.basic.ProofChecker2Impl;
+import org.qedeq.kernel.bo.logic.proof.basic.ProofChecker1Impl;
 
 
 
@@ -28,10 +30,27 @@ import org.qedeq.kernel.bo.logic.proof.basic.ProofChecker2Impl;
  */
 public class ProofCheckerFactoryImpl implements ProofCheckerFactory {
 
-    public ProofChecker createProofChecker() {
-        // FIXME 201105022 m31: create dependent from module version
-        // return new ProofCheckerImpl();
-        return new ProofChecker2Impl();
+    public boolean isRuleVersionSupported(final String ruleVersion) {
+        if ("0.00.00".equals(ruleVersion)) {
+            return true;
+        } else if ("0.01.00".equals(ruleVersion)) {
+            return true;
+        } else if ("0.02.00".equals(ruleVersion)) {
+            return true;
+        }
+        return false;
+    }
+
+    public ProofChecker createProofChecker(final String ruleVersion) {
+        if ("0.00.00".equals(ruleVersion)) {
+            return new ProofChecker0Impl(ruleVersion);
+        } else if ("0.01.00".equals(ruleVersion)) {
+            return new ProofChecker1Impl(ruleVersion);
+        } else if ("0.02.00".equals(ruleVersion)) {
+            return new ProofChecker2Impl(ruleVersion);
+        }
+        // not found, so we take the best one we have
+        return new ProofChecker2Impl(ruleVersion);
     }
 
 

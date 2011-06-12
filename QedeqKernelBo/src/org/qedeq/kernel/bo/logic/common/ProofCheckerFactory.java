@@ -16,6 +16,7 @@
 package org.qedeq.kernel.bo.logic.common;
 
 
+
 /**
  * Can create a {@link ProofChecker}.
  *
@@ -24,11 +25,19 @@ package org.qedeq.kernel.bo.logic.common;
 public interface ProofCheckerFactory {
 
     /**
+     * Check if we have a proof checker that supports the given rule version.
+     *
+     * @param   ruleVersion Rule version the module claims to use.
+     * @return  Do we have a proof checker for the given rule version.
+     */
+    public boolean isRuleVersionSupported(final String ruleVersion);
+
+    /**
      * Create a {@link ProofChecker}.
      *
+     * @param   ruleVersion Rule version the module claims to use.
      * @return  Instance that can check formulas for correctness.
      */
-    public ProofChecker createProofChecker();
-
+    public ProofChecker createProofChecker(final String ruleVersion);
 
 }

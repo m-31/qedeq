@@ -176,4 +176,12 @@ public interface LogicErrors extends ErrorCodes {
         = "no correct formal proof found";
 
 
+    /** Error code. */
+    public static final int RULE_VERSION_HAS_STILL_NO_PROOF_CHECKER_CODE = 37250;
+
+    /** Error message. */
+    public static final String RULE_VERSION_HAS_STILL_NO_PROOF_CHECKER_TEXT
+        = "this rule version has still no proof checker implementation: ";
+
+
 }

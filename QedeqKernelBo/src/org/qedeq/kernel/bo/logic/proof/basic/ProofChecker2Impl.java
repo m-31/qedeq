@@ -48,7 +48,7 @@ import org.qedeq.kernel.se.dto.list.ElementSet;
 
 
 /**
- * Formal proof checker for basic rules.
+ * Formal proof checker for basic rules and conditional proof.
  *
  * @author  Michael Meyling
  */
@@ -75,12 +75,19 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
     /** Maps local proof line labels to local line number Integers. */
     private Map label2line;
 
+    /** Rule version we can check. */
+    private final String ruleVersion;
+
     /**
      * Constructor.
      *
+     * @param   ruleVersion Rule version we check.
+     *
      */
-    public ProofChecker2Impl() {
+    public ProofChecker2Impl(final String ruleVersion) {
+        this.ruleVersion = ruleVersion;
     }
+
 
     public LogicalCheckExceptionList checkProof(final Element formula,
             final FormalProofLineList proof, final ModuleContext moduleContext,
@@ -790,7 +797,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
         final Element lastFormula = resolver.getNormalizedFormula(line.getFormula().getElement());
         setLocationWithinModule(context + ".getFormalProofLineList()");
         final LogicalCheckExceptionList eList
-            = (new ProofChecker2Impl()).checkProof(lastFormula, cp.getFormalProofLineList(),
+            = (new ProofChecker2Impl(ruleVersion)).checkProof(lastFormula, cp.getFormalProofLineList(),
                 getCurrentContext(), newResolver);
         exceptions.add(eList);
         ok = eList.size() == 0;

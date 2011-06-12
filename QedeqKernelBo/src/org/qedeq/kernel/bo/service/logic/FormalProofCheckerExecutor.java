@@ -37,6 +37,7 @@ import org.qedeq.kernel.se.base.module.Axiom;
 import org.qedeq.kernel.se.base.module.FormalProof;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
+import org.qedeq.kernel.se.base.module.Header;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
@@ -69,6 +70,9 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     /** Parameters for checker. */
     private Parameters parameters;
+
+    /** Rule version the module claims to use at maximum. */
+    private String ruleVersion;
 
     /**
      * Constructor.
@@ -113,6 +117,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     }
 
     public Object executePlugin() {
+        ruleVersion = "0.00.00";  // we set this as module rule version, and hope it will be changed
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness", getQedeqBo().getUrl());
         getServices().checkModule(getQedeqBo().getModuleAddress());
@@ -162,6 +167,20 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         QedeqLog.getInstance().logSuccessfulReply(
                 "Check of logical correctness successful", getQedeqBo().getUrl());
         return Boolean.TRUE;
+    }
+
+    public void visitEnter(final Header header) throws ModuleDataException {
+        if (header == null || header.getSpecification() == null
+                || header.getSpecification().getRuleVersion() == null) {
+            return;
+        }
+        ruleVersion = header.getSpecification().getRuleVersion().trim();
+        if (!checkerFactory.isRuleVersionSupported(ruleVersion)) {
+            addError(new ProofCheckException(
+                LogicErrors.RULE_VERSION_HAS_STILL_NO_PROOF_CHECKER_CODE,
+                LogicErrors.RULE_VERSION_HAS_STILL_NO_PROOF_CHECKER_TEXT + ruleVersion,
+                getCurrentContext()));
+        }
     }
 
     public void visitEnter(final Axiom axiom) throws ModuleDataException {
@@ -308,7 +327,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                         setLocationWithinModule(context + ".getFormalProofList().get("
                            + i + ").getFormalProofLineList()");
                         LogicalCheckExceptionList eList
-                            = checkerFactory.createProofChecker().checkProof(
+                            = checkerFactory.createProofChecker(ruleVersion).checkProof(
                             proposition.getFormula().getElement(), list, getCurrentContext(),
                             this);
                         if (!correctProofFound && eList.size() == 0) {

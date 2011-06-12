@@ -49,7 +49,7 @@ import org.qedeq.kernel.se.dto.list.ElementSet;
  *
  * @author  Michael Meyling
  */
-public class ProofCheckerImpl implements ProofChecker {
+public class ProofChecker1Impl implements ProofChecker {
 
     /** Proof we want to check. */
     private FormalProofLineList proof;
@@ -72,12 +72,19 @@ public class ProofCheckerImpl implements ProofChecker {
     /** Maps local proof line labels to local line number Integers. */
     private Map label2line;
 
+    /** Rule version we can check. */
+    private final String ruleVersion;
+
     /**
      * Constructor.
      *
+     * @param   ruleVersion Rule version we check.
+     *
      */
-    public ProofCheckerImpl() {
+    public ProofChecker1Impl(final String ruleVersion) {
+        this.ruleVersion = ruleVersion;
     }
+
 
     public LogicalCheckExceptionList checkProof(final Element formula,
             final FormalProofLineList proof, final ModuleContext moduleContext,

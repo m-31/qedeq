@@ -192,4 +192,11 @@ public interface BasicProofErrors extends ErrorCodes {
     public static final String SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_TEXT
         = "the operator that should be substituted was found within a precondition";
 
+    /** Error code. */
+    public static final int NO_FORMAL_PROOFS_SUPORTED_CODE = 37400;
+
+    /** Error message. */
+    public static final String NO_FORMAL_PROOFS_SUPORTED_TEXT
+        = "the module has rule version that forbids formal proofs: ";
+
 }
