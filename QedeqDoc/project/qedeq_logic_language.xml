@@ -621,7 +621,7 @@
             </EQUI>
             \end{verbatim}
             
-            Due to XSD restrictions for the XML document some error codes listed in Chapter~\ref{chapter0} will not occur. Instead the XML will be classified as invalid.
+            Due to XSD restrictions for the XML document some error codes listed in Chapter~\ref{chapter2} will not occur. Instead the XML will be classified as invalid.
             
           ]]>
         </LATEX>
@@ -689,7 +689,7 @@
   </CHAPTER>
   <CHAPTER>
     <TITLE>
-      <LATEX language="en">Basic Rules of Inference</LATEX>
+      <LATEX language="en">Basic Rules of Inference\index{0.01.00}</LATEX>
     </TITLE>
     <INTRODUCTION>
       <LATEX language="en">
@@ -700,17 +700,23 @@
           \par
           We will introduce the following proof rules. 
 
-            \par
-            \begin{tabularx}{\columnwidth}{ll}
-              \emph{Add}         & add already proven formula  \\
-              \emph{MP}          & modus ponens  \\
-              \emph{Rename}      & rename bound subject variable  \\
-              \emph{SubstFree}   & substitute free subject variable by term  \\
-              \emph{SubstFun}    & substitute function variable by term  \\
-              \emph{SubstPred}   & substitute predicate variable by formula \\
-              \emph{Universal}   & universal generalization  \\
-              \emph{Existential} & existential generalization
-            \end{tabularx}
+          \par
+          \begin{tabularx}{\columnwidth}{ll}
+            \emph{Add}         & add already proven formula  \\
+            \emph{MP}          & modus ponens  \\
+            \emph{Rename}      & rename bound subject variable  \\
+            \emph{SubstFree}   & substitute free subject variable by term  \\
+            \emph{SubstFun}    & substitute function variable by term  \\
+            \emph{SubstPred}   & substitute predicate variable by formula \\
+            \emph{Universal}   & universal generalization  \\
+            \emph{Existential} & existential generalization
+          \end{tabularx}
+
+          \par
+          These basic rules get the rule version number $0.01.00$. The rules might get extended in higher rule versions.\footnote{For example we want to allow modus ponens also with a formula like $A \leftrightarrow B$.}
+
+          \par
+          TODO 20110612 m31: add error code description for rules
 
         ]]>
       </LATEX>
@@ -972,6 +978,57 @@
 
             \par
             See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/EXISTENTIAL.html}.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+    </SECTION>
+  </CHAPTER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">Derived Rules\index{0.02.00}</LATEX>
+    </TITLE>
+    <INTRODUCTION>
+      <LATEX language="en">
+        <![CDATA[
+          We can use derived rules that can be completely replaced by the old rules but enable us shorter proofs. We introduce a new rule that allows us to make an assumption and derive from that hypothesis. All previous rules get also slightly modified.
+
+          \par
+          \begin{tabularx}{\columnwidth}{ll}
+            \emph{CP}          & conditional proof  \\
+          \end{tabularx}
+  
+          \par
+          These basic rules get the rule version number $0.02.00$.
+  
+        ]]>
+      </LATEX>
+    </INTRODUCTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+          <![CDATA[
+            Conditional Proof
+          ]]>
+        </LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            We have the well-formed formula $\alpha$ and add it as a new proof line. We assume this formula as hypothesis. Now we modify the existing inference rules. We can add a further proof line $\beta$ if $\alpha \rightarrow \beta$ is a well-formed formula and the usage of a previous inference rule with the following restrictions justifies the addition: any substitution of a free subject variable, a predicate variable or a function variable is only allowed, if the variable doesn't occur in $\alpha$.
+
+            \par
+            This rule can be used recursive. The conjunction of all hypothesis formulas is called a \emph{condition} for the proof line we want to check.
+
+            \par
+            \begin{tabularx}{\columnwidth}{lll}
+              \emph{name}        & \tt{CP}          & name of proof rule \\
+              \emph{parameter 1} & \tt{HYPOTHESIS}  & hypothesis \\
+              \emph{parameter 2} & \tt{LINES}       & formal proof that uses the hypothesis\\
+              \emph{parameter 2} & \tt{CONCLUSION}  & implication with hypothesis and last proof line
+            \end{tabularx}
+
+            \par
+            See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/CP.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
