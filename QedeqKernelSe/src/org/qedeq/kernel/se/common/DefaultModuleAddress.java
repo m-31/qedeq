@@ -33,6 +33,9 @@ import org.qedeq.kernel.se.base.module.Specification;
  */
 public class DefaultModuleAddress implements ModuleAddress {
 
+    /** Default memory module address with identifier "default". */
+    public static final DefaultModuleAddress MEMORY = new DefaultModuleAddress();
+
     /** This class. */
     private static final Class CLASS = DefaultModuleAddress.class;
 
@@ -101,7 +104,7 @@ public class DefaultModuleAddress implements ModuleAddress {
 
     /**
      * Constructor mainly used for memory modules.
-     * FIXME 20110227 m31: this is no object oriented design: a parameter must be true???
+     * TODO 20110227 m31: this is no object oriented design: a parameter must be true???
      *                    refactor code and create extra memory module address class!
      *
      * @param   memory      Must be true. If not a runtime exception occurs.

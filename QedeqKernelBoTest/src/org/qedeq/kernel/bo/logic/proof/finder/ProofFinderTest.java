@@ -20,10 +20,9 @@ import java.util.Map;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.kernel.bo.KernelContext;
-import org.qedeq.kernel.bo.log.LogListenerImpl;
-import org.qedeq.kernel.bo.log.QedeqLog;
-import org.qedeq.kernel.bo.logic.common.ProofFinder;
-import org.qedeq.kernel.bo.logic.common.ProofFoundException;
+import org.qedeq.kernel.bo.log.ModuleLogListenerImpl;
+import org.qedeq.kernel.bo.logic.proof.common.ProofFinder;
+import org.qedeq.kernel.bo.logic.proof.common.ProofFoundException;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.test.QedeqBoTestCase;
@@ -31,7 +30,6 @@ import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.common.DefaultModuleAddress;
 import org.qedeq.kernel.se.common.ModuleAddress;
-import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.module.FormalProofLineListVo;
 
 /**
@@ -85,9 +83,9 @@ public class ProofFinderTest extends QedeqBoTestCase {
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
         try {
-            finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-            new DefaultModuleAddress()), new Parameters(parameters), new LogListenerImpl(),
-                bo.getElement2Utf8());
+            finder.findProof(prop.getFormula().getElement(), list,
+                DefaultModuleAddress.MEMORY.createModuleContext(), new Parameters(parameters),
+                new ModuleLogListenerImpl("memory"), bo.getElement2Utf8());
             fail("no proof found");
         } catch (ProofFoundException e) {
             assertNotNull(e.getProofLines());
@@ -130,9 +128,9 @@ public class ProofFinderTest extends QedeqBoTestCase {
         parameters.put("conjunctionWeight", "0");
         parameters.put("equivalenceWeight", "0");
         try {
-            finder.findProof(prop.getFormula().getElement(), list, new ModuleContext(
-                new DefaultModuleAddress()), new Parameters(parameters), QedeqLog.getInstance(),
-                bo.getElement2Utf8());
+            finder.findProof(prop.getFormula().getElement(), list, 
+                DefaultModuleAddress.MEMORY.createModuleContext(), new Parameters(parameters),
+                new ModuleLogListenerImpl("memory"), bo.getElement2Utf8());
             fail("no proof found");
         } catch (ProofFoundException e) {
             assertNotNull(e.getProofLines());
