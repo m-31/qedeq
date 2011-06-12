@@ -15,11 +15,11 @@
 
 package org.qedeq.kernel.bo.logic;
 
-import org.qedeq.kernel.bo.logic.common.ProofChecker;
-import org.qedeq.kernel.bo.logic.common.ProofCheckerFactory;
-import org.qedeq.kernel.bo.logic.proof.basic.ProofChecker0Impl;
-import org.qedeq.kernel.bo.logic.proof.basic.ProofChecker2Impl;
-import org.qedeq.kernel.bo.logic.proof.basic.ProofChecker1Impl;
+import org.qedeq.kernel.bo.logic.proof.checker.ProofChecker0Impl;
+import org.qedeq.kernel.bo.logic.proof.checker.ProofChecker1Impl;
+import org.qedeq.kernel.bo.logic.proof.checker.ProofChecker2Impl;
+import org.qedeq.kernel.bo.logic.proof.common.ProofChecker;
+import org.qedeq.kernel.bo.logic.proof.common.ProofCheckerFactory;
 
 
 

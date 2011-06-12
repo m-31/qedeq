@@ -13,23 +13,21 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic;
-
-import org.qedeq.kernel.bo.logic.proof.common.ProofFinder;
-import org.qedeq.kernel.bo.logic.proof.common.ProofFinderFactory;
-import org.qedeq.kernel.bo.logic.proof.finder.ProofFinderImpl;
-
+package org.qedeq.kernel.bo.log;
 
 
 /**
- * Factory implementation for {@link ProofFinder}s.
+ * Log module messages.
  *
  * @author  Michael Meyling
  */
-public class ProofFinderFactoryImpl implements ProofFinderFactory {
+public interface ModuleLogListener {
 
-    public ProofFinder createProofFinder() {
-        return new ProofFinderImpl();
-    }
+    /**
+     * Log message state for a single QEDEQ module.
+     *
+     * @param   text    Message state.
+     */
+    public void logMessageState(String text);
 
 }
