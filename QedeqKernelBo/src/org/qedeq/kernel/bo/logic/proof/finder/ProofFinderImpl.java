@@ -24,13 +24,13 @@ import java.util.TreeSet;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.Element2Utf8;
-import org.qedeq.kernel.bo.log.LogListener;
+import org.qedeq.kernel.bo.log.ModuleLogListener;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.Operators;
-import org.qedeq.kernel.bo.logic.common.ProofException;
-import org.qedeq.kernel.bo.logic.common.ProofFinder;
-import org.qedeq.kernel.bo.logic.common.ProofFoundException;
-import org.qedeq.kernel.bo.logic.common.ProofNotFoundException;
+import org.qedeq.kernel.bo.logic.proof.common.ProofException;
+import org.qedeq.kernel.bo.logic.proof.common.ProofFinder;
+import org.qedeq.kernel.bo.logic.proof.common.ProofFoundException;
+import org.qedeq.kernel.bo.logic.proof.common.ProofNotFoundException;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -87,7 +87,7 @@ public class ProofFinderImpl implements ProofFinder {
     private ModuleContext context;
 
     /** Log progress herein. */
-    private LogListener log;
+    private ModuleLogListener log;
 
     /** Transformer to get UTF-8 out of formulas. */
     private Element2Utf8 trans;
@@ -100,7 +100,7 @@ public class ProofFinderImpl implements ProofFinder {
 
     public void findProof(final Element formula,
             final FormalProofLineList proof, final ModuleContext context,
-            final Parameters parameters, final LogListener log, final Element2Utf8 trans)
+            final Parameters parameters, final ModuleLogListener log, final Element2Utf8 trans)
             throws ProofException, InterruptException {
         this.goalFormula = formula;
         this.context = new ModuleContext(context);  // use copy constructor to fix it
@@ -111,7 +111,7 @@ public class ProofFinderImpl implements ProofFinder {
         maxProofLines = parameters.getInt("maximumProofLines");
         skipFormulas = parameters.getString("skipFormulas").trim();
         if (skipFormulas.length() > 0) {
-            log.logMessage("skipping the following formula numbers: " + skipFormulas);
+            log.logMessageState("skipping the following formula numbers: " + skipFormulas);
             skipFormulas = "," + StringUtility.replace(skipFormulas, " ", "") + ",";
         }
         // TODO 20110606 m31: check that we have the correct format (e.g. only "," as separator)
@@ -179,7 +179,7 @@ public class ProofFinderImpl implements ProofFinder {
         reasons = new ArrayList();
         setAllPredVars(proof);
         partGoalFormulas = FormulaUtility.getPartFormulas(goalFormula);
-        log.logMessage("our goal: " + trans.getUtf8(formula));
+        log.logMessageState("our goal: " + trans.getUtf8(formula));
         while (true) {
             // check if the thread should be
             if (Thread.interrupted()) {
@@ -202,7 +202,7 @@ public class ProofFinderImpl implements ProofFinder {
     }
 
     private void setAllPredVars(final FormalProofLineList proof) {
-        log.logMessage("using the following formulas:");
+        log.logMessageState("using the following formulas:");
         allPredVars = new ElementSet();
         // add all "add" proof formulas to our proof line list
         for (int i = 0; i < proof.size(); i++) {
@@ -217,7 +217,7 @@ public class ProofFinderImpl implements ProofFinder {
             final Element formula = proof.get(i).getFormula().getElement();
             lines.add(formula);
             reasons.add(reason);
-            log.logMessage(ProofFinderUtility.getUtf8Line(formula, reason, i, trans));
+            log.logMessageState(ProofFinderUtility.getUtf8Line(formula, reason, i, trans));
             allPredVars.union(FormulaUtility.getPropositionVariables(
                 formula));
         }
@@ -439,7 +439,7 @@ public class ProofFinderImpl implements ProofFinder {
 //            printLine(lines.size() - 1);
             if (goalFormula.equals(formula)) {
                 final int size = lines.size();
-                log.logMessage(FinderErrors.PROOF_FOUND_TEXT + size);
+                log.logMessageState(FinderErrors.PROOF_FOUND_TEXT + size);
                 throw new ProofFoundException(FinderErrors.PROOF_FOUND_CODE,
                     FinderErrors.PROOF_FOUND_TEXT + size,
                     ProofFinderUtility.shortenProof(lines, reasons, log, trans), context);
@@ -448,15 +448,15 @@ public class ProofFinderImpl implements ProofFinder {
             if (lines.size() >= maxProofLines) {
                 final int size = lines.size();
                 if (logFrequence > 0) {
-                    log.logMessage(ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1,
+                    log.logMessageState(ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1,
                         trans));
                 }
-                log.logMessage(FinderErrors.PROOF_NOT_FOUND_TEXT + size);
+                log.logMessageState(FinderErrors.PROOF_NOT_FOUND_TEXT + size);
                 throw new ProofNotFoundException(FinderErrors.PROOF_NOT_FOUND_CODE,
                     FinderErrors.PROOF_NOT_FOUND_TEXT + size, context);
             }
             if (logFrequence > 0 && (lines.size() - 1) % logFrequence == 0) {
-                log.logMessage(ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1,
+                log.logMessageState(ProofFinderUtility.getUtf8Line(lines, reasons, lines.size() - 1,
                         trans));
             }
         }

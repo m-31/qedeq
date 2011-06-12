@@ -19,10 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.kernel.bo.common.Element2Utf8;
-import org.qedeq.kernel.bo.log.LogListener;
-import org.qedeq.kernel.bo.module.ModuleLabels;
-import org.qedeq.kernel.bo.service.Element2LatexImpl;
-import org.qedeq.kernel.bo.service.Element2Utf8Impl;
+import org.qedeq.kernel.bo.log.ModuleLogListener;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
@@ -63,12 +60,12 @@ public final class ProofFinderUtility {
      * @return  Reduced formal proof.
      */
     public static FormalProofLineList shortenProof(final List lines, final List reasons,
-            final LogListener log, final Element2Utf8 trans) {
+            final ModuleLogListener log, final Element2Utf8 trans) {
         return (new ProofFinderUtility()).shorten(lines, reasons, log, trans);
     }
 
     private FormalProofLineList shorten(final List lines, final List reasons,
-            final LogListener log, final Element2Utf8 trans) {
+            final ModuleLogListener log, final Element2Utf8 trans) {
         final boolean[] used = new boolean[lines.size()];
         int n = lines.size() - 1;
         used[n] = true;
@@ -92,7 +89,7 @@ public final class ProofFinderUtility {
         }
         for (int j = 0; j < lines.size(); j++) {
             if (used[j]) {
-                log.logMessage(getUtf8Line(lines, reasons, j, trans));
+                log.logMessageState(getUtf8Line(lines, reasons, j, trans));
             }
         }
         new2Old = new ArrayList();
@@ -125,9 +122,9 @@ public final class ProofFinderUtility {
                 newReason));
         }
         for (int j = 0; j < result.size(); j++) {
-            System.out.print(result.get(j).getLabel() + ": ");
-            print(result.get(j).getFormula().getElement());
-            System.out.println("  " + result.get(j).getReason());
+            log.logMessageState(result.get(j).getLabel() + ": "
+                + trans.getUtf8(result.get(j).getFormula().getElement())
+                + "  " + result.get(j).getReason());
         }
         return result;
     }
@@ -143,37 +140,6 @@ public final class ProofFinderUtility {
     private int new2old(final int n) {
         final int result = ((Integer) new2Old.get(n)).intValue();
         return result;
-    }
-
-    /**
-     * Println UTF-8 representation of formula to <code>System.out</code>.
-     *
-     * @param   element For this element.
-     */
-    public static void println(final Element element) {
-        System.out.println(getUtf8(element));
-    }
-
-    /**
-     * Print UTF-8 representation of formula to <code>System.out</code>.
-     *
-     * @param   element For this element.
-     */
-    public static void print(final Element element) {
-        System.out.print(getUtf8(element));
-    }
-
-    /**
-     * Get UTF-8 representation for formula.
-     *
-     * @param   element For this element.
-     * @return  Get the UTF-8 display text.
-     */
-    public static String getUtf8(final Element element) {
-        ModuleLabels labels = new ModuleLabels();
-        Element2LatexImpl converter = new Element2LatexImpl(labels);
-        Element2Utf8Impl textConverter = new Element2Utf8Impl(converter);
-        return textConverter.getUtf8(element);
     }
 
     /**
@@ -207,14 +173,14 @@ public final class ProofFinderUtility {
             final Element2Utf8 trans) {
         final StringBuffer result = new StringBuffer();
         result.append((i + 1) + ": ");
-        result.append(ProofFinderUtility.getUtf8(formula));
+        result.append(trans.getUtf8(formula));
         result.append("  : ");
         if (reason instanceof SubstPred) {
             SubstPred s = (SubstPred) reason;
             result.append("Subst " + s.getReference() + " ");
-            result.append(ProofFinderUtility.getUtf8(s.getPredicateVariable()));
+            result.append(trans.getUtf8(s.getPredicateVariable()));
             result.append(" by ");
-            result.append(ProofFinderUtility.getUtf8(s.getSubstituteFormula()));
+            result.append(trans.getUtf8(s.getSubstituteFormula()));
         } else {
             result.append(reason);
         }
