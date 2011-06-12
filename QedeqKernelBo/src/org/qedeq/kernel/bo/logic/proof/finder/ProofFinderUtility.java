@@ -18,8 +18,8 @@ package org.qedeq.kernel.bo.logic.proof.finder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.log.LogListener;
-import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.bo.service.Element2LatexImpl;
 import org.qedeq.kernel.bo.service.Element2Utf8Impl;

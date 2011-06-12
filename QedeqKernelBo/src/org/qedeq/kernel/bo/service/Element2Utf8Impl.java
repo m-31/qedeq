@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.qedeq.base.utility.StringUtility;
-import org.qedeq.kernel.bo.module.Element2Utf8;
+import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.service.unicode.Latex2UnicodeParser;
 import org.qedeq.kernel.se.base.list.Element;
 

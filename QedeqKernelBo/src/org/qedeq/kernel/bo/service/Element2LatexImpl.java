@@ -19,8 +19,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.Element2Latex;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
-import org.qedeq.kernel.bo.module.Element2Latex;
 import org.qedeq.kernel.bo.module.ModuleLabels;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;

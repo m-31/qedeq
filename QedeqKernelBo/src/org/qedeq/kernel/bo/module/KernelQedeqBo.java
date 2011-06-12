@@ -1,5 +1,7 @@
 package org.qedeq.kernel.bo.module;
 
+import org.qedeq.kernel.bo.common.Element2Latex;
+import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.se.common.LogicalModuleState;
 import org.qedeq.kernel.se.common.ModuleDataException;

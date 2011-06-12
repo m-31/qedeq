@@ -16,8 +16,8 @@
 package org.qedeq.kernel.bo.logic.common;
 
 import org.qedeq.base.io.Parameters;
+import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.log.LogListener;
-import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.common.ModuleContext;

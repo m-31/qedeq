@@ -23,6 +23,7 @@ import java.util.TreeSet;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.common.Element2Utf8;
 import org.qedeq.kernel.bo.log.LogListener;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.Operators;
@@ -30,7 +31,6 @@ import org.qedeq.kernel.bo.logic.common.ProofException;
 import org.qedeq.kernel.bo.logic.common.ProofFinder;
 import org.qedeq.kernel.bo.logic.common.ProofFoundException;
 import org.qedeq.kernel.bo.logic.common.ProofNotFoundException;
-import org.qedeq.kernel.bo.module.Element2Utf8;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
