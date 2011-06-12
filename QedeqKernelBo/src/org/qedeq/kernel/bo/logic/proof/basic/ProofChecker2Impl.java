@@ -27,7 +27,6 @@ import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
-import org.qedeq.kernel.bo.logic.proof.finder.ProofFinderUtility;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -101,7 +100,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
         return checkProof(con, formula, proof, moduleContext, resolver);
     }
 
-    public LogicalCheckExceptionList checkProof(final ElementList conditions, final Element formula,
+    private LogicalCheckExceptionList checkProof(final ElementList conditions, final Element formula,
             final FormalProofLineList proof, final ModuleContext moduleContext,
             final ReferenceResolver resolver) {
         this.conditions = conditions;
@@ -238,11 +237,11 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                         + label,
                         getCurrentContext(),
                         resolver.getReferenceContext(label));
-                    System.out.println("we hava label already: " + label);
-                    ProofFinderUtility.println(getNormalizedLocalProofLineReference(label));
+//                    System.out.println("we hava label already: " + label);
+//                    ProofFinderUtility.println(getNormalizedLocalProofLineReference(label));
                 }
             }
-            System.out.println("adding label: " + label);
+//            System.out.println("adding label: " + label);
             label2line.put(label, new Integer(i));
         }
 
@@ -656,11 +655,10 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             uni.add(universal.getSubjectVariable());
             uni.add(reference.getList().getElement(1));
             expected.add(uni);
-            // FIXME remove me
-            System.out.print("Expected: ");
-            ProofFinderUtility.println(expected);
-            System.out.print("Current : ");
-            ProofFinderUtility.println(current);
+//            System.out.print("Expected: ");
+//            ProofFinderUtility.println(expected);
+//            System.out.print("Current : ");
+//            ProofFinderUtility.println(current);
             if (!EqualsUtility.equals(current, expected)) {
                 ok = false;
                 handleProofCheckException(
@@ -766,7 +764,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             }
 
             public Element getNormalizedReferenceFormula(final String reference) {
-                System.out.println("Looking for " + reference);
+//                System.out.println("Looking for " + reference);
                 if (EqualsUtility.equals(reference, cp.getHypothesis().getLabel())) {
                     return resolver.getNormalizedFormula(cp.getHypothesis().getFormula()
                         .getElement());
@@ -797,9 +795,9 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             }
 
             public Element getNormalizedLocalProofLineReference(final String reference) {
-                System.out.println("\t resolver looks for " + reference);
+//                System.out.println("\t resolver looks for " + reference);
                 if (EqualsUtility.equals(reference, cp.getHypothesis().getLabel())) {
-                    System.out.println("\t resolver found local " + reference);
+//                    System.out.println("\t resolver found local " + reference);
                     return resolver.getNormalizedFormula(
                         cp.getHypothesis().getFormula().getElement());
                 }
@@ -852,11 +850,11 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
         final DefaultElementList expected = new DefaultElementList(Operators.IMPLICATION_OPERATOR);
         expected.add(cp.getHypothesis().getFormula().getElement());
         expected.add(lastFormula);
-        System.out.println("expected: "); // FIXME remove 2 lines
-        ProofFinderUtility.println(cp.getConclusion().getFormula().getElement());
+//        System.out.println("expected: ");
+//        ProofFinderUtility.println(cp.getConclusion().getFormula().getElement());
         if (!EqualsUtility.equals(cp.getConclusion().getFormula().getElement(), expected)) {
-            System.out.println("found: ");  // FIXME remove 2 lines
-            ProofFinderUtility.println(cp.getConclusion().getFormula().getElement());
+//            System.out.println("found: ");
+//            ProofFinderUtility.println(cp.getConclusion().getFormula().getElement());
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.EXPECTED_FORMULA_DIFFERS_2_CODE,
@@ -976,12 +974,12 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
     }
 
     public Element getNormalizedReferenceFormula(final String reference) {
-        System.out.println("looking for " + reference);
+//        System.out.println("looking for " + reference);
         if (label2line.containsKey(reference)) {
-            System.out.println("found in local " + reference);
+//            System.out.println("found in local " + reference);
             return getNormalizedProofLine((Integer) label2line.get(reference));
         }
-        System.out.println("not found in local " + reference);
+//        System.out.println("not found in local " + reference);
         return resolver.getNormalizedReferenceFormula(reference);
     }
 
@@ -997,18 +995,18 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
     }
 
     public Element getNormalizedLocalProofLineReference(final String reference) {
-        System.out.println("\t resolver looks for " + reference);
+//        System.out.println("\t resolver looks for " + reference);
         if (label2line.containsKey(reference)) {
             System.out.println("\t resolver found local " + reference);
             return getNormalizedProofLine((Integer) label2line.get(reference));
         }
-        System.out.println("\t resolver asks super resolver for " + reference);
+//        System.out.println("\t resolver asks super resolver for " + reference);
         final Element result = resolver.getNormalizedLocalProofLineReference(reference);
-        if (result == null) {
-            System.out.println("\t super resolver didn't find " + reference);
-        } else {
-            System.out.println("\t super resolver found " + reference);
-        }
+//        if (result == null) {
+//            System.out.println("\t super resolver didn't find " + reference);
+//        } else {
+//            System.out.println("\t super resolver found " + reference);
+//        }
         return result;
     }
 
