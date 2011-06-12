@@ -997,7 +997,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
     public Element getNormalizedLocalProofLineReference(final String reference) {
 //        System.out.println("\t resolver looks for " + reference);
         if (label2line.containsKey(reference)) {
-            System.out.println("\t resolver found local " + reference);
+//            System.out.println("\t resolver found local " + reference);
             return getNormalizedProofLine((Integer) label2line.get(reference));
         }
 //        System.out.println("\t resolver asks super resolver for " + reference);
