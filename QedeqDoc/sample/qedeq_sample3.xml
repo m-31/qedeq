@@ -3,7 +3,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://www.qedeq.org/0_04_03/xml/qedeq.xsd">
   <HEADER email="mime@qedeq.org">
-    <SPECIFICATION name="qedeq_sample3" ruleVersion="1.00.00">
+    <SPECIFICATION name="qedeq_sample3" ruleVersion="0.01.00">
       <LOCATIONS>
         <LOCATION value="http://www.qedeq.org/0_04_03/sample" />
       </LOCATIONS>
