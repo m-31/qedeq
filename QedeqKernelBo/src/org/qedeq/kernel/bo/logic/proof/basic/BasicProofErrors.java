@@ -199,4 +199,11 @@ public interface BasicProofErrors extends ErrorCodes {
     public static final String NO_FORMAL_PROOFS_SUPORTED_TEXT
         = "the module has rule version that forbids formal proofs: ";
 
+    /** Error code. */
+    public static final int CONDITIONS_AND_FORMULA_DONT_AGREE_CODE = 37410;
+
+    /** Error message. */
+    public static final String CONDITIONS_AND_FORMULA_DONT_AGREE_TEXT
+        = "the conditions for this proof line doesn't agree with the formula ";
+
 }

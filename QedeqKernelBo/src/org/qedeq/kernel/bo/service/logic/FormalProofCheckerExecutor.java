@@ -517,8 +517,4 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         return null;
     }
 
-    public ElementList getConditions() {
-        return new DefaultElementList("conditions");
-    }
-
 }

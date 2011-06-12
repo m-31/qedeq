@@ -77,11 +77,4 @@ public interface ReferenceResolver {
      */
     public ModuleContext getReferenceContext(String reference);
 
-    /**
-     * Get all preconditions for this proof.
-     *
-     * @return Preconditions.
-     */
-    public ElementList getConditions();
-
 }

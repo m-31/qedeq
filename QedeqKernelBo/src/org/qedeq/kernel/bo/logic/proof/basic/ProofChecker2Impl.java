@@ -21,12 +21,14 @@ import java.util.Map;
 import org.qedeq.base.utility.Enumerator;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
 import org.qedeq.kernel.bo.logic.proof.finder.ProofFinderUtility;
+import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -78,6 +80,9 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
     /** Rule version we can check. */
     private final String ruleVersion;
 
+    /** These preconditions apply. This is a conjunction with 0 to n elements. */
+    private ElementList conditions;
+
     /**
      * Constructor.
      *
@@ -88,10 +93,18 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
         this.ruleVersion = ruleVersion;
     }
 
-
     public LogicalCheckExceptionList checkProof(final Element formula,
             final FormalProofLineList proof, final ModuleContext moduleContext,
             final ReferenceResolver resolver) {
+        final DefaultElementList con = new DefaultElementList(
+            Operators.CONJUNCTION_OPERATOR);
+        return checkProof(con, formula, proof, moduleContext, resolver);
+    }
+
+    public LogicalCheckExceptionList checkProof(final ElementList conditions, final Element formula,
+            final FormalProofLineList proof, final ModuleContext moduleContext,
+            final ReferenceResolver resolver) {
+        this.conditions = conditions;
         this.proof = proof;
         this.resolver = resolver;
         this.moduleContext = moduleContext;
@@ -128,7 +141,31 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 setLocationWithinModule(context + ".get(" + i + ").getLabel()");
                 addLocalLineLabel(i, line.getLabel());
             }
-            // check if only basis rules are used
+
+            // check if the formula together with the conditions is well formed
+            if (conditions.size() > 0) {
+                setLocationWithinModule(context + ".get(" + i + ").getFormula.getElement()");
+                ElementList full = new DefaultElementList(Operators.IMPLICATION_OPERATOR);
+                if (conditions.size() > 1) {
+                    full.add(conditions);
+                } else {
+                    full.add(conditions.getElement(0));
+                }
+                full.add(line.getFormula().getElement());
+                FormulaChecker checkWf = new FormulaCheckerImpl();  // TODO 20110612 m31: use factory?
+                final LogicalCheckExceptionList list = checkWf.checkFormula(full, getCurrentContext());
+                if (list.size() > 0) {
+                    ok = false;
+                    handleProofCheckException(
+                        BasicProofErrors.CONDITIONS_AND_FORMULA_DONT_AGREE_CODE,
+                        BasicProofErrors.CONDITIONS_AND_FORMULA_DONT_AGREE_TEXT
+                        + list.get(0).getMessage(),
+                        getCurrentContext());
+                    continue;
+                }
+            }
+
+            // check if only supported rules are used
             // TODO 20110316 m31: this is a dirty trick to get the context of the reason
             //                    perhaps we can solve this more elegantly?
             String getReason = ".get" + StringUtility.getClassName(reason.getClass());
@@ -306,7 +343,6 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             }
         }
         // check precondition: subject variable doesn't occur in a precondition
-        final ElementList conditions = getConditions();
         if (FormulaUtility.containsOperatorVariable(conditions, substfree.getSubjectVariable())) {
             ok = false;
             setLocationWithinModule(context + ".getSubstituteFormula()");
@@ -402,7 +438,6 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 return ok;
             }
             // check precondition: $\sigma(...)$ dosn't occur in a precondition
-            final ElementList conditions = getConditions();
             if (FormulaUtility.containsOperatorVariable(conditions, p)) {
                 ok = false;
                 setLocationWithinModule(context + ".getPredicateVariable()");
@@ -501,7 +536,6 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 return ok;
             }
             // check precondition: $\sigma(...)$ dosn't occur in a precondition
-            final ElementList conditions = getConditions();
             if (FormulaUtility.containsOperatorVariable(conditions, sigma)) {
                 ok = false;
                 setLocationWithinModule(context + ".getPredicateVariable()");
@@ -772,15 +806,6 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 return ProofChecker2Impl.this.getNormalizedLocalProofLineReference(reference);
             }
 
-            public ElementList getConditions() {
-                final ElementList result = resolver.getConditions();
-                if (cp.getHypothesis() != null && cp.getHypothesis().getFormula() != null
-                        && cp.getHypothesis().getFormula().getElement() != null) {
-                    result.add(cp.getHypothesis().getFormula().getElement());
-                }
-                return result;
-            }
-
         };
         final int last = cp.getFormalProofLineList().size() - 1;
         setLocationWithinModule(context + ".getFormalProofLineList().get(" + last + ")");
@@ -795,10 +820,13 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             return ok;
         }
         final Element lastFormula = resolver.getNormalizedFormula(line.getFormula().getElement());
+        final ElementList newConditions = (ElementList) conditions.copy();
+        // add hypothesis as new condition
+        newConditions.add(cp.getHypothesis().getFormula().getElement());
         setLocationWithinModule(context + ".getFormalProofLineList()");
-        final LogicalCheckExceptionList eList
-            = (new ProofChecker2Impl(ruleVersion)).checkProof(lastFormula, cp.getFormalProofLineList(),
-                getCurrentContext(), newResolver);
+        final LogicalCheckExceptionList eList = (new ProofChecker2Impl(ruleVersion)).checkProof(
+            newConditions, lastFormula, cp.getFormalProofLineList(), getCurrentContext(),
+            newResolver);
         exceptions.add(eList);
         ok = eList.size() == 0;
         setLocationWithinModule(context + ".getConclusion()");
@@ -915,7 +943,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
      */
     protected void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-        // for testing
+        // FIXME for testing
 //        try {
 //            System.out.println("testing context " + locationWithinModule);
 //            QedeqBo qedeq = KernelContext.getInstance().getQedeqBo(getCurrentContext().getModuleLocation());
@@ -995,7 +1023,4 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
         return resolver.getReferenceContext(reference);
     }
 
-    public ElementList getConditions() {
-        return resolver.getConditions();
-    }
 }
