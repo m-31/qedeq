@@ -21,12 +21,13 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.YodaUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
+import org.qedeq.kernel.bo.log.ModuleLogListener;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofFinderFactoryImpl;
-import org.qedeq.kernel.bo.logic.common.ProofFinder;
-import org.qedeq.kernel.bo.logic.common.ProofFinderFactory;
-import org.qedeq.kernel.bo.logic.common.ProofFoundException;
-import org.qedeq.kernel.bo.logic.common.ProofNotFoundException;
+import org.qedeq.kernel.bo.logic.proof.common.ProofFinder;
+import org.qedeq.kernel.bo.logic.proof.common.ProofFinderFactory;
+import org.qedeq.kernel.bo.logic.proof.common.ProofFoundException;
+import org.qedeq.kernel.bo.logic.proof.common.ProofNotFoundException;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.QedeqFileDao;
@@ -205,8 +206,11 @@ public final class SimpleProofFinderExecutor extends ControlVisitor implements P
             try {
                 finder = finderFactory.createProofFinder();
                 finder.findProof(proposition.getFormula().getElement(), validFormulas,
-                    getCurrentContext(), parameters, QedeqLog.getInstance(),
-                    getQedeqBo().getElement2Utf8());
+                    getCurrentContext(), parameters, new ModuleLogListener() {
+                        public void logMessageState(final String text) {
+                            QedeqLog.getInstance().logMessageState(text, getQedeqBo().getUrl());
+                        }
+                    }, getQedeqBo().getElement2Utf8());
             } catch (ProofFoundException e) {
                 proof = e.getProofLines();
             } catch (ProofNotFoundException e) {
