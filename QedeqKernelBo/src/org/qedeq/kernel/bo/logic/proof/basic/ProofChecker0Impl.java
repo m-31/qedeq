@@ -30,9 +30,6 @@ import org.qedeq.kernel.se.common.ModuleContext;
  */
 public class ProofChecker0Impl implements ProofChecker {
 
-    /** All exceptions that occurred during checking. */
-    private LogicalCheckExceptionList exceptions;
-
     /** Rule version we can check. */
     private final String ruleVersion;
 
@@ -53,7 +50,8 @@ public class ProofChecker0Impl implements ProofChecker {
             BasicProofErrors.NO_FORMAL_PROOFS_SUPORTED_CODE,
             BasicProofErrors.NO_FORMAL_PROOFS_SUPORTED_TEXT + ruleVersion,
             null, moduleContext, null);
-        exceptions.add(ex);
+            final LogicalCheckExceptionList exceptions = new LogicalCheckExceptionList();
+            exceptions.add(ex);
         return exceptions;
     }
 
