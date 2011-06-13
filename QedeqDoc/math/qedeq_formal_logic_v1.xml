@@ -2226,6 +2226,10 @@
             </DESCRIPTION>
             <PROOF kind="informal" level="1">
               <LATEX language="en">
+                TODO 20110613 m31
+              </LATEX>
+              <LATEX language="de">
+                TODO 20110613 m31
               </LATEX>
             </PROOF>
           </RULE>
@@ -2248,7 +2252,7 @@
       <INTRODUCTION>
         <LATEX language="en">
           <![CDATA[
-            The deduction theorem enables us to prove more propopsitions.
+            The deduction theorem enables us to prove more propositions.
           ]]>
         </LATEX>
         <LATEX language="de">
