@@ -12,15 +12,29 @@ Functional Changes
   ----------
   - conditional formal proof method supported, this means we can add a
     hypothesis, draw proof lines and a conclusion (hypothesis implies
-    last proof line); see "doc/math/qedeq_propositional_v1.xml"
-  
+    last proof line);
+    one can check if the rule is correctly used with the proof checker;
+    see "doc/math/qedeq_formal_logic_v1.xml"
+  - proof finder can now be fine tuned in plugin preferences dialog; you
+    can define the order of rule usage and the number of proof lines the
+    rule is used before changing to the next rule
+   
+
   Fixed Bugs
   ----------
-  none 
+  - don't save formal proofs twice any longer
 
   Other Changes
   -------------
-  none
+  - we classified the rule versions for modules in the following manner:
+    + 0.00.00 herein are no formal proofs supported
+    + 0.01.00 only basic proof methods can be used
+    + 0.02.00 we have the modified basic rules plus conditional proof
+    + 1.00.00 these rules we need to check "qedeq_set_theory_v1.xml",
+              not yet defined
+  - logging output was simplified, messages for the same module are
+    aggregated
+  - proof finder and model tester write now logging messages 
 
 
 XML Files
@@ -28,11 +42,13 @@ XML Files
 
   Extensions
   ----------
-  - new proofs in "doc/math/qedeq_formal_logic_v1.xml"
+  - In "doc/math/qedeq_formal_logic_v1.xml" we develop our formal logic.
+    It includes the axioms and rules of predicate calculus and contains
+    only propositions that have formal proofs.
 
   Fixed Bugs
   ----------
-  none
+  - some minor corrections
 
   Other Changes
   -------------
@@ -48,12 +64,11 @@ Source Code
   - added ConditionalProof that is an extension of FormalProofLine and of
     reason; also Hypothesis and Conclusion were added in this context
   - new implementation of ProofChecker that supports ConditionalProof
-    
 
 
   Fixed Bugs
   ----------
-  - 
+  - we got rid of package cycles again
 
 
   Other Changes
