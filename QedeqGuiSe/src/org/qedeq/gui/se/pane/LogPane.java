@@ -249,6 +249,7 @@ public class LogPane extends JPanel implements LogListener {
         final Runnable runLater = new Runnable() {
             public void run() {
                 try {
+                    lastModuleUrl = "";
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
                         text + "\n", messageAttrs);
                 } catch (BadLocationException e) {
