@@ -150,7 +150,7 @@
   <td>Explains more formal details.</td>
   </tr>
   <tr>
-  <td><code><a href="doc/math/qedeq_propositional_v1_en.pdf">qedeq_propositional_v1_en.pdf</a></code></td>
+  <td><code><a href="doc/math/qedeq_formal_logic_v1_en.pdf">qedeq_formal_logic_v1_en.pdf</a></code></td>
   <td>Here are all propositional calculus axioms and propositions with formal proofs. The corresponding QEDEQ module was successfully checked with the application proof checker. Will be expanded.</td>
   </tr>
   <tr>
@@ -215,13 +215,12 @@
   </p>
 
   <p>
-  In <font color="#d97d49"><b>Hilbert&nbsp;II</b></font> a formal language is used which enables us to describe most domains of mathematics. It is a <a href="http://en.wikipedia.org/wiki/First-order_logic">first order predicate calculus</a> based on the text <em>Elements of Mathematical Logic</em> from P.&nbsp;S.&nbsp;Novikov. The logical axioms and basic rules originate from the book <em>Principles of Mathematical Logic (Grundz&uuml;ge der theoretischen Logik)</em> (1928) by D.&nbsp;Hilbert and W.&nbsp;Ackermann.
-  The logical propositions are noted in <a href="doc/math/qedeq_logic_v1_en.pdf">qedeq_logic_v1.pdf</a>.
-  There are all rules, axioms, definitions and propositions assembled. The propositions are not complete and proofs are still missing, but the mathematical orientation becomes clear.
+  In <font color="#d97d49"><b>Hilbert&nbsp;II</b></font> a formal language is used which enables us to describe most domains of mathematics. It is a <a href="http://en.wikipedia.org/wiki/First-order_logic">first order predicate calculus</a> based on the text <em>Elements of Mathematical Logic</em> from P.&nbsp;S.&nbsp;Novikov. The logical axioms and basic rules originate from the book <em>Principles of Mathematical Logic (Grundz&uuml;ge der theoretischen Logik)</em> (1928) by D.&nbsp;Hilbert and W.&nbsp;Ackermann. They are presented in <a href="doc/math/qedeq_logic_v1_en.pdf">qedeq_logic_v1.pdf</a>.
+ The propositions are not complete and proofs are missing, but the mathematical orientation becomes clear.
   </p>
 
   <p>
-  Currently we change the logical structure along the lines of Vilnis Detlovs and Karlis Podnieks <a href="http://www.ltn.lv/~podnieks/mlog/ml2.htm">Introduction to Mathematical Logic</a> to have a fully formalized presentation. Take a look at <a href="doc/math/qedeq_propositional_v1_en.pdf">qedeq_propositional_v1.pdf</a> to see the current state.
+  Recentlyly we changed the logical structure along the lines of Vilnis Detlovs and Karlis Podnieks <a href="http://www.ltn.lv/~podnieks/mlog/ml.htm">Introduction to Mathematical Logic</a> to have a fully formalized presentation. Please take a look at <a href="doc/math/qedeq_formal_logic_v1_en.pdf">qedeq_formal_logic_v1.pdf</a> to see the current state. This document contains all axioms and rules for predicate calculus. It also has some propositions with formal proofs (checkable by our proof checker).
   </p>
 
   <p>
@@ -273,8 +272,13 @@ Beside logical ones the only axioms in <font color="#d97d49"><b>Hilbert II</b></
   If we generate UTF-8 files for <em>qedeq_sample1</em> or <em>qedeq_logic_language</em> the modules turns yellow and we get some warnings because the LaTeX texts contain not supported constructs. To remove plugin errors and warnings you can select  <em>Remove Plugin Results</em> in the context menu for the appropiate module.
   </p>
   <p>
-  Now we come to the important features. We take <em>qedeq_sample3</em> and start <em>Check Well-Formdness</em>. Firstly all imported modules are checked for being well formed. Then the rest of the module is sequentially analyzed. Formulas are checked for beeing well formed and that their operators are all defined. There should be no problems with <em>qedeq_sample3</em> and the module status color should change to green. Now we want to know if the module is fully correct - that is all propostions have correct formal proofs. So we start the <em>Check Proof</em> plugin and the state changes to <em>well formed; Check Proofs successful</em>. All other QEDEQ modules with propositions will get errors. We test that with <em>qedeq_sample1</em>. We see that <em>qedeq_logic_v1</em> and <em>qedeq_sample1</em> both change their colors to red. <em>qedeq_logic_v1</em> has still no formal proofs and neither has <em>qedeq_sample1</em>.
-  We now try that with <em>qedeq_sample4</em> and get also errors for missing formal proofs. But now we try the new (experimental!) plugin <em>Find Proofs</em>. After quite (six minutes on an an Intel Celeron with 2 GHz) a while this plugin finds the missing proofs. It works only for propositional proofs and uses brute-force. If we execute <em>Check Proof</em> now the color changes to green. The plugin changes only the buffered file so you loose these findings after executing <em>Clear Buffer</em>. By the way: the blue color signals that all neccessary imports were done.
+  Now we come to the important features. We take <em>qedeq_sample3</em> and start <em>Check Well-Formdness</em>. Firstly all imported modules are checked for being well formed. Then the rest of the module is sequentially analyzed. Formulas are checked for beeing well formed and that their operators are all defined. There should be no problems with <em>qedeq_sample3</em> and the module status color should change to green. Now we want to know if the module is fully correct - that is all propostions have correct formal proofs. So we start the <em>Check Proof</em> plugin and the state changes to <em>well formed; Check Proofs successful</em>. All other QEDEQ modules (beside <em>qedeq_formal_logic_v1</em>) with propositions will get errors. We test that with <em>qedeq_sample1</em>. We see that <em>qedeq_logic_v1</em> and <em>qedeq_sample1</em> both change their colors to red. <em>qedeq_logic_v1</em> has still no formal proofs and neither has <em>qedeq_sample1</em>.
+  </p>
+  <p>
+  To get an impression of the logical basis for this project we check the proofs of <em>qedeq_formal_logic_v1</em>. It contains the logical axioms and rules of inference for our predicate calculus and some basic propositions with formal proofs. It even uses the derived rule <em>conditional proof</em>. Just look at the UTF-8 text to get an impression of the logical roots. For further information you should visit <a href="http://www.ltn.lv/~podnieks/mlog/ml.htm">Introduction to Mathematical Logic</a> by V. Detlovs and K. Podnieks.
+  </p>
+  <p>
+  We now try proof checking with <em>qedeq_sample4</em> and get also errors for missing formal proofs. But now we try the new (experimental!) plugin <em>Find Proofs</em>. After quite (six minutes on an an Intel Celeron with 2 GHz) a while this plugin finds the missing proofs. It works only for propositional proofs and uses brute-force. If we execute <em>Check Proof</em> now the color changes to green. The plugin changes only the buffered file so you loose these findings after executing <em>Clear Buffer</em>. By the way: the blue color signals that all neccessary imports were done.
   </p>
 
   <p>
@@ -468,8 +472,8 @@ You have to clear the buffer via <em>File / Clear Buffer</em>.
   <td>logical foundation of project</td>
   </tr>
   <tr>
-  <td><code>&nbsp;&nbsp;<a href="sample/qedeq_propositional_v1.xml">qedeq_propositional_v1.xml</a></code></td>
-  <td>axioms of propositional calculus and propositions with formal proofs (will be expanded)</td>
+  <td><code>&nbsp;&nbsp;<a href="sample/qedeq_formal_logic_v1.xml">qedeq_formal_logic_v1.xml</a></code></td>
+  <td>axioms and rules of predicate calculus and propositions with formal proofs (will be expanded)</td>
   </tr>
   <tr>
   <td><code>&nbsp;&nbsp;<a href="sample/qedeq_set_theory_v1.xml">qedeq_set_theory_v1.xml</a></code></td>
