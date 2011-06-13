@@ -220,7 +220,7 @@
   </p>
 
   <p>
-  Recentlyly we changed the logical structure along the lines of Vilnis Detlovs and Karlis Podnieks <a href="http://www.ltn.lv/~podnieks/mlog/ml.htm">Introduction to Mathematical Logic</a> to have a fully formalized presentation. Please take a look at <a href="doc/math/qedeq_formal_logic_v1_en.pdf">qedeq_formal_logic_v1.pdf</a> to see the current state. This document contains all axioms and rules for predicate calculus. It also has some propositions with formal proofs (checkable by our proof checker).
+  Recently we changed the logical structure along the lines of Vilnis Detlovs and Karlis Podnieks <a href="http://www.ltn.lv/~podnieks/mlog/ml.htm">Introduction to Mathematical Logic</a> to have a fully formalized presentation. Please take a look at <a href="doc/math/qedeq_formal_logic_v1_en.pdf">qedeq_formal_logic_v1.pdf</a> to see the current state. This document contains all axioms and rules for predicate calculus. It also has some propositions with formal proofs (checkable by our proof checker).
   </p>
 
   <p>
@@ -278,7 +278,7 @@ Beside logical ones the only axioms in <font color="#d97d49"><b>Hilbert II</b></
   To get an impression of the logical basis for this project we check the proofs of <em>qedeq_formal_logic_v1</em>. It contains the logical axioms and rules of inference for our predicate calculus and some basic propositions with formal proofs. It even uses the derived rule <em>conditional proof</em>. Just look at the UTF-8 text to get an impression of the logical roots. For further information you should visit <a href="http://www.ltn.lv/~podnieks/mlog/ml.htm">Introduction to Mathematical Logic</a> by V. Detlovs and K. Podnieks.
   </p>
   <p>
-  We now try proof checking with <em>qedeq_sample4</em> and get also errors for missing formal proofs. But now we try the new (experimental!) plugin <em>Find Proofs</em>. After quite (six minutes on an an Intel Celeron with 2 GHz) a while this plugin finds the missing proofs. It works only for propositional proofs and uses brute-force. If we execute <em>Check Proof</em> now the color changes to green. The plugin changes only the buffered file so you loose these findings after executing <em>Clear Buffer</em>. By the way: the blue color signals that all neccessary imports were done.
+  We now try proof checking with <em>qedeq_sample4</em> and get also errors for missing formal proofs. But now we try the new (experimental!) plugin <em>Find Proofs</em>. If you start it directly it will search for much to long. You have to restrict the substitution usage. Just go to the plugin preferences dialog and the <em>Find Proofs</em> tab. There you should change the weight values for the operators from <em>implication</em> to <em>equivalence</em> from 1 to 0. Now after quite a while (ten minutes on an an Intel Celeron with 2 GHz) the plugin can find the missing proofs. It works only for propositional proofs and uses brute-force. If we execute <em>Check Proof</em> now the color changes to green. The plugin changes only the buffered file so you loose these findings after executing <em>Clear Buffer</em>. By the way: the blue color signals that all neccessary imports were done.
   </p>
 
   <p>
