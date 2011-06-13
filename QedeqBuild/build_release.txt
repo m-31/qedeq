@@ -70,6 +70,13 @@ Final Release
 -------------
 - put build in qedeq_rel directory and name it
   "release_" + version + "_" + build number
+- transfer release to WebPage
+  + copy to 0_04_03 the contents of nightly/qedeq
+  + copy to 0_04_03 the folder nightly/webstart
+  + modify 0_04_03/qedeq.jnlp so that it points again to 0_04_03/webstart/qedeq.jnlp
+- archive nightly directory
+- modify readme.txt and commit it
+- update directory "/current" on web page
 - tag CVS as in the following example:
   qedeq_unstable_0_03_12_20080802043913
 - tag subversion
@@ -82,8 +89,6 @@ Final Release
     for QedeqKernelSe for example:
     https://pmii.svn.sourceforge.net/svnroot/pmii/tags/qedeq_unstable_0_03_12_20080802043913/QedeqKernelSe
     with version as comment
-- transfer release to WebPage (se above)
-- update directory "/current" on web page
 
 
 Make Release known
