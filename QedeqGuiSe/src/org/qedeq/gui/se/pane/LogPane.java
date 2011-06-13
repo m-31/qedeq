@@ -111,7 +111,7 @@ public class LogPane extends JPanel implements LogListener {
         StyleConstants.setForeground(
             errorAttrs, Color.red);
         StyleConstants.setForeground(
-            successAttrs, Color.darkGray);
+            successAttrs, new Color(0, 192, 0));
         StyleConstants.setForeground(
             messageAttrs, Color.black);
         StyleConstants.setForeground(
@@ -171,7 +171,7 @@ public class LogPane extends JPanel implements LogListener {
                         lastModuleUrl = (url != null ? url : "");
                     }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                        "\t" + text + "\n", successAttrs);
+                        "\t" + text + "\n", messageAttrs);
                 } catch (BadLocationException e) {
                     Trace.trace(CLASS, this, "logSuccessfulState", e);
                 }
@@ -234,7 +234,7 @@ public class LogPane extends JPanel implements LogListener {
                         lastModuleUrl = (url != null ? url : "");
                     }
                     textPane.getDocument().insertString(textPane.getDocument().getLength(),
-                        text +  "\n\t" + description + "\n", errorAttrs);
+                        "\t" + text +  "\n\t" + description + "\n", errorAttrs);
                 } catch (BadLocationException e) {
                     Trace.trace(CLASS, this, "logFailureReply", e);
                 }

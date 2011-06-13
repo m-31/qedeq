@@ -298,7 +298,7 @@ public class DefaultInternalKernelServices implements ServiceModule, InternalKer
                 if (prop.isLoaded()) {
                     return prop;
                 }
-                QedeqLog.getInstance().logMessageState("Load module", address.getUrl());
+                QedeqLog.getInstance().logRequest("Load module", address.getUrl());
                 if (prop.getModuleAddress().isFileAddress()) {
                     loadLocalModule(prop);
                 } else {

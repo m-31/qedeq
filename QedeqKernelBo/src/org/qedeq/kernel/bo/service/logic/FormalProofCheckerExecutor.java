@@ -17,6 +17,7 @@ package org.qedeq.kernel.bo.service.logic;
 
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
+import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofCheckerFactoryImpl;
@@ -44,7 +45,6 @@ import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.CheckLevel;
-import org.qedeq.kernel.se.common.DefaultSourceFileExceptionList;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 import org.qedeq.kernel.se.common.Plugin;
@@ -122,13 +122,12 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                 "Check logical correctness", getQedeqBo().getUrl());
         getServices().checkModule(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().isChecked()) {
-            final String msg = "Check of logical correctness failed for \"" + getQedeqBo().getUrl()
-            + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), "Module is not even well formed.");
+            final String msg = "Check of logical correctness failed";
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+                "Module is not even well formed.");
             return Boolean.FALSE;
         }
 //        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_EXTERNAL_CHECKING);
-        final SourceFileExceptionList sfl = new DefaultSourceFileExceptionList();
         KernelModuleReferenceList list = (KernelModuleReferenceList) getQedeqBo().getRequiredModules();
         for (int i = 0; i < list.size(); i++) {
             Trace.trace(CLASS, "check(DefaultQedeqBo)", "checking label", list.getLabel(i));
@@ -145,27 +144,23 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
         // has at least one import errors?
         if (getQedeqBo().hasErrors()) {
-//            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
-            getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), sfl, null);
             final String msg = "Check of logical correctness failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), sfl.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+                 StringUtility.replace(getQedeqBo().getErrors().getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
-//        getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_INTERNAL_CHECKING);
-//        getQedeqBo().setExistenceChecker(existence);
         try {
             traverse();
         } catch (SourceFileExceptionList e) {
-//            getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED, e);
             final String msg = "Check of logical correctness failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), sfl.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+                 StringUtility.replace(e.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         } finally {
             getQedeqBo().addPluginErrorsAndWarnings(getPlugin(), getErrorList(), getWarningList());
         }
-//        getQedeqBo().setChecked(existence);
         QedeqLog.getInstance().logSuccessfulReply(
-                "Check of logical correctness successful", getQedeqBo().getUrl());
+            "Check of logical correctness successful", getQedeqBo().getUrl());
         return Boolean.TRUE;
     }
 
@@ -176,10 +171,13 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         }
         ruleVersion = header.getSpecification().getRuleVersion().trim();
         if (!checkerFactory.isRuleVersionSupported(ruleVersion)) {
+            final String context = getCurrentContext().getLocationWithinModule();
+            setLocationWithinModule(context + ".getSpecification().getRuleVersion()");
             addError(new ProofCheckException(
                 LogicErrors.RULE_VERSION_HAS_STILL_NO_PROOF_CHECKER_CODE,
                 LogicErrors.RULE_VERSION_HAS_STILL_NO_PROOF_CHECKER_TEXT + ruleVersion,
                 getCurrentContext()));
+            setLocationWithinModule(context);
         }
     }
 

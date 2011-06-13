@@ -135,9 +135,9 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             "Check logical well formedness", getQedeqBo().getUrl());
         getServices().loadModule(getQedeqBo().getModuleAddress());
         if (!getQedeqBo().isLoaded()) {
-            final String msg = "Check of logical correctness failed for \"" + getQedeqBo().getUrl()
-            + "\"";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), "Module could not even be loaded.");
+            final String msg = "Check of logical correctness failed";
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+                "Module could not even be loaded.");
             return Boolean.FALSE;
         }
         getServices().loadRequiredModules(getQedeqBo().getModuleAddress());
@@ -168,7 +168,8 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         if (sfl.size() > 0) {
             getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_EXTERNAL_CHECKING_FAILED, sfl);
             final String msg = "Check of logical well formedness failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), sfl.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+                 StringUtility.replace(sfl.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
         getQedeqBo().setLogicalProgressState(LogicalModuleState.STATE_INTERNAL_CHECKING);
@@ -178,7 +179,8 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             getQedeqBo().setLogicalFailureState(LogicalModuleState.STATE_INTERNAL_CHECKING_FAILED, e);
             getQedeqBo().setExistenceChecker(existence);
             final String msg = "Check of logical well formedness failed";
-            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(), sfl.getMessage());
+            QedeqLog.getInstance().logFailureReply(msg, getQedeqBo().getUrl(),
+                 StringUtility.replace(sfl.getMessage(), "\n", "\n\t"));
             return Boolean.FALSE;
         }
         getQedeqBo().setChecked(existence);
