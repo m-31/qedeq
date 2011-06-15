@@ -812,6 +812,10 @@ public class QedeqVoBuilder {
             setLocationWithinModule(context + ".getName()");
             r.setName(rule.getName());
         }
+        if (rule.getVersion() != null) {
+            setLocationWithinModule(context + ".getVersion()");
+            r.setVersion(rule.getVersion());
+        }
         if (rule.getLinkList() != null) {
             setLocationWithinModule(context + ".getLinkList()");
             r.setLinkList(create(rule.getLinkList()));

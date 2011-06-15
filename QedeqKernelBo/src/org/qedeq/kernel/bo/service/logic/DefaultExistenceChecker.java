@@ -24,8 +24,10 @@ import org.qedeq.kernel.bo.logic.common.FunctionConstant;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
+import org.qedeq.kernel.se.base.module.Rule;
 
 
 /**
@@ -50,6 +52,9 @@ public class DefaultExistenceChecker implements ExistenceChecker {
     /** Maps {@link FunctionKey} identifiers to {@link FunctionConstant}s. */
     private final Map functionDefinitions = new HashMap();
 
+    /** Maps {@link Rule} identifiers to {@link Rules}s. */
+    private final Map ruleDefinitions = new HashMap();
+
     /** Is the class operator already defined? */
     private boolean setDefinitionByFormula;
 
@@ -72,6 +77,7 @@ public class DefaultExistenceChecker implements ExistenceChecker {
         initialPredicateDefinitions.clear();
         predicateDefinitions.clear();
         initialFunctionDefinitions.clear();
+        ruleDefinitions.clear();
         functionDefinitions.clear();
         identityOperator = null;
         setDefinitionByFormula = false;
@@ -229,6 +235,59 @@ public class DefaultExistenceChecker implements ExistenceChecker {
         final InitialFunctionDefinition initialDefinition
             = (InitialFunctionDefinition) initialFunctionDefinitions.get(function);
         return initialDefinition != null;
+    }
+
+
+    public boolean ruleExists(final RuleKey ruleKey) {
+        final Rule ruleDefinition
+            = (Rule) ruleDefinitions.get(ruleKey);
+        if (ruleDefinition != null) {
+            return true;
+        }
+        return null != ruleDefinitions.get(ruleKey);
+    }
+
+    public boolean ruleExists(final String name, final String version) {
+        final RuleKey ruleKey = new RuleKey(name, version);
+        return ruleExists(ruleKey);
+    }
+
+    /**
+     * Add unknown rule definition. If the rule is already known a runtime exception is thrown.
+     *
+     * @param   definition  Rule definition that is not already known. Must not be
+     *                      <code>null</code>.
+     * @throws  IllegalArgumentException    Rule is already defined (for given version).
+     */
+    public void add(final Rule definition) {
+        final RuleKey ruleKey = new RuleKey(definition.getName(), definition.getVersion());
+        if (ruleDefinitions.get(ruleKey) != null) {
+            throw new IllegalArgumentException(LogicErrors.RULE_ALREADY_DEFINED_TEXT
+                + ruleKey);
+        }
+        ruleDefinitions.put(ruleKey, definition);
+    }
+
+    /**
+     * Get rule definition.
+     *
+     * @param   ruleKey Get definition of this key.
+     * @return  Definition. Might be <code>null</code>.
+     */
+    public Rule get(final RuleKey ruleKey) {
+        return (Rule) ruleDefinitions.get(ruleKey);
+    }
+
+    /**
+     * Get rule definition.
+     *
+     * @param   name        Name of function.
+     * @param   version   Arguments of function.
+     * @return  Rule. Might be <code>null</code>.
+     */
+    public Rule getRule(final String name, final String version) {
+        final RuleKey ruleKey = new RuleKey(name, version);
+        return get(ruleKey);
     }
 
     public boolean classOperatorExists() {

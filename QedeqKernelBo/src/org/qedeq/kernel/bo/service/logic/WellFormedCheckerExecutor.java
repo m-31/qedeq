@@ -76,7 +76,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
     /** This class. */
     private static final Class CLASS = WellFormedCheckerExecutor.class;
 
-    /** Existence checker for predicate and function constants. */
+    /** Existence checker for predicate and function constants and rules. */
     private ModuleConstantsExistenceCheckerImpl existence;
 
     /** Factory for generating new checkers. */
@@ -810,8 +810,8 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         // we start checking
         getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
         if (rule.getName() != null) {
-            if ("SET_DEFINION_BY_FORMULA".equals(rule.getName())) {
-                // TODO mime 20080114: check if this rule can be proposed
+            if ("SET_DEFINITION_BY_FORMULA".equals(rule.getName())) {
+                // FIXME 20080114 m31: check if this rule can be proposed
                 existence.setClassOperatorModule((KernelQedeqBo) getQedeqBo(),
                     getCurrentContext());
             }

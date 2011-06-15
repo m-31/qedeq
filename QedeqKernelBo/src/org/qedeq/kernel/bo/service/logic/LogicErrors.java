@@ -184,4 +184,11 @@ public interface LogicErrors extends ErrorCodes {
         = "this rule version has still no proof checker implementation: ";
 
 
+    /** Error code. */
+    public static final int RULE_ALREADY_DEFINED_CODE = 37260;
+
+    /** Error message. */
+    public static final String RULE_ALREADY_DEFINED_TEXT
+        = "rule was already defined for this version: ";
+
 }
