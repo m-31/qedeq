@@ -71,6 +71,11 @@ public class RuleHandler extends AbstractSimpleHandler {
             } else {
                 throw XmlSyntaxException.createMissingAttributeException(name, "name");
             }
+            if (null != attributes.getString("version")) {
+                rule.setVersion(attributes.getString("version"));
+            } else {
+                throw XmlSyntaxException.createMissingAttributeException(name, "version");
+            }
         } else if ("LINK".equals(name)) {
             if (null != attributes.getString("id")) {
                 rule.addLink(attributes.getString("id"));

@@ -701,6 +701,9 @@ public final class Qedeq2Xml extends ControlVisitor implements Plugin {
         if (rule.getName() != null) {
             printer.print(" name=\"" + StringUtility.escapeXml(rule.getName()) + "\"");
         }
+        if (rule.getVersion() != null) {
+            printer.print(" version=\"" + StringUtility.escapeXml(rule.getVersion()) + "\"");
+        }
         printer.println(">");
         printer.pushLevel();
     }

@@ -19,7 +19,6 @@ package org.qedeq.kernel.se.base.module;
 /**
  * Rule.
  *
- * @version $Revision: 1.5 $
  * @author  Michael Meyling
  */
 public interface Rule extends NodeType {
@@ -30,6 +29,13 @@ public interface Rule extends NodeType {
      * @return  Name of rule.
      */
     public String getName();
+
+    /**
+     * Get rule version.
+     *
+     * @return  Version of rule.
+     */
+    public String getVersion();
 
     /**
      * Get rule description.

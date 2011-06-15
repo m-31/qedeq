@@ -44,6 +44,9 @@ public class RuleVo implements Rule {
     /** Rule name. */
     private String name;
 
+    /** Rule version. */
+    private String version;
+
     /** Proofs for this rule. */
     private ProofListVo proofList;
 
@@ -93,6 +96,19 @@ public class RuleVo implements Rule {
 
     public final String getName() {
         return name;
+    }
+
+    /**
+     * Set rule version.
+     *
+     * @param   version Rule version.
+     */
+    public final void setVersion(final String version) {
+        this.version = version;
+    }
+
+    public final String getVersion() {
+        return version;
     }
 
     /**
@@ -164,6 +180,7 @@ public class RuleVo implements Rule {
         }
         final RuleVo other = (RuleVo) obj;
         return  EqualsUtility.equals(getName(), other.getName())
+            && EqualsUtility.equals(getVersion(), other.getVersion())
             && EqualsUtility.equals(getLinkList(), other.getLinkList())
             && EqualsUtility.equals(getDescription(), other.getDescription())
             && EqualsUtility.equals(getProofList(), other.getProofList());
@@ -171,14 +188,15 @@ public class RuleVo implements Rule {
 
     public int hashCode() {
         return (getName() != null ? 1 ^ getName().hashCode() : 0)
-            ^ (getLinkList() != null ? 1 ^ getLinkList().hashCode() : 0)
-            ^ (getDescription() != null ? 2 ^ getDescription().hashCode() : 0)
-            ^ (getProofList() != null ? 2 ^ getProofList().hashCode() : 0);
+            ^ (getVersion() != null ? 2 ^ getVersion().hashCode() : 0)
+            ^ (getLinkList() != null ? 3 ^ getLinkList().hashCode() : 0)
+            ^ (getDescription() != null ? 4 ^ getDescription().hashCode() : 0)
+            ^ (getProofList() != null ? 5 ^ getProofList().hashCode() : 0);
     }
 
     public String toString() {
         final StringBuffer buffer = new StringBuffer();
-        buffer.append("Rule: " + getName() + "\n");
+        buffer.append("Rule: " + getName() + " [" + getVersion() + "]\n");
         buffer.append(getLinkList());
         buffer.append("\nDescription:\n");
         buffer.append(getDescription());
