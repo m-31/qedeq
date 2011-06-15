@@ -1057,7 +1057,7 @@
               ]]>
             </LATEX>
           </TITLE>
-          <RULE name="modusPonens">
+          <RULE name="MP" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1097,7 +1097,7 @@
               ]]>
             </LATEX>
           </TITLE>
-          <RULE name="replaceFree">
+          <RULE name="replaceFree" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1176,7 +1176,7 @@
               ]]>
             </LATEX>
           </TITLE>
-          <RULE name="renameBound">
+          <RULE name="renameBound" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1216,7 +1216,7 @@
               ]]>
             </LATEX>
           </TITLE>
-          <RULE name="replacePred">
+          <RULE name="replacePred" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1351,7 +1351,7 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <RULE name="replaceFunct">
+          <RULE name="replaceFunct" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1423,7 +1423,7 @@
               ]]>
             </LATEX>
           </TITLE>
-          <RULE name="universalGeneralization">
+          <RULE name="universalGeneralization" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1465,7 +1465,7 @@
               ]]>
             </LATEX>
           </TITLE>
-          <RULE name="existentialGeneralization">
+          <RULE name="existentialGeneralization" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -2207,7 +2207,7 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <RULE name="CP">
+          <RULE name="CP" version="0.01.00">
             <LINK id="axiom:THEN-1"/>
             <LINK id="axiom:THEN-2"/>
             <DESCRIPTION>

@@ -834,7 +834,7 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <RULE name="SET_DEFINION_BY_FORMULA">
+          <RULE name="SET_DEFINITION_BY_FORMULA" version="1.00.00">
             <LINK id="theorem:comprehension"/>
             <DESCRIPTION>
               <LATEX language="en">
@@ -4780,7 +4780,7 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <RULE name="GENERALIZED_QUANTIFIER">
+          <RULE name="GENERALIZED_QUANTIFIER" version="1.00.00">
             <LINK id="rule:classDefinition"/>
             <DESCRIPTION>
               <LATEX language="en">

@@ -824,7 +824,7 @@
             <LATEX language="en">Modus Ponens\index{Modus Ponens}</LATEX>
             <LATEX language="de">Abtrennung, Modus Ponens\index{Modus Ponens}\index{Abtrennungsregel}</LATEX>
           </TITLE>
-          <RULE name="modusPonens">
+          <RULE name="MP" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -850,7 +850,7 @@
             <LATEX language="en">Replace Free Subject Variable</LATEX>
             <LATEX language="de">Ersetzung für freie Subjektvariable</LATEX>
           </TITLE>
-          <RULE name="replaceFree">
+          <RULE name="replaceFree" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -914,7 +914,7 @@
             <LATEX language="en">Rename Bound Subject Variable</LATEX>
             <LATEX language="de">Umbenennung für gebundene Subjektvariable</LATEX>
           </TITLE>
-          <RULE name="renameBound">
+          <RULE name="renameBound" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -939,7 +939,7 @@
             <LATEX language="en">Replace Predicate Variable</LATEX>
             <LATEX language="de">Einsetzung für Prädikatenvariable</LATEX>
           </TITLE>
-          <RULE name="replacePred">
+          <RULE name="replacePred" version="0.01.00">
             <DESCRIPTION>
             
               <LATEX language="en">
@@ -1095,7 +1095,7 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <RULE name="replaceFunct">
+          <RULE name="replaceFunct" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1153,7 +1153,7 @@
             <LATEX language="en">Universal Generalization</LATEX>
             <LATEX language="de">Hintere Generalisierung\index{Generalisierung!hintere}</LATEX>
           </TITLE>
-          <RULE name="universalGeneralization">
+          <RULE name="universalGeneralization" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1180,7 +1180,7 @@
             <LATEX language="en">Existential Generalization</LATEX>
             <LATEX language="de">Vordere Partikularisierung\index{Partikularisierung!vordere}</LATEX>
           </TITLE>
-          <RULE name="existentialGeneralization">
+          <RULE name="existentialGeneralization" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -2312,7 +2312,7 @@
             <LATEX language="en">Replace by Logical Equivalent Formula</LATEX>
             <LATEX language="de">Ersetzung durch logisch äquivalente Formeln</LATEX>
           </TITLE>
-          <RULE name="replaceEquiFormula">
+          <RULE name="replaceEquiFormula" version="1.00.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -2337,7 +2337,7 @@
             <LATEX language="en">Replacement of $\top$ by already derived formula</LATEX>
             <LATEX language="de">Ersetzung von $\top$ durch bereits abgeleitete Formel</LATEX>
           </TITLE>
-          <RULE name="replaceTrueByTrueFormula">
+          <RULE name="replaceTrueByTrueFormula" version="1.00.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -2366,7 +2366,7 @@
             <LATEX language="en">Replacement of already derived formula by $\top$</LATEX>
             <LATEX language="de">Ersetzung von bereits abgeleiteter Formel durch $\top$</LATEX>
           </TITLE>
-          <RULE name="replaceTrueFormulaByTrue">
+          <RULE name="replaceTrueFormulaByTrue" version="1.00.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -2395,7 +2395,7 @@
             <LATEX language="en">Derived Quantification</LATEX>
             <LATEX language="de">Abgeleitete Quantifizierung</LATEX>
           </TITLE>
-          <RULE name="derivedQuantification">
+          <RULE name="derivedQuantification" version="1.00.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -2424,7 +2424,7 @@
             <LATEX language="en">General Associativity</LATEX>
             <LATEX language="de">Allgemeine Assoziativität</LATEX>
           </TITLE>
-          <RULE name="generalAssociativity">
+          <RULE name="generalAssociativity" version="1.00.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -2450,7 +2450,7 @@
             <LATEX language="en">General Commutativity</LATEX>
             <LATEX language="de">Allgemeine Kommutativität</LATEX>
           </TITLE>
-          <RULE name="generalCommutativity">
+          <RULE name="generalCommutativity" version="1.00.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -2476,7 +2476,7 @@
             <LATEX language="en">Deducible from Formula\index{deducible}</LATEX>
             <LATEX language="de">Ableitbarkeit aus einer Formel\index{ableitbar}</LATEX>
           </TITLE>
-          <RULE name="definitionDeducibleFromFormula">
+          <RULE name="definitionDeducibleFromFormula" version="1.00.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -2520,7 +2520,7 @@
             <LATEX language="en">Deduction Theorem\index{deduction theorem}</LATEX>
             <LATEX language="de">Deduktionstheorem\index{Deduktionstheorem}</LATEX>
           </TITLE>
-          <RULE name="generalCommutativity">
+          <RULE name="generalCommutativity" version="1.00.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
