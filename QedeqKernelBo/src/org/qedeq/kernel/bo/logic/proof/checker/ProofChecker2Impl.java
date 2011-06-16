@@ -941,7 +941,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
      */
     protected void setLocationWithinModule(final String locationWithinModule) {
         getCurrentContext().setLocationWithinModule(locationWithinModule);
-        // FIXME for testing
+        // FIXME 20110616 m31: use within JUnit test
 //        try {
 //            System.out.println("testing context " + locationWithinModule);
 //            QedeqBo qedeq = KernelContext.getInstance().getQedeqBo(getCurrentContext().getModuleLocation());

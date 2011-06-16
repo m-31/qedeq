@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.logic.wf;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.common.RuleKey;
 
 
 /**
@@ -81,6 +82,14 @@ public final class EverythingExists implements ExistenceChecker {
      */
     public static final ExistenceChecker getInstance() {
         return ALWAYS;
+    }
+
+    public boolean ruleExists(String name, String version) {
+        return true;
+    }
+
+    public boolean ruleExists(RuleKey ruleKey) {
+        return true;
     }
 
 }

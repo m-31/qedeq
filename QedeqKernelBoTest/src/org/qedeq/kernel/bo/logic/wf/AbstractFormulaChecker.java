@@ -21,6 +21,7 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.common.RuleKey;
 
 /**
  * For testing the {@link org.qedeq.kernel.bo.logic.FormulaChecker}.
@@ -96,6 +97,14 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
+        public boolean ruleExists(String name, String version) {
+            return false;
+        }
+
+        public boolean ruleExists(RuleKey ruleKey) {
+            return false;
+        }
+
     };
 
     private ExistenceChecker checkerWithoutClass = new ExistenceChecker() {
@@ -158,6 +167,14 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
         }
 
         public boolean isInitialFunction(FunctionKey function) {
+            return false;
+        }
+
+        public boolean ruleExists(String name, String version) {
+            return false;
+        }
+
+        public boolean ruleExists(RuleKey ruleKey) {
             return false;
         }
 

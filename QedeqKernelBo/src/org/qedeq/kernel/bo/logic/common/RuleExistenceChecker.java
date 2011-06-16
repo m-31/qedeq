@@ -17,19 +17,27 @@ package org.qedeq.kernel.bo.logic.common;
 
 
 /**
- * Check if operators are already defined and well formed.
- * <p>
- * If {@link #identityOperatorExists()} returns <code>true</code> then
- * the call to {@link #predicateExists(String, int)} with the arguments
- * {@link #getIdentityOperator()} and 2 must return <code>true</code>.
+ * Check if a rule is already defined.
  *
  * @author  Michael Meyling
  */
-public interface ExistenceChecker extends PredicateExistenceChecker, FunctionExistenceChecker,
-        ClassOperatorExistenceChecker, IdentityOperatorExistenceChecker, RuleExistenceChecker {
+public interface RuleExistenceChecker {
 
-    /** Name of identity operator. */
-    public static final String NAME_EQUAL = "equal";
+    /**
+     * Check if a rule is already defined.
+     *
+     * @param   name        Rule name.
+     * @param   version     Rule version.
+     * @return  Rule is already defined.
+     */
+    public boolean ruleExists(String name, String version);
 
+    /**
+     * Check if a rule is already defined.
+     *
+     * @param   ruleKey Rule defining data.
+     * @return  Rule is defined.
+     */
+    public boolean ruleExists(RuleKey ruleKey);
 
 }

@@ -30,6 +30,7 @@ import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
@@ -75,6 +76,10 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
 
     /** This class. */
     private static final Class CLASS = WellFormedCheckerExecutor.class;
+
+    /** Class definition via formula rule key. */
+    private static final RuleKey CLASS_DEFINITION_VIA_FORMULA_RULE
+        = new RuleKey("CLASS_DEFINITION_BY_FORMULA", "1.00.00");
 
     /** Existence checker for predicate and function constants and rules. */
     private ModuleConstantsExistenceCheckerImpl existence;
@@ -810,10 +815,20 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         // we start checking
         getNodeBo().setWellFormed(CheckLevel.UNCHECKED);
         if (rule.getName() != null) {
-            if ("SET_DEFINITION_BY_FORMULA".equals(rule.getName())) {
-                // FIXME 20080114 m31: check if this rule can be proposed
-                existence.setClassOperatorModule((KernelQedeqBo) getQedeqBo(),
-                    getCurrentContext());
+            final RuleKey ruleKey = new RuleKey(rule.getName(), rule.getVersion());
+            if (existence.ruleExists(ruleKey)) {
+                addError(new IllegalModuleDataException(
+                        LogicErrors.RULE_ALREADY_DEFINED_CODE,
+                        LogicErrors.RULE_ALREADY_DEFINED_TEXT
+                            + ruleKey, getCurrentContext()));
+            } else {
+                if (CLASS_DEFINITION_VIA_FORMULA_RULE.equals(ruleKey)) {
+                    // TODO 20080114 m31: check if this rule can be proposed
+                    // are the preconditions for using this rule fulfilled?
+                    existence.setClassOperatorModule(getQedeqBo(),
+                        getCurrentContext());
+                }
+                    existence.add(rule);
             }
         } else {
             getNodeBo().setWellFormed(CheckLevel.FAILURE);

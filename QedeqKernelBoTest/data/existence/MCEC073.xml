@@ -319,7 +319,7 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <RULE name="SET_DEFINITION_BY_FORMULA" version="1.00.00">
+          <RULE name="CLASS_DEFINITION_BY_FORMULA" version="1.00.00">
             <LINK id="theorem:comprehension"/>
             <DESCRIPTION>
               <LATEX language="en">

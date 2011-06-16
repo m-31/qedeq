@@ -232,6 +232,7 @@ public final class FormulaCheckerContextTest extends QedeqBoTestCase {
             qedeqBo, new Parameters(parameters));
         checker.executePlugin();
         if (qedeqBo.hasErrors()) {
+            qedeqBo.getErrors().get(0).printStackTrace(System.out);
             throw qedeqBo.getErrors();
         }
     }

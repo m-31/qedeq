@@ -74,7 +74,7 @@ public final class RuleKey {
     }
 
     public String toString() {
-        return getName() + "[" + getVersion() + "]";
+        return getName() + " [" + getVersion() + "]";
     }
 
 
