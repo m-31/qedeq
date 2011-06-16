@@ -84,11 +84,11 @@ public final class EverythingExists implements ExistenceChecker {
         return ALWAYS;
     }
 
-    public boolean ruleExists(String name, String version) {
+    public boolean ruleExists(final String name, final String version) {
         return true;
     }
 
-    public boolean ruleExists(RuleKey ruleKey) {
+    public boolean ruleExists(final RuleKey ruleKey) {
         return true;
     }
 
