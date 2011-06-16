@@ -2520,7 +2520,7 @@
             <LATEX language="en">Deduction Theorem\index{deduction theorem}</LATEX>
             <LATEX language="de">Deduktionstheorem\index{Deduktionstheorem}</LATEX>
           </TITLE>
-          <RULE name="generalCommutativity" version="1.00.00">
+          <RULE name="deductionTheorem" version="1.00.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
