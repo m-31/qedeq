@@ -22,8 +22,10 @@ import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.IdentityOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
+import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 
@@ -250,6 +252,71 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         }
         final String shortName = name.substring(external + 1);
         return newProp.getExistenceChecker().getQedeq(new PredicateKey(shortName, arguments));
+    }
+
+    public RuleKey getRuleKey(final String ruleName) {
+        RuleKey ruleKey = prop.getLabels().getRuleKey(ruleName);
+        final ModuleReferenceList ref = prop.getRequiredModules();
+        for (int i = 0; i < ref.size(); i++) {
+            final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(i);
+            final RuleKey found = newProp.getExistenceChecker().getRuleKey(ruleName);
+            if (found != null && found.getVersion() != null && (ruleKey.getVersion() == null
+                    || 0 < found.getVersion().compareTo(ruleKey.getVersion()))) {
+                ruleKey = found;
+            }
+        }
+        return ruleKey;
+    }
+
+    public RuleKey getParentRuleKey(final String ruleName) {
+        RuleKey ruleKey = null;
+        final ModuleReferenceList ref = prop.getRequiredModules();
+        for (int i = 0; i < ref.size(); i++) {
+            final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(i);
+            final RuleKey found = newProp.getExistenceChecker().getRuleKey(ruleName);
+            if (found != null && found.getVersion() != null && (ruleKey.getVersion() == null
+                    || 0 < found.getVersion().compareTo(ruleKey.getVersion()))) {
+                ruleKey = found;
+            }
+        }
+        return ruleKey;
+    }
+
+    public Rule get(final RuleKey ruleKey) {
+        if (ruleExists(ruleKey)) {
+            return prop.getLabels().getRule(ruleKey);
+        }
+        final ModuleReferenceList ref = prop.getRequiredModules();
+        for (int i = 0; i < ref.size(); i++) {
+            final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(i);
+            final Rule found = (newProp.getExistenceChecker().get(ruleKey));
+            if (found != null) {
+                return found;
+            }
+        }
+        return null;
+    }
+
+    /**
+    /**
+     * Get QEDEQ module where given rule is defined.
+     *
+     * @param   ruleKey   Rule we look for.
+     * @return  QEDEQ module where rule is defined. Could be <code>null</code>.
+     */
+    public KernelQedeqBo getQedeq(final RuleKey ruleKey) {
+        if (ruleExists(ruleKey)) {
+            return prop;
+        }
+        final ModuleReferenceList ref = prop.getRequiredModules();
+        for (int i = 0; i < ref.size(); i++) {
+            final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(i);
+            final KernelQedeqBo found = (newProp.getExistenceChecker().getQedeq(ruleKey));
+            if (found != null) {
+                return found;
+            }
+        }
+        return null;
     }
 
     public boolean classOperatorExists() {

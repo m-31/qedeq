@@ -125,6 +125,8 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public void visitEnter(final Rule rule) {
         setBlocked(true);   // block further traverse
+        // we always save the definition, even if there already exists an entry
+        labels.addRule(rule, getCurrentContext());
     }
 
     /**
@@ -134,7 +136,7 @@ public final class ModuleLabelsCreator extends ControlVisitor {
      */
     public void visitLeave(final Node node) {
         try {
-            this.labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(),
+            labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(),
                 getCurrentNumbers());
         } catch (ModuleDataException me) {
             addError(me);

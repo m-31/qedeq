@@ -37,13 +37,14 @@ public interface ProofChecker {
      *
      * @param   formula             Formula we want to proof.
      * @param   proof               Check this formal proof.
+     * @param   checker             Gets defined rule information.
      * @param   context             Location information of formal proof.
      *                              Important for locating errors.
      * @param   resolver            Resolver for references.
      * @return  Collected errors if there are any. Not <code>null</code>.
      */
     public LogicalCheckExceptionList checkProof(final Element formula,
-            final FormalProofLineList proof,
+            final FormalProofLineList proof, final RuleChecker checker,
             final ModuleContext context, final ReferenceResolver resolver);
 
 

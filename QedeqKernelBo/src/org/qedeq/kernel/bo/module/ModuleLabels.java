@@ -19,8 +19,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
+import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.PredicateDefinition;
+import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.dto.module.NodeVo;
@@ -53,6 +55,15 @@ public final class ModuleLabels {
 
     /** Maps predicate identifiers to {@link ModuleContext}s. */
     private final Map functionContexts = new HashMap();
+
+    /** Maps rule names to maximum {@link RuleKey}s. (That is rule key with maximum version number. */
+    private final Map ruleMaximum = new HashMap();
+
+    /** Maps rule keys to {@link Rule}s. */
+    private final Map ruleDefinitions = new HashMap();
+
+    /** Maps rule keys to {@link ModuleContext}s. */
+    private final Map ruleContexts = new HashMap();
 
     /**
      * Constructs a new empty module label list.
@@ -197,7 +208,11 @@ public final class ModuleLabels {
      * @return  Module context. Might be <code>null</code>.
      */
     public ModuleContext getPredicateContext(final String name, final int argumentNumber) {
-        return new ModuleContext((ModuleContext) predicateContexts.get(name + "_" + argumentNumber));
+        final ModuleContext context = (ModuleContext) predicateContexts.get(name + "_" + argumentNumber);
+        if (context != null) {
+            return new ModuleContext(context);
+        }
+        return null;
     }
 
     /**
@@ -231,7 +246,63 @@ public final class ModuleLabels {
      * @return  Module context. Might be <code>null</code>.
      */
     public ModuleContext getFunctionContext(final String name, final int argumentNumber) {
-        return new ModuleContext((ModuleContext) functionContexts.get(name + "_" + argumentNumber));
+        final ModuleContext context = (ModuleContext) functionContexts.get(name + "_" + argumentNumber);
+        if (context != null) {
+            return new ModuleContext(context);
+        }
+        return null;
+    }
+
+    /**
+     * Add rule definition. If such a definition already exists it is overwritten. Also sets the
+     * key for the maximum rule version.
+     *
+     * @param   definition  Definition to add.
+     * @param   context     Here the definition stands.
+     */
+    public void addRule(final Rule definition, final ModuleContext context) {
+        final RuleKey key = new RuleKey(definition.getName(), definition.getVersion());
+        final RuleKey oldMaximum = (RuleKey) ruleMaximum.get(definition.getName());
+        if (oldMaximum == null || oldMaximum.getVersion() == null || (key.getVersion() != null
+                && 0 < key.getVersion().compareTo(oldMaximum.getVersion()))) {
+            ruleMaximum.put(definition.getName(), key);
+        }
+        getRuleDefinitions().put(key, definition);
+        functionContexts.put(key, new ModuleContext(context));
+    }
+
+    /**
+     * Get rule key with maximum rule version.
+     *
+     * @param   ruleName    Get maximum rule key for rule with this name.
+     * @return  Rule key with maximum rule version. Might be <code>null</code>.
+     */
+    public RuleKey getRuleKey(final String ruleName) {
+        return (RuleKey) ruleMaximum.get(ruleName);
+    }
+
+    /**
+     * Get rule definition.
+     *
+     * @param   key            Rule key.
+     * @return  Definition. Might be <code>null</code>.
+     */
+    public Rule getRule(final RuleKey key) {
+        return (Rule) getRuleDefinitions().get(key);
+    }
+
+    /**
+     * Get rule context. This is only a copy.
+     *
+     * @param   key            Rule key.
+     * @return  Module context. Might be <code>null</code>.
+     */
+    public ModuleContext getRuleContext(final RuleKey key) {
+        final ModuleContext context = (ModuleContext) ruleContexts.get(key);
+        if (context != null) {
+            return new ModuleContext(context);
+        }
+        return null;
     }
 
     /**
@@ -250,6 +321,15 @@ public final class ModuleLabels {
      */
     public Map getFunctionDefinitions() {
         return this.functionDefinitions;
+    }
+
+    /**
+     * Get mapping of rule definitions.
+     *
+     * @return  Mapping of rule definitions. Key is {@link RuleKey}, value is {@link Rule}.
+     */
+    public Map getRuleDefinitions() {
+        return this.ruleDefinitions;
     }
 
 }

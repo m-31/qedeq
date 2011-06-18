@@ -26,6 +26,7 @@ import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
 import org.qedeq.kernel.bo.logic.proof.common.ProofChecker;
+import org.qedeq.kernel.bo.logic.proof.common.RuleChecker;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
 import org.qedeq.kernel.se.base.module.Add;
@@ -75,6 +76,9 @@ public class ProofChecker1Impl implements ProofChecker {
     /** Rule version we can check. */
     private final String ruleVersion;
 
+    /** Rule existence checker. */
+    private RuleChecker checker;
+
     /**
      * Constructor.
      *
@@ -87,11 +91,14 @@ public class ProofChecker1Impl implements ProofChecker {
 
 
     public LogicalCheckExceptionList checkProof(final Element formula,
-            final FormalProofLineList proof, final ModuleContext moduleContext,
+            final FormalProofLineList proof,
+            final RuleChecker checker,
+            final ModuleContext moduleContext,
             final ReferenceResolver resolver) {
         this.proof = proof;
         this.resolver = resolver;
         this.moduleContext = moduleContext;
+        this.checker = checker;
         // use copy constructor for changing context
         currentContext = new ModuleContext(moduleContext);
         exceptions = new LogicalCheckExceptionList();
@@ -219,6 +226,15 @@ public class ProofChecker1Impl implements ProofChecker {
                 getDiffModuleContextOfProofLineFormula(i, expected));
             return ok;
         }
+        if (null == checker.getRule(add.getName())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + add.getName(),
+                getCurrentContext());
+            return ok;
+        }
         return ok;
     }
 
@@ -260,6 +276,15 @@ public class ProofChecker1Impl implements ProofChecker {
                 ok = true;
             }
         }
+        if (null == checker.getRule(rename.getName())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + rename.getName(),
+                getCurrentContext());
+            return ok;
+        }
         return ok;
     }
 
@@ -297,6 +322,15 @@ public class ProofChecker1Impl implements ProofChecker {
                     getDiffModuleContextOfProofLineFormula(i, expected));
                 return ok;
             }
+        }
+        if (null == checker.getRule(substfree.getName())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + substfree.getName(),
+                getCurrentContext());
+            return ok;
         }
         return ok;
     }
@@ -395,6 +429,15 @@ public class ProofChecker1Impl implements ProofChecker {
             // check precondition: resulting formula is well formed was already done by well formed
             // checker
         }
+        if (null == checker.getRule(substpred.getName())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + substpred.getName(),
+                getCurrentContext());
+            return ok;
+        }
         return ok;
     }
 
@@ -492,6 +535,15 @@ public class ProofChecker1Impl implements ProofChecker {
             // check precondition: resulting formula is well formed was already done by well formed
             // checker
         }
+        if (null == checker.getRule(substfunc.getName())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + substfunc.getName(),
+                getCurrentContext());
+            return ok;
+        }
         return ok;
     }
 
@@ -568,6 +620,15 @@ public class ProofChecker1Impl implements ProofChecker {
                 ok = true;
             }
         }
+        if (null == checker.getRule(mp.getName())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + mp.getName(),
+                getCurrentContext());
+            return ok;
+        }
         return ok;
     }
 
@@ -628,6 +689,15 @@ public class ProofChecker1Impl implements ProofChecker {
                     getDiffModuleContextOfProofLineFormula(i, expected));
                 return ok;
             }
+        }
+        if (null == checker.getRule(universal.getName())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + universal.getName(),
+                getCurrentContext());
+            return ok;
         }
         return ok;
     }
@@ -690,6 +760,15 @@ public class ProofChecker1Impl implements ProofChecker {
                     getDiffModuleContextOfProofLineFormula(i, expected));
                 return ok;
             }
+        }
+        if (null == checker.getRule(existential.getName())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + existential.getName(),
+                getCurrentContext());
+            return ok;
         }
         return ok;
     }

@@ -13,22 +13,24 @@
  * GNU General Public License for more details.
  */
 
-package org.qedeq.kernel.bo.logic.common;
+package org.qedeq.kernel.bo.logic.proof.common;
+
+import org.qedeq.kernel.bo.logic.common.RuleKey;
 
 
 /**
- * Check if a rule is already defined.
+ * Gives rule information.
  *
  * @author  Michael Meyling
  */
-public interface RuleExistenceChecker {
+public interface RuleChecker {
 
     /**
      * Check if a rule is already defined.
      *
-     * @param   ruleKey Rule defining data.
-     * @return  Rule is defined.
+     * @param   ruleName    Name of rule.
+     * @return  Maximum rule version. Might be <code>null</code>.
      */
-    public boolean ruleExists(RuleKey ruleKey);
+    public RuleKey getRule(String ruleName);
 
 }

@@ -191,6 +191,7 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
         getQedeqBo().setChecked(existence);
         QedeqLog.getInstance().logSuccessfulReply(
             "Check of logical well formedness successful", getQedeqBo().getUrl());
+        System.out.println(getQedeqBo().getLabels().getRuleKey("CP"));  // FIXME
         return Boolean.TRUE;
     }
 

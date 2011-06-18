@@ -18,6 +18,7 @@ package org.qedeq.kernel.bo.logic.proof.checker;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
 import org.qedeq.kernel.bo.logic.proof.common.ProofChecker;
+import org.qedeq.kernel.bo.logic.proof.common.RuleChecker;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.common.ModuleContext;
@@ -44,7 +45,9 @@ public class ProofChecker0Impl implements ProofChecker {
     }
 
     public LogicalCheckExceptionList checkProof(final Element formula,
-            final FormalProofLineList proof, final ModuleContext moduleContext,
+            final FormalProofLineList proof,
+            final RuleChecker checker,
+            final ModuleContext moduleContext,
             final ReferenceResolver resolver) {
         final ProofCheckException ex = new ProofCheckException(
             BasicProofErrors.NO_FORMAL_PROOFS_SUPORTED_CODE,

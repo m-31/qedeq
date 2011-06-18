@@ -26,8 +26,10 @@ import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
+import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.bo.logic.proof.checker.ProofCheckException;
 import org.qedeq.kernel.bo.logic.proof.common.ProofCheckerFactory;
+import org.qedeq.kernel.bo.logic.proof.common.RuleChecker;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelModuleReferenceList;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -326,7 +328,13 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                            + i + ").getFormalProofLineList()");
                         LogicalCheckExceptionList eList
                             = checkerFactory.createProofChecker(ruleVersion).checkProof(
-                            proposition.getFormula().getElement(), list, getCurrentContext(),
+                            proposition.getFormula().getElement(), list,
+                            new RuleChecker() {
+                                public RuleKey getRule(final String ruleName) {
+                                    return getQedeqBo().getExistenceChecker().getRuleKey(ruleName);
+                                }
+                            },
+                            getCurrentContext(),
                             this);
                         if (!correctProofFound && eList.size() == 0) {
                             correctProofFound = true;

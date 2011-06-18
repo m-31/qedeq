@@ -247,11 +247,6 @@ public class DefaultExistenceChecker implements ExistenceChecker {
         return null != ruleDefinitions.get(ruleKey);
     }
 
-    public boolean ruleExists(final String name, final String version) {
-        final RuleKey ruleKey = new RuleKey(name, version);
-        return ruleExists(ruleKey);
-    }
-
     /**
      * Add unknown rule definition. If the rule is already known a runtime exception is thrown.
      *
@@ -276,18 +271,6 @@ public class DefaultExistenceChecker implements ExistenceChecker {
      */
     public Rule get(final RuleKey ruleKey) {
         return (Rule) ruleDefinitions.get(ruleKey);
-    }
-
-    /**
-     * Get rule definition.
-     *
-     * @param   name        Name of function.
-     * @param   version   Arguments of function.
-     * @return  Rule. Might be <code>null</code>.
-     */
-    public Rule getRule(final String name, final String version) {
-        final RuleKey ruleKey = new RuleKey(name, version);
-        return get(ruleKey);
     }
 
     public boolean classOperatorExists() {

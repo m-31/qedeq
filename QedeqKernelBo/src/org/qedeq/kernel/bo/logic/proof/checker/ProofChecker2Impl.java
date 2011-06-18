@@ -27,6 +27,7 @@ import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
 import org.qedeq.kernel.bo.logic.proof.common.ProofChecker;
+import org.qedeq.kernel.bo.logic.proof.common.RuleChecker;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.list.ElementList;
@@ -82,6 +83,9 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
     /** These preconditions apply. This is a conjunction with 0 to n elements. */
     private ElementList conditions;
 
+    /** Rule existence checker. */
+    private RuleChecker checker;
+
     /**
      * Constructor.
      *
@@ -93,18 +97,23 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
     }
 
     public LogicalCheckExceptionList checkProof(final Element formula,
-            final FormalProofLineList proof, final ModuleContext moduleContext,
+            final FormalProofLineList proof,
+            final RuleChecker checker,
+            final ModuleContext moduleContext,
             final ReferenceResolver resolver) {
         final DefaultElementList con = new DefaultElementList(
             Operators.CONJUNCTION_OPERATOR);
-        return checkProof(con, formula, proof, moduleContext, resolver);
+        return checkProof(con, formula, proof, checker, moduleContext, resolver);
     }
 
     private LogicalCheckExceptionList checkProof(final ElementList conditions, final Element formula,
-            final FormalProofLineList proof, final ModuleContext moduleContext,
+            final FormalProofLineList proof,
+            final RuleChecker checker,
+            final ModuleContext moduleContext,
             final ReferenceResolver resolver) {
         this.conditions = conditions;
         this.proof = proof;
+        this.checker = checker;
         this.resolver = resolver;
         this.moduleContext = moduleContext;
         // use copy constructor for changing context
@@ -823,7 +832,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
         newConditions.add(cp.getHypothesis().getFormula().getElement());
         setLocationWithinModule(context + ".getFormalProofLineList()");
         final LogicalCheckExceptionList eList = (new ProofChecker2Impl(ruleVersion)).checkProof(
-            newConditions, lastFormula, cp.getFormalProofLineList(), getCurrentContext(),
+            newConditions, lastFormula, cp.getFormalProofLineList(), checker, getCurrentContext(),
             newResolver);
         exceptions.add(eList);
         ok = eList.size() == 0;

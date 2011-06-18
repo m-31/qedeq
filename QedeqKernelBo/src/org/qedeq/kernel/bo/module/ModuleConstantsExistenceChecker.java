@@ -22,6 +22,8 @@ import org.qedeq.kernel.bo.logic.common.FunctionKey;
 import org.qedeq.kernel.bo.logic.common.IdentityOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.logic.common.PredicateConstant;
 import org.qedeq.kernel.bo.logic.common.PredicateKey;
+import org.qedeq.kernel.bo.logic.common.RuleKey;
+import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
@@ -50,6 +52,30 @@ public interface ModuleConstantsExistenceChecker extends ExistenceChecker {
      * @return  QEDEQ module where predicate constant is defined.x
      */
     public KernelQedeqBo getQedeq(final PredicateKey predicate);
+
+    /**
+     * Get QEDEQ module where given rule is defined.
+     *
+     * @param   ruleKey   Rule we look for.
+     * @return  QEDEQ module where rule is defined.x
+     */
+    public KernelQedeqBo getQedeq(final RuleKey ruleKey);
+
+    /**
+     * Get maximum rule version that is defined in this or an imported module.
+     *
+     * @param   ruleName   Rule we look for.
+     * @return  Rule key with maximum version.x
+     */
+    public RuleKey getRuleKey(final String ruleName);
+
+    /**
+     * Get maximum rule version that is defined in an imported module.
+     *
+     * @param   ruleName   Rule we look for.
+     * @return  Rule key with maximum version.x
+     */
+    public RuleKey getParentRuleKey(final String ruleName);
 
     public boolean classOperatorExists();
 
@@ -125,5 +151,13 @@ public interface ModuleConstantsExistenceChecker extends ExistenceChecker {
      * @return  Definition. Might be <code>null</code>.
      */
     public FunctionConstant getFunction(final String name, final int arguments);
+
+    /**
+     * Get rule declaration.
+     *
+     * @param   ruleKey     Get definition of this rule.
+     * @return  Rule. Might be <code>null</code>.
+     */
+    public Rule get(final RuleKey ruleKey);
 
 }
