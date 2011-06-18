@@ -82,6 +82,9 @@ public class PluginPreferencesDialog extends JDialog {
     /** Checkbox for info parameter of QEDEQ to LaTeX plugin. */
     private JCheckBox qedeq2LatexInfoCB;
 
+    /** Checkbox for brief parameter of QEDEQ to LaTeX plugin. */
+    private JCheckBox qedeq2LatexBriefCB;
+
     /** Checkbox for info parameter of QEDEQ to UTF-8 plugin. */
     private JCheckBox qedeq2Utf8InfoCB;
 
@@ -263,6 +266,10 @@ public class PluginPreferencesDialog extends JDialog {
                 qedeq2LatexInfoCB = new JCheckBox(" Also write reference labels (makes it easier for authors)",
                     parameters.getBoolean("info"));
                 builder.append(qedeq2LatexInfoCB);
+
+                qedeq2LatexBriefCB = new JCheckBox(" Leave out main text entries. Creates a very brief document.",
+                    parameters.getBoolean("brief"));
+                builder.append(qedeq2LatexBriefCB);
 
                 return GuiHelper.addSpaceAndTitle(builder.getPanel(), plugin.getPluginDescription());
             }
@@ -689,6 +696,7 @@ public class PluginPreferencesDialog extends JDialog {
             {
                 final Plugin plugin = qedeq2latex;
                 QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "info", qedeq2LatexInfoCB.isSelected());
+                QedeqGuiConfig.getInstance().setPluginKeyValue(plugin, "brief", qedeq2LatexBriefCB.isSelected());
             }
             {
                 final Plugin plugin = qedeq2utf8;

@@ -115,6 +115,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     /** Should additional information be put into LaTeX output? E.g. QEDEQ reference names. */
     private final boolean info;
 
+    /** Should only names and formulas be be printed? */
+    private final boolean brief;
+
     /** Current chapter number, starting with 0. */
     private int chapterNumber;
 
@@ -155,6 +158,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     public Qedeq2LatexExecutor(final Plugin plugin, final KernelQedeqBo prop, final Parameters parameters) {
         super(plugin, prop);
         info = parameters.getBoolean("info");
+        brief = parameters.getBoolean("brief");
     }
 
     public Object executePlugin() {
@@ -504,7 +508,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
                 + getLatexListEntry("getTitle()", chapter.getTitle()) + "}");
         }
         printer.println();
-        if (chapter.getIntroduction() != null) {
+        if (chapter.getIntroduction() != null && !brief) {
             printer.println(getLatexListEntry("getIntroduction()", chapter.getIntroduction()));
             printer.println();
         }
@@ -530,8 +534,10 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.print(getLatexListEntry("getTitle()", section.getTitle()));
         final String chapterLabel = "chapter" + chapterNumber + "_section" + sectionNumber;
         printer.println("} \\label{" + chapterLabel + "} \\hypertarget{" + chapterLabel + "}{}");
-        printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
-        printer.println();
+        if (section.getIntroduction() != null && !brief) {
+            printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
+            printer.println();
+        }
     }
 
     public void visitLeave(final Section section) {
@@ -547,6 +553,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             printer.print(" level=\"" + subsection.getLevel() + "\"");
         }
 */
+        if (brief) {
+            return;
+        }
         if (subsection.getTitle() != null) {
             printer.print("\\subsection{");
             printer.println(getLatexListEntry("getTitle()", subsection.getTitle()));
@@ -570,9 +579,11 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             printer.print(" level=\"" + node.getLevel() + "\"");
         }
 */
-        printer.println("\\par");
-        printer.println(getLatexListEntry("getPrecedingText()", node.getPrecedingText()));
-        printer.println();
+        if (node.getPrecedingText() != null && !brief) {
+            printer.println("\\par");
+            printer.println(getLatexListEntry("getPrecedingText()", node.getPrecedingText()));
+            printer.println();
+        }
         id = node.getId();
         title = null;
         if (node.getTitle() != null) {
@@ -582,8 +593,10 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
     public void visitLeave(final Node node) {
         printer.println();
-        printer.println(getLatexListEntry("getSucceedingText()", node.getSucceedingText()));
-        printer.println();
+        if (node.getSucceedingText() != null && !brief) {
+            printer.println(getLatexListEntry("getSucceedingText()", node.getSucceedingText()));
+            printer.println();
+        }
         printer.println();
     }
 
@@ -618,12 +631,18 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             printer.print(" level=\"" + proof.getLevel() + "\"");
         }
 */
+        if (brief) {
+            return;
+        }
         printer.println("\\begin{proof}");
         printer.println(getLatexListEntry("getNonFormalProof()", proof.getNonFormalProof()));
         printer.println("\\end{proof}");
     }
 
     public void visitEnter(final FormalProof proof) {
+        if (brief) {
+            return;
+        }
         tabLevel = 0;
         printer.println("\\begin{proof}");
 //        if ("de".equals(language)) {
@@ -634,6 +653,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final FormalProofLineList lines) {
+        if (brief) {
+            return;
+        }
         if (tabLevel == 0) {
             printer.println("\\mbox{}\\\\");
             printer.println("\\begin{longtable}[h!]{r@{\\extracolsep{\\fill}}p{9cm}@{\\extracolsep{\\fill}}p{4cm}}");
@@ -641,6 +663,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitLeave(final FormalProofLineList lines) {
+        if (brief) {
+            return;
+        }
         if (tabLevel == 0) {
             printer.println(" & & \\qedhere");
             printer.println("\\end{longtable}");
@@ -648,6 +673,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final FormalProofLine line) {
+        if (brief) {
+            return;
+        }
         if (line.getLabel() != null) {
             label = line.getLabel();
         } else {
@@ -666,6 +694,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitLeave(final FormalProofLine line) {
+        if (brief) {
+            return;
+        }
         linePrintln();
     }
 
@@ -715,6 +746,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final ModusPonens r) throws ModuleDataException {
+        if (brief) {
+            return;
+        }
         reason = r.getName();
         boolean one = false;
         if (r.getReference1() != null) {
@@ -730,6 +764,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final Add r) throws ModuleDataException {
+        if (brief) {
+            return;
+        }
         reason = r.getName();
         if (r.getReference() != null) {
             reason += " " + getReference(r.getReference());
@@ -737,6 +774,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final Rename r) throws ModuleDataException {
+        if (brief) {
+            return;
+        }
         reason = r.getName();
         if (r.getOriginalSubjectVariable() != null) {
             reason += " $" + getQedeqBo().getElement2Latex().getLatex(
@@ -752,6 +792,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final SubstFree r) throws ModuleDataException {
+        if (brief) {
+            return;
+        }
         reason = r.getName();
         if (r.getSubjectVariable() != null) {
             reason += " $" + getQedeqBo().getElement2Latex().getLatex(
@@ -767,6 +810,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final SubstFunc r) throws ModuleDataException {
+        if (brief) {
+            return;
+        }
         reason = r.getName();
         if (r.getFunctionVariable() != null) {
             reason += " $" + getQedeqBo().getElement2Latex().getLatex(
@@ -782,6 +828,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final SubstPred r) throws ModuleDataException {
+        if (brief) {
+            return;
+        }
         reason = r.getName();
         if (r.getPredicateVariable() != null) {
             reason += " $" + getQedeqBo().getElement2Latex().getLatex(
@@ -797,6 +846,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final Existential r) throws ModuleDataException {
+        if (brief) {
+            return;
+        }
         reason = r.getName();
         if (r.getSubjectVariable() != null) {
             reason += " with $" + getQedeqBo().getElement2Latex().getLatex(
@@ -808,6 +860,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final Universal r) throws ModuleDataException {
+        if (brief) {
+            return;
+        }
         reason = r.getName();
         if (r.getSubjectVariable() != null) {
             reason += " with $" + getQedeqBo().getElement2Latex().getLatex(
@@ -819,6 +874,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final ConditionalProof r) throws ModuleDataException {
+        if (brief) {
+            return;
+        }
         reason = "CP";
         printer.print(" \\ &  \\ ");
         for (int i = 0; i < tabLevel; i++) {
@@ -831,10 +889,16 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitLeave(final ConditionalProof proof) {
+        if (brief) {
+            return;
+        }
         tabLevel--;
     }
 
     public void visitEnter(final Hypothesis hypothesis) {
+        if (brief) {
+            return;
+        }
         reason = "Hypothesis";
         if (hypothesis.getLabel() != null) {
             label = hypothesis.getLabel();
@@ -846,10 +910,16 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitLeave(final Hypothesis hypothesis) {
+        if (brief) {
+            return;
+        }
         linePrintln();
     }
 
     public void visitEnter(final Conclusion conclusion) {
+        if (brief) {
+            return;
+        }
         tabLevel--;
         reason = "Conclusion";
         if (conclusion.getLabel() != null) {
@@ -862,11 +932,17 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitLeave(final Conclusion conclusion) {
+        if (brief) {
+            return;
+        }
         linePrintln();
         tabLevel++;
     }
 
     public void visitLeave(final FormalProof proof) {
+        if (brief) {
+            return;
+        }
         printer.println("\\end{proof}");
     }
 
@@ -946,6 +1022,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
             printer.println("\\end{proof}");
         }
 */
+        if (brief) {
+            return;
+        }
         if (rule.getProofList() != null) {
             for (int i = 0; i < rule.getProofList().size(); i++) {
                 printer.println("\\begin{proof}");

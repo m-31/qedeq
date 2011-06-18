@@ -55,6 +55,7 @@ public final class Qedeq2LatexPlugin implements PluginBo {
 
     public void setDefaultValuesForEmptyPluginParameters(final Parameters parameters) {
         parameters.setDefault("info", true);
+        parameters.setDefault("brief", false);
     }
 
 }
