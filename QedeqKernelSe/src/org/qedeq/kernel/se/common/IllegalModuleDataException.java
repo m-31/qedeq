@@ -64,4 +64,19 @@ public class IllegalModuleDataException extends ModuleDataException {
         super(errorCode, message, context);
     }
 
+    /**
+     * Constructor.
+     *
+     * @param   errorCode   Error code of this message.
+     * @param   message     Error message.
+     * @param   context     Error location.
+     * @param   referenceContext  Reference location.
+     */
+    public IllegalModuleDataException(final int errorCode, final String message,
+            final ModuleContext context, final ModuleContext referenceContext) {
+        super(errorCode, message, context, referenceContext);
+    }
+
+
+
 }
