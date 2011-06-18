@@ -1032,6 +1032,46 @@
         </LATEX>
       </INTRODUCTION>
       <SUBSECTIONS>
+        <NODE id="rule:addProvenFormula">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                add true formula
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Hinzufügung einer wahren Formel
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Add true formula
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Hinzufügung einer wahren Formel
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="Add" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  Addition of an axiom, definition or already proven formula. We have to reference to the location of a true formula.
+                ]]>
+              </LATEX>
+              <LATEX language="de">
+                <![CDATA[
+                  Hinzufügen eines Axioms, einer Definition oder einer bereits bewiesenen Proposition. Wir müssen den Ort der Formel angeben.
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
         <NODE id="rule:modusPonens">
           <NAME>
             <LATEX language="en">
