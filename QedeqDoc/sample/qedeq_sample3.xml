@@ -247,6 +247,239 @@
             </FORMULA>
           </AXIOM>
         </NODE>
+        <NODE id="rule:addProvenFormula">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                add true formula
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Add true formula
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="Add" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  Addition of an axiom, definition or already proven formula. We have to reference to the location of a true formula.
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+        <NODE id="rule:modusPonens">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                modus ponens
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Modus Ponens\index{Modus Ponens}
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="MP" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  If both formulas $\alpha$ and $\alpha \rightarrow \beta$ are true, then we can conclude that $\beta$ is true as well.
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+        <NODE id="rule:replaceFree">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                replace free subject variable
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Replace Free Subject Variable
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="SubstFree" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  We start with a true formula.
+                  A free subject variable may be replaced by an arbitrary term, provided that the substituted term contains no subject variable that have a bound occurrence in the original formula. All occurrences of the free variable must be simultaneously replaced.
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+        <NODE id="rule:renameBound">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                rename bound subject variable
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Rename Bound Subject Variable
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="Rename" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  We may replace a bound subject variable occurring in a formula by any other subject variable, provided that the new variable occurs not free in the original formula. If the variable to be replaced occurs in more than one scope, then the replacement needs to be made in one scope only.
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+        <NODE id="rule:replacePred">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                replace predicate variable
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Replace Predicate Variable
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="SubstPred" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  Let $\alpha$ be a true formula that contains a predicate variable $p$ of arity $n$, let $x_1$, \ldots, $x_n$ be pairwise different subject variables and let $\beta(x_1, \ldots, x_n)$ be a formula where $x_1$, \ldots, $x_n$ are not bound. The formula $\beta(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound.
+                  
+                  If the following conditions are fulfilled, then a replacement of all occurrences of $p(t_1, \ldots, t_n)$ each with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\beta(t_1, \ldots, t_n)$ results in another true formula.
+
+                  \begin{itemize}
+
+                  \item
+                  the free variables of $\beta(x_1, \ldots, x_n)$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$ 
+                  
+                  \item 
+                  each occurrence of $p(t_1, \ldots, t_n)$ in $\alpha$ contains no bound variable of $\beta(x_1, \ldots, x_n)$ 
+
+                  \item
+                  the result of the substitution is a well-formed formula
+
+                  \end{itemize}
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+        <NODE id="rule:replaceFunct">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                replace function variable
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Replace Function Variable
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="SubstFun" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  Let $\alpha$ be an already proved formula that contains a function variable $\sigma$ of arity $n$, let $x_1$, \ldots, $x_n$ be pairwise different subject variables and let $\tau(x_1, \ldots, x_n)$ be an arbitrary term where $x_1$, \ldots, $x_n$ are not bound. 
+                  The term $\tau(x_1, \ldots, x_n)$ must not contain all $x_1$, \ldots, $x_n$ as free subject variables. Furthermore it can also have other subject variables either free or bound. 
+                  
+                  If the following conditions are fulfilled we can obtain a new true formula by replacing each occurrence of $\sigma(t_1, \ldots, t_n)$ with appropriate terms $t_1$, \ldots, $t_n$ in $\alpha$ by $\tau(t_1, \ldots, t_n)$.
+                  
+                  \begin{itemize}
+                  
+                  \item 
+                  the free variables of $\tau(x_1, \ldots, x_n)$ without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
+                  
+                  \item
+                  each occurrence of $\sigma(t_1, \ldots, t_n)$ in $\alpha$ contains no bound variable of $\tau(x_1, \ldots, x_n)$
+                  
+                  \item
+                  the result of the substitution is a well-formed formula
+                                    
+                  \end{itemize}
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+        <NODE id="rule:universalGeneralization">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                universal generalization
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Universal Generalization
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="Universal" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  If $\alpha \rightarrow \beta(x_1)$ is a true formula and $\alpha$ does not contain the subject variable $x_1$, then $\alpha \rightarrow (\forall x_1~(\beta(x_1)))$ is a true 
+                  formula too.
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
+        <NODE id="rule:existentialGeneralization">
+          <NAME>
+            <LATEX language="en">
+              <![CDATA[
+                existential generalization
+              ]]>
+            </LATEX>
+          </NAME>
+          <TITLE>
+            <LATEX language="en">
+              <![CDATA[
+                Existential Generalization
+              ]]>
+            </LATEX>
+          </TITLE>
+          <RULE name="Existential" version="0.01.00">
+            <DESCRIPTION>
+              <LATEX language="en">
+                <![CDATA[
+                  If $\alpha(x_1) \rightarrow \beta$ is already proved to be true and $\beta$ does not contain the subject variable $x_1$, then $(\exists x_1~\alpha(x_1)) \rightarrow \beta$ is also a true formula.
+                ]]>
+              </LATEX>
+            </DESCRIPTION>
+          </RULE>
+        </NODE>
       </SUBSECTIONS>
     </SECTION>
     <SECTION>
