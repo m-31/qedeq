@@ -110,7 +110,7 @@ public class SubstFuncVo implements SubstFunc {
     }
 
     public String getName() {
-        return "SubstFunc";
+        return "SubstFun";
     }
 
     public boolean equals(final Object obj) {
