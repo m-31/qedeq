@@ -1482,6 +1482,32 @@
         </NODE>
       </SUBSECTIONS>
     </SECTION>
+  </CHAPTER>
+  <CHAPTER>
+    <TITLE>
+      <LATEX language="en">
+        <![CDATA[
+          Propositional Calculus
+        ]]>
+      </LATEX>
+      <LATEX language="de">
+        <![CDATA[
+          Aussagenlogik
+        ]]>
+      </LATEX>
+    </TITLE>
+   <INTRODUCTION>
+     <LATEX language="en">
+       <![CDATA[
+         In this chapter we introduce an importent new inference rule and develop the traditional results of propositional calculus.
+       ]]>
+     </LATEX>
+     <LATEX language="de">
+       <![CDATA[
+         In diesem Kapitel stellen wir eine wichtige neue Ableitungsregel vor und entwickeln die üblichen Sätze der Aussagenlogik.
+       ]]>
+     </LATEX>
+   </INTRODUCTION>
     <SECTION>
       <TITLE>
         <LATEX language="en">
@@ -2220,7 +2246,7 @@
               <LATEX language="de">
                 <![CDATA[
                   Wir haben die wohlgeformte Formel $\alpha$ und fügen sie als neue Beweiszeile hinzu. Nun modifizieren wir die existierenden Ableitungsregeln. Wir können eine weitere Beweiszeile anfügen, wenn $\alpha \rightarrow \beta$ eine wohlgeformte Formel ist und die Verwendung einer vorherigen Regel mit den folgenden Einschränkungen die Hinzufügung rechtfertigt:
-                  für \qref{rule:replaceFree} kommt die ersetzte freie Variable nicht in $\alpha$ vor, für \qref{rule:replacePred} kommt die ersetzte Prädikatenvariable nicht in $\alpha$ vor, für \qref{rule:replaceFunct} kommt ide ersetzte Funktionsvariable nicht in $\alpha$ vor.
+                  für \qref{rule:replaceFree} kommt die ersetzte freie Variable nicht in $\alpha$ vor, für \qref{rule:replacePred} kommt die ersetzte Prädikatenvariable nicht in $\alpha$ vor, für \qref{rule:replaceFunct} kommt die ersetzte Funktionsvariable nicht in $\alpha$ vor.
                 ]]>
               </LATEX>
             </DESCRIPTION>
@@ -2233,6 +2259,18 @@
               </LATEX>
             </PROOF>
           </RULE>
+          <SUCCEEDING>
+            <LATEX language="en">
+              <![CDATA[
+                The deduction theorem enables us to prove propositions more easier in the next sections.
+              ]]>
+            </LATEX>
+            <LATEX language="de">
+              <![CDATA[
+                Mittels Deduktionstheorem leiten wir im Folgenden weitere Sätze ab.
+              ]]>
+            </LATEX>
+          </SUCCEEDING>
         </NODE>
       </SUBSECTIONS>
     </SECTION>
@@ -2240,24 +2278,24 @@
       <TITLE>
         <LATEX language="en">
           <![CDATA[
-            Further Theorems
+            Propositions about implication
           ]]>
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Weitere Sätze
+            Sätze zur Implikation
           ]]>
         </LATEX>
       </TITLE>
       <INTRODUCTION>
         <LATEX language="en">
           <![CDATA[
-            The deduction theorem enables us to prove more propositions.
+            We use \qref{rule:CP} to derive more propositions containing only the implication operator.
           ]]>
         </LATEX>
         <LATEX language="de">
           <![CDATA[
-            Mittels Deduktionstheorem leiten wir weitere Sätze ab.
+            Mittels \qref{rule:CP} leiten wir weitere Sätze ab, in deren Formeln nur die Implikation vorkommt.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -2760,6 +2798,34 @@
             </FORMAL_PROOF>
           </THEOREM>
         </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+          <![CDATA[
+            Propositions about conjunction
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Sätze zur Konjunktion
+          ]]>
+        </LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            We use \qref{rule:CP} to derive more propositions containing the conjunction operator.
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Mittels \qref{rule:CP} leiten wir weitere Sätze ab, in deren Formeln die Konjunktion vorkommt.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
         <NODE id="proposition:implication15">
           <THEOREM>
             <FORMULA>
@@ -3814,6 +3880,309 @@
             </FORMAL_PROOF>
           </THEOREM>
         </NODE>
+        <NODE id="proposition:implication43">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <IMPL>
+                  <PREDVAR id="A"/>
+                  <IMPL>
+                    <PREDVAR id="B"/>
+                    <PREDVAR id="C"/>
+                  </IMPL>
+                </IMPL>
+                <IMPL>
+                  <AND>
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="B"/>
+                  </AND>
+                  <PREDVAR id="C"/>
+                </IMPL>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <CP>
+                  <HYPOTHESIS label="1">
+                    <FORMULA>
+                      <IMPL>
+                        <PREDVAR id="A"/>
+                        <IMPL>
+                          <PREDVAR id="B"/>
+                          <PREDVAR id="C"/>
+                        </IMPL>
+                      </IMPL>
+                    </FORMULA>
+                  </HYPOTHESIS>
+                  <LINES>
+                    <CP>
+                      <HYPOTHESIS label="2">
+                        <FORMULA>
+                          <AND>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </AND>
+                        </FORMULA>
+                      </HYPOTHESIS>
+                      <LINES>
+                        <L label="3">
+                          <FORMULA>
+                            <IMPL>
+                              <AND>
+                                <PREDVAR id="A"/>
+                                <PREDVAR id="B"/>
+                              </AND>
+                              <PREDVAR id="A"/>
+                            </IMPL>
+                          </FORMULA>
+                          <ADD ref="axiom:AND-1"/>
+                        </L>
+                        <L label="4">
+                          <FORMULA>
+                            <PREDVAR id="A"/>
+                          </FORMULA>
+                          <MP ref1="3" ref2="2"/>
+                        </L>
+                        <L label="5">
+                          <FORMULA>
+                            <IMPL>
+                              <AND>
+                                <PREDVAR id="A"/>
+                                <PREDVAR id="B"/>
+                              </AND>
+                              <PREDVAR id="B"/>
+                            </IMPL>
+                          </FORMULA>
+                          <ADD ref="axiom:AND-2"/>
+                        </L>
+                        <L label="6">
+                          <FORMULA>
+                            <PREDVAR id="B"/>
+                          </FORMULA>
+                          <MP ref1="5" ref2="2"/>
+                        </L>
+                        <L label="7">
+                          <FORMULA>
+                            <IMPL>
+                              <PREDVAR id="B"/>
+                              <PREDVAR id="C"/>
+                            </IMPL>
+                          </FORMULA>
+                          <MP ref1="1" ref2="4"/>
+                        </L>
+                        <L label="8">
+                          <FORMULA>
+                            <PREDVAR id="C"/>
+                          </FORMULA>
+                          <MP ref1="7" ref2="6"/>
+                        </L>
+                      </LINES>
+                      <CONCLUSION label="9">
+                        <FORMULA>
+                          <IMPL>
+                            <AND>
+                              <PREDVAR id="A"/>
+                              <PREDVAR id="B"/>
+                            </AND>
+                            <PREDVAR id="C"/>
+                          </IMPL>
+                        </FORMULA>
+                      </CONCLUSION>
+                    </CP>
+                  </LINES>
+                  <CONCLUSION label="10">
+                    <FORMULA>
+                      <IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <IMPL>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="C"/>
+                          </IMPL>
+                        </IMPL>
+                        <IMPL>
+                          <AND>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </AND>
+                          <PREDVAR id="C"/>
+                        </IMPL>
+                      </IMPL>
+                    </FORMULA>
+                  </CONCLUSION>
+                </CP>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
+        <NODE id="proposition:implication44">
+          <THEOREM>
+            <FORMULA>
+              <IMPL>
+                <IMPL>
+                  <AND>
+                    <PREDVAR id="A"/>
+                    <PREDVAR id="B"/>
+                  </AND>
+                  <PREDVAR id="C"/>
+                </IMPL>
+                <IMPL>
+                  <PREDVAR id="A"/>
+                  <IMPL>
+                    <PREDVAR id="B"/>
+                    <PREDVAR id="C"/>
+                  </IMPL>
+                </IMPL>
+              </IMPL>
+            </FORMULA>
+            <FORMAL_PROOF>
+              <LINES>
+                <CP>
+                  <HYPOTHESIS label="1">
+                    <FORMULA>
+                      <IMPL>
+                        <AND>
+                          <PREDVAR id="A"/>
+                          <PREDVAR id="B"/>
+                        </AND>
+                        <PREDVAR id="C"/>
+                      </IMPL>
+                    </FORMULA>
+                  </HYPOTHESIS>
+                  <LINES>
+                    <CP>
+                      <HYPOTHESIS label="2">
+                        <FORMULA>
+                          <PREDVAR id="A"/>
+                        </FORMULA>
+                      </HYPOTHESIS>
+                      <LINES>
+                        <L label="3">
+                          <FORMULA>
+                            <IMPL>
+                              <PREDVAR id="B"/>
+                              <IMPL>
+                                <PREDVAR id="A"/>
+                                <AND>
+                                  <PREDVAR id="A"/>
+                                  <PREDVAR id="B"/>
+                                </AND>
+                              </IMPL>
+                            </IMPL>
+                          </FORMULA>
+                          <ADD ref="axiom:AND-3"/>
+                        </L>
+                        <CP>
+                          <HYPOTHESIS label="4">
+                            <FORMULA>
+                              <PREDVAR id="B"/>
+                            </FORMULA>
+                          </HYPOTHESIS>
+                          <LINES>
+                            <L label="5">
+                              <FORMULA>
+                                <IMPL>
+                                  <PREDVAR id="A"/>
+                                  <AND>
+                                    <PREDVAR id="A"/>
+                                    <PREDVAR id="B"/>
+                                  </AND>
+                                </IMPL>
+                              </FORMULA>
+                              <MP ref1="3" ref2="4"/>
+                            </L>
+                            <L label="6">
+                              <FORMULA>
+                                <AND>
+                                  <PREDVAR id="A"/>
+                                  <PREDVAR id="B"/>
+                                </AND>
+                              </FORMULA>
+                              <MP ref1="5" ref2="2"/>
+                            </L>
+                            <L label="7">
+                              <FORMULA>
+                                <PREDVAR id="C"/>
+                              </FORMULA>
+                              <MP ref1="1" ref2="6"/>
+                            </L>
+                          </LINES>
+                          <CONCLUSION label="8">
+                            <FORMULA>
+                              <IMPL>
+                                <PREDVAR id="B"/>
+                                <PREDVAR id="C"/>
+                              </IMPL>
+                            </FORMULA>
+                          </CONCLUSION>
+                        </CP>
+                      </LINES>
+                      <CONCLUSION label="9">
+                        <FORMULA>
+                          <IMPL>
+                            <PREDVAR id="A"/>
+                            <IMPL>
+                              <PREDVAR id="B"/>
+                              <PREDVAR id="C"/>
+                            </IMPL>
+                          </IMPL>
+                        </FORMULA>
+                      </CONCLUSION>
+                    </CP>
+                  </LINES>
+                  <CONCLUSION label="10">
+                    <FORMULA>
+                      <IMPL>
+                        <IMPL>
+                          <AND>
+                            <PREDVAR id="A"/>
+                            <PREDVAR id="B"/>
+                          </AND>
+                          <PREDVAR id="C"/>
+                        </IMPL>
+                        <IMPL>
+                          <PREDVAR id="A"/>
+                          <IMPL>
+                            <PREDVAR id="B"/>
+                            <PREDVAR id="C"/>
+                          </IMPL>
+                        </IMPL>
+                      </IMPL>
+                    </FORMULA>
+                  </CONCLUSION>
+                </CP>
+              </LINES>
+            </FORMAL_PROOF>
+          </THEOREM>
+        </NODE>
+      </SUBSECTIONS>
+    </SECTION>
+    <SECTION>
+      <TITLE>
+        <LATEX language="en">
+          <![CDATA[
+            Propositions about negation
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Sätze zur Negation
+          ]]>
+        </LATEX>
+      </TITLE>
+      <INTRODUCTION>
+        <LATEX language="en">
+          <![CDATA[
+            Now we look at negation. Here we must use the principle of the excluded middle for the first time.
+          ]]>
+        </LATEX>
+        <LATEX language="de">
+          <![CDATA[
+            Wir kommen nun zur Negation. Hier müssen wir das erste Mal von dem Prinzip vom ausgeschlossenen Dritten Gebrauch machen.
+          ]]>
+        </LATEX>
+      </INTRODUCTION>
+      <SUBSECTIONS>
         <NODE id="proposition:implication22">
           <THEOREM>
             <FORMULA>
@@ -4573,281 +4942,6 @@
                           </NOT>
                         </NOT>
                         <PREDVAR id="A"/>
-                      </IMPL>
-                    </FORMULA>
-                  </CONCLUSION>
-                </CP>
-              </LINES>
-            </FORMAL_PROOF>
-          </THEOREM>
-        </NODE>
-        <NODE id="proposition:implication43">
-          <THEOREM>
-            <FORMULA>
-              <IMPL>
-                <IMPL>
-                  <PREDVAR id="A"/>
-                  <IMPL>
-                    <PREDVAR id="B"/>
-                    <PREDVAR id="C"/>
-                  </IMPL>
-                </IMPL>
-                <IMPL>
-                  <AND>
-                    <PREDVAR id="A"/>
-                    <PREDVAR id="B"/>
-                  </AND>
-                  <PREDVAR id="C"/>
-                </IMPL>
-              </IMPL>
-            </FORMULA>
-            <FORMAL_PROOF>
-              <LINES>
-                <CP>
-                  <HYPOTHESIS label="1">
-                    <FORMULA>
-                      <IMPL>
-                        <PREDVAR id="A"/>
-                        <IMPL>
-                          <PREDVAR id="B"/>
-                          <PREDVAR id="C"/>
-                        </IMPL>
-                      </IMPL>
-                    </FORMULA>
-                  </HYPOTHESIS>
-                  <LINES>
-                    <CP>
-                      <HYPOTHESIS label="2">
-                        <FORMULA>
-                          <AND>
-                            <PREDVAR id="A"/>
-                            <PREDVAR id="B"/>
-                          </AND>
-                        </FORMULA>
-                      </HYPOTHESIS>
-                      <LINES>
-                        <L label="3">
-                          <FORMULA>
-                            <IMPL>
-                              <AND>
-                                <PREDVAR id="A"/>
-                                <PREDVAR id="B"/>
-                              </AND>
-                              <PREDVAR id="A"/>
-                            </IMPL>
-                          </FORMULA>
-                          <ADD ref="axiom:AND-1"/>
-                        </L>
-                        <L label="4">
-                          <FORMULA>
-                            <PREDVAR id="A"/>
-                          </FORMULA>
-                          <MP ref1="3" ref2="2"/>
-                        </L>
-                        <L label="5">
-                          <FORMULA>
-                            <IMPL>
-                              <AND>
-                                <PREDVAR id="A"/>
-                                <PREDVAR id="B"/>
-                              </AND>
-                              <PREDVAR id="B"/>
-                            </IMPL>
-                          </FORMULA>
-                          <ADD ref="axiom:AND-2"/>
-                        </L>
-                        <L label="6">
-                          <FORMULA>
-                            <PREDVAR id="B"/>
-                          </FORMULA>
-                          <MP ref1="5" ref2="2"/>
-                        </L>
-                        <L label="7">
-                          <FORMULA>
-                            <IMPL>
-                              <PREDVAR id="B"/>
-                              <PREDVAR id="C"/>
-                            </IMPL>
-                          </FORMULA>
-                          <MP ref1="1" ref2="4"/>
-                        </L>
-                        <L label="8">
-                          <FORMULA>
-                            <PREDVAR id="C"/>
-                          </FORMULA>
-                          <MP ref1="7" ref2="6"/>
-                        </L>
-                      </LINES>
-                      <CONCLUSION label="9">
-                        <FORMULA>
-                          <IMPL>
-                            <AND>
-                              <PREDVAR id="A"/>
-                              <PREDVAR id="B"/>
-                            </AND>
-                            <PREDVAR id="C"/>
-                          </IMPL>
-                        </FORMULA>
-                      </CONCLUSION>
-                    </CP>
-                  </LINES>
-                  <CONCLUSION label="10">
-                    <FORMULA>
-                      <IMPL>
-                        <IMPL>
-                          <PREDVAR id="A"/>
-                          <IMPL>
-                            <PREDVAR id="B"/>
-                            <PREDVAR id="C"/>
-                          </IMPL>
-                        </IMPL>
-                        <IMPL>
-                          <AND>
-                            <PREDVAR id="A"/>
-                            <PREDVAR id="B"/>
-                          </AND>
-                          <PREDVAR id="C"/>
-                        </IMPL>
-                      </IMPL>
-                    </FORMULA>
-                  </CONCLUSION>
-                </CP>
-              </LINES>
-            </FORMAL_PROOF>
-          </THEOREM>
-        </NODE>
-        <NODE id="proposition:implication44">
-          <THEOREM>
-            <FORMULA>
-              <IMPL>
-                <IMPL>
-                  <AND>
-                    <PREDVAR id="A"/>
-                    <PREDVAR id="B"/>
-                  </AND>
-                  <PREDVAR id="C"/>
-                </IMPL>
-                <IMPL>
-                  <PREDVAR id="A"/>
-                  <IMPL>
-                    <PREDVAR id="B"/>
-                    <PREDVAR id="C"/>
-                  </IMPL>
-                </IMPL>
-              </IMPL>
-            </FORMULA>
-            <FORMAL_PROOF>
-              <LINES>
-                <CP>
-                  <HYPOTHESIS label="1">
-                    <FORMULA>
-                      <IMPL>
-                        <AND>
-                          <PREDVAR id="A"/>
-                          <PREDVAR id="B"/>
-                        </AND>
-                        <PREDVAR id="C"/>
-                      </IMPL>
-                    </FORMULA>
-                  </HYPOTHESIS>
-                  <LINES>
-                    <CP>
-                      <HYPOTHESIS label="2">
-                        <FORMULA>
-                          <PREDVAR id="A"/>
-                        </FORMULA>
-                      </HYPOTHESIS>
-                      <LINES>
-                        <L label="3">
-                          <FORMULA>
-                            <IMPL>
-                              <PREDVAR id="B"/>
-                              <IMPL>
-                                <PREDVAR id="A"/>
-                                <AND>
-                                  <PREDVAR id="A"/>
-                                  <PREDVAR id="B"/>
-                                </AND>
-                              </IMPL>
-                            </IMPL>
-                          </FORMULA>
-                          <ADD ref="axiom:AND-3"/>
-                        </L>
-                        <CP>
-                          <HYPOTHESIS label="4">
-                            <FORMULA>
-                              <PREDVAR id="B"/>
-                            </FORMULA>
-                          </HYPOTHESIS>
-                          <LINES>
-                            <L label="5">
-                              <FORMULA>
-                                <IMPL>
-                                  <PREDVAR id="A"/>
-                                  <AND>
-                                    <PREDVAR id="A"/>
-                                    <PREDVAR id="B"/>
-                                  </AND>
-                                </IMPL>
-                              </FORMULA>
-                              <MP ref1="3" ref2="4"/>
-                            </L>
-                            <L label="6">
-                              <FORMULA>
-                                <AND>
-                                  <PREDVAR id="A"/>
-                                  <PREDVAR id="B"/>
-                                </AND>
-                              </FORMULA>
-                              <MP ref1="5" ref2="2"/>
-                            </L>
-                            <L label="7">
-                              <FORMULA>
-                                <PREDVAR id="C"/>
-                              </FORMULA>
-                              <MP ref1="1" ref2="6"/>
-                            </L>
-                          </LINES>
-                          <CONCLUSION label="8">
-                            <FORMULA>
-                              <IMPL>
-                                <PREDVAR id="B"/>
-                                <PREDVAR id="C"/>
-                              </IMPL>
-                            </FORMULA>
-                          </CONCLUSION>
-                        </CP>
-                      </LINES>
-                      <CONCLUSION label="9">
-                        <FORMULA>
-                          <IMPL>
-                            <PREDVAR id="A"/>
-                            <IMPL>
-                              <PREDVAR id="B"/>
-                              <PREDVAR id="C"/>
-                            </IMPL>
-                          </IMPL>
-                        </FORMULA>
-                      </CONCLUSION>
-                    </CP>
-                  </LINES>
-                  <CONCLUSION label="10">
-                    <FORMULA>
-                      <IMPL>
-                        <IMPL>
-                          <AND>
-                            <PREDVAR id="A"/>
-                            <PREDVAR id="B"/>
-                          </AND>
-                          <PREDVAR id="C"/>
-                        </IMPL>
-                        <IMPL>
-                          <PREDVAR id="A"/>
-                          <IMPL>
-                            <PREDVAR id="B"/>
-                            <PREDVAR id="C"/>
-                          </IMPL>
-                        </IMPL>
                       </IMPL>
                     </FORMULA>
                   </CONCLUSION>
