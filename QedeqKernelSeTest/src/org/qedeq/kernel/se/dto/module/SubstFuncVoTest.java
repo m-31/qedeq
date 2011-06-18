@@ -44,7 +44,7 @@ public class SubstFuncVoTest extends AbstractVoModuleTest {
     }
 
     public void testGetName() {
-        assertEquals("SubstFunc", subst.getName());
+        assertEquals("SubstFun", subst.getName());
     }
 
     public void testGetReferences() {
