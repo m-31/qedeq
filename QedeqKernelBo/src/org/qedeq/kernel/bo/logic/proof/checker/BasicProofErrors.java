@@ -216,4 +216,12 @@ public interface BasicProofErrors extends ErrorCodes {
     public static final String PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
         = "proof method was not defined yet: ";
 
+
+    /** Error code. */
+    public static final int PROOF_METHOD_IS_NOT_SUPPORTED_CODE = 37430;
+
+    /** Error message. */
+    public static final String PROOF_METHOD_IS_NOT_SUPPORTED_TEXT
+        = "proof method is not supported for this proof checker: ";
+
 }

@@ -19,6 +19,7 @@ import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
+import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 /**
@@ -47,5 +48,19 @@ public interface ProofChecker {
             final FormalProofLineList proof, final RuleChecker checker,
             final ModuleContext context, final ReferenceResolver resolver);
 
+
+    /**
+     * Checks if a rule declaration is ok for the proof checker.
+     *
+     * @param   rule                Rule we want to use later on.
+     * @param   context             Location information rule declaration.
+     *                              Important for locating errors.
+     * @param   checker             Gets defined rule information.
+     * @param   resolver            Resolver for references.
+     * @return  Collected errors if there are any. Not <code>null</code>.
+     */
+    public LogicalCheckExceptionList checkRule(final Rule rule,
+        final ModuleContext context, final RuleChecker checker,
+        final ReferenceResolver resolver);
 
 }

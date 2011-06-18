@@ -191,4 +191,19 @@ public interface LogicErrors extends ErrorCodes {
     public static final String RULE_ALREADY_DEFINED_TEXT
         = "rule was already defined for this version: ";
 
+
+    /** Error code. */
+    public static final int RULE_DEFINITIONS_DONT_MIX_CODE = 37270;
+
+    /** Error message. */
+    public static final String RULE_DEFINITIONS_DONT_MIX_TEXT
+        = "rule version was defined in different modules: ";
+
+    /** Error code. */
+    public static final int CLASS_OPERATOR_ALREADY_DEFINED_CODE = 123478;
+
+    /** Error message. */
+    public static final String CLASS_OPERATOR_ALREADY_DEFINED_TEXT
+        = "class operator already defined within this module: ";
+
 }

@@ -15,6 +15,9 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.common.ClassOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.logic.common.FunctionConstant;
@@ -73,18 +76,33 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
     public final void init() throws ModuleDataException {
         clear();
         final ModuleReferenceList list = prop.getRequiredModules();
+        final Set rules = new HashSet();
         for (int i = 0; i < list.size(); i++) {
             final KernelQedeqBo bo = (KernelQedeqBo) list
                 .getQedeqBo(i);
             if (bo.getExistenceChecker().identityOperatorExists()) {
                 final String identityOperator = list.getLabel(i) + "."
                     + bo.getExistenceChecker().getIdentityOperator();
-                setIdentityOperatorDefined(identityOperator, bo.getExistenceChecker().getIdentityOperatorModule(),
+                setIdentityOperatorDefined(identityOperator,
+                    bo.getExistenceChecker().getIdentityOperatorModule(),
                     list.getModuleContext(i));
             }
             if (bo.getExistenceChecker().classOperatorExists()) {
                 setClassOperatorModule(bo.getExistenceChecker().getClassOperatorModule(),
                     list.getModuleContext(i));
+            }
+            final Set cut = bo.getExistenceChecker().getRules();
+            cut.retainAll(rules);
+            if (!cut.isEmpty()) {
+                final RuleKey first = (RuleKey) cut.iterator().next();
+                throw new IdentityOperatorAlreadyExistsException(
+                    LogicErrors.RULE_DEFINITIONS_DONT_MIX_CODE,
+                    LogicErrors.RULE_DEFINITIONS_DONT_MIX_TEXT + first + " in "
+                    + bo.getExistenceChecker().getQedeq(first).getLabels().getRuleContext(first),
+                    list.getModuleContext(i),
+                    prop.getExistenceChecker().getQedeq(first).getLabels().getRuleContext(first));
+            } else {
+                rules.addAll(bo.getExistenceChecker().getRules());
             }
         }
     }
@@ -141,7 +159,8 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
             return false;
         }
         final String shortName = name.substring(external + 1);
-        return newProp.getExistenceChecker().isInitialPredicate(new PredicateKey(shortName, arguments));
+        return newProp.getExistenceChecker().isInitialPredicate(
+            new PredicateKey(shortName, arguments));
     }
 
     public boolean isInitialFunction(final FunctionKey function) {
@@ -160,7 +179,8 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
             return false;
         }
         final String shortName = name.substring(external + 1);
-        return newProp.getExistenceChecker().isInitialFunction(new FunctionKey(shortName, arguments));
+        return newProp.getExistenceChecker().isInitialFunction(
+            new FunctionKey(shortName, arguments));
     }
 
     public PredicateConstant get(final PredicateKey predicate) {
@@ -297,6 +317,17 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         return null;
     }
 
+    public Set getRules() {
+        final Set result = new HashSet();
+        result.addAll(prop.getLabels().getRules());
+        final ModuleReferenceList ref = prop.getRequiredModules();
+        for (int i = 0; i < ref.size(); i++) {
+            final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(i);
+            result.addAll(newProp.getExistenceChecker().getRules());
+        }
+        return result;
+    }
+
     /**
     /**
      * Get QEDEQ module where given rule is defined.
@@ -336,8 +367,10 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
             throws IdentityOperatorAlreadyExistsException {
         if (this.identityOperatorModule != null && identityOperatorModule != null) {
             if (!this.identityOperatorModule.equals(identityOperatorModule)) {
-                throw new IdentityOperatorAlreadyExistsException(LogicErrors.IDENTITY_OPERATOR_ALREADY_EXISTS_CODE,
-                    LogicErrors.IDENTITY_OPERATOR_ALREADY_EXISTS_TEXT + " " + getIdentityOperator(), context);
+                throw new IdentityOperatorAlreadyExistsException(
+                    LogicErrors.IDENTITY_OPERATOR_ALREADY_EXISTS_CODE,
+                    LogicErrors.IDENTITY_OPERATOR_ALREADY_EXISTS_TEXT + " " + getIdentityOperator(),
+                    context);
             }
         } else {
             this.identityOperatorModule = identityOperatorModule;
@@ -364,8 +397,10 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
             final ModuleContext context) throws  ClassOperatorAlreadyExistsException {
         if (this.classOperatorModule != null && classOperatorModule != null) {
             if (!this.classOperatorModule.equals(classOperatorModule)) {
-                throw new ClassOperatorAlreadyExistsException(123478,
-                    "class operator already defined within " + this.classOperatorModule.getUrl(),
+                throw new ClassOperatorAlreadyExistsException(
+                    LogicErrors.CLASS_OPERATOR_ALREADY_DEFINED_CODE,
+                    LogicErrors.CLASS_OPERATOR_ALREADY_DEFINED_TEXT
+                    + this.classOperatorModule.getUrl(),
                     context);
             }
         } else {

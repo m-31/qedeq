@@ -26,6 +26,7 @@ import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
+import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.bo.logic.proof.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.proof.common.RuleChecker;
 import org.qedeq.kernel.bo.logic.wf.FormulaCheckerImpl;
@@ -39,6 +40,7 @@ import org.qedeq.kernel.se.base.module.FormalProofLineList;
 import org.qedeq.kernel.se.base.module.ModusPonens;
 import org.qedeq.kernel.se.base.module.Reason;
 import org.qedeq.kernel.se.base.module.Rename;
+import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.base.module.SubstFree;
 import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
@@ -94,6 +96,21 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
      */
     public ProofChecker2Impl(final String ruleVersion) {
         this.ruleVersion = ruleVersion;
+    }
+
+    public LogicalCheckExceptionList checkRule(final Rule rule,
+            final ModuleContext context, final RuleChecker checker,
+            final ReferenceResolver resolver) {
+        exceptions = new LogicalCheckExceptionList();
+        final RuleKey ruleKey = new RuleKey(rule.getName(), rule.getVersion());
+        if (rule.getVersion() == null || 0 < ruleVersion.compareTo(rule.getVersion())) {
+            final ProofCheckException ex = new ProofCheckException(
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + ruleKey,
+                context);
+            exceptions.add(ex);
+        }
+        return exceptions;
     }
 
     public LogicalCheckExceptionList checkProof(final Element formula,

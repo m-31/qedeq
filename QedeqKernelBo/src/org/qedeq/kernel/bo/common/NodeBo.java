@@ -67,17 +67,18 @@ public interface NodeBo {
     public boolean isNotWellFormed();
 
     /**
-     * This means that at least one formal proof was successfully checked for correctness.
-     * For non propositions we always get <code>true</code>.
+     * This means that at least one formal proof was successfully checked for correctness and a
+     * rule declaration was possible.
+     * If we have no proposition and no rule we always get <code>true</code>.
      *
      * @return  <code>true</code> if the check was successful.
      */
     public boolean isProved();
 
     /**
-     * This means that at least not even one formal proof could be successfully checked for
-     * correctness.
-     * For non propositions we always get <code>false</code>.
+     * This means for propositions that at least not even one formal proof could be successfully
+     * checked for correctness. For rules we get the question answered if a declaration is ok.
+     * If we have no proposition and no rule we always get <code>false</code>.
      *
      * @return  <code>true</code> if the check was not successful.
      */

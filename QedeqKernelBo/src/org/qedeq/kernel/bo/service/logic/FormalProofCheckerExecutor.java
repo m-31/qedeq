@@ -15,6 +15,9 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
@@ -75,6 +78,10 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     /** Rule version the module claims to use at maximum. */
     private String ruleVersion;
+
+    /** Maximum rule versions defined within this module during plugin execution. Maps name to
+     * rule key. */
+    private Map localMaximumRuleVersions;
 
     /**
      * Constructor.
@@ -152,6 +159,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
             return Boolean.FALSE;
         }
         try {
+            localMaximumRuleVersions = new HashMap();
             traverse();
         } catch (SourceFileExceptionList e) {
             final String msg = "Check of logical correctness failed";
@@ -331,7 +339,11 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                             proposition.getFormula().getElement(), list,
                             new RuleChecker() {
                                 public RuleKey getRule(final String ruleName) {
-                                    return getQedeqBo().getExistenceChecker().getRuleKey(ruleName);
+                                    if (localMaximumRuleVersions.containsKey(ruleName)) {
+                                        return (RuleKey) localMaximumRuleVersions.get(ruleName);
+                                    }
+                                    return getQedeqBo().getExistenceChecker().getParentRuleKey(
+                                        ruleName);
                                 }
                             },
                             getCurrentContext(),
@@ -368,7 +380,11 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         if (rule == null) {
             return;
         }
-        if (getNodeBo().isWellFormed()) {
+        final RuleKey key = new RuleKey(rule.getName(), rule.getVersion());
+        // FIXME 20110618 m31: check if this is really a higher version than before
+        localMaximumRuleVersions.put(rule.getName(), key);
+        getNodeBo().setProved(CheckLevel.UNCHECKED);
+        if (getNodeBo().isNotProved()) {
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
             getNodeBo().setProved(CheckLevel.FAILURE);
@@ -382,14 +398,14 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
 
     protected void addError(final ModuleDataException me) {
         if (getNodeBo() != null) {
-            getNodeBo().setWellFormed(CheckLevel.FAILURE);
+            getNodeBo().setProved(CheckLevel.FAILURE);
         }
         super.addError(me);
     }
 
     protected void addError(final SourceFileException me) {
         if (getNodeBo() != null) {
-            getNodeBo().setWellFormed(CheckLevel.FAILURE);
+            getNodeBo().setProved(CheckLevel.FAILURE);
         }
         super.addError(me);
     }

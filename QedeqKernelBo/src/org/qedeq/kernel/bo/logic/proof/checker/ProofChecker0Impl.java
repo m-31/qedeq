@@ -21,6 +21,7 @@ import org.qedeq.kernel.bo.logic.proof.common.ProofChecker;
 import org.qedeq.kernel.bo.logic.proof.common.RuleChecker;
 import org.qedeq.kernel.se.base.list.Element;
 import org.qedeq.kernel.se.base.module.FormalProofLineList;
+import org.qedeq.kernel.se.base.module.Rule;
 import org.qedeq.kernel.se.common.ModuleContext;
 
 
@@ -55,6 +56,14 @@ public class ProofChecker0Impl implements ProofChecker {
             null, moduleContext, null);
             final LogicalCheckExceptionList exceptions = new LogicalCheckExceptionList();
             exceptions.add(ex);
+        return exceptions;
+    }
+
+    public LogicalCheckExceptionList checkRule(final Rule rule,
+            final ModuleContext context, final RuleChecker checker,
+            final ReferenceResolver resolver) {
+        // we just ignore rule definitions
+        final LogicalCheckExceptionList exceptions = new LogicalCheckExceptionList();
         return exceptions;
     }
 

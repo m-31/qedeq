@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.bo.module;
 
+import java.util.Set;
+
 import org.qedeq.kernel.bo.logic.common.ClassOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.FunctionConstant;
@@ -73,9 +75,16 @@ public interface ModuleConstantsExistenceChecker extends ExistenceChecker {
      * Get maximum rule version that is defined in an imported module.
      *
      * @param   ruleName   Rule we look for.
-     * @return  Rule key with maximum version.x
+     * @return  Rule key with maximum version.
      */
     public RuleKey getParentRuleKey(final String ruleName);
+
+    /**
+     * Get set of all {@link RuleKey}s defined in this module or in one of the imported ones.
+     *
+     * @return  Set of all defined rule keys.
+     */
+    public Set getRules();
 
     public boolean classOperatorExists();
 
