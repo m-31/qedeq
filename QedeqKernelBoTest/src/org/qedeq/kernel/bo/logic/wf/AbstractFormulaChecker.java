@@ -97,10 +97,6 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
             return false;
         }
 
-        public boolean ruleExists(String name, String version) {
-            return false;
-        }
-
         public boolean ruleExists(RuleKey ruleKey) {
             return false;
         }
@@ -167,10 +163,6 @@ public abstract class AbstractFormulaChecker extends QedeqTestCase {
         }
 
         public boolean isInitialFunction(FunctionKey function) {
-            return false;
-        }
-
-        public boolean ruleExists(String name, String version) {
             return false;
         }
 
