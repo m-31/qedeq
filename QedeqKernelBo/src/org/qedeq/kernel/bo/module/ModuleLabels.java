@@ -17,7 +17,6 @@ package org.qedeq.kernel.bo.module;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
 import org.qedeq.kernel.bo.logic.common.RuleKey;
@@ -331,15 +330,6 @@ public final class ModuleLabels {
      */
     public Map getRuleDefinitions() {
         return this.ruleDefinitions;
-    }
-
-    /**
-     * Get set of all rule keys within this module.
-     *
-     * @return  Rule keys of this module.
-     */
-    public Set getRules() {
-        return this.ruleDefinitions.keySet();
     }
 
 }

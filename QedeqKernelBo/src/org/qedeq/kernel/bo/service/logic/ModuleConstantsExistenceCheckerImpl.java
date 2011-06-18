@@ -15,7 +15,9 @@
 
 package org.qedeq.kernel.bo.service.logic;
 
-import java.util.HashSet;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import org.qedeq.kernel.bo.common.ModuleReferenceList;
@@ -29,6 +31,7 @@ import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
 import org.qedeq.kernel.bo.module.ModuleConstantsExistenceChecker;
 import org.qedeq.kernel.se.base.module.Rule;
+import org.qedeq.kernel.se.common.IllegalModuleDataException;
 import org.qedeq.kernel.se.common.ModuleContext;
 import org.qedeq.kernel.se.common.ModuleDataException;
 
@@ -76,7 +79,7 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
     public final void init() throws ModuleDataException {
         clear();
         final ModuleReferenceList list = prop.getRequiredModules();
-        final Set rules = new HashSet();
+        final Map rules = new HashMap();
         for (int i = 0; i < list.size(); i++) {
             final KernelQedeqBo bo = (KernelQedeqBo) list
                 .getQedeqBo(i);
@@ -91,19 +94,20 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
                 setClassOperatorModule(bo.getExistenceChecker().getClassOperatorModule(),
                     list.getModuleContext(i));
             }
-            final Set cut = bo.getExistenceChecker().getRules();
-            cut.retainAll(rules);
-            if (!cut.isEmpty()) {
-                final RuleKey first = (RuleKey) cut.iterator().next();
-                throw new IdentityOperatorAlreadyExistsException(
-                    LogicErrors.RULE_DEFINITIONS_DONT_MIX_CODE,
-                    LogicErrors.RULE_DEFINITIONS_DONT_MIX_TEXT + first + " in "
-                    + bo.getExistenceChecker().getQedeq(first).getLabels().getRuleContext(first),
-                    list.getModuleContext(i),
-                    prop.getExistenceChecker().getQedeq(first).getLabels().getRuleContext(first));
-            } else {
-                rules.addAll(bo.getExistenceChecker().getRules());
+            final Map cut = bo.getExistenceChecker().getRules();
+            final Iterator iter = cut.keySet().iterator();
+            while (iter.hasNext()) {
+                final RuleKey key = (RuleKey) iter.next();
+                if (rules.containsKey(key) && !rules.get(key).equals(cut.get(key))) {
+                    throw new IllegalModuleDataException(
+                        LogicErrors.RULE_DEFINITIONS_DONT_MIX_CODE,
+                        LogicErrors.RULE_DEFINITIONS_DONT_MIX_TEXT + key + " in "
+                        + ((KernelQedeqBo) rules.get(key)).getLabels().getRuleContext(key),
+                        list.getModuleContext(i),
+                        ((KernelQedeqBo) getQedeq(key)).getLabels().getRuleContext(key));
+                }
             }
+            rules.putAll(bo.getExistenceChecker().getRules());
         }
     }
 
@@ -317,13 +321,17 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         return null;
     }
 
-    public Set getRules() {
-        final Set result = new HashSet();
-        result.addAll(prop.getLabels().getRules());
+    public Map getRules() {
+        final Map result = new HashMap();
+        final Set keys = prop.getLabels().getRuleDefinitions().keySet();
+        final Iterator iter = keys.iterator();
+        while (iter.hasNext()) {
+            result.put(iter.next(), prop);
+        }
         final ModuleReferenceList ref = prop.getRequiredModules();
         for (int i = 0; i < ref.size(); i++) {
             final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(i);
-            result.addAll(newProp.getExistenceChecker().getRules());
+            result.putAll(newProp.getExistenceChecker().getRules());
         }
         return result;
     }
