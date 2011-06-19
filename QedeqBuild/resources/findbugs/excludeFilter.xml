@@ -66,4 +66,9 @@
       <Bug pattern="NP_BOOLEAN_RETURN_NULL" />
     </Match>
 
+    <Match>
+      <Class name="org.qedeq.kernel.bo.service.logic.ModuleConstantsExistenceCheckerImpl" />
+      <Bug pattern="WMI_WRONG_MAP_ITERATOR" />
+    </Match>
+
 </FindBugsFilter>
