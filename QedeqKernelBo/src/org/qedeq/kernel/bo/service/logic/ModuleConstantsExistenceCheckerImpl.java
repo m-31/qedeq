@@ -299,7 +299,8 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         for (int i = 0; i < ref.size(); i++) {
             final KernelQedeqBo newProp = (KernelQedeqBo) ref.getQedeqBo(i);
             final RuleKey found = newProp.getExistenceChecker().getRuleKey(ruleName);
-            if (found != null && found.getVersion() != null && (ruleKey.getVersion() == null
+            if (found != null && found.getVersion() != null && (ruleKey == null
+                    || ruleKey.getVersion() == null
                     || 0 < found.getVersion().compareTo(ruleKey.getVersion()))) {
                 ruleKey = found;
             }
