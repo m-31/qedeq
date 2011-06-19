@@ -1,7 +1,7 @@
 Code Name:   gaffsie
-Version:     0.04.03
+Version:     0.04.04
 Timestamp:   2011-06-13 11:03:12
-Subversion:  qedeq_unstable_0_04_03_20110613110312
+Subversion:  qedeq_unstable_0_04_04_20110613110312
 
 This is an unstable development release of *Hilbert II*. Again this
 release is not fully tested, not all FIXMEs were solved, and the

@@ -71,9 +71,9 @@ Final Release
 - put build in qedeq_rel directory and name it
   "release_" + version + "_" + build number
 - transfer release to WebPage
-  + copy to 0_04_03 the contents of nightly/qedeq
-  + copy to 0_04_03 the folder nightly/webstart
-  + modify 0_04_03/qedeq.jnlp so that it points again to 0_04_03/webstart/qedeq.jnlp
+  + copy to 0_04_04 the contents of nightly/qedeq
+  + copy to 0_04_04 the folder nightly/webstart
+  + modify 0_04_04/qedeq.jnlp so that it points again to 0_04_04/webstart/qedeq.jnlp
 - archive nightly directory
 - modify readme.txt and commit it
 - update directory "/current" on web page
