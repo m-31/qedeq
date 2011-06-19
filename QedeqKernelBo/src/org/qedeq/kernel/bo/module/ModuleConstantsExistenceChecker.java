@@ -17,7 +17,6 @@ package org.qedeq.kernel.bo.module;
 
 import java.util.Map;
 
-import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.logic.common.ClassOperatorAlreadyExistsException;
 import org.qedeq.kernel.bo.logic.common.ExistenceChecker;
 import org.qedeq.kernel.bo.logic.common.FunctionConstant;
@@ -83,7 +82,7 @@ public interface ModuleConstantsExistenceChecker extends ExistenceChecker {
     /**
      * Get map of all {@link RuleKey}s defined in this module or in one of the imported ones.
      *
-     * @return  Map of all defined rule keys mapping from {@link RuleKey} to {@link QedeqBo}.
+     * @return  Map of all defined rule keys mapping from {@link RuleKey} to {@link KernelQedeqBo}.
      */
     public Map getRules();
 
