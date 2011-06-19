@@ -907,6 +907,10 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
         traverser.setLocationWithinModule(context + ".getName()");
         current.setAttribute("name");
         checkIfFound();
+
+        traverser.setLocationWithinModule(context + ".getVersion()");
+        current.setAttribute("version");
+        checkIfFound();
     }
 
     public final void visitLeave(final Rule rule) {
