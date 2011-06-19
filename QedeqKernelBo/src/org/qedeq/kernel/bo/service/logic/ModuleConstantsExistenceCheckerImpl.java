@@ -293,6 +293,7 @@ public class ModuleConstantsExistenceCheckerImpl extends DefaultExistenceChecker
         return ruleKey;
     }
 
+
     public RuleKey getParentRuleKey(final String ruleName) {
         RuleKey ruleKey = null;
         final ModuleReferenceList ref = prop.getRequiredModules();
