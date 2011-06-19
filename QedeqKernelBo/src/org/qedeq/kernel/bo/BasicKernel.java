@@ -30,7 +30,7 @@ public final class BasicKernel implements KernelProperties {
 
 
     /** Version of this kernel. */
-    private static final String KERNEL_VERSION = "0.04.03";
+    private static final String KERNEL_VERSION = "0.04.04";
 
     /** Version dependent directory of this kernel. */
     private static final String KERNEL_VERSION_DIRECTORY = KERNEL_VERSION.replace('.', '_');
