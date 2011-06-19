@@ -650,7 +650,7 @@
             \par
             A QEDEQ module is build like a mathematical text book. It's main structure looks like an \LaTeX{} book file. It contains chapters which are composed of sections and sections are composed of subsections. A subsection may be pure text or an so called \emph{node}. A node is either an axiom, definition, proposition or rule. Every node has an id and could be referenced by that. Essential formal elements of a node are formulas.
             \par
-            The formal definition of an QEDEQ XML document can be found here: \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/QEDEQ.html}.
+            The formal definition of an QEDEQ XML document can be found here: \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/QEDEQ.html}.
             
           ]]>
         </LATEX>
@@ -665,14 +665,14 @@
           <![CDATA[
             In QEDEQ documents reference links are used very often. There exist four goals for references: modules, nodes, sub formulas and proof lines. 
             \par
-            If you want to address an external module you have to know its import \emph{label}. See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/QEDEQ.HEADER.IMPORTS.IMPORT.html}.
+            If you want to address an external module you have to know its import \emph{label}. See \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/QEDEQ.HEADER.IMPORTS.IMPORT.html}.
             \par
-            A reference to a node needs the \emph{id} of that node. See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/NODE.html}.
+            A reference to a node needs the \emph{id} of that node. See \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/NODE.html}.
             \par
             In certain cases it is also possible to reference a subformula of a proposition formula.
             This is only possible if the proposition formula is a conjunction (e.g. the top level logical operation is a conjunction). For each parameter a label is automatically generated. If the number of conjunction parameters is below 27 the label is simply the n'th alphabet character. If the number is greater 26 the label is written in the 26 system with alphabet characters as digits. To reference to a subformula of an external node the syntax is {\tt importLabel.nodeId/subRef}.
             \par
-            You can also reference to a fromal proof line \emph{label}, see \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/L.html}. Within the node you just need to link to the label. Outside the node context (but within the same module) the syntax is {\tt nodeId!lineLabel}.
+            You can also reference to a fromal proof line \emph{label}, see \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/L.html}. Within the node you just need to link to the label. Outside the node context (but within the same module) the syntax is {\tt nodeId!lineLabel}.
             \par
             Here follows a reference summary.
             \par
@@ -737,7 +737,7 @@
             \end{tabularx}
 
             \par
-            See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/ADD.html}.
+            See \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/ADD.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -769,7 +769,7 @@
             \end{tabularx}
 
             \par
-            See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/MP.html}.
+            See \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/MP.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -828,7 +828,7 @@
             \end{tabularx}
 
             \par
-            See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/SUBST_FREE.html}.
+            See \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/SUBST_FREE.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -873,7 +873,7 @@
             \end{tabularx}
 
             \par
-            See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/SUBST_PREDVAR.html}.
+            See \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/SUBST_PREDVAR.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -919,7 +919,7 @@
             \end{tabularx}
 
             \par
-            See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/SUBST_FUNVAR.html}.
+            See \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/SUBST_FUNVAR.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -948,7 +948,7 @@
             \end{tabularx}
 
             \par
-            See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/UNIVERSAL.html}.
+            See \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/UNIVERSAL.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -977,7 +977,7 @@
             \end{tabularx}
 
             \par
-            See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/EXISTENTIAL.html}.
+            See \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/EXISTENTIAL.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
@@ -1028,7 +1028,7 @@
             \end{tabularx}
 
             \par
-            See \url{http://www.qedeq.org/0_04_03/xml/qedeq/noNamespace/element/CP.html}.
+            See \url{http://www.qedeq.org/0_04_04/xml/qedeq/noNamespace/element/CP.html}.
           ]]>
         </LATEX>
       </INTRODUCTION>
