@@ -306,6 +306,16 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 getDiffModuleContextOfProofLineFormula(i, expected));
             return ok;
         }
+        final RuleKey supported = checker.getRule(add.getName());
+        if (supported == null) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + add.getName(),
+                getCurrentContext());
+            return ok;
+        }
         return ok;
     }
 
@@ -338,37 +348,47 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 ok = true;
             }
         }
+        final RuleKey supported = checker.getRule(rename.getName());
+        if (supported == null) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + rename.getName(),
+                getCurrentContext());
+            return ok;
+        }
         return ok;
     }
 
-    private boolean check(final SubstFree substfree, final int i, final Element element) {
+    private boolean check(final SubstFree substFree, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Element f = getNormalizedLocalProofLineReference(substfree.getReference());
+        final Element f = getNormalizedLocalProofLineReference(substFree.getReference());
         if (f == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
-                + substfree.getReference(),
+                + substFree.getReference(),
                 getCurrentContext());
         } else {
             final Element current = resolver.getNormalizedFormula(element);
-            final Element expected = f.replace(substfree.getSubjectVariable(),
-                resolver.getNormalizedFormula(substfree.getSubstituteTerm()));
+            final Element expected = f.replace(substFree.getSubjectVariable(),
+                resolver.getNormalizedFormula(substFree.getSubstituteTerm()));
             if (!EqualsUtility.equals(current, expected)) {
                 ok = false;
                 handleProofCheckException(
                     BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
                     BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
-                    + substfree.getReference(),
+                    + substFree.getReference(),
                     getDiffModuleContextOfProofLineFormula(i, expected));
                 return ok;
             }
         }
         // check precondition: subject variable doesn't occur in a precondition
-        if (FormulaUtility.containsOperatorVariable(conditions, substfree.getSubjectVariable())) {
+        if (FormulaUtility.containsOperatorVariable(conditions, substFree.getSubjectVariable())) {
             ok = false;
             setLocationWithinModule(context + ".getSubstituteFormula()");
             handleProofCheckException(
@@ -377,201 +397,233 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 getCurrentContext());
             return ok;
         }
-        return ok;
-    }
-
-    private boolean check(final SubstPred substpred, final int i, final Element element) {
-        final String context = currentContext.getLocationWithinModule();
-        boolean ok = true;
-        final Element alpha = getNormalizedLocalProofLineReference(substpred.getReference());
-        if (alpha == null) {
+        final RuleKey supported = checker.getRule(substFree.getName());
+        if (supported == null) {
             ok = false;
-            setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
-                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
-                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
-                + substpred.getReference(),
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + substFree.getName(),
                 getCurrentContext());
-        } else {
-            final Element current = resolver.getNormalizedFormula(element);
-            if (substpred.getSubstituteFormula() == null) {
-                ok = false;
-                handleProofCheckException(
-                    BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_CODE,
-                    BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_TEXT,
-                    getCurrentContext());
-                return ok;
-            }
-            final Element p = resolver.getNormalizedFormula(substpred.getPredicateVariable());
-            final Element beta = resolver.getNormalizedFormula(substpred.getSubstituteFormula());
-            final Element expected = FormulaUtility.replaceOperatorVariable(alpha, p, beta);
-            if (!EqualsUtility.equals(current, expected)) {
-                ok = false;
-                handleProofCheckException(
-                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
-                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
-                    + substpred.getReference(),
-                    getDiffModuleContextOfProofLineFormula(i, expected));
-                return ok;
-            }
-            // check precondition: predicate variable p must have n pairwise different free subject
-            // variables as arguments
-            final ElementSet predFree = FormulaUtility.getFreeSubjectVariables(p);
-            if (predFree.size() != p.getList().size() - 1) {
-                ok = false;
-                setLocationWithinModule(context + ".getPredicateVariable()");
-                handleProofCheckException(
-                    BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_CODE,
-                    BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_TEXT,
-                    getDiffModuleContextOfProofLineFormula(i, expected));
-                return ok;
-            }
-            for (int j = 1; j < p.getList().size(); j++) {
-                if (!FormulaUtility.isSubjectVariable(p.getList().getElement(j))) {
-                    ok = false;
-                    setLocationWithinModule(context + ".getPredicateVariable()");
-                    handleProofCheckException(
-                        BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_CODE,
-                        BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_TEXT,
-                        getCurrentContext());
-                    return ok;
-                }
-            }
-            // check precondition: the free variables of $\beta(x_1, \ldots, x_n)$ without
-            // $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
-            final ElementSet fBound = FormulaUtility.getBoundSubjectVariables(alpha);
-            final ElementSet betaFree = FormulaUtility.getFreeSubjectVariables(beta);
-            if (!fBound.intersection(betaFree.minus(predFree)).isEmpty()) {
-                ok = false;
-                setLocationWithinModule(context + ".getSubstituteFormula()");
-                handleProofCheckException(
-                    BasicProofErrors.FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_CODE,
-                    BasicProofErrors.FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_TEXT,
-                    getCurrentContext());
-                return ok;
-            }
-            // check precondition: each occurrence of $p(t_1, \ldots, t_n)$ in $\alpha$ contains
-            // no bound variable of $\beta(x_1, \ldots, x_n)$
-            final ElementSet betaBound = FormulaUtility.getBoundSubjectVariables(beta);
-            if (!FormulaUtility.testOperatorVariable(alpha, p, betaBound)) {
-                ok = false;
-                setLocationWithinModule(context + ".getSubstituteFormula()");
-                handleProofCheckException(
-                    BasicProofErrors.SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_CODE,
-                    BasicProofErrors.SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_TEXT,
-                    getCurrentContext());
-                return ok;
-            }
-            // check precondition: $\sigma(...)$ dosn't occur in a precondition
-            if (FormulaUtility.containsOperatorVariable(conditions, p)) {
-                ok = false;
-                setLocationWithinModule(context + ".getPredicateVariable()");
-                handleProofCheckException(
-                    BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_CODE,
-                    BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_TEXT,
-                    getCurrentContext());
-                return ok;
-            }
-            // check precondition: resulting formula is well formed was already done by well formed
-            // checker
+            return ok;
         }
         return ok;
     }
 
-    private boolean check(final SubstFunc substfunc, final int i, final Element element) {
+    private boolean check(final SubstPred substPred, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Element alpha = getNormalizedLocalProofLineReference(substfunc.getReference());
+        final Element alpha = getNormalizedLocalProofLineReference(substPred.getReference());
         if (alpha == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
-                + substfunc.getReference(),
+                + substPred.getReference(),
                 getCurrentContext());
-        } else {
-            final Element current = resolver.getNormalizedFormula(element);
-            if (substfunc.getSubstituteTerm() == null) {
-                ok = false;
-                handleProofCheckException(
-                    BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_CODE,
-                    BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_TEXT,
-                    getCurrentContext());
-                return ok;
-            }
-            final Element sigma = resolver.getNormalizedFormula(substfunc.getFunctionVariable());
-            final Element tau = resolver.getNormalizedFormula(substfunc.getSubstituteTerm());
-            final Element expected = FormulaUtility.replaceOperatorVariable(alpha, sigma, tau);
-            if (!EqualsUtility.equals(current, expected)) {
-                ok = false;
-                handleProofCheckException(
-                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
-                    BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
-                    + substfunc.getReference(),
-                    getDiffModuleContextOfProofLineFormula(i, expected));
-                return ok;
-            }
-            // check precondition: function variable $\sigma$ must have n pairwise different free
-            // subject variables as arguments
-            final ElementSet funcFree = FormulaUtility.getFreeSubjectVariables(sigma);
-            if (funcFree.size() != sigma.getList().size() - 1) {
+            return ok;
+        }
+        final Element current = resolver.getNormalizedFormula(element);
+        if (substPred.getSubstituteFormula() == null) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_CODE,
+                BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_TEXT,
+                getCurrentContext());
+            return ok;
+        }
+        final Element p = resolver.getNormalizedFormula(substPred.getPredicateVariable());
+        final Element beta = resolver.getNormalizedFormula(substPred.getSubstituteFormula());
+        final Element expected = FormulaUtility.replaceOperatorVariable(alpha, p, beta);
+        if (!EqualsUtility.equals(current, expected)) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
+                BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
+                + substPred.getReference(),
+                getDiffModuleContextOfProofLineFormula(i, expected));
+            return ok;
+        }
+        // check precondition: predicate variable p must have n pairwise different free subject
+        // variables as arguments
+        final ElementSet predFree = FormulaUtility.getFreeSubjectVariables(p);
+        if (predFree.size() != p.getList().size() - 1) {
+            ok = false;
+            setLocationWithinModule(context + ".getPredicateVariable()");
+            handleProofCheckException(
+                BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_CODE,
+                BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_TEXT,
+                getDiffModuleContextOfProofLineFormula(i, expected));
+            return ok;
+        }
+        for (int j = 1; j < p.getList().size(); j++) {
+            if (!FormulaUtility.isSubjectVariable(p.getList().getElement(j))) {
                 ok = false;
                 setLocationWithinModule(context + ".getPredicateVariable()");
                 handleProofCheckException(
                     BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_CODE,
                     BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_TEXT,
-                    getDiffModuleContextOfProofLineFormula(i, expected));
-                return ok;
-            }
-            for (int j = 1; j < sigma.getList().size(); j++) {
-                if (!FormulaUtility.isSubjectVariable(sigma.getList().getElement(j))) {
-                    ok = false;
-                    setLocationWithinModule(context + ".getPredicateVariable()");
-                    handleProofCheckException(
-                        BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_CODE,
-                        BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_TEXT,
-                        getCurrentContext());
-                    return ok;
-                }
-            }
-            // check precondition: the free variables of $\tau(x_1, \ldots, x_n)$
-            // without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
-            final ElementSet fBound = FormulaUtility.getBoundSubjectVariables(alpha);
-            final ElementSet sigmaFree = FormulaUtility.getFreeSubjectVariables(tau);
-            if (!fBound.intersection(sigmaFree.minus(funcFree)).isEmpty()) {
-                ok = false;
-                setLocationWithinModule(context + ".getSubstituteFormula()");
-                handleProofCheckException(
-                    BasicProofErrors.FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_CODE,
-                    BasicProofErrors.FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_TEXT,
                     getCurrentContext());
                 return ok;
             }
-            // check precondition: each occurrence of $\sigma(t_1, \ldots, t_n)$ in $\alpha$
-            // contains no bound variable of $\tau(x_1, \ldots, x_n)$
-            final ElementSet sigmaBound = FormulaUtility.getBoundSubjectVariables(tau);
-            if (!FormulaUtility.testOperatorVariable(alpha, sigma, sigmaBound)) {
-                ok = false;
-                setLocationWithinModule(context + ".getSubstituteFormula()");
-                handleProofCheckException(
-                    BasicProofErrors.SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_CODE,
-                    BasicProofErrors.SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_TEXT,
-                    getCurrentContext());
-                return ok;
-            }
-            // check precondition: $\sigma(...)$ dosn't occur in a precondition
-            if (FormulaUtility.containsOperatorVariable(conditions, sigma)) {
+        }
+        // check precondition: the free variables of $\beta(x_1, \ldots, x_n)$ without
+        // $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
+        final ElementSet fBound = FormulaUtility.getBoundSubjectVariables(alpha);
+        final ElementSet betaFree = FormulaUtility.getFreeSubjectVariables(beta);
+        if (!fBound.intersection(betaFree.minus(predFree)).isEmpty()) {
+            ok = false;
+            setLocationWithinModule(context + ".getSubstituteFormula()");
+            handleProofCheckException(
+                BasicProofErrors.FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_CODE,
+                BasicProofErrors.FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_TEXT,
+                getCurrentContext());
+            return ok;
+        }
+        // check precondition: each occurrence of $p(t_1, \ldots, t_n)$ in $\alpha$ contains
+        // no bound variable of $\beta(x_1, \ldots, x_n)$
+        final ElementSet betaBound = FormulaUtility.getBoundSubjectVariables(beta);
+        if (!FormulaUtility.testOperatorVariable(alpha, p, betaBound)) {
+            ok = false;
+            setLocationWithinModule(context + ".getSubstituteFormula()");
+            handleProofCheckException(
+                BasicProofErrors.SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_CODE,
+                BasicProofErrors.SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_TEXT,
+                getCurrentContext());
+            return ok;
+        }
+        // check precondition: $\sigma(...)$ dosn't occur in a precondition
+        if (FormulaUtility.containsOperatorVariable(conditions, p)) {
+            ok = false;
+            setLocationWithinModule(context + ".getPredicateVariable()");
+            handleProofCheckException(
+                BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_CODE,
+                BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_TEXT,
+                getCurrentContext());
+            return ok;
+        }
+        // check precondition: resulting formula is well formed was already done by well formed
+        // checker
+
+        final RuleKey supported = checker.getRule(substPred.getName());
+        if (supported == null) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + substPred.getName(),
+                getCurrentContext());
+            return ok;
+        }
+        return ok;
+    }
+
+    private boolean check(final SubstFunc substFunc, final int i, final Element element) {
+        final String context = currentContext.getLocationWithinModule();
+        boolean ok = true;
+        final Element alpha = getNormalizedLocalProofLineReference(substFunc.getReference());
+        if (alpha == null) {
+            ok = false;
+            setLocationWithinModule(context + ".getReference()");
+            handleProofCheckException(
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
+                BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
+                + substFunc.getReference(),
+                getCurrentContext());
+            return ok;
+        }
+        final Element current = resolver.getNormalizedFormula(element);
+        if (substFunc.getSubstituteTerm() == null) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_CODE,
+                BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_TEXT,
+                getCurrentContext());
+            return ok;
+        }
+        final Element sigma = resolver.getNormalizedFormula(substFunc.getFunctionVariable());
+        final Element tau = resolver.getNormalizedFormula(substFunc.getSubstituteTerm());
+        final Element expected = FormulaUtility.replaceOperatorVariable(alpha, sigma, tau);
+        if (!EqualsUtility.equals(current, expected)) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
+                BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
+                + substFunc.getReference(),
+                getDiffModuleContextOfProofLineFormula(i, expected));
+            return ok;
+        }
+        // check precondition: function variable $\sigma$ must have n pairwise different free
+        // subject variables as arguments
+        final ElementSet funcFree = FormulaUtility.getFreeSubjectVariables(sigma);
+        if (funcFree.size() != sigma.getList().size() - 1) {
+            ok = false;
+            setLocationWithinModule(context + ".getPredicateVariable()");
+            handleProofCheckException(
+                BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_CODE,
+                BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_TEXT,
+                getDiffModuleContextOfProofLineFormula(i, expected));
+            return ok;
+        }
+        for (int j = 1; j < sigma.getList().size(); j++) {
+            if (!FormulaUtility.isSubjectVariable(sigma.getList().getElement(j))) {
                 ok = false;
                 setLocationWithinModule(context + ".getPredicateVariable()");
                 handleProofCheckException(
-                    BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_CODE,
-                    BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_TEXT,
+                    BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_CODE,
+                    BasicProofErrors.ONLY_FREE_SUBJECT_VARIABLES_ALLOWED_TEXT,
                     getCurrentContext());
                 return ok;
             }
-            // check precondition: resulting formula is well formed was already done by well formed
-            // checker
+        }
+        // check precondition: the free variables of $\tau(x_1, \ldots, x_n)$
+        // without $x_1$, \ldots, $x_n$ do not occur as bound variables in $\alpha$
+        final ElementSet fBound = FormulaUtility.getBoundSubjectVariables(alpha);
+        final ElementSet sigmaFree = FormulaUtility.getFreeSubjectVariables(tau);
+        if (!fBound.intersection(sigmaFree.minus(funcFree)).isEmpty()) {
+            ok = false;
+            setLocationWithinModule(context + ".getSubstituteFormula()");
+            handleProofCheckException(
+                BasicProofErrors.FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_CODE,
+                BasicProofErrors.FREE_SUBJECT_VARIABLES_SHOULD_NOT_GET_BOUND_TEXT,
+                getCurrentContext());
+            return ok;
+        }
+        // check precondition: each occurrence of $\sigma(t_1, \ldots, t_n)$ in $\alpha$
+        // contains no bound variable of $\tau(x_1, \ldots, x_n)$
+        final ElementSet sigmaBound = FormulaUtility.getBoundSubjectVariables(tau);
+        if (!FormulaUtility.testOperatorVariable(alpha, sigma, sigmaBound)) {
+            ok = false;
+            setLocationWithinModule(context + ".getSubstituteFormula()");
+            handleProofCheckException(
+                BasicProofErrors.SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_CODE,
+                BasicProofErrors.SUBSTITUTION_LOCATION_CONTAINS_BOUND_SUBJECT_VARIABLE_TEXT,
+                getCurrentContext());
+            return ok;
+        }
+        // check precondition: $\sigma(...)$ dosn't occur in a precondition
+        if (FormulaUtility.containsOperatorVariable(conditions, sigma)) {
+            ok = false;
+            setLocationWithinModule(context + ".getPredicateVariable()");
+            handleProofCheckException(
+                BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_CODE,
+                BasicProofErrors.SUBSTITUTION_OPERATOR_FOUND_IN_PRECONDITION_TEXT,
+                getCurrentContext());
+            return ok;
+        }
+        // check precondition: resulting formula is well formed was already done by well formed
+        // checker
+
+        final RuleKey supported = checker.getRule(substFunc.getName());
+        if (supported == null) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + substFunc.getName(),
+                getCurrentContext());
+            return ok;
         }
         return ok;
     }
@@ -630,6 +682,16 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             } else {
                 ok = true;
             }
+        }
+        final RuleKey supported = checker.getRule(mp.getName());
+        if (supported == null) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + mp.getName(),
+                getCurrentContext());
+            return ok;
         }
         return ok;
     }
@@ -695,6 +757,16 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 return ok;
             }
         }
+        final RuleKey supported = checker.getRule(universal.getName());
+        if (supported == null) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + universal.getName(),
+                getCurrentContext());
+            return ok;
+        }
         return ok;
     }
 
@@ -755,6 +827,16 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                     getDiffModuleContextOfProofLineFormula(i, expected));
                 return ok;
             }
+        }
+        final RuleKey supported = checker.getRule(existential.getName());
+        if (supported == null) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + existential.getName(),
+                getCurrentContext());
+            return ok;
         }
         return ok;
     }
@@ -886,6 +968,16 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 BasicProofErrors.EXPECTED_FORMULA_DIFFERS_2_CODE,
                 BasicProofErrors.EXPECTED_FORMULA_DIFFERS_2_TEXT,
                 getDiffModuleContextOfProofLineFormula(i, expected));
+            return ok;
+        }
+        final RuleKey supported = checker.getRule(cp.getName());
+        if (supported == null) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
+                BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
+                + cp.getName(),
+                getCurrentContext());
             return ok;
         }
         return ok;
