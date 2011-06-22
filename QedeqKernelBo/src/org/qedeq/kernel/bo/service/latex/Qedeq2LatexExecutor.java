@@ -1008,7 +1008,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         }
         printer.println();
         printer.println("\\par");
-        printer.println((rule.getName() != null ? "  Name: " + rule.getName() : "")
+        printer.println((rule.getName() != null ? "  Name: \\verb]" + rule.getName() + "]]" : "")
             + (rule.getVersion() != null ? "  -  Version: " + rule.getVersion() : ""));
         printer.println();
         printer.println();
