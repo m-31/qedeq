@@ -1354,7 +1354,7 @@
             </LATEX>
           </SUCCEEDING>
         </NODE>
-        <NODE id="rule:substFun">
+        <NODE id="rule:replaceFunct">
           <NAME>
             <LATEX language="en">
               <![CDATA[
