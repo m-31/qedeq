@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 
 import org.qedeq.base.utility.StringUtility;
 
@@ -51,6 +53,9 @@ public class TextInput extends InputStream {
 
     /** Current reading position (starting with 0). */
     private int position = 0;
+
+    /** Maximum int value as BigInteger. */
+    private BigInteger maxIntValue = BigInteger.valueOf(Integer.MAX_VALUE);
 
     /**
      * Constructor using <code>Reader</code> source.
@@ -478,6 +483,34 @@ public class TextInput extends InputStream {
     }
 
     /**
+     * Reads the next integer, leading whitespace is skipped. Signs like - or + are not
+     * accepted. Resulting integer
+     * Changes reading position.
+     *
+     * @return  Read integer.
+     * @throws  IllegalArgumentException if no digits where found or
+     *          the number was to big for an <code>int</code>
+     */
+    public final int readNonNegativeInt() {
+        skipWhiteSpace();
+        if (isEmpty() || !Character.isDigit((char) getChar())) {
+            read();     // for showing correct position
+            throw new IllegalArgumentException(
+                "digit expected");
+        }
+        StringBuffer buffer = new StringBuffer();
+        while (!isEmpty() && Character.isDigit((char) getChar())) {
+            buffer.append((char) read());
+        }
+        final BigInteger big = new BigInteger(buffer.toString());
+        if (1 == big.compareTo(maxIntValue)) {
+            throw new IllegalArgumentException("this integer is to large! Maximum possible value is "
+                + maxIntValue);
+        }
+        return big.intValue();
+    }
+
+    /**
      * Reads the next (big) integer, leading whitespace is skipped.
      * The first character might be a minus sign, the rest must be
      * digits. Leading zero digits are not allowed, also "-0" is not
@@ -485,8 +518,7 @@ public class TextInput extends InputStream {
      * Changes reading position.
      *
      * @return  read integer
-     * @throws  IllegalArgumentException if no digits where found or
-     *          the number was to big for an <code>int</code>
+     * @throws  IllegalArgumentException if no digits where found.
      */
     public final String readCounter() {
         skipWhiteSpace();

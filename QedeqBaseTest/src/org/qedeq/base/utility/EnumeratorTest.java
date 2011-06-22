@@ -20,7 +20,6 @@ import org.qedeq.base.test.QedeqTestCase;
 /**
  * Test {@link Enumerator}.
  *
- * @version $Revision: 1.1 $
  * @author Michael Meyling
  */
 public class EnumeratorTest extends QedeqTestCase {
