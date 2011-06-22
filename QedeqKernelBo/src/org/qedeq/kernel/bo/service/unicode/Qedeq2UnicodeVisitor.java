@@ -889,20 +889,6 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             printer.println();
             printer.println();
         }
-        if (rule.getProofList() != null) {
-            for (int i = 0; i < rule.getProofList().size(); i++) {
-                if ("de".equals(language)) {
-                    printer.println("Beweis:");
-                } else {
-                    printer.println("Proof:");
-                }
-                printer.append(getLatexListEntry("getProofList().get(" + i + ")", rule.getProofList().get(i)
-                        .getNonFormalProof()));
-                printer.println();
-                printer.println("q.e.d.");
-                printer.println();
-            }
-        }
     }
 
     public void visitEnter(final LinkList linkList) {
