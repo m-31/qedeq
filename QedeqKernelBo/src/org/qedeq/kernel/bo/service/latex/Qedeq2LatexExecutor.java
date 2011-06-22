@@ -1006,6 +1006,12 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (info) {
             printer.println("{\\tt \\tiny [\\verb]" + id + "]]}");
         }
+        printer.println();
+        printer.println("\\par");
+        printer.println((rule.getName() != null ? "  Name: " + rule.getName() : "")
+            + (rule.getVersion() != null ? "  -  Version: " + rule.getVersion() : ""));
+        printer.println();
+        printer.println();
         printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
         printer.println("\\end{rul}");
 
