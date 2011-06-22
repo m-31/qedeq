@@ -1137,7 +1137,7 @@
               ]]>
             </LATEX>
           </TITLE>
-          <RULE name="replaceFree" version="0.01.00">
+          <RULE name="SubstFree" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1216,7 +1216,7 @@
               ]]>
             </LATEX>
           </TITLE>
-          <RULE name="renameBound" version="0.01.00">
+          <RULE name="Rename" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1256,7 +1256,7 @@
               ]]>
             </LATEX>
           </TITLE>
-          <RULE name="replacePred" version="0.01.00">
+          <RULE name="SubstPred" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1354,7 +1354,7 @@
             </LATEX>
           </SUCCEEDING>
         </NODE>
-        <NODE id="rule:replaceFunct">
+        <NODE id="rule:substFun">
           <NAME>
             <LATEX language="en">
               <![CDATA[
@@ -1391,7 +1391,7 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <RULE name="replaceFunct" version="0.01.00">
+          <RULE name="SubstFun" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1463,7 +1463,7 @@
               ]]>
             </LATEX>
           </TITLE>
-          <RULE name="universalGeneralization" version="0.01.00">
+          <RULE name="Universal" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
@@ -1505,7 +1505,7 @@
               ]]>
             </LATEX>
           </TITLE>
-          <RULE name="existentialGeneralization" version="0.01.00">
+          <RULE name="Existential" version="0.01.00">
             <DESCRIPTION>
               <LATEX language="en">
                 <![CDATA[
