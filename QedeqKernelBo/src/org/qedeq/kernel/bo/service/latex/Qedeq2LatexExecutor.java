@@ -1015,19 +1015,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
         printer.println("\\end{rul}");
 
-// LATER mime 20051210: are these informations equivalent to a formal proof?
-/*
-        if (null != rule.getLinkList()) {
-            printer.println("\\begin{proof}");
-            printer.println("Rule name: " + rule.getName());
-            printer.println();
-            printer.println();
-            for (int i = 0; i < rule.getLinkList().size(); i++) {
-                printer.println(rule.getLinkList().get(i));
-            }
-            printer.println("\\end{proof}");
-        }
-*/
         if (brief) {
             return;
         }
