@@ -881,6 +881,8 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
             printer.print("  [" + id + "]");
         }
         printer.println();
+        printer.println((rule.getName() != null ? "  Name: " + rule.getName() : "")
+            + (rule.getVersion() != null ? "  -  Version: " + rule.getVersion() : ""));
         printer.println();
         if (rule.getDescription() != null) {
             printer.append(getLatexListEntry("getDescription()", rule.getDescription()));
