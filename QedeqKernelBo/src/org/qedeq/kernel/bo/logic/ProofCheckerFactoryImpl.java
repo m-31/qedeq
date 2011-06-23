@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.bo.logic;
 
+import org.qedeq.base.utility.Version;
 import org.qedeq.kernel.bo.logic.proof.checker.ProofChecker0Impl;
 import org.qedeq.kernel.bo.logic.proof.checker.ProofChecker1Impl;
 import org.qedeq.kernel.bo.logic.proof.checker.ProofChecker2Impl;
@@ -31,6 +32,11 @@ import org.qedeq.kernel.bo.logic.proof.common.ProofCheckerFactory;
 public class ProofCheckerFactoryImpl implements ProofCheckerFactory {
 
     public boolean isRuleVersionSupported(final String ruleVersion) {
+        try {
+            new Version(ruleVersion);
+        } catch (RuntimeException e) {
+            return false;
+        }
         if ("0.00.00".equals(ruleVersion)) {
             return true;
         } else if ("0.01.00".equals(ruleVersion)) {
@@ -41,16 +47,16 @@ public class ProofCheckerFactoryImpl implements ProofCheckerFactory {
         return false;
     }
 
-    public ProofChecker createProofChecker(final String ruleVersion) {
-        if ("0.00.00".equals(ruleVersion)) {
-            return new ProofChecker0Impl(ruleVersion);
-        } else if ("0.01.00".equals(ruleVersion)) {
-            return new ProofChecker1Impl(ruleVersion);
-        } else if ("0.02.00".equals(ruleVersion)) {
-            return new ProofChecker2Impl(ruleVersion);
+    public ProofChecker createProofChecker(final Version ruleVersion) {
+        if (ruleVersion.equals("0.00.00")) {
+            return new ProofChecker0Impl();
+        } else if (ruleVersion.equals("0.01.00")) {
+            return new ProofChecker1Impl();
+        } else if (ruleVersion.equals("0.02.00")) {
+            return new ProofChecker2Impl();
         }
         // not found, so we take the best one we have
-        return new ProofChecker2Impl(ruleVersion);
+        return new ProofChecker2Impl();
     }
 
 

@@ -224,4 +224,12 @@ public interface BasicProofErrors extends ErrorCodes {
     public static final String PROOF_METHOD_IS_NOT_SUPPORTED_TEXT
         = "proof method is not supported for this proof checker: ";
 
+
+    /** Error code. */
+    public static final int PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE = 37440;
+
+    /** Error message. */
+    public static final String PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT
+        = "proof method version is not supported for this proof checker: ";
+
 }

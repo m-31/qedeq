@@ -21,6 +21,7 @@ import java.util.Map;
 import org.qedeq.base.utility.Enumerator;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.base.utility.Version;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.Operators;
@@ -76,7 +77,7 @@ public class ProofChecker1Impl implements ProofChecker {
     private Map label2line;
 
     /** Rule version we can check. */
-    private final String ruleVersion;
+    private final Version ruleVersion;
 
     /** Rule existence checker. */
     private RuleChecker checker;
@@ -84,11 +85,9 @@ public class ProofChecker1Impl implements ProofChecker {
     /**
      * Constructor.
      *
-     * @param   ruleVersion Rule version we check.
-     *
      */
-    public ProofChecker1Impl(final String ruleVersion) {
-        this.ruleVersion = ruleVersion;
+    public ProofChecker1Impl() {
+        this.ruleVersion = new Version("0.01.00");
     }
 
     public LogicalCheckExceptionList checkRule(final Rule rule,
@@ -242,12 +241,20 @@ public class ProofChecker1Impl implements ProofChecker {
                 getDiffModuleContextOfProofLineFormula(i, expected));
             return ok;
         }
-        if (null == checker.getRule(add.getName())) {
+        final RuleKey defined = checker.getRule(add.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + add.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!ruleVersion.equals(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -292,7 +299,8 @@ public class ProofChecker1Impl implements ProofChecker {
                 ok = true;
             }
         }
-        if (null == checker.getRule(rename.getName())) {
+        final RuleKey defined = checker.getRule(rename.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
@@ -300,21 +308,28 @@ public class ProofChecker1Impl implements ProofChecker {
                 + rename.getName(),
                 getCurrentContext());
             return ok;
+        } else if (!ruleVersion.equals(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
+                getCurrentContext());
+            return ok;
         }
         return ok;
     }
 
-    private boolean check(final SubstFree substfree, final int i, final Element element) {
+    private boolean check(final SubstFree substFree, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Integer n = (Integer) label2line.get(substfree.getReference());
+        final Integer n = (Integer) label2line.get(substFree.getReference());
         if (n == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
-                + substfree.getReference(),
+                + substFree.getReference(),
                 getCurrentContext());
 //        } else if (!lineProved[n.intValue()]) {
 //            ok = false;
@@ -327,41 +342,49 @@ public class ProofChecker1Impl implements ProofChecker {
         } else {
             final Element f = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
-            final Element expected = f.replace(substfree.getSubjectVariable(),
-                resolver.getNormalizedFormula(substfree.getSubstituteTerm()));
+            final Element expected = f.replace(substFree.getSubjectVariable(),
+                resolver.getNormalizedFormula(substFree.getSubstituteTerm()));
             if (!EqualsUtility.equals(current, expected)) {
                 ok = false;
                 handleProofCheckException(
                     BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
                     BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
-                    + substfree.getReference(),
+                    + substFree.getReference(),
                     getDiffModuleContextOfProofLineFormula(i, expected));
                 return ok;
             }
         }
-        if (null == checker.getRule(substfree.getName())) {
+        final RuleKey defined = checker.getRule(substFree.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
-                + substfree.getName(),
+                + substFree.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!ruleVersion.equals(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
         return ok;
     }
 
-    private boolean check(final SubstPred substpred, final int i, final Element element) {
+    private boolean check(final SubstPred substPred, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Integer n = (Integer) label2line.get(substpred.getReference());
+        final Integer n = (Integer) label2line.get(substPred.getReference());
         if (n == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
-                + substpred.getReference(),
+                + substPred.getReference(),
                 getCurrentContext());
 //        } else if (!lineProved[n.intValue()]) {
 //            ok = false;
@@ -374,7 +397,7 @@ public class ProofChecker1Impl implements ProofChecker {
         } else {
             final Element alpha = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
-            if (substpred.getSubstituteFormula() == null) {
+            if (substPred.getSubstituteFormula() == null) {
                 ok = false;
                 handleProofCheckException(
                     BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_CODE,
@@ -382,15 +405,15 @@ public class ProofChecker1Impl implements ProofChecker {
                     getCurrentContext());
                 return ok;
             }
-            final Element p = resolver.getNormalizedFormula(substpred.getPredicateVariable());
-            final Element beta = resolver.getNormalizedFormula(substpred.getSubstituteFormula());
+            final Element p = resolver.getNormalizedFormula(substPred.getPredicateVariable());
+            final Element beta = resolver.getNormalizedFormula(substPred.getSubstituteFormula());
             final Element expected = FormulaUtility.replaceOperatorVariable(alpha, p, beta);
             if (!EqualsUtility.equals(current, expected)) {
                 ok = false;
                 handleProofCheckException(
                     BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
                     BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
-                    + substpred.getReference(),
+                    + substPred.getReference(),
                     getDiffModuleContextOfProofLineFormula(i, expected));
                 return ok;
             }
@@ -445,29 +468,37 @@ public class ProofChecker1Impl implements ProofChecker {
             // check precondition: resulting formula is well formed was already done by well formed
             // checker
         }
-        if (null == checker.getRule(substpred.getName())) {
+        final RuleKey defined = checker.getRule(substPred.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
-                + substpred.getName(),
+                + substPred.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!ruleVersion.equals(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
         return ok;
     }
 
-    private boolean check(final SubstFunc substfunc, final int i, final Element element) {
+    private boolean check(final SubstFunc substFunc, final int i, final Element element) {
         final String context = currentContext.getLocationWithinModule();
         boolean ok = true;
-        final Integer n = (Integer) label2line.get(substfunc.getReference());
+        final Integer n = (Integer) label2line.get(substFunc.getReference());
         if (n == null) {
             ok = false;
             setLocationWithinModule(context + ".getReference()");
             handleProofCheckException(
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_CODE,
                 BasicProofErrors.SUCH_A_LOCAL_LABEL_DOESNT_EXIST_TEXT
-                + substfunc.getReference(),
+                + substFunc.getReference(),
                 getCurrentContext());
 //        } else if (!lineProved[n.intValue()]) {
 //            ok = false;
@@ -480,7 +511,7 @@ public class ProofChecker1Impl implements ProofChecker {
         } else {
             final Element alpha = getNormalizedProofLine(n);
             final Element current = resolver.getNormalizedFormula(element);
-            if (substfunc.getSubstituteTerm() == null) {
+            if (substFunc.getSubstituteTerm() == null) {
                 ok = false;
                 handleProofCheckException(
                     BasicProofErrors.SUBSTITUTION_FORMULA_IS_MISSING_CODE,
@@ -488,15 +519,15 @@ public class ProofChecker1Impl implements ProofChecker {
                     getCurrentContext());
                 return ok;
             }
-            final Element sigma = resolver.getNormalizedFormula(substfunc.getFunctionVariable());
-            final Element tau = resolver.getNormalizedFormula(substfunc.getSubstituteTerm());
+            final Element sigma = resolver.getNormalizedFormula(substFunc.getFunctionVariable());
+            final Element tau = resolver.getNormalizedFormula(substFunc.getSubstituteTerm());
             final Element expected = FormulaUtility.replaceOperatorVariable(alpha, sigma, tau);
             if (!EqualsUtility.equals(current, expected)) {
                 ok = false;
                 handleProofCheckException(
                     BasicProofErrors.EXPECTED_FORMULA_DIFFERS_CODE,
                     BasicProofErrors.EXPECTED_FORMULA_DIFFERS_TEXT
-                    + substfunc.getReference(),
+                    + substFunc.getReference(),
                     getDiffModuleContextOfProofLineFormula(i, expected));
                 return ok;
             }
@@ -551,12 +582,20 @@ public class ProofChecker1Impl implements ProofChecker {
             // check precondition: resulting formula is well formed was already done by well formed
             // checker
         }
-        if (null == checker.getRule(substfunc.getName())) {
+        final RuleKey defined = checker.getRule(substFunc.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
-                + substfunc.getName(),
+                + substFunc.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!ruleVersion.equals(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -636,12 +675,20 @@ public class ProofChecker1Impl implements ProofChecker {
                 ok = true;
             }
         }
-        if (null == checker.getRule(mp.getName())) {
+        final RuleKey defined = checker.getRule(mp.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + mp.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!ruleVersion.equals(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -706,12 +753,20 @@ public class ProofChecker1Impl implements ProofChecker {
                 return ok;
             }
         }
-        if (null == checker.getRule(universal.getName())) {
+        final RuleKey defined = checker.getRule(universal.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + universal.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!ruleVersion.equals(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -777,12 +832,20 @@ public class ProofChecker1Impl implements ProofChecker {
                 return ok;
             }
         }
-        if (null == checker.getRule(existential.getName())) {
+        final RuleKey defined = checker.getRule(existential.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + existential.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!ruleVersion.equals(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }

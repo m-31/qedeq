@@ -199,11 +199,36 @@ public interface LogicErrors extends ErrorCodes {
     public static final String RULE_DEFINITIONS_DONT_MIX_TEXT
         = "rule version was defined in different modules: ";
 
+
     /** Error code. */
     public static final int CLASS_OPERATOR_ALREADY_DEFINED_CODE = 123478;
 
     /** Error message. */
     public static final String CLASS_OPERATOR_ALREADY_DEFINED_TEXT
         = "class operator already defined within this module: ";
+
+
+    /** Error code. */
+    public static final int THIS_IS_NOT_VALID_VERSION_FORMAT_CODE = 37300;
+
+    /** Error message. */
+    public static final String THIS_IS_NOT_VALID_VERSION_FORMAT_TEXT
+        = "a version must be formed like a.b.c with nonegative integers a, b, c; out problem is: ";
+
+
+    /** Error code. */
+    public static final int MODULE_HAS_NO_HEADER_CODE = 37310;
+
+    /** Error message. */
+    public static final String MODULE_HAS_NO_HEADER_TEXT
+        = "module has no header";
+
+
+    /** Error code. */
+    public static final int MODULE_HAS_NO_HEADER_SPECIFICATION_CODE = 37320;
+
+    /** Error message. */
+    public static final String MODULE_HAS_NO_HEADER_SPECIFICATION_TEXT
+        = "module has no header specification";
 
 }

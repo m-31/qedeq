@@ -90,12 +90,9 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
 
     /**
      * Constructor.
-     *
-     * @param   ruleVersion Rule version we check.
-     *
      */
-    public ProofChecker2Impl(final String ruleVersion) {
-        this.ruleVersion = ruleVersion;
+    public ProofChecker2Impl() {
+        this.ruleVersion = "0.02.00";
     }
 
     public LogicalCheckExceptionList checkRule(final Rule rule,
@@ -930,7 +927,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
         // add hypothesis as new condition
         newConditions.add(cp.getHypothesis().getFormula().getElement());
         setLocationWithinModule(context + ".getFormalProofLineList()");
-        final LogicalCheckExceptionList eList = (new ProofChecker2Impl(ruleVersion)).checkProof(
+        final LogicalCheckExceptionList eList = (new ProofChecker2Impl()).checkProof(
             newConditions, lastFormula, cp.getFormalProofLineList(), checker, getCurrentContext(),
             newResolver);
         exceptions.add(eList);

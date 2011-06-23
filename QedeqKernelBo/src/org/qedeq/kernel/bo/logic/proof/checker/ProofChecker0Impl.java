@@ -15,6 +15,7 @@
 
 package org.qedeq.kernel.bo.logic.proof.checker;
 
+import org.qedeq.base.utility.Version;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
 import org.qedeq.kernel.bo.logic.common.ReferenceResolver;
 import org.qedeq.kernel.bo.logic.proof.common.ProofChecker;
@@ -33,16 +34,14 @@ import org.qedeq.kernel.se.common.ModuleContext;
 public class ProofChecker0Impl implements ProofChecker {
 
     /** Rule version we can check. */
-    private final String ruleVersion;
+    private final Version ruleVersion;
 
     /**
      * Constructor.
      *
-     * @param   ruleVersion Rule version we check.
-     *
      */
-    public ProofChecker0Impl(final String ruleVersion) {
-        this.ruleVersion = ruleVersion;
+    public ProofChecker0Impl() {
+        this.ruleVersion = new Version("0.00.00");
     }
 
     public LogicalCheckExceptionList checkProof(final Element formula,

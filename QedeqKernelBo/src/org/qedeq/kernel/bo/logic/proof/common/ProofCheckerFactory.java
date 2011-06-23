@@ -15,6 +15,8 @@
 
 package org.qedeq.kernel.bo.logic.proof.common;
 
+import org.qedeq.base.utility.Version;
+
 
 
 /**
@@ -38,6 +40,6 @@ public interface ProofCheckerFactory {
      * @param   ruleVersion Rule version the module claims to use.
      * @return  Instance that can check formulas for correctness.
      */
-    public ProofChecker createProofChecker(final String ruleVersion);
+    public ProofChecker createProofChecker(final Version ruleVersion);
 
 }

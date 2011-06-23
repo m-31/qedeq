@@ -19,6 +19,7 @@ import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.base.utility.Version;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.FormulaCheckerFactoryImpl;
@@ -50,6 +51,7 @@ import org.qedeq.kernel.se.base.module.PredicateDefinition;
 import org.qedeq.kernel.se.base.module.Proposition;
 import org.qedeq.kernel.se.base.module.Reason;
 import org.qedeq.kernel.se.base.module.Rule;
+import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.SubstFree;
 import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
@@ -202,6 +204,39 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             throw getErrorList();
         }
         super.traverse();
+
+        // check if we have the important module parts
+        setLocationWithinModule("");
+        if (getQedeqBo().getQedeq().getHeader() == null) {
+            addError(new IllegalModuleDataException(
+                    LogicErrors.MODULE_HAS_NO_HEADER_CODE,
+                    LogicErrors.MODULE_HAS_NO_HEADER_TEXT,
+                    getCurrentContext()));
+        }
+        if (getQedeqBo().getQedeq().getHeader().getSpecification() == null) {
+            addError(new IllegalModuleDataException(
+                    LogicErrors.MODULE_HAS_NO_HEADER_SPECIFICATION_CODE,
+                    LogicErrors.MODULE_HAS_NO_HEADER_SPECIFICATION_TEXT,
+                    getCurrentContext()));
+        }
+    }
+
+    public void visit(final Specification specification) throws ModuleDataException {
+        if (specification == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        // we start checking if we have a correct version format
+        setLocationWithinModule(context + ".getRule()");
+        final String version = specification.getRuleVersion();
+        try {
+            new Version(version);
+        } catch (RuntimeException e) {
+            addError(new IllegalModuleDataException(
+                LogicErrors.THIS_IS_NOT_VALID_VERSION_FORMAT_CODE,
+                LogicErrors.THIS_IS_NOT_VALID_VERSION_FORMAT_TEXT + e.getMessage(),
+                getCurrentContext()));
+        }
     }
 
     public void visitEnter(final Axiom axiom) throws ModuleDataException {

@@ -21,6 +21,7 @@ import java.util.Map;
 import org.qedeq.base.io.Parameters;
 import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.base.utility.Version;
 import org.qedeq.kernel.bo.common.PluginExecutor;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.ProofCheckerFactoryImpl;
@@ -77,7 +78,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     private Parameters parameters;
 
     /** Rule version the module claims to use at maximum. */
-    private String ruleVersion;
+    private Version ruleVersion;
 
     /** Maximum rule versions defined within this module during plugin execution. Maps name to
      * rule key. */
@@ -126,7 +127,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
     }
 
     public Object executePlugin() {
-        ruleVersion = "0.00.00";  // we set this as module rule version, and hope it will be changed
+        ruleVersion = new Version("0.00.00");  // we set this as module rule version, and hope it will be changed
         QedeqLog.getInstance().logRequest(
                 "Check logical correctness", getQedeqBo().getUrl());
         getServices().checkModule(getQedeqBo().getModuleAddress());
@@ -179,16 +180,25 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                 || header.getSpecification().getRuleVersion() == null) {
             return;
         }
-        ruleVersion = header.getSpecification().getRuleVersion().trim();
-        if (!checkerFactory.isRuleVersionSupported(ruleVersion)) {
-            final String context = getCurrentContext().getLocationWithinModule();
-            setLocationWithinModule(context + ".getSpecification().getRuleVersion()");
+        final String context = getCurrentContext().getLocationWithinModule();
+        setLocationWithinModule(context + ".getSpecification().getRuleVersion()");
+        final String version = header.getSpecification().getRuleVersion().trim();
+        if (!checkerFactory.isRuleVersionSupported(version)) {
             addError(new ProofCheckException(
                 LogicErrors.RULE_VERSION_HAS_STILL_NO_PROOF_CHECKER_CODE,
-                LogicErrors.RULE_VERSION_HAS_STILL_NO_PROOF_CHECKER_TEXT + ruleVersion,
+                LogicErrors.RULE_VERSION_HAS_STILL_NO_PROOF_CHECKER_TEXT + version,
                 getCurrentContext()));
-            setLocationWithinModule(context);
+        } else {
+            try {
+                ruleVersion = new Version(version);
+            } catch (RuntimeException e) {
+                addError(new ProofCheckException(
+                    LogicErrors.THIS_IS_NOT_VALID_VERSION_FORMAT_CODE,
+                    LogicErrors.THIS_IS_NOT_VALID_VERSION_FORMAT_TEXT + version,
+                    getCurrentContext()));
+            }
         }
+        setLocationWithinModule(context);
     }
 
     public void visitEnter(final Axiom axiom) throws ModuleDataException {
