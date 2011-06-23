@@ -119,6 +119,22 @@ public final class Version implements Comparable {
         return 0 == compareTo(o);
     }
 
+    /**
+     * Notes the given string the same version?
+     *
+     * @param   version String version number.
+     * @return  Are both versions equal?
+     */
+    public boolean equals(final String version) {
+        Version compare = null;
+        try {
+            compare = new Version(version);
+        } catch (RuntimeException e) {
+            // ignore
+        }
+        return equals(compare);
+    }
+
     public String toString() {
         return major + "." + (minor < 10 ? "0" : "") + minor
             + "." + (patch < 10 ? "0" : "") + patch;
