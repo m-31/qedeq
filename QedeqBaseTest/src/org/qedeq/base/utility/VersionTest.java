@@ -266,6 +266,23 @@ public class VersionTest extends QedeqTestCase {
     }
 
     /**
+     * Test special equals method.
+     *
+     * @throws  Exception   Test failure.
+     */
+    public void testEquals2() throws Exception {
+        assertTrue(version1.equals("0.00.00"));
+        assertTrue(version1.equals("00000.00000.0"));
+        assertTrue(version1.equals("0.0.0"));
+        assertTrue(version2.equals("0.01.00"));
+        assertFalse(version2.equals("0.00.00"));
+        assertTrue(version3.equals("0.02.01"));
+        assertFalse(version3.equals("0.02.00"));
+        assertFalse(version3.equals("0.02.0"));
+        assertTrue(version4.equals("1.00.00"));
+    }
+
+    /**
      * Test hashCode.
      *
      * @throws  Exception   Test failure.
