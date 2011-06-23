@@ -186,4 +186,17 @@ public final class Version implements Comparable {
         return (new Version(version1)).isBigger(new Version(version2));
     }
 
+    /**
+     * Is <code>version1</code> == <code>version2</code>?
+     *
+     * @param   version1    First operand. Must be valid version pattern.
+     * @param   version2    Second operand. Must be valid version pattern.
+     * @return  Less?
+     * @throws  IllegalArgumentException    No valid version pattern.
+     * @throws  NullPointerException        No null pointer as argument accepted.
+     */
+    public static boolean equals(final String version1, final String version2) {
+        return (new Version(version1)).equals(new Version(version2));
+    }
+
 }

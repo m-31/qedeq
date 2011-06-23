@@ -321,4 +321,17 @@ public class VersionTest extends QedeqTestCase {
         assertFalse(Version.bigger("0.01.10", "0.01.10"));
     }
 
+    /**
+     * Test bigger.
+     *
+     * @throws  Exception   Test failure.
+     */
+    public void testEquals3() throws Exception {
+        assertFalse(Version.equals("0.00.10", "0.00.01"));
+        assertFalse(Version.equals("1.09.10", "0.00.01"));
+        assertFalse(Version.equals("0.01.10", "0.01.1"));
+        assertFalse(Version.equals("0.01.10", "0.01.11"));
+        assertTrue(Version.equals("0.01.10", "0.01.10"));
+    }
+
 }
