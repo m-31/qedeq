@@ -15,6 +15,8 @@
 
 package org.qedeq.base.utility;
 
+import java.util.Iterator;
+
 import org.qedeq.base.test.QedeqTestCase;
 
 /**
@@ -193,5 +195,20 @@ public class VersionSetTest extends QedeqTestCase {
         assertFalse(v4.equals(v2));
         v1.addAll(v2);
         assertEquals(v1, v3);
+    }
+
+    public void testIterator() throws Exception {
+        final VersionSet v1 = new VersionSet();
+        v1.add("0.02.00");
+        v1.add("0.01.00");
+        v1.add("0.00.30");
+        Iterator i = v1.iterator();
+        assertTrue(i.hasNext());
+        assertEquals(new Version("0.00.30"), i.next());
+        assertTrue(i.hasNext());
+        assertEquals(new Version("0.01.00"), i.next());
+        assertTrue(i.hasNext());
+        assertEquals(new Version("0.02.00"), i.next());
+        assertFalse(i.hasNext());
     }
 }
