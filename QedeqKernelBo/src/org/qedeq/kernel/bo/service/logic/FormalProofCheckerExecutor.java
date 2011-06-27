@@ -385,9 +385,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         // FIXME 20110618 m31: check if this is really a higher version than before
         localMaximumRuleVersions.put(rule.getName(), key);
         getNodeBo().setProved(CheckLevel.UNCHECKED);
-        System.out.println("checking rule " + key); // FIXME
         if ("CP".equals(rule.getName()) && Version.equals("0.02.00", rule.getVersion())) {
-            System.out.println("found CP, adding versions"); // FIXME
             addNewRuleVersionBecauseOfCP(rule, "MP");
             addNewRuleVersionBecauseOfCP(rule, "Add");
             addNewRuleVersionBecauseOfCP(rule, "Rename");
@@ -415,14 +413,10 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
      */
     private void addNewRuleVersionBecauseOfCP(final Rule rule,
             final String ruleName) {
-        System.out.println("\ttrying to add: " + ruleName); // FIXME
         final RuleKey key1 = getRule(ruleName);
         if (key1 != null && Version.equals("0.01.00", key1.getVersion())) {
-            System.out.println("\t old version exists: " + ruleName); // FIXME
             final RuleKey key2 = new RuleKey(ruleName, "0.02.00");
-            System.out.println("\t add: " + key2); // FIXME
             localMaximumRuleVersions.put(ruleName, key2);
-            System.out.println("\t question: " + getRule(ruleName));
         }
     }
 
