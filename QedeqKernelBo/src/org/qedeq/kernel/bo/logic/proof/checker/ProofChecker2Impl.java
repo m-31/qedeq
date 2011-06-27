@@ -21,6 +21,8 @@ import java.util.Map;
 import org.qedeq.base.utility.Enumerator;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.base.utility.StringUtility;
+import org.qedeq.base.utility.Version;
+import org.qedeq.base.utility.VersionSet;
 import org.qedeq.kernel.bo.logic.common.FormulaChecker;
 import org.qedeq.kernel.bo.logic.common.FormulaUtility;
 import org.qedeq.kernel.bo.logic.common.LogicalCheckExceptionList;
@@ -79,8 +81,8 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
     /** Maps local proof line labels to local line number Integers. */
     private Map label2line;
 
-    /** Rule version we can check. */
-    private final String ruleVersion;
+    /** Rule version we support. */
+    private final VersionSet supported;
 
     /** These preconditions apply. This is a conjunction with 0 to n elements. */
     private ElementList conditions;
@@ -92,7 +94,9 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
      * Constructor.
      */
     public ProofChecker2Impl() {
-        this.ruleVersion = "0.02.00";
+        supported = new VersionSet();
+        supported.add("0.01.00");
+        supported.add("0.02.00");
     }
 
     public LogicalCheckExceptionList checkRule(final Rule rule,
@@ -100,10 +104,11 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             final ReferenceResolver resolver) {
         exceptions = new LogicalCheckExceptionList();
         final RuleKey ruleKey = new RuleKey(rule.getName(), rule.getVersion());
-        if (rule.getVersion() == null || 0 < ruleVersion.compareTo(rule.getVersion())) {
+        if (rule.getVersion() == null || !supported.contains(rule.getVersion())) {
             final ProofCheckException ex = new ProofCheckException(
                 BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
-                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + ruleKey,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + ruleKey
+                + BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT2 + supported,
                 context);
             exceptions.add(ex);
         }
@@ -165,7 +170,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             }
 
             // check if the formula together with the conditions is well formed
-            if (conditions.size() > 0) {
+            if (hasConditions()) {
                 setLocationWithinModule(context + ".get(" + i + ").getFormula.getElement()");
                 ElementList full = new DefaultElementList(Operators.IMPLICATION_OPERATOR);
                 if (conditions.size() > 1) {
@@ -187,7 +192,7 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 }
             }
 
-            // check if only supported rules are used
+            // check if only defined rules are used
             // TODO 20110316 m31: this is a dirty trick to get the context of the reason
             //                    perhaps we can solve this more elegantly?
             String getReason = ".get" + StringUtility.getClassName(reason.getClass());
@@ -267,7 +272,6 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
 //            System.out.println("adding label: " + label);
             label2line.put(label, new Integer(i));
         }
-
     }
 
     private boolean check(final Add add, final int i, final Element element) {
@@ -303,13 +307,29 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 getDiffModuleContextOfProofLineFormula(i, expected));
             return ok;
         }
-        final RuleKey supported = checker.getRule(add.getName());
-        if (supported == null) {
+        final RuleKey defined = checker.getRule(add.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + add.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!supported.contains(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion()
+                + BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT2 + supported,
+                getCurrentContext());
+            return ok;
+        } else if (hasConditions() && !Version.equals("0.02.00", defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_CODE,
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT + "0.02.00"
+                + BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT2 + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -345,13 +365,29 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 ok = true;
             }
         }
-        final RuleKey supported = checker.getRule(rename.getName());
-        if (supported == null) {
+        final RuleKey defined = checker.getRule(rename.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + rename.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!supported.contains(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion()
+                + BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT2 + supported,
+                getCurrentContext());
+            return ok;
+        } else if (hasConditions() && !Version.equals("0.02.00", defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_CODE,
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT + "0.02.00"
+                + BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT2 + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -394,13 +430,29 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 getCurrentContext());
             return ok;
         }
-        final RuleKey supported = checker.getRule(substFree.getName());
-        if (supported == null) {
+        final RuleKey defined = checker.getRule(substFree.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + substFree.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!supported.contains(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion()
+                + BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT2 + supported,
+                getCurrentContext());
+            return ok;
+        } else if (hasConditions() && !Version.equals("0.02.00", defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_CODE,
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT + "0.02.00"
+                + BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT2 + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -503,13 +555,29 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
         // check precondition: resulting formula is well formed was already done by well formed
         // checker
 
-        final RuleKey supported = checker.getRule(substPred.getName());
-        if (supported == null) {
+        final RuleKey defined = checker.getRule(substPred.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + substPred.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!supported.contains(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion()
+                + BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT2 + supported,
+                getCurrentContext());
+            return ok;
+        } else if (hasConditions() && !Version.equals("0.02.00", defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_CODE,
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT + "0.02.00"
+                + BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT2 + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -612,13 +680,29 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
         // check precondition: resulting formula is well formed was already done by well formed
         // checker
 
-        final RuleKey supported = checker.getRule(substFunc.getName());
-        if (supported == null) {
+        final RuleKey defined = checker.getRule(substFunc.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + substFunc.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!supported.contains(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion()
+                + BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT2 + supported,
+                getCurrentContext());
+            return ok;
+        } else if (hasConditions() && !Version.equals("0.02.00", defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_CODE,
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT + "0.02.00"
+                + BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT2 + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -680,13 +764,29 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 ok = true;
             }
         }
-        final RuleKey supported = checker.getRule(mp.getName());
-        if (supported == null) {
+        final RuleKey defined = checker.getRule(mp.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + mp.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!supported.contains(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion()
+                + BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT2 + supported,
+                getCurrentContext());
+            return ok;
+        } else if (hasConditions() && !Version.equals("0.02.00", defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_CODE,
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT + "0.02.00"
+                + BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT2 + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -754,13 +854,29 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 return ok;
             }
         }
-        final RuleKey supported = checker.getRule(universal.getName());
-        if (supported == null) {
+        final RuleKey defined = checker.getRule(universal.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + universal.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!supported.contains(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion()
+                + BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT2 + supported,
+                getCurrentContext());
+            return ok;
+        } else if (hasConditions() && !Version.equals("0.02.00", defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_CODE,
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT + "0.02.00"
+                + BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT2 + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -825,13 +941,29 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 return ok;
             }
         }
-        final RuleKey supported = checker.getRule(existential.getName());
-        if (supported == null) {
+        final RuleKey defined = checker.getRule(existential.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + existential.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!supported.contains(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion()
+                + BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT2 + supported,
+                getCurrentContext());
+            return ok;
+        } else if (hasConditions() && !Version.equals("0.02.00", defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_CODE,
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT + "0.02.00"
+                + BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT2 + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -967,13 +1099,29 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
                 getDiffModuleContextOfProofLineFormula(i, expected));
             return ok;
         }
-        final RuleKey supported = checker.getRule(cp.getName());
-        if (supported == null) {
+        final RuleKey defined = checker.getRule(cp.getName());
+        if (defined == null) {
             ok = false;
             handleProofCheckException(
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_CODE,
                 BasicProofErrors.PROOF_METHOD_WAS_NOT_DEFINED_YET_TEXT
                 + cp.getName(),
+                getCurrentContext());
+            return ok;
+        } else if (!supported.contains(defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion()
+                + BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT2 + supported,
+                getCurrentContext());
+            return ok;
+        } else if (hasConditions() && !Version.equals("0.02.00", defined.getVersion())) {
+            ok = false;
+            handleProofCheckException(
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_CODE,
+                BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT + "0.02.00"
+                + BasicProofErrors.HIGHER_PROOF_RULE_VERSION_NEEDED_TEXT2 + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -1005,6 +1153,14 @@ public class ProofChecker2Impl implements ProofChecker, ReferenceResolver {
             + ").getFormula().getElement()" + diff);
     }
 
+    /**
+     * Have we any conditions. If yes we are within an conditional proof argument.
+     *
+     * @return  Do we have conditions?
+     */
+    private boolean hasConditions() {
+        return conditions.size() > 0;
+    }
 
     private Element getNormalizedProofLine(final Integer n) {
         if (n == null) {

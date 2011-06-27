@@ -95,10 +95,11 @@ public class ProofChecker1Impl implements ProofChecker {
             final ReferenceResolver resolver) {
         exceptions = new LogicalCheckExceptionList();
         final RuleKey ruleKey = new RuleKey(rule.getName(), rule.getVersion());
-        if (rule.getVersion() == null || 0 < ruleVersion.compareTo(rule.getVersion())) {
+        if (rule.getVersion() == null || !ruleVersion.equals(rule.getVersion())) {
             final ProofCheckException ex = new ProofCheckException(
                 BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
-                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + ruleKey,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + ruleKey
+                + BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT2 + "{" + ruleVersion + "}",
                 context);
             exceptions.add(ex);
         }
@@ -253,8 +254,8 @@ public class ProofChecker1Impl implements ProofChecker {
         } else if (!ruleVersion.equals(defined.getVersion())) {
             ok = false;
             handleProofCheckException(
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -311,8 +312,8 @@ public class ProofChecker1Impl implements ProofChecker {
         } else if (!ruleVersion.equals(defined.getVersion())) {
             ok = false;
             handleProofCheckException(
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -366,8 +367,8 @@ public class ProofChecker1Impl implements ProofChecker {
         } else if (!ruleVersion.equals(defined.getVersion())) {
             ok = false;
             handleProofCheckException(
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -480,8 +481,8 @@ public class ProofChecker1Impl implements ProofChecker {
         } else if (!ruleVersion.equals(defined.getVersion())) {
             ok = false;
             handleProofCheckException(
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -594,8 +595,8 @@ public class ProofChecker1Impl implements ProofChecker {
         } else if (!ruleVersion.equals(defined.getVersion())) {
             ok = false;
             handleProofCheckException(
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -687,8 +688,8 @@ public class ProofChecker1Impl implements ProofChecker {
         } else if (!ruleVersion.equals(defined.getVersion())) {
             ok = false;
             handleProofCheckException(
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -765,8 +766,8 @@ public class ProofChecker1Impl implements ProofChecker {
         } else if (!ruleVersion.equals(defined.getVersion())) {
             ok = false;
             handleProofCheckException(
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
@@ -844,8 +845,8 @@ public class ProofChecker1Impl implements ProofChecker {
         } else if (!ruleVersion.equals(defined.getVersion())) {
             ok = false;
             handleProofCheckException(
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_CODE,
-                BasicProofErrors.PROOF_METHOD_VERSION_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_CODE,
+                BasicProofErrors.PROOF_METHOD_IS_NOT_SUPPORTED_TEXT + defined.getVersion(),
                 getCurrentContext());
             return ok;
         }
