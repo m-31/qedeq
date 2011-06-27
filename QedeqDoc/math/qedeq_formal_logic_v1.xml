@@ -2273,7 +2273,7 @@
               ]]>
             </LATEX>
           </PRECEDING>
-          <RULE name="CP" version="0.01.00">
+          <RULE name="CP" version="0.02.00">
             <LINK id="axiom:THEN-1"/>
             <LINK id="axiom:THEN-2"/>
             <DESCRIPTION>
