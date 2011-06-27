@@ -18,7 +18,7 @@ package org.qedeq.base.utility;
 import org.qedeq.base.test.QedeqTestCase;
 
 /**
- * Test {@link Enumerator}.
+ * Test {@link Version}.
  *
  * @author Michael Meyling
  */
