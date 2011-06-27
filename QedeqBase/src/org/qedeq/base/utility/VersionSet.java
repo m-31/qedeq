@@ -138,7 +138,10 @@ public final class VersionSet {
     }
 
     public boolean equals(final Object o) {
-        return set.equals(o);
+        if (!(o instanceof VersionSet)) {
+            return false;
+        }
+        return set.equals(((VersionSet) o).set);
     }
 
     public String toString() {

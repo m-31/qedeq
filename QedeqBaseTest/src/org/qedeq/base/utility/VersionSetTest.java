@@ -126,20 +126,72 @@ public class VersionSetTest extends QedeqTestCase {
         }
     }
 
-    public void testAddAndContains() throws Exception {
+    public void testAddAndContainsClearIsEmpty() throws Exception {
         final VersionSet v1 = new VersionSet();
         assertFalse(v1.contains(version1));
+        assertFalse(v1.contains(version1.toString()));
+        assertTrue(v1.isEmpty());
         assertFalse(v1.contains(version2));
         assertFalse(v1.contains(version3));
         assertFalse(v1.contains(version4));
+        assertFalse(v1.contains(version2.toString()));
+        assertFalse(v1.contains(version3.toString()));
+        assertFalse(v1.contains(version4.toString()));
         v1.add(version1);
-        v1.add(version2);
+        assertFalse(v1.isEmpty());
+        v1.add(version2.toString());
         v1.add(version3);
-        v1.add(version4);
+        v1.add(version4.toString());
         assertTrue(v1.contains(version1));
         assertTrue(v1.contains(version2));
         assertTrue(v1.contains(version3));
         assertTrue(v1.contains(version4));
+        assertTrue(v1.contains(version1.toString()));
+        assertTrue(v1.contains(version2.toString()));
+        assertTrue(v1.contains(version3.toString()));
+        assertTrue(v1.contains(version4.toString()));
+        v1.clear();
+        assertFalse(v1.contains(version1));
+        assertFalse(v1.contains(version1.toString()));
+        assertTrue(v1.isEmpty());
+        assertFalse(v1.contains(version2));
+        assertFalse(v1.contains(version3));
+        assertFalse(v1.contains(version4));
+        assertFalse(v1.contains(version2.toString()));
+        assertFalse(v1.contains(version3.toString()));
+        assertFalse(v1.contains(version4.toString()));
     }
 
+    public void testAddAndEquals() throws Exception {
+        final VersionSet v1 = new VersionSet();
+        v1.add(version1);
+        v1.add(version2.toString());
+        final VersionSet v2 = new VersionSet();
+        v2.add(version3);
+        v2.add(version4.toString());
+        final VersionSet v3 = new VersionSet();
+        v3.add(version2.toString());
+        v3.add(version4.toString());
+        v3.add(version1);
+        v3.add(version3);
+        final VersionSet v4 = new VersionSet();
+        v4.add(version1);
+        v4.add(version2);
+        assertTrue(v1.equals(v1));
+        assertTrue(v2.equals(v2));
+        assertTrue(v3.equals(v3));
+        assertTrue(v4.equals(v4));
+        assertFalse(v1.equals(v2));
+        assertFalse(v1.equals(v3));
+        assertTrue(v1.equals(v4));
+        assertFalse(v2.equals(v1));
+        assertFalse(v3.equals(v1));
+        assertTrue(v4.equals(v1));
+        assertFalse(v2.equals(v3));
+        assertFalse(v3.equals(v2));
+        assertFalse(v2.equals(v4));
+        assertFalse(v4.equals(v2));
+        v1.addAll(v2);
+        assertEquals(v1, v3);
+    }
 }
