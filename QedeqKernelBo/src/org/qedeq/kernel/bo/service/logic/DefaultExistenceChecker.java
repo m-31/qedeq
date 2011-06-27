@@ -250,12 +250,12 @@ public class DefaultExistenceChecker implements ExistenceChecker {
     /**
      * Add unknown rule definition. If the rule is already known a runtime exception is thrown.
      *
+     * @param   ruleKey     Key for rule.
      * @param   definition  Rule definition that is not already known. Must not be
-     *                      <code>null</code>.
+     *                      <code>null</code>. Rule key might be different!
      * @throws  IllegalArgumentException    Rule is already defined (for given version).
      */
-    public void add(final Rule definition) {
-        final RuleKey ruleKey = new RuleKey(definition.getName(), definition.getVersion());
+    public void add(final RuleKey ruleKey, final Rule definition) {
         if (ruleDefinitions.get(ruleKey) != null) {
             throw new IllegalArgumentException(LogicErrors.RULE_ALREADY_DEFINED_TEXT
                 + ruleKey);

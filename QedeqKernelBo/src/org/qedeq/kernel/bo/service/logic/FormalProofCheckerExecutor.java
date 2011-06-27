@@ -66,7 +66,7 @@ import org.qedeq.kernel.se.dto.list.DefaultElementList;
  * @author  Michael Meyling
  */
 public final class FormalProofCheckerExecutor extends ControlVisitor implements PluginExecutor,
-        ReferenceResolver {
+        ReferenceResolver, RuleChecker {
 
     /** This class. */
     private static final Class CLASS = FormalProofCheckerExecutor.class;
@@ -346,16 +346,7 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
                            + i + ").getFormalProofLineList()");
                         LogicalCheckExceptionList eList
                             = checkerFactory.createProofChecker(ruleVersion).checkProof(
-                            proposition.getFormula().getElement(), list,
-                            new RuleChecker() {
-                                public RuleKey getRule(final String ruleName) {
-                                    if (localMaximumRuleVersions.containsKey(ruleName)) {
-                                        return (RuleKey) localMaximumRuleVersions.get(ruleName);
-                                    }
-                                    return getQedeqBo().getExistenceChecker().getParentRuleKey(
-                                        ruleName);
-                                }
-                            },
+                            proposition.getFormula().getElement(), list, this,
                             getCurrentContext(),
                             this);
                         if (!correctProofFound && eList.size() == 0) {
@@ -394,12 +385,45 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         // FIXME 20110618 m31: check if this is really a higher version than before
         localMaximumRuleVersions.put(rule.getName(), key);
         getNodeBo().setProved(CheckLevel.UNCHECKED);
+        System.out.println("checking rule " + key); // FIXME
+        if ("CP".equals(rule.getName()) && Version.equals("0.02.00", rule.getVersion())) {
+            System.out.println("found CP, adding versions"); // FIXME
+            addNewRuleVersionBecauseOfCP(rule, "MP");
+            addNewRuleVersionBecauseOfCP(rule, "Add");
+            addNewRuleVersionBecauseOfCP(rule, "Rename");
+            addNewRuleVersionBecauseOfCP(rule, "SubstFree");
+            addNewRuleVersionBecauseOfCP(rule, "SubstPred");
+            addNewRuleVersionBecauseOfCP(rule, "SubstFun");
+            addNewRuleVersionBecauseOfCP(rule, "Universal");
+            addNewRuleVersionBecauseOfCP(rule, "Existential");
+        }
+
         if (getNodeBo().isNotProved()) {
             getNodeBo().setProved(CheckLevel.SUCCESS);
         } else {
             getNodeBo().setProved(CheckLevel.FAILURE);
         }
         setBlocked(true);
+    }
+
+    /**
+     * Add a new 0.02.00 rule version for all 0.01.00 rule versions because
+     * we have a CP rule.
+     *
+     * @param   rule        Add this CP rule.
+     * @param   ruleName    For this original rule name.
+     */
+    private void addNewRuleVersionBecauseOfCP(final Rule rule,
+            final String ruleName) {
+        System.out.println("\ttrying to add: " + ruleName); // FIXME
+        final RuleKey key1 = getRule(ruleName);
+        if (key1 != null && Version.equals("0.01.00", key1.getVersion())) {
+            System.out.println("\t old version exists: " + ruleName); // FIXME
+            final RuleKey key2 = new RuleKey(ruleName, "0.02.00");
+            System.out.println("\t add: " + key2); // FIXME
+            localMaximumRuleVersions.put(ruleName, key2);
+            System.out.println("\t question: " + getRule(ruleName));
+        }
     }
 
     public void visitLeave(final Rule rule) {
@@ -548,5 +572,14 @@ public final class FormalProofCheckerExecutor extends ControlVisitor implements 
         // here we have no proof lines
         return null;
     }
+
+    public RuleKey getRule(final String ruleName) {
+        if (localMaximumRuleVersions.containsKey(ruleName)) {
+            return (RuleKey) localMaximumRuleVersions.get(ruleName);
+        }
+        return getQedeqBo().getExistenceChecker().getParentRuleKey(
+            ruleName);
+    }
+
 
 }

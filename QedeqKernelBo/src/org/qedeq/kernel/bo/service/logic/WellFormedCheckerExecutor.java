@@ -863,7 +863,17 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
                     existence.setClassOperatorModule(getQedeqBo(),
                         getCurrentContext());
                 }
-                    existence.add(rule);
+                existence.add(ruleKey, rule);
+            }
+            if ("CP".equals(rule.getName()) && Version.equals("0.02.00", rule.getVersion())) {
+                addNewRuleVersionBecauseOfCP(rule, "MP");
+                addNewRuleVersionBecauseOfCP(rule, "Add");
+                addNewRuleVersionBecauseOfCP(rule, "Rename");
+                addNewRuleVersionBecauseOfCP(rule, "SubstFree");
+                addNewRuleVersionBecauseOfCP(rule, "SubstPred");
+                addNewRuleVersionBecauseOfCP(rule, "SubstFun");
+                addNewRuleVersionBecauseOfCP(rule, "Universal");
+                addNewRuleVersionBecauseOfCP(rule, "Existential");
             }
         } else {
             getNodeBo().setWellFormed(CheckLevel.FAILURE);
@@ -873,6 +883,24 @@ public final class WellFormedCheckerExecutor extends ControlVisitor implements P
             getNodeBo().setWellFormed(CheckLevel.SUCCESS);
         }
         setBlocked(true);
+    }
+
+    /**
+     * Add a new 0.02.00 rule version for all 0.01.00 rule versions because
+     * we have a CP rule.
+     *
+     * @param   rule        Add this CP rule.
+     * @param   ruleName    For this original rule name.
+     */
+    private void addNewRuleVersionBecauseOfCP(final Rule rule,
+            final String ruleName) {
+        final RuleKey key1 = existence.getRuleKey(ruleName);
+        if (key1 != null && Version.equals("0.01.00", key1.getVersion())) {
+            final RuleKey key2 = new RuleKey(ruleName, "0.02.00");
+            if (!existence.ruleExists(key2)) {
+                existence.add(key2, rule);
+            }
+        }
     }
 
     public void visitLeave(final Rule rule) {
