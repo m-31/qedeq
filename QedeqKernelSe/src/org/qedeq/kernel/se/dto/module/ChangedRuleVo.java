@@ -18,7 +18,6 @@ package org.qedeq.kernel.se.dto.module;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.ChangedRule;
 import org.qedeq.kernel.se.base.module.LatexList;
-import org.qedeq.kernel.se.base.module.ProofList;
 
 
 /**
