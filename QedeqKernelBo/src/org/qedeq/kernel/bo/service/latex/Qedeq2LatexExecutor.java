@@ -31,7 +31,9 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
+import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
+import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.bo.module.ControlVisitor;
 import org.qedeq.kernel.bo.module.KernelNodeBo;
 import org.qedeq.kernel.bo.module.KernelQedeqBo;
@@ -749,7 +751,8 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (brief) {
             return;
         }
-        reason = r.getName();
+        reason = r.getName();   // FIXME
+        reason = getRuleReference(r.getName());
         boolean one = false;
         if (r.getReference1() != null) {
             reason += " " + getReference(r.getReference1(), "getReference1()");
@@ -1353,6 +1356,22 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
     private String getNodeDisplay(final String label, final KernelNodeBo kNode) {
         return StringUtility.replace(getNodeDisplay(label, kNode, language), " ", "~");
+    }
+
+    private String getRuleReference(final String ruleName) {
+        final String method = "getRuleReference(String, String)";
+        Trace.param(CLASS, this, method, "ruleName", ruleName);
+
+        final RuleKey key = getQedeqBo().getLabels().getRuleKey(ruleName);
+        getQedeqBo().getLabels().getRuleContext(key);
+        final KernelQedeqBo qedeq = getQedeqBo().getExistenceChecker().getQedeq(key);
+        boolean local = getQedeqBo().equals(qedeq);
+        if (local) {
+            return "\\hyperref[" + getQedeqBo().getLabels().getRuleLabel(key) + "]{}";
+        }
+        return "\\hyperref[" + getPdfLink(qedeq) + "}{}{"
+            + qedeq.getLabels().getRuleLabel(key)
+            + "}";
     }
 
     /**
