@@ -31,7 +31,6 @@ import org.qedeq.base.trace.Trace;
 import org.qedeq.base.utility.DateUtility;
 import org.qedeq.base.utility.StringUtility;
 import org.qedeq.kernel.bo.common.PluginExecutor;
-import org.qedeq.kernel.bo.common.QedeqBo;
 import org.qedeq.kernel.bo.log.QedeqLog;
 import org.qedeq.kernel.bo.logic.common.RuleKey;
 import org.qedeq.kernel.bo.module.ControlVisitor;
@@ -751,7 +750,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (brief) {
             return;
         }
-        reason = r.getName();   // FIXME
         reason = getRuleReference(r.getName());
         boolean one = false;
         if (r.getReference1() != null) {
@@ -770,7 +768,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (brief) {
             return;
         }
-        reason = r.getName();
+        reason = getRuleReference(r.getName());
         if (r.getReference() != null) {
             reason += " " + getReference(r.getReference());
         }
@@ -780,7 +778,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (brief) {
             return;
         }
-        reason = r.getName();
+        reason = getRuleReference(r.getName());
         if (r.getOriginalSubjectVariable() != null) {
             reason += " $" + getQedeqBo().getElement2Latex().getLatex(
                 r.getOriginalSubjectVariable()) + "$";
@@ -798,7 +796,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (brief) {
             return;
         }
-        reason = r.getName();
+        reason = getRuleReference(r.getName());
         if (r.getSubjectVariable() != null) {
             reason += " $" + getQedeqBo().getElement2Latex().getLatex(
                 r.getSubjectVariable()) + "$";
@@ -816,7 +814,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (brief) {
             return;
         }
-        reason = r.getName();
+        reason = getRuleReference(r.getName());
         if (r.getFunctionVariable() != null) {
             reason += " $" + getQedeqBo().getElement2Latex().getLatex(
                 r.getFunctionVariable()) + "$";
@@ -834,7 +832,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (brief) {
             return;
         }
-        reason = r.getName();
+        reason = getRuleReference(r.getName());
         if (r.getPredicateVariable() != null) {
             reason += " $" + getQedeqBo().getElement2Latex().getLatex(
                 r.getPredicateVariable()) + "$";
@@ -852,7 +850,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (brief) {
             return;
         }
-        reason = r.getName();
+        reason = getRuleReference(r.getName());
         if (r.getSubjectVariable() != null) {
             reason += " with $" + getQedeqBo().getElement2Latex().getLatex(
                 r.getSubjectVariable()) + "$";
@@ -866,7 +864,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (brief) {
             return;
         }
-        reason = r.getName();
+        reason = getRuleReference(r.getName());
         if (r.getSubjectVariable() != null) {
             reason += " with $" + getQedeqBo().getElement2Latex().getLatex(
                 r.getSubjectVariable()) + "$";
@@ -880,7 +878,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         if (brief) {
             return;
         }
-        reason = "CP";
+        reason = getRuleReference(r.getName());
         printer.print(" \\ &  \\ ");
         for (int i = 0; i < tabLevel; i++) {
             printer.print("\\mbox{\\qquad}");
@@ -1011,8 +1009,10 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         }
         printer.println();
         printer.println("\\par");
-        printer.println((rule.getName() != null ? "  Name: \\verb]" + rule.getName() + "]]" : "")
-            + (rule.getVersion() != null ? "  -  Version: " + rule.getVersion() : ""));
+        printer.println("{\\emph "
+            + (rule.getName() != null ? "  Name: \\verb]" + rule.getName() + "]" : "")
+            + (rule.getVersion() != null ? "  -  Version: \\verb]" + rule.getVersion() + "]" : "")
+            + "}");
         printer.println();
         printer.println();
         printer.println(getLatexListEntry("getDescription()", rule.getDescription()));
