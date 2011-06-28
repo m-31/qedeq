@@ -53,6 +53,9 @@ public final class ModuleLabelsCreator extends ControlVisitor {
     /** Converter to UTF-8 text. */
     private Element2Utf8Impl textConverter;
 
+    /** Current node id. */
+    private String nodeId = "";
+
     /**
      * Constructor.
      *
@@ -78,20 +81,10 @@ public final class ModuleLabelsCreator extends ControlVisitor {
         }
     }
 
-    /**
-     * Increase axiom counter.
-     *
-     * @param   axiom               Visit this element.
-     */
     public void visitEnter(final Axiom axiom) {
         setBlocked(true);   // block further traverse
     }
 
-    /**
-     * Increase proposition counter.
-     *
-     * @param   proposition         Begin visit of this element.
-     */
     public void visitEnter(final Proposition proposition) {
         setBlocked(true);   // block further traverse
     }
@@ -107,34 +100,24 @@ public final class ModuleLabelsCreator extends ControlVisitor {
         labels.addFunction(funcDef, getCurrentContext());
     }
 
-    /**
-     * Increase predicate definition counter.
-     *
-     * @param   predDef             Begin visit of this element.
-     */
     public void visitEnter(final PredicateDefinition predDef) {
         setBlocked(true);   // block further traverse
         // we always save the definition, even if there already exists an entry
         labels.addPredicate(predDef, getCurrentContext());
     }
 
-    /**
-     * Increase rule counter.
-     *
-     * @param   rule                Begin visit of this element.
-     */
     public void visitEnter(final Rule rule) {
         setBlocked(true);   // block further traverse
         // we always save the definition, even if there already exists an entry
-        labels.addRule(rule, getCurrentContext());
+        labels.addRule(nodeId, rule, getCurrentContext());
     }
 
-    /**
-     * Add node and counter informations.
-     *
-     * @param  node                 End visit of this element.
-     */
+    public void visitEnter(final Node node) {
+        nodeId = node.getId();
+    }
+
     public void visitLeave(final Node node) {
+        nodeId = "";
         try {
             labels.addNode(getCurrentContext(), (NodeVo) node, getQedeqBo(),
                 getCurrentNumbers());

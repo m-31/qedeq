@@ -39,10 +39,10 @@ public final class ModuleLabels {
     private ModuleReferenceList references = new KernelModuleReferenceList();
 
     /** Maps labels to business objects. */
-    private final Map label2Bo;
+    private final Map label2Bo = new HashMap();
 
     /** Maps labels to context of business objects. */
-    private final Map label2Context;
+    private final Map label2Context = new HashMap();
 
     /** Maps predicate identifiers to {@link PredicateDefinition}s. */
     private final Map predicateDefinitions = new HashMap();
@@ -65,12 +65,13 @@ public final class ModuleLabels {
     /** Maps rule keys to {@link ModuleContext}s. */
     private final Map ruleContexts = new HashMap();
 
+    /** Maps rule keys to labels. */
+    private final Map ruleLabels = new HashMap();
+
     /**
      * Constructs a new empty module label list.
      */
     public ModuleLabels() {
-        label2Bo = new HashMap();
-        label2Context = new HashMap();
     }
 
     /**
@@ -257,11 +258,13 @@ public final class ModuleLabels {
      * Add rule definition. If such a definition already exists it is overwritten. Also sets the
      * key for the maximum rule version.
      *
+     * @param   label       Node label the rule is defined within.
      * @param   definition  Definition to add.
      * @param   context     Here the definition stands.
      */
-    public void addRule(final Rule definition, final ModuleContext context) {
+    public void addRule(final String label, final Rule definition, final ModuleContext context) {
         final RuleKey key = new RuleKey(definition.getName(), definition.getVersion());
+        ruleLabels.put(key, label);
         final RuleKey oldMaximum = (RuleKey) ruleMaximum.get(definition.getName());
         if (oldMaximum == null || oldMaximum.getVersion() == null || (key.getVersion() != null
                 && 0 < key.getVersion().compareTo(oldMaximum.getVersion()))) {
@@ -289,6 +292,16 @@ public final class ModuleLabels {
      */
     public Rule getRule(final RuleKey key) {
         return (Rule) getRuleDefinitions().get(key);
+    }
+
+    /**
+     * Get node id of rule key.
+     *
+     * @param   key            Rule key.
+     * @return  Label. Might be <code>null</code>.
+     */
+    public String getRuleLabel(final RuleKey key) {
+        return (String) ruleLabels.get(key);
     }
 
     /**

@@ -1367,9 +1367,10 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         final KernelQedeqBo qedeq = getQedeqBo().getExistenceChecker().getQedeq(key);
         boolean local = getQedeqBo().equals(qedeq);
         if (local) {
-            return "\\hyperref[" + getQedeqBo().getLabels().getRuleLabel(key) + "]{}";
+            return "\\hyperref[" + getQedeqBo().getLabels().getRuleLabel(key) + "]{"
+                + ruleName + "}";
         }
-        return "\\hyperref[" + getPdfLink(qedeq) + "}{}{"
+        return "\\hyperref[" + getPdfLink(qedeq) + "}{" + ruleName + "}{"
             + qedeq.getLabels().getRuleLabel(key)
             + "}";
     }
