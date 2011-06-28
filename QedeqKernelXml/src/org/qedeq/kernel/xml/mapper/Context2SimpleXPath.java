@@ -27,6 +27,8 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
 import org.qedeq.kernel.se.base.module.Conclusion;
@@ -914,6 +916,33 @@ public final class Context2SimpleXPath extends AbstractModuleVisitor {
     }
 
     public final void visitLeave(final Rule rule) {
+        leave();
+    }
+
+    public final void visitEnter(final ChangedRuleList list) throws ModuleDataException {
+        final String method = "visitEnter(ChangedRuleList)";
+        // because no equivalent level of "getChangedRuleList()" exists in the XSD we simply
+        // point to the current location that must be within the element "RULE"
+        checkMatching(method);
+    }
+
+    public final void visitEnter(final ChangedRule rule) throws ModuleDataException {
+        enter("CHANGED_RULE");
+        final String method = "visitEnter(ChangedRule)";
+        Trace.param(CLASS, this, method, "current", current);
+        final String context = traverser.getCurrentContext().getLocationWithinModule();
+        checkMatching(method);
+
+        traverser.setLocationWithinModule(context + ".getName()");
+        current.setAttribute("name");
+        checkIfFound();
+
+        traverser.setLocationWithinModule(context + ".getVersion()");
+        current.setAttribute("version");
+        checkIfFound();
+    }
+
+    public final void visitLeave(final ChangedRule rule) {
         leave();
     }
 

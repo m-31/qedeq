@@ -24,6 +24,8 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
 import org.qedeq.kernel.se.base.module.Conclusion;
@@ -771,9 +773,49 @@ public class QedeqNotNullTraverser implements QedeqTraverser {
             setLocationWithinModule(context + ".getDescription()");
             accept(rule.getDescription());
         }
+        if (rule.getChangedRuleList() != null) {
+            setLocationWithinModule(context + ".getChangedRuleList()");
+            accept(rule.getChangedRuleList());
+        }
         if (rule.getProofList() != null) {
             setLocationWithinModule(context + ".getProofList()");
             accept(rule.getProofList());
+        }
+        setLocationWithinModule(context);
+        visitor.visitLeave(rule);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final ChangedRuleList list) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || list == null) {
+            return;
+        }
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(list);
+        setLocationWithinModule(context);
+        for (int i = 0; i < list.size(); i++) {
+            setLocationWithinModule(context + ".get(" + i + ")");
+            accept(list.get(i));
+        }
+        setLocationWithinModule(context);
+        visitor.visitLeave(list);
+        setLocationWithinModule(context);
+    }
+
+    public void accept(final ChangedRule rule) throws ModuleDataException {
+        checkForInterrupt();
+        if (blocked || rule == null) {
+            return;
+        }
+        data.increaseRuleNumber();
+        location.set(location.size() - 1, "Rule " + data.getRuleNumber() + " "
+                + (String) location.lastElement());
+        final String context = getCurrentContext().getLocationWithinModule();
+        visitor.visitEnter(rule);
+        if (rule.getDescription() != null) {
+            setLocationWithinModule(context + ".getDescription()");
+            accept(rule.getDescription());
         }
         setLocationWithinModule(context);
         visitor.visitLeave(rule);

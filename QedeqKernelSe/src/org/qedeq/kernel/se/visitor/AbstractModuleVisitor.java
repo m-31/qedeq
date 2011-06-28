@@ -21,6 +21,8 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
 import org.qedeq.kernel.se.base.module.Conclusion;
@@ -212,6 +214,12 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     public void visitEnter(final Rule rule) throws ModuleDataException {
     }
 
+    public void visitEnter(final ChangedRuleList rule) throws ModuleDataException {
+    }
+
+    public void visitEnter(final ChangedRule rule) throws ModuleDataException {
+    }
+
     public void visitEnter(final Section section) throws ModuleDataException {
     }
 
@@ -365,6 +373,12 @@ public abstract class AbstractModuleVisitor implements QedeqVisitor {
     }
 
     public void visitLeave(final Rule rule) throws ModuleDataException {
+    }
+
+    public void visitLeave(final ChangedRuleList rule) throws ModuleDataException {
+    }
+
+    public void visitLeave(final ChangedRule rule) throws ModuleDataException {
     }
 
     public void visitLeave(final Section section) throws ModuleDataException {

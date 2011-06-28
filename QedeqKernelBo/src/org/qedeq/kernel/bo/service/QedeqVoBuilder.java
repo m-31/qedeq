@@ -22,6 +22,8 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
 import org.qedeq.kernel.se.base.module.Conclusion;
@@ -76,6 +78,8 @@ import org.qedeq.kernel.se.dto.module.AddVo;
 import org.qedeq.kernel.se.dto.module.AuthorListVo;
 import org.qedeq.kernel.se.dto.module.AuthorVo;
 import org.qedeq.kernel.se.dto.module.AxiomVo;
+import org.qedeq.kernel.se.dto.module.ChangedRuleListVo;
+import org.qedeq.kernel.se.dto.module.ChangedRuleVo;
 import org.qedeq.kernel.se.dto.module.ChapterListVo;
 import org.qedeq.kernel.se.dto.module.ChapterVo;
 import org.qedeq.kernel.se.dto.module.ConclusionVo;
@@ -824,9 +828,49 @@ public class QedeqVoBuilder {
             setLocationWithinModule(context + ".getDescription()");
             r.setDescription(create(rule.getDescription()));
         }
+        if (rule.getChangedRuleList() != null) {
+            setLocationWithinModule(context + ".getChangedRuleList()");
+            r.setProofList(create(rule.getProofList()));
+        }
         if (rule.getProofList() != null) {
             setLocationWithinModule(context + ".getProofList()");
             r.setProofList(create(rule.getProofList()));
+        }
+        setLocationWithinModule(context);
+        return r;
+    }
+
+    private final ChangedRuleListVo create(final ChangedRuleList changedRuleList) {
+        if (changedRuleList == null) {
+            return null;
+        }
+        final ChangedRuleListVo list = new ChangedRuleListVo();
+        final String context = getCurrentContext().getLocationWithinModule();
+        for (int i = 0; i < list.size(); i++) {
+            setLocationWithinModule(context + ".get(" + i + ")");
+            list.add(create(changedRuleList.get(i)));
+        }
+        setLocationWithinModule(context);
+        return list;
+    }
+
+    private final ChangedRuleVo create(final ChangedRule rule) {
+        if (rule == null) {
+            return null;
+        }
+        final ChangedRuleVo r = new ChangedRuleVo();
+        final String context = getCurrentContext().getLocationWithinModule();
+        if (rule.getName() != null) {
+            setLocationWithinModule(context + ".getName()");
+            r.setName(rule.getName());
+        }
+        if (rule.getVersion() != null) {
+            setLocationWithinModule(context + ".getVersion()");
+            r.setVersion(rule.getVersion());
+        }
+        if (rule.getDescription() != null) {
+            setLocationWithinModule(context + ".getDescription()");
+            r.setDescription(create(rule.getDescription()));
         }
         setLocationWithinModule(context);
         return r;

@@ -19,6 +19,8 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
 import org.qedeq.kernel.se.base.module.Conclusion;
@@ -410,6 +412,22 @@ public interface QedeqVisitor extends ListVisitor {
      * @throws  ModuleDataException Major problem occurred.
      */
     public void visitEnter(Rule rule) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   list                Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(ChangedRuleList list) throws ModuleDataException;
+
+    /**
+     * Visit certain element. Begin of visit.
+     *
+     * @param   rule                Begin visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitEnter(ChangedRule rule) throws ModuleDataException;
 
     /**
      * Visit certain element. Begin of visit.
@@ -818,6 +836,22 @@ public interface QedeqVisitor extends ListVisitor {
      * @throws  ModuleDataException Major problem occurred.
      */
     public void visitLeave(Rule rule) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   list                End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(ChangedRuleList list) throws ModuleDataException;
+
+    /**
+     * Visit certain element. End of visit.
+     *
+     * @param   rule                End visit of this element.
+     * @throws  ModuleDataException Major problem occurred.
+     */
+    public void visitLeave(ChangedRule rule) throws ModuleDataException;
 
     /**
      * Visit certain element. End of visit.

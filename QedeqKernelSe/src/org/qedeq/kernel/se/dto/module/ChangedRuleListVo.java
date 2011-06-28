@@ -21,7 +21,6 @@ import java.util.List;
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.ChangedRule;
 import org.qedeq.kernel.se.base.module.ChangedRuleList;
-import org.qedeq.kernel.se.base.module.Proof;
 
 
 /**

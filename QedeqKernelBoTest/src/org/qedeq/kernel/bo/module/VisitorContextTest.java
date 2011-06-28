@@ -29,6 +29,8 @@ import org.qedeq.kernel.se.base.module.Add;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
 import org.qedeq.kernel.se.base.module.Conclusion;
@@ -540,6 +542,22 @@ public class VisitorContextTest extends QedeqTestCase implements QedeqVisitor {
 
     public void visitLeave(InitialPredicateDefinition predicateDefinition)
             throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(ChangedRuleList list) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitEnter(ChangedRule rule) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(ChangedRuleList list) throws ModuleDataException {
+        checkContext();
+    }
+
+    public void visitLeave(ChangedRule rule) throws ModuleDataException {
         checkContext();
     }
 
