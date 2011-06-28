@@ -17,52 +17,31 @@ package org.qedeq.kernel.se.base.module;
 
 
 /**
- * Rule.
+ * Change description for an existing rule.
  *
  * @author  Michael Meyling
  */
-public interface Rule extends NodeType {
+public interface ChangedRule {
 
     /**
-     * Get rule name.
+     * Get changed rule name.
      *
      * @return  Name of rule.
      */
     public String getName();
 
     /**
-     * Get rule version.
+     * Get changed rule version.
      *
      * @return  Version of rule.
      */
     public String getVersion();
 
     /**
-     * Get rule description.
+     * Get rule change description.
      *
      * @return  Description.
      */
     public LatexList getDescription();
-
-    /**
-     * Get list of rules that are modified by this rule.
-     *
-     * @return  List of rule changes.
-     */
-    public ChangedRuleList getChangedRuleList();
-
-    /**
-     * Get links necessary for having this rule.
-     *
-     * @return  List of ids.
-     */
-    public LinkList getLinkList();
-
-    /**
-     * Get proofs for rule declaration.
-     *
-     * @return  Rule proof.
-     */
-    public ProofList getProofList();
 
 }

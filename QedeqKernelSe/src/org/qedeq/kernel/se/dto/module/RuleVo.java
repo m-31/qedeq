@@ -17,6 +17,7 @@ package org.qedeq.kernel.se.dto.module;
 
 import org.qedeq.base.utility.EqualsUtility;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.FunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialFunctionDefinition;
 import org.qedeq.kernel.se.base.module.InitialPredicateDefinition;
@@ -38,7 +39,7 @@ public class RuleVo implements Rule {
     /** List of necessary ids. */
     private LinkListVo linkList;
 
-    /** Further proposition description. Normally <code>null</code>. */
+    /** Description. */
     private LatexList description;
 
     /** Rule name. */
@@ -46,6 +47,9 @@ public class RuleVo implements Rule {
 
     /** Rule version. */
     private String version;
+
+    /** This rule changes the list of following rules. */
+    private ChangedRuleListVo changedRuleList;
 
     /** Proofs for this rule. */
     private ProofListVo proofList;
@@ -137,7 +141,7 @@ public class RuleVo implements Rule {
     }
 
     /**
-     * Set description. Only necessary if formula is not self-explanatory.
+     * Set description.
      *
      * @param   description Description.
      */
@@ -174,6 +178,31 @@ public class RuleVo implements Rule {
         proofList.add(proof);
     }
 
+    /**
+     * Set list of changed rules.
+     *
+     * @param   changedRuleList     List of changed rules.
+     */
+    public final void setChangedRuleList(final ChangedRuleListVo changedRuleList) {
+        this.changedRuleList = changedRuleList;
+    }
+
+    public final ChangedRuleList getChangedRuleList() {
+        return changedRuleList;
+    }
+
+    /**
+     * Add changed rule to this list.
+     *
+     * @param   changedRule     Changed rule to add.
+     */
+    public final void addChangedRule(final ChangedRuleVo changedRule) {
+        if (changedRuleList == null) {
+            changedRuleList = new ChangedRuleListVo();
+        }
+        changedRuleList.add(changedRule);
+    }
+
     public boolean equals(final Object obj) {
         if (!(obj instanceof RuleVo)) {
             return false;
@@ -183,6 +212,7 @@ public class RuleVo implements Rule {
             && EqualsUtility.equals(getVersion(), other.getVersion())
             && EqualsUtility.equals(getLinkList(), other.getLinkList())
             && EqualsUtility.equals(getDescription(), other.getDescription())
+            && EqualsUtility.equals(getChangedRuleList(), other.getChangedRuleList())
             && EqualsUtility.equals(getProofList(), other.getProofList());
     }
 
@@ -191,7 +221,8 @@ public class RuleVo implements Rule {
             ^ (getVersion() != null ? 2 ^ getVersion().hashCode() : 0)
             ^ (getLinkList() != null ? 3 ^ getLinkList().hashCode() : 0)
             ^ (getDescription() != null ? 4 ^ getDescription().hashCode() : 0)
-            ^ (getProofList() != null ? 5 ^ getProofList().hashCode() : 0);
+            ^ (getChangedRuleList() != null ? 5 ^ getChangedRuleList().hashCode() : 0)
+            ^ (getProofList() != null ? 6 ^ getProofList().hashCode() : 0);
     }
 
     public String toString() {
@@ -200,8 +231,8 @@ public class RuleVo implements Rule {
         buffer.append(getLinkList());
         buffer.append("\nDescription:\n");
         buffer.append(getDescription());
-        buffer.append("\nProof:\n");
         buffer.append(getProofList());
+        buffer.append(getChangedRuleList());
         return buffer.toString();
     }
 }
