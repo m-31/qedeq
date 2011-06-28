@@ -21,6 +21,8 @@ import java.util.Map;
 import org.qedeq.kernel.se.base.module.Author;
 import org.qedeq.kernel.se.base.module.AuthorList;
 import org.qedeq.kernel.se.base.module.Axiom;
+import org.qedeq.kernel.se.base.module.ChangedRule;
+import org.qedeq.kernel.se.base.module.ChangedRuleList;
 import org.qedeq.kernel.se.base.module.Chapter;
 import org.qedeq.kernel.se.base.module.ChapterList;
 import org.qedeq.kernel.se.base.module.Conclusion;
@@ -83,6 +85,8 @@ public abstract class AbstractVoModuleTest extends AbstractValueObjectTest {
         interface2ConcreteClass.put(Author.class, AuthorVo.class);
         interface2ConcreteClass.put(AuthorList.class, AuthorListVo.class);
         interface2ConcreteClass.put(Axiom.class, AxiomVo.class);
+        interface2ConcreteClass.put(ChangedRule.class, ChangedRuleVo.class);
+        interface2ConcreteClass.put(ChangedRuleList.class, ChangedRuleListVo.class);
         interface2ConcreteClass.put(Chapter.class, ChapterVo.class);
         interface2ConcreteClass.put(ChapterList.class, ChapterListVo.class);
         interface2ConcreteClass.put(ConditionalProof.class, ConditionalProofVo.class);
