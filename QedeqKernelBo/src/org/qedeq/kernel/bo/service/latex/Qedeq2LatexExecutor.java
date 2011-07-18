@@ -616,6 +616,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitLeave(final Subsection subsection) {
+        if (brief) {
+            return;
+        }
         printer.println();
         printer.println();
     }
@@ -679,6 +682,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         }
 */
         if (brief) {
+            setBlocked(true);
             return;
         }
         printer.println("\\begin{proof}");
@@ -686,8 +690,13 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
         printer.println("\\end{proof}");
     }
 
+    public void visitLeave(final Proof proof) {
+        setBlocked(false);
+    }
+
     public void visitEnter(final FormalProof proof) {
         if (brief) {
+            setBlocked(true);
             return;
         }
         tabLevel = 0;
@@ -700,9 +709,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final FormalProofLineList lines) {
-        if (brief) {
-            return;
-        }
         if (tabLevel == 0) {
             printer.println("\\mbox{}\\\\");
             printer.println("\\begin{longtable}[h!]{r@{\\extracolsep{\\fill}}p{9cm}@{\\extracolsep{\\fill}}p{4cm}}");
@@ -710,9 +716,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitLeave(final FormalProofLineList lines) {
-        if (brief) {
-            return;
-        }
         if (tabLevel == 0) {
             printer.println(" & & \\qedhere");
             printer.println("\\end{longtable}");
@@ -720,9 +723,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final FormalProofLine line) {
-        if (brief) {
-            return;
-        }
         if (line.getLabel() != null) {
             label = line.getLabel();
         } else {
@@ -987,10 +987,10 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitLeave(final FormalProof proof) {
-        if (brief) {
-            return;
+        if (!getBlocked()) {
+            printer.println("\\end{proof}");
         }
-        printer.println("\\end{proof}");
+        setBlocked(false);
     }
 
     public void visitEnter(final InitialPredicateDefinition definition) {

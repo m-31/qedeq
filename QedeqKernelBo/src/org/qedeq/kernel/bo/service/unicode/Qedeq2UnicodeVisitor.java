@@ -376,7 +376,6 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
                         }
                     }
                 }
-                hasFormalContent = true;
             } while (false);
             if (!hasFormalContent) {
                 setBlocked(true);
@@ -395,7 +394,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         }
         underlineBig(getLatexListEntry("getTitle()", chapter.getTitle()));
         printer.println();
-        if (chapter.getIntroduction() != null) {
+        if (chapter.getIntroduction() != null && !brief) {
             printer.append(getLatexListEntry("getIntroduction()", chapter.getIntroduction()));
             printer.println();
             printer.println();
@@ -411,10 +410,12 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public void visitLeave(final Chapter chapter) {
-        printer.println();
-        printer.println("___________________________________________________");
-        printer.println();
-        printer.println();
+        if (!getBlocked()) {
+            printer.println();
+            printer.println("___________________________________________________");
+            printer.println();
+            printer.println();
+        }
         setBlocked(false);
     }
 
@@ -434,7 +435,6 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
                         break;
                     }
                 }
-                hasFormalContent = true;
             } while (false);
             if (!hasFormalContent) {
                 setBlocked(true);
@@ -458,7 +458,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         buffer.append(getLatexListEntry("getTitle()", section.getTitle()));
         underline(buffer.toString());
         printer.println();
-        if (section.getIntroduction() != null) {
+        if (section.getIntroduction() != null && !brief) {
             printer.append(getLatexListEntry("getIntroduction()", section.getIntroduction()));
             printer.println();
             printer.println();
@@ -467,11 +467,16 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public void visitLeave(final Section section) {
-        printer.println();
+        if (!getBlocked()) {
+            printer.println();
+        }
         setBlocked(false);
     }
 
     public void visitEnter(final Subsection subsection) {
+        if (brief) {
+            return;
+        }
         final QedeqNumbers numbers = getCurrentNumbers();
         final StringBuffer buffer = new StringBuffer();
         if (numbers.isChapterNumbering()) {
@@ -507,7 +512,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public void visitEnter(final Node node) {
-        if (node.getPrecedingText() != null) {
+        if (node.getPrecedingText() != null && !brief) {
             printer.append(getLatexListEntry("getPrecedingText()", node.getPrecedingText()));
             printer.println();
             printer.println();
@@ -520,7 +525,7 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public void visitLeave(final Node node) {
-        if (node.getSucceedingText() != null) {
+        if (node.getSucceedingText() != null && !brief) {
             printer.append(getLatexListEntry("getSucceedingText()", node.getSucceedingText()));
             printer.println();
             printer.println();
@@ -574,6 +579,10 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     }
 
     public void visitEnter(final Proof proof) {
+        if (brief) {
+            setBlocked(true);
+            return;
+        }
         if ("de".equals(language)) {
             printer.println("Beweis:");
         } else {
@@ -585,7 +594,15 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
         printer.println();
     }
 
+    public void visitLeave(final Proof proof) {
+        setBlocked(false);
+    }
+
     public void visitEnter(final FormalProof proof) {
+        if (brief) {
+            setBlocked(true);
+            return;
+        }
         if ("de".equals(language)) {
             printer.println("Beweis (formal):");
         } else {

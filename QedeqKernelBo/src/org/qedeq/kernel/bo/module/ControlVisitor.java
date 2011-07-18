@@ -226,6 +226,15 @@ public abstract class ControlVisitor extends AbstractModuleVisitor {
     }
 
     /**
+     * Get if further traverse is blocked.
+     *
+     * @return   Further traverse blocked?
+     */
+    public boolean getBlocked() {
+        return traverser.getBlocked();
+    }
+
+    /**
      * Get plugin we work for.
      *
      * @return  Plugin we work for.
