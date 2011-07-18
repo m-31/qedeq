@@ -119,6 +119,9 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
     /** Should warning messages be generated if LaTeX problems occur? */
     private boolean addWarnings;
 
+    /** Should only names and formulas be be printed? */
+    private final boolean brief;
+
     /** Alphabet for tagging. */
     private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyz";
 
@@ -144,13 +147,16 @@ public class Qedeq2UnicodeVisitor extends ControlVisitor implements ReferenceFin
      *                          0 means no automatic break.
      * @param   addWarnings     Should warning messages be generated
      *                          if LaTeX problems occur?
+     * @param   brief           Should only names and formulas be be printed?
      */
     public Qedeq2UnicodeVisitor(final Plugin plugin, final KernelQedeqBo prop,
-            final boolean info, final int maximumColumn, final boolean addWarnings) {
+            final boolean info, final int maximumColumn, final boolean addWarnings,
+            final boolean brief) {
         super(plugin, prop);
         this.info = info;
         this.maxColumns = maximumColumn;
         this.addWarnings = addWarnings;
+        this.brief = brief;
     }
 
     /**

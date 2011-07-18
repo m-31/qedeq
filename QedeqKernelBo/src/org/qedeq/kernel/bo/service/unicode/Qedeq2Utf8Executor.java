@@ -73,7 +73,7 @@ public class Qedeq2Utf8Executor implements PluginExecutor {
         final boolean info = parameters.getBoolean("info");
         // automatically line break after this column. 0 means no automatic line breaking
         maxColumns = Math.max(10, parameters.getInt("maximumColumn"));
-        visitor = new Qedeq2UnicodeVisitor(plugin, prop, info , maxColumns, true);
+        visitor = new Qedeq2UnicodeVisitor(plugin, prop, info , maxColumns, true, false);
     }
 
     public Object executePlugin() {

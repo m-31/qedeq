@@ -75,6 +75,8 @@ import org.qedeq.kernel.se.base.module.Section;
 import org.qedeq.kernel.se.base.module.SectionList;
 import org.qedeq.kernel.se.base.module.Specification;
 import org.qedeq.kernel.se.base.module.Subsection;
+import org.qedeq.kernel.se.base.module.SubsectionList;
+import org.qedeq.kernel.se.base.module.SubsectionType;
 import org.qedeq.kernel.se.base.module.SubstFree;
 import org.qedeq.kernel.se.base.module.SubstFunc;
 import org.qedeq.kernel.se.base.module.SubstPred;
@@ -118,12 +120,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
 
     /** Should only names and formulas be be printed? */
     private final boolean brief;
-
-    /** Current chapter number, starting with 0. */
-    private int chapterNumber;
-
-    /** Current section number, starting with 0. */
-    private int sectionNumber;
 
     /** Current node id. */
     private String id;
@@ -283,8 +279,6 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
      * Reset counters and other variables. Should be executed before {@link #traverse()}.
      */
     protected void init() {
-        chapterNumber = 0;
-        sectionNumber = 0;
         id = null;
         title = null;
         subContext = "";
@@ -496,13 +490,45 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final Chapter chapter) {
+        // check if we print only brief and test for non text subnodes
+        if (brief) {
+            boolean hasFormalContent = false;
+            do {
+                final SectionList sections = chapter.getSectionList();
+                if (sections == null) {
+                    break;
+                }
+                for (int i = 0; i < sections.size() && !hasFormalContent; i++) {
+                    final Section section = sections.get(i);
+                    if (section == null) {
+                        continue;
+                    }
+                    final SubsectionList subSections = section.getSubsectionList();
+                    if (subSections == null) {
+                        continue;
+                    }
+                    for (int j = 0; j < subSections.size(); j++) {
+                        final SubsectionType subSection = subSections.get(j);
+                        if (!(subSection instanceof Subsection)) {
+                            hasFormalContent = true;
+                            break;
+                        }
+                    }
+                }
+                hasFormalContent = true;
+            } while (false);
+            if (!hasFormalContent) {
+                setBlocked(true);
+                return;
+            }
+        }
         printer.print("\\chapter");
         if (chapter.getNoNumber() != null && chapter.getNoNumber().booleanValue()) {
             printer.print("*");
         }
         printer.print("{");
         printer.print(getLatexListEntry("getTitle()", chapter.getTitle()));
-        final String chapterLabel = "chapter" + chapterNumber;
+        final String chapterLabel = "chapter" + getCurrentNumbers().getAbsoluteChapterNumber();
         printer.println("} \\label{" + chapterLabel + "} \\hypertarget{" + chapterLabel + "}{}");
         if (chapter.getNoNumber() != null && chapter.getNoNumber().booleanValue()) {
             printer.println("\\addcontentsline{toc}{chapter}{"
@@ -518,8 +544,7 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     public void visitLeave(final Chapter chapter) {
         printer.println("%% end of chapter " + getLatexListEntry("getTitle()", chapter.getTitle()));
         printer.println();
-        chapterNumber++;    // increase global chapter number
-        sectionNumber = 0;  // reset section number
+        setBlocked(false);
     }
 
     public void visitLeave(final SectionList list) {
@@ -527,13 +552,36 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitEnter(final Section section) {
+        // check if we print only brief and test for non text subnodes
+        if (brief) {
+            boolean hasFormalContent = false;
+            do {
+                final SubsectionList subSections = section.getSubsectionList();
+                if (subSections == null) {
+                    break;
+                }
+                for (int j = 0; j < subSections.size(); j++) {
+                    final SubsectionType subSection = subSections.get(j);
+                    if (!(subSection instanceof Subsection)) {
+                        hasFormalContent = true;
+                        break;
+                    }
+                }
+                hasFormalContent = true;
+            } while (false);
+            if (!hasFormalContent) {
+                setBlocked(true);
+                return;
+            }
+        }
         printer.print("\\section");
         if (section.getNoNumber() != null && section.getNoNumber().booleanValue()) {
             printer.print("*");
         }
         printer.print("{");
         printer.print(getLatexListEntry("getTitle()", section.getTitle()));
-        final String chapterLabel = "chapter" + chapterNumber + "_section" + sectionNumber;
+        final String chapterLabel = "chapter" + getCurrentNumbers().getAbsoluteChapterNumber()
+            + "_section" + getCurrentNumbers().getAbsoluteSectionNumber();
         printer.println("} \\label{" + chapterLabel + "} \\hypertarget{" + chapterLabel + "}{}");
         if (section.getIntroduction() != null && !brief) {
             printer.println(getLatexListEntry("getIntroduction()", section.getIntroduction()));
@@ -542,9 +590,9 @@ public final class Qedeq2LatexExecutor extends ControlVisitor implements PluginE
     }
 
     public void visitLeave(final Section section) {
-        sectionNumber++;    // increase global section number
+        setBlocked(false);
     }
-
+ 
     public void visitEnter(final Subsection subsection) {
 /* LATER mime 20070131: use this information?
         if (subsection.getId() != null) {

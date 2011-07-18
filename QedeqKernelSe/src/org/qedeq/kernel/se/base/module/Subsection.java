@@ -17,9 +17,8 @@ package org.qedeq.kernel.se.base.module;
 
 
 /**
- * Special subsection of a qedeq file.
+ * Text only subsection of a QEDEQ file.
  *
- * @version $Revision: 1.9 $
  * @author  Michael Meyling
  */
 public interface Subsection extends SubsectionType {
