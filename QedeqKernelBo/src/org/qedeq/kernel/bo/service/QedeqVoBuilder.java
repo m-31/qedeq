@@ -830,7 +830,7 @@ public class QedeqVoBuilder {
         }
         if (rule.getChangedRuleList() != null) {
             setLocationWithinModule(context + ".getChangedRuleList()");
-            r.setProofList(create(rule.getProofList()));
+            r.setChangedRuleList(create(rule.getChangedRuleList()));
         }
         if (rule.getProofList() != null) {
             setLocationWithinModule(context + ".getProofList()");
